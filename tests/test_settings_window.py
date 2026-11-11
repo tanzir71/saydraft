@@ -123,6 +123,19 @@ def test_settings_window_blocks_duplicate_hotkeys(tmp_path):
     assert json.loads(config_path.read_text(encoding="utf-8")) == before
 
 
+def test_all_languages_model_and_arabic_setting_persist(tmp_path):
+    window, config_path, _autostart = make_window(tmp_path)
+    window.model_combo.setCurrentIndex(window.model_combo.findData("whisper-large-v3-turbo"))
+    assert "All languages" in window.model_combo.currentText()
+    window.language_combo.setCurrentText("ar")
+    assert window.apply_changes()
+    saved = json.loads(config_path.read_text(encoding="utf-8"))
+    assert saved["stt"]["engine"] == "whisper"
+    assert saved["stt"]["model_size"] == "large-v3-turbo"
+    assert saved["stt"]["compute_type"] == "int8"
+    assert saved["stt"]["language"] == "ar"
+
+
 def test_settings_window_saves_dictionary_snippets_and_profiles(tmp_path):
     window, _config_path, _autostart = make_window(tmp_path)
     dictionary = {

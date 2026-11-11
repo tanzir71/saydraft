@@ -80,9 +80,14 @@ class WorkerController:
 
     def model_label(self):
         from .asr.selection import configured_model_id
+        from .models.manifest import get_model
 
         config = self.core.services.config if self.core else load_config()
-        return configured_model_id(config)
+        model_id = configured_model_id(config)
+        try:
+            return get_model(model_id)["label"]
+        except ValueError:
+            return model_id
 
     def hotkey_hint(self):
         config = self.core.services.config if self.core else load_config()

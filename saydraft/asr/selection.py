@@ -25,6 +25,6 @@ def create_asr(config):
         from .sherpa_parakeet import ParakeetConfig, ParakeetEngine
 
         return ParakeetEngine(ParakeetConfig.from_app_config(config))
-    from saydraft.stt.whisper_engine import WhisperEngine, WhisperEngineConfig
+    from .whisper_ct2 import WhisperCT2Engine, WhisperEngineConfig
 
-    return WhisperEngine(WhisperEngineConfig.from_app_config(config))
+    return WhisperCT2Engine(WhisperEngineConfig.from_app_config(config))

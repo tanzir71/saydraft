@@ -41,7 +41,7 @@ Saydraft is a Windows tray dictation app that lets you speak messily and inserts
 │  mic capture ──► floating pill UI (level, elapsed, state)             │
 │        │                                                              │
 │        ▼                                                              │
-│  local ASR (Parakeet v3/v2 or faster-whisper base/small/medium)       │
+│  local ASR (Parakeet v3/v2 or Whisper base/small/medium/turbo)        │
 │        │  raw transcript                                              │
 │        ▼                                                              │
 │  cleanup pipeline:                                                    │
@@ -68,7 +68,7 @@ Saydraft aims for the feel of polished cloud dictation while taking the opposite
 
 | Capability | Wispr Flow | Typeless | Saydraft |
 |---|---|---|---|
-| STT engine | Cloud OpenAI/Meta models, about 97% accuracy | Cloud STT with auto language detection | Local Parakeet v3/v2 int8 and Whisper `base`, `small`, `medium` |
+| STT engine | Cloud OpenAI/Meta models, about 97% accuracy | Cloud STT with auto language detection | Local Parakeet v3/v2 int8 and Whisper `base`, `small`, `medium`, `large-v3-turbo` |
 | Recording model | Hold-hotkey push-to-talk plus hands-free lock; 6-minute cap | Hold-hotkey push-to-talk | Hold-to-talk plus toggle lock mode; 10-minute soft cap |
 | Filler removal | Automatic | Automatic | Rules plus optional local LLM cleanup |
 | Backtrack and self-correction | Core feature | Core feature | Rule handling plus optional validation-guarded local LLM cleanup |
@@ -120,6 +120,7 @@ Saydraft downloads models only when you choose them during onboarding or in Sett
 |---|---:|---|---|
 | Parakeet v3 int8 | ~671 MB | Default for fresh profiles; 25 European languages | NVIDIA weights, sherpa-onnx conversion, CC-BY-4.0 |
 | Parakeet v2 int8 | ~661 MB | English max option | English only, CC-BY-4.0 |
+| All languages · Whisper turbo | ~1,622 MB | Bengali, Arabic and other supported languages | MIT; stored FP16, int8 compute on CPU |
 | Whisper `base` | ~148 MB | Smaller download and other languages | MIT; existing profiles keep their Whisper preference |
 | `small` | small (better accuracy) | More accurate writing and names | Slower than base; Saydraft warns if it misses the local performance budget |
 | `medium` | medium (best CPU-viable accuracy) | Highest local STT quality | Best for patient desktop CPUs; expect larger download and slower first use |
@@ -129,7 +130,7 @@ Optional cleanup tier: install a local GGUF runtime and point Settings -> Models
 See [model details and measurements](docs/MODELS.md). Existing portable models
 and Hugging Face Whisper caches remain readable in place. Automatic routing to
 Whisper for languages outside Parakeet's supported set is still a roadmap task;
-select Whisper explicitly for those languages.
+select All languages · Whisper turbo explicitly for those languages.
 
 ## Daily Use
 

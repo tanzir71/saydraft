@@ -45,7 +45,7 @@ conversion or quantization must credit the original model and describe changes.
 
 | Model family | License / status | Attribution and source |
 |---|---|---|
-| Whisper, including large-v3-turbo | MIT | [OpenAI Whisper](https://github.com/openai/whisper/blob/main/LICENSE); [SYSTRAN conversions](https://huggingface.co/Systran) |
+| Whisper, including large-v3-turbo | MIT | [OpenAI Whisper](https://github.com/openai/whisper/blob/main/LICENSE); [SYSTRAN conversions](https://huggingface.co/Systran); [Mobius Labs / Dropbox turbo conversion](https://huggingface.co/dropbox-dash/faster-whisper-large-v3-turbo), stored FP16 and loaded with int8 CPU compute. Saydraft retains the converted artifacts unchanged. |
 | Silero VAD v5 | MIT; downloaded with its full license | [Silero Team model and license](https://github.com/snakers4/silero-vad/tree/v5.0) |
 | Parakeet TDT 0.6B v3 / v2 | CC-BY-4.0; attribution required | Original weights by NVIDIA; exported to ONNX and quantized to int8 by the sherpa-onnx project. [v3 original](https://huggingface.co/nvidia/parakeet-tdt-0.6b-v3), [v2 original](https://huggingface.co/nvidia/parakeet-tdt-0.6b-v2), [v3 conversion](https://huggingface.co/csukuangfj/sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8), [v2 conversion](https://huggingface.co/csukuangfj/sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8), [license](https://creativecommons.org/licenses/by/4.0/). Saydraft does not further modify the downloaded weights. |
 | Qwen2.5-1.5B-Instruct (manual optional cleanup) | Apache-2.0 | [Qwen model card and license](https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct-GGUF) |
@@ -56,3 +56,12 @@ Settings and setup display the selected artifact's license, attribution and size
 before an explicit download. The model card is retained with each Parakeet
 installation. Website credits must retain this distinction from the application's
 MIT license.
+
+## Test recordings
+
+The Bengali and Arabic FLEURS smoke recordings and reference transcripts are by
+the [Google FLEURS contributors](https://huggingface.co/datasets/google/fleurs),
+licensed under [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/).
+Audio is retained unchanged and renamed locally. Attribution, original filenames,
+sources and checksums are in [the fixture notes](tests/fixtures/FLEURS.md) and JSON
+sidecars. These assets are separate from the application's MIT-licensed code.

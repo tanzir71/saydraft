@@ -1,0 +1,19 @@
+{
+  "dataset": "google/fleurs",
+  "revision": "70bb2e84b976b7e960aa89f1c648e09c59f894dd",
+  "config": "bn_in",
+  "split": "validation",
+  "id": 1570,
+  "source_filename": "11351836784838042299.wav",
+  "archive_source": "https://storage.googleapis.com/xtreme_translations/FLEURS102/bn_in.tar.gz",
+  "archive_member": "bn_in/audio/dev/11351836784838042299.wav",
+  "language": "bn",
+  "reference": "রাজ্যগুলোর মধ্যে কর এবং শুল্ক আগ্রাহ্য করার কর্তৃত্ব নাই।",
+  "normalized_reference": "রাজ্যগুলোর মধ্যে কর এবং শুল্ক আগ্রাহ্য করার কর্তৃত্ব নাই",
+  "sample_rate": 16000,
+  "sha256": "1442dc0b53ed740de173a66fdc8264a7b55c7d4ecbb0fcca58841cf381d1b147",
+  "license": "CC-BY-4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0/",
+  "source": "https://huggingface.co/datasets/google/fleurs",
+  "changes": "Audio bytes copied unchanged from the published archive; renamed locally."
+}

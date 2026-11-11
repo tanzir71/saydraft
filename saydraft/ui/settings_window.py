@@ -23,7 +23,7 @@ logger = logging.getLogger(__name__)
 
 MODES = ("raw", "balanced", "aggressive")
 PROFILES = ("general", "email", "chat", "notes", "code/comments")
-LANGUAGES = ("auto", "en", "es", "fr", "de", "it", "pt", "ja", "ko", "zh")
+LANGUAGES = ("auto", "en", "bn", "ar", "es", "fr", "de", "it", "pt", "ja", "ko", "zh")
 
 
 

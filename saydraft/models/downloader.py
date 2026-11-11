@@ -5,6 +5,7 @@ from __future__ import annotations
 import hashlib
 import json
 import re
+import shutil
 import threading
 import uuid
 from pathlib import Path
@@ -74,6 +75,32 @@ def _write_json(path, value):
     temporary.replace(path)
 
 
+def _check_space(model, target):
+    remaining = 0
+    for file in model["files"]:
+        destination = target / file["path"]
+        if verify_file(destination, file):
+            continue
+        partial = destination.with_name(destination.name + ".part")
+        metadata = destination.with_name(destination.name + ".part.json")
+        try:
+            known = json.loads(metadata.read_text(encoding="utf-8")) == file
+            size = partial.stat().st_size if known else 0
+            saved = size if 0 <= size <= file["size"] else 0
+        except (OSError, ValueError):
+            saved = 0
+        remaining += file["size"] - saved
+    _require_space(remaining, target)
+
+
+def _require_space(remaining, target):
+    free = shutil.disk_usage(target.resolve()).free
+    required = remaining + 64 * 1024 * 1024 if remaining else 0
+    if free < required:
+        raise OSError(f"Not enough disk space: need {required / 1_000_000:.0f} MB, "
+                      f"available {free / 1_000_000:.0f} MB. Partial files are kept; free space and resume.")
+
+
 def _download_file(file, destination, open_url, progress, pause_event):
     partial = destination.with_name(destination.name + ".part")
     metadata = destination.with_name(destination.name + ".part.json")
@@ -99,6 +126,7 @@ def _download_file(file, destination, open_url, progress, pause_event):
                     raise ValueError("Invalid model download resume response")
             elif status == 200:
                 if offset:  # Servers may ignore Range. Retain the old attempt and start cleanly.
+                    _require_space(file["size"], destination.parent)
                     _archive(partial)
                     offset = 0
             else:
@@ -134,6 +162,7 @@ def download_model(model: dict, target: Path, *, progress_callback=None, opener=
     with _lock, NetworkGuard.allow_downloads(model["download_hosts"]):
         _check_pause(pause_event)
         target.mkdir(parents=True, exist_ok=True)
+        _check_space(model, target)
         marker = target / ".verified.json"
         if marker.exists() and not installation_ready(model, target, check_hashes=True):
             _archive(marker)

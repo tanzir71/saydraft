@@ -11,10 +11,15 @@ Unknown or corrupt files are preserved in the model directory's `_archive`.
 Only a fully verified transfer receives an atomic completion marker. Model loaders
 recheck downloaded files' hashes before use.
 
-The catalog covers Parakeet v3/v2 int8, Whisper base/small/medium and Silero VAD.
+The catalog covers Parakeet v3/v2 int8, Whisper base/small/medium/turbo and Silero VAD.
 It is in `saydraft/models/manifest.json`. Extending the
 catalog requires checking the publisher's artifact checksums, revision, license
 and actual redirect hosts. Arbitrary automatic model fetches are blocked.
+
+Downloads check free disk space before requesting data, accounting for resumable
+bytes and a 64 MiB reserve. If a server ignores Range, a full restart gets its own
+space check before the old partial is archived. Disk-write failures preserve the
+partial for another explicit resume.
 
 Verify the Python boundary with:
 

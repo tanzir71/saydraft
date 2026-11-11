@@ -1,0 +1,18 @@
+{
+  "dataset": "google/fleurs",
+  "revision": "70bb2e84b976b7e960aa89f1c648e09c59f894dd",
+  "config": "ar_eg",
+  "split": "test",
+  "row_index": 0,
+  "id": 1993,
+  "source_filename": "10019390257075855641.wav",
+  "language": "ar",
+  "reference": "تشكلت في المحيط الأطلسي اليوم عاشر عاصفة مُسماة لموسم الأعاصير الأطلسية، العاصفة شبه الاستوائية جيري.",
+  "normalized_reference": "تشكلت في المحيط الأطلسي اليوم عاشر عاصفة مُسماة لموسم الأعاصير الأطلسية العاصفة شبه الاستوائية جيري",
+  "sample_rate": 16000,
+  "sha256": "40d979a6239fc08951f387c671fb5fc46fffdc5df823ed1dbdb809bc75e26620",
+  "license": "CC-BY-4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0/",
+  "source": "https://huggingface.co/datasets/google/fleurs/viewer/ar_eg/test?row=0",
+  "changes": "Audio bytes downloaded unchanged from the dataset viewer; renamed locally."
+}

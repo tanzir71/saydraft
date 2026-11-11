@@ -2,7 +2,7 @@
 
 Fresh profiles select Parakeet TDT 0.6B v3 int8. Existing configurations without
 an engine field retain their Whisper model size and language. Settings → Models
-and setup offer both Parakeet models plus Whisper base/small/medium. Selection
+and setup offer both Parakeet models plus Whisper base/small/medium/turbo. Selection
 never downloads weights automatically.
 
 | Model | Download | Languages | License |
@@ -10,12 +10,15 @@ never downloads weights automatically.
 | Parakeet v3 int8 | 670.6 MB | 25 European languages, automatic recognition | CC-BY-4.0 |
 | Parakeet v2 int8, English max | 661.3 MB | English | CC-BY-4.0 |
 | Whisper base/small/medium | Shown before download | Multilingual; explicit language or auto | MIT |
+| All languages · Whisper large-v3-turbo | 1,621.7 MB | Multilingual; int8 compute on CPU | MIT |
 | Silero VAD v5 | 2.3 MB | Speech detection | MIT |
 
 Parakeet v3 supports bg, hr, cs, da, nl, en, et, fi, fr, de, el, hu, it, lv,
 lt, mt, pl, pt, ro, sk, sl, es, sv, ru and uk. For other languages, select
-Whisper explicitly. Automatic routing and Whisper turbo are separate roadmap
-tasks. Parakeet does not use Whisper's explicit language hint.
+Whisper explicitly. Automatic routing remains a separate roadmap task. Parakeet
+does not use Whisper's explicit language hint. The turbo conversion is stored in
+FP16 and quantized by CTranslate2 for int8 computation when loaded on CPU; its
+download size is therefore larger than its int8 inference weights.
 
 Original Parakeet weights are by NVIDIA. The sherpa-onnx project exported the
 models to ONNX and quantized them to int8. Saydraft downloads those artifacts
@@ -70,9 +73,12 @@ No accuracy conclusion or hardware-tier claim follows from this single fixture.
 
 | Required accuracy result | Status |
 |---|---|
-| Owner-clip WER, v3 | Pending: reference clips/transcripts not supplied |
-| Owner-clip WER, v2 | Pending: reference clips/transcripts not supplied |
-| Owner-clip CER by language | Pending: reference clips/transcripts not supplied |
+| Owner-clip WER, v3 | Deferred by owner, 2026-11-12 |
+| Owner-clip WER, v2 | Deferred by owner, 2026-11-12 |
+| Owner-clip CER by language | Deferred by owner, 2026-11-12 |
+
+Owner instruction: “Use the bundled fixture now; defer owner accuracy acceptance.”
+Smoke checks continue without treating them as accuracy acceptance.
 
 The fixture has no independently supplied reference transcript; its recognized
 text is not used as a reference to manufacture a WER score. The native smoke
@@ -101,3 +107,40 @@ Primary sources: [NVIDIA v3 model card](https://huggingface.co/nvidia/parakeet-t
 [NVIDIA v2 model card](https://huggingface.co/nvidia/parakeet-tdt-0.6b-v2),
 [sherpa-onnx NeMo model documentation](https://k2-fsa.github.io/sherpa/onnx/pretrained_models/offline-transducer/nemo-transducer-models.html),
 [pinned Python runtime example](https://github.com/k2-fsa/sherpa-onnx/blob/v1.13.4/python-api-examples/offline-nemo-parakeet-decode-file.py).
+
+## Whisper turbo script smoke, 2026-11-12
+
+The All languages choice pins the
+[Mobius Labs / Dropbox CTranslate2 conversion](https://huggingface.co/dropbox-dash/faster-whisper-large-v3-turbo)
+at revision `0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf`. The model card confirms
+FP16 storage with compute type selected at load. CPU runs use `compute_type=int8`.
+The 1.62 GB transfer resumed successfully after a disk-full interruption; partial
+files were retained and the completed model passed all pinned hashes.
+
+On the same Windows/AMD machine, both licensed
+[FLEURS fixtures](../tests/fixtures/FLEURS.md) produced nonempty output in the
+expected script with NetworkGuard installed throughout loading and inference.
+Runtime import and model loading took 13.189 s after file verification in this
+fresh process. Initialization happens before microphone capture.
+
+| Fixture | Duration | Recognition time | Expected-script letter ratio |
+|---|---:|---:|---:|
+| Bengali, validation utterance 1570 | 7.62 s | 13.182 s | 100% Bengali |
+| Arabic, test utterance 1993 | 8.16 s | 12.489 s | 100% Arabic |
+
+The check requires at least eight letters and at least 90% in the expected script.
+It rejects empty output or an English translation. It does not score semantic
+accuracy, establish a latency distribution, or meet the parity latency budget.
+Model preparation occurs before capture; background segments can still accumulate
+latency when this CPU takes longer to recognize a segment than the segment lasts.
+Owner accuracy acceptance remains explicitly deferred.
+
+Reproduce with a complete pinned model directory and a new output path:
+
+```powershell
+python -m tools.bench_languages --model-dir build/qa/turbo-models/whisper/large-v3-turbo --output build/qa/turbo-script-smoke-new.json
+```
+
+The optional native test uses `SAYDRAFT_TEST_WHISPER_TURBO_MODEL` for the same
+check. Unit tests validate fixture checksums, CC-BY-4.0 provenance, model/language
+selection and local-only loading. Base, small and medium choices remain available.

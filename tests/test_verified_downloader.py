@@ -140,3 +140,28 @@ def test_corrupt_marker_and_same_size_weight_corruption_are_rejected_and_repaire
     assert not installation_ready(model, tmp_path)
     download_model(model, tmp_path, opener=lambda *a, **kw: Response(b"abcdef"))
     assert installation_ready(model, tmp_path, check_hashes=True)
+
+
+def test_insufficient_disk_space_stops_before_network_and_retains_partial(tmp_path, monkeypatch):
+    from types import SimpleNamespace
+
+    model = model_for(b"abcdef")
+    seed_partial(tmp_path, model, b"abc")
+    monkeypatch.setattr("saydraft.models.downloader.shutil.disk_usage", lambda path: SimpleNamespace(free=0))
+    calls = []
+    with pytest.raises(OSError, match="Not enough disk space"):
+        download_model(model, tmp_path, opener=lambda *a, **kw: calls.append(True))
+    assert not calls
+    assert (tmp_path / "model.bin.part").read_bytes() == b"abc"
+
+
+def test_ignored_range_checks_space_for_full_restart_before_archiving(tmp_path, monkeypatch):
+    from types import SimpleNamespace
+
+    model = model_for(b"abcdef")
+    seed_partial(tmp_path, model, b"abc")
+    monkeypatch.setattr("saydraft.models.downloader.shutil.disk_usage", lambda path: SimpleNamespace(
+        free=64 * 1024 * 1024 + 4))  # Enough for the tail, insufficient for a full restart.
+    with pytest.raises(OSError, match="Not enough disk space"):
+        download_model(model, tmp_path, opener=lambda *a, **kw: Response(b"abcdef"))
+    assert (tmp_path / "model.bin.part").read_bytes() == b"abc"

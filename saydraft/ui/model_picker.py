@@ -19,7 +19,8 @@ class ModelPicker(QtWidgets.QWidget):
         models = [model for model in load_manifest()["models"] if model.get("role", "asr") == "asr"]
         models.sort(key=lambda model: (model["engine"] != "parakeet", model["id"].replace("-v3-", "-v1-")))
         for model in models:
-            label = model["label"] if model["engine"] == "parakeet" else model["model_size"]
+            label = (model["label"] if model["engine"] == "parakeet" or
+                     model.get("model_size") == "large-v3-turbo" else model["model_size"])
             self.combo.addItem(label, model["id"])
         selected = configured_model_id(config)
         index = self.combo.findData(selected)
