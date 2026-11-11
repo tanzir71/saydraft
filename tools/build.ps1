@@ -70,6 +70,7 @@ python -m PyInstaller `
     --collect-submodules faster_whisper `
     --collect-binaries ctranslate2 `
     --collect-data ctranslate2 `
+    --collect-data saydraft.cleanup.llm.prompts `
     --collect-submodules sherpa_onnx `
     --collect-binaries sherpa_onnx `
     --hidden-import PySide6.QtSvg `
