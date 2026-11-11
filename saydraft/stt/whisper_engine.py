@@ -71,9 +71,11 @@ class WhisperEngine:
         self._vad_checked = False
         self._silero_vad = None
         self.last_timings: dict[str, float] = {"vad": 0.0, "stt": 0.0}
+        self.last_language: str | None = None
 
     def transcribe(self, audio: Any) -> str:
         self.last_timings = {"vad": 0.0, "stt": 0.0}
+        self.last_language = None
         waveform = _to_mono_float32(audio)
         vad_started = time.perf_counter()
         waveform = self._trim_waveform(waveform)
@@ -85,7 +87,7 @@ class WhisperEngine:
         model = self._load_model()
         self._emit_state("transcribing")
         try:
-            segments, _info = model.transcribe(
+            segments, info = model.transcribe(
                 waveform,
                 beam_size=self.config.beam_size,
                 language=_language_arg(self.config.language),
@@ -93,6 +95,7 @@ class WhisperEngine:
                 condition_on_previous_text=self.config.condition_on_previous_text,
             )
             text = " ".join(segment.text.strip() for segment in segments if segment.text.strip())
+            self.last_language = getattr(info, "language", None)
             return " ".join(text.split())
         finally:
             self.last_timings["stt"] = time.perf_counter() - stt_started

@@ -5,6 +5,7 @@ from __future__ import annotations
 import copy
 import json
 import os
+import re
 from pathlib import Path
 from typing import Any
 
@@ -36,6 +37,11 @@ CONFIG_SCHEMA: dict[str, Any] = {
         "app_profiles_path": str,
     },
     "stt": {
+        "routing_enabled": bool,
+        "pinned_languages": list,
+        "english_max": bool,
+        "fallback_budget_ms": int,
+        "app_model_overrides": list,
         "engine": str,
         "model_id": str,
         "model_size": str,
@@ -87,6 +93,11 @@ _DEFAULT_CONFIG: dict[str, Any] = {
         "app_profiles_path": "app_profiles.json",
     },
     "stt": {
+        "routing_enabled": True,
+        "pinned_languages": [],
+        "english_max": False,
+        "fallback_budget_ms": 800,
+        "app_model_overrides": [],
         "engine": "parakeet",
         "model_id": "parakeet-tdt-0-6b-v3-int8",
         "model_size": "base",
@@ -192,8 +203,23 @@ def sanitize_config(config: dict[str, Any] | None) -> dict[str, Any]:
     stt = source.get("stt", {})
     if not isinstance(stt, dict) or stt.get("engine") not in ("whisper", "parakeet"):
         cfg["stt"]["engine"] = "whisper"
+    if not isinstance(stt, dict) or type(stt.get("routing_enabled")) is not bool:
+        cfg["stt"]["routing_enabled"] = False
     if cfg["stt"]["model_id"] not in ("parakeet-tdt-0-6b-v3-int8", "parakeet-tdt-0-6b-v2-int8"):
         cfg["stt"]["model_id"] = _DEFAULT_CONFIG["stt"]["model_id"]
+    from .asr.languages import WHISPER_LANGUAGES
+    from .models.manifest import load_manifest
+
+    cfg["stt"]["pinned_languages"] = list(dict.fromkeys(
+        value.strip().lower() for value in cfg["stt"]["pinned_languages"]
+        if isinstance(value, str) and value.strip().lower() in WHISPER_LANGUAGES))[:3]
+    cfg["stt"]["fallback_budget_ms"] = max(100, min(5000, cfg["stt"]["fallback_budget_ms"]))
+    models = {model["id"] for model in load_manifest()["models"] if model.get("role", "asr") == "asr"}
+    cfg["stt"]["app_model_overrides"] = [
+        {"app_group": item["app_group"], "model_id": item["model_id"]}
+        for item in cfg["stt"]["app_model_overrides"] if isinstance(item, dict)
+        and isinstance(item.get("app_group"), str) and re.fullmatch(r"[a-z][a-z0-9_-]{0,63}", item["app_group"])
+        and isinstance(item.get("model_id"), str) and item["model_id"] in models]
     return cfg
 
 
@@ -208,6 +234,7 @@ def migrate_settings_txt(
 
     cfg = sanitize_config(base_config or default_config())
     cfg["stt"]["engine"] = "whisper"
+    cfg["stt"]["routing_enabled"] = False
     values = _read_legacy_settings(Path(settings_path))
 
     for legacy_key, path in _LEGACY_KEY_MAP.items():
@@ -289,6 +316,8 @@ def _matches_schema(value: Any, rule: Any) -> bool:
         if item is float and type(value) in (int, float) and type(value) is not bool:
             return True
         if item is str and type(value) is str:
+            return True
+        if item is list and type(value) is list:
             return True
     return False
 

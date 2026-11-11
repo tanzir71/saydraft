@@ -20,7 +20,9 @@ def test_container_wires_local_services_with_separate_user_profile(tmp_path, mon
 def test_container_preserves_explicit_whisper_engine(tmp_path, monkeypatch):
     monkeypatch.setenv("LOCALAPPDATA", str(tmp_path))
     config = default_config()
-    config["stt"].update(engine="whisper", model_size="small")
+    from saydraft.asr.selection import select_model
+
+    select_model(config, "whisper-small")
     services = create_services(config)
     assert services.asr.config.local_files_only
     assert services.asr.config.model_size == "small"

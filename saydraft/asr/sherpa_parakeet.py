@@ -70,6 +70,8 @@ class ParakeetEngine:
         self._vad = None
         self.load_seconds = 0.0
         self.last_timings = {}
+        self.last_language = None
+        self.last_audio_seconds = 0.0
 
     def prepare(self):
         """Load before microphone capture so native initialization cannot stall callbacks."""
@@ -91,6 +93,8 @@ class ParakeetEngine:
     def transcribe(self, audio):
         with self._lock:
             self.last_timings = {"vad": 0.0, "stt": 0.0}
+            self.last_language = None
+            self.last_audio_seconds = 0.0
             waveform = _to_mono_float32(audio)
             if not np.isfinite(waveform).all():
                 raise ValueError("Audio contains invalid samples")
@@ -104,6 +108,7 @@ class ParakeetEngine:
                     aggressiveness=self.config.vad_aggressiveness,
                     energy_threshold=self.config.vad_energy_threshold), self._vad)
             self.last_timings["vad"] = time.perf_counter() - started
+            self.last_audio_seconds = len(waveform) / 16000
             if not waveform.size:
                 return ""
             started = time.perf_counter()
@@ -111,6 +116,7 @@ class ParakeetEngine:
                 stream = self._recognizer.create_stream()
                 stream.accept_waveform(16000, waveform)
                 self._recognizer.decode_stream(stream)
+                self.last_language = getattr(stream.result, "lang", None) or None
                 return " ".join(stream.result.text.split())
             finally:
                 self.last_timings["stt"] = time.perf_counter() - started

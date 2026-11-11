@@ -96,6 +96,9 @@ class SessionWorker:
     def _arm(self, generation):
         preparing_asr = False
         try:
+            set_context = getattr(self.services.asr, "set_context", None)
+            if set_context is not None:
+                set_context(self._target)
             prepare = getattr(self.services.asr, "prepare", None)
             if prepare is not None:
                 preparing_asr = True
@@ -223,7 +226,8 @@ class SessionWorker:
             result = self.services.processor.process(
                 raw, target=self._target, context=self._context,
                 model=self._model_id(), duration_seconds=duration,
-                language=self.services.config["stt"].get("language", "auto"),
+                language=getattr(self.services.asr, "last_language", None) or
+                         self.services.config["stt"].get("language", "auto"),
                 insert_text=self._insert_text,
                 insert_action=lambda action: self._insert_if_current(generation, action), timings=timings,
             )
@@ -256,6 +260,9 @@ class SessionWorker:
     def _model_id(self):
         from saydraft.asr.selection import configured_model_id
 
+        used = getattr(self.services.asr, "models_used", None)
+        if used:
+            return " + ".join(used)
         return getattr(self.services.asr, "model_id", configured_model_id(self.services.config))
 
     def record_note(self):

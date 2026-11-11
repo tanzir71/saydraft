@@ -10,8 +10,10 @@ def configured_model_id(config):
     return "whisper-" + stt.get("model_size", "base")
 
 
-def select_model(config, model_id):
+def select_model(config, model_id, *, manual=True):
     stt = config["stt"]
+    if manual:
+        stt["routing_enabled"] = False
     if model_id.startswith("whisper-"):
         stt["engine"] = "whisper"
         stt["model_size"] = model_id.removeprefix("whisper-")
@@ -21,6 +23,10 @@ def select_model(config, model_id):
 
 
 def create_asr(config):
+    if config["stt"].get("routing_enabled", False):
+        from .router import AsrRouter
+
+        return AsrRouter(config)
     if config["stt"].get("engine", "whisper") == "parakeet":
         from .sherpa_parakeet import ParakeetConfig, ParakeetEngine
 

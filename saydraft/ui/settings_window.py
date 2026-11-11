@@ -18,12 +18,13 @@ from saydraft.model_download import download_silero_vad_model
 from saydraft.asr.selection import select_model
 from saydraft.ui.download_task import DownloadTask, call_download
 from saydraft.ui.model_picker import ModelPicker
+from saydraft.ui.languages_page import LanguagesPage
+from saydraft.asr.router import choose_route
 
 logger = logging.getLogger(__name__)
 
 MODES = ("raw", "balanced", "aggressive")
 PROFILES = ("general", "email", "chat", "notes", "code/comments")
-LANGUAGES = ("auto", "en", "bn", "ar", "es", "fr", "de", "it", "pt", "ja", "ko", "zh")
 
 
 
@@ -89,6 +90,11 @@ class SettingsWindow(QtWidgets.QDialog):
 
         self._build()
         self._load_values()
+        self.languages_page.changed.connect(self._sync_language_model)
+        self.model_combo.currentIndexChanged.connect(self._use_manual_model)
+        self.model_combo.activated.connect(self._use_manual_model)
+        self.model_picker.busy_changed.connect(lambda busy: self.languages_page.setEnabled(not busy))
+        self._sync_language_model()
 
     def _build(self) -> None:
         layout = QtWidgets.QVBoxLayout(self)
@@ -101,6 +107,9 @@ class SettingsWindow(QtWidgets.QDialog):
         layout.addLayout(footer)
 
         self.tabs.addTab(self._general_tab(), "General")
+        self.languages_page = LanguagesPage(self.config)
+        self.language_combo = self.languages_page.combos[0]
+        self.tabs.addTab(self.languages_page, "Languages")
         self.tabs.addTab(self._cleanup_tab(), "Cleanup")
         self.tabs.addTab(self._dictionary_tab(), "Dictionary")
         self.tabs.addTab(self._snippets_tab(), "Snippets")
@@ -122,8 +131,6 @@ class SettingsWindow(QtWidgets.QDialog):
         self.notification_spin = QtWidgets.QSpinBox()
         self.notification_spin.setRange(1, 30)
         self.notification_spin.setSuffix(" s")
-        self.language_combo = QtWidgets.QComboBox()
-        self.language_combo.addItems(LANGUAGES)
 
         form.addRow("Speech hotkey", self.speech_hotkey_edit)
         form.addRow("Alternate hotkey", self.alternative_hotkey_edit)
@@ -133,7 +140,6 @@ class SettingsWindow(QtWidgets.QDialog):
         form.addRow("Start with Windows", self.autostart_checkbox)
         form.addRow("Auto-start listening", self.auto_listen_checkbox)
         form.addRow("Notification duration", self.notification_spin)
-        form.addRow("Language", self.language_combo)
         return page
 
     def _cleanup_tab(self):
@@ -256,7 +262,6 @@ class SettingsWindow(QtWidgets.QDialog):
         self.autostart_checkbox.setChecked(bool(cfg["app"]["start_with_windows"] or self.autostart_manager.is_enabled()))
         self.auto_listen_checkbox.setChecked(bool(cfg["app"]["auto_start_listening"]))
         self.notification_spin.setValue(int(cfg["app"]["notification_duration"]))
-        self._set_combo(self.language_combo, cfg["stt"]["language"])
         self._set_combo(self.mode_combo, cfg["dictation"]["mode"])
         self._set_combo(self.profile_combo, cfg["dictation"]["profile"])
         self.max_seconds_spin.setValue(int(cfg["recording"]["max_seconds"]))
@@ -314,14 +319,29 @@ class SettingsWindow(QtWidgets.QDialog):
         cfg["recording"]["warning_seconds"] = int(self.warning_seconds_spin.value())
         cfg["dictation"]["mode"] = self.mode_combo.currentText()
         cfg["dictation"]["profile"] = self.profile_combo.currentText()
-        cfg["stt"]["language"] = self.language_combo.currentText()
-        select_model(cfg, self.model_picker.model_id)
+        select_model(cfg, self.model_picker.model_id, manual=False)
+        self.languages_page.apply_to(cfg)
         cfg["stt"]["device"] = self.device_combo.currentText()
         cfg["stt"]["compute_type"] = self.compute_combo.currentText()
         cfg["stt"]["local_files_only"] = bool(self.local_files_checkbox.isChecked())
         cfg["llm"]["enabled"] = bool(self.llm_enabled_checkbox.isChecked())
         cfg["llm"]["model_path"] = self.llm_path_edit.text().strip()
         return cfg
+
+    def _sync_language_model(self):
+        if not self.languages_page.routing.isChecked() or self.model_picker.task is not None:
+            return
+        route = choose_route(self.languages_page.pins(),
+                             english_max=self.languages_page.english_max.isChecked())
+        index = self.model_combo.findData(route.model_id)
+        if index >= 0:
+            self.model_combo.blockSignals(True)
+            self.model_combo.setCurrentIndex(index)
+            self.model_combo.blockSignals(False)
+            self.model_picker.update_license()
+
+    def _use_manual_model(self):
+        self.languages_page.routing.setChecked(False)
 
     def download_selected_model(self) -> None:
         if self._vad_download_task is None:

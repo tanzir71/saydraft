@@ -7,12 +7,29 @@ def test_fresh_profile_defaults_to_parakeet_while_existing_whisper_choice_surviv
     target = tmp_path / "config.json"
     cfg = load_config(config_path=target, settings_path=tmp_path / "absent.txt")
     assert cfg["stt"]["engine"] == "parakeet"
+    assert cfg["stt"]["routing_enabled"] is True
     assert cfg["stt"]["model_id"] == "parakeet-tdt-0-6b-v3-int8"
     target.write_text(json.dumps({"stt": {"model_size": "small", "language": "bn"}}), encoding="utf-8")
     cfg = load_config(config_path=target, settings_path=tmp_path / "absent.txt")
     assert cfg["stt"]["engine"] == "whisper"
     assert cfg["stt"]["model_size"] == "small"
     assert cfg["stt"]["language"] == "bn"
+    assert cfg["stt"]["routing_enabled"] is False
+
+
+def test_language_pins_and_overrides_sanitize_without_enabling_routing_for_old_profiles():
+    from saydraft.config import sanitize_config
+
+    cfg = sanitize_config({"stt": {"engine": "whisper", "model_size": "small",
+        "pinned_languages": ["EN", None, "ar", "xx", "bn", "fr"],
+        "fallback_budget_ms": 99999,
+        "app_model_overrides": [None, {"app_group": "chat", "model_id": "whisper-base"},
+                                {"app_group": "bad group", "model_id": "whisper-base"},
+                                {"app_group": "terminal", "model_id": "unlisted"}]}})
+    assert cfg["stt"]["pinned_languages"] == ["en", "ar", "bn"]
+    assert cfg["stt"]["app_model_overrides"] == [{"app_group": "chat", "model_id": "whisper-base"}]
+    assert cfg["stt"]["fallback_budget_ms"] == 5000
+    assert cfg["stt"]["routing_enabled"] is False
 
 
 def test_default_config_contains_schema_and_expected_defaults(tmp_path):

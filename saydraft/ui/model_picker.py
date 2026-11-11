@@ -11,6 +11,8 @@ from .download_task import DownloadTask, call_download
 
 
 class ModelPicker(QtWidgets.QWidget):
+    busy_changed = QtCore.Signal(bool)
+
     def __init__(self, config, *, callback=None, parent=None):
         super().__init__(parent)
         self.callback = callback or download_asr_model
@@ -81,6 +83,7 @@ class ModelPicker(QtWidgets.QWidget):
             return
         task = DownloadTask(self)
         self.task = task
+        self.busy_changed.emit(True)
         self.combo.setEnabled(False)
         self.download_button.setEnabled(False)
         self.pause_button.setEnabled(True)
@@ -109,6 +112,7 @@ class ModelPicker(QtWidgets.QWidget):
     @QtCore.Slot()
     def _finished(self):
         self.task = None
+        self.busy_changed.emit(False)
         self.combo.setEnabled(True)
         self.download_button.setEnabled(True)
         self.pause_button.setEnabled(False)

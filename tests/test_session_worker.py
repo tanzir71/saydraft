@@ -136,6 +136,19 @@ def test_missing_model_does_not_open_microphone_and_has_actionable_error():
     assert not events
 
 
+def test_route_context_is_set_before_preparation_and_mixed_engine_provenance_is_saved():
+    worker, clock, executor, events, signals, keyboard = make_worker()
+    ordering = []
+    worker.services.asr.set_context = lambda target: ordering.append(("context", target.app_group))
+    worker.services.asr.prepare = lambda: ordering.append(("prepare",))
+    worker.services.asr.models_used = ["primary", "multilingual"]
+    worker.start_recording()
+    assert ordering == [("context", "general"), ("prepare",)]
+    clock.now = 2
+    worker.stop_recording()
+    assert events[0][1].model == "primary + multilingual"
+
+
 def test_warning_and_soft_cap_are_configurable_and_stop_once():
     worker, clock, _executor, events, signals, _keyboard = make_worker()
     worker.start_recording()

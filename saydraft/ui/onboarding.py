@@ -12,7 +12,7 @@ from typing import Any
 from PySide6 import QtCore, QtWidgets
 
 from saydraft.config import load_config, save_config
-from saydraft.asr.selection import select_model
+from saydraft.asr.selection import configured_model_id, select_model
 from saydraft.ui.model_picker import ModelPicker
 
 logger = logging.getLogger(__name__)
@@ -144,7 +144,8 @@ class OnboardingWizard(QtWidgets.QWizard):
     def finish_onboarding(self) -> bool:
         cfg = json.loads(json.dumps(self.config))
         cfg["app"]["onboarded"] = True
-        select_model(cfg, self.model_picker.model_id)
+        select_model(cfg, self.model_picker.model_id,
+                     manual=self.model_picker.model_id != configured_model_id(self.config))
         saved = save_config(cfg, self.config_path)
         self.config = saved
         self.finish_status_label.setText("Ready to dictate")

@@ -1,5 +1,7 @@
 """CTranslate2 Whisper models, including the multilingual turbo fallback."""
 
+from dataclasses import replace
+
 from saydraft.audio.vad_silero import optional_silero
 from saydraft.stt.whisper_engine import WhisperEngine, WhisperEngineConfig
 
@@ -10,6 +12,9 @@ class WhisperCT2Engine(WhisperEngine):
     @property
     def model_id(self):
         return f"whisper-{self.config.model_size}"
+
+    def set_language(self, language):
+        self.config = replace(self.config, language=language)
 
     def prepare(self):
         """Initialize native sessions before capture, keeping the entire clip intact."""

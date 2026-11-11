@@ -69,9 +69,9 @@ def test_settings_window_has_required_tabs_and_loads_values(tmp_path):
 
     tabs = [window.tabs.tabText(index) for index in range(window.tabs.count())]
 
-    assert tabs == ["General", "Cleanup", "Dictionary", "Snippets", "Models", "About"]
+    assert tabs == ["General", "Languages", "Cleanup", "Dictionary", "Snippets", "Models", "About"]
     assert window.speech_hotkey_edit.text() == "f9"
-    assert window.language_combo.currentText() == "auto"
+    assert window.language_combo.currentData() is None
     assert window.mode_combo.currentText() == "balanced"
     assert window.profile_combo.currentText() == "notes"
     assert window.model_picker.model_id == "parakeet-tdt-0-6b-v3-int8"
@@ -87,7 +87,7 @@ def test_settings_window_applies_config_live_and_updates_autostart(tmp_path):
     window.speech_hotkey_edit.setText("ctrl+shift+r")
     window.save_hotkey_edit.setText("f8")
     window.autostart_checkbox.setChecked(True)
-    window.language_combo.setCurrentText("en")
+    window.language_combo.setCurrentIndex(window.language_combo.findData("en"))
     window.mode_combo.setCurrentText("aggressive")
     window.profile_combo.setCurrentText("email")
     window.model_combo.setCurrentText("small")
@@ -127,13 +127,28 @@ def test_all_languages_model_and_arabic_setting_persist(tmp_path):
     window, config_path, _autostart = make_window(tmp_path)
     window.model_combo.setCurrentIndex(window.model_combo.findData("whisper-large-v3-turbo"))
     assert "All languages" in window.model_combo.currentText()
-    window.language_combo.setCurrentText("ar")
+    window.language_combo.setCurrentIndex(window.language_combo.findData("ar"))
     assert window.apply_changes()
     saved = json.loads(config_path.read_text(encoding="utf-8"))
     assert saved["stt"]["engine"] == "whisper"
     assert saved["stt"]["model_size"] == "large-v3-turbo"
     assert saved["stt"]["compute_type"] == "int8"
     assert saved["stt"]["language"] == "ar"
+
+
+def test_bengali_pin_selects_shared_optional_model_without_downloading(tmp_path):
+    window, config_path, _autostart = make_window(tmp_path)
+    calls = []
+    window.model_picker.callback = lambda *args, **kwargs: calls.append(True)
+    window.language_combo.setCurrentIndex(window.language_combo.findData("bn"))
+    assert window.model_picker.model_id == "whisper-large-v3-turbo"
+    assert window.languages_page.routing.isChecked()
+    assert not calls
+    assert window.apply_changes()
+    saved = json.loads(config_path.read_text(encoding="utf-8"))
+    assert saved["stt"]["pinned_languages"] == ["bn"]
+    assert saved["stt"]["routing_enabled"] is True
+    assert not calls
 
 
 def test_settings_window_saves_dictionary_snippets_and_profiles(tmp_path):

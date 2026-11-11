@@ -83,7 +83,7 @@ class WorkerController:
         from .models.manifest import get_model
 
         config = self.core.services.config if self.core else load_config()
-        model_id = configured_model_id(config)
+        model_id = (getattr(self.core.services.asr, "model_id", None) if self.core else None) or configured_model_id(config)
         try:
             return get_model(model_id)["label"]
         except ValueError:
