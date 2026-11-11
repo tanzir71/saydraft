@@ -103,7 +103,8 @@ def test_capture_and_processing_emit_states_and_persist_before_insertion():
     assert [event[0] for event in events] == ["history", "insert"]
     assert events[0][1].duration_seconds == 1.5
     assert signals == [("recording_started",), ("recording_stopped", 1.5),
-                       ("processing_started",), ("processing_finished", "clean raw transcript")]
+                       ("processing_started",), ("history_updated", 1),
+                       ("processing_finished", "clean raw transcript")]
     assert worker.session.state == State.DONE
     assert not worker.busy
 
@@ -147,6 +148,112 @@ def test_route_context_is_set_before_preparation_and_mixed_engine_provenance_is_
     clock.now = 2
     worker.stop_recording()
     assert events[0][1].model == "primary + multilingual"
+
+
+def test_audio_retention_is_opt_in_and_write_failure_does_not_drop_words(tmp_path):
+    worker, clock, executor, events, signals, keyboard = make_worker()
+    calls = []
+
+    def save(*args):
+        calls.append(True)
+        raise OSError("disk full")
+
+    worker.services.audio_store = types.SimpleNamespace(save=save)
+    worker.start_recording()
+    clock.now = 1
+    worker.stop_recording()
+    assert not calls
+    worker.services.config["recording"]["retain_audio"] = True
+    worker.start_recording()
+    clock.now = 2
+    worker.stop_recording()
+    assert calls == [True]
+    entries = [event[1] for event in events if event[0] == "history"]
+    assert len(entries) == 2
+    assert all(entry.raw_text == "raw transcript" and entry.audio_path is None for entry in entries)
+
+
+def test_unrecognized_opt_in_audio_remains_retriable_in_history(tmp_path):
+    from saydraft.data.audio import AudioStore
+
+    worker, clock, executor, events, signals, keyboard = make_worker()
+    worker.services.config["recording"]["retain_audio"] = True
+    worker.services.audio_store = AudioStore(tmp_path / "audio")
+    worker.services.asr.transcribe = lambda audio: ""
+    worker.start_recording()
+    clock.now = 1
+    worker.stop_recording()
+    assert [event[0] for event in events] == ["history"]
+    entry = events[0][1]
+    assert entry.raw_text == "" and entry.audio_path
+    assert worker.services.audio_store.load(entry.audio_path)[0].size == 16000
+
+
+def test_cancelled_capture_does_not_retain_audio_even_when_opted_in(tmp_path):
+    from saydraft.data.audio import AudioStore
+
+    worker, clock, executor, events, signals, keyboard = make_worker()
+    worker.services.config["recording"]["retain_audio"] = True
+    worker.services.audio_store = AudioStore(tmp_path / "audio")
+    worker.start_recording()
+    clock.now = 2
+    worker.cancel()
+    assert not events
+    assert not worker.services.audio_store.root.exists()
+
+
+def test_empty_whole_clip_retry_keeps_previously_recognized_segment_words():
+    worker, clock, executor, events, signals, keyboard = make_worker()
+    worker.services.asr.transcribe = lambda audio: ""
+    worker.start_recording()
+    worker._background = types.SimpleNamespace(finish=lambda **kwargs: types.SimpleNamespace(
+        failed=True, text="previously recognized words", background_asr_seconds=0.1, tail_seconds=0.0))
+    clock.now = 2
+    worker.stop_recording()
+    assert events[0][0] == "history"
+    assert events[0][1].raw_text == "previously recognized words"
+
+
+def test_history_retry_appends_reviewable_result_without_insertion(tmp_path):
+    import json
+
+    from saydraft.data.audio import AudioStore
+    from saydraft.history import HistoryEntry, DictationHistoryStore
+
+    processor, events, notifications = make_processor(history=DictationHistoryStore(tmp_path / "history.db"))
+    worker, clock, executor, events, signals, keyboard = make_worker(
+        processor=(processor, events, notifications), queued=True)
+    store = worker.services.history
+    worker.services.audio_store = AudioStore(tmp_path / "audio")
+    path = str(worker.services.audio_store.save(np.ones(16000, dtype=np.float32)))
+    store.append(HistoryEntry("Notepad", "original words", "Original words.", "balanced", "notes",
+                              1, "primary", audio_path=path))
+    original = store.list_recent()[0]
+    worker.services.retry_asr = types.SimpleNamespace(
+        transcribe=lambda audio: "recovered words", model_id="whisper-large-v3-turbo", last_language="en", last_timings={})
+    assert worker.retry_history(original)
+    assert not worker.start_recording() and not worker.retry_history(original)
+    executor.drain()
+    rows = store.list_recent()
+    assert len(rows) == 2 and rows[1] == original
+    assert rows[0].raw_text == "recovered words" and rows[0].audio_path == path
+    assert json.loads(rows[0].edits_json) == [{"type": "asr_retry", "source_history_id": original.id}]
+    assert not [event for event in events if event[0] == "insert"]
+    assert ("history_retry_finished", rows[0].id) in signals
+    assert not worker.busy
+
+
+def test_failed_retry_queue_does_not_leave_worker_busy():
+    worker, clock, executor, events, signals, keyboard = make_worker()
+    worker.services.audio_store = object()
+    worker.services.retry_asr = object()
+
+    def rejected(*args):
+        raise RuntimeError("executor unavailable")
+
+    executor.submit = rejected
+    assert not worker.retry_history(types.SimpleNamespace(audio_path="local.wav"))
+    assert not worker.busy and not worker._retrying_history
 
 
 def test_warning_and_soft_cap_are_configurable_and_stop_once():

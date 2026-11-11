@@ -5,6 +5,10 @@ an engine field retain their Whisper model size and language. Settings → Model
 and setup offer both Parakeet models plus Whisper base/small/medium/turbo. Selection
 never downloads weights automatically.
 
+The owner confirmed the written setup flow: show the recommendation, size and
+license, then start a one-click user-initiated download with progress and
+pause/resume. Later launches reuse installed models.
+
 Bengali and Arabic share the optional multilingual Whisper model. There are no
 separate language packs or language-specific download buttons. One All languages
 download enables both; selecting a language starts no transfer. Fresh-profile

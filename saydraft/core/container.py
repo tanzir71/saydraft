@@ -22,6 +22,8 @@ class Services:
     history: HistoryStore
     processor: TranscriptProcessor
     profiles: list[dict]
+    audio_store: object | None = None
+    retry_asr: AsrEngine | None = None
 
 
 def create_services(config: dict, *, level_callback=None, notify=lambda message: None) -> Services:
@@ -32,6 +34,8 @@ def create_services(config: dict, *, level_callback=None, notify=lambda message:
     from saydraft.insert.inserter import Inserter as ClipboardInserter
     from saydraft.paths import resolve_data_path
     from saydraft.asr.selection import create_asr
+    from saydraft.asr.retry import AllLanguagesRetry
+    from saydraft.data.audio import AudioStore
     from .context import ForegroundContextProvider
 
     profiles = read_profiles(resolve_data_path(config["dictation"]["app_profiles_path"]))
@@ -58,4 +62,5 @@ def create_services(config: dict, *, level_callback=None, notify=lambda message:
     processor = TranscriptProcessor(cleaner=cleaner, formatter=formatter, history=history,
                                     inserter=inserter, snippets=snippets, notify=notify,
                                     reporter=TimingReporter(notify=notify, llm_enabled=llm["enabled"]))
-    return Services(config, recorder, asr, cleaner, formatter, inserter, context, history, processor, profiles)
+    return Services(config, recorder, asr, cleaner, formatter, inserter, context, history, processor, profiles,
+                    AudioStore(history.db_path.parent / "audio"), AllLanguagesRetry(config, asr))

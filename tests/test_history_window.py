@@ -103,6 +103,32 @@ def test_history_window_search_filters_rows(tmp_path):
     assert window.detail_editor.toPlainText() == "Older clean."
 
 
+def test_history_retry_requires_saved_audio_and_selects_new_result_for_review(tmp_path):
+    from saydraft.history import HistoryEntry
+    from saydraft.ui.history_window import HistoryWindow
+
+    store = build_history(tmp_path)
+    calls = []
+    window = HistoryWindow(qt_modules=qt_modules(), store=store,
+                           retry_callback=lambda row: calls.append(row.id) or True)
+    assert not window.retry_button.isEnabled()
+    source = store.append(HistoryEntry("Notepad", "", "", "raw", "notes", 1, "primary", audio_path="local.wav"))
+    window.refresh()
+    window._select_id(source)
+    assert window.retry_button.isEnabled()
+    assert "Recording saved" in window.list_widget.currentItem().text()
+    assert window.retry_current_audio()
+    assert calls == [source] and not window.retry_button.isEnabled()
+    result = store.append(HistoryEntry("Notepad", "recovered", "Recovered.", "raw", "notes", 1,
+                                      "whisper-large-v3-turbo", audio_path="local.wav", edits_json=json.dumps([
+                                          {"type": "asr_retry", "source_history_id": source}])))
+    window.finish_retry(result)
+    assert window.current_row().id == result
+    assert window.detail_editor.toPlainText() == "Recovered."
+    assert f"Retry of #{source}" in window.metadata_label.text()
+    assert window.retry_button.isEnabled()
+
+
 def test_history_window_copy_reinsert_and_add_dictionary_actions(tmp_path):
     from saydraft.ui.history_window import HistoryWindow
 

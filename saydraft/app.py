@@ -34,6 +34,8 @@ def create_worker_signals(QtCore):
         processing_finished = QtCore.Signal(str)
         error = QtCore.Signal(str)
         notification_requested = QtCore.Signal(str)
+        history_updated = QtCore.Signal(int)
+        history_retry_finished = QtCore.Signal(int)
 
     return SaydraftWorkerSignals()
 
@@ -95,6 +97,9 @@ class WorkerController:
 
     def history_store(self):
         return self.core.services.history if self.core else None
+
+    def retry_history_audio(self, row):
+        return bool(self.core and self.core.retry_history(row))
 
     def reinsert_text(self, text):
         if self.core is None:
@@ -205,6 +210,8 @@ class SaydraftApp:
         self.signals.error.connect(self._log_error)
         self.signals.error.connect(self._set_error_state)
         self.signals.error.connect(self.pill.show_error)
+        self.signals.history_updated.connect(self._refresh_history)
+        self.signals.history_retry_finished.connect(self._finish_history_retry)
 
         self.crash_guard = self.crash_guard_installer(
             notify=self.signals.notification_requested.emit
@@ -244,11 +251,26 @@ class SaydraftApp:
                 qt_modules=self.qt_modules,
                 store=self._controller_history_store(),
                 reinsert_callback=self._reinsert_history_text,
+                retry_callback=self._retry_history_audio,
             )
         self.history_window.refresh()
         self.history_window.show()
         self.history_window.raise_()
         self.history_window.activateWindow()
+
+    def _refresh_history(self, row_id):
+        if self.history_window is not None:
+            self.history_window.refresh()
+        if hasattr(self.tray, "set_model_label"):
+            self.tray.set_model_label(self._controller_model_label())
+
+    def _retry_history_audio(self, row):
+        callback = getattr(self.controller, "retry_history_audio", None)
+        return bool(callback and callback(row))
+
+    def _finish_history_retry(self, row_id):
+        if self.history_window is not None and hasattr(self.history_window, "finish_retry"):
+            self.history_window.finish_retry(row_id)
 
     def _show_settings(self) -> None:
         if self.settings_window is None:

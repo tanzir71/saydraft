@@ -132,6 +132,19 @@ class AsrRouter:
         if prepare is not None:
             prepare()
 
+    def retry_with_all_languages(self, audio):
+        engine = self._engine(Route(ALL_LANGUAGES, None, "manual_retry"))
+        prepare = getattr(engine, "prepare", None)
+        if prepare is not None:
+            prepare()
+        started = self._clock()
+        text = engine.transcribe(audio)
+        self._observed[ALL_LANGUAGES] = (len(np.asarray(audio)) / 16000, self._clock() - started)
+        self.model_id = ALL_LANGUAGES
+        self.last_language = getattr(engine, "last_language", None)
+        self.last_timings = dict(getattr(engine, "last_timings", {}))
+        return text
+
     def transcribe(self, audio):
         started = self._clock()
         engine = self._engine(self._route)
@@ -186,5 +199,6 @@ def _engine_for_route(config, route):
     configured = copy.deepcopy(config)
     configured["stt"]["routing_enabled"] = False
     configured["stt"]["language"] = route.language or "auto"
+    configured["stt"]["local_files_only"] = True
     select_model(configured, route.model_id)
     return create_asr(configured)

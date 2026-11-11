@@ -35,3 +35,17 @@ byte-for-byte unchanged. The copy and report are retained in ignored
 Automated tests additionally cover v0/v1 version flags, Unicode text, unknown
 owner data, WAL-backed rows, backup contents, transactional rollback, new-schema
 refusal, copy-only imports, invalid-file repair, final metadata and daily counters.
+
+## Retained audio and recognition retries
+
+Audio retention is opt-in and off by default. Complete recordings are saved as
+local float32 WAV files before recognition and linked through the existing
+`audio_path` field. Failed/empty recognition can therefore remain available for
+an explicit retry. Retention write failures do not prevent text recognition.
+
+Retries append a new row, retaining the original row and shared recording.
+`edits_json` records `{"type":"asr_retry","source_history_id":123}`. The source
+must exist and reference the same audio to classify the row as a retry for stats.
+Reprocessing adds processing time without adding dictation, word or audio totals.
+Failed database writes retain recognized retry text and its audio path in the
+processor's pending results. No schema version change or data deletion is needed.

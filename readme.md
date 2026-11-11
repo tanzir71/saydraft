@@ -153,6 +153,7 @@ Long recordings warn at 9 minutes and stop at 10 minutes to keep memory bounded.
 - Config: `%LOCALAPPDATA%\Saydraft\config.json`
 - Logs: `%LOCALAPPDATA%\Saydraft\logs\saydraft.log`
 - History: `%LOCALAPPDATA%\Saydraft\history.db`
+- Saved recordings, when Audio history is enabled: `%LOCALAPPDATA%\Saydraft\audio` (off by default)
 - New model downloads: `%LOCALAPPDATA%\Saydraft\models`
 
 Saydraft has no telemetry and no cloud fallback for dictation. Network access is only used for explicit model downloads that you start from onboarding or Settings.

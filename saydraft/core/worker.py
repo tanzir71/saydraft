@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import logging
+import json
 import threading
 from concurrent.futures import ThreadPoolExecutor
 
@@ -34,6 +35,7 @@ class SessionWorker:
         self._background = None
         self.last_failed_audio = None
         self.last_result = None
+        self._retrying_history = False
         self.hotkeys = HotkeyService(services.config, start=self.start_recording, stop=self.stop_recording,
                                      cancel=self.cancel, save=self.record_note,
                                      notify=lambda message: self.emit("notification_requested", message),
@@ -82,6 +84,8 @@ class SessionWorker:
     def start_recording(self, *, insert_text=True):
         with self._lock:
             if self.busy or self._closing:
+                if self._retrying_history:
+                    self.emit("notification_requested", "History retry is in progress. Dictation will be ready when it finishes.")
                 return False
             target = self.services.context.capture()
             context = select_context(self.services.config, self.services.profiles, target.app_title)
@@ -193,10 +197,21 @@ class SessionWorker:
     def _finalize(self, generation, duration, discard):
         completed_text = ""
         failed = False
+        audio_path = None
+        raw = ""
         try:
             audio = self.services.recorder.stop()
             if not discard:
                 self.emit("processing_started")
+                if self.services.config["recording"].get("retain_audio", False) and self.services.audio_store:
+                    try:
+                        audio_path = str(self.services.audio_store.save(
+                            audio, getattr(self.services.recorder, "sample_rate", 16000)))
+                    except Exception:
+                        self.last_failed_audio = audio
+                        logger.warning("Audio retention failed; continuing recognition")
+                        logger.debug("Audio retention failure detail", exc_info=True)
+                        self.emit("notification_requested", "Could not retain audio for retry. Recognition will continue.")
             background = self._close_background(discard=discard)
             if discard:
                 return
@@ -205,6 +220,9 @@ class SessionWorker:
             else:
                 try:
                     raw = self.services.asr.transcribe(audio).strip()
+                    if not raw and background is not None and background.text:
+                        raw = background.text
+                        self.last_failed_audio = audio
                 except Exception:
                     self.last_failed_audio = audio
                     if background is None or not background.text:
@@ -212,6 +230,7 @@ class SessionWorker:
                     raw = background.text
                     self.emit("notification_requested", "Some speech needs retry. The recording is kept in this session.")
             if not raw:
+                self._save_unrecognized_audio(audio_path, duration, "asr_empty")
                 with self._lock:
                     self.session.dispatch(Input.NO_SPEECH, session_id=generation)
                 return
@@ -230,9 +249,14 @@ class SessionWorker:
                          self.services.config["stt"].get("language", "auto"),
                 insert_text=self._insert_text,
                 insert_action=lambda action: self._insert_if_current(generation, action), timings=timings,
+                audio_path=audio_path,
             )
             self.last_result = result
             completed_text = result.cleaned_text
+            if result.history_id is not None:
+                self.emit("history_updated", result.history_id)
+                if audio_path and getattr(self.services.asr, "retry_recommended", False):
+                    self.emit("notification_requested", "A multilingual retry is available for this recording in History.")
             with self._lock:
                 if self.session.state == State.CLEANING:
                     if result.history_id is None:
@@ -242,6 +266,8 @@ class SessionWorker:
                         self.session.dispatch(Input.NOT_INSERTED, session_id=generation, reason=result.insertion.reason)
         except Exception:
             failed = True
+            if not raw:
+                self._save_unrecognized_audio(audio_path, duration, "asr_error")
             logger.exception("Could not complete dictation")
             with self._lock:
                 self.session.dispatch(Input.FAIL, session_id=generation)
@@ -250,6 +276,78 @@ class SessionWorker:
             self._close_background(discard=True)
             if not failed:
                 self.emit("processing_finished", completed_text)
+
+    def _save_unrecognized_audio(self, path, duration, reason):
+        if not path:
+            return
+        from saydraft.history import HistoryEntry
+
+        try:
+            row_id = self.services.history.append(HistoryEntry(
+                self._target.app_title, "", "", self._context.mode, self._context.profile,
+                duration, self._model_id(), app_exe=self._target.app_exe,
+                app_group=self._target.app_group, audio_path=path,
+                language=self.services.config["stt"].get("language", "auto"),
+                edits_json=json.dumps([{"type": reason}])))
+            self.emit("history_updated", row_id)
+            self.emit("notification_requested", "Recording saved locally. You can retry recognition in History.")
+        except Exception:
+            logger.error("Could not index retained audio; the local file is preserved")
+            logger.debug("Audio history failure detail", exc_info=True)
+
+    def retry_history(self, row):
+        with self._lock:
+            if (self.busy or self._closing or not row.audio_path or
+                    self.services.audio_store is None or self.services.retry_asr is None):
+                return False
+            self._retrying_history = True
+            try:
+                self._submit(self._retry_history, row)
+            except Exception:
+                self._retrying_history = False
+                logger.warning("Could not queue History retry")
+                self.emit("notification_requested", "Could not start the History retry. Try again after the current work finishes.")
+                return False
+            return True
+
+    def _retry_history(self, row):
+        reading_audio = True
+        new_id = 0
+        try:
+            from saydraft.dictation.types import DictationContext
+            from .interfaces import TargetContext
+
+            audio, rate = self.services.audio_store.load(row.audio_path)
+            reading_audio = False
+            asr = self.services.retry_asr
+            raw = asr.transcribe(audio).strip()
+            if not raw:
+                self.emit("notification_requested", "No speech was recognized in the saved recording.")
+                return
+            target = TargetContext(app_title=row.app_name, app_exe=row.app_exe or "",
+                                   app_group=row.app_group or "general")
+            result = self.services.processor.process(
+                raw, target=target, context=DictationContext(row.mode, row.profile, row.app_name),
+                model=asr.model_id, duration_seconds=len(audio) / rate,
+                language=getattr(asr, "last_language", None) or "auto",
+                insert_text=False, audio_path=row.audio_path,
+                timings=dict(getattr(asr, "last_timings", {})),
+                edits=[{"type": "asr_retry", "source_history_id": row.id}])
+            self.last_result = result
+            if result.history_id is not None:
+                new_id = result.history_id
+                self.emit("history_updated", new_id)
+            else:
+                self.emit("notification_requested", "Retry text is kept in this session while History is unavailable.")
+        except Exception:
+            logger.warning("History recognition retry failed")
+            logger.debug("History retry failure detail", exc_info=True)
+            self.emit("notification_requested", "Saved recording is unavailable or invalid." if reading_audio else
+                      "All languages retry failed. Check the model in Settings → Models.")
+        finally:
+            self._retrying_history = False
+            self.hotkeys._controller.discard_active_recording()
+            self.emit("history_retry_finished", new_id)
 
     def _close_background(self, *, discard):
         background, self._background = self._background, None

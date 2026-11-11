@@ -45,6 +45,12 @@ the planned rename; G2 **approved** — MIT; G3 **approved** — use the §9 vis
 tokens. Owner's exact response: "Approve Saydraft, MIT, and §9 visual tokens".
 Other gates remain as listed above.
 
+**Download behavior confirmed (2026-11-12):** owner prefers the written §8.4
+recommendation: tier/model recommendation, sizes and licenses, then a one-click
+user-initiated setup download with progress and pause/resume. Later launches reuse
+installed models. Owner's exact response: "I prefer the written spec's recommendation".
+Keep the shared multilingual model download; no separate Bengali/Arabic buttons.
+
 ---
 
 ## 1. Parity scorecard (the contract)
@@ -595,6 +601,7 @@ P0.3/P0.4 implementation is locally verified and published in draft PR #1. Hoste
   - Owner clarification (2026-11-12): Bengali/Arabic support is optional through the shared All languages model. Keep one model download control; no separate language-download buttons or implicit downloads on language selection. Parakeet stays the fresh-profile default.
 - [ ] **P3.4** `asr/router.py` (§7.1 rules) + Settings → Languages (Auto or pin up to 3). **Acceptance:** router unit tests for every rule; an "Retry with All-languages model" action exists on history rows with audio.
   - Routing foundation implemented: Auto/pins, English max, per-group overrides, explicit/manual model preservation, conservative warm-model fallback budget, two-model cache and actual model/language metadata. Unit suite 397 pass, 5 native skips; eval 42/42. Native routed EN/BN/AR smoke passes without networking, with one shared cached Whisper model. History audio/retry action follows separately; keep unchecked. The native Parakeet language-ID limitation is documented in docs/ASR_ROUTING.md and Open Questions.
+  - History retry is now implemented: opt-in local audio (off by default), audio-backed failure rows, explicit All languages retry, immutable source rows, review-only results and non-inflated daily counts. Native offline Bengali retry preserves the source entry and uses `history_only`; full unit suite 413 pass, 5 skips; eval 42/42. Keep P3.4 unchecked while the explicit audio-LID source remains unresolved.
 - [ ] **P3.5** Biasing spike (§7.1) → `docs/spikes/biasing.md` with numbers; then implement the winning path + phonetic post-correction. **Acceptance:** dictionary-term recall on a 40-term test improves ≥ 30% relative vs no biasing.
 - [ ] **P3.6** `models/hardware.py` probe + bench → tier; persisted; shown in Settings. **Acceptance:** deterministic tier tests with mocked timings.
 - [ ] **P3.7** (Labs) `asr/sherpa_stream.py` Nemotron streaming + Bar live-preview strip. **Acceptance:** partials update ≥ 4×/s on the reference CPU; final text is still produced by the default offline engine unless "Use streaming result" is set.
@@ -673,6 +680,8 @@ Cloud anything (sync, accounts, team dictionaries, web search in Ask), mobile ap
 ---
 
 ## 14. Changelog
+
+- 2026-11-12 | P3.4 (History retry; LID follow-up pending) | Added opt-in lossless local recording retention, audio-backed failure entries, shared-weight multilingual History retry and review-only results; originals remain unchanged and retry versions do not inflate dictation totals. Fixed empty whole-clip retries dropping recognized background words. Native offline Bengali History retry passes with no insertion; local suite 413 pass, 5 skips; eval 42/42. Owner confirmed written one-click setup downloads. | saydraft/data/audio.py, saydraft/asr/retry.py, saydraft/core/, saydraft/history.py, saydraft/ui/, tests/, docs/DATABASE.md, docs/ASR_ROUTING.md
 
 - 2026-11-12 | P3.4 (routing foundation; acceptance pending) | Added Auto/three-pin language routing, English max, per-group overrides, warm fallback prediction, a two-model cache and provenance metadata; existing profiles retain manual selection. Language selection never downloads optional weights. Full unit suite 397 pass, 5 native skips; eval 42/42. Actual routed EN/BN/AR inference passes offline and reuses one Whisper instance. Native Parakeet exposes no LID; History retry follows separately. | saydraft/asr/router.py, saydraft/asr/languages.py, saydraft/ui/languages_page.py, saydraft/config.py, saydraft/core/worker.py, tests/, docs/ASR_ROUTING.md
 

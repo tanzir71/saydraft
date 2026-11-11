@@ -131,6 +131,8 @@ class SettingsWindow(QtWidgets.QDialog):
         self.notification_spin = QtWidgets.QSpinBox()
         self.notification_spin.setRange(1, 30)
         self.notification_spin.setSuffix(" s")
+        self.retain_audio_checkbox = QtWidgets.QCheckBox("Save recordings locally for History retries")
+        self.retain_audio_checkbox.setToolTip("Off by default. Enabling this retains future recording audio on this computer.")
 
         form.addRow("Speech hotkey", self.speech_hotkey_edit)
         form.addRow("Alternate hotkey", self.alternative_hotkey_edit)
@@ -140,6 +142,7 @@ class SettingsWindow(QtWidgets.QDialog):
         form.addRow("Start with Windows", self.autostart_checkbox)
         form.addRow("Auto-start listening", self.auto_listen_checkbox)
         form.addRow("Notification duration", self.notification_spin)
+        form.addRow("Audio history", self.retain_audio_checkbox)
         return page
 
     def _cleanup_tab(self):
@@ -262,6 +265,7 @@ class SettingsWindow(QtWidgets.QDialog):
         self.autostart_checkbox.setChecked(bool(cfg["app"]["start_with_windows"] or self.autostart_manager.is_enabled()))
         self.auto_listen_checkbox.setChecked(bool(cfg["app"]["auto_start_listening"]))
         self.notification_spin.setValue(int(cfg["app"]["notification_duration"]))
+        self.retain_audio_checkbox.setChecked(cfg["recording"].get("retain_audio", False))
         self._set_combo(self.mode_combo, cfg["dictation"]["mode"])
         self._set_combo(self.profile_combo, cfg["dictation"]["profile"])
         self.max_seconds_spin.setValue(int(cfg["recording"]["max_seconds"]))
@@ -316,6 +320,7 @@ class SettingsWindow(QtWidgets.QDialog):
         cfg["app"]["auto_start_listening"] = bool(self.auto_listen_checkbox.isChecked())
         cfg["app"]["notification_duration"] = int(self.notification_spin.value())
         cfg["recording"]["max_seconds"] = int(self.max_seconds_spin.value())
+        cfg["recording"]["retain_audio"] = self.retain_audio_checkbox.isChecked()
         cfg["recording"]["warning_seconds"] = int(self.warning_seconds_spin.value())
         cfg["dictation"]["mode"] = self.mode_combo.currentText()
         cfg["dictation"]["profile"] = self.profile_combo.currentText()

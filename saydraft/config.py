@@ -27,6 +27,7 @@ CONFIG_SCHEMA: dict[str, Any] = {
         "onboarded": bool,
     },
     "recording": {
+        "retain_audio": bool,
         "max_seconds": int,
         "warning_seconds": int,
     },
@@ -83,6 +84,7 @@ _DEFAULT_CONFIG: dict[str, Any] = {
         "onboarded": False,
     },
     "recording": {
+        "retain_audio": False,
         "max_seconds": 600,
         "warning_seconds": 540,
     },

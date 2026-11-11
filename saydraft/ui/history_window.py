@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import os
+import json
 from collections.abc import Callable
 from pathlib import Path
 from typing import Any
@@ -35,6 +36,7 @@ class HistoryWindow(QtWidgets.QDialog):
         db_path: str | os.PathLike[str] | None = None,
         clipboard: Any | None = None,
         reinsert_callback: Callable[[str, HistoryRow], None] | Callable[[str], None] | None = None,
+        retry_callback=None,
         glossary_path: str | os.PathLike[str] = "glossary.json",
         limit: int = 200,
     ):
@@ -43,6 +45,8 @@ class HistoryWindow(QtWidgets.QDialog):
         self.store = store or DictationHistoryStore(db_path)
         self.clipboard = clipboard
         self.reinsert_callback = reinsert_callback
+        self.retry_callback = retry_callback
+        self._retry_source_id = None
         self.glossary_path = Path(glossary_path)
         self.limit = int(limit)
         self.rows: list[HistoryRow] = []
@@ -60,6 +64,9 @@ class HistoryWindow(QtWidgets.QDialog):
         self.copy_button = QtWidgets.QPushButton("Copy", self)
         self.reinsert_button = QtWidgets.QPushButton("Re-insert", self)
         self.add_dictionary_button = QtWidgets.QPushButton("Add Selection to Dictionary", self)
+        self.retry_button = QtWidgets.QPushButton("Retry with All languages", self)
+        self.retry_button.setToolTip("Recognize saved audio locally and save a new History entry for review.")
+        self.retry_button.setEnabled(False)
         self.status_label = QtWidgets.QLabel("", self)
 
         self._build_layout()
@@ -86,6 +93,7 @@ class HistoryWindow(QtWidgets.QDialog):
         buttons.addWidget(self.copy_button)
         buttons.addWidget(self.reinsert_button)
         buttons.addWidget(self.add_dictionary_button)
+        buttons.addWidget(self.retry_button)
         right_layout.addLayout(buttons)
         right_layout.addWidget(self.status_label)
 
@@ -102,10 +110,14 @@ class HistoryWindow(QtWidgets.QDialog):
         self.copy_button.clicked.connect(self.copy_current_text)
         self.reinsert_button.clicked.connect(self.reinsert_current_text)
         self.add_dictionary_button.clicked.connect(self.add_selection_to_dictionary)
+        self.retry_button.clicked.connect(self.retry_current_audio)
 
     def refresh(self) -> None:
+        selected = self.current_row()
         self.rows = self.store.list_recent(limit=self.limit)
         self.apply_filter()
+        if selected is not None:
+            self._select_id(selected.id)
 
     def apply_filter(self) -> None:
         query = self.search_edit.text().strip().lower()
@@ -125,6 +137,7 @@ class HistoryWindow(QtWidgets.QDialog):
         else:
             self.detail_editor.clear()
             self.metadata_label.setText("")
+            self.retry_button.setEnabled(False)
 
     def current_row(self) -> HistoryRow | None:
         index = self.list_widget.currentRow()
@@ -143,7 +156,10 @@ class HistoryWindow(QtWidgets.QDialog):
         if row is None:
             self.detail_editor.clear()
             self.metadata_label.setText("")
+            self.retry_button.setEnabled(False)
             return
+
+        self.retry_button.setEnabled(bool(row.audio_path and self.retry_callback and self._retry_source_id is None))
 
         self.detail_editor.setPlainText(self.current_text())
         self.metadata_label.setText(
@@ -156,10 +172,54 @@ class HistoryWindow(QtWidgets.QDialog):
                     row.profile,
                     row.model,
                     self._duration_text(row),
+                    self._retry_origin(row),
                 )
                 if part
             )
         )
+
+    def _retry_origin(self, row):
+        try:
+            edits = json.loads(row.edits_json)
+        except (TypeError, ValueError):
+            return ""
+        for item in edits if isinstance(edits, list) else []:
+            if isinstance(item, dict) and item.get("type") == "asr_retry":
+                source_id = item.get("source_history_id")
+                if type(source_id) is int:
+                    return f"Retry of #{source_id}"
+        return ""
+
+    def _select_id(self, row_id):
+        for index, row in enumerate(self.filtered_rows):
+            if row.id == row_id:
+                self.list_widget.setCurrentRow(index)
+                return
+
+    def retry_current_audio(self):
+        row = self.current_row()
+        if row is None or not row.audio_path or self.retry_callback is None or self._retry_source_id is not None:
+            return False
+        self._retry_source_id = row.id
+        self.retry_button.setEnabled(False)
+        self.status_label.setText("Retrying saved audio…")
+        if not self.retry_callback(row):
+            self._retry_source_id = None
+            self.update_detail()
+            self.status_label.setText("Finish the current dictation or retry before starting another.")
+            return False
+        return True
+
+    def finish_retry(self, row_id):
+        selected = self.current_row()
+        source_selected = selected is not None and selected.id == self._retry_source_id
+        self._retry_source_id = None
+        self.refresh()
+        if row_id and source_selected:
+            self.search_edit.clear()
+            self._select_id(row_id)
+        self.update_detail()
+        self.status_label.setText("Retry saved as a new History entry" if row_id else "Retry could not finish; check the notification.")
 
     def copy_current_text(self) -> bool:
         text = self.current_text()
@@ -210,6 +270,8 @@ class HistoryWindow(QtWidgets.QDialog):
 
     def _item_text(self, row: HistoryRow) -> str:
         preview = " ".join(row.cleaned_text.split())
+        if not preview and row.audio_path:
+            preview = "Recording saved for recognition retry"
         if len(preview) > 80:
             preview = preview[:77] + "..."
         app = row.app_name or "Unknown"

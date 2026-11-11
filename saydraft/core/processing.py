@@ -28,6 +28,7 @@ class ProcessingResult:
     insertion: InsertionResult
     history_id: int | None = None
     timings: dict[str, float] = field(default_factory=dict)
+    audio_path: str | None = None
 
 
 class TranscriptProcessor:
@@ -47,7 +48,8 @@ class TranscriptProcessor:
 
     def process(self, raw_text: str, *, target: TargetContext, context, model: str,
                 duration_seconds: float | None = None, insert_text: bool = True,
-                insert_action=None, timings: dict | None = None, language: str = "auto") -> ProcessingResult:
+                insert_action=None, timings: dict | None = None, language: str = "auto",
+                audio_path: str | None = None, edits: list | None = None) -> ProcessingResult:
         stages = dict(timings or {})
         cleaned = raw_text
         try:
@@ -66,14 +68,15 @@ class TranscriptProcessor:
                              context.profile, duration_seconds, model,
                              app_exe=target.app_exe, app_group=target.app_group,
                              intensity={"raw": 0, "balanced": 1, "aggressive": 3}.get(context.mode),
-                             language=language, asr_model=model, timings_json=json.dumps(stages))
+                             language=language, asr_model=model, timings_json=json.dumps(stages),
+                             audio_path=audio_path, edits_json=json.dumps(edits or []))
         try:
             history_id = self.history.append(entry)
         except Exception:
             logger.error("Could not save dictation history; insertion refused")
             logger.debug("History failure detail", exc_info=True)
             result = ProcessingResult(raw_text, cleaned, InsertionResult(
-                "not_inserted", "none", "history_unavailable"), timings=stages)
+                "not_inserted", "none", "history_unavailable"), timings=stages, audio_path=audio_path)
             self.last_result = result  # Keep both versions available for recovery.
             self.pending_results.append(result)
             self.notify("Could not save history. Your dictation is kept in this session; retry saving it.")
@@ -98,7 +101,7 @@ class TranscriptProcessor:
             self.notify("Copied to history; focus changed before insertion.")
         elif insertion.reason not in ("history_only", "cancelled") and insertion.status != "inserted":
             self.notify("Dictation saved in history; insertion was unavailable.")
-        result = ProcessingResult(raw_text, cleaned, insertion, history_id, stages)
+        result = ProcessingResult(raw_text, cleaned, insertion, history_id, stages, audio_path)
         self.last_result = result
         update_timings = getattr(self.history, "update_timings", None)
         if update_timings is not None:

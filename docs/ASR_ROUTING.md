@@ -37,8 +37,9 @@ with an observed recognition time. The conservative estimate plus primary time
 must fit the configured `fallback_budget_ms` (800 ms by default). Unknown timing
 or a cold model requests manual retry instead. Failed/empty fallback output keeps
 the primary transcript. This is a prediction gate; native inference cannot be
-interrupted at a strict wall-clock deadline. History retry with retained audio is
-being implemented separately before P3.4 is checked off.
+interrupted at a strict wall-clock deadline. Retained-audio History retries are
+explicit actions and can load the multilingual model without that automatic-retry
+budget gate.
 
 At most two model instances are cached. A changed Whisper language hint reuses its
 weights. Eviction removes that model's timing estimate. Session history records
@@ -73,3 +74,32 @@ Only two engines were cached, and the Arabic language switch reused loaded
 Whisper weights. Initial preparation was 4.012 s for Parakeet and 23.191 s for
 Whisper in this routed process using relocated QA files; those are not parity
 latency results. Owner accuracy acceptance remains deferred.
+
+## Retained-audio History retries
+
+Settings → General → Audio history enables saving future recordings locally.
+It is off by default. Saved mono 16 kHz float32 WAV files live in
+`%LOCALAPPDATA%\Saydraft\audio`; the files are published after complete writes.
+Turning retention off applies to future captures. Existing recordings are retained,
+and no automatic deletion is introduced. Cancelling during capture stores no audio.
+
+History entries with retained audio offer Retry with All languages. It runs on the
+serial worker, uses local installed weights, and saves a new result for review.
+It never types or pastes. The original entry and recording remain unchanged, and
+the new entry identifies its source. The retry shares warm Whisper weights when
+available. Retry versions add processing time, but do not inflate daily dictation,
+word or audio totals.
+
+ASR failures or empty recognition still receive an audio-backed History entry
+when retention is enabled. Retention failures leave recognition running and keep
+available text. Unindexed files and interrupted writes are preserved locally.
+An empty whole-clip retry also preserves already recognized background words.
+Loads reject paths outside the local audio directory and linked files before
+decoding, and bound audio duration to the supported recording limit.
+
+A real offline History retry used the public Bengali fixture and verified turbo
+weights: two History entries remained, the source entry was identical, output had
+100% Bengali-script letters, and insertion returned `history_only`. This is a
+functional smoke check, not owner accuracy acceptance. Unit checks cover opt-in
+storage, cancellation, write failure, path rejection, review selection, source
+preservation, queue rejection and daily statistics.

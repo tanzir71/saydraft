@@ -57,3 +57,22 @@ def test_default_history_path_uses_local_appdata(tmp_path, monkeypatch):
     monkeypatch.setenv("LOCALAPPDATA", str(tmp_path))
 
     assert default_history_path() == tmp_path / "Saydraft" / "history.db"
+
+
+def test_audio_retry_preserves_original_and_does_not_inflate_dictation_totals(tmp_path):
+    import json
+
+    from saydraft.history import DictationHistoryStore, HistoryEntry
+
+    store = DictationHistoryStore(tmp_path / "history.db")
+    source_id = store.append(HistoryEntry("Notepad", "original words", "Original words.", "raw", "notes",
+                                          8, "primary", audio_path="local.wav"))
+    original = store.list_recent()[0]
+    store.append(HistoryEntry("Notepad", "more recovered words", "More recovered words.", "raw", "notes",
+                              8, "whisper-large-v3-turbo", audio_path="local.wav",
+                              timings_json='{"stt": 1.5}', edits_json=json.dumps([
+                                  {"type": "asr_retry", "source_history_id": source_id}])))
+    assert store.list_recent()[1] == original
+    with sqlite3.connect(store.db_path) as connection:
+        totals = connection.execute("SELECT sum(dictations),sum(words),sum(audio_seconds),sum(processing_seconds) FROM stats_daily").fetchone()
+    assert totals == (1, 2, 8.0, 1.5)

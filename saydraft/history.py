@@ -80,16 +80,26 @@ class DictationHistoryStore:
         processing_seconds = sum(float(timings.get(stage, 0) or 0)
                                  for stage in ("vad", "stt", "rules", "llm", "insert"))
         with self._connect() as conn:
+            edits = json.loads(entry.edits_json)
+            retry = False
+            for item in edits if isinstance(edits, list) else []:
+                if (isinstance(item, dict) and item.get("type") == "asr_retry" and
+                        type(item.get("source_history_id")) is int and entry.audio_path):
+                    retry = conn.execute("SELECT 1 FROM dictations WHERE id=? AND audio_path=?",
+                                         (item["source_history_id"], entry.audio_path)).fetchone() is not None
+                    if retry:
+                        break
             cursor = conn.execute(
                 f"INSERT INTO dictations ({', '.join(_ALL_FIELDS)}) VALUES ({', '.join('?' for _ in _ALL_FIELDS)})",
                 tuple(values[name] for name in _ALL_FIELDS),
             )
             conn.execute("""INSERT INTO stats_daily(day, dictations, words, audio_seconds, processing_seconds)
-                SELECT date(created_at, 'localtime'), 1, ?, ?, ? FROM dictations WHERE id=?
-                ON CONFLICT(day) DO UPDATE SET dictations=dictations+1,
+                SELECT date(created_at, 'localtime'), ?, ?, ?, ? FROM dictations WHERE id=?
+                ON CONFLICT(day) DO UPDATE SET dictations=dictations+excluded.dictations,
                 words=words+excluded.words, audio_seconds=audio_seconds+excluded.audio_seconds,
                 processing_seconds=processing_seconds+excluded.processing_seconds""",
-                (len(entry.cleaned_text.split()), float(entry.duration_seconds or 0), processing_seconds, cursor.lastrowid))
+                (0 if retry else 1, 0 if retry else len(entry.cleaned_text.split()),
+                 0 if retry else float(entry.duration_seconds or 0), processing_seconds, cursor.lastrowid))
             return int(cursor.lastrowid)
 
     def list_recent(self, *, limit: int = 100) -> list[HistoryRow]:
