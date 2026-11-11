@@ -16,6 +16,21 @@ def wait_finished(picker):
     raise AssertionError("download task did not finish")
 
 
+def test_optional_multilingual_model_download_requires_explicit_action():
+    app = QtWidgets.QApplication.instance() or QtWidgets.QApplication([])
+    calls = []
+    picker = ModelPicker(default_config(), callback=lambda model, progress: calls.append(model))
+    app.processEvents()
+    assert picker.model_id == "parakeet-tdt-0-6b-v3-int8"
+    assert not calls
+    picker.combo.setCurrentIndex(picker.combo.findData("whisper-large-v3-turbo"))
+    app.processEvents()
+    assert not calls
+    picker.start_download()
+    wait_finished(picker)
+    assert calls == ["large-v3-turbo"]
+
+
 def test_model_download_can_pause_and_resume_while_qt_remains_responsive():
     app = QtWidgets.QApplication.instance() or QtWidgets.QApplication([])
     started = threading.Event()
