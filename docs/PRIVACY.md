@@ -9,7 +9,7 @@ revision, size and SHA-256 digest and verified before the model is marked ready.
 Corrupt and interrupted files are preserved in the model directory's `_archive`.
 
 The current catalog covers Whisper base, small and medium. It is in
-`voicetray/models/manifest.json` until the approved package rename. Extending the
+`saydraft/models/manifest.json` until the approved package rename. Extending the
 catalog requires checking the publisher's artifact checksums, revision, license
 and actual redirect hosts. Arbitrary automatic model fetches are blocked.
 
@@ -18,7 +18,7 @@ Verify the Python boundary with:
 ```powershell
 $env:QT_QPA_PLATFORM = 'offscreen'
 python -m pytest -m offline -q
-python -m voicetray.eval
+python -m saydraft.eval
 ```
 
 The offline suite includes accidental HTTPS requests, direct TCP, UDP, DNS,

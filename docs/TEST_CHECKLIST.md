@@ -1,4 +1,4 @@
-# VoiceTray Test Checklist
+# Saydraft Test Checklist
 
 ## Automated Verification
 
@@ -6,7 +6,7 @@ Run these before manual acceptance:
 
 ```powershell
 $env:PYTHONDONTWRITEBYTECODE='1'; $env:QT_QPA_PLATFORM='offscreen'; python -B -m pytest tests\ -q
-$env:PYTHONDONTWRITEBYTECODE='1'; python -B -m voicetray.eval
+$env:PYTHONDONTWRITEBYTECODE='1'; python -B -m saydraft.eval
 $env:PYTHONDONTWRITEBYTECODE='1'; python -B tools\soak.py --cycles 50 --target synthetic
 ```
 
@@ -29,6 +29,6 @@ Use the packaged app or `run_app.bat`, complete onboarding if prompted, and keep
 
 ## Reliability Checks
 
-- Unplug and replug the default microphone, then start a new dictation without restarting VoiceTray.
+- Unplug and replug the default microphone, then start a new dictation without restarting Saydraft.
 - Start with no microphone available and confirm the tray tooltip shows "No microphone" and the pill shows the error state.
-- Kill and relaunch VoiceTray, then confirm no duplicate tray icons remain and the single-instance notification appears on a second launch.
+- Kill and relaunch Saydraft, then confirm no duplicate tray icons remain and the single-instance notification appears on a second launch.

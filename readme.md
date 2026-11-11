@@ -1,6 +1,6 @@
-# VoiceTray
+# Saydraft
 
-[![CI](https://github.com/tanzir71/voice_tray/actions/workflows/ci.yml/badge.svg)](https://github.com/tanzir71/voice_tray/actions/workflows/ci.yml)
+[![CI](https://github.com/tanzir71/saydraft/actions/workflows/ci.yml/badge.svg)](https://github.com/tanzir71/saydraft/actions/workflows/ci.yml)
 
 Licensed under [MIT](LICENSE). See [third-party notices](THIRD_PARTY_NOTICES.md)
 for dependency and separately downloaded model licenses.
@@ -14,9 +14,9 @@ for dependency and separately downloaded model licenses.
 
 The public demo uses canned cleanup examples. It requests no microphone permission and performs no audio capture, STT, network request, or foreground insertion.
 
-VoiceTray is a Windows tray dictation app that lets you speak messily and inserts clean, ready-to-send text into the app you were already using. It runs local speech recognition with faster-whisper, keeps raw and cleaned dictations in local SQLite history, and never sends your voice or text to a cloud service during dictation.
+Saydraft is a Windows tray dictation app that lets you speak messily and inserts clean, ready-to-send text into the app you were already using. It runs local speech recognition with faster-whisper, keeps raw and cleaned dictations in local SQLite history, and never sends your voice or text to a cloud service during dictation.
 
-![VoiceTray dictation pill](assets/readme/pill-preview.gif)
+![Saydraft dictation pill](assets/readme/pill-preview.gif)
 
 ## What You Get
 
@@ -34,7 +34,7 @@ VoiceTray is a Windows tray dictation app that lets you speak messily and insert
         you hold F9 and speak
                 │
                 ▼
-┌────────────────── VoiceTray (Python, Windows tray) ──────────────────┐
+┌────────────────── Saydraft (Python, Windows tray) ──────────────────┐
 │                                                                       │
 │  global hotkey hook (F9 hold · F9 tap = lock · F10 = history-only)    │
 │        │                                                              │
@@ -64,9 +64,9 @@ Everything on this diagram runs on your machine. There is no network call in the
 
 ## Honest Comparison
 
-VoiceTray aims for the feel of polished cloud dictation while taking the opposite privacy and pricing tradeoff.
+Saydraft aims for the feel of polished cloud dictation while taking the opposite privacy and pricing tradeoff.
 
-| Capability | Wispr Flow | Typeless | VoiceTray |
+| Capability | Wispr Flow | Typeless | Saydraft |
 |---|---|---|---|
 | STT engine | Cloud OpenAI/Meta models, about 97% accuracy | Cloud STT with auto language detection | Local faster-whisper with `base`, `small`, and `medium` choices |
 | Recording model | Hold-hotkey push-to-talk plus hands-free lock; 6-minute cap | Hold-hotkey push-to-talk | Hold-to-talk plus toggle lock mode; 10-minute soft cap |
@@ -92,81 +92,81 @@ VoiceTray aims for the feel of polished cloud dictation while taking the opposit
 ### Packaged App
 
 1. Run `tools\build.ps1` to create the one-folder Windows app.
-2. Launch `dist\VoiceTray\VoiceTray.exe`.
+2. Launch `dist\Saydraft\Saydraft.exe`.
 3. The first-run wizard checks your microphone, downloads the selected Whisper model, and walks through the hotkey flow.
 
 The packaged app keeps external assets and models beside the executable:
 
 ```text
-dist\VoiceTray\VoiceTray.exe
-dist\VoiceTray\assets\
-dist\VoiceTray\models\
+dist\Saydraft\Saydraft.exe
+dist\Saydraft\assets\
+dist\Saydraft\models\
 ```
 
 ### From Source
 
 ```powershell
 pip install -r requirements.txt
-pythonw -m voicetray
+pythonw -m saydraft
 ```
 
-Use `python -m voicetray` or `run_debug.bat` when you want a visible console and debug logs.
+Use `python -m saydraft` or `run_debug.bat` when you want a visible console and debug logs.
 
 ## Model Size Guidance
 
-VoiceTray downloads models only when you choose them during onboarding or in Settings -> Models.
+Saydraft downloads models only when you choose them during onboarding or in Settings -> Models.
 
 | Model | Size | Best For | Notes |
 |---|---:|---|---|
 | `base` | base (~145 MB) | Default daily dictation | Fast, good enough for most notes and chat, uses int8 compute |
-| `small` | small (better accuracy) | More accurate writing and names | Slower than base; VoiceTray warns if it misses the local performance budget |
+| `small` | small (better accuracy) | More accurate writing and names | Slower than base; Saydraft warns if it misses the local performance budget |
 | `medium` | medium (best CPU-viable accuracy) | Highest local STT quality | Best for patient desktop CPUs; expect larger download and slower first use |
 
-Optional cleanup tier: install a local GGUF runtime and point Settings -> Models at `Qwen2.5-1.5B-Instruct` `Q4_K_M` (~1 GB). VoiceTray validates local LLM edits and falls back to deterministic rules when an edit looks risky.
+Optional cleanup tier: install a local GGUF runtime and point Settings -> Models at `Qwen2.5-1.5B-Instruct` `Q4_K_M` (~1 GB). Saydraft validates local LLM edits and falls back to deterministic rules when an edit looks risky.
 
 ## Daily Use
 
 1. Click where text should go.
 2. Hold `F9`, speak, then release.
-3. VoiceTray transcribes locally, cleans the text, writes raw and cleaned versions to History, and inserts the cleaned version into the focused app.
+3. Saydraft transcribes locally, cleans the text, writes raw and cleaned versions to History, and inserts the cleaned version into the focused app.
 
-Long recordings warn at 9 minutes and stop at 10 minutes to keep memory bounded. If the focused app changes before insertion, VoiceTray skips unsafe typing and leaves the dictation in History.
+Long recordings warn at 9 minutes and stop at 10 minutes to keep memory bounded. If the focused app changes before insertion, Saydraft skips unsafe typing and leaves the dictation in History.
 
 ## Tray Menu
 
 - **Start Listening / Stop Listening** toggles global hotkeys.
 - **History** opens the local raw/clean dictation browser.
 - **Settings** opens hotkeys, cleanup, dictionary, snippets, models, autostart, and About.
-- **Open Log Folder** opens `%LOCALAPPDATA%\VoiceTray\logs`.
+- **Open Log Folder** opens `%LOCALAPPDATA%\Saydraft\logs`.
 - **Quit** exits the app.
 
 ## Local Files
 
-- Config: `%LOCALAPPDATA%\VoiceTray\config.json`
-- Logs: `%LOCALAPPDATA%\VoiceTray\logs\voicetray.log`
-- History: `%LOCALAPPDATA%\VoiceTray\history.db`
-- Packaged models: `dist\VoiceTray\models`
+- Config: `%LOCALAPPDATA%\Saydraft\config.json`
+- Logs: `%LOCALAPPDATA%\Saydraft\logs\saydraft.log`
+- History: `%LOCALAPPDATA%\Saydraft\history.db`
+- Packaged models: `dist\Saydraft\models`
 
-VoiceTray has no telemetry and no cloud fallback for dictation. Network access is only used for explicit model downloads that you start from onboarding or Settings.
+Saydraft has no telemetry and no cloud fallback for dictation. Network access is only used for explicit model downloads that you start from onboarding or Settings.
 
 ## Troubleshooting
 
 **No microphone**
 
 - Check Windows microphone privacy permissions.
-- Unplug and reconnect the device; VoiceTray retries the default input stream and shows a no-microphone tray state when needed.
+- Unplug and reconnect the device; Saydraft retries the default input stream and shows a no-microphone tray state when needed.
 - Open Settings after reconnecting if Windows changed the default input device.
 
 **Hotkey does not respond**
 
-- Confirm VoiceTray is running in the tray.
+- Confirm Saydraft is running in the tray.
 - Check Settings for a hotkey conflict.
 - Try running as administrator if another elevated app has focus.
 
 **Text does not insert**
 
 - Click the target field again and retry.
-- Check History; VoiceTray stores dictation before insertion so the text is still available.
+- Check History; Saydraft stores dictation before insertion so the text is still available.
 - Some terminal or remote-desktop contexts may need the fallback typing path.
 
 **Model download or first dictation is slow**
@@ -181,10 +181,10 @@ VoiceTray has no telemetry and no cloud fallback for dictation. Network access i
 $env:PYTHONDONTWRITEBYTECODE='1'
 $env:QT_QPA_PLATFORM='offscreen'
 python -B -m pytest tests\ -q
-python -B -m voicetray.eval
+python -B -m saydraft.eval
 python -B tools\soak.py --cycles 50 --target synthetic
 ```
 
 ## License
 
-VoiceTray is free and open source.
+Saydraft is free and open source.

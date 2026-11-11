@@ -570,12 +570,12 @@ design/tokens.json  → build step emits site/src/styles/tokens.css and saydraft
 - [x] **P0.5** `tools/bench.py` + `docs/BASELINE.md`: record current latency per stage and RAM on the owner machine (owner runs it, Codex writes the tool). **Acceptance:** the baseline table is committed.
 - [x] **P0.6** `privacy/netguard.py`: wrap `socket.socket.connect`/`create_connection` and `getaddrinfo`; allow loopback; allow downloader sessions only inside a `with NetworkGuard.allow_downloads(manifest_hosts)` context; block and log everything else. Install it at startup. **Acceptance:** `pytest -m offline` passes; a test proves a stray `urllib.request.urlopen('https://example.com')` raises.
 
-P0.3/P0.4 implementation is locally verified (199 tests, 42/42 eval, clean Ruff). Remote acceptance (license detection, green CI on main) awaits PR publication and review; do not treat the local run as a hosted CI result.
+P0.3/P0.4 implementation is locally verified and published in draft PR #1. Hosted Windows CI passed on the PR and branch (runs 43075796248 and 43075669613). Final main-branch acceptance (license detection and green CI on main) awaits owner review/merge; this is the reason these two boxes remain unchecked.
 
 ### P1: Rename to Saydraft (blocked by **G1**)
-- [ ] **P1.1** Package rename + shim + spec/exe/AUMID (§5.2 step 1). **Acceptance:** `python -m saydraft` runs; `python -m voicetray` prints a deprecation warning and runs; all tests pass.
-- [ ] **P1.2** Data migration (copy) + autostart + mutex (§5.2 steps 2–3). **Acceptance:** a test fixture with an old dir migrates idempotently; the old dir is unchanged byte-for-byte.
-- [ ] **P1.3** Strings/assets/README/llms.txt/docs. **Acceptance:** `rg -i voicetray --glob '!docs/history/**' --glob '!saydraft/compat/**'` returns only intended compatibility hits.
+- [x] **P1.1** Package rename + shim + spec/exe/AUMID (§5.2 step 1). **Acceptance:** `python -m saydraft` runs; `python -m voicetray` prints a deprecation warning and runs; all tests pass.
+- [x] **P1.2** Data migration (copy) + autostart + mutex (§5.2 steps 2–3). **Acceptance:** a test fixture with an old dir migrates idempotently; the old dir is unchanged byte-for-byte.
+- [x] **P1.3** Strings/assets/README/llms.txt/docs. **Acceptance:** `rg -i voicetray --glob '!docs/history/**' --glob '!saydraft/compat/**'` returns only intended compatibility hits.
 - [ ] **P1.4** Owner runs (or approves Codex running) the GitHub rename + remote update (§5.2 steps 5–6). **Acceptance:** `git remote -v` shows `saydraft`; the old URL redirects.
 
 ### P2: Core refactor (retire `legacy_app.py`)
@@ -664,6 +664,7 @@ Cloud anything (sync, accounts, team dictionaries, web search in Ask), mobile ap
 ---
 
 ## 14. Changelog
+- 2026-11-12 | P1.1–P1.3 | Renamed package, application classes, launchers, spec, build metadata, AUMID, tests and docs to Saydraft; retained the deprecated module launcher. Added resumable copy-only profile migration, guarded autostart migration, per-user editable files, and a Windows named singleton. 232 tests pass; eval 42/42; real Qt launcher smoke exits cleanly on an isolated profile. Existing site URLs and historical docs intentionally retain the old name until their later tasks. | saydraft/, voicetray/, tests/, tools/, Saydraft.spec, run_app.bat, run_debug.bat, docs/DATA_MIGRATION.md, readme.md, llms.txt
 - 2026-11-12 | P0.5 | Added reproducible cold/warm stage and RSS benchmarking; committed measured base/3 s results; fixed SQLite connection lifetime and the Windows soak RSS probe. | tools/bench.py, tools/soak.py, docs/BASELINE.md, tests/test_bench.py, voicetray/history.py
 - 2026-11-12 | P0.6 | Installed offline socket policy at startup; scoped explicit model downloads to pinned hosts/revisions with SHA-256 verification and archived corrupt files; removed transcript text from INFO logs. 225 tests pass, 19 offline tests, eval 42/42; 200-cycle soak 0.3% RSS growth. | voicetray/privacy/, voicetray/models/, voicetray/model_download.py, voicetray/main.py, tests/test_netguard.py, tests/test_verified_downloader.py, docs/PRIVACY.md
 - 2026-11-12 | P0.2 | Untracked 1,714 build artifacts and 28 bytecode files, preserving all files on disk; added Python, model, website and local-data ignores. Tests 199 pass, 1 skip; eval 42/42. | .gitignore, git index

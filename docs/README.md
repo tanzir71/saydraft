@@ -7,7 +7,7 @@ and dated changes. Keep that plan at the repository root.
 - [TEST_CHECKLIST.md](TEST_CHECKLIST.md): manual Windows verification and regression commands.
 - [BASELINE.md](BASELINE.md): measured local latency and memory, with methodology and limits.
 - [PRIVACY.md](PRIVACY.md): offline enforcement, verified downloads and boundary tests.
-- [history/CODEX_HANDOFF_v1.md](history/CODEX_HANDOFF_v1.md): the completed VoiceTray
+- [history/CODEX_HANDOFF_v1.md](history/CODEX_HANDOFF_v1.md): the completed Saydraft
   M0–M6 handoff, retained for context. It is superseded by the parity plan.
 
 Implementation evidence, model benchmarks, and launch material belong alongside
