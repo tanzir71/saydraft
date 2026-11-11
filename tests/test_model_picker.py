@@ -22,6 +22,8 @@ def test_optional_multilingual_model_download_requires_explicit_action():
     picker = ModelPicker(default_config(), callback=lambda model, progress: calls.append(model))
     app.processEvents()
     assert picker.model_id == "parakeet-tdt-0-6b-v3-int8"
+    assert "773.4 MB" in picker.license_label.text()
+    assert "Whisper tiny" in picker.license_label.text() and "MIT" in picker.license_label.text()
     assert not calls
     picker.combo.setCurrentIndex(picker.combo.findData("whisper-large-v3-turbo"))
     app.processEvents()

@@ -46,13 +46,25 @@ weights. Eviction removes that model's timing estimate. Session history records
 all engines used, joined with ` + ` when background segments used multiple models.
 The selected model and actual recognized language are tracked separately.
 
-**Language-ID limitation:** the pinned Parakeet runtime returned no language ID
-for the real English fixture. Its implicit multilingual recognition does not
-provide the explicit audio language-ID signal assumed in the original plan.
-The router accepts such evidence when available, but current Auto decisions rely
-on transcript checks. Fluent hallucinations in a supported script can evade them.
-Pin Bengali/Arabic (or select All languages) for reliable model selection; no
-extra language-ID model is downloaded silently.
+The pinned Parakeet runtime provides no explicit language ID. Auto therefore uses
+a separate local Whisper tiny int8 detector when the primary engine reports none.
+Its 102.8 MB of weights are included in the displayed default setup package, under
+their own MIT attribution, and downloaded by the same explicit setup action. No
+launch or recognition action downloads anything. Existing installations without
+the helper retain transcript checks until setup is completed.
+
+The helper loads before microphone capture. It inspects the first eight seconds,
+downmixes stereo, and skips clips shorter than one second, silence and invalid
+samples. It returns a language code without a confidence score. Pins and per-app
+overrides skip this classifier. Its elapsed time counts toward the retry budget
+and is recorded as `lid`; failed detection preserves the primary result. The
+native compute binding releases the GIL while inference runs.
+
+Language detection can be wrong, particularly for short or mixed speech, and
+does not make Parakeet recognize unsupported languages. Pin Bengali/Arabic (or
+select All languages) for direct model selection. Audio-backed History failures
+record the detected language. Without retained audio, the worker offers model
+and retention guidance even when primary recognition is empty.
 
 ## Verification, 2026-11-12
 
@@ -109,3 +121,15 @@ other optional native checks skipped; cleanup remains 42/42. A 200-cycle service
 soak passes with 0.5% RSS growth. Model-name metadata now avoids importing runtime
 and downloader modules, resolving the hosted one-cycle startup-allocation failure
 without loosening its memory threshold.
+
+The audio detector now passes real offline English/Bengali/Arabic smoke checks.
+A complete Auto-routing probe with actual Parakeet and the detector also
+identifies all three; a cold optional Whisper model requests manual retry rather
+than violating the automatic budget. Isolated detector timings and provenance
+are recorded in [MODELS.md](MODELS.md). These checks do not replace the owner's
+deferred accuracy acceptance.
+
+Final suite for this follow-up: 434 passed, four optional native checks skipped,
+with real Silero and language detection enabled; cleanup remains 42/42 and lint
+passes. Parakeet v2/v3 and Whisper turbo native smoke also passed in a separate
+full run before the final notification tests were added.

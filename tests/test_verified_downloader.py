@@ -165,3 +165,27 @@ def test_ignored_range_checks_space_for_full_restart_before_archiving(tmp_path, 
     with pytest.raises(OSError, match="Not enough disk space"):
         download_model(model, tmp_path, opener=lambda *a, **kw: Response(b"abcdef"))
     assert (tmp_path / "model.bin.part").read_bytes() == b"abc"
+
+
+@pytest.mark.parametrize("requires", [["not-a-model"], ["whisper-base"], "whisper-small"])
+def test_catalog_rejects_unknown_cyclic_or_invalid_dependencies(tmp_path, requires):
+    data = load_manifest()
+    model = next(item for item in data["models"] if item["id"] == "whisper-base")
+    model["requires"] = requires
+    path = tmp_path / "manifest.json"
+    path.write_text(json.dumps(data), encoding="utf-8")
+    with pytest.raises(ValueError, match="dependencies"):
+        load_manifest(path)
+
+
+def test_bundle_checks_combined_remaining_bytes_on_same_volume(tmp_path, monkeypatch):
+    from types import SimpleNamespace
+    from saydraft.models.downloader import check_bundle_space
+
+    model = model_for(b"abcdef")
+    monkeypatch.setattr("saydraft.models.downloader.shutil.disk_usage", lambda path: SimpleNamespace(
+        free=64 * 1024 * 1024 + 9))  # Either model fits individually; their package does not.
+    with pytest.raises(OSError, match="Not enough disk space"):
+        check_bundle_space([(model, tmp_path / "primary"), (model, tmp_path / "helper")])
+    seed_partial(tmp_path / "primary", model, b"abc")
+    check_bundle_space([(model, tmp_path / "primary"), (model, tmp_path / "helper")])

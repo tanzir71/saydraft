@@ -228,6 +228,9 @@
           "sha256": "701a3375e3fe77308d280c673d34146162d2f1602b44f97d99086e3f537a1119",
           "size": 4905
         }
+      ],
+      "requires": [
+        "whisper-tiny-lid-int8"
       ]
     },
     {
@@ -337,6 +340,36 @@
           "size": 1445
         }
       ]
+    },
+    {
+      "id": "whisper-tiny-lid-int8",
+      "role": "lid",
+      "engine": "sherpa_whisper_lid",
+      "revision": "65176e2deb88badc814a94058666cadccc29b61c",
+      "publisher": "OpenAI; ONNX/int8 conversion by sherpa-onnx",
+      "license": "MIT",
+      "license_url": "https://github.com/openai/whisper/blob/main/LICENSE",
+      "source": "https://huggingface.co/csukuangfj/sherpa-onnx-whisper-tiny",
+      "download_hosts": [
+        "huggingface.co",
+        "us.aws.cdn.hf.co"
+      ],
+      "files": [
+        {
+          "path": "tiny-encoder.int8.onnx",
+          "url": "https://huggingface.co/csukuangfj/sherpa-onnx-whisper-tiny/resolve/65176e2deb88badc814a94058666cadccc29b61c/tiny-encoder.int8.onnx",
+          "size": 12937772,
+          "sha256": "d24fb083ae3b1041fc24e97971d60e280c9342201fbb67b0ab428a8b4a51a434"
+        },
+        {
+          "path": "tiny-decoder.int8.onnx",
+          "url": "https://huggingface.co/csukuangfj/sherpa-onnx-whisper-tiny/resolve/65176e2deb88badc814a94058666cadccc29b61c/tiny-decoder.int8.onnx",
+          "size": 89855401,
+          "sha256": "d2fece8dd42771f1df975c6c0445770d0c292bf7547c2cae04a6c0cc57540925"
+        }
+      ],
+      "label": "Auto language detection (Whisper tiny int8)",
+      "upstream": "https://github.com/openai/whisper"
     }
   ]
 }

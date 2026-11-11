@@ -3,7 +3,7 @@
 import logging
 
 logger = logging.getLogger(__name__)
-STAGES = ("record", "vad", "stt", "rules", "llm", "insert")
+STAGES = ("record", "vad", "stt", "lid", "rules", "llm", "insert")
 
 
 class TimingReporter:
@@ -19,6 +19,6 @@ class TimingReporter:
                     " ".join(f"{stage}={value:.3f}s" for stage, value in values.items()), total, model)
         if "background_stt" in timings:
             logger.info("Recognition completed during capture: background_stt=%.3fs", timings["background_stt"])
-        if model == "small" and total > (3.0 if self.llm_enabled else 1.5) and not self._suggested_base:
+        if model in ("small", "whisper-small") and total > (3.0 if self.llm_enabled else 1.5) and not self._suggested_base:
             self._suggested_base = True
             self.notify("Small model is running slowly; try the base model in Settings > Models.")

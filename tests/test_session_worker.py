@@ -388,6 +388,19 @@ def test_empty_asr_result_has_explicit_terminal_state():
     assert worker.session.events[-1].reason == "no_speech"
 
 
+@pytest.mark.parametrize("raw", ["", "available primary words"])
+def test_unsupported_language_recommends_model_choice_when_audio_history_is_off(raw):
+    worker, clock, _executor, _events, signals, _keyboard = make_worker()
+    worker.services.asr.transcribe = lambda audio: raw
+    worker.services.asr.retry_recommended = True
+    worker.start_recording()
+    clock.now = 1
+    worker.stop_recording()
+    assert any(item[0] == "notification_requested" and "All languages" in item[1] for item in signals)
+    if not raw:
+        np.testing.assert_array_equal(worker.last_failed_audio, np.ones(16000, dtype=np.float32))
+
+
 def test_cancel_during_cleanup_persists_words_but_prevents_insertion():
     worker, clock, _executor, events, _signals, _keyboard = make_worker()
 
@@ -447,6 +460,7 @@ def test_background_segments_are_wired_through_the_session_without_whole_clip_as
     recorder = SegmentRecorder()
     worker, clock, _executor, events, _signals, _keyboard = make_worker(recorder=recorder)
     lengths = []
+    worker.services.asr.last_timings = {"vad": 0.1, "lid": 0.2, "stt": 0.3}
     worker.services.asr.transcribe = lambda audio: lengths.append(len(audio)) or "segment words"
     worker.start_recording()
     clock.now = 3
@@ -454,6 +468,9 @@ def test_background_segments_are_wired_through_the_session_without_whole_clip_as
     assert len(lengths) == 2
     assert all(length < len(recorder.audio) for length in lengths)
     assert events[0][1].raw_text == "segment words segment words"
+    import json
+
+    assert json.loads(events[0][1].timings_json)["lid"] == 0.0
     assert worker.session.state == State.DONE
 
 

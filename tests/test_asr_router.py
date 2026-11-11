@@ -166,3 +166,44 @@ def test_engine_cache_evicts_old_models_and_their_timing_estimates():
     assert len(router._engines) == 2
     assert ALL_LANGUAGES not in router._engines
     assert ALL_LANGUAGES not in router._observed
+
+
+def test_audio_language_evidence_detects_fluent_wrong_language_and_counts_in_budget():
+    router, primary, _multilingual, _calls = make_router()
+    primary.last_language = None
+    prepared = []
+
+    def identify(audio):
+        primary.clock.now += 0.7
+        return "bn"
+
+    router._language_identifier = SimpleNamespace(prepare=lambda: prepared.append(True), identify=identify)
+    warm_multilingual(router)
+    router.prepare()
+    assert prepared == [True]
+    assert router.transcribe(np.ones(16000)) == "available words"
+    assert router.last_language == "bn" and router.last_lid_language == "bn"
+    assert router.last_timings["lid"] == pytest.approx(0.7)
+    assert router.last_fallback.reason == "budget_exceeded" and router.retry_recommended
+
+
+def test_warm_retry_uses_audio_language_evidence_and_keeps_stage_totals():
+    router, primary, _multilingual, _calls = make_router()
+    primary.last_language = None
+    router._language_identifier = SimpleNamespace(prepare=lambda: None, identify=lambda audio: "ar")
+    warm_multilingual(router)
+    router.prepare()
+    assert router.transcribe(np.ones(16000)) == "مرحبا بالعالم"
+    assert router.last_fallback.reason == "language_outside_set"
+    assert sum(router.last_timings.values()) == pytest.approx(0.15)
+
+
+def test_pinned_language_skips_audio_classifier_and_automatic_retry():
+    router, primary, _multilingual, _calls = make_router()
+    router.config["stt"]["pinned_languages"] = ["en"]
+    router.set_context(SimpleNamespace(app_group="general"))
+    router._language_identifier = SimpleNamespace()  # No prepare/identify methods allowed.
+    primary.last_language = None
+    router.prepare()
+    assert router.transcribe(np.ones(16000)) == "available words"
+    assert router.last_fallback.reason == "explicit_route" and router.last_lid_language is None

@@ -75,7 +75,7 @@ def _write_json(path, value):
     temporary.replace(path)
 
 
-def _check_space(model, target):
+def _remaining_bytes(model, target):
     remaining = 0
     for file in model["files"]:
         destination = target / file["path"]
@@ -90,7 +90,22 @@ def _check_space(model, target):
         except (OSError, ValueError):
             saved = 0
         remaining += file["size"] - saved
-    _require_space(remaining, target)
+    return remaining
+
+
+def _check_space(model, target):
+    _require_space(_remaining_bytes(model, target), target)
+
+
+def check_bundle_space(models_and_targets):
+    volumes = {}
+    for model, target in models_and_targets:
+        target.mkdir(parents=True, exist_ok=True)
+        key = target.resolve().anchor.casefold()
+        prior, exemplar = volumes.get(key, (0, target))
+        volumes[key] = (prior + _remaining_bytes(model, target), exemplar)
+    for remaining, target in volumes.values():
+        _require_space(remaining, target)
 
 
 def _require_space(remaining, target):

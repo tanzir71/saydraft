@@ -63,3 +63,27 @@ def test_existing_portable_installation_is_read_without_moving_files(tmp_path, m
     assert find_installed_model("fixture", check_hashes=True) == directory
     assert (directory / "weights").read_bytes() == content
     assert not (tmp_path / "profile").exists()
+
+
+def test_one_explicit_download_covers_displayed_dependencies_with_aggregate_progress(tmp_path, monkeypatch):
+    from saydraft.model_download import download_asr_model
+    from saydraft.models.manifest import model_bundle
+
+    model_id = "parakeet-tdt-0-6b-v3-int8"
+    package = model_bundle(model_id)
+    calls, progress, preflight = [], [], []
+    monkeypatch.setattr("saydraft.model_download.check_bundle_space", lambda targets: preflight.extend(targets))
+
+    def download(model, target, *, progress_callback, pause_event):
+        calls.append((model["id"], target, pause_event))
+        progress_callback(50)
+        progress_callback(100)
+
+    monkeypatch.setattr("saydraft.model_download.download_model", download)
+    pause = object()
+    result = download_asr_model(model_id, progress.append, models_dir=tmp_path, pause_event=pause)
+    assert result == tmp_path / "asr" / model_id
+    assert [call[0] for call in calls] == [model["id"] for model in package]
+    assert calls[1][1] == tmp_path / "lid" / "whisper-tiny-lid-int8"
+    assert all(call[2] is pause for call in calls)
+    assert len(preflight) == 2 and progress == sorted(progress) and progress[-1] == 100

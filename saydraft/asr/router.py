@@ -83,7 +83,10 @@ def choose_fallback(route, text, audio_seconds, *, language=None, installed=Fals
 
 
 class AsrRouter:
-    def __init__(self, config, *, engine_factory=None, installed=None, clock=time.perf_counter):
+    def __init__(self, config, *, engine_factory=None, installed=None, clock=time.perf_counter,
+                 language_identifier=None):
+        from .language_id import AudioLanguageIdentifier
+
         self.config = config
         self._factory = engine_factory or _engine_for_route
         self._installed = installed or _installed
@@ -97,6 +100,8 @@ class AsrRouter:
         self.last_fallback = None
         self.retry_recommended = False
         self.models_used = []
+        self._language_identifier = language_identifier or AudioLanguageIdentifier()
+        self.last_lid_language = None
 
     def _choose(self, app_group="general"):
         stt = self.config["stt"]
@@ -110,6 +115,7 @@ class AsrRouter:
         self.last_fallback = None
         self.retry_recommended = False
         self.models_used = []
+        self.last_lid_language = None
 
     def _engine(self, route):
         key = route.model_id
@@ -131,6 +137,8 @@ class AsrRouter:
         prepare = getattr(engine, "prepare", None)
         if prepare is not None:
             prepare()
+        if self._route.reason == "auto":
+            self._language_identifier.prepare()
 
     def retry_with_all_languages(self, audio):
         engine = self._engine(Route(ALL_LANGUAGES, None, "manual_retry"))
@@ -157,12 +165,19 @@ class AsrRouter:
         self.last_timings = dict(getattr(engine, "last_timings", {}))
         elapsed = self._clock() - started
         self._observed[self._route.model_id] = (duration, elapsed)
+        self.last_lid_language = None
+        if self._route.reason == "auto" and self.last_language is None:
+            lid_started = self._clock()
+            self.last_lid_language = self._language_identifier.identify(audio)
+            self.last_language = self.last_lid_language
+            self.last_timings["lid"] = self._clock() - lid_started
+            elapsed = self._clock() - started
         prior = self._observed.get(ALL_LANGUAGES)
         predicted = (prior[1] * max(1, duration / max(prior[0], 0.01)) * 1.3) if (
             prior and ALL_LANGUAGES in self._engines) else None
         decision = choose_fallback(
             self._route, text, getattr(engine, "last_audio_seconds", duration),
-            language=self.last_language, installed=self._installed(ALL_LANGUAGES),
+            language=self.last_language or self.last_lid_language, installed=self._installed(ALL_LANGUAGES),
             predicted_seconds=predicted, elapsed_seconds=elapsed,
             budget_seconds=self.config["stt"].get("fallback_budget_ms", 800) / 1000)
         self.last_fallback = decision
@@ -177,13 +192,17 @@ class AsrRouter:
                     self.models_used.append(ALL_LANGUAGES)
                 self.model_id = ALL_LANGUAGES
                 self.last_language = getattr(fallback, "last_language", None)
-                self.last_timings = {"stt": self._clock() - started}
+                self.last_timings["stt"] = max(0, self._clock() - started -
+                                               self.last_timings.get("vad", 0) -
+                                               self.last_timings.get("lid", 0))
                 return recovered
         except Exception:
             logger.warning("Multilingual retry failed; preserving primary transcript")
             logger.debug("Multilingual retry detail", exc_info=True)
         self.last_fallback = Fallback(False, True, "retry_failed")
         self.retry_recommended = True
+        self.last_timings["stt"] = max(0, self._clock() - started -
+                                       self.last_timings.get("vad", 0) - self.last_timings.get("lid", 0))
         return text
 
 

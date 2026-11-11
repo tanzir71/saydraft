@@ -231,6 +231,10 @@ class SessionWorker:
                     self.emit("notification_requested", "Some speech needs retry. The recording is kept in this session.")
             if not raw:
                 self._save_unrecognized_audio(audio_path, duration, "asr_empty")
+                if not audio_path and getattr(self.services.asr, "retry_recommended", False):
+                    self.last_failed_audio = audio
+                    self.emit("notification_requested", "Try All languages or pin your language in Settings. "
+                              "Enable audio history to keep future recordings for retry.")
                 with self._lock:
                     self.session.dispatch(Input.NO_SPEECH, session_id=generation)
                 return
@@ -241,6 +245,7 @@ class SessionWorker:
                 timings["background_stt"] = background.background_asr_seconds
                 if not background.failed:
                     timings["vad"] = 0.0
+                    timings["lid"] = 0.0  # Tail wall time already includes these stages.
                     timings["stt"] = background.tail_seconds
             result = self.services.processor.process(
                 raw, target=self._target, context=self._context,
@@ -255,8 +260,11 @@ class SessionWorker:
             completed_text = result.cleaned_text
             if result.history_id is not None:
                 self.emit("history_updated", result.history_id)
-                if audio_path and getattr(self.services.asr, "retry_recommended", False):
-                    self.emit("notification_requested", "A multilingual retry is available for this recording in History.")
+                if getattr(self.services.asr, "retry_recommended", False):
+                    self.emit("notification_requested",
+                              "A multilingual retry is available for this recording in History." if audio_path else
+                              "Try All languages or pin your language in Settings. "
+                              "Enable audio history to keep future recordings for retry.")
             with self._lock:
                 if self.session.state == State.CLEANING:
                     if result.history_id is None:
@@ -287,7 +295,8 @@ class SessionWorker:
                 self._target.app_title, "", "", self._context.mode, self._context.profile,
                 duration, self._model_id(), app_exe=self._target.app_exe,
                 app_group=self._target.app_group, audio_path=path,
-                language=self.services.config["stt"].get("language", "auto"),
+                language=getattr(self.services.asr, "last_language", None) or
+                         self.services.config["stt"].get("language", "auto"),
                 edits_json=json.dumps([{"type": reason}])))
             self.emit("history_updated", row_id)
             self.emit("notification_requested", "Recording saved locally. You can retry recognition in History.")

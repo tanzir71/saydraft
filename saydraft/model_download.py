@@ -6,8 +6,8 @@ from collections.abc import Callable
 from pathlib import Path
 from typing import Any
 
-from .models.downloader import download_model, installation_ready
-from .models.manifest import get_model
+from .models.downloader import check_bundle_space, download_model, installation_ready
+from .models.manifest import get_model, model_bundle
 
 ProgressCallback = Callable[[int], None]
 
@@ -23,7 +23,8 @@ def default_models_dir(models_dir: str | Path | None = None) -> Path:
 def model_relative_dir(model: dict) -> Path:
     if model["engine"] == "whisper":
         return Path("whisper") / model["model_size"]
-    return Path("vad" if model.get("role") == "vad" else "asr") / model["id"]
+    folder = {"vad": "vad", "lid": "lid", "llm": "llm", "runtime": "runtime"}.get(model.get("role"), "asr")
+    return Path(folder) / model["id"]
 
 
 def find_installed_model(model_id: str, *, check_hashes=False) -> Path | None:
@@ -49,8 +50,21 @@ def download_asr_model(model_id: str, progress_callback=None, *, models_dir=None
     model = get_model(model_id)
     if model.get("role", "asr") != "asr":
         raise ValueError("Choose a speech recognition model")
-    target = default_models_dir(models_dir) / model_relative_dir(model)
-    return download_model(model, target, progress_callback=progress_callback, pause_event=pause_event)
+    package = model_bundle(model_id)
+    targets = [(item, default_models_dir(models_dir) / model_relative_dir(item)) for item in package]
+    check_bundle_space(targets)
+    total = sum(file["size"] for item in package for file in item["files"])
+    completed = 0
+    for item, target in targets:
+        size = sum(file["size"] for file in item["files"])
+
+        def progress(value):
+            if progress_callback:
+                progress_callback(int((completed + size * value / 100) / total * 100))
+
+        download_model(item, target, progress_callback=progress, pause_event=pause_event)
+        completed += size
+    return targets[0][1]
 
 
 def download_whisper_model(

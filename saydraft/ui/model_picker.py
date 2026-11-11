@@ -6,7 +6,7 @@ from PySide6 import QtCore, QtWidgets
 
 from saydraft.asr.selection import configured_model_id
 from saydraft.model_download import download_asr_model
-from saydraft.models.manifest import get_model, load_manifest
+from saydraft.models.manifest import get_model, load_manifest, model_bundle
 from .download_task import DownloadTask, call_download
 
 
@@ -66,11 +66,16 @@ class ModelPicker(QtWidgets.QWidget):
             self.license_label.setText("Existing local model. Choose a listed model to download verified files.")
             self.download_button.setEnabled(False)
             return
-        size = sum(file["size"] for file in model["files"]) / 1_000_000
+        package = model_bundle(self.model_id)
+        size = sum(file["size"] for item in package for file in item["files"]) / 1_000_000
         label = (f'{escape(model["publisher"])} · {size:.1f} MB · '
                  f'<a href="{escape(model["license_url"])}">{escape(model["license"])} license</a>')
+        for dependency in package[1:]:
+            label += (f'<br>Includes {escape(dependency["label"])} · {escape(dependency["publisher"])} · '
+                      f'<a href="{escape(dependency["license_url"])}">{escape(dependency["license"])} license</a>')
         self.license_label.setText(label)
-        self.license_label.setAccessibleName(f'{model["publisher"]}, {model["license"]}, {size:.1f} megabytes')
+        self.license_label.setAccessibleName("; ".join(
+            f'{item["publisher"]}, {item["license"]}' for item in package) + f'; {size:.1f} megabytes total')
         self.download_button.setEnabled(self.task is None)
 
     def start_download(self):

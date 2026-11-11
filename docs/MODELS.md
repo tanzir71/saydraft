@@ -16,15 +16,23 @@ setup keeps Parakeet as its default.
 
 | Model | Download | Languages | License |
 |---|---:|---|---|
-| Parakeet v3 int8 | 670.6 MB | 25 European languages, automatic recognition | CC-BY-4.0 |
+| Default package: Parakeet v3 int8 + language detector | 773.4 MB | Recognition in 25 European languages; separate audio language detection | CC-BY-4.0 + MIT |
 | Parakeet v2 int8, English max | 661.3 MB | English | CC-BY-4.0 |
 | Whisper base/small/medium | Shown before download | Multilingual; explicit language or auto | MIT |
 | All languages · Whisper large-v3-turbo | 1,621.7 MB | Multilingual; int8 compute on CPU | MIT |
 | Silero VAD v5 | 2.3 MB | Speech detection | MIT |
 
+The default package comprises 670.6 MB of Parakeet weights and a 102.8 MB Whisper
+tiny int8 language detector. Setup displays the combined size and both licenses;
+one explicit download action fetches both, with aggregate progress and resumable
+files. The detector identifies a language; transcription in Bengali/Arabic still
+requires the optional All languages model. Existing Parakeet installations remain
+usable without the helper, using transcript checks until setup is completed.
+
 Parakeet v3 supports bg, hr, cs, da, nl, en, et, fi, fr, de, el, hu, it, lv,
 lt, mt, pl, pt, ro, sk, sl, es, sv, ru and uk. For other languages, select
-Whisper explicitly. Automatic routing remains a separate roadmap task. Parakeet
+Whisper explicitly or pin the language in Settings. Automatic routing uses a
+budgeted fallback; see [routing behavior](ASR_ROUTING.md). Parakeet
 does not use Whisper's explicit language hint. The turbo conversion is stored in
 FP16 and quantized by CTranslate2 for int8 computation when loaded on CPU; its
 download size is therefore larger than its int8 inference weights.
@@ -153,3 +161,33 @@ python -m tools.bench_languages --model-dir build/qa/turbo-models/whisper/large-
 The optional native test uses `SAYDRAFT_TEST_WHISPER_TURBO_MODEL` for the same
 check. Unit tests validate fixture checksums, CC-BY-4.0 provenance, model/language
 selection and local-only loading. Base, small and medium choices remain available.
+
+## Local audio language detection, 2026-11-12
+
+The default package adds the sherpa-onnx Whisper tiny int8 conversion, revision
+`65176e2deb88badc814a94058666cadccc29b61c`. Its two ONNX files total 102,793,173
+bytes and are independently pinned and SHA-256 verified. They run in the existing
+sherpa runtime with telemetry disabled and two CPU threads. No cloud call or
+language-specific download is involved.
+
+An isolated probe correctly identified the three bundled English, Bengali and
+Arabic fixtures in 0.086, 0.130 and 0.129 s respectively, after 0.487 s native
+initialization. These are smoke measurements, not an accuracy or latency
+distribution. The full default package's cold-load target remains unmet.
+
+An additional real Auto-routing run under NetworkGuard identified all three
+languages, including Bengali when Parakeet returned plausible Latin text. With a
+cold optional Whisper model, both outside-set languages recommended manual retry
+instead of starting unbudgeted inference. The Arabic primary transcript was empty;
+the worker offers the model-setting guidance or retained-audio History retry.
+
+To repeat the detector smoke after an explicit verified download:
+
+```powershell
+$env:SAYDRAFT_TEST_LANGUAGE_ID_MODEL='C:\path\to\verified\whisper-tiny-lid-int8'
+python -m pytest tests/test_audio_language_id.py -q
+```
+
+Primary sources: [sherpa language-identification models](https://k2-fsa.github.io/sherpa/onnx/spoken-language-identification/pretrained_models.html),
+[pinned Python example](https://github.com/k2-fsa/sherpa-onnx/blob/v1.13.4/python-api-examples/spoken-language-identification.py),
+[converted weights](https://huggingface.co/csukuangfj/sherpa-onnx-whisper-tiny).

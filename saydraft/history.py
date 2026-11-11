@@ -78,7 +78,7 @@ class DictationHistoryStore:
         values["asr_model"] = entry.asr_model or entry.model
         timings = json.loads(entry.timings_json)
         processing_seconds = sum(float(timings.get(stage, 0) or 0)
-                                 for stage in ("vad", "stt", "rules", "llm", "insert"))
+                                 for stage in ("vad", "stt", "lid", "rules", "llm", "insert"))
         with self._connect() as conn:
             edits = json.loads(entry.edits_json)
             retry = False
@@ -121,7 +121,7 @@ class DictationHistoryStore:
             if existing is None:
                 return
             old = json.loads(existing[1])
-            stages = ("vad", "stt", "rules", "llm", "insert")
+            stages = ("vad", "stt", "lid", "rules", "llm", "insert")
             delta = sum(float(timings.get(stage, 0)) - float(old.get(stage, 0)) for stage in stages)
             conn.execute("UPDATE dictations SET timings_json=? WHERE id=?", (json.dumps(timings), row_id))
             conn.execute("UPDATE stats_daily SET processing_seconds=processing_seconds+? WHERE day=date(?, 'localtime')",
