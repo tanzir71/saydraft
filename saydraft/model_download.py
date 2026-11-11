@@ -103,3 +103,13 @@ def download_preview_model(progress_callback=None, *, models_dir=None, pause_eve
     model = get_model(PREVIEW_MODEL)
     target = default_models_dir(models_dir) / model_relative_dir(model)
     return install_archive(model, target, progress_callback=progress_callback, pause_event=pause_event)
+
+
+def download_cleanup_runtime(backend, progress_callback=None, *, models_dir=None, pause_event=None):
+    """Explicit AI cleanup setup action; service construction never downloads."""
+    from .models.runtime_ids import runtime_model_id
+    from .models.packages import install_archive
+
+    model = get_model(runtime_model_id(backend))
+    target = default_models_dir(models_dir) / model_relative_dir(model)
+    return install_archive(model, target, progress_callback=progress_callback, pause_event=pause_event)

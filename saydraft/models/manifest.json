@@ -441,6 +441,364 @@
         "en"
       ],
       "experimental": true
+    },
+    {
+      "id": "llama-cpp-b12110-cpu-x64",
+      "revision": "github-release-asset-709507579",
+      "role": "runtime",
+      "engine": "llama_cpp",
+      "backend": "cpu",
+      "label": "AI cleanup runtime · llama.cpp b12110 (cpu)",
+      "publisher": "The ggml authors; LLVM OpenMP contributors",
+      "license": "MIT + LLVM OpenMP license notice",
+      "license_url": "https://github.com/ggml-org/llama.cpp/blob/cd959bae99ff4bed22bef2604f45241c09bbb8c8/LICENSE",
+      "source": "https://github.com/ggml-org/llama.cpp/releases/tag/b12110",
+      "source_revision": "cd959bae99ff4bed22bef2604f45241c09bbb8c8",
+      "stable_release": "v0.9.0",
+      "cpu_features_required": [
+        "avx2"
+      ],
+      "platform": "windows-x64",
+      "download_hosts": [
+        "api.github.com",
+        "release-assets.githubusercontent.com"
+      ],
+      "archive": {
+        "asset_id": 709507579,
+        "url": "https://api.github.com/repos/ggml-org/llama.cpp/releases/assets/709507579",
+        "path": "llama-b12110-cpu.zip",
+        "format": "zip",
+        "size": 24708445,
+        "sha256": "98901e327c252875accaf2d1bf364e10e868843b0b63468baad1aa945cdc5da2"
+      },
+      "files": [
+        {
+          "path": "LICENSE-LLVM-OpenMP",
+          "member": "LICENSE-LLVM-OpenMP",
+          "size": 19741,
+          "sha256": "fdad1758a9e1f9d5a81e18879b3406772115edc92c24bfa36b70c654f325e8e4"
+        },
+        {
+          "path": "ggml-base.dll",
+          "member": "ggml-base.dll",
+          "size": 832512,
+          "sha256": "3a0399fa51102a86824255beda9d021ea7e8cd2bd8ca448a43a9a80aa4829290"
+        },
+        {
+          "path": "ggml-cpu-alderlake.dll",
+          "member": "ggml-cpu-alderlake.dll",
+          "size": 1442816,
+          "sha256": "1de7a0d14d70bd741f2e4cdfa959176fee26680d6fbc78c717c0bd19e20b6233"
+        },
+        {
+          "path": "ggml-cpu-cannonlake.dll",
+          "member": "ggml-cpu-cannonlake.dll",
+          "size": 1638400,
+          "sha256": "1451909b84c223739247088a0e03db0f89bcd83461f2af43f53d794727afddcd"
+        },
+        {
+          "path": "ggml-cpu-cascadelake.dll",
+          "member": "ggml-cpu-cascadelake.dll",
+          "size": 1611776,
+          "sha256": "74d79278bd20143d3e7deeb2b5c033555f9d621016a7152b5190a2fcbf30265c"
+        },
+        {
+          "path": "ggml-cpu-cooperlake.dll",
+          "member": "ggml-cpu-cooperlake.dll",
+          "size": 1621504,
+          "sha256": "737f0e96f23ca7d66c8dc55eace36ebbfd47770a9a228c804ffff5bf66f933a8"
+        },
+        {
+          "path": "ggml-cpu-haswell.dll",
+          "member": "ggml-cpu-haswell.dll",
+          "size": 1447424,
+          "sha256": "85d9ffd6f84fd0ec01586420b935ac4d5a5c9a1ab76b533eb3ddc060c1fe2869"
+        },
+        {
+          "path": "ggml-cpu-icelake.dll",
+          "member": "ggml-cpu-icelake.dll",
+          "size": 1618432,
+          "sha256": "41ca727e74b171983ea9afe0250553706c09225c10a8c6ad72a619f9189279a8"
+        },
+        {
+          "path": "ggml-cpu-ivybridge.dll",
+          "member": "ggml-cpu-ivybridge.dll",
+          "size": 1328640,
+          "sha256": "39752b7667cb34b3bbd06178fac83803f6089771d43873a9c81015d2a98c280b"
+        },
+        {
+          "path": "ggml-cpu-piledriver.dll",
+          "member": "ggml-cpu-piledriver.dll",
+          "size": 1321472,
+          "sha256": "65bef2ae4f69256d9aff053a6fff1abdbd33acdbc51ede863d8bc5bd43c53ee8"
+        },
+        {
+          "path": "ggml-cpu-sandybridge.dll",
+          "member": "ggml-cpu-sandybridge.dll",
+          "size": 1319424,
+          "sha256": "5359624dee5670cb299c08f4a49347f7a6f4d0df35ed4c0a91164e4d771b3e23"
+        },
+        {
+          "path": "ggml-cpu-sapphirerapids.dll",
+          "member": "ggml-cpu-sapphirerapids.dll",
+          "size": 1897472,
+          "sha256": "a7a395d0e49f182240c9a2ed1d623398911506bdae418baf161354541aa06a89"
+        },
+        {
+          "path": "ggml-cpu-skylakex.dll",
+          "member": "ggml-cpu-skylakex.dll",
+          "size": 1631744,
+          "sha256": "6bd53dc5731c5b9e4d3fbf98a9dc5b3ce76d357be9a579bc6c8cedac035462e8"
+        },
+        {
+          "path": "ggml-cpu-sse42.dll",
+          "member": "ggml-cpu-sse42.dll",
+          "size": 944128,
+          "sha256": "1e1700e6b6eef26b6abb0bc68669b6ee9fdad2b8d00058e491cb5160eb54afc2"
+        },
+        {
+          "path": "ggml-cpu-x64.dll",
+          "member": "ggml-cpu-x64.dll",
+          "size": 936448,
+          "sha256": "81877c8787f9d5680b990f4cf5f8b89ba5b02ee5064b36abfd53d9d2ffb50916"
+        },
+        {
+          "path": "ggml-cpu-zen4.dll",
+          "member": "ggml-cpu-zen4.dll",
+          "size": 1627648,
+          "sha256": "b5c1eec79e83878303acfa774f1275d9e025493b2c23f2a01af09fe985cdc21a"
+        },
+        {
+          "path": "ggml.dll",
+          "member": "ggml.dll",
+          "size": 78848,
+          "sha256": "06dfdff8b7b834c757ec5b5411abfc0f732604fb595eaaffbdc6da563523e8a1"
+        },
+        {
+          "path": "libomp.dll",
+          "member": "libomp.dll",
+          "size": 768000,
+          "sha256": "a12116ba72d1d6820407cf30be23da04ce79d6bb8a71a5ee71759c5a1faa6f1c"
+        },
+        {
+          "path": "llama-common.dll",
+          "member": "llama-common.dll",
+          "size": 8359936,
+          "sha256": "0898e517843e4478b5178621dc878552b4d40a4d47d7b6f1775e7897f4e2344e"
+        },
+        {
+          "path": "llama-server-impl.dll",
+          "member": "llama-server-impl.dll",
+          "size": 10098688,
+          "sha256": "c5d306bdcad1c4011f18a1c01ae2fcdca48a197af0d421c2931ace2cfb487fc6"
+        },
+        {
+          "path": "llama-server.exe",
+          "member": "llama-server.exe",
+          "size": 9728,
+          "sha256": "00d50686815af38249d0218c91558fbd0e9093ac8c074bac86196907f4305e31"
+        },
+        {
+          "path": "llama.dll",
+          "member": "llama.dll",
+          "size": 3834880,
+          "sha256": "211b91d86e67c49f12eb97992b45ae4c2fc797d6edab48637835a877c808890e"
+        },
+        {
+          "path": "mtmd.dll",
+          "member": "mtmd.dll",
+          "size": 2482176,
+          "sha256": "74a3cace50f6c545cc66e4dc05e2aecf465f146ea1b4000376cd9834598a3e14"
+        },
+        {
+          "path": "LICENSE-llama-cpp.txt",
+          "bundled_source": "assets/licenses/llama-cpp-MIT.txt",
+          "size": 1078,
+          "sha256": "94f29bbed6a22c35b992c5c6ebf0e7c92f13b836b90f36f461c9cf2f0f1d010d"
+        }
+      ]
+    },
+    {
+      "id": "llama-cpp-b12110-vulkan-x64",
+      "revision": "github-release-asset-709511274",
+      "role": "runtime",
+      "engine": "llama_cpp",
+      "backend": "vulkan",
+      "label": "AI cleanup runtime · llama.cpp b12110 (vulkan)",
+      "publisher": "The ggml authors; LLVM OpenMP contributors",
+      "license": "MIT + LLVM OpenMP license notice",
+      "license_url": "https://github.com/ggml-org/llama.cpp/blob/cd959bae99ff4bed22bef2604f45241c09bbb8c8/LICENSE",
+      "source": "https://github.com/ggml-org/llama.cpp/releases/tag/b12110",
+      "source_revision": "cd959bae99ff4bed22bef2604f45241c09bbb8c8",
+      "stable_release": "v0.9.0",
+      "cpu_features_required": [
+        "avx2"
+      ],
+      "platform": "windows-x64",
+      "download_hosts": [
+        "api.github.com",
+        "release-assets.githubusercontent.com"
+      ],
+      "archive": {
+        "asset_id": 709511274,
+        "url": "https://api.github.com/repos/ggml-org/llama.cpp/releases/assets/709511274",
+        "path": "llama-b12110-vulkan.zip",
+        "format": "zip",
+        "size": 37661146,
+        "sha256": "9732a5e48887ca54d0bfe4af4324dc85fd56cd8cda19b52df3542fa6ebe6874f"
+      },
+      "files": [
+        {
+          "path": "LICENSE-LLVM-OpenMP",
+          "member": "LICENSE-LLVM-OpenMP",
+          "size": 19741,
+          "sha256": "fdad1758a9e1f9d5a81e18879b3406772115edc92c24bfa36b70c654f325e8e4"
+        },
+        {
+          "path": "ggml-base.dll",
+          "member": "ggml-base.dll",
+          "size": 832512,
+          "sha256": "3a0399fa51102a86824255beda9d021ea7e8cd2bd8ca448a43a9a80aa4829290"
+        },
+        {
+          "path": "ggml-cpu-alderlake.dll",
+          "member": "ggml-cpu-alderlake.dll",
+          "size": 1442816,
+          "sha256": "1de7a0d14d70bd741f2e4cdfa959176fee26680d6fbc78c717c0bd19e20b6233"
+        },
+        {
+          "path": "ggml-cpu-cannonlake.dll",
+          "member": "ggml-cpu-cannonlake.dll",
+          "size": 1638400,
+          "sha256": "1451909b84c223739247088a0e03db0f89bcd83461f2af43f53d794727afddcd"
+        },
+        {
+          "path": "ggml-cpu-cascadelake.dll",
+          "member": "ggml-cpu-cascadelake.dll",
+          "size": 1611776,
+          "sha256": "74d79278bd20143d3e7deeb2b5c033555f9d621016a7152b5190a2fcbf30265c"
+        },
+        {
+          "path": "ggml-cpu-cooperlake.dll",
+          "member": "ggml-cpu-cooperlake.dll",
+          "size": 1621504,
+          "sha256": "737f0e96f23ca7d66c8dc55eace36ebbfd47770a9a228c804ffff5bf66f933a8"
+        },
+        {
+          "path": "ggml-cpu-haswell.dll",
+          "member": "ggml-cpu-haswell.dll",
+          "size": 1447424,
+          "sha256": "85d9ffd6f84fd0ec01586420b935ac4d5a5c9a1ab76b533eb3ddc060c1fe2869"
+        },
+        {
+          "path": "ggml-cpu-icelake.dll",
+          "member": "ggml-cpu-icelake.dll",
+          "size": 1618432,
+          "sha256": "41ca727e74b171983ea9afe0250553706c09225c10a8c6ad72a619f9189279a8"
+        },
+        {
+          "path": "ggml-cpu-ivybridge.dll",
+          "member": "ggml-cpu-ivybridge.dll",
+          "size": 1328640,
+          "sha256": "39752b7667cb34b3bbd06178fac83803f6089771d43873a9c81015d2a98c280b"
+        },
+        {
+          "path": "ggml-cpu-piledriver.dll",
+          "member": "ggml-cpu-piledriver.dll",
+          "size": 1321472,
+          "sha256": "65bef2ae4f69256d9aff053a6fff1abdbd33acdbc51ede863d8bc5bd43c53ee8"
+        },
+        {
+          "path": "ggml-cpu-sandybridge.dll",
+          "member": "ggml-cpu-sandybridge.dll",
+          "size": 1319424,
+          "sha256": "5359624dee5670cb299c08f4a49347f7a6f4d0df35ed4c0a91164e4d771b3e23"
+        },
+        {
+          "path": "ggml-cpu-sapphirerapids.dll",
+          "member": "ggml-cpu-sapphirerapids.dll",
+          "size": 1897472,
+          "sha256": "a7a395d0e49f182240c9a2ed1d623398911506bdae418baf161354541aa06a89"
+        },
+        {
+          "path": "ggml-cpu-skylakex.dll",
+          "member": "ggml-cpu-skylakex.dll",
+          "size": 1631744,
+          "sha256": "6bd53dc5731c5b9e4d3fbf98a9dc5b3ce76d357be9a579bc6c8cedac035462e8"
+        },
+        {
+          "path": "ggml-cpu-sse42.dll",
+          "member": "ggml-cpu-sse42.dll",
+          "size": 944128,
+          "sha256": "1e1700e6b6eef26b6abb0bc68669b6ee9fdad2b8d00058e491cb5160eb54afc2"
+        },
+        {
+          "path": "ggml-cpu-x64.dll",
+          "member": "ggml-cpu-x64.dll",
+          "size": 936448,
+          "sha256": "81877c8787f9d5680b990f4cf5f8b89ba5b02ee5064b36abfd53d9d2ffb50916"
+        },
+        {
+          "path": "ggml-cpu-zen4.dll",
+          "member": "ggml-cpu-zen4.dll",
+          "size": 1627648,
+          "sha256": "b5c1eec79e83878303acfa774f1275d9e025493b2c23f2a01af09fe985cdc21a"
+        },
+        {
+          "path": "ggml-vulkan.dll",
+          "member": "ggml-vulkan.dll",
+          "size": 41988608,
+          "sha256": "e863e7556e10eeea6888894755552a917ab919004882bdf89d2d684d2b54fc8c"
+        },
+        {
+          "path": "ggml.dll",
+          "member": "ggml.dll",
+          "size": 78848,
+          "sha256": "06dfdff8b7b834c757ec5b5411abfc0f732604fb595eaaffbdc6da563523e8a1"
+        },
+        {
+          "path": "libomp.dll",
+          "member": "libomp.dll",
+          "size": 768000,
+          "sha256": "a12116ba72d1d6820407cf30be23da04ce79d6bb8a71a5ee71759c5a1faa6f1c"
+        },
+        {
+          "path": "llama-common.dll",
+          "member": "llama-common.dll",
+          "size": 8359936,
+          "sha256": "0898e517843e4478b5178621dc878552b4d40a4d47d7b6f1775e7897f4e2344e"
+        },
+        {
+          "path": "llama-server-impl.dll",
+          "member": "llama-server-impl.dll",
+          "size": 10098688,
+          "sha256": "c5d306bdcad1c4011f18a1c01ae2fcdca48a197af0d421c2931ace2cfb487fc6"
+        },
+        {
+          "path": "llama-server.exe",
+          "member": "llama-server.exe",
+          "size": 9728,
+          "sha256": "00d50686815af38249d0218c91558fbd0e9093ac8c074bac86196907f4305e31"
+        },
+        {
+          "path": "llama.dll",
+          "member": "llama.dll",
+          "size": 3834880,
+          "sha256": "211b91d86e67c49f12eb97992b45ae4c2fc797d6edab48637835a877c808890e"
+        },
+        {
+          "path": "mtmd.dll",
+          "member": "mtmd.dll",
+          "size": 2482176,
+          "sha256": "74a3cace50f6c545cc66e4dc05e2aecf465f146ea1b4000376cd9834598a3e14"
+        },
+        {
+          "path": "LICENSE-llama-cpp.txt",
+          "bundled_source": "assets/licenses/llama-cpp-MIT.txt",
+          "size": 1078,
+          "sha256": "94f29bbed6a22c35b992c5c6ebf0e7c92f13b836b90f36f461c9cf2f0f1d010d"
+        }
+      ]
     }
   ]
 }
