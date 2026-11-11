@@ -103,3 +103,9 @@ weights: two History entries remained, the source entry was identical, output ha
 functional smoke check, not owner accuracy acceptance. Unit checks cover opt-in
 storage, cancellation, write failure, path rejection, review selection, source
 preservation, queue rejection and daily statistics.
+
+Final local verification with native Silero enabled passes 415 tests, with four
+other optional native checks skipped; cleanup remains 42/42. A 200-cycle service
+soak passes with 0.5% RSS growth. Model-name metadata now avoids importing runtime
+and downloader modules, resolving the hosted one-cycle startup-allocation failure
+without loosening its memory threshold.
