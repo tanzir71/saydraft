@@ -1,1 +1,42 @@
-.vercel
+# Python environments, bytecode and tooling
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+
+# Generated packages and large, downloaded model weights (not model source code)
+/build/
+/dist/
+/models/
+*.gguf
+*.onnx
+
+# Website dependencies and generated output
+node_modules/
+site/dist/
+site/.astro/
+site/storybook-static/
+site/playwright-report/
+site/test-results/
+
+# Local deployment state, credentials, logs and user data
+.vercel/
+.env
+.env.*
+!.env.example
+*.log
+*.sqlite*
+*.db
+*.db-*
+/saved_texts.txt
+.DS_Store
+Thumbs.db

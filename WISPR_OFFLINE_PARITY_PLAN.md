@@ -564,7 +564,7 @@ design/tokens.json  → build step emits site/src/styles/tokens.css and saydraft
 
 ### P0: Foundations
 - [x] **P0.1** `git mv CODEX_HANDOFF.md docs/history/CODEX_HANDOFF_v1.md`; keep this file at the root; add `docs/README.md` explaining the doc set. **Acceptance:** old file reachable at the new path; history intact (`git log --follow`).
-- [ ] **P0.2** Repo hygiene: add a full `.gitignore` (Python, PyInstaller `build/` `dist/`, `__pycache__/`, `*.pyc`, `models/`, `.venv/`, `site/node_modules/`, `site/dist/`, `.vercel`). Run `git rm -r --cached dist build` and `git rm -r --cached '**/__pycache__'`. **Files stay on disk.** **Acceptance:** `git ls-files | grep -E '^(dist|build)/' | wc -l` = 0; local `dist/` still exists. *(P0.2b history purge only if G4 approved.)*
+- [x] **P0.2** Repo hygiene: add a full `.gitignore` (Python, PyInstaller `build/` `dist/`, `__pycache__/`, `*.pyc`, `models/`, `.venv/`, `site/node_modules/`, `site/dist/`, `.vercel`). Run `git rm -r --cached dist build` and `git rm -r --cached '**/__pycache__'`. **Files stay on disk.** **Acceptance:** `git ls-files | grep -E '^(dist|build)/' | wc -l` = 0; local `dist/` still exists. *(P0.2b history purge only if G4 approved.)*
 - [ ] **P0.3** (G2) Add `LICENSE` and `THIRD_PARTY_NOTICES.md` (PySide6 LGPL-3.0 dynamic-link note, faster-whisper/CTranslate2 MIT, sherpa-onnx Apache-2.0, onnxruntime MIT, llama.cpp MIT, model licenses table). **Acceptance:** a license is detected on the GitHub repo page.
 - [ ] **P0.4** CI `.github/workflows/ci.yml` on `windows-latest`: Python 3.13, `pip install -r requirements-dev.txt`, `ruff`, `pytest` (offscreen Qt), eval; cache pip. **Acceptance:** green on main; the README badge works.
 - [ ] **P0.5** `tools/bench.py` + `docs/BASELINE.md`: record current latency per stage and RAM on the owner machine (owner runs it, Codex writes the tool). **Acceptance:** the baseline table is committed.
@@ -661,6 +661,7 @@ Cloud anything (sync, accounts, team dictionaries, web search in Ask), mobile ap
 ---
 
 ## 14. Changelog
+- 2026-11-12 | P0.2 | Untracked 1,714 build artifacts and 28 bytecode files, preserving all files on disk; added Python, model, website and local-data ignores. Tests 199 pass, 1 skip; eval 42/42. | .gitignore, git index
 <!-- Codex: one line per completed task: YYYY-MM-DD | task | summary | files -->
 - 2026-11-12 | P0.1 | Archived the previous handoff with git mv; documented the active plan and retained history. Baseline: 199 tests pass, 1 optional integration skip; eval 42/42. | docs/README.md, docs/history/CODEX_HANDOFF_v1.md, WISPR_OFFLINE_PARITY_PLAN.md
 - 2026-11-11 | — | Plan created from a repo audit + competitor/model/SEO research; supersedes CODEX_HANDOFF.md (to be archived in P0.1) | WISPR_OFFLINE_PARITY_PLAN.md
