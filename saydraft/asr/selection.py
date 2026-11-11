@@ -1,6 +1,6 @@
 """Persisted engine selection, including compatibility with old Whisper configs."""
 
-from .sherpa_parakeet import DEFAULT_MODEL
+from .model_ids import DEFAULT_MODEL
 
 
 def configured_model_id(config):

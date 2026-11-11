@@ -17,10 +17,9 @@ from saydraft.model_download import find_installed_model
 from saydraft.models.downloader import installation_ready
 from saydraft.models.manifest import get_model
 from saydraft.stt.whisper_engine import _to_mono_float32
+from .model_ids import DEFAULT_MODEL, ENGLISH_MODEL
 
 logger = logging.getLogger(__name__)
-DEFAULT_MODEL = "parakeet-tdt-0-6b-v3-int8"
-ENGLISH_MODEL = "parakeet-tdt-0-6b-v2-int8"
 
 
 @dataclass(frozen=True)
