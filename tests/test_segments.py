@@ -1,6 +1,7 @@
 import threading
 
 import numpy as np
+import pytest
 
 from saydraft.core.segments import SegmentTranscriber
 
@@ -63,6 +64,34 @@ def test_continuous_speech_stays_intact_in_one_segment():
     result = transcriber.finish()
     assert result.segments == 1
     assert len(engine.audio[0]) == 16000 * 3
+
+
+def test_continuous_minute_is_processed_before_release_without_dropping_or_repeating_samples():
+    engine = Engine()
+    two_completed = threading.Event()
+    recognize = engine.transcribe
+
+    def transcribe(audio):
+        text = recognize(audio)
+        if len(engine.audio) == 2:
+            two_completed.set()
+        return text
+
+    engine.transcribe = transcribe
+    transcriber = SegmentTranscriber(engine, detector=detector, clock=lambda: engine.now)
+    # Uneven chunks exercise the pending frame at both cap and release boundaries.
+    audio = np.linspace(0.1, 0.2, 60 * 16000 + 17, dtype=np.float32)
+    transcriber.start()
+    for offset in range(0, len(audio), 1237):
+        transcriber.feed(audio[offset:offset + 1237])
+    assert two_completed.wait(5)
+    released_at = engine.now
+    result = transcriber.finish()
+    assert result.segments == 3 and not result.failed
+    assert max(map(len, engine.audio)) <= 25 * 16000
+    np.testing.assert_array_equal(np.concatenate(engine.audio), audio)
+    assert result.text == "segment1 segment2 segment3"
+    assert engine.now - released_at == pytest.approx(engine.last_cost)
 
 
 def test_transcriber_owns_audio_and_refuses_frames_after_finish():

@@ -133,3 +133,29 @@ Final suite for this follow-up: 434 passed, four optional native checks skipped,
 with real Silero and language detection enabled; cleanup remains 42/42 and lint
 passes. Parakeet v2/v3 and Whisper turbo native smoke also passed in a separate
 full run before the final notification tests were added.
+
+## Long recordings
+
+Background recognition prefers VAD pauses and caps uninterrupted segments at
+25 seconds, rounded down to 24.99 s on 30 ms frames. The cap applies to the shared
+segment worker, including Parakeet and Whisper routes. Each input sample belongs
+to exactly one segment; returned text is joined without overlap deduplication.
+Empty/failed segments request the existing complete-recording fallback and keep
+earlier recognized words. Cancellation still discards the session's result.
+
+A forced cut can occur within a word. Boundary accuracy on natural continuous
+speech remains unmeasured; the complete recording stays available in memory for
+fallback and is saved only when audio history is enabled.
+
+The offline real-time 60 s repeated-fixture probe forced speech detection
+throughout to exercise the cap with actual Parakeet v3. Two segments completed
+before release; three were recognized in total, with a maximum length of 24.99 s.
+Release to raw text took 0.741 s versus a 0.771 s reference tail recognition
+(1.3× budget: 1.002 s). This is a warm fixture check, not microphone, accuracy or
+insertion acceptance. Unit checks also concatenate every recognized audio segment
+and compare it exactly to the unevenly chunked input, including its partial tail.
+Full validation passes 435 tests with four optional native skips; eval is 42/42.
+
+```powershell
+python -m tools.bench_segments --parakeet-dir C:\path\to\verified\parakeet-v3 --continuous --output build/qa/new-segment-report.json
+```

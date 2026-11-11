@@ -1,8 +1,8 @@
 """Transcribe completed speech segments while capture continues.
 
 The audio callback only copies and queues chunks. One background thread performs
-VAD and serial ASR. Split at silence, never in a word; continuous speech remains
-one segment and therefore still incurs full recognition at release.
+VAD and serial ASR. Prefer pauses; cap continuous speech at 25 seconds so the
+release path normally has only a tail. Every sample belongs to one segment.
 """
 
 from __future__ import annotations
@@ -36,17 +36,22 @@ class SegmentResult:
 
 class SegmentTranscriber:
     def __init__(self, asr: AsrEngine, *, sample_rate=16_000, silence_seconds=0.6,
-                 minimum_seconds=0.5, detector=None, clock=time.perf_counter,
+                 minimum_seconds=0.5, maximum_seconds=25, detector=None, clock=time.perf_counter,
                  energy_threshold=0.003, aggressiveness=2):
         if sample_rate != 16_000:
             raise ValueError("background transcription requires mono 16 kHz input")
-        if not all(math.isfinite(value) and value > 0 for value in (silence_seconds, minimum_seconds)):
+        if not all(math.isfinite(value) and value > 0 for value in (
+                silence_seconds, minimum_seconds, maximum_seconds)):
             raise ValueError("segment durations must be positive and finite")
+        if maximum_seconds < max(minimum_seconds, 0.03):
+            raise ValueError("maximum segment duration must cover the minimum and one VAD frame")
         self.asr = asr
         self.sample_rate = sample_rate
         self.silence_samples = round(silence_seconds * sample_rate)
         self.minimum_samples = round(minimum_seconds * sample_rate)
         self.frame_samples = round(0.03 * sample_rate)
+        # Round down to whole VAD frames: the default is 24.99 s, never over 25 s.
+        self.maximum_samples = int(maximum_seconds * sample_rate // self.frame_samples) * self.frame_samples
         self.detector = detector or FallbackFrameDetector(SilenceTrimConfig(
             sample_rate=sample_rate, energy_threshold=energy_threshold, aggressiveness=aggressiveness))
         self.clock = clock
@@ -141,7 +146,8 @@ class SegmentTranscriber:
         speech = bool(self.detector(analysis_frame))
         self._speech_seen = self._speech_seen or speech
         self._quiet_samples = 0 if speech else self._quiet_samples + len(frame)
-        if self._quiet_samples >= self.silence_samples and self._segment_samples >= self.minimum_samples:
+        if (self._segment_samples >= self.maximum_samples or
+                self._quiet_samples >= self.silence_samples and self._segment_samples >= self.minimum_samples):
             self._transcribe_segment()
 
     def _transcribe_segment(self):

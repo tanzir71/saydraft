@@ -25,6 +25,9 @@ from saydraft.stt.whisper_engine import WhisperEngine, WhisperEngineConfig
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--model", default="base")
+    parser.add_argument("--parakeet-dir", type=Path, help="Use verified Parakeet v3 instead of cached Whisper")
+    parser.add_argument("--continuous", action="store_true",
+                        help="Force speech detection throughout the repeated clip to exercise the segment cap")
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args(argv)
     if args.output.exists():
@@ -36,23 +39,37 @@ def main(argv=None):
     spoken_tail = trim_silence(audio)
     tail = np.concatenate((np.zeros(64000 - len(spoken_tail), dtype=np.float32), spoken_tail))
     fixture = np.concatenate([block] * 14 + [tail])
+    if args.continuous:
+        fixture = np.tile(audio, 20)
     assert len(fixture) == 60 * rate
-    engine = WhisperEngine(WhisperEngineConfig(model_size=args.model, language="en", local_files_only=True))
-    engine._load_model()
+    if args.parakeet_dir:
+        from saydraft.asr.sherpa_parakeet import ParakeetEngine
+
+        engine = ParakeetEngine(model_dir=args.parakeet_dir)
+        engine.prepare()
+        model_id = engine.model_id
+    else:
+        engine = WhisperEngine(WhisperEngineConfig(model_size=args.model, language="en", local_files_only=True))
+        engine._load_model()
+        model_id = args.model
 
     class MeasuredEngine:
         last_audio = None
         last_seconds = None
 
+        def __init__(self):
+            self.segment_lengths = []
+
         def transcribe(self, segment):
             self.last_audio = segment.copy()
+            self.segment_lengths.append(len(segment))
             started = time.perf_counter()
             text = engine.transcribe(segment)
             self.last_seconds = time.perf_counter() - started
             return text
 
     measured = MeasuredEngine()
-    background = SegmentTranscriber(measured)
+    background = SegmentTranscriber(measured, detector=(lambda frame: True) if args.continuous else None)
     background.start()
     started = time.perf_counter()
     for offset in range(0, len(fixture), 1600):
@@ -72,12 +89,15 @@ def main(argv=None):
     report = {
         "measured_at": datetime.now(timezone.utc).isoformat(),
         "platform": platform.platform(), "processor": platform.processor(), "logical_cpus": os.cpu_count(),
-        "model": args.model, "fixture_seconds": 60, "realtime_feed": True,
+        "model": model_id, "fixture_seconds": 60, "realtime_feed": True,
+        "forced_continuous_segmentation": args.continuous,
+        "maximum_segment_seconds": max(measured.segment_lengths) / rate,
         "segments_before_release": committed_before_release, "total_segments": result.segments,
         "release_to_raw_seconds": release_seconds, "last_segment_seconds": len(measured.last_audio) / rate,
         "reference_last_segment_asr_seconds": reference_seconds,
         "budget_seconds": 1.3 * reference_seconds, "background_failed": result.failed,
-        "passed": bool(result.text and not result.failed and release_seconds <= 1.3 * reference_seconds),
+        "passed": bool(result.text and not result.failed and release_seconds <= 1.3 * reference_seconds
+                       and max(measured.segment_lengths) <= 25 * rate),
         "scope": "repeated bundled fixture, warm cached ASR; no microphone, insertion or accuracy claim",
     }
     args.output.parent.mkdir(parents=True, exist_ok=True)
