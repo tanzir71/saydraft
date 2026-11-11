@@ -5,6 +5,7 @@ from __future__ import annotations
 import logging
 import json
 import threading
+import time
 from concurrent.futures import ThreadPoolExecutor
 
 from saydraft.insert.inserter import InsertionResult
@@ -13,6 +14,7 @@ from .hotkey_service import HotkeyService
 from .preferences import select_context
 from .session import DictationSession, SessionInput as Input, SessionState as State
 from .segments import SegmentTranscriber
+from .preview import PreviewSession, choose_preview_result
 
 logger = logging.getLogger(__name__)
 
@@ -33,6 +35,8 @@ class SessionWorker:
         self._closing = False
         self._pending_config = None
         self._background = None
+        self._preview = None
+        self._preview_language_blocked = False
         self.last_failed_audio = None
         self.last_result = None
         self._retrying_history = False
@@ -117,6 +121,7 @@ class SessionWorker:
                     return
             recorder = self.services.recorder
             self._background = None
+            self._preview_language_blocked = False
             if (hasattr(recorder, "chunk_callback")
                     and self.services.config["stt"].get("background_transcription", True)):
                 stt = self.services.config["stt"]
@@ -125,7 +130,28 @@ class SessionWorker:
                     energy_threshold=stt.get("vad_energy_threshold", 0.003),
                     aggressiveness=stt.get("vad_aggressiveness", 2))
                 self._background.start()
-                recorder.chunk_callback = self._background.feed
+            self._start_preview(generation)
+            if hasattr(recorder, "chunk_callback"):
+                background, preview = self._background, self._preview
+
+                def feed(audio):
+                    if background is not None:
+                        background.feed(audio)
+                    if preview is not None:
+                        try:
+                            preview.feed(audio)
+                        except Exception:
+                            preview.request_finish(discard=True)
+                            self.emit("preview_unavailable", generation)
+
+                recorder.chunk_callback = feed if background or preview else None
+            with self._lock:
+                current = generation == self.session.session_id and self.session.state == State.ARMING
+            if not current:
+                self._close_background(discard=True)
+                self._close_preview(discard=True)
+                self.emit("processing_finished", "")
+                return
             self.services.recorder.start()
             with self._lock:
                 event = self.session.dispatch(Input.ARMED, session_id=generation)
@@ -140,11 +166,13 @@ class SessionWorker:
                     return
             self.services.recorder.stop()  # Released/cancelled while the device opened.
             self._close_background(discard=True)
+            self._close_preview(discard=True)
             self.emit("processing_finished", "")
         except Exception:
             logger.exception("Could not arm microphone")
             self.hotkeys._controller.discard_active_recording()
             self._close_background(discard=True)
+            self._close_preview(discard=True)
             with self._lock:
                 self.session.dispatch(Input.FAIL, session_id=generation)
             self.emit("error", "Speech model unavailable. Download or resume it in Settings → Models."
@@ -182,6 +210,8 @@ class SessionWorker:
                 return
             self.hotkeys._controller.discard_active_recording()
             self._cancel_timers()
+            if self._preview is not None:
+                self._preview.request_finish(discard=True)
             if previous == State.LISTENING:
                 self.emit("recording_stopped", float(event.recording_seconds or 0))
                 self._submit(self._finalize, event.session_id, event.recording_seconds, True)
@@ -202,8 +232,12 @@ class SessionWorker:
         failed = False
         audio_path = None
         raw = ""
+        asr_error = None
         try:
             audio = self.services.recorder.stop()
+            use_streaming = self.services.config.get("labs", {}).get("use_streaming_result", False)
+            if self._preview is not None:
+                self._preview.request_finish(discard=discard, flush=use_streaming)
             if not discard:
                 self.emit("processing_started")
                 if self.services.config["recording"].get("retain_audio", False) and self.services.audio_store:
@@ -226,12 +260,22 @@ class SessionWorker:
                     if not raw and background is not None and background.text:
                         raw = background.text
                         self.last_failed_audio = audio
-                except Exception:
+                except Exception as error:
                     self.last_failed_audio = audio
                     if background is None or not background.text:
-                        raise
-                    raw = background.text
-                    self.emit("notification_requested", "Some speech needs retry. The recording is kept in this session.")
+                        asr_error = error
+                    else:
+                        raw = background.text
+                        self.emit("notification_requested", "Some speech needs retry. The recording is kept in this session.")
+            preview_wait = time.perf_counter()
+            preview = self._close_preview(discard=not self._english_preview())
+            preview_wait = time.perf_counter() - preview_wait
+            choice = choose_preview_result(raw, self._model_id(),
+                getattr(self.services.asr, "last_language", None) or
+                self.services.config["stt"].get("language", "auto"), preview, use_streaming=use_streaming)
+            raw = choice.text
+            if asr_error is not None and not raw:
+                raise asr_error
             if not raw:
                 self._save_unrecognized_audio(audio_path, duration, "asr_empty")
                 if not audio_path and getattr(self.services.asr, "retry_recommended", False):
@@ -250,17 +294,20 @@ class SessionWorker:
                     timings["vad"] = 0.0
                     timings["lid"] = 0.0  # Tail wall time already includes these stages.
                     timings["stt"] = background.tail_seconds
+            if preview is not None:
+                timings["background_preview_stt"] = preview.compute_seconds
+                timings["stt"] = timings.get("stt", 0) + preview_wait
             result = self.services.processor.process(
                 raw, target=self._target, context=self._context,
-                model=self._model_id(), duration_seconds=duration,
-                language=getattr(self.services.asr, "last_language", None) or
-                         self.services.config["stt"].get("language", "auto"),
-                insert_text=self._insert_text,
+                model=choice.model, duration_seconds=duration, language=choice.language,
+                insert_text=self._insert_text and not choice.review_only, edits=list(choice.edits),
                 insert_action=lambda action: self._insert_if_current(generation, action), timings=timings,
                 audio_path=audio_path,
             )
             self.last_result = result
             completed_text = result.cleaned_text
+            if choice.review_only:
+                self.emit("notification_requested", "Preview words saved for review in History; recognition did not finish.")
             if result.history_id is not None:
                 self.emit("history_updated", result.history_id)
                 if getattr(self.services.asr, "retry_recommended", False):
@@ -285,6 +332,7 @@ class SessionWorker:
             self.emit("error", "Could not complete dictation; saved words remain in history.")
         finally:
             self._close_background(discard=True)
+            self._close_preview(discard=True)
             if not failed:
                 self.emit("processing_finished", completed_text)
 
@@ -389,6 +437,45 @@ class SessionWorker:
             self._benchmarking = False
             self.hotkeys._controller.discard_active_recording()
             self.emit("hardware_benchmark_finished", report)
+
+    def _english_preview(self):
+        if getattr(self.services.asr, "last_language", None) not in (None, "", "auto", "en"):
+            self._preview_language_blocked = True
+        return not self._preview_language_blocked
+
+    def is_current_preview(self, generation, *, listening_only=True):
+        with self._lock:
+            states = (State.LISTENING,) if listening_only else (State.ARMING, State.LISTENING)
+            return (generation == self.session.session_id and self.session.state in states
+                    and not self._closing and self._english_preview())
+
+    def _start_preview(self, generation):
+        self._preview = None
+        if self.services.preview is None:
+            return
+        recorder = self.services.recorder
+        if not hasattr(recorder, "chunk_callback") or getattr(recorder, "sample_rate", None) != 16000:
+            self.emit("preview_unavailable", generation)
+            return
+
+        def partial(text):
+            # The Qt receiver checks generation/state when queued signals arrive.
+            # Never acquire the worker lock from the decoder thread while joining it.
+            if self._english_preview():
+                self.emit("preview_text_changed", generation, text)
+            else:
+                preview = self._preview
+                if preview is not None:
+                    preview.request_finish(discard=True)
+                self.emit("preview_unavailable", generation)
+
+        self._preview = PreviewSession(self.services.preview, on_partial=partial,
+            on_failed=lambda: self.emit("preview_unavailable", generation))
+        self._preview.start()
+
+    def _close_preview(self, *, discard):
+        preview, self._preview = self._preview, None
+        return preview.finish(discard=discard) if preview is not None else None
 
     def _close_background(self, *, discard):
         background, self._background = self._background, None

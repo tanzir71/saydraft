@@ -180,6 +180,16 @@ def test_decoder_failure_preserves_known_words_as_incomplete_result():
     assert failures == [True]
 
 
+def test_default_release_keeps_available_words_without_streaming_flush():
+    session, stream, failures, updates = queue_fixture()
+    session.feed(np.ones(1600))
+    session.request_finish(flush=False)
+    result = session.finish()
+    assert result.text == "available preview words" and not result.complete
+    assert not result.failed and not failures and stream.finished == 0
+    assert stream.discarded == 1
+
+
 def test_missing_model_and_unavailable_ui_are_recoverable():
     failures = []
 

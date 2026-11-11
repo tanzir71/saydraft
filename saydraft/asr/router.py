@@ -112,6 +112,7 @@ class AsrRouter:
     def set_context(self, target):
         self._route = self._choose(target.app_group)
         self.model_id = self._route.model_id
+        self.last_language = None
         self.last_fallback = None
         self.retry_recommended = False
         self.models_used = []

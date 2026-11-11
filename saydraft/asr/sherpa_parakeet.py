@@ -89,6 +89,9 @@ class ParakeetEngine:
             logger.info("ASR loaded: model=%s provider=cpu threads=%d seconds=%.3f",
                         self.model_id, self.config.threads, self.load_seconds)
 
+    def set_context(self, target):
+        self.last_language = None
+
     def transcribe(self, audio):
         with self._lock:
             self.last_timings = {"vad": 0.0, "stt": 0.0}

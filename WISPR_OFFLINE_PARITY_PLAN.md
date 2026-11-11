@@ -693,6 +693,8 @@ Cloud anything (sync, accounts, team dictionaries, web search in Ask), mobile ap
 
 ## 14. Changelog
 
+- 2026-11-12 | P3.7 (worker integration) | Prepare optional preview before capture; feed independent queues and finish tails concurrently. Tag Qt updates by generation, suppress cancelled/non-English preview, preserve default recognition on optional failure and recover partial words for review only. Default release skips streaming flush. Labs/Bar controls still pending. | saydraft/core/worker.py, saydraft/core/preview.py, saydraft/app.py, saydraft/asr/router.py, saydraft/asr/sherpa_parakeet.py, saydraft/stt/whisper_engine.py, tests/test_preview_worker.py, tests/test_streaming_runtime.py, docs/STREAMING_RUNTIME.md
+
 - 2026-11-12 | P3.7 (preview policy and result preservation) | Added default-off Labs flags, Pro/English eligibility and explicit complete-stream selection. Default ASR wins otherwise; incomplete recovery is review-only. Alternative words and metadata survive History failure. Worker/Bar integration still pending. | saydraft/config.py, saydraft/core/preview.py, saydraft/core/container.py, saydraft/core/processing.py, tests/test_preview_selection.py, docs/STREAMING_RUNTIME.md
 
 - 2026-11-12 | P3.7 (combined cadence verification) | Added reproducible dual-recognizer real-time probe and documented passing 8 s/60 s runs (6.12/6.23 callbacks/s, ≥5 per steady second), distinct text-change counts, release timing scope and the retained failed contended run. No accuracy claim or app feature enablement. | tools/bench_preview.py, docs/spikes/preview-contention.md, docs/STREAMING_RUNTIME.md

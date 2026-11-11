@@ -37,6 +37,8 @@ def create_worker_signals(QtCore):
         history_updated = QtCore.Signal(int)
         history_retry_finished = QtCore.Signal(int)
         hardware_benchmark_finished = QtCore.Signal(object)
+        preview_text_changed = QtCore.Signal(int, str)
+        preview_unavailable = QtCore.Signal(int)
 
     return SaydraftWorkerSignals()
 
@@ -104,6 +106,9 @@ class WorkerController:
 
     def benchmark_hardware(self):
         return bool(self.core and self.core.benchmark_hardware())
+
+    def is_current_preview(self, generation, *, listening_only=True):
+        return bool(self.core and self.core.is_current_preview(generation, listening_only=listening_only))
 
     def reinsert_text(self, text):
         if self.core is None:

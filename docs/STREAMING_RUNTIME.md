@@ -22,8 +22,8 @@ references and queued audio are released when the thread ends.
 The container has an optional preview port, defaulting to `None`. Both Labs
 flags default off. A persisted Pro assessment and English-compatible language
 selection are required before constructing the lazy model factory; construction
-never downloads or loads weights. Opt-in controls, generation-tagged Qt updates
-and worker/Bar integration follow separately.
+never downloads or loads weights. Opt-in controls and Bar integration follow
+separately.
 
 Result selection keeps default recognition unless the user explicitly requests
 a complete, successful streaming result. Incomplete preview words can recover an
@@ -32,6 +32,21 @@ streaming preserves available default-ASR words as alternative metadata. History
 failure retains that metadata in the pending session result, including a deep
 copy so later caller changes cannot erase the alternative. Policy tests cover
 these cases, missing assessment data and the independent opt-in defaults.
+
+The session worker prepares optional preview before opening capture, then fans
+out audio into the independent final-ASR and preview queues. It checks cancellation
+again after preparation. At release it signals preview before final recognition
+finishes, allowing both tails to run concurrently. Default mode skips streaming
+flush while retaining available words for review-only recovery. Cancellation
+discards words and suppresses updates; every arm/finalize exit joins preview.
+Unavailable optional weights leave normal recognition available.
+
+Preview Qt signals carry the recording generation. The UI must check that
+generation and current recording state when queued signals arrive; the controller
+exposes `is_current_preview()` for this purpose. Detection of any non-English
+segment blocks the English preview for the rest of that recording. ASR engines
+reset their language evidence at the start of each new session. No preview
+partial passes to the insertion port.
 
 Tests cover pinned-weight rejection, runtime-version checks, cached model reuse,
 stream isolation, queued-buffer ownership, overload, cancellation, incomplete

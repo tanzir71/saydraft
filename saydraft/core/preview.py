@@ -75,6 +75,7 @@ class PreviewSession:
         self._queue = queue.SimpleQueue()
         self._lock = threading.Lock()
         self._discard = threading.Event()
+        self._flush = True
         self._thread = self._stream = self._result = None
         self._started = self._accepting = self._requested = self._failed = False
         self._pending = self._samples = 0
@@ -134,20 +135,21 @@ class PreviewSession:
         except Exception:
             logger.debug("Live preview receiver is unavailable")
 
-    def request_finish(self, *, discard=False):
+    def request_finish(self, *, discard=False, flush=True):
         """Signal first; final-ASR tail work can run while preview shuts down."""
         with self._lock:
             self._accepting = False
             if discard:
                 self._discard.set()
+            self._flush = self._flush and flush
             if not self._requested:
                 self._requested = True
                 self._queue.put(_STOP)
 
-    def finish(self, *, discard=False):
+    def finish(self, *, discard=False, flush=True):
         if not self._started:
             raise RuntimeError("Start preview before finishing it")
-        self.request_finish(discard=discard)
+        self.request_finish(discard=discard, flush=flush)
         if self._thread is not None:
             self._thread.join()
         if self._result is None:
@@ -172,7 +174,7 @@ class PreviewSession:
                     self._pending -= len(data)
                 if not self._discard.is_set() and not self._failed:
                     self._stream.feed(data)
-            if not self._discard.is_set() and not self._failed:
+            if self._flush and not self._discard.is_set() and not self._failed:
                 self._text = self._stream.finish().strip() or self._text
                 complete = bool(getattr(self._stream, "complete", True))
         except Exception as error:

@@ -73,6 +73,9 @@ class WhisperEngine:
         self.last_timings: dict[str, float] = {"vad": 0.0, "stt": 0.0}
         self.last_language: str | None = None
 
+    def set_context(self, target):
+        self.last_language = None
+
     def transcribe(self, audio: Any) -> str:
         self.last_timings = {"vad": 0.0, "stt": 0.0}
         self.last_language = None
