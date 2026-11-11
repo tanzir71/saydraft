@@ -1,4 +1,3 @@
-from pathlib import Path
 
 
 def test_default_models_dir_uses_exe_sibling_when_frozen(monkeypatch, tmp_path):

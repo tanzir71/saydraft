@@ -176,7 +176,6 @@ class VoiceTrayApp:
             r'\bhasnt\b': "hasn't",
             r'\bhavent\b': "haven't",
             r'\bhadnt\b': "hadn't",
-            r'\bwont\b': "won't",
             r'\bwouldnt\b': "wouldn't",
             r'\bcouldnt\b': "couldn't",
             r'\bshouldnt\b': "shouldn't"
@@ -304,7 +303,7 @@ class VoiceTrayApp:
                     json.dump([], f, indent=2)
                     
             logger.info("Support files initialized successfully")
-        except Exception as e:
+        except Exception:
             logger.exception("Error initializing support files")
 
     def init_dictation_pipeline(self):
@@ -498,7 +497,7 @@ class VoiceTrayApp:
                 data = json.load(f)
             if isinstance(data, list):
                 self.app_profiles = [d for d in data if isinstance(d, dict)]
-        except Exception as e:
+        except Exception:
             logger.exception("Error loading app profiles")
 
     def init_inserter(self):
@@ -576,7 +575,7 @@ class VoiceTrayApp:
             
             logger.info("Loaded %s snippets from file", len(self.snippets))
             
-        except Exception as e:
+        except Exception:
             logger.exception("Error loading snippets from file")
     
     def expand_snippets(self, text):
@@ -596,7 +595,7 @@ class VoiceTrayApp:
                     expanded_text = re.sub(pattern, expansion_text, expanded_text, flags=re.IGNORECASE)
             
             return expanded_text
-        except Exception as e:
+        except Exception:
             logger.exception("Error expanding snippets")
             return text
     
@@ -878,7 +877,7 @@ class VoiceTrayApp:
                 if self.save_hotkey_handle is not None:
                     keyboard.remove_hotkey(self.save_hotkey_handle)
                     self.save_hotkey_handle = None
-            except:
+            except Exception:
                 pass
             if self.icon:
                 self.icon.title = "Speech-to-Text (Inactive)"
@@ -913,7 +912,7 @@ class VoiceTrayApp:
                 
             logger.info("Opened application folder: %s", app_directory)
             
-        except Exception as e:
+        except Exception:
             logger.exception("Could not open application folder")
     
     def show_instructions(self, icon=None, item=None):
@@ -997,7 +996,7 @@ def main():
         app.run()
     except KeyboardInterrupt:
         logger.info("Application interrupted by user")
-    except Exception as e:
+    except Exception:
         logger.exception("Error starting application")
         # Don't wait for input in background mode
         sys.exit(1)

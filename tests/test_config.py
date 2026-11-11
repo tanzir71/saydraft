@@ -1,5 +1,4 @@
 import json
-from pathlib import Path
 
 
 def test_default_config_contains_schema_and_expected_defaults(tmp_path):

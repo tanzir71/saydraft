@@ -1,5 +1,10 @@
 # VoiceTray
 
+[![CI](https://github.com/tanzir71/voice_tray/actions/workflows/ci.yml/badge.svg)](https://github.com/tanzir71/voice_tray/actions/workflows/ci.yml)
+
+Licensed under [MIT](LICENSE). See [third-party notices](THIRD_PARTY_NOTICES.md)
+for dependency and separately downloaded model licenses.
+
 **Wispr Flow magic, 100% offline and free.**
 
 ## Website & demo

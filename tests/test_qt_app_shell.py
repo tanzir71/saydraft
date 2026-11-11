@@ -377,7 +377,8 @@ def test_voice_tray_app_passes_model_download_callback_to_setup_windows():
         def activateWindow(self):
             pass
 
-    callback = lambda model, progress: f"download-{model}"
+    def callback(model, progress):
+        return f"download-{model}"
     app = VoiceTrayApp(
         argv=["voicetray"],
         qt_modules=fake_qt_modules(),

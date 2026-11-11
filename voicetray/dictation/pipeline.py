@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import os
 import time
 from dataclasses import dataclass
 from typing import Optional
@@ -10,7 +9,7 @@ from .llm_local import LocalLLMConfig, LocalLLMCleaner
 from .protect import protect_spans, restore_spans
 from .rules import RuleOptions, apply_rules
 from .types import DictationContext
-from .validation import ValidationResult, validate_llm_output
+from .validation import validate_llm_output
 
 PROFILE_TONE_HINTS = {
     "email": "formal",

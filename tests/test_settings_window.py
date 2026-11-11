@@ -1,7 +1,6 @@
 import json
 import os
 import types
-from pathlib import Path
 
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 

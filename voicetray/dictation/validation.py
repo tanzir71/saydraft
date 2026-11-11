@@ -3,7 +3,7 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass
 from difflib import SequenceMatcher
-from typing import Dict, Iterable, List, Sequence, Set, Tuple
+from typing import List
 
 
 def extract_numbers(text: str) -> List[str]:

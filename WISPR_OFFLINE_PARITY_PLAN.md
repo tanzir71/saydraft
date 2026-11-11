@@ -570,6 +570,8 @@ design/tokens.json  → build step emits site/src/styles/tokens.css and saydraft
 - [ ] **P0.5** `tools/bench.py` + `docs/BASELINE.md`: record current latency per stage and RAM on the owner machine (owner runs it, Codex writes the tool). **Acceptance:** the baseline table is committed.
 - [ ] **P0.6** `privacy/netguard.py`: wrap `socket.socket.connect`/`create_connection` and `getaddrinfo`; allow loopback; allow downloader sessions only inside a `with NetworkGuard.allow_downloads(manifest_hosts)` context; block and log everything else. Install it at startup. **Acceptance:** `pytest -m offline` passes; a test proves a stray `urllib.request.urlopen('https://example.com')` raises.
 
+P0.3/P0.4 implementation is locally verified (199 tests, 42/42 eval, clean Ruff). Remote acceptance (license detection, green CI on main) awaits PR publication and review; do not treat the local run as a hosted CI result.
+
 ### P1: Rename to Saydraft (blocked by **G1**)
 - [ ] **P1.1** Package rename + shim + spec/exe/AUMID (§5.2 step 1). **Acceptance:** `python -m saydraft` runs; `python -m voicetray` prints a deprecation warning and runs; all tests pass.
 - [ ] **P1.2** Data migration (copy) + autostart + mutex (§5.2 steps 2–3). **Acceptance:** a test fixture with an old dir migrates idempotently; the old dir is unchanged byte-for-byte.
