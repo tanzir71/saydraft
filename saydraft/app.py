@@ -36,6 +36,7 @@ def create_worker_signals(QtCore):
         notification_requested = QtCore.Signal(str)
         history_updated = QtCore.Signal(int)
         history_retry_finished = QtCore.Signal(int)
+        hardware_benchmark_finished = QtCore.Signal(object)
 
     return SaydraftWorkerSignals()
 
@@ -100,6 +101,9 @@ class WorkerController:
 
     def retry_history_audio(self, row):
         return bool(self.core and self.core.retry_history(row))
+
+    def benchmark_hardware(self):
+        return bool(self.core and self.core.benchmark_hardware())
 
     def reinsert_text(self, text):
         if self.core is None:
@@ -212,6 +216,7 @@ class SaydraftApp:
         self.signals.error.connect(self.pill.show_error)
         self.signals.history_updated.connect(self._refresh_history)
         self.signals.history_retry_finished.connect(self._finish_history_retry)
+        self.signals.hardware_benchmark_finished.connect(self._finish_hardware_benchmark)
 
         self.crash_guard = self.crash_guard_installer(
             notify=self.signals.notification_requested.emit
@@ -272,12 +277,22 @@ class SaydraftApp:
         if self.history_window is not None and hasattr(self.history_window, "finish_retry"):
             self.history_window.finish_retry(row_id)
 
+    def _benchmark_hardware(self):
+        callback = getattr(self.controller, "benchmark_hardware", None)
+        return bool(callback and callback())
+
+    def _finish_hardware_benchmark(self, report):
+        page = getattr(self.settings_window, "hardware_page", None)
+        if page is not None:
+            page.finish(report)
+
     def _show_settings(self) -> None:
         if self.settings_window is None:
             self.settings_window = self.settings_window_factory(
                 qt_modules=self.qt_modules,
                 on_config_applied=self._on_settings_applied,
                 model_download_callback=self.model_download_callback,
+                hardware_benchmark_callback=self._benchmark_hardware,
             )
         self.settings_window.show()
         self.settings_window.raise_()

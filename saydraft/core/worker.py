@@ -36,6 +36,7 @@ class SessionWorker:
         self.last_failed_audio = None
         self.last_result = None
         self._retrying_history = False
+        self._benchmarking = False
         self.hotkeys = HotkeyService(services.config, start=self.start_recording, stop=self.stop_recording,
                                      cancel=self.cancel, save=self.record_note,
                                      notify=lambda message: self.emit("notification_requested", message),
@@ -86,6 +87,8 @@ class SessionWorker:
             if self.busy or self._closing:
                 if self._retrying_history:
                     self.emit("notification_requested", "History retry is in progress. Dictation will be ready when it finishes.")
+                elif self._benchmarking:
+                    self.emit("notification_requested", "Performance check is in progress. Dictation will be ready when it finishes.")
                 return False
             target = self.services.context.capture()
             context = select_context(self.services.config, self.services.profiles, target.app_title)
@@ -357,6 +360,35 @@ class SessionWorker:
             self._retrying_history = False
             self.hotkeys._controller.discard_active_recording()
             self.emit("history_retry_finished", new_id)
+
+    def benchmark_hardware(self, *, benchmark=None):
+        with self._lock:
+            if self.busy or self._closing:
+                return False
+            if benchmark is None:
+                from saydraft.models.benchmark import run_benchmark
+
+                benchmark = run_benchmark
+            self._benchmarking = True
+            try:
+                self._submit(self._benchmark_hardware, benchmark)
+            except Exception:
+                self._benchmarking = False
+                logger.warning("Could not queue performance check")
+                return False
+            return True
+
+    def _benchmark_hardware(self, benchmark):
+        report = None
+        try:
+            report = benchmark(self.services.asr)
+        except Exception:
+            logger.warning("Local performance check failed")
+            logger.debug("Performance check failure detail", exc_info=True)
+        finally:
+            self._benchmarking = False
+            self.hotkeys._controller.discard_active_recording()
+            self.emit("hardware_benchmark_finished", report)
 
     def _close_background(self, *, discard):
         background, self._background = self._background, None

@@ -19,6 +19,7 @@ from saydraft.asr.selection import select_model
 from saydraft.ui.download_task import DownloadTask, call_download
 from saydraft.ui.model_picker import ModelPicker
 from saydraft.ui.languages_page import LanguagesPage
+from saydraft.ui.hardware_page import HardwarePage
 from saydraft.asr.router import choose_route
 
 logger = logging.getLogger(__name__)
@@ -65,6 +66,7 @@ class SettingsWindow(QtWidgets.QDialog):
         on_config_applied: Callable[[dict[str, Any]], None] | None = None,
         model_download_callback: Callable[[str, Callable[[int], None]], None] | None = None,
         vad_download_callback=None,
+        hardware_benchmark_callback=None,
     ):
         super().__init__()
         self.qt = qt_modules
@@ -73,6 +75,7 @@ class SettingsWindow(QtWidgets.QDialog):
         self.on_config_applied = on_config_applied
         self.model_download_callback = model_download_callback
         self.vad_download_callback = vad_download_callback or download_silero_vad_model
+        self.hardware_benchmark_callback = hardware_benchmark_callback
         self._vad_download_task = None
         self.config = load_config(config_path=self.config_path)
         self.snippets_path = Path(snippets_path) if snippets_path is not None else resolve_project_path("snippets.txt")
@@ -114,6 +117,9 @@ class SettingsWindow(QtWidgets.QDialog):
         self.tabs.addTab(self._dictionary_tab(), "Dictionary")
         self.tabs.addTab(self._snippets_tab(), "Snippets")
         self.tabs.addTab(self._models_tab(), "Models")
+        self.hardware_page = HardwarePage(callback=self.hardware_benchmark_callback,
+            directory=self.config_path.parent / "hardware-benchmarks" if self.config_path else None)
+        self.tabs.addTab(self.hardware_page, "Performance")
         self.tabs.addTab(self._about_tab(), "About")
 
     def _general_tab(self):

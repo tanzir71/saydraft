@@ -35,8 +35,8 @@ fixture and optional 0.8B/2B generation rates. It rejects invalid measurements.
 Low RAM or slow ASR takes priority over GPU availability. A recommendation does
 not enable AI cleanup, download a model, change the selected recognizer or prove
 an unmeasured cleanup speed. GPU availability and measured token rates are
-reported separately. Full fixture benchmarking and Settings integration follow
-this probe foundation; LLM generation depends on the P4 sidecar/model work.
+reported separately. LLM generation measurements depend on the P4 sidecar/model
+work; missing rates are explicitly shown as unmeasured.
 
 The first setup cannot benchmark weights that have not been downloaded. Its
 capability probe can guide a provisional recommendation; actual model timings
@@ -71,3 +71,43 @@ Primary API sources: [processor features](https://learn.microsoft.com/en-us/wind
 [DXGI fields](https://learn.microsoft.com/en-us/windows/win32/api/dxgi/ns-dxgi-dxgi_adapter_desc1),
 [Vulkan instance lifecycle](https://docs.vulkan.org/refpages/latest/refpages/source/vkCreateInstance.html),
 [Vulkan properties](https://docs.vulkan.org/refpages/latest/refpages/source/VkPhysicalDeviceProperties.html).
+
+## Speech benchmark and Settings
+
+Settings → Performance offers an explicit check using the currently applied
+speech model. It runs on the existing serial session worker, reuses loaded
+recognition weights, and waits until dictation or History retry has finished.
+Dictation remains unavailable during the check. No microphone, insertion or
+dictation-history operation occurs. Model selection, AI cleanup and downloads
+remain explicit user choices.
+
+The bundled eight-second PCM16 asset repeats the existing smoke recording;
+source and output hashes are in `assets/audio/README.md`. The existing assets
+packaging rule includes it. This is a throughput fixture, not an independently
+labeled accuracy corpus. The benchmark records preparation separately, warms
+recognition once, then takes the median of three complete recognitions, including
+Auto language detection when enabled. It stores metadata and timings, never the
+recognized words. Missing or failed models keep the result pending and provide
+Settings guidance. Previous snapshots survive failures.
+
+The optional cleanup callback accepts only complete 60-token measurements with
+finite positive durations and model-size metadata. Fake contract tests verify
+the tier rules; they are not real LLM throughput results. The P4 sidecar will
+supply actual generation measurements once its models are available.
+
+A native offline Auto/Parakeet check with the language detector loaded recorded
+0.945, 0.870 and 0.996 s for the eight-second fixture: median 0.945 s. Other tests
+ran concurrently, so this is not a controlled performance distribution. The
+GPU-plus-ASR rule recommends Pro on this machine; cleanup speed remains
+unmeasured. It does not establish general release-to-text parity. Both the page
+and complete Settings dialog were rendered offscreen for layout review; the QA
+renderer explicitly registered the local Segoe UI font.
+
+Validation passes 459 tests with four optional native skips, cleanup eval 42/42
+and Ruff. Tests cover exact fixture samples, warmup/excluded preparation, persisted
+metrics without transcripts, missing models, incomplete cleanup output, serial
+capture exclusion, failed/unqueued work, explicit UI actions and Qt result wiring.
+
+```powershell
+python -m tools.bench_hardware --parakeet-dir C:\path\to\verified\parakeet-v3 --lid-dir C:\path\to\verified\language-detector --output-dir build/qa/new-hardware-benchmarks
+```

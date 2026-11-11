@@ -245,6 +245,7 @@ def test_voice_tray_app_opens_in_process_settings_window():
     class FakeSettingsWindow:
         def __init__(self, *, on_config_applied, **_kwargs):
             self.on_config_applied = on_config_applied
+            self.hardware_callback = _kwargs["hardware_benchmark_callback"]
             events.append("settings-created")
 
         def show_tab(self, tab_name):
@@ -290,6 +291,13 @@ def test_voice_tray_app_opens_in_process_settings_window():
         ("model", "base"),
         ("hotkey", "F8"),
     ]
+    reports = []
+    app.controller.benchmark_hardware = lambda: True
+    app.settings_window.hardware_page = types.SimpleNamespace(finish=reports.append)
+    assert app.settings_window.hardware_callback()
+    report = {"assessment": {"tier": "pending"}}
+    app.signals.hardware_benchmark_finished.emit(report)
+    assert reports == [report]
 
 
 def test_voice_tray_app_passes_model_download_callback_to_setup_windows():
