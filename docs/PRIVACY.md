@@ -6,10 +6,13 @@ Explicit model downloads temporarily authorize only exact hosts from the bundled
 model manifest, in the downloading context. Other worker threads stay offline.
 Redirects must remain HTTPS on listed hosts. Files are pinned to an immutable
 revision, size and SHA-256 digest and verified before the model is marked ready.
-Corrupt and interrupted files are preserved in the model directory's `_archive`.
+Interrupted transfers retain revision-bound `.part` files for HTTP Range resume.
+Unknown or corrupt files are preserved in the model directory's `_archive`.
+Only a fully verified transfer receives an atomic completion marker. Model loaders
+recheck downloaded files' hashes before use.
 
-The current catalog covers Whisper base, small and medium. It is in
-`saydraft/models/manifest.json` until the approved package rename. Extending the
+The catalog covers Parakeet v3/v2 int8, Whisper base/small/medium and Silero VAD.
+It is in `saydraft/models/manifest.json`. Extending the
 catalog requires checking the publisher's artifact checksums, revision, license
 and actual redirect hosts. Arbitrary automatic model fetches are blocked.
 

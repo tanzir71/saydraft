@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import re
 import threading
 import uuid
 from pathlib import Path
@@ -13,6 +14,15 @@ from urllib.request import HTTPRedirectHandler, ProxyHandler, Request, build_ope
 from saydraft.privacy.netguard import NetworkGuard
 
 _lock = threading.Lock()
+
+
+class DownloadPaused(Exception):
+    """The explicit download stopped with resumable partial files preserved."""
+
+
+def _check_pause(pause_event):
+    if pause_event is not None and pause_event.is_set():
+        raise DownloadPaused("Download paused. Choose Download to resume.")
 
 
 def verify_file(path: Path, file: dict) -> bool:
@@ -40,18 +50,95 @@ class _PinnedRedirects(HTTPRedirectHandler):
         return super().redirect_request(req, fp, code, msg, headers, newurl)
 
 
-def download_model(model: dict, target: Path, *, progress_callback=None, opener=None) -> Path:
-    """Call only in response to an explicit download action. Never load a model."""
+def installation_ready(model: dict, target: Path, *, check_hashes=False) -> bool:
+    """A completion marker belongs to this revision; optionally rehash before loading."""
+    try:
+        receipt = json.loads((target / ".verified.json").read_text(encoding="utf-8"))
+        if receipt != _receipt(model):
+            return False
+        return all(verify_file(target / file["path"], file) if check_hashes else
+                   (target / file["path"]).is_file() and
+                   (target / file["path"]).stat().st_size == file["size"]
+                   for file in model["files"])
+    except (OSError, ValueError, TypeError):
+        return False
+
+
+def _receipt(model):
+    return {"revision": model.get("revision"), "files": model["files"]}
+
+
+def _write_json(path, value):
+    temporary = path.with_name(path.name + ".tmp")
+    temporary.write_text(json.dumps(value), encoding="utf-8")
+    temporary.replace(path)
+
+
+def _download_file(file, destination, open_url, progress, pause_event):
+    partial = destination.with_name(destination.name + ".part")
+    metadata = destination.with_name(destination.name + ".part.json")
+    try:
+        known = json.loads(metadata.read_text(encoding="utf-8")) == file
+    except (OSError, ValueError):
+        known = False
+    if partial.exists() and (not known or partial.stat().st_size > file["size"]):
+        _archive(partial)
+    offset = partial.stat().st_size if partial.exists() else 0
+    _write_json(metadata, file)
+    if offset < file["size"]:
+        headers = {"User-Agent": "Saydraft-model-downloader", "Accept-Encoding": "identity"}
+        if offset:
+            headers["Range"] = f"bytes={offset}-"
+        with open_url(Request(file["url"], headers=headers), timeout=30) as response:
+            status = getattr(response, "status", 200)
+            if status == 206:
+                value = response.headers.get("Content-Range", "")
+                match = re.fullmatch(r"bytes (\d+)-(\d+)/(\d+)", value)
+                if (not match or int(match[1]) != offset or int(match[3]) != file["size"]
+                        or not offset <= int(match[2]) < file["size"]):
+                    raise ValueError("Invalid model download resume response")
+            elif status == 200:
+                if offset:  # Servers may ignore Range. Retain the old attempt and start cleanly.
+                    _archive(partial)
+                    offset = 0
+            else:
+                raise ValueError(f"Unexpected model download response: {status}")
+            with partial.open("ab" if offset else "wb") as output:
+                while True:
+                    _check_pause(pause_event)
+                    chunk = response.read(1024 * 1024)
+                    if not chunk:
+                        break
+                    if offset + len(chunk) > file["size"]:
+                        raise ValueError("Model download exceeded its pinned size")
+                    output.write(chunk)
+                    offset += len(chunk)
+                    progress(offset)
+    if offset < file["size"]:
+        raise OSError("Model download interrupted; choose Download to resume")
+    _check_pause(pause_event)
+    if not verify_file(partial, file):
+        _archive(partial)
+        raise ValueError(f"SHA-256 or size mismatch for model file {file['path']}")
+    partial.replace(destination)
+    metadata.unlink(missing_ok=True)  # Our completed transfer's metadata, never owner data.
+
+
+def download_model(model: dict, target: Path, *, progress_callback=None, opener=None,
+                   pause_event=None) -> Path:
+    """Explicit action only. Resume pinned files; publish only after complete SHA-256 checks."""
     total = sum(file["size"] for file in model["files"])
     completed = 0
     open_url = opener or build_opener(ProxyHandler({}), _PinnedRedirects(model["download_hosts"])).open
     NetworkGuard.install()
     with _lock, NetworkGuard.allow_downloads(model["download_hosts"]):
+        _check_pause(pause_event)
         target.mkdir(parents=True, exist_ok=True)
         marker = target / ".verified.json"
-        if marker.exists() and not all(verify_file(target / file["path"], file) for file in model["files"]):
+        if marker.exists() and not installation_ready(model, target, check_hashes=True):
             _archive(marker)
         for file in model["files"]:
+            _check_pause(pause_event)
             destination = target / file["path"]
             if verify_file(destination, file):
                 completed += file["size"]
@@ -60,25 +147,12 @@ def download_model(model: dict, target: Path, *, progress_callback=None, opener=
                 continue
             if destination.exists():
                 _archive(destination)
-            partial = destination.with_name(destination.name + ".part")
-            if partial.exists():
-                _archive(partial)  # Preserve interrupted attempts; resumable transfers follow in P3.1.
-            with open_url(Request(file["url"], headers={"User-Agent": "Saydraft-model-downloader"}),
-                          timeout=30) as response, partial.open("xb") as output:
-                downloaded = 0
-                while chunk := response.read(1024 * 1024):
-                    downloaded += len(chunk)
-                    if downloaded > file["size"]:
-                        raise ValueError("Model download exceeded its pinned size")
-                    output.write(chunk)
-                    if progress_callback:
-                        progress_callback(int((completed + downloaded) / total * 100))
-            if not verify_file(partial, file):
-                _archive(partial)
-                raise ValueError(f"SHA-256 or size mismatch for model file {file['path']}")
-            partial.rename(destination)
+
+            def progress(downloaded):
+                if progress_callback:
+                    progress_callback(int((completed + downloaded) / total * 100))
+
+            _download_file(file, destination, open_url, progress, pause_event)
             completed += file["size"]
-        if not marker.exists():
-            marker.write_text(json.dumps({"revision": model.get("revision"),
-                                          "files": model["files"]}), encoding="utf-8")
+        _write_json(marker, _receipt(model))
     return target

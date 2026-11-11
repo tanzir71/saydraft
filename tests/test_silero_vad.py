@@ -84,6 +84,7 @@ def test_web_rtc_fallback_remains_available_after_native_failure(monkeypatch):
 
 
 @pytest.mark.integration
+@pytest.mark.offline
 def test_real_silero_detects_bundled_speech_and_skips_silence():
     path = os.environ.get("SAYDRAFT_TEST_SILERO_MODEL")
     if not path:

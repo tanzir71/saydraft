@@ -164,11 +164,14 @@ def _language_arg(language: str) -> str | None:
 
 
 def _default_model_factory(*args: Any, **kwargs: Any) -> Any:
-    from saydraft.model_download import default_models_dir
+    from saydraft.model_download import find_installed_model
 
     if args:
-        local = default_models_dir() / "whisper" / str(args[0])
-        if (local / ".verified.json").is_file():
+        try:
+            local = find_installed_model(f"whisper-{args[0]}", check_hashes=True)
+        except ValueError:  # An existing custom local path or cache name.
+            local = None
+        if local is not None:
             args = (str(local), *args[1:])
     WhisperModel = _import_whisper_model(
         suppress_ipv6_probe=bool(kwargs.get("local_files_only", False))

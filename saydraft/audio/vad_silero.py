@@ -14,11 +14,10 @@ MODEL_ID = "silero-vad-v5"
 
 
 def default_model_path() -> Path | None:
-    from saydraft.model_download import default_models_dir
+    from saydraft.model_download import find_installed_model
 
-    directory = default_models_dir() / "vad" / MODEL_ID
-    path = directory / "silero_vad.onnx"
-    return path if path.is_file() and (directory / ".verified.json").is_file() else None
+    directory = find_installed_model(MODEL_ID, check_hashes=True)
+    return directory / "silero_vad.onnx" if directory is not None else None
 
 
 def _create_detector(model_path: Path):
