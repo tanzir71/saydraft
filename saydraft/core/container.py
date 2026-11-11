@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from .interfaces import AsrEngine, AudioCapture, Cleaner, ContextProvider, Formatter, HistoryStore, Inserter
+from .interfaces import AsrEngine, AudioCapture, Cleaner, ContextProvider, Formatter, HistoryStore, Inserter, PreviewModel
 from .processing import IdentityFormatter, TranscriptProcessor
 from .preferences import read_profiles, read_snippets
 from .timings import TimingReporter
@@ -24,6 +24,7 @@ class Services:
     profiles: list[dict]
     audio_store: object | None = None
     retry_asr: AsrEngine | None = None
+    preview: PreviewModel | None = None
 
 
 def create_services(config: dict, *, level_callback=None, notify=lambda message: None) -> Services:
