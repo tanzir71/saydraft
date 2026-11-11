@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import math
 import time
+from collections import deque
 from collections.abc import Callable
 from dataclasses import dataclass
 from enum import StrEnum
@@ -79,10 +80,11 @@ class DictationSession:
         self._listening_at: float | None = None
         self._last_timestamp: float | None = None
         self._recording_seconds: float | None = None
-        self._events: list[SessionEvent] = []
+        self._events: deque[SessionEvent] = deque(maxlen=256)
 
     @property
     def events(self) -> tuple[SessionEvent, ...]:
+        """Bounded diagnostic history; every transition is also returned by dispatch."""
         return tuple(self._events)
 
     @property

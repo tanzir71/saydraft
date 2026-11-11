@@ -38,108 +38,72 @@ def create_worker_signals(QtCore):
     return SaydraftWorkerSignals()
 
 
-class LegacyWorkerController:
-    """Bridge the current dictation worker into the Qt-owned process."""
+class WorkerController:
+    """Connect Qt signals to the injected, UI-independent session worker."""
 
     def __init__(self, signals):
         self.signals = signals
         self.core = None
 
-    def start(self) -> None:
-        from .legacy_app import SaydraftApp as CoreSaydraftApp
+    def _emit(self, name, *args):
+        getattr(self.signals, name).emit(*args)
 
-        self.core = CoreSaydraftApp()
-        self.core.notification_callback = self.signals.notification_requested.emit
-        self.core.recording_started_callback = self.signals.recording_started.emit
-        self.core.recording_stopped_callback = self.signals.recording_stopped.emit
-        self.core.processing_started_callback = self.signals.processing_started.emit
-        self.core.processing_finished_callback = self.signals.processing_finished.emit
-        self.core.error_callback = self.signals.error.emit
-        self.core.audio_level_callback = self.signals.audio_level_changed.emit
-        if getattr(self.core, "audio_recorder", None) is not None:
-            self.core.audio_recorder.level_callback = self.signals.audio_level_changed.emit
-        self.core.start_second_launch_notification_watcher()
+    def start(self):
+        from .core.container import create_services
+        from .core.worker import SessionWorker
 
-        if getattr(self.core, "auto_start_listening", True):
-            self.core.start_listening()
+        config = load_config()
+        services = create_services(
+            config, level_callback=self.signals.audio_level_changed.emit,
+            notify=self.signals.notification_requested.emit,
+        )
+        self.core = SessionWorker(services, emit=self._emit)
+        if config["app"]["auto_start_listening"]:
+            self.start_listening()
 
-    def stop(self) -> None:
-        if self.core is None:
-            return
-
-        self.core.cleanup()
-        self.core = None
-
-    def start_listening(self) -> None:
+    def stop(self):
         if self.core is not None:
-            self.core.start_listening()
+            self.core.shutdown()
+            self.core = None
 
-    def stop_listening(self) -> None:
+    def start_listening(self):
         if self.core is not None:
-            self.core.stop_listening()
+            self.core.hotkeys.start()
 
-    def is_listening(self) -> bool:
-        return bool(getattr(self.core, "is_listening", False))
-
-    def model_label(self) -> str:
+    def stop_listening(self):
         if self.core is not None:
-            config = getattr(self.core, "stt_config", None)
-            model_size = getattr(config, "model_size", None)
-            if model_size:
-                return str(model_size)
-        try:
-            return str(load_config().get("stt", {}).get("model_size", "base"))
-        except Exception:
-            logger.debug("Could not load model label from config", exc_info=True)
-            return "base"
+            self.core.cancel()
+            self.core.hotkeys.stop()
 
-    def hotkey_hint(self) -> str:
-        if self.core is not None:
-            hotkey = getattr(self.core, "hotkey", None)
-            if hotkey:
-                return str(hotkey).upper()
-        try:
-            return str(load_config().get("hotkeys", {}).get("speech", "F9")).upper()
-        except Exception:
-            logger.debug("Could not load hotkey hint from config", exc_info=True)
-            return "F9"
+    def is_listening(self):
+        return bool(self.core and self.core.hotkeys.enabled)
+
+    def model_label(self):
+        config = self.core.services.config if self.core else load_config()
+        return str(config["stt"]["model_size"])
+
+    def hotkey_hint(self):
+        config = self.core.services.config if self.core else load_config()
+        return str(config["hotkeys"]["speech"]).upper()
 
     def history_store(self):
+        return self.core.services.history if self.core else None
+
+    def reinsert_text(self, text):
+        if self.core is None:
+            return
+        services = self.core.services
+        target = services.context.capture()
+        if target.is_password or target.focus is None:
+            self.signals.notification_requested.emit("Cannot reinsert into this field; use Copy in History.")
+            return
+        result = services.inserter.insert_text(text, start_focus=target.focus, app_title=target.app_title)
+        if result.status != "inserted":
+            self.signals.notification_requested.emit("Could not reinsert text; use Copy in History.")
+
+    def apply_config(self, config):
         if self.core is not None:
-            return getattr(self.core, "history_store", None)
-        return None
-
-    def reinsert_text(self, text: str) -> None:
-        if self.core is None:
-            return
-        inserter = getattr(self.core, "inserter", None)
-        if inserter is None:
-            return
-        result = inserter.insert_text(
-            text,
-            start_focus=self.core.get_active_window_identity(),
-            app_title=self.core.get_active_window_title(),
-        )
-        if getattr(result, "status", None) != "inserted":
-            self.signals.notification_requested.emit("Could not re-insert text; copied in History.")
-
-    def apply_config(self, config: dict) -> None:
-        if self.core is None:
-            return
-        was_listening = bool(getattr(self.core, "is_listening", False))
-        if was_listening:
-            self.core.stop_listening()
-        self.core.load_settings()
-        self.core.load_app_profiles()
-        self.core.load_snippets_from_file()
-        self.core.init_dictation_pipeline()
-        self.core.init_speech_engine()
-        self.core.audio_level_callback = self.signals.audio_level_changed.emit
-        if getattr(self.core, "audio_recorder", None) is not None:
-            self.core.audio_recorder.level_callback = self.signals.audio_level_changed.emit
-        self.core.init_hotkey_controller()
-        if was_listening:
-            self.core.start_listening()
+            self.core.configure(config)
 
 
 class SaydraftApp:
@@ -162,7 +126,7 @@ class SaydraftApp:
     ):
         self.argv = list(sys.argv if argv is None else argv)
         self.qt_modules = qt_modules
-        self.controller_factory = controller_factory or LegacyWorkerController
+        self.controller_factory = controller_factory or WorkerController
         self.tray_factory = tray_factory or SaydraftTray
         self.pill_factory = pill_factory or SaydraftPill
         self.settings_window_factory = settings_window_factory or SettingsWindow

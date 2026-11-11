@@ -1,0 +1,56 @@
+"""Construct application services once; the worker receives replaceable ports."""
+
+from __future__ import annotations
+
+from dataclasses import dataclass
+
+from .interfaces import AsrEngine, AudioCapture, Cleaner, ContextProvider, Formatter, HistoryStore, Inserter
+from .processing import IdentityFormatter, TranscriptProcessor
+from .preferences import read_profiles, read_snippets
+from .timings import TimingReporter
+
+
+@dataclass
+class Services:
+    config: dict
+    recorder: AudioCapture
+    asr: AsrEngine
+    cleaner: Cleaner
+    formatter: Formatter
+    inserter: Inserter
+    context: ContextProvider
+    history: HistoryStore
+    processor: TranscriptProcessor
+    profiles: list[dict]
+
+
+def create_services(config: dict, *, level_callback=None, notify=lambda message: None) -> Services:
+    from saydraft.audio.recorder import AudioRecorder
+    from saydraft.dictation import DictationConfig, DictationPipeline
+    from saydraft.dictation.llm_local import LocalLLMConfig
+    from saydraft.history import DictationHistoryStore
+    from saydraft.insert.inserter import Inserter as ClipboardInserter
+    from saydraft.paths import resolve_data_path
+    from saydraft.stt.whisper_engine import WhisperEngine, WhisperEngineConfig
+    from .context import ForegroundContextProvider
+
+    profiles = read_profiles(resolve_data_path(config["dictation"]["app_profiles_path"]))
+    llm = dict(config["llm"])
+    cleaner = DictationPipeline(DictationConfig(
+        glossary_path=str(resolve_data_path(config["dictation"]["glossary_path"])),
+        llm=LocalLLMConfig(
+            enabled=llm["enabled"], model_path=str(resolve_data_path(llm["model_path"])),
+            n_ctx=llm["n_ctx"], max_tokens=llm["max_tokens"], temperature=llm["temperature"],
+            top_p=llm["top_p"], n_threads=llm["threads"], n_gpu_layers=llm["gpu_layers"],
+        ),
+    ))
+    recorder = AudioRecorder(max_seconds=config["recording"]["max_seconds"], level_callback=level_callback)
+    asr = WhisperEngine(WhisperEngineConfig.from_app_config(config))
+    context = ForegroundContextProvider()
+    inserter = ClipboardInserter(focus_provider=lambda: context.capture().focus, profiles=profiles)
+    history = DictationHistoryStore()
+    formatter = IdentityFormatter()
+    processor = TranscriptProcessor(cleaner=cleaner, formatter=formatter, history=history,
+                                    inserter=inserter, snippets=read_snippets(), notify=notify,
+                                    reporter=TimingReporter(notify=notify, llm_enabled=llm["enabled"]))
+    return Services(config, recorder, asr, cleaner, formatter, inserter, context, history, processor, profiles)

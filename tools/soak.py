@@ -75,31 +75,76 @@ class MemoryKeyboard:
 
 
 class SyntheticCycleRunner:
+    """Exercise the actual session, persistence and insertion services with fake devices."""
+
     def __init__(self):
-        from saydraft.dictation import DictationConfig, DictationContext, DictationPipeline
+        import tempfile
+        from types import SimpleNamespace
+        from saydraft.config import default_config
+        from saydraft.core.container import Services
+        from saydraft.core.interfaces import TargetContext
+        from saydraft.core.processing import IdentityFormatter, TranscriptProcessor
+        from saydraft.core.session import DictationSession
+        from saydraft.core.worker import SessionWorker
+        from saydraft.dictation import DictationConfig, DictationPipeline
+        from saydraft.history import DictationHistoryStore
         from saydraft.insert.inserter import Inserter
 
-        self.context = DictationContext(mode="balanced", profile="notes", app_title="Notepad")
+        class InlineExecutor:
+            def submit(self, callback, *args):
+                callback(*args)
+            def shutdown(self, **kwargs):
+                pass
+
+        class Timer:
+            def __init__(self, *args):
+                pass
+            def start(self):
+                pass
+            def cancel(self):
+                pass
+
+        self._temp = tempfile.TemporaryDirectory(prefix="saydraft-soak-")
+        self._clock = 0.0
+        self._raw = ""
         self.pipeline = DictationPipeline(DictationConfig())
         self.clipboard = MemoryClipboard()
+        self.clipboard.copy("clipboard sentinel")
         self.keyboard = MemoryKeyboard()
-        self.inserter = Inserter(
-            clipboard=self.clipboard,
-            keyboard=self.keyboard,
-            focus_provider=lambda: "notepad",
-            sleep=lambda _seconds: None,
+        self.inserter = Inserter(clipboard=self.clipboard, keyboard=self.keyboard,
+                                  focus_provider=lambda: "notepad", sleep=lambda seconds: None)
+        self.history = DictationHistoryStore(Path(self._temp.name) / "history.db")
+        formatter = IdentityFormatter()
+        processor = TranscriptProcessor(cleaner=self.pipeline, formatter=formatter,
+                                         history=self.history, inserter=self.inserter)
+        services = Services(
+            default_config(), SimpleNamespace(start=lambda: None, stop=lambda: [0.1]),
+            SimpleNamespace(transcribe=lambda audio: self._raw), self.pipeline, formatter,
+            self.inserter, SimpleNamespace(capture=lambda: TargetContext("notepad", "Notepad")),
+            self.history, processor, [],
         )
+        self.worker = SessionWorker(services, executor=InlineExecutor(), timer_factory=Timer,
+                                     session=DictationSession(clock=lambda: self._clock))
 
     def __call__(self, index: int) -> None:
-        raw = f"um soak cycle {index} item one item two"
-        cleaned = self.pipeline.process_transcript(raw, self.context)
-        result = self.inserter.insert_text(
-            cleaned,
-            start_focus="notepad",
-            app_title="Notepad",
-        )
-        if result.status != "inserted":
-            raise RuntimeError(f"insert failed: {result.status}")
+        self._raw = f"um soak cycle {index} item one item two"
+        if not self.worker.start_recording():
+            raise RuntimeError("session remained busy")
+        self._clock += 1.0
+        self.worker.stop_recording()
+        result = self.worker.last_result
+        if result is None or result.insertion.status != "inserted":
+            raise RuntimeError("session failed to persist and insert")
+        if self.clipboard.paste() != "clipboard sentinel":
+            raise RuntimeError("clipboard was not restored")
+
+    def close(self):
+        self.worker.shutdown()
+        self._temp.cleanup()
+
+    def __del__(self):
+        if hasattr(self, "_temp"):
+            self._temp.cleanup()
 
 
 class NotepadCycleRunner:

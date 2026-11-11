@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import logging
+import sys
 import time
 from collections.abc import Callable
 from dataclasses import dataclass
@@ -124,6 +125,11 @@ class _KeyboardAdapter:
         keyboard.send(hotkey)
 
     def write(self, text: str) -> None:
+        if sys.platform == "win32":
+            from .sendinput import type_unicode
+
+            type_unicode(text)
+            return
         import keyboard
 
         keyboard.write(text)

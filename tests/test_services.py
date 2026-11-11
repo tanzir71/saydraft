@@ -1,0 +1,37 @@
+import importlib
+from pathlib import Path
+
+from saydraft.config import default_config
+from saydraft.core.container import create_services
+
+
+def test_container_wires_local_services_with_separate_user_profile(tmp_path, monkeypatch):
+    monkeypatch.setenv("LOCALAPPDATA", str(tmp_path))
+    services = create_services(default_config())
+    assert services.recorder.max_seconds == 600
+    assert services.asr.config.local_files_only
+    assert services.processor.history is services.history
+    assert services.processor.cleaner is services.cleaner
+    assert services.processor.inserter is services.inserter
+    assert services.history.db_path == tmp_path / "Saydraft/history.db"
+    assert services.cleaner.cfg.glossary_path == str(tmp_path / "Saydraft/glossary.json")
+
+
+def test_runtime_does_not_depend_on_retired_worker():
+    import saydraft.app
+
+    assert hasattr(saydraft.app, "WorkerController")
+    retired_name = "legacy" + "_app"
+    root = Path(__file__).resolve().parents[1] / "saydraft"
+    assert not (root / f"{retired_name}.py").exists()
+    assert importlib.util.find_spec(f"saydraft.{retired_name}") is None
+
+
+def test_malformed_profile_fields_and_snippets_do_not_disable_dictation(tmp_path):
+    from saydraft.core.preferences import read_snippets, select_context
+
+    context = select_context(default_config(), [{"match": "Notepad", "mode": [], "profile": 123}], "Notepad")
+    assert (context.mode, context.profile) == ("balanced", "general")
+    snippets = tmp_path / "snippets.txt"
+    snippets.write_bytes(b"\xff\xfe\xff")
+    assert read_snippets(snippets) == {}

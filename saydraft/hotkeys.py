@@ -58,11 +58,13 @@ class HotkeyController:
         *,
         on_record_start: StartCallback,
         on_record_stop: StopCallback,
+        on_record_cancel: StartCallback | None = None,
         clock: Clock = time.monotonic,
     ):
         self.config = config or HotkeyConfig()
         self.on_record_start = on_record_start
         self.on_record_stop = on_record_stop
+        self.on_record_cancel = on_record_cancel
         self.clock = clock
 
         self._lock = threading.RLock()
@@ -191,6 +193,14 @@ class HotkeyController:
             self.on_record_stop(session)
         return session
 
+    def discard_active_recording(self) -> None:
+        """Reset backend key state after cancellation or a failed microphone start."""
+        with self._lock:
+            self._pressed_hotkey = None
+            self._pressed_at = None
+            self._recording_started_at = None
+            self._locked = False
+
     def _record_hotkeys(self) -> list[str]:
         hotkeys = [self.config.record_hotkey, self.config.alternate_record_hotkey]
         seen = set()
@@ -215,7 +225,8 @@ class HotkeyController:
             self._pressed_at = now
             self._recording_started_at = now
 
-        self.on_record_start()
+        if self.on_record_start() is False:
+            self.discard_active_recording()
 
     def _on_record_release(self, hotkey: str) -> None:
         session: RecordingSession | None = None
@@ -244,7 +255,9 @@ class HotkeyController:
             if self.is_recording:
                 session = self._finish_recording_locked(self.clock(), locked=self._locked)
 
-        if session is not None:
+        if self.on_record_cancel is not None:
+            self.on_record_cancel()
+        elif session is not None:
             self.on_record_stop(session)
 
     def _finish_recording_locked(self, stopped_at: float, *, locked: bool) -> RecordingSession | None:
