@@ -20,7 +20,7 @@ remain. Native keyboard hook replacement and the final shortcut defaults follow 
 
 The synthetic soak now uses the session worker, actual temporary SQLite storage,
 cleanup and insertion service with injected devices. Its 200-cycle run passed
-with no failures, no freezes and no measured RSS increase. This is not a physical
+with no failures, no freezes and approximately 1% RSS growth in the final run. This is not a physical
 microphone or foreground-app soak.
 
 ## Windows boundary verification (2026-11-12)

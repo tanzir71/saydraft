@@ -273,3 +273,64 @@ def test_settings_wait_for_active_session_and_preserve_failed_history_results():
     worker.stop_recording()
     assert worker.services is replacement
     assert next_processor.pending_results[0].raw_text == "raw transcript"
+
+
+class SegmentRecorder(Recorder):
+    sample_rate = 16000
+    chunk_callback = None
+
+    def __init__(self):
+        super().__init__()
+        self.audio = np.concatenate((np.full(16000, 0.1), np.zeros(16000), np.full(16000, 0.1)))
+
+    def start(self):
+        super().start()
+        if self.chunk_callback:
+            self.chunk_callback(self.audio)
+
+    def stop(self):
+        self.stopped += 1
+        return self.audio
+
+
+def test_background_segments_are_wired_through_the_session_without_whole_clip_asr():
+    recorder = SegmentRecorder()
+    worker, clock, _executor, events, _signals, _keyboard = make_worker(recorder=recorder)
+    lengths = []
+    worker.services.asr.transcribe = lambda audio: lengths.append(len(audio)) or "segment words"
+    worker.start_recording()
+    clock.now = 3
+    worker.stop_recording()
+    assert len(lengths) == 2
+    assert all(length < len(recorder.audio) for length in lengths)
+    assert events[0][1].raw_text == "segment words segment words"
+    assert worker.session.state == State.DONE
+
+
+def test_background_error_falls_back_to_the_complete_retained_recording():
+    recorder = SegmentRecorder()
+    worker, clock, _executor, events, _signals, _keyboard = make_worker(recorder=recorder)
+
+    def transcribe(audio):
+        if len(audio) != len(recorder.audio):
+            raise RuntimeError("segment failed")
+        return "all words recovered"
+
+    worker.services.asr.transcribe = transcribe
+    worker.start_recording()
+    clock.now = 3
+    worker.stop_recording()
+    assert events[0][1].raw_text == "all words recovered"
+    assert worker.session.state == State.DONE
+
+
+def test_background_mode_can_be_disabled_for_a_single_whole_clip_pass():
+    recorder = SegmentRecorder()
+    worker, clock, _executor, _events, _signals, _keyboard = make_worker(recorder=recorder)
+    worker.services.config["stt"]["background_transcription"] = False
+    lengths = []
+    worker.services.asr.transcribe = lambda audio: lengths.append(len(audio)) or "whole clip"
+    worker.start_recording()
+    clock.now = 3
+    worker.stop_recording()
+    assert lengths == [len(recorder.audio)]

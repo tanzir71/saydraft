@@ -26,6 +26,18 @@ class SilenceTrimConfig:
     enabled: bool = True
 
 
+class SpeechFrameDetector:
+    """Reuse WebRTC + energy fallback for fixed-size streaming VAD frames."""
+
+    def __init__(self, config: SilenceTrimConfig | None = None):
+        self.config = config or SilenceTrimConfig()
+        _validate_config(self.config)
+        self.detector = _load_webrtc_vad(self.config.aggressiveness)
+
+    def __call__(self, frame: np.ndarray) -> bool:
+        return _is_speech((0, len(frame), frame), self.config, detector=self.detector)
+
+
 def trim_silence(
     audio: Any,
     config: SilenceTrimConfig | None = None,

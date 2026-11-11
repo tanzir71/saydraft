@@ -11,6 +11,7 @@ from .container import Services, create_services
 from .hotkey_service import HotkeyService
 from .preferences import select_context
 from .session import DictationSession, SessionInput as Input, SessionState as State
+from .segments import SegmentTranscriber
 
 logger = logging.getLogger(__name__)
 
@@ -30,6 +31,8 @@ class SessionWorker:
         self._inflight = 0
         self._closing = False
         self._pending_config = None
+        self._background = None
+        self.last_failed_audio = None
         self.last_result = None
         self.hotkeys = HotkeyService(services.config, start=self.start_recording, stop=self.stop_recording,
                                      cancel=self.cancel, save=self.record_note,
@@ -93,6 +96,17 @@ class SessionWorker:
 
     def _arm(self, generation):
         try:
+            recorder = self.services.recorder
+            self._background = None
+            if (hasattr(recorder, "chunk_callback")
+                    and self.services.config["stt"].get("background_transcription", True)):
+                stt = self.services.config["stt"]
+                self._background = SegmentTranscriber(
+                    self.services.asr, sample_rate=recorder.sample_rate,
+                    energy_threshold=stt.get("vad_energy_threshold", 0.003),
+                    aggressiveness=stt.get("vad_aggressiveness", 2))
+                self._background.start()
+                recorder.chunk_callback = self._background.feed
             self.services.recorder.start()
             with self._lock:
                 event = self.session.dispatch(Input.ARMED, session_id=generation)
@@ -105,10 +119,12 @@ class SessionWorker:
                     self._schedule(maximum, lambda: self._cap(generation))
                     return
             self.services.recorder.stop()  # Released/cancelled while the device opened.
+            self._close_background(discard=True)
             self.emit("processing_finished", "")
         except Exception:
             logger.exception("Could not arm microphone")
             self.hotkeys._controller.discard_active_recording()
+            self._close_background(discard=True)
             with self._lock:
                 self.session.dispatch(Input.FAIL, session_id=generation)
             self.emit("error", "No microphone")
@@ -162,12 +178,25 @@ class SessionWorker:
 
     def _finalize(self, generation, duration, discard):
         completed_text = ""
+        failed = False
         try:
             audio = self.services.recorder.stop()
+            if not discard:
+                self.emit("processing_started")
+            background = self._close_background(discard=discard)
             if discard:
                 return
-            self.emit("processing_started")
-            raw = self.services.asr.transcribe(audio).strip()
+            if background is not None and not background.failed:
+                raw = background.text
+            else:
+                try:
+                    raw = self.services.asr.transcribe(audio).strip()
+                except Exception:
+                    self.last_failed_audio = audio
+                    if background is None or not background.text:
+                        raise
+                    raw = background.text
+                    self.emit("notification_requested", "Some speech needs retry. The recording is kept in this session.")
             if not raw:
                 with self._lock:
                     self.session.dispatch(Input.NO_SPEECH, session_id=generation)
@@ -175,6 +204,11 @@ class SessionWorker:
             with self._lock:
                 self.session.dispatch(Input.TRANSCRIBED, session_id=generation)
             timings = {"record": float(duration or 0), **getattr(self.services.asr, "last_timings", {})}
+            if background is not None:
+                timings["background_stt"] = background.background_asr_seconds
+                if not background.failed:
+                    timings["vad"] = 0.0
+                    timings["stt"] = background.tail_seconds
             result = self.services.processor.process(
                 raw, target=self._target, context=self._context,
                 model=self.services.config["stt"]["model_size"], duration_seconds=duration,
@@ -191,12 +225,21 @@ class SessionWorker:
                         self.session.dispatch(Input.CLEANED, session_id=generation)
                         self.session.dispatch(Input.NOT_INSERTED, session_id=generation, reason=result.insertion.reason)
         except Exception:
+            failed = True
             logger.exception("Could not complete dictation")
             with self._lock:
                 self.session.dispatch(Input.FAIL, session_id=generation)
             self.emit("error", "Could not complete dictation; saved words remain in history.")
         finally:
-            self.emit("processing_finished", completed_text)
+            self._close_background(discard=True)
+            if not failed:
+                self.emit("processing_finished", completed_text)
+
+    def _close_background(self, *, discard):
+        background, self._background = self._background, None
+        if hasattr(self.services.recorder, "chunk_callback"):
+            self.services.recorder.chunk_callback = None
+        return background.finish(discard=discard) if background is not None else None
 
     def record_note(self):
         if self.start_recording(insert_text=False):

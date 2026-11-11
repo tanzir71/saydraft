@@ -15,6 +15,7 @@ import numpy as np
 logger = logging.getLogger(__name__)
 
 LevelCallback = Callable[[float], None]
+ChunkCallback = Callable[[np.ndarray], None]
 Clock = Callable[[], float]
 StreamFactory = Callable[..., Any]
 
@@ -33,6 +34,7 @@ class AudioRecorder:
         channels: int = 1,
         max_seconds: float = 600.0,
         level_callback: LevelCallback | None = None,
+        chunk_callback: ChunkCallback | None = None,
         level_hz: float = 30.0,
         stream_factory: StreamFactory | None = None,
         clock: Clock = time.monotonic,
@@ -52,6 +54,7 @@ class AudioRecorder:
         self.channels = int(channels)
         self.max_seconds = float(max_seconds)
         self.level_callback = level_callback
+        self.chunk_callback = chunk_callback
         self.level_hz = float(level_hz)
         self.stream_factory = stream_factory or _default_input_stream
         self.clock = clock
@@ -126,12 +129,20 @@ class AudioRecorder:
         with self._lock:
             if not self._recording:
                 return
-            self._append_chunk_locked(mono)
+            chunk = self._append_chunk_locked(mono)
+
+        if self.chunk_callback is not None:
+            try:
+                self.chunk_callback(chunk)
+            except Exception:
+                logger.error("Background audio delivery failed; full recording is retained")
+                logger.debug("Audio delivery failure detail", exc_info=True)
 
         self._emit_level_if_due(mono)
 
-    def _append_chunk_locked(self, mono: np.ndarray) -> None:
-        chunk = np.ascontiguousarray(mono, dtype=np.float32)
+    def _append_chunk_locked(self, mono: np.ndarray) -> np.ndarray:
+        # PortAudio reuses its callback buffers after this function returns.
+        chunk = np.array(mono, dtype=np.float32, order="C", copy=True)
         self._chunks.append(chunk)
         self._sample_count += int(chunk.shape[0])
 
@@ -144,6 +155,7 @@ class AudioRecorder:
                 continue
             self._chunks[0] = oldest[overflow:]
             self._sample_count -= overflow
+        return chunk
 
     def _emit_level_if_due(self, mono: np.ndarray) -> None:
         if self.level_callback is None:

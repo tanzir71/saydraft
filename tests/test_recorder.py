@@ -66,6 +66,19 @@ def test_recorder_mixes_multichannel_input_to_mono():
     np.testing.assert_allclose(audio, np.array([0.5, 0.0], dtype=np.float32))
 
 
+def test_callback_buffer_reuse_cannot_overwrite_already_recorded_audio():
+    from saydraft.audio.recorder import AudioRecorder
+
+    chunks = []
+    recorder = AudioRecorder(stream_factory=FakeInputStream, chunk_callback=chunks.append)
+    recorder.start()
+    source = np.array([[0.25], [0.5]], dtype=np.float32)
+    FakeInputStream.instances[-1].emit(source)
+    source[:] = -1.0
+    np.testing.assert_allclose(recorder.stop(), [0.25, 0.5])
+    np.testing.assert_allclose(chunks[0], [0.25, 0.5])
+
+
 def test_recorder_ring_buffer_keeps_only_recent_audio():
     from saydraft.audio.recorder import AudioRecorder
 
