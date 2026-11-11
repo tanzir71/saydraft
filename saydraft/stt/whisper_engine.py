@@ -11,7 +11,7 @@ from typing import Any
 
 import numpy as np
 
-from voicetray.audio.vad import SilenceTrimConfig, trim_silence
+from saydraft.audio.vad import SilenceTrimConfig, trim_silence
 
 logger = logging.getLogger(__name__)
 
@@ -157,7 +157,7 @@ def _language_arg(language: str) -> str | None:
 
 
 def _default_model_factory(*args: Any, **kwargs: Any) -> Any:
-    from voicetray.model_download import default_models_dir
+    from saydraft.model_download import default_models_dir
 
     if args:
         local = default_models_dir() / "whisper" / str(args[0])

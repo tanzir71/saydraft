@@ -75,7 +75,7 @@ def fake_qt_modules():
 
 
 def test_voice_tray_app_runs_qt_event_loop_and_controller():
-    from voicetray.app import VoiceTrayApp
+    from saydraft.app import SaydraftApp
 
     events = []
 
@@ -132,8 +132,8 @@ def test_voice_tray_app_runs_qt_event_loop_and_controller():
         def show_error(self, message):
             events.append(("pill_error", message))
 
-    app = VoiceTrayApp(
-        argv=["voicetray"],
+    app = SaydraftApp(
+        argv=["saydraft"],
         qt_modules=fake_qt_modules(),
         controller_factory=lambda signals: FakeController(signals),
         tray_factory=lambda **kwargs: FakeTray(**kwargs),
@@ -174,14 +174,14 @@ def test_voice_tray_app_runs_qt_event_loop_and_controller():
         ("listening", False),
         "stop",
     ]
-    assert FakeApplication.instance_value.application_name == "VoiceTray"
+    assert FakeApplication.instance_value.application_name == "Saydraft"
     assert FakeApplication.instance_value.quit_on_last_window_closed is False
     assert hasattr(app.signals, "notification_requested")
     assert hasattr(app.signals, "processing_finished")
 
 
 def test_voice_tray_app_opens_in_process_settings_window():
-    from voicetray.app import VoiceTrayApp
+    from saydraft.app import SaydraftApp
 
     events = []
 
@@ -259,8 +259,8 @@ def test_voice_tray_app_opens_in_process_settings_window():
         def activateWindow(self):
             events.append("settings-activate")
 
-    app = VoiceTrayApp(
-        argv=["voicetray"],
+    app = SaydraftApp(
+        argv=["saydraft"],
         qt_modules=fake_qt_modules(),
         controller_factory=lambda signals: FakeController(signals),
         tray_factory=lambda **kwargs: FakeTray(**kwargs),
@@ -293,7 +293,7 @@ def test_voice_tray_app_opens_in_process_settings_window():
 
 
 def test_voice_tray_app_passes_model_download_callback_to_setup_windows():
-    from voicetray.app import VoiceTrayApp
+    from saydraft.app import SaydraftApp
 
     events = []
 
@@ -379,8 +379,8 @@ def test_voice_tray_app_passes_model_download_callback_to_setup_windows():
 
     def callback(model, progress):
         return f"download-{model}"
-    app = VoiceTrayApp(
-        argv=["voicetray"],
+    app = SaydraftApp(
+        argv=["saydraft"],
         qt_modules=fake_qt_modules(),
         controller_factory=lambda signals: FakeController(signals),
         tray_factory=lambda **kwargs: FakeTray(**kwargs),
@@ -403,7 +403,7 @@ def test_voice_tray_app_passes_model_download_callback_to_setup_windows():
 
 
 def test_voice_tray_app_opens_in_process_history_window():
-    from voicetray.app import VoiceTrayApp
+    from saydraft.app import SaydraftApp
 
     events = []
 
@@ -482,8 +482,8 @@ def test_voice_tray_app_opens_in_process_history_window():
         def activateWindow(self):
             events.append("history-activate")
 
-    app = VoiceTrayApp(
-        argv=["voicetray"],
+    app = SaydraftApp(
+        argv=["saydraft"],
         qt_modules=fake_qt_modules(),
         controller_factory=lambda signals: FakeController(signals),
         tray_factory=lambda **kwargs: FakeTray(**kwargs),
@@ -509,7 +509,7 @@ def test_voice_tray_app_opens_in_process_history_window():
 
 
 def test_voice_tray_app_shows_onboarding_when_config_is_not_onboarded():
-    from voicetray.app import VoiceTrayApp
+    from saydraft.app import SaydraftApp
 
     events = []
 
@@ -587,8 +587,8 @@ def test_voice_tray_app_shows_onboarding_when_config_is_not_onboarded():
         def activateWindow(self):
             events.append("onboarding-activate")
 
-    app = VoiceTrayApp(
-        argv=["voicetray"],
+    app = SaydraftApp(
+        argv=["saydraft"],
         qt_modules=fake_qt_modules(),
         controller_factory=lambda signals: FakeController(signals),
         tray_factory=lambda **kwargs: FakeTray(**kwargs),
@@ -619,7 +619,7 @@ def test_voice_tray_app_shows_onboarding_when_config_is_not_onboarded():
 
 
 def test_voice_tray_app_installs_crash_guard_with_notification_signal():
-    from voicetray.app import VoiceTrayApp
+    from saydraft.app import SaydraftApp
 
     events = []
 
@@ -676,11 +676,11 @@ def test_voice_tray_app_installs_crash_guard_with_notification_signal():
 
     def install_guard(notify):
         events.append("guard-installed")
-        notify("VoiceTray hit an error — log saved")
+        notify("Saydraft hit an error — log saved")
         return "guard"
 
-    app = VoiceTrayApp(
-        argv=["voicetray"],
+    app = SaydraftApp(
+        argv=["saydraft"],
         qt_modules=fake_qt_modules(),
         controller_factory=lambda signals: FakeController(signals),
         tray_factory=lambda **kwargs: FakeTray(**kwargs),
@@ -694,15 +694,15 @@ def test_voice_tray_app_installs_crash_guard_with_notification_signal():
     assert app.crash_guard == "guard"
     assert events == [
         "guard-installed",
-        ("notification", "VoiceTray hit an error — log saved"),
+        ("notification", "Saydraft hit an error — log saved"),
         "start",
     ]
 
 
 def test_main_initializes_logging_config_and_qt_shell(monkeypatch):
-    import voicetray.config as config
-    import voicetray.logging_config as logging_config
-    import voicetray.main as main
+    import saydraft.config as config
+    import saydraft.logging_config as logging_config
+    import saydraft.main as main
 
     calls = []
 
@@ -715,8 +715,8 @@ def test_main_initializes_logging_config_and_qt_shell(monkeypatch):
     monkeypatch.setattr(config, "load_config", lambda: calls.append("config"))
     monkeypatch.setitem(
         sys.modules,
-        "voicetray.app",
-        types.SimpleNamespace(VoiceTrayApp=lambda: FakeQtApp()),
+        "saydraft.app",
+        types.SimpleNamespace(SaydraftApp=lambda: FakeQtApp()),
     )
 
     assert main.main() == 0
@@ -727,7 +727,7 @@ def test_runtime_sources_do_not_import_legacy_ui_stacks():
     root = Path(__file__).resolve().parents[1]
     forbidden = ("pystray", "tkinter", "from PIL", "ImageDraw")
     offenders = []
-    for path in (root / "voicetray").rglob("*.py"):
+    for path in (root / "saydraft").rglob("*.py"):
         text = path.read_text(encoding="utf-8", errors="ignore")
         for term in forbidden:
             if term in text:
@@ -745,7 +745,7 @@ def test_runtime_dependencies_use_pyside6_not_pystray_or_pillow():
 
 
 def test_qt_app_shell_does_not_call_print():
-    tree = ast.parse(Path("voicetray/app.py").read_text(encoding="utf-8"))
+    tree = ast.parse(Path("saydraft/app.py").read_text(encoding="utf-8"))
     calls = [
         node
         for node in ast.walk(tree)

@@ -3,16 +3,16 @@
 def test_default_models_dir_uses_exe_sibling_when_frozen(monkeypatch, tmp_path):
     import sys
 
-    from voicetray.model_download import default_models_dir
+    from saydraft.model_download import default_models_dir
 
     monkeypatch.setattr(sys, "frozen", True, raising=False)
-    monkeypatch.setattr(sys, "executable", str(tmp_path / "VoiceTray.exe"))
+    monkeypatch.setattr(sys, "executable", str(tmp_path / "Saydraft.exe"))
 
     assert default_models_dir() == tmp_path / "models"
 
 
 def test_download_whisper_model_uses_verified_downloader_and_reports_progress(tmp_path, monkeypatch):
-    from voicetray.model_download import download_whisper_model
+    from saydraft.model_download import download_whisper_model
 
     calls = []
     progress = []
@@ -21,7 +21,7 @@ def test_download_whisper_model_uses_verified_downloader_and_reports_progress(tm
         calls.append((model["id"], target))
         progress_callback(50)
 
-    monkeypatch.setattr("voicetray.model_download.download_model", fake_download)
+    monkeypatch.setattr("saydraft.model_download.download_model", fake_download)
 
     result = download_whisper_model(
         "base",

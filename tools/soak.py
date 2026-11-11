@@ -1,4 +1,4 @@
-"""Synthetic VoiceTray soak test harness."""
+"""Synthetic Saydraft soak test harness."""
 
 from __future__ import annotations
 
@@ -76,8 +76,8 @@ class MemoryKeyboard:
 
 class SyntheticCycleRunner:
     def __init__(self):
-        from voicetray.dictation import DictationConfig, DictationContext, DictationPipeline
-        from voicetray.insert.inserter import Inserter
+        from saydraft.dictation import DictationConfig, DictationContext, DictationPipeline
+        from saydraft.insert.inserter import Inserter
 
         self.context = DictationContext(mode="balanced", profile="notes", app_title="Notepad")
         self.pipeline = DictationPipeline(DictationConfig())
@@ -219,7 +219,7 @@ def _windows_rss_bytes() -> int:
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="Run VoiceTray soak cycles")
+    parser = argparse.ArgumentParser(description="Run Saydraft soak cycles")
     parser.add_argument("--cycles", type=int, default=50)
     parser.add_argument("--target", choices=("synthetic", "notepad"), default="synthetic")
     parser.add_argument("--max-rss-growth", type=float, default=0.10)

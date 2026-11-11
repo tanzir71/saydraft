@@ -28,7 +28,7 @@ class FakeKeyboard:
 
 
 def test_clipboard_paste_insertion_saves_and_restores_clipboard():
-    from voicetray.insert.inserter import Inserter
+    from saydraft.insert.inserter import Inserter
 
     clipboard = FakeClipboard("before")
     keyboard = FakeKeyboard()
@@ -57,7 +57,7 @@ def test_clipboard_paste_insertion_saves_and_restores_clipboard():
 
 
 def test_clipboard_is_restored_if_paste_hotkey_fails():
-    from voicetray.insert.inserter import Inserter
+    from saydraft.insert.inserter import Inserter
 
     class FailingKeyboard(FakeKeyboard):
         def send(self, hotkey):
@@ -81,7 +81,7 @@ def test_clipboard_is_restored_if_paste_hotkey_fails():
 
 
 def test_focus_change_skips_insertion_without_touching_clipboard_or_keyboard():
-    from voicetray.insert.inserter import Inserter
+    from saydraft.insert.inserter import Inserter
 
     clipboard = FakeClipboard("before")
     keyboard = FakeKeyboard()
@@ -100,7 +100,7 @@ def test_focus_change_skips_insertion_without_touching_clipboard_or_keyboard():
 
 
 def test_app_profile_can_force_typing_fallback_for_paste_blocked_apps():
-    from voicetray.insert.inserter import Inserter
+    from saydraft.insert.inserter import Inserter
 
     clipboard = FakeClipboard("before")
     keyboard = FakeKeyboard()
@@ -120,7 +120,7 @@ def test_app_profile_can_force_typing_fallback_for_paste_blocked_apps():
 
 
 def test_paste_blocked_profile_alias_uses_typing_fallback():
-    from voicetray.insert.inserter import Inserter
+    from saydraft.insert.inserter import Inserter
 
     keyboard = FakeKeyboard()
     inserter = Inserter(
@@ -142,7 +142,7 @@ def test_character_typing_dependency_is_removed_from_runtime_sources():
     paths = [
         root / "requirements.txt",
         root / "readme.md",
-        *list((root / "voicetray").rglob("*.py")),
+        *list((root / "saydraft").rglob("*.py")),
     ]
 
     hits = [

@@ -9,14 +9,15 @@ import json
 import re
 from difflib import SequenceMatcher
 
-from voicetray.audio.recorder import AudioRecorder, NoInputDeviceError
-from voicetray.config import load_config
-from voicetray.dictation import DictationConfig, DictationContext, DictationPipeline
-from voicetray.dictation.llm_local import LocalLLMConfig
-from voicetray.history import DictationHistoryStore, HistoryEntry
-from voicetray.hotkeys import HotkeyConfig, HotkeyController
-from voicetray.insert.inserter import Inserter
-from voicetray.stt.whisper_engine import WhisperEngine, WhisperEngineConfig
+from saydraft.audio.recorder import AudioRecorder, NoInputDeviceError
+from saydraft.config import load_config
+from saydraft.dictation import DictationConfig, DictationContext, DictationPipeline
+from saydraft.dictation.llm_local import LocalLLMConfig
+from saydraft.history import DictationHistoryStore, HistoryEntry
+from saydraft.hotkeys import HotkeyConfig, HotkeyController
+from saydraft.insert.inserter import Inserter
+from saydraft.stt.whisper_engine import WhisperEngine, WhisperEngineConfig
+from saydraft.paths import resolve_data_path
 
 logger = logging.getLogger(__name__)
 
@@ -24,7 +25,7 @@ PERFORMANCE_STAGES = ("record", "vad", "stt", "rules", "llm", "insert")
 PROCESSING_STAGES = ("vad", "stt", "rules", "llm", "insert")
 SMALL_MODEL_SLOW_NOTIFICATION = "Small model is running slowly; try the base model in Settings > Models."
 
-class VoiceTrayApp:
+class SaydraftApp:
     def __init__(self):
         self.is_listening = False
         self.is_recording = False
@@ -210,9 +211,7 @@ class VoiceTrayApp:
         return final_text
     
     def resolve_project_path(self, value):
-        if not value or os.path.isabs(value):
-            return value
-        return os.path.join(os.path.dirname(os.path.dirname(__file__)), value)
+        return str(resolve_data_path(value)) if value else value
 
     def load_settings(self):
         """Load settings from the JSON config."""
@@ -287,17 +286,17 @@ class VoiceTrayApp:
         """Initialize editable support files if they don't exist."""
         try:
             # Ensure snippets.txt exists
-            snippets_path = os.path.join(os.path.dirname(__file__), 'snippets.txt')
+            snippets_path = str(resolve_data_path('snippets.txt'))
             if not os.path.exists(snippets_path):
                 with open(snippets_path, 'w', encoding='utf-8') as f:
                     f.write("# YOUR SNIPPETS (add below this line):\n\n")
 
-            glossary_path = os.path.join(os.path.dirname(__file__), 'glossary.json')
+            glossary_path = str(resolve_data_path('glossary.json'))
             if not os.path.exists(glossary_path):
                 with open(glossary_path, 'w', encoding='utf-8') as f:
                     json.dump({"user_terms": [], "protected_terms": [], "replacements": {}}, f, indent=2)
 
-            app_profiles_path = os.path.join(os.path.dirname(__file__), 'app_profiles.json')
+            app_profiles_path = str(resolve_data_path('app_profiles.json'))
             if not os.path.exists(app_profiles_path):
                 with open(app_profiles_path, 'w', encoding='utf-8') as f:
                     json.dump([], f, indent=2)
@@ -395,7 +394,7 @@ class VoiceTrayApp:
             except Exception:
                 logger.debug("Could not remove stale save hotkey handle", exc_info=True)
         self.save_hotkey_handle = keyboard.add_hotkey(self.save_hotkey, self.on_save_hotkey_press)
-        self.show_tray_notification("VoiceTray restarted hotkeys after a listener error.")
+        self.show_tray_notification("Saydraft restarted hotkeys after a listener error.")
         return True
 
     def on_stt_state(self, state):
@@ -560,7 +559,7 @@ class VoiceTrayApp:
     def load_snippets_from_file(self):
         """Load snippets from snippets.txt file into memory"""
         try:
-            snippets_path = os.path.join(os.path.dirname(__file__), 'snippets.txt')
+            snippets_path = str(resolve_data_path('snippets.txt'))
             self.snippets = {}
             
             if os.path.exists(snippets_path):
@@ -861,7 +860,7 @@ class VoiceTrayApp:
             if self.icon:
                 self.icon.title = "Speech-to-Text (Active)"
             logger.info(
-                "VoiceTray is ready. Hold %s to record, tap it to lock, or use %s as an alternative. Press %s to record without inserting.",
+                "Saydraft is ready. Hold %s to record, tap it to lock, or use %s as an alternative. Press %s to record without inserting.",
                 self.hotkey,
                 self.alternate_hotkey,
                 self.save_hotkey,
@@ -917,16 +916,16 @@ class VoiceTrayApp:
     
     def show_instructions(self, icon=None, item=None):
         """Log configuration guidance until the Qt help surface lands."""
-        instructions = """VoiceTray configuration files:
+        instructions = """Saydraft configuration files:
 
 - config.json: hotkeys, startup, recording limits, dictation mode, profile, STT, and LLM settings.
 - snippets.txt: text expansion shortcuts in trigger=expansion_text format.
 - glossary.json: preferred terms, protected terms, and replacements.
 - app_profiles.json: per-app mode/profile overrides.
 
-These files can be edited in Settings or with a text editor while VoiceTray is stopped.
+These files can be edited in Settings or with a text editor while Saydraft is stopped.
 """
-        logger.info("VoiceTray instructions:\n%s", instructions)
+        logger.info("Saydraft instructions:\n%s", instructions)
     
     def create_menu(self):
         """Reserved for the dedicated Qt tray implementation."""
@@ -942,7 +941,7 @@ These files can be edited in Settings or with a text editor while VoiceTray is s
         while self.running:
             payload = consume_existing_instance_notification(lock_path)
             if payload:
-                message = payload.get("message", "VoiceTray is already running")
+                message = payload.get("message", "Saydraft is already running")
                 self.show_tray_notification(str(message))
             time.sleep(0.5)
 
@@ -960,7 +959,7 @@ These files can be edited in Settings or with a text editor while VoiceTray is s
         """Run the application"""
         self.start_second_launch_notification_watcher()
         
-        logger.info("VoiceTray started - Expand your words, save your thoughts.")
+        logger.info("Saydraft started - Expand your words, save your thoughts.")
         logger.info("Auto-starting speech recognition")
         logger.info("Press %s to record speech", self.hotkey)
         logger.info("Application is now running in the background")
@@ -992,7 +991,7 @@ def main():
             threading.Timer(3.0, lambda: ctypes.windll.user32.ShowWindow(
                 ctypes.windll.kernel32.GetConsoleWindow(), 0)).start()
         
-        app = VoiceTrayApp()
+        app = SaydraftApp()
         app.run()
     except KeyboardInterrupt:
         logger.info("Application interrupted by user")

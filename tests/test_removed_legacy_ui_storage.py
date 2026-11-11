@@ -4,9 +4,9 @@ from pathlib import Path
 def test_legacy_settings_gui_and_saved_text_files_are_removed():
     root = Path(__file__).resolve().parents[1]
 
-    assert not (root / "voicetray_settings_gui.py").exists()
+    assert not (root / "saydraft_settings_gui.py").exists()
     assert not (root / "saved_texts.txt").exists()
-    assert not (root / "voicetray" / "saved_texts.txt").exists()
+    assert not (root / "saydraft" / "saved_texts.txt").exists()
 
 
 def test_runtime_sources_do_not_reference_saved_text_file_flow():
@@ -18,7 +18,7 @@ def test_runtime_sources_do_not_reference_saved_text_file_flow():
         "record_and_save_to_file",
     )
     hits = []
-    for path in (root / "voicetray").rglob("*.py"):
+    for path in (root / "saydraft").rglob("*.py"):
         if "__pycache__" in path.parts:
             continue
         text = path.read_text(encoding="utf-8", errors="ignore")

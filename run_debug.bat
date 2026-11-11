@@ -1,11 +1,11 @@
 @echo off
 cd /d "%~dp0"
-set VOICETRAY_LOG_LEVEL=DEBUG
-set VOICETRAY_LOG_CONSOLE=1
-echo Starting VoiceTray in debug mode...
-echo Logs: %LOCALAPPDATA%\VoiceTray\logs\voicetray.log
+set SAYDRAFT_LOG_LEVEL=DEBUG
+set SAYDRAFT_LOG_CONSOLE=1
+echo Starting Saydraft in debug mode...
+echo Logs: %LOCALAPPDATA%\Saydraft\logs\saydraft.log
 echo.
-python -m voicetray
+python -m saydraft
 echo.
-echo VoiceTray exited with code %ERRORLEVEL%.
+echo Saydraft exited with code %ERRORLEVEL%.
 pause

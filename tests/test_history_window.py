@@ -4,7 +4,7 @@ import types
 
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
-from voicetray.ui.history_window import add_word_to_dictionary_action
+from saydraft.ui.history_window import add_word_to_dictionary_action
 
 
 def qt_modules():
@@ -25,7 +25,7 @@ class FakeClipboard:
 
 
 def build_history(tmp_path):
-    from voicetray.history import DictationHistoryStore, HistoryEntry
+    from saydraft.history import DictationHistoryStore, HistoryEntry
 
     store = DictationHistoryStore(tmp_path / "history.db")
     store.append(
@@ -73,7 +73,7 @@ def test_history_add_word_to_dictionary_action_returns_none_for_blank_selection(
 
 
 def test_history_window_loads_reverse_chron_and_toggles_raw_clean(tmp_path):
-    from voicetray.ui.history_window import HistoryWindow
+    from saydraft.ui.history_window import HistoryWindow
 
     store = build_history(tmp_path)
     window = HistoryWindow(qt_modules=qt_modules(), store=store, glossary_path=tmp_path / "glossary.json")
@@ -91,7 +91,7 @@ def test_history_window_loads_reverse_chron_and_toggles_raw_clean(tmp_path):
 
 
 def test_history_window_search_filters_rows(tmp_path):
-    from voicetray.ui.history_window import HistoryWindow
+    from saydraft.ui.history_window import HistoryWindow
 
     store = build_history(tmp_path)
     window = HistoryWindow(qt_modules=qt_modules(), store=store, glossary_path=tmp_path / "glossary.json")
@@ -104,7 +104,7 @@ def test_history_window_search_filters_rows(tmp_path):
 
 
 def test_history_window_copy_reinsert_and_add_dictionary_actions(tmp_path):
-    from voicetray.ui.history_window import HistoryWindow
+    from saydraft.ui.history_window import HistoryWindow
 
     store = build_history(tmp_path)
     clipboard = FakeClipboard()

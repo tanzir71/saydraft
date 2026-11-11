@@ -21,5 +21,5 @@ def test_manual_test_checklist_records_verification_commands():
     text = Path("docs/TEST_CHECKLIST.md").read_text(encoding="utf-8").lower()
 
     assert "python -b -m pytest tests\\ -q" in text
-    assert "python -b -m voicetray.eval" in text
+    assert "python -b -m saydraft.eval" in text
     assert "python -b tools\\soak.py --cycles 50 --target synthetic" in text

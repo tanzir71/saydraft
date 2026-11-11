@@ -5,19 +5,17 @@ from __future__ import annotations
 import json
 import logging
 import os
-import sys
 from collections.abc import Callable
 from pathlib import Path
 from typing import Any
 
 from PySide6 import QtCore, QtGui, QtWidgets
 
-from voicetray.config import load_config, save_config
+from saydraft.config import load_config, save_config
+from saydraft.autostart import WindowsAutoStartManager
+from saydraft.paths import resolve_data_path
 
 logger = logging.getLogger(__name__)
-
-RUN_KEY = r"Software\Microsoft\Windows\CurrentVersion\Run"
-APP_RUN_VALUE = "VoiceTray"
 
 MODES = ("raw", "balanced", "aggressive")
 PROFILES = ("general", "email", "chat", "notes", "code/comments")
@@ -25,66 +23,6 @@ MODEL_SIZES = ("base", "small", "medium")
 LANGUAGES = ("auto", "en", "es", "fr", "de", "it", "pt", "ja", "ko", "zh")
 
 
-class WindowsAutoStartManager:
-    def __init__(
-        self,
-        *,
-        registry=None,
-        platform: str | None = None,
-        command: str | None = None,
-    ):
-        self.platform = sys.platform if platform is None else platform
-        self.registry = registry
-        self.command = command or self.default_command()
-
-    def default_command(self) -> str:
-        if getattr(sys, "frozen", False):
-            return f'"{sys.executable}"'
-        executable = Path(sys.executable)
-        pythonw = executable.with_name("pythonw.exe")
-        launcher = pythonw if pythonw.exists() else executable
-        return f'"{launcher}" -m voicetray'
-
-    def is_enabled(self) -> bool:
-        if self.platform != "win32":
-            return False
-        registry = self._registry()
-        try:
-            key = registry.OpenKey(registry.HKEY_CURRENT_USER, RUN_KEY, 0, getattr(registry, "KEY_READ", 0))
-            try:
-                value, _kind = registry.QueryValueEx(key, APP_RUN_VALUE)
-                return bool(value)
-            finally:
-                registry.CloseKey(key)
-        except OSError:
-            return False
-        except KeyError:
-            return False
-
-    def set_enabled(self, enabled: bool) -> None:
-        if self.platform != "win32":
-            return
-        registry = self._registry()
-        key = registry.CreateKey(registry.HKEY_CURRENT_USER, RUN_KEY)
-        try:
-            if enabled:
-                registry.SetValueEx(key, APP_RUN_VALUE, 0, registry.REG_SZ, self.command)
-            else:
-                try:
-                    registry.DeleteValue(key, APP_RUN_VALUE)
-                except OSError:
-                    pass
-                except KeyError:
-                    pass
-        finally:
-            registry.CloseKey(key)
-
-    def _registry(self):
-        if self.registry is not None:
-            return self.registry
-        import winreg
-
-        return winreg
 
 
 def project_root() -> Path:
@@ -95,7 +33,7 @@ def resolve_project_path(value: str | os.PathLike[str], *, base: Path | None = N
     path = Path(value)
     if path.is_absolute():
         return path
-    return (base or project_root()) / path
+    return base / path if base is not None else resolve_data_path(path)
 
 
 def find_hotkey_conflicts(hotkeys: dict[str, str]) -> list[str]:
@@ -134,7 +72,7 @@ class SettingsWindow(QtWidgets.QDialog):
         self.glossary_path = resolve_project_path(self.config["dictation"]["glossary_path"])
         self.app_profiles_path = resolve_project_path(self.config["dictation"]["app_profiles_path"])
 
-        self.setWindowTitle("VoiceTray Settings")
+        self.setWindowTitle("Saydraft Settings")
         self.setMinimumSize(760, 560)
         self.tabs = QtWidgets.QTabWidget(self)
         self.status_label = QtWidgets.QLabel("", self)
@@ -269,7 +207,7 @@ class SettingsWindow(QtWidgets.QDialog):
     def _about_tab(self):
         page = QtWidgets.QWidget()
         layout = QtWidgets.QVBoxLayout(page)
-        label = QtWidgets.QLabel("VoiceTray")
+        label = QtWidgets.QLabel("Saydraft")
         label.setAlignment(QtCore.Qt.AlignCenter)
         label.setObjectName("aboutTitle")
         layout.addStretch(1)

@@ -18,9 +18,9 @@ import time
 from datetime import datetime, timezone
 from pathlib import Path
 
-from voicetray.dictation import DictationConfig, DictationContext, DictationPipeline
-from voicetray.history import DictationHistoryStore, HistoryEntry
-from voicetray.insert.inserter import Inserter
+from saydraft.dictation import DictationConfig, DictationContext, DictationPipeline
+from saydraft.history import DictationHistoryStore, HistoryEntry
+from saydraft.insert.inserter import Inserter
 from tools.soak import MemoryClipboard, MemoryKeyboard
 
 
@@ -72,7 +72,7 @@ def summarize(samples: list[dict]) -> list[dict]:
 def run_benchmark(*, audio_path: Path | None = None, model: str = "base", iterations: int = 20) -> dict:
     if iterations < 2:
         raise ValueError("iterations must be at least 2 (one cold, then warm)")
-    from voicetray.privacy.netguard import NetworkGuard
+    from saydraft.privacy.netguard import NetworkGuard
 
     NetworkGuard.install()
     engine = None
@@ -80,7 +80,7 @@ def run_benchmark(*, audio_path: Path | None = None, model: str = "base", iterat
     duration = None
     if audio_path is not None:
         import soundfile as sf
-        from voicetray.stt.whisper_engine import WhisperEngine, WhisperEngineConfig
+        from saydraft.stt.whisper_engine import WhisperEngine, WhisperEngineConfig
 
         audio, rate = sf.read(audio_path, dtype="float32")
         if rate != 16_000:

@@ -15,7 +15,7 @@ def qt_modules():
 
 
 def write_config(tmp_path, overrides=None):
-    from voicetray.config import default_config, save_config
+    from saydraft.config import default_config, save_config
 
     cfg = default_config()
     if overrides:
@@ -27,7 +27,7 @@ def write_config(tmp_path, overrides=None):
 
 
 def test_onboarding_wizard_has_required_steps_and_tracks_audio_level(tmp_path):
-    from voicetray.ui.onboarding import OnboardingWizard
+    from saydraft.ui.onboarding import OnboardingWizard
 
     config_path = write_config(tmp_path)
     wizard = OnboardingWizard(qt_modules=qt_modules(), config_path=config_path, hotkey_hint="F9")
@@ -44,7 +44,7 @@ def test_onboarding_wizard_has_required_steps_and_tracks_audio_level(tmp_path):
 
 
 def test_onboarding_model_download_updates_progress_and_selected_model(tmp_path):
-    from voicetray.ui.onboarding import OnboardingWizard
+    from saydraft.ui.onboarding import OnboardingWizard
 
     calls = []
 
@@ -68,7 +68,7 @@ def test_onboarding_model_download_updates_progress_and_selected_model(tmp_path)
 
 
 def test_onboarding_hotkey_page_marks_tutorial_text_received(tmp_path):
-    from voicetray.ui.onboarding import OnboardingWizard
+    from saydraft.ui.onboarding import OnboardingWizard
 
     config_path = write_config(tmp_path)
     wizard = OnboardingWizard(qt_modules=qt_modules(), config_path=config_path)
@@ -79,7 +79,7 @@ def test_onboarding_hotkey_page_marks_tutorial_text_received(tmp_path):
 
 
 def test_onboarding_finish_sets_onboarded_and_applies_config(tmp_path):
-    from voicetray.ui.onboarding import OnboardingWizard
+    from saydraft.ui.onboarding import OnboardingWizard
 
     applied = []
     config_path = write_config(tmp_path, {"app": {"onboarded": False}})

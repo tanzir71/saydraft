@@ -50,7 +50,7 @@ class FakeKeyboard:
 
 
 def test_hold_hotkey_starts_on_press_and_stops_on_release_after_threshold():
-    from voicetray.hotkeys import HotkeyConfig, HotkeyController
+    from saydraft.hotkeys import HotkeyConfig, HotkeyController
 
     clock = FakeClock()
     starts = []
@@ -76,7 +76,7 @@ def test_hold_hotkey_starts_on_press_and_stops_on_release_after_threshold():
 
 
 def test_short_tap_enters_lock_mode_and_second_tap_stops_recording():
-    from voicetray.hotkeys import HotkeyConfig, HotkeyController
+    from saydraft.hotkeys import HotkeyConfig, HotkeyController
 
     clock = FakeClock()
     starts = []
@@ -111,7 +111,7 @@ def test_short_tap_enters_lock_mode_and_second_tap_stops_recording():
 
 
 def test_escape_stops_lock_mode_recording():
-    from voicetray.hotkeys import HotkeyConfig, HotkeyController
+    from saydraft.hotkeys import HotkeyConfig, HotkeyController
 
     clock = FakeClock()
     starts = []
@@ -139,7 +139,7 @@ def test_escape_stops_lock_mode_recording():
 
 
 def test_controller_registers_configured_hold_hotkeys_and_unregisters_handles():
-    from voicetray.hotkeys import HotkeyConfig, HotkeyController
+    from saydraft.hotkeys import HotkeyConfig, HotkeyController
 
     keyboard = FakeKeyboard()
     controller = HotkeyController(
@@ -178,7 +178,7 @@ def test_controller_registers_configured_hold_hotkeys_and_unregisters_handles():
 
 
 def test_duplicate_press_while_recording_does_not_start_twice():
-    from voicetray.hotkeys import HotkeyConfig, HotkeyController
+    from saydraft.hotkeys import HotkeyConfig, HotkeyController
 
     starts = []
     controller = HotkeyController(
@@ -196,7 +196,7 @@ def test_duplicate_press_while_recording_does_not_start_twice():
 
 
 def test_force_stop_resets_recording_and_invokes_stop_callback():
-    from voicetray.hotkeys import HotkeyConfig, HotkeyController
+    from saydraft.hotkeys import HotkeyConfig, HotkeyController
 
     clock = FakeClock()
     starts = []
@@ -221,7 +221,7 @@ def test_force_stop_resets_recording_and_invokes_stop_callback():
 
 
 def test_hotkey_config_from_app_config_uses_configurable_keys():
-    from voicetray.hotkeys import HotkeyConfig
+    from saydraft.hotkeys import HotkeyConfig
 
     cfg = {
         "hotkeys": {
@@ -241,7 +241,7 @@ def test_hotkey_config_from_app_config_uses_configurable_keys():
 
 
 def test_hotkey_controller_restarts_dead_keyboard_listener():
-    from voicetray.hotkeys import HotkeyConfig, HotkeyController
+    from saydraft.hotkeys import HotkeyConfig, HotkeyController
 
     class DeadListener:
         listening = False
@@ -264,7 +264,7 @@ def test_hotkey_controller_restarts_dead_keyboard_listener():
 
 
 def test_hotkey_controller_does_not_restart_live_keyboard_listener():
-    from voicetray.hotkeys import HotkeyConfig, HotkeyController
+    from saydraft.hotkeys import HotkeyConfig, HotkeyController
 
     class LiveListener:
         listening = True

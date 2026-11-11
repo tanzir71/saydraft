@@ -36,7 +36,7 @@ class HistoryRow:
 
 def default_history_path(local_appdata: str | os.PathLike[str] | None = None) -> Path:
     base = Path(local_appdata) if local_appdata is not None else _default_local_appdata()
-    return base / "VoiceTray" / "history.db"
+    return base / "Saydraft" / "history.db"
 
 
 class DictationHistoryStore:

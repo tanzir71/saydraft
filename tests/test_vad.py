@@ -5,7 +5,7 @@ import numpy as np
 
 
 def test_trim_silence_removes_leading_and_trailing_quiet_audio():
-    from voicetray.audio.vad import SilenceTrimConfig, trim_silence
+    from saydraft.audio.vad import SilenceTrimConfig, trim_silence
 
     sample_rate = 16_000
     leading = np.zeros(sample_rate // 2, dtype=np.float32)
@@ -24,7 +24,7 @@ def test_trim_silence_removes_leading_and_trailing_quiet_audio():
 
 
 def test_trim_silence_returns_empty_for_all_silence():
-    from voicetray.audio.vad import SilenceTrimConfig, trim_silence
+    from saydraft.audio.vad import SilenceTrimConfig, trim_silence
 
     trimmed = trim_silence(
         np.zeros(16_000, dtype=np.float32),
@@ -36,7 +36,7 @@ def test_trim_silence_returns_empty_for_all_silence():
 
 
 def test_trim_silence_uses_webrtc_vad_frames_when_available():
-    from voicetray.audio.vad import SilenceTrimConfig, trim_silence
+    from saydraft.audio.vad import SilenceTrimConfig, trim_silence
 
     class FakeVad:
         def __init__(self):
@@ -75,7 +75,7 @@ def test_trim_silence_uses_webrtc_vad_frames_when_available():
 
 
 def test_silent_wav_transcription_returns_empty_without_loading_model(tmp_path):
-    from voicetray.stt.whisper_engine import WhisperEngine, WhisperEngineConfig
+    from saydraft.stt.whisper_engine import WhisperEngine, WhisperEngineConfig
 
     wav_path = tmp_path / "silence.wav"
     samples = np.zeros(16_000, dtype=np.int16)

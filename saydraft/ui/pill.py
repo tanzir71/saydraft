@@ -52,7 +52,7 @@ class LevelMeter(QtWidgets.QWidget):
             )
 
 
-class VoiceTrayPill(QtWidgets.QWidget):
+class SaydraftPill(QtWidgets.QWidget):
     def __init__(
         self,
         *,
@@ -82,7 +82,7 @@ class VoiceTrayPill(QtWidgets.QWidget):
 
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground, True)
         self.setAttribute(QtCore.Qt.WA_ShowWithoutActivating, True)
-        self.setWindowTitle("VoiceTray")
+        self.setWindowTitle("Saydraft")
         self.setFixedSize(360, 76)
 
         self.elapsed_timer = QtCore.QTimer(self)
@@ -226,7 +226,7 @@ class VoiceTrayPill(QtWidgets.QWidget):
     def _apply_normal_style(self) -> None:
         self.setStyleSheet(
             """
-            VoiceTrayPill {
+            SaydraftPill {
                 background: #0f172a;
                 border: 1px solid #334155;
                 border-radius: 22px;
@@ -265,7 +265,7 @@ class VoiceTrayPill(QtWidgets.QWidget):
     def _apply_error_style(self) -> None:
         self.setStyleSheet(
             """
-            VoiceTrayPill {
+            SaydraftPill {
                 background: #b91c1c;
                 border: 1px solid #fecaca;
                 border-radius: 22px;

@@ -4,7 +4,7 @@ from pathlib import Path
 
 
 def test_eval_corpus_has_required_size_and_coverage():
-    from voicetray.eval import DEFAULT_CORPUS_PATH, load_eval_corpus
+    from saydraft.eval import DEFAULT_CORPUS_PATH, load_eval_corpus
 
     cases = load_eval_corpus(DEFAULT_CORPUS_PATH)
 
@@ -16,7 +16,7 @@ def test_eval_corpus_has_required_size_and_coverage():
 
 
 def test_eval_harness_default_corpus_meets_ci_target():
-    from voicetray.eval import DEFAULT_CORPUS_PATH, DEFAULT_MIN_PASS_RATE, load_eval_corpus, run_eval
+    from saydraft.eval import DEFAULT_CORPUS_PATH, DEFAULT_MIN_PASS_RATE, load_eval_corpus, run_eval
 
     result = run_eval(load_eval_corpus(DEFAULT_CORPUS_PATH))
 
@@ -28,7 +28,7 @@ def test_eval_cli_prints_pass_rate_and_exits_zero():
     root = Path(__file__).resolve().parents[1]
 
     result = subprocess.run(
-        [sys.executable, "-m", "voicetray.eval"],
+        [sys.executable, "-m", "saydraft.eval"],
         cwd=root,
         capture_output=True,
         text=True,

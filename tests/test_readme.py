@@ -10,11 +10,11 @@ def readme_text():
     return README.read_text(encoding="utf-8")
 
 
-def test_readme_positions_voicetray_against_cloud_competitors():
+def test_readme_positions_saydraft_against_cloud_competitors():
     text = readme_text()
 
     assert "Wispr Flow magic, 100% offline and free" in text
-    assert "| Capability | Wispr Flow | Typeless | VoiceTray |" in text
+    assert "| Capability | Wispr Flow | Typeless | Saydraft |" in text
     assert "| Privacy | Cloud dictation | Cloud dictation | 100% offline |" in text
     assert "| Price | $15/mo | $12/mo | Free, open source |" in text
 
@@ -22,7 +22,7 @@ def test_readme_positions_voicetray_against_cloud_competitors():
 def test_readme_embeds_real_pill_preview_gif():
     text = readme_text()
 
-    assert "![VoiceTray dictation pill](assets/readme/pill-preview.gif)" in text
+    assert "![Saydraft dictation pill](assets/readme/pill-preview.gif)" in text
     assert PILL_GIF.exists()
     assert PILL_GIF.read_bytes().startswith((b"GIF87a", b"GIF89a"))
 

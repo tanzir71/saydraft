@@ -2,7 +2,7 @@ import sqlite3
 
 
 def test_history_store_appends_and_reads_dictations(tmp_path):
-    from voicetray.history import DictationHistoryStore, HistoryEntry
+    from saydraft.history import DictationHistoryStore, HistoryEntry
 
     db_path = tmp_path / "history.db"
     store = DictationHistoryStore(db_path)
@@ -50,8 +50,8 @@ def test_history_store_appends_and_reads_dictations(tmp_path):
 
 
 def test_default_history_path_uses_local_appdata(tmp_path, monkeypatch):
-    from voicetray.history import default_history_path
+    from saydraft.history import default_history_path
 
     monkeypatch.setenv("LOCALAPPDATA", str(tmp_path))
 
-    assert default_history_path() == tmp_path / "VoiceTray" / "history.db"
+    assert default_history_path() == tmp_path / "Saydraft" / "history.db"

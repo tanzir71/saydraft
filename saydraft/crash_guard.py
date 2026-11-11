@@ -10,7 +10,7 @@ from types import TracebackType
 
 logger = logging.getLogger(__name__)
 
-CRASH_NOTIFICATION = "VoiceTray hit an error — log saved"
+CRASH_NOTIFICATION = "Saydraft hit an error — log saved"
 
 
 class CrashGuard:
@@ -31,7 +31,7 @@ class CrashGuard:
 
         suffix = f" in thread {thread_name}" if thread_name else ""
         logger.error(
-            "Unhandled VoiceTray exception%s",
+            "Unhandled Saydraft exception%s",
             suffix,
             exc_info=(exc_type, exc_value, exc_traceback),
         )

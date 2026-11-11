@@ -9,7 +9,7 @@ from enum import Enum
 from pathlib import Path
 from typing import Callable
 
-from voicetray.logging_config import log_file_path
+from saydraft.logging_config import log_file_path
 
 logger = logging.getLogger(__name__)
 
@@ -64,7 +64,7 @@ def default_tray_assets(asset_dir: str | Path | None = None) -> TrayAssets:
     )
 
 
-class VoiceTrayTray:
+class SaydraftTray:
     """Qt tray icon, state tooltip, notifications, and nonblocking menu."""
 
     def __init__(
@@ -157,7 +157,7 @@ class VoiceTrayTray:
         message_icon = getattr(self.qt.QtWidgets.QSystemTrayIcon, "Information", None)
         if message_icon is None:
             message_icon = self.qt.QtWidgets.QSystemTrayIcon.MessageIcon.Information
-        self.tray_icon.showMessage("VoiceTray", str(message), message_icon, timeout_ms)
+        self.tray_icon.showMessage("Saydraft", str(message), message_icon, timeout_ms)
 
     def open_log_folder(self) -> None:
         self.log_dir.mkdir(parents=True, exist_ok=True)
@@ -168,5 +168,5 @@ class VoiceTrayTray:
 
     def _refresh_tooltip(self) -> None:
         self.tray_icon.setToolTip(
-            f"VoiceTray - {self.state.value} - model {self.model_label}"
+            f"Saydraft - {self.state.value} - model {self.model_label}"
         )

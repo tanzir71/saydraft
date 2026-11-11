@@ -32,7 +32,7 @@ class FailingInputStream:
 
 
 def test_recorder_starts_sounddevice_stream_and_returns_mono_float32_audio():
-    from voicetray.audio.recorder import AudioRecorder
+    from saydraft.audio.recorder import AudioRecorder
 
     FakeInputStream.instances.clear()
     recorder = AudioRecorder(stream_factory=FakeInputStream)
@@ -54,7 +54,7 @@ def test_recorder_starts_sounddevice_stream_and_returns_mono_float32_audio():
 
 
 def test_recorder_mixes_multichannel_input_to_mono():
-    from voicetray.audio.recorder import AudioRecorder
+    from saydraft.audio.recorder import AudioRecorder
 
     FakeInputStream.instances.clear()
     recorder = AudioRecorder(stream_factory=FakeInputStream)
@@ -67,7 +67,7 @@ def test_recorder_mixes_multichannel_input_to_mono():
 
 
 def test_recorder_ring_buffer_keeps_only_recent_audio():
-    from voicetray.audio.recorder import AudioRecorder
+    from saydraft.audio.recorder import AudioRecorder
 
     FakeInputStream.instances.clear()
     recorder = AudioRecorder(
@@ -86,7 +86,7 @@ def test_recorder_ring_buffer_keeps_only_recent_audio():
 
 
 def test_recorder_emits_rms_level_at_configured_rate():
-    from voicetray.audio.recorder import AudioRecorder
+    from saydraft.audio.recorder import AudioRecorder
 
     FakeInputStream.instances.clear()
     current_time = [0.0]
@@ -112,7 +112,7 @@ def test_recorder_emits_rms_level_at_configured_rate():
 
 
 def test_stop_without_start_returns_empty_float32_audio():
-    from voicetray.audio.recorder import AudioRecorder
+    from saydraft.audio.recorder import AudioRecorder
 
     recorder = AudioRecorder(stream_factory=FakeInputStream)
 
@@ -123,7 +123,7 @@ def test_stop_without_start_returns_empty_float32_audio():
 
 
 def test_recorder_default_ring_buffer_limit_is_ten_minutes():
-    from voicetray.audio.recorder import AudioRecorder
+    from saydraft.audio.recorder import AudioRecorder
 
     recorder = AudioRecorder(stream_factory=FakeInputStream)
 
@@ -131,7 +131,7 @@ def test_recorder_default_ring_buffer_limit_is_ten_minutes():
 
 
 def test_recorder_retries_default_input_stream_after_open_failure():
-    from voicetray.audio.recorder import AudioRecorder
+    from saydraft.audio.recorder import AudioRecorder
 
     FakeInputStream.instances.clear()
     calls = []
@@ -154,7 +154,7 @@ def test_recorder_retries_default_input_stream_after_open_failure():
 
 
 def test_recorder_raises_no_input_device_error_when_default_input_unavailable():
-    from voicetray.audio.recorder import AudioRecorder, NoInputDeviceError
+    from saydraft.audio.recorder import AudioRecorder, NoInputDeviceError
 
     recorder = AudioRecorder(stream_factory=FailingInputStream, device=None)
 

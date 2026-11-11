@@ -7,8 +7,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Iterable, Sequence
 
-from voicetray.dictation import DictationConfig, DictationContext, DictationPipeline
-from voicetray.dictation.llm_local import LocalLLMConfig
+from saydraft.dictation import DictationConfig, DictationContext, DictationPipeline
+from saydraft.dictation.llm_local import LocalLLMConfig
 
 
 DEFAULT_CORPUS_PATH = Path(__file__).resolve().parents[1] / "tests" / "eval_corpus.jsonl"
@@ -108,7 +108,7 @@ def print_result(result: EvalResult) -> None:
 
 
 def main(argv: Sequence[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description="Run VoiceTray dictation golden-file evals.")
+    parser = argparse.ArgumentParser(description="Run Saydraft dictation golden-file evals.")
     parser.add_argument(
         "--corpus",
         default=str(DEFAULT_CORPUS_PATH),

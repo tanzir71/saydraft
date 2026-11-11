@@ -10,7 +10,7 @@ from pathlib import Path
 from urllib.parse import urlsplit
 from urllib.request import HTTPRedirectHandler, ProxyHandler, Request, build_opener
 
-from voicetray.privacy.netguard import NetworkGuard
+from saydraft.privacy.netguard import NetworkGuard
 
 _lock = threading.Lock()
 

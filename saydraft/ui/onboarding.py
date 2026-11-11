@@ -11,7 +11,7 @@ from typing import Any
 
 from PySide6 import QtCore, QtWidgets
 
-from voicetray.config import load_config, save_config
+from saydraft.config import load_config, save_config
 
 logger = logging.getLogger(__name__)
 
@@ -42,7 +42,7 @@ class OnboardingWizard(QtWidgets.QWizard):
         self.config = load_config(config_path=self.config_path)
         self.hotkey_hint = hotkey_hint or str(self.config["hotkeys"]["speech"]).upper()
 
-        self.setWindowTitle("VoiceTray Setup")
+        self.setWindowTitle("Saydraft Setup")
         self.setMinimumSize(640, 440)
         self.setOption(QtWidgets.QWizard.NoBackButtonOnStartPage, True)
 
@@ -56,7 +56,7 @@ class OnboardingWizard(QtWidgets.QWizard):
         page = QtWidgets.QWizardPage()
         page.setTitle("Welcome")
         layout = QtWidgets.QVBoxLayout(page)
-        title = QtWidgets.QLabel("VoiceTray")
+        title = QtWidgets.QLabel("Saydraft")
         title.setObjectName("onboardingTitle")
         title.setAlignment(QtCore.Qt.AlignCenter)
         title.setStyleSheet("font-size: 28px; font-weight: 600;")

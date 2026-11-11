@@ -136,7 +136,7 @@ def action_by_text(menu, text):
 
 
 def test_default_tray_assets_are_real_ico_files():
-    from voicetray.ui.tray import default_tray_assets
+    from saydraft.ui.tray import default_tray_assets
 
     assets = default_tray_assets()
 
@@ -154,20 +154,20 @@ def test_default_tray_assets_are_real_ico_files():
 def test_default_asset_dir_uses_exe_sibling_assets_when_frozen(monkeypatch, tmp_path):
     import sys
 
-    from voicetray.ui.tray import default_asset_dir
+    from saydraft.ui.tray import default_asset_dir
 
     monkeypatch.setattr(sys, "frozen", True, raising=False)
-    monkeypatch.setattr(sys, "executable", str(tmp_path / "VoiceTray.exe"))
+    monkeypatch.setattr(sys, "executable", str(tmp_path / "Saydraft.exe"))
 
     assert default_asset_dir() == tmp_path / "assets" / "tray"
 
 
 def test_tray_menu_queues_actions_and_updates_toggle_state(tmp_path):
-    from voicetray.ui.tray import TrayCallbacks, TrayState, VoiceTrayTray
+    from saydraft.ui.tray import TrayCallbacks, TrayState, SaydraftTray
 
     events = []
     qt_modules = fake_qt_modules()
-    tray = VoiceTrayTray(
+    tray = SaydraftTray(
         qt_modules=qt_modules,
         callbacks=TrayCallbacks(
             start_listening=lambda: events.append("start"),
@@ -189,7 +189,7 @@ def test_tray_menu_queues_actions_and_updates_toggle_state(tmp_path):
         "Quit",
     ]
     assert tray.tray_icon.visible is True
-    assert tray.tray_icon.tooltip == "VoiceTray - Idle - model small"
+    assert tray.tray_icon.tooltip == "Saydraft - Idle - model small"
 
     action_by_text(tray.menu, "Start Listening").trigger()
     assert events == []
@@ -214,17 +214,17 @@ def test_tray_menu_queues_actions_and_updates_toggle_state(tmp_path):
 
     tray.set_state(TrayState.RECORDING)
     assert tray.tray_icon.icon.path.endswith("mic_recording.ico")
-    assert tray.tray_icon.tooltip == "VoiceTray - Recording - model small"
+    assert tray.tray_icon.tooltip == "Saydraft - Recording - model small"
 
     tray.set_state(TrayState.PROCESSING)
     assert tray.tray_icon.icon.path.endswith("mic_processing.ico")
-    assert tray.tray_icon.tooltip == "VoiceTray - Processing - model small"
+    assert tray.tray_icon.tooltip == "Saydraft - Processing - model small"
 
     tray.set_state(TrayState.NO_MICROPHONE)
     assert tray.tray_icon.icon.path.endswith("mic_idle.ico")
-    assert tray.tray_icon.tooltip == "VoiceTray - No microphone - model small"
+    assert tray.tray_icon.tooltip == "Saydraft - No microphone - model small"
 
     tray.show_notification("Copied to history")
     assert tray.tray_icon.messages == [
-        ("VoiceTray", "Copied to history", FakeSystemTrayIcon.Information, 4000)
+        ("Saydraft", "Copied to history", FakeSystemTrayIcon.Information, 4000)
     ]

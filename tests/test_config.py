@@ -2,7 +2,7 @@ import json
 
 
 def test_default_config_contains_schema_and_expected_defaults(tmp_path):
-    from voicetray.config import CONFIG_SCHEMA, default_config, default_config_path
+    from saydraft.config import CONFIG_SCHEMA, default_config, default_config_path
 
     cfg = default_config()
 
@@ -29,11 +29,11 @@ def test_default_config_contains_schema_and_expected_defaults(tmp_path):
     assert cfg["llm"]["enabled"] is False
     assert cfg["llm"]["model_path"] == "models/llm/model.gguf"
     assert set(CONFIG_SCHEMA) == set(cfg)
-    assert default_config_path(tmp_path) == tmp_path / "VoiceTray" / "config.json"
+    assert default_config_path(tmp_path) == tmp_path / "Saydraft" / "config.json"
 
 
 def test_load_config_writes_defaults_when_no_files_exist(tmp_path):
-    from voicetray.config import load_config
+    from saydraft.config import load_config
 
     config_path = tmp_path / "config.json"
 
@@ -45,7 +45,7 @@ def test_load_config_writes_defaults_when_no_files_exist(tmp_path):
 
 
 def test_load_config_migrates_settings_txt_once_and_keeps_old_file_untouched(tmp_path):
-    from voicetray.config import load_config
+    from saydraft.config import load_config
 
     config_path = tmp_path / "config.json"
     settings_path = tmp_path / "settings.txt"
@@ -107,7 +107,7 @@ def test_load_config_migrates_settings_txt_once_and_keeps_old_file_untouched(tmp
 
 
 def test_existing_config_ignores_unknown_keys_and_fills_missing_defaults(tmp_path):
-    from voicetray.config import load_config
+    from saydraft.config import load_config
 
     config_path = tmp_path / "config.json"
     config_path.write_text(
@@ -141,15 +141,17 @@ def test_existing_config_ignores_unknown_keys_and_fills_missing_defaults(tmp_pat
     assert json.loads(config_path.read_text(encoding="utf-8")) == cfg
 
 
-def test_main_initializes_logging_and_config_before_qt_shell(monkeypatch):
+def test_main_initializes_logging_and_config_before_qt_shell(monkeypatch, tmp_path):
     import sys
     import types
 
-    import voicetray.config as config
-    import voicetray.logging_config as logging_config
-    import voicetray.main as main
+    import saydraft.config as config
+    import saydraft.logging_config as logging_config
+    import saydraft.main as main
 
     calls = []
+    monkeypatch.setenv("LOCALAPPDATA", str(tmp_path))
+    monkeypatch.setattr("saydraft.compat.migrate.migrate_autostart", lambda manager: False)
     monkeypatch.setattr(logging_config, "configure_logging", lambda: calls.append("logging"))
     monkeypatch.setattr(config, "load_config", lambda: calls.append("config"))
     class FakeQtApp:
@@ -159,8 +161,8 @@ def test_main_initializes_logging_and_config_before_qt_shell(monkeypatch):
 
     monkeypatch.setitem(
         sys.modules,
-        "voicetray.app",
-        types.SimpleNamespace(VoiceTrayApp=lambda: FakeQtApp()),
+        "saydraft.app",
+        types.SimpleNamespace(SaydraftApp=lambda: FakeQtApp()),
     )
 
     assert main.main() == 0

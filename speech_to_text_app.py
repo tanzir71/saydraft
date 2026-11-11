@@ -1,9 +1,9 @@
-"""Deprecated compatibility entrypoint for VoiceTray.
+"""Deprecated compatibility entrypoint for Saydraft.
 
-New code should run ``python -m voicetray`` or import ``voicetray.main``.
+New code should run ``python -m saydraft`` or import ``saydraft.main``.
 """
 
-from voicetray.main import main
+from saydraft.main import main
 
 
 if __name__ == "__main__":

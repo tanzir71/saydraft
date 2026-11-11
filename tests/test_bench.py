@@ -1,7 +1,7 @@
 import pytest
 
 from tools.bench import percentile, run_benchmark, summarize, to_markdown
-from voicetray.privacy.netguard import NetworkGuard
+from saydraft.privacy.netguard import NetworkGuard
 
 
 def test_latency_summary_keeps_cold_and_warm_separate():

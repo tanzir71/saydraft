@@ -9,8 +9,8 @@ from typing import Any
 
 from PySide6 import QtCore, QtWidgets
 
-from voicetray.dictation.glossary import learn_word
-from voicetray.history import DictationHistoryStore, HistoryRow
+from saydraft.dictation.glossary import learn_word
+from saydraft.history import DictationHistoryStore, HistoryRow
 
 
 def add_word_to_dictionary_action(
@@ -48,7 +48,7 @@ class HistoryWindow(QtWidgets.QDialog):
         self.rows: list[HistoryRow] = []
         self.filtered_rows: list[HistoryRow] = []
 
-        self.setWindowTitle("VoiceTray History")
+        self.setWindowTitle("Saydraft History")
         self.setMinimumSize(860, 560)
         self.search_edit = QtWidgets.QLineEdit(self)
         self.search_edit.setPlaceholderText("Search history")

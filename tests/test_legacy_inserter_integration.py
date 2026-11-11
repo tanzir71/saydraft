@@ -2,9 +2,9 @@ import types
 
 
 def make_app():
-    from voicetray.legacy_app import VoiceTrayApp
+    from saydraft.legacy_app import SaydraftApp
 
-    app = VoiceTrayApp.__new__(VoiceTrayApp)
+    app = SaydraftApp.__new__(SaydraftApp)
     app.last_recognized_text = ""
     app.recording_focus_token = "start-hwnd"
     app.selected_context = types.SimpleNamespace(mode="balanced", profile="notes")
@@ -120,7 +120,7 @@ def test_legacy_focus_change_relies_on_sqlite_history_and_notifies():
 
 
 def test_legacy_init_history_store_creates_store_with_default_path(monkeypatch):
-    import voicetray.legacy_app as legacy_app
+    import saydraft.legacy_app as legacy_app
 
     created = []
 

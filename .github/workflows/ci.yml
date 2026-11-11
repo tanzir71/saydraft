@@ -33,4 +33,4 @@ jobs:
       - name: Unit and offline tests
         run: python -m pytest tests -q
       - name: Cleanup regression evaluation
-        run: python -m voicetray.eval --min-pass-rate 100
+        run: python -m saydraft.eval --min-pass-rate 100

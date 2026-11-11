@@ -10,11 +10,11 @@ def test_pyinstaller_build_script_uses_onedir_windowed_icon_and_version():
     assert "pyinstaller" in text
     assert "--onedir" in text
     assert "--windowed" in text or "--noconsole" in text
-    assert "--name" in text and "voicetray" in text
+    assert "--name" in text and "saydraft" in text
     assert "--icon" in text and "assets\\tray\\mic_idle.ico" in text
     assert "--version-file" in text
     assert "__version__" in text
-    assert "voicetray\\__init__.py" in text
+    assert "saydraft\\__init__.py" in text
     assert "$lastexitcode" in text
     assert "pyinstaller failed" in text
     assert "--exclude-module" in text and "webrtcvad" in text
@@ -25,8 +25,8 @@ def test_pyinstaller_build_script_keeps_assets_and_models_external():
 
     assert "copy-item" in text
     assert "assets" in text
-    assert "dist\\voicetray\\assets" in text
-    assert "dist\\voicetray\\models" in text
+    assert "dist\\saydraft\\assets" in text
+    assert "dist\\saydraft\\models" in text
     assert "new-item" in text
 
 

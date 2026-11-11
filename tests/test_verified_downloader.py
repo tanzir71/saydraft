@@ -4,9 +4,9 @@ import json
 
 import pytest
 
-from voicetray.models.downloader import _PinnedRedirects, download_model
-from voicetray.models.manifest import load_manifest
-from voicetray.privacy.netguard import NetworkGuard
+from saydraft.models.downloader import _PinnedRedirects, download_model
+from saydraft.models.manifest import load_manifest
+from saydraft.privacy.netguard import NetworkGuard
 
 
 @pytest.fixture(autouse=True)

@@ -5,7 +5,7 @@ from urllib.request import ProxyHandler, build_opener
 
 import pytest
 
-from voicetray.privacy.netguard import NetworkBlockedError, NetworkGuard
+from saydraft.privacy.netguard import NetworkBlockedError, NetworkGuard
 
 pytestmark = pytest.mark.offline
 
@@ -81,7 +81,7 @@ def test_scoped_download_hosts_resolve_without_real_network(monkeypatch):
 
 
 def test_nested_scope_restores_permissions_after_error(guard):
-    from voicetray.privacy.netguard import _check
+    from saydraft.privacy.netguard import _check
 
     with NetworkGuard.allow_downloads({"outer.example"}):
         with pytest.raises(RuntimeError):

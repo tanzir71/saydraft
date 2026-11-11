@@ -1,3 +1,3 @@
 @echo off
 cd /d "%~dp0"
-pythonw -m voicetray
+pythonw -m saydraft

@@ -1,4 +1,4 @@
-"""Qt application shell for VoiceTray."""
+"""Qt application shell for Saydraft."""
 
 from __future__ import annotations
 
@@ -12,9 +12,9 @@ from .crash_guard import install_crash_guard
 from .model_download import download_whisper_model
 from .ui.history_window import HistoryWindow
 from .ui.onboarding import OnboardingWizard
-from .ui.pill import VoiceTrayPill
+from .ui.pill import SaydraftPill
 from .ui.settings_window import SettingsWindow
-from .ui.tray import TrayCallbacks, TrayState, VoiceTrayTray
+from .ui.tray import TrayCallbacks, TrayState, SaydraftTray
 
 logger = logging.getLogger(__name__)
 
@@ -26,7 +26,7 @@ def _load_qt_modules():
 
 
 def create_worker_signals(QtCore):
-    class VoiceTrayWorkerSignals(QtCore.QObject):
+    class SaydraftWorkerSignals(QtCore.QObject):
         recording_started = QtCore.Signal()
         recording_stopped = QtCore.Signal(float)
         audio_level_changed = QtCore.Signal(float)
@@ -35,7 +35,7 @@ def create_worker_signals(QtCore):
         error = QtCore.Signal(str)
         notification_requested = QtCore.Signal(str)
 
-    return VoiceTrayWorkerSignals()
+    return SaydraftWorkerSignals()
 
 
 class LegacyWorkerController:
@@ -46,9 +46,9 @@ class LegacyWorkerController:
         self.core = None
 
     def start(self) -> None:
-        from .legacy_app import VoiceTrayApp as CoreVoiceTrayApp
+        from .legacy_app import SaydraftApp as CoreSaydraftApp
 
-        self.core = CoreVoiceTrayApp()
+        self.core = CoreSaydraftApp()
         self.core.notification_callback = self.signals.notification_requested.emit
         self.core.recording_started_callback = self.signals.recording_started.emit
         self.core.recording_stopped_callback = self.signals.recording_stopped.emit
@@ -142,7 +142,7 @@ class LegacyWorkerController:
             self.core.start_listening()
 
 
-class VoiceTrayApp:
+class SaydraftApp:
     """Own the Qt event loop and worker signal wiring."""
 
     def __init__(
@@ -163,8 +163,8 @@ class VoiceTrayApp:
         self.argv = list(sys.argv if argv is None else argv)
         self.qt_modules = qt_modules
         self.controller_factory = controller_factory or LegacyWorkerController
-        self.tray_factory = tray_factory or VoiceTrayTray
-        self.pill_factory = pill_factory or VoiceTrayPill
+        self.tray_factory = tray_factory or SaydraftTray
+        self.pill_factory = pill_factory or SaydraftPill
         self.settings_window_factory = settings_window_factory or SettingsWindow
         self.history_window_factory = history_window_factory or HistoryWindow
         self.onboarding_window_factory = onboarding_window_factory or OnboardingWizard
@@ -189,7 +189,7 @@ class VoiceTrayApp:
         if application is None:
             application = qt_modules.QtWidgets.QApplication(self.argv)
 
-        application.setApplicationName("VoiceTray")
+        application.setApplicationName("Saydraft")
         application.setQuitOnLastWindowClosed(False)
 
         self.qt_app = application

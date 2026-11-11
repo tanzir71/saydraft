@@ -14,11 +14,11 @@ def qt_modules():
 
 
 def test_pill_recording_state_shows_level_elapsed_and_hotkey_hint():
-    from voicetray.ui.pill import PillState, VoiceTrayPill
+    from saydraft.ui.pill import PillState, SaydraftPill
 
     qt = qt_modules()
     ticks = [100.0]
-    pill = VoiceTrayPill(
+    pill = SaydraftPill(
         qt_modules=qt,
         hotkey_hint="F9",
         clock=lambda: ticks[0],
@@ -41,11 +41,11 @@ def test_pill_recording_state_shows_level_elapsed_and_hotkey_hint():
 
 
 def test_pill_processing_and_completion_auto_hide():
-    from voicetray.ui.pill import PillState, VoiceTrayPill
+    from saydraft.ui.pill import PillState, SaydraftPill
 
     qt = qt_modules()
     scheduled = []
-    pill = VoiceTrayPill(
+    pill = SaydraftPill(
         qt_modules=qt,
         timer_single_shot=lambda ms, callback: scheduled.append((ms, callback)),
     )
@@ -64,11 +64,11 @@ def test_pill_processing_and_completion_auto_hide():
 
 
 def test_pill_error_flashes_message_and_auto_hides():
-    from voicetray.ui.pill import PillState, VoiceTrayPill
+    from saydraft.ui.pill import PillState, SaydraftPill
 
     qt = qt_modules()
     scheduled = []
-    pill = VoiceTrayPill(
+    pill = SaydraftPill(
         qt_modules=qt,
         timer_single_shot=lambda ms, callback: scheduled.append((ms, callback)),
     )
@@ -85,10 +85,10 @@ def test_pill_error_flashes_message_and_auto_hides():
 
 
 def test_pill_is_frameless_topmost_tool_window():
-    from voicetray.ui.pill import VoiceTrayPill
+    from saydraft.ui.pill import SaydraftPill
 
     qt = qt_modules()
-    pill = VoiceTrayPill(qt_modules=qt)
+    pill = SaydraftPill(qt_modules=qt)
     flags = pill.windowFlags()
 
     assert flags & qt.QtCore.Qt.FramelessWindowHint

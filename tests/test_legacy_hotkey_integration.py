@@ -55,9 +55,9 @@ class FakeTimerFactory:
 
 
 def make_app():
-    from voicetray.legacy_app import VoiceTrayApp
+    from saydraft.legacy_app import SaydraftApp
 
-    app = VoiceTrayApp.__new__(VoiceTrayApp)
+    app = SaydraftApp.__new__(SaydraftApp)
     app.is_recording = False
     app.is_listening = False
     app.icon = None
@@ -76,7 +76,7 @@ def make_app():
 
 
 def test_legacy_hold_recording_stops_recorder_and_processes_captured_audio(monkeypatch):
-    import voicetray.legacy_app as legacy_app
+    import saydraft.legacy_app as legacy_app
 
     app = make_app()
     recorder = FakeRecorder()
@@ -101,7 +101,7 @@ def test_legacy_hold_recording_stops_recorder_and_processes_captured_audio(monke
 
 
 def test_legacy_recording_emits_ui_state_callbacks(monkeypatch):
-    import voicetray.legacy_app as legacy_app
+    import saydraft.legacy_app as legacy_app
 
     app = make_app()
     recorder = FakeRecorder()
@@ -152,7 +152,7 @@ def test_legacy_recording_warning_timer_notifies_user():
 
 
 def test_legacy_recording_cap_forces_stop_through_hotkey_controller(monkeypatch):
-    import voicetray.legacy_app as legacy_app
+    import saydraft.legacy_app as legacy_app
 
     app = make_app()
     app.audio_recorder = FakeRecorder()
@@ -182,7 +182,7 @@ def test_legacy_recording_cap_forces_stop_through_hotkey_controller(monkeypatch)
 
 
 def test_legacy_audio_recorder_uses_configured_ten_minute_cap():
-    from voicetray.stt.whisper_engine import WhisperEngineConfig
+    from saydraft.stt.whisper_engine import WhisperEngineConfig
 
     app = make_app()
     app.recording_max_seconds = 600
@@ -195,7 +195,7 @@ def test_legacy_audio_recorder_uses_configured_ten_minute_cap():
 
 
 def test_legacy_start_listening_uses_hold_controller_for_speech_hotkey(monkeypatch):
-    import voicetray.legacy_app as legacy_app
+    import saydraft.legacy_app as legacy_app
 
     app = make_app()
     controller_calls = []
@@ -239,7 +239,7 @@ def test_legacy_save_hotkey_records_to_history_without_text_file_append():
 
 
 def test_legacy_start_recording_reports_no_microphone_gracefully():
-    from voicetray.audio.recorder import NoInputDeviceError
+    from saydraft.audio.recorder import NoInputDeviceError
 
     app = make_app()
     errors = []
@@ -260,7 +260,7 @@ def test_legacy_start_recording_reports_no_microphone_gracefully():
 
 
 def test_legacy_hotkey_watchdog_restarts_dead_listener_and_save_hotkey(monkeypatch):
-    import voicetray.legacy_app as legacy_app
+    import saydraft.legacy_app as legacy_app
 
     app = make_app()
     app.is_listening = True
@@ -293,4 +293,4 @@ def test_legacy_hotkey_watchdog_restarts_dead_listener_and_save_hotkey(monkeypat
     assert removed == ["old-save"]
     assert added == [("f10", app.on_save_hotkey_press)]
     assert app.save_hotkey_handle == "new-save"
-    assert notifications == ["VoiceTray restarted hotkeys after a listener error."]
+    assert notifications == ["Saydraft restarted hotkeys after a listener error."]

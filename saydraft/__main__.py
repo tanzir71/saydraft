@@ -1,4 +1,4 @@
-"""Module entrypoint for ``python -m voicetray``."""
+"""Module entrypoint for ``python -m saydraft``."""
 
 from .main import main
 

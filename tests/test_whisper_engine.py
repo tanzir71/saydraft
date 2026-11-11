@@ -21,7 +21,7 @@ class FakeWhisperModel:
 
 
 def test_whisper_engine_lazy_loads_model_and_joins_segments():
-    from voicetray.stt.whisper_engine import WhisperEngine, WhisperEngineConfig
+    from saydraft.stt.whisper_engine import WhisperEngine, WhisperEngineConfig
 
     created = []
     states = []
@@ -62,7 +62,7 @@ def test_whisper_engine_lazy_loads_model_and_joins_segments():
 
 
 def test_whisper_engine_reuses_loaded_model_and_auto_language_passes_none():
-    from voicetray.stt.whisper_engine import WhisperEngine, WhisperEngineConfig
+    from saydraft.stt.whisper_engine import WhisperEngine, WhisperEngineConfig
 
     created = []
 
@@ -83,7 +83,7 @@ def test_whisper_engine_reuses_loaded_model_and_auto_language_passes_none():
 
 
 def test_whisper_engine_trims_silence_before_transcribing():
-    from voicetray.stt.whisper_engine import WhisperEngine, WhisperEngineConfig
+    from saydraft.stt.whisper_engine import WhisperEngine, WhisperEngineConfig
 
     sample_rate = 16_000
     leading = np.zeros(sample_rate // 2, dtype=np.float32)
@@ -107,8 +107,8 @@ def test_whisper_engine_trims_silence_before_transcribing():
 
 
 def test_whisper_engine_from_app_config_uses_stt_settings():
-    from voicetray.config import default_config
-    from voicetray.stt.whisper_engine import WhisperEngineConfig
+    from saydraft.config import default_config
+    from saydraft.stt.whisper_engine import WhisperEngineConfig
 
     cfg = default_config()
     cfg["stt"].update(
@@ -137,7 +137,7 @@ def test_whisper_engine_from_app_config_uses_stt_settings():
 
 
 def test_whisper_engine_empty_audio_returns_empty_without_loading_model():
-    from voicetray.stt.whisper_engine import WhisperEngine, WhisperEngineConfig
+    from saydraft.stt.whisper_engine import WhisperEngine, WhisperEngineConfig
 
     def factory(*_args, **_kwargs):
         raise AssertionError("model should not be loaded for empty audio")
@@ -150,7 +150,7 @@ def test_whisper_engine_empty_audio_returns_empty_without_loading_model():
 def test_default_model_factory_suppresses_ipv6_probe_for_local_only_import(monkeypatch):
     import socket
 
-    import voicetray.stt.whisper_engine as whisper_engine
+    import saydraft.stt.whisper_engine as whisper_engine
 
     original_import = builtins.__import__
     observed_has_ipv6 = []
@@ -189,19 +189,19 @@ def test_hello_wav_fixture_is_three_second_mono_16khz():
 
 @pytest.mark.integration
 def test_whisper_engine_transcribes_hello_wav_fixture_when_enabled():
-    if os.environ.get("VOICETRAY_RUN_WHISPER_INTEGRATION") != "1":
-        pytest.skip("Set VOICETRAY_RUN_WHISPER_INTEGRATION=1 to run faster-whisper model test")
+    if os.environ.get("SAYDRAFT_RUN_WHISPER_INTEGRATION") != "1":
+        pytest.skip("Set SAYDRAFT_RUN_WHISPER_INTEGRATION=1 to run faster-whisper model test")
 
     pytest.importorskip("faster_whisper")
     sf = pytest.importorskip("soundfile")
-    from voicetray.stt.whisper_engine import WhisperEngine, WhisperEngineConfig
+    from saydraft.stt.whisper_engine import WhisperEngine, WhisperEngineConfig
 
     audio, sample_rate = sf.read("tests/fixtures/hello.wav", dtype="float32")
     assert sample_rate == 16000
 
     engine = WhisperEngine(
         WhisperEngineConfig(
-            model_size=os.environ.get("VOICETRAY_TEST_WHISPER_MODEL", "tiny"),
+            model_size=os.environ.get("SAYDRAFT_TEST_WHISPER_MODEL", "tiny"),
             language="en",
             device="cpu",
             compute_type="int8",

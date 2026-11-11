@@ -1,11 +1,11 @@
-"""Compatibility imports for the moved ``voicetray.dictation`` package."""
+"""Compatibility imports for the moved ``saydraft.dictation`` package."""
 
 from __future__ import annotations
 
 import importlib
 import sys
 
-_PACKAGE = importlib.import_module("voicetray.dictation")
+_PACKAGE = importlib.import_module("saydraft.dictation")
 _SUBMODULES = (
     "glossary",
     "llm_local",
@@ -21,7 +21,7 @@ for _name in getattr(_PACKAGE, "__all__", ()):
 
 for _submodule in _SUBMODULES:
     sys.modules[f"{__name__}.{_submodule}"] = importlib.import_module(
-        f"voicetray.dictation.{_submodule}"
+        f"saydraft.dictation.{_submodule}"
     )
 
 __all__ = list(getattr(_PACKAGE, "__all__", ()))

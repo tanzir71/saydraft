@@ -135,7 +135,7 @@ def default_config() -> dict[str, Any]:
 
 def default_config_path(local_appdata: str | os.PathLike[str] | None = None) -> Path:
     base = Path(local_appdata) if local_appdata is not None else _default_local_appdata()
-    return base / "VoiceTray" / "config.json"
+    return base / "Saydraft" / "config.json"
 
 
 def default_settings_path() -> Path:
@@ -147,7 +147,7 @@ def load_config(
     config_path: str | os.PathLike[str] | None = None,
     settings_path: str | os.PathLike[str] | None = None,
 ) -> dict[str, Any]:
-    """Load, migrate, sanitize, and persist VoiceTray configuration."""
+    """Load, migrate, sanitize, and persist Saydraft configuration."""
 
     target = Path(config_path) if config_path is not None else default_config_path()
     legacy_settings = (

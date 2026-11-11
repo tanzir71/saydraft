@@ -1,1 +1,1 @@
-"""Developer tools for VoiceTray."""
+"""Developer tools for Saydraft."""

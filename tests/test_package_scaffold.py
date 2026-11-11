@@ -2,8 +2,8 @@ import importlib
 import sys
 
 
-def test_voicetray_dictation_public_api_processes_transcripts():
-    from voicetray.dictation import DictationConfig, DictationContext, process_transcript
+def test_saydraft_dictation_public_api_processes_transcripts():
+    from saydraft.dictation import DictationConfig, DictationContext, process_transcript
 
     out = process_transcript(
         "hello hello world",
@@ -14,11 +14,11 @@ def test_voicetray_dictation_public_api_processes_transcripts():
     assert "hello world" in out.lower()
 
 
-def test_legacy_entrypoint_delegates_to_voicetray_main(monkeypatch):
-    import voicetray.main as voicetray_main
+def test_legacy_entrypoint_delegates_to_saydraft_main(monkeypatch):
+    import saydraft.main as saydraft_main
 
     calls = []
-    monkeypatch.setattr(voicetray_main, "main", lambda: calls.append("called"))
+    monkeypatch.setattr(saydraft_main, "main", lambda: calls.append("called"))
     sys.modules.pop("speech_to_text_app", None)
 
     legacy_entrypoint = importlib.import_module("speech_to_text_app")

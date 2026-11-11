@@ -8,7 +8,7 @@ import sys
 from logging.handlers import RotatingFileHandler
 from pathlib import Path
 
-LOG_FILE_NAME = "voicetray.log"
+LOG_FILE_NAME = "saydraft.log"
 MAX_LOG_BYTES = 1_000_000
 BACKUP_COUNT = 5
 
@@ -22,7 +22,7 @@ def _default_local_appdata() -> Path:
 
 def log_file_path(local_appdata: str | os.PathLike[str] | None = None) -> Path:
     base = Path(local_appdata) if local_appdata is not None else _default_local_appdata()
-    return base / "VoiceTray" / "logs" / LOG_FILE_NAME
+    return base / "Saydraft" / "logs" / LOG_FILE_NAME
 
 
 def configure_logging(
@@ -37,7 +37,7 @@ def configure_logging(
     log_file.parent.mkdir(parents=True, exist_ok=True)
     resolved_level = _resolve_log_level(level)
 
-    logger = logging.getLogger("voicetray")
+    logger = logging.getLogger("saydraft")
     logger.setLevel(resolved_level)
     logger.propagate = False
 
@@ -47,11 +47,11 @@ def configure_logging(
             handler.close()
     else:
         has_file_handler = any(
-            getattr(handler, "_voicetray_file_handler", False)
+            getattr(handler, "_saydraft_file_handler", False)
             for handler in logger.handlers
         )
         has_console_handler = any(
-            getattr(handler, "_voicetray_console_handler", False)
+            getattr(handler, "_saydraft_console_handler", False)
             for handler in logger.handlers
         )
         if has_file_handler:
@@ -67,7 +67,7 @@ def configure_logging(
         backupCount=BACKUP_COUNT,
         encoding="utf-8",
     )
-    handler._voicetray_file_handler = True
+    handler._saydraft_file_handler = True
     handler.setFormatter(
         logging.Formatter("%(asctime)s %(levelname)s [%(name)s] %(message)s")
     )
@@ -82,13 +82,13 @@ def configure_logging(
 def _resolve_log_level(level: int | None) -> int:
     if level is not None:
         return level
-    name = os.environ.get("VOICETRAY_LOG_LEVEL", "INFO").strip().upper()
+    name = os.environ.get("SAYDRAFT_LOG_LEVEL", "INFO").strip().upper()
     resolved = getattr(logging, name, logging.INFO)
     return resolved if isinstance(resolved, int) else logging.INFO
 
 
 def _console_logging_enabled() -> bool:
-    return os.environ.get("VOICETRAY_LOG_CONSOLE", "").strip().lower() in {
+    return os.environ.get("SAYDRAFT_LOG_CONSOLE", "").strip().lower() in {
         "1",
         "true",
         "yes",
@@ -98,7 +98,7 @@ def _console_logging_enabled() -> bool:
 
 def _add_console_handler(logger: logging.Logger, level: int) -> None:
     handler = logging.StreamHandler(sys.stderr)
-    handler._voicetray_console_handler = True
+    handler._saydraft_console_handler = True
     handler.setLevel(level)
     handler.setFormatter(logging.Formatter("%(levelname)s [%(name)s] %(message)s"))
     logger.addHandler(handler)

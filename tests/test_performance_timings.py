@@ -5,7 +5,7 @@ import numpy as np
 
 
 def test_whisper_engine_records_vad_and_stt_timings():
-    from voicetray.stt.whisper_engine import WhisperEngine, WhisperEngineConfig
+    from saydraft.stt.whisper_engine import WhisperEngine, WhisperEngineConfig
 
     class FakeModel:
         def transcribe(self, *_args, **_kwargs):
@@ -24,7 +24,7 @@ def test_whisper_engine_records_vad_and_stt_timings():
 
 
 def test_dictation_pipeline_records_rules_and_llm_timings():
-    from voicetray.dictation import DictationConfig, DictationContext, DictationPipeline
+    from saydraft.dictation import DictationConfig, DictationContext, DictationPipeline
 
     class FakeLLM:
         def available(self):
@@ -42,7 +42,7 @@ def test_dictation_pipeline_records_rules_and_llm_timings():
 def test_legacy_process_raw_transcript_logs_per_stage_timings(caplog, monkeypatch):
     from tests.test_legacy_inserter_integration import make_app
 
-    monkeypatch.setattr(logging.getLogger("voicetray"), "propagate", True)
+    monkeypatch.setattr(logging.getLogger("saydraft"), "propagate", True)
     app = make_app()
     app.performance_clock = iter([10.0, 10.2]).__next__
     app.dictation_pipeline = types.SimpleNamespace(
@@ -54,7 +54,7 @@ def test_legacy_process_raw_transcript_logs_per_stage_timings(caplog, monkeypatc
     )
     app.history_store = types.SimpleNamespace(append=lambda _entry: 1)
 
-    with caplog.at_level(logging.INFO, logger="voicetray.legacy_app"):
+    with caplog.at_level(logging.INFO, logger="saydraft.legacy_app"):
         app.process_raw_transcript(
             "words",
             insert_text=True,

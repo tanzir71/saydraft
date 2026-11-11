@@ -28,7 +28,7 @@ class FakeAutoStartManager:
 
 
 def write_config(tmp_path, overrides=None):
-    from voicetray.config import default_config, save_config
+    from saydraft.config import default_config, save_config
 
     cfg = default_config()
     cfg["dictation"]["glossary_path"] = str(tmp_path / "glossary.json")
@@ -41,7 +41,7 @@ def write_config(tmp_path, overrides=None):
     path = tmp_path / "config.json"
     save_config(cfg, path)
     (tmp_path / "glossary.json").write_text(
-        json.dumps({"user_terms": ["VoiceTray"], "protected_terms": [], "replacements": {}}),
+        json.dumps({"user_terms": ["Saydraft"], "protected_terms": [], "replacements": {}}),
         encoding="utf-8",
     )
     (tmp_path / "snippets.txt").write_text("addr=123 Main\n", encoding="utf-8")
@@ -50,7 +50,7 @@ def write_config(tmp_path, overrides=None):
 
 
 def make_window(tmp_path, *, overrides=None, on_config_applied=None):
-    from voicetray.ui.settings_window import SettingsWindow
+    from saydraft.ui.settings_window import SettingsWindow
 
     config_path = write_config(tmp_path, overrides)
     autostart = FakeAutoStartManager()
@@ -75,7 +75,7 @@ def test_settings_window_has_required_tabs_and_loads_values(tmp_path):
     assert window.mode_combo.currentText() == "balanced"
     assert window.profile_combo.currentText() == "notes"
     assert window.model_combo.currentText() == "base"
-    assert "VoiceTray" in window.dictionary_editor.toPlainText()
+    assert "Saydraft" in window.dictionary_editor.toPlainText()
     assert "addr=123 Main" in window.snippets_editor.toPlainText()
 
 
@@ -126,7 +126,7 @@ def test_settings_window_saves_dictionary_snippets_and_profiles(tmp_path):
     dictionary = {
         "user_terms": ["Qwen Turbo"],
         "protected_terms": ["ACME-123"],
-        "replacements": {"voice tray": "VoiceTray"},
+        "replacements": {"voice tray": "Saydraft"},
     }
     profiles = [{"match": "Code", "profile": "code/comments", "mode": "raw"}]
 
@@ -141,7 +141,7 @@ def test_settings_window_saves_dictionary_snippets_and_profiles(tmp_path):
 
 
 def test_windows_autostart_manager_uses_hkcu_run_key():
-    from voicetray.ui.settings_window import WindowsAutoStartManager
+    from saydraft.ui.settings_window import WindowsAutoStartManager
 
     class FakeRegistry:
         HKEY_CURRENT_USER = "HKCU"
@@ -171,7 +171,7 @@ def test_windows_autostart_manager_uses_hkcu_run_key():
     manager = WindowsAutoStartManager(
         registry=fake_registry,
         platform="win32",
-        command="pythonw -m voicetray",
+        command="pythonw -m saydraft",
     )
 
     manager.set_enabled(True)
@@ -183,9 +183,9 @@ def test_windows_autostart_manager_uses_hkcu_run_key():
 def test_windows_autostart_manager_uses_frozen_exe_command(monkeypatch, tmp_path):
     import sys
 
-    from voicetray.ui.settings_window import WindowsAutoStartManager
+    from saydraft.ui.settings_window import WindowsAutoStartManager
 
-    exe = tmp_path / "VoiceTray.exe"
+    exe = tmp_path / "Saydraft.exe"
     monkeypatch.setattr(sys, "frozen", True, raising=False)
     monkeypatch.setattr(sys, "executable", str(exe))
 
