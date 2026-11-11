@@ -19,10 +19,19 @@ completion/failure metadata. Successful streams flush a 0.66 s zero tail. UI
 receiver failures do not discard recognized words. Native stream/callback
 references and queued audio are released when the thread ends.
 
-The container now has an optional preview port, defaulting to `None`. This PR
-does not activate preview in the app; opt-in controls, generation-tagged Qt
-updates, final-result selection and Bar integration follow separately. Default
-recognition and model download behavior remain unchanged.
+The container has an optional preview port, defaulting to `None`. Both Labs
+flags default off. A persisted Pro assessment and English-compatible language
+selection are required before constructing the lazy model factory; construction
+never downloads or loads weights. Opt-in controls, generation-tagged Qt updates
+and worker/Bar integration follow separately.
+
+Result selection keeps default recognition unless the user explicitly requests
+a complete, successful streaming result. Incomplete preview words can recover an
+otherwise empty result for review in History, with insertion disabled. Selecting
+streaming preserves available default-ASR words as alternative metadata. History
+failure retains that metadata in the pending session result, including a deep
+copy so later caller changes cannot erase the alternative. Policy tests cover
+these cases, missing assessment data and the independent opt-in defaults.
 
 Tests cover pinned-weight rejection, runtime-version checks, cached model reuse,
 stream isolation, queued-buffer ownership, overload, cancellation, incomplete

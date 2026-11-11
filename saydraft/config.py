@@ -26,6 +26,7 @@ CONFIG_SCHEMA: dict[str, Any] = {
         "notification_duration": int,
         "onboarded": bool,
     },
+    "labs": {"live_preview": bool, "use_streaming_result": bool},
     "recording": {
         "retain_audio": bool,
         "max_seconds": int,
@@ -83,6 +84,7 @@ _DEFAULT_CONFIG: dict[str, Any] = {
         "notification_duration": 3,
         "onboarded": False,
     },
+    "labs": {"live_preview": False, "use_streaming_result": False},
     "recording": {
         "retain_audio": False,
         "max_seconds": 600,
@@ -222,6 +224,8 @@ def sanitize_config(config: dict[str, Any] | None) -> dict[str, Any]:
         for item in cfg["stt"]["app_model_overrides"] if isinstance(item, dict)
         and isinstance(item.get("app_group"), str) and re.fullmatch(r"[a-z][a-z0-9_-]{0,63}", item["app_group"])
         and isinstance(item.get("model_id"), str) and item["model_id"] in models]
+    if not cfg["labs"]["live_preview"]:
+        cfg["labs"]["use_streaming_result"] = False
     return cfg
 
 

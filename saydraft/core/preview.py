@@ -10,10 +10,49 @@ from dataclasses import dataclass
 
 import numpy as np
 
+from saydraft.asr.model_ids import PREVIEW_MODEL
 from saydraft.stt.whisper_engine import _to_mono_float32
 
 logger = logging.getLogger(__name__)
 _STOP = object()
+
+
+def preview_eligibility(config, report):
+    """A pure policy shared by Settings and the service constructor."""
+    assessment = report.get("assessment") if isinstance(report, dict) else None
+    if not isinstance(assessment, dict) or assessment.get("tier") != "pro":
+        return "needs_pro"
+    stt = config.get("stt", {})
+    if stt.get("routing_enabled", False):
+        if any(code != "en" for code in stt.get("pinned_languages", [])):
+            return "english_only"
+    elif str(stt.get("language", "auto")).lower() not in ("auto", "en", ""):
+        return "english_only"
+    return None
+
+
+@dataclass(frozen=True)
+class SpeechChoice:
+    text: str
+    model: str
+    language: str
+    review_only: bool = False
+    used_preview: bool = False
+    edits: tuple[dict, ...] = ()
+
+
+def choose_preview_result(primary, model, language, preview, *, use_streaming=False):
+    """Default ASR wins; incomplete recovery is review-only, with all alternatives retained."""
+    if preview is None or not preview.text.strip():
+        return SpeechChoice(primary, model, language)
+    selected = use_streaming and preview.complete and not preview.failed
+    if primary.strip() and not selected:
+        return SpeechChoice(primary, model, language)
+    notes = [{"type": "streaming_result" if selected else "preview_recovery",
+              "complete": preview.complete, "failure_reason": preview.failure_reason}]
+    if primary.strip():
+        notes.append({"type": "asr_alternative", "model": model, "text": primary})
+    return SpeechChoice(preview.text.strip(), PREVIEW_MODEL, "en", not selected, True, tuple(notes))
 
 
 @dataclass(frozen=True)

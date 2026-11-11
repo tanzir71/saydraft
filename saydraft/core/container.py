@@ -63,5 +63,13 @@ def create_services(config: dict, *, level_callback=None, notify=lambda message:
     processor = TranscriptProcessor(cleaner=cleaner, formatter=formatter, history=history,
                                     inserter=inserter, snippets=snippets, notify=notify,
                                     reporter=TimingReporter(notify=notify, llm_enabled=llm["enabled"]))
+    preview = None
+    if config.get("labs", {}).get("live_preview", False):
+        from .preview import preview_eligibility
+        from saydraft.models.hardware import latest_report
+        from saydraft.asr.sherpa_stream import NemotronPreviewModel
+
+        if preview_eligibility(config, latest_report()) is None:
+            preview = NemotronPreviewModel()
     return Services(config, recorder, asr, cleaner, formatter, inserter, context, history, processor, profiles,
-                    AudioStore(history.db_path.parent / "audio"), AllLanguagesRetry(config, asr))
+                    AudioStore(history.db_path.parent / "audio"), AllLanguagesRetry(config, asr), preview)
