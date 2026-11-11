@@ -1,0 +1,4 @@
+"""Model identifiers are usable before importing inference or download runtimes."""
+
+DEFAULT_MODEL = "parakeet-tdt-0-6b-v3-int8"
+ENGLISH_MODEL = "parakeet-tdt-0-6b-v2-int8"
