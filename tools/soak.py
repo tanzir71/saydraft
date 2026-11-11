@@ -203,13 +203,19 @@ def _windows_rss_bytes() -> int:
 
     counters = ProcessMemoryCounters()
     counters.cb = ctypes.sizeof(counters)
+    ctypes.windll.kernel32.GetCurrentProcess.restype = wintypes.HANDLE
+    ctypes.windll.psapi.GetProcessMemoryInfo.argtypes = [
+        wintypes.HANDLE, ctypes.POINTER(ProcessMemoryCounters), wintypes.DWORD,
+    ]
     handle = ctypes.windll.kernel32.GetCurrentProcess()
     ok = ctypes.windll.psapi.GetProcessMemoryInfo(
         handle,
         ctypes.byref(counters),
         counters.cb,
     )
-    return int(counters.WorkingSetSize) if ok else 0
+    if not ok:
+        raise OSError("Could not measure Windows working set")
+    return int(counters.WorkingSetSize)
 
 
 def build_parser() -> argparse.ArgumentParser:

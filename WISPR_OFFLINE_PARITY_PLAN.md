@@ -567,8 +567,8 @@ design/tokens.json  → build step emits site/src/styles/tokens.css and saydraft
 - [x] **P0.2** Repo hygiene: add a full `.gitignore` (Python, PyInstaller `build/` `dist/`, `__pycache__/`, `*.pyc`, `models/`, `.venv/`, `site/node_modules/`, `site/dist/`, `.vercel`). Run `git rm -r --cached dist build` and `git rm -r --cached '**/__pycache__'`. **Files stay on disk.** **Acceptance:** `git ls-files | grep -E '^(dist|build)/' | wc -l` = 0; local `dist/` still exists. *(P0.2b history purge only if G4 approved.)*
 - [ ] **P0.3** (G2) Add `LICENSE` and `THIRD_PARTY_NOTICES.md` (PySide6 LGPL-3.0 dynamic-link note, faster-whisper/CTranslate2 MIT, sherpa-onnx Apache-2.0, onnxruntime MIT, llama.cpp MIT, model licenses table). **Acceptance:** a license is detected on the GitHub repo page.
 - [ ] **P0.4** CI `.github/workflows/ci.yml` on `windows-latest`: Python 3.13, `pip install -r requirements-dev.txt`, `ruff`, `pytest` (offscreen Qt), eval; cache pip. **Acceptance:** green on main; the README badge works.
-- [ ] **P0.5** `tools/bench.py` + `docs/BASELINE.md`: record current latency per stage and RAM on the owner machine (owner runs it, Codex writes the tool). **Acceptance:** the baseline table is committed.
-- [ ] **P0.6** `privacy/netguard.py`: wrap `socket.socket.connect`/`create_connection` and `getaddrinfo`; allow loopback; allow downloader sessions only inside a `with NetworkGuard.allow_downloads(manifest_hosts)` context; block and log everything else. Install it at startup. **Acceptance:** `pytest -m offline` passes; a test proves a stray `urllib.request.urlopen('https://example.com')` raises.
+- [x] **P0.5** `tools/bench.py` + `docs/BASELINE.md`: record current latency per stage and RAM on the owner machine (owner runs it, Codex writes the tool). **Acceptance:** the baseline table is committed.
+- [x] **P0.6** `privacy/netguard.py`: wrap `socket.socket.connect`/`create_connection` and `getaddrinfo`; allow loopback; allow downloader sessions only inside a `with NetworkGuard.allow_downloads(manifest_hosts)` context; block and log everything else. Install it at startup. **Acceptance:** `pytest -m offline` passes; a test proves a stray `urllib.request.urlopen('https://example.com')` raises.
 
 P0.3/P0.4 implementation is locally verified (199 tests, 42/42 eval, clean Ruff). Remote acceptance (license detection, green CI on main) awaits PR publication and review; do not treat the local run as a hosted CI result.
 
@@ -658,11 +658,14 @@ P0.3/P0.4 implementation is locally verified (199 tests, 42/42 eval, clean Ruff)
 Cloud anything (sync, accounts, team dictionaries, web search in Ask), mobile apps, macOS/Linux builds (keep code portable), bots that join meetings, "Hey Flow"-style wake word (power and false-trigger cost), learning a user's writing style from their sent messages (privacy-heavy; revisit later), and any telemetry.
 
 ## Open Questions
+- 2026-11-12: P0.5 measured warm release-to-simulated-insertion p50 1.865 s / p95 2.447 s and first-use 24.664 s for base on the bundled 3 s clip. These exceed parity budgets; keep this as the pre-refactor baseline, not a performance claim. Native networking and subprocesses require the later OS firewall boundary.
 <!-- Codex: add dated questions here instead of guessing. -->
 
 ---
 
 ## 14. Changelog
+- 2026-11-12 | P0.5 | Added reproducible cold/warm stage and RSS benchmarking; committed measured base/3 s results; fixed SQLite connection lifetime and the Windows soak RSS probe. | tools/bench.py, tools/soak.py, docs/BASELINE.md, tests/test_bench.py, voicetray/history.py
+- 2026-11-12 | P0.6 | Installed offline socket policy at startup; scoped explicit model downloads to pinned hosts/revisions with SHA-256 verification and archived corrupt files; removed transcript text from INFO logs. 225 tests pass, 19 offline tests, eval 42/42; 200-cycle soak 0.3% RSS growth. | voicetray/privacy/, voicetray/models/, voicetray/model_download.py, voicetray/main.py, tests/test_netguard.py, tests/test_verified_downloader.py, docs/PRIVACY.md
 - 2026-11-12 | P0.2 | Untracked 1,714 build artifacts and 28 bytecode files, preserving all files on disk; added Python, model, website and local-data ignores. Tests 199 pass, 1 skip; eval 42/42. | .gitignore, git index
 <!-- Codex: one line per completed task: YYYY-MM-DD | task | summary | files -->
 - 2026-11-12 | P0.1 | Archived the previous handoff with git mv; documented the active plan and retained history. Baseline: 199 tests pass, 1 optional integration skip; eval 42/42. | docs/README.md, docs/history/CODEX_HANDOFF_v1.md, WISPR_OFFLINE_PARITY_PLAN.md
