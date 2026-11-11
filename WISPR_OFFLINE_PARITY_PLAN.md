@@ -622,6 +622,7 @@ P0.3/P0.4 implementation is locally verified and published in draft PR #1. Hoste
 ### P4: Cleanup intelligence
 - [ ] **P4.1** `cleanup/llm/sidecar.py`: download a pinned llama.cpp release (CPU + Vulkan builds), start/health-check/restart/idle-unload, random port + API key, loopback only; Job Object so it dies with the app. **Acceptance:** killing the sidecar mid-request yields rules output within budget; no orphan process after the app quits (soak).
   - Runtime package foundation implemented: stable v0.9.0 → b12110/source cd959bae, immutable CPU/Vulkan asset IDs and complete payload hashes, server dependency closure, bundled MIT/full OpenMP notices and an explicit resumable helper. Both cached native installations verify with zero HTTP calls; hidden `--offline --version` runs match build/commit and exit successfully. No app process startup/download controls yet. Keep unchecked until Job Object, lifecycle/deadline/fallback and inference verification pass. Details: `docs/CLEANUP_RUNTIME.md`.
+  - Native ownership foundation implemented: hidden `CreateProcessW` with creation-time JOB_LIST, kill-on-close, no breakaway and NUL-only inherited handles. Literal Unicode argv, explicit environment, finite waits and error cleanup are tested. Actual process trees die on explicit close and abrupt owner exit without Python cleanup; both pinned runtime binaries launch through the wrapper. Health/restart/idle/deadline manager and cleanup integration remain pending; keep P4.1 unchecked.
 - [ ] **P4.2** Prompt v3 (§7.3) in `cleanup/llm/prompts/`; streaming client; remove JSON output. **Acceptance:** a fake-LLM contract test; adversarial few-shots present.
 - [ ] **P4.3** Validator v2 (§7.3). **Acceptance:** 100% catch on the adversarial set; unit tests per rule.
 - [ ] **P4.4** Model bake-off (Qwen3.5 0.8B/2B/4B, Gemma 4 E2B/E4B) on the golden + adversarial sets + latency per tier → set defaults per tier in the manifest. **Acceptance:** `docs/MODELS.md` table; defaults justified by numbers.
@@ -697,6 +698,8 @@ Cloud anything (sync, accounts, team dictionaries, web search in Ask), mobile ap
 ---
 
 ## 14. Changelog
+
+- 2026-11-12 | P4.1 (native process ownership) | Added hidden creation-time Windows Job Object assignment, NUL-only handle inheritance, literal argv and explicit environment. Native tests verify polling/timeouts/exit 259, descendant termination, abrupt owner exit, idempotent closure and creation-failure cleanup. Both pinned runtime binaries launch successfully through the wrapper; lifecycle manager remains pending. | saydraft/cleanup/llm/windows_process.py, tests/test_sidecar_process.py, docs/CLEANUP_RUNTIME.md
 
 - 2026-11-12 | P4.1 (runtime package foundation) | Pinned the stable-referenced CPU/Vulkan llama.cpp b12110 packages and server dependency closure, retained complete MIT/OpenMP notices, and added an explicit resumable installation helper separate from speech models. Actual cached installs use zero network and both hidden version checks pass. Sidecar lifecycle remains pending. | saydraft/models/manifest.json, saydraft/models/runtime_ids.py, saydraft/model_download.py, assets/licenses/llama-cpp-MIT.txt, tests/test_cleanup_runtime_packages.py, docs/CLEANUP_RUNTIME.md
 
