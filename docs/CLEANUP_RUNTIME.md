@@ -38,7 +38,7 @@ and exited successfully without opening a server or loading a model. This checks
 the installed dependency closure on the development machine, not clean-machine
 deployment, GPU inference, request deadlines or process ownership.
 
-Validation: 562 tests pass, four optional native skips with real preview/Silero/LID
+Validation: 571 tests pass, four optional native skips with real preview/Silero/LID
 enabled; cleanup evaluation 42/42; Ruff and diff checks pass.
 
 `cleanup.llm.windows_process.WindowsJobProcess` now supplies native process
@@ -82,6 +82,40 @@ SHA-256 `047bf46455a544931cff6fef14d7910154c56afbc23ab1c5e56a72e69912c04b`.
 The [original tinyllamas card](https://huggingface.co/karpathy/tinyllamas) identifies
 MIT licensing. The fixture is excluded from app choices and distributed assets;
 it tests API/lifecycle behavior and supplies no cleanup-quality evidence.
+
+`cleanup.llm.sidecar.SidecarManager` now owns one server with explicit preparation
+or background warming. It verifies installed runtime hashes and hardware before
+launching, uses a fresh port/key and a minimal child environment, authenticates
+readiness through `/tokenize`, and serializes requests without queuing a second
+one. Requests made before readiness return fallback control immediately while
+warming installed files. Nothing downloads. CPU uses zero GPU layers; Vulkan
+uses the documented automatic layer selection. The optional prompt cache is
+disabled with `--cache-ram 0`; idle-slot caching and context shifting are disabled.
+
+Request failure/timeout stops the process and retries with bounded exponential
+backoff, capped at three restarts by default. A new process never starts before
+the previous main process's exit is observed. A successful request resets the
+failure count. The fifteen-minute idle default unloads without restarting; the
+next warmup can reload. Close cancels timers, kills the owned job, prevents late
+preparation from spawning and rejects responses arriving after closure. Errors
+return static metadata and no result, allowing the caller to keep rules output.
+
+Deterministic tests cover reuse, late-result rejection, key replacement, backoff
+and restart caps, missing/corrupt installations, a slow-to-exit old process, idle
+reload, stale timers, concurrent requests and closure during verification/I/O.
+Native CPU probes additionally verify completion/idle/reload, interruption and
+absolute deadlines. Killing an active request returned fallback control in
+**0.028 s**; an **0.080 s** deadline returned in **0.091 s**. Vulkan preparation
+and a sixteen-token completion also pass. These are control-flow observations,
+not cleanup-quality or general latency measurements. App/prompt integration is
+still pending, so P4.1 remains unchecked.
+
+The interruption fixture is a separate developer-only `stories15M-q4_0.gguf`,
+19,077,344 bytes, from the same pinned ggml-org revision, SHA-256
+`6151b1929d7f5aa3385d9ddef3393e55587c0a55de661562322bc51dfda93a04`.
+The original 260K fixture stopped at its token/context limit before the timed kill
+could exercise interruption. Both unsuccessful probe notes are retained; the
+larger fixture supplies the passing interruption check. Neither is an app model.
 
 The sidecar manager must additionally use an absolute verified binary/model
 path, loopback binding, `--offline`, a fresh authentication key and a sanitized
