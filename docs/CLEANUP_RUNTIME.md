@@ -38,7 +38,7 @@ and exited successfully without opening a server or loading a model. This checks
 the installed dependency closure on the development machine, not clean-machine
 deployment, GPU inference, request deadlines or process ownership.
 
-Validation: 550 tests pass, four optional native skips with real preview/Silero/LID
+Validation: 562 tests pass, four optional native skips with real preview/Silero/LID
 enabled; cleanup evaluation 42/42; Ruff and diff checks pass.
 
 `cleanup.llm.windows_process.WindowsJobProcess` now supplies native process
@@ -56,6 +56,32 @@ creation failures show no additional owner-handle growth after loader warmup.
 Both pinned binaries launch through this wrapper and exit successfully on the
 offline version check. The helper releases native handles on failure and closes
 idempotently. Imports still start no process.
+
+`cleanup.llm.loopback.LoopbackClient` supplies bounded authenticated JSON to a
+fixed `127.0.0.1` address. Endpoint allowlists reject arbitrary URLs and redirects;
+proxy environment variables are ignored. Request/response bodies are capped at
+1 MiB and JSON/content types are checked. Exceptions contain only failure
+metadata, never prompts, response bodies or keys. It works under NetworkGuard
+without opening a download scope.
+
+An absolute deadline watchdog shuts down a duplicate of the connected socket.
+This interrupts trickled headers and bodies even when ordinary per-read socket
+timeouts would keep resetting, including Connection: close responses whose body
+outlives HTTPConnection's socket reference. Local server tests cover Unicode,
+authentication failure, redirects, invalid/nonfinite JSON, wrong content types,
+declared/streamed size overflow and slow headers/bodies. No app requests start
+from construction or imports; manager integration follows.
+
+A real pinned CPU server also passes this path under NetworkGuard, inside the
+owned hidden process wrapper: health becomes ready, `/v1/models` reports the
+configured alias, a completion returns sixteen tokens, and a wrong key on
+`/tokenize` receives HTTP 401. This uses a developer-only 1,185,376-byte
+`stories260K.gguf` from
+[`ggml-org/tiny-llamas` revision 99dd1a73](https://huggingface.co/ggml-org/tiny-llamas/tree/99dd1a73db5a37100bd4ae633f4cfce6560e1567),
+SHA-256 `047bf46455a544931cff6fef14d7910154c56afbc23ab1c5e56a72e69912c04b`.
+The [original tinyllamas card](https://huggingface.co/karpathy/tinyllamas) identifies
+MIT licensing. The fixture is excluded from app choices and distributed assets;
+it tests API/lifecycle behavior and supplies no cleanup-quality evidence.
 
 The sidecar manager must additionally use an absolute verified binary/model
 path, loopback binding, `--offline`, a fresh authentication key and a sanitized
