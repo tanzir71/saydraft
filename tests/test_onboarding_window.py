@@ -62,6 +62,14 @@ def test_onboarding_model_download_updates_progress_and_selected_model(tmp_path)
 
     wizard.download_selected_model()
 
+    from PySide6 import QtTest, QtWidgets
+
+    for _ in range(100):
+        QtWidgets.QApplication.processEvents()
+        if wizard.model_picker.task is None:
+            break
+        QtTest.QTest.qWait(10)
+
     assert calls == ["small"]
     assert wizard.model_progress.value() == 100
     assert "ready" in wizard.model_status_label.text().lower()
@@ -95,4 +103,5 @@ def test_onboarding_finish_sets_onboarded_and_applies_config(tmp_path):
     saved = json.loads(config_path.read_text(encoding="utf-8"))
     assert saved["app"]["onboarded"] is True
     assert saved["stt"]["model_size"] == "small"
+    assert saved["stt"]["engine"] == "whisper"
     assert applied[-1] == saved

@@ -31,7 +31,7 @@ def create_services(config: dict, *, level_callback=None, notify=lambda message:
     from saydraft.history import DictationHistoryStore
     from saydraft.insert.inserter import Inserter as ClipboardInserter
     from saydraft.paths import resolve_data_path
-    from saydraft.stt.whisper_engine import WhisperEngine, WhisperEngineConfig
+    from saydraft.asr.selection import create_asr
     from .context import ForegroundContextProvider
 
     profiles = read_profiles(resolve_data_path(config["dictation"]["app_profiles_path"]))
@@ -45,7 +45,7 @@ def create_services(config: dict, *, level_callback=None, notify=lambda message:
         ),
     ))
     recorder = AudioRecorder(max_seconds=config["recording"]["max_seconds"], level_callback=level_callback)
-    asr = WhisperEngine(WhisperEngineConfig.from_app_config(config))
+    asr = create_asr(config)
     context = ForegroundContextProvider()
     inserter = ClipboardInserter(focus_provider=lambda: context.capture().focus, profiles=profiles)
     snippets = read_snippets()

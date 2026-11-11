@@ -31,7 +31,10 @@ def test_readme_documents_local_model_size_guidance():
     text = readme_text()
 
     for phrase in (
-        "base (~145 MB)",
+        "Whisper `base`",
+        "~148 MB",
+        "Parakeet v3 int8",
+        "%LOCALAPPDATA%\\Saydraft\\models",
         "small (better accuracy)",
         "medium (best CPU-viable accuracy)",
         "int8",

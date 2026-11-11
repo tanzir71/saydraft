@@ -12,10 +12,11 @@ from typing import Any
 from PySide6 import QtCore, QtWidgets
 
 from saydraft.config import load_config, save_config
+from saydraft.asr.selection import select_model
+from saydraft.ui.model_picker import ModelPicker
 
 logger = logging.getLogger(__name__)
 
-MODEL_SIZES = ("base", "small", "medium")
 
 
 class OnboardingWizard(QtWidgets.QWizard):
@@ -87,23 +88,12 @@ class OnboardingWizard(QtWidgets.QWizard):
         page = QtWidgets.QWizardPage()
         page.setTitle("Model")
         layout = QtWidgets.QVBoxLayout(page)
-        form = QtWidgets.QFormLayout()
-        self.model_combo = QtWidgets.QComboBox()
-        self.model_combo.addItems(MODEL_SIZES)
-        if self.config["stt"]["model_size"] not in MODEL_SIZES:
-            self.model_combo.addItem(self.config["stt"]["model_size"])
-        self.model_combo.setCurrentText(self.config["stt"]["model_size"])
-        self.model_progress = QtWidgets.QProgressBar()
-        self.model_progress.setRange(0, 100)
-        self.model_progress.setValue(0)
-        self.download_button = QtWidgets.QPushButton("Download")
-        self.download_button.clicked.connect(self.download_selected_model)
-        self.model_status_label = QtWidgets.QLabel("")
-        form.addRow("Whisper model", self.model_combo)
-        form.addRow("Model download", self.download_button)
-        form.addRow("Progress", self.model_progress)
-        layout.addLayout(form)
-        layout.addWidget(self.model_status_label)
+        self.model_picker = ModelPicker(self.config, callback=self.model_download_callback)
+        self.model_combo = self.model_picker.combo
+        self.model_progress = self.model_picker.progress
+        self.download_button = self.model_picker.download_button
+        self.model_status_label = self.model_picker.status
+        layout.addWidget(self.model_picker)
         layout.addStretch(1)
         return page
 
@@ -146,20 +136,7 @@ class OnboardingWizard(QtWidgets.QWizard):
             self.mic_status_label.setText("Waiting for microphone signal")
 
     def download_selected_model(self) -> None:
-        model_size = self.model_combo.currentText()
-        self.model_progress.setValue(5)
-        self.model_status_label.setText(f"Preparing {model_size}")
-        if self.model_download_callback is None:
-            self.model_progress.setValue(100)
-            self.model_status_label.setText(f"{model_size} ready")
-            return
-        try:
-            self.model_download_callback(model_size, self.update_model_download_progress)
-            self.model_progress.setValue(100)
-            self.model_status_label.setText(f"{model_size} ready")
-        except Exception:
-            logger.exception("Onboarding model download failed")
-            self.model_status_label.setText(f"Could not download {model_size}")
+        self.model_picker.start_download()
 
     def update_model_download_progress(self, value: int) -> None:
         self.model_progress.setValue(max(0, min(100, int(value))))
@@ -167,7 +144,7 @@ class OnboardingWizard(QtWidgets.QWizard):
     def finish_onboarding(self) -> bool:
         cfg = json.loads(json.dumps(self.config))
         cfg["app"]["onboarded"] = True
-        cfg["stt"]["model_size"] = self.model_combo.currentText()
+        select_model(cfg, self.model_picker.model_id)
         saved = save_config(cfg, self.config_path)
         self.config = saved
         self.finish_status_label.setText("Ready to dictate")
@@ -178,6 +155,10 @@ class OnboardingWizard(QtWidgets.QWizard):
     def accept(self) -> None:
         self.finish_onboarding()
         super().accept()
+
+    def reject(self) -> None:
+        self.model_picker.pause()
+        super().reject()
 
     def _update_hotkey_status(self) -> None:
         if self.hotkey_test_field.toPlainText().strip():

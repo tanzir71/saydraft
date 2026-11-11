@@ -94,7 +94,17 @@ class SessionWorker:
             return True
 
     def _arm(self, generation):
+        preparing_asr = False
         try:
+            prepare = getattr(self.services.asr, "prepare", None)
+            if prepare is not None:
+                preparing_asr = True
+                prepare()
+                preparing_asr = False
+            with self._lock:
+                if generation != self.session.session_id or self.session.state != State.ARMING:
+                    self.emit("processing_finished", "")
+                    return
             recorder = self.services.recorder
             self._background = None
             if (hasattr(recorder, "chunk_callback")
@@ -127,7 +137,8 @@ class SessionWorker:
             self._close_background(discard=True)
             with self._lock:
                 self.session.dispatch(Input.FAIL, session_id=generation)
-            self.emit("error", "No microphone")
+            self.emit("error", "Speech model unavailable. Download or resume it in Settings → Models."
+                      if preparing_asr else "No microphone")
 
     def _warn(self, generation, maximum):
         with self._lock:
@@ -211,7 +222,7 @@ class SessionWorker:
                     timings["stt"] = background.tail_seconds
             result = self.services.processor.process(
                 raw, target=self._target, context=self._context,
-                model=self.services.config["stt"]["model_size"], duration_seconds=duration,
+                model=self._model_id(), duration_seconds=duration,
                 language=self.services.config["stt"].get("language", "auto"),
                 insert_text=self._insert_text,
                 insert_action=lambda action: self._insert_if_current(generation, action), timings=timings,
@@ -241,6 +252,11 @@ class SessionWorker:
         if hasattr(self.services.recorder, "chunk_callback"):
             self.services.recorder.chunk_callback = None
         return background.finish(discard=discard) if background is not None else None
+
+    def _model_id(self):
+        from saydraft.asr.selection import configured_model_id
+
+        return getattr(self.services.asr, "model_id", configured_model_id(self.services.config))
 
     def record_note(self):
         if self.start_recording(insert_text=False):

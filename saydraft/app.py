@@ -9,7 +9,7 @@ from typing import Callable, Sequence
 
 from .config import load_config
 from .crash_guard import install_crash_guard
-from .model_download import download_whisper_model
+from .model_download import download_asr_model
 from .ui.history_window import HistoryWindow
 from .ui.onboarding import OnboardingWizard
 from .ui.pill import SaydraftPill
@@ -79,8 +79,10 @@ class WorkerController:
         return bool(self.core and self.core.hotkeys.enabled)
 
     def model_label(self):
+        from .asr.selection import configured_model_id
+
         config = self.core.services.config if self.core else load_config()
-        return str(config["stt"]["model_size"])
+        return configured_model_id(config)
 
     def hotkey_hint(self):
         config = self.core.services.config if self.core else load_config()
@@ -134,7 +136,7 @@ class SaydraftApp:
         self.onboarding_window_factory = onboarding_window_factory or OnboardingWizard
         self.config_loader = config_loader or load_config
         self.config_path = config_path
-        self.model_download_callback = model_download_callback or download_whisper_model
+        self.model_download_callback = model_download_callback or download_asr_model
         self.crash_guard_installer = crash_guard_installer or install_crash_guard
         self.qt_app = None
         self.signals = None

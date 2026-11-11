@@ -14,7 +14,7 @@ for dependency and separately downloaded model licenses.
 
 The public demo uses canned cleanup examples. It requests no microphone permission and performs no audio capture, STT, network request, or foreground insertion.
 
-Saydraft is a Windows tray dictation app that lets you speak messily and inserts clean, ready-to-send text into the app you were already using. It runs local speech recognition with faster-whisper, keeps raw and cleaned dictations in local SQLite history, and never sends your voice or text to a cloud service during dictation.
+Saydraft is a Windows tray dictation app that lets you speak messily and inserts clean, ready-to-send text into the app you were already using. It runs local speech recognition with Parakeet or faster-whisper, keeps raw and cleaned dictations in local SQLite history, and never sends your voice or text to a cloud service during dictation.
 
 ![Saydraft dictation pill](assets/readme/pill-preview.gif)
 
@@ -41,7 +41,7 @@ Saydraft is a Windows tray dictation app that lets you speak messily and inserts
 │  mic capture ──► floating pill UI (level, elapsed, state)             │
 │        │                                                              │
 │        ▼                                                              │
-│  faster-whisper (LOCAL speech-to-text; base/small/medium models)      │
+│  local ASR (Parakeet v3/v2 or faster-whisper base/small/medium)       │
 │        │  raw transcript                                              │
 │        ▼                                                              │
 │  cleanup pipeline:                                                    │
@@ -68,7 +68,7 @@ Saydraft aims for the feel of polished cloud dictation while taking the opposite
 
 | Capability | Wispr Flow | Typeless | Saydraft |
 |---|---|---|---|
-| STT engine | Cloud OpenAI/Meta models, about 97% accuracy | Cloud STT with auto language detection | Local faster-whisper with `base`, `small`, and `medium` choices |
+| STT engine | Cloud OpenAI/Meta models, about 97% accuracy | Cloud STT with auto language detection | Local Parakeet v3/v2 int8 and Whisper `base`, `small`, `medium` |
 | Recording model | Hold-hotkey push-to-talk plus hands-free lock; 6-minute cap | Hold-hotkey push-to-talk | Hold-to-talk plus toggle lock mode; 10-minute soft cap |
 | Filler removal | Automatic | Automatic | Rules plus optional local LLM cleanup |
 | Backtrack and self-correction | Core feature | Core feature | Rule handling plus optional validation-guarded local LLM cleanup |
@@ -93,14 +93,14 @@ Saydraft aims for the feel of polished cloud dictation while taking the opposite
 
 1. Run `tools\build.ps1` to create the one-folder Windows app.
 2. Launch `dist\Saydraft\Saydraft.exe`.
-3. The first-run wizard checks your microphone, downloads the selected Whisper model, and walks through the hotkey flow.
+3. Choose a speech model in setup, review its license and size, and select Download. Downloads can pause and resume while the window stays responsive.
 
-The packaged app keeps external assets and models beside the executable:
+The packaged app keeps assets beside the executable. New model downloads live in your profile:
 
 ```text
 dist\Saydraft\Saydraft.exe
 dist\Saydraft\assets\
-dist\Saydraft\models\
+%LOCALAPPDATA%\Saydraft\models\
 ```
 
 ### From Source
@@ -118,11 +118,18 @@ Saydraft downloads models only when you choose them during onboarding or in Sett
 
 | Model | Size | Best For | Notes |
 |---|---:|---|---|
-| `base` | base (~145 MB) | Default daily dictation | Fast, good enough for most notes and chat, uses int8 compute |
+| Parakeet v3 int8 | ~671 MB | Default for fresh profiles; 25 European languages | NVIDIA weights, sherpa-onnx conversion, CC-BY-4.0 |
+| Parakeet v2 int8 | ~661 MB | English max option | English only, CC-BY-4.0 |
+| Whisper `base` | ~148 MB | Smaller download and other languages | MIT; existing profiles keep their Whisper preference |
 | `small` | small (better accuracy) | More accurate writing and names | Slower than base; Saydraft warns if it misses the local performance budget |
 | `medium` | medium (best CPU-viable accuracy) | Highest local STT quality | Best for patient desktop CPUs; expect larger download and slower first use |
 
 Optional cleanup tier: install a local GGUF runtime and point Settings -> Models at `Qwen2.5-1.5B-Instruct` `Q4_K_M` (~1 GB). Saydraft validates local LLM edits and falls back to deterministic rules when an edit looks risky.
+
+See [model details and measurements](docs/MODELS.md). Existing portable models
+and Hugging Face Whisper caches remain readable in place. Automatic routing to
+Whisper for languages outside Parakeet's supported set is still a roadmap task;
+select Whisper explicitly for those languages.
 
 ## Daily Use
 
@@ -145,7 +152,7 @@ Long recordings warn at 9 minutes and stop at 10 minutes to keep memory bounded.
 - Config: `%LOCALAPPDATA%\Saydraft\config.json`
 - Logs: `%LOCALAPPDATA%\Saydraft\logs\saydraft.log`
 - History: `%LOCALAPPDATA%\Saydraft\history.db`
-- Packaged models: `dist\Saydraft\models`
+- New model downloads: `%LOCALAPPDATA%\Saydraft\models`
 
 Saydraft has no telemetry and no cloud fallback for dictation. Network access is only used for explicit model downloads that you start from onboarding or Settings.
 

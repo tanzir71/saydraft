@@ -9,12 +9,21 @@ def test_container_wires_local_services_with_separate_user_profile(tmp_path, mon
     monkeypatch.setenv("LOCALAPPDATA", str(tmp_path))
     services = create_services(default_config())
     assert services.recorder.max_seconds == 600
-    assert services.asr.config.local_files_only
+    assert services.asr.model_id == "parakeet-tdt-0-6b-v3-int8"
     assert services.processor.history is services.history
     assert services.processor.cleaner is services.cleaner
     assert services.processor.inserter is services.inserter
     assert services.history.db_path == tmp_path / "Saydraft/history.db"
     assert services.cleaner.cfg.glossary_path == str(tmp_path / "Saydraft/glossary.json")
+
+
+def test_container_preserves_explicit_whisper_engine(tmp_path, monkeypatch):
+    monkeypatch.setenv("LOCALAPPDATA", str(tmp_path))
+    config = default_config()
+    config["stt"].update(engine="whisper", model_size="small")
+    services = create_services(config)
+    assert services.asr.config.local_files_only
+    assert services.asr.config.model_size == "small"
 
 
 def test_runtime_does_not_depend_on_retired_worker():

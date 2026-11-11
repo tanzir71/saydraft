@@ -15,13 +15,14 @@ from saydraft.config import load_config, save_config
 from saydraft.autostart import WindowsAutoStartManager
 from saydraft.paths import resolve_data_path
 from saydraft.model_download import download_silero_vad_model
-from saydraft.ui.download_task import DownloadTask
+from saydraft.asr.selection import select_model
+from saydraft.ui.download_task import DownloadTask, call_download
+from saydraft.ui.model_picker import ModelPicker
 
 logger = logging.getLogger(__name__)
 
 MODES = ("raw", "balanced", "aggressive")
 PROFILES = ("general", "email", "chat", "notes", "code/comments")
-MODEL_SIZES = ("base", "small", "medium")
 LANGUAGES = ("auto", "en", "es", "fr", "de", "it", "pt", "ja", "ko", "zh")
 
 
@@ -180,8 +181,8 @@ class SettingsWindow(QtWidgets.QDialog):
         page = QtWidgets.QWidget()
         layout = QtWidgets.QVBoxLayout(page)
         form = QtWidgets.QFormLayout()
-        self.model_combo = QtWidgets.QComboBox()
-        self.model_combo.addItems(MODEL_SIZES)
+        self.model_picker = ModelPicker(self.config, callback=self.model_download_callback)
+        self.model_combo = self.model_picker.combo
         self.device_combo = QtWidgets.QComboBox()
         self.device_combo.addItems(("cpu", "cuda", "auto"))
         self.compute_combo = QtWidgets.QComboBox()
@@ -189,11 +190,8 @@ class SettingsWindow(QtWidgets.QDialog):
         self.local_files_checkbox = QtWidgets.QCheckBox()
         self.llm_enabled_checkbox = QtWidgets.QCheckBox()
         self.llm_path_edit = QtWidgets.QLineEdit()
-        self.model_progress = QtWidgets.QProgressBar()
-        self.model_progress.setRange(0, 100)
-        self.model_progress.setValue(0)
-        self.download_button = QtWidgets.QPushButton("Download")
-        self.download_button.clicked.connect(self.download_selected_model)
+        self.model_progress = self.model_picker.progress
+        self.download_button = self.model_picker.download_button
         self.llm_link_button = QtWidgets.QPushButton("Open LLM Link")
         self.llm_link_button.clicked.connect(self.open_llm_download_link)
         self.vad_download_button = QtWidgets.QPushButton("Download speech detection (2.3 MB)")
@@ -202,15 +200,13 @@ class SettingsWindow(QtWidgets.QDialog):
         self.vad_license.setOpenExternalLinks(True)
         self.vad_license.setAccessibleName("Silero speech detection model license: MIT")
 
-        form.addRow("Whisper model", self.model_combo)
+        form.addRow("Speech model", self.model_picker)
         form.addRow("Device", self.device_combo)
         form.addRow("Compute type", self.compute_combo)
         form.addRow("Use local model files only", self.local_files_checkbox)
         form.addRow("Enable local LLM cleanup", self.llm_enabled_checkbox)
         form.addRow("GGUF model path", self.llm_path_edit)
-        form.addRow("Model download", self.download_button)
         form.addRow("LLM model link", self.llm_link_button)
-        form.addRow("Progress", self.model_progress)
         form.addRow("Speech detection", self.vad_download_button)
         form.addRow("Model license", self.vad_license)
         layout.addLayout(form)
@@ -228,24 +224,26 @@ class SettingsWindow(QtWidgets.QDialog):
         return page
 
     def download_vad_model(self):
-        if self._vad_download_task is not None:
+        if self._vad_download_task is not None or self.model_picker.task is not None:
             return
         task = DownloadTask(self)
         self._vad_download_task = task
         self.vad_download_button.setEnabled(False)
-        self.download_button.setEnabled(False)
+        self.model_picker.setEnabled(False)
         self.model_progress.setValue(0)
         self.status_label.setText("Downloading speech detection…")
         task.progress.connect(self.model_progress.setValue)
         task.succeeded.connect(lambda path: self.status_label.setText("Speech detection ready. Apply Settings to use it."))
         task.failed.connect(lambda error: self.status_label.setText(f"Could not download speech detection: {error}"))
+        task.paused.connect(self.status_label.setText)
         task.finished.connect(self._finish_vad_download)
         task.finished.connect(task.deleteLater)
-        task.start(self.vad_download_callback)
+        task.start(lambda progress: call_download(self.vad_download_callback, progress,
+                                                   pause_event=task.pause_event))
 
     def _finish_vad_download(self):
         self.vad_download_button.setEnabled(True)
-        self.download_button.setEnabled(True)
+        self.model_picker.setEnabled(True)
         self._vad_download_task = None
 
     def _load_values(self) -> None:
@@ -263,7 +261,6 @@ class SettingsWindow(QtWidgets.QDialog):
         self._set_combo(self.profile_combo, cfg["dictation"]["profile"])
         self.max_seconds_spin.setValue(int(cfg["recording"]["max_seconds"]))
         self.warning_seconds_spin.setValue(int(cfg["recording"]["warning_seconds"]))
-        self._set_combo(self.model_combo, cfg["stt"]["model_size"])
         self._set_combo(self.device_combo, cfg["stt"]["device"])
         self._set_combo(self.compute_combo, cfg["stt"]["compute_type"])
         self.local_files_checkbox.setChecked(bool(cfg["stt"]["local_files_only"]))
@@ -318,7 +315,7 @@ class SettingsWindow(QtWidgets.QDialog):
         cfg["dictation"]["mode"] = self.mode_combo.currentText()
         cfg["dictation"]["profile"] = self.profile_combo.currentText()
         cfg["stt"]["language"] = self.language_combo.currentText()
-        cfg["stt"]["model_size"] = self.model_combo.currentText()
+        select_model(cfg, self.model_picker.model_id)
         cfg["stt"]["device"] = self.device_combo.currentText()
         cfg["stt"]["compute_type"] = self.compute_combo.currentText()
         cfg["stt"]["local_files_only"] = bool(self.local_files_checkbox.isChecked())
@@ -327,19 +324,14 @@ class SettingsWindow(QtWidgets.QDialog):
         return cfg
 
     def download_selected_model(self) -> None:
-        self.model_progress.setValue(5)
-        model_size = self.model_combo.currentText()
-        if self.model_download_callback is None:
-            self.model_progress.setValue(100)
-            self.status_label.setText(f"{model_size} selected")
-            return
-        try:
-            self.model_download_callback(model_size, self.model_progress.setValue)
-            self.model_progress.setValue(100)
-            self.status_label.setText(f"{model_size} ready")
-        except Exception:
-            logger.exception("Model download failed")
-            self.status_label.setText(f"Could not download {model_size}")
+        if self._vad_download_task is None:
+            self.model_picker.start_download()
+
+    def closeEvent(self, event):
+        self.model_picker.pause()
+        if self._vad_download_task is not None:
+            self._vad_download_task.pause()
+        super().closeEvent(event)
 
     def open_llm_download_link(self) -> None:
         QtGui.QDesktopServices.openUrl(

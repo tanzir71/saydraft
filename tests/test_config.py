@@ -1,6 +1,20 @@
 import json
 
 
+def test_fresh_profile_defaults_to_parakeet_while_existing_whisper_choice_survives(tmp_path):
+    from saydraft.config import load_config
+
+    target = tmp_path / "config.json"
+    cfg = load_config(config_path=target, settings_path=tmp_path / "absent.txt")
+    assert cfg["stt"]["engine"] == "parakeet"
+    assert cfg["stt"]["model_id"] == "parakeet-tdt-0-6b-v3-int8"
+    target.write_text(json.dumps({"stt": {"model_size": "small", "language": "bn"}}), encoding="utf-8")
+    cfg = load_config(config_path=target, settings_path=tmp_path / "absent.txt")
+    assert cfg["stt"]["engine"] == "whisper"
+    assert cfg["stt"]["model_size"] == "small"
+    assert cfg["stt"]["language"] == "bn"
+
+
 def test_default_config_contains_schema_and_expected_defaults(tmp_path):
     from saydraft.config import CONFIG_SCHEMA, default_config, default_config_path
 

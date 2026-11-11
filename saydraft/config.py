@@ -36,6 +36,8 @@ CONFIG_SCHEMA: dict[str, Any] = {
         "app_profiles_path": str,
     },
     "stt": {
+        "engine": str,
+        "model_id": str,
         "model_size": str,
         "language": str,
         "device": str,
@@ -85,6 +87,8 @@ _DEFAULT_CONFIG: dict[str, Any] = {
         "app_profiles_path": "app_profiles.json",
     },
     "stt": {
+        "engine": "parakeet",
+        "model_id": "parakeet-tdt-0-6b-v3-int8",
         "model_size": "base",
         "language": "auto",
         "device": "cpu",
@@ -182,7 +186,15 @@ def save_config(
 
 
 def sanitize_config(config: dict[str, Any] | None) -> dict[str, Any]:
-    return _sanitize_mapping(config if isinstance(config, dict) else {}, CONFIG_SCHEMA, _DEFAULT_CONFIG)
+    source = config if isinstance(config, dict) else {}
+    cfg = _sanitize_mapping(source, CONFIG_SCHEMA, _DEFAULT_CONFIG)
+    # Existing JSON predates engine selection. Keep its Whisper model preference.
+    stt = source.get("stt", {})
+    if not isinstance(stt, dict) or stt.get("engine") not in ("whisper", "parakeet"):
+        cfg["stt"]["engine"] = "whisper"
+    if cfg["stt"]["model_id"] not in ("parakeet-tdt-0-6b-v3-int8", "parakeet-tdt-0-6b-v2-int8"):
+        cfg["stt"]["model_id"] = _DEFAULT_CONFIG["stt"]["model_id"]
+    return cfg
 
 
 def migrate_settings_txt(
@@ -195,6 +207,7 @@ def migrate_settings_txt(
     """
 
     cfg = sanitize_config(base_config or default_config())
+    cfg["stt"]["engine"] = "whisper"
     values = _read_legacy_settings(Path(settings_path))
 
     for legacy_key, path in _LEGACY_KEY_MAP.items():

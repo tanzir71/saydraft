@@ -74,7 +74,8 @@ def test_settings_window_has_required_tabs_and_loads_values(tmp_path):
     assert window.language_combo.currentText() == "auto"
     assert window.mode_combo.currentText() == "balanced"
     assert window.profile_combo.currentText() == "notes"
-    assert window.model_combo.currentText() == "base"
+    assert window.model_picker.model_id == "parakeet-tdt-0-6b-v3-int8"
+    assert "CC-BY-4.0" in window.model_picker.license_label.text()
     assert "Saydraft" in window.dictionary_editor.toPlainText()
     assert "addr=123 Main" in window.snippets_editor.toPlainText()
 
@@ -103,6 +104,7 @@ def test_settings_window_applies_config_live_and_updates_autostart(tmp_path):
     assert saved["dictation"]["mode"] == "aggressive"
     assert saved["dictation"]["profile"] == "email"
     assert saved["stt"]["model_size"] == "small"
+    assert saved["stt"]["engine"] == "whisper"
     assert saved["llm"]["enabled"] is True
     assert saved["llm"]["model_path"] == "models/qwen.gguf"
     assert autostart.calls == [True]

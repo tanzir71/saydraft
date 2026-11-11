@@ -108,6 +108,34 @@ def test_capture_and_processing_emit_states_and_persist_before_insertion():
     assert not worker.busy
 
 
+def test_model_is_prepared_before_microphone_and_actual_model_is_saved():
+    worker, clock, _executor, events, signals, _keyboard = make_worker()
+    ordering = []
+    worker.services.asr.prepare = lambda: ordering.append("model")
+    worker.services.asr.model_id = "parakeet-actual"
+    original = worker.services.recorder.start
+    worker.services.recorder.start = lambda: (ordering.append("microphone"), original())
+    worker.start_recording()
+    assert ordering == ["model", "microphone"]
+    clock.now = 2
+    worker.stop_recording()
+    assert events[0][1].model == "parakeet-actual"
+
+
+def test_missing_model_does_not_open_microphone_and_has_actionable_error():
+    worker, clock, executor, events, signals, keyboard = make_worker()
+
+    def missing():
+        raise FileNotFoundError("model missing")
+
+    worker.services.asr.prepare = missing
+    worker.start_recording()
+    assert worker.services.recorder.started == 0
+    assert worker.session.state == State.ERROR
+    assert "Settings" in signals[-1][1]
+    assert not events
+
+
 def test_warning_and_soft_cap_are_configurable_and_stop_once():
     worker, clock, _executor, events, signals, _keyboard = make_worker()
     worker.start_recording()
@@ -145,13 +173,14 @@ def test_cancelled_recording_is_discarded_without_paste():
     assert worker.session.state == State.CANCELLED
 
 
-def test_release_during_arming_closes_device_and_ignores_new_press_until_closed():
+def test_release_before_queued_arming_keeps_device_closed_and_ignores_new_press_until_ready():
     worker, _clock, executor, events, _signals, _keyboard = make_worker(queued=True)
     worker.start_recording()
     worker.stop_recording()
     assert not worker.start_recording()
     executor.drain()
-    assert worker.services.recorder.stopped == 1
+    assert worker.services.recorder.started == 0
+    assert worker.services.recorder.stopped == 0
     assert events == []
     assert worker.start_recording()
     executor.drain()
