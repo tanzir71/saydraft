@@ -36,7 +36,7 @@ def test_history_store_appends_and_reads_dictations(tmp_path):
     with sqlite3.connect(db_path) as conn:
         columns = [info[1] for info in conn.execute("PRAGMA table_info(dictations)")]
 
-    assert columns == [
+    assert columns[:9] == [
         "id",
         "created_at",
         "app_name",
@@ -47,6 +47,8 @@ def test_history_store_appends_and_reads_dictations(tmp_path):
         "duration_seconds",
         "model",
     ]
+    assert {"app_exe", "app_group", "style", "intensity", "language", "asr_model",
+            "llm_model", "llm_decision", "timings_json", "edits_json", "audio_path"} <= set(columns)
 
 
 def test_default_history_path_uses_local_appdata(tmp_path, monkeypatch):

@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import logging
 import time
+import json
 from dataclasses import dataclass, field
 
 from saydraft.history import HistoryEntry
@@ -46,7 +47,7 @@ class TranscriptProcessor:
 
     def process(self, raw_text: str, *, target: TargetContext, context, model: str,
                 duration_seconds: float | None = None, insert_text: bool = True,
-                insert_action=None, timings: dict | None = None) -> ProcessingResult:
+                insert_action=None, timings: dict | None = None, language: str = "auto") -> ProcessingResult:
         stages = dict(timings or {})
         cleaned = raw_text
         try:
@@ -62,7 +63,10 @@ class TranscriptProcessor:
             logger.warning("Formatting failed; preserving available words")
             logger.debug("Formatting failure detail", exc_info=True)
         entry = HistoryEntry(target.app_title, raw_text, cleaned, context.mode,
-                             context.profile, duration_seconds, model)
+                             context.profile, duration_seconds, model,
+                             app_exe=target.app_exe, app_group=target.app_group,
+                             intensity={"raw": 0, "balanced": 1, "aggressive": 3}.get(context.mode),
+                             language=language, asr_model=model, timings_json=json.dumps(stages))
         try:
             history_id = self.history.append(entry)
         except Exception:
@@ -96,5 +100,12 @@ class TranscriptProcessor:
             self.notify("Dictation saved in history; insertion was unavailable.")
         result = ProcessingResult(raw_text, cleaned, insertion, history_id, stages)
         self.last_result = result
+        update_timings = getattr(self.history, "update_timings", None)
+        if update_timings is not None:
+            try:
+                update_timings(history_id, stages)
+            except Exception:
+                logger.warning("Could not complete timing metadata; dictation text remains saved")
+                logger.debug("Timing metadata failure detail", exc_info=True)
         self.reporter.report(stages, model)
         return result

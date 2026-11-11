@@ -48,9 +48,14 @@ def create_services(config: dict, *, level_callback=None, notify=lambda message:
     asr = WhisperEngine(WhisperEngineConfig.from_app_config(config))
     context = ForegroundContextProvider()
     inserter = ClipboardInserter(focus_provider=lambda: context.capture().focus, profiles=profiles)
-    history = DictationHistoryStore()
+    snippets = read_snippets()
+    history = DictationHistoryStore(import_paths={
+        "glossary": resolve_data_path(config["dictation"]["glossary_path"]),
+        "profiles": resolve_data_path(config["dictation"]["app_profiles_path"]),
+        "snippets": resolve_data_path("snippets.txt"),
+    })
     formatter = IdentityFormatter()
     processor = TranscriptProcessor(cleaner=cleaner, formatter=formatter, history=history,
-                                    inserter=inserter, snippets=read_snippets(), notify=notify,
+                                    inserter=inserter, snippets=snippets, notify=notify,
                                     reporter=TimingReporter(notify=notify, llm_enabled=llm["enabled"]))
     return Services(config, recorder, asr, cleaner, formatter, inserter, context, history, processor, profiles)

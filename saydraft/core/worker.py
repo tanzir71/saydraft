@@ -212,6 +212,7 @@ class SessionWorker:
             result = self.services.processor.process(
                 raw, target=self._target, context=self._context,
                 model=self.services.config["stt"]["model_size"], duration_seconds=duration,
+                language=self.services.config["stt"].get("language", "auto"),
                 insert_text=self._insert_text,
                 insert_action=lambda action: self._insert_if_current(generation, action), timings=timings,
             )

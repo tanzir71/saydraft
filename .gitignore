@@ -37,6 +37,8 @@ site/test-results/
 *.sqlite*
 *.db
 *.db-*
+*.db.bak-*
+*.sqlite*.bak-*
 /saved_texts.txt
 .DS_Store
 Thumbs.db

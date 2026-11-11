@@ -4,10 +4,16 @@ from __future__ import annotations
 
 import os
 import sqlite3
+import json
 from contextlib import contextmanager
 from collections.abc import Iterator
 from dataclasses import dataclass
 from pathlib import Path
+
+from .data.db import HISTORY_METADATA, migrate_database
+
+_HISTORY_FIELDS = ("app_name", "raw_text", "cleaned_text", "mode", "profile", "duration_seconds", "model")
+_ALL_FIELDS = (*_HISTORY_FIELDS, *HISTORY_METADATA)
 
 
 @dataclass(frozen=True)
@@ -19,6 +25,17 @@ class HistoryEntry:
     profile: str
     duration_seconds: float | None
     model: str
+    app_exe: str | None = None
+    app_group: str | None = None
+    style: str | None = None
+    intensity: int | None = None
+    language: str | None = None
+    asr_model: str | None = None
+    llm_model: str | None = None
+    llm_decision: str | None = None
+    timings_json: str = "{}"
+    edits_json: str = "[]"
+    audio_path: str | None = None
 
 
 @dataclass(frozen=True)
@@ -32,6 +49,17 @@ class HistoryRow:
     profile: str
     duration_seconds: float | None
     model: str
+    app_exe: str | None = None
+    app_group: str | None = None
+    style: str | None = None
+    intensity: int | None = None
+    language: str | None = None
+    asr_model: str | None = None
+    llm_model: str | None = None
+    llm_decision: str | None = None
+    timings_json: str = "{}"
+    edits_json: str = "[]"
+    audio_path: str | None = None
 
 
 def default_history_path(local_appdata: str | os.PathLike[str] | None = None) -> Path:
@@ -40,53 +68,35 @@ def default_history_path(local_appdata: str | os.PathLike[str] | None = None) ->
 
 
 class DictationHistoryStore:
-    def __init__(self, db_path: str | os.PathLike[str] | None = None):
+    def __init__(self, db_path: str | os.PathLike[str] | None = None, *, import_paths=None):
         self.db_path = Path(db_path) if db_path is not None else default_history_path()
         self.db_path.parent.mkdir(parents=True, exist_ok=True)
-        self._ensure_schema()
+        self.migration = migrate_database(self.db_path, import_paths=import_paths)
 
     def append(self, entry: HistoryEntry) -> int:
+        values = {name: getattr(entry, name) for name in _ALL_FIELDS}
+        values["asr_model"] = entry.asr_model or entry.model
+        timings = json.loads(entry.timings_json)
+        processing_seconds = sum(float(timings.get(stage, 0) or 0)
+                                 for stage in ("vad", "stt", "rules", "llm", "insert"))
         with self._connect() as conn:
             cursor = conn.execute(
-                """
-                INSERT INTO dictations (
-                    app_name,
-                    raw_text,
-                    cleaned_text,
-                    mode,
-                    profile,
-                    duration_seconds,
-                    model
-                )
-                VALUES (?, ?, ?, ?, ?, ?, ?)
-                """,
-                (
-                    entry.app_name,
-                    entry.raw_text,
-                    entry.cleaned_text,
-                    entry.mode,
-                    entry.profile,
-                    entry.duration_seconds,
-                    entry.model,
-                ),
+                f"INSERT INTO dictations ({', '.join(_ALL_FIELDS)}) VALUES ({', '.join('?' for _ in _ALL_FIELDS)})",
+                tuple(values[name] for name in _ALL_FIELDS),
             )
+            conn.execute("""INSERT INTO stats_daily(day, dictations, words, audio_seconds, processing_seconds)
+                SELECT date(created_at, 'localtime'), 1, ?, ?, ? FROM dictations WHERE id=?
+                ON CONFLICT(day) DO UPDATE SET dictations=dictations+1,
+                words=words+excluded.words, audio_seconds=audio_seconds+excluded.audio_seconds,
+                processing_seconds=processing_seconds+excluded.processing_seconds""",
+                (len(entry.cleaned_text.split()), float(entry.duration_seconds or 0), processing_seconds, cursor.lastrowid))
             return int(cursor.lastrowid)
 
     def list_recent(self, *, limit: int = 100) -> list[HistoryRow]:
         with self._connect() as conn:
             rows = conn.execute(
-                """
-                SELECT
-                    id,
-                    created_at,
-                    app_name,
-                    raw_text,
-                    cleaned_text,
-                    mode,
-                    profile,
-                    duration_seconds,
-                    model
-                FROM dictations
+                f"""
+                SELECT id, created_at, {', '.join(_ALL_FIELDS)} FROM dictations
                 ORDER BY id DESC
                 LIMIT ?
                 """,
@@ -94,23 +104,18 @@ class DictationHistoryStore:
             ).fetchall()
         return [HistoryRow(*row) for row in rows]
 
-    def _ensure_schema(self) -> None:
+    def update_timings(self, row_id: int, timings: dict[str, float]) -> None:
+        """Complete timing metadata after insertion, retaining the earlier text record."""
         with self._connect() as conn:
-            conn.execute(
-                """
-                CREATE TABLE IF NOT EXISTS dictations (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
-                    app_name TEXT,
-                    raw_text TEXT NOT NULL,
-                    cleaned_text TEXT NOT NULL,
-                    mode TEXT NOT NULL,
-                    profile TEXT NOT NULL,
-                    duration_seconds REAL,
-                    model TEXT NOT NULL
-                )
-                """
-            )
+            existing = conn.execute("SELECT created_at, timings_json FROM dictations WHERE id=?", (row_id,)).fetchone()
+            if existing is None:
+                return
+            old = json.loads(existing[1])
+            stages = ("vad", "stt", "rules", "llm", "insert")
+            delta = sum(float(timings.get(stage, 0)) - float(old.get(stage, 0)) for stage in stages)
+            conn.execute("UPDATE dictations SET timings_json=? WHERE id=?", (json.dumps(timings), row_id))
+            conn.execute("UPDATE stats_daily SET processing_seconds=processing_seconds+? WHERE day=date(?, 'localtime')",
+                         (delta, existing[0]))
 
     @contextmanager
     def _connect(self) -> Iterator[sqlite3.Connection]:
