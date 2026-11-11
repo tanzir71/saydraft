@@ -159,7 +159,7 @@
       "id": "parakeet-tdt-0-6b-v3-int8",
       "engine": "parakeet",
       "role": "asr",
-      "label": "Parakeet v3 \u00b7 25 languages (recommended)",
+      "label": "Parakeet v3 · 25 languages (recommended)",
       "revision": "ed5d745623472f97cfc2e6c2916ee248798fc5a8",
       "license": "CC-BY-4.0",
       "license_url": "https://creativecommons.org/licenses/by/4.0/",
@@ -237,7 +237,7 @@
       "id": "parakeet-tdt-0-6b-v2-int8",
       "engine": "parakeet",
       "role": "asr",
-      "label": "Parakeet v2 \u00b7 English max",
+      "label": "Parakeet v2 · English max",
       "revision": "84b478d541cdbf0c296a7ab5f1e20a6f8f998114",
       "license": "CC-BY-4.0",
       "license_url": "https://creativecommons.org/licenses/by/4.0/",
@@ -289,7 +289,7 @@
       "engine": "whisper",
       "role": "asr",
       "model_size": "large-v3-turbo",
-      "label": "All languages \u00b7 Whisper turbo",
+      "label": "All languages · Whisper turbo",
       "revision": "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
       "license": "MIT",
       "license_url": "https://github.com/openai/whisper/blob/main/LICENSE",
@@ -370,6 +370,77 @@
       ],
       "label": "Auto language detection (Whisper tiny int8)",
       "upstream": "https://github.com/openai/whisper"
+    },
+    {
+      "id": "nemotron-preview-160ms-int8",
+      "revision": "github-release-asset-405279013",
+      "role": "preview",
+      "license": "NVIDIA Open Model License",
+      "download_hosts": [
+        "api.github.com",
+        "release-assets.githubusercontent.com"
+      ],
+      "archive": {
+        "asset_id": 405279013,
+        "url": "https://api.github.com/repos/k2-fsa/sherpa-onnx/releases/assets/405279013",
+        "path": "nemotron-160ms.tar.bz2",
+        "format": "tar.bz2",
+        "size": 463945198,
+        "sha256": "0ae73a41cd51599dc7cac9ac083d9d35de53d762ca45923505fde47a3751814b"
+      },
+      "files": [
+        {
+          "path": "tokens.txt",
+          "size": 8952,
+          "sha256": "dc0b4584ab2e4ddbf888425c076c61b736e7356a015250db7d307e6f1a8188ff",
+          "member": "sherpa-onnx-nemotron-speech-streaming-en-0.6b-160ms-int8-2026-04-25/tokens.txt"
+        },
+        {
+          "path": "README.md",
+          "size": 158,
+          "sha256": "ff55e0c15ea58f392f153e63a805e902b7836dce9ecf22634eb30f50a9dd6f4c",
+          "member": "sherpa-onnx-nemotron-speech-streaming-en-0.6b-160ms-int8-2026-04-25/README.md"
+        },
+        {
+          "path": "joiner.int8.onnx",
+          "size": 1735862,
+          "sha256": "a35eac38a22ebceb04d230ed7afe0d68f446ba6914a036b97f14fece95967e23",
+          "member": "sherpa-onnx-nemotron-speech-streaming-en-0.6b-160ms-int8-2026-04-25/joiner.int8.onnx"
+        },
+        {
+          "path": "decoder.int8.onnx",
+          "size": 7257753,
+          "sha256": "0be9702c2f427a2b6bb241d298e0d3836a558de1f5b9fd3018f1cce6e2b3fa98",
+          "member": "sherpa-onnx-nemotron-speech-streaming-en-0.6b-160ms-int8-2026-04-25/decoder.int8.onnx"
+        },
+        {
+          "path": "encoder.int8.onnx",
+          "size": 652916849,
+          "sha256": "71111f61b18e1e65e01e369434a5c0434868d2f44892742ae54240600c681209",
+          "member": "sherpa-onnx-nemotron-speech-streaming-en-0.6b-160ms-int8-2026-04-25/encoder.int8.onnx"
+        },
+        {
+          "path": "LICENSE-NVIDIA.pdf",
+          "bundled_source": "assets/licenses/nvidia-open-model-license-2025-10-24.pdf",
+          "size": 79005,
+          "sha256": "4d2fb590aa9b30c47f2058bff17291df7fa2aa0c1bd775a20703da9bb267cfab"
+        },
+        {
+          "path": "NOTICE.txt",
+          "bundled_source": "assets/licenses/nemotron-NOTICE.txt",
+          "size": 547,
+          "sha256": "f69fdc27b345050020dcd3028cac14fa31c7419e082061399ea1363ba109c0d5"
+        }
+      ],
+      "engine": "sherpa_nemo_stream",
+      "label": "English live preview · Nemotron 0.6B (Labs)",
+      "publisher": "NVIDIA; ONNX/int8 conversion by sherpa-onnx",
+      "license_url": "https://www.nvidia.com/en-us/agreements/enterprise-software/nvidia-open-model-license/",
+      "source": "https://huggingface.co/nvidia/nemotron-speech-streaming-en-0.6b",
+      "languages": [
+        "en"
+      ],
+      "experimental": true
     }
   ]
 }

@@ -23,7 +23,7 @@ def default_models_dir(models_dir: str | Path | None = None) -> Path:
 def model_relative_dir(model: dict) -> Path:
     if model["engine"] == "whisper":
         return Path("whisper") / model["model_size"]
-    folder = {"vad": "vad", "lid": "lid", "llm": "llm", "runtime": "runtime"}.get(model.get("role"), "asr")
+    folder = {"vad": "vad", "lid": "lid", "llm": "llm", "runtime": "runtime", "preview": "preview"}.get(model.get("role"), "asr")
     return Path(folder) / model["id"]
 
 
@@ -93,3 +93,13 @@ def download_silero_vad_model(progress_callback: ProgressCallback | None = None,
     model = get_model("silero-vad-v5")
     target = default_models_dir(models_dir) / "vad" / model["id"]
     return download_model(model, target, progress_callback=progress_callback, pause_event=pause_event)
+
+
+def download_preview_model(progress_callback=None, *, models_dir=None, pause_event=None):
+    """Explicit Labs download only; capture/recognition never installs preview weights."""
+    from .asr.model_ids import PREVIEW_MODEL
+    from .models.packages import install_archive
+
+    model = get_model(PREVIEW_MODEL)
+    target = default_models_dir(models_dir) / model_relative_dir(model)
+    return install_archive(model, target, progress_callback=progress_callback, pause_event=pause_event)

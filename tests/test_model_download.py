@@ -87,3 +87,16 @@ def test_one_explicit_download_covers_displayed_dependencies_with_aggregate_prog
     assert calls[1][1] == tmp_path / "lid" / "whisper-tiny-lid-int8"
     assert all(call[2] is pause for call in calls)
     assert len(preflight) == 2 and progress == sorted(progress) and progress[-1] == 100
+
+
+def test_preview_archive_download_is_a_separate_explicit_action(tmp_path, monkeypatch):
+    from saydraft.asr.model_ids import PREVIEW_MODEL
+    from saydraft.model_download import download_preview_model
+
+    calls = []
+    monkeypatch.setattr("saydraft.models.packages.install_archive", lambda model, target, **kwargs:
+                        calls.append((model, target, kwargs)) or target)
+    pause = object()
+    target = download_preview_model(models_dir=tmp_path, pause_event=pause)
+    assert target == tmp_path / "preview" / PREVIEW_MODEL
+    assert calls[0][0]["role"] == "preview" and calls[0][2]["pause_event"] is pause

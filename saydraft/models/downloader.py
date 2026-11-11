@@ -129,6 +129,8 @@ def _download_file(file, destination, open_url, progress, pause_event):
     _write_json(metadata, file)
     if offset < file["size"]:
         headers = {"User-Agent": "Saydraft-model-downloader", "Accept-Encoding": "identity"}
+        if file.get("accept") == "application/octet-stream":
+            headers["Accept"] = "application/octet-stream"
         if offset:
             headers["Range"] = f"bytes={offset}-"
         with open_url(Request(file["url"], headers=headers), timeout=30) as response:

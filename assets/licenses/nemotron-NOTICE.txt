@@ -1,0 +1,11 @@
+Licensed by NVIDIA Corporation under the NVIDIA Open Model License
+
+Original model: NVIDIA Nemotron Speech Streaming English 0.6B
+Source: https://huggingface.co/nvidia/nemotron-speech-streaming-en-0.6b
+ONNX export and int8 quantization: sherpa-onnx contributors
+Conversion: sherpa-onnx-nemotron-speech-streaming-en-0.6b-160ms-int8-2026-04-25
+GitHub release asset: 405279013
+
+Saydraft retains the converted model files unchanged. The included NVIDIA
+Open Model License Agreement governs these weights separately from the
+application's MIT license.
