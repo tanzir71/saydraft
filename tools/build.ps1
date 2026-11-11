@@ -70,8 +70,10 @@ python -m PyInstaller `
     --collect-submodules faster_whisper `
     --collect-binaries ctranslate2 `
     --collect-data ctranslate2 `
+    --collect-submodules sherpa_onnx `
+    --collect-binaries sherpa_onnx `
     --hidden-import PySide6.QtSvg `
-    --exclude-module webrtcvad `
+    --hidden-import _webrtcvad `
     --exclude-module torch `
     --exclude-module transformers `
     --exclude-module sklearn `

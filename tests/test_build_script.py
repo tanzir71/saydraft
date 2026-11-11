@@ -17,7 +17,9 @@ def test_pyinstaller_build_script_uses_onedir_windowed_icon_and_version():
     assert "saydraft\\__init__.py" in text
     assert "$lastexitcode" in text
     assert "pyinstaller failed" in text
-    assert "--exclude-module" in text and "webrtcvad" in text
+    assert "--hidden-import _webrtcvad" in text
+    assert "--exclude-module webrtcvad" not in text
+    assert "--collect-binaries sherpa_onnx" in text
 
 
 def test_pyinstaller_build_script_keeps_assets_and_models_external():

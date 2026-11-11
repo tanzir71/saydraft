@@ -12,6 +12,8 @@ license files, including transitive dependencies and native libraries.
 | PySide6, Shiboken6, Qt | LGPL-3.0 (open-source distribution; some Qt components have other terms) | [Qt for Python licenses](https://doc.qt.io/qtforpython-6/licenses.html) |
 | faster-whisper | MIT | [License](https://github.com/SYSTRAN/faster-whisper/blob/master/LICENSE) |
 | CTranslate2 | MIT | [License](https://github.com/OpenNMT/CTranslate2/blob/master/LICENSE) |
+| sherpa-onnx | Apache-2.0 | [License](https://github.com/k2-fsa/sherpa-onnx/blob/master/LICENSE) |
+| ONNX Runtime | MIT | [License](https://github.com/microsoft/onnxruntime/blob/main/LICENSE) |
 | sounddevice / PortAudio | MIT | [Licenses](https://python-sounddevice.readthedocs.io/en/latest/about.html) |
 | NumPy | BSD-3-Clause; bundled native components retain additional notices | [License](https://github.com/numpy/numpy/blob/main/LICENSE.txt) |
 | soundfile / libsndfile | BSD-3-Clause / LGPL-2.1-or-later | [Source and notices](https://github.com/bastibe/python-soundfile) |
@@ -33,8 +35,6 @@ them, add their full notices to the installer and model-download UI.
 
 | Component | License | Source |
 |---|---|---|
-| sherpa-onnx | Apache-2.0 | [License](https://github.com/k2-fsa/sherpa-onnx/blob/master/LICENSE) |
-| ONNX Runtime | MIT | [License](https://github.com/microsoft/onnxruntime/blob/main/LICENSE) |
 | llama.cpp | MIT | [License](https://github.com/ggml-org/llama.cpp/blob/master/LICENSE) |
 
 ## Model weights (downloaded separately)
@@ -46,6 +46,7 @@ conversion or quantization must credit the original model and describe changes.
 | Model family | License / status | Attribution and source |
 |---|---|---|
 | Whisper, including large-v3-turbo | MIT | [OpenAI Whisper](https://github.com/openai/whisper/blob/main/LICENSE); [SYSTRAN conversions](https://huggingface.co/Systran) |
+| Silero VAD v5 | MIT; downloaded with its full license | [Silero Team model and license](https://github.com/snakers4/silero-vad/tree/v5.0) |
 | Parakeet TDT 0.6B v3 / v2 (planned) | CC-BY-4.0; attribution required | NVIDIA; [v3 model card](https://huggingface.co/nvidia/parakeet-tdt-0.6b-v3), [v2 model card](https://huggingface.co/nvidia/parakeet-tdt-0.6b-v2), [license](https://creativecommons.org/licenses/by/4.0/) |
 | Qwen2.5-1.5B-Instruct (manual optional cleanup) | Apache-2.0 | [Qwen model card and license](https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct-GGUF) |
 | Future Qwen, Gemma, Nemotron and diarization models | Not yet selected or shipped | Verify the exact artifact's terms and retain its model card before adding to the manifest. Do not infer a license from a family name. |

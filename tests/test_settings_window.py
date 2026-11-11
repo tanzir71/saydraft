@@ -192,3 +192,35 @@ def test_windows_autostart_manager_uses_frozen_exe_command(monkeypatch, tmp_path
     manager = WindowsAutoStartManager(platform="win32")
 
     assert manager.command == f'"{exe}"'
+
+
+def test_speech_detection_download_runs_outside_the_ui_thread(tmp_path):
+    import threading
+    from PySide6 import QtTest, QtWidgets
+
+    window, _config_path, _autostart = make_window(tmp_path)
+    started = threading.Event()
+    release = threading.Event()
+
+    def download(progress):
+        started.set()
+        assert release.wait(2)
+        progress(100)
+        return tmp_path / "vad"
+
+    window.vad_download_callback = download
+    window.download_vad_model()
+    assert started.wait(1)
+    assert not window.vad_download_button.isEnabled()
+    window.mode_combo.setCurrentText("raw")
+    assert window.mode_combo.currentText() == "raw"
+    release.set()
+    for _ in range(100):
+        QtWidgets.QApplication.processEvents()
+        if window._vad_download_task is None:
+            break
+        QtTest.QTest.qWait(10)
+    assert window._vad_download_task is None
+    assert window.vad_download_button.isEnabled()
+    assert window.model_progress.value() == 100
+    assert "ready" in window.status_label.text().lower()

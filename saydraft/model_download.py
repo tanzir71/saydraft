@@ -39,3 +39,10 @@ def download_whisper_model(
 def _emit_progress(callback: ProgressCallback | None, value: int) -> None:
     if callback is not None:
         callback(int(value))
+
+
+def download_silero_vad_model(progress_callback: ProgressCallback | None = None, *, models_dir=None) -> Path:
+    """Explicit Settings action; inference never calls this function."""
+    model = get_model("silero-vad-v5")
+    target = default_models_dir(models_dir) / "vad" / model["id"]
+    return download_model(model, target, progress_callback=progress_callback)

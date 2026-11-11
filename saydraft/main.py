@@ -8,6 +8,9 @@ def main() -> int:
     from .privacy.netguard import NetworkGuard
 
     NetworkGuard.install()
+    from .privacy.telemetry import configure_process_privacy
+
+    configure_process_privacy()
     import sys
 
     if sys.platform == "win32":

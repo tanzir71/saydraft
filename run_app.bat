@@ -1,3 +1,7 @@
 @echo off
 cd /d "%~dp0"
-pythonw -m saydraft
+if exist ".venv\Scripts\pythonw.exe" (
+    ".venv\Scripts\pythonw.exe" -m saydraft
+) else (
+    pythonw -m saydraft
+)

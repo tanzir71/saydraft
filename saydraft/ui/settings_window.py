@@ -14,6 +14,8 @@ from PySide6 import QtCore, QtGui, QtWidgets
 from saydraft.config import load_config, save_config
 from saydraft.autostart import WindowsAutoStartManager
 from saydraft.paths import resolve_data_path
+from saydraft.model_download import download_silero_vad_model
+from saydraft.ui.download_task import DownloadTask
 
 logger = logging.getLogger(__name__)
 
@@ -60,6 +62,7 @@ class SettingsWindow(QtWidgets.QDialog):
         autostart_manager: WindowsAutoStartManager | None = None,
         on_config_applied: Callable[[dict[str, Any]], None] | None = None,
         model_download_callback: Callable[[str, Callable[[int], None]], None] | None = None,
+        vad_download_callback=None,
     ):
         super().__init__()
         self.qt = qt_modules
@@ -67,6 +70,8 @@ class SettingsWindow(QtWidgets.QDialog):
         self.autostart_manager = autostart_manager or WindowsAutoStartManager()
         self.on_config_applied = on_config_applied
         self.model_download_callback = model_download_callback
+        self.vad_download_callback = vad_download_callback or download_silero_vad_model
+        self._vad_download_task = None
         self.config = load_config(config_path=self.config_path)
         self.snippets_path = Path(snippets_path) if snippets_path is not None else resolve_project_path("snippets.txt")
         self.glossary_path = resolve_project_path(self.config["dictation"]["glossary_path"])
@@ -191,6 +196,11 @@ class SettingsWindow(QtWidgets.QDialog):
         self.download_button.clicked.connect(self.download_selected_model)
         self.llm_link_button = QtWidgets.QPushButton("Open LLM Link")
         self.llm_link_button.clicked.connect(self.open_llm_download_link)
+        self.vad_download_button = QtWidgets.QPushButton("Download speech detection (2.3 MB)")
+        self.vad_download_button.clicked.connect(self.download_vad_model)
+        self.vad_license = QtWidgets.QLabel('Silero Team · <a href="https://github.com/snakers4/silero-vad/blob/v5.0/LICENSE">MIT license</a>')
+        self.vad_license.setOpenExternalLinks(True)
+        self.vad_license.setAccessibleName("Silero speech detection model license: MIT")
 
         form.addRow("Whisper model", self.model_combo)
         form.addRow("Device", self.device_combo)
@@ -201,6 +211,8 @@ class SettingsWindow(QtWidgets.QDialog):
         form.addRow("Model download", self.download_button)
         form.addRow("LLM model link", self.llm_link_button)
         form.addRow("Progress", self.model_progress)
+        form.addRow("Speech detection", self.vad_download_button)
+        form.addRow("Model license", self.vad_license)
         layout.addLayout(form)
         return page
 
@@ -214,6 +226,27 @@ class SettingsWindow(QtWidgets.QDialog):
         layout.addWidget(label)
         layout.addStretch(1)
         return page
+
+    def download_vad_model(self):
+        if self._vad_download_task is not None:
+            return
+        task = DownloadTask(self)
+        self._vad_download_task = task
+        self.vad_download_button.setEnabled(False)
+        self.download_button.setEnabled(False)
+        self.model_progress.setValue(0)
+        self.status_label.setText("Downloading speech detection…")
+        task.progress.connect(self.model_progress.setValue)
+        task.succeeded.connect(lambda path: self.status_label.setText("Speech detection ready. Apply Settings to use it."))
+        task.failed.connect(lambda error: self.status_label.setText(f"Could not download speech detection: {error}"))
+        task.finished.connect(self._finish_vad_download)
+        task.finished.connect(task.deleteLater)
+        task.start(self.vad_download_callback)
+
+    def _finish_vad_download(self):
+        self.vad_download_button.setEnabled(True)
+        self.download_button.setEnabled(True)
+        self._vad_download_task = None
 
     def _load_values(self) -> None:
         cfg = self.config

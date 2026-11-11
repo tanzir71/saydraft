@@ -30,6 +30,13 @@ jobs:
         run: python -m pip install -r requirements-dev.txt
       - name: Lint
         run: python -m ruff check .
+      - name: Fetch pinned VAD fixture for native offline smoke
+        shell: pwsh
+        run: |
+          python -c "from saydraft.model_download import download_silero_vad_model; download_silero_vad_model(models_dir='build/test-models')"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          $vadFixture = (Resolve-Path -LiteralPath 'build/test-models/vad/silero-vad-v5/silero_vad.onnx').Path
+          "SAYDRAFT_TEST_SILERO_MODEL=$vadFixture" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
       - name: Unit and offline tests
         run: python -m pytest tests -q
       - name: Cleanup regression evaluation

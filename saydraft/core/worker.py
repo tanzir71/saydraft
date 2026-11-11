@@ -90,7 +90,6 @@ class SessionWorker:
             self._target = target
             self._context = context
             self._insert_text = insert_text
-            self.emit("recording_started")
             self._submit(self._arm, generation)
             return True
 
@@ -111,6 +110,7 @@ class SessionWorker:
             with self._lock:
                 event = self.session.dispatch(Input.ARMED, session_id=generation)
                 if event is not None:
+                    self.emit("recording_started")
                     limits = self.services.config["recording"]
                     maximum = limits["max_seconds"]
                     warning = limits["warning_seconds"]

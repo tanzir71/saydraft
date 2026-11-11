@@ -189,6 +189,7 @@ def test_no_microphone_is_reported_and_does_not_stick_busy():
     worker, _clock, _executor, events, signals, _keyboard = make_worker(recorder=MissingRecorder())
     worker.start_recording()
     assert ("error", "No microphone") in signals
+    assert ("recording_started",) not in signals
     assert not worker.busy
     assert events == []
     assert worker.session.state == State.ERROR

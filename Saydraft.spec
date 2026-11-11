@@ -12,10 +12,10 @@ datas = collect_data_files('ctranslate2') + [
 a = Analysis(
     [str(project / 'speech_to_text_app.py')],
     pathex=[str(project)],
-    binaries=collect_dynamic_libs('ctranslate2'),
+    binaries=collect_dynamic_libs('ctranslate2') + collect_dynamic_libs('sherpa_onnx'),
     datas=datas,
-    hiddenimports=['PySide6.QtSvg'] + collect_submodules('faster_whisper'),
-    excludes=['webrtcvad', 'torch', 'transformers', 'sklearn', 'scipy', 'pandas',
+    hiddenimports=['PySide6.QtSvg', '_webrtcvad'] + collect_submodules('faster_whisper') + collect_submodules('sherpa_onnx'),
+    excludes=['torch', 'transformers', 'sklearn', 'scipy', 'pandas',
               'django', 'PIL', 'pygame', 'yt_dlp'],
     noarchive=False,
     optimize=0,

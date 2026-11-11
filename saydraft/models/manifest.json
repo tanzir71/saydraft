@@ -118,6 +118,33 @@
           "size": 459861
         }
       ]
+    },
+    {
+      "id": "silero-vad-v5",
+      "engine": "silero_vad",
+      "role": "vad",
+      "revision": "5cd2ba54db059f961e7545d4f211b44f005a6dfb",
+      "license": "MIT",
+      "publisher": "Silero Team",
+      "source": "https://github.com/snakers4/silero-vad/tree/v5.0",
+      "license_url": "https://github.com/snakers4/silero-vad/blob/v5.0/LICENSE",
+      "download_hosts": [
+        "raw.githubusercontent.com"
+      ],
+      "files": [
+        {
+          "path": "silero_vad.onnx",
+          "url": "https://raw.githubusercontent.com/snakers4/silero-vad/5cd2ba54db059f961e7545d4f211b44f005a6dfb/files/silero_vad.onnx",
+          "sha256": "6b99cbfd39246b6706f98ec13c7c50c6b299181f2474fa05cbc8046acc274396",
+          "size": 2313101
+        },
+        {
+          "path": "LICENSE",
+          "url": "https://raw.githubusercontent.com/snakers4/silero-vad/5cd2ba54db059f961e7545d4f211b44f005a6dfb/LICENSE",
+          "sha256": "2e63e9a38b6e8fc0c7bc37ce174caca1862870856c6daf5697cfb785e925520b",
+          "size": 1075
+        }
+      ]
     }
   ]
 }

@@ -16,7 +16,8 @@ from dataclasses import dataclass
 
 import numpy as np
 
-from saydraft.audio.vad import SilenceTrimConfig, SpeechFrameDetector
+from saydraft.audio.vad import SilenceTrimConfig
+from saydraft.audio.vad_silero import FallbackFrameDetector
 from .interfaces import AsrEngine
 
 logger = logging.getLogger(__name__)
@@ -46,7 +47,7 @@ class SegmentTranscriber:
         self.silence_samples = round(silence_seconds * sample_rate)
         self.minimum_samples = round(minimum_seconds * sample_rate)
         self.frame_samples = round(0.03 * sample_rate)
-        self.detector = detector or SpeechFrameDetector(SilenceTrimConfig(
+        self.detector = detector or FallbackFrameDetector(SilenceTrimConfig(
             sample_rate=sample_rate, energy_threshold=energy_threshold, aggressiveness=aggressiveness))
         self.clock = clock
         self._queue = queue.SimpleQueue()

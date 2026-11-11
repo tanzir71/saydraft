@@ -11,7 +11,8 @@ from typing import Any
 
 import numpy as np
 
-from saydraft.audio.vad import SilenceTrimConfig, trim_silence
+from saydraft.audio.vad import SilenceTrimConfig
+from saydraft.audio.vad_silero import optional_silero, trim_with_fallback
 
 logger = logging.getLogger(__name__)
 
@@ -67,6 +68,8 @@ class WhisperEngine:
         self.state_callback = state_callback
         self._model: Any | None = None
         self._model_lock = threading.Lock()
+        self._vad_checked = False
+        self._silero_vad = None
         self.last_timings: dict[str, float] = {"vad": 0.0, "stt": 0.0}
 
     def transcribe(self, audio: Any) -> str:
@@ -123,7 +126,10 @@ class WhisperEngine:
     def _trim_waveform(self, waveform: np.ndarray) -> np.ndarray:
         if not self.config.silence_trim:
             return waveform
-        return trim_silence(
+        if not self._vad_checked:
+            self._silero_vad = optional_silero()
+            self._vad_checked = True
+        return trim_with_fallback(
             waveform,
             SilenceTrimConfig(
                 sample_rate=16_000,
@@ -132,6 +138,7 @@ class WhisperEngine:
                 energy_threshold=self.config.vad_energy_threshold,
                 enabled=True,
             ),
+            self._silero_vad,
         )
 
 
@@ -171,6 +178,9 @@ def _default_model_factory(*args: Any, **kwargs: Any) -> Any:
 
 
 def _import_whisper_model(*, suppress_ipv6_probe: bool) -> Any:
+    from saydraft.privacy.telemetry import disable_python_onnx_telemetry
+
+    disable_python_onnx_telemetry()
     if not suppress_ipv6_probe:
         from faster_whisper import WhisperModel
 
