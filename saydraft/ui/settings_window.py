@@ -20,6 +20,8 @@ from saydraft.ui.download_task import DownloadTask, call_download
 from saydraft.ui.model_picker import ModelPicker
 from saydraft.ui.languages_page import LanguagesPage
 from saydraft.ui.hardware_page import HardwarePage
+from saydraft.ui.labs_page import LabsPage
+from saydraft.models.hardware import latest_report
 from saydraft.asr.router import choose_route
 
 logger = logging.getLogger(__name__)
@@ -67,6 +69,7 @@ class SettingsWindow(QtWidgets.QDialog):
         model_download_callback: Callable[[str, Callable[[int], None]], None] | None = None,
         vad_download_callback=None,
         hardware_benchmark_callback=None,
+        preview_download_callback=None,
     ):
         super().__init__()
         self.qt = qt_modules
@@ -76,6 +79,7 @@ class SettingsWindow(QtWidgets.QDialog):
         self.model_download_callback = model_download_callback
         self.vad_download_callback = vad_download_callback or download_silero_vad_model
         self.hardware_benchmark_callback = hardware_benchmark_callback
+        self.preview_download_callback = preview_download_callback
         self._vad_download_task = None
         self.config = load_config(config_path=self.config_path)
         self.snippets_path = Path(snippets_path) if snippets_path is not None else resolve_project_path("snippets.txt")
@@ -94,10 +98,12 @@ class SettingsWindow(QtWidgets.QDialog):
         self._build()
         self._load_values()
         self.languages_page.changed.connect(self._sync_language_model)
+        self.languages_page.changed.connect(self.refresh_labs)
         self.model_combo.currentIndexChanged.connect(self._use_manual_model)
         self.model_combo.activated.connect(self._use_manual_model)
         self.model_picker.busy_changed.connect(lambda busy: self.languages_page.setEnabled(not busy))
         self._sync_language_model()
+        self.tabs.currentChanged.connect(lambda index: self.refresh_labs())
 
     def _build(self) -> None:
         layout = QtWidgets.QVBoxLayout(self)
@@ -120,6 +126,9 @@ class SettingsWindow(QtWidgets.QDialog):
         self.hardware_page = HardwarePage(callback=self.hardware_benchmark_callback,
             directory=self.config_path.parent / "hardware-benchmarks" if self.config_path else None)
         self.tabs.addTab(self.hardware_page, "Performance")
+        self.labs_page = LabsPage(self.config, callback=self.preview_download_callback,
+            report_loader=lambda: latest_report(self.config_path.parent / "hardware-benchmarks" if self.config_path else None))
+        self.tabs.addTab(self.labs_page, "Labs")
         self.tabs.addTab(self._about_tab(), "About")
 
     def _general_tab(self):
@@ -332,12 +341,18 @@ class SettingsWindow(QtWidgets.QDialog):
         cfg["dictation"]["profile"] = self.profile_combo.currentText()
         select_model(cfg, self.model_picker.model_id, manual=False)
         self.languages_page.apply_to(cfg)
+        self.labs_page.apply_to(cfg)
         cfg["stt"]["device"] = self.device_combo.currentText()
         cfg["stt"]["compute_type"] = self.compute_combo.currentText()
         cfg["stt"]["local_files_only"] = bool(self.local_files_checkbox.isChecked())
         cfg["llm"]["enabled"] = bool(self.llm_enabled_checkbox.isChecked())
         cfg["llm"]["model_path"] = self.llm_path_edit.text().strip()
         return cfg
+
+    def refresh_labs(self, report=None):
+        cfg = json.loads(json.dumps(self.config))
+        self.languages_page.apply_to(cfg)
+        self.labs_page.update_eligibility(cfg, report)
 
     def _sync_language_model(self):
         if not self.languages_page.routing.isChecked() or self.model_picker.task is not None:
@@ -360,6 +375,7 @@ class SettingsWindow(QtWidgets.QDialog):
 
     def closeEvent(self, event):
         self.model_picker.pause()
+        self.labs_page.pause()
         if self._vad_download_task is not None:
             self._vad_download_task.pause()
         super().closeEvent(event)

@@ -69,7 +69,7 @@ def test_settings_window_has_required_tabs_and_loads_values(tmp_path):
 
     tabs = [window.tabs.tabText(index) for index in range(window.tabs.count())]
 
-    assert tabs == ["General", "Languages", "Cleanup", "Dictionary", "Snippets", "Models", "Performance", "About"]
+    assert tabs == ["General", "Languages", "Cleanup", "Dictionary", "Snippets", "Models", "Performance", "Labs", "About"]
     assert window.speech_hotkey_edit.text() == "f9"
     assert window.language_combo.currentData() is None
     assert window.mode_combo.currentText() == "balanced"

@@ -52,6 +52,19 @@ class LevelMeter(QtWidgets.QWidget):
             )
 
 
+class PreviewStrip(QtWidgets.QLabel):
+    def paintEvent(self, event):
+        painter = QtGui.QPainter(self)
+        painter.setFont(self.font())
+        painter.setPen(QtGui.QColor("#e5e7eb"))
+        painter.drawText(self.rect(), QtCore.Qt.AlignVCenter | QtCore.Qt.AlignRight, self.text())
+        if self.fontMetrics().horizontalAdvance(self.text()) > self.width() or self.property("truncated"):
+            fade = QtGui.QLinearGradient(0, 0, 28, 0)
+            fade.setColorAt(0, QtGui.QColor("#0f172a"))
+            fade.setColorAt(1, QtGui.QColor(15, 23, 42, 0))
+            painter.fillRect(QtCore.QRect(0, 0, 28, self.height()), fade)
+
+
 class SaydraftPill(QtWidgets.QWidget):
     def __init__(
         self,
@@ -79,6 +92,7 @@ class SaydraftPill(QtWidgets.QWidget):
         self.started_at = 0.0
         self.spinner_index = 0
         self.spinner_frames = ("|", "/", "-", "\\")
+        self._visibility_generation = 0
 
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground, True)
         self.setAttribute(QtCore.Qt.WA_ShowWithoutActivating, True)
@@ -102,14 +116,30 @@ class SaydraftPill(QtWidgets.QWidget):
         self.dismiss_button.setText("x")
         self.dismiss_button.setAutoRaise(True)
         self.dismiss_button.clicked.connect(self.hide)
+        self.preview_label = PreviewStrip(self)
+        self.preview_label.setFixedHeight(22)
+        self.preview_label.setAccessibleName("English live preview")
+        self.preview_label.setTextFormat(QtCore.Qt.PlainText)
+        self.preview_label.hide()
 
         self._build_layout()
         self._apply_normal_style()
         self.hide()
 
+    def paintEvent(self, event):
+        option = QtWidgets.QStyleOption()
+        option.initFrom(self)
+        painter = QtGui.QPainter(self)
+        self.style().drawPrimitive(QtWidgets.QStyle.PE_Widget, option, painter, self)
+
     def _build_layout(self) -> None:
-        root = QtWidgets.QHBoxLayout(self)
+        root = QtWidgets.QVBoxLayout(self)
         root.setContentsMargins(18, 14, 12, 14)
+        root.setSpacing(6)
+        root.addWidget(self.preview_label)
+        row = QtWidgets.QHBoxLayout()
+        root.addLayout(row)
+        root = row
         root.setSpacing(14)
 
         root.addWidget(self.level_meter)
@@ -132,6 +162,8 @@ class SaydraftPill(QtWidgets.QWidget):
         self.spinner_label.hide()
 
     def show_recording(self) -> None:
+        self._visibility_generation += 1
+        self.clear_preview()
         self.state = PillState.RECORDING
         self.started_at = self.clock()
         self.spinner_timer.stop()
@@ -152,12 +184,31 @@ class SaydraftPill(QtWidgets.QWidget):
     def update_level(self, rms: float) -> None:
         self.level_meter.set_level(rms)
 
+    def update_preview(self, text: str) -> None:
+        if self.state != PillState.RECORDING or not self.isVisible() or not text.strip():
+            return
+        self.preview_label.setText(text[-60:])
+        self.preview_label.setProperty("truncated", len(text) > 60)
+        self.preview_label.setAccessibleDescription(text[-60:])
+        self.preview_label.show()
+        self.setFixedHeight(104)
+        self._position_near_focused_window()
+
+    def clear_preview(self) -> None:
+        self.preview_label.clear()
+        self.preview_label.hide()
+        self.setFixedHeight(76)
+        if self.isVisible():
+            self._position_near_focused_window()
+
     def refresh_elapsed(self) -> None:
         elapsed = max(0, int(round(self.clock() - self.started_at)))
         minutes, seconds = divmod(elapsed, 60)
         self.elapsed_label.setText(f"{minutes}:{seconds:02d}")
 
     def show_processing(self) -> None:
+        self._visibility_generation += 1
+        self.clear_preview()
         self.state = PillState.PROCESSING
         self.elapsed_timer.stop()
         self.level_meter.hide()
@@ -180,6 +231,8 @@ class SaydraftPill(QtWidgets.QWidget):
         self.hide_after(650)
 
     def show_error(self, message: str) -> None:
+        self._visibility_generation += 1
+        self.clear_preview()
         self.state = PillState.ERROR
         self.elapsed_timer.stop()
         self.spinner_timer.stop()
@@ -193,7 +246,8 @@ class SaydraftPill(QtWidgets.QWidget):
         self.hide_after(2200)
 
     def hide_after(self, milliseconds: int) -> None:
-        self.timer_single_shot(int(milliseconds), self.hide)
+        generation = self._visibility_generation
+        self.timer_single_shot(int(milliseconds), lambda: self.hide() if generation == self._visibility_generation else None)
 
     def _show_at_bottom_center(self) -> None:
         self._position_near_focused_window()

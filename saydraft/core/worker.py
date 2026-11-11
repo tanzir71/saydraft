@@ -447,7 +447,7 @@ class SessionWorker:
         with self._lock:
             states = (State.LISTENING,) if listening_only else (State.ARMING, State.LISTENING)
             return (generation == self.session.session_id and self.session.state in states
-                    and not self._closing and self._english_preview())
+                    and not self._closing and (not listening_only or self._english_preview()))
 
     def _start_preview(self, generation):
         self._preview = None

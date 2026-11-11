@@ -66,6 +66,7 @@ def test_default_result_wins_unless_complete_streaming_explicitly_selected(strea
     worker.start_recording()
     assert streams[0].decoded.wait(1)
     generation = worker.session.session_id
+    assert not events  # No partial can persist or insert before release.
     assert worker.is_current_preview(generation)
     clock.now = 1
     worker.stop_recording()

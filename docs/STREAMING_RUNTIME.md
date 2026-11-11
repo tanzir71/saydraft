@@ -22,8 +22,11 @@ references and queued audio are released when the thread ends.
 The container has an optional preview port, defaulting to `None`. Both Labs
 flags default off. A persisted Pro assessment and English-compatible language
 selection are required before constructing the lazy model factory; construction
-never downloads or loads weights. Opt-in controls and Bar integration follow
-separately.
+never downloads or loads weights. Settings → Labs shows size, disk allowance,
+license and conversion credits before the explicit Download / Resume action.
+It supports pause/resume and never enables either option after downloading.
+Apply Settings to use the options on the next recording. Changing to non-English
+pins disables the English experiment.
 
 Result selection keeps default recognition unless the user explicitly requests
 a complete, successful streaming result. Incomplete preview words can recover an
@@ -48,11 +51,21 @@ segment blocks the English preview for the rest of that recording. ASR engines
 reset their language evidence at the start of each new session. No preview
 partial passes to the insertion port.
 
+The Bar shows the last sixty preview characters in a plain-text strip above its
+recording row, with a left fade for clipped prefixes. It clears on processing or
+a new recording, does not reopen a dismissed Bar, and ignores stale queued
+updates. An older completion timer cannot hide a newer recording. Optional
+failure clears the strip and reports that default recognition continues.
+Download completion uses QObject-owned slots, avoiding a reproduced callback
+lifetime crash after the page is collected. The custom Bar paints its stylesheet
+background using the [documented QWidget primitive](https://doc.qt.io/qtforpython-6.11/overviews/qtwidgets-stylesheet-reference.html),
+verified in rendered images.
+
 Tests cover pinned-weight rejection, runtime-version checks, cached model reuse,
 stream isolation, queued-buffer ownership, overload, cancellation, incomplete
 results and unavailable UI/model handling. Native adapter smoke uses an explicit
 verified directory through `SAYDRAFT_TEST_PREVIEW_MODEL` with networking blocked.
-Final local validation passes 494 tests with four optional native skips (real
+Final local validation passes 530 tests with four optional native skips (real
 Silero, language ID and preview enabled); cleanup evaluation is 42/42; Ruff passes.
 
 Combined real-time fixture benchmarks also pass with Parakeet and language ID
@@ -61,3 +74,28 @@ five per steady second. The sustained run completed the streaming flush and
 normal recognition. The [combined benchmark](spikes/preview-contention.md) records
 the tool, timing scope and retained failed stress run. Neither probe establishes
 owner accuracy acceptance.
+
+`tools.probe_preview_app` additionally exercises the real session worker, queued
+Qt handlers, visible Bar, native recognizers and SQLite History. It feeds the
+bundled eight-second fixture in real time, blocks network access, opens no
+microphone and replaces OS insertion with a checked stub. Nothing reaches History
+or insertion before release. Default mode produced 48 callbacks (at least five
+per steady second), selected Parakeet and reached History/stub insertion in
+0.311 s. Explicit streaming also selects Nemotron and preserves primary words
+as alternative metadata. The isolated streaming run delivered 46 callbacks,
+at least five per steady second, and reached History/stub insertion in 0.954 s.
+The first streaming run overlapped UI tests, met four
+callbacks per steady second, but took 2.814 s after release; its original report
+is retained. This is not a latency-parity or owner-accuracy claim.
+
+Run with explicit verified model paths and a fresh artifact directory:
+
+```powershell
+$env:QT_QPA_PLATFORM='offscreen'
+python -m tools.probe_preview_app --preview-dir C:\qa\preview --parakeet-dir C:\qa\parakeet --lid-dir C:\qa\lid --output build/qa/new-preview-app
+```
+
+Add `--streaming-result` for the alternate final-source check. Each run preserves
+its report, fixture History database and rendered Bar screenshot. Run timing
+checks without concurrent tests. The separate sixty-second dual-recognizer
+benchmark above remains the sustained cadence check.

@@ -222,6 +222,8 @@ class SaydraftApp:
         self.signals.history_updated.connect(self._refresh_history)
         self.signals.history_retry_finished.connect(self._finish_history_retry)
         self.signals.hardware_benchmark_finished.connect(self._finish_hardware_benchmark)
+        self.signals.preview_text_changed.connect(self._show_preview)
+        self.signals.preview_unavailable.connect(self._preview_unavailable)
 
         self.crash_guard = self.crash_guard_installer(
             notify=self.signals.notification_requested.emit
@@ -232,6 +234,20 @@ class SaydraftApp:
             self.tray.set_model_label(self._controller_model_label())
         self._show_onboarding_if_needed()
         return int(application.exec())
+
+    def _show_preview(self, generation, text):
+        current = getattr(self.controller, "is_current_preview", None)
+        if current and current(generation):
+            self.pill.update_preview(text)
+
+    def _preview_unavailable(self, generation):
+        current = getattr(self.controller, "is_current_preview", None)
+        if current and current(generation, listening_only=False):
+            self.pill.clear_preview()
+            if getattr(self, "_preview_failure_generation", None) != generation:
+                self._preview_failure_generation = generation
+                self.tray.show_notification("Live preview unavailable for this recording. Default recognition continues. "
+                                            "Check English preview in Settings → Labs.")
 
     def _log_notification(self, message: str) -> None:
         logger.info("Notification requested: %s", message)
@@ -290,6 +306,9 @@ class SaydraftApp:
         page = getattr(self.settings_window, "hardware_page", None)
         if page is not None:
             page.finish(report)
+        refresh = getattr(self.settings_window, "refresh_labs", None)
+        if report is not None and refresh is not None:
+            refresh(report)
 
     def _show_settings(self) -> None:
         if self.settings_window is None:
