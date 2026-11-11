@@ -34,5 +34,6 @@ Silero, language ID and preview enabled); cleanup evaluation is 42/42; Ruff pass
 Combined real-time fixture benchmarks also pass with Parakeet and language ID
 active: 6.12 callbacks/s over eight seconds and 6.23/s over one minute, at least
 five per steady second. The sustained run completed the streaming flush and
-normal recognition. The reproducible benchmark tool and full measurements follow
-in a separate small PR. Neither probe establishes owner accuracy acceptance.
+normal recognition. The [combined benchmark](spikes/preview-contention.md) records
+the tool, timing scope and retained failed stress run. Neither probe establishes
+owner accuracy acceptance.
