@@ -5,6 +5,9 @@ from __future__ import annotations
 
 def main() -> int:
     """Run VoiceTray."""
+    from .privacy.netguard import NetworkGuard
+
+    NetworkGuard.install()
     from .config import load_config
     from .logging_config import configure_logging
     from .single_instance import SingleInstanceLock, default_lock_path

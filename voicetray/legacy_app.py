@@ -656,8 +656,8 @@ class VoiceTrayApp:
                 logger.warning("Text insertion skipped: %s", result.reason or result.status)
         else:
             timings.setdefault("insert", 0.0)
-        logger.info("Original: %s", raw_text)
-        logger.info("Processed: %s", processed_text)
+        logger.debug("Original: %s", raw_text)
+        logger.debug("Processed: %s", processed_text)
         self.report_dictation_performance(timings)
         return processed_text
 
@@ -791,7 +791,7 @@ class VoiceTrayApp:
                 timings=timings,
             )
             if result:
-                logger.info("Converted: %s", result)
+                logger.debug("Converted: %s", result)
             self.emit_ui_callback('processing_finished_callback', result or "")
             return result
         except Exception as exc:
@@ -821,7 +821,7 @@ class VoiceTrayApp:
         try:
             result = self.speech_to_text()
             if result:
-                logger.info("Converted: %s", result)
+                logger.debug("Converted: %s", result)
         finally:
             self.is_recording = False
     
@@ -830,7 +830,7 @@ class VoiceTrayApp:
         try:
             result = self.speech_to_text_for_saving()
             if result:
-                logger.info("Saved to history without insertion: %s", result)
+                logger.debug("Saved to history without insertion: %s", result)
                 self.show_minimal_save_feedback(result)
             else:
                 logger.info("No speech detected for saving")

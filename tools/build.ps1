@@ -66,6 +66,7 @@ python -m PyInstaller `
     --icon "assets\tray\mic_idle.ico" `
     --version-file $VersionFile `
     --paths $ProjectRoot `
+    --add-data "voicetray\models\manifest.json;voicetray\models" `
     --collect-submodules faster_whisper `
     --collect-binaries ctranslate2 `
     --collect-data ctranslate2 `

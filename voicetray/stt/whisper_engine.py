@@ -157,6 +157,12 @@ def _language_arg(language: str) -> str | None:
 
 
 def _default_model_factory(*args: Any, **kwargs: Any) -> Any:
+    from voicetray.model_download import default_models_dir
+
+    if args:
+        local = default_models_dir() / "whisper" / str(args[0])
+        if (local / ".verified.json").is_file():
+            args = (str(local), *args[1:])
     WhisperModel = _import_whisper_model(
         suppress_ipv6_probe=bool(kwargs.get("local_files_only", False))
     )

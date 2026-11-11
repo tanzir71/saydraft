@@ -7,10 +7,10 @@ from collections.abc import Callable
 from pathlib import Path
 from typing import Any
 
-from .config import load_config
+from .models.downloader import download_model
+from .models.manifest import get_model
 
 ProgressCallback = Callable[[int], None]
-ModelFactory = Callable[..., Any]
 
 
 def default_models_dir(models_dir: str | Path | None = None) -> Path:
@@ -25,24 +25,13 @@ def download_whisper_model(
     model_size: str,
     progress_callback: ProgressCallback | None = None,
     *,
-    model_factory: ModelFactory | None = None,
     models_dir: str | Path | None = None,
     config: dict[str, Any] | None = None,
 ) -> Path:
-    cfg = config if config is not None else load_config()
-    stt = cfg.get("stt", {}) if isinstance(cfg, dict) else {}
-    target = default_models_dir(models_dir) / "whisper"
-    target.mkdir(parents=True, exist_ok=True)
-
+    model = get_model(f"whisper-{model_size}")
+    target = default_models_dir(models_dir) / "whisper" / str(model_size)
     _emit_progress(progress_callback, 5)
-    factory = model_factory or _default_model_factory
-    factory(
-        str(model_size),
-        device=str(stt.get("device", "cpu")),
-        compute_type=str(stt.get("compute_type", "int8")),
-        local_files_only=False,
-        download_root=str(target),
-    )
+    download_model(model, target, progress_callback=progress_callback)
     _emit_progress(progress_callback, 100)
     return target
 
@@ -50,9 +39,3 @@ def download_whisper_model(
 def _emit_progress(callback: ProgressCallback | None, value: int) -> None:
     if callback is not None:
         callback(int(value))
-
-
-def _default_model_factory(*args: Any, **kwargs: Any) -> Any:
-    from faster_whisper import WhisperModel
-
-    return WhisperModel(*args, **kwargs)
