@@ -3,8 +3,8 @@
 The first Astro homepage and four supporting pages are implemented in `site/`.
 This is an early P9 foundation, brought forward at the owner's request. The
 approved §9 tokens are shared through `design/tokens.json`; the dependency-free
-generator emits CSS and light/dark Qt QSS. Qt installation and gallery acceptance
-remain P6.1 work. P9's complete library, comparisons, MDX docs, demo port, schema,
+generator emits CSS and light/dark Qt QSS. Qt installation and the initial gallery
+are described in `docs/THEME.md`. P9's complete library, comparisons, MDX docs, demo port, schema,
 launch assets and final acceptance remain open.
 
 The current pages are Home, Download, Getting started, Privacy and Credits. The
