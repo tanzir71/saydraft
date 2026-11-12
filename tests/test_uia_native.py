@@ -14,3 +14,17 @@ def test_windowless_mta_reads_only_own_password_and_plain_controls_then_retires(
     assert report["probe_complete"] and report["own_windows_closed"] and not report["failures"]
     assert not report["active_application_read"] and not report["input_injected"] and not report["owner_clipboard_accessed"]
     assert [result["status"] for result in report["results"]] == ["password", "ok"]
+
+
+@pytest.mark.skipif(sys.platform != "win32", reason="Windows UI Automation required")
+def test_native_context_session_rules_sqlite_and_memory_delivery_compose_without_owner_access(tmp_path):
+    output = tmp_path / "own-app-context"
+    subprocess.run([sys.executable, "-m", "tools.probe_uia_app", "--output", str(output)],
+                   check=True, capture_output=True, timeout=60)
+    report = json.loads((output / "report.json").read_text(encoding="utf-8"))
+    assert report["probe_complete"] and report["own_windows_closed"]
+    assert not report["active_application_read"] and not report["owner_clipboard_accessed"]
+    assert not report["input_injected"] and not report["asr_performed"] and not report["microphone_used"]
+    assert [row["reason"] for row in report["cases"]] == ["password_field", ""]
+    assert [row["deliveries"] for row in report["cases"]] == [0, 1]
+    assert all(row["raw_clean_exact"] and row["serial_closed"] and row["mta_closed"] for row in report["cases"])

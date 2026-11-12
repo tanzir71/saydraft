@@ -33,8 +33,8 @@ def probe(report):
                 reads = []
                 try:
                     reader = NativeUIAReader()
-                    element = reader.client.ElementFromHandle(child)
-                    reader.focused_element = lambda: element
+                    element = reader.client.ElementFromHandleBuildCache(child, reader.cache)
+                    reader.focused_element = lambda: reader.client.ElementFromHandleBuildCache(child, reader.cache)
                     reader.same_focus = lambda value: bool(reader.client.CompareElements(value, element))
                     if password:
                         def forbidden(*args):

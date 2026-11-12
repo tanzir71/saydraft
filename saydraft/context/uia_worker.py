@@ -18,13 +18,17 @@ class _Request:
 
 
 class BoundedUIA:
-    def __init__(self, *, factory=None, timeout=.2):
+    def __init__(self, *, factory=None, timeout=.2, capture_timeout=None):
         if type(timeout) not in (int, float) or not 0 < timeout <= .5:
             raise ValueError("UIA caller timeout must be at most half a second")
+        capture_timeout = timeout if capture_timeout is None else capture_timeout
+        if type(capture_timeout) not in (int, float) or not 0 < capture_timeout <= .5:
+            raise ValueError("UIA capture timeout must be at most half a second")
         if factory is None:
             from .uia_native import NativeUIAReader  # Import before starting the MTA owner.
             factory = NativeUIAReader
         self._factory, self.timeout = factory, timeout
+        self.capture_timeout = capture_timeout
         self._lock, self._wake, self._stopped = threading.Lock(), threading.Event(), threading.Event()
         self._closed, self._request = False, None
         self._thread = threading.Thread(target=self._run, name="Saydraft-UIA", daemon=True)
@@ -33,7 +37,8 @@ class BoundedUIA:
     def query(self, window, *, include_text=True):
         if type(window) is not int or not 0 < window < 2**64 or type(include_text) is not bool:
             return FocusedEdit()
-        request = _Request(window, include_text, time.monotonic() + self.timeout)
+        budget = self.capture_timeout if include_text else self.timeout
+        request = _Request(window, include_text, time.monotonic() + budget)
         with self._lock:
             if self._closed or self._request is not None:
                 return FocusedEdit()

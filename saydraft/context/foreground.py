@@ -72,7 +72,7 @@ class ForegroundContextProvider:
         with self._uia_lock:
             if self._use_uia and self._uia is None and not self._closed:
                 from .uia_worker import BoundedUIA
-                self._uia = BoundedUIA()
+                self._uia = BoundedUIA(capture_timeout=.5)
 
     def set_profiles(self, profiles):
         self.profiles = profiles

@@ -36,8 +36,15 @@ def read_focused_edit(reader, window, *, include_text=True, current=lambda: True
         if (not isinstance(runtime_id, tuple) or not 1 <= len(runtime_id) <= 32
                 or any(type(value) is not int or not -(2**31) <= value < 2**31 for value in runtime_id)):
             return FocusedEdit()
-        if not reader.same_focus(element):
-            return FocusedEdit(status="changed")
+        fresh_password = getattr(reader, "fresh_password", reader.password)
+        if include_text:
+            password = fresh_password(element)
+            if password is True:
+                return FocusedEdit(status="password", is_password=True)
+            if password is not False:
+                return FocusedEdit()
+            if not reader.same_focus(element):
+                return FocusedEdit(status="changed")
         if not current():
             return FocusedEdit()
         before, selection = "", ""
@@ -49,7 +56,7 @@ def read_focused_edit(reader, window, *, include_text=True, current=lambda: True
         if not isinstance(before, str) or not isinstance(selection, str):
             return FocusedEdit()
         # Recheck sensitive state and identity before returning any text.
-        password = reader.password(element)
+        password = fresh_password(element)
         if password is True:
             return FocusedEdit(status="password", is_password=True)
         if password is not False:

@@ -123,3 +123,22 @@ def test_invalid_window_never_reaches_the_provider(window):
     finally:
         owner.close()
         assert owner.wait_closed(2)
+
+
+def test_capture_budget_can_differ_from_metadata_without_changing_single_owner_lifetime():
+    class Owned(Reader):
+        def close(self):
+            pass
+    owner = BoundedUIA(factory=Owned, timeout=.2, capture_timeout=.5)
+    try:
+        assert owner.timeout == .2 and owner.capture_timeout == .5
+        assert owner.query(123).status == owner.query(123, include_text=False).status == "ok"
+    finally:
+        owner.close()
+        assert owner.wait_closed(2)
+
+
+@pytest.mark.parametrize("budget", [0, .6, True, float("nan")])
+def test_invalid_capture_budget_cannot_start_an_owner(budget):
+    with pytest.raises(ValueError):
+        BoundedUIA(factory=lambda: pytest.fail("No owner may start"), capture_timeout=budget)

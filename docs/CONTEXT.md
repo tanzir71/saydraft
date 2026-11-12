@@ -122,8 +122,9 @@ native/model skips; rules 432/432, authored adversarial 100/100, Ruff/diff pass.
 
 ## Bounded request adapter
 
-`BoundedUIA` owns one daemon MTA worker and permits one outstanding request, with
-a 200 ms caller budget. Overlapping, closed or expired requests return unavailable
+`BoundedUIA` owns one daemon MTA worker and permits one outstanding request. The
+app allows 500 ms for pre-record context capture and 200 ms for metadata-only
+delivery verification. Overlapping, closed or expired requests return unavailable
 without adding a worker or queueing more work. An abandoned native call retains
 that single slot until it returns. Expired work stops before additional text
 reads; late results are discarded. Idle workers retain no completed field text.
@@ -175,3 +176,29 @@ legacy fallback, History reinsertion and one blocked owner across Settings and
 shutdown. Full local suite: 1800 pass, five explicit native/model skips; rules
 432/432, authored adversarial 100/100, Ruff/diff pass. Native composed app-context
 proof and active-field manual acceptance remain separate; P5.3 stays unchecked.
+
+## Batched metadata and composed native probe
+
+The first composed replay exposed a false refusal: separate element acquisition
+and parent traversal took about 244 ms before the password query, exceeding the
+original 200 ms capture budget. Both transcript versions survived with no input
+or clipboard access. The original initial/diagnostic reports are retained with
+the later passing proof; this was not an insertion or privacy failure.
+
+The reader now [batches metadata](https://learn.microsoft.com/en-us/windows/win32/winauto/uiauto-cachingforclients)
+in each fresh GetFocusedElementBuildCache request: password flag, control type,
+runtime ID and native HWND only. No Name, Value, text or patterns enter the cache.
+Native HWND ancestry uses GetAncestor; HWND-less elements use a filtered UIA
+parent walk. Current password/focus properties remain live checks; cached false
+never replaces a fresh password check before/after reading text. Metadata-only
+verification needs one final live password/focus pair and reads no field text.
+
+`tools.probe_uia_app` composes bounded native context, the real session worker,
+rules and SQLite with invisible password/plain fields. Its transcript/recorder
+are authored stubs, and delivery uses a checked in-memory clipboard/keyboard.
+The password case performs no text read or delivery; the plain case delivers once
+only after exact raw/clean History persistence. Serial/MTA retirement and owned
+window destruction are observed. It also verifies that the real focus property
+refuses the inactive fixture; fixture focus selection is deliberately injected.
+No active application, real clipboard, microphone, ASR, OS input or hooks are used.
+Per-method timings diagnose this probe and establish no parity latency claim.

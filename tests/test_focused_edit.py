@@ -58,7 +58,7 @@ def test_provider_errors_discard_partial_context_without_logging_exceptions(fiel
 @pytest.mark.parametrize("changed", ["password", "focus"])
 def test_changed_sensitive_state_discards_already_read_text(changed):
     reader = Reader()
-    checks = iter([False, True] if changed == "password" else [True, False])
+    checks = iter([False, False, True] if changed == "password" else [True, False])
     setattr(reader, "password" if changed == "password" else "same_focus", lambda element: next(checks))
     result = read_focused_edit(reader, 123)
     assert result.before_caret == result.selection == "" and not result.runtime_id
@@ -95,3 +95,13 @@ def test_utf16_bounds_keep_tail_before_caret_and_flag_incomplete_selection():
     reader.text_context = lambda *args: ("A" * 10 + "😀" * 600, "😀" * 600 + "B" * 10)
     result = read_focused_edit(reader, 123)
     assert result.before_caret == result.selection == "😀" * 512 and result.selection_truncated
+
+
+def test_metadata_verification_uses_one_fresh_password_and_focus_check_without_text():
+    reader, calls = Reader(), []
+    reader.fresh_password = lambda element: calls.append("password") or False
+    reader.same_focus = lambda element: calls.append("focus") or True
+    reader.text_context = lambda *args: pytest.fail("Metadata verification must not read text")
+    result = read_focused_edit(reader, 123, include_text=False)
+    assert result.status == "ok" and result.before_caret == result.selection == ""
+    assert calls == ["password", "focus"]
