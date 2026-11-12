@@ -122,6 +122,12 @@ class TranscriptProcessor:
         stages["insert"] = self.clock() - started
         if insertion.status == "skipped_focus_changed":
             self.notify("Copied to history; focus changed before insertion.")
+        elif insertion.reason == "target_elevated":
+            self.notify("Dictation saved in History. The target is an admin window; automatic insertion is blocked.")
+        elif insertion.reason == "modifier_held":
+            self.notify("Dictation saved in History. Release Ctrl, Win, Alt and Shift, then retry insertion.")
+        elif insertion.reason == "integrity_unavailable":
+            self.notify("Dictation saved in History. The target's access level could not be checked.")
         elif delivery.send_enter and insertion.status == "inserted" and not insertion.enter_sent:
             self.notify("Text inserted; Enter was skipped because focus changed." if insertion.reason == "enter_focus_changed"
                         else "Text inserted; Enter was cancelled." if insertion.reason == "enter_cancelled"

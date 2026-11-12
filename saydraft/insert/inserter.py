@@ -36,6 +36,7 @@ class Inserter:
         sleep: Sleep = time.sleep,
         restore_delay: float = 0.15,
         paste_hotkey: str = "ctrl+v",
+        delivery_guard=None,
     ):
         self.clipboard = clipboard or _PyperclipClipboard()
         self.keyboard = keyboard or _KeyboardAdapter()
@@ -44,6 +45,10 @@ class Inserter:
         self.sleep = sleep
         self.restore_delay = float(restore_delay)
         self.paste_hotkey = paste_hotkey
+        if delivery_guard is None and keyboard is None and sys.platform == "win32":
+            from .guards_win import WindowsDeliveryGuard
+            delivery_guard = WindowsDeliveryGuard()
+        self.delivery_guard = delivery_guard
 
     def insert_text(
         self,
@@ -69,13 +74,14 @@ class Inserter:
         def check():
             return self._delivery_block(start_focus, enter_guard)
 
-        if send_enter and (reason := check()):
+        if (send_enter or self.delivery_guard is not None) and (reason := check()):
             return InsertionResult("skipped_focus_changed" if reason == "focus_changed" else "not_inserted",
                                    "none", reason)
         if method == "typing":
             self.keyboard.write(text)
         else:
-            reason = self._paste_with_restore(text, check_before_paste=check if send_enter else None)
+            reason = self._paste_with_restore(text,
+                check_before_paste=check if send_enter or self.delivery_guard is not None else None)
             if reason:
                 return InsertionResult("skipped_focus_changed" if reason == "focus_changed" else "not_inserted",
                                        "none", reason)
@@ -94,6 +100,8 @@ class Inserter:
         try:
             if enter_guard is not None and not enter_guard():
                 return "cancelled"
+            if self.delivery_guard is not None and (reason := self.delivery_guard(start_focus)):
+                return reason
             if start_focus is None or self.focus_provider is None:
                 return "unknown_target"
             current = self.focus_provider()
