@@ -6,6 +6,10 @@ QGroupBox { border: none; border-radius: 12px; margin-top: 20px; padding: 16px; 
 QGroupBox::title { subcontrol-origin: margin; padding-left: 8px; }
 QWidget#dictionaryToast { background-color: #ECE7DA; border-radius: 20px; }
 QTabWidget::pane { border: none; }
+QListWidget { border: 2px solid transparent; border-radius: 8px; selection-background-color: #141414; selection-color: #F5F2E9; }
+QListWidget:focus { border-color: #141414; }
+QListWidget::item { padding: 8px; border-radius: 6px; }
+QListWidget::item:selected { background-color: #141414; color: #F5F2E9; }
 QCheckBox, QRadioButton { border: 2px solid transparent; padding: 2px; }
 QCheckBox:focus, QRadioButton:focus { border-color: #141414; border-radius: 4px; }
 QCheckBox::indicator, QRadioButton::indicator { width: 18px; height: 18px; background: #ECE7DA; border: 1px solid #5B5A55; border-radius: 4px; }

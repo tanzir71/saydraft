@@ -4,14 +4,16 @@ from __future__ import annotations
 
 import os
 import json
+from importlib.resources import files
 from collections.abc import Callable
 from pathlib import Path
 from typing import Any
 
-from PySide6 import QtCore, QtWidgets
+from PySide6 import QtCore, QtGui, QtWidgets
 
 from saydraft.dictation.glossary import learn_word
 from saydraft.history import DictationHistoryStore, HistoryRow
+from saydraft.data.history_view import result_details, save_history_export, transcript_diff
 from .private_text import PrivatePlainTextEdit
 
 
@@ -53,6 +55,7 @@ class HistoryWindow(QtWidgets.QDialog):
         self._retry_source_id = None
         self.glossary_path = Path(glossary_path)
         self.limit = int(limit)
+        self.diff_colors = json.loads(files("saydraft.ui.theme").joinpath("metadata.json").read_text("utf-8"))["history"]
         self.rows: list[HistoryRow] = []
         self.filtered_rows: list[HistoryRow] = []
 
@@ -61,10 +64,25 @@ class HistoryWindow(QtWidgets.QDialog):
         self.search_edit = QtWidgets.QLineEdit(self)
         self.search_edit.setPlaceholderText("Search history")
         self.list_widget = QtWidgets.QListWidget(self)
+        self.list_widget.setWordWrap(True)
+        self.list_widget.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
         self.detail_editor = PrivatePlainTextEdit(self)
         self.detail_editor.setReadOnly(True)
         self.raw_toggle = QtWidgets.QCheckBox("Show raw transcript", self)
+        self.diff_toggle = QtWidgets.QCheckBox("Show changes", self)
+        self.diff_toggle.setToolTip("Inserted text is highlighted; removed text is struck through.")
         self.metadata_label = QtWidgets.QLabel("", self)
+        self.metadata_label.setTextFormat(QtCore.Qt.PlainText)
+        self.metadata_label.setWordWrap(True)
+        self.why_button = QtWidgets.QPushButton("Why this result?", self)
+        self.why_button.setCheckable(True)
+        self.why_editor = PrivatePlainTextEdit(self)
+        self.why_editor.setAccessibleName("Models, cleanup decision and timings")
+        self.why_editor.setReadOnly(True)
+        self.why_editor.setMaximumHeight(140)
+        self.why_editor.hide()
+        self.export_button = QtWidgets.QPushButton("Export filtered history…", self)
+        self.export_button.setToolTip("Export the currently loaded, filtered entries as Markdown or CSV.")
         self.copy_button = QtWidgets.QPushButton("Copy", self)
         self.restore_clipboard_button = QtWidgets.QPushButton("Restore clipboard", self)
         self.restore_clipboard_button.setVisible(hasattr(self.clipboard, "recover"))
@@ -81,7 +99,10 @@ class HistoryWindow(QtWidgets.QDialog):
 
     def _build_layout(self) -> None:
         root = QtWidgets.QVBoxLayout(self)
-        root.addWidget(self.search_edit)
+        toolbar = QtWidgets.QHBoxLayout()
+        toolbar.addWidget(self.search_edit, 1)
+        toolbar.addWidget(self.export_button)
+        root.addLayout(toolbar)
 
         body = QtWidgets.QSplitter(QtCore.Qt.Horizontal, self)
         left = QtWidgets.QWidget()
@@ -93,13 +114,17 @@ class HistoryWindow(QtWidgets.QDialog):
         right_layout = QtWidgets.QVBoxLayout(right)
         right_layout.setContentsMargins(0, 0, 0, 0)
         right_layout.addWidget(self.metadata_label)
-        right_layout.addWidget(self.raw_toggle)
+        views = QtWidgets.QHBoxLayout()
+        views.addWidget(self.raw_toggle)
+        views.addWidget(self.diff_toggle)
+        views.addStretch()
+        right_layout.addLayout(views)
         right_layout.addWidget(self.detail_editor, 1)
-        buttons = QtWidgets.QHBoxLayout()
-        buttons.addWidget(self.copy_button)
-        buttons.addWidget(self.reinsert_button)
-        buttons.addWidget(self.add_dictionary_button)
-        buttons.addWidget(self.retry_button)
+        right_layout.addWidget(self.why_button)
+        right_layout.addWidget(self.why_editor)
+        buttons = QtWidgets.QGridLayout()
+        for index, button in enumerate((self.copy_button, self.reinsert_button, self.add_dictionary_button, self.retry_button)):
+            buttons.addWidget(button, index // 2, index % 2)
         right_layout.addLayout(buttons)
         recovery = QtWidgets.QHBoxLayout()
         recovery.addWidget(self.status_label, 1)
@@ -115,7 +140,10 @@ class HistoryWindow(QtWidgets.QDialog):
     def _connect_signals(self) -> None:
         self.search_edit.textChanged.connect(lambda _text: self.apply_filter())
         self.list_widget.currentRowChanged.connect(lambda _row: self.update_detail())
-        self.raw_toggle.toggled.connect(lambda _checked: self.update_detail())
+        self.raw_toggle.toggled.connect(lambda checked: self._set_text_view("raw", checked))
+        self.diff_toggle.toggled.connect(lambda checked: self._set_text_view("diff", checked))
+        self.why_button.toggled.connect(self.why_editor.setVisible)
+        self.export_button.clicked.connect(self.choose_export)
         self.copy_button.clicked.connect(self.copy_current_text)
         self.restore_clipboard_button.clicked.connect(self.restore_clipboard)
         self.reinsert_button.clicked.connect(self.reinsert_current_text)
@@ -136,6 +164,7 @@ class HistoryWindow(QtWidgets.QDialog):
             self.filtered_rows = [row for row in self.rows if self._row_matches(row, query)]
         else:
             self.filtered_rows = list(self.rows)
+        self.export_button.setEnabled(bool(self.filtered_rows))
 
         self.list_widget.blockSignals(True)
         self.list_widget.clear()
@@ -148,6 +177,7 @@ class HistoryWindow(QtWidgets.QDialog):
         else:
             self.detail_editor.clear()
             self.metadata_label.setText("")
+            self.why_editor.clear()
             self.retry_button.setEnabled(False)
 
     def current_row(self) -> HistoryRow | None:
@@ -167,12 +197,19 @@ class HistoryWindow(QtWidgets.QDialog):
         if row is None:
             self.detail_editor.clear()
             self.metadata_label.setText("")
+            self.why_editor.clear()
             self.retry_button.setEnabled(False)
             return
 
         self.retry_button.setEnabled(bool(row.audio_path and self.retry_callback and self._retry_source_id is None))
 
-        self.detail_editor.setPlainText(self.current_text())
+        self.why_editor.setPlainText(result_details(row))
+        self.copy_button.setText("Copy raw" if self.raw_toggle.isChecked() else "Copy cleaned")
+        self.reinsert_button.setText("Paste raw again" if self.raw_toggle.isChecked() else "Paste cleaned again")
+        if self.diff_toggle.isChecked():
+            self._show_diff(row)
+        else:
+            self.detail_editor.setPlainText(self.current_text())
         self.metadata_label.setText(
             " | ".join(
                 part
@@ -188,6 +225,59 @@ class HistoryWindow(QtWidgets.QDialog):
                 if part
             )
         )
+
+    def _set_text_view(self, view, checked):
+        other = self.raw_toggle if view == "diff" else self.diff_toggle
+        if checked:
+            other.blockSignals(True)
+            other.setChecked(False)
+            other.blockSignals(False)
+        self.update_detail()
+
+    def _show_diff(self, row):
+        runs = transcript_diff(row.raw_text, row.cleaned_text)
+        self.detail_editor.clear()
+        cursor = self.detail_editor.textCursor()
+        cursor.beginEditBlock()
+        previous = None
+        for run in runs:
+            if (previous is not None and previous.kind != "equal" and run.kind != "equal"
+                    and previous.kind != run.kind and not previous.text[-1:].isspace() and not run.text[:1].isspace()):
+                cursor.insertText("\u2009", QtGui.QTextCharFormat())
+            style = QtGui.QTextCharFormat()
+            if run.kind == "delete":
+                style.setFontStrikeOut(True)
+            elif run.kind == "insert":
+                style.setBackground(QtGui.QColor(self.diff_colors["insertBackground"]))
+                style.setForeground(QtGui.QColor(self.diff_colors["insertText"]))
+                style.setFontUnderline(True)
+            cursor.insertText(run.text, style)
+            previous = run
+        cursor.endEditBlock()
+        cursor.movePosition(QtGui.QTextCursor.Start)
+        self.detail_editor.setTextCursor(cursor)
+
+    def choose_export(self):
+        path, selected = QtWidgets.QFileDialog.getSaveFileName(self, "Export filtered history", "saydraft-history",
+            "Markdown (*.md);;CSV (*.csv)")
+        if not path:
+            return False
+        format = "csv" if selected.startswith("CSV") else "md"
+        destination = Path(path)
+        if destination.suffix.lower() in (".md", ".csv"):
+            format = destination.suffix.lower()[1:]
+        elif not destination.suffix:
+            destination = destination.with_suffix("." + format)
+        return self.export_to(destination, format=format)
+
+    def export_to(self, path, *, format):
+        try:
+            save_history_export(path, self.filtered_rows, format)
+        except (OSError, ValueError):
+            self.status_label.setText("Could not export History. Choose a writable location and try again.")
+            return False
+        self.status_label.setText(f"Exported {len(self.filtered_rows)} entries")
+        return True
 
     def _retry_origin(self, row):
         try:

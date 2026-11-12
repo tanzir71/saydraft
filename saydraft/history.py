@@ -8,12 +8,30 @@ import json
 from contextlib import contextmanager
 from collections.abc import Iterator
 from dataclasses import dataclass
+from datetime import date, timedelta
 from pathlib import Path
 
 from .data.db import HISTORY_METADATA, migrate_database
 
 _HISTORY_FIELDS = ("app_name", "raw_text", "cleaned_text", "mode", "profile", "duration_seconds", "model")
 _ALL_FIELDS = (*_HISTORY_FIELDS, *HISTORY_METADATA)
+
+
+@dataclass(frozen=True)
+class WeeklyStats:
+    start: date
+    end: date
+    dictations: int
+    words: int
+    audio_seconds: float
+
+    @property
+    def words_per_minute(self):
+        return self.words * 60 / self.audio_seconds if self.audio_seconds > 0 else None
+
+    @property
+    def seconds_saved(self):
+        return max(0., self.words * 60 / 40 - self.audio_seconds)
 
 
 @dataclass(frozen=True)
@@ -121,6 +139,17 @@ class DictationHistoryStore:
                 if isinstance(text, str) and text.strip():
                     return text  # Preserve exact stored whitespace, punctuation and casing.
         return None
+
+    def weekly_stats(self, *, today=None) -> WeeklyStats:
+        """Local Monday–Sunday aggregates, without loading any transcript text."""
+        today = today or date.today()
+        start = today - timedelta(days=today.weekday())
+        end = start + timedelta(days=6)
+        with self._connect() as conn:
+            row = conn.execute("""SELECT coalesce(sum(dictations),0), coalesce(sum(words),0),
+                coalesce(sum(audio_seconds),0) FROM stats_daily WHERE day>=? AND day<=?""",
+                (start.isoformat(), end.isoformat())).fetchone()
+        return WeeklyStats(start, end, int(row[0]), int(row[1]), float(row[2]))
 
     def update_timings(self, row_id: int, timings: dict[str, float]) -> None:
         """Complete timing metadata after insertion, retaining the earlier text record."""

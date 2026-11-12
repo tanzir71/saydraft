@@ -48,6 +48,10 @@ QGroupBox { border: none; border-radius: 12px; margin-top: 20px; padding: 16px; 
 QGroupBox::title { subcontrol-origin: margin; padding-left: 8px; }
 QWidget#dictionaryToast { background-color: ${c.surface}; border-radius: ${tokens.radius.card}; }
 QTabWidget::pane { border: none; }
+QListWidget { border: 2px solid transparent; border-radius: 8px; selection-background-color: ${c.selected}; selection-color: ${c.selectedText}; }
+QListWidget:focus { border-color: ${c.foreground}; }
+QListWidget::item { padding: 8px; border-radius: 6px; }
+QListWidget::item:selected { background-color: ${c.selected}; color: ${c.selectedText}; }
 QCheckBox, QRadioButton { border: 2px solid transparent; padding: 2px; }
 QCheckBox:focus, QRadioButton:focus { border-color: ${c.foreground}; border-radius: 4px; }
 QCheckBox::indicator, QRadioButton::indicator { width: 18px; height: 18px; background: ${c.surface}; border: 1px solid ${c.muted}; border-radius: 4px; }
@@ -89,6 +93,7 @@ const outputs = new Map([
   ['saydraft/ui/theme/tokens-dark.qss', qtTheme(true)],
   ['saydraft/ui/theme/metadata.json', JSON.stringify({ schema: 1, bodySizePx: Number.parseFloat(tokens.type.body),
     bar: Object.fromEntries(['ink', 'barBg', 'barFg', 'barWarn', 'barError', 'signal'].map(name => [name, tokens.color[name]])),
+    history: { insertBackground: tokens.color.signal, insertText: tokens.color.ink },
   }, null, 2) + '\n'],
 ]);
 for (const mode of ['light', 'dark']) {

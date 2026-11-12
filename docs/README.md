@@ -9,6 +9,7 @@ and dated changes. Keep that plan at the repository root.
 - [PRIVACY.md](PRIVACY.md): offline enforcement, verified downloads and boundary tests.
 - [MODELS.md](MODELS.md): pinned model selection, licenses and measured ASR limits.
 - [ASR_ROUTING.md](ASR_ROUTING.md): language pins, optional models and automatic-retry limits.
+- [HUB.md](HUB.md): Hub migration scope, History review/export and Home statistics.
 - [history/CODEX_HANDOFF_v1.md](history/CODEX_HANDOFF_v1.md): the completed Saydraft
   M0–M6 handoff, retained for context. It is superseded by the parity plan.
 
