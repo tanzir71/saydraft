@@ -6,6 +6,14 @@ assets/licenses/*.txt text eol=lf
 assets/licenses/qwen35-Apache-2.0.txt -text
 assets/licenses/*.pdf binary
 
+# Derived frequency data and its provenance retain their pinned bytes.
+assets/dictionary/frequency/*.gz binary
+assets/dictionary/frequency/*.txt -text
+# These unchanged upstream texts include trailing blank lines.
+assets/dictionary/frequency/CC-BY-SA-4.0.txt -text whitespace=-blank-at-eof
+assets/dictionary/frequency/wordfreq-NOTICE.md -text whitespace=-blank-at-eof
+assets/dictionary/frequency/manifest.json -text
+
 # Native measurement reports retain their recorded SHA-256 across checkouts.
 eval/cleanup/results/**/*.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 eval/hardware/results/**/*.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol

@@ -69,6 +69,20 @@ copyright Thomas Heller and Comtypes Developers. The complete bundled notice is
 The Windows UI Automation type library is supplied by Windows; generated binding
 metadata stays in RAM and includes no field content.
 
+## Bundled frequency data
+
+Common-word membership sets are adapted from **wordfreq 3.1.1**, copyright 2022
+**Robyn Speer**, under **CC-BY-SA-4.0**. They are separate from Saydraft's MIT
+code. Sources include freely available SUBTLEX data by **Marc Brysbaert et al.**,
+Google Books Ngrams, Leeds, Wikipedia, ParaCrawl and OpenSubtitles. All source
+credits, citations and changes are retained in the [dataset notice](assets/dictionary/frequency/wordfreq-NOTICE.md),
+[provenance manifest](assets/dictionary/frequency/manifest.json) and
+[implementation notes](docs/DICTIONARY_LEARNING.md). Complete
+[CC-BY-SA-4.0](assets/dictionary/frequency/CC-BY-SA-4.0.txt),
+[wordfreq copyright/license](assets/dictionary/frequency/wordfreq-LICENSE.txt) and
+[Apache-2.0](assets/licenses/Apache-2.0.txt) texts are bundled. No wordfreq Python
+code is imported at runtime.
+
 ## Test recordings
 
 The Bengali and Arabic FLEURS smoke recordings and reference transcripts are by

@@ -1,5 +1,11 @@
 # Optional model notices
 
+Bundled dictionary frequency data has separate CC-BY-SA-4.0 terms, Robyn Speer
+and SUBTLEX author credits, original wordfreq copyright/license, and a full CC
+license text under `assets/dictionary/frequency/`. Its manifest records every
+notice's exact bytes and hash. See `docs/DICTIONARY_LEARNING.md`; these data files
+are separate from Saydraft's MIT code and optional model weights.
+
 `nvidia-open-model-license-2025-10-24.pdf` is the unchanged October 24, 2025
 agreement linked by NVIDIA's model card and license page:
 

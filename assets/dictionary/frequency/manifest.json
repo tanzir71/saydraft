@@ -1,0 +1,326 @@
+{
+  "format": 1,
+  "source": {
+    "name": "wordfreq",
+    "version": "3.1.1",
+    "url": "https://files.pythonhosted.org/packages/24/61/62835c475d69872d30689f284497853fe33fe1d6dd18f57346d13305861d/wordfreq-3.1.1-py3-none-any.whl",
+    "bytes": 56834549,
+    "sha256": "4b1c6ecffc6198be3396d5cf871c4423ca71c907c231348d352dd54d62b97473"
+  },
+  "license": "CC-BY-SA-4.0",
+  "attribution": "Copyright 2022 Robyn Speer",
+  "changes": "Flatten small bins; normalize, omit empty/whitespace keys, deduplicate and sort; deterministic gzip.",
+  "normalization": "NFKC, casefold, curly apostrophe to ASCII; omit Arabic tatweel and Arabic Mn marks",
+  "languages": {
+    "ar": {
+      "member": "wordfreq/data/small_ar.msgpack.gz",
+      "words": 56642,
+      "bytes": 165849,
+      "sha256": "191c8ffdf44f6b067c771c86052789f77a6592245037e2558073f03d8aa3d381",
+      "omitted_keys": 0
+    },
+    "bg": {
+      "member": "wordfreq/data/small_bg.msgpack.gz",
+      "words": 37324,
+      "bytes": 119935,
+      "sha256": "604a7c57376eb6abb59539f22e1927bae9be7cdaffb0f52d294bf190773701b1",
+      "omitted_keys": 0
+    },
+    "bn": {
+      "member": "wordfreq/data/small_bn.msgpack.gz",
+      "words": 34321,
+      "bytes": 122116,
+      "sha256": "dce8077da9635e7776ec6f3f2907b74f78d1ef5dd03e7ceda2dc4c97fe8a138b",
+      "omitted_keys": 0
+    },
+    "ca": {
+      "member": "wordfreq/data/small_ca.msgpack.gz",
+      "words": 27164,
+      "bytes": 75332,
+      "sha256": "a0b6849b0241e6023f638106abc12263f1305120b32fa95412fe9723ed7c7718",
+      "omitted_keys": 0
+    },
+    "cs": {
+      "member": "wordfreq/data/small_cs.msgpack.gz",
+      "words": 51939,
+      "bytes": 143776,
+      "sha256": "e28d351c41ea05efc1fc3a27dac28f6661689ceedd571bc2cc4f817ef9ff515b",
+      "omitted_keys": 0
+    },
+    "da": {
+      "member": "wordfreq/data/small_da.msgpack.gz",
+      "words": 29454,
+      "bytes": 81706,
+      "sha256": "634b15429ed4211a92a3a5ba00ece6ea15383de07389c6b7d67472901358ff39",
+      "omitted_keys": 0
+    },
+    "de": {
+      "member": "wordfreq/data/small_de.msgpack.gz",
+      "words": 39276,
+      "bytes": 115208,
+      "sha256": "fabb9dd1ae32ced1abb7ff66e0c3a1f6d982f005dacd8c7ea5b8f8ccc032c1f3",
+      "omitted_keys": 0
+    },
+    "el": {
+      "member": "wordfreq/data/small_el.msgpack.gz",
+      "words": 46915,
+      "bytes": 162769,
+      "sha256": "1ebeadb404b5ff040a290957c51f9206a7a7896c8d83e71f03c5b0d87a32633d",
+      "omitted_keys": 0
+    },
+    "en": {
+      "member": "wordfreq/data/small_en.msgpack.gz",
+      "words": 28916,
+      "bytes": 79920,
+      "sha256": "426aa2bf7589ddf28101e2856211a23945d586d83f427f47caa50b40b9f9e29c",
+      "omitted_keys": 0
+    },
+    "es": {
+      "member": "wordfreq/data/small_es.msgpack.gz",
+      "words": 34913,
+      "bytes": 94130,
+      "sha256": "a43f25668d9e7eadfa4dc253774e31a4f6097ac479901679d04bfdf2526e1d98",
+      "omitted_keys": 0
+    },
+    "fa": {
+      "member": "wordfreq/data/small_fa.msgpack.gz",
+      "words": 31389,
+      "bytes": 93501,
+      "sha256": "06956a08d6825dffafea366a2a73ff31e696a9bfce885ed7b33adcf32d560247",
+      "omitted_keys": 0
+    },
+    "fi": {
+      "member": "wordfreq/data/small_fi.msgpack.gz",
+      "words": 59358,
+      "bytes": 163444,
+      "sha256": "c2b6bdfb3669615f5758c07f8fb3c60a62696e967d502bf69cb1d580b2a4f780",
+      "omitted_keys": 0
+    },
+    "fil": {
+      "member": "wordfreq/data/small_fil.msgpack.gz",
+      "words": 30269,
+      "bytes": 85809,
+      "sha256": "b12b14f20d3b6a9be64d428aada13fc0e1a34a550559c3800b94997d68aa1171",
+      "omitted_keys": 0
+    },
+    "fr": {
+      "member": "wordfreq/data/small_fr.msgpack.gz",
+      "words": 31384,
+      "bytes": 84922,
+      "sha256": "bbf444224741c96e4fab668f3cf2579ca6ab6c19e8276fe23ee8cc15e1b10c1a",
+      "omitted_keys": 0
+    },
+    "he": {
+      "member": "wordfreq/data/small_he.msgpack.gz",
+      "words": 58370,
+      "bytes": 161082,
+      "sha256": "85cfb74bb52e0ff5d37d21a747ac42be539da5200613404fe31615565cd1d74b",
+      "omitted_keys": 0
+    },
+    "hi": {
+      "member": "wordfreq/data/small_hi.msgpack.gz",
+      "words": 26653,
+      "bytes": 93869,
+      "sha256": "fa078c91fdf51218fd7b0e3af480433fc87a44128de202e0870489186a6a172b",
+      "omitted_keys": 0
+    },
+    "hu": {
+      "member": "wordfreq/data/small_hu.msgpack.gz",
+      "words": 46701,
+      "bytes": 137562,
+      "sha256": "022e648191a6fc893f1465db2110cf10824d1f39eb014073eab68c9227d9b623",
+      "omitted_keys": 0
+    },
+    "id": {
+      "member": "wordfreq/data/small_id.msgpack.gz",
+      "words": 31186,
+      "bytes": 88542,
+      "sha256": "5e65e1a6c3a3db7b540c37d33d967edd7a3a530a7acb304da7bf857581dfa9f6",
+      "omitted_keys": 0
+    },
+    "is": {
+      "member": "wordfreq/data/small_is.msgpack.gz",
+      "words": 42304,
+      "bytes": 121648,
+      "sha256": "355fe7b7088892b7a11901b82b056082d79f58c34e7b1b3e09368c3240512a98",
+      "omitted_keys": 0
+    },
+    "it": {
+      "member": "wordfreq/data/small_it.msgpack.gz",
+      "words": 36103,
+      "bytes": 97886,
+      "sha256": "d72545e37a65108e1bdb681916aa05a0b427ce3a10c396faf4c0d35445b8a8e4",
+      "omitted_keys": 0
+    },
+    "ja": {
+      "member": "wordfreq/data/small_ja.msgpack.gz",
+      "words": 30215,
+      "bytes": 97654,
+      "sha256": "a1352b103ad1ebbdacc2ee3d80607cb0376aeb719cde2faabc578f25dc166055",
+      "omitted_keys": 0
+    },
+    "ko": {
+      "member": "wordfreq/data/small_ko.msgpack.gz",
+      "words": 29988,
+      "bytes": 90419,
+      "sha256": "30e4d48d35c9392a7c98657ba30d2987e235bb89558a0ef11566ca33e5c7cc09",
+      "omitted_keys": 0
+    },
+    "lt": {
+      "member": "wordfreq/data/small_lt.msgpack.gz",
+      "words": 64161,
+      "bytes": 172734,
+      "sha256": "3fc68cc3ce2fb74cea78aee7d3a157f28034fedcddf0c062b58c25f63d59d5a1",
+      "omitted_keys": 0
+    },
+    "lv": {
+      "member": "wordfreq/data/small_lv.msgpack.gz",
+      "words": 45630,
+      "bytes": 121651,
+      "sha256": "9ce7684ca10b3a3010a01bde6bb139483652f5975dfe901f0ee20a12c6ccdc69",
+      "omitted_keys": 0
+    },
+    "mk": {
+      "member": "wordfreq/data/small_mk.msgpack.gz",
+      "words": 33966,
+      "bytes": 108587,
+      "sha256": "d7626c08d251bda1a3e66e0124b129a4d13e1ece45ad620503ffec8fafc45c4e",
+      "omitted_keys": 0
+    },
+    "ms": {
+      "member": "wordfreq/data/small_ms.msgpack.gz",
+      "words": 28771,
+      "bytes": 80559,
+      "sha256": "25daead07c5182be71414ab6b821846861cf2a9a4b2ff632a43417be147dbb9b",
+      "omitted_keys": 0
+    },
+    "nb": {
+      "member": "wordfreq/data/small_nb.msgpack.gz",
+      "words": 26116,
+      "bytes": 72398,
+      "sha256": "ca168ff341959397b99a375d2f7def95541b229abec018cd2c850af49dade218",
+      "omitted_keys": 0
+    },
+    "nl": {
+      "member": "wordfreq/data/small_nl.msgpack.gz",
+      "words": 28961,
+      "bytes": 85193,
+      "sha256": "77f5bf51930a7e82428f275c6a6229ddfc8dd4d2c779ac6000e9ba91e72cf647",
+      "omitted_keys": 0
+    },
+    "pl": {
+      "member": "wordfreq/data/small_pl.msgpack.gz",
+      "words": 49878,
+      "bytes": 137503,
+      "sha256": "7596206890fa3cab36f383fe3573fd0f937d2ea6bead2330ca6811575a3db5b4",
+      "omitted_keys": 0
+    },
+    "pt": {
+      "member": "wordfreq/data/small_pt.msgpack.gz",
+      "words": 33297,
+      "bytes": 90746,
+      "sha256": "4229eac158930f8039fd244e263ef36f7c3fc7d30a501a82355f23580f021759",
+      "omitted_keys": 0
+    },
+    "ro": {
+      "member": "wordfreq/data/small_ro.msgpack.gz",
+      "words": 43409,
+      "bytes": 116210,
+      "sha256": "8b488300bc5360fbff9827f8cf5109a659c34d1870fdaab7be34d0ddfe4a7a2f",
+      "omitted_keys": 0
+    },
+    "ru": {
+      "member": "wordfreq/data/small_ru.msgpack.gz",
+      "words": 61192,
+      "bytes": 197506,
+      "sha256": "52a8d1033f093e6399c213b5d04f1f6042fff64ba9156a062eb832adb91d5166",
+      "omitted_keys": 0
+    },
+    "sh": {
+      "member": "wordfreq/data/small_sh.msgpack.gz",
+      "words": 54839,
+      "bytes": 137833,
+      "sha256": "731e4765774c7a0d01bcc82d0afe78f83a0ad0224d488a983d6264a8270dc3ff",
+      "omitted_keys": 0
+    },
+    "sk": {
+      "member": "wordfreq/data/small_sk.msgpack.gz",
+      "words": 59643,
+      "bytes": 164511,
+      "sha256": "81d5c177f42a1043aa804a3571869c0d549b7508243c21ada91b19fcadb8826a",
+      "omitted_keys": 0
+    },
+    "sl": {
+      "member": "wordfreq/data/small_sl.msgpack.gz",
+      "words": 54046,
+      "bytes": 135339,
+      "sha256": "46815f587e51df2e14a6837bf822bf3cc0c87a6942c700259f2fcdfc959241b2",
+      "omitted_keys": 0
+    },
+    "sv": {
+      "member": "wordfreq/data/small_sv.msgpack.gz",
+      "words": 30675,
+      "bytes": 86341,
+      "sha256": "a06ac2b71e6f7ee0257eff0aa11a683454d035e11b5bae9b10b2755602167ad3",
+      "omitted_keys": 0
+    },
+    "ta": {
+      "member": "wordfreq/data/small_ta.msgpack.gz",
+      "words": 68526,
+      "bytes": 242360,
+      "sha256": "a31377f7f4004695bf8379785ed33dd1675a08306e806d7395ae1ec00b60031e",
+      "omitted_keys": 0
+    },
+    "tr": {
+      "member": "wordfreq/data/small_tr.msgpack.gz",
+      "words": 63344,
+      "bytes": 171011,
+      "sha256": "fa7653e93a3b6ba594b466a2366786f7055935d828a62cdf89ff577c86eda84d",
+      "omitted_keys": 0
+    },
+    "uk": {
+      "member": "wordfreq/data/small_uk.msgpack.gz",
+      "words": 48148,
+      "bytes": 158782,
+      "sha256": "128bdfaa8ec0c4e76cf3f5a95c7e3d00a715c88535c229d41b28703277a42e44",
+      "omitted_keys": 0
+    },
+    "ur": {
+      "member": "wordfreq/data/small_ur.msgpack.gz",
+      "words": 23201,
+      "bytes": 69044,
+      "sha256": "d286e1aa216d7ef30d589c178cf5cae456ff600223c701ed7e2b5931a905edda",
+      "omitted_keys": 0
+    },
+    "vi": {
+      "member": "wordfreq/data/small_vi.msgpack.gz",
+      "words": 10718,
+      "bytes": 28791,
+      "sha256": "71963aa54e925a5c11dd36d44eeb87104ff0d8ab787d4b3d0bb12adf870c8b82",
+      "omitted_keys": 0
+    },
+    "zh": {
+      "member": "wordfreq/data/small_zh.msgpack.gz",
+      "words": 38589,
+      "bytes": 125134,
+      "sha256": "3952552e3ae71327e9ba32b0e44222d92e2d524f84daff8266568896dc8aad5e",
+      "omitted_keys": 1
+    }
+  },
+  "notices": {
+    "wordfreq-LICENSE.txt": {
+      "sha256": "262b51ebd3e7e29d3e5b82cb1fceefcf0a0db5627f119d4ad85157adfb6e16fe",
+      "bytes": 552
+    },
+    "wordfreq-NOTICE.md": {
+      "sha256": "1de60f78c5f7af00370ee190bbf776f90759a5da422e2ab453c97e45b6da92f4",
+      "bytes": 6055
+    },
+    "CC-BY-SA-4.0.txt": {
+      "sha256": "28a9529c7d0bb4dc51f4bf5c116a3d16ef247a052f7591466768ddf563fd1cf5",
+      "bytes": 20138,
+      "url": "https://creativecommons.org/licenses/by-sa/4.0/legalcode.txt",
+      "source": "https://raw.githubusercontent.com/creativecommons/cc-legal-tools-data/a0dac18d1a773b4cdb7d8dd5d9bf4efab7901030/docs/licenses/by-sa/4.0/legalcode.txt"
+    }
+  }
+}
