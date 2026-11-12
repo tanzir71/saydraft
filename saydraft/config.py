@@ -43,6 +43,7 @@ CONFIG_SCHEMA: dict[str, Any] = {
         "drop_message_period": bool,
         "voice_enter_enabled": bool,
         "learn_corrections": bool,
+        "auto_add_dictionary": bool,
     },
     "stt": {
         "routing_enabled": bool,
@@ -110,6 +111,7 @@ _DEFAULT_CONFIG: dict[str, Any] = {
         "drop_message_period": True,
         "voice_enter_enabled": False,
         "learn_corrections": False,
+        "auto_add_dictionary": False,
     },
     "stt": {
         "routing_enabled": True,

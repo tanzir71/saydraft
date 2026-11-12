@@ -3,8 +3,37 @@
 P5.6 is in progress. Offline frequency filtering and pure span alignment are
 implemented. The native original-field reader and asynchronous owner are
 implemented, including session delivery and result polling. Suggestion presentation,
-Auto-add and Undo remain.
+explicit Add, optional Auto-add, revision-scoped Undo and Settings controls are
+implemented. Both learning settings default off.
 Manual desktop acceptance remains deferred after Computer Use was stopped.
+
+## Suggestions and actions
+
+Settings → Dictionary exposes **Suggest words from my corrections** and a separate
+**Auto-add to dictionary** control, available when suggestions are enabled. The
+default shows an Add/Dismiss toast for the latest valid suggestion. Auto-add
+queues the same store operation and shows Undo after a successful save. Toasts
+show without requesting activation, use plain text and directional isolates for
+candidate words, and dismiss after 12 seconds, Dismiss or Escape. They do not
+use the logged notification channel. Visible native focus behavior still needs
+manual acceptance.
+
+A suggestion can be claimed only once and must still match the current session
+and observation epoch. Saves run on the transcript executor, reload the current
+cleaner's glossary and never create History entries. Cancellation or Settings
+replacement invalidates a queued Add before it starts. Once a write begins, its
+saved receipt still produces Undo; a later recording retires suggestions without
+hiding an actual saved change's Undo. Busy Undo remains available for retry;
+manual claims/newer changes cause a safe no-op. A cleanup reload failure does not
+discard an already committed receipt. Closed presenters reject queued results.
+
+QObject slots receive suggestion/result signals through explicit queued
+connections on the GUI thread. Tests cover Add/Auto-add/Undo, cancellation,
+default-off settings, stale results, busy/rejected queues, write/reload failures,
+timer/Escape dismissal and GUI-thread delivery. Offscreen English/Arabic/Bengali
+states were inspected. The offscreen font database needs explicit loading of the
+existing Windows Segoe UI and Nirmala fonts; Bengali/Arabic glyph checks pass
+with those fonts. No proprietary font is redistributed. P6 font bundling remains.
 
 ## Atomic dictionary edits
 
@@ -33,13 +62,13 @@ retain provenance only for unchanged terms; they cannot resurrect a revoked
 receipt. Reload Dictionary explicitly replaces the editor with the latest saved
 version, including after a conflict. Invalid JSON must be repaired on disk before
 reloading; it is never silently replaced by an empty dictionary.
-The visible Add/Auto-add/Undo actions and their Settings toggles still
-follow separately; these store methods do not enable observation by default.
+The visible actions use these store methods; observation remains disabled by
+default.
 
 ## Session delivery
 
-`dictation.learn_corrections` is a persisted, default-off integration flag. The
-Settings control and suggestion actions follow separately; default profiles do
+`dictation.learn_corrections` is a persisted, default-off integration flag.
+`dictation.auto_add_dictionary` separately defaults off. Default profiles do
 not start the observation owner. When enabled, the session prepares after the
 recorder starts. Pending lease length follows the configured recording cap plus
 60 seconds, bounded at 3660 seconds. History-only notes do not prepare.
@@ -69,7 +98,8 @@ memory delivery that mutates only its own invisible EDIT. It verifies one
 Kubernetes suggestion, History-before-input ordering, clipboard-port restoration
 and owner/serial retirement. It uses no microphone, real ASR, OS input or owner
 clipboard. This is integration evidence, not manual Notepad or end-to-end latency
-acceptance. Visible suggestion/Add/Auto-add/Undo behavior is still pending.
+acceptance. That session case also saves the suggestion through the serial worker,
+verifies the reloaded glossary, and undoes it with no additional History row.
 
 ## Background scheduling
 

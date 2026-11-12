@@ -33,11 +33,12 @@ def session_case(metadata, identity, mutate, child, row, output):
     from saydraft.core.worker import SessionWorker
     from saydraft.history import DictationHistoryStore
     from saydraft.insert.inserter import Inserter
+    from saydraft.dictation.glossary import load_glossary
 
     metadata.close()  # Only the two actual app owners below remain; no proxy crosses threads.
     audio_clock, observation_clock = NS(now=0), NS(now=0)
-    listening, finished, suggested = threading.Event(), threading.Event(), threading.Event()
-    suggestions = []
+    listening, finished, suggested, changed = (threading.Event() for _ in range(4))
+    suggestions, changes = [], []
     def factory():
         native = NativeUIAReader()
         native.focused_element = lambda: native.client.ElementFromHandleBuildCache(child, native.cache)
@@ -55,6 +56,9 @@ def session_case(metadata, identity, mutate, child, row, output):
         config["dictation"]["learn_corrections"], config["stt"]["language"] = True, "en"
         store = DictationHistoryStore(output / "session.db")
         cleaner = NS(process_transcript=lambda text, context: text)
+        dictionary_path = output / "session-glossary.json"
+        cleaner.cfg = NS(glossary_path=str(dictionary_path))
+        cleaner.reload_glossary = lambda: setattr(cleaner, "glossary", load_glossary(dictionary_path))
         clipboard = NS(value="Public original clipboard fixture")
         clipboard.paste = lambda: clipboard.value
         clipboard.copy = lambda text: setattr(clipboard, "value", text)
@@ -77,6 +81,9 @@ def session_case(metadata, identity, mutate, child, row, output):
             elif name == "dictionary_suggestion":
                 suggestions.append(args[0])
                 suggested.set()
+            elif name == "dictionary_changed":
+                changes.append(args[0])
+                changed.set()
         worker = SessionWorker(services, emit=emit, session=DictationSession(clock=lambda: audio_clock.now),
             keyboard_module=NS(), timer_factory=lambda *a: NS(start=lambda: None, cancel=lambda: None))
         assert worker.start_recording() and listening.wait(5)
@@ -95,6 +102,16 @@ def session_case(metadata, identity, mutate, child, row, output):
         assert suggestions[0].candidate.term == "Kubernetes" and worker.is_current_correction(suggestions[0])
         assert len(store.list_recent()) == 1 and clipboard.value == "Public original clipboard fixture"
         row["session_suggestion_emitted"] = True
+        assert worker.add_correction(suggestions[0]) and changed.wait(5)
+        worker.executor.submit(lambda: None).result(timeout=5)
+        assert changes[-1].status == "added" and cleaner.glossary.user_terms == ("Kubernetes",)
+        receipt = changes[-1].receipt
+        changed.clear()
+        assert worker.undo_correction(receipt) and changed.wait(5)
+        worker.executor.submit(lambda: None).result(timeout=5)
+        assert changes[-1].status == "undone" and cleaner.glossary.user_terms == ()
+        assert len(store.list_recent()) == 1
+        row["session_dictionary_add_undo"] = True
     finally:
         if worker is not None:
             worker.shutdown()
@@ -175,6 +192,7 @@ def probe(output):
             "saydraft/context/tracked_edit.py", "saydraft/context/uia_native.py",
             "saydraft/context/observation_worker.py", "saydraft/core/corrections.py",
             "saydraft/core/worker.py", "saydraft/core/processing.py", "saydraft/config.py",
+            "saydraft/dictionary/store.py", "saydraft/dictation/glossary.py",
             "saydraft/insert/inserter.py", "tools/probe_tracked_edit.py")},
         "microphone_used": False, "asr_performed": False}
     @contextmanager

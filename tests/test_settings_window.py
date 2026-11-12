@@ -80,6 +80,9 @@ def test_settings_window_has_required_tabs_and_loads_values(tmp_path):
     assert window.profile_combo.currentText() == "notes"
     assert window.drop_message_period_checkbox.isChecked()
     assert not window.voice_enter_checkbox.isChecked()
+    assert not window.learn_corrections_checkbox.isChecked()
+    assert not window.auto_add_dictionary_checkbox.isChecked()
+    assert not window.auto_add_dictionary_checkbox.isEnabled()
     assert window.model_picker.model_id == "parakeet-tdt-0-6b-v3-int8"
     assert "CC-BY-4.0" in window.model_picker.license_label.text()
     assert "Saydraft" in window.dictionary_editor.toPlainText()
@@ -227,6 +230,21 @@ def test_unchanged_dictionary_editor_keeps_new_learning_and_hides_receipts(tmp_p
     assert "_saydraft_learning" not in window.dictionary_editor.toPlainText()
     assert receipt.revision not in window.dictionary_editor.toPlainText()
     assert undo_learning(tmp_path / "glossary.json", receipt)
+
+
+def test_learning_toggles_persist_and_auto_add_depends_on_suggestions(tmp_path):
+    window, config_path, _autostart = make_window(tmp_path)
+    window.learn_corrections_checkbox.setChecked(True)
+    assert window.auto_add_dictionary_checkbox.isEnabled()
+    window.auto_add_dictionary_checkbox.setChecked(True)
+    assert window.apply_changes()
+    saved = json.loads(config_path.read_text(encoding="utf-8"))["dictation"]
+    assert saved["learn_corrections"] and saved["auto_add_dictionary"]
+    window.learn_corrections_checkbox.setChecked(False)
+    assert not window.auto_add_dictionary_checkbox.isEnabled()
+    assert window.apply_changes()
+    saved = json.loads(config_path.read_text(encoding="utf-8"))["dictation"]
+    assert not saved["learn_corrections"] and not saved["auto_add_dictionary"]
 
 
 def test_stale_dictionary_editor_refuses_save_without_applying_settings(tmp_path):

@@ -4,6 +4,7 @@ import threading
 from dataclasses import dataclass
 
 from saydraft.dictionary.alignment import CorrectionCandidate, suggest_correction
+from saydraft.dictionary.store import LearningReceipt
 
 
 @dataclass(frozen=True)
@@ -11,6 +12,12 @@ class CorrectionSuggestion:
     epoch: int
     generation: int
     candidate: CorrectionCandidate
+
+
+@dataclass(frozen=True)
+class DictionaryChange:
+    status: str
+    receipt: LearningReceipt | None = None
 
 
 @dataclass
@@ -151,3 +158,15 @@ class CorrectionController:
         with self._lock:
             return (self._published is suggestion and suggestion is not None
                 and suggestion.epoch == self._epoch and self.current(suggestion.generation))
+
+    def claim(self, suggestion):
+        with self._lock:
+            if (suggestion is None or self._published is not suggestion
+                    or suggestion.epoch != self._epoch or not self.current(suggestion.generation)):
+                return False
+            self._published = None
+            return True
+
+    def claim_current(self, suggestion):
+        with self._lock:
+            return suggestion.epoch == self._epoch and self.current(suggestion.generation)

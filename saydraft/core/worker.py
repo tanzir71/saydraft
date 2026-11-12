@@ -19,7 +19,7 @@ from .segments import SegmentTranscriber
 from .preview import PreviewSession, choose_preview_result
 from .context import ForegroundContextProvider
 from .interfaces import insertion_block
-from .corrections import CorrectionController
+from .corrections import CorrectionController, DictionaryChange
 
 logger = logging.getLogger(__name__)
 
@@ -97,6 +97,64 @@ class SessionWorker:
 
     def is_current_correction(self, suggestion):
         return self.corrections.is_current(suggestion)
+
+    def add_correction(self, suggestion, *, automatic=False):
+        if not self._lock.acquire(blocking=False):
+            return False
+        try:
+            cfg = self.services.config["dictation"]
+            path = getattr(getattr(self.services.cleaner, "cfg", None), "glossary_path", "")
+            if (self.busy or self._closing or not path or not cfg.get("learn_corrections", False)
+                    or (automatic and not cfg.get("auto_add_dictionary", False))
+                    or not self.corrections.claim(suggestion)):
+                return False
+            self._submit(self._change_dictionary, path, suggestion, None)
+            return True
+        except Exception:
+            self.emit("dictionary_changed", DictionaryChange("error"))
+            return False
+        finally:
+            self._lock.release()
+
+    def undo_correction(self, receipt):
+        if not self._lock.acquire(blocking=False):
+            return False
+        try:
+            if self.busy or self._closing:
+                return False
+            self._submit(self._change_dictionary, receipt.dictionary, None, receipt)
+            return True
+        except Exception:
+            self.emit("dictionary_changed", DictionaryChange("error", receipt))
+            return False
+        finally:
+            self._lock.release()
+
+    def _change_dictionary(self, path, suggestion, receipt):
+        from pathlib import Path
+        from saydraft.dictionary.store import add_term, undo_learning
+        if self._closing or (suggestion is not None and not self.corrections.claim_current(suggestion)):
+            self.emit("dictionary_changed", DictionaryChange("obsolete"))
+            return
+        try:
+            if suggestion is not None:
+                receipt = add_term(path, suggestion.candidate.term, learned=True)
+                status = "added" if receipt is not None else "unchanged"
+            else:
+                status = "undone" if undo_learning(path, receipt) else "stale"
+        except (OSError, ValueError):
+            self.emit("dictionary_changed", DictionaryChange("error", receipt if suggestion is None else None))
+            return
+        # This task shares the transcript executor; cleanup never races its reload.
+        try:
+            cleaner = self.services.cleaner
+            current_path = getattr(getattr(cleaner, "cfg", None), "glossary_path", "")
+            reload = getattr(cleaner, "reload_glossary", None)
+            if reload is not None and current_path and Path(current_path).resolve() == Path(path).resolve():
+                reload()
+        except Exception:
+            logger.warning("Dictionary refresh unavailable; apply Settings to refresh cleanup")
+        self.emit("dictionary_changed", DictionaryChange(status, receipt if status == "added" else None))
 
     def _warm_cleanup(self, context=None):
         try:

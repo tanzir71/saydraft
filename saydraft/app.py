@@ -40,6 +40,7 @@ def create_worker_signals(QtCore):
         preview_text_changed = QtCore.Signal(int, str)
         preview_unavailable = QtCore.Signal(int)
         dictionary_suggestion = QtCore.Signal(object)
+        dictionary_changed = QtCore.Signal(object)
 
     return SaydraftWorkerSignals()
 
@@ -130,6 +131,12 @@ class WorkerController:
 
     def is_current_correction(self, suggestion):
         return bool(self.core and self.core.is_current_correction(suggestion))
+
+    def add_correction(self, suggestion, *, automatic=False):
+        return bool(self.core and self.core.add_correction(suggestion, automatic=automatic))
+
+    def undo_correction(self, receipt):
+        return bool(self.core and self.core.undo_correction(receipt))
 
 
 class SaydraftApp:
@@ -234,6 +241,15 @@ class SaydraftApp:
             notify=self.signals.notification_requested.emit
         )
         self.controller.start()
+        if hasattr(qt_modules.QtCore, "QTimer") and hasattr(self.controller, "add_correction"):
+            from .ui.dictionary_toast import DictionaryPresenter
+            self.dictionary_presenter = DictionaryPresenter(self.controller,
+                config=lambda: self.config, parent=application)
+            self.signals.dictionary_suggestion.connect(self.dictionary_presenter.suggest, qt_modules.QtCore.Qt.QueuedConnection)
+            self.signals.dictionary_changed.connect(self.dictionary_presenter.changed, qt_modules.QtCore.Qt.QueuedConnection)
+            self.signals.recording_started.connect(self.dictionary_presenter.retire_suggestion)
+            if about_to_quit is not None:
+                about_to_quit.connect(self.dictionary_presenter.close)
         if hasattr(qt_modules.QtCore, "QTimer") and hasattr(self.controller, "poll_corrections"):
             self.correction_timer = qt_modules.QtCore.QTimer(application)
             self.correction_timer.timeout.connect(self.controller.poll_corrections)
@@ -357,6 +373,9 @@ class SaydraftApp:
 
     def _on_settings_applied(self, config: dict) -> None:
         self.config = config
+        presenter = getattr(self, "dictionary_presenter", None)
+        if presenter is not None:
+            presenter.retire_suggestion()
         if hasattr(self.controller, "apply_config"):
             self.controller.apply_config(config)
         if hasattr(self.tray, "set_model_label"):
