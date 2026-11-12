@@ -47,12 +47,31 @@ the real isolated native GDI proof as well as ownership and bounds failures.
 python -m tools.probe_clipboard_handles --output D:\QA\New-Clipboard-Objects-Probe
 ```
 
-The next checkpoint must implement bounded clipboard-open retries, an owned
-window, ordered enumeration, snapshot/write/restore transactions, privacy flags,
-clipboard-change protection and the native inserter route. Actual copied-image,
-rich-text and Win+V acceptance remain open.
+The transaction foundation below supplies bounded clipboard-open retries, an
+owned window, enumeration, privacy flags and snapshot/write/restore protection.
+Native inserter wiring and actual copied-image/rich-text/Win+V acceptance remain.
 
 Clean immutable `fa5d3f9` repeats all nine exact source-independent copies in
 ten round trips. Native GDI count is 14 while fixtures/copies live and returns
 to zero after each run. Original report bytes/digest are retained under
 `eval/hardware/results/2026-11-12-clipboard-handles/`.
+
+The transaction foundation now exists in `clipboard_win.py` and `_clipboard_win32.py`;
+app wiring still follows. It uses an eager, message-only owner, 350 ms clipboard-open
+retries, ordered/bounded enumeration and a 64 MB retained snapshot payload. Failed
+renders are counted/skipped; opaque, oversized or uncapturable content causes no
+mutation. Before clearing, it allocates the three [privacy formats](https://learn.microsoft.com/en-us/windows/win32/dataxchg/clipboard-formats)
+with DWORD zero and Unicode text, and rechecks the delivery guard. A restore is
+staged before clearing and may briefly hold a second snapshot-sized copy.
+
+The [clipboard sequence](https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getclipboardsequencenumber)
+and owner prevent restoring over a newer user copy, including a busy-restore race.
+Failures retain one complete original in RAM; recover() retries without accumulating
+snapshots and discards it only when a newer clipboard copy supersedes it. Partial
+publication, guard/body failure, unknown sequence and partial restore paths are tested.
+Native owner-window/flag registration tests access no clipboard contents. The app
+still uses text-only restoration; actual image/rich-text survival and Win+V remain
+unverified until native transaction/app integration tests are complete.
+
+Transaction validation: 1668 tests pass with four optional native skips; rules
+432/432, authored adversarial checks 100/100, Ruff and diff checks pass.
