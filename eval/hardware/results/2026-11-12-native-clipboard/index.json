@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "scope": "Windows clipboard/processing/SQLite and restoration; no ASR, OS input, elevated-window or Win+V acceptance",
+  "reports": [
+    {
+      "file": "report.json",
+      "sha256": "0980a22849d621fd4913afdf16e25e96fe7129ff76310c953c7c566da5952032",
+      "role": "clean component proof",
+      "source_commit": "5e8c408c39e3005aef52686ae56edcddef5d4f54",
+      "source_dirty": false,
+      "probe_complete": true
+    },
+    {
+      "file": "initial-named-refusal.json",
+      "sha256": "913d5ee906afef91f8bffc5f4816cc5f38a560edd037e178a050819900c5d3cc",
+      "role": "development setup refusal",
+      "source_commit": "2bfd70347eb9e124a225bdb0e23c1851f27624e1",
+      "source_dirty": true,
+      "probe_complete": false
+    },
+    {
+      "file": "unnamed-refusal.json",
+      "sha256": "836b319b2687eb63015289ea5826d06fbe1ec860a9a6b5b75fc9031334680c1a",
+      "role": "development setup refusal",
+      "source_commit": "2bfd70347eb9e124a225bdb0e23c1851f27624e1",
+      "source_dirty": true,
+      "probe_complete": false
+    },
+    {
+      "file": "initial-marker-assertion.json",
+      "sha256": "dcffde154e57e7d3d21e164acf62fe854e4f6ef504bc341e7d68f6e3e8cb6cb3",
+      "role": "development probe assertion",
+      "source_commit": "2bfd70347eb9e124a225bdb0e23c1851f27624e1",
+      "source_dirty": true,
+      "probe_complete": false
+    },
+    {
+      "file": "close-sequence-rejection.json",
+      "sha256": "d8f353cdf5d4a061b3ee815b5d9238ae056196f608a91eaa2b2bca89c57bed90",
+      "role": "development native guard rejection",
+      "source_commit": "2bfd70347eb9e124a225bdb0e23c1851f27624e1",
+      "source_dirty": true,
+      "probe_complete": false
+    },
+    {
+      "file": "close-sequence-diagnostic.json",
+      "sha256": "b322b3542dd34ffe0eee212d6927277338b0f3e0d8989f7b8c59d12be08fe199",
+      "role": "development sequence observation",
+      "source_commit": "2bfd70347eb9e124a225bdb0e23c1851f27624e1",
+      "source_dirty": true,
+      "probe_complete": false
+    },
+    {
+      "file": "initial-passing-dirty.json",
+      "sha256": "4e807d932bfaf02c0da19974b8231a6c28591e34cdd1361f15ee59c17ee18f36",
+      "role": "development passing diagnostic",
+      "source_commit": "2bfd70347eb9e124a225bdb0e23c1851f27624e1",
+      "source_dirty": true,
+      "probe_complete": true
+    },
+    {
+      "file": "earlier-clean-helper.json",
+      "sha256": "dd4b43cd8dbf493cc3bd2c3092e815c5f8b95cd2ac7e065e0fef4726bdff87c0",
+      "role": "earlier clean helper replay",
+      "source_commit": "133c83eaa4d45a9837f0c23da809e1d183efe7cb",
+      "source_dirty": false,
+      "probe_complete": true
+    }
+  ]
+}

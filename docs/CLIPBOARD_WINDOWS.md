@@ -149,3 +149,11 @@ replay evidence follows below; these diagnostics are not acceptance substitutes.
 Local probe validation: 1691 tests pass, five explicit native/model skips. One
 skip is this account's isolated-surface refusal; the explicit backed-up native
 replay succeeds separately. CI prints skip reasons to expose this distinction.
+
+Clean immutable `5e8c408` passes ten native transactions, ten committed History
+entries before checked stub delivery, three exact restored fixture formats and
+private History Copy. It restores/verifies the complete owner clipboard and exits
+successfully. No input, microphone, ASR or Win+V acceptance is implied. Original
+report bytes/digests and seven clearly labeled earlier diagnostics are retained
+under `eval/hardware/results/2026-11-12-native-clipboard/`; owner contents/digests
+are absent. The fixture delivery uses zero test sleeps and is no latency claim.
