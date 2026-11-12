@@ -50,3 +50,30 @@ causality was established. The repeated-failure handle check now runs in a quiet
 child process, retaining its ten failed launches and unchanged zero-growth
 assertion. This excludes handles opened by unrelated concurrent test workers.
 The initial log remains `build/qa/chord-engine-full.stdout.log`.
+
+## Native transport
+
+`LowLevelHooks` now owns a WH_KEYBOARD_LL/WH_MOUSE_LL message-pump thread and a
+separate action worker. A bounded queue carries only named transitions and their
+monotonic callback timestamps. Ordinary input is forwarded; application callbacks
+never run in the hook. Queue saturation or callback/native errors stop dispatch,
+discard stale actions and report a metadata-only failure after pump cleanup.
+The caller must cancel its recording on failure. Shutdown observes both threads;
+a blocked action makes `close` return false so the owner must be retained.
+
+Startup snapshots physical key state without firing held chords, using explicit
+modifier sides and swapped-button mapping. Snapshot calls occur outside callbacks.
+The message queue exists before shutdown messages can be posted, as required by
+[PostThreadMessage](https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-postthreadmessagew).
+Callbacks remain referenced through removal/loop exit. Partial hook installation
+is retired. Tagged vkE8 masks are sent before modifier-up forwarding; partial
+delivery retries only release. Our tag is ignored, while external accessibility
+and macro input still works. Actual Start-menu/F9 acceptance and app wiring remain
+open; the application still uses its old backend until that switch is verified.
+
+Transport validation: 1557 tests pass with four optional native skips, rules
+432/432, authored adversarial checks 100/100 and Ruff/diff pass. Tests cover ABI,
+forwarding, mouse decode, off-thread dispatch, masks, queue saturation, late
+startup, adoption/partial-install failure and cleanup observation. Initial native
+vkE8-only probes install both hooks, dispatch off-thread, ignore our own mask and
+observe both threads/hooks retired. A reusable immutable-source probe follows.

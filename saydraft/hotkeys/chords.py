@@ -98,6 +98,15 @@ class ChordMatcher:
         self._down, self._suppressed, self._mask = set(), set(), set()
         self._active = None
 
+    def seed(self, keys):
+        """Startup state only; already held keys neither fire nor become suppressed."""
+        keys = frozenset(keys)
+        if self._down or self._active is not None:
+            raise RuntimeError("Seed only an unused chord matcher")
+        if len(keys) > 254 or any(key in MODIFIERS or normalize_key(key) != key for key in keys):
+            raise ValueError("Expected bounded canonical physical key state")
+        self._down.update(keys)
+
     def feed(self, key, down, *, ignore=False):
         # Native decoding supplies physical names. No key text/history is retained.
         if ignore or key is None:

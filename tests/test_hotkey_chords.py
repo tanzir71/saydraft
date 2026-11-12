@@ -150,3 +150,15 @@ def test_alias_and_side_specific_conflicts_are_detected_but_prefixes_are_valid()
         ChordMatcher([binding("same", "f9"), binding("same", "f10")])
     with pytest.raises(ValueError):
         ChordMatcher([binding(str(i), "f9") for i in range(65)])
+
+
+def test_startup_seed_does_not_fire_and_prevents_ignoring_an_already_held_modifier():
+    matcher = ChordMatcher([binding("ptt", "ctrl+win")])
+    matcher.seed(["left_shift"])
+    matcher.feed("left_ctrl", True)
+    assert not actions(matcher.feed("left_win", True))
+    assert not actions(matcher.feed("left_shift", False))
+    matcher.feed("left_win", False)
+    assert actions(matcher.feed("left_win", True)) == [("ptt", "press", "physical")]
+    with pytest.raises(RuntimeError):
+        matcher.seed([])
