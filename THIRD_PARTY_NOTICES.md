@@ -61,6 +61,14 @@ before an explicit download. The model card is retained with each Parakeet
 installation. Website credits must retain this distinction from the application's
 MIT license.
 
+## Windows UI Automation binding
+
+[comtypes 1.4.16](https://pypi.org/project/comtypes/1.4.16/) is used under MIT,
+copyright Thomas Heller and Comtypes Developers. The complete bundled notice is
+[comtypes-1.4.16-MIT.txt](assets/licenses/comtypes-1.4.16-MIT.txt).
+The Windows UI Automation type library is supplied by Windows; generated binding
+metadata stays in RAM and includes no field content.
+
 ## Test recordings
 
 The Bengali and Arabic FLEURS smoke recordings and reference transcripts are by

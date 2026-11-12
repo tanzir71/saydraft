@@ -76,3 +76,40 @@ show a generic retry notification and leave the hotkey route usable. Seven
 concurrency/lifecycle cases cover these paths using a renderer held until GUI
 actions return. This prepares the UIA integration; it does not supply its missing
 password/caret/selection implementation or acceptance.
+
+## UIA reader foundation
+
+`focused_edit.py` requires an explicit non-password property before requesting
+text. Unsupported/default/failed properties refuse the read. It checks focused
+element identity before and after collection, rechecks the password flag, rejects
+unrelated windows and discards partial text on errors. Provider exceptions and
+field content are never logged. Control type and bounded runtime ID accompany
+successful results. Text is limited to 1024 UTF-16 units; incomplete selection is
+flagged for later commands rather than represented as a complete selection.
+
+`uia_native.py` creates an in-process Windows UI Automation 2 client on a
+windowless MTA thread, following Microsoft's [threading guidance](https://learn.microsoft.com/en-us/windows/win32/winauto/uiauto-threading).
+Import the module on the owner thread before constructing the client on its MTA
+worker. The caller owns construction/use/closure; no COM proxies cross threads.
+AutoSetFocus is disabled; connection/transaction timeouts are 100 ms. Type-library
+binding metadata is generated in RAM with pinned MIT-licensed comtypes 1.4.16.
+
+TextPattern selection ranges provide text before the selection start without
+moving the real selection. An active TextPattern2 caret is the fallback. Disjoint
+selections and unsupported patterns provide no caret text. If a provider promotes
+Character movement to a larger unit, a distant truncated document prefix is
+discarded. ValuePattern alone cannot establish the caret position, so the reader
+does not read an entire value and pretend it precedes the caret.
+
+`python -m tools.probe_uia_reader --output D:\QA\New-Uia-Probe` creates invisible
+password/plain EDIT controls and queries only those controls from its MTA worker.
+It verifies password short-circuit, plain Edit type, idempotent COM closure, thread
+exit and window destruction. It changes no focus, injects no input, opens no
+clipboard and reads no active application. CI repeats the probe in a bounded
+child process. Pure policy/range tests cover sensitive-state/focus races, unknown
+properties, malformed IDs, bounded Unicode and range movement.
+
+The reader is not yet wired into application context capture. A bounded MTA
+request/lifetime adapter, insertion refusal for unavailable/password fields and
+manual password acceptance remain under P5.3. Provider timeouts alone do not prove
+a bounded total call sequence; the request adapter must impose the outer budget.
