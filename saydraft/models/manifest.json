@@ -159,7 +159,7 @@
       "id": "parakeet-tdt-0-6b-v3-int8",
       "engine": "parakeet",
       "role": "asr",
-      "label": "Parakeet v3 · 25 languages (recommended)",
+      "label": "Parakeet v3 Â· 25 languages (recommended)",
       "revision": "ed5d745623472f97cfc2e6c2916ee248798fc5a8",
       "license": "CC-BY-4.0",
       "license_url": "https://creativecommons.org/licenses/by/4.0/",
@@ -237,7 +237,7 @@
       "id": "parakeet-tdt-0-6b-v2-int8",
       "engine": "parakeet",
       "role": "asr",
-      "label": "Parakeet v2 · English max",
+      "label": "Parakeet v2 Â· English max",
       "revision": "84b478d541cdbf0c296a7ab5f1e20a6f8f998114",
       "license": "CC-BY-4.0",
       "license_url": "https://creativecommons.org/licenses/by/4.0/",
@@ -289,7 +289,7 @@
       "engine": "whisper",
       "role": "asr",
       "model_size": "large-v3-turbo",
-      "label": "All languages · Whisper turbo",
+      "label": "All languages Â· Whisper turbo",
       "revision": "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
       "license": "MIT",
       "license_url": "https://github.com/openai/whisper/blob/main/LICENSE",
@@ -433,7 +433,7 @@
         }
       ],
       "engine": "sherpa_nemo_stream",
-      "label": "English live preview · Nemotron 0.6B (Labs)",
+      "label": "English live preview Â· Nemotron 0.6B (Labs)",
       "publisher": "NVIDIA; ONNX/int8 conversion by sherpa-onnx",
       "license_url": "https://www.nvidia.com/en-us/agreements/enterprise-software/nvidia-open-model-license/",
       "source": "https://huggingface.co/nvidia/nemotron-speech-streaming-en-0.6b",
@@ -448,7 +448,7 @@
       "role": "runtime",
       "engine": "llama_cpp",
       "backend": "cpu",
-      "label": "AI cleanup runtime · llama.cpp b12110 (cpu)",
+      "label": "AI cleanup runtime Â· llama.cpp b12110 (cpu)",
       "publisher": "The ggml authors; LLVM OpenMP contributors",
       "license": "MIT + LLVM OpenMP license notice",
       "license_url": "https://github.com/ggml-org/llama.cpp/blob/cd959bae99ff4bed22bef2604f45241c09bbb8c8/LICENSE",
@@ -624,7 +624,7 @@
       "role": "runtime",
       "engine": "llama_cpp",
       "backend": "vulkan",
-      "label": "AI cleanup runtime · llama.cpp b12110 (vulkan)",
+      "label": "AI cleanup runtime Â· llama.cpp b12110 (vulkan)",
       "publisher": "The ggml authors; LLVM OpenMP contributors",
       "license": "MIT + LLVM OpenMP license notice",
       "license_url": "https://github.com/ggml-org/llama.cpp/blob/cd959bae99ff4bed22bef2604f45241c09bbb8c8/LICENSE",
@@ -799,6 +799,103 @@
           "sha256": "94f29bbed6a22c35b992c5c6ebf0e7c92f13b836b90f36f461c9cf2f0f1d010d"
         }
       ]
+    },
+    {
+      "id": "qwen35-08b-q4-k-m",
+      "role": "llm",
+      "status": "measured_choice",
+      "label": "Qwen/Qwen3.5-0.8B Q4_K_M",
+      "engine": "llama.cpp",
+      "runtime": "llama-cpp-b12110",
+      "min_tier": "standard",
+      "quantization": "Q4_K_M",
+      "revision": "f36b1ea49a332ede8fe5f389bbf5b3575ef71f48",
+      "license": "Apache-2.0",
+      "license_url": "https://huggingface.co/Qwen/Qwen3.5-0.8B/blob/2fc06364715b967f1860aea9cf38778875588b17/LICENSE",
+      "publisher": "Qwen / Bartowski",
+      "source": "https://huggingface.co/bartowski/Qwen_Qwen3.5-0.8B-GGUF",
+      "source_model": "Qwen/Qwen3.5-0.8B",
+      "source_revision": "2fc06364715b967f1860aea9cf38778875588b17",
+      "download_hosts": [
+        "huggingface.co",
+        "us.aws.cdn.hf.co"
+      ],
+      "files": [
+        {
+          "path": "Qwen_Qwen3.5-0.8B-Q4_K_M.gguf",
+          "url": "https://huggingface.co/bartowski/Qwen_Qwen3.5-0.8B-GGUF/resolve/f36b1ea49a332ede8fe5f389bbf5b3575ef71f48/Qwen_Qwen3.5-0.8B-Q4_K_M.gguf",
+          "size": 579615840,
+          "sha256": "fb044e93939a70469c905781334f5de1e6c8b608ced6cbc8c9249bd4127d9526"
+        },
+        {
+          "path": "README.md",
+          "url": "https://huggingface.co/bartowski/Qwen_Qwen3.5-0.8B-GGUF/resolve/f36b1ea49a332ede8fe5f389bbf5b3575ef71f48/README.md",
+          "size": 13782,
+          "sha256": "dc1fa7928acc9746ba13d0c80047717fad487b0723613ed9a61d328dadede117"
+        },
+        {
+          "path": "LICENSE.txt",
+          "bundled_source": "assets/licenses/qwen35-Apache-2.0.txt",
+          "size": 11544,
+          "sha256": "bbedc3fda3305820b977265f01b8619d87570a6739de3a5582c3464840f1e57a"
+        }
+      ],
+      "ram_mb": 1536,
+      "disk_mb": 579.629622,
+      "languages": [
+        "multilingual"
+      ]
+    },
+    {
+      "id": "qwen35-2b-q4-k-m",
+      "role": "llm",
+      "status": "measured_choice",
+      "label": "Qwen/Qwen3.5-2B Q4_K_M",
+      "engine": "llama.cpp",
+      "runtime": "llama-cpp-b12110",
+      "min_tier": "pro",
+      "quantization": "Q4_K_M",
+      "revision": "7d26695454df6de5fbcce2e58681e62dae06ce43",
+      "license": "Apache-2.0",
+      "license_url": "https://huggingface.co/Qwen/Qwen3.5-2B/blob/15852e8c16360a2fea060d615a32b45270f8a8fc/LICENSE",
+      "publisher": "Qwen / Bartowski",
+      "source": "https://huggingface.co/bartowski/Qwen_Qwen3.5-2B-GGUF",
+      "source_model": "Qwen/Qwen3.5-2B",
+      "source_revision": "15852e8c16360a2fea060d615a32b45270f8a8fc",
+      "download_hosts": [
+        "huggingface.co",
+        "us.aws.cdn.hf.co"
+      ],
+      "files": [
+        {
+          "path": "Qwen_Qwen3.5-2B-Q4_K_M.gguf",
+          "url": "https://huggingface.co/bartowski/Qwen_Qwen3.5-2B-GGUF/resolve/7d26695454df6de5fbcce2e58681e62dae06ce43/Qwen_Qwen3.5-2B-Q4_K_M.gguf",
+          "size": 1396198496,
+          "sha256": "57a1085840f497d764a7fc5d346922dbde961efb54cc792ea81d694fd846a1d8"
+        },
+        {
+          "path": "README.md",
+          "url": "https://huggingface.co/bartowski/Qwen_Qwen3.5-2B-GGUF/resolve/7d26695454df6de5fbcce2e58681e62dae06ce43/README.md",
+          "size": 13716,
+          "sha256": "f095716c2cb5ba69ebb8504e10f9ae7b6def35574898c8d01b9506cd6cb1f85d"
+        },
+        {
+          "path": "LICENSE.txt",
+          "bundled_source": "assets/licenses/qwen35-Apache-2.0.txt",
+          "size": 11544,
+          "sha256": "bbedc3fda3305820b977265f01b8619d87570a6739de3a5582c3464840f1e57a"
+        }
+      ],
+      "ram_mb": 3072,
+      "disk_mb": 1396.212212,
+      "languages": [
+        "multilingual"
+      ]
     }
-  ]
+  ],
+  "cleanup_defaults": {
+    "lite": null,
+    "standard": "qwen35-08b-q4-k-m",
+    "pro": "qwen35-2b-q4-k-m"
+  }
 }

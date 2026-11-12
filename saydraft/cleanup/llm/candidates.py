@@ -1,4 +1,4 @@
-"""Developer-only cleanup candidates; never part of the app's model picker."""
+"""Developer measurement recipes; app choices live in a separate pinned catalog."""
 
 from __future__ import annotations
 

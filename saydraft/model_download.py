@@ -24,6 +24,8 @@ def model_relative_dir(model: dict) -> Path:
     if model["engine"] == "whisper":
         return Path("whisper") / model["model_size"]
     folder = {"vad": "vad", "lid": "lid", "llm": "llm", "runtime": "runtime", "preview": "preview"}.get(model.get("role"), "asr")
+    if model.get("role") == "llm":
+        return Path(folder) / model["id"] / model["revision"]
     return Path(folder) / model["id"]
 
 

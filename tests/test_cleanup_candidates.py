@@ -10,15 +10,20 @@ from saydraft.models.downloader import verify_file
 from saydraft.models.manifest import get_model
 
 
-def test_all_five_candidates_are_unselected_pinned_and_outside_the_application_picker():
+def test_developer_recipes_stay_pinned_and_only_measured_choices_enter_app_catalog():
     models = load_candidates()["models"]
     assert len(models) == 5
     assert {model["quantization"] for model in models} == {"Q4_K_M", "Q4_0"}
     for model in models:
         assert model["role"] == "cleanup_candidate" and model["status"] == "unselected"
         assert verify_file(ROOT / model["notice"]["path"], model["notice"])
-        with pytest.raises(ValueError, match="No pinned download"):
-            get_model(model["id"])
+        if model["id"] in ("qwen35-08b-q4-k-m", "qwen35-2b-q4-k-m"):
+            selected = get_model(model["id"])
+            assert selected["role"] == "llm" and selected["revision"] == model["revision"]
+            assert selected["files"][:2] == model["files"]
+        else:
+            with pytest.raises(ValueError, match="No pinned download"):
+                get_model(model["id"])
 
 
 def fixture_catalog(tmp_path, mutate=lambda model: None):

@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 import re
 import shutil
 import threading
@@ -173,6 +174,14 @@ def download_model(model: dict, target: Path, *, progress_callback=None, opener=
                    pause_event=None) -> Path:
     """Explicit action only. Resume pinned files; publish only after complete SHA-256 checks."""
     total = sum(file["size"] for file in model["files"])
+    from .manifest import bundled_license_path
+    sources = {}
+    for file in model["files"]:
+        if "bundled_source" in file:
+            source = bundled_license_path(file["bundled_source"])
+            if not verify_file(source, file):
+                raise ValueError("Bundled model notice is missing or differs from its checksum")
+            sources[file["path"]] = source
     completed = 0
     open_url = opener or build_opener(ProxyHandler({}), _PinnedRedirects(model["download_hosts"])).open
     NetworkGuard.install()
@@ -198,7 +207,21 @@ def download_model(model: dict, target: Path, *, progress_callback=None, opener=
                 if progress_callback:
                     progress_callback(int((completed + downloaded) / total * 100))
 
-            _download_file(file, destination, open_url, progress, pause_event)
+            if file["path"] in sources:
+                partial = destination.with_name(destination.name + ".part")
+                if partial.exists():
+                    _archive(partial)
+                with partial.open("xb") as output:
+                    output.write(sources[file["path"]].read_bytes())
+                    output.flush()
+                    os.fsync(output.fileno())
+                _check_pause(pause_event)
+                if not verify_file(partial, file):
+                    raise ValueError("Bundled model notice failed verification")
+                partial.replace(destination)
+                progress(file["size"])
+            else:
+                _download_file(file, destination, open_url, progress, pause_event)
             completed += file["size"]
         _write_json(marker, _receipt(model))
     return target

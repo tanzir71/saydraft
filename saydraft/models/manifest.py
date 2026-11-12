@@ -24,6 +24,16 @@ def safe_member(value):
             and all(safe_filename(part) for part in path.parts))
 
 
+def bundled_license_path(value):
+    if not safe_member(value) or not value.startswith("assets/licenses/"):
+        raise ValueError("Bundled notices must stay inside assets/licenses")
+    root = Path(__file__).resolve().parents[2]
+    path = (root / value).resolve()
+    if not path.is_relative_to((root / "assets/licenses").resolve()):
+        raise ValueError("Bundled notice escapes assets/licenses")
+    return path
+
+
 def validate_archive_model(model):
     """GitHub asset IDs and content hashes pin packages independently of mutable tags."""
     archive = model["archive"]
@@ -85,11 +95,16 @@ def load_manifest(path: Path | None = None) -> dict:
             raise ValueError("models require an exact revision and license")
         paths = set()
         for file in model["files"]:
-            url = urlsplit(file["url"])
-            if (url.scheme != "https" or url.hostname not in model["download_hosts"]
-                    or url.username or url.password or url.port not in (None, 443)
-                    or f"/{model['revision']}/" not in url.path):
-                raise ValueError("model URLs must be pinned HTTPS URLs on declared hosts")
+            if "bundled_source" in file:
+                bundled_license_path(file["bundled_source"])
+                if "url" in file:
+                    raise ValueError("Bundled notices cannot also have download URLs")
+            else:
+                url = urlsplit(file["url"])
+                if (url.scheme != "https" or url.hostname not in model["download_hosts"]
+                        or url.username or url.password or url.port not in (None, 443)
+                        or f"/{model['revision']}/" not in url.path):
+                    raise ValueError("model URLs must be pinned HTTPS URLs on declared hosts")
             if (file["path"].casefold() in paths or not safe_filename(file["path"])
                     or not re.fullmatch(r"[a-f0-9]{64}", file["sha256"]) or file["size"] <= 0):
                 raise ValueError("model files require unique safe names, sizes and SHA-256 checksums")
@@ -112,6 +127,11 @@ def load_manifest(path: Path | None = None) -> dict:
 
     for model_id in by_id:
         check_dependencies(model_id, set())
+    defaults = data.get("cleanup_defaults")
+    if defaults is not None and (not isinstance(defaults, dict) or set(defaults) != {"lite", "standard", "pro"}
+            or defaults["lite"] is not None or any(not isinstance(defaults[tier], str)
+                or by_id.get(defaults[tier], {}).get("role") != "llm" for tier in ("standard", "pro"))):
+        raise ValueError("Cleanup defaults require rules-only Lite and catalogued Standard/Pro models")
     return data
 
 

@@ -128,6 +128,14 @@ strings and normal detail validation are unchanged. Each full run completed all
 | Gemma 4 E2B Q4_0 | 429/432 (99.3%) | 299/314 | 12 | `delivery-19`, `backtrack-31`, `balanced-chat-02` |
 | Gemma 4 E4B Q4_0 | 410/432 (94.9%) | 260/314 | 32 | 22 IDs in the report |
 
+The app manifest now records Qwen 0.8B for measured Standard hardware and Qwen
+2B for Pro; Lite remains rules only. This chooses the strongest measured small
+artifact and the smallest qualifying Pro size, retaining the exact tested pins.
+Larger artifacts show no corpus quality advantage. The co-loaded CPU is below
+Standard thresholds and remains Lite. Combined verified installation is described
+in [Cleanup setup](CLEANUP_SETUP.md); GUI integration/current-source gated
+acceptance remain pending, so P4.4 is still open.
+
 The other 118 cases bypass the model. Remaining 0.8B/2B mismatches add commas beside
 the literal word “comma”; their previous layout/question/ellipsis failures now
 match through accepted output or safe fallback. Gemma E2B adds three commas; 4B
