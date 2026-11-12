@@ -78,3 +78,14 @@ def test_abbreviations_survive_prose_rules_without_blocking_time_itn(raw, expect
 def test_email_terminal_punctuation_runs_after_literal_restoration(raw, expected):
     pipeline = DictationPipeline(DictationConfig())
     assert pipeline.process_transcript(raw, DictationContext(profile="email")) == expected
+
+
+def test_long_non_abbreviation_does_not_restart_at_every_dot():
+    import time
+    from saydraft.dictation.protect import protect_spans
+
+    text = "a." * 25000 + "z"
+    started = time.perf_counter()
+    assert protect_spans(text) == (text, {})
+    assert final_punctuation(text + " suffix.", DictationContext(app_group="messages")) == text + " suffix."
+    assert time.perf_counter() - started < 2.0

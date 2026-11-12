@@ -18,7 +18,7 @@ _LIST = re.compile(r"(?m)^[ \t]*(?:[-*•]|\d+[.)])[ \t]+\S")
 _DECIMAL = re.compile(r"(?<!\w)\d+(?:[.,]\d+)+(?!\w)")
 _INITIAL = re.compile(r"(?<!\w)[A-Z][a-z]+[ \t]+(?:[A-Z]\.[ \t]+)+(?=[A-Z][a-z])")
 _AMBIGUOUS_ABBREVIATION = re.compile(
-    r"(?<!\w)(?:(?:[A-Za-z]\.){2,}|(?:etc|Inc|Ltd|Corp)\.)(?=\s+[A-Z])")
+    r"(?<![\w.])(?:(?:[A-Za-z]\.){2,}|(?:etc|Inc|Ltd|Corp)\.)(?=\s+[A-Z])")
 
 
 def final_punctuation(text: str, context: DictationContext, *,

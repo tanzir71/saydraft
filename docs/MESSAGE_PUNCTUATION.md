@@ -46,8 +46,10 @@ rules corpus to 326; CI requires all 326 plus the separate 100 adversarial
 refusals. Focused cases cover accepted model output, protected terms, config
 persistence, service wiring and the actual snippet/History/insertion ordering.
 
-Validation: 1109 tests pass, four optional native tests skip, with real local
+Validation: 1110 tests pass, four optional native tests skip, with real local
 Silero/preview/language-ID fixtures enabled; rules 326/326; adversarial 100/100;
 Ruff and diff checks pass. Offscreen Settings was rendered and visually checked
 at `build/qa/message-period-ui-20261112/cleanup-settings.png` using Windows Segoe
 UI fonts. No owner profile or live application was edited.
+The 50,001-character non-abbreviation regression stays under a generous two
+second cap; matching cannot restart after every dot in that token.
