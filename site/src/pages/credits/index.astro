@@ -1,0 +1,14 @@
+---
+import Base from '../../layouts/Base.astro';
+import '../../styles/prose.css';
+const base = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/`;
+const fonts = [['Geist', 'geist'], ['Geist Mono', 'geist-mono'], ['Instrument Serif', 'instrument-serif'], ['Noto Sans Bengali', 'noto-sans-bengali'], ['Noto Sans Arabic', 'noto-sans-arabic']];
+---
+<Base title="Saydraft credits — Open models, libraries, and font licenses" description="Saydraft’s open-source foundations, speech and cleanup model attribution, and the full OFL notices for its self-hosted fonts.">
+  <main id="main" class="document container"><p class="eyebrow">Built in good company</p><h1>Open by<br /><em>nature.</em></h1>
+    <p>Saydraft’s application code is <a href="https://github.com/tanzir71/saydraft/blob/main/LICENSE">MIT licensed</a>. The models, fonts, and libraries that make it possible retain their own licenses.</p>
+    <h2>Speech and cleanup</h2><p>NVIDIA Parakeet speech models are CC-BY-4.0 and require attribution to NVIDIA. Whisper is from OpenAI. Optional Qwen cleanup weights retain their model licenses. llama.cpp, sherpa-onnx, CTranslate2, and Silero provide local runtime foundations.</p><p>See the repository’s <a href="https://github.com/tanzir71/saydraft/blob/main/THIRD_PARTY_NOTICES.md">full third-party notices</a> and <a href="https://github.com/tanzir71/saydraft/blob/main/docs/MODELS.md">model catalog and original source cards</a> for versions, licenses, changes, and attribution. Setup shows the license before each optional download.</p>
+    <h2>The type on this page</h2><p>Geist and Geist Mono are from the Geist Project Authors, Instrument Serif is from its Project Authors, and the Bengali/Arabic fallbacks are from the Noto Project Authors. All are SIL Open Font License 1.1. Web fonts are self-hosted from pinned Fontsource packages; no font request goes to Google or a CDN.</p><ul>{fonts.map(([name, slug]) => <li><a href={`${base}licenses/${slug}-OFL.txt`}>{name} — full original license</a></li>)}</ul>
+    <h2>The website</h2><p>Built with Astro and React, with Storybook for component states. Icons and illustrations in this first version are original inline SVG or text. No competitor logos, stock photos, or unverified endorsements are used.</p>
+  </main>
+</Base>

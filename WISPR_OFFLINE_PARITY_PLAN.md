@@ -51,6 +51,14 @@ user-initiated setup download with progress and pause/resume. Later launches reu
 installed models. Owner's exact response: "I prefer the written spec's recommendation".
 Keep the shared multilingual model download; no separate Bengali/Arabic buttons.
 
+**Owner delivery override (2026-11-12):** commit and push completed work directly
+to `main`; do not create further PRs. Owner requested closing the existing task
+draft PRs: "you can just push everything and remove the PRs". This overrides the
+branch/PR protocol above. The completed stack through `1fb27a6` was fast-forwarded
+to `main` after local verification and successful exact-head push CI. The owner
+also asked when the landing page would be built; start the permitted P9 site
+foundation alongside shared tokens rather than waiting for P7/P8 completion.
+
 ---
 
 ## 1. Parity scorecard (the contract)
@@ -703,6 +711,7 @@ P0.3/P0.4 implementation is locally verified and published in draft PR #1. Hoste
 
 ### P6: UI parity
 - [ ] **P6.1** (G3 for final values) `design/tokens.json` → `tokens.qss` generator; bundle the OFL fonts in the app; theme light/dark. **Acceptance:** the gallery renders in both themes; no drop shadows anywhere (`rg -n "QGraphicsDropShadowEffect"` = 0).
+  - Shared token foundation is now implemented alongside the early P9 site: exact approved §9.2 values in `design/tokens.json`, a deterministic dependency-free Node generator, generated site CSS and light/dark Qt QSS, and a build check that refuses stale outputs. Qt theme installation/system preference and gallery acceptance still follow; keep unchecked. Details: docs/SITE.md.
   - Offline fonts implemented: eight unchanged TTF files for Geist/Geist Mono (upright/italic), Instrument Serif (regular/italic) and Bengali/Arabic Noto fallbacks, with complete original OFL notices and publisher metadata. All 18 source files are size/Git-blob/SHA-256 pinned to Google Fonts 2e5fa2e; an independent fetch reproduces all 19 bundled files including the manifest. Startup verifies the full set, registers before widgets, preserves size/weight, caches IDs and rolls back partial failure. Fourteen new cases; full suite 2213 pass, 5 explicit skips; focused custom size/weight checks, rules 556/556, adversarial 100/100, lint/diff and fresh offscreen family/glyph/italic/mono proof pass. Read-only PyInstaller collection includes all files at the expected runtime paths; no build or desktop control resumed. Shared tokens, generated light/dark themes and gallery acceptance remain; keep unchecked. Details: docs/FONTS.md.
 - [ ] **P6.2** Saydraft Bar v2 per §8.1 (states, sizes, sounds, multi-monitor, hide option, click to start). **Acceptance:** pytest-qt state tests + screenshot snapshots per state.
 - [ ] **P6.3** Hub (§8.3) replacing the separate Settings and History windows (migrate their logic; delete the old windows **in a commit** once parity tests pass). **Acceptance:** every Settings field is preserved; History supports the diff, retry and export.
@@ -727,10 +736,12 @@ P0.3/P0.4 implementation is locally verified and published in draft PR #1. Hoste
 - [ ] **P8.6** Privacy extras: Settings → Privacy "Block Saydraft from the internet" creates/removes a Windows Firewall outbound rule for `Saydraft.exe` (UAC prompt; explains that model downloads then need the rule off); "Verify offline" docs page. **Acceptance:** with the rule on, dictation works and downloads fail with a clear message.
 
 ### P9: Website on GitHub Pages + SEO
-- [ ] **P9.0** (G3) Visual lock: owner approves §9.2 tokens or provides Figma frames (hero, one feature row, compare table, mobile nav). Codex may proceed with P9.1–P9.2 using provisional tokens.
+- [x] **P9.0** (G3) Visual lock: owner approves §9.2 tokens or provides Figma frames (hero, one feature row, compare table, mobile nav). Approved in chat on 2026-11-12: "Approve Saydraft, MIT, and §9 visual tokens"; exact values are now in `design/tokens.json`.
 - [ ] **P9.1** `site/` scaffold: Astro + React + Storybook + tokens build + fonts + Playwright + Lighthouse CI + `pages.yml`. Move the current `index.html` and `demo/` to `_archive/site-v1/` **via git mv** and port `demo/` to `/demo/`. **Acceptance:** Pages preview deploys from a branch workflow run; Storybook builds.
+  - Early foundation implemented at the owner's request: pinned Astro/React/Storybook, exact shared tokens, self-hosted OFL webfonts/notices, static rendering without React hydration, loopback preview, Windows visual/browser CI, Lighthouse budgets and verified-commit Pages workflow. Five initial components expose 13 Storybook states. Build/type checks, Storybook, all 15 browser checks and nine local mobile Lighthouse runs pass (100 performance/accessibility/SEO, max 960 ms LCP, zero CLS). Full app suite 2213 pass, five explicit skips; rules 556/556 and adversarial 100/100 pass. Legacy root/Vercel files stay intact pending their transition; archive/demo port and full P9 acceptance remain. Details: docs/SITE.md.
 - [ ] **P9.2** Component library (§9.4) with stories for every state. **Acceptance:** `storybook:build` passes; visual snapshots committed.
 - [ ] **P9.3** Home page (§9.6) with Ribbon/BarDemo motion + reduced-motion fallbacks. **Acceptance:** Lighthouse budgets met; zero third-party requests (Playwright asserts that every request host = site host).
+  - First homepage implemented: editorial hero, ribbon/Bar example, open-model credits, cleanup cards, features, shortcuts, privacy, eight native FAQ items and final CTA; also real-status Download, Getting started, Privacy and Credits pages. Illustrative simulation never requests a microphone; native navigation/FAQ work without JavaScript. Inspected 390/768/1440 baselines, computed heading-size guard, local-only request assertion and 470-byte gzip JS budget pass. Nine Lighthouse runs meet the budgets. Dated comparisons, complete library/remaining content, real app product shots and final acceptance remain; keep unchecked.
 - [ ] **P9.4** Compare pages, pillar guide, developers page, docs, download, credits, privacy, changelog (§9.5) with MDX + `verified:` frontmatter. **Acceptance:** each page has a unique title/description/H1 per §10.2; the build fails on stale `verified` dates.
 - [ ] **P9.5** Technical SEO (§10.2 rows "Structured data", "Technical", "Webmaster tools"); OG image generation. **Acceptance:** Rich Results Test passes for SoftwareApplication + FAQPage on 3 pages; the sitemap lists every indexable URL.
 - [ ] **P9.6** (G1) GitHub repo SEO: prepare `docs/launch/github-settings.md` with the exact description, topics, website and social preview, plus the `gh repo edit` commands. Owner runs them or approves Codex running them. README restructure per §10.2. **Acceptance:** repo page shows the topics and description.
@@ -768,6 +779,8 @@ Cloud anything (sync, accounts, team dictionaries, web search in Ask), mobile ap
 ---
 
 ## 14. Changelog
+
+- 2026-11-12 | P6.1/P9 foundation | Added exact approved shared tokens and CSS/light-dark QSS generation, pinned Astro/React/Storybook with five components/13 states, self-hosted licensed webfonts, the first homepage and four supporting pages. All 15 browser checks and inspected 390/768/1440 snapshots pass; nine Lighthouse runs score 100/100/100, max 960 ms LCP and zero CLS; home JS is 470 bytes gzip. Full suite 2213 pass, five explicit skips; rules 556/556, adversarial 100/100 and lint/diff pass. Owner override now commits/pushes to main without PRs; all 101 task PRs were closed or merged. App themes/gallery, complete P9 content and remaining parity work stay open. No desktop control resumed. | design/, tools/generate_tokens.mjs, saydraft/ui/theme/, site/, .github/workflows/site.yml, .github/workflows/pages.yml, docs/SITE.md
 
 - 2026-11-12 | P6.1 (bundled offline fonts) | Added eight unmodified OFL TTFs with original notices/metadata and pinned provenance, verified once-before-widget registration, script role fallbacks and rollback. Fourteen new cases; full suite 2213 pass, 5 explicit skips; focused custom size/weight checks, fresh role/script glyph proof, exact independent 19-file reproduction, read-only PyInstaller collection, rules 556/556, adversarial 100/100 and lint/diff pass. Shared tokens/themes/gallery and packaged build acceptance remain. No desktop interaction resumed. | assets/fonts/, saydraft/ui/fonts.py, saydraft/app.py, tools/fetch_font_assets.py, tools/probe_fonts.py, tests/test_fonts.py, docs/FONTS.md, THIRD_PARTY_NOTICES.md
 

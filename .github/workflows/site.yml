@@ -1,0 +1,49 @@
+name: Site checks
+
+on:
+  push:
+    branches: [main]
+    paths: ['site/**', 'design/**', 'tools/generate_tokens.mjs', '.github/workflows/site.yml', '.github/workflows/pages.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  site:
+    runs-on: windows-latest
+    timeout-minutes: 20
+    env:
+      ASTRO_TELEMETRY_DISABLED: '1'
+      STORYBOOK_DISABLE_TELEMETRY: '1'
+    defaults:
+      run:
+        working-directory: site
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24.22.2'
+          cache: npm
+          cache-dependency-path: site/package-lock.json
+      - run: npm ci
+      - run: npm run build
+      - run: npm run storybook:build
+      - run: npx playwright install chromium --no-shell
+      - run: npm run test
+      - name: Run Lighthouse budgets
+        shell: pwsh
+        run: |
+          $env:CHROME_PATH = node --input-type=module -e "import {chromium} from '@playwright/test'; console.log(chromium.executablePath())"
+          npm run lighthouse
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: site-checks
+          include-hidden-files: true
+          path: |
+            site/playwright-report
+            site/.lighthouseci
+            site/dist
+            site/storybook-static
