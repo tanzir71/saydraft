@@ -258,16 +258,25 @@ class HistoryWindow(QtWidgets.QDialog):
         self.detail_editor.setTextCursor(cursor)
 
     def choose_export(self):
-        path, selected = QtWidgets.QFileDialog.getSaveFileName(self, "Export filtered history", "saydraft-history",
-            "Markdown (*.md);;CSV (*.csv)")
-        if not path:
-            return False
-        format = "csv" if selected.startswith("CSV") else "md"
-        destination = Path(path)
-        if destination.suffix.lower() in (".md", ".csv"):
-            format = destination.suffix.lower()[1:]
-        elif not destination.suffix:
-            destination = destination.with_suffix("." + format)
+        dialog = QtWidgets.QFileDialog(self, "Export filtered history")
+        dialog.setAcceptMode(QtWidgets.QFileDialog.AcceptSave)
+        dialog.setFileMode(QtWidgets.QFileDialog.AnyFile)
+        dialog.setNameFilters(["Markdown (*.md)", "CSV (*.csv)"])
+        dialog.setSupportedSchemes(["file"])
+        dialog.setDefaultSuffix("md")
+        dialog.selectFile("saydraft-history")
+        dialog.filterSelected.connect(lambda selected: dialog.setDefaultSuffix("csv" if selected.startswith("CSV") else "md"))
+        try:
+            if dialog.exec() != QtWidgets.QDialog.Accepted or not dialog.selectedFiles():
+                return False
+            # Qt applies the suffix before its native overwrite confirmation.
+            # Never change the selected destination after that confirmation.
+            destination = Path(dialog.selectedFiles()[0])
+            format = "csv" if dialog.selectedNameFilter().startswith("CSV") else "md"
+            if destination.suffix.lower() in (".md", ".csv"):
+                format = destination.suffix.lower()[1:]
+        finally:
+            dialog.deleteLater()
         return self.export_to(destination, format=format)
 
     def export_to(self, path, *, format):

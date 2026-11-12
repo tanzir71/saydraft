@@ -1,5 +1,6 @@
 import csv
 import io
+from pathlib import Path
 
 import pytest
 
@@ -95,7 +96,7 @@ def test_export_uses_only_filtered_rows_and_ignores_the_raw_diff_view(subject, t
 
 def test_export_dialog_cancel_is_a_noop_and_missing_directory_is_visible(subject, tmp_path, monkeypatch):
     window, qt, _, _ = subject
-    monkeypatch.setattr(qt.QtWidgets.QFileDialog, "getSaveFileName", lambda *args: ("", ""))
+    monkeypatch.setattr(qt.QtWidgets.QFileDialog, "exec", lambda dialog: qt.QtWidgets.QDialog.Rejected)
     previous = window.status_label.text()
     assert not window.choose_export() and window.status_label.text() == previous
     assert not window.export_to(tmp_path / "missing" / "history.md", format="md")
@@ -105,7 +106,19 @@ def test_export_dialog_cancel_is_a_noop_and_missing_directory_is_visible(subject
 def test_export_dialog_appends_the_selected_format_suffix(subject, tmp_path, monkeypatch):
     window, qt, _, _ = subject
     path = tmp_path / "chosen"
-    monkeypatch.setattr(qt.QtWidgets.QFileDialog, "getSaveFileName", lambda *args: (str(path), "CSV (*.csv)"))
+
+    def choose(dialog):
+        assert dialog.acceptMode() == qt.QtWidgets.QFileDialog.AcceptSave
+        assert not dialog.testOption(qt.QtWidgets.QFileDialog.DontConfirmOverwrite)
+        assert dialog.defaultSuffix() == "md"
+        dialog.selectNameFilter("CSV (*.csv)")
+        dialog.filterSelected.emit("CSV (*.csv)")
+        dialog.selectFile(str(path))
+        assert dialog.defaultSuffix() == "csv"
+        assert [Path(value) for value in dialog.selectedFiles()] == [path.with_suffix(".csv")]
+        return qt.QtWidgets.QDialog.Accepted
+
+    monkeypatch.setattr(qt.QtWidgets.QFileDialog, "exec", choose)
     assert window.choose_export()
     assert path.with_suffix(".csv").is_file() and not path.exists()
 
@@ -113,7 +126,23 @@ def test_export_dialog_appends_the_selected_format_suffix(subject, tmp_path, mon
 def test_explicit_csv_filename_is_respected_even_with_the_markdown_filter(subject, tmp_path, monkeypatch):
     window, qt, _, _ = subject
     path = tmp_path / "chosen.csv"
-    monkeypatch.setattr(qt.QtWidgets.QFileDialog, "getSaveFileName", lambda *args: (str(path), "Markdown (*.md)"))
+
+    def choose(dialog):
+        dialog.selectFile(str(path))
+        return qt.QtWidgets.QDialog.Accepted
+
+    monkeypatch.setattr(qt.QtWidgets.QFileDialog, "exec", choose)
     assert window.choose_export()
     parsed = list(csv.DictReader(io.StringIO(path.read_text("utf-8"))))
     assert len(parsed) == len(window.filtered_rows)
+
+
+def test_export_never_appends_a_suffix_after_the_dialog_confirms_a_target(subject, tmp_path, monkeypatch):
+    window, qt, _, _ = subject
+    selected = tmp_path / "explicit-target"
+    sibling = selected.with_suffix(".md")
+    sibling.write_text("existing sibling", encoding="utf-8")
+    monkeypatch.setattr(qt.QtWidgets.QFileDialog, "exec", lambda dialog: qt.QtWidgets.QDialog.Accepted)
+    monkeypatch.setattr(qt.QtWidgets.QFileDialog, "selectedFiles", lambda dialog: [str(selected)])
+    assert window.choose_export()
+    assert selected.is_file() and sibling.read_text("utf-8") == "existing sibling"

@@ -37,6 +37,14 @@ Both raw and cleaned values are exported, independently of the selected view.
   atomically. A failed write/replacement preserves an existing export. Cancel is
   a no-op; write errors remain visible in the page status.
 
+The Save dialog applies its default suffix before normal overwrite confirmation,
+including when the format filter changes. The application writes to that exact
+selected path and never appends a suffix afterward. This uses Qt's documented
+[default suffix](https://doc.qt.io/qt-6/qfiledialog.html#defaultSuffix-prop) and
+[default overwrite confirmation](https://doc.qt.io/qt-6/qfiledialog.html#Option-enum).
+Offscreen tests inspect the real dialog settings/selected path while replacing
+its modal execution; no native desktop dialog is exercised during QA.
+
 The existing safe clipboard recovery, rejected reinsert feedback, dictionary
 selection action and retained-audio All languages retry remain wired. Retry
 still saves a new review entry without replacing the original or pasting it.
@@ -67,10 +75,14 @@ cancel/error feedback and filename/filter precedence. Owned offscreen renders at
 focus colors now come from the shared generated light/dark themes. No owner
 clipboard, microphone, input, desktop capture or sound playback is used.
 
-The 2026-11-13 revision adds 31 cases. Full verification passes 2390 tests with
+The initial 2026-11-13 revision adds 31 cases. Full verification passes 2390 tests with
 five explicit optional/native skips, rules 556/556, adversarial validation
 100/100, lint and all 12 generated outputs. Site build/type checks and all
 15 browser checks also pass; existing component/Bar snapshots remain exact.
+The Save-dialog refinement adds a regression for preserving the exact confirmed
+path; its full suite passes 2391 tests with the same five explicit skips. All
+54 focused History/clipboard checks and lint pass. Native dialog acceptance
+remains unexercised while desktop control is stopped.
 
 The Hub shell/navigation, Home presentation, Settings/page migration and
 retirement of the old windows remain. Full §8.3 also requires the structured
@@ -78,3 +90,8 @@ Dictionary/Snippets/Notes pages, microphone picker/test, Privacy controls, compl
 model/disk controls, History paging/global search and model/cleanup retry
 choices. The later onboarding, Scratchpad/Notetaker and complete gallery/
 accessibility milestones retain their original scope.
+
+Before connecting Home's WPM/time-saved presentation, cover weeks mixing legacy
+entries with unknown speaking duration and measured entries: daily aggregates
+do not currently record measurement completeness. Such a week must show an
+unknown measurement rather than treating missing speaking time as zero.
