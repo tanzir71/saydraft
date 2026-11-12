@@ -98,6 +98,36 @@ class SessionWorker:
     def is_current_correction(self, suggestion):
         return self.corrections.is_current(suggestion)
 
+    def preview_style(self, request):
+        from .style_preview import MAX_PREVIEW, StylePreviewResult
+        if not self._lock.acquire(blocking=False):
+            return False
+        try:
+            if (self.busy or self._closing or not isinstance(request.text, str)
+                    or not request.text or len(request.text) > MAX_PREVIEW):
+                return False
+            if request.model_settings != json.dumps(self.services.config["llm"], sort_keys=True):
+                self.emit("style_preview_finished", StylePreviewResult(request, decision="apply_settings"))
+                return True
+            self._submit(self._preview_style, request)
+            return True
+        except Exception:
+            self.emit("style_preview_finished", StylePreviewResult(request))
+            return True
+        finally:
+            self._lock.release()
+
+    def _preview_style(self, request):
+        from .style_preview import StylePreviewResult, render_style_preview
+        result = StylePreviewResult(request, decision="obsolete")
+        try:
+            if not self._closing and self._pending_config is None:
+                self._warm_cleanup(request.context)
+                result = render_style_preview(request, llm=self.services.cleaner.llm, deadline=time.monotonic() + 2)
+        except Exception:
+            result = StylePreviewResult(request)
+        self.emit("style_preview_finished", result)
+
     def add_correction(self, suggestion, *, automatic=False):
         if not self._lock.acquire(blocking=False):
             return False

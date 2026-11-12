@@ -23,6 +23,8 @@ from saydraft.ui.cleanup_picker import CleanupPicker
 from saydraft.ui.languages_page import LanguagesPage
 from saydraft.ui.hardware_page import HardwarePage
 from saydraft.ui.labs_page import LabsPage
+from saydraft.ui.styles_page import StylesPage
+from saydraft.dictation.glossary import load_glossary
 from saydraft.models.hardware import latest_report
 from saydraft.asr.router import choose_route
 from saydraft.hotkeys.wispr import shortcut_warning, wispr_running
@@ -75,6 +77,8 @@ class SettingsWindow(QtWidgets.QDialog):
         preview_download_callback=None,
         cleanup_download_callback=None,
         cleanup_runtime_download_callback=None,
+        style_preview_callback=None,
+        style_glossary_provider=None,
     ):
         super().__init__()
         self.qt = qt_modules
@@ -87,6 +91,8 @@ class SettingsWindow(QtWidgets.QDialog):
         self.preview_download_callback = preview_download_callback
         self.cleanup_download_callback = cleanup_download_callback
         self.cleanup_runtime_download_callback = cleanup_runtime_download_callback
+        self.style_preview_callback = style_preview_callback
+        self.style_glossary_provider = style_glossary_provider
         self._vad_download_task = None
         self.config = load_config(config_path=self.config_path)
         self.snippets_path = Path(snippets_path) if snippets_path is not None else resolve_project_path("snippets.txt")
@@ -104,6 +110,10 @@ class SettingsWindow(QtWidgets.QDialog):
 
         self._build()
         self._load_values()
+        for signal in (self.mode_combo.currentIndexChanged, self.profile_combo.currentIndexChanged,
+                self.drop_message_period_checkbox.toggled, self.voice_enter_checkbox.toggled,
+                self.app_profiles_editor.textChanged, self.snippets_editor.textChanged):
+            signal.connect(self.styles_page.invalidate)
         self._refresh_shortcut_warning()
         self.languages_page.changed.connect(self._sync_language_model)
         self.languages_page.changed.connect(self.refresh_labs)
@@ -129,6 +139,11 @@ class SettingsWindow(QtWidgets.QDialog):
         self.language_combo = self.languages_page.combos[0]
         self.tabs.addTab(self.languages_page, "Languages")
         self.tabs.addTab(self._cleanup_tab(), "Cleanup")
+        self.styles_page = StylesPage(self.config, config_provider=self._collect_config,
+            profiles_provider=lambda: self._parse_json_editor(self.app_profiles_editor, list, "Per-app profiles"),
+            snippets_provider=lambda: self.snippets_editor.toPlainText(), callback=self.style_preview_callback,
+            glossary_provider=self.style_glossary_provider or (lambda: load_glossary(self.glossary_path)))
+        self.tabs.addTab(self.styles_page, "Style")
         self.tabs.addTab(self._dictionary_tab(), "Dictionary")
         self.tabs.addTab(self._snippets_tab(), "Snippets")
         self.tabs.addTab(self._models_tab(), "Models")
@@ -472,6 +487,7 @@ class SettingsWindow(QtWidgets.QDialog):
         cfg["dictation"]["learn_corrections"] = self.learn_corrections_checkbox.isChecked()
         cfg["dictation"]["auto_add_dictionary"] = (self.learn_corrections_checkbox.isChecked()
             and self.auto_add_dictionary_checkbox.isChecked())
+        self.styles_page.apply_to(cfg)
         select_model(cfg, self.model_picker.model_id, manual=False)
         self.languages_page.apply_to(cfg)
         self.labs_page.apply_to(cfg)

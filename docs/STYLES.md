@@ -1,13 +1,47 @@
 # App styles
 
-P5.7's engine is implemented. The Style matrix UI and shared live preview remain
-pending, so P5.7 acceptance stays open. No desktop control has resumed.
+P5.7's engine, reusable Style matrix and live preview are implemented in Settings.
+Hub integration remains pending, so the Hub-specific acceptance stays open.
+No desktop control has resumed.
 
 The recording snapshots one tone and intensity after target capture. The same
 policy drives deterministic rules, prompt preparation, the request header,
 need-score input, validation and History metadata. Changes to preferences do not
 alter an already started recording. History recognition retries retain the saved
 tone/intensity. Raw and Code keep their dedicated bypasses.
+
+## Matrix and preview
+
+Settings → Style shows all seven groups, three tones and four cleanup levels.
+Default entries remain inherited when saved, so changing a legacy global mode
+does not accidentally freeze every row at its previous level. Editing a row
+selects its preview. Code's prose controls are disabled. Optional app executable,
+site and legacy title inputs simulate captured metadata without reading another
+application. Per-app entries remain editable in the existing Cleanup profile
+editor until the Hub provides their dedicated editor.
+
+The parented 180 ms timer renders the actual transcript processor with memory-only
+History and simulated delivery. Snippets, final punctuation and opt-in Enter
+intent use the same ordering as dictation, without recording, OS input, clipboard
+access or persistent History/stats. The live preview accepts at most 4096 input
+characters; longer text remains in its editor and is refused, never truncated.
+
+Preview with current AI submits one job to the existing serial worker and refuses
+while work is active. It uses the current installed cleaner, its ordinary budget
+and validation, with a two-second outer deadline. A light pipeline wrapper keeps
+the active dictation pipeline's result/timing metadata intact. Draft styles,
+snippets and punctuation settings are previewed; changing model settings requires
+Apply before AI preview. No download is requested. Warming, disabled, unavailable
+or rejected AI keeps a labeled rules result. These interface tests do not establish
+native model tone quality.
+
+Queued QObject results carry the original request identity. New text/settings,
+hidden pages and stale requests cannot replace the current output. All 84 matrix
+states match the authored goldens; tests also cover real debounce, app overrides,
+saved inheritance, simulated Enter/snippets, rejected model edits, busy/shutdown,
+unapplied models, active metadata preservation and GUI-thread signal wiring.
+Offscreen English/Bengali/Arabic layouts were inspected using installed Windows
+fonts. P6 theme/font and Hub work remain.
 
 ## Selection
 

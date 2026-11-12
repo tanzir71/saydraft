@@ -26,17 +26,22 @@ def read_profiles(path: str | Path) -> list[dict]:
 
 
 def read_snippets(path: str | Path | None = None) -> dict[str, str]:
-    snippets = {}
     source = Path(path) if path is not None else resolve_data_path("snippets.txt")
     try:
         if source.is_file():
-            for line in source.read_text(encoding="utf-8").splitlines():
-                if line.strip() and not line.lstrip().startswith("#") and "=" in line:
-                    trigger, expansion = line.split("=", 1)
-                    if trigger.strip():
-                        snippets[trigger.strip().casefold()] = expansion.strip()
+            return parse_snippets(source.read_text(encoding="utf-8"))
     except (OSError, UnicodeError):
         logger.warning("Could not read snippets; dictation remains available")
+    return {}
+
+
+def parse_snippets(text):
+    snippets = {}
+    for line in text.splitlines():
+        if line.strip() and not line.lstrip().startswith("#") and "=" in line:
+            trigger, expansion = line.split("=", 1)
+            if trigger.strip():
+                snippets[trigger.strip().casefold()] = expansion.strip()
     return snippets
 
 

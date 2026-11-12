@@ -127,8 +127,13 @@ History selection copy and drag also attach the three zero-DWORD privacy flags
 through Qt's [selection MIME hook](https://doc.qt.io/qt-6/qplaintextedit.html#createMimeDataFromSelection)
 and [Windows MIME format mapping](https://doc.qt.io/qt-6/qmimedata.html).
 The standard Ctrl+C slot and context menu retain their normal selection behavior.
-Offscreen tests verify the virtual hook and C++ copy slot, including Unicode;
-they do not establish native Win+V acceptance.
+Qt's internal selection MIME subclass hides formats added with `setData`.
+The shared private editor now copies its existing payloads into a regular
+`QMimeData` before adding flags. Real MIME-object tests verify all three visible
+formats and zero-DWORD values alongside the unchanged selected text. Earlier
+virtual-hook/C++-slot tests alone did not catch the hidden-format problem.
+This fix also covers Style preview selection copies and drags. No owner clipboard
+access occurs in these tests; native Win+V acceptance remains pending.
 
 Validation: 1699 tests pass, five explicit native/model skips; rules 432/432,
 authored adversarial checks 100/100, Ruff and diff checks pass. Concurrency tests

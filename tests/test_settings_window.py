@@ -69,7 +69,7 @@ def test_settings_window_has_required_tabs_and_loads_values(tmp_path):
 
     tabs = [window.tabs.tabText(index) for index in range(window.tabs.count())]
 
-    assert tabs == ["General", "Languages", "Cleanup", "Dictionary", "Snippets", "Models", "Performance", "Labs", "About"]
+    assert tabs == ["General", "Languages", "Cleanup", "Style", "Dictionary", "Snippets", "Models", "Performance", "Labs", "About"]
     assert window.speech_hotkey_edit.text() == "ctrl+win"
     assert window.alternative_hotkey_edit.text() == "f9"
     assert window.mouse_hotkey_edit.text() == "xbutton1"

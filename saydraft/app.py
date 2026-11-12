@@ -41,6 +41,7 @@ def create_worker_signals(QtCore):
         preview_unavailable = QtCore.Signal(int)
         dictionary_suggestion = QtCore.Signal(object)
         dictionary_changed = QtCore.Signal(object)
+        style_preview_finished = QtCore.Signal(object)
 
     return SaydraftWorkerSignals()
 
@@ -137,6 +138,13 @@ class WorkerController:
 
     def undo_correction(self, receipt):
         return bool(self.core and self.core.undo_correction(receipt))
+
+    def preview_style(self, request):
+        return bool(self.core and self.core.preview_style(request))
+
+    def style_glossary(self):
+        from .dictation.glossary import Glossary
+        return getattr(self.core.services.cleaner, "glossary", Glossary()) if self.core else Glossary()
 
 
 class SaydraftApp:
@@ -342,10 +350,17 @@ class SaydraftApp:
         if self.settings_window is None:
             self.settings_window = self.settings_window_factory(
                 qt_modules=self.qt_modules,
+                config_path=self.config_path,
                 on_config_applied=self._on_settings_applied,
                 model_download_callback=self.model_download_callback,
                 hardware_benchmark_callback=self._benchmark_hardware,
+                style_preview_callback=getattr(self.controller, "preview_style", None),
+                style_glossary_provider=getattr(self.controller, "style_glossary", None),
             )
+            page = getattr(self.settings_window, "styles_page", None)
+            if page is not None:
+                qt = self.qt_modules or _load_qt_modules()
+                self.signals.style_preview_finished.connect(page.accept_result, qt.QtCore.Qt.QueuedConnection)
         self.settings_window.show()
         self.settings_window.raise_()
         self.settings_window.activateWindow()
