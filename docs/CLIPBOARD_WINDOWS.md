@@ -145,3 +145,7 @@ Development diagnostics include both isolation refusals, an initial probe marker
 assertion, the real close-sequence rejection and the passing replay. Failed
 backed replays also restore/verify the complete original clipboard. Clean commit
 replay evidence follows below; these diagnostics are not acceptance substitutes.
+
+Local probe validation: 1691 tests pass, five explicit native/model skips. One
+skip is this account's isolated-surface refusal; the explicit backed-up native
+replay succeeds separately. CI prints skip reasons to expose this distinction.

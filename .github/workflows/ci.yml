@@ -38,7 +38,7 @@ jobs:
           $vadFixture = (Resolve-Path -LiteralPath 'build/test-models/vad/silero-vad-v5/silero_vad.onnx').Path
           "SAYDRAFT_TEST_SILERO_MODEL=$vadFixture" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
       - name: Unit and offline tests
-        run: python -m pytest tests -q
+        run: python -m pytest tests -q -rs
       - name: Cleanup regression evaluation
         run: python -m saydraft.eval --min-pass-rate 100 --min-cases 432
       - name: Adversarial cleanup validation

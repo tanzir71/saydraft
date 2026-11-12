@@ -225,6 +225,7 @@ def backed_up_replay(output, report):
             assert marker not in list(api.formats()), "Another clipboard probe is active"
             original = Snapshot.take(api)
             assert not original.skipped, "Owner clipboard could not be backed up completely"
+            assert set(api.formats()) == {copy.format for copy in original.copies}, "Owner format table changed during backup"
             expected = {copy.format: fingerprint(api, copy) for copy in original.copies}
             sequence = api.sequence()
         replay(output, report, factory=factory, start_guard=start, marker_guard=guard, clear_after=False)
