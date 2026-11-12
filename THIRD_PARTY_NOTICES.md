@@ -55,6 +55,12 @@ Source: [Google Fonts at the pinned revision](https://github.com/google/fonts/tr
 The [font manifest](assets/fonts/manifest.json) records per-file immutable URLs,
 sizes, Git blob identities and SHA-256 hashes. No Windows system font is bundled.
 
+The website self-hosts WOFF/WOFF2 versions from the five Fontsource **5.3.0**
+packages pinned with integrity hashes in `site/package-lock.json`. Their complete
+original OFL notices are also served unchanged from `site/public/licenses/`.
+Publisher attribution and links appear on the website's Credits page. These
+webfont packages are separate from the pinned original desktop TTF files above.
+
 ## Model weights (downloaded separately)
 
 No model weights are included in source or installers. Each pinned model entry

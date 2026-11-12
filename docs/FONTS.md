@@ -1,7 +1,8 @@
 # Bundled fonts
 
-P6.1's offline font foundation is implemented. Shared tokens, generated themes
-and the two-theme widget gallery still follow; P6.1 acceptance stays open.
+P6.1's offline font foundation is implemented. Shared tokens and generated CSS/QSS
+are now available through the site foundation in `docs/SITE.md`. Installing the
+Qt themes and the two-theme widget gallery still follow; P6.1 acceptance stays open.
 
 The app bundles eight original TTF files: Geist and Geist Mono (upright/italic),
 Instrument Serif (regular/italic), Noto Sans Bengali and Noto Sans Arabic. Roles

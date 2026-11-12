@@ -1,0 +1,7 @@
+.faq { width: 100%; }
+.faq details { border-bottom: 1px solid var(--color-hairline); }
+.faq summary { display: flex; justify-content: space-between; align-items: center; gap: 24px; list-style: none; padding: 25px 0; font-size: 18px; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary span { font: 26px/1 var(--font-display); }
+.faq details[open] summary span { transform: rotate(45deg); }
+.faq p { max-width: 65ch; padding: 0 36px 25px 0; font-size: 15px; line-height: 1.7; color: var(--color-ink-muted); }

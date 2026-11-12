@@ -1,0 +1,16 @@
+.bar {
+  display: inline-flex; align-items: center; gap: 20px; background: var(--color-bar-bg); color: var(--color-bar-fg);
+  min-height: 72px; padding: 19px 25px; border-radius: var(--radius-pill); white-space: nowrap;
+}
+.wave { height: 36px; display: flex; align-items: center; gap: 3px; }
+.wave i { display: block; width: 3px; border-radius: 3px; background: currentColor; transform-origin: center; }
+.bar[data-state='listening'] .wave i { animation: listen 800ms ease-in-out infinite alternate; }
+.bar[data-state='idle'] .wave i { height: 4px !important; }
+.bar[data-state='inserted'] .wave { color: var(--color-mist); }
+.label { font: 400 12px/1 var(--font-mono); min-width: 128px; }
+.dot { width: 8px; height: 8px; background: var(--color-signal); border-radius: 50%; }
+.bar[data-state='idle'] .dot, .bar[data-state='inserted'] .dot { background: currentColor; }
+@keyframes listen { to { transform: scaleY(.28); } }
+@media (max-width: 520px) { .bar { gap: 13px; padding: 16px 20px; } .label { display: none; } }
+@media (prefers-reduced-motion: reduce) { .wave i { animation: none !important; } }
+:global([data-motion='reduced']) .wave i { animation: none !important; }

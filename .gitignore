@@ -27,6 +27,8 @@ site/.astro/
 site/storybook-static/
 site/playwright-report/
 site/test-results/
+site/.lighthouseci/
+site/debug-storybook.log
 
 # Local deployment state, credentials, logs and user data
 .vercel/

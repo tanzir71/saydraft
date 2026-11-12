@@ -1,0 +1,51 @@
+---
+import '../styles/global.css';
+import { NavPill } from '../components/NavPill/NavPill';
+import bodyFace from '@fontsource-variable/geist/files/geist-latin-wght-normal.woff2?url';
+import displayFace from '@fontsource/instrument-serif/files/instrument-serif-latin-400-normal.woff2?url';
+import italicFace from '@fontsource/instrument-serif/files/instrument-serif-latin-400-italic.woff2?url';
+interface Props { title: string; description: string; noindex?: boolean; }
+const { title, description, noindex = false } = Astro.props;
+const base = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/`;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#F5F2E9" />
+    <meta name="color-scheme" content="light" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary" />
+    {noindex ? <meta name="robots" content="noindex,follow" /> : null}
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href={`${base}favicon.svg`} type="image/svg+xml" />
+    {[bodyFace, displayFace, italicFace].map((href) => <link rel="preload" as="font" type="font/woff2" href={href} crossorigin="anonymous" />)}
+    <title>{title}</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <NavPill base={base} />
+    <slot />
+    <footer class="container site-footer">
+      <a class="footer-mark" href={base}>Saydraft<span aria-hidden="true">✳</span></a>
+      <p class="muted">Your words. Your machine.</p>
+      <div><a href={`${base}docs/getting-started/`}>Getting started</a><a href={`${base}privacy/`}>Privacy</a><a href={`${base}credits/`}>Credits</a><a href="https://github.com/tanzir71/saydraft/blob/main/LICENSE">MIT license ↗</a></div>
+      <small>Free, open-source dictation for Windows.</small>
+    </footer>
+  </body>
+</html>
+<style>
+  .site-footer { padding-block: 72px 36px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: center; }
+  .footer-mark { font: 42px/1 var(--font-display); text-decoration: none; }
+  .footer-mark span { color: var(--color-signal); margin-left: 6px; font-size: 28px; }
+  .site-footer p { text-align: right; font-size: 14px; }
+  .site-footer div { display: flex; flex-wrap: wrap; gap: 24px; grid-column: 1 / -1; margin-top: 22px; }
+  .site-footer div a, small { font-size: 12px; }
+  small { color: var(--color-ink-muted); grid-column: 1 / -1; }
+</style>
