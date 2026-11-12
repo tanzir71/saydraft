@@ -9,9 +9,10 @@ import copy
 from dataclasses import dataclass, field, replace
 
 from saydraft.history import HistoryEntry
+from saydraft.cleanup.delivery import DeliveryIntent, trailing_enter
 from saydraft.insert.inserter import InsertionResult
 from .interfaces import Cleaner, Formatter, HistoryStore, Inserter, TargetContext
-from .preferences import expand_snippets
+from .preferences import protect_snippets, restore_snippets
 from .timings import TimingReporter
 
 logger = logging.getLogger(__name__)
@@ -36,12 +37,14 @@ class ProcessingResult:
 class TranscriptProcessor:
     def __init__(self, *, cleaner: Cleaner, formatter: Formatter, history: HistoryStore,
                  inserter: Inserter, snippets: dict[str, str] | None = None,
-                 notify=lambda message: None, clock=time.perf_counter, reporter=None):
+                 notify=lambda message: None, clock=time.perf_counter, reporter=None,
+                 voice_enter_enabled: bool = False):
         self.cleaner = cleaner
         self.formatter = formatter
         self.history = history
         self.inserter = inserter
         self.snippets = snippets or {}
+        self.voice_enter_enabled = voice_enter_enabled
         self.notify = notify
         self.clock = clock
         self.last_result: ProcessingResult | None = None
@@ -51,20 +54,27 @@ class TranscriptProcessor:
     def process(self, raw_text: str, *, target: TargetContext, context, model: str,
                 duration_seconds: float | None = None, insert_text: bool = True,
                 insert_action=None, timings: dict | None = None, language: str = "auto",
-                audio_path: str | None = None, edits: list | None = None) -> ProcessingResult:
+                audio_path: str | None = None, edits: list | None = None, enter_guard=None) -> ProcessingResult:
         stages = dict(timings or {})
         notes = tuple(copy.deepcopy(edits or ()))
         cleaned = raw_text
+        delivery = DeliveryIntent(raw_text)
+        snippet_mapping = {}
         try:
             context = replace(context, app_title=target.app_title, app_group=target.app_group,
                               language=language, before_caret=target.before_caret)
-            cleaned = self.cleaner.process_transcript(raw_text, context) or raw_text
+            delivery = trailing_enter(raw_text, context, enabled=self.voice_enter_enabled and insert_text)
+            if delivery.send_enter:
+                notes += ({"type": "voice_enter", "requested": True},)
+            cleaned, snippet_mapping = protect_snippets(delivery.text, self.snippets)
+            clean = getattr(self.cleaner, "process_for_delivery", self.cleaner.process_transcript)
+            cleaned = clean(cleaned, context) or cleaned
             stages.update(getattr(self.cleaner, "last_timings", {}))
         except Exception:
             logger.warning("Cleanup failed; preserving raw words")
             logger.debug("Cleanup failure detail", exc_info=True)
         try:
-            cleaned = expand_snippets(cleaned, self.snippets)
+            cleaned = restore_snippets(cleaned, snippet_mapping)
             cleaned = self.formatter.format(cleaned, target) or cleaned
             format_final = getattr(self.cleaner, "format_final", None)
             if format_final is not None:
@@ -99,7 +109,10 @@ class TranscriptProcessor:
             insertion = InsertionResult("not_inserted", "none", "password_field")
         elif cleaned and insert_text:
             def action():
-                return self.inserter.insert_text(cleaned, start_focus=target.focus, app_title=target.app_title)
+                options = {"start_focus": target.focus, "app_title": target.app_title}
+                if delivery.send_enter:
+                    options.update(send_enter=True, enter_guard=enter_guard)
+                return self.inserter.insert_text(cleaned, **options)
             try:
                 insertion = insert_action(action) if insert_action is not None else action()
             except Exception:
@@ -109,6 +122,11 @@ class TranscriptProcessor:
         stages["insert"] = self.clock() - started
         if insertion.status == "skipped_focus_changed":
             self.notify("Copied to history; focus changed before insertion.")
+        elif delivery.send_enter and insertion.status == "inserted" and not insertion.enter_sent:
+            self.notify("Text inserted; Enter was skipped because focus changed." if insertion.reason == "enter_focus_changed"
+                        else "Text inserted; Enter was cancelled." if insertion.reason == "enter_cancelled"
+                        else "Text inserted; Enter delivery could not be confirmed." if insertion.reason == "enter_failed"
+                        else "Text inserted; Enter could not be sent.")
         elif insertion.reason not in ("history_only", "cancelled") and insertion.status != "inserted":
             self.notify("Dictation saved in history; insertion was unavailable.")
         result = ProcessingResult(raw_text, cleaned, insertion, history_id, stages, audio_path, notes)

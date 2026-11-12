@@ -13,6 +13,7 @@ def test_container_wires_local_services_with_separate_user_profile(tmp_path, mon
     assert services.processor.history is services.history
     assert services.processor.cleaner is services.cleaner
     assert services.processor.inserter is services.inserter
+    assert services.processor.voice_enter_enabled is False
     assert services.history.db_path == tmp_path / "Saydraft/history.db"
     assert services.cleaner.cfg.glossary_path == str(tmp_path / "Saydraft/glossary.json")
 
@@ -24,10 +25,12 @@ def test_container_preserves_explicit_whisper_engine(tmp_path, monkeypatch):
 
     select_model(config, "whisper-small")
     config["dictation"]["drop_message_period"] = False
+    config["dictation"]["voice_enter_enabled"] = True
     services = create_services(config)
     assert services.asr.config.local_files_only
     assert services.asr.config.model_size == "small"
     assert services.cleaner.cfg.drop_message_period is False
+    assert services.processor.voice_enter_enabled is True
 
 
 def test_runtime_does_not_depend_on_retired_worker():

@@ -1,3 +1,55 @@
+{"id":"delivery-01","input":"hello press enter","expected":"Hello press enter"}
+{"id":"delivery-02","voice_enter_enabled":true,"expected_enter":true,"input":"hello press enter","expected":"Hello"}
+{"id":"delivery-03","app_group":"messages","voice_enter_enabled":true,"expected_enter":true,"input":"hello press enter","expected":"Hello"}
+{"id":"delivery-04","mode":"raw","app_group":"email","voice_enter_enabled":true,"input":"hello press enter","expected":"hello press enter"}
+{"id":"delivery-05","app_group":"docs","voice_enter_enabled":true,"input":"hello press enter","expected":"Hello press enter"}
+{"id":"delivery-06","profile":"email","voice_enter_enabled":true,"input":"hello press enter","expected":"Hello press enter."}
+{"id":"delivery-07","profile":"notes","voice_enter_enabled":true,"input":"hello press enter","expected":"Hello press enter"}
+{"id":"delivery-08","mode":"raw","voice_enter_enabled":true,"expected_enter":true,"input":"hello press enter","expected":"hello"}
+{"id":"delivery-09","profile":"code/comments","voice_enter_enabled":true,"expected_enter":true,"input":"print open paren open quote hello close quote close paren press enter","expected":"print(\"hello\")"}
+{"id":"delivery-10","app_group":"code","voice_enter_enabled":true,"expected_enter":true,"input":"echo hello press enter","expected":"echo hello"}
+{"id":"delivery-11","voice_enter_enabled":true,"input":"can you press enter?","expected":"Can you press enter?"}
+{"id":"delivery-12","voice_enter_enabled":true,"input":"say \"press enter\"","expected":"Say \"press enter\""}
+{"id":"delivery-13","voice_enter_enabled":true,"input":"say \"press enter","expected":"Say \"press enter"}
+{"id":"delivery-14","app_group":"code","voice_enter_enabled":true,"input":"# hello press enter","expected":"# hello press enter"}
+{"id":"delivery-15","voice_enter_enabled":true,"input":"press enter","expected":"Press enter"}
+{"id":"delivery-16","voice_enter_enabled":true,"expected_enter":true,"input":"hello, press enter.","expected":"Hello"}
+{"id":"delivery-17","voice_enter_enabled":true,"expected_enter":true,"input":"ধন্যবাদ press enter।","expected":"ধন্যবাদ"}
+{"id":"delivery-18","voice_enter_enabled":true,"expected_enter":true,"input":"شكرا press enter","expected":"شكرا"}
+{"id":"delivery-19","voice_enter_enabled":true,"input":"hello press enter tomorrow","expected":"Hello press enter tomorrow"}
+{"id":"delivery-20","voice_enter_enabled":true,"input":"the words press enter","expected":"The words press enter"}
+{"id":"delivery-21","voice_enter_enabled":true,"expected_enter":true,"input":"thank you press enter","expected":"Thank you"}
+{"id":"delivery-22","mode":"aggressive","voice_enter_enabled":true,"expected_enter":true,"input":"hello comma team press enter","expected":"Hello, team"}
+{"id":"delivery-23","app_group":"messages","voice_enter_enabled":true,"expected_enter":true,"input":"hello. press enter","expected":"Hello"}
+{"id":"delivery-24","mode":"raw","voice_enter_enabled":true,"expected_enter":true,"input":"line one\nline two press enter","expected":"line one\nline two"}
+{"id":"delivery-25","voice_enter_enabled":true,"expected_enter":true,"input":"hello press enter press enter","expected":"Hello press enter"}
+{"id":"delivery-26","app_group":"messages","snippets":{"signature":"Thanks."},"input":"signature","expected":"Thanks"}
+{"id":"delivery-27","app_group":"messages","voice_enter_enabled":true,"expected_enter":true,"snippets":{"signature":"Thanks."},"input":"signature press enter","expected":"Thanks"}
+{"id":"delivery-28","app_group":"messages","snippets":{"signature":"Thanks. Talk soon."},"input":"signature","expected":"Thanks. Talk soon."}
+{"id":"delivery-29","voice_enter_enabled":true,"snippets":{"signature":"Hello press enter"},"input":"signature","expected":"Hello press enter"}
+{"id":"delivery-30","voice_enter_enabled":true,"expected_enter":true,"snippets":{"signature":"Hello press enter"},"input":"signature press enter","expected":"Hello press enter"}
+{"id":"delivery-31","profile":"email","voice_enter_enabled":true,"snippets":{"signature":"Regards."},"input":"signature","expected":"Regards."}
+{"id":"delivery-32","mode":"raw","snippets":{"path":"C:\\team\\notes"},"input":"path","expected":"C:\\team\\notes"}
+{"id":"delivery-33","snippets":{"sig":"other","other":"recursive"},"input":"sig","expected":"other"}
+{"id":"delivery-34","snippets":{"um":"Thanks."},"input":"um","expected":"Thanks."}
+{"id":"delivery-35","mode":"aggressive","snippets":{"one":"one one one"},"input":"one","expected":"one one one"}
+{"id":"delivery-36","snippets":{"signature":"Hello"},"input":"__SPAN_0__ signature","expected":"__SPAN_0__ Hello"}
+{"id":"delivery-37","voice_enter_enabled":true,"input":"I actually agree","expected":"I actually agree"}
+{"id":"delivery-38","voice_enter_enabled":true,"input":"type press enter","expected":"Type press enter"}
+{"id":"delivery-39","voice_enter_enabled":true,"input":"keep `press enter`","expected":"Keep `press enter`"}
+{"id":"delivery-40","voice_enter_enabled":true,"input":"open file press enter tomorrow","expected":"Open file press enter tomorrow"}
+{"id":"delivery-41","profile":"chat","app_group":"docs","voice_enter_enabled":true,"input":"hello press enter","expected":"Hello press enter"}
+{"id":"delivery-42","app_group":"code","input":"echo hello press enter","expected":"echo hello press enter"}
+{"id":"delivery-43","mode":"raw","voice_enter_enabled":true,"input":"press enter","expected":"press enter"}
+{"id":"delivery-44","voice_enter_enabled":true,"expected_enter":true,"input":"hello press enter\n","expected":"Hello"}
+{"id":"delivery-45","profile":"email","voice_enter_enabled":true,"input":"ধন্যবাদ press enter","expected":"ধন্যবাদ press enter."}
+{"id":"delivery-46","voice_enter_enabled":true,"input":"the command \"press enter\"","expected":"The command \"press enter\""}
+{"id":"delivery-47","voice_enter_enabled":true,"expected_enter":true,"input":"hello. press enter","expected":"Hello."}
+{"id":"delivery-48","voice_enter_enabled":true,"expected_enter":true,"input":"hello press enter!","expected":"Hello"}
+{"id":"delivery-49","profile":"email","snippets":{"sig":"Thanks.\nNext line"},"input":"sig","expected":"Thanks.\nNext line."}
+{"id":"delivery-50","profile":"code/comments","snippets":{"code":"print('hello')\n"},"input":"code","expected":"print('hello')\n"}
+{"id":"delivery-51","profile":"email","snippets":{"signature":"Regards."},"input":"signature.","expected":"Regards."}
+{"id":"delivery-52","snippets":{"signature":"ধন্যবাদ।"},"input":"signature।","expected":"ধন্যবাদ।"}
 {"id":"backtrack-01","mode":"aggressive","input":"send it to John Smith actually Jane","expected":"Send it to Jane"}
 {"id":"backtrack-02","mode":"aggressive","input":"call John actually Jane Doe","expected":"Call Jane Doe"}
 {"id":"backtrack-03","mode":"aggressive","input":"use old endpoint actually new production endpoint","expected":"Use new production endpoint"}

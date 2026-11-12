@@ -121,7 +121,10 @@ class DictationPipeline:
         return final_punctuation(text, context, drop_message_period=self.cfg.drop_message_period,
                                  glossary=self.glossary)
 
-    def process_transcript(self, raw_text: str, context: DictationContext) -> str:
+    def process_for_delivery(self, raw_text: str, context: DictationContext) -> str:
+        return self.process_transcript(raw_text, context, finalize=False)
+
+    def process_transcript(self, raw_text: str, context: DictationContext, *, finalize: bool = True) -> str:
         self.last_timings = {"rules": 0.0, "llm": 0.0}
         self.last_llm_decision = "disabled"
         if not raw_text:
@@ -165,7 +168,7 @@ class DictationPipeline:
         final_text = llm_ok_text if llm_ok_text is not None else rule_clean
         final_text = restore_spans(final_text, span_mapping)
         final_text = restore_terms(final_text, mapping)
-        return self.format_final(final_text, context)
+        return self.format_final(final_text, context) if finalize else final_text
 
 
 _DEFAULT_PIPELINE: Optional[DictationPipeline] = None

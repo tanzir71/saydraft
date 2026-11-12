@@ -34,9 +34,9 @@ case. These observations are not hardware-tier or general release-latency claims
 This is a finite deterministic grammar. Unsupported or ambiguous forms can stay
 literal; it does not claim spoken-detail normalization for Bengali/Arabic or all
 languages. Existing Unicode text remains unchanged. Full pipeline integration,
-ordering and golden coverage are described below. P4.5 remains unchecked while
-opt-in Enter remains. Code, messaging and backtrack details are in their separate
-feature documents.
+ordering and golden coverage are described below. P4.5's deterministic work is
+complete; model bake-off acceptance follows separately. Code, messaging,
+backtrack and opt-in Enter details are in their separate feature documents.
 
 The isolated parser-foundation snapshot passed 916 tests with four optional native skips
 and real preview/Silero/LID fixtures enabled; rules 90/90; adversarial 100/100;

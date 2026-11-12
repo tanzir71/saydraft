@@ -27,12 +27,16 @@ class EvalCase:
     app_group: str = "general"
     before_caret: str = ""
     language: str = "auto"
+    voice_enter_enabled: bool = False
+    expected_enter: bool = False
+    snippets: tuple[tuple[str, str], ...] = ()
 
 
 @dataclass(frozen=True)
 class EvalFailure:
     case: EvalCase
     actual: str
+    actual_enter: bool = False
 
 
 @dataclass(frozen=True)
@@ -65,7 +69,8 @@ def load_eval_corpus(path: str | Path = DEFAULT_CORPUS_PATH) -> list[EvalCase]:
     corpus_path = Path(path)
     cases: list[EvalCase] = []
     ids, examples = set(), set()
-    allowed = {"id", "input", "expected", "mode", "profile", "intensity", "app_title", "app_group", "before_caret", "language"}
+    allowed = {"id", "input", "expected", "mode", "profile", "intensity", "app_title", "app_group", "before_caret",
+               "language", "voice_enter_enabled", "expected_enter", "snippets"}
     with corpus_path.open("r", encoding="utf-8") as handle:
         for line_number, line in enumerate(handle, start=1):
             line = line.strip()
@@ -78,16 +83,23 @@ def load_eval_corpus(path: str | Path = DEFAULT_CORPUS_PATH) -> list[EvalCase]:
                 raise ValueError(f"Invalid fields in golden corpus row {line_number}")
             mode, profile = data.get("mode", "balanced"), data.get("profile", "general")
             intensity = data.get("intensity")
+            snippets = data.get("snippets", {})
             if (mode not in ("raw", "balanced", "aggressive")
                     or profile not in ("general", "email", "chat", "notes", "code/comments")
                     or intensity is not None and (type(intensity) is not int or not 0 <= intensity <= 4
                                                   or intensity == 0 and mode != "raw")
                     or data.get("app_title") is not None and not isinstance(data["app_title"], str)
-                    or any(not isinstance(data.get(key, ""), str) for key in ("app_group", "before_caret", "language"))):
+                    or any(not isinstance(data.get(key, ""), str) for key in ("app_group", "before_caret", "language"))
+                    or any(type(data.get(key, False)) is not bool for key in ("voice_enter_enabled", "expected_enter"))
+                    or not isinstance(snippets, dict)
+                    or any(not isinstance(k, str) or not k.strip() or not isinstance(v, str) for k, v in snippets.items())
+                    or len({key.strip().casefold() for key in snippets}) != len(snippets)):
                 raise ValueError(f"Invalid context in golden corpus row {line_number}")
             case = EvalCase(data["id"], data["input"], data["expected"], mode, profile, intensity,
                            data.get("app_title"), data.get("app_group", "general"),
-                           data.get("before_caret", ""), data.get("language", "auto"))
+                           data.get("before_caret", ""), data.get("language", "auto"),
+                           data.get("voice_enter_enabled", False), data.get("expected_enter", False),
+                           tuple(sorted((k.strip().casefold(), v) for k, v in snippets.items())))
             signature = astuple(case)[1:]
             if case.id in ids or signature in examples:
                 raise ValueError(f"Duplicate ID or example in golden corpus row {line_number}")
@@ -103,6 +115,11 @@ def run_eval(
     cases: Iterable[EvalCase],
     pipeline: DictationPipeline | None = None,
 ) -> EvalResult:
+    from types import SimpleNamespace
+    from saydraft.core.interfaces import TargetContext
+    from saydraft.core.processing import IdentityFormatter, TranscriptProcessor
+    from saydraft.insert.inserter import InsertionResult
+
     active_pipeline = pipeline or DictationPipeline(
         DictationConfig(glossary_path="", llm=LocalLLMConfig(enabled=False))
     )
@@ -113,11 +130,20 @@ def run_eval(
         total += 1
         context = DictationContext(mode=case.mode, profile=case.profile, intensity=case.intensity,
             app_title=case.app_title, app_group=case.app_group, before_caret=case.before_caret, language=case.language)
-        actual = active_pipeline.process_transcript(case.input_text, context)
-        if actual == case.expected:
+        # Actual processor ordering with in-memory History and simulated delivery;
+        # an expected action cannot be satisfied by output text alone.
+        inserter = SimpleNamespace(insert_text=lambda text, **kw: InsertionResult(
+            "inserted", "eval", enter_sent=kw.get("send_enter", False)))
+        processor = TranscriptProcessor(cleaner=active_pipeline, formatter=IdentityFormatter(),
+            history=SimpleNamespace(append=lambda entry: 1), inserter=inserter,
+            snippets=dict(case.snippets), voice_enter_enabled=case.voice_enter_enabled)
+        result = processor.process(case.input_text, context=context, model="eval", language=case.language,
+            target=TargetContext("eval", case.app_title, app_group=case.app_group, before_caret=case.before_caret))
+        actual, actual_enter = result.cleaned_text, result.insertion.enter_sent
+        if actual == case.expected and actual_enter == case.expected_enter:
             passed += 1
         else:
-            failures.append(EvalFailure(case=case, actual=actual))
+            failures.append(EvalFailure(case=case, actual=actual, actual_enter=actual_enter))
     return EvalResult(total=total, passed=passed, failures=tuple(failures))
 
 
@@ -132,6 +158,8 @@ def print_result(result: EvalResult) -> None:
         sys.stdout.write(f"  input:    {case.input_text}\n")
         sys.stdout.write(f"  expected: {case.expected}\n")
         sys.stdout.write(f"  actual:   {failure.actual}\n")
+        if case.expected_enter != failure.actual_enter:
+            sys.stdout.write(f"  Enter: expected={case.expected_enter}, actual={failure.actual_enter}\n")
 
 
 def main(argv: Sequence[str] | None = None) -> int:

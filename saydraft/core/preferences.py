@@ -9,6 +9,7 @@ from pathlib import Path
 
 from saydraft.dictation.types import DictationContext
 from saydraft.paths import resolve_data_path
+from saydraft.text_boundaries import whole_word_match
 
 logger = logging.getLogger(__name__)
 
@@ -35,6 +36,39 @@ def read_snippets(path: str | Path | None = None) -> dict[str, str]:
     except (OSError, UnicodeError):
         logger.warning("Could not read snippets; dictation remains available")
     return snippets
+
+
+def protect_snippets(text: str, snippets: dict[str, str]) -> tuple[str, dict[str, str]]:
+    """Keep explicit local expansions out of prose cleanup/model generation."""
+    if not snippets:
+        return text, {}
+    pattern = r"(?<!\w)(" + "|".join(re.escape(key) for key in sorted(snippets, key=len, reverse=True)) + r")(?!\w)"
+    mapping, index = {}, 0
+    reserved = set(re.findall(r"__SPAN_\d+__", text))
+    def replace(match):
+        nonlocal index
+        if not whole_word_match(text, match):
+            return match[0]
+        while f"__SPAN_{index}__" in reserved or f"__SPAN_{index}__" in mapping:
+            index += 1
+        token = f"__SPAN_{index}__"
+        mapping[token] = snippets[match[0].casefold()]
+        index += 1
+        return token
+    return re.sub(pattern, replace, text, flags=re.IGNORECASE), mapping
+
+
+def restore_snippets(text: str, mapping: dict[str, str]) -> str:
+    if not mapping:
+        return text
+    pattern = "(" + "|".join(re.escape(token) for token in mapping) + r")([.。।۔](?![.。।۔]))?"
+    def expand(match):
+        value, stop = mapping[match[1]], match[2] or ""
+        terminal = value.rstrip().rstrip('\"\'”’)]}')
+        if stop and terminal.endswith((".", "。", "।", "۔", "?", "!", "؟", "？", "！", "…")):
+            stop = ""
+        return value + stop
+    return re.sub(pattern, expand, text)
 
 
 def expand_snippets(text: str, snippets: dict[str, str]) -> str:

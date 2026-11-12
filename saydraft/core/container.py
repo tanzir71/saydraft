@@ -65,6 +65,7 @@ def create_services(config: dict, *, level_callback=None, notify=lambda message:
     formatter = IdentityFormatter()
     processor = TranscriptProcessor(cleaner=cleaner, formatter=formatter, history=history,
                                     inserter=inserter, snippets=snippets, notify=notify,
+                                    voice_enter_enabled=config["dictation"].get("voice_enter_enabled", False),
                                     reporter=TimingReporter(notify=notify, llm_enabled=llm["enabled"]))
     preview = None
     if config.get("labs", {}).get("live_preview", False):

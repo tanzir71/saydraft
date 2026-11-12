@@ -171,6 +171,10 @@ class SettingsWindow(QtWidgets.QDialog):
         self.drop_message_period_checkbox = QtWidgets.QCheckBox("Omit the final period in single-sentence messages")
         self.drop_message_period_checkbox.setToolTip(
             "Applies to Messages and Work-chat, or the chat profile. Questions and multi-sentence messages keep punctuation.")
+        self.voice_enter_checkbox = QtWidgets.QCheckBox('Allow trailing “press enter” to send Enter after dictation')
+        self.voice_enter_checkbox.setToolTip(
+            "Off by default. End your dictation with the words “press enter”. Never runs in Email or Docs (including Notes). "
+            "Raw and Code also use this command when enabled.")
         self.max_seconds_spin = QtWidgets.QSpinBox()
         self.max_seconds_spin.setRange(10, 3600)
         self.max_seconds_spin.setSuffix(" s")
@@ -180,6 +184,7 @@ class SettingsWindow(QtWidgets.QDialog):
         form.addRow("Cleanup mode", self.mode_combo)
         form.addRow("Default profile", self.profile_combo)
         form.addRow("Messaging", self.drop_message_period_checkbox)
+        form.addRow("Voice command", self.voice_enter_checkbox)
         form.addRow("Recording cap", self.max_seconds_spin)
         form.addRow("Warning time", self.warning_seconds_spin)
         layout.addLayout(form)
@@ -288,6 +293,7 @@ class SettingsWindow(QtWidgets.QDialog):
         self._set_combo(self.mode_combo, cfg["dictation"]["mode"])
         self._set_combo(self.profile_combo, cfg["dictation"]["profile"])
         self.drop_message_period_checkbox.setChecked(cfg["dictation"]["drop_message_period"])
+        self.voice_enter_checkbox.setChecked(cfg["dictation"]["voice_enter_enabled"])
         self.max_seconds_spin.setValue(int(cfg["recording"]["max_seconds"]))
         self.warning_seconds_spin.setValue(int(cfg["recording"]["warning_seconds"]))
         self._set_combo(self.device_combo, cfg["stt"]["device"])
@@ -345,6 +351,7 @@ class SettingsWindow(QtWidgets.QDialog):
         cfg["dictation"]["mode"] = self.mode_combo.currentText()
         cfg["dictation"]["profile"] = self.profile_combo.currentText()
         cfg["dictation"]["drop_message_period"] = self.drop_message_period_checkbox.isChecked()
+        cfg["dictation"]["voice_enter_enabled"] = self.voice_enter_checkbox.isChecked()
         select_model(cfg, self.model_picker.model_id, manual=False)
         self.languages_page.apply_to(cfg)
         self.labs_page.apply_to(cfg)

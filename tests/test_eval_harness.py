@@ -10,8 +10,10 @@ def test_eval_corpus_has_required_size_and_coverage():
 
     cases = load_eval_corpus(DEFAULT_CORPUS_PATH)
 
-    assert len(cases) >= 380
+    assert len(cases) >= 432
     assert any(len(case.input_text.split()) >= 120 for case in cases)
+    assert any(case.snippets for case in cases)
+    assert any(case.voice_enter_enabled and case.expected_enter for case in cases)
     assert {case.mode for case in cases} >= {"raw", "balanced", "aggressive"}
     assert {case.profile for case in cases} >= {"general", "email", "chat", "notes", "code/comments"}
     assert all(case.input_text.strip() for case in cases)
@@ -74,6 +76,8 @@ def test_full_app_context_reaches_actual_code_path_and_injected_pipeline(tmp_pat
     {"id": ""}, {"input": 2}, {"expected": None}, {"mode": "unknown"}, {"profile": "unknown"},
     {"intensity": True}, {"intensity": 0}, {"intensity": 5}, {"app_group": []}, {"before_caret": None},
     {"app_goup": "code"},
+    {"voice_enter_enabled": 1}, {"expected_enter": "yes"}, {"snippets": []},
+    {"snippets": {"sig": 5}}, {"snippets": {"sig": "one", " SIG ": "two"}},
 ])
 def test_malformed_or_silently_ignored_context_is_rejected(tmp_path, changes):
     from saydraft.eval import load_eval_corpus
@@ -106,4 +110,17 @@ def test_case_count_and_threshold_are_enforced_while_small_custom_evals_remain_a
         with pytest.raises(SystemExit) as caught:
             main(arguments)
         assert caught.value.code == 2
+
+
+def test_actual_processor_expands_snippets_and_expected_actions_cannot_pass_on_text_alone(tmp_path):
+    from saydraft.eval import load_eval_corpus, run_eval
+
+    row = {"id": "delivery", "input": "sig press enter", "expected": "Thanks.",
+           "voice_enter_enabled": True, "expected_enter": True, "snippets": {"SIG": "Thanks."}}
+    assert run_eval(load_eval_corpus(write_cases(tmp_path, [row]))).passed == 1
+    row["expected_enter"] = False
+    failure = run_eval(load_eval_corpus(write_cases(tmp_path, [row]))).failures[0]
+    assert failure.actual == "Thanks." and failure.actual_enter
+    row.update(input="sig", expected="Hello press enter", snippets={"sig": "Hello press enter"})
+    assert run_eval(load_eval_corpus(write_cases(tmp_path, [row]))).passed == 1
 

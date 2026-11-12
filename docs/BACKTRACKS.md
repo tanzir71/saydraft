@@ -49,7 +49,8 @@ thousands of independent corrections have regression coverage.
 There are 54 new authored golden examples (326 → 380), including a long
 paragraph, must-keep profanity, script mixing, and literal/Raw/Code exclusions.
 CI requires all 380 and the separate 100 adversarial refusals. Opt-in trailing
-Enter remains P4.5; P4.7 still needs that coverage and final bake-off evaluation.
+Enter is now integrated in `docs/VOICE_ENTER.md`; P4.7 still needs final model
+bake-off acceptance.
 
 Validation: 1185 tests pass, four optional native tests skip, with real local
 Silero/preview/language-ID fixtures enabled; rules 380/380; adversarial 100/100;

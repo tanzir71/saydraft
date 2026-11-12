@@ -30,6 +30,7 @@ class SessionWorker:
         self.timer_factory = timer_factory
         self.services_factory = services_factory
         self._lock = threading.RLock()
+        self._cancel_request = threading.Event()
         self._timers = []
         self._inflight = 0
         self._closing = False
@@ -115,6 +116,7 @@ class SessionWorker:
             target = self.services.context.capture()
             context = select_context(self.services.config, self.services.profiles, target.app_title)
             self.session.dispatch(Input.START)
+            self._cancel_request.clear()
             generation = self.session.session_id
             self._target = target
             self._context = context
@@ -222,6 +224,8 @@ class SessionWorker:
                          event.state == State.CANCELLED)
 
     def cancel(self):
+        # Observed by delivery even while the insertion lock is held.
+        self._cancel_request.set()
         with self._lock:
             previous = self.session.state
             event = self.session.dispatch(Input.CANCEL)
@@ -322,6 +326,7 @@ class SessionWorker:
                 insert_text=self._insert_text and not choice.review_only, edits=list(choice.edits),
                 insert_action=lambda action: self._insert_if_current(generation, action), timings=timings,
                 audio_path=audio_path,
+                enter_guard=lambda: not self._cancel_request.is_set() and not self._closing,
             )
             self.last_result = result
             completed_text = result.cleaned_text
