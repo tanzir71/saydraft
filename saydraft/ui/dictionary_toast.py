@@ -13,13 +13,6 @@ class DictionaryToast(QtWidgets.QWidget):
         self.setAttribute(QtCore.Qt.WA_StyledBackground)
         self.setWindowTitle("Saydraft Dictionary")
         self.setObjectName("dictionaryToast")
-        self.setStyleSheet("""
-            QWidget#dictionaryToast { background: #F5F2E9; color: #141414; border: 1px solid #B9B6AC; border-radius: 20px; }
-            QLabel { color: #141414; border: none; }
-            QPushButton { color: #141414; background: #ECE7DA; padding: 6px 12px; border: 1px solid #5B5A55; border-radius: 8px; }
-            QPushButton:focus { border: 2px solid #FF5B3A; }
-            QPushButton:disabled { color: #5B5A55; }
-        """)
         layout = QtWidgets.QVBoxLayout(self)
         layout.setContentsMargins(18, 16, 18, 16)
         self.message = QtWidgets.QLabel()

@@ -40,7 +40,6 @@ class StylesPage(QtWidgets.QScrollArea):
         self.matrix.verticalHeader().hide()
         self.matrix.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.matrix.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.Stretch)
-        self.matrix.setFixedHeight(246)
         self.tones, self.levels = {}, {}
         saved = config["dictation"].get("styles", {})
         for row, (group, label) in enumerate(GROUP_LABELS.items()):
@@ -58,6 +57,10 @@ class StylesPage(QtWidgets.QScrollArea):
                 mapping[group] = combo
                 self.matrix.setCellWidget(row, column, combo)
                 combo.currentIndexChanged.connect(lambda index, selected=group: self._row_changed(selected))
+        self.matrix.verticalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeToContents)
+        self.matrix.verticalHeader().sectionResized.connect(self._fit_matrix)
+        self.matrix.horizontalHeader().geometriesChanged.connect(self._fit_matrix)
+        self._fit_matrix()
         layout.addWidget(self.matrix)
         bar = QtWidgets.QHBoxLayout()
         bar.addWidget(QtWidgets.QLabel("Preview group"))
@@ -101,6 +104,11 @@ class StylesPage(QtWidgets.QScrollArea):
         self.group.currentIndexChanged.connect(self.invalidate)
         self.matrix.cellClicked.connect(self._select_group)
         self._defaults(config)
+
+    def _fit_matrix(self, *_args):
+        height = self.matrix.horizontalHeader().height() + sum(self.matrix.rowHeight(row) for row in range(self.matrix.rowCount())) + 2 * self.matrix.frameWidth()
+        if height != self.matrix.height():
+            self.matrix.setFixedHeight(height)
 
     def _select_group(self, row, column):
         self.group.setCurrentIndex(row)

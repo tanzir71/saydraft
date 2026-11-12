@@ -199,6 +199,9 @@ class SaydraftApp:
         if hasattr(qt_modules.QtGui, "QFontDatabase"):
             from .ui.fonts import install_bundled_fonts
             install_bundled_fonts(application, QtGui=qt_modules.QtGui)
+        if hasattr(qt_modules.QtGui, "QPalette"):
+            from .ui.theme import install_theme
+            install_theme(application)
 
         self.qt_app = application
         self.config = self._load_app_config()

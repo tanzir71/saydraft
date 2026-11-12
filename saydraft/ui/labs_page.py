@@ -10,6 +10,7 @@ from saydraft.model_download import download_preview_model
 from saydraft.models.hardware import latest_report
 from saydraft.models.manifest import get_model
 from .download_task import DownloadTask, call_download
+from .progress import ThemedProgressBar
 
 
 class LabsPage(QtWidgets.QWidget):
@@ -44,7 +45,7 @@ class LabsPage(QtWidgets.QWidget):
         self.pause_button = QtWidgets.QPushButton("Pause")
         self.download.clicked.connect(self.start_download)
         self.pause_button.clicked.connect(self.pause)
-        self.progress = QtWidgets.QProgressBar()
+        self.progress = ThemedProgressBar()
         self.progress.setRange(0, 100)
         self.status = QtWidgets.QLabel("Download once, then enable preview and Apply. Installed files are reused.")
         self.status.setWordWrap(True)

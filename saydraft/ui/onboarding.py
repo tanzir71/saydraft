@@ -14,6 +14,7 @@ from PySide6 import QtCore, QtWidgets
 from saydraft.config import load_config, save_config
 from saydraft.asr.selection import configured_model_id, select_model
 from saydraft.ui.model_picker import ModelPicker
+from saydraft.ui.progress import ThemedProgressBar
 
 logger = logging.getLogger(__name__)
 
@@ -73,7 +74,7 @@ class OnboardingWizard(QtWidgets.QWizard):
         page = QtWidgets.QWizardPage()
         page.setTitle("Microphone")
         layout = QtWidgets.QVBoxLayout(page)
-        self.level_bar = QtWidgets.QProgressBar()
+        self.level_bar = ThemedProgressBar()
         self.level_bar.setRange(0, 100)
         self.level_bar.setValue(0)
         self.mic_status_label = QtWidgets.QLabel("Waiting for microphone signal")

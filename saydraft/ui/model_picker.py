@@ -8,6 +8,7 @@ from saydraft.asr.selection import configured_model_id
 from saydraft.model_download import download_asr_model
 from saydraft.models.manifest import get_model, load_manifest, model_bundle
 from .download_task import DownloadTask, call_download
+from .progress import ThemedProgressBar
 
 
 class ModelPicker(QtWidgets.QWidget):
@@ -33,7 +34,7 @@ class ModelPicker(QtWidgets.QWidget):
         self.license_label = QtWidgets.QLabel()
         self.license_label.setWordWrap(True)
         self.license_label.setOpenExternalLinks(True)
-        self.progress = QtWidgets.QProgressBar()
+        self.progress = ThemedProgressBar()
         self.progress.setRange(0, 100)
         self.status = QtWidgets.QLabel("")
         self.status.setWordWrap(True)

@@ -134,7 +134,9 @@ def test_voice_tray_app_runs_qt_event_loop_and_controller(monkeypatch):
 
     qt = fake_qt_modules()
     qt.QtGui.QFontDatabase = object()
+    qt.QtGui.QPalette = object()
     monkeypatch.setattr("saydraft.ui.fonts.install_bundled_fonts", lambda application, **kwargs: events.append("fonts"))
+    monkeypatch.setattr("saydraft.ui.theme.install_theme", lambda application, **kwargs: events.append("theme"))
     app = SaydraftApp(
         argv=["saydraft"],
         qt_modules=qt,
@@ -159,6 +161,7 @@ def test_voice_tray_app_runs_qt_event_loop_and_controller(monkeypatch):
     assert result == 23
     assert events == [
         "fonts",
+        "theme",
         ("tray", "small"),
         ("pill", "F9"),
         "start",

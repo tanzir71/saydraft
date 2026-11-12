@@ -210,7 +210,11 @@ class SettingsWindow(QtWidgets.QDialog):
         form.addRow("Auto-start listening", self.auto_listen_checkbox)
         form.addRow("Notification duration", self.notification_spin)
         form.addRow("Audio history", self.retain_audio_checkbox)
-        return page
+        scroll = QtWidgets.QScrollArea()
+        scroll.setWidgetResizable(True)
+        scroll.setFrameShape(QtWidgets.QFrame.NoFrame)
+        scroll.setWidget(page)
+        return scroll
 
     def _cleanup_tab(self):
         page = QtWidgets.QWidget()

@@ -42,13 +42,24 @@ function qtTheme(dark) {
   const c = semantic(dark);
   return `/* ${header} */
 QWidget { background-color: ${c.background}; color: ${c.foreground}; }
+QLabel, QCheckBox, QRadioButton { background: transparent; }
 QToolTip, QMenu, QGroupBox { background-color: ${c.surface}; color: ${c.foreground}; }
+QGroupBox { border: none; border-radius: 12px; margin-top: 20px; padding: 16px; }
+QGroupBox::title { subcontrol-origin: margin; padding-left: 8px; }
+QWidget#dictionaryToast { background-color: ${c.surface}; border-radius: ${tokens.radius.card}; }
+QTabWidget::pane { border: none; }
+QCheckBox, QRadioButton { border: 2px solid transparent; padding: 2px; }
+QCheckBox:focus, QRadioButton:focus { border-color: ${c.foreground}; border-radius: 4px; }
+QCheckBox::indicator, QRadioButton::indicator { width: 18px; height: 18px; background: ${c.surface}; border: 1px solid ${c.muted}; border-radius: 4px; }
+QRadioButton::indicator { border-radius: 9px; }
+QCheckBox::indicator:checked { background: ${c.selected}; border-color: ${c.selected}; image: url(saydraftTheme:check-${dark ? 'dark' : 'light'}.svg); }
+QRadioButton::indicator:checked { image: url(saydraftTheme:radio-${dark ? 'dark' : 'light'}.svg); }
 QLineEdit, QTextEdit, QPlainTextEdit, QComboBox, QSpinBox, QDoubleSpinBox {
-  background-color: ${c.surface}; color: ${c.foreground}; border: none;
-  border-radius: 8px; padding: 8px; selection-background-color: ${c.selected};
+  background-color: ${c.surface}; color: ${c.foreground}; border: 2px solid transparent;
+  border-radius: 8px; padding: 6px; selection-background-color: ${c.selected};
   selection-color: ${c.selectedText};
 }
-QPushButton { background-color: ${c.surface}; color: ${c.foreground}; border: none; border-radius: 12px; padding: 10px 16px; }
+QPushButton { background-color: ${c.surface}; color: ${c.foreground}; border: 2px solid transparent; border-radius: 12px; padding: 8px 14px; }
 QPushButton[primary="true"], QPushButton:checked { background-color: ${c.selected}; color: ${c.selectedText}; }
 QPushButton:hover { background-color: ${tokens.color.mist}; color: ${tokens.color.ink}; }
 QPushButton:focus, QLineEdit:focus, QComboBox:focus, QTextEdit:focus, QPlainTextEdit:focus {
@@ -58,18 +69,35 @@ QWidget:disabled { color: ${c.muted}; }
 QLabel[role="muted"] { color: ${c.muted}; }
 QLabel[role="display"] { font-family: "Instrument Serif"; font-size: 34px; }
 QLabel[role="eyebrow"] { font-family: "Geist Mono"; font-size: 12px; }
-QProgressBar { border: none; background-color: ${c.surface}; color: ${c.foreground}; border-radius: 6px; text-align: center; }
+QProgressBar { border: none; background-color: ${c.surface}; color: ${c.foreground}; selection-color: ${c.selectedText}; selection-background-color: ${c.selected}; border-radius: 6px; text-align: center; }
 QProgressBar::chunk { background-color: ${c.foreground}; border-radius: 6px; }
 QTabBar::tab { padding: 10px 16px; background-color: ${c.background}; color: ${c.muted}; }
 QTabBar::tab:selected { background-color: ${c.surface}; color: ${c.foreground}; }
 QScrollArea, QFrame { border: none; }
+QHeaderView::section { background-color: ${c.surface}; color: ${c.foreground}; border: none; padding: 8px; }
+QComboBox::drop-down { border: none; width: 28px; }
+QComboBox::down-arrow { image: url(saydraftTheme:down-${dark ? 'dark' : 'light'}.svg); width: 12px; height: 8px; }
+QSpinBox::up-button, QDoubleSpinBox::up-button { subcontrol-origin: border; subcontrol-position: top right; width: 24px; border: none; }
+QSpinBox::down-button, QDoubleSpinBox::down-button { subcontrol-origin: border; subcontrol-position: bottom right; width: 24px; border: none; }
+QSpinBox::up-arrow, QDoubleSpinBox::up-arrow { image: url(saydraftTheme:up-${dark ? 'dark' : 'light'}.svg); width: 10px; height: 6px; }
+QSpinBox::down-arrow, QDoubleSpinBox::down-arrow { image: url(saydraftTheme:down-${dark ? 'dark' : 'light'}.svg); width: 10px; height: 6px; }
 `;
 }
 const outputs = new Map([
   ['site/src/styles/tokens.css', `/* ${header} */\n:root {\n${declarations.join('\n')}\n}\n`],
   ['saydraft/ui/theme/tokens.qss', qtTheme(false)],
   ['saydraft/ui/theme/tokens-dark.qss', qtTheme(true)],
+  ['saydraft/ui/theme/metadata.json', JSON.stringify({ schema: 1, bodySizePx: Number.parseFloat(tokens.type.body) }, null, 2) + '\n'],
 ]);
+for (const mode of ['light', 'dark']) {
+  const c = semantic(mode === 'dark');
+  for (const [name, shape] of [
+    ['check', `<path d="m4 9 3 3 7-7" fill="none" stroke="${c.selectedText}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>`],
+    ['radio', `<circle cx="9" cy="9" r="4" fill="${c.foreground}"/>`],
+    ['down', `<path d="m4 7 5 5 5-5" fill="none" stroke="${c.foreground}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>`],
+    ['up', `<path d="m4 11 5-5 5 5" fill="none" stroke="${c.foreground}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>`],
+  ]) outputs.set(`saydraft/ui/theme/${name}-${mode}.svg`, `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18">${shape}</svg>\n`);
+}
 for (const [name, content] of outputs) {
   const path = resolve(root, name);
   if (process.argv.includes('--check')) {

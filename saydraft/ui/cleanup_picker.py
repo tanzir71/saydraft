@@ -11,6 +11,7 @@ from saydraft.models.cleanup import cleanup_bundle, download_cleanup_model, reco
 from saydraft.models.manifest import get_model, load_manifest
 from saydraft.models.runtime_ids import runtime_model_id
 from .download_task import DownloadTask, call_download
+from .progress import ThemedProgressBar
 
 
 class CleanupPicker(QtWidgets.QWidget):
@@ -46,7 +47,7 @@ class CleanupPicker(QtWidgets.QWidget):
         self.status = QtWidgets.QLabel()
         self.status.setWordWrap(True)
         self.status.setTextFormat(QtCore.Qt.TextFormat.PlainText)
-        self.progress = QtWidgets.QProgressBar()
+        self.progress = ThemedProgressBar()
         self.progress.setRange(0, 100)
         self.progress.setValue(0)
         self.progress.setAccessibleName("Cleanup model and runtime download progress")
