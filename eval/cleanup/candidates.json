@@ -1,0 +1,206 @@
+{
+  "schema_version": 1,
+  "verified": "2026-11-12",
+  "models": [
+    {
+      "id": "qwen35-08b-q4-k-m",
+      "role": "cleanup_candidate",
+      "status": "unselected",
+      "label": "Qwen/Qwen3.5-0.8B Q4_K_M",
+      "engine": "llama.cpp",
+      "runtime": "llama-cpp-b12110",
+      "min_tier": "standard",
+      "quantization": "Q4_K_M",
+      "revision": "f36b1ea49a332ede8fe5f389bbf5b3575ef71f48",
+      "license": "Apache-2.0",
+      "license_url": "https://huggingface.co/Qwen/Qwen3.5-0.8B/blob/2fc06364715b967f1860aea9cf38778875588b17/LICENSE",
+      "publisher": "Qwen / Bartowski",
+      "source": "https://huggingface.co/bartowski/Qwen_Qwen3.5-0.8B-GGUF",
+      "source_model": "Qwen/Qwen3.5-0.8B",
+      "source_revision": "2fc06364715b967f1860aea9cf38778875588b17",
+      "notice": {
+        "path": "assets/licenses/qwen35-Apache-2.0.txt",
+        "sha256": "bbedc3fda3305820b977265f01b8619d87570a6739de3a5582c3464840f1e57a",
+        "size": 11544
+      },
+      "download_hosts": [
+        "huggingface.co",
+        "us.aws.cdn.hf.co"
+      ],
+      "files": [
+        {
+          "path": "Qwen_Qwen3.5-0.8B-Q4_K_M.gguf",
+          "url": "https://huggingface.co/bartowski/Qwen_Qwen3.5-0.8B-GGUF/resolve/f36b1ea49a332ede8fe5f389bbf5b3575ef71f48/Qwen_Qwen3.5-0.8B-Q4_K_M.gguf",
+          "size": 579615840,
+          "sha256": "fb044e93939a70469c905781334f5de1e6c8b608ced6cbc8c9249bd4127d9526"
+        },
+        {
+          "path": "README.md",
+          "url": "https://huggingface.co/bartowski/Qwen_Qwen3.5-0.8B-GGUF/resolve/f36b1ea49a332ede8fe5f389bbf5b3575ef71f48/README.md",
+          "size": 13782,
+          "sha256": "dc1fa7928acc9746ba13d0c80047717fad487b0723613ed9a61d328dadede117"
+        }
+      ]
+    },
+    {
+      "id": "qwen35-2b-q4-k-m",
+      "role": "cleanup_candidate",
+      "status": "unselected",
+      "label": "Qwen/Qwen3.5-2B Q4_K_M",
+      "engine": "llama.cpp",
+      "runtime": "llama-cpp-b12110",
+      "min_tier": "pro",
+      "quantization": "Q4_K_M",
+      "revision": "7d26695454df6de5fbcce2e58681e62dae06ce43",
+      "license": "Apache-2.0",
+      "license_url": "https://huggingface.co/Qwen/Qwen3.5-2B/blob/15852e8c16360a2fea060d615a32b45270f8a8fc/LICENSE",
+      "publisher": "Qwen / Bartowski",
+      "source": "https://huggingface.co/bartowski/Qwen_Qwen3.5-2B-GGUF",
+      "source_model": "Qwen/Qwen3.5-2B",
+      "source_revision": "15852e8c16360a2fea060d615a32b45270f8a8fc",
+      "notice": {
+        "path": "assets/licenses/qwen35-Apache-2.0.txt",
+        "sha256": "bbedc3fda3305820b977265f01b8619d87570a6739de3a5582c3464840f1e57a",
+        "size": 11544
+      },
+      "download_hosts": [
+        "huggingface.co",
+        "us.aws.cdn.hf.co"
+      ],
+      "files": [
+        {
+          "path": "Qwen_Qwen3.5-2B-Q4_K_M.gguf",
+          "url": "https://huggingface.co/bartowski/Qwen_Qwen3.5-2B-GGUF/resolve/7d26695454df6de5fbcce2e58681e62dae06ce43/Qwen_Qwen3.5-2B-Q4_K_M.gguf",
+          "size": 1396198496,
+          "sha256": "57a1085840f497d764a7fc5d346922dbde961efb54cc792ea81d694fd846a1d8"
+        },
+        {
+          "path": "README.md",
+          "url": "https://huggingface.co/bartowski/Qwen_Qwen3.5-2B-GGUF/resolve/7d26695454df6de5fbcce2e58681e62dae06ce43/README.md",
+          "size": 13716,
+          "sha256": "f095716c2cb5ba69ebb8504e10f9ae7b6def35574898c8d01b9506cd6cb1f85d"
+        }
+      ]
+    },
+    {
+      "id": "qwen35-4b-q4-k-m",
+      "role": "cleanup_candidate",
+      "status": "unselected",
+      "label": "Qwen/Qwen3.5-4B Q4_K_M",
+      "engine": "llama.cpp",
+      "runtime": "llama-cpp-b12110",
+      "min_tier": "pro",
+      "quantization": "Q4_K_M",
+      "revision": "4168f45a16a1290d65a4ec0fa312ae917a4c15d6",
+      "license": "Apache-2.0",
+      "license_url": "https://huggingface.co/Qwen/Qwen3.5-4B/blob/851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a/LICENSE",
+      "publisher": "Qwen / Bartowski",
+      "source": "https://huggingface.co/bartowski/Qwen_Qwen3.5-4B-GGUF",
+      "source_model": "Qwen/Qwen3.5-4B",
+      "source_revision": "851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+      "notice": {
+        "path": "assets/licenses/qwen35-Apache-2.0.txt",
+        "sha256": "bbedc3fda3305820b977265f01b8619d87570a6739de3a5582c3464840f1e57a",
+        "size": 11544
+      },
+      "download_hosts": [
+        "huggingface.co",
+        "us.aws.cdn.hf.co"
+      ],
+      "files": [
+        {
+          "path": "Qwen_Qwen3.5-4B-Q4_K_M.gguf",
+          "url": "https://huggingface.co/bartowski/Qwen_Qwen3.5-4B-GGUF/resolve/4168f45a16a1290d65a4ec0fa312ae917a4c15d6/Qwen_Qwen3.5-4B-Q4_K_M.gguf",
+          "size": 3013027808,
+          "sha256": "13c16f426047e2de38cd075bdade4a7bcbc8c774384876f677740cda65f8a983"
+        },
+        {
+          "path": "README.md",
+          "url": "https://huggingface.co/bartowski/Qwen_Qwen3.5-4B-GGUF/resolve/4168f45a16a1290d65a4ec0fa312ae917a4c15d6/README.md",
+          "size": 13706,
+          "sha256": "385066b55f515ade2629bfa5c0c43213b13fa2610f94ccc183f010df3e9fb55a"
+        }
+      ]
+    },
+    {
+      "id": "gemma4-e2b-q4-0",
+      "role": "cleanup_candidate",
+      "status": "unselected",
+      "label": "google/gemma-4-E2B-it Q4_0",
+      "engine": "llama.cpp",
+      "runtime": "llama-cpp-b12110",
+      "min_tier": "pro",
+      "quantization": "Q4_0",
+      "revision": "63f6c6f23b3e9e5f9737708daec2f88c9ac2e921",
+      "license": "Apache-2.0",
+      "license_url": "https://www.apache.org/licenses/LICENSE-2.0",
+      "publisher": "Google / ggml-org",
+      "source": "https://huggingface.co/ggml-org/gemma-4-E2B-it-GGUF",
+      "source_model": "google/gemma-4-E2B-it",
+      "source_revision": "4adf15748de9e1a0097b6274cee9c15836c41c37",
+      "notice": {
+        "path": "assets/licenses/Apache-2.0.txt",
+        "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+        "size": 11358
+      },
+      "download_hosts": [
+        "huggingface.co",
+        "us.aws.cdn.hf.co"
+      ],
+      "files": [
+        {
+          "path": "gemma-4-E2B-it-Q4_0.gguf",
+          "url": "https://huggingface.co/ggml-org/gemma-4-E2B-it-GGUF/resolve/63f6c6f23b3e9e5f9737708daec2f88c9ac2e921/gemma-4-E2B-it-Q4_0.gguf",
+          "size": 2841481184,
+          "sha256": "8e30dff3ac4c8434c49a7036fa15564bdbb6044e42bf04550bf1a096ad7e6a52"
+        },
+        {
+          "path": "README.md",
+          "url": "https://huggingface.co/ggml-org/gemma-4-E2B-it-GGUF/resolve/63f6c6f23b3e9e5f9737708daec2f88c9ac2e921/README.md",
+          "size": 660,
+          "sha256": "9dbd5e42313785eae14568bc4fc45ea54fee844384636f1d3779e3e65798a37f"
+        }
+      ]
+    },
+    {
+      "id": "gemma4-e4b-q4-0",
+      "role": "cleanup_candidate",
+      "status": "unselected",
+      "label": "google/gemma-4-E4B-it Q4_0",
+      "engine": "llama.cpp",
+      "runtime": "llama-cpp-b12110",
+      "min_tier": "pro",
+      "quantization": "Q4_0",
+      "revision": "27cd6836f8e2a6e5e6b57ea0e77fa72490706985",
+      "license": "Apache-2.0",
+      "license_url": "https://www.apache.org/licenses/LICENSE-2.0",
+      "publisher": "Google / ggml-org",
+      "source": "https://huggingface.co/ggml-org/gemma-4-E4B-it-GGUF",
+      "source_model": "google/gemma-4-E4B-it",
+      "source_revision": "4ecc2ba63bcac23ba4a767fc87025b1450f84c9c",
+      "notice": {
+        "path": "assets/licenses/Apache-2.0.txt",
+        "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+        "size": 11358
+      },
+      "download_hosts": [
+        "huggingface.co",
+        "us.aws.cdn.hf.co"
+      ],
+      "files": [
+        {
+          "path": "gemma-4-E4B-it-Q4_0.gguf",
+          "url": "https://huggingface.co/ggml-org/gemma-4-E4B-it-GGUF/resolve/27cd6836f8e2a6e5e6b57ea0e77fa72490706985/gemma-4-E4B-it-Q4_0.gguf",
+          "size": 4590807392,
+          "sha256": "a555b900214b477d8880e7832e0b8925e139b0159640036b09fe472b6f2097f2"
+        },
+        {
+          "path": "README.md",
+          "url": "https://huggingface.co/ggml-org/gemma-4-E4B-it-GGUF/resolve/27cd6836f8e2a6e5e6b57ea0e77fa72490706985/README.md",
+          "size": 660,
+          "sha256": "2976eea20e8d59f6f5237e5b2c8403d49e0a18c2cc58377c688bef24bbe6720b"
+        }
+      ]
+    }
+  ]
+}

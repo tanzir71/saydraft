@@ -3,4 +3,5 @@
 
 # Preserve byte-for-byte checksums for bundled model notices.
 assets/licenses/*.txt text eol=lf
+assets/licenses/qwen35-Apache-2.0.txt -text
 assets/licenses/*.pdf binary

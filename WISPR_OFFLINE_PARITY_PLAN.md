@@ -295,10 +295,10 @@ saydraft/
 
 | Candidate | Size (Q4) | License | Notes |
 |---|---|---|---|
-| **Qwen3.5-0.8B** instruct GGUF | ≈0.5–1.0 GB | Apache-2.0 | Standard-tier default candidate; reasoning is off by default on the small Qwen3.5 sizes |
-| **Qwen3.5-2B** | ≈1.3–2.7 GB | Apache-2.0 | Pro-tier candidate |
-| **Qwen3.5-4B** | ≈2.7–3.4 GB | Apache-2.0 | AssemblyAI's Voice Standard Bench (2026-10-28) scored a hosted "Qwen3.5 4B Fast" at 81/100 on 30 s dictation cleanup (75 at 2 min), the best small open model listed; it was also the fastest (0.28 s median across all tasks at 30 s) |
-| **Gemma 4 E2B / E4B** | ≈1.5 / ≈3 GB | Apache-2.0 | Alternative; compare |
+| **Qwen3.5-0.8B** instruct GGUF | 0.58 GB, pinned Q4_K_M | Apache-2.0 | Standard-tier default candidate; reasoning is off by default on the small Qwen3.5 sizes |
+| **Qwen3.5-2B** | 1.40 GB, pinned Q4_K_M | Apache-2.0 | Pro-tier candidate |
+| **Qwen3.5-4B** | 3.01 GB, pinned Q4_K_M | Apache-2.0 | AssemblyAI's Voice Standard Bench (2026-10-28) scored a hosted "Qwen3.5 4B Fast" at 81/100 on 30 s dictation cleanup (75 at 2 min), the best small open model listed; it was also the fastest (0.28 s median across all tasks at 30 s) |
+| **Gemma 4 E2B / E4B** | 2.84 / 4.59 GB, pinned Q4_0 | Apache-2.0 | Alternative; compare; actual selected artifacts exceed the earlier estimates |
 | superwhisper **s1-mini** (Qwen3-0.6B fine-tune) | 462 MB | **Custom**: don't ship | Reference only; user-supplied path allowed |
 
 **Prompt v3 (replaces JSON output in `llm_local.py`):**
@@ -635,6 +635,7 @@ P0.3/P0.4 implementation is locally verified and published in draft PR #1. Hoste
 - [x] **P4.3** Validator v2 (§7.3). **Acceptance:** 100% catch on the adversarial set; unit tests per rule.
   - Implemented conservative Unicode validation for exact protected-token order/counts, signed/numeric and spelled-out details, amounts/dates/times, glossary, URL/email/code, negation/profanity, output wrappers/answers, script/content overlap and intensity-dependent length. Fixed protection collisions, per-occurrence casing, Unicode word boundaries and URL punctuation; compatibility exports and rules fallback remain. The authored 100-case/ten-category adversarial set catches 100/100 (prior committed validator: 47/100); positive/per-rule tests pass and CI enforces 100% plus minimum corpus size/unique IDs. Suite 769 pass, 4 optional native skips; rules 42/42; lint/diff pass. Finite examples/lexicons do not prove unseen semantic safety; no model promotion. Details: `docs/VALIDATOR_V2.md`.
 - [ ] **P4.4** Model bake-off (Qwen3.5 0.8B/2B/4B, Gemma 4 E2B/E4B) on the golden + adversarial sets + latency per tier → set defaults per tier in the manifest. **Acceptance:** `docs/MODELS.md` table; defaults justified by numbers.
+  - Artifact foundation complete: developer-only five-candidate catalog pins original/converter revisions, actual GGUF/card sizes and hashes, quantization, attribution and unchanged full license notices. Explicit resumable transfer to D: preserves versions and changed notices; cache use rehashes weights/card/license, and candidates are absent from the app picker/defaults. Original Qwen CRLF notice is preserved byte-for-byte across Git checkouts. Suite 1278 pass, 4 optional native skips; golden 432/432; adversarial 100/100; lint/diff pass. Transfers are in progress; native candidate quality/use/fallback, isolated CPU/Vulkan latency/memory and winner selection remain. Keep P4.4/P4.7 unchecked. See `docs/CLEANUP_CANDIDATES.md`.
 - [x] **P4.5** Deterministic upgrades (§7.4): commands, ITN, backtrack restatement, lists, messaging period, "press enter", code mode. **Acceptance:** ≥ 150 new golden cases pass in rules-only mode.
   - Spoken-command foundation complete: punctuation path now renders quotes/parens/brackets, dashes/ellipsis, hyphen/apostrophe-s and next-word cap/all-caps, with literal-noun guards and independent newline switches. Existing modes are preserved; protected names/code/entities/quotes stay exact and no app action executes. Added 48 authored sentence-level cases (42 → 90 golden), all original cases retained. Suite 809 pass, 4 optional native skips; rules 90/90; adversarial 100/100; lint/diff pass. ITN/backtrack/code/messaging/opt-in Enter and ≥150 new-case acceptance remain; keep unchecked. Details: `docs/SPOKEN_COMMANDS.md`.
   - ITN parser foundation implemented: deterministic complete cardinals/ordinals, signed/decimal values, times/dates, currency/percent, phones, emails/URLs and versions, with intensity/style policy, literal/Unicode preservation and ambiguity guards. Shared address patterns avoid quadratic restart matching; 107 focused cases include a long-token regression. Exact isolated parser snapshot: 916 pass, 4 optional native skips; rules 90/90; adversarial 100/100; lint/diff pass. Running-app ordering and golden integration follow separately; keep unchecked. Details: `docs/ITN.md`.
@@ -718,6 +719,8 @@ Cloud anything (sync, accounts, team dictionaries, web search in Ask), mobile ap
 ---
 
 ## 14. Changelog
+
+- 2026-11-12 | P4.4 (candidate artifacts) | Pinned five developer-only Qwen/Gemma GGUFs and cards, retained Apache license/attribution bytes, added explicit verified/resumable transfer and fail-closed cache/notice checks, and corrected Gemma size estimates. App defaults/picker stay unchanged. Suite 1278 pass, 4 skips; golden 432/432; adversarial 100/100; lint/diff pass. Inference, latency and selection follow after transfers. | eval/cleanup/candidates.json, saydraft/cleanup/llm/candidates.py, tools/download_cleanup_candidate.py, tests/test_cleanup_candidates.py, assets/licenses/, .gitattributes, THIRD_PARTY_NOTICES.md, docs/CLEANUP_CANDIDATES.md, docs/MODELS.md
 
 - 2026-11-12 | P4.5 complete / P4.7 corpus | Integrated default-off source-only Enter with Settings/History, cancellation during paste and protected one-pass snippets/final punctuation. Actual-processor golden output/action checks add 52 authored cases, enforcing minimum 432; 1268 tests, rules 432/432, adversarial 100/100 and Settings visual review pass. P4.7 model acceptance follows the bake-off. | saydraft/core/{container,processing,preferences,worker}.py, saydraft/config.py, saydraft/dictation/pipeline.py, saydraft/eval.py, saydraft/ui/settings_window.py, tests/, .github/workflows/ci.yml, docs/VOICE_ENTER.md, docs/EVALUATION.md
 

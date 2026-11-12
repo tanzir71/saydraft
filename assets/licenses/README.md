@@ -13,3 +13,16 @@ unchanged sherpa-onnx ONNX/int8 conversion. Text notices use LF line endings so
 their pinned checksums survive Windows checkouts. The archive installer copies
 verified bundled notices alongside the optional model before publishing it.
 Including these notices does not include or automatically download the weights.
+
+Cleanup evaluation candidates retain two additional complete texts:
+
+- `qwen35-Apache-2.0.txt`: unchanged Qwen license, including Alibaba copyright,
+  from `Qwen/Qwen3.5-0.8B` commit `2fc06364715b967f1860aea9cf38778875588b17`.
+  Size 11,544; SHA-256 `bbedc3fda3305820b977265f01b8619d87570a6739de3a5582c3464840f1e57a`.
+  Its upstream CRLF bytes are preserved by an explicit `-text` Git attribute.
+- `Apache-2.0.txt`: standard text from `https://www.apache.org/licenses/LICENSE-2.0.txt`.
+  Size 11,358; SHA-256 `cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30`.
+  Google/ggml-org attribution remains in the retained model card and catalog.
+
+The explicit developer transfer copies the verified text beside each candidate.
+Candidate weights are neither bundled nor selected for the app here.
