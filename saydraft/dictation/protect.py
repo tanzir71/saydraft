@@ -3,6 +3,7 @@ from __future__ import annotations
 import re
 from typing import Dict, Tuple
 
+from saydraft.text_entities import BARE_DOMAIN, EMAIL
 
 _SPAN_PATTERNS = [
     re.compile(r"```[\s\S]*?```"),
@@ -11,12 +12,15 @@ _SPAN_PATTERNS = [
     re.compile(r"“[^”\n]*”"),
     re.compile(r"__(?:SPAN|GLOSSARY)_\d+__|⟦T\d+⟧"),
     re.compile(r"https?://[^\s<>\"'\])]+", re.IGNORECASE),
-    re.compile(r"[\w.!#$%&'*+/=?^`{|}~+-]+@(?:[\w-]+\.)+[\w-]+", re.UNICODE),
+    EMAIL,
+    re.compile(r"(?<!\w)v\d+(?:\.\d+)+(?!\w)", re.IGNORECASE),
+    BARE_DOMAIN,
 ]
 _SPANS = re.compile("|".join(pattern.pattern for pattern in _SPAN_PATTERNS), re.IGNORECASE)
+_ENTITIES = re.compile("|".join(pattern.pattern for pattern in _SPAN_PATTERNS[-4:]), re.IGNORECASE)
 
 
-def protect_spans(text: str, *, protected_tokens=()) -> Tuple[str, Dict[str, str]]:
+def protect_spans(text: str, *, protected_tokens=(), entities_only=False) -> Tuple[str, Dict[str, str]]:
     if not text:
         return text, {}
 
@@ -29,7 +33,7 @@ def protect_spans(text: str, *, protected_tokens=()) -> Tuple[str, Dict[str, str
             return match[0]
         original = match[0]
         suffix = ""
-        if original.lower().startswith(("http://", "https://")):
+        if original.lower().startswith(("http://", "https://")) or BARE_DOMAIN.fullmatch(original):
             trimmed = original.rstrip(".,!?:;")
             suffix, original = original[len(trimmed):], trimmed
         while f"__SPAN_{idx}__" in text:
@@ -39,7 +43,7 @@ def protect_spans(text: str, *, protected_tokens=()) -> Tuple[str, Dict[str, str
         mapping[placeholder] = original
         return placeholder + suffix
 
-    return _SPANS.sub(protect, text), mapping
+    return (_ENTITIES if entities_only else _SPANS).sub(protect, text), mapping
 
 
 def restore_spans(text: str, mapping: Dict[str, str]) -> str:

@@ -25,10 +25,10 @@ class DictationConfig:
 
 
 def _options_for(context: DictationContext) -> RuleOptions:
-    if context.profile == "code/comments":
+    if context.mode == "raw":
         return RuleOptions(
             remove_fillers=False,
-            remove_repetitions=True,
+            remove_repetitions=False,
             handle_self_corrections=False,
             normalize_punctuation=False,
             normalize_capitalization=False,
@@ -39,10 +39,10 @@ def _options_for(context: DictationContext) -> RuleOptions:
             final_period=False,
         )
 
-    if context.mode == "raw":
+    if context.profile == "code/comments" or context.app_group == "code":
         return RuleOptions(
             remove_fillers=False,
-            remove_repetitions=False,
+            remove_repetitions=True,
             handle_self_corrections=False,
             normalize_punctuation=False,
             normalize_capitalization=False,
@@ -70,6 +70,8 @@ def _options_for(context: DictationContext) -> RuleOptions:
             convert_spoken_punctuation=True,
             convert_spoken_newlines=newlines,
             final_period=final_period,
+            normalize_itn=True, intensity=context.intensity if context.intensity is not None else 4,
+            number_style="compact" if context.profile == "notes" else "prose",
         )
 
     return RuleOptions(
@@ -84,6 +86,8 @@ def _options_for(context: DictationContext) -> RuleOptions:
         convert_spoken_punctuation=False,
         convert_spoken_newlines=newlines,
         final_period=final_period,
+        normalize_itn=True, intensity=context.intensity if context.intensity is not None else 3,
+        number_style="compact" if context.profile == "notes" else "prose",
     )
 
 
@@ -158,7 +162,7 @@ class DictationPipeline:
             self.last_llm_decision = status
             if candidate:
                 validation = validate_llm_output(rule_clean, candidate, mode=context.mode,
-                    glossary=(*self.glossary.user_terms, *self.glossary.protected_terms))
+                    glossary=(*self.glossary.user_terms, *self.glossary.protected_terms), intensity=context.intensity)
                 if validation.ok:
                     llm_ok_text = candidate
                     self.last_llm_decision = "accepted"

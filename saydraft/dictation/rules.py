@@ -6,6 +6,8 @@ from typing import List, Tuple
 
 from saydraft.cleanup.commands import render_commands
 from saydraft.cleanup.commands import SPOKEN_PUNCTUATION as SPOKEN_PUNCTUATION
+from saydraft.cleanup.itn import normalize_addresses, normalize_itn
+from .protect import protect_spans, restore_spans
 
 FILLER_PHRASES_CONSERVATIVE: Tuple[str, ...] = (
     "um",
@@ -43,6 +45,9 @@ class RuleOptions:
     convert_spoken_punctuation: bool = True
     convert_spoken_newlines: bool = False
     final_period: bool = False
+    normalize_itn: bool = False
+    intensity: int = 3
+    number_style: str = "prose"
 
 
 def normalize_whitespace(text: str) -> str:
@@ -251,6 +256,7 @@ def basic_grammar(text: str) -> str:
 
 SELF_CORRECTION_MARKERS: Tuple[Tuple[str, str], ...] = (
     ("scratch that", r"\bscratch[\s,]+that\b"),
+    ("never mind", r"\bnever[\s,]+mind\b"),
     ("no actually", r"\bno[\s,]+actually\b"),
     ("no sorry", r"\bno[\s,]+sorry\b"),
     ("no wait", r"\bno[\s,]+wait\b"),
@@ -261,6 +267,12 @@ SELF_CORRECTION_MARKERS: Tuple[Tuple[str, str], ...] = (
 
 MAX_SELF_CORRECTION_REPLACEMENT_WORDS = 6
 WORD_RE = re.compile(r"[A-Za-z0-9]+(?:'[A-Za-z0-9]+)?")
+CORRECTION_TOKEN_RE = re.compile(r"__(?:GLOSSARY|SPAN)_\d+__|[+−-]?[$€£¥₹৳]?\d+(?:[.,:]\d+)*[%٪]?|[^\s,;:!?]+")
+ACTUALLY_ADVERB_CONTEXT = frozenset(("i", "we", "you", "he", "she", "it", "they", "who", "really",
+    "do", "did", "does", "can", "could", "would", "should", "will", "might", "must", "have", "has", "had",
+    "আমি", "আমরা", "তুমি", "আপনি", "তোমরা", "আপনারা", "সে", "তারা", "أنا", "نحن", "أنت", "هو", "هي", "هم"))
+ACTUALLY_VERB_STARTS = frozenset(("agree", "work", "works", "want", "need", "like", "know", "think", "believe",
+    "care", "support", "love", "hate", "understand", "remember", "helps", "matters", "means", "happened"))
 
 FALSE_REPLACEMENT_STARTS = {
     "and",
@@ -313,18 +325,18 @@ def apply_self_corrections(text: str) -> str:
         return text
 
     marker, start, end = marker_match
-    before_words = _words(text[:start])
-    after_words = _words(text[end:])
+    before, after = text[:start], text[end:]
+    before_tokens = list(CORRECTION_TOKEN_RE.finditer(before))
+    after_tokens = list(CORRECTION_TOKEN_RE.finditer(after))
+    before_words = [match[0].strip(".\"'“”()[]") for match in before_tokens]
+    after_words = [match[0].strip(".\"'“”()[]") for match in after_tokens]
     if not before_words or not _is_plausible_replacement(marker, before_words, after_words):
         return text
 
-    replacement_len = len(after_words)
-    keep_words = before_words[:-replacement_len]
-    corrected_words = [*keep_words, *after_words]
-    if not corrected_words:
-        return text
-
-    return " ".join(corrected_words)
+    cut = before_tokens[len(before_tokens) - len(after_tokens)].start()
+    prefix = before[:cut].rstrip(" ,;:")
+    replacement = after.lstrip(" ,;:").strip()
+    return (prefix + " " + replacement).strip()
 
 
 def _find_last_self_correction_marker(text: str) -> Tuple[str, int, int] | None:
@@ -363,6 +375,9 @@ def _is_plausible_replacement(marker: str, before_words: List[str], after_words:
 
     if before_words[-1].lower() in LINKING_OR_SPEECH_VERBS:
         return False
+    if marker == "actually" and (before_words[-1].casefold() in ACTUALLY_ADVERB_CONTEXT
+                                  or first_after in ACTUALLY_VERB_STARTS):
+        return False
 
     return True
 
@@ -372,11 +387,15 @@ def maybe_format_list(text: str) -> str:
         return text
     lowered = text.lower()
     bullet_pattern = r"\b(?:new\s+)?bullet(?:\s+point)?\b"
-    if re.search(bullet_pattern, lowered, flags=re.IGNORECASE):
-        parts = re.split(bullet_pattern, text, flags=re.IGNORECASE)
-        items = [p.strip(" ,.-\n\t") for p in parts if p.strip(" ,.-\n\t")]
-        if len(items) >= 2:
-            return "\n".join([f"- {_capitalize_item(i)}" for i in items])
+    bullet = re.search(bullet_pattern, lowered, flags=re.IGNORECASE)
+    if bullet:
+        prefix = text[:bullet.start()].strip()
+        if not prefix or prefix.endswith(":"):
+            parts = re.split(bullet_pattern, text[bullet.start():], flags=re.IGNORECASE)
+            items = [p.strip(" ,.-\n\t") for p in parts if p.strip(" ,.-\n\t")]
+            if items:
+                header = prefix + "\n" if prefix else ""
+                return header + "\n".join(f"- {_capitalize_item(i)}" for i in items)
 
     numbered = _format_numbered_list(text)
     return numbered if numbered is not None else text
@@ -425,7 +444,25 @@ NUMBER_MARKER_RE = re.compile(
 
 def _format_numbered_list(text: str) -> str | None:
     matches = list(NUMBER_MARKER_RE.finditer(text))
-    if len(matches) < 2:
+    if not matches:
+        return None
+
+    first = matches[0]
+    explicit = first[0].casefold().startswith("number ")
+    ordinals = {"first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth", "ninth", "tenth"}
+    if explicit:
+        markers = NUMBER_MARKERS
+        prefix = r"number\s+"
+    else:
+        prefix = ""
+        token = first[1].casefold()
+        markers = {key: value for key, value in NUMBER_MARKERS.items()
+                   if (key in ordinals if token in ordinals else key.isdecimal() if token.isdecimal()
+                       else not key.isdecimal() and key not in ordinals)}
+    pattern = re.compile(r"(?<!\w)" + prefix + "(" + "|".join(sorted(markers, key=len, reverse=True))
+                         + r")\.?(?!\w)", re.IGNORECASE)
+    matches = list(pattern.finditer(text))
+    if len(matches) < 2 and not explicit and not first[0].endswith("."):
         return None
 
     first_prefix = text[: matches[0].start()].strip(" ,:-\n\t")
@@ -476,25 +513,40 @@ def apply_rules(text: str, options: RuleOptions) -> str:
     out = text
     if options.normalize_whitespace:
         out = normalize_whitespace(out)
-    if options.convert_spoken_punctuation or options.convert_spoken_newlines:
-        out = convert_spoken_punctuation(
-            out,
-            convert_newlines=options.convert_spoken_newlines,
-            convert_punctuation=options.convert_spoken_punctuation,
-        )
-    if options.handle_self_corrections:
-        out = apply_self_corrections(out)
+    addresses = {}
+    if options.normalize_itn:
+        out = normalize_addresses(out)
+        out, addresses = protect_spans(out, entities_only=True)
     if options.remove_fillers:
         out = remove_fillers(out, aggressive=options.aggressive_fillers)
+    structured_list = False
+    if options.enable_list_formatting:
+        formatted = maybe_format_list(out)
+        structured_list, out = formatted != out, formatted
+    entities = {}
+    if options.normalize_itn:
+        out = normalize_itn(out, intensity=options.intensity, style=options.number_style)
+        out, entities = protect_spans(out, entities_only=True)
+    if options.convert_spoken_punctuation or options.convert_spoken_newlines:
+        out = convert_spoken_punctuation(
+            out, convert_newlines=options.convert_spoken_newlines,
+            convert_punctuation=options.convert_spoken_punctuation)
+    if options.normalize_capitalization:
+        out = re.sub(r"(^|[.!?]\s+|\n+[ \t]*)([([“]+)([a-z])",
+                     lambda match: match[1] + match[2] + match[3].upper(), out)
+    reserved = re.findall(r"__(?:GLOSSARY|SPAN)_\d+__", out)
+    out, generated_spans = protect_spans(out, protected_tokens=reserved)
+    if options.handle_self_corrections:
+        out = apply_self_corrections(out)
     if options.remove_repetitions:
         out = remove_repetitions(out)
     if options.normalize_capitalization:
         out = basic_grammar(out)
     if options.normalize_punctuation:
-        out = normalize_punctuation(out, final_period=options.final_period)
-    if options.enable_list_formatting:
-        out = maybe_format_list(out)
+        out = normalize_punctuation(out, final_period=options.final_period and not structured_list)
     if options.normalize_whitespace:
         out = normalize_whitespace(out)
-    return out
+    out = restore_spans(out, generated_spans)
+    out = restore_spans(out, entities)
+    return restore_spans(out, addresses)
 

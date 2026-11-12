@@ -16,4 +16,5 @@ class DictationContext:
     app_group: str = "general"
     language: str = "auto"
     before_caret: str = ""
+    intensity: Optional[int] = None
 

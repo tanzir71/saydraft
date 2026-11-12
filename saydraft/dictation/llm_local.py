@@ -93,7 +93,7 @@ class LocalLLMCleaner:
     def clean_with_context(self, text, *, context, glossary=()):
         tone = {"email": "formal", "chat": "casual"}.get(context.profile, "neutral")
         hints = PromptHints(app=context.app_title or "", group=context.app_group, style=tone,
-            intensity=4 if context.mode == "aggressive" else 3,
+            intensity=context.intensity if context.intensity is not None else 4 if context.mode == "aggressive" else 3,
             language=context.language, before_caret=context.before_caret)
         return self._clean(text, hints, glossary)
 

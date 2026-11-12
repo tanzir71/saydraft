@@ -13,12 +13,13 @@ from dataclasses import dataclass
 from difflib import SequenceMatcher
 
 from saydraft.text_boundaries import whole_word_match
+from saydraft.text_entities import BARE_DOMAIN_PATTERN, EMAIL
 TOKENS = re.compile(r"__(?:GLOSSARY|SPAN)_\d+__|⟦T\d+⟧")
 CODE = re.compile(r"```[\s\S]*?```|`[^`]*`|\"[^\"\n]*\"|“[^”\n]*”")
-URLS = re.compile(r"https?://[^\s<>\"'\])]+", re.IGNORECASE)
-EMAILS = re.compile(r"[\w.!#$%&'*+/=?^`{|}~+-]+@(?:[\w-]+\.)+[\w-]+", re.UNICODE)
-NUMBER = r"[+−-]?\d+(?:[.,\u066b\u066c]\d+)*"
-AMOUNTS = re.compile(rf"[$€£¥₹৳]\s*{NUMBER}|{NUMBER}\s*(?:%|٪|(?:USD|EUR|GBP|BDT|dollars?|euros?|pounds?|taka)\b)",
+URLS = re.compile(r"https?://[^\s<>\"'\])]+|" + BARE_DOMAIN_PATTERN, re.IGNORECASE)
+EMAILS = EMAIL
+NUMBER = r"(?:[+−-]\s*)?\d+(?:[.,\u066b\u066c]\d+)*"
+AMOUNTS = re.compile(rf"(?:[+−-]\s*)?[$€£¥₹৳]\s*{NUMBER}|{NUMBER}\s*(?:%|٪|(?:USD|EUR|GBP|BDT|dollars?|euros?|pounds?|taka)\b)",
                      re.IGNORECASE)
 MONTH = (r"jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|may|jun(?:e)?|jul(?:y)?|aug(?:ust)?|"
          r"sep(?:tember)?|oct(?:ober)?|nov(?:ember)?|dec(?:ember)?|"
@@ -72,7 +73,7 @@ def _bare(text):
 
 
 def extract_numbers(text):
-    return re.findall(NUMBER, _bare(text))
+    return [re.sub(r"\s+", "", value) for value in re.findall(NUMBER, _bare(text))]
 
 
 def extract_urls(text):

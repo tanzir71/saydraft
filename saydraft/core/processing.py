@@ -72,7 +72,8 @@ class TranscriptProcessor:
         entry = HistoryEntry(target.app_title, raw_text, cleaned, context.mode,
                              context.profile, duration_seconds, model,
                              app_exe=target.app_exe, app_group=target.app_group,
-                             intensity={"raw": 0, "balanced": 1, "aggressive": 3}.get(context.mode),
+                             intensity=context.intensity if context.intensity is not None else
+                             {"raw": 0, "balanced": 3, "aggressive": 4}.get(context.mode),
                              llm_decision=getattr(self.cleaner, "last_llm_decision", None),
                              language=language, asr_model=model, timings_json=json.dumps(stages),
                              audio_path=audio_path, edits_json=json.dumps(notes))

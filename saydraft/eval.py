@@ -22,6 +22,7 @@ class EvalCase:
     expected: str
     mode: str
     profile: str
+    intensity: int | None = None
 
 
 @dataclass(frozen=True)
@@ -68,6 +69,7 @@ def load_eval_corpus(path: str | Path = DEFAULT_CORPUS_PATH) -> list[EvalCase]:
                     expected=expected,
                     mode=mode,
                     profile=profile,
+                    intensity=data.get("intensity"),
                 )
             )
     return cases
@@ -85,7 +87,7 @@ def run_eval(
     passed = 0
     for case in cases:
         total += 1
-        context = DictationContext(mode=case.mode, profile=case.profile)
+        context = DictationContext(mode=case.mode, profile=case.profile, intensity=case.intensity)
         actual = active_pipeline.process_transcript(case.input_text, context)
         if actual == case.expected:
             passed += 1

@@ -27,7 +27,7 @@
 {"id":"balanced-code-02","mode":"balanced","profile":"code/comments","input":"print hello comma world","expected":"print hello comma world"}
 {"id":"balanced-code-03","mode":"balanced","profile":"code/comments","input":"one apples two bananas","expected":"one apples two bananas"}
 {"id":"aggressive-general-01","mode":"aggressive","profile":"general","input":"um like hello hello world","expected":"Hello world"}
-{"id":"aggressive-general-02","mode":"aggressive","profile":"general","input":"set the meeting for two actually three","expected":"Set the meeting for three"}
+{"id":"aggressive-general-02","mode":"aggressive","profile":"general","input":"set the meeting for two actually three","expected":"Set the meeting for 3"}
 {"id":"aggressive-general-03","mode":"aggressive","profile":"general","input":"hello comma world","expected":"Hello, world"}
 {"id":"aggressive-general-04","mode":"aggressive","profile":"general","input":"I sort of think this works","expected":"I think this works"}
 {"id":"aggressive-general-05","mode":"aggressive","profile":"general","input":"this is basically ready","expected":"This is ready"}
@@ -61,7 +61,7 @@
 {"id":"commands-v1-19","mode":"aggressive","profile":"general","input":"we write in all caps for headings","expected":"We write in all caps for headings"}
 {"id":"commands-v1-20","mode":"aggressive","profile":"general","input":"the all caps style is optional","expected":"The all caps style is optional"}
 {"id":"commands-v1-21","mode":"aggressive","profile":"email","input":"hello new paragraph world exclamation mark","expected":"Hello\n\nWorld!"}
-{"id":"commands-v1-22","mode":"aggressive","profile":"notes","input":"first note new line next note","expected":"First note\nNext note"}
+{"id":"commands-v1-22","mode":"aggressive","profile":"notes","input":"first note new line next note","expected":"1st note\nNext note"}
 {"id":"commands-v1-23","mode":"aggressive","profile":"general","input":"hello full stop are you ready question mark","expected":"Hello. Are you ready?"}
 {"id":"commands-v1-24","mode":"aggressive","profile":"general","input":"great exclamation point next step colon review","expected":"Great! Next step: review"}
 {"id":"commands-v1-25","mode":"aggressive","profile":"general","input":"please use a reader hyphen friendly format","expected":"Please use a reader-friendly format"}
@@ -88,3 +88,105 @@
 {"id":"commands-v1-46","mode":"aggressive","profile":"general","input":"the new word is cap codex","expected":"The new word is Codex"}
 {"id":"commands-v1-47","mode":"aggressive","profile":"email","input":"are the notes ready question mark new paragraph please confirm","expected":"Are the notes ready?\n\nPlease confirm."}
 {"id":"commands-v1-48","mode":"aggressive","profile":"general","input":"ready ellipsis almost","expected":"Ready… almost"}
+{"id":"itn-v1-001","mode":"aggressive","profile":"general","input":"send two files","expected":"Send 2 files"}
+{"id":"itn-v1-002","mode":"aggressive","profile":"general","input":"send ten files","expected":"Send 10 files"}
+{"id":"itn-v1-003","mode":"aggressive","profile":"general","input":"twenty one participants","expected":"21 participants"}
+{"id":"itn-v1-004","mode":"aggressive","profile":"general","input":"one hundred and twenty three items","expected":"123 items"}
+{"id":"itn-v1-005","mode":"aggressive","profile":"general","input":"there are one thousand and five rows","expected":"There are 1005 rows"}
+{"id":"itn-v1-006","mode":"aggressive","profile":"general","input":"two lakh twenty five thousand rows","expected":"225000 rows"}
+{"id":"itn-v1-007","mode":"aggressive","profile":"general","input":"we owe one crore","expected":"We owe 10000000"}
+{"id":"itn-v1-008","mode":"aggressive","profile":"general","input":"negative five degrees","expected":"-5 degrees"}
+{"id":"itn-v1-009","mode":"aggressive","profile":"general","input":"two point five liters","expected":"2.5 liters"}
+{"id":"itn-v1-010","mode":"aggressive","profile":"general","input":"zero point zero five seconds","expected":"0.05 seconds"}
+{"id":"itn-v1-011","mode":"aggressive","profile":"general","input":"the twenty first draft","expected":"The 21st draft"}
+{"id":"itn-v1-012","mode":"aggressive","profile":"general","input":"the twelfth item","expected":"The 12th item"}
+{"id":"itn-v1-013","mode":"aggressive","profile":"general","input":"the one hundred and third item","expected":"The 103rd item"}
+{"id":"itn-v1-014","mode":"aggressive","profile":"general","input":"I need apples and two oranges","expected":"I need apples and 2 oranges"}
+{"id":"itn-v1-015","mode":"aggressive","profile":"general","input":"one hundred and apples","expected":"100 and apples"}
+{"id":"itn-v1-016","mode":"aggressive","profile":"general","input":"one second remains","expected":"1 second remains"}
+{"id":"itn-v1-017","mode":"aggressive","profile":"general","input":"wait a second","expected":"Wait a second"}
+{"id":"itn-v1-018","mode":"aggressive","profile":"general","input":"a third of the budget","expected":"A third of the budget"}
+{"id":"itn-v1-019","mode":"aggressive","profile":"general","input":"meet at three thirty pm","expected":"Meet at 3:30 PM"}
+{"id":"itn-v1-020","mode":"aggressive","profile":"general","input":"arrive at twelve zero five am","expected":"Arrive at 12:05 AM"}
+{"id":"itn-v1-021","mode":"aggressive","profile":"general","input":"call at eleven forty five a m","expected":"Call at 11:45 AM"}
+{"id":"itn-v1-022","mode":"aggressive","profile":"general","input":"leave at nine pm","expected":"Leave at 9 PM"}
+{"id":"itn-v1-023","mode":"aggressive","profile":"general","input":"wait until twelve thirty am","expected":"Wait until 12:30 AM"}
+{"id":"itn-v1-024","mode":"aggressive","profile":"general","input":"meet at 3:30 PM","expected":"Meet at 3:30 PM"}
+{"id":"itn-v1-025","mode":"aggressive","profile":"general","input":"meet at three p.m.","expected":"Meet at 3 PM."}
+{"id":"itn-v1-026","mode":"aggressive","profile":"general","input":"by three thirty pm comma please","expected":"By 3:30 PM, please"}
+{"id":"itn-v1-027","mode":"aggressive","profile":"general","input":"meet on March third","expected":"Meet on March 3"}
+{"id":"itn-v1-028","mode":"aggressive","profile":"general","input":"deadline is June twenty first","expected":"Deadline is June 21"}
+{"id":"itn-v1-029","mode":"aggressive","profile":"general","input":"meet on March third two thousand twenty six","expected":"Meet on March 3, 2026"}
+{"id":"itn-v1-030","mode":"aggressive","profile":"general","input":"the twelfth of January is the deadline","expected":"12 January is the deadline"}
+{"id":"itn-v1-031","mode":"aggressive","profile":"general","input":"meet on the third of March two thousand twenty six","expected":"Meet on 3 March, 2026"}
+{"id":"itn-v1-032","mode":"aggressive","profile":"general","input":"we may first review","expected":"We may first review"}
+{"id":"itn-v1-033","mode":"aggressive","profile":"general","input":"march two blocks","expected":"March two blocks"}
+{"id":"itn-v1-034","mode":"aggressive","profile":"general","input":"May one attend","expected":"May one attend"}
+{"id":"itn-v1-035","mode":"aggressive","profile":"general","input":"we meet on may first","expected":"We meet on May 1"}
+{"id":"itn-v1-036","mode":"aggressive","profile":"general","input":"April first twenty twenty six","expected":"April 1, 2026"}
+{"id":"itn-v1-037","mode":"aggressive","profile":"general","input":"pay two dollars and fifty cents","expected":"Pay $2.50"}
+{"id":"itn-v1-038","mode":"aggressive","profile":"general","input":"pay minus two dollars and five cents","expected":"Pay -$2.05"}
+{"id":"itn-v1-039","mode":"aggressive","profile":"general","input":"the price is three point five dollars","expected":"The price is $3.50"}
+{"id":"itn-v1-040","mode":"aggressive","profile":"general","input":"five hundred euros are due","expected":"€500 are due"}
+{"id":"itn-v1-041","mode":"aggressive","profile":"general","input":"pay three hundred taka","expected":"Pay ৳300"}
+{"id":"itn-v1-042","mode":"aggressive","profile":"general","input":"weigh five pounds","expected":"Weigh 5 pounds"}
+{"id":"itn-v1-043","mode":"aggressive","profile":"general","input":"pay five pounds","expected":"Pay £5"}
+{"id":"itn-v1-044","mode":"aggressive","profile":"general","input":"five pounds sterling","expected":"£5"}
+{"id":"itn-v1-045","mode":"aggressive","profile":"general","input":"pay a hundred dollars","expected":"Pay $100"}
+{"id":"itn-v1-046","mode":"aggressive","profile":"general","input":"twenty dollars and fifty cents","expected":"$20.50"}
+{"id":"itn-v1-047","mode":"aggressive","profile":"general","input":"discount is twenty five percent","expected":"Discount is 25%"}
+{"id":"itn-v1-048","mode":"aggressive","profile":"general","input":"rate is two point five per cent","expected":"Rate is 2.5%"}
+{"id":"itn-v1-049","mode":"aggressive","profile":"general","input":"zero point zero five percent remain","expected":"0.05% remain"}
+{"id":"itn-v1-050","mode":"aggressive","profile":"general","input":"one hundred percent complete","expected":"100% complete"}
+{"id":"itn-v1-051","mode":"aggressive","profile":"general","input":"call zero one one two three four five six seven eight","expected":"Call 0112345678"}
+{"id":"itn-v1-052","mode":"aggressive","profile":"general","input":"phone plus eight eight zero one seven one two three four five six seven eight","expected":"Phone +8801712345678"}
+{"id":"itn-v1-053","mode":"aggressive","profile":"general","input":"number triple five triple five triple five","expected":"Number 555555555"}
+{"id":"itn-v1-054","mode":"aggressive","profile":"general","input":"phone one one one","expected":"Phone 111"}
+{"id":"itn-v1-055","mode":"aggressive","profile":"general","input":"call one one two","expected":"Call 112"}
+{"id":"itn-v1-056","mode":"aggressive","profile":"general","input":"phone zero zero one","expected":"Phone 001"}
+{"id":"itn-v1-057","mode":"aggressive","profile":"general","input":"send to john at example dot com","expected":"Send to john@example.com"}
+{"id":"itn-v1-058","mode":"aggressive","profile":"general","input":"email john dot doe plus qa at example dot org","expected":"Email john.doe+qa@example.org"}
+{"id":"itn-v1-059","mode":"aggressive","profile":"general","input":"one at example dot com","expected":"one@example.com"}
+{"id":"itn-v1-060","mode":"aggressive","profile":"general","input":"look at example dot com","expected":"Look at example.com"}
+{"id":"itn-v1-061","mode":"aggressive","profile":"general","input":"stop at example dot com","expected":"Stop at example.com"}
+{"id":"itn-v1-062","mode":"aggressive","profile":"general","input":"email stop at example dot com","expected":"Email stop@example.com"}
+{"id":"itn-v1-063","mode":"aggressive","profile":"general","input":"visit https colon slash slash example dot com slash docs","expected":"Visit https://example.com/docs"}
+{"id":"itn-v1-064","mode":"aggressive","profile":"general","input":"http s colon slash slash example dot org","expected":"https://example.org"}
+{"id":"itn-v1-065","mode":"aggressive","profile":"general","input":"open example dot co dot uk","expected":"Open example.co.uk"}
+{"id":"itn-v1-066","mode":"aggressive","profile":"general","input":"example dot com slash cap hello","expected":"example.com/cap hello"}
+{"id":"itn-v1-067","mode":"aggressive","profile":"general","input":"visit https://one.example.com/first","expected":"Visit https://one.example.com/first"}
+{"id":"itn-v1-068","mode":"aggressive","profile":"general","input":"leave one@example.com unchanged","expected":"Leave one@example.com unchanged"}
+{"id":"itn-v1-069","mode":"aggressive","profile":"general","input":"version two point one point three","expected":"Version 2.1.3"}
+{"id":"itn-v1-070","mode":"aggressive","profile":"general","input":"v two point one","expected":"v2.1"}
+{"id":"itn-v1-071","mode":"aggressive","profile":"general","input":"we use v zero point nine","expected":"We use v0.9"}
+{"id":"itn-v1-072","mode":"aggressive","profile":"general","input":"keep version one point zero","expected":"Keep version 1.0"}
+{"id":"itn-v1-073","mode":"aggressive","profile":"general","input":"keep “three pm” unchanged","expected":"Keep “three pm” unchanged"}
+{"id":"itn-v1-074","mode":"aggressive","profile":"general","input":"`v two point one` stays literal","expected":"`v two point one` stays literal"}
+{"id":"itn-v1-075","mode":"aggressive","profile":"general","input":"keep 01234 unchanged","expected":"Keep 01234 unchanged"}
+{"id":"itn-v1-076","mode":"aggressive","profile":"general","input":"we will send ١٢ files","expected":"We will send ١٢ files"}
+{"id":"itn-v1-077","mode":"aggressive","profile":"general","input":"আজ ১২টি ফাইল পাঠাও","expected":"আজ ১২টি ফাইল পাঠাও"}
+{"id":"itn-v1-078","mode":"aggressive","profile":"general","input":"أرسل ١٢ ملفًا","expected":"أرسل ١٢ ملفًا"}
+{"id":"itn-v1-079","mode":"aggressive","profile":"notes","input":"first two apples second three pears","expected":"1. 2 apples\n2. 3 pears"}
+{"id":"itn-v1-080","mode":"aggressive","profile":"notes","input":"number one two apples number two three pears","expected":"1. 2 apples\n2. 3 pears"}
+{"id":"itn-v1-081","mode":"aggressive","profile":"notes","input":"bullet point two apples","expected":"- 2 apples"}
+{"id":"itn-v1-082","mode":"aggressive","profile":"notes","input":"shopping list: bullet two apples bullet three pears","expected":"Shopping list:\n- 2 apples\n- 3 pears"}
+{"id":"itn-v1-083","mode":"aggressive","profile":"general","input":"send it to John actually Jane period","expected":"Send it to Jane."}
+{"id":"itn-v1-084","mode":"aggressive","profile":"general","input":"the total is two point five actually three point five","expected":"The total is 3.5"}
+{"id":"itn-v1-085","mode":"aggressive","profile":"general","input":"I actually agree","expected":"I actually agree"}
+{"id":"itn-v1-086","mode":"aggressive","profile":"general","input":"we actually care","expected":"We actually care"}
+{"id":"itn-v1-087","mode":"aggressive","profile":"general","input":"we use the old endpoint never mind the new endpoint","expected":"We use the new endpoint"}
+{"id":"itn-v1-088","mode":"aggressive","profile":"general","input":"open quote I actually agree close quote","expected":"“I actually agree”"}
+{"id":"itn-v1-089","mode":"aggressive","profile":"general","input":"open quote john at example dot com close quote","expected":"“john@example.com”"}
+{"id":"itn-v1-090","mode":"aggressive","profile":"general","input":"keep ACME-123 unchanged","expected":"Keep ACME-123 unchanged"}
+{"id":"itn-v1-091","mode":"aggressive","profile":"general","input":"um at example dot com","expected":"um@example.com"}
+{"id":"itn-v1-092","mode":"aggressive","profile":"general","input":"visit uh dot com","expected":"Visit uh.com"}
+{"id":"itn-v1-093","mode":"aggressive","profile":"general","input":"keep foo.bar unchanged","expected":"Keep foo.bar unchanged"}
+{"id":"itn-v1-094","mode":"aggressive","profile":"general","input":"two reports sent","expected":"Two reports sent","intensity":2}
+{"id":"itn-v1-095","mode":"aggressive","profile":"email","input":"the third draft","expected":"The third draft.","intensity":2}
+{"id":"itn-v1-096","mode":"aggressive","profile":"notes","input":"two reports","expected":"2 reports","intensity":1}
+{"id":"itn-v1-097","mode":"aggressive","profile":"general","input":"twenty reports","expected":"20 reports","intensity":1}
+{"id":"itn-v1-098","mode":"aggressive","profile":"general","input":"phone one one one","expected":"Phone 111","intensity":2}
+{"id":"itn-v1-099","mode":"aggressive","profile":"general","input":"a hundred euros","expected":"€100"}
+{"id":"itn-v1-100","mode":"aggressive","profile":"general","input":"phone double five double zero one two three","expected":"Phone 5500123"}
+{"id":"itn-v1-101","mode":"aggressive","profile":"general","input":"a hundredth of the total","expected":"A hundredth of the total"}
+{"id":"itn-v1-102","mode":"aggressive","profile":"general","input":"per second","expected":"Per second"}

@@ -34,10 +34,47 @@ case. These observations are not hardware-tier or general release-latency claims
 This is a finite deterministic grammar. Unsupported or ambiguous forms can stay
 literal; it does not claim spoken-detail normalization for Bengali/Arabic or all
 languages. Existing Unicode text remains unchanged. Full pipeline integration,
-ordering around repetition/list/command cleanup and sentence-level golden
-acceptance follow in the next change; this parser foundation alone changes no
-running-app behavior. P4.5 remains unchecked.
+ordering and golden coverage are described below. P4.5 remains unchecked while
+code mode, messaging-period behavior, broader restatements and opt-in Enter remain.
 
-Exact parser-snapshot validation: 916 tests pass with four optional native skips
+The isolated parser-foundation snapshot passed 916 tests with four optional native skips
 and real preview/Silero/LID fixtures enabled; rules 90/90; adversarial 100/100;
 Ruff and diff checks pass. The review worktree is retained in QA.
+
+## App integration and ordering
+
+The running rules pipeline now normalizes spoken addresses before filler removal
+and protects the resulting fields. Thus `um at example dot com` remains an
+address instead of losing its local label. List detection separates ordinal,
+explicit-number and cardinal marker families before ordinary number conversion,
+so item counts do not become extra list markers. Explicit single-item bullets
+and numbered commands work; literal “there is a bullet point…” stays prose.
+
+ITN runs before repetition cleanup, preserving every repeated/leading-zero phone
+digit. Generated addresses, versions and quoted details are protected through
+commands, backtracks and punctuation. Restoration unwinds quote and entity layers
+in order. Backtracks retain unaffected original slices and protected/Unicode
+tokens instead of reconstructing text from ASCII words. “I actually agree”,
+several pronoun/adverb contexts and quoted content remain meaningful; “never
+mind” with a replacement is recognized. Broader restatement work still follows.
+
+Default prose intensities match the existing prompt/validator policy: balanced 3,
+aggressive 4. An explicit context intensity controls ITN, prompt hints, validation
+and new History metadata consistently; raw remains 0. The eval corpus can specify
+intensity. Small-number preservation at intensities 1–2 and compact-note behavior
+are tested. The planned full intensity/settings migration remains separate.
+Raw and code paths bypass ITN; Raw plus the legacy code profile now also retains
+repeated words. Existing History rows are not rewritten.
+
+The authored golden corpus grows by 102 cases from 90 to 192, reaching 150 new
+cases across the command/ITN work. Two existing expectations intentionally adopt
+the specified high-intensity numeric style: `three` → `3`, and `first note` →
+`1st note`. Contact fields, dates/times/amounts, list counts, quotes, Native
+Bengali/Arabic text, meaningful adverbs and lower-intensity prose are covered.
+Currency-sign checks now also refuse a dropped sign before a currency symbol or
+separated from its digits; bare-domain/email protection shares the same patterns
+with validation.
+
+Integrated validation: 938 tests pass with four optional native skips and real
+preview/Silero/LID fixtures enabled; rules 192/192; adversarial 100/100; Ruff and
+diff checks pass. There is no new download, cloud request or model-quality claim.

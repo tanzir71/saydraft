@@ -85,3 +85,10 @@ def test_closure_while_cleaning_refuses_late_candidate(tmp_path):
     cleaner._client.clean = late
     assert cleaner.clean("words") == (None, "closed")
 
+
+def test_explicit_context_intensity_overrides_legacy_mode_in_prompt_hints(tmp_path):
+    cleaner, events = make_cleaner(tmp_path)
+    cleaner.clean_with_context("hello world", context=DictationContext(mode="aggressive", intensity=2))
+    assert events[-1][0] == "clean" and events[-1][2]["hints"].intensity == 2
+    cleaner.close()
+
