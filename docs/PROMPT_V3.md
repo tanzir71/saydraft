@@ -28,8 +28,8 @@ legacy rule/restore behavior compatible. The output ceiling is
 `ceil(1.25 × input_tokens) + 16`; streaming inference must also enforce its
 configured cap, completion status and deadline before accepting any text.
 
-Both build entry points collect the two text/JSON prompt resources through
-PyInstaller's package-data helper. Actual collection finds both files. Contract
+Both build entry points collect the three text/JSON prompt resources through
+PyInstaller's package-data helper. Actual collection finds all three files. Contract
 tests cover all styles, untrusted markup/metadata, Unicode, glossary/context
 bounds, full-word preservation, token collisions/order/counts and isolation of
 mutable message lists.
@@ -78,3 +78,32 @@ context-overflow run and an overly strict probe-classifier failure remain in QA.
 
 Validation: 624 tests pass, four optional native skips with real preview/Silero/LID
 enabled; cleanup evaluation 42/42; Ruff and diff checks pass.
+
+## Rules-cleaned input contract
+
+The first full native baseline exposed a mismatch between raw-transcript examples
+and the app's actual rules → model order. Optional model input now declares
+`stage: "rules_cleaned"` from `LocalLLMCleaner.clean_with_context`. A separate set
+of eight demonstrations per style shows remaining grammar edits, preserved
+questions/requests, meaningful actually, paragraphs, lists, protected details and
+uncensored injection-like dictation. Examples preserve the absence of a final
+period; final app formatting owns that policy. The direct compatibility
+`clean(text, tone_hint=...)` interface retains transcript-stage demonstrations.
+Raw/Code continue to bypass model requests.
+
+After complete streaming and protected-token restoration, rules-stage replies
+also pass finite structure guards before the existing meaning/detail validator.
+Lost or changed line breaks, blank paragraphs, indentation/list prefixes,
+questions/exclamations/ellipses or existing terminal punctuation cause refusal
+and intact rules fallback. Guards compare structure rather than a golden string;
+ordinary grammar edits can still pass. They do not prove semantic equivalence,
+enforce every interior punctuation choice or rewrite rejected output. An added
+final period still reaches the strict golden oracle; prompting alone is not an
+acceptance guarantee. Refusal reasons remain visible in History and bake-off rows.
+
+Validation: 1317 tests pass with four optional native skips and local
+Silero/preview/language-ID fixtures; rules 432/432; authored adversarial 100/100;
+Ruff/diff and all three packaged prompt resources pass. Regression cases include
+the observed native paragraph/list/question/ellipsis failures, Arabic/Bengali
+punctuation, CRLF, indentation and trailing blank lines. A full native rerun must
+measure accepted output and fallback separately before any model promotion.

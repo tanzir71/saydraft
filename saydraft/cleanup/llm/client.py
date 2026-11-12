@@ -8,6 +8,7 @@ from dataclasses import dataclass
 from .loopback import LocalHTTPError
 from .prompts import bridge_protected, build_messages, output_token_limit
 from .streaming import read_completion
+from .structure import rule_structure_reason
 
 
 @dataclass(frozen=True)
@@ -66,4 +67,8 @@ class CleanupClient:
         restored = protected.restore(candidate.strip())
         if restored is None:
             return CleanupReply(None, "protected_changed", **counts)
+        if hints is not None and hints.post_rules:
+            reason = rule_structure_reason(text, restored)
+            if reason:
+                return CleanupReply(None, reason, **counts)
         return CleanupReply(restored, "ok", **counts)

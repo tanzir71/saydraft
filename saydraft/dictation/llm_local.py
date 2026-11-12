@@ -94,7 +94,7 @@ class LocalLLMCleaner:
         tone = {"email": "formal", "chat": "casual"}.get(context.profile, "neutral")
         hints = PromptHints(app=context.app_title or "", group=context.app_group, style=tone,
             intensity=context.intensity if context.intensity is not None else 4 if context.mode == "aggressive" else 3,
-            language=context.language, before_caret=context.before_caret)
+            language=context.language, before_caret=context.before_caret, post_rules=True)
         return self._clean(text, hints, glossary)
 
     def clean(self, text: str, *, tone_hint: str = "neutral") -> Tuple[Optional[str], str]:

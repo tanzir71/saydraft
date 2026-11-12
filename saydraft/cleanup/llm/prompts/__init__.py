@@ -25,9 +25,11 @@ class PromptHints:
     intensity: int = 3
     language: str = "auto"
     before_caret: str = ""
+    post_rules: bool = False
 
     def __post_init__(self):
-        if self.style not in STYLES or type(self.intensity) is not int or not 1 <= self.intensity <= 4:
+        if (self.style not in STYLES or type(self.intensity) is not int or not 1 <= self.intensity <= 4
+                or type(self.post_rules) is not bool):
             raise ValueError("Unsupported cleanup style or intensity")
 
 
@@ -43,7 +45,8 @@ def _text(value, limit, *, tail=False):
 def user_message(text, hints, glossary=()):
     fields = {"app": _text(hints.app, 120), "group": _text(hints.group, 40),
               "style": hints.style, "intensity": hints.intensity, "lang": _text(hints.language, 24),
-              "before_caret": _text(hints.before_caret, 120, tail=True)}
+              "before_caret": _text(hints.before_caret, 120, tail=True),
+              "stage": "rules_cleaned" if hints.post_rules else "transcript"}
     header = "[" + " | ".join(f"{key}: {_json(value)}" for key, value in fields.items()) + "]"
     terms, seen = [], set()
     for term in islice(glossary, 200):
@@ -63,16 +66,24 @@ def _resources():
         (root / "examples.json").read_text(encoding="utf-8"))
 
 
+@lru_cache(maxsize=1)
+def _post_rules_examples():
+    return json.loads((Path(__file__).resolve().parent / "post_rules_examples.json").read_text(encoding="utf-8"))
+
+
 def build_messages(text, *, hints=None, glossary=()):
     hints = hints or PromptHints()
     system, examples = _resources()
+    if hints.post_rules:
+        examples = _post_rules_examples()
     messages = [{"role": "system", "content": system}]
     for example in examples:
         output = example.get(hints.style, example.get("output", ""))
-        if hints.style in ("casual", "very_casual"):
+        if not hints.post_rules and hints.style in ("casual", "very_casual"):
             output = output.removesuffix(".")
         messages.extend((
-            {"role": "user", "content": user_message(example["input"], PromptHints(style=hints.style))},
+            {"role": "user", "content": user_message(example["input"],
+                PromptHints(style=hints.style, post_rules=hints.post_rules))},
             {"role": "assistant", "content": output}))
     messages.append({"role": "user", "content": user_message(text, hints, glossary)})
     return messages
