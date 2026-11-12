@@ -202,3 +202,11 @@ window destruction are observed. It also verifies that the real focus property
 refuses the inactive fixture; fixture focus selection is deliberately injected.
 No active application, real clipboard, microphone, ASR, OS input or hooks are used.
 Per-method timings diagnose this probe and establish no parity latency claim.
+
+Clean immutable `db3db47` passes both composed cases with one exact History row
+each, zero password text reads/deliveries, one plain delivery and observed
+serial/MTA/window retirement. The original clean report plus initial refusal,
+uncached timing and first passing reports/digests are retained in
+`eval/hardware/results/2026-11-12-uia-app/`. Full local suite: 1812 pass, five
+explicit native/model skips; rules 432/432, authored adversarial 100/100 and
+Ruff/diff pass. Active-field manual acceptance remains open.

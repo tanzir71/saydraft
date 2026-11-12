@@ -1,0 +1,163 @@
+{
+  "git_commit": "abf82be98be6c90714e736ce9bd345258adc9d1f",
+  "source_dirty": true,
+  "active_application_read": false,
+  "input_injected": false,
+  "owner_clipboard_accessed": false,
+  "asr_performed": false,
+  "microphone_used": false,
+  "hooks_started": false,
+  "delivery": "checked in-memory clipboard/keyboard stub; authored transcript",
+  "cases": [
+    {
+      "password_case": true,
+      "native_calls": [
+        {
+          "method": "focused_element",
+          "seconds": 0.06369209999684244
+        },
+        {
+          "method": "belongs",
+          "seconds": 0.00010199999087490141
+        },
+        {
+          "method": "password",
+          "seconds": 1.8099992303177714e-05
+        }
+      ],
+      "stage": "complete",
+      "unfocused_fixture_refused": true,
+      "captured_status": "password",
+      "history_rows": 1,
+      "raw_clean_exact": true,
+      "status": "not_inserted",
+      "reason": "password_field",
+      "deliveries": 0,
+      "text_read_attempts": 0,
+      "memory_clipboard_restored": true,
+      "serial_closed": true,
+      "mta_closed": true,
+      "worker_busy": false,
+      "errors": 0,
+      "complete": true
+    },
+    {
+      "password_case": false,
+      "native_calls": [
+        {
+          "method": "focused_element",
+          "seconds": 0.07614289998309687
+        },
+        {
+          "method": "belongs",
+          "seconds": 0.00015780000831000507
+        },
+        {
+          "method": "password",
+          "seconds": 1.819999306462705e-05
+        },
+        {
+          "method": "control_type",
+          "seconds": 9.300012607127428e-06
+        },
+        {
+          "method": "runtime_id",
+          "seconds": 0.00018259999342262745
+        },
+        {
+          "method": "fresh_password",
+          "seconds": 0.016248200001427904
+        },
+        {
+          "method": "same_focus",
+          "seconds": 0.00012130002141930163
+        },
+        {
+          "method": "text_context",
+          "seconds": 0.11165999999502674
+        },
+        {
+          "method": "fresh_password",
+          "seconds": 0.030758399982005358
+        },
+        {
+          "method": "same_focus",
+          "seconds": 6.269998266361654e-05
+        },
+        {
+          "method": "focused_element",
+          "seconds": 0.07567439999547787
+        },
+        {
+          "method": "belongs",
+          "seconds": 6.520000169984996e-05
+        },
+        {
+          "method": "password",
+          "seconds": 1.6699981642886996e-05
+        },
+        {
+          "method": "control_type",
+          "seconds": 1.37000170070678e-05
+        },
+        {
+          "method": "runtime_id",
+          "seconds": 7.88999896030873e-05
+        },
+        {
+          "method": "fresh_password",
+          "seconds": 0.015539300016826019
+        },
+        {
+          "method": "same_focus",
+          "seconds": 8.019999950192869e-05
+        },
+        {
+          "method": "focused_element",
+          "seconds": 0.06657170000835322
+        },
+        {
+          "method": "belongs",
+          "seconds": 6.660001236014068e-05
+        },
+        {
+          "method": "password",
+          "seconds": 1.6300007700920105e-05
+        },
+        {
+          "method": "control_type",
+          "seconds": 1.0000017937272787e-05
+        },
+        {
+          "method": "runtime_id",
+          "seconds": 6.590000702999532e-05
+        },
+        {
+          "method": "fresh_password",
+          "seconds": 0.015120099997147918
+        },
+        {
+          "method": "same_focus",
+          "seconds": 4.010001430287957e-05
+        }
+      ],
+      "stage": "complete",
+      "unfocused_fixture_refused": true,
+      "captured_status": "ok",
+      "history_rows": 1,
+      "raw_clean_exact": true,
+      "status": "inserted",
+      "reason": "",
+      "deliveries": 1,
+      "text_read_attempts": 1,
+      "memory_clipboard_restored": true,
+      "serial_closed": true,
+      "mta_closed": true,
+      "worker_busy": false,
+      "errors": 0,
+      "complete": true
+    }
+  ],
+  "own_windows_closed": true,
+  "probe_complete": true
+}

@@ -1,0 +1,165 @@
+{
+  "git_commit": "db3db475f843f53d74a158ae45008a669c2319a4",
+  "source_dirty": false,
+  "active_application_read": false,
+  "input_injected": false,
+  "owner_clipboard_accessed": false,
+  "asr_performed": false,
+  "microphone_used": false,
+  "hooks_started": false,
+  "delivery": "checked in-memory clipboard/keyboard stub; authored transcript",
+  "cases": [
+    {
+      "password_case": true,
+      "native_calls": [
+        {
+          "method": "focused_element",
+          "seconds": 0.06417759999749251
+        },
+        {
+          "method": "belongs",
+          "seconds": 6.33999879937619e-05
+        },
+        {
+          "method": "password",
+          "seconds": 1.4400022337213159e-05
+        }
+      ],
+      "stage": "complete",
+      "focus_property_supported": true,
+      "unfocused_fixture_refused": true,
+      "captured_status": "password",
+      "history_rows": 1,
+      "raw_clean_exact": true,
+      "status": "not_inserted",
+      "reason": "password_field",
+      "deliveries": 0,
+      "text_read_attempts": 0,
+      "memory_clipboard_restored": true,
+      "serial_closed": true,
+      "mta_closed": true,
+      "worker_busy": false,
+      "errors": 0,
+      "complete": true
+    },
+    {
+      "password_case": false,
+      "native_calls": [
+        {
+          "method": "focused_element",
+          "seconds": 0.06692199999815784
+        },
+        {
+          "method": "belongs",
+          "seconds": 8.880000677891076e-05
+        },
+        {
+          "method": "password",
+          "seconds": 2.829998265951872e-05
+        },
+        {
+          "method": "control_type",
+          "seconds": 3.479997394606471e-05
+        },
+        {
+          "method": "runtime_id",
+          "seconds": 0.00011130000348202884
+        },
+        {
+          "method": "fresh_password",
+          "seconds": 0.015897300007054582
+        },
+        {
+          "method": "same_focus",
+          "seconds": 6.53000024612993e-05
+        },
+        {
+          "method": "text_context",
+          "seconds": 0.10642769999685697
+        },
+        {
+          "method": "fresh_password",
+          "seconds": 0.029210599983343855
+        },
+        {
+          "method": "same_focus",
+          "seconds": 3.0800001695752144e-05
+        },
+        {
+          "method": "focused_element",
+          "seconds": 0.06578289999742992
+        },
+        {
+          "method": "belongs",
+          "seconds": 5.190001684240997e-05
+        },
+        {
+          "method": "password",
+          "seconds": 1.170000177808106e-05
+        },
+        {
+          "method": "control_type",
+          "seconds": 1.0299991117790341e-05
+        },
+        {
+          "method": "runtime_id",
+          "seconds": 6.130000110715628e-05
+        },
+        {
+          "method": "fresh_password",
+          "seconds": 0.015541800006758422
+        },
+        {
+          "method": "same_focus",
+          "seconds": 3.540000761859119e-05
+        },
+        {
+          "method": "focused_element",
+          "seconds": 0.0637251999869477
+        },
+        {
+          "method": "belongs",
+          "seconds": 6.2700011767447e-05
+        },
+        {
+          "method": "password",
+          "seconds": 1.3600016245618463e-05
+        },
+        {
+          "method": "control_type",
+          "seconds": 9.500014130026102e-06
+        },
+        {
+          "method": "runtime_id",
+          "seconds": 6.44999963697046e-05
+        },
+        {
+          "method": "fresh_password",
+          "seconds": 0.015325099986512214
+        },
+        {
+          "method": "same_focus",
+          "seconds": 2.9799994081258774e-05
+        }
+      ],
+      "stage": "complete",
+      "focus_property_supported": true,
+      "unfocused_fixture_refused": true,
+      "captured_status": "ok",
+      "history_rows": 1,
+      "raw_clean_exact": true,
+      "status": "inserted",
+      "reason": "",
+      "deliveries": 1,
+      "text_read_attempts": 1,
+      "memory_clipboard_restored": true,
+      "serial_closed": true,
+      "mta_closed": true,
+      "worker_busy": false,
+      "errors": 0,
+      "complete": true
+    }
+  ],
+  "own_windows_closed": true,
+  "probe_complete": true
+}

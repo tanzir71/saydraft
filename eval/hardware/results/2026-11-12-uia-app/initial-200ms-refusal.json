@@ -1,0 +1,32 @@
+{
+  "git_commit": "abf82be98be6c90714e736ce9bd345258adc9d1f",
+  "source_dirty": true,
+  "active_application_read": false,
+  "input_injected": false,
+  "owner_clipboard_accessed": false,
+  "asr_performed": false,
+  "microphone_used": false,
+  "hooks_started": false,
+  "delivery": "checked in-memory clipboard/keyboard stub; authored transcript",
+  "cases": [
+    {
+      "password_case": true,
+      "stage": "process",
+      "captured_status": "unavailable",
+      "history_rows": 1,
+      "raw_clean_exact": true,
+      "status": "not_inserted",
+      "reason": "field_unavailable",
+      "deliveries": 0,
+      "text_read_attempts": 0,
+      "memory_clipboard_restored": true,
+      "serial_closed": true,
+      "mta_closed": true,
+      "worker_busy": false,
+      "errors": 0,
+      "error_type": "AssertionError"
+    }
+  ],
+  "error_type": "AssertionError",
+  "probe_complete": false
+}

@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "source_commit": "db3db475f843f53d74a158ae45008a669c2319a4",
+  "scope": "Own invisible fields, bounded UIA, session/rules/SQLite and checked memory delivery only; no active app, actual ASR/microphone, clipboard or OS input acceptance",
+  "reports": [
+    {
+      "file": "report.json",
+      "sha256": "84e186f6c0d9188e547797e18752536648c504156b638d92567b71aba5fdbcf1",
+      "scope": "Clean immutable composed replay"
+    },
+    {
+      "file": "initial-200ms-refusal.json",
+      "sha256": "75c2ff0a3b21ba5368fc23f38b56b58970faa74352dba84070997ab96042fa02",
+      "scope": "Initial conservative refusal; both text versions preserved, no input"
+    },
+    {
+      "file": "uncached-timing.json",
+      "sha256": "ec686aa8dd81472146e0eddd6dd27cc096ff25db475887d976f137493b676028",
+      "scope": "Uncached cross-process timing diagnosis"
+    },
+    {
+      "file": "cached-initial-pass.json",
+      "sha256": "40b9cd1c13290a0d08ff4aa868ea830c28c15de05c4e65cdaaa33c5aa3f8acd4",
+      "scope": "First passing cached replay before clean commit"
+    }
+  ]
+}
