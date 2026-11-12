@@ -14,7 +14,8 @@ thresholds; interactive prediction continues to use the minimum. Below-threshold
 speed does not turn a quality pass into tier acceptance. Sparse CPU model use
 remains explicit, and tier/performance acceptance stays pending when its target is missed.
 
-Policy reports must match current cleanup/dictation/processor source fingerprints.
+Policy reports must match current cleanup/dictation/processor source fingerprints,
+including the shared style policy.
 Forced adversarial reports must match the current preservation guards and prompt
 contract. Source text permits only LF/CRLF variants across checkouts; raw native
 report bytes remain strictly pinned. Source or corpus changes require fresh
@@ -24,10 +25,11 @@ is inferred from a successful quality check.
 Run `python -m tools.check_cleanup_evidence` to assess the retained current
 RPC-window policy reports against the independent forced-model reports. Custom
 indexes can be selected explicitly with `--policy-index` / `--forced-index`.
-The current CPU policy report is correctly refused: it contains zero accepted
-model replies at a 23.44 tok/s median. It proves safe rules fallback and cannot
-complete a hybrid model-quality measurement. The current RTX report contains
-213 accepted replies, but both target recipes are required for a full check.
+The retained 432-case CPU policy report contains zero accepted model replies at
+a 23.44 tok/s median. It proves safe rules fallback and cannot complete a hybrid
+model-quality measurement. The retained RTX report contains 213 accepted replies.
+Both predate the current 556-case corpus, style source and prompt contract and are
+rejected as stale; both target recipes need fresh evidence for a full check.
 
 Mandatory CI wiring remains pending a current CPU hybrid measurement with real
 accepted replies. Existing rules/adversarial thresholds remain enforced in CI.

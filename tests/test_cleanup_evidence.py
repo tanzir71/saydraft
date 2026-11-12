@@ -24,7 +24,10 @@ def fixture(tmp_path):
             report["suites"]["golden"].update(requested=len(golden), completed=len(golden), exact_passes=len(golden))
             # Synthetic source/calibration metadata is local to this test fixture.
             report["source_fingerprints"] = {name.replace("\\", "/"): hashlib.sha256((evidence.ROOT / name).read_bytes()).hexdigest()
-                for name in report["source_fingerprints"] if (evidence.ROOT / name).exists()}
+                for name in set(report["source_fingerprints"]) | evidence.REQUIRED if (evidence.ROOT / name).exists()}
+            report["prompt_sha256"] = {name: hashlib.sha256(
+                (evidence.ROOT / "saydraft/cleanup/llm/prompts" / name).read_bytes()).hexdigest()
+                for name in report["prompt_sha256"]}
             if label == "policy":
                 rate = 30 if report["backend"] == "cpu" else 100
                 report["live_decoder_calibration"] = {"tokens_per_sample": 60, "sample_count": 3,
@@ -67,6 +70,8 @@ def test_retained_hybrid_and_forced_model_evidence_are_checked_separately(tmp_pa
     (lambda report: report.update(native_exit_observed=[False]), "Native exit"),
     (lambda report: report["live_decoder_calibration"].update(tokens_per_second=[0, 24, 30]), "Invalid live decoder"),
     (lambda report: report["source_fingerprints"].update({"saydraft/cleanup/llm/client.py": "0" * 64}), "Stale cleanup"),
+    (lambda report: report["source_fingerprints"].pop("saydraft/cleanup/styles.py"), "Missing evidence source"),
+    (lambda report: report["prompt_sha256"].update({"system.txt": "0" * 64}), "Stale cleanup prompts"),
     (lambda report: report["source_fingerprints"].update({"saydraft/cleanup/../../../outside.py": "0" * 64}), "Unsafe evidence"),
 ])
 def test_semantically_invalid_evidence_fails_even_with_a_matching_file_digest(tmp_path, operation, reason):

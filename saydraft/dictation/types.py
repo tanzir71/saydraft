@@ -26,4 +26,5 @@ class DictationContext:
     source_initial_lower: str = ""
     literal_prefix: bool = False
     selection_truncated: bool = False
+    tone: Optional[str] = None
 

@@ -247,7 +247,8 @@ class SessionWorker:
             with self._lock:
                 if self._cancel_request.is_set() or self._closing or self._pending_config is not None:
                     return False
-                context = select_context(services.config, services.profiles, target.app_title)
+                context = select_context(services.config, services.profiles, target.app_title,
+                    app_group=target.app_group, app_exe=target.app_exe, app_site=target.app_site)
                 self.session.dispatch(Input.START)
                 generation = self.session.session_id
                 self._target = target
@@ -598,7 +599,8 @@ class SessionWorker:
             target = TargetContext(app_title=row.app_name, app_exe=row.app_exe or "",
                                    app_group=row.app_group or "general")
             result = self.services.processor.process(
-                raw, target=target, context=DictationContext(row.mode, row.profile, row.app_name),
+                raw, target=target, context=DictationContext(row.mode, row.profile, row.app_name,
+                    tone=row.style, intensity=row.intensity),
                 model=asr.model_id, duration_seconds=len(audio) / rate,
                 language=getattr(asr, "last_language", None) or "auto",
                 insert_text=False, audio_path=row.audio_path,

@@ -14,7 +14,7 @@ def release_worker(*, queue_delay=0, recorder_delay=0, asr_delay=0):
     worker, _unused_clock, executor, events, signals, _ = make_worker(queued=True, processor=processor)
     worker.session = DictationSession(clock=lambda: clock.now)
     # Match the actual captured context, as background preparation does in production.
-    assert client.prepare_prompt(app="Notepad").reason == "prepared"
+    assert client.prepare_prompt(app="Notepad", style="casual").reason == "prepared"
     model.requests.clear()
     timeouts.clear()
     original_stop = worker.services.recorder.stop

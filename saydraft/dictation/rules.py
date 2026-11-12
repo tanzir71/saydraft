@@ -221,8 +221,8 @@ def basic_grammar(text: str) -> str:
         return text
 
     text = re.sub(
-        r"(^|[.!?]\s+|\n+[ \t]*)([([“]*)([a-z])",
-        lambda match: match.group(1) + match.group(2) + match.group(3).upper(),
+        r"(^|[.!?]\s+|\n+[ \t]*)([([“]*)([a-z][\w'’]*)",
+        lambda match: match[1] + match[2] + _capitalize_item(match[3]),
         text,
     )
     text = re.sub(r"[ \t\f\v]+", " ", text)
@@ -264,7 +264,7 @@ def apply_self_corrections(text: str) -> str:
     return restore_spans(repair_backtracks(protected), mapping)
 
 
-def maybe_format_list(text: str) -> str:
+def maybe_format_list(text: str, *, capitalize_items: bool = True) -> str:
     if not text:
         return text
     lowered = text.lower()
@@ -277,9 +277,9 @@ def maybe_format_list(text: str) -> str:
             items = [p.strip(" ,.-\n\t") for p in parts if p.strip(" ,.-\n\t")]
             if items:
                 header = prefix + "\n" if prefix else ""
-                return header + "\n".join(f"- {_capitalize_item(i)}" for i in items)
+                return header + "\n".join(f"- {_capitalize_item(i) if capitalize_items else i}" for i in items)
 
-    numbered = _format_numbered_list(text)
+    numbered = _format_numbered_list(text, capitalize_items=capitalize_items)
     return numbered if numbered is not None else text
 
 
@@ -324,7 +324,7 @@ NUMBER_MARKER_RE = re.compile(
 )
 
 
-def _format_numbered_list(text: str) -> str | None:
+def _format_numbered_list(text: str, *, capitalize_items: bool = True) -> str | None:
     matches = list(NUMBER_MARKER_RE.finditer(text))
     if not matches:
         return None
@@ -366,7 +366,7 @@ def _format_numbered_list(text: str) -> str | None:
             return None
         items.append(item)
 
-    return "\n".join(f"{number}. {_capitalize_item(item)}" for number, item in zip(numbers, items))
+    return "\n".join(f"{number}. {_capitalize_item(item) if capitalize_items else item}" for number, item in zip(numbers, items))
 
 
 def _marker_number(match: re.Match[str]) -> int:
@@ -376,7 +376,11 @@ def _marker_number(match: re.Match[str]) -> int:
 def _capitalize_item(item: str) -> str:
     if not item:
         return item
-    return item[0].upper() + item[1:]
+    initial = item[0].upper()
+    first = item.split(maxsplit=1)[0]
+    if len(initial) != 1 or any(char.isupper() for char in first[1:]):
+        return item
+    return initial + item[1:]
 
 
 def normalize_punctuation(text: str, final_period: bool) -> str:
@@ -403,7 +407,7 @@ def apply_rules(text: str, options: RuleOptions) -> str:
         out = remove_fillers(out, aggressive=options.aggressive_fillers)
     structured_list = False
     if options.enable_list_formatting:
-        formatted = maybe_format_list(out)
+        formatted = maybe_format_list(out, capitalize_items=options.normalize_capitalization)
         structured_list, out = formatted != out, formatted
     entities = {}
     if options.normalize_itn:
@@ -414,8 +418,8 @@ def apply_rules(text: str, options: RuleOptions) -> str:
             out, convert_newlines=options.convert_spoken_newlines,
             convert_punctuation=options.convert_spoken_punctuation)
     if options.normalize_capitalization:
-        out = re.sub(r"(^|[.!?]\s+|\n+[ \t]*)([([“]+)([a-z])",
-                     lambda match: match[1] + match[2] + match[3].upper(), out)
+        out = re.sub(r"(^|[.!?]\s+|\n+[ \t]*)([([“]+)([a-z][\w'’]*)",
+                     lambda match: match[1] + match[2] + _capitalize_item(match[3]), out)
     reserved = re.findall(r"__(?:GLOSSARY|SPAN)_\d+__", out)
     out, generated_spans = protect_spans(out, protected_tokens=reserved)
     if options.handle_self_corrections:

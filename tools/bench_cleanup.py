@@ -89,12 +89,15 @@ def prepare_policy_case(case, local):
     if case.mode == "raw" or case.profile == "code/comments" or case.app_group == "code":
         return {"bypassed": True}
     context = DictationContext(mode=case.mode, profile=case.profile, app_title=case.app_title,
-                               app_group=case.app_group)
+                               app_group=case.app_group, tone=case.tone, intensity=case.intensity)
+    from saydraft.cleanup.styles import style_for
+    if style_for(context).intensity == 1:
+        return {"bypassed": True}
     started = time.perf_counter()
     requested = local.warm_for_context(context)
     preparation = local._preparation
     settled = requested and preparation is not None and preparation.wait(185)
-    hints = PromptHints(style={"email": "formal", "chat": "casual"}.get(case.profile, "neutral"),
+    hints = PromptHints(style=style_for(context).tone,
                         post_rules=True, app=case.app_title or "", group=case.app_group)
     if not settled or not preparation.ready(hints):
         raise RuntimeError("Interactive policy preparation unavailable")
@@ -137,8 +140,8 @@ def main(argv=None):
             or args.device and (args.backend != "vulkan" or not re.fullmatch(r"Vulkan\d+", args.device))):
         parser.error("Windows, valid bounded measurements, and a matching Vulkan device are required")
     golden, adversarial = load_eval_corpus(args.golden), load_cases(args.adversarial)
-    if not args.limit and (len(golden) < 432 or len(adversarial) < 100):
-        parser.error("full runs require at least 432 golden/100 adversarial cases; use --limit for debug")
+    if not args.limit and (len(golden) < 556 or len(adversarial) < 100):
+        parser.error("full runs require at least 556 golden/100 adversarial cases; use --limit for debug")
     if not args.limit and args.throughput_repeats < 3:
         parser.error("full runs require at least three 60-token throughput samples")
     status = subprocess.check_output(["git", "status", "--porcelain", "--untracked-files=normal",

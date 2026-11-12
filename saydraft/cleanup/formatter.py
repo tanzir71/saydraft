@@ -9,6 +9,7 @@ from dataclasses import replace
 from typing import TYPE_CHECKING
 
 from saydraft.text_entities import ABBREVIATION
+from .styles import style_for
 
 if TYPE_CHECKING:
     from saydraft.dictation.types import DictationContext
@@ -102,7 +103,7 @@ def caret_layout(text: str, context: DictationContext, *, glossary: Glossary | N
     left_fragment = bool(selection and before and _wordish(before[-1]) and _wordish(selection[0]))
     right_fragment = bool(selection and after and _wordish(selection[-1]) and _wordish(after[0]))
     first = _FIRST_WORD.match(text)
-    if before_ok and first and not context.literal_prefix:
+    if before_ok and first and not context.literal_prefix and style_for(context).tone != "very_casual":
         from saydraft.dictation.glossary import protect_terms
         from saydraft.dictation.protect import protect_spans
         view = protect_terms(text, glossary)[0] if glossary is not None else text
@@ -145,7 +146,7 @@ def final_punctuation(text: str, context: DictationContext, *,
     suffix = text[len(body):]
     if not body:
         return text
-    if context.profile == "email":
+    if context.profile == "email" or style_for(context).tone == "formal":
         # Inspect restored punctuation: a quote, abbreviation or Unicode stop may
         # already terminate the sentence. Lists keep their existing layout.
         terminal = body.rstrip(_CLOSERS)

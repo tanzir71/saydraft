@@ -10,7 +10,7 @@ def test_eval_corpus_has_required_size_and_coverage():
 
     cases = load_eval_corpus(DEFAULT_CORPUS_PATH)
 
-    assert len(cases) >= 472
+    assert len(cases) >= 556
     assert sum(case.before_caret_known and case.selection_known for case in cases) >= 30
     assert any(len(case.input_text.split()) >= 120 for case in cases)
     assert any(case.snippets for case in cases)
@@ -76,7 +76,7 @@ def test_full_app_context_reaches_actual_code_path_and_injected_pipeline(tmp_pat
 @pytest.mark.parametrize("changes", [
     {"id": ""}, {"input": 2}, {"expected": None}, {"mode": "unknown"}, {"profile": "unknown"},
     {"intensity": True}, {"intensity": 0}, {"intensity": 5}, {"app_group": []}, {"before_caret": None},
-    {"app_goup": "code"},
+    {"app_goup": "code"}, {"tone": "invented"}, {"tone": []},
     {"before_caret_known": 1}, {"selection_known": "yes"}, {"after_caret_known": None},
     {"selection": []}, {"after_caret": 1}, {"after_caret": "ab"},
     {"after_caret": "\ud800"}, {"selection_truncated": 1},

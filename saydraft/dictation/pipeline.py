@@ -6,19 +6,13 @@ from typing import Optional
 
 from saydraft.cleanup.code_mode import render_code
 from saydraft.cleanup.formatter import caret_layout, final_punctuation, layout_hints
+from saydraft.cleanup.styles import rule_options, style_for
 from .glossary import Glossary, apply_replacements, learn_word, load_glossary, protect_terms, restore_terms
 from .llm_local import LocalLLMConfig, LocalLLMCleaner
 from .protect import protect_spans, restore_spans
-from .rules import RuleOptions, apply_rules
+from .rules import apply_rules
 from .types import DictationContext
 from .validation import validate_llm_output
-
-PROFILE_TONE_HINTS = {
-    "email": "formal",
-    "chat": "casual",
-    "notes": "terse",
-}
-
 
 @dataclass(frozen=True)
 class DictationConfig:
@@ -27,60 +21,7 @@ class DictationConfig:
     drop_message_period: bool = True
 
 
-def _options_for(context: DictationContext) -> RuleOptions:
-    if context.mode == "raw":
-        return RuleOptions(
-            remove_fillers=False,
-            remove_repetitions=False,
-            handle_self_corrections=False,
-            normalize_punctuation=False,
-            normalize_capitalization=False,
-            normalize_whitespace=True,
-            enable_list_formatting=False,
-            convert_spoken_punctuation=False,
-            convert_spoken_newlines=False,
-            final_period=False,
-        )
-
-    enable_list = context.profile in ("notes", "email")
-    newlines = context.profile in ("notes", "email")
-
-    if context.mode == "aggressive":
-        return RuleOptions(
-            remove_fillers=True,
-            aggressive_fillers=True,
-            remove_repetitions=True,
-            handle_self_corrections=True,
-            normalize_punctuation=True,
-            normalize_capitalization=True,
-            normalize_whitespace=True,
-            enable_list_formatting=enable_list,
-            convert_spoken_punctuation=True,
-            convert_spoken_newlines=newlines,
-            final_period=False,
-            normalize_itn=True, intensity=context.intensity if context.intensity is not None else 4,
-            number_style="compact" if context.profile == "notes" else "prose",
-        )
-
-    return RuleOptions(
-        remove_fillers=True,
-        aggressive_fillers=False,
-        remove_repetitions=True,
-        handle_self_corrections=False,
-        normalize_punctuation=True,
-        normalize_capitalization=True,
-        normalize_whitespace=True,
-        enable_list_formatting=enable_list,
-        convert_spoken_punctuation=False,
-        convert_spoken_newlines=newlines,
-        final_period=False,
-        normalize_itn=True, intensity=context.intensity if context.intensity is not None else 3,
-        number_style="compact" if context.profile == "notes" else "prose",
-    )
-
-
-def _tone_hint_for(context: DictationContext) -> str:
-    return PROFILE_TONE_HINTS.get(context.profile, "neutral")
+_options_for = rule_options  # Compatibility for callers of the former private helper.
 
 
 class DictationPipeline:
@@ -99,7 +40,8 @@ class DictationPipeline:
         return warm() if warm is not None else False
 
     def warm_for_context(self, context):
-        if context.mode == "raw" or context.profile == "code/comments" or context.app_group == "code":
+        if (context.mode == "raw" or context.profile == "code/comments" or context.app_group == "code"
+                or style_for(context).intensity == 1):
             return False
         warm = getattr(self.llm, "warm_for_context", None)
         return warm(context) if warm is not None else self.warm()
@@ -151,10 +93,12 @@ class DictationPipeline:
         rule_clean = render_code(protected_text) if code else apply_rules(protected_text, _options_for(context))
         self.last_timings["rules"] = time.perf_counter() - rules_started
 
-        if context.mode == "raw" or context.profile == "code/comments" or context.app_group == "code":
-            self.last_llm_decision = "bypassed"
+        bypass = context.mode == "raw" or code
+        if bypass or style_for(context).intensity == 1:
+            self.last_llm_decision = "bypassed" if bypass else "skip_verbatim"
             out = restore_spans(rule_clean, span_mapping)
-            return restore_terms(out, mapping)
+            out = restore_terms(out, mapping)
+            return self.format_final(out, layout_hints(context, raw_text, out)) if not bypass and finalize else out
 
         llm_ok_text: Optional[str] = None
         llm_started = time.perf_counter()
@@ -168,11 +112,11 @@ class DictationPipeline:
                 candidate, status = contextual(rule_clean, context=context,
                     glossary=(*self.glossary.user_terms, *self.glossary.protected_terms))
             else:
-                candidate, status = self.llm.clean(rule_clean, tone_hint=_tone_hint_for(context))
+                candidate, status = self.llm.clean(rule_clean, tone_hint=style_for(context).tone)
             self.last_llm_decision = status
             if candidate:
                 validation = validate_llm_output(rule_clean, candidate, mode=context.mode,
-                    glossary=(*self.glossary.user_terms, *self.glossary.protected_terms), intensity=context.intensity)
+                    glossary=(*self.glossary.user_terms, *self.glossary.protected_terms), intensity=style_for(context).intensity)
                 if validation.ok:
                     llm_ok_text = candidate
                     self.last_llm_decision = "accepted"

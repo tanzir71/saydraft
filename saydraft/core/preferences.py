@@ -10,6 +10,8 @@ from pathlib import Path
 from saydraft.dictation.types import DictationContext
 from saydraft.paths import resolve_data_path
 from saydraft.text_boundaries import whole_word_match
+from saydraft.cleanup.styles import select_style, style_fields
+from saydraft.context.app_groups import matches_app
 
 logger = logging.getLogger(__name__)
 
@@ -79,20 +81,29 @@ def expand_snippets(text: str, snippets: dict[str, str]) -> str:
     return re.sub(pattern, lambda match: snippets[match[0].casefold()], text, flags=re.IGNORECASE)
 
 
-def select_context(config: dict, profiles: list[dict], title: str | None) -> DictationContext:
+def select_context(config: dict, profiles: list[dict], title: str | None, *,
+                   app_group="general", app_exe="", app_site="") -> DictationContext:
     options = dict(config["dictation"])
-    if title:
-        for entry in profiles:
-            match = entry.get("match")
-            if isinstance(match, str) and match and match.casefold() in title.casefold():
-                options.update({key: entry[key] for key in ("mode", "profile") if entry.get(key)})
-                break
+    override = {}
+    for entry in profiles[:128]:
+        if not matches_app(entry, app_exe, app_site, title=title, allow_title=True):
+            continue
+        legacy = {key: entry[key].lower() for key, allowed in (
+            ("mode", {"raw", "balanced", "aggressive"}),
+            ("profile", {"general", "email", "chat", "notes", "code/comments"}))
+            if isinstance(entry.get(key), str) and entry[key].lower() in allowed}
+        if style_fields(entry) or legacy:
+            override = entry
+            options.update(legacy)
+            break
     mode = options.get("mode", "balanced")
     profile = options.get("profile", "general")
     mode = mode.lower() if isinstance(mode, str) else "balanced"
     profile = profile.lower() if isinstance(profile, str) else "general"
+    mode = mode if mode in {"raw", "balanced", "aggressive"} else "balanced"
+    profile = profile if profile in {"general", "email", "chat", "notes", "code/comments"} else "general"
+    style = select_style({**options, "mode": mode, "profile": profile}, app_group, override)
     return DictationContext(
-        mode=mode if mode in {"raw", "balanced", "aggressive"} else "balanced",
-        profile=profile if profile in {"general", "email", "chat", "notes", "code/comments"} else "general",
-        app_title=title,
+        mode=mode, profile=profile, app_title=title, app_group=app_group,
+        tone=style.tone, intensity=style.intensity,
     )

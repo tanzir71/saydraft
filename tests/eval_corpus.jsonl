@@ -329,8 +329,8 @@
 {"id":"itn-v1-093","mode":"aggressive","profile":"general","input":"keep foo.bar unchanged","expected":"Keep foo.bar unchanged"}
 {"id":"itn-v1-094","mode":"aggressive","profile":"general","input":"two reports sent","expected":"Two reports sent","intensity":2}
 {"id":"itn-v1-095","mode":"aggressive","profile":"email","input":"the third draft","expected":"The third draft.","intensity":2}
-{"id":"itn-v1-096","mode":"aggressive","profile":"notes","input":"two reports","expected":"2 reports","intensity":1}
-{"id":"itn-v1-097","mode":"aggressive","profile":"general","input":"twenty reports","expected":"20 reports","intensity":1}
+{"id":"itn-v1-096","mode":"aggressive","profile":"notes","input":"two reports","expected":"two reports","intensity":1}
+{"id":"itn-v1-097","mode":"aggressive","profile":"general","input":"twenty reports","expected":"twenty reports","intensity":1}
 {"id":"itn-v1-098","mode":"aggressive","profile":"general","input":"phone one one one","expected":"Phone 111","intensity":2}
 {"id":"itn-v1-099","mode":"aggressive","profile":"general","input":"a hundred euros","expected":"€100"}
 {"id":"itn-v1-100","mode":"aggressive","profile":"general","input":"phone double five double zero one two three","expected":"Phone 5500123"}
@@ -470,3 +470,87 @@
 {"id":"caret-v1-038","language":"de","before_caret":"","before_caret_known":true,"selection_known":true,"after_caret_known":true,"input":"ßeta","expected":"ßeta"}
 {"id":"caret-v1-039","before_caret":"a‍","before_caret_known":true,"selection_known":true,"after_caret_known":true,"input":"join","expected":"join"}
 {"id":"caret-v1-040","profile":"notes","before_caret":"Tasks","before_caret_known":true,"selection_known":true,"after_caret_known":true,"input":"bullet point ready","expected":"\n- Ready"}
+{"id":"style-v1-messages-formal-1","input":"um like hello hello world.","expected":"um like hello hello world.","app_group":"messages","tone":"formal","intensity":1}
+{"id":"style-v1-messages-formal-2","input":"um like hello hello world.","expected":"Like hello hello world.","app_group":"messages","tone":"formal","intensity":2}
+{"id":"style-v1-messages-formal-3","input":"um like hello hello world.","expected":"Like hello world.","app_group":"messages","tone":"formal","intensity":3}
+{"id":"style-v1-messages-formal-4","input":"um like hello hello world.","expected":"Hello world.","app_group":"messages","tone":"formal","intensity":4}
+{"id":"style-v1-messages-casual-1","input":"um like hello hello world.","expected":"um like hello hello world","app_group":"messages","tone":"casual","intensity":1}
+{"id":"style-v1-messages-casual-2","input":"um like hello hello world.","expected":"Like hello hello world","app_group":"messages","tone":"casual","intensity":2}
+{"id":"style-v1-messages-casual-3","input":"um like hello hello world.","expected":"Like hello world","app_group":"messages","tone":"casual","intensity":3}
+{"id":"style-v1-messages-casual-4","input":"um like hello hello world.","expected":"Hello world","app_group":"messages","tone":"casual","intensity":4}
+{"id":"style-v1-messages-very_casual-1","input":"um like hello hello world.","expected":"um like hello hello world","app_group":"messages","tone":"very_casual","intensity":1}
+{"id":"style-v1-messages-very_casual-2","input":"um like hello hello world.","expected":"like hello hello world","app_group":"messages","tone":"very_casual","intensity":2}
+{"id":"style-v1-messages-very_casual-3","input":"um like hello hello world.","expected":"like hello world","app_group":"messages","tone":"very_casual","intensity":3}
+{"id":"style-v1-messages-very_casual-4","input":"um like hello hello world.","expected":"hello world","app_group":"messages","tone":"very_casual","intensity":4}
+{"id":"style-v1-work_chat-formal-1","input":"um like hello hello world.","expected":"um like hello hello world.","app_group":"work_chat","tone":"formal","intensity":1}
+{"id":"style-v1-work_chat-formal-2","input":"um like hello hello world.","expected":"Like hello hello world.","app_group":"work_chat","tone":"formal","intensity":2}
+{"id":"style-v1-work_chat-formal-3","input":"um like hello hello world.","expected":"Like hello world.","app_group":"work_chat","tone":"formal","intensity":3}
+{"id":"style-v1-work_chat-formal-4","input":"um like hello hello world.","expected":"Hello world.","app_group":"work_chat","tone":"formal","intensity":4}
+{"id":"style-v1-work_chat-casual-1","input":"um like hello hello world.","expected":"um like hello hello world","app_group":"work_chat","tone":"casual","intensity":1}
+{"id":"style-v1-work_chat-casual-2","input":"um like hello hello world.","expected":"Like hello hello world","app_group":"work_chat","tone":"casual","intensity":2}
+{"id":"style-v1-work_chat-casual-3","input":"um like hello hello world.","expected":"Like hello world","app_group":"work_chat","tone":"casual","intensity":3}
+{"id":"style-v1-work_chat-casual-4","input":"um like hello hello world.","expected":"Hello world","app_group":"work_chat","tone":"casual","intensity":4}
+{"id":"style-v1-work_chat-very_casual-1","input":"um like hello hello world.","expected":"um like hello hello world","app_group":"work_chat","tone":"very_casual","intensity":1}
+{"id":"style-v1-work_chat-very_casual-2","input":"um like hello hello world.","expected":"like hello hello world","app_group":"work_chat","tone":"very_casual","intensity":2}
+{"id":"style-v1-work_chat-very_casual-3","input":"um like hello hello world.","expected":"like hello world","app_group":"work_chat","tone":"very_casual","intensity":3}
+{"id":"style-v1-work_chat-very_casual-4","input":"um like hello hello world.","expected":"hello world","app_group":"work_chat","tone":"very_casual","intensity":4}
+{"id":"style-v1-email-formal-1","input":"um like hello hello world.","expected":"um like hello hello world.","app_group":"email","tone":"formal","intensity":1}
+{"id":"style-v1-email-formal-2","input":"um like hello hello world.","expected":"Like hello hello world.","app_group":"email","tone":"formal","intensity":2}
+{"id":"style-v1-email-formal-3","input":"um like hello hello world.","expected":"Like hello world.","app_group":"email","tone":"formal","intensity":3}
+{"id":"style-v1-email-formal-4","input":"um like hello hello world.","expected":"Hello world.","app_group":"email","tone":"formal","intensity":4}
+{"id":"style-v1-email-casual-1","input":"um like hello hello world.","expected":"um like hello hello world.","app_group":"email","tone":"casual","intensity":1}
+{"id":"style-v1-email-casual-2","input":"um like hello hello world.","expected":"Like hello hello world.","app_group":"email","tone":"casual","intensity":2}
+{"id":"style-v1-email-casual-3","input":"um like hello hello world.","expected":"Like hello world.","app_group":"email","tone":"casual","intensity":3}
+{"id":"style-v1-email-casual-4","input":"um like hello hello world.","expected":"Hello world.","app_group":"email","tone":"casual","intensity":4}
+{"id":"style-v1-email-very_casual-1","input":"um like hello hello world.","expected":"um like hello hello world.","app_group":"email","tone":"very_casual","intensity":1}
+{"id":"style-v1-email-very_casual-2","input":"um like hello hello world.","expected":"like hello hello world.","app_group":"email","tone":"very_casual","intensity":2}
+{"id":"style-v1-email-very_casual-3","input":"um like hello hello world.","expected":"like hello world.","app_group":"email","tone":"very_casual","intensity":3}
+{"id":"style-v1-email-very_casual-4","input":"um like hello hello world.","expected":"hello world.","app_group":"email","tone":"very_casual","intensity":4}
+{"id":"style-v1-docs-formal-1","input":"um like hello hello world.","expected":"um like hello hello world.","app_group":"docs","tone":"formal","intensity":1}
+{"id":"style-v1-docs-formal-2","input":"um like hello hello world.","expected":"Like hello hello world.","app_group":"docs","tone":"formal","intensity":2}
+{"id":"style-v1-docs-formal-3","input":"um like hello hello world.","expected":"Like hello world.","app_group":"docs","tone":"formal","intensity":3}
+{"id":"style-v1-docs-formal-4","input":"um like hello hello world.","expected":"Hello world.","app_group":"docs","tone":"formal","intensity":4}
+{"id":"style-v1-docs-casual-1","input":"um like hello hello world.","expected":"um like hello hello world.","app_group":"docs","tone":"casual","intensity":1}
+{"id":"style-v1-docs-casual-2","input":"um like hello hello world.","expected":"Like hello hello world.","app_group":"docs","tone":"casual","intensity":2}
+{"id":"style-v1-docs-casual-3","input":"um like hello hello world.","expected":"Like hello world.","app_group":"docs","tone":"casual","intensity":3}
+{"id":"style-v1-docs-casual-4","input":"um like hello hello world.","expected":"Hello world.","app_group":"docs","tone":"casual","intensity":4}
+{"id":"style-v1-docs-very_casual-1","input":"um like hello hello world.","expected":"um like hello hello world.","app_group":"docs","tone":"very_casual","intensity":1}
+{"id":"style-v1-docs-very_casual-2","input":"um like hello hello world.","expected":"like hello hello world.","app_group":"docs","tone":"very_casual","intensity":2}
+{"id":"style-v1-docs-very_casual-3","input":"um like hello hello world.","expected":"like hello world.","app_group":"docs","tone":"very_casual","intensity":3}
+{"id":"style-v1-docs-very_casual-4","input":"um like hello hello world.","expected":"hello world.","app_group":"docs","tone":"very_casual","intensity":4}
+{"id":"style-v1-code-formal-1","input":"um like hello hello world.","expected":"um like hello hello world.","app_group":"code","tone":"formal","intensity":1}
+{"id":"style-v1-code-formal-2","input":"um like hello hello world.","expected":"um like hello hello world.","app_group":"code","tone":"formal","intensity":2}
+{"id":"style-v1-code-formal-3","input":"um like hello hello world.","expected":"um like hello hello world.","app_group":"code","tone":"formal","intensity":3}
+{"id":"style-v1-code-formal-4","input":"um like hello hello world.","expected":"um like hello hello world.","app_group":"code","tone":"formal","intensity":4}
+{"id":"style-v1-code-casual-1","input":"um like hello hello world.","expected":"um like hello hello world.","app_group":"code","tone":"casual","intensity":1}
+{"id":"style-v1-code-casual-2","input":"um like hello hello world.","expected":"um like hello hello world.","app_group":"code","tone":"casual","intensity":2}
+{"id":"style-v1-code-casual-3","input":"um like hello hello world.","expected":"um like hello hello world.","app_group":"code","tone":"casual","intensity":3}
+{"id":"style-v1-code-casual-4","input":"um like hello hello world.","expected":"um like hello hello world.","app_group":"code","tone":"casual","intensity":4}
+{"id":"style-v1-code-very_casual-1","input":"um like hello hello world.","expected":"um like hello hello world.","app_group":"code","tone":"very_casual","intensity":1}
+{"id":"style-v1-code-very_casual-2","input":"um like hello hello world.","expected":"um like hello hello world.","app_group":"code","tone":"very_casual","intensity":2}
+{"id":"style-v1-code-very_casual-3","input":"um like hello hello world.","expected":"um like hello hello world.","app_group":"code","tone":"very_casual","intensity":3}
+{"id":"style-v1-code-very_casual-4","input":"um like hello hello world.","expected":"um like hello hello world.","app_group":"code","tone":"very_casual","intensity":4}
+{"id":"style-v1-ai_chat-formal-1","input":"um like hello hello world.","expected":"um like hello hello world.","app_group":"ai_chat","tone":"formal","intensity":1}
+{"id":"style-v1-ai_chat-formal-2","input":"um like hello hello world.","expected":"Like hello hello world.","app_group":"ai_chat","tone":"formal","intensity":2}
+{"id":"style-v1-ai_chat-formal-3","input":"um like hello hello world.","expected":"Like hello world.","app_group":"ai_chat","tone":"formal","intensity":3}
+{"id":"style-v1-ai_chat-formal-4","input":"um like hello hello world.","expected":"Hello world.","app_group":"ai_chat","tone":"formal","intensity":4}
+{"id":"style-v1-ai_chat-casual-1","input":"um like hello hello world.","expected":"um like hello hello world.","app_group":"ai_chat","tone":"casual","intensity":1}
+{"id":"style-v1-ai_chat-casual-2","input":"um like hello hello world.","expected":"Like hello hello world.","app_group":"ai_chat","tone":"casual","intensity":2}
+{"id":"style-v1-ai_chat-casual-3","input":"um like hello hello world.","expected":"Like hello world.","app_group":"ai_chat","tone":"casual","intensity":3}
+{"id":"style-v1-ai_chat-casual-4","input":"um like hello hello world.","expected":"Hello world.","app_group":"ai_chat","tone":"casual","intensity":4}
+{"id":"style-v1-ai_chat-very_casual-1","input":"um like hello hello world.","expected":"um like hello hello world.","app_group":"ai_chat","tone":"very_casual","intensity":1}
+{"id":"style-v1-ai_chat-very_casual-2","input":"um like hello hello world.","expected":"like hello hello world.","app_group":"ai_chat","tone":"very_casual","intensity":2}
+{"id":"style-v1-ai_chat-very_casual-3","input":"um like hello hello world.","expected":"like hello world.","app_group":"ai_chat","tone":"very_casual","intensity":3}
+{"id":"style-v1-ai_chat-very_casual-4","input":"um like hello hello world.","expected":"hello world.","app_group":"ai_chat","tone":"very_casual","intensity":4}
+{"id":"style-v1-general-formal-1","input":"um like hello hello world.","expected":"um like hello hello world.","app_group":"general","tone":"formal","intensity":1}
+{"id":"style-v1-general-formal-2","input":"um like hello hello world.","expected":"Like hello hello world.","app_group":"general","tone":"formal","intensity":2}
+{"id":"style-v1-general-formal-3","input":"um like hello hello world.","expected":"Like hello world.","app_group":"general","tone":"formal","intensity":3}
+{"id":"style-v1-general-formal-4","input":"um like hello hello world.","expected":"Hello world.","app_group":"general","tone":"formal","intensity":4}
+{"id":"style-v1-general-casual-1","input":"um like hello hello world.","expected":"um like hello hello world.","app_group":"general","tone":"casual","intensity":1}
+{"id":"style-v1-general-casual-2","input":"um like hello hello world.","expected":"Like hello hello world.","app_group":"general","tone":"casual","intensity":2}
+{"id":"style-v1-general-casual-3","input":"um like hello hello world.","expected":"Like hello world.","app_group":"general","tone":"casual","intensity":3}
+{"id":"style-v1-general-casual-4","input":"um like hello hello world.","expected":"Hello world.","app_group":"general","tone":"casual","intensity":4}
+{"id":"style-v1-general-very_casual-1","input":"um like hello hello world.","expected":"um like hello hello world.","app_group":"general","tone":"very_casual","intensity":1}
+{"id":"style-v1-general-very_casual-2","input":"um like hello hello world.","expected":"like hello hello world.","app_group":"general","tone":"very_casual","intensity":2}
+{"id":"style-v1-general-very_casual-3","input":"um like hello hello world.","expected":"like hello world.","app_group":"general","tone":"very_casual","intensity":3}
+{"id":"style-v1-general-very_casual-4","input":"um like hello hello world.","expected":"hello world.","app_group":"general","tone":"very_casual","intensity":4}

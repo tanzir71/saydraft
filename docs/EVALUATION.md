@@ -3,10 +3,11 @@
 The rules-only command is:
 
 ```powershell
-python -m saydraft.eval --min-pass-rate 100 --min-cases 472
+python -m saydraft.eval --min-pass-rate 100 --min-cases 556
 ```
 
-CI requires all 472 unique examples to pass, exceeding P4.7's 300-case minimum.
+CI requires all 556 unique examples to pass, exceeding P4.7's 300-case minimum.
+Eighty-four cover the complete app-group/tone/intensity matrix; see [styles](STYLES.md).
 Forty authored caret cases cover P5.4; see [caret formatting](CARET_FORMATTING.md).
 P4.5's deterministic behaviors and snippet/Enter coverage are complete. P4.7
 remains unchecked until the model bake-off establishes §11's rules+LLM threshold
@@ -15,7 +16,7 @@ adversarial command requires at least 100 refusals and a 100% catch rate.
 
 Each JSONL row requires nonblank `id` and string `input`/`expected`. Empty text is
 allowed for intentional empty/verbatim cases. Optional fields are `mode`,
-`profile`, `intensity`, `app_title`, `app_group`, `before_caret`, `language`,
+`profile`, `intensity`, `tone` (formal/casual/very_casual), `app_title`, `app_group`, `before_caret`, `language`,
 `voice_enter_enabled`, `expected_enter`, a string-to-string `snippets` object,
 `before_caret_known`, `selection`, `selection_known`, `selection_truncated`,
 `after_caret` (at most one complete Unicode character) and `after_caret_known`.
@@ -47,7 +48,7 @@ tests prove malformed/duplicate/shrunk datasets cannot claim passing acceptance.
 Passing a context does not prove a future formatter implements its behavior;
 the corresponding authored expected-output cases still have to pass.
 
-Retained 432-case native model reports are historical evidence. They cannot
+Retained 432/472-case native model reports are historical evidence. They cannot
 satisfy current-corpus acceptance; the checker rejects mismatched corpus hashes
 and stale source. Its unit tests generate explicitly synthetic metadata/counts
 inside temporary folders and never rewrite retained reports or earn model credit.

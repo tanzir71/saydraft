@@ -12,6 +12,7 @@ from saydraft.cleanup.llm.prompts import PromptHints, STYLES, user_message
 from saydraft.cleanup.llm.sidecar import SidecarConfig, SidecarManager
 from saydraft.cleanup.llm.preparation import PromptPreparation
 from saydraft.cleanup.llm.gate import MIN_REQUEST_SECONDS, decision, request_timeout, score_need
+from saydraft.cleanup.styles import style_for
 
 logger = logging.getLogger(__name__)
 
@@ -82,9 +83,11 @@ class LocalLLMCleaner:
         return self._warm(PromptHints(post_rules=True))
 
     def warm_for_context(self, context):
-        if context.mode == "raw" or context.profile == "code/comments" or context.app_group == "code":
+        if (context.mode == "raw" or context.profile == "code/comments" or context.app_group == "code"
+                or style_for(context).intensity == 1):
             return False
-        return self._warm(PromptHints(style={"email": "formal", "chat": "casual"}.get(context.profile, "neutral"),
+        return self._warm(PromptHints(style=style_for(context).tone,
+                                      intensity=style_for(context).intensity,
                                       post_rules=True, app=context.app_title or "", group=context.app_group))
 
     def _warm(self, hints):
@@ -170,9 +173,14 @@ class LocalLLMCleaner:
 
     def clean_after_rules(self, text, *, context, raw_text, glossary=()):
         self.last_gate_info = None
-        tone = {"email": "formal", "chat": "casual"}.get(context.profile, "neutral")
+        if context.mode == "raw" or context.profile == "code/comments" or context.app_group == "code":
+            return None, "bypassed"
+        style = style_for(context)
+        if style.intensity == 1:
+            return None, "skip_verbatim"
+        tone = style.tone
         hints = PromptHints(app=context.app_title or "", group=context.app_group, style=tone,
-            intensity=context.intensity if context.intensity is not None else 4 if context.mode == "aggressive" else 3,
+            intensity=style.intensity,
             language=context.language, before_caret=context.before_caret, post_rules=True)
         need = score_need(raw_text, style=tone, intensity=hints.intensity) if (
             self.cfg.budget_gate and self.cfg.prepare_prompt) else None

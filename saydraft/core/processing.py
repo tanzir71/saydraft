@@ -11,6 +11,7 @@ from dataclasses import dataclass, field, replace
 from saydraft.history import HistoryEntry
 from saydraft.cleanup.delivery import DeliveryIntent, trailing_enter
 from saydraft.cleanup.formatter import layout_hints
+from saydraft.cleanup.styles import style_for
 from saydraft.insert.inserter import InsertionResult
 from .interfaces import Cleaner, Formatter, HistoryStore, Inserter, TargetContext, insertion_block
 from .preferences import protect_snippets, restore_snippets
@@ -91,8 +92,7 @@ class TranscriptProcessor:
         entry = HistoryEntry(target.app_title, raw_text, cleaned, context.mode,
                              context.profile, duration_seconds, model,
                              app_exe=target.app_exe, app_group=target.app_group,
-                             intensity=context.intensity if context.intensity is not None else
-                             {"raw": 0, "balanced": 3, "aggressive": 4}.get(context.mode),
+                             style=style_for(context).tone, intensity=style_for(context).intensity,
                              llm_decision=getattr(self.cleaner, "last_llm_decision", None),
                              language=language, asr_model=model, timings_json=json.dumps(stages),
                              audio_path=audio_path, edits_json=json.dumps(notes))

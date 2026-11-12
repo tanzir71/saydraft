@@ -131,7 +131,7 @@ def test_pipeline_passes_profile_tone_hint_to_llm():
     expected_tones = {
         "email": "formal",
         "chat": "casual",
-        "notes": "terse",
+        "notes": "neutral",
         "general": "neutral",
     }
     for profile, expected_tone in expected_tones.items():

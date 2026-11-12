@@ -44,6 +44,7 @@ CONFIG_SCHEMA: dict[str, Any] = {
         "voice_enter_enabled": bool,
         "learn_corrections": bool,
         "auto_add_dictionary": bool,
+        "styles": dict,
     },
     "stt": {
         "routing_enabled": bool,
@@ -112,6 +113,7 @@ _DEFAULT_CONFIG: dict[str, Any] = {
         "voice_enter_enabled": False,
         "learn_corrections": False,
         "auto_add_dictionary": False,
+        "styles": {},
     },
     "stt": {
         "routing_enabled": True,
@@ -228,6 +230,8 @@ def sanitize_config(config: dict[str, Any] | None) -> dict[str, Any]:
         # Old profiles keep their key order and never acquire mouse interception.
         defaults["hotkeys"].update(speech="f9", speech_alternative="ctrl+win", speech_mouse="")
     cfg = _sanitize_mapping(source, CONFIG_SCHEMA, defaults)
+    from .cleanup.styles import sanitize_styles
+    cfg["dictation"]["styles"] = sanitize_styles(cfg["dictation"]["styles"])
     # Existing JSON predates engine selection. Keep its Whisper model preference.
     stt = source.get("stt", {})
     if not isinstance(stt, dict) or stt.get("engine") not in ("whisper", "parakeet"):
@@ -361,6 +365,8 @@ def _matches_schema(value: Any, rule: Any) -> bool:
         if item is str and type(value) is str:
             return True
         if item is list and type(value) is list:
+            return True
+        if item is dict and type(value) is dict:
             return True
     return False
 

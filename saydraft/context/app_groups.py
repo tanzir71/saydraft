@@ -44,21 +44,29 @@ def browser_site(exe, title):
     return suffix if _HOST.fullmatch(suffix) else ""
 
 
+def matches_app(entry, exe="", site="", *, title=None, allow_title=False):
+    if not isinstance(entry, dict):
+        return False
+    expected_exe, expected_site = entry.get("exe"), entry.get("site")
+    if expected_exe is None and expected_site is None:
+        match = entry.get("match")
+        return bool(allow_title and isinstance(match, str) and 0 < len(match) <= 512
+            and isinstance(title, str) and len(title) <= 4096 and match.casefold() in title.casefold())
+    exe = ntpath.basename(exe).casefold()
+    if expected_exe is not None and (not isinstance(expected_exe, str)
+            or not expected_exe or len(expected_exe) > 260 or ntpath.basename(expected_exe) != expected_exe
+            or expected_exe.casefold() != exe):
+        return False
+    if expected_site is not None and (not isinstance(expected_site, str) or not site
+            or not _HOST.fullmatch(expected_site.casefold()) or expected_site.casefold() != site):
+        return False
+    return True
+
+
 def app_group(exe, site="", profiles=()):
     exe = ntpath.basename(exe).casefold()
     for entry in profiles[:128]:
-        if (not isinstance(entry, dict) or not isinstance(entry.get("app_group"), str)
-                or entry["app_group"] not in GROUPS):
-            continue
-        expected_exe, expected_site = entry.get("exe"), entry.get("site")
-        if expected_exe is None and expected_site is None:
-            continue  # Legacy title-only profiles remain separate.
-        if expected_exe is not None and (not isinstance(expected_exe, str)
-                or not expected_exe or len(expected_exe) > 260 or ntpath.basename(expected_exe) != expected_exe
-                or expected_exe.casefold() != exe):
-            continue
-        if expected_site is not None and (not isinstance(expected_site, str)
-                or not site or not _HOST.fullmatch(expected_site.casefold()) or expected_site.casefold() != site):
-            continue
-        return entry["app_group"]
+        if (isinstance(entry, dict) and isinstance(entry.get("app_group"), str)
+                and entry["app_group"] in GROUPS and matches_app(entry, exe, site)):
+            return entry["app_group"]
     return _SITE_GROUPS.get(site, "general") if exe in _BROWSERS else _DEFAULTS.get(exe, "general")

@@ -40,6 +40,6 @@ jobs:
       - name: Unit and offline tests
         run: python -m pytest tests -q -rs
       - name: Cleanup regression evaluation
-        run: python -m saydraft.eval --min-pass-rate 100 --min-cases 472
+        run: python -m saydraft.eval --min-pass-rate 100 --min-cases 556
       - name: Adversarial cleanup validation
         run: python -m saydraft.cleanup.llm.eval_validation --min-catch-rate 100 --min-cases 100

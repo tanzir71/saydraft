@@ -97,7 +97,10 @@ def measure_cases(golden, adversarial, pipeline, observer, *, ready=lambda: True
             check = None if same or bypass else validate_llm_output(rules.cleaned_text, actual.cleaned_text,
                 mode=case.mode, intensity=case.intensity, glossary=terms)
             preserved = action_same and (same if bypass else same or check.ok)
-            style = {"email": "formal", "chat": "casual"}.get(case.profile, "neutral")
+            from saydraft.cleanup.styles import style_for
+            from saydraft.dictation.types import DictationContext
+            style = style_for(DictationContext(mode=case.mode, profile=case.profile,
+                tone=case.tone, intensity=case.intensity)).tone
             relation = None if not observer.calls else "first" if last_style is None else (
                 "style_changed" if style != last_style else "same_style")
             if observer.calls:

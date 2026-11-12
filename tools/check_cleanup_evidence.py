@@ -20,6 +20,7 @@ FORCED_INDEX = ROOT / "eval/cleanup/results/2026-11-12-isolated/index.json"
 REQUIRED = {"saydraft/cleanup/llm/client.py", "saydraft/cleanup/llm/gate.py",
     "saydraft/cleanup/llm/validate.py", "saydraft/dictation/pipeline.py",
     "saydraft/dictation/llm_local.py", "saydraft/core/processing.py", "saydraft/core/preferences.py", "saydraft/eval.py",
+    "saydraft/cleanup/styles.py",
     "saydraft/text_boundaries.py", "saydraft/text_entities.py"}
 GUARDS = {"saydraft/cleanup/llm/validate.py", "saydraft/cleanup/llm/structure.py",
           "saydraft/text_boundaries.py", "saydraft/text_entities.py"}
