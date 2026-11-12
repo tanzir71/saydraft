@@ -110,3 +110,38 @@ authored adversarial checks 100/100, Ruff and diff checks pass. A development
 full run hit three loopback two-second timeouts; all 12 loopback cases then pass
 in isolation and the complete repeat passes. No causal clipboard link is proven;
 both the failed and passing logs remain in build/qa/native-clipboard-app-*.
+
+## Native transaction probe
+
+`tools.probe_native_clipboard` runs ten real Windows clipboard transactions with
+RTF, a DIB image and Unicode text. The normal processing pipeline persists each
+public fixture in SQLite before a checked clipboard-reading delivery stub. It
+requires exact restoration and private History Copy. It performs no ASR, OS key
+injection, actual target paste or Win+V inspection.
+
+By default it creates a separate invisible window station/desktop, never opening
+the owner's clipboard. Microsoft's [CreateWindowStation rules](https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-createwindowstationw)
+reserve named creation for administrators; CWF_CREATE_ONLY prevents opening an
+existing station. This account refuses named creation (error 5) and its default
+unnamed station already exists (183). CI tries only the isolated mode, explicitly
+skipping a setup refusal before owner access; application failures still fail.
+
+```powershell
+python -m tools.probe_native_clipboard --output D:\QA\New-Isolated-Clipboard-Probe
+python -m tools.probe_native_clipboard --backed-up-clipboard --output D:\QA\New-Backed-Clipboard-Probe
+```
+
+Backed mode requires a complete, renderable snapshot of at most 64 MB in RAM and
+refuses an active probe marker. It keeps owner contents and comparison digests
+only in memory. A unique nonce in a registered marker protects newer user copies;
+every fixture transaction carries it. The entire original format set is restored
+and compared afterward, including bitmap/metafile properties. Busy/failed owner
+restoration retries while retaining the backup; it does not intentionally exit
+and discard a needed backup. A newer user copy supersedes restoration instead.
+Only public fixture hashes, state/count metadata and results are written to the
+report. Backed mode is explicit and CI never selects it automatically.
+
+Development diagnostics include both isolation refusals, an initial probe marker
+assertion, the real close-sequence rejection and the passing replay. Failed
+backed replays also restore/verify the complete original clipboard. Clean commit
+replay evidence follows below; these diagnostics are not acceptance substitutes.
