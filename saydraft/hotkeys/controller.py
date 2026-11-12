@@ -1,4 +1,4 @@
-"""Global hold-to-record hotkey controller."""
+"""Recording gesture controller, independent of the native input transport."""
 
 from __future__ import annotations
 

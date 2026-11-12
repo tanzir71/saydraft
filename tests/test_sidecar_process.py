@@ -131,18 +131,34 @@ def test_invalid_environment_is_rejected_without_launch(values):
 
 
 def test_failed_native_creation_does_not_leave_owner_handles_open(tmp_path):
-    api = kernel()
-    api.GetCurrentProcess.restype = w.HANDLE
-    api.GetProcessHandleCount.argtypes = [w.HANDLE, c.POINTER(w.DWORD)]
     invalid = tmp_path / "invalid-image.exe"
     invalid.write_text("fixture, not a PE executable", encoding="utf-8")
-    # Exclude one-time Windows loader initialization from the repeated-failure check.
-    with pytest.raises(OSError):
-        WindowsJobProcess([str(invalid)], env=environment())
-    before, after = w.DWORD(), w.DWORD()
-    assert api.GetProcessHandleCount(api.GetCurrentProcess(), c.byref(before))
-    for _ in range(10):
-        with pytest.raises(OSError):
-            WindowsJobProcess([str(invalid)], env=environment())
-    assert api.GetProcessHandleCount(api.GetCurrentProcess(), c.byref(after))
-    assert after.value <= before.value
+    # Process-wide counts cannot attribute handles opened by concurrent Qt/native
+    # test workers. Keep the same zero-growth assertion in a quiet child process.
+    code = """
+import ctypes as c
+import json, os, sys
+from ctypes import wintypes as w
+from saydraft.cleanup.llm.windows_process import WindowsJobProcess
+api = c.WinDLL('kernel32', use_last_error=True)
+api.GetCurrentProcess.restype = w.HANDLE
+api.GetProcessHandleCount.argtypes = [w.HANDLE, c.POINTER(w.DWORD)]
+env = {k:v for k,v in os.environ.items() if k.upper() in ('SYSTEMROOT','WINDIR','TEMP','TMP')}
+def attempt():
+    try:
+        WindowsJobProcess([sys.argv[1]], env=env)
+    except OSError:
+        return
+    raise AssertionError('Invalid executable unexpectedly launched')
+attempt()  # Exclude one-time Windows loader initialization.
+before, after = w.DWORD(), w.DWORD()
+assert api.GetProcessHandleCount(api.GetCurrentProcess(), c.byref(before))
+for _ in range(10):
+    attempt()
+assert api.GetProcessHandleCount(api.GetCurrentProcess(), c.byref(after))
+print(json.dumps([before.value, after.value]))
+"""
+    result = subprocess.run([sys.executable, "-c", code, str(invalid)], env=environment(),
+        cwd=Path(__file__).resolve().parents[1], capture_output=True, text=True, timeout=10, check=True)
+    before, after = json.loads(result.stdout)
+    assert after <= before
