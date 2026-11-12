@@ -1,0 +1,56 @@
+{
+  "git_commit": "8d3ad80e8b5a2bfdfd478fae88e5deaa6f11c78a",
+  "source_dirty": false,
+  "input": "external F9 taps only; this observer injects no keys",
+  "delivery": "gesture callbacks only; no microphone, recognition, History or insertion",
+  "start_menu_acceptance_performed": false,
+  "wispr_running": false,
+  "ready": true,
+  "transitions": [
+    {
+      "name": "record1",
+      "phase": "press",
+      "reason": "physical",
+      "timestamp": 192711.3043502
+    },
+    {
+      "name": "record1",
+      "phase": "release",
+      "reason": "physical",
+      "timestamp": 192711.3046829
+    },
+    {
+      "name": "record1",
+      "phase": "press",
+      "reason": "physical",
+      "timestamp": 192718.5040313
+    },
+    {
+      "name": "record1",
+      "phase": "release",
+      "reason": "physical",
+      "timestamp": 192718.5043326
+    }
+  ],
+  "gestures": [
+    {
+      "phase": "start"
+    },
+    {
+      "phase": "stop",
+      "locked": true,
+      "duration": 7.199982399994042
+    }
+  ],
+  "completed_in_time": true,
+  "closed": true,
+  "failures": [],
+  "native_status": {
+    "state": "closed",
+    "reason": null,
+    "pump_alive": false,
+    "worker_alive": false
+  },
+  "both_hooks_removed": true,
+  "probe_complete": true
+}

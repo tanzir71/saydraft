@@ -188,3 +188,35 @@ canonical and prefix conflicts, snapshot failure/handle lifetime, live-edit
 advisory behavior and startup notification are covered. Offscreen General layout
 was visually checked at 760×560 with the warning shown. Actual Ctrl+Win/F9 and
 Start-menu desktop acceptance is still outstanding; P5.1 stays unchecked.
+
+## Desktop F9 observation
+
+`tools.probe_desktop_hotkeys` installs the fresh profile's native bindings and
+observes two external F9 taps without injecting input itself. A clean immutable
+`8d3ad80` replay with Computer Use and an empty Notepad produces exactly four
+`record1` transitions, one recording start and one locked-mode stop. Both hooks
+are removed and both native threads retire with no failure. Notepad remains
+unmodified with zero characters and is closed afterward. Original report bytes
+and digest are in `eval/hardware/results/2026-11-12-desktop-f9/`.
+
+This checks the legacy F9 gesture on the desktop. It performs no microphone
+capture, recognition, History write or OS insertion. The earlier vkE8 recording
+replay separately checks recognition and History-before-stub-delivery.
+
+Ctrl+Win/Start-menu acceptance remains manual. The installed computer-use skill's
+`docs/guidance.md` prohibits Windows-key shortcuts, so automation did not send one
+or substitute a different input mechanism. An owner still needs to check holding
+Ctrl+Win and releasing its keys in either order, confirming recording stops and
+the Start menu never flashes, including repeated chords and modifier-side
+variants. Do not interpret synthetic mask tests or this F9 observation as that
+acceptance.
+
+To repeat the F9 observation with no audio or delivery:
+
+```powershell
+python -m tools.probe_desktop_hotkeys --output D:\QA\New-Desktop-F9-Probe
+```
+
+During its two-minute window, tap F9 twice in an empty editor. It accepts only the
+expected native sequence and completed cleanup; unrelated bound keys fail the
+probe rather than receiving credit.
