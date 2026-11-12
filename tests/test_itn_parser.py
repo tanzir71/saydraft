@@ -95,4 +95,3 @@ def test_long_non_address_tokens_do_not_trigger_quadratic_restart_matching():
     started = time.perf_counter()
     assert normalize_itn(source) == source
     assert time.perf_counter() - started < 2  # Generous regression bound; typical run is milliseconds.
-
