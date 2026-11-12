@@ -738,6 +738,8 @@ Cloud anything (sync, accounts, team dictionaries, web search in Ask), mobile ap
 
 ## 14. Changelog
 
+- 2026-11-12 | P4.6/P4.7 (native policy evidence) | Immutable d0845b4 RTX 2B completes 432 exact goldens with 213 accepted replies and zero regressions; all 100 adversarial cases skip and earn no generation credit. CPU stops at 63 exact cases after a safe timeout; completed calls expose 1.60x underprediction. Retained partial failure and observed all native exits; no Standard/tier/default acceptance. | eval/cleanup/results/2026-11-12-policy/, docs/CLEANUP_GATE.md
+
 - 2026-11-12 | P4.6/P4.7 (policy evaluation harness) | Added full-corpus production gating with explicit background setup, unchanged exact/action oracles, per-case calibration/setup metadata and separate policy/model completion and accepted-reply counts. No tier/default acceptance. | tools/bench_cleanup.py, saydraft/cleanup/llm/bakeoff.py, tests/test_cleanup_policy_eval.py, docs/CLEANUP_GATE.md
 
 - 2026-11-12 | P4.6 (release budget propagation) | Carried the key-release monotonic deadline through recorder shutdown, queueing, ASR and captured-context replacement; kept per-request cap/reserve and rules-before-delivery fallback. Added worker-to-real-client delay/expiry/session-reset coverage. | saydraft/core/worker.py, saydraft/dictation/types.py, tests/test_cleanup_release_budget.py, docs/CLEANUP_GATE.md

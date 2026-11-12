@@ -103,3 +103,13 @@ three-sample calibration. Every run needs a clean immutable source checkout and 
 new output directory; checkpointed metadata permits diagnosis of partial failures.
 It neither downloads models nor selects a default. Full gated quality and tier
 latency still require measurement and review of the resulting evidence.
+
+Immutable `d0845b4` RTX 2B completes all 432 goldens exactly with 213 accepted
+replies, no golden regressions and no finite preservation failures. Its 100
+adversarial inputs all skip for low need, providing zero new generated replies.
+The same-source CPU 0.8B run stops after 63 exact goldens: ten accepted replies and
+one timeout with rules fallback, then refusal to count unprepared followups. Its
+live minimum is 27.81 tok/s, yet completed CPU replies cost up to 1.60x their
+prediction. The partial run fails policy completion and cannot establish Standard
+acceptance. Both native exits are observed. Original reports/digests are retained
+in `eval/cleanup/results/2026-11-12-policy/`; predictor headroom needs revision.
