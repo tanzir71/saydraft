@@ -1,0 +1,218 @@
+{
+  "candidate": "qwen35-2b-q4-k-m",
+  "revision": "7d26695454df6de5fbcce2e58681e62dae06ce43",
+  "runtime": "llama-cpp-b12110-vulkan-x64",
+  "device": null,
+  "app_timeout_ms": 800,
+  "interactive_prompt_preparation": true,
+  "interactive_budget_gate": true,
+  "git_commit": "9e6ba055bef3393f712e9110d39a3b8640fc9577",
+  "source_dirty": false,
+  "delivery": "no microphone, database or live insertion",
+  "cases": [
+    {
+      "profile": "general",
+      "prepared": true,
+      "preparation_seconds": 5.490593100024853,
+      "preparation_status": {
+        "state": "prepared",
+        "reason": "prepared",
+        "prompt_seconds": 0.4716208000027109
+      },
+      "decoder_calibration": {
+        "generation": 1,
+        "tokens_per_sample": 60,
+        "sample_count": 3,
+        "tokens_per_second": [
+          141.42271248762552,
+          140.67984129406378,
+          134.65124187242822
+        ],
+        "median_tps": 140.67984129406378,
+        "conservative_tps": 134.65124187242822
+      },
+      "expected_decision": "skip_low_need",
+      "cleanup_seconds": 0.000363900006050244,
+      "decision": "skip_low_need",
+      "exact": true,
+      "gate": {
+        "reason": "skip_low_need",
+        "need_score": 0,
+        "need_reasons": [],
+        "remaining_ms": 750.0,
+        "predicted_ms": null,
+        "source_tokens": 0,
+        "pending_tokens": 0
+      }
+    },
+    {
+      "profile": "general",
+      "prepared": true,
+      "preparation_seconds": 5.490593100024853,
+      "preparation_status": {
+        "state": "prepared",
+        "reason": "prepared",
+        "prompt_seconds": 0.4716208000027109
+      },
+      "decoder_calibration": {
+        "generation": 1,
+        "tokens_per_sample": 60,
+        "sample_count": 3,
+        "tokens_per_second": [
+          141.42271248762552,
+          140.67984129406378,
+          134.65124187242822
+        ],
+        "median_tps": 140.67984129406378,
+        "conservative_tps": 134.65124187242822
+      },
+      "expected_decision": "high_need",
+      "cleanup_seconds": 0.17051299999002367,
+      "decision": "accepted",
+      "exact": true,
+      "gate": {
+        "reason": "call",
+        "need_score": 2,
+        "need_reasons": [
+          "fillers"
+        ],
+        "remaining_ms": 723.9203999924939,
+        "predicted_ms": 178.2382372881356,
+        "source_tokens": 4,
+        "pending_tokens": 20,
+        "outcome": "ok"
+      }
+    },
+    {
+      "profile": "email",
+      "prepared": true,
+      "preparation_seconds": 0.30145790000096895,
+      "preparation_status": {
+        "state": "prepared",
+        "reason": "prepared",
+        "prompt_seconds": 0.3008366999856662
+      },
+      "decoder_calibration": {
+        "generation": 1,
+        "tokens_per_sample": 60,
+        "sample_count": 3,
+        "tokens_per_second": [
+          141.42271248762552,
+          140.67984129406378,
+          134.65124187242822
+        ],
+        "median_tps": 140.67984129406378,
+        "conservative_tps": 134.65124187242822
+      },
+      "expected_decision": "skip_low_need",
+      "cleanup_seconds": 0.00039159998414106667,
+      "decision": "skip_low_need",
+      "exact": true,
+      "gate": {
+        "reason": "skip_low_need",
+        "need_score": 1,
+        "need_reasons": [
+          "style"
+        ],
+        "remaining_ms": 750.0,
+        "predicted_ms": null,
+        "source_tokens": 0,
+        "pending_tokens": 0
+      }
+    },
+    {
+      "profile": "email",
+      "prepared": true,
+      "preparation_seconds": 0.30145790000096895,
+      "preparation_status": {
+        "state": "prepared",
+        "reason": "prepared",
+        "prompt_seconds": 0.3008366999856662
+      },
+      "decoder_calibration": {
+        "generation": 1,
+        "tokens_per_sample": 60,
+        "sample_count": 3,
+        "tokens_per_second": [
+          141.42271248762552,
+          140.67984129406378,
+          134.65124187242822
+        ],
+        "median_tps": 140.67984129406378,
+        "conservative_tps": 134.65124187242822
+      },
+      "expected_decision": "high_need",
+      "cleanup_seconds": 0.15114810000522994,
+      "decision": "accepted",
+      "exact": true,
+      "gate": {
+        "reason": "call",
+        "need_score": 3,
+        "need_reasons": [
+          "fillers",
+          "style"
+        ],
+        "remaining_ms": 728.3253000059631,
+        "predicted_ms": 178.2382372881356,
+        "source_tokens": 4,
+        "pending_tokens": 20,
+        "outcome": "ok"
+      }
+    },
+    {
+      "profile": "email",
+      "prepared": true,
+      "preparation_seconds": 0.30145790000096895,
+      "preparation_status": {
+        "state": "prepared",
+        "reason": "prepared",
+        "prompt_seconds": 0.3008366999856662
+      },
+      "decoder_calibration": {
+        "generation": 1,
+        "tokens_per_sample": 60,
+        "sample_count": 3,
+        "tokens_per_second": [
+          141.42271248762552,
+          140.67984129406378,
+          134.65124187242822
+        ],
+        "median_tps": 140.67984129406378,
+        "conservative_tps": 134.65124187242822
+      },
+      "expected_decision": "skip_budget",
+      "cleanup_seconds": 0.00021430000197142363,
+      "decision": "skip_budget",
+      "exact": true,
+      "gate": {
+        "reason": "skip_budget",
+        "need_score": 3,
+        "need_reasons": [
+          "fillers",
+          "style"
+        ],
+        "remaining_ms": 0.0,
+        "predicted_ms": null,
+        "source_tokens": 0,
+        "pending_tokens": 0
+      }
+    }
+  ],
+  "selection_performed": false,
+  "peak_native_working_set_bytes": [
+    57520128,
+    1664155648
+  ],
+  "selected_device": {
+    "id": "Vulkan1",
+    "name": "NVIDIA GeForce RTX 3060",
+    "total_mb": 12113,
+    "free_mb": 11345
+  },
+  "native_exit_observed": [
+    true,
+    true
+  ],
+  "accepted_replies": 2,
+  "probe_complete": true
+}

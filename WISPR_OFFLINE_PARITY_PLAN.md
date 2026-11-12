@@ -739,6 +739,8 @@ Cloud anything (sync, accounts, team dictionaries, web search in Ask), mobile ap
 
 ## 14. Changelog
 
+- 2026-11-12 | P3.6 / P4.6 (immutable automatic device proof) | Clean 9e6ba05 production-path probe selects RTX Vulkan1 without an override, accepts two exact replies in 171/151 ms, performs three expected skips and independently observes both native exits. Original report/digest retained; Windows PR #62 CI passes. Broader tier/default acceptance and cleanup benchmark callback remain pending. | eval/cleanup/results/2026-11-12-auto-device/, docs/NATIVE_DEVICES.md
+
 - 2026-11-12 | P3.2/P3.6 (download owner lifetime) | Reproduced deleted-signal-source failure after destroying a download's window. Keep the task alive until worker exit, pause on owner/app destruction, finish/delete on the GUI thread and use QObject VAD status slots. Full suite 1459 pass, 4 skips; rules/adversarial/lint pass. | saydraft/ui/download_task.py, saydraft/ui/settings_window.py, saydraft/ui/model_picker.py, saydraft/ui/labs_page.py, tests/test_vad_download_thread.py, docs/DOWNLOAD_LIFETIME.md
 
 - 2026-11-12 | P3.6/P4.1 (automatic native device selection) | Wired verified native inventory into Vulkan sidecar startup with name/type/memory selection, explicit native IDs and shared probe/server admission. CPU skips discovery; busy/missing/cancelled selection preserves fallback. Native QA records actual selection and observes both exits; initial auto path accepts two exact replies without an override. Cleanup benchmark callback and tier/default acceptance remain. | saydraft/models/native_devices.py, saydraft/cleanup/llm/ownership.py, saydraft/cleanup/llm/sidecar.py, tests/test_sidecar_devices.py, tools/, docs/NATIVE_DEVICES.md

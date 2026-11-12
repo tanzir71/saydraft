@@ -77,3 +77,10 @@ Integrated validation: 1459 tests pass with four optional native skips; rules
 432/432, authored adversarial checks 100/100 and Ruff/diff checks pass. This also
 includes a reproduced download-owner lifetime fix discovered during full-suite
 verification; see [download lifetime](DOWNLOAD_LIFETIME.md).
+
+The immutable clean `9e6ba05` production-path probe confirms automatic RTX
+selection with no device override, two exact replies in 171/151 ms and the three
+expected need/expiry skips. Both inventory and inference exits were independently
+observed. Original report bytes and their digest are retained in
+`eval/cleanup/results/2026-11-12-auto-device/`. This short probe does not establish
+corpus quality, tier latency or a model default. PR #62's Windows CI passes.
