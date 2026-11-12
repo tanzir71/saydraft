@@ -1,0 +1,6 @@
+{
+  "schema_version": 1,
+  "report_sha256": "7a31a4955534c1869d9be967f82ceb993a7a130e0f19e021026c1cc516370eb3",
+  "source_commit": "d8ac129226150197ef8e8acacc7782b0c3b1741d",
+  "scope": "Read-only own-process token queries and handle lifetime; no actual elevated-window, OS input or clipboard acceptance"
+}

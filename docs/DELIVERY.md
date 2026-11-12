@@ -48,3 +48,7 @@ P5.2 remains open: all-format clipboard snapshot/restore, the 64 MB bound and
 clipboard-history/cloud exclusion formats are still pending. Current clipboard
 restoration is text-only. Copied-image/rich-text survival, actual elevated-window
 refusal and Win+V inspection are not claimed by the token-query smoke check.
+
+Clean immutable `d8ac129` repeats all 42 matching native queries at integrity
+8192 with 175 handles before and after, then exits successfully. Original bytes
+and digest are retained in `eval/hardware/results/2026-11-12-delivery-preflight/`.
