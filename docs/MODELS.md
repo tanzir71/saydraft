@@ -173,6 +173,48 @@ digests are retained in
 [`2026-11-12-rule-contract`](../eval/cleanup/results/2026-11-12-rule-contract).
 The original baseline reports remain unchanged. No model is selected.
 
+### Isolated component latency
+
+After every transfer and competing local benchmark finished, source `b32a03e`
+repeated the full 432 golden/100 adversarial inputs on CPU 0.8B and explicit RTX
+`Vulkan1` 2B. Both declare isolation, complete all inputs and three 60-token
+samples, and observe native exit. This source precedes interactive prefix
+preparation: the quality budget is 120 s, so slow completions remain visible.
+
+| Model/backend | All 414 model calls p50 / p95 | First cleanup | 60-token native decode samples (tok/s) | Native peak host working set |
+| --- | ---: | ---: | --- | ---: |
+| Qwen 0.8B CPU | 0.858 / 3.814 s | 4.305 s | 23.19, 25.21, 27.25 | 1,031,442,432 bytes |
+| Qwen 2B RTX/Vulkan1 | 0.159 / 0.293 s | 0.423 s | 138.38, 135.13, 141.85 | 1,663,664,128 bytes |
+
+Golden requests also separate by prefix relation. These labels track style,
+not observed cache hits; app/group/intensity/language/caret/glossary can change
+the final prompt even within one style.
+
+| Model/backend | Same-style p50 / p95 (271) | Changed-style p50 / p95 (42) | Same-style maximum |
+| --- | ---: | ---: | ---: |
+| Qwen 0.8B CPU | 0.732 / 1.408 s | 3.401 / 5.288 s | 9.711 s |
+| Qwen 2B RTX/Vulkan1 | 0.142 / 0.204 s | 0.280 / 0.364 s | 1.330 s |
+
+The CPU decode median is only just above the Standard scalar threshold; the
+full call timings cannot fit the 800 ms app deadline reliably. Even Vulkan's
+longest call exceeds it. Per-instance decoder calibration, prepared-prefix state,
+need-score and remaining-budget prediction must precede tier/default acceptance.
+The app's actual prefix-preparation probes separately pass four short accepted
+requests under 800 ms; see [CLEANUP_PREPARATION.md](CLEANUP_PREPARATION.md).
+
+Exact golden scores remain 431/432 CPU (298 accepted exact, 15 safe fallback)
+and 429/432 GPU (302 accepted exact, 9 safe fallback), plus 118 bypasses each.
+Residual literal-comma regressions remain. Each runtime adversarial suite accepts
+100 inputs without finite guard failures; authored unsafe-candidate validation
+is a separate 100/100 check. None of these checks proves semantic equivalence.
+
+Reports and retained journal digests are in
+[`2026-11-12-isolated`](../eval/cleanup/results/2026-11-12-isolated). These measure
+processor/cleanup components with simulated delivery, not ASR-to-native-insertion
+latency. Driver caches are primed, the device was explicit, and automatic adapter
+selection and the in-app benchmark callback still need integration. No model is
+selected and no release-to-text/tier acceptance is claimed.
+
 The bundled [catalog](../saydraft/models/manifest.json) pins every file's revision,
 size, SHA-256 digest and exact HTTPS download/redirect hosts. Parakeet revisions:
 

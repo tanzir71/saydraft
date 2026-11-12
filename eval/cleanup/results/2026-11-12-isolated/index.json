@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "source_commit": "b32a03ec9bc6e4d8503ba79cb44b526f8e29a2e3",
+  "selection_performed": false,
+  "latency_acceptance_evaluated": false,
+  "reports": [
+    {
+      "report": "qwen08-cpu.json",
+      "report_sha256": "c184d7c4d9f9f89aed16d34c1957dd5a846e67c951031fddc615db0ec2d1a58c",
+      "local_journal_directory": "cleanup-bakeoff-b32a03e-qwen08-cpu-isolated",
+      "journal_sha256": "9d0a66650010c705d972a14f9e568fd8bd1f7488b43f654e5ad9ff3e8b5a6d2e"
+    },
+    {
+      "report": "qwen2-vulkan1.json",
+      "report_sha256": "956e5d0a989b887ca32dc57740a05175c16466b3cb921aa53064af5913408eec",
+      "local_journal_directory": "cleanup-bakeoff-b32a03e-qwen2-vulkan1-isolated",
+      "journal_sha256": "ec76c754efb71d8a91009f64bab853155f6794070d2a0da0f6afd4d04f5033bb"
+    }
+  ]
+}
