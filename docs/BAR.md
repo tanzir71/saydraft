@@ -51,6 +51,31 @@ real worker's Bar, so they cannot erase a saved warning.
 Terminal outcomes stay latched through passive hotkey reconfiguration; a late
 same-session failure cannot replace a confirmed insertion.
 
+Placement now resolves the foreground HWND with `MonitorFromWindow`, matches its
+`HMONITOR` to `QScreen.nativeInterface().handle()`, then uses Qt's logical
+`availableGeometry()`. This avoids passing physical coordinates into `screenAt`.
+Native handle matching also works when Qt exposes friendly labels such as
+“LG FULL HD” instead of Windows' GDI device name, or two displays have the same
+label. A GDI-name fallback supports older Qt screen labels. All native handles
+have pointer-sized ctypes declarations.
+
+While the Bar is visible, out-of-context foreground/window-movement events and
+Qt focus/work-area/topology/DPI signals coalesce into one placement refresh.
+Own-process native events are excluded; Qt supplies focus changes for the Hub.
+Relocation preserves state, RMS heights, preview, action-target alignment and
+warning deadlines. Long warnings regain their full width after leaving a narrow
+screen. Hiding/closing stops the watcher, disconnects screen signals and unhooks
+native events. If Windows cannot confirm unhooking, the closed callback remains
+pinned until process exit. There is no idle polling timer or field-content read.
+
+Native verification uses only hidden owned HWNDs. It matched both connected
+monitors (both 1× scaling), delivered a process-scoped location callback on the
+GUI thread and confirmed unhooking. No global hook or foreground lookup is used
+by that probe. Mixed-scaling gaps, negative coordinates, duplicate labels,
+topology changes, event coalescing and relocation invariants are tested with
+injected screens. Visible mixed-DPI movement and actual foreign-window focus
+events remain manual acceptance; the owned probe does not establish those.
+
 The preparing state says “Getting ready” and renders static bars. It does not
 accept preview/RMS updates or start the recording clock. In hands-free mode the
 stop target remains available. The synthetic startup probe blocks target capture
@@ -59,9 +84,9 @@ owned offscreen paint. Thirty local trials passed the 50 ms budget (initial run:
 maximum 18.4 ms). This excludes physical keyboard dispatch, Windows composition
 and active-desktop behavior; native keydown-to-screen acceptance remains open.
 
-Other P6.2 work remains: original measured start/end/command sounds, Windows
-monitor identity for mixed DPI, focused-monitor changes, paused-listening click
-behavior and native timing/click-through/focus acceptance. The Command label is a
+Other P6.2 work remains: original measured start/end/command sounds,
+paused-listening click behavior and native timing/mixed-DPI/click-through/focus
+acceptance. The Command label is a
 visual fixture/API only; it does not implement P7 Command Mode. Native high
 contrast and complete accessibility acceptance remain tracked in P6.7.
 
@@ -72,6 +97,8 @@ node tools/generate_tokens.mjs --check
 python -m pytest tests/test_bar_motion.py tests/test_bar_actions.py tests/test_bar_events.py tests/test_bar_event_ui.py tests/test_pill_ui.py tests/test_preview_ui.py tests/test_bar_gallery.py -q
 python -m saydraft.ui.bar_gallery --render D:\new-bar-render --scale 2
 python tools/probe_bar_startup.py --output D:\new-bar-startup --iterations 30
+python -m pytest tests/test_bar_placement.py -q
+python tools/probe_bar_monitors.py --output D:\new-bar-monitors
 ```
 
 The generated theme metadata supplies the exact approved Bar colors. Thirteen
@@ -89,6 +116,14 @@ same five explicit skips, rules 556/556 and adversarial validation 100/100. Real
 app signal wiring covers inserted, saved/refused and failed-History outcomes;
 blocked context/model cancellation, passive hotkey restarts, late failures and
 stale queued delivery also have regression checks. Lint and token checks pass.
+The monitor-placement revision passes 2316 tests with five explicit skips,
+rules 556/556, adversarial 100/100, lint, tokens and unchanged Bar snapshots.
+Its 30 synthetic startup trials also remain below 50 ms (maximum 18.5 ms in
+the initial placement run). These checks do not replace visible native acceptance.
 
 Window behavior references: [Qt window flags](https://doc.qt.io/qt-6/qt.html#WindowType-enum),
 [Windows layered-window hit testing](https://learn.microsoft.com/en-us/windows/win32/winmsg/window-features#layered-windows).
+Placement references: [Qt native Windows screen handles](https://doc.qt.io/qt-6/qnativeinterface-qwindowsscreen.html),
+[Qt high-DPI screen geometry](https://doc.qt.io/qt-6/highdpi.html),
+[MonitorFromWindow](https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-monitorfromwindow),
+[WinEvent delivery and message-loop requirements](https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setwineventhook).

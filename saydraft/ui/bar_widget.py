@@ -157,7 +157,8 @@ class SaydraftPill(QtWidgets.QWidget):
     fix_requested = QtCore.Signal(str)
 
     def __init__(self, *, qt_modules=None, hotkey_hint="Ctrl+Win", clock=time.monotonic,
-                 screen_geometry_provider=None, focus_point_provider=None, timer_single_shot=None):
+                 screen_geometry_provider=None, focus_point_provider=None, timer_single_shot=None,
+                 placement_watcher_factory=None):
         super().__init__(None, window_flags(output_only=True))
         self.qt, self.clock = qt_modules, clock
         self.screen_geometry_provider = screen_geometry_provider
@@ -174,6 +175,9 @@ class SaydraftPill(QtWidgets.QWidget):
         self.started_at = self.processing_at = 0.
         self._visibility_generation = 0
         self._anchor = None
+        self._preferred_size = QtCore.QSize(36, 8)
+        self._placement_watcher = None
+        self._placement_watcher_factory = placement_watcher_factory
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
         self.setAttribute(QtCore.Qt.WA_ShowWithoutActivating)
         self.setAttribute(QtCore.Qt.WA_TransparentForMouseEvents)
@@ -244,6 +248,7 @@ class SaydraftPill(QtWidgets.QWidget):
 
     def show_idle(self):
         self._transition(PillState.IDLE)
+        self._anchor = None
         self.status_label.setText(self.hint)
         self._layout(36, 8)
 
@@ -381,7 +386,8 @@ class SaydraftPill(QtWidgets.QWidget):
         self.state = state
 
     def _layout(self, width, height):
-        if self._anchor is None or self.state == PillState.IDLE:
+        self._preferred_size = QtCore.QSize(width, height)
+        if self._anchor is None:
             self._anchor = self._screen_geometry()
         width = min(width, max(36, self._anchor.width() - 32))
         self.setFixedSize(width, height)
@@ -391,19 +397,42 @@ class SaydraftPill(QtWidgets.QWidget):
         if self.state == PillState.PREPARING:
             self.level_meter.move(capsule.x() + 90, capsule.y() + 6)
         self.move(self._anchor.x() + (self._anchor.width() - width) // 2,
-                  self._anchor.y() + self._anchor.height() - height - 24)
+                  max(self._anchor.y(), self._anchor.y() + self._anchor.height() - height - 24))
         self.show()
         self._sync_target()
         self.update()
 
     def _screen_geometry(self):
-        from .pill import focused_window_center
+        from .bar_placement import focused_screen
         if self.screen_geometry_provider is not None:
             return self.screen_geometry_provider()
-        point = self.focus_point_provider() if self.focus_point_provider is not None else focused_window_center()
-        screen = QtGui.QGuiApplication.screenAt(point) if point is not None else None
-        screen = screen or QtGui.QGuiApplication.primaryScreen()
+        screen = focused_screen(self.focus_point_provider)
         return screen.availableGeometry() if screen is not None else QtCore.QRect(0, 0, 800, 600)
+
+    def refresh_placement(self):
+        if not self.isVisible():
+            return
+        self._anchor = None
+        self._layout(self._preferred_size.width(), self._preferred_size.height())
+
+    def _start_placement_watcher(self):
+        from .bar_placement import PlacementWatcher, native_desktop_enabled
+        factory = self._placement_watcher_factory
+        if factory is None:
+            if (self.screen_geometry_provider is not None or self.focus_point_provider is not None
+                    or not native_desktop_enabled()):
+                return
+            factory = PlacementWatcher
+        if self._placement_watcher is None:
+            self._placement_watcher = factory(self.refresh_placement, parent=self)
+            self.destroyed.connect(self._placement_watcher.stop)
+            if self.windowHandle() is not None:
+                self.windowHandle().screenChanged.connect(self._placement_watcher.request_refresh)
+        self._placement_watcher.start()
+
+    def showEvent(self, event):
+        super().showEvent(event)
+        self._start_placement_watcher()
 
     def _sync_target(self):
         if not self.isVisible():
@@ -451,6 +480,8 @@ class SaydraftPill(QtWidgets.QWidget):
         self.preview_label.clear()
         self.preview_label.hide()
         self.target.hide()
+        if self._placement_watcher is not None:
+            self._placement_watcher.stop()
         for timer in (self.animation_timer, self.elapsed_timer, self._hide_timer):
             timer.stop()
         super().hideEvent(event)

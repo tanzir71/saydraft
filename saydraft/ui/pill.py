@@ -1,40 +1,22 @@
-"""Saydraft Bar compatibility entry point and foreground placement helpers."""
+"""Saydraft Bar compatibility entry point."""
 
 from __future__ import annotations
 
-import ctypes
-import sys
+import ctypes  # noqa: F401 - compatibility for integrations instrumenting native access.
 
-from PySide6 import QtCore, QtGui
+from PySide6 import QtCore, QtGui  # noqa: F401
 
 from .bar_widget import LevelMeter, PillState, PreviewStrip, SaydraftPill  # noqa: F401
 
 
 def focused_window_center() -> QtCore.QPoint | None:
-    if (QtGui.QGuiApplication.instance() is not None
-            and QtGui.QGuiApplication.platformName() in ("offscreen", "minimal")):
+    """Return the selected screen center in Qt logical coordinates.
+
+    Native HWND rectangle centers are physical pixels and must not be passed
+    directly to Qt's screenAt() on mixed-DPI Windows desktops.
+    """
+    from .bar_placement import focused_screen, native_desktop_enabled
+    if not native_desktop_enabled():
         return None
-    if sys.platform != "win32":
-        return QtGui.QCursor.pos()
-
-    try:
-        user32 = ctypes.windll.user32
-        hwnd = user32.GetForegroundWindow()
-        rect = wintypes_RECT()
-        if not user32.GetWindowRect(hwnd, ctypes.byref(rect)):
-            return QtGui.QCursor.pos()
-        return QtCore.QPoint(
-            int((rect.left + rect.right) / 2),
-            int((rect.top + rect.bottom) / 2),
-        )
-    except Exception:
-        return QtGui.QCursor.pos()
-
-
-class wintypes_RECT(ctypes.Structure):
-    _fields_ = [
-        ("left", ctypes.c_long),
-        ("top", ctypes.c_long),
-        ("right", ctypes.c_long),
-        ("bottom", ctypes.c_long),
-    ]
+    screen = focused_screen()
+    return screen.geometry().center() if screen is not None else None

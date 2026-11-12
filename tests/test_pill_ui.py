@@ -133,6 +133,7 @@ def test_offscreen_bar_placement_does_not_query_the_active_desktop(monkeypatch):
     def forbidden(*_args):
         raise AssertionError("Active desktop lookup during an offscreen test")
     monkeypatch.setattr(module.ctypes, "windll", SimpleNamespace(user32=SimpleNamespace(GetForegroundWindow=forbidden)), raising=False)
+    monkeypatch.setattr(module.ctypes, "WinDLL", forbidden, raising=False)
     monkeypatch.setattr(module.QtGui.QCursor, "pos", forbidden)
     assert module.focused_window_center() is None
 
