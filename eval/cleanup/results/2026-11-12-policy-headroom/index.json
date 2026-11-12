@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "source_commit": "ec64d01",
+  "selection_performed": false,
+  "latency_acceptance_evaluated": false,
+  "reports": [
+    {
+      "report": "qwen08-cpu.json",
+      "report_sha256": "455e4c1581d4b5bf9c025a61819b45d1c231b2d225e12bc6fd334d3b306d834f",
+      "local_journal_directory": "cleanup-policy-ec64d01-qwen08-cpu",
+      "journal_sha256": "c574c9db2da3a728eb2ce7902b7fc00c32e09ebc5859ec256de9f901fc0f5049",
+      "policy_measurement_complete": true
+    },
+    {
+      "report": "qwen2-vulkan1.json",
+      "report_sha256": "30cc334f8147224fd9826b92b017112b80a96e231711f08dd1ec503113e4ef37",
+      "local_journal_directory": "cleanup-policy-ec64d01-qwen2-vulkan1",
+      "journal_sha256": "67e93b46a72d14f38260567ac09009e2ba749c56b3b0fed21ccdcf7fd3317cad",
+      "policy_measurement_complete": true
+    }
+  ]
+}

@@ -118,4 +118,14 @@ live minimum is 27.81 tok/s, yet completed CPU replies cost up to 1.60x their
 prediction. The partial run fails policy completion and cannot establish Standard
 acceptance. Both native exits are observed. Original reports/digests are retained
 in `eval/cleanup/results/2026-11-12-policy/`. The subsequent uniform 2x headroom
-addresses this observed underprediction; fresh native proof remains necessary.
+addresses this observed underprediction and was evaluated in fresh native runs.
+
+Fresh immutable `ec64d01` policy runs both complete 432 exact goldens and 100
+runtime adversarial inputs without a timeout, golden regression or finite
+preservation failure. CPU 0.8B accepts only two replies (0.47/0.43 s), with 220
+budget skips, 92 need skips and 118 bypasses; its live minimum is 29.52 tok/s.
+RTX 2B retains 213 accepted exact replies. Every runtime adversarial case per
+backend skips for low need and provides no new generation evidence. Both native
+exits are observed. Reports and journal digests are retained in
+`eval/cleanup/results/2026-11-12-policy-headroom/`. The CPU hybrid score relies
+predominantly on rules; no standalone-model or release/ASR latency claim follows.

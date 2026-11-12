@@ -738,6 +738,8 @@ Cloud anything (sync, accounts, team dictionaries, web search in Ask), mobile ap
 
 ## 14. Changelog
 
+- 2026-11-12 | P4.6/P4.7 (native headroom proof) | Immutable ec64d01 CPU/RTX policy runs each complete 432 exact goldens and 100 low-need adversarial skips, with zero regressions/preservation failures and observed exits. CPU accepts only two replies (0.47/0.43 s), RTX 213; retain sparse-use/fallback counts separately. End-to-end latency, CI evidence thresholds and default selection remain pending. | eval/cleanup/results/2026-11-12-policy-headroom/, docs/CLEANUP_GATE.md
+
 - 2026-11-12 | P4.6 (prediction headroom) | Added uniform 2x latency-estimate headroom after retained native CPU calls cost up to 1.60x their prediction; kept output oracles, need threshold and 800 ms cap unchanged. Failed/busy transport now retains metadata-only decision/outcome without complete-response token credit. Fresh native proof and tier acceptance remain. | saydraft/cleanup/llm/gate.py, saydraft/cleanup/llm/client.py, saydraft/dictation/llm_local.py, tests/test_cleanup_gate.py, docs/CLEANUP_GATE.md
 
 - 2026-11-12 | P4.6/P4.7 (native policy evidence) | Immutable d0845b4 RTX 2B completes 432 exact goldens with 213 accepted replies and zero regressions; all 100 adversarial cases skip and earn no generation credit. CPU stops at 63 exact cases after a safe timeout; completed calls expose 1.60x underprediction. Retained partial failure and observed all native exits; no Standard/tier/default acceptance. | eval/cleanup/results/2026-11-12-policy/, docs/CLEANUP_GATE.md

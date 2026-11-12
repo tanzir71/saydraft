@@ -1,0 +1,395 @@
+{
+  "schema_version": 1,
+  "candidate": {
+    "id": "qwen35-08b-q4-k-m",
+    "role": "cleanup_candidate",
+    "status": "unselected",
+    "label": "Qwen/Qwen3.5-0.8B Q4_K_M",
+    "engine": "llama.cpp",
+    "runtime": "llama-cpp-b12110",
+    "min_tier": "standard",
+    "quantization": "Q4_K_M",
+    "revision": "f36b1ea49a332ede8fe5f389bbf5b3575ef71f48",
+    "license": "Apache-2.0",
+    "license_url": "https://huggingface.co/Qwen/Qwen3.5-0.8B/blob/2fc06364715b967f1860aea9cf38778875588b17/LICENSE",
+    "publisher": "Qwen / Bartowski",
+    "source": "https://huggingface.co/bartowski/Qwen_Qwen3.5-0.8B-GGUF",
+    "source_model": "Qwen/Qwen3.5-0.8B",
+    "source_revision": "2fc06364715b967f1860aea9cf38778875588b17",
+    "notice": {
+      "path": "assets/licenses/qwen35-Apache-2.0.txt",
+      "sha256": "bbedc3fda3305820b977265f01b8619d87570a6739de3a5582c3464840f1e57a",
+      "size": 11544
+    },
+    "download_hosts": [
+      "huggingface.co",
+      "us.aws.cdn.hf.co"
+    ],
+    "files": [
+      {
+        "path": "Qwen_Qwen3.5-0.8B-Q4_K_M.gguf",
+        "url": "https://huggingface.co/bartowski/Qwen_Qwen3.5-0.8B-GGUF/resolve/f36b1ea49a332ede8fe5f389bbf5b3575ef71f48/Qwen_Qwen3.5-0.8B-Q4_K_M.gguf",
+        "size": 579615840,
+        "sha256": "fb044e93939a70469c905781334f5de1e6c8b608ced6cbc8c9249bd4127d9526"
+      },
+      {
+        "path": "README.md",
+        "url": "https://huggingface.co/bartowski/Qwen_Qwen3.5-0.8B-GGUF/resolve/f36b1ea49a332ede8fe5f389bbf5b3575ef71f48/README.md",
+        "size": 13782,
+        "sha256": "dc1fa7928acc9746ba13d0c80047717fad487b0723613ed9a61d328dadede117"
+      }
+    ]
+  },
+  "runtime": "llama-cpp-b12110-cpu-x64",
+  "delivery": "simulated; no live OS keys or microphone",
+  "latency_acceptance_evaluated": false,
+  "measurement_kind": "interactive_policy",
+  "interactive_prompt_preparation": true,
+  "interactive_budget_gate": true,
+  "background_setup_excluded_from_case_latency": true,
+  "backend": "cpu",
+  "device_override": null,
+  "threads": 4,
+  "quality_timeout_ms": 800,
+  "decoding_temperature": 0,
+  "context_size": 4096,
+  "max_output_tokens": 256,
+  "full_corpus": true,
+  "isolation_declared": true,
+  "git_commit": "ec64d01a6af123720cf67086845338cc4036fd8c",
+  "source_dirty": false,
+  "golden_sha256": "47fe5cf00c01e333f098442b858af9801b23242e34c46e54ce22d8c71de9371e",
+  "source_fingerprints": {
+    "saydraft\\app.py": "44cf7488fd5bbc3a234908092dbf30a6a5eb50f9ff9fef645f9aac1efc7b89f2",
+    "saydraft\\autostart.py": "8dabcc7efe9e425ceeda49fe0114cf82c7ec526435f59c6bb2ff8b88d1cfbf75",
+    "saydraft\\config.py": "97c99711f98a5663afda3fd1114b7fa206999e1279bf71685af7c8cc65d49e47",
+    "saydraft\\crash_guard.py": "1e2e2ff507ab80bf5046ee2b44e89aac86732cc8342c56adaa767eed58b44cd5",
+    "saydraft\\eval.py": "6f131fde1a36e1d96e784485bc891bbe13c097840a56d424b70131db11b9d169",
+    "saydraft\\history.py": "80d7380ccfd8ad3a4e6a02edea9af05c39856d1a975f88c609877960de9dbbb5",
+    "saydraft\\hotkeys.py": "e3787bc2a4f3e58ff84494a5d5bfdafd7989aadd5cb6de07c53a8bcddf632e97",
+    "saydraft\\logging_config.py": "e2edbe0087bf131a3d1d54de70e0029366b8a26345c418b119b228a94b3b856b",
+    "saydraft\\main.py": "6cb2096bde68a2d7c2a5e960d063596fdafdaa03f36fea731d8b17ae2fb40ec2",
+    "saydraft\\model_download.py": "fc58a8a17e3054b3feafdad34472c1db01c03116a54227f8d963946d11721c40",
+    "saydraft\\paths.py": "9b0eb113ae0efdb77cad07c015b5974c718effc802754d969038d2d9225e9133",
+    "saydraft\\single_instance.py": "e958d40eb25afe1b029d73829e42f625bde27bbddd795a3d6e85ce4ba6e66bb4",
+    "saydraft\\text_boundaries.py": "2caf924f2000609af4b99d205f8cbedbe6a067898fec8faafaf6bbfc82604878",
+    "saydraft\\text_entities.py": "2ba2f413fc86654dea7499ad53f06fe808a6c25b02fe9a117ddad10afeac1a40",
+    "saydraft\\__init__.py": "b6f53be1dba1222f4048fd6e4f9148b8e3e9453df68c2659570b4f1a023a6550",
+    "saydraft\\__main__.py": "262988d991356d875aca2bdda7746ef4fd997171a9a077dcdbf715cb0dadf82f",
+    "saydraft\\asr\\languages.py": "6a67a12b82eb081df836e9f9b9556306ec37b65a4d4aab4fc86da97ec1abb554",
+    "saydraft\\asr\\language_id.py": "13645e41495a00fd1f50bcc0de14b867ca391c219f678bef67c05f8c68d3ec53",
+    "saydraft\\asr\\model_ids.py": "8c455e79d48b461f14510fb877896340c5b054b7e7c3a0ad092ee11d6a8ac5cd",
+    "saydraft\\asr\\retry.py": "1163085cad53a4b4833478d48c385d49fbe9a83df971aaaf48fcbc25b2919c42",
+    "saydraft\\asr\\router.py": "b77ce4b2e87c6bacb42605d09193d79351e0153a5e67028d97580ebfd8208d46",
+    "saydraft\\asr\\selection.py": "3519d9c3e0d5707d3265b5372bb3aa7a45f0a3a2ea661e7ff54af7a97875fcbc",
+    "saydraft\\asr\\sherpa_parakeet.py": "d8c66212398722976bdc94e2fb6e4b869e96dff48f84c957a91954eb74376327",
+    "saydraft\\asr\\sherpa_stream.py": "af517a6fe740cf10920bc15284b12402c464404a7269b8b0ed3516110cb233f1",
+    "saydraft\\asr\\whisper_ct2.py": "358d61dceb83705f50ed0f94a37865d8bc4211dfbddd0da84b39c1d0fe492da0",
+    "saydraft\\asr\\__init__.py": "5d3c61505530b4ada29477076af11a8d5efc8354934b042e77a57a838f2331e6",
+    "saydraft\\audio\\recorder.py": "462d903aed026d2a2a2bb5e5a023da1909810417ff9984bec7b9b4e2bdb8eec2",
+    "saydraft\\audio\\vad.py": "6b8bfd83ed5cd48da7ed51f86fc6162b210af2d5abe70922b84272745fddbf88",
+    "saydraft\\audio\\vad_silero.py": "0755e745f971aee089474f3596b4c94ef7898f123aa866673aa40265ece83366",
+    "saydraft\\audio\\__init__.py": "8942efa31b92bb7a20696c86298fb892b0d4d3f9db094e0736711d462340c0ea",
+    "saydraft\\cleanup\\backtrack.py": "9f075fa00ae7fd6374a6063f27a34117a852a92d47d01a721c36eec6078b7301",
+    "saydraft\\cleanup\\code_mode.py": "68ca90ea94f341f156737ea27847f1d6beee3327f5c8e2f8917e74de2ecd7fd3",
+    "saydraft\\cleanup\\commands.py": "fa6008a177e9f90e709450e8b4325d41d5ae82191b4d76e28aa68cc8ea29c9ac",
+    "saydraft\\cleanup\\delivery.py": "c50d2469909d3301b1befabf327d9fe241db2a5769e2bad2cb7d58f136d2cdc2",
+    "saydraft\\cleanup\\formatter.py": "19d4e1fafd56028d0c33fa275c289f5cb6e2b95f4d319841b253722d83cb445c",
+    "saydraft\\cleanup\\itn.py": "52544f110d9e1a9dea69776bd36c613cd982d73d34df6a6c2e4b296ca7aea3c6",
+    "saydraft\\cleanup\\__init__.py": "5ce18c150c42e47a862234e9752dc1c1f268ed555beb98b9aafef4ee652dedf7",
+    "saydraft\\compat\\migrate.py": "f658bcdaab21465c978bb83e38d2f5d9657b39239abdd2ce5a475e723899d306",
+    "saydraft\\compat\\__init__.py": "c0bf95a5f89789eb5dfcc15189373b57da9b6105a6338738bd18e71bac92a319",
+    "saydraft\\core\\container.py": "e80fb5a0995ab5473629674118984024c6a45c0c8cd28321863906b18b05603c",
+    "saydraft\\core\\context.py": "2b2fb167c82863265c301ba59289af04cb9611a8e04e587c1adaf639b77139c5",
+    "saydraft\\core\\hotkey_service.py": "7b1f9cc968b9e40fe5efc77e4939ff87773f51f3add7b1ce2018395824c2dc68",
+    "saydraft\\core\\interfaces.py": "10aff915ef12adbcda747344477dc0137e81ad570e83c82a8a4f9cae407e5b6c",
+    "saydraft\\core\\preferences.py": "56e08ca8fa4e4341b2f619fc85b9216472c9ea0a234882aa402b767acebc24f9",
+    "saydraft\\core\\preview.py": "1a270ffbe55c9599901f500aacd46a2736a267bcd4551aa640d268f40abcbc93",
+    "saydraft\\core\\processing.py": "efcea228a69f9b4185f8cf9db8fac1c5e95093081b2f7035960530439b88e966",
+    "saydraft\\core\\segments.py": "2214fee19fa0fb14533f454003a0e8506b5c95356e7c9e612de5cb8dcfdf65d2",
+    "saydraft\\core\\session.py": "31a7c47486ebbc80711e83c443d16e10ef3cd24fd5d9bdf8266427d6de6ac6bd",
+    "saydraft\\core\\timings.py": "7bd35b20df8e932d8434c6b7e20cc40bcef6a101d037b84f511e3578a3883a6f",
+    "saydraft\\core\\worker.py": "d59e5481df5c74a032277a295f76c62ff9d51ebf0f3030bba214f35c74d9e8bb",
+    "saydraft\\core\\__init__.py": "ab26379bd8c3698d421daab49a6ed0952e605c73c05f7907cbfb0c724c7fb846",
+    "saydraft\\data\\audio.py": "b721bcedbbe53cc71570902e5bca6980c81bc4993bcec238498aef9b9988fdf1",
+    "saydraft\\data\\db.py": "de5cbd4dc9e54b8c6442263d3484efd1e9c7ea6b026fb2c5b991d301aa4c4910",
+    "saydraft\\data\\__init__.py": "60ca2d766490cb62aa3ef2ab4ceca5559b7121452ebb4595fff1992652d3e397",
+    "saydraft\\dictation\\glossary.py": "8e28be82e7165cc710aae9e9a39cc1d27bf0f0df9915d988658f4d7844118c10",
+    "saydraft\\dictation\\llm_local.py": "4b9d1e9b1fdfcf6c58453ee59534f70d56adf40529dc7c23123ff47dde6031f6",
+    "saydraft\\dictation\\pipeline.py": "73ce518d545bdaf785362f0f74ec55092991bb13a6fac689ca4297f4da62dc97",
+    "saydraft\\dictation\\protect.py": "39450dffff47a3163e3a566bacde34f74a1b52549ad0d8f7b93f825fd589c2f8",
+    "saydraft\\dictation\\rules.py": "bb9e04c6509e8d1a9a620f474949af1e07ca5eadeb94b637ed0eb8531f4659a0",
+    "saydraft\\dictation\\types.py": "b9e97b931909acc0542ec87e53f412b75530776173acc990f710cb911fc95463",
+    "saydraft\\dictation\\validation.py": "ac57f5a8ae8b06cd3c95efe3dd1e3ee2a192f3518623f0bf311e19fa9c09626b",
+    "saydraft\\dictation\\__init__.py": "2cf378a2e3a66bba1af757dc214b073ddb07778436b287ad5b008f31c204b26a",
+    "saydraft\\insert\\inserter.py": "58e1b147df13a12e49c4551f3543a49de4414b996f54b127197b3abea72f564b",
+    "saydraft\\insert\\sendinput.py": "e2211968c9f8981f5faa3b45dfc2471bdd116e822716bf37b76e68fad06184f9",
+    "saydraft\\insert\\__init__.py": "61a00b9307bb50dd5951e5251842f3979db0d630bd21a0391d3cff7d04297247",
+    "saydraft\\models\\benchmark.py": "7370f2f21360d25e0db1b142ca6b240b99c0f45069f2a7ba6f489184c67a0c06",
+    "saydraft\\models\\downloader.py": "4808bb2e4d57f0b58ad08ae3dde84eff531d5bd459fe33b5aa7e4e5d86124173",
+    "saydraft\\models\\hardware.py": "25bf677a7219fa9f27c4e845f095bc003edc69b572a2a62a67a0714369c91f91",
+    "saydraft\\models\\manifest.py": "5cbb1d4f8e1739d9d04e845d9dca74cc3ef59beb8d161cc813e9062d71ecc3ac",
+    "saydraft\\models\\packages.py": "2cd522c8545ada207a6fb3ca66d0a2bee7d72e541d63be5eb03938bdb3071a48",
+    "saydraft\\models\\runtime_ids.py": "a81e1ccbbd2e984a1469498377eaea4335e0b62a6c0589ea40548c356381353a",
+    "saydraft\\models\\windows_hardware.py": "7ce7eefe22c09673f7809824ed189d31fb3b947ab47c6a9c29021fddf212942c",
+    "saydraft\\models\\__init__.py": "40a65eb701973371b5eb85e2e9b97f11b2e21f7e82131841d668b19459c5ddfd",
+    "saydraft\\privacy\\netguard.py": "e3975131b731f21619a221b8d1fa43e7bc1fa96733b89082aaffe8990d6826bc",
+    "saydraft\\privacy\\telemetry.py": "7bfc1952594bbdf40db29a05c467a702e53b687f8dd428e594b2cf217b5f37d9",
+    "saydraft\\privacy\\__init__.py": "d41cfa101aaf7a226b41bebe507478d59ad573d321e1d2ee66652db94b58ceb4",
+    "saydraft\\stt\\whisper_engine.py": "97a085865217021f5e418c574c8fff1025d671de601981824410bdbc66291499",
+    "saydraft\\stt\\__init__.py": "4ee89943735b0dd01e32634e82251cf4e1c7ecb5e13422bdff8adf274f62a0ee",
+    "saydraft\\ui\\download_task.py": "19547cc61b61ea69ce5488950152c558670267b6adcc98c0e8000dc5d3dd94b3",
+    "saydraft\\ui\\hardware_page.py": "54345b25ab8d49c61fcbe9fa79252231d133dd7b8ab8615a7adb7cdd03cc872c",
+    "saydraft\\ui\\history_window.py": "575f42a33656bef8382e2a0753511af7a97904d2d32f86194e27f6fa5ba5fe66",
+    "saydraft\\ui\\labs_page.py": "c694c30ea505cd2688d9d4d00255924fbf54a385bdc69317996302723b187648",
+    "saydraft\\ui\\languages_page.py": "ba92fa4014201159ca594423a07000a05fdff22a489020c7c06d584c305c6c68",
+    "saydraft\\ui\\model_picker.py": "db86014f9da4191913debd62924d30728debbb8eab3600eec4497f4a25b7789c",
+    "saydraft\\ui\\onboarding.py": "d703ea62eb2e0f2b3699d299fffd1b76b261620825e193ef0b29c7febf40937d",
+    "saydraft\\ui\\pill.py": "8cfa0569abcab4cd123066d03e8166ec7b78f1801d6b477b836a5880e1f275fd",
+    "saydraft\\ui\\settings_window.py": "04542f5106360494830dd264f61e3969fc7604e1ca92a531258fc85fcd391666",
+    "saydraft\\ui\\tray.py": "c59e032ef5c99917464fc11100efd2e237beaa655fa0af4d08a24cecc6745741",
+    "saydraft\\ui\\__init__.py": "850cee902b0b108ae0957865c189f6d6a1416a39614f10bb141610f27794196a",
+    "saydraft\\cleanup\\llm\\bakeoff.py": "d259d7fdf9c3da9a7d55795480c82660ebe8678f045e2fa98672cf3f91cda6ac",
+    "saydraft\\cleanup\\llm\\calibration.py": "675c38ef491ccb6fdd9768c83c8ca6998dc4615a8947a39300e0531827a50351",
+    "saydraft\\cleanup\\llm\\candidates.py": "92ac7647f9250b10055d62256b0be90920d807b3bd3547de8adbdb95907cd025",
+    "saydraft\\cleanup\\llm\\client.py": "90b09b0cd6ff2b4d32eb21aea10023739bf6a087a0d7d0787997d509a435a78d",
+    "saydraft\\cleanup\\llm\\eval_validation.py": "7f59c6e786905dc652081845f6da33114e22e5358bd1cf9902269c1b21ea85c5",
+    "saydraft\\cleanup\\llm\\gate.py": "04523f995f340ab2ece2b972d35201446a348587d0709d76357673745b9c9955",
+    "saydraft\\cleanup\\llm\\loopback.py": "747ea936cbd0320231b2ce01965380a91a2e9054d44840c38b1765153fad72bd",
+    "saydraft\\cleanup\\llm\\ownership.py": "d4348578f4fd71c03d1b6380958c69dc28900ff861ebeeac15e11b0647333752",
+    "saydraft\\cleanup\\llm\\preparation.py": "90cbac5bf8608306d018ecdf36d0357f22294d8fa4de3127470477ba56c65461",
+    "saydraft\\cleanup\\llm\\sidecar.py": "1cf2fc98ed6a057914b050a772be13de3976e548c57b276db9024be83f3e31b2",
+    "saydraft\\cleanup\\llm\\streaming.py": "6c2039bdfb3aa9be9ee549285ec6fc26a67c14620c2634ca130a286888705ff9",
+    "saydraft\\cleanup\\llm\\structure.py": "66a2a5d82b66296871111bb8ed7115e08693b67f39dace235607cface8a88ac5",
+    "saydraft\\cleanup\\llm\\validate.py": "cc4b0365d5e3558749452e344ec0756d005425f93e9584a2b28dea81bf4287a8",
+    "saydraft\\cleanup\\llm\\windows_process.py": "8c97a2c6c7f73e53ef162baa946ff7f2ac4c92890c2f00d03e3e61c526f7252d",
+    "saydraft\\cleanup\\llm\\__init__.py": "4429ccd108db0e310accef6f93f140ab51b08a09bad5248cf9adb60893bebdc8",
+    "saydraft\\cleanup\\llm\\prompts\\__init__.py": "bc41c059e638f295620bb25def031d266781048e2720767ad961f5dbfbbcd310",
+    "tools\\bench_cleanup.py": "fa3041ffd56a4eabc1b6df3a4034b33331ace633f66728fec977f8b6186dfbbd"
+  },
+  "adversarial_sha256": "8005db8927c1d642f691234efdf8445460cbf20ea8bf3c7ca6f15b59564d0de6",
+  "prompt_sha256": {
+    "examples.json": "8ae1d955747eb6969f050eae6edfa0fff7f2c09121e0201afddef82ebab896ec",
+    "post_rules_examples.json": "c66220cb4999e89d1c429041d6985b35af8d4145ede96efc8874f831028a1fc4",
+    "system.txt": "004797841a4e600e91c5f693db8fc46d3aee6d9c1650f3899c7edbe2a92bd612",
+    "__init__.py": "bc41c059e638f295620bb25def031d266781048e2720767ad961f5dbfbbcd310"
+  },
+  "authored_validator": {
+    "total": 100,
+    "caught": 100,
+    "catch_rate": 100.0,
+    "missed_ids": [],
+    "by_category": {
+      "assistant_output": {
+        "total": 10,
+        "caught": 10
+      },
+      "code": {
+        "total": 10,
+        "caught": 10
+      },
+      "dates_amounts_times": {
+        "total": 10,
+        "caught": 10
+      },
+      "entities": {
+        "total": 10,
+        "caught": 10
+      },
+      "language": {
+        "total": 10,
+        "caught": 10
+      },
+      "length": {
+        "total": 10,
+        "caught": 10
+      },
+      "negation": {
+        "total": 10,
+        "caught": 10
+      },
+      "numbers": {
+        "total": 10,
+        "caught": 10
+      },
+      "profanity": {
+        "total": 10,
+        "caught": 10
+      },
+      "protected_tokens": {
+        "total": 10,
+        "caught": 10
+      }
+    },
+    "reasons": {
+      "amounts_changed": 4,
+      "answer_output": 7,
+      "code_changed": 11,
+      "dates_changed": 16,
+      "emails_changed": 5,
+      "glossary_changed": 10,
+      "length_ratio": 8,
+      "negation_changed": 11,
+      "numbers_changed": 10,
+      "profanity_changed": 10,
+      "times_changed": 2,
+      "urls_changed": 5,
+      "wrapper_output": 1
+    }
+  },
+  "selection_performed": false,
+  "hardware": {
+    "schema_version": 1,
+    "measured_at": "2026-11-12T05:32:42.721332+00:00",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD",
+    "logical_cores": 12,
+    "errors": {},
+    "cpu_features": {
+      "physical_cores": 6,
+      "avx2": true,
+      "avx512f": false
+    },
+    "ram_bytes": 64312434688,
+    "adapters": [
+      {
+        "name": "AMD Radeon(TM) Graphics",
+        "vendor_id": 4098,
+        "device_id": 5688,
+        "vram_bytes": 4277944320,
+        "shared_ram_bytes": 47132565504
+      },
+      {
+        "name": "NVIDIA GeForce RTX 3060",
+        "vendor_id": 4318,
+        "device_id": 9476,
+        "vram_bytes": 12701401088,
+        "shared_ram_bytes": 47132565504
+      },
+      {
+        "name": "NVIDIA GeForce RTX 3060",
+        "vendor_id": 4318,
+        "device_id": 9476,
+        "vram_bytes": 12701401088,
+        "shared_ram_bytes": 47132565504
+      }
+    ],
+    "vulkan": [
+      {
+        "name": "AMD Radeon(TM) Graphics",
+        "vendor_id": 4098,
+        "device_id": 5688,
+        "device_type": 1
+      },
+      {
+        "name": "NVIDIA GeForce RTX 3060",
+        "vendor_id": 4318,
+        "device_id": 9476,
+        "device_type": 2
+      }
+    ],
+    "cuda": [
+      {
+        "name": "NVIDIA GeForce RTX 3060"
+      }
+    ]
+  },
+  "prepared": true,
+  "preparation_seconds": 1.5425428000162356,
+  "peak_native_working_set_bytes": [
+    1030983680
+  ],
+  "last_sidecar_status": {
+    "state": "closed",
+    "reason": "closed",
+    "failures": 0
+  },
+  "native_exit_observed": [
+    true
+  ],
+  "suites": {
+    "golden": {
+      "requested": 432,
+      "completed": 432,
+      "cleanup_calls": 314,
+      "returned_candidates": 2,
+      "client_replies": 222,
+      "client_replies_with_token_counts": 2,
+      "accepted_replies": 2,
+      "decisions": {
+        "skip_low_need": 92,
+        "bypassed": 118,
+        "skip_budget": 220,
+        "accepted": 2
+      },
+      "call_reasons": {
+        "skip_low_need": 92,
+        "skip_budget": 220,
+        "ok": 2
+      },
+      "preservation_failures": [],
+      "latency_by_prefix_relation": {
+        "first": {
+          "n": 1,
+          "p50_seconds": 0.000304899993352592,
+          "p95_seconds": 0.000304899993352592,
+          "max_seconds": 0.000304899993352592
+        },
+        "style_changed": {
+          "n": 42,
+          "p50_seconds": 0.018046799988951534,
+          "p95_seconds": 0.029228300001705065,
+          "max_seconds": 0.4698881999938749
+        },
+        "same_style": {
+          "n": 271,
+          "p50_seconds": 0.0210609000059776,
+          "p95_seconds": 0.02749279999989085,
+          "max_seconds": 0.032210900011705235
+        }
+      },
+      "exact_passes": 432,
+      "exact_rate": 100.0,
+      "accepted_exact_passes": 2,
+      "eligible_cases": 314,
+      "accepted_exact_rate": 0.6369426751592356,
+      "fallback_exact_passes": 312,
+      "regressions": []
+    },
+    "adversarial": {
+      "requested": 100,
+      "completed": 100,
+      "cleanup_calls": 100,
+      "returned_candidates": 0,
+      "client_replies": 0,
+      "client_replies_with_token_counts": 0,
+      "accepted_replies": 0,
+      "decisions": {
+        "skip_low_need": 100
+      },
+      "call_reasons": {
+        "skip_low_need": 100
+      },
+      "preservation_failures": [],
+      "latency_by_prefix_relation": {
+        "first": {
+          "n": 0
+        },
+        "style_changed": {
+          "n": 0
+        },
+        "same_style": {
+          "n": 100,
+          "p50_seconds": 0.0003794000076595694,
+          "p95_seconds": 0.0006141999911051244,
+          "max_seconds": 0.0006836999964434654
+        }
+      }
+    }
+  },
+  "measurement_complete": false,
+  "notes": "Strict exact strings/actions; preservation checks are finite guards, not semantic proof.",
+  "corpus_measurement_complete": false,
+  "throughput_complete": false,
+  "policy_measurement_complete": true
+}
