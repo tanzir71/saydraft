@@ -3,8 +3,8 @@
 P5.1 starts with a pure bounded chord engine. The existing gesture controller
 moves from `hotkeys.py` into `hotkeys/controller.py`; the package re-exports its
 public classes so existing application imports and injected tests stay intact.
-The current application still uses the keyboard backend until native transport
-and service wiring are verified. This checkpoint installs no global hook.
+The current native application route is described below; the first pure-engine
+checkpoint installed no global hook.
 
 Chords accept modifiers with at most one ordinary virtual key or mouse button,
 or modifiers alone. Aliases normalize before conflict checks; either physical
@@ -69,7 +69,7 @@ Callbacks remain referenced through removal/loop exit. Partial hook installation
 is retired. Tagged vkE8 masks are sent before modifier-up forwarding; partial
 delivery retries only release. Our tag is ignored, while external accessibility
 and macro input still works. Actual Start-menu/F9 acceptance and app wiring remain
-open; the application still uses its old backend until that switch is verified.
+open; this transport checkpoint preceded the application switch described below.
 
 Transport validation: 1557 tests pass with four optional native skips, rules
 432/432, authored adversarial checks 100/100 and Ruff/diff pass. Tests cover ABI,

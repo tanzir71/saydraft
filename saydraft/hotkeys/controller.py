@@ -337,5 +337,3 @@ class HotkeyController:
         self._recording_started_at = None
         self._locked = False
         return session
-
-
