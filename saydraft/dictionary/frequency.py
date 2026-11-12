@@ -25,7 +25,8 @@ def normalize_word(word: str) -> str:
 
 
 def language_code(language: str) -> str | None:
-    if not isinstance(language, str) or not re.fullmatch(r"[A-Za-z]{2,3}(?:[-_][A-Za-z0-9]{2,8})*", language):
+    if (not isinstance(language, str) or len(language) > 64
+            or not re.fullmatch(r"[A-Za-z]{2,3}(?:[-_][A-Za-z0-9]{2,8})*", language)):
         return None
     base = language.replace("_", "-").split("-", 1)[0].lower()
     return ALIASES.get(base, base)

@@ -1,8 +1,45 @@
 # Dictionary correction learning
 
-P5.6 is in progress. The offline frequency filter is implemented; observing the
-inserted field, alignment, suggestions, Auto-add and Undo still need integration.
+P5.6 is in progress. Offline frequency filtering and pure span alignment are
+implemented; observing the inserted field, suggestions, Auto-add and Undo still
+need integration.
 Manual desktop acceptance remains deferred after Computer Use was stopped.
+
+## Alignment policy
+
+`suggest_correction(inserted, current, language)` accepts two already-scoped
+insertion spans. It does not read a field, prove field identity or modify the
+dictionary. Exactly one word may change; every character outside that word must
+stay identical, including punctuation and whitespace. Returned offsets index the
+original Python strings, while the candidate spelling is NFC. The future UIA
+observer must handle UTF-16 conversion separately and prove the original field
+is still the same non-password element before reading its retained range.
+
+Words include Unicode letters/marks and internal apostrophes/hyphens. Input is
+limited to 4096 characters, 512 words, and 3–64 characters per changed word. A
+candidate must be uncommon and within one edit (two for words of at least six
+characters), counting adjacent transposition. English ASCII names also have a
+bounded [Soundex](https://www.archives.gov/research/census/soundex) route: matching
+codes with at least two consonant digits, at most three edits and a length
+difference of at most two. Independent National Archives examples verify the
+coding rules. This heuristic is correction evidence, not pronunciation proof.
+
+Case-only edits require name-like casing. Common words require an explicitly
+known proper term or an exact built-in proper spelling (iPhone, iPad, iOS, macOS,
+eBay, YouTube, GitHub, GitLab, OpenAI, WhatsApp). Arbitrary mixed casing such as
+`tHe` is insufficient. Uppercase emphasis and casefold
+expansions are skipped. The known-term scan is capped at 1024 entries. Unicode
+normalization, Arabic vowel/tatweel and apostrophe-presentation changes alone
+never create a word.
+
+Known double-quoted/backtick literals, address shapes, numbers, identifier fragments, format-control
+boundaries, mixed scripts, additions/deletions and broader rewrites are skipped.
+Only single-script spaced alphabetic words are eligible; Chinese, Japanese,
+Korean and other languages needing segmentation currently skip learning. Their
+dictation support is unchanged. Unknown/Auto or unavailable frequency data also
+skips. The tests include exact Kubernetes evidence with bundled data, Bengali and
+Arabic corrections, raw Unicode offsets and the refusal cases above. No desktop
+field observation is enabled by this foundation.
 
 ## Common-word filter
 

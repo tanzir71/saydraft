@@ -21,6 +21,11 @@ _SPANS = re.compile("|".join(pattern.pattern for pattern in _SPAN_PATTERNS), re.
 _ENTITIES = re.compile("|".join(pattern.pattern for pattern in _SPAN_PATTERNS[-4:]), re.IGNORECASE)
 
 
+def literal_ranges(text: str) -> tuple[tuple[int, int], ...]:
+    """Offsets of known quoted/code/address literals, without changing their text."""
+    return tuple(match.span() for match in _SPANS.finditer(text))
+
+
 def protect_spans(text: str, *, protected_tokens=(), entities_only=False) -> Tuple[str, Dict[str, str]]:
     if not text:
         return text, {}
