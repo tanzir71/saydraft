@@ -49,7 +49,7 @@ High-need cases may legitimately skip for budget; `accepted_replies` is reported
 separately. Five correct policy outcomes do not imply five model replies or model
 quality acceptance. The probe performs no capture, database write or live insertion.
 
-Validation: 1383 tests pass with four optional native skips; rules 432/432,
+Validation: 1391 tests pass with four optional native skips; rules 432/432,
 authored adversarial checks 100/100, and Ruff/diff checks pass.
 
 Tests cover pre-rule cues, Unicode word counts, low-need/expired zero-call paths,
@@ -75,3 +75,31 @@ Initial background preparation takes 18.701 s CPU / 5.717 s RTX; changed-style
 prefix preparation takes 4.383 s / 0.277 s. This is short-case policy evidence,
 with primed driver caches, not full-corpus quality or tier latency acceptance.
 Unmodified reports: `eval/cleanup/results/2026-11-12-gate/`.
+
+## Full-corpus policy evaluation
+
+`tools.bench_cleanup --interactive-policy` runs the unchanged 432 golden and 100
+adversarial inputs through the actual processor, History-before-delivery path and
+simulated insertion. It uses production cue scoring, live three-sample decoder
+calibration, prefix tracking, the 800 ms cap and 50 ms reserve. It explicitly waits
+for static background preparation for each captured style/app before case timing.
+Those setup durations and calibration triples are retained per case. No audio,
+release event or ASR is measured; setup-excluded timings cannot establish §1 row 8.
+Raw/Code cases bypass preparation and prose generation.
+
+The original forced-quality mode retains its larger independent budget and
+generation-evidence requirements. In policy mode, `policy_measurement_complete`
+means every requested case ran after explicit preparation/bypass and every native
+exit was observed. It can be true with zero generated replies. The original
+`measurement_complete` remains false without a full forced model measurement;
+the CLI uses the policy-specific field for policy runs. Accepted replies, token
+evidence, exact golden scores, fallbacks, skip decisions, regressions and finite
+preservation guards remain separate. Authored adversarial checks and previous
+forced native adversarial measurements do not become policy generation credit.
+
+Use the same installed-model/runtime/output arguments as the short probe, plus
+`--interactive-policy --isolated`. Policy mode refuses a raised timeout or changed
+three-sample calibration. Every run needs a clean immutable source checkout and a
+new output directory; checkpointed metadata permits diagnosis of partial failures.
+It neither downloads models nor selects a default. Full gated quality and tier
+latency still require measurement and review of the resulting evidence.

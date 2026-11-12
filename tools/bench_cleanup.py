@@ -18,7 +18,8 @@ from saydraft.cleanup.llm.candidates import ROOT, candidate_directory, candidate
 from saydraft.cleanup.llm.eval_validation import DEFAULT_CORPUS, evaluate, load_cases
 from saydraft.cleanup.llm.sidecar import SidecarConfig, SidecarManager
 from saydraft.cleanup.llm.windows_process import WindowsJobProcess
-from saydraft.dictation import DictationConfig, DictationPipeline
+from saydraft.dictation import DictationConfig, DictationContext, DictationPipeline
+from saydraft.cleanup.llm.prompts import PromptHints
 from saydraft.dictation.llm_local import LocalLLMConfig, LocalLLMCleaner
 from saydraft.eval import DEFAULT_CORPUS_PATH, load_eval_corpus
 from saydraft.models.hardware import probe_hardware
@@ -82,6 +83,34 @@ def throughput(manager, repeats, timeout):
     return samples
 
 
+def prepare_policy_case(case, local):
+    """Explicit test setup outside case timing; never a release-latency claim."""
+    if case.mode == "raw" or case.profile == "code/comments" or case.app_group == "code":
+        return {"bypassed": True}
+    context = DictationContext(mode=case.mode, profile=case.profile, app_title=case.app_title,
+                               app_group=case.app_group)
+    started = time.perf_counter()
+    requested = local.warm_for_context(context)
+    preparation = local._preparation
+    settled = requested and preparation is not None and preparation.wait(185)
+    hints = PromptHints(style={"email": "formal", "chat": "casual"}.get(case.profile, "neutral"),
+                        post_rules=True, app=case.app_title or "", group=case.app_group)
+    if not settled or not preparation.ready(hints):
+        raise RuntimeError("Interactive policy preparation unavailable")
+    measurement = local._client.decoder.current
+    if measurement is None:
+        raise RuntimeError("Interactive decoder measurement unavailable")
+    return {"prepared": True, "seconds": time.perf_counter() - started,
+            "decoder_calibration": measurement.metadata()}
+
+
+def policy_complete(rows, golden, adversarial):
+    return (len(rows) == golden + adversarial and golden > 0 and adversarial > 0
+        and sum(row["suite"] == "golden" for row in rows) == golden
+        and all(row.get("policy_preparation", {}).get("prepared")
+                or row.get("policy_preparation", {}).get("bypassed") for row in rows))
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     for name in ("candidate", "models-dir", "runtime-dir", "output"):
@@ -89,7 +118,8 @@ def main(argv=None):
     parser.add_argument("--backend", choices=("cpu", "vulkan"), default="cpu")
     parser.add_argument("--device", help="explicit native device identifier, e.g. Vulkan1")
     parser.add_argument("--threads", type=int, default=4)
-    parser.add_argument("--timeout-ms", type=int, default=120000, help="quality/debug budget, not the app latency limit")
+    parser.add_argument("--timeout-ms", type=int, help="default: 120000 for forced quality; 800 for interactive policy")
+    parser.add_argument("--interactive-policy", action="store_true", help="production gate with explicit background setup")
     parser.add_argument("--golden", type=Path, default=DEFAULT_CORPUS_PATH)
     parser.add_argument("--adversarial", type=Path, default=DEFAULT_CORPUS)
     parser.add_argument("--limit", type=int, help="explicit debug subset; cannot establish full-corpus acceptance")
@@ -97,6 +127,10 @@ def main(argv=None):
     parser.add_argument("--include-text", action="store_true", help="explicitly retain case output text in the local journal")
     parser.add_argument("--isolated", action="store_true", help="declare no model transfers/other benchmarks are active")
     args = parser.parse_args(argv)
+    if args.timeout_ms is None:
+        args.timeout_ms = 800 if args.interactive_policy else 120000
+    if args.interactive_policy and (args.timeout_ms != 800 or args.throughput_repeats != 3):
+        parser.error("interactive policy uses the real 800 ms cap and three live decoder samples")
     if (os.name != "nt" or not 1 <= args.threads <= 64 or not 1 <= args.timeout_ms <= 120000
             or not 0 <= args.throughput_repeats <= 10 or args.limit is not None and args.limit < 1
             or args.device and (args.backend != "vulkan" or not re.fullmatch(r"Vulkan\d+", args.device))):
@@ -117,8 +151,10 @@ def main(argv=None):
     args.output.mkdir(parents=True, exist_ok=False)
     report = {"schema_version": 1, "candidate": model, "runtime": runtime_model_id(args.backend),
         "delivery": "simulated; no live OS keys or microphone", "latency_acceptance_evaluated": False,
-        "interactive_prompt_preparation": False,
-        "interactive_budget_gate": False,
+        "measurement_kind": "interactive_policy" if args.interactive_policy else "forced_quality",
+        "interactive_prompt_preparation": args.interactive_policy,
+        "interactive_budget_gate": args.interactive_policy,
+        "background_setup_excluded_from_case_latency": args.interactive_policy,
         "backend": args.backend, "device_override": args.device, "threads": args.threads,
         "quality_timeout_ms": args.timeout_ms, "decoding_temperature": 0, "context_size": 4096,
         "max_output_tokens": 256, "full_corpus": args.limit is None, "isolation_declared": args.isolated,
@@ -139,7 +175,7 @@ def main(argv=None):
         manager = SidecarManager(SidecarConfig(weight, backend=args.backend, threads=args.threads,
             startup_seconds=60, max_restarts=0), resolver=lambda name: args.runtime_dir.resolve(), process_factory=spawn)
         cfg = LocalLLMConfig(enabled=True, model_path=str(weight), backend=args.backend,
-                             n_threads=args.threads, timeout_ms=args.timeout_ms, prepare_prompt=False)
+                             n_threads=args.threads, timeout_ms=args.timeout_ms, prepare_prompt=args.interactive_policy)
         observed = ObservedCleaner(lambda factory: LocalLLMCleaner(cfg,
             manager_factory=lambda config: manager, client_factory=factory))
         pipeline = DictationPipeline(DictationConfig(llm=cfg), llm_cleaner=observed)
@@ -150,14 +186,16 @@ def main(argv=None):
             raise RuntimeError("Candidate sidecar did not become ready")
         with (args.output / "cases.jsonl").open("x", encoding="utf-8") as journal, closing(measure_cases(
                 golden, adversarial, pipeline, observed, ready=lambda: manager.ready,
-                include_text=args.include_text)) as measurements:
+                include_text=args.include_text, prepare_case=(lambda case: prepare_policy_case(case, observed.delegate))
+                if args.interactive_policy else None)) as measurements:
             for row in measurements:
                 rows.append(row)
                 journal.write(json.dumps(row, ensure_ascii=False, allow_nan=False) + "\n")
                 journal.flush()
                 if len(rows) % 10 == 0:
                     print(json.dumps({"completed": len(rows), "decision": row["decision"]}), flush=True)
-        report["throughput_60_tokens"] = throughput(manager, args.throughput_repeats, args.timeout_ms / 1000)
+        if not args.interactive_policy:
+            report["throughput_60_tokens"] = throughput(manager, args.throughput_repeats, args.timeout_ms / 1000)
     except BaseException as error:
         report["error_type"] = type(error).__name__  # Never log transcript/response/credential text.
     finally:
@@ -175,12 +213,16 @@ def main(argv=None):
         report["throughput_complete"] = len(samples) == args.throughput_repeats and all(sample["valid"] for sample in samples)
         report["measurement_complete"] = (report["measurement_complete"] and report["throughput_complete"]
             and bool(report["native_exit_observed"]) and all(report["native_exit_observed"]) and not report.get("error_type"))
+        report["policy_measurement_complete"] = (args.interactive_policy and policy_complete(rows, len(golden), len(adversarial))
+            and bool(report["native_exit_observed"]) and all(report["native_exit_observed"]) and not report.get("error_type"))
         target = args.output / "report.json"
         with target.open("x", encoding="utf-8") as output:
             json.dump(report, output, ensure_ascii=False, indent=2, allow_nan=False)
         print(json.dumps({"report": str(target), "measurement_complete": report["measurement_complete"],
+                          "policy_measurement_complete": report["policy_measurement_complete"],
                           "error_type": report.get("error_type")}), flush=True)
-    return 0 if report["measurement_complete"] and not report.get("error_type") and all(report["native_exit_observed"]) else 1
+    complete = report["policy_measurement_complete"] if args.interactive_policy else report["measurement_complete"]
+    return 0 if complete else 1
 
 
 if __name__ == "__main__":

@@ -39,6 +39,9 @@ class ObservedCleaner:
     def available(self):
         return self.delegate.available()
 
+    def warm_for_context(self, context):
+        return self.delegate.warm_for_context(context)
+
     def reset(self):
         self.calls, self.reply = [], {}
 
@@ -58,14 +61,16 @@ class ObservedCleaner:
         self.calls.append({"reason": reason, "seconds": self.clock() - started,
             "returned_candidate": bool(candidate and candidate.strip()), "source_sha256": digest(text),
             "candidate_sha256": digest(candidate) if candidate else None,
-            "candidate_validation": validation.reason if validation else None, **self.reply})
+            "candidate_validation": validation.reason if validation else None, **self.reply,
+            "gate": getattr(self.delegate, "last_gate_info", None)})
         return candidate, reason
 
     def close(self):
         self.delegate.close()
 
 
-def measure_cases(golden, adversarial, pipeline, observer, *, ready=lambda: True, include_text=False):
+def measure_cases(golden, adversarial, pipeline, observer, *, ready=lambda: True, include_text=False,
+                  prepare_case=None):
     """Yield metadata after each actual processor case; stop on sidecar failure."""
     baseline = DictationPipeline(DictationConfig())
     original = pipeline.glossary
@@ -75,6 +80,7 @@ def measure_cases(golden, adversarial, pipeline, observer, *, ready=lambda: True
     last_style = None
     try:
         for suite, case, category, terms in fixtures:
+            preparation = prepare_case(case) if prepare_case is not None else None
             if not ready():
                 raise RuntimeError("Sidecar unavailable; evaluation stopped before counting fallback-only cases")
             pipeline.glossary = baseline.glossary = Glossary(protected_terms=terms)
@@ -104,6 +110,8 @@ def measure_cases(golden, adversarial, pipeline, observer, *, ready=lambda: True
                     "action_changed" if not action_same else "bypass_changed" if bypass else check.reason,
                 "input_sha256": digest(case.input_text), "output_sha256": digest(actual.cleaned_text),
                 "baseline_sha256": digest(rules.cleaned_text), "enter_sent": actual.insertion.enter_sent}
+            if preparation is not None:
+                row["policy_preparation"] = preparation
             if include_text:
                 row.update(input=case.input_text, expected=case.expected if suite == "golden" else None,
                            actual=actual.cleaned_text, rules=rules.cleaned_text)
@@ -131,6 +139,7 @@ def summarize(rows, *, requested_golden, requested_adversarial):
             "returned_candidates": sum(call["returned_candidate"] for call in calls),
             "client_replies": sum("client_reason" in call for call in calls),
             "client_replies_with_token_counts": sum(call.get("source_tokens", 0) > 0 for call in calls),
+            "accepted_replies": sum(row["decision"] == "accepted" for row in selected),
             "decisions": dict(Counter(row["decision"] for row in selected)),
             "call_reasons": dict(Counter(call["reason"] for call in calls)),
             "preservation_failures": [row["id"] for row in selected if not row["preservation_ok"]],
