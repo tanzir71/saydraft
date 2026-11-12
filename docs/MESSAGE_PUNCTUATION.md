@@ -40,9 +40,11 @@ that expand to multiple sentences keep the final period. A formatting failure
 preserves available text; a History failure still prevents insertion. No model
 download, network call or Enter action is introduced.
 
-Caret-aware joining and its 30-case acceptance remain P5.4. Broader restatements
-and opt-in Enter remain P4.5. The 40 new authored golden rows bring the complete
-rules corpus to 326; CI requires all 326 plus the separate 100 adversarial
+Caret-aware joining now follows this punctuation policy; see
+[caret formatting](CARET_FORMATTING.md) for its 40-case acceptance. Broader
+restatements and opt-in Enter were completed separately in P4.5. The initial
+punctuation change's 40 authored golden rows brought the corpus to 326; that
+change required all 326 plus the separate 100 adversarial
 refusals. Focused cases cover accepted model output, protected terms, config
 persistence, service wiring and the actual snippet/History/insertion ordering.
 

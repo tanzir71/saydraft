@@ -10,6 +10,7 @@ from dataclasses import dataclass, field, replace
 
 from saydraft.history import HistoryEntry
 from saydraft.cleanup.delivery import DeliveryIntent, trailing_enter
+from saydraft.cleanup.formatter import layout_hints
 from saydraft.insert.inserter import InsertionResult
 from .interfaces import Cleaner, Formatter, HistoryStore, Inserter, TargetContext, insertion_block
 from .preferences import protect_snippets, restore_snippets
@@ -65,6 +66,7 @@ class TranscriptProcessor:
             context = replace(context, app_title=target.app_title, app_group=target.app_group,
                 language=language, before_caret=target.before_caret, before_caret_known=target.before_caret_known,
                 selection=target.selection, selection_known=target.selection_known,
+                selection_truncated=target.selection_truncated,
                 after_caret=target.after_caret, after_caret_known=target.after_caret_known)
             delivery = trailing_enter(raw_text, context, enabled=self.voice_enter_enabled and insert_text)
             if delivery.send_enter:
@@ -81,6 +83,7 @@ class TranscriptProcessor:
             cleaned = self.formatter.format(cleaned, target) or cleaned
             format_final = getattr(self.cleaner, "format_final", None)
             if format_final is not None:
+                context = layout_hints(context, delivery.text, cleaned, snippet_mapping.values())
                 cleaned = format_final(cleaned, context) or cleaned
         except Exception:
             logger.warning("Formatting failed; preserving available words")

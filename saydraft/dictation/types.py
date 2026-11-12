@@ -23,4 +23,7 @@ class DictationContext:
     selection_known: bool = False
     after_caret: str = ""
     after_caret_known: bool = False
+    source_initial_lower: str = ""
+    literal_prefix: bool = False
+    selection_truncated: bool = False
 

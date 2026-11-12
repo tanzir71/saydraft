@@ -5,7 +5,7 @@ from dataclasses import dataclass
 from typing import Optional
 
 from saydraft.cleanup.code_mode import render_code
-from saydraft.cleanup.formatter import final_punctuation
+from saydraft.cleanup.formatter import caret_layout, final_punctuation, layout_hints
 from .glossary import Glossary, apply_replacements, learn_word, load_glossary, protect_terms, restore_terms
 from .llm_local import LocalLLMConfig, LocalLLMCleaner
 from .protect import protect_spans, restore_spans
@@ -128,8 +128,9 @@ class DictationPipeline:
         return self.glossary
 
     def format_final(self, text: str, context: DictationContext) -> str:
-        return final_punctuation(text, context, drop_message_period=self.cfg.drop_message_period,
+        text = final_punctuation(text, context, drop_message_period=self.cfg.drop_message_period,
                                  glossary=self.glossary)
+        return caret_layout(text, context, glossary=self.glossary)
 
     def process_for_delivery(self, raw_text: str, context: DictationContext) -> str:
         return self.process_transcript(raw_text, context, finalize=False)
@@ -182,7 +183,7 @@ class DictationPipeline:
         final_text = llm_ok_text if llm_ok_text is not None else rule_clean
         final_text = restore_spans(final_text, span_mapping)
         final_text = restore_terms(final_text, mapping)
-        return self.format_final(final_text, context) if finalize else final_text
+        return self.format_final(final_text, layout_hints(context, raw_text, final_text)) if finalize else final_text
 
 
 _DEFAULT_PIPELINE: Optional[DictationPipeline] = None

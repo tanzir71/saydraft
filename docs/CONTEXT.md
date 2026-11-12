@@ -222,7 +222,8 @@ The running fixture writes its PID beside the executable.
 
 Launch/select the fixture through Computer Use, then run
 `python -m tools.probe_desktop_fields --fixture-pid <pid> --output D:\QA\New-Desktop-Field-Probe`.
-Tap F9 twice in its password field, then twice in its plain field; allow at least
+Tap F9 twice in its password field. In its plain field press End, then tap F9
+twice; allow at least
 0.5 s per recording. The observer uses actual foreground/focus/UIA and native
 integrity checks, restricted to the supplied fixture PID/executable. Transcript,
 microphone and delivery remain authored/in-memory stubs. It never sends keys,
@@ -259,7 +260,8 @@ of these ranges.
 
 The before/selection/after availability flags reach cleanup in ephemeral context;
 field surroundings never enter History rows. Legacy injected two-string readers
-remain supported. P5.4 can now apply layout only to reliable boundaries rather
-than assuming that an empty string means an empty field. Spacing/casing behavior
-and its 30-case golden acceptance follow separately. Desktop testing remains
-stopped as requested.
+remain supported. [Caret formatting](CARET_FORMATTING.md) applies layout only at
+reliable boundaries, with 40 authored golden cases. Truncated selections disable
+layout. The native own-control probe checks exact formatted History/delivery;
+the desktop helper now requires the plain caret at End and checks that geometry.
+Desktop testing remains stopped as requested.

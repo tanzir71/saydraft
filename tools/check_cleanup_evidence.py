@@ -107,7 +107,7 @@ def check(policy_index=POLICY_INDEX, forced_index=FORCED_INDEX, *, root=ROOT):
     policy, forced = reports(Path(policy_index)), reports(Path(forced_index))
     golden = load_eval_corpus(root / "tests/eval_corpus.jsonl")
     adversarial = load_cases(root / DEFAULT_CORPUS.relative_to(ROOT))
-    require(len(golden) >= 432 and len(adversarial) >= 100, "Cleanup corpus shrank")
+    require(len(golden) >= 472 and len(adversarial) >= 100, "Cleanup corpus shrank")
     golden_sha = corpus_digest(golden)
     adversarial_sha = digest(json.dumps(adversarial, sort_keys=True).encode())
     results = []

@@ -20,7 +20,7 @@ from saydraft.core.container import Services
 from saydraft.core.processing import IdentityFormatter, TranscriptProcessor
 from saydraft.core.session import DictationSession
 from saydraft.core.worker import SessionWorker
-from saydraft.dictation import DictationConfig, DictationContext, DictationPipeline
+from saydraft.dictation import DictationConfig, DictationPipeline
 from saydraft.history import DictationHistoryStore
 from saydraft.insert._clipboard_win32 import NativeClipboardApi
 from saydraft.insert.inserter import Inserter
@@ -80,7 +80,7 @@ def replay(parent, child, output, password, row):
         history = DictationHistoryStore(output / ("password.db" if password else "plain.db"))
         cleaner, formatter = DictationPipeline(DictationConfig()), IdentityFormatter()
         raw = "public dictation fixture"
-        expected = cleaner.process_transcript(raw, DictationContext())
+        expected = "Public dictation fixture" + ("" if password else " ")
         memory = NS(value="Public original clipboard fixture")
         clipboard = NS(paste=lambda: memory.value, copy=lambda text: setattr(memory, "value", text))
         def send(key):
@@ -132,6 +132,9 @@ def replay(parent, child, output, password, row):
         assert row["focus_property_supported"] and row["unfocused_fixture_refused"]
         assert row["captured_status"] == ("password" if password else "ok")
         assert row["caret_ranges_known"] == row["suffix_known"] == (not password)
+        if not password:
+            assert worker._target.before_caret == worker._target.selection == ""
+            assert worker._target.after_caret == "P"
         assert result.insertion.reason == ("password_field" if password else "")
         assert len(delivered) == (0 if password else 1) and (not password or not reads)
         row["stage"], row["complete"] = "complete", True

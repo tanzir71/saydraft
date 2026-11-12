@@ -18,7 +18,7 @@ from saydraft.context.uia_worker import BoundedUIA
 from saydraft.core.container import Services
 from saydraft.core.processing import IdentityFormatter, TranscriptProcessor
 from saydraft.core.worker import SessionWorker
-from saydraft.dictation import DictationConfig, DictationContext, DictationPipeline
+from saydraft.dictation import DictationConfig, DictationPipeline
 from saydraft.history import DictationHistoryStore
 from saydraft.insert.guards_win import WindowsDeliveryGuard
 from saydraft.insert.inserter import Inserter
@@ -71,11 +71,12 @@ def main(argv=None):
         history = DictationHistoryStore(args.output / "history.db")
         cleaner, formatter = DictationPipeline(DictationConfig()), IdentityFormatter()
         raw = "public dictation fixture"
-        expected = cleaner.process_transcript(raw, DictationContext())
+        expected_history = ["Public dictation fixture", " public dictation fixture"]
         memory = NS(value="Public memory clipboard fixture")
         clipboard = NS(paste=lambda: memory.value, copy=lambda text: setattr(memory, "value", text))
         def send(key):
             rows = history.list_recent(limit=3)
+            expected = expected_history[1]
             assert key == "ctrl+v" and rows and rows[0].raw_text == raw and rows[0].cleaned_text == expected
             assert memory.value == expected
             delivered.append(True)
@@ -95,7 +96,12 @@ def main(argv=None):
                 if name == "recording_started":
                     target = worker._target
                     report["capture"] = {"status": target.uia_status, "is_password": target.is_password,
-                        "control_type": target.control_type, "fixture_pid_matched": target.process_id == args.fixture_pid}
+                        "control_type": target.control_type, "fixture_pid_matched": target.process_id == args.fixture_pid,
+                        "caret_geometry_valid": (
+                            not target.before_caret_known and not target.selection_known and not target.after_caret_known
+                            if target.is_password else target.before_caret_known and target.selection_known
+                            and target.after_caret_known and target.before_caret == "Public plain fixture"
+                            and target.selection == target.after_caret == "")}
                 if name == "processing_finished":
                     result, target = worker.last_result, worker._target
                     if result is None:
@@ -108,7 +114,9 @@ def main(argv=None):
                         "status": result.insertion.status, "reason": result.insertion.reason,
                         "text_reads_total": len(text_reads),
                         "deliveries_total": len(delivered), "history_rows": len(rows),
-                        "raw_clean_exact": bool(rows) and all(row.raw_text == raw and row.cleaned_text == expected for row in rows),
+                        "raw_clean_exact": bool(rows) and len(rows) <= 2 and all(
+                            row.raw_text == raw and row.cleaned_text == expected
+                            for row, expected in zip(rows, reversed(expected_history[:len(rows)]))),
                         "memory_restored": memory.value == "Public memory clipboard fixture"})
                     if len(report["cases"]) >= 2:
                         done.set()
@@ -118,7 +126,8 @@ def main(argv=None):
         hooks = worker.hotkeys._controller._native.owner
         report["ready"] = worker.hotkeys.enabled and hooks.status["state"] == "running"
         publish()
-        print("Ready: use the public fixture's password field and plain field, tapping F9 twice in each.", flush=True)
+        print("Ready: tap F9 twice in the public password field. In the plain field, press End, then tap F9 twice.",
+              flush=True)
         deadline = time.monotonic() + args.timeout
         while not done.wait(.1) and time.monotonic() < deadline and not (args.output / "stop.request").exists():
             pass
@@ -149,7 +158,8 @@ def main(argv=None):
             and cases[1]["status"] == "inserted" and cases[1]["reason"] == ""
             and cases[1]["deliveries_total"] == 1 and cases[1]["history_rows"] == 2
             and cases[1]["text_reads_total"] == 1
-            and all(case["capture"]["fixture_pid_matched"] and case["raw_clean_exact"] and case["memory_restored"] for case in cases))
+            and all(case["capture"]["fixture_pid_matched"] and case["capture"]["caret_geometry_valid"]
+                and case["raw_clean_exact"] and case["memory_restored"] for case in cases))
         publish()
         print(json.dumps(report), flush=True)
     return 0 if report["probe_complete"] else 1

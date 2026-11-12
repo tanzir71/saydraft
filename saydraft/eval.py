@@ -30,6 +30,12 @@ class EvalCase:
     voice_enter_enabled: bool = False
     expected_enter: bool = False
     snippets: tuple[tuple[str, str], ...] = ()
+    before_caret_known: bool = False
+    selection: str = ""
+    selection_known: bool = False
+    after_caret: str = ""
+    after_caret_known: bool = False
+    selection_truncated: bool = False
 
 
 @dataclass(frozen=True)
@@ -70,7 +76,8 @@ def load_eval_corpus(path: str | Path = DEFAULT_CORPUS_PATH) -> list[EvalCase]:
     cases: list[EvalCase] = []
     ids, examples = set(), set()
     allowed = {"id", "input", "expected", "mode", "profile", "intensity", "app_title", "app_group", "before_caret",
-               "language", "voice_enter_enabled", "expected_enter", "snippets"}
+               "language", "voice_enter_enabled", "expected_enter", "snippets", "before_caret_known",
+               "selection", "selection_known", "after_caret", "after_caret_known", "selection_truncated"}
     with corpus_path.open("r", encoding="utf-8") as handle:
         for line_number, line in enumerate(handle, start=1):
             line = line.strip()
@@ -89,8 +96,13 @@ def load_eval_corpus(path: str | Path = DEFAULT_CORPUS_PATH) -> list[EvalCase]:
                     or intensity is not None and (type(intensity) is not int or not 0 <= intensity <= 4
                                                   or intensity == 0 and mode != "raw")
                     or data.get("app_title") is not None and not isinstance(data["app_title"], str)
-                    or any(not isinstance(data.get(key, ""), str) for key in ("app_group", "before_caret", "language"))
-                    or any(type(data.get(key, False)) is not bool for key in ("voice_enter_enabled", "expected_enter"))
+                    or any(not isinstance(data.get(key, ""), str) for key in (
+                        "app_group", "before_caret", "language", "selection", "after_caret"))
+                    or len(data.get("after_caret", "")) > 1
+                    or any(0xD800 <= ord(char) <= 0xDFFF for char in data.get("after_caret", ""))
+                    or any(type(data.get(key, False)) is not bool for key in (
+                        "voice_enter_enabled", "expected_enter", "before_caret_known", "selection_known",
+                        "after_caret_known", "selection_truncated"))
                     or not isinstance(snippets, dict)
                     or any(not isinstance(k, str) or not k.strip() or not isinstance(v, str) for k, v in snippets.items())
                     or len({key.strip().casefold() for key in snippets}) != len(snippets)):
@@ -99,7 +111,10 @@ def load_eval_corpus(path: str | Path = DEFAULT_CORPUS_PATH) -> list[EvalCase]:
                            data.get("app_title"), data.get("app_group", "general"),
                            data.get("before_caret", ""), data.get("language", "auto"),
                            data.get("voice_enter_enabled", False), data.get("expected_enter", False),
-                           tuple(sorted((k.strip().casefold(), v) for k, v in snippets.items())))
+                           tuple(sorted((k.strip().casefold(), v) for k, v in snippets.items())),
+                           data.get("before_caret_known", False), data.get("selection", ""),
+                           data.get("selection_known", False), data.get("after_caret", ""),
+                           data.get("after_caret_known", False), data.get("selection_truncated", False))
             signature = astuple(case)[1:]
             if case.id in ids or signature in examples:
                 raise ValueError(f"Duplicate ID or example in golden corpus row {line_number}")
@@ -119,14 +134,20 @@ def execute_case(case: EvalCase, pipeline: DictationPipeline):
     from saydraft.insert.inserter import InsertionResult
 
     context = DictationContext(mode=case.mode, profile=case.profile, intensity=case.intensity,
-        app_title=case.app_title, app_group=case.app_group, before_caret=case.before_caret, language=case.language)
+        app_title=case.app_title, app_group=case.app_group, before_caret=case.before_caret, language=case.language,
+        before_caret_known=case.before_caret_known, selection=case.selection, selection_known=case.selection_known,
+        after_caret=case.after_caret, after_caret_known=case.after_caret_known,
+        selection_truncated=case.selection_truncated)
     inserter = SimpleNamespace(insert_text=lambda text, **kw: InsertionResult(
         "inserted", "eval", enter_sent=kw.get("send_enter", False)))
     processor = TranscriptProcessor(cleaner=pipeline, formatter=IdentityFormatter(),
         history=SimpleNamespace(append=lambda entry: 1), inserter=inserter,
         snippets=dict(case.snippets), voice_enter_enabled=case.voice_enter_enabled)
     return processor.process(case.input_text, context=context, model="eval", language=case.language,
-        target=TargetContext("eval", case.app_title, app_group=case.app_group, before_caret=case.before_caret))
+        target=TargetContext("eval", case.app_title, app_group=case.app_group, before_caret=case.before_caret,
+            before_caret_known=case.before_caret_known, selection=case.selection, selection_known=case.selection_known,
+            after_caret=case.after_caret, after_caret_known=case.after_caret_known,
+            selection_truncated=case.selection_truncated))
 
 
 def run_eval(cases: Iterable[EvalCase], pipeline: DictationPipeline | None = None) -> EvalResult:

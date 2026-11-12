@@ -10,7 +10,8 @@ def test_eval_corpus_has_required_size_and_coverage():
 
     cases = load_eval_corpus(DEFAULT_CORPUS_PATH)
 
-    assert len(cases) >= 432
+    assert len(cases) >= 472
+    assert sum(case.before_caret_known and case.selection_known for case in cases) >= 30
     assert any(len(case.input_text.split()) >= 120 for case in cases)
     assert any(case.snippets for case in cases)
     assert any(case.voice_enter_enabled and case.expected_enter for case in cases)
@@ -76,6 +77,9 @@ def test_full_app_context_reaches_actual_code_path_and_injected_pipeline(tmp_pat
     {"id": ""}, {"input": 2}, {"expected": None}, {"mode": "unknown"}, {"profile": "unknown"},
     {"intensity": True}, {"intensity": 0}, {"intensity": 5}, {"app_group": []}, {"before_caret": None},
     {"app_goup": "code"},
+    {"before_caret_known": 1}, {"selection_known": "yes"}, {"after_caret_known": None},
+    {"selection": []}, {"after_caret": 1}, {"after_caret": "ab"},
+    {"after_caret": "\ud800"}, {"selection_truncated": 1},
     {"voice_enter_enabled": 1}, {"expected_enter": "yes"}, {"snippets": []},
     {"snippets": {"sig": 5}}, {"snippets": {"sig": "one", " SIG ": "two"}},
 ])
@@ -123,4 +127,24 @@ def test_actual_processor_expands_snippets_and_expected_actions_cannot_pass_on_t
     assert failure.actual == "Thanks." and failure.actual_enter
     row.update(input="sig", expected="Hello press enter", snippets={"sig": "Hello press enter"})
     assert run_eval(load_eval_corpus(write_cases(tmp_path, [row]))).passed == 1
+
+
+def test_caret_availability_and_replacement_boundaries_reach_processor_and_injected_pipeline(tmp_path):
+    from saydraft.eval import load_eval_corpus, run_eval
+
+    row = {"id": "caret-forward", "input": "new", "expected": "new", "mode": "raw",
+           "before_caret": "pre", "before_caret_known": True, "selection": "fix", "selection_known": True,
+           "after_caret": "e", "after_caret_known": True, "selection_truncated": True}
+    contexts = []
+
+    class Capture:
+        def process_transcript(self, text, context):
+            contexts.append(context)
+            return text
+
+    assert run_eval(load_eval_corpus(write_cases(tmp_path, [row])), Capture()).passed == 1
+    captured = contexts[0]
+    assert captured.before_caret == "pre" and captured.selection == "fix" and captured.after_caret == "e"
+    assert captured.before_caret_known and captured.selection_known and captured.after_caret_known
+    assert captured.selection_truncated
 

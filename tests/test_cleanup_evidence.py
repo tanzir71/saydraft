@@ -11,6 +11,8 @@ BASE_POLICY = evidence.ROOT / "eval/cleanup/results/2026-11-12-policy-headroom/i
 
 
 def fixture(tmp_path):
+    # These generated reports test the checker, never count as native evidence.
+    golden = evidence.load_eval_corpus(evidence.ROOT / "tests/eval_corpus.jsonl")
     indexes = []
     for label, original in (("policy", BASE_POLICY), ("forced", evidence.FORCED_INDEX)):
         folder = tmp_path / label
@@ -18,6 +20,8 @@ def fixture(tmp_path):
         index = json.loads(original.read_text())
         for entry in index["reports"]:
             report = json.loads((original.parent / entry["report"]).read_text())
+            report["golden_sha256"] = evidence.corpus_digest(golden)
+            report["suites"]["golden"].update(requested=len(golden), completed=len(golden), exact_passes=len(golden))
             # Synthetic source/calibration metadata is local to this test fixture.
             report["source_fingerprints"] = {name.replace("\\", "/"): hashlib.sha256((evidence.ROOT / name).read_bytes()).hexdigest()
                 for name in report["source_fingerprints"] if (evidence.ROOT / name).exists()}

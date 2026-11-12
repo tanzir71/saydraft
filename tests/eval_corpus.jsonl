@@ -430,3 +430,43 @@
 {"id":"code-v1-092","mode":"balanced","profile":"general","app_group":"code","input":"at file hash dot json","expected":"@hash.json"}
 {"id":"code-v1-093","mode":"balanced","profile":"general","app_group":"code","input":"at file src slash minus dot py","expected":"@src/minus.py"}
 {"id":"code-v1-094","mode":"balanced","profile":"general","app_group":"code","input":"return minus number two","expected":"return -2"}
+{"id":"caret-v1-001","before_caret":"","before_caret_known":true,"selection_known":true,"after_caret_known":true,"input":"hello there","expected":"Hello there"}
+{"id":"caret-v1-002","before_caret":"Please ","before_caret_known":true,"selection_known":true,"after_caret_known":true,"input":"send the file","expected":"send the file"}
+{"id":"caret-v1-003","before_caret":"Please","before_caret_known":true,"selection_known":true,"after_caret_known":true,"input":"send the file","expected":" send the file"}
+{"id":"caret-v1-004","before_caret":"Done. ","before_caret_known":true,"selection_known":true,"after_caret_known":true,"input":"next item","expected":"Next item"}
+{"id":"caret-v1-005","before_caret":"Heading\n","before_caret_known":true,"selection_known":true,"after_caret_known":true,"input":"next item","expected":"Next item"}
+{"id":"caret-v1-006","before_caret":"See (","before_caret_known":true,"selection_known":true,"after_caret_known":true,"input":"the draft","expected":"the draft"}
+{"id":"caret-v1-007","before_caret":"(","before_caret_known":true,"selection_known":true,"after_caret_known":true,"input":"the draft","expected":"The draft"}
+{"id":"caret-v1-008","mode":"aggressive","before_caret":"hello","before_caret_known":true,"selection_known":true,"after_caret_known":true,"input":"comma","expected":","}
+{"id":"caret-v1-009","before_caret":"the ","before_caret_known":true,"selection_known":true,"after_caret":"f","after_caret_known":true,"input":"quick","expected":"quick "}
+{"id":"caret-v1-010","before_caret":"the","before_caret_known":true,"selection_known":true,"after_caret":"f","after_caret_known":true,"input":"quick","expected":" quick "}
+{"id":"caret-v1-011","before_caret":"the ","before_caret_known":true,"selection_known":true,"after_caret":" ","after_caret_known":true,"input":"quick","expected":"quick"}
+{"id":"caret-v1-012","before_caret":"the ","before_caret_known":true,"selection_known":true,"after_caret":",","after_caret_known":true,"input":"quick","expected":"quick"}
+{"id":"caret-v1-013","before_caret":"1.","before_caret_known":true,"selection_known":true,"after_caret_known":true,"input":"5","expected":"5"}
+{"id":"caret-v1-014","before_caret":"Cost $","before_caret_known":true,"selection_known":true,"after_caret_known":true,"input":"5","expected":"5"}
+{"id":"caret-v1-015","before_caret":"path/","before_caret_known":true,"selection_known":true,"after_caret_known":true,"input":"folder","expected":"folder"}
+{"id":"caret-v1-016","before_caret":"#","before_caret_known":true,"selection_known":true,"after_caret_known":true,"input":"topic","expected":"topic"}
+{"id":"caret-v1-017","before_caret":"part-","before_caret_known":true,"selection_known":true,"after_caret_known":true,"input":"time","expected":"time"}
+{"id":"caret-v1-018","before_caret":"He said ","before_caret_known":true,"selection_known":true,"after_caret_known":true,"input":"\"hello\"","expected":"\"hello\""}
+{"id":"caret-v1-019","before_caret":"Contact ","before_caret_known":true,"selection_known":true,"after_caret_known":true,"input":"a.b@example.com","expected":"a.b@example.com"}
+{"id":"caret-v1-020","before_caret":"visit","before_caret_known":true,"selection_known":true,"after_caret_known":true,"input":"https://example.com/Hello","expected":" https://example.com/Hello"}
+{"id":"caret-v1-021","before_caret":"Use ","before_caret_known":true,"selection_known":true,"after_caret_known":true,"input":"iPhone accessories","expected":"iPhone accessories"}
+{"id":"caret-v1-022","before_caret":"Ask ","before_caret_known":true,"selection_known":true,"after_caret_known":true,"input":"NASA","expected":"NASA"}
+{"id":"caret-v1-023","before_caret":"Ask ","before_caret_known":true,"selection_known":true,"after_caret_known":true,"input":"Microsoft","expected":"Microsoft"}
+{"id":"caret-v1-024","before_caret":"Visit ","before_caret_known":true,"selection_known":true,"after_caret_known":true,"input":"New York","expected":"New York"}
+{"id":"caret-v1-025","mode":"raw","before_caret":"Done.","before_caret_known":true,"selection_known":true,"after_caret":"w","after_caret_known":true,"input":"hello there","expected":"hello there"}
+{"id":"caret-v1-026","app_group":"code","before_caret":"x","before_caret_known":true,"selection_known":true,"after_caret":"y","after_caret_known":true,"input":"return value","expected":"return value"}
+{"id":"caret-v1-027","before_caret":"inline","before_caret_known":true,"after_caret":"w","after_caret_known":true,"input":"hello there","expected":"Hello there"}
+{"id":"caret-v1-028","app_group":"messages","before_caret":"Many ","before_caret_known":true,"selection_known":true,"after_caret_known":true,"input":"thanks.","expected":"thanks"}
+{"id":"caret-v1-029","app_group":"docs","before_caret":"We are ","before_caret_known":true,"selection_known":true,"after_caret_known":true,"input":"ready.","expected":"ready."}
+{"id":"caret-v1-030","app_group":"messages","snippets":{"signature":"Thanks."},"before_caret":"Regards ","before_caret_known":true,"selection_known":true,"after_caret_known":true,"input":"signature","expected":"Thanks"}
+{"id":"caret-v1-031","language":"bn","before_caret":"আমি","before_caret_known":true,"selection_known":true,"after_caret_known":true,"input":"ভালো আছি","expected":" ভালো আছি"}
+{"id":"caret-v1-032","language":"ar","before_caret":"أنا","before_caret_known":true,"selection_known":true,"after_caret_known":true,"input":"بخير","expected":" بخير"}
+{"id":"caret-v1-033","language":"zh","before_caret":"你好","before_caret_known":true,"selection_known":true,"after_caret_known":true,"input":"世界","expected":"世界"}
+{"id":"caret-v1-034","before_caret":"Hello","before_caret_known":true,"selection_known":true,"after_caret_known":true,"input":"🙂","expected":" 🙂"}
+{"id":"caret-v1-035","before_caret":"pre","before_caret_known":true,"selection":"fix","selection_known":true,"after_caret":"e","after_caret_known":true,"input":"new","expected":"new"}
+{"id":"caret-v1-036","before_caret":"word","before_caret_known":true,"selection":" old","selection_known":true,"after_caret_known":true,"input":"new","expected":" new"}
+{"id":"caret-v1-037","language":"tr","before_caret":"","before_caret_known":true,"selection_known":true,"after_caret_known":true,"input":"istanbul","expected":"İstanbul"}
+{"id":"caret-v1-038","language":"de","before_caret":"","before_caret_known":true,"selection_known":true,"after_caret_known":true,"input":"ßeta","expected":"ßeta"}
+{"id":"caret-v1-039","before_caret":"a‍","before_caret_known":true,"selection_known":true,"after_caret_known":true,"input":"join","expected":"join"}
+{"id":"caret-v1-040","profile":"notes","before_caret":"Tasks","before_caret_known":true,"selection_known":true,"after_caret_known":true,"input":"bullet point ready","expected":"\n- Ready"}
