@@ -1,6 +1,7 @@
 """Windows UIA reader. Import on the owner thread, construct/use/close on its MTA worker."""
 
 import threading
+from array import array
 import ctypes as ct
 from ctypes import wintypes as wt
 
@@ -36,13 +37,16 @@ class NativeUIAReader:
             self.cache.TreeFilter = self.client.RawViewCondition
             self.cache.AutomationElementMode = self.lib.AutomationElementMode_Full
             for property_id in (self.lib.UIA_IsPasswordPropertyId, self.lib.UIA_ControlTypePropertyId,
-                                self.lib.UIA_RuntimeIdPropertyId, self.lib.UIA_NativeWindowHandlePropertyId):
+                                self.lib.UIA_RuntimeIdPropertyId, self.lib.UIA_NativeWindowHandlePropertyId,
+                                self.lib.UIA_HasKeyboardFocusPropertyId):
                 self.cache.AddProperty(property_id)  # Metadata only; no text, Name or Value.
             condition = self.client.CreateNotCondition(
                 self.client.CreatePropertyCondition(self.lib.UIA_NativeWindowHandlePropertyId, 0))
             self.native_windows = self.client.CreateTreeWalker(condition)
             self.user = ct.WinDLL("user32", use_last_error=True)
             self.user.GetAncestor.argtypes, self.user.GetAncestor.restype = [wt.HWND, wt.UINT], wt.HWND
+            self.user.GetWindowThreadProcessId.argtypes = [wt.HWND, ct.POINTER(wt.DWORD)]
+            self.user.GetWindowThreadProcessId.restype = wt.DWORD
         except Exception:
             self.close()
             raise
@@ -71,7 +75,43 @@ class NativeUIAReader:
         return False
 
     def same_focus(self, element):
-        return element.GetCurrentPropertyValueEx(self.lib.UIA_HasKeyboardFocusPropertyId, True) is True
+        return self.keyboard_focus(element) is True
+
+    def keyboard_focus(self, element):
+        value = element.GetCurrentPropertyValueEx(self.lib.UIA_HasKeyboardFocusPropertyId, True)
+        return value if type(value) is bool else None
+
+    def keyboard_focus_snapshot(self, element):
+        value = element.GetCachedPropertyValueEx(self.lib.UIA_HasKeyboardFocusPropertyId, True)
+        return value if type(value) is bool else None
+
+    def window_pid(self, window):
+        pid = wt.DWORD()
+        if not self.user.GetWindowThreadProcessId(window, ct.byref(pid)):
+            return None
+        return pid.value
+
+    def current_runtime_id(self, element):
+        return tuple(element.GetRuntimeId())
+
+    def field_handle(self, element):
+        handle = element.GetCachedPropertyValueEx(self.lib.UIA_NativeWindowHandlePropertyId, True)
+        return handle & 0xFFFFFFFF if type(handle) is int and handle else 0
+
+    def refresh_element(self, element, window, runtime_id, current):
+        if not current():
+            return None
+        handle = self.field_handle(element)
+        if handle:
+            fresh = self.client.ElementFromHandleBuildCache(handle, self.cache)
+            if current() and self.runtime_id(fresh) == runtime_id:
+                return fresh
+        if not current():
+            return None
+        root = self.client.ElementFromHandleBuildCache(window, self.cache)
+        condition = self.client.CreatePropertyCondition(self.lib.UIA_RuntimeIdPropertyId, array("i", runtime_id))
+        fresh = root.FindFirstBuildCache(self.lib.TreeScope_Subtree, condition, self.cache)
+        return fresh if fresh and current() else None  # Metadata-only, exact identity under the original HWND.
 
     def password(self, element):
         value = element.GetCachedPropertyValueEx(self.lib.UIA_IsPasswordPropertyId, True)
@@ -86,6 +126,38 @@ class NativeUIAReader:
 
     def runtime_id(self, element):
         return tuple(element.GetCachedPropertyValueEx(self.lib.UIA_RuntimeIdPropertyId, True))
+
+    def _read_range(self, value, limit, current):
+        if type(limit) is not int or not 1 <= limit <= 8192 or not current():
+            return None
+        text = value.GetText(limit + 1)
+        if (not isinstance(text, str) or len(text.encode("utf-16-le")) // 2 > limit or not current()):
+            return None
+        return text
+
+    def document_text(self, element, limit, current):
+        pattern = element.GetCurrentPattern(self.lib.UIA_TextPatternId).QueryInterface(self.lib.IUIAutomationTextPattern)
+        return self._read_range(pattern.DocumentRange, limit, current)
+
+    def insertion_edges(self, element, limit, current):
+        lib = self.lib
+        pattern = element.GetCurrentPattern(lib.UIA_TextPatternId).QueryInterface(lib.IUIAutomationTextPattern)
+        ranges = pattern.GetSelection()
+        if ranges.Length != 1:
+            return None
+        selected, document = ranges.GetElement(0), pattern.DocumentRange
+        before, after = document.Clone(), document.Clone()
+        before.MoveEndpointByRange(lib.TextPatternRangeEndpoint_End, selected, lib.TextPatternRangeEndpoint_Start)
+        after.MoveEndpointByRange(lib.TextPatternRangeEndpoint_Start, selected, lib.TextPatternRangeEndpoint_End)
+        parts = []
+        for value in (before, after):
+            text = self._read_range(value, limit, current)
+            if text is None:
+                return None
+            parts.append(text)
+        # Do not read the replaced selection. The subsequent fresh full-field
+        # confirmation must match these edges and the exact inserted text.
+        return tuple(parts)
 
     def text_context_for_request(self, element, limit, current):
         return self.text_context(element, limit, current=current)

@@ -1,9 +1,50 @@
 # Dictionary correction learning
 
 P5.6 is in progress. Offline frequency filtering and pure span alignment are
-implemented; observing the inserted field, suggestions, Auto-add and Undo still
-need integration.
+implemented. A native original-field reader is implemented; its MTA scheduling,
+delivery integration, suggestions, Auto-add and Undo still need integration.
 Manual desktop acceptance remains deferred after Computer Use was stopped.
+
+## Original-field reader
+
+`context/tracked_edit.py` owns one pending/confirmed insertion on the UIA MTA.
+It captures hashes and lengths of the text on each side of the actual selection,
+then confirms that a fresh read contains exactly those edges and the inserted
+text. The replaced selection is not read. Only the inserted text, field identity,
+edge hashes/lengths and timestamp remain in the observation. No COM proxy leaves
+the MTA; foreign-thread mutation is refused. Callers must clear cancelled work
+and invoke `expire()` while idle; scope retirement is capped at 16 seconds, with
+a final check due at 15 seconds or when that field loses focus.
+
+Checks read only the original field. Fresh metadata is obtained from its handle
+or an exact runtime-ID lookup under the original window. Every bounded text read
+checks the window PID, runtime ID, ownership and an explicit non-password state
+from the newly fetched metadata batch. The cache contains no Name/Value/text.
+No newly focused element is requested after capture. Missing/changed/unreadable
+fields, unknown focus/password state, cancellation, expired scope, malformed
+Unicode or changed edges retire without returning content. The final read is
+one-shot, at most 8192 UTF-16 units; the inserted span is capped at 4096. Controls
+without a usable TextPattern selection are skipped, including ValuePattern-only
+controls whose caret cannot be established.
+
+Microsoft documents [range invalidation after edits](https://learn.microsoft.com/en-us/dotnet/framework/ui-automation/ui-automation-textpattern-overview).
+The owned Win32 probe also found that a retained element and BuildUpdatedCache
+returned stale text/password state after a second edit. Reacquiring the same
+handle returned current state; no retained text ranges are used after edits.
+The reader uses [metadata batching](https://learn.microsoft.com/en-us/windows/win32/winauto/uiauto-cachingforclients)
+on each fresh element, rather than trusting a retained cache.
+
+`tools/probe_tracked_edit.py` exercises native EDIT controls, public fixture
+replacement/correction, an emoji boundary and password changes with no desktop
+input, active-app access or clipboard access. The runtime-ID route is forced on
+an owned standalone EDIT window: this verifies the lookup API, not a real browser
+provider. An invisible child is absent from its parent's enumerated UIA subtree,
+so that earlier diagnostic is retained as a failed probe. Current successful
+captures take about 0.8–1.0 seconds, confirmation 0.4–0.6 and final check 0.5–0.7
+on this fixture. These timings exceed the existing 500 ms caller budget in some
+stages. Do not wire synchronous capture into paste: background preparation and
+critical-request scheduling are required next. The app does not enable field
+observation yet, and no manual Notepad/browser acceptance is claimed.
 
 ## Alignment policy
 

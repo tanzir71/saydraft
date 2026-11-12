@@ -28,3 +28,14 @@ def test_native_context_session_rules_sqlite_and_memory_delivery_compose_without
     assert [row["reason"] for row in report["cases"]] == ["password_field", ""]
     assert [row["deliveries"] for row in report["cases"]] == [0, 1]
     assert all(row["raw_clean_exact"] and row["serial_closed"] and row["mta_closed"] for row in report["cases"])
+
+
+@pytest.mark.skipif(sys.platform != "win32", reason="Windows UI Automation required")
+def test_native_tracked_edit_reads_fresh_original_field_and_refuses_password_changes(tmp_path):
+    output = tmp_path / "own-tracked-edit"
+    subprocess.run([sys.executable, "-m", "tools.probe_tracked_edit", "--output", str(output)],
+                   check=True, capture_output=True, timeout=60)
+    report = json.loads((output / "report.json").read_text(encoding="utf-8"))
+    assert report["probe_complete"] and report["own_windows_closed"] and not report["failures"]
+    assert not report["active_application_read"] and not report["input_injected"] and not report["owner_clipboard_accessed"]
+    assert [row["case"] for row in report["cases"]] == ["correction", "runtime_lookup", "password", "becomes_password"]
