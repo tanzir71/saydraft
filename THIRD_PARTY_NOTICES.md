@@ -19,7 +19,7 @@ license files, including transitive dependencies and native libraries.
 | soundfile / libsndfile | BSD-3-Clause / LGPL-2.1-or-later | [Source and notices](https://github.com/bastibe/python-soundfile) |
 | webrtcvad-wheels | MIT; WebRTC components retain their BSD notices | [License](https://github.com/daanzu/py-webrtcvad-wheels/blob/master/LICENSE) |
 | pyperclip | BSD-3-Clause | [License](https://github.com/asweigart/pyperclip/blob/master/LICENSE.txt) |
-| keyboard (pending replacement) | MIT | [License](https://github.com/boppreh/keyboard/blob/master/LICENSE.txt) |
+| keyboard (historical; no longer required or imported) | MIT | [Historical license](https://github.com/boppreh/keyboard/blob/master/LICENSE.txt) |
 | PyInstaller (build tool) | GPL-2.0-or-later with bootloader exception | [License and exception](https://pyinstaller.org/en/stable/license.html) |
 
 Qt and PySide6 are dynamically linked in the one-folder distribution. Keep the

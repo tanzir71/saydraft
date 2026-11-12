@@ -26,6 +26,11 @@ class LowLevelHooks:
         self._started = False
 
     @property
+    def completion_thread(self):
+        """Finishes after native cleanup and the failure callback, for supervision."""
+        return self._worker
+
+    @property
     def status(self):
         with self._lock:
             pump = bool(self._pump_thread and self._pump_thread.is_alive())

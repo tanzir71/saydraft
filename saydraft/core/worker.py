@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import logging
 import json
+import math
 import threading
 import time
 from dataclasses import replace
@@ -49,7 +50,8 @@ class SessionWorker:
         self.hotkeys = HotkeyService(services.config, start=self.start_recording, stop=self.stop_recording,
                                      cancel=self.cancel, save=self.record_note,
                                      notify=lambda message: self.emit("notification_requested", message),
-                                     keyboard_module=keyboard_module)
+                                     keyboard_module=keyboard_module,
+                                     stop_timed=lambda when: self.stop_recording(released_at=when))
         self._warm_cleanup()
 
     def _warm_cleanup(self, context=None):
@@ -114,23 +116,31 @@ class SessionWorker:
         self._timers.clear()
 
     def start_recording(self, *, insert_text=True):
-        with self._lock:
+        # Native action dispatch must not wait behind Settings while Settings
+        # retires that same dispatcher. A locked worker is temporarily busy.
+        if not self._lock.acquire(blocking=False):
+            return False
+        try:
             if self.busy or self._closing:
                 if self._retrying_history:
                     self.emit("notification_requested", "History retry is in progress. Dictation will be ready when it finishes.")
                 elif self._benchmarking:
                     self.emit("notification_requested", "Performance check is in progress. Dictation will be ready when it finishes.")
                 return False
+            self._cancel_request.clear()
             target = self.services.context.capture()
+            if self._cancel_request.is_set() or self._closing:
+                return False
             context = select_context(self.services.config, self.services.profiles, target.app_title)
             self.session.dispatch(Input.START)
-            self._cancel_request.clear()
             generation = self.session.session_id
             self._target = target
             self._context = context
             self._insert_text = insert_text
             self._submit(self._arm, generation)
             return True
+        finally:
+            self._lock.release()
 
     def _arm(self, generation):
         preparing_asr = False
@@ -219,14 +229,16 @@ class SessionWorker:
                 if self.hotkeys._controller.force_stop() is None:
                     self.stop_recording()
 
-    def stop_recording(self):
+    def stop_recording(self, *, released_at=None):
         with self._lock:
             event = self.session.dispatch(Input.RELEASE)
             if event is None:
                 return
             if event.previous != State.ARMING and event.state != State.CANCELLED:
+                released = (min(event.timestamp, released_at) if type(released_at) in (int, float)
+                            and math.isfinite(released_at) else event.timestamp)
                 self._context = replace(self._context,
-                    cleanup_deadline=event.timestamp + RELEASE_TO_TEXT_BUDGET_SECONDS)
+                    cleanup_deadline=released + RELEASE_TO_TEXT_BUDGET_SECONDS)
             self._cancel_timers()
             self.emit("recording_stopped", float(event.recording_seconds or 0))
             if event.previous == State.ARMING:
@@ -237,6 +249,8 @@ class SessionWorker:
     def cancel(self):
         # Observed by delivery even while the insertion lock is held.
         self._cancel_request.set()
+        if not self.session.active:
+            return  # Also aborts a pending context capture before START dispatch.
         with self._lock:
             previous = self.session.state
             event = self.session.dispatch(Input.CANCEL)

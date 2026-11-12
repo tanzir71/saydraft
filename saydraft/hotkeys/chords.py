@@ -80,6 +80,7 @@ class Transition:
     name: str
     phase: str
     reason: str = "physical"
+    superseded_by: str | None = None
 
 
 @dataclass(frozen=True)
@@ -137,7 +138,7 @@ class ChordMatcher:
             if best is not None and best != self._active and (self._active is None
                     or not self._active.matches(self._down) or best.rank > self._active.rank):
                 if self._active is not None:
-                    transitions.append(Transition(self._active.name, "release", "superseded"))
+                    transitions.append(Transition(self._active.name, "release", "superseded", best.name))
                 self._active = best
                 transitions.append(Transition(best.name, "press"))
             if self._active is not None and self._active.chord.covers(key):

@@ -401,6 +401,7 @@ def test_keyboard_health_recovery_reregisters_save_hotkey():
     worker, _clock, _executor, _events, signals, keyboard = make_worker()
     worker.hotkeys.start()
     worker.hotkeys._controller.restart_if_dead = lambda: True
+    worker.hotkeys._controller.is_backend_alive = lambda: False
     assert worker.hotkeys.restart_if_dead()
     assert keyboard.removed == [6]
     assert keyboard.added[-1][0] == "f10"

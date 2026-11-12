@@ -1,6 +1,7 @@
 import pytest
 
 from saydraft.insert.sendinput import KEYEVENTF_KEYUP, KEYEVENTF_UNICODE, type_unicode, unicode_events
+from saydraft.input_origin import SAYDRAFT_INPUT_TAG
 
 
 def test_unicode_input_preserves_all_utf16_units_for_bengali_arabic_and_emoji():
@@ -11,6 +12,7 @@ def test_unicode_input_preserves_all_utf16_units_for_bengali_arabic_and_emoji():
     assert [event.data.ki.wScan for event in events[::2]] == expected
     assert [event.data.ki.wScan for event in events[1::2]] == expected
     assert all(event.data.ki.wVk == 0 for event in events)
+    assert all(event.data.ki.dwExtraInfo == SAYDRAFT_INPUT_TAG for event in events)
     assert all(event.data.ki.dwFlags == KEYEVENTF_UNICODE for event in events[::2])
     assert all(event.data.ki.dwFlags == KEYEVENTF_UNICODE | KEYEVENTF_KEYUP for event in events[1::2])
 
@@ -48,3 +50,15 @@ def test_enter_uses_a_return_press_release_pair_and_releases_partial_delivery_wi
     with pytest.raises(OSError, match="only 1 of 2"):
         press_enter(sender=partial)
     assert batches == [[(0x0D, 0), (0x0D, KEYEVENTF_KEYUP)], [(0x0D, KEYEVENTF_KEYUP)]]
+
+
+def test_clipboard_shortcut_is_tagged_and_partial_delivery_releases_without_repressing():
+    from saydraft.insert.sendinput import send_shortcut
+    batches = []
+    def sender(count, inputs, size):
+        assert all(value.data.ki.dwExtraInfo == SAYDRAFT_INPUT_TAG for value in inputs)
+        batches.append([(value.data.ki.wVk, value.data.ki.dwFlags) for value in inputs])
+        return 1
+    with pytest.raises(OSError):
+        send_shortcut("ctrl+v", sender=sender)
+    assert batches == [[(0xA2, 0), (0x56, 0), (0x56, 2), (0xA2, 2)], [(0x56, 2), (0xA2, 2)]]

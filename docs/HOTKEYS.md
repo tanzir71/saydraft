@@ -97,3 +97,33 @@ seconds; this short observation is not broad idle acceptance. Original report
 bytes/digest are retained in `eval/hardware/results/2026-11-12-native-hooks/`.
 No Win/Ctrl, mouse, text, recording, insertion or owner configuration action is
 performed. Application transport replacement and actual Start-menu proof remain.
+
+## Application routing
+
+The application now uses native hooks by default. The injected keyboard interface
+remains only as a test/integration seam; no external `keyboard` import or runtime
+requirement remains. Named native transitions drive the existing hold/tap gesture
+controller, Escape passes through, and History capture remains available. Existing
+saved shortcut strings are preserved. Fresh default/mouse controls follow next.
+
+Recording gestures use the hook timestamps rather than delayed callback execution
+time. The worker's two-second cleanup ceiling starts at native release and cannot
+be extended by dispatch delay. An idle Settings lock rejects a start promptly;
+cancellation during context capture prevents a late microphone start. Disabling
+listening also cancels capture. Synthetic Unicode/Enter/clipboard inputs carry
+our tag so the native listener does not respond to its own insertion.
+
+The service supervises the native completion worker, after cleanup/failure
+callbacks. It cancels failed capture and permits one automatic recovery; a second
+failure or unavailable menu mask disables listening with a tray recovery notice.
+Monitor ownership follows the actual replacement thread, including manual restart
+and reconfiguration. An unretired owner prevents replacement. History/recording
+prefix conflicts are rejected before hook installation. Existing clipboard policy
+is unchanged; all-format restoration and integrity checks remain P5.2.
+
+Validation: 1565 tests pass with four optional native skips; rules 432/432,
+authored adversarial 100/100, Ruff/diff pass. An initial native vkE8 replay reaches
+real Parakeet recognition, private SQLite before stub insertion, the exact bundled
+result and the native release ceiling, then retires both hooks/threads. It uses
+no microphone or OS paste. Immutable replay proof, default/conflict controls and
+actual Ctrl+Win/F9/Start-menu acceptance remain next.

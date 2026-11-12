@@ -163,7 +163,7 @@ def test_controller_registers_configured_hold_hotkeys_and_unregisters_handles():
         ("ctrl+alt+space", True, True),
         ("ctrl+win", False, True),
         ("ctrl+win", True, True),
-        ("esc", False, True),
+        ("esc", False, False),
     ]
 
     controller.stop()

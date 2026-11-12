@@ -156,14 +156,10 @@ class _PyperclipClipboard:
 
 class _KeyboardAdapter:
     def send(self, hotkey: str) -> None:
-        if hotkey == "enter" and sys.platform == "win32":
-            from .sendinput import press_enter
-
-            press_enter()
-            return
-        import keyboard
-
-        keyboard.send(hotkey)
+        if sys.platform != "win32":
+            raise OSError("Native keyboard insertion requires Windows")
+        from .sendinput import send_shortcut
+        send_shortcut(hotkey)
 
     def write(self, text: str) -> None:
         if sys.platform == "win32":
@@ -171,6 +167,4 @@ class _KeyboardAdapter:
 
             type_unicode(text)
             return
-        import keyboard
-
-        keyboard.write(text)
+        raise OSError("Native keyboard insertion requires Windows")

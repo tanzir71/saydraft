@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import ctypes
 from ctypes import wintypes
+from saydraft.input_origin import SAYDRAFT_INPUT_TAG
 
 KEYEVENTF_KEYUP = 0x0002
 KEYEVENTF_UNICODE = 0x0004
@@ -39,7 +40,7 @@ def unicode_events(text: str) -> list[_Input]:
         for flags in (KEYEVENTF_UNICODE, KEYEVENTF_UNICODE | KEYEVENTF_KEYUP):
             event = _Input()
             event.type = 1  # INPUT_KEYBOARD
-            event.data.ki = _KeyboardInput(0, unit, flags, 0, 0)
+            event.data.ki = _KeyboardInput(0, unit, flags, 0, SAYDRAFT_INPUT_TAG)
             events.append(event)
     return events
 
@@ -67,7 +68,7 @@ def press_enter(*, sender=None) -> None:
     events = (_Input * 2)()
     for event, flags in zip(events, (0, KEYEVENTF_KEYUP)):
         event.type = 1
-        event.data.ki = _KeyboardInput(0x0D, 0, flags, 0, 0)
+        event.data.ki = _KeyboardInput(0x0D, 0, flags, 0, SAYDRAFT_INPUT_TAG)
     if sender is None:
         user32 = ctypes.WinDLL("user32", use_last_error=True)
         user32.SendInput.argtypes = [wintypes.UINT, ctypes.POINTER(_Input), ctypes.c_int]
@@ -82,3 +83,27 @@ def press_enter(*, sender=None) -> None:
         except Exception:
             pass
         raise OSError(f"Windows accepted only {accepted} of 2 Enter input events")
+
+
+def send_shortcut(hotkey, *, sender=None):
+    """Only the clipboard shortcuts used by the application, with our input tag."""
+    if hotkey == "enter":
+        return press_enter(sender=sender)
+    if hotkey not in ("ctrl+v", "ctrl+c"):
+        raise ValueError("Unsupported clipboard shortcut")
+    key = 0x56 if hotkey == "ctrl+v" else 0x43
+    events = (_Input * 4)()
+    for event, (vk, flags) in zip(events, ((0xA2, 0), (key, 0), (key, 2), (0xA2, 2))):
+        event.type = 1
+        event.data.ki = _KeyboardInput(vk, 0, flags, 0, SAYDRAFT_INPUT_TAG)
+    if sender is None:
+        user32 = ctypes.WinDLL("user32", use_last_error=True)
+        user32.SendInput.argtypes, user32.SendInput.restype = [wintypes.UINT, ctypes.POINTER(_Input), ctypes.c_int], wintypes.UINT
+        sender = user32.SendInput
+    accepted = sender(4, events, ctypes.sizeof(_Input))
+    if accepted != 4:
+        try:
+            sender(2, (_Input * 2)(events[2], events[3]), ctypes.sizeof(_Input))
+        except Exception:
+            pass
+        raise OSError(f"Windows accepted only {accepted} of 4 clipboard input events")
