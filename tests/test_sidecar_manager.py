@@ -4,6 +4,7 @@ from types import SimpleNamespace
 import pytest
 
 from saydraft.cleanup.llm.loopback import LocalHTTPError
+from saydraft.cleanup.llm.ownership import ProcessSlot
 from saydraft.cleanup.llm.sidecar import SidecarConfig, SidecarManager, child_environment
 
 
@@ -72,7 +73,8 @@ def rig(tmp_path):
     manager = SidecarManager(SidecarConfig(model, idle_seconds=5, startup_seconds=0.3),
         resolver=lambda model_id: runtime, verify=lambda *args, **kwargs: True,
         capability_check=lambda backend: True, process_factory=process_factory, client_factory=Client,
-        clock=lambda: clock.now, timer_factory=Timer, port_factory=lambda: 12345, waiter=clock.advance)
+        clock=lambda: clock.now, timer_factory=Timer, port_factory=lambda: 12345, waiter=clock.advance,
+        process_slot=ProcessSlot(timer_factory=Timer))
     yield SimpleNamespace(manager=manager, clock=clock, timers=timers, processes=processes,
                           launches=launches, keys=keys, mode=mode)
     manager.close()
@@ -212,3 +214,99 @@ def test_child_environment_does_not_forward_credentials_or_runtime_switches(monk
     env = child_environment("fixture_api_key")
     assert not set(env) & {"OPENAI_API_KEY", "GH_TOKEN", "HTTP_PROXY", "LLAMA_ARG_AGENT", "GGML_RPC_SERVERS"}
     assert env["LLAMA_API_KEY"] == "fixture_api_key" and env["HF_HUB_OFFLINE"] == "1"
+
+
+def replacement(manager):
+    return SidecarManager(manager.config, resolver=manager._resolver, verify=manager._verify,
+        capability_check=manager._capable, process_factory=manager._process_factory,
+        client_factory=manager._client_factory, clock=manager._clock, timer_factory=manager._timer,
+        port_factory=manager._port_factory, waiter=manager._wait, process_slot=manager._process_slot)
+
+
+def test_replacement_cannot_launch_until_closed_managers_process_exit_is_observed(rig):
+    assert rig.manager.prepare()
+    old = rig.processes[0]
+    old.stubborn = True
+    new = replacement(rig.manager)
+    try:
+        rig.manager.close()
+        assert not old.closed and not new.prepare() and len(rig.processes) == 1
+        assert new.status["reason"] == "another_manager_active"
+        old.code = 1
+        rig.clock.advance(1)
+        assert new.prepare() and old.closed and len(rig.processes) == 2
+        # A late old-manager close cannot kill the replacement.
+        rig.manager.close()
+        assert new.ready and rig.processes[1].poll() is None
+    finally:
+        old.code = 1
+        new.close()
+
+
+def test_two_live_managers_share_one_process_admission_slot(rig):
+    assert rig.manager.prepare()
+    new = replacement(rig.manager)
+    try:
+        assert not new.prepare() and rig.manager.ready and len(rig.processes) == 1
+        new.close()
+        assert rig.manager.ready
+    finally:
+        new.close()
+
+
+def test_async_exit_reaper_releases_handles_even_without_a_replacement(rig):
+    assert rig.manager.prepare()
+    old = rig.processes[0]
+    old.stubborn = True
+    rig.manager.close()
+    pending = rig.timers[-1]
+    assert not old.closed
+    pending.callback()
+    assert not old.closed and rig.timers[-1] is not pending
+    old.code = 1
+    rig.timers[-1].callback()
+    assert old.closed and rig.manager._process_slot._process is None
+
+
+def test_failed_exit_observation_refuses_admission_and_preserves_handles(rig):
+    assert rig.manager.prepare()
+    old = rig.processes[0]
+    poll = old.poll
+    old.poll = lambda: (_ for _ in ()).throw(OSError("fixture inaccessible handle"))
+    new = replacement(rig.manager)
+    try:
+        rig.manager.close()
+        assert not new.prepare() and len(rig.processes) == 1 and not old.closed
+        rig.timers[-1].callback()
+        assert not old.closed
+    finally:
+        old.poll = poll
+        old.code = 1
+        rig.manager._process_slot.retire(old)
+        new.close()
+
+
+def test_simultaneous_manager_admission_never_runs_two_factories():
+    slot = ProcessSlot()
+    entered, release = threading.Event(), threading.Event()
+    calls, results = [], []
+    process = SimpleNamespace(poll=lambda: None)
+
+    def factory(*args, **kwargs):
+        calls.append(True)
+        entered.set()
+        assert release.wait(2)
+        return process
+
+    first = threading.Thread(target=lambda: results.append(slot.start(factory, [], env={})))
+    second = threading.Thread(target=lambda: results.append(slot.start(factory, [], env={})))
+    first.start()
+    try:
+        assert entered.wait(1)
+        second.start()
+    finally:
+        release.set()
+        first.join(2)
+        second.join(2)
+    assert not first.is_alive() and not second.is_alive()
+    assert len(calls) == 1 and results.count(process) == 1 and results.count(None) == 1

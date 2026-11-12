@@ -38,7 +38,7 @@ and exited successfully without opening a server or loading a model. This checks
 the installed dependency closure on the development machine, not clean-machine
 deployment, GPU inference, request deadlines or process ownership.
 
-Validation: 571 tests pass, four optional native skips with real preview/Silero/LID
+Validation: 606 tests pass, four optional native skips with real preview/Silero/LID
 enabled; cleanup evaluation 42/42; Ruff and diff checks pass.
 
 `cleanup.llm.windows_process.WindowsJobProcess` now supplies native process
@@ -109,6 +109,17 @@ absolute deadlines. Killing an active request returned fallback control in
 and a sixteen-token completion also pass. These are control-flow observations,
 not cleanup-quality or general latency measurements. App/prompt integration is
 still pending, so P4.1 remains unchecked.
+
+Process admission is shared across all manager instances. A settings/service
+replacement cannot launch until the previous native process's exit is observed.
+Close requests termination and retains the job/process handles while Windows
+finishes shutdown; a daemon reaper releases them after exit even if no replacement
+starts. An inaccessible handle fails closed and keeps admission blocked. Late
+callbacks from the retired manager cannot stop its successor. Deterministic
+tests cover delayed exit, simultaneous admission, two active managers, reaping
+and observation failure. A real CPU-server handoff under NetworkGuard confirms
+that the second manager is blocked, then becomes ready and completes a request
+only after the first process's exit has been observed.
 
 The interruption fixture is a separate developer-only `stories15M-q4_0.gguf`,
 19,077,344 bytes, from the same pinned ggml-org revision, SHA-256

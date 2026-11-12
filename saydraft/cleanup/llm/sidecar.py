@@ -17,6 +17,7 @@ from saydraft.models.downloader import installation_ready
 from saydraft.models.manifest import get_model
 from saydraft.models.runtime_ids import runtime_model_id
 from .loopback import LoopbackClient
+from .ownership import PROCESS_SLOT
 from .windows_process import WindowsJobProcess
 
 logger = logging.getLogger(__name__)
@@ -78,10 +79,12 @@ def child_environment(key):
 class SidecarManager:
     def __init__(self, config, *, resolver=find_installed_model, verify=installation_ready,
                  capability_check=_capable, process_factory=WindowsJobProcess, client_factory=LoopbackClient,
-                 clock=time.monotonic, timer_factory=threading.Timer, port_factory=_port, waiter=None):
+                 clock=time.monotonic, timer_factory=threading.Timer, port_factory=_port, waiter=None,
+                 process_slot=PROCESS_SLOT):
         self.config = config
         self._resolver, self._verify, self._capable = resolver, verify, capability_check
         self._process_factory, self._client_factory = process_factory, client_factory
+        self._process_slot = process_slot
         self._clock, self._timer, self._port_factory = clock, timer_factory, port_factory
         self._lock, self._starting, self._requesting = threading.RLock(), threading.Lock(), threading.Lock()
         self._closed = threading.Event()
@@ -123,10 +126,8 @@ class SidecarManager:
     def _retire_locked(self):
         if self._process is None:
             return True
-        self._process.terminate()
-        if self._process.poll() is None:
+        if not self._process_slot.retire(self._process):
             return False  # Never replace an old process until its exit is observed.
-        self._process.close()
         self._process = self._client = None
         return True
 
@@ -147,7 +148,7 @@ class SidecarManager:
         self._state, self._reason = "backoff", reason
         if self._process is not None:
             try:
-                self._process.terminate()
+                self._retire_locked()
             except Exception:
                 self._state, self._reason = "failed", "stop_failed"
                 self._cancel("_retry_timer")
@@ -208,7 +209,11 @@ class SidecarManager:
                     "--no-ui-mcp-proxy", "--cache-ram", "0", "--no-cache-idle-slots", "--no-context-shift",
                     "--alias", "saydraft-cleanup"]
                 try:
-                    self._process = self._process_factory(argv, env=child_environment(key))
+                    self._process = self._process_slot.start(self._process_factory, argv, env=child_environment(key))
+                    if self._process is None:
+                        self._state, self._reason = "backoff", "another_manager_active"
+                        self._retry_locked()
+                        return False
                     self._client = self._client_factory(port, key)
                 except Exception:
                     self._fail_locked(epoch, "startup_failed")
@@ -316,10 +321,10 @@ class SidecarManager:
             self._cancel("_retry_timer")
             if self._process is not None:
                 try:
-                    self._process.close()
-                    self._process = self._client = None
+                    self._retire_locked()
                 except Exception:
                     logger.warning("Local cleanup handle closure failed; owner-exit job cleanup remains active")
+            self._client = None
             self._state, self._reason = "closed", "closed"
 
     def __enter__(self):
