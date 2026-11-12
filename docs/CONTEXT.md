@@ -60,3 +60,19 @@ Tests cover target races, unavailable processes, bounded/native handle ownership
 same-process GUI avoidance, title hints and group overrides. A quiet Windows child
 repeats 50 own-process image queries with zero process-handle growth and reads no
 other application's metadata.
+
+## Capture reentry
+
+Focused-field providers may need GUI message processing, so context capture runs
+outside the session mutex. A reserved start slot remains busy until capture
+finishes. A second start is refused; cancellation, release and shutdown can abort
+the pending start before microphone arming. Ordinary release during ARMING still
+uses the session transition even if the start callback has not returned yet.
+
+Settings can queue a replacement without waiting for capture. A pending change
+discards that start; the serial executor applies it afterward, outside the native
+hotkey dispatcher that it may need to retire. Context failures release the slot,
+show a generic retry notification and leave the hotkey route usable. Seven
+concurrency/lifecycle cases cover these paths using a renderer held until GUI
+actions return. This prepares the UIA integration; it does not supply its missing
+password/caret/selection implementation or acceptance.

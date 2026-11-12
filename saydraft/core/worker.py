@@ -38,6 +38,7 @@ class SessionWorker:
         self._cancel_request = threading.Event()
         self._timers = []
         self._inflight = 0
+        self._capturing_context = False
         self._closing = False
         self._pending_config = None
         self._background = None
@@ -77,7 +78,7 @@ class SessionWorker:
 
     @property
     def busy(self):
-        return self._inflight > 0 or self.session.active
+        return self._capturing_context or self._inflight > 0 or self.session.active
 
     def _submit(self, function, *args):
         self._inflight += 1
@@ -128,19 +129,37 @@ class SessionWorker:
                     self.emit("notification_requested", "Performance check is in progress. Dictation will be ready when it finishes.")
                 return False
             self._cancel_request.clear()
-            target = self.services.context.capture()
-            if self._cancel_request.is_set() or self._closing:
-                return False
-            context = select_context(self.services.config, self.services.profiles, target.app_title)
-            self.session.dispatch(Input.START)
-            generation = self.session.session_id
-            self._target = target
-            self._context = context
-            self._insert_text = insert_text
-            self._submit(self._arm, generation)
-            return True
+            self._capturing_context = True
+            services = self.services
         finally:
             self._lock.release()
+        try:
+            # UIA may require GUI message processing. Reserve the start slot,
+            # but let Settings/cancel/shutdown return while context is read.
+            try:
+                target = services.context.capture()
+            except Exception:
+                logger.warning("Foreground context unavailable; recording did not start")
+                self.emit("notification_requested", "Could not read the target field. Try dictation again.")
+                return False
+            with self._lock:
+                if self._cancel_request.is_set() or self._closing or self._pending_config is not None:
+                    return False
+                context = select_context(services.config, services.profiles, target.app_title)
+                self.session.dispatch(Input.START)
+                generation = self.session.session_id
+                self._target = target
+                self._context = context
+                self._insert_text = insert_text
+                self._submit(self._arm, generation)
+                return True
+        finally:
+            with self._lock:
+                self._capturing_context = False
+                if self._pending_config is not None and not self.busy and not self._closing:
+                    # Apply on the serial worker, never from inside the native
+                    # hook dispatcher that Settings may need to retire.
+                    self._submit(lambda: None)
 
     def _arm(self, generation):
         preparing_asr = False
@@ -231,6 +250,9 @@ class SessionWorker:
 
     def stop_recording(self, *, released_at=None):
         with self._lock:
+            if self._capturing_context and not self.session.active:
+                self._cancel_request.set()
+                return
             event = self.session.dispatch(Input.RELEASE)
             if event is None:
                 return
