@@ -122,6 +122,18 @@ class WindowsClipboard:
             finally:
                 release(payloads)
 
+    def read_text(self):
+        """Read only an explicitly requested snippet value; never publish or restore."""
+        with self._ui_lock():
+            if self.pending is not None:
+                raise ClipboardUnavailable("Previous clipboard restoration is pending")
+            api = self._factory()
+            with api.window() as hwnd, api.opened(hwnd):
+                handle = api.get(13)
+                if not handle:
+                    raise ClipboardUnavailable("Clipboard has no text")
+                return api.unicode_text(handle)
+
     @contextmanager
     def _ui_lock(self):
         if not self._lock.acquire(blocking=False):

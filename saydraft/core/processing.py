@@ -16,6 +16,7 @@ from saydraft.insert.inserter import InsertionResult
 from .interfaces import Cleaner, Formatter, HistoryStore, Inserter, TargetContext, insertion_block
 from .preferences import protect_snippets, restore_snippets
 from .timings import TimingReporter
+from saydraft.snippets import resolve_mapping
 
 logger = logging.getLogger(__name__)
 
@@ -40,13 +41,14 @@ class TranscriptProcessor:
     def __init__(self, *, cleaner: Cleaner, formatter: Formatter, history: HistoryStore,
                  inserter: Inserter, snippets: dict[str, str] | None = None,
                  notify=lambda message: None, clock=time.perf_counter, reporter=None,
-                 voice_enter_enabled: bool = False):
+                 voice_enter_enabled: bool = False, snippet_clipboard=None, snippet_date=None):
         self.cleaner = cleaner
         self.formatter = formatter
         self.history = history
         self.inserter = inserter
         self.snippets = snippets or {}
         self.voice_enter_enabled = voice_enter_enabled
+        self.snippet_clipboard, self.snippet_date = snippet_clipboard, snippet_date
         self.notify = notify
         self.clock = clock
         self.last_result: ProcessingResult | None = None
@@ -63,6 +65,7 @@ class TranscriptProcessor:
         cleaned = raw_text
         delivery = DeliveryIntent(raw_text)
         snippet_mapping = {}
+        snippet_originals = {}
         try:
             context = replace(context, app_title=target.app_title, app_group=target.app_group,
                 language=language, before_caret=target.before_caret, before_caret_known=target.before_caret_known,
@@ -72,7 +75,7 @@ class TranscriptProcessor:
             delivery = trailing_enter(raw_text, context, enabled=self.voice_enter_enabled and insert_text)
             if delivery.send_enter:
                 notes += ({"type": "voice_enter", "requested": True},)
-            cleaned, snippet_mapping = protect_snippets(delivery.text, self.snippets)
+            cleaned, snippet_mapping = protect_snippets(delivery.text, self.snippets, originals=snippet_originals)
             clean = getattr(self.cleaner, "process_for_delivery", self.cleaner.process_transcript)
             cleaned = clean(cleaned, context) or cleaned
             stages.update(getattr(self.cleaner, "last_timings", {}))
@@ -80,7 +83,21 @@ class TranscriptProcessor:
             logger.warning("Cleanup failed; preserving raw words")
             logger.debug("Cleanup failure detail", exc_info=True)
         try:
+            def read_clipboard():
+                if (not insert_text or insertion_block(target) or self.snippet_clipboard is None
+                        or enter_guard is not None and not enter_guard()
+                        or field_guard is not None and field_guard()):
+                    raise ValueError("Clipboard snippet is unavailable")
+                return self.snippet_clipboard()
+            snippet_mapping, variables_failed = resolve_mapping(cleaned, snippet_mapping, snippet_originals,
+                clipboard_reader=read_clipboard,
+                date=self.snippet_date() if self.snippet_date is not None else None)
             cleaned = restore_snippets(cleaned, snippet_mapping)
+            if variables_failed:
+                try:
+                    self.notify("Some snippet expansions exceeded the limit or were unavailable; their spoken triggers were kept.")
+                except Exception:
+                    logger.warning("Snippet feedback unavailable; text processing continues")
             cleaned = self.formatter.format(cleaned, target) or cleaned
             format_final = getattr(self.cleaner, "format_final", None)
             if format_final is not None:

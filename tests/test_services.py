@@ -20,6 +20,11 @@ def test_container_wires_local_services_with_separate_user_profile(tmp_path, mon
     assert services.processor.voice_enter_enabled is False
     assert services.history.db_path == tmp_path / "Saydraft/history.db"
     assert services.cleaner.cfg.glossary_path == str(tmp_path / "Saydraft/glossary.json")
+    # Settings replacement retains the existing clipboard/recovery owner. The
+    # snippet provider must follow that current port rather than a stale bound one.
+    from types import SimpleNamespace
+    services.inserter.clipboard = SimpleNamespace(read_text=lambda: "Public replacement port")
+    assert services.processor.snippet_clipboard() == "Public replacement port"
 
 
 def test_container_preserves_explicit_whisper_engine(tmp_path, monkeypatch):

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import sqlite3
 import logging
 import os
 from collections.abc import Callable
@@ -25,6 +26,9 @@ from saydraft.ui.hardware_page import HardwarePage
 from saydraft.ui.labs_page import LabsPage
 from saydraft.ui.styles_page import StylesPage
 from saydraft.ui.dictionary_page import DictionaryPage
+from saydraft.ui.snippets_page import SnippetsPage
+from saydraft.data.snippets import SnippetStore
+from saydraft.history import default_history_path
 from saydraft.dictation.glossary import load_glossary
 from saydraft.models.hardware import latest_report
 from saydraft.asr.router import choose_route
@@ -70,6 +74,7 @@ class SettingsPage(QtWidgets.QWidget):
         qt_modules=None,
         config_path: str | os.PathLike[str] | None = None,
         snippets_path: str | os.PathLike[str] | None = None,
+        snippets_db_path=None,
         autostart_manager: WindowsAutoStartManager | None = None,
         on_config_applied: Callable[[dict[str, Any]], None] | None = None,
         model_download_callback: Callable[[str, Callable[[int], None]], None] | None = None,
@@ -97,6 +102,9 @@ class SettingsPage(QtWidgets.QWidget):
         self._vad_download_task = None
         self.config = load_config(config_path=self.config_path)
         self.snippets_path = Path(snippets_path) if snippets_path is not None else resolve_project_path("snippets.txt")
+        self.snippets_db_path = Path(snippets_db_path) if snippets_db_path is not None else (
+            self.snippets_path.parent / "history.db" if snippets_path is not None else default_history_path())
+        self.snippet_store = None
         self.glossary_path = resolve_project_path(self.config["dictation"]["glossary_path"])
         self.app_profiles_path = resolve_project_path(self.config["dictation"]["app_profiles_path"])
 
@@ -107,6 +115,8 @@ class SettingsPage(QtWidgets.QWidget):
         self.section_combo.setAccessibleName("Settings section")
         self.status_label = QtWidgets.QLabel("", self)
         self.status_label.setTextFormat(QtCore.Qt.PlainText)
+        self.status_label.setWordWrap(True)
+        self.status_label.setSizePolicy(QtWidgets.QSizePolicy.Ignored, QtWidgets.QSizePolicy.Preferred)
         self.apply_button = QtWidgets.QPushButton("Apply", self)
         self.close_button = QtWidgets.QPushButton("Close", self)
         self.apply_button.clicked.connect(self.apply_changes)
@@ -373,12 +383,20 @@ class SettingsPage(QtWidgets.QWidget):
         return self.reload_dictionary()
 
     def _snippets_tab(self):
-        page = QtWidgets.QWidget()
-        layout = QtWidgets.QVBoxLayout(page)
-        self.snippets_editor = QtWidgets.QPlainTextEdit()
-        self.snippets_editor.setObjectName("snippetsEditor")
-        layout.addWidget(self.snippets_editor)
-        return page
+        self.snippets_page = SnippetsPage()
+        self.snippets_editor = self.snippets_page.json_editor
+        self.snippets_page.reload_requested.connect(self.reload_snippets)
+        self.snippets_page.status_changed.connect(self.status_label.setText)
+        return self.snippets_page
+
+    def reload_snippets(self):
+        try:
+            self.snippet_store = SnippetStore(self.snippets_db_path, legacy_path=self.snippets_path)
+            self.snippets_page.set_snapshot(self.snippet_store.read())
+            return True
+        except (OSError, ValueError, sqlite3.Error) as exc:
+            self.snippets_page.set_invalid(str(exc))
+            return False
 
     def _models_tab(self):
         page = QtWidgets.QScrollArea()
@@ -503,7 +521,7 @@ class SettingsPage(QtWidgets.QWidget):
         if self._dictionary_snapshot is not None:
             # Show exactly the snapshot that will be checked on save.
             self.dictionary_page.set_snapshot(self._dictionary_snapshot)
-        self.snippets_editor.setPlainText(self._read_text(self.snippets_path))
+        self.reload_snippets()
         self.app_profiles_editor.setPlainText(self._read_text(self.app_profiles_path, default="[]\n"))
 
     def _set_combo(self, combo: QtWidgets.QComboBox, value: str) -> None:
@@ -522,8 +540,19 @@ class SettingsPage(QtWidgets.QWidget):
 
             if not self.dictionary_page.commit_form():
                 return False
+            if not self.snippets_page.commit_form():
+                return False
             dictionary = self.dictionary_page.data()
             profiles = self._parse_json_editor(self.app_profiles_editor, list, "Per-app profiles")
+            snippets = self.snippets_page.entries()
+            if self.snippet_store is None or self.snippets_page.snapshot is None:
+                raise ValueError("Reload repaired Snippets before saving.")
+            snippet_snapshot = self.snippets_page.snapshot
+            snippets_changed = snippets != snippet_snapshot.editable
+            if snippets_changed:
+                self.snippet_store.check_revision(snippet_snapshot.revision)
+            else:
+                snippet_snapshot = self.snippet_store.read()
             if self._dictionary_snapshot is None:
                 raise ValueError("Dictionary could not be read. Repair its JSON on disk, then use Reload Dictionary.")
             if dictionary == self._dictionary_snapshot.editable and not (
@@ -533,14 +562,16 @@ class SettingsPage(QtWidgets.QWidget):
                 snapshot = save_dictionary(self.glossary_path, dictionary,
                     expected_revision=self._dictionary_snapshot.revision,
                     imports=self.dictionary_page.imports, manual_claims=self.dictionary_page.manual_claims)
-        except (OSError, ValueError) as exc:
+            if snippets_changed:
+                snippet_snapshot = self.snippet_store.save(snippets, expected_revision=snippet_snapshot.revision)
+        except (OSError, ValueError, sqlite3.Error) as exc:
             self.status_label.setText(str(exc))
             return False
 
         saved = save_config(cfg, self.config_path)
         self._dictionary_snapshot = snapshot
         self.dictionary_page.set_snapshot(snapshot)
-        self._write_text(self.snippets_path, self._normalized_plain_text(self.snippets_editor))
+        self.snippets_page.set_snapshot(snippet_snapshot)
         self._write_json(self.app_profiles_path, profiles)
         self.autostart_manager.set_enabled(saved["app"]["start_with_windows"])
         self.config = saved

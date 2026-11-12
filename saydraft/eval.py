@@ -114,7 +114,7 @@ def load_eval_corpus(path: str | Path = DEFAULT_CORPUS_PATH) -> list[EvalCase]:
                            data.get("app_title"), data.get("app_group", "general"),
                            data.get("before_caret", ""), data.get("language", "auto"),
                            data.get("voice_enter_enabled", False), data.get("expected_enter", False),
-                           tuple(sorted((k.strip().casefold(), v) for k, v in snippets.items())),
+                           tuple(sorted((k.strip(), v) for k, v in snippets.items())),
                            data.get("before_caret_known", False), data.get("selection", ""),
                            data.get("selection_known", False), data.get("after_caret", ""),
                            data.get("after_caret_known", False), data.get("selection_truncated", False), data.get("tone"))

@@ -82,7 +82,8 @@ def test_shared_save_preserves_all_fields_and_applies_edits_from_separate_pages(
     hub.save_button.click()
     assert subject.applied == [expected]
     assert load_config(config_path=subject.config) == expected
-    assert (subject.directory / "snippets.txt").read_text("utf-8") == "sig=With thanks\n"
+    assert hub.settings_page.snippet_store.read().editable == {"sig": "With thanks"}
+    assert (subject.directory / "snippets.txt").read_text("utf-8") == "addr=123 Main\n"
 
 
 def test_save_failure_is_visible_and_keeps_staged_data_and_config(subject):
@@ -251,6 +252,20 @@ def test_hub_keeps_its_minimum_size_with_larger_text_and_all_controls_reachable(
         control = hub.settings_page.dictionary_page.reload_button
         point = control.mapTo(dictionary_scroll.viewport(), qt.QtCore.QPoint())
         assert 0 <= point.y() and point.y() + control.height() <= dictionary_scroll.viewport().height()
+        hub.show_page("Snippets")
+        page = hub.settings_page.snippets_page
+        page.test_toggle.setChecked(True)
+        page.test_input.setPlainText("addr")
+        assert page.test_expansion()
+        application.processEvents()
+        assert hub.size() == qt.QtCore.QSize(880, 600)
+        snippet_scroll = hub.page_widgets["Snippets"]
+        assert snippet_scroll.horizontalScrollBar().maximum() == 0
+        for control in (page.test_button, page.reload_button):
+            snippet_scroll.ensureWidgetVisible(control)
+            application.processEvents()
+            point = control.mapTo(snippet_scroll.viewport(), qt.QtCore.QPoint())
+            assert 0 <= point.y() and point.y() + control.height() <= snippet_scroll.viewport().height()
         hub.show_page("Settings", tab="Shortcuts")
         application.processEvents()
         scroll = hub.settings_page.tabs.currentWidget()

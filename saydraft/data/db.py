@@ -123,11 +123,23 @@ def _backfill_stats(connection):
 def _import_sources(connection, paths):
     imported = {}
     for kind, source in paths.items():
+        if kind == "snippets":
+            from saydraft.snippets import CANONICAL_SOURCE
+            if connection.execute("SELECT 1 FROM legacy_imports WHERE source_path=?", (CANONICAL_SOURCE,)).fetchone():
+                continue  # A managed live table must never resurrect deleted legacy entries.
         source = Path(source)
         if not source.is_file():
             continue
         try:
-            content = source.read_bytes()
+            if kind == "snippets":
+                from saydraft.snippets import MAX_BYTES
+                with source.open("rb") as stream:
+                    content = stream.read(MAX_BYTES + 1)
+                if len(content) > MAX_BYTES:
+                    logger.warning("Skipped oversized legacy snippets; its source file is preserved")
+                    continue
+            else:
+                content = source.read_bytes()
         except OSError:
             logger.warning("Could not read legacy %s; its source file is preserved", kind)
             continue
@@ -141,12 +153,10 @@ def _import_sources(connection, paths):
             if kind == "glossary":
                 _import_glossary(connection, json.loads(text))
             elif kind == "snippets":
-                for line in text.splitlines():
-                    if line.strip() and not line.lstrip().startswith("#") and "=" in line:
-                        trigger, expansion = (part.strip() for part in line.split("=", 1))
-                        if trigger:
-                            connection.execute("INSERT OR IGNORE INTO snippets(trigger, normalized, expansion, source) VALUES (?, ?, ?, 'import')",
-                                               (trigger, trigger.casefold(), expansion))
+                from saydraft.snippets import parse_document, trigger_key
+                for trigger, expansion in parse_document(text).items():
+                    connection.execute("INSERT OR IGNORE INTO snippets(trigger, normalized, expansion, source) VALUES (?, ?, ?, 'import')",
+                                       (trigger, trigger_key(trigger), expansion))
             elif kind == "profiles":
                 _import_profiles(connection, json.loads(text))
             else:

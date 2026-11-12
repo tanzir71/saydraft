@@ -86,7 +86,7 @@ def test_settings_window_has_required_tabs_and_loads_values(tmp_path):
     assert window.model_picker.model_id == "parakeet-tdt-0-6b-v3-int8"
     assert "CC-BY-4.0" in window.model_picker.license_label.text()
     assert "Saydraft" in window.dictionary_editor.toPlainText()
-    assert "addr=123 Main" in window.snippets_editor.toPlainText()
+    assert window.snippets_page.entries() == {"addr": "123 Main"}
 
 
 def test_bar_visibility_round_trips_and_microphone_fixes_are_explicit_links(tmp_path, monkeypatch):
@@ -240,7 +240,8 @@ def test_settings_window_saves_dictionary_snippets_and_profiles(tmp_path):
 
     assert window.apply_changes() is True
     assert json.loads((tmp_path / "glossary.json").read_text(encoding="utf-8")) == dictionary
-    assert (tmp_path / "snippets.txt").read_text(encoding="utf-8") == "sig=Best regards\n"
+    assert window.snippet_store.read().editable == {"sig": "Best regards"}
+    assert (tmp_path / "snippets.txt").read_text(encoding="utf-8") == "addr=123 Main\n"
     assert json.loads((tmp_path / "app_profiles.json").read_text(encoding="utf-8")) == profiles
 
 

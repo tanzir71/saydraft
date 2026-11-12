@@ -26,6 +26,10 @@ class HubWindow(QtWidgets.QWidget):
         self.setWindowTitle("Saydraft")
         self.resize(1080, 720)
         self.setMinimumSize(880, 600)
+        settings_options = dict(settings_options)
+        database = getattr(history_options.get("store"), "db_path", None)
+        if database is not None:
+            settings_options.setdefault("snippets_db_path", database)
         self.settings_page = settings_page_factory(**settings_options)
         history_options = dict(history_options)
         history_options.setdefault("glossary_path", self.settings_page.glossary_path)

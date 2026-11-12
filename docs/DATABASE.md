@@ -16,8 +16,11 @@ New tables hold dictionary terms (user/protected/replacement), snippets, style
 rules and daily statistics. Dictionary JSON, snippets and app-profile files are
 read without modification and copied into tables. Source path/hash receipts make
 imports idempotent; existing database entries are preserved. Additional profile
-settings such as insertion fallbacks are retained as JSON. The current Settings
-editor continues to use its existing files until the Hub migration.
+settings such as insertion fallbacks are retained as JSON. The Hub's structured
+Snippets editor and runtime now use the SQLite table, with a pre-adoption backup
+and a migration receipt preventing legacy reimports after adoption. The original
+snippet file stays untouched; see `docs/SNIPPETS.md`. Dictionary and app-profile
+controls retain their compatibility files.
 
 History insertion and daily counters commit together, before foreground insertion.
 Final insertion timing metadata is updated afterwards without changing transcript

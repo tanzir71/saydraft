@@ -14,7 +14,7 @@ autostart, explicit downloads/pause, style preview and History actions retain
 their existing behavior. The app's older injected factory/attribute names remain
 as adapter compatibility names; their values are embedded pages.
 
-Dictionary, Snippets and Style are the same controls moved into rail pages.
+Dictionary, Snippets and Style are hosted in rail pages.
 One shared Save action applies staged values across those pages and Settings.
 Settings sections use a named selector, including separate General, Shortcuts
 and Privacy sections. Audio retention lives in Privacy and still defaults off.
@@ -31,8 +31,8 @@ glyphs and follow theme changes. Six model-label encoding artifacts are fixed;
 artifact URLs, hashes, versions, licenses and all other catalog data are unchanged.
 
 Notes currently has an empty state pending the Scratchpad and Notetaker producers.
-The structured Snippets editor and full remaining §8.3 features
-listed below are still outstanding; the shell is not full P6.3 acceptance.
+The full remaining §8.3 features listed below are still outstanding; the shell
+and structured editors are not full P6.3 acceptance.
 
 ## Dictionary controls
 
@@ -67,6 +67,19 @@ Reload saved Dictionary explicitly discards the draft. Unknown owner fields and
 the complete 4 MB payload budget, including private metadata, are preserved.
 The compatibility JSON remains the live store; the SQLite Dictionary table still
 contains the earlier copy-only migration.
+
+## Snippets controls
+
+Snippets now has a searchable trigger/expansion list, multiline editing, variable
+buttons and a private test panel. `{date}` and `{clipboard}` resolve once after
+cleanup, with limits and spoken-trigger fallback. The test uses a supplied
+clipboard sample and includes pending form edits. Shared Save persists live
+snippets in the existing SQLite table, preserving the legacy file and a
+pre-adoption database backup. Adoption receipts prevent later legacy imports
+from resurrecting deletions. Revision checks refuse changed stale drafts;
+unchanged editors keep newer rows. Advanced JSON/legacy text remains available.
+See `docs/SNIPPETS.md` for matching, variables, limits, migration and verification.
+The shared footer status now wraps at larger text sizes.
 
 ## History controls
 
@@ -177,13 +190,26 @@ Invalid encoding, oversized startup files and deep JSON nesting refuse editing
 without rereading or overwriting the rejected saved file.
 
 One earlier full run reported a confirmation assertion in the existing
-own-control native tracked-edit probe. Its failed report is retained; the isolated
+own-control native tracked-edit probe. Its failed run log is retained; the
+temporary probe JSON is no longer present after subsequent test runs. The isolated
 repeat and final full suite pass. The native observer/probe and its checks are
 unchanged, and the underlying intermittency remains unresolved. These probes use
 only owned invisible controls. Desktop/manual acceptance remains deferred.
 
-Full §8.3 still requires the structured
-Snippets page and Notes producers, microphone picker/test, Privacy controls, complete
+The structured Snippets revision adds 34 cases. Final full verification passes
+2466 tests with five explicit optional/native skips, rules 556/556, adversarial
+validation 100/100, lint and all 12 generated outputs. The three editor/test/
+advanced states render in both themes, at both window sizes, with 16/22 px text
+and 1×/2× density (48 exact-size PNGs with no horizontal overflow). Selected final
+renders are inspected. Larger-text tests reach Test/Reload/Save and keep the Hub
+at 880×600. Migration tests preserve complete History rows, owner extensions and
+source bytes; failed transactions/stale drafts retain the newer store. Variable
+tests cover opaque cleanup input, one-pass values, Unicode matching, output
+budgets, field/cancellation refusals, read-only clipboard ports/owned memory and
+failed feedback without opaque tokens reaching History. No owner clipboard,
+microphone, sound or desktop input is used.
+
+Full §8.3 still requires Notes producers, microphone picker/test, Privacy controls, complete
 model/disk controls, History paging/global search and model/cleanup retry
 choices. The later onboarding, Scratchpad/Notetaker and complete gallery/
 accessibility milestones retain their original scope.

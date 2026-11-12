@@ -136,6 +136,26 @@ class ClipboardHandles:
         self.kernel.GlobalUnlock(handle)
         return StoredFormat(format, handle, len(data), self)
 
+    def unicode_text(self, handle, *, limit=65536):
+        """Read a bounded, terminated CF_UNICODETEXT allocation without changing it."""
+        size = self.kernel.GlobalSize(handle)
+        if not 2 <= size <= (limit + 1) * 2 or size % 2:
+            raise ClipboardUnavailable("Clipboard text exceeds its limit or is unavailable")
+        pointer = self.kernel.GlobalLock(handle)
+        if not pointer:
+            raise ClipboardUnavailable("Clipboard text is unavailable")
+        try:
+            data = ct.string_at(pointer, size)
+        finally:
+            self.kernel.GlobalUnlock(handle)
+        end = next((i for i in range(0, size, 2) if data[i:i+2] == b"\0\0"), None)
+        if end is None:
+            raise ClipboardUnavailable("Clipboard text has no terminator")
+        try:
+            return data[:end].decode("utf-16-le")
+        except UnicodeError as exc:
+            raise ClipboardUnavailable("Clipboard text is not valid Unicode") from exc
+
     def free(self, format, handle):
         kind = _BASE_FORMAT.get(format, format)
         if kind in (2, 9):

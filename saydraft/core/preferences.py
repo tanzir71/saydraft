@@ -5,6 +5,8 @@ from __future__ import annotations
 import json
 import logging
 import re
+import sqlite3
+import unicodedata
 from pathlib import Path
 
 from saydraft.dictation.types import DictationContext
@@ -12,6 +14,7 @@ from saydraft.paths import resolve_data_path
 from saydraft.text_boundaries import whole_word_match
 from saydraft.cleanup.styles import select_style, style_fields
 from saydraft.context.app_groups import matches_app
+from saydraft.snippets import MAX_BYTES, parse_document
 
 logger = logging.getLogger(__name__)
 
@@ -26,30 +29,40 @@ def read_profiles(path: str | Path) -> list[dict]:
 
 
 def read_snippets(path: str | Path | None = None) -> dict[str, str]:
-    source = Path(path) if path is not None else resolve_data_path("snippets.txt")
     try:
+        if path is None:
+            from saydraft.data.snippets import SnippetStore
+            from saydraft.history import default_history_path
+            entries = SnippetStore(default_history_path(), legacy_path=resolve_data_path("snippets.txt")).read().editable
+            return entries
+        source = Path(path)
         if source.is_file():
-            return parse_snippets(source.read_text(encoding="utf-8"))
-    except (OSError, UnicodeError):
+            with source.open("rb") as stream:
+                raw = stream.read(MAX_BYTES + 1)
+            if len(raw) > MAX_BYTES:
+                raise ValueError("Snippet file exceeds its import limit")
+            return parse_snippets(raw.decode("utf-8-sig"))
+    except (OSError, ValueError, sqlite3.Error):
         logger.warning("Could not read snippets; dictation remains available")
     return {}
 
 
 def parse_snippets(text):
-    snippets = {}
-    for line in text.splitlines():
-        if line.strip() and not line.lstrip().startswith("#") and "=" in line:
-            trigger, expansion = line.split("=", 1)
-            if trigger.strip():
-                snippets[trigger.strip().casefold()] = expansion.strip()
-    return snippets
+    return parse_document(text)
 
 
-def protect_snippets(text: str, snippets: dict[str, str]) -> tuple[str, dict[str, str]]:
+def protect_snippets(text: str, snippets: dict[str, str], *, originals=None) -> tuple[str, dict[str, str]]:
     """Keep explicit local expansions out of prose cleanup/model generation."""
     if not snippets:
         return text, {}
-    pattern = r"(?<!\w)(" + "|".join(re.escape(key) for key in sorted(snippets, key=len, reverse=True)) + r")(?!\w)"
+    keys = sorted(snippets, key=lambda key: len(unicodedata.normalize("NFD", key.casefold())), reverse=True)
+    alternatives = []
+    for i, key in enumerate(keys):
+        forms = {key, key.casefold(), unicodedata.normalize("NFC", key), unicodedata.normalize("NFD", key),
+            unicodedata.normalize("NFD", key.casefold())}
+        variants = "|".join(re.escape(form) for form in sorted(forms, key=lambda value: (-len(value), value)))
+        alternatives.append(f"(?P<S{i}>{variants})")
+    pattern = r"(?<!\w)(?:" + "|".join(alternatives) + r")(?!\w)"
     mapping, index = {}, 0
     reserved = set(re.findall(r"__SPAN_\d+__", text))
     def replace(match):
@@ -59,7 +72,11 @@ def protect_snippets(text: str, snippets: dict[str, str]) -> tuple[str, dict[str
         while f"__SPAN_{index}__" in reserved or f"__SPAN_{index}__" in mapping:
             index += 1
         token = f"__SPAN_{index}__"
-        mapping[token] = snippets[match[0].casefold()]
+        # Regex IGNORECASE also matches I/İ/ı. Use the matched alternative's
+        # actual key rather than assuming casefold returns an existing key.
+        mapping[token] = snippets[keys[int(match.lastgroup[1:])]]
+        if originals is not None:
+            originals[token] = match[0]
         index += 1
         return token
     return re.sub(pattern, replace, text, flags=re.IGNORECASE), mapping
@@ -79,11 +96,11 @@ def restore_snippets(text: str, mapping: dict[str, str]) -> str:
 
 
 def expand_snippets(text: str, snippets: dict[str, str]) -> str:
-    if not snippets:
+    protected, mapping = protect_snippets(text, snippets)
+    if not mapping:
         return text
     # One pass avoids recursive expansion; a callable keeps backslashes literal.
-    pattern = r"(?<!\w)(" + "|".join(re.escape(key) for key in sorted(snippets, key=len, reverse=True)) + r")(?!\w)"
-    return re.sub(pattern, lambda match: snippets[match[0].casefold()], text, flags=re.IGNORECASE)
+    return re.sub("|".join(re.escape(token) for token in mapping), lambda match: mapping[match[0]], protected)
 
 
 def select_context(config: dict, profiles: list[dict], title: str | None, *,
