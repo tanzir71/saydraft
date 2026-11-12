@@ -48,8 +48,11 @@ the weights' license. See [third-party notices](../THIRD_PARTY_NOTICES.md).
 Developer cleanup candidates have a separate [catalog and artifact table](CLEANUP_CANDIDATES.md).
 They are unselected and absent from the app picker/setup downloads. Chosen Qwen
 Q4_K_M weights are 0.58/1.40/3.01 GB; ggml-org Gemma Q4_0 weights are 2.84/4.59 GB,
-above the earlier Gemma estimates. Candidate quality, actual-use/fallback rates,
+above the earlier Gemma estimates. Full bake-off quality, actual-use/fallback rates,
 CPU/Vulkan latency and defaults remain unmeasured.
+Initial 0.8B compatibility probes and retained cold-request failures are recorded
+in that document; concurrent downloads and two curated examples cannot establish
+quality or tier acceptance.
 
 The bundled [catalog](../saydraft/models/manifest.json) pins every file's revision,
 size, SHA-256 digest and exact HTTPS download/redirect hosts. Parakeet revisions:

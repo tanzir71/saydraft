@@ -16,7 +16,7 @@ All conversions and original cards declare Apache-2.0. The catalog records
 original source/revision, publisher/converter, quantization, license URL, pinned
 weight/card sizes and SHA-256, and a bundled license notice. The original Qwen
 license and standard Apache text are retained unchanged. No local quantization,
-projector, MTP draft, assistant variant or QAT model is included. These compare
+projector or MTP draft is included. These compare
 exact artifacts; different quantizations need not have identical error or speed.
 Actual Gemma downloads exceed the earlier estimates.
 
@@ -51,3 +51,25 @@ Foundation validation: 1278 tests pass, four optional native skips, with real
 local Silero/preview/language-ID fixtures; golden 432/432; adversarial 100/100;
 Ruff/diff pass. Candidate downloads are still in progress; no candidate inference
 or selection is claimed by those regression results.
+
+## Initial 0.8B compatibility probes
+
+With networking blocked during inference, the real 0.8B artifact completed two
+curated-text requests on CPU and on explicit `Vulkan1` (RTX 3060). All native
+children had signalled exit after closure, observed through independent Windows
+handles. This is protocol/lifecycle compatibility, not golden-set acceptance.
+
+The default Vulkan probe and first explicit RTX probe each hit a 30 s request
+deadline and returned intact rules output. An extended 120 s developer debug
+budget then completed its first RTX request in 16.241 s and its cached-prefix
+successor in 0.111 s. CPU observed 4.018/0.653 s. Downloads were concurrent,
+so none is an isolated tier/latency result, and the app's 800 ms timeout was not
+changed. Accepted outputs added a final period relative to the strict rules
+oracle; the full bake-off must measure those differences rather than count
+timeouts/rules fallback as model success. Warm/cold and changed-prefix cases need
+separate reporting before any default or hardware-tier decision.
+
+Local reports/logs are retained at `build/qa/cleanup-qwen08-initial-probe/`,
+`build/qa/cleanup-qwen08-discrete-probe/` and
+`build/qa/cleanup-qwen08-discrete-long-probe/`. The other four transfers remain
+in progress. No quality, parity-latency or winner acceptance is claimed.
