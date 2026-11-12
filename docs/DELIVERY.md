@@ -44,10 +44,10 @@ preservation, including a change during the existing clipboard delay.
 Validation at this checkpoint: 1610 tests pass, four optional native skips; rules
 432/432, authored adversarial checks 100/100, Ruff and diff checks pass.
 
-P5.2 remains open: all-format clipboard snapshot/restore, the 64 MB bound and
-clipboard-history/cloud exclusion formats are still pending. Current clipboard
-restoration is text-only. Copied-image/rich-text survival, actual elevated-window
-refusal and Win+V inspection are not claimed by the token-query smoke check.
+The Windows app now routes through bounded native clipboard transactions and
+history/cloud exclusion flags; see [clipboard behavior](CLIPBOARD_WINDOWS.md).
+P5.2 remains open for complete native/manual acceptance. The token-query smoke
+check itself proves no image/rich-text, elevated-window or Win+V behavior.
 
 Clean immutable `d8ac129` repeats all 42 matching native queries at integrity
 8192 with 175 handles before and after, then exits successfully. Original bytes

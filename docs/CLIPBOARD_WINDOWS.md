@@ -1,8 +1,8 @@
 # Native clipboard preservation
 
-P5.2 starts with format-aware native ownership. The application still uses the
-existing text-only clipboard adapter until the transaction layer is wired in;
-this checkpoint does not claim image/rich-text preservation during dictation.
+Windows dictation now uses format-aware native clipboard transactions by default.
+History Copy uses the same privacy-protected backend. The staged implementation
+and its current acceptance limits are recorded below.
 
 `insert/clipboard_handles.py` duplicates rendered clipboard formats into owned
 copies and bounds their total payload through a caller-supplied remaining budget
@@ -56,8 +56,8 @@ ten round trips. Native GDI count is 14 while fixtures/copies live and returns
 to zero after each run. Original report bytes/digest are retained under
 `eval/hardware/results/2026-11-12-clipboard-handles/`.
 
-The transaction foundation now exists in `clipboard_win.py` and `_clipboard_win32.py`;
-app wiring still follows. It uses an eager, message-only owner, 350 ms clipboard-open
+The transaction foundation exists in `clipboard_win.py` and `_clipboard_win32.py`.
+It uses an eager, message-only owner, 350 ms clipboard-open
 retries, ordered/bounded enumeration and a 64 MB retained snapshot payload. Failed
 renders are counted/skipped; opaque, oversized or uncapturable content causes no
 mutation. Before clearing, it allocates the three [privacy formats](https://learn.microsoft.com/en-us/windows/win32/dataxchg/clipboard-formats)
@@ -69,9 +69,44 @@ and owner prevent restoring over a newer user copy, including a busy-restore rac
 Failures retain one complete original in RAM; recover() retries without accumulating
 snapshots and discards it only when a newer clipboard copy supersedes it. Partial
 publication, guard/body failure, unknown sequence and partial restore paths are tested.
-Native owner-window/flag registration tests access no clipboard contents. The app
-still uses text-only restoration; actual image/rich-text survival and Win+V remain
-unverified until native transaction/app integration tests are complete.
+Native owner-window/flag registration tests access no clipboard contents. Native
+app integration and the additional checks below follow this checkpoint.
 
 Transaction validation: 1668 tests pass with four optional native skips; rules
 432/432, authored adversarial checks 100/100, Ruff and diff checks pass.
+
+## Application route
+
+The Windows inserter now selects WindowsClipboard lazily; injected legacy ports
+remain available to tests. Snapshot failure uses Unicode typing only after a
+fresh target check. A paste attempt is never retried by typing, because partial
+input is ambiguous. A changed clipboard before paste refuses delivery. Pending
+restoration retains History, reports recovery and suppresses trailing Enter.
+
+History Copy publishes all three privacy flags before Unicode text, including
+when replacing opaque clipboard data. History shares the worker's clipboard
+instance and offers Restore clipboard; copy/recovery errors remain visible.
+Settings replacement keeps that instance, and shutdown attempts recovery without
+waiting for another thread's active transaction. The History layout was checked
+at 860×560 with recovery enabled.
+
+Real Windows replay exposed synthesized formats advancing the sequence when
+CloseClipboard runs (observed +3/+5). The owner check now samples the sequence
+after close while the unique message-only window still owns the contents.
+Sequence is read before owner identity, so a racing user copy cannot be adopted.
+Recovery applies the same rule; cleanup failure never retains an already-freed
+snapshot. Tests model write-close increments and newer-copy/busy-restore races.
+
+An initial native backed-up replay now passes ten processing→private clipboard
+read→restore iterations with real SQLite before delivery, exact RTF/DIB/text
+preservation and private History Copy. It injects no OS input and uses no ASR.
+The complete original clipboard stays in RAM and is restored/verified afterward;
+no owner contents or fingerprints are saved. Immutable replay evidence follows
+in the probe checkpoint. Actual target paste, elevated-window and Win+V acceptance
+remain separate, and P5.2 stays open.
+
+App validation: 1691 tests pass with four optional native skips; rules 432/432,
+authored adversarial checks 100/100, Ruff and diff checks pass. A development
+full run hit three loopback two-second timeouts; all 12 loopback cases then pass
+in isolation and the complete repeat passes. No causal clipboard link is proven;
+both the failed and passing logs remain in build/qa/native-clipboard-app-*.

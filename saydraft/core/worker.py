@@ -554,10 +554,13 @@ class SessionWorker:
                 return
             pending = self.services.processor.pending_results
             previous = self.services.cleaner
+            clipboard = getattr(self.services.inserter, "clipboard", None)
             self.services = self.services_factory(
                 config, level_callback=lambda level: self.emit("audio_level_changed", level),
                 notify=lambda message: self.emit("notification_requested", message))
             self.services.processor.pending_results.extend(pending)
+            if clipboard is not None and hasattr(self.services.inserter, "clipboard"):
+                self.services.inserter.clipboard = clipboard  # Retain recovery and the History window's shared port.
             if previous is not self.services.cleaner:
                 self._close_cleanup(previous)
             self._warm_cleanup()
@@ -569,5 +572,12 @@ class SessionWorker:
         self.hotkeys.stop()
         self._cancel_timers()
         self._close_cleanup(self.services.cleaner)
+        close_inserter = getattr(self.services.inserter, "close", None)
+        if close_inserter is not None:
+            try:
+                if not close_inserter():
+                    logger.warning("Clipboard recovery is still pending during shutdown")
+            except OSError:
+                logger.warning("Clipboard recovery could not finish during shutdown")
         # An in-flight ASR may finish and persist its words, but can no longer paste.
         self.executor.shutdown(wait=False, cancel_futures=False)

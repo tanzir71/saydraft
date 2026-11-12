@@ -21,6 +21,7 @@ class InsertionResult:
     method: str
     reason: str = ""
     enter_sent: bool = False
+    clipboard_pending: bool = False
 
 
 class Inserter:
@@ -38,7 +39,10 @@ class Inserter:
         paste_hotkey: str = "ctrl+v",
         delivery_guard=None,
     ):
-        self.clipboard = clipboard or _PyperclipClipboard()
+        if clipboard is None and sys.platform == "win32":
+            from .clipboard_win import WindowsClipboard
+            clipboard = WindowsClipboard()
+        self.clipboard = clipboard if clipboard is not None else _PyperclipClipboard()
         self.keyboard = keyboard or _KeyboardAdapter()
         self.focus_provider = focus_provider
         self.profiles = profiles or []
@@ -77,8 +81,15 @@ class Inserter:
         if (send_enter or self.delivery_guard is not None) and (reason := check()):
             return InsertionResult("skipped_focus_changed" if reason == "focus_changed" else "not_inserted",
                                    "none", reason)
+        note = ""
         if method == "typing":
             self.keyboard.write(text)
+        elif hasattr(self.clipboard, "temporary_text"):
+            delivered = self._native_paste(text, check)
+            if (delivered.status != "inserted" or delivered.clipboard_pending
+                    or delivered.reason in ("clipboard_cleanup_failed", "clipboard_restore_failed")):
+                return delivered
+            method, note = delivered.method, delivered.reason
         else:
             reason = self._paste_with_restore(text,
                 check_before_paste=check if send_enter or self.delivery_guard is not None else None)
@@ -93,8 +104,47 @@ class Inserter:
             except Exception:
                 logger.warning("Text inserted; trailing Enter delivery failed")
                 return InsertionResult("inserted", method, "enter_failed")
-            return InsertionResult("inserted", method, enter_sent=True)
-        return InsertionResult(status="inserted", method=method)
+            return InsertionResult("inserted", method, note, enter_sent=True)
+        return InsertionResult(status="inserted", method=method, reason=note)
+
+    def _native_paste(self, text, check):
+        from .clipboard_win import DeliveryBlocked
+        attempted = pasted = False
+        blocked, lease = "", None
+        try:
+            with self.clipboard.temporary_text(text, guard=check) as lease:
+                self.sleep(self.restore_delay)
+                blocked = check() or ("" if lease.current() else "clipboard_changed")
+                if not blocked:
+                    attempted = True
+                    self.keyboard.send(self.paste_hotkey)
+                    pasted = True
+                    self.sleep(self.restore_delay)
+        except DeliveryBlocked as error:
+            blocked = error.reason
+        except OSError:
+            if pasted:
+                blocked = "clipboard_restore_failed"
+            elif attempted:
+                blocked = "insertion_unconfirmed"
+            else:
+                blocked = check()
+                if not blocked:
+                    self.keyboard.write(text)
+                    pending = self.clipboard.pending is not None
+                    return InsertionResult("inserted", "typing", "clipboard_restore_pending" if pending
+                                           else "clipboard_unavailable", clipboard_pending=pending)
+        pending = self.clipboard.pending is not None
+        if pasted:
+            note = ("clipboard_restore_pending" if pending else blocked or
+                    ("clipboard_cleanup_failed" if lease and lease.restore_status == "cleanup_failed" else ""))
+            return InsertionResult("inserted", "paste", note, clipboard_pending=pending)
+        return InsertionResult("skipped_focus_changed" if blocked == "focus_changed" else "not_inserted",
+                               "paste" if attempted else "none", blocked, clipboard_pending=pending)
+
+    def close(self):
+        close = getattr(self.clipboard, "close", None)
+        return close() if close is not None else True
 
     def _delivery_block(self, start_focus, enter_guard):
         try:

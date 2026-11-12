@@ -43,6 +43,9 @@ class HistoryWindow(QtWidgets.QDialog):
         super().__init__()
         self.qt = qt_modules
         self.store = store or DictationHistoryStore(db_path)
+        if clipboard is None and os.name == "nt":
+            from saydraft.insert.clipboard_win import WindowsClipboard
+            clipboard = WindowsClipboard()
         self.clipboard = clipboard
         self.reinsert_callback = reinsert_callback
         self.retry_callback = retry_callback
@@ -62,6 +65,8 @@ class HistoryWindow(QtWidgets.QDialog):
         self.raw_toggle = QtWidgets.QCheckBox("Show raw transcript", self)
         self.metadata_label = QtWidgets.QLabel("", self)
         self.copy_button = QtWidgets.QPushButton("Copy", self)
+        self.restore_clipboard_button = QtWidgets.QPushButton("Restore clipboard", self)
+        self.restore_clipboard_button.setVisible(hasattr(self.clipboard, "recover"))
         self.reinsert_button = QtWidgets.QPushButton("Re-insert", self)
         self.add_dictionary_button = QtWidgets.QPushButton("Add Selection to Dictionary", self)
         self.retry_button = QtWidgets.QPushButton("Retry with All languages", self)
@@ -95,7 +100,10 @@ class HistoryWindow(QtWidgets.QDialog):
         buttons.addWidget(self.add_dictionary_button)
         buttons.addWidget(self.retry_button)
         right_layout.addLayout(buttons)
-        right_layout.addWidget(self.status_label)
+        recovery = QtWidgets.QHBoxLayout()
+        recovery.addWidget(self.status_label, 1)
+        recovery.addWidget(self.restore_clipboard_button)
+        right_layout.addLayout(recovery)
 
         body.addWidget(left)
         body.addWidget(right)
@@ -108,11 +116,13 @@ class HistoryWindow(QtWidgets.QDialog):
         self.list_widget.currentRowChanged.connect(lambda _row: self.update_detail())
         self.raw_toggle.toggled.connect(lambda _checked: self.update_detail())
         self.copy_button.clicked.connect(self.copy_current_text)
+        self.restore_clipboard_button.clicked.connect(self.restore_clipboard)
         self.reinsert_button.clicked.connect(self.reinsert_current_text)
         self.add_dictionary_button.clicked.connect(self.add_selection_to_dictionary)
         self.retry_button.clicked.connect(self.retry_current_audio)
 
     def refresh(self) -> None:
+        self.restore_clipboard_button.setEnabled(getattr(self.clipboard, "pending", None) is not None)
         selected = self.current_row()
         self.rows = self.store.list_recent(limit=self.limit)
         self.apply_filter()
@@ -226,9 +236,23 @@ class HistoryWindow(QtWidgets.QDialog):
         if not text:
             return False
         clipboard = self.clipboard or QtWidgets.QApplication.clipboard()
-        clipboard.setText(text)
+        try:
+            clipboard.setText(text)
+        except (OSError, ValueError):
+            self.status_label.setText("Could not copy. Try again when the clipboard is available.")
+            return False
+        self.restore_clipboard_button.setEnabled(getattr(self.clipboard, "pending", None) is not None)
         self.status_label.setText("Copied")
         return True
+
+    def restore_clipboard(self) -> bool:
+        try:
+            restored = bool(self.clipboard and self.clipboard.recover())
+        except OSError:
+            restored = False
+        self.restore_clipboard_button.setEnabled(getattr(self.clipboard, "pending", None) is not None)
+        self.status_label.setText("Clipboard ready" if restored else "Could not restore clipboard yet. Try again.")
+        return restored
 
     def reinsert_current_text(self) -> bool:
         row = self.current_row()

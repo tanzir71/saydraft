@@ -19,6 +19,7 @@ class Api:
         self.windows, self.open_window, self.events = set(), None, []
         self.busy = self.fail_duplicate = self.no_sequence = False
         self.fail_put, self.no_render, self.sizes = set(), set(), {}
+        self.close_increment = 0
         for format, data in ((0xC001, b"rich"), (8, b"image"), (13, b"old text")):
             copy = self.memory(format, data)
             self.clip.append((format, copy.handle))
@@ -43,9 +44,12 @@ class Api:
             raise ClipboardUnavailable("busy")
         assert self.open_window is None
         self.open_window = hwnd
+        before = self.serial
         try:
             yield
         finally:
+            if self.serial != before:
+                self.serial += self.close_increment
             self.open_window = None
 
     def formats(self):
@@ -119,8 +123,10 @@ def test_snapshot_preserves_all_rendered_formats_order_and_total_size():
 
 
 @pytest.mark.parametrize("empty", [False, True])
-def test_transaction_sets_all_privacy_flags_before_unicode_and_restores_exact_original(empty):
+@pytest.mark.parametrize("close_increment", [0, 3])
+def test_transaction_sets_all_privacy_flags_before_unicode_and_restores_exact_original(empty, close_increment):
     api = Api()
+    api.close_increment = close_increment
     if empty:
         with api.opened(999):
             api.empty()
@@ -187,8 +193,10 @@ def test_one_failed_render_is_counted_and_other_formats_are_preserved():
 
 
 @pytest.mark.parametrize("busy_restore", [False, True])
-def test_new_user_copy_wins_over_restoration_and_invalidates_lease(busy_restore):
+@pytest.mark.parametrize("close_increment", [0, 3])
+def test_new_user_copy_wins_over_restoration_and_invalidates_lease(busy_restore, close_increment):
     api = Api()
+    api.close_increment = close_increment
     clipboard = WindowsClipboard(api_factory=lambda: api)
     with clipboard.temporary_text("fixture") as lease:
         with api.opened(999):
@@ -203,8 +211,10 @@ def test_new_user_copy_wins_over_restoration_and_invalidates_lease(busy_restore)
 
 
 @pytest.mark.parametrize("failure", ["busy", "allocation", "partial_publication"])
-def test_failed_restore_retains_one_complete_original_and_recovery_restores_it(failure):
+@pytest.mark.parametrize("close_increment", [0, 3])
+def test_failed_restore_retains_one_complete_original_and_recovery_restores_it(failure, close_increment):
     api = Api()
+    api.close_increment = close_increment
     original = api.data()
     clipboard = WindowsClipboard(api_factory=lambda: api)
     with clipboard.temporary_text("fixture") as lease:
@@ -251,6 +261,24 @@ def test_body_failure_still_restores_and_partial_temp_publication_rolls_back():
     with pytest.raises(ClipboardUnavailable):
         with clipboard.temporary_text("fixture"):
             pytest.fail("partial publication yielded")
+    assert api.data() == original
+    api.assert_retired()
+
+
+def test_close_failure_after_successful_restore_does_not_retain_already_freed_snapshot():
+    api = Api()
+    original, opened = api.data(), api.opened
+    @contextmanager
+    def failing_close(hwnd):
+        with opened(hwnd):
+            yield
+        if api.data() == original:
+            raise ClipboardUnavailable("close failed")
+    api.opened = failing_close
+    clipboard = WindowsClipboard(api_factory=lambda: api)
+    with clipboard.temporary_text("fixture") as lease:
+        pass
+    assert lease.restore_status == "cleanup_failed" and clipboard.pending is None
     assert api.data() == original
     api.assert_retired()
 

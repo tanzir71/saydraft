@@ -128,6 +128,12 @@ class TranscriptProcessor:
             self.notify("Dictation saved in History. Release Ctrl, Win, Alt and Shift, then retry insertion.")
         elif insertion.reason == "integrity_unavailable":
             self.notify("Dictation saved in History. The target's access level could not be checked.")
+        elif insertion.reason == "clipboard_changed":
+            self.notify("Dictation saved in History. The clipboard changed before paste; retry insertion.")
+        elif insertion.reason == "insertion_unconfirmed":
+            self.notify("Dictation saved in History. Paste could not be confirmed; check the field before retrying.")
+        elif insertion.reason in ("clipboard_cleanup_failed", "clipboard_restore_failed"):
+            self.notify("Text inserted; check your previous clipboard before closing Saydraft.")
         elif delivery.send_enter and insertion.status == "inserted" and not insertion.enter_sent:
             self.notify("Text inserted; Enter was skipped because focus changed." if insertion.reason == "enter_focus_changed"
                         else "Text inserted; Enter was cancelled." if insertion.reason == "enter_cancelled"
@@ -135,6 +141,8 @@ class TranscriptProcessor:
                         else "Text inserted; Enter could not be sent.")
         elif insertion.reason not in ("history_only", "cancelled") and insertion.status != "inserted":
             self.notify("Dictation saved in history; insertion was unavailable.")
+        if insertion.clipboard_pending:
+            self.notify("Your previous clipboard is kept in memory. Open History and choose Restore clipboard.")
         result = ProcessingResult(raw_text, cleaned, insertion, history_id, stages, audio_path, notes)
         self.last_result = result
         update_timings = getattr(self.history, "update_timings", None)

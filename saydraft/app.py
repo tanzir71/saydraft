@@ -122,6 +122,9 @@ class WorkerController:
         if result.status != "inserted":
             self.signals.notification_requested.emit("Could not reinsert text; use Copy in History.")
 
+    def clipboard(self):
+        return getattr(self.core.services.inserter, "clipboard", None) if self.core is not None else None
+
     def apply_config(self, config):
         if self.core is not None:
             self.core.configure(config)
@@ -276,6 +279,7 @@ class SaydraftApp:
             self.history_window = self.history_window_factory(
                 qt_modules=self.qt_modules,
                 store=self._controller_history_store(),
+                clipboard=self.controller.clipboard() if hasattr(self.controller, "clipboard") else None,
                 reinsert_callback=self._reinsert_history_text,
                 retry_callback=self._retry_history_audio,
             )

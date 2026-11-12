@@ -89,6 +89,39 @@ class WindowsClipboard:
         self._factory, self._lock = api_factory, threading.RLock()
         self.pending, self.pending_sequence = None, 0
 
+    def close(self):
+        if not self._lock.acquire(blocking=False):
+            return False  # An active transaction restores itself in its finally block.
+        try:
+            return self.recover()
+        finally:
+            self._lock.release()
+
+    def setText(self, text):
+        """Explicit Copy replaces the clipboard and keeps all dictation privacy flags."""
+        if not isinstance(text, str) or "\0" in text:
+            raise ValueError("Clipboard text must be a string without embedded NUL characters")
+        with self._lock:
+            api, payloads = self._factory(), []
+            try:
+                with api.window() as hwnd, api.opened(hwnd):
+                    try:
+                        for format in api.privacy:
+                            payloads.append(api.memory(format, bytes(4)))
+                        payloads.append(api.memory(13, (text + "\0").encode("utf-16-le")))
+                        api.empty()
+                        for copy in payloads:
+                            api.put(copy)
+                        if self.pending is not None:
+                            original, self.pending = self.pending, None
+                            self.pending_sequence = 0
+                            original.close()
+                    finally:
+                        if self.pending is not None and api.owner() == hwnd:
+                            self.pending_sequence = api.sequence()
+            finally:
+                release(payloads)
+
     def _restore_locked(self, api, snapshot):
         copies = snapshot.stage(api)  # All allocations happen before EmptyClipboard.
         try:
@@ -103,6 +136,13 @@ class WindowsClipboard:
         finally:
             release(copies)
 
+    @staticmethod
+    def _owned_sequence(api, hwnd, previous):
+        # Windows can synthesize formats on CloseClipboard. Read sequence before
+        # checking our unique owner so a racing user copy cannot be adopted.
+        sequence = api.sequence()
+        return sequence if api.owner() == hwnd else previous
+
     def recover(self):
         """Retry the single retained original, unless a new clipboard copy supersedes it."""
         with self._lock:
@@ -110,25 +150,28 @@ class WindowsClipboard:
                 return True
             api = self._factory()
             try:
-                with api.window() as hwnd, api.opened(hwnd):
-                    try:
-                        sequence = api.sequence()
-                        if not sequence or not self.pending_sequence:
-                            return False
-                        if sequence != self.pending_sequence or self._restore_locked(api, self.pending):
-                            original, self.pending = self.pending, None
-                            self.pending_sequence = 0
-                            original.close()
-                            return True
-                    finally:
-                        if self.pending is not None and api.owner() == hwnd:
-                            self.pending_sequence = api.sequence()
+                with api.window() as hwnd:
+                    with api.opened(hwnd):
+                        try:
+                            sequence = api.sequence()
+                            if not sequence or not self.pending_sequence:
+                                return False
+                            if sequence != self.pending_sequence or self._restore_locked(api, self.pending):
+                                original, self.pending = self.pending, None
+                                self.pending_sequence = 0
+                                original.close()
+                                return True
+                        finally:
+                            if self.pending is not None and api.owner() == hwnd:
+                                self.pending_sequence = api.sequence()
+                    if self.pending is not None:
+                        self.pending_sequence = self._owned_sequence(api, hwnd, self.pending_sequence)
             except ClipboardUnavailable:
                 return False
             return False
 
     def _finish(self, api, hwnd, lease, snapshot):
-        expected = lease.expected_sequence
+        expected, retired = lease.expected_sequence, False
         try:
             with api.opened(hwnd):
                 try:
@@ -139,6 +182,7 @@ class WindowsClipboard:
                     else:
                         status = "restored" if self._restore_locked(api, snapshot) else "pending"
                     if status != "pending":
+                        retired = True
                         try:
                             snapshot.close()
                         except ClipboardUnavailable:
@@ -149,6 +193,9 @@ class WindowsClipboard:
                         expected = api.sequence()  # Only sample our writes while holding the lock.
         except ClipboardUnavailable:
             pass
+        if retired:
+            return "cleanup_failed"
+        expected = self._owned_sequence(api, hwnd, expected)
         self.pending, self.pending_sequence = snapshot, expected
         return "pending"  # Original handles remain owned in RAM for recover().
 
@@ -179,11 +226,13 @@ class WindowsClipboard:
                                 api.put(copy)
                         finally:
                             lease.expected_sequence = api.sequence()
+                    lease.expected_sequence = self._owned_sequence(api, hwnd, lease.expected_sequence)
                     yield lease
                 finally:
                     try:
                         if snapshot is not None:
                             if changed:
+                                lease.expected_sequence = self._owned_sequence(api, hwnd, lease.expected_sequence)
                                 lease.restore_status = self._finish(api, hwnd, lease, snapshot)
                             else:
                                 snapshot.close()
