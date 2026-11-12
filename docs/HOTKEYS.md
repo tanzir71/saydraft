@@ -220,3 +220,38 @@ python -m tools.probe_desktop_hotkeys --output D:\QA\New-Desktop-F9-Probe
 During its two-minute window, tap F9 twice in an empty editor. It accepts only the
 expected native sequence and completed cleanup; unrelated bound keys fail the
 probe rather than receiving credit.
+
+## Dedicated hands-free chord
+
+The app's `hotkeys.hands_free` defaults to `ctrl+win+space`, including when the
+field is absent from an older profile. Settings → General can rebind it or save
+an explicit blank to disable it. Existing recording/save/cancel bindings retain
+their values. Exact overlap and a History/recording prefix conflict are refused
+by the same compiler before native hooks are installed or Settings is saved.
+
+Ctrl+Win first starts the existing hold-to-talk capture. Adding Space locks that
+same capture; releasing the keys in any order keeps it running. Repeating the
+toggle finishes it, as does pressing/releasing a configured recording shortcut.
+Escape cancels and passes through. An unrelated rebound toggle starts a locked
+capture directly. Key-up and native auto-repeat do not toggle again. Failed
+starts clear the lock. The existing 0.5-second minimum and History-before-delivery
+ordering also apply to this mode.
+
+The Wispr warning includes this field even when all other Ctrl+Win shortcuts have
+been rebound. An offscreen Settings check at 760×560, with explicitly loaded
+Windows Segoe UI, verifies readable layout and the toggle-only warning. It opens
+no active desktop application. The first default-font offscreen artifact was
+unreadable; it is not counted as visual acceptance.
+
+This adds the dedicated chord. The existing single-short-tap lock behavior still
+needs replacement with the specified double-tap gesture; paste-last and P5.5
+manual acceptance also remain open. Bar visuals/stop controls remain P6.2. No
+Computer Use or Windows-key input was performed for this change; desktop testing
+remains stopped at the owner's request.
+
+Dedicated-chord validation: ordinary full suite 1879 pass, five explicit
+native/model skips; golden 472/472; adversarial 100/100; Ruff/diff pass. Fifteen
+new synthetic matcher/session cases cover both modifier orders, release order,
+repeat filtering, rebinding/disable/conflicts, failed starts, Escape, one-capture
+prefix handoff and History-before-delivery/short-discard composition. The local
+full-run log is `build/qa/hands-free-full-2.stdout.log`.

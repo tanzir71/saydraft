@@ -426,19 +426,20 @@ def test_keyboard_backend_lifetime_and_save_hotkey():
     worker, _clock, _executor, _events, _signals, keyboard = make_worker()
     worker.hotkeys.start()
     assert [key for key, callback in keyboard.added] == ["ctrl+win", "ctrl+win", "f9", "f9",
-                                                       "xbutton1", "xbutton1", "esc", "f10"]
+                                                       "xbutton1", "xbutton1", "ctrl+win+space", "esc", "f10"]
     worker.hotkeys.stop()
-    assert sorted(keyboard.removed) == list(range(1, 9))
+    assert sorted(keyboard.removed) == list(range(1, 10))
     assert not worker.hotkeys.enabled
 
 
 def test_keyboard_health_recovery_reregisters_save_hotkey():
     worker, _clock, _executor, _events, signals, keyboard = make_worker()
     worker.hotkeys.start()
+    save_handle = worker.hotkeys._save_handle
     worker.hotkeys._controller.restart_if_dead = lambda: True
     worker.hotkeys._controller.is_backend_alive = lambda: False
     assert worker.hotkeys.restart_if_dead()
-    assert keyboard.removed == [8]
+    assert keyboard.removed == [save_handle]
     assert keyboard.added[-1][0] == "f10"
     assert ("notification_requested", "Saydraft restarted hotkeys after a listener error.") in signals
     worker.hotkeys.stop()

@@ -28,18 +28,25 @@ def recording_bindings(keys, *, cancel_key, save_key, suppress=True):
 
 
 class RecordingHooks:
-    def __init__(self, keys, *, cancel_key, save_key, suppress, press, release, cancel, save, failure, factory=None):
+    def __init__(self, keys, *, cancel_key, save_key, suppress, press, release, cancel, save, failure, factory=None,
+                 hands_free_key=None, toggle=None):
         if factory is None:
             from .llhook import LowLevelHooks
             factory = LowLevelHooks
         self.keys = {f"record{index}": key for index, key in enumerate(keys)}
+        if hands_free_key:
+            self.keys["hands_free"] = hands_free_key
         bindings = recording_bindings(self.keys, cancel_key=cancel_key,
             save_key=save_key if save is not None else "", suppress=suppress)
         self.press, self.release, self.cancel, self.save = press, release, cancel, save
+        self.toggle = toggle
         self.owner = factory(bindings, on_action=self._action, on_failure=failure)
 
     def _action(self, transition, when):
-        if transition.name in self.keys:
+        if transition.name == "hands_free":
+            if transition.phase == "press" and self.toggle is not None:
+                self.toggle(when)
+        elif transition.name in self.keys:
             key = self.keys[transition.name]
             if transition.phase == "press":
                 self.press(key, when, retarget=True)

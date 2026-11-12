@@ -14,7 +14,7 @@ flight.
 
 Saved explicit limits remain unchanged, including the former 600/540-second
 defaults. Missing limits and migrated legacy text settings use the new defaults.
-Change them through Settings → General → Recording cap / Warning time; a warning
+Change them through Settings → Cleanup → Recording cap / Warning time; a warning
 of zero disables it. Existing custom values continue to determine both recorder
 capacity and worker scheduling.
 

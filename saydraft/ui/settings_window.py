@@ -47,7 +47,7 @@ def resolve_project_path(value: str | os.PathLike[str], *, base: Path | None = N
 
 def find_hotkey_conflicts(hotkeys: dict[str, str]) -> list[str]:
     from saydraft.hotkeys.recording import recording_bindings
-    keys = {name: hotkeys[name] for name in ("speech", "speech_alternative", "speech_mouse")
+    keys = {name: hotkeys[name] for name in ("speech", "speech_alternative", "speech_mouse", "hands_free")
             if hotkeys.get(name, "").strip()}
     if not keys:
         return ["Enter at least one recording shortcut"]
@@ -146,6 +146,9 @@ class SettingsWindow(QtWidgets.QDialog):
         self.mouse_hotkey_edit = QtWidgets.QLineEdit()
         self.mouse_hotkey_edit.setPlaceholderText("xbutton1, xbutton2, middle_mouse; blank disables")
         self.mouse_hotkey_edit.setToolTip("Hold a mouse button to dictate. Leave blank to disable this binding.")
+        self.hands_free_hotkey_edit = QtWidgets.QLineEdit()
+        self.hands_free_hotkey_edit.setPlaceholderText("ctrl+win+space; blank disables")
+        self.hands_free_hotkey_edit.setToolTip("Toggle hands-free recording. The recording shortcut finishes it; Esc cancels it.")
         self.save_hotkey_edit = QtWidgets.QLineEdit()
         self.cancel_hotkey_edit = QtWidgets.QLineEdit()
         self.tap_lock_spin = QtWidgets.QSpinBox()
@@ -162,11 +165,12 @@ class SettingsWindow(QtWidgets.QDialog):
         form.addRow("Speech hotkey", self.speech_hotkey_edit)
         form.addRow("Alternate hotkey", self.alternative_hotkey_edit)
         form.addRow("Mouse recording shortcut", self.mouse_hotkey_edit)
+        form.addRow("Hands-free shortcut", self.hands_free_hotkey_edit)
         self.shortcut_warning_label = QtWidgets.QLabel()
         self.shortcut_warning_label.setWordWrap(True)
         form.addRow(self.shortcut_warning_label)
         for edit in (self.speech_hotkey_edit, self.alternative_hotkey_edit, self.mouse_hotkey_edit,
-                     self.save_hotkey_edit, self.cancel_hotkey_edit):
+                     self.hands_free_hotkey_edit, self.save_hotkey_edit, self.cancel_hotkey_edit):
             edit.textChanged.connect(lambda text: self._show_shortcut_warning())
         form.addRow("Save hotkey", self.save_hotkey_edit)
         form.addRow("Cancel hotkey", self.cancel_hotkey_edit)
@@ -323,6 +327,7 @@ class SettingsWindow(QtWidgets.QDialog):
         self.speech_hotkey_edit.setText(cfg["hotkeys"]["speech"])
         self.alternative_hotkey_edit.setText(cfg["hotkeys"]["speech_alternative"])
         self.mouse_hotkey_edit.setText(cfg["hotkeys"]["speech_mouse"])
+        self.hands_free_hotkey_edit.setText(cfg["hotkeys"]["hands_free"])
         self.save_hotkey_edit.setText(cfg["hotkeys"]["save"])
         self.cancel_hotkey_edit.setText(cfg["hotkeys"]["cancel"])
         self.tap_lock_spin.setValue(int(cfg["hotkeys"]["tap_lock_ms"]))
@@ -383,6 +388,7 @@ class SettingsWindow(QtWidgets.QDialog):
     def _show_shortcut_warning(self):
         values = {"speech": self.speech_hotkey_edit.text(), "speech_alternative": self.alternative_hotkey_edit.text(),
                   "speech_mouse": self.mouse_hotkey_edit.text(), "save": self.save_hotkey_edit.text(),
+                  "hands_free": self.hands_free_hotkey_edit.text(),
                   "cancel": self.cancel_hotkey_edit.text()}
         warning = shortcut_warning(values, detector=lambda: getattr(self, "_wispr_running", None))
         self.shortcut_warning_label.setText(warning)
@@ -393,6 +399,7 @@ class SettingsWindow(QtWidgets.QDialog):
         cfg["hotkeys"]["speech"] = self.speech_hotkey_edit.text().strip()
         cfg["hotkeys"]["speech_alternative"] = self.alternative_hotkey_edit.text().strip()
         cfg["hotkeys"]["speech_mouse"] = self.mouse_hotkey_edit.text().strip()
+        cfg["hotkeys"]["hands_free"] = self.hands_free_hotkey_edit.text().strip()
         cfg["hotkeys"]["save"] = self.save_hotkey_edit.text().strip()
         cfg["hotkeys"]["cancel"] = self.cancel_hotkey_edit.text().strip()
         cfg["hotkeys"]["tap_lock_ms"] = int(self.tap_lock_spin.value())

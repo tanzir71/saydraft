@@ -59,7 +59,7 @@ def test_fresh_mouse_route_and_explicit_disable_reconfigure_without_changing_oth
     controller = HotkeyController(HotkeyConfig.from_app_config(cfg), on_record_start=lambda: None,
         on_record_stop=lambda result: None, native_factory=create)
     controller.start()
-    assert [row.name for row in owners[-1].bindings] == ["record0", "record1", "cancel"]
+    assert [row.name for row in owners[-1].bindings] == ["record0", "record1", "hands_free", "cancel"]
     assert controller.stop()
 
 

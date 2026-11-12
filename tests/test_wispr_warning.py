@@ -73,6 +73,8 @@ def test_settings_warning_is_advisory_refreshes_and_tracks_unsaved_rebinding(mon
     assert "Wispr Flow is running" in window.shortcut_warning_label.text()
     count = len(calls)
     window.speech_hotkey_edit.setText("f8")
+    assert "Wispr Flow is running" in window.shortcut_warning_label.text() and len(calls) == count
+    window.hands_free_hotkey_edit.setText("ctrl+alt+h")
     assert not window.shortcut_warning_label.text() and len(calls) == count
     assert path.read_bytes() == before
     assert window.apply_changes()

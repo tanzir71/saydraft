@@ -73,6 +73,7 @@ def test_settings_window_has_required_tabs_and_loads_values(tmp_path):
     assert window.speech_hotkey_edit.text() == "ctrl+win"
     assert window.alternative_hotkey_edit.text() == "f9"
     assert window.mouse_hotkey_edit.text() == "xbutton1"
+    assert window.hands_free_hotkey_edit.text() == "ctrl+win+space"
     assert window.language_combo.currentData() is None
     assert window.mode_combo.currentText() == "balanced"
     assert window.profile_combo.currentText() == "notes"
@@ -89,6 +90,7 @@ def test_settings_window_applies_config_live_and_updates_autostart(tmp_path):
     window, config_path, autostart = make_window(tmp_path, on_config_applied=applied.append)
 
     window.speech_hotkey_edit.setText("ctrl+shift+r")
+    window.hands_free_hotkey_edit.setText("ctrl+alt+h")
     window.save_hotkey_edit.setText("f8")
     window.autostart_checkbox.setChecked(True)
     window.language_combo.setCurrentIndex(window.language_combo.findData("en"))
@@ -104,6 +106,7 @@ def test_settings_window_applies_config_live_and_updates_autostart(tmp_path):
 
     saved = json.loads(config_path.read_text(encoding="utf-8"))
     assert saved["hotkeys"]["speech"] == "ctrl+shift+r"
+    assert saved["hotkeys"]["hands_free"] == "ctrl+alt+h"
     assert saved["hotkeys"]["save"] == "f8"
     assert saved["app"]["start_with_windows"] is True
     assert saved["stt"]["language"] == "en"
@@ -123,6 +126,7 @@ def test_settings_window_applies_config_live_and_updates_autostart(tmp_path):
                               autostart_manager=FakeAutoStartManager())
     assert not reopened.drop_message_period_checkbox.isChecked()
     assert reopened.voice_enter_checkbox.isChecked()
+    assert reopened.hands_free_hotkey_edit.text() == "ctrl+alt+h"
     reopened.close()
 
 

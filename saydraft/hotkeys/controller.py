@@ -26,6 +26,7 @@ class HotkeyConfig:
     timeout: float = 1.0
     save_hotkey: str = "f10"
     mouse_record_hotkey: str | None = None
+    hands_free_hotkey: str | None = None
 
     @classmethod
     def from_app_config(cls, config: dict[str, Any]) -> "HotkeyConfig":
@@ -39,6 +40,7 @@ class HotkeyConfig:
             tap_lock_ms=int(hotkeys.get("tap_lock_ms", cls.tap_lock_ms)),
             save_hotkey=str(hotkeys.get("save", cls.save_hotkey)),
             mouse_record_hotkey=str(hotkeys.get("speech_mouse", "")),
+            hands_free_hotkey=str(hotkeys.get("hands_free", "")),
         )
 
 
@@ -171,7 +173,8 @@ class HotkeyController:
             self._native = RecordingHooks(self._record_hotkeys(), cancel_key=self.config.cancel_hotkey,
                 save_key=self.config.save_hotkey, suppress=self.config.suppress,
                 press=self._on_record_press, release=self._on_record_release, cancel=self._on_cancel_press,
-                save=self.on_save, failure=self._native_failed, factory=self._native_factory)
+                save=self.on_save, failure=self._native_failed, factory=self._native_factory,
+                hands_free_key=self.config.hands_free_hotkey, toggle=self._on_hands_free_press)
             self._listening = True
         try:
             self._native.start()
@@ -207,6 +210,10 @@ class HotkeyController:
                     )
                 )
 
+            if self.config.hands_free_hotkey:
+                self._handles.append(self._keyboard.add_hotkey(
+                    self.config.hands_free_hotkey, self._on_hands_free_press,
+                    suppress=self.config.suppress, timeout=self.config.timeout))
             if self.config.cancel_hotkey:
                 self._handles.append(
                     self._keyboard.add_hotkey(
@@ -292,6 +299,27 @@ class HotkeyController:
             self._recording_started_at = now
 
         if self.on_record_start() is False:
+            self.discard_active_recording()
+
+    def _on_hands_free_press(self, when=None) -> None:
+        session = None
+        start = False
+        with self._lock:
+            if not self._listening:
+                return
+            now = self.clock() if when is None else when
+            if self._locked:
+                session = self._finish_recording_locked(now, locked=True)
+            else:
+                start = not self.is_recording
+                if start:
+                    self._recording_started_at = now
+                self._locked = True
+                # A superseded PTT chord's eventual release cannot stop the lock.
+                self._pressed_hotkey = self._pressed_at = None
+        if session is not None:
+            self.on_record_stop(session)
+        elif start and self.on_record_start() is False:
             self.discard_active_recording()
 
     def _on_record_release(self, hotkey: str, when=None) -> None:
