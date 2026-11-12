@@ -44,10 +44,12 @@ tests prove malformed/duplicate/shrunk datasets cannot claim passing acceptance.
 Passing a context does not prove a future formatter implements its behavior;
 the corresponding authored expected-output cases still have to pass.
 
-The optional injected pipeline supports future model evaluation, but an output
-pass rate alone does not prove a model was used. The bake-off must separately
-record actual model use, refusals, timeouts and rules fallback. This change makes
-no model-quality or owner-ASR accuracy claim.
+The optional injected pipeline and shared `execute_case` also support native model
+evaluation. Output pass rate alone does not prove a model was used: the
+[candidate runner](CLEANUP_CANDIDATES.md#reproducible-native-measurements) separately
+records calls, token counts, refusals, timeouts and rules fallback. Accepted-model
+exact passes are reported independently; fallback receives no model credit.
+This makes no model-quality or owner-ASR accuracy claim.
 
 Messaging adds 40 authored examples (286 → 326), covering app/profile guards,
 abbreviations, literals, Unicode punctuation and multi-sentence boundaries.

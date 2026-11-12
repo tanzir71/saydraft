@@ -111,34 +111,33 @@ def load_eval_corpus(path: str | Path = DEFAULT_CORPUS_PATH) -> list[EvalCase]:
     return cases
 
 
-def run_eval(
-    cases: Iterable[EvalCase],
-    pipeline: DictationPipeline | None = None,
-) -> EvalResult:
+def execute_case(case: EvalCase, pipeline: DictationPipeline):
+    """Actual processor ordering with in-memory History and simulated delivery."""
     from types import SimpleNamespace
     from saydraft.core.interfaces import TargetContext
     from saydraft.core.processing import IdentityFormatter, TranscriptProcessor
     from saydraft.insert.inserter import InsertionResult
 
+    context = DictationContext(mode=case.mode, profile=case.profile, intensity=case.intensity,
+        app_title=case.app_title, app_group=case.app_group, before_caret=case.before_caret, language=case.language)
+    inserter = SimpleNamespace(insert_text=lambda text, **kw: InsertionResult(
+        "inserted", "eval", enter_sent=kw.get("send_enter", False)))
+    processor = TranscriptProcessor(cleaner=pipeline, formatter=IdentityFormatter(),
+        history=SimpleNamespace(append=lambda entry: 1), inserter=inserter,
+        snippets=dict(case.snippets), voice_enter_enabled=case.voice_enter_enabled)
+    return processor.process(case.input_text, context=context, model="eval", language=case.language,
+        target=TargetContext("eval", case.app_title, app_group=case.app_group, before_caret=case.before_caret))
+
+
+def run_eval(cases: Iterable[EvalCase], pipeline: DictationPipeline | None = None) -> EvalResult:
     active_pipeline = pipeline or DictationPipeline(
-        DictationConfig(glossary_path="", llm=LocalLLMConfig(enabled=False))
-    )
+        DictationConfig(glossary_path="", llm=LocalLLMConfig(enabled=False)))
     failures: list[EvalFailure] = []
     total = 0
     passed = 0
     for case in cases:
         total += 1
-        context = DictationContext(mode=case.mode, profile=case.profile, intensity=case.intensity,
-            app_title=case.app_title, app_group=case.app_group, before_caret=case.before_caret, language=case.language)
-        # Actual processor ordering with in-memory History and simulated delivery;
-        # an expected action cannot be satisfied by output text alone.
-        inserter = SimpleNamespace(insert_text=lambda text, **kw: InsertionResult(
-            "inserted", "eval", enter_sent=kw.get("send_enter", False)))
-        processor = TranscriptProcessor(cleaner=active_pipeline, formatter=IdentityFormatter(),
-            history=SimpleNamespace(append=lambda entry: 1), inserter=inserter,
-            snippets=dict(case.snippets), voice_enter_enabled=case.voice_enter_enabled)
-        result = processor.process(case.input_text, context=context, model="eval", language=case.language,
-            target=TargetContext("eval", case.app_title, app_group=case.app_group, before_caret=case.before_caret))
+        result = execute_case(case, active_pipeline)
         actual, actual_enter = result.cleaned_text, result.insertion.enter_sent
         if actual == case.expected and actual_enter == case.expected_enter:
             passed += 1

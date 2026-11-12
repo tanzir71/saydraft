@@ -73,3 +73,49 @@ Local reports/logs are retained at `build/qa/cleanup-qwen08-initial-probe/`,
 `build/qa/cleanup-qwen08-discrete-probe/` and
 `build/qa/cleanup-qwen08-discrete-long-probe/`. The other four transfers remain
 in progress. No quality, parity-latency or winner acceptance is claimed.
+
+## Reproducible native measurements
+
+`tools.bench_cleanup` evaluates installed, rehashed candidates without downloads.
+Use a clean immutable checkout for a full run and a new output directory:
+
+```powershell
+python -m tools.bench_cleanup --candidate qwen35-08b-q4-k-m --models-dir D:\Saydraft-Evaluation --runtime-dir D:\Saydraft-Runtime\llama-cpp-b12110-cpu-x64 --backend cpu --output D:\Saydraft-Reports\qwen08-cpu
+```
+
+For Vulkan, supply its verified runtime directory and `--backend vulkan`;
+`--device Vulkan1` explicitly selects that native device when appropriate to the
+machine. `--limit 2` is a debug subset and always records `full_corpus=false`.
+The default 120 s quality budget permits inspecting actual completions; it does
+not change the app's 800 ms deadline or establish latency acceptance. Declare
+`--isolated` only when transfers and competing benchmarks have stopped. Record
+CPU and Vulkan independently; this machine cannot establish every hardware tier.
+
+Each case uses the actual processor with in-memory History and simulated delivery.
+The flushed `cases.jsonl` retains strict text/action scores, model calls, token
+counts, refusals/fallbacks, finite preservation checks and source/output hashes.
+Text is retained only with explicit `--include-text`. Reports separate accepted
+model exact passes from successful rules fallback. A failed sidecar stops further
+cases, retaining the partial journal instead of inflating model scores.
+
+The final report pins source/corpus/prompt fingerprints, model/runtime, hardware,
+preparation time, case latency by first/same-style/changed-style prefix, native
+peak working set and observed child exit. Prefix labels do not prove cache hits;
+working set is host memory, not VRAM. Three direct 60-token warm generation samples
+record native decode rates separately from full cleanup latency. Full runs require
+432 golden and 100 adversarial cases, a clean source tree and all three samples.
+`measurement_complete` means the requested measurement finished, not acceptance
+or winner selection. Authored unsafe-candidate catch scores are separate from
+runtime adversarial input checks; finite guards cannot prove semantic preservation.
+
+The four-case real CPU smoke completed all requests and one exact 60-token sample
+(27.06 tokens/s; transfers concurrent), with 1.03 GB peak native working set and
+observed exit. Both golden outputs added final periods and failed exact matching.
+This debug run selects no default. Its report remains under
+`build/qa/cleanup-bakeoff-debug-qwen08-cpu/`.
+
+Runner validation: 1290 tests pass with four optional native skips and local
+Silero/preview/language-ID fixtures; rules 432/432; authored adversarial 100/100;
+Ruff/diff pass. Tests prove punctuation remains strict, changed-number fallback
+gets no model credit, failed sidecars stop, dirty full runs are refused and
+60-token rates require finite measurements.
