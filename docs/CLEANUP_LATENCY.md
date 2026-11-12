@@ -68,6 +68,16 @@ Unmodified reports/digests are in `eval/cleanup/results/2026-11-12-release-repla
 local fixture databases and journals remain retained. Completion is recorded
 separately from target acceptance, and no tier/default claim follows.
 
+The immutable `0dbf024` real-time background-ASR run completes sixty RTX 2B
+samples and meets the stated with-LLM targets in each duration group. Release
+p50/p95 at 3/8/20 s is 0.506/0.834, 1.077/1.276 and 0.427/0.696 s. Forty model
+replies are accepted for 3/8-second inputs; twenty long inputs budget-skip. No
+delivery occurs before release, SQLite persistence precedes every insertion stub,
+and the native process exits. Unmodified report/journal digests are retained in
+`eval/cleanup/results/2026-11-12-background-replay/`. These warm repeated-fixture
+results do not establish owner accuracy, Standard/rules-only background targets,
+real-device/OS paste or general tier/default acceptance.
+
 Harness validation: 1400 tests pass with four optional native skips; rules 432/432,
 adversarial checks 100/100, and Ruff/diff checks pass. Focused tests reject undersized
 sample groups, expose a slow p95 behind a fast median, preserve decision counts,

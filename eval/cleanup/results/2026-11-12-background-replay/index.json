@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "source_commit": "0dbf02460f8410991aeff87a17637f17eeb79057",
+  "selection_performed": false,
+  "tier_acceptance_performed": false,
+  "reports": [
+    {
+      "report": "qwen2-vulkan1.json",
+      "report_sha256": "1e4cbeb54e40145edc0bbebf258f8795686abd80816ed121a29d99420d123e03",
+      "local_journal_directory": "cleanup-background-0dbf024-qwen2-vulkan1",
+      "journal_sha256": "307629913856f132bafc14b519ed5ec1b0e6c5dc09a2c997eda1317ac96fbd33",
+      "measurement_complete": true,
+      "latency_target_met": true
+    }
+  ]
+}

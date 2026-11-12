@@ -1,0 +1,1893 @@
+{
+  "git_commit": "0dbf02460f8410991aeff87a17637f17eeb79057",
+  "mode": "llm",
+  "candidate": "qwen35-2b-q4-k-m",
+  "backend": "vulkan",
+  "device": "Vulkan1",
+  "repeats_per_duration": 20,
+  "source_fixture_sha256": "cc6d363cc90b6c99427041ba6366e334131b05101a142761ae84b2a8b5e2c5ab",
+  "delivery": "fixture replay; SQLite History and stub insertion; no microphone, hooks or OS keys",
+  "background_transcription": true,
+  "capture_guard_disabled_for_replay": false,
+  "scope": "warm repeated public fixture; no owner accuracy or tier acceptance",
+  "cases": [
+    {
+      "audio_seconds": 3,
+      "repeat": 0,
+      "seconds": 0.5793221999774687,
+      "decision": "accepted",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 3.0006505000055768,
+        "vad": 0.0,
+        "stt": 0.0002708999963942915,
+        "lid": 0.0,
+        "background_stt": 0.3403373000037391,
+        "rules": 0.003497900004731491,
+        "llm": 0.44756290002260357,
+        "insert": 0.0006400999845936894
+      },
+      "cleanup_gate": {
+        "reason": "call",
+        "need_score": 2,
+        "need_reasons": [
+          "polished"
+        ],
+        "remaining_ms": 732.5564000057057,
+        "predicted_ms": 305.5285169491525,
+        "source_tokens": 5,
+        "pending_tokens": 51,
+        "outcome": "ok"
+      },
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 3,
+      "repeat": 1,
+      "seconds": 0.48673400000552647,
+      "decision": "accepted",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 3.001136000006227,
+        "vad": 0.0,
+        "stt": 0.00026959998649545014,
+        "lid": 0.0,
+        "background_stt": 0.33476040000095963,
+        "rules": 0.0004732999950647354,
+        "llm": 0.33801279999897815,
+        "insert": 0.0005293999856803566
+      },
+      "cleanup_gate": {
+        "reason": "call",
+        "need_score": 2,
+        "need_reasons": [
+          "polished"
+        ],
+        "remaining_ms": 729.9751000246033,
+        "predicted_ms": 168.56745762711864,
+        "source_tokens": 5,
+        "pending_tokens": 12,
+        "outcome": "ok"
+      },
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 3,
+      "repeat": 2,
+      "seconds": 0.42621010000584647,
+      "decision": "accepted",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 3.0021691000147257,
+        "vad": 0.0,
+        "stt": 0.00027889999910257757,
+        "lid": 0.0,
+        "background_stt": 0.31692469998961315,
+        "rules": 0.00027539997245185077,
+        "llm": 0.31364120001671836,
+        "insert": 0.0006276000058278441
+      },
+      "cleanup_gate": {
+        "reason": "call",
+        "need_score": 2,
+        "need_reasons": [
+          "polished"
+        ],
+        "remaining_ms": 730.0299000053201,
+        "predicted_ms": 168.56745762711864,
+        "source_tokens": 5,
+        "pending_tokens": 12,
+        "outcome": "ok"
+      },
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 3,
+      "repeat": 3,
+      "seconds": 0.5166014000133146,
+      "decision": "accepted",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 3.0014626999909524,
+        "vad": 0.0,
+        "stt": 0.00031110001145862043,
+        "lid": 0.0,
+        "background_stt": 0.3450264999992214,
+        "rules": 0.00026489997981116176,
+        "llm": 0.392464700009441,
+        "insert": 0.0005780000064987689
+      },
+      "cleanup_gate": {
+        "reason": "call",
+        "need_score": 2,
+        "need_reasons": [
+          "polished"
+        ],
+        "remaining_ms": 732.7463999972679,
+        "predicted_ms": 168.56745762711864,
+        "source_tokens": 5,
+        "pending_tokens": 12,
+        "outcome": "ok"
+      },
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 3,
+      "repeat": 4,
+      "seconds": 0.46035890001803637,
+      "decision": "accepted",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 3.001960199995665,
+        "vad": 0.0,
+        "stt": 0.0003181000065524131,
+        "lid": 0.0,
+        "background_stt": 0.31046839998452924,
+        "rules": 0.00031010000384412706,
+        "llm": 0.31506729999091476,
+        "insert": 0.0005036000220570713
+      },
+      "cleanup_gate": {
+        "reason": "call",
+        "need_score": 2,
+        "need_reasons": [
+          "polished"
+        ],
+        "remaining_ms": 731.414500012761,
+        "predicted_ms": 168.56745762711864,
+        "source_tokens": 5,
+        "pending_tokens": 12,
+        "outcome": "ok"
+      },
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 3,
+      "repeat": 5,
+      "seconds": 0.444936299987603,
+      "decision": "accepted",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 3.0018054000101984,
+        "vad": 0.0,
+        "stt": 0.00031040000612847507,
+        "lid": 0.0,
+        "background_stt": 0.3278443999879528,
+        "rules": 0.00031430000672116876,
+        "llm": 0.33804760000202805,
+        "insert": 0.000620599981630221
+      },
+      "cleanup_gate": {
+        "reason": "call",
+        "need_score": 2,
+        "need_reasons": [
+          "polished"
+        ],
+        "remaining_ms": 730.9011000033934,
+        "predicted_ms": 168.56745762711864,
+        "source_tokens": 5,
+        "pending_tokens": 12,
+        "outcome": "ok"
+      },
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 3,
+      "repeat": 6,
+      "seconds": 0.4940851000137627,
+      "decision": "accepted",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 3.00222650001524,
+        "vad": 0.0,
+        "stt": 0.0002986000035889447,
+        "lid": 0.0,
+        "background_stt": 0.34435269999084994,
+        "rules": 0.0002716000017244369,
+        "llm": 0.3506966000131797,
+        "insert": 0.0008525000012014061
+      },
+      "cleanup_gate": {
+        "reason": "call",
+        "need_score": 2,
+        "need_reasons": [
+          "polished"
+        ],
+        "remaining_ms": 730.1691999891773,
+        "predicted_ms": 168.56745762711864,
+        "source_tokens": 5,
+        "pending_tokens": 12,
+        "outcome": "ok"
+      },
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 3,
+      "repeat": 7,
+      "seconds": 0.5183779000071809,
+      "decision": "accepted",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 3.002325000008568,
+        "vad": 0.0,
+        "stt": 0.00031090000993572176,
+        "lid": 0.0,
+        "background_stt": 0.3392804999893997,
+        "rules": 0.0003955000138375908,
+        "llm": 0.35691010000300594,
+        "insert": 0.0006533999985549599
+      },
+      "cleanup_gate": {
+        "reason": "call",
+        "need_score": 2,
+        "need_reasons": [
+          "polished"
+        ],
+        "remaining_ms": 729.3215999961831,
+        "predicted_ms": 168.56745762711864,
+        "source_tokens": 5,
+        "pending_tokens": 12,
+        "outcome": "ok"
+      },
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 3,
+      "repeat": 8,
+      "seconds": 0.41104079998331144,
+      "decision": "accepted",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 3.001276900002267,
+        "vad": 0.0,
+        "stt": 0.0004121999954804778,
+        "lid": 0.0,
+        "background_stt": 0.3597869999939576,
+        "rules": 0.0004558000073302537,
+        "llm": 0.2908594000036828,
+        "insert": 0.0007611000037286431
+      },
+      "cleanup_gate": {
+        "reason": "call",
+        "need_score": 2,
+        "need_reasons": [
+          "polished"
+        ],
+        "remaining_ms": 724.5159999874886,
+        "predicted_ms": 168.56745762711864,
+        "source_tokens": 5,
+        "pending_tokens": 12,
+        "outcome": "ok"
+      },
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 3,
+      "repeat": 9,
+      "seconds": 0.7549956000002567,
+      "decision": "accepted",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 3.001706600014586,
+        "vad": 0.0,
+        "stt": 0.116684400010854,
+        "lid": 0.0,
+        "background_stt": 0.6152126000088174,
+        "rules": 0.00039659999310970306,
+        "llm": 0.4359694999875501,
+        "insert": 0.0009216999751515687
+      },
+      "cleanup_gate": {
+        "reason": "call",
+        "need_score": 2,
+        "need_reasons": [
+          "polished"
+        ],
+        "remaining_ms": 712.7602999680676,
+        "predicted_ms": 168.56745762711864,
+        "source_tokens": 5,
+        "pending_tokens": 12,
+        "outcome": "ok"
+      },
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 3,
+      "repeat": 10,
+      "seconds": 0.8336691000149585,
+      "decision": "accepted",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 3.00337039999431,
+        "vad": 0.0,
+        "stt": 0.049758899986045435,
+        "lid": 0.0,
+        "background_stt": 0.5507014000031631,
+        "rules": 0.00038720000884495676,
+        "llm": 0.355944000009913,
+        "insert": 0.0011670000094454736
+      },
+      "cleanup_gate": {
+        "reason": "call",
+        "need_score": 2,
+        "need_reasons": [
+          "polished"
+        ],
+        "remaining_ms": 721.5518999728374,
+        "predicted_ms": 168.56745762711864,
+        "source_tokens": 5,
+        "pending_tokens": 12,
+        "outcome": "ok"
+      },
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 3,
+      "repeat": 11,
+      "seconds": 0.9144914000062272,
+      "decision": "accepted",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 3.004839700006414,
+        "vad": 0.0,
+        "stt": 0.0804610000050161,
+        "lid": 0.0,
+        "background_stt": 0.580560999980662,
+        "rules": 0.0005457999941427261,
+        "llm": 0.36840789997950196,
+        "insert": 0.0008727000094950199
+      },
+      "cleanup_gate": {
+        "reason": "call",
+        "need_score": 2,
+        "need_reasons": [
+          "polished"
+        ],
+        "remaining_ms": 719.0975999983493,
+        "predicted_ms": 168.56745762711864,
+        "source_tokens": 5,
+        "pending_tokens": 12,
+        "outcome": "ok"
+      },
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 3,
+      "repeat": 12,
+      "seconds": 0.49122559998068027,
+      "decision": "accepted",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 3.0014461999817286,
+        "vad": 0.0,
+        "stt": 0.00033019998227246106,
+        "lid": 0.0,
+        "background_stt": 0.44615380000323057,
+        "rules": 0.0004867999814450741,
+        "llm": 0.3578918999992311,
+        "insert": 0.0007048000115901232
+      },
+      "cleanup_gate": {
+        "reason": "call",
+        "need_score": 2,
+        "need_reasons": [
+          "polished"
+        ],
+        "remaining_ms": 718.0765000230167,
+        "predicted_ms": 168.56745762711864,
+        "source_tokens": 5,
+        "pending_tokens": 12,
+        "outcome": "ok"
+      },
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 3,
+      "repeat": 13,
+      "seconds": 0.4895752999873366,
+      "decision": "accepted",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 3.001437700004317,
+        "vad": 0.0,
+        "stt": 0.00031120001222006977,
+        "lid": 0.0,
+        "background_stt": 0.44544139999197796,
+        "rules": 0.00030509999487549067,
+        "llm": 0.36209529999177903,
+        "insert": 0.0009320999961346388
+      },
+      "cleanup_gate": {
+        "reason": "call",
+        "need_score": 2,
+        "need_reasons": [
+          "polished"
+        ],
+        "remaining_ms": 723.2281999895349,
+        "predicted_ms": 168.56745762711864,
+        "source_tokens": 5,
+        "pending_tokens": 12,
+        "outcome": "ok"
+      },
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 3,
+      "repeat": 14,
+      "seconds": 0.46426269999938086,
+      "decision": "accepted",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 3.001854200003436,
+        "vad": 0.0,
+        "stt": 0.0004026999813504517,
+        "lid": 0.0,
+        "background_stt": 0.4081083000055514,
+        "rules": 0.0004967999993823469,
+        "llm": 0.321146400005091,
+        "insert": 0.0011621000012382865
+      },
+      "cleanup_gate": {
+        "reason": "call",
+        "need_score": 2,
+        "need_reasons": [
+          "polished"
+        ],
+        "remaining_ms": 716.5825999982189,
+        "predicted_ms": 168.56745762711864,
+        "source_tokens": 5,
+        "pending_tokens": 12,
+        "outcome": "ok"
+      },
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 3,
+      "repeat": 15,
+      "seconds": 0.5355523999896832,
+      "decision": "accepted",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 3.0009009999921545,
+        "vad": 0.0,
+        "stt": 0.00044180001714266837,
+        "lid": 0.0,
+        "background_stt": 0.4533762999926694,
+        "rules": 0.0005215999844949692,
+        "llm": 0.3396133999922313,
+        "insert": 0.0008124999876599759
+      },
+      "cleanup_gate": {
+        "reason": "call",
+        "need_score": 2,
+        "need_reasons": [
+          "polished"
+        ],
+        "remaining_ms": 719.6654000144918,
+        "predicted_ms": 168.56745762711864,
+        "source_tokens": 5,
+        "pending_tokens": 12,
+        "outcome": "ok"
+      },
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 3,
+      "repeat": 16,
+      "seconds": 0.6024928000115324,
+      "decision": "accepted",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 3.002183700009482,
+        "vad": 0.0,
+        "stt": 0.011777100007748231,
+        "lid": 0.0,
+        "background_stt": 0.5032779999892227,
+        "rules": 0.0006340000254567713,
+        "llm": 0.448265499988338,
+        "insert": 0.0010285000025760382
+      },
+      "cleanup_gate": {
+        "reason": "call",
+        "need_score": 2,
+        "need_reasons": [
+          "polished"
+        ],
+        "remaining_ms": 713.9370999939274,
+        "predicted_ms": 168.56745762711864,
+        "source_tokens": 5,
+        "pending_tokens": 12,
+        "outcome": "ok"
+      },
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 3,
+      "repeat": 17,
+      "seconds": 0.506300499982899,
+      "decision": "accepted",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 3.0018976999854203,
+        "vad": 0.0,
+        "stt": 0.014794899994740263,
+        "lid": 0.0,
+        "background_stt": 0.5142626999877393,
+        "rules": 0.0005706000083591789,
+        "llm": 0.3325961999944411,
+        "insert": 0.0011064999853260815
+      },
+      "cleanup_gate": {
+        "reason": "call",
+        "need_score": 2,
+        "need_reasons": [
+          "polished"
+        ],
+        "remaining_ms": 715.6779000069946,
+        "predicted_ms": 168.56745762711864,
+        "source_tokens": 5,
+        "pending_tokens": 12,
+        "outcome": "ok"
+      },
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 3,
+      "repeat": 18,
+      "seconds": 0.540577600011602,
+      "decision": "accepted",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 3.0007686000026297,
+        "vad": 0.0,
+        "stt": 0.07684870000230148,
+        "lid": 0.0,
+        "background_stt": 0.5754713999922387,
+        "rules": 0.0005591000081039965,
+        "llm": 0.3286845000111498,
+        "insert": 0.001997899991692975
+      },
+      "cleanup_gate": {
+        "reason": "call",
+        "need_score": 2,
+        "need_reasons": [
+          "polished"
+        ],
+        "remaining_ms": 712.4695999664254,
+        "predicted_ms": 168.56745762711864,
+        "source_tokens": 5,
+        "pending_tokens": 12,
+        "outcome": "ok"
+      },
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 3,
+      "repeat": 19,
+      "seconds": 0.6581340000266209,
+      "decision": "accepted",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 3.0026680000009947,
+        "vad": 0.0,
+        "stt": 0.005118600005516782,
+        "lid": 0.0,
+        "background_stt": 0.5044341000029817,
+        "rules": 0.00045039999531582,
+        "llm": 0.4193993000080809,
+        "insert": 0.0008719000034034252
+      },
+      "cleanup_gate": {
+        "reason": "call",
+        "need_score": 2,
+        "need_reasons": [
+          "polished"
+        ],
+        "remaining_ms": 726.8756999983452,
+        "predicted_ms": 168.56745762711864,
+        "source_tokens": 5,
+        "pending_tokens": 12,
+        "outcome": "ok"
+      },
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 8,
+      "repeat": 0,
+      "seconds": 1.2239501999865752,
+      "decision": "accepted",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 8.00070780000533,
+        "vad": 0.0,
+        "stt": 0.424334799987264,
+        "lid": 0.0,
+        "background_stt": 1.4165274999977555,
+        "rules": 0.0006437000120058656,
+        "llm": 0.566679200012004,
+        "insert": 0.0008664000197313726
+      },
+      "cleanup_gate": {
+        "reason": "call",
+        "need_score": 2,
+        "need_reasons": [
+          "polished"
+        ],
+        "remaining_ms": 721.3939000212122,
+        "predicted_ms": 386.30042372881354,
+        "source_tokens": 15,
+        "pending_tokens": 26,
+        "outcome": "ok"
+      },
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 8,
+      "repeat": 1,
+      "seconds": 1.1023082000028808,
+      "decision": "accepted",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 8.000650699977996,
+        "vad": 0.0,
+        "stt": 0.45483469997998327,
+        "lid": 0.0,
+        "background_stt": 1.5355600000184495,
+        "rules": 0.0007762000022921711,
+        "llm": 0.5277058999927249,
+        "insert": 0.002141299977665767
+      },
+      "cleanup_gate": {
+        "reason": "call",
+        "need_score": 2,
+        "need_reasons": [
+          "polished"
+        ],
+        "remaining_ms": 702.0682000147644,
+        "predicted_ms": 337.1349152542372,
+        "source_tokens": 15,
+        "pending_tokens": 12,
+        "outcome": "ok"
+      },
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 8,
+      "repeat": 2,
+      "seconds": 1.0596256999997422,
+      "decision": "accepted",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 8.000943099992583,
+        "vad": 0.0,
+        "stt": 0.4353265000099782,
+        "lid": 0.0,
+        "background_stt": 1.4438315999868792,
+        "rules": 0.0005801999941468239,
+        "llm": 0.49082279999856837,
+        "insert": 0.0009207999974023551
+      },
+      "cleanup_gate": {
+        "reason": "call",
+        "need_score": 2,
+        "need_reasons": [
+          "polished"
+        ],
+        "remaining_ms": 728.2512999954633,
+        "predicted_ms": 337.1349152542372,
+        "source_tokens": 15,
+        "pending_tokens": 12,
+        "outcome": "ok"
+      },
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 8,
+      "repeat": 3,
+      "seconds": 1.0761744999908842,
+      "decision": "accepted",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 8.001174600009108,
+        "vad": 0.0,
+        "stt": 0.3820353999908548,
+        "lid": 0.0,
+        "background_stt": 1.3043012999696657,
+        "rules": 0.0007987999997567385,
+        "llm": 0.5533440999861341,
+        "insert": 0.001691900019068271
+      },
+      "cleanup_gate": {
+        "reason": "call",
+        "need_score": 2,
+        "need_reasons": [
+          "polished"
+        ],
+        "remaining_ms": 717.2502999892458,
+        "predicted_ms": 337.1349152542372,
+        "source_tokens": 15,
+        "pending_tokens": 12,
+        "outcome": "ok"
+      },
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 8,
+      "repeat": 4,
+      "seconds": 1.29018109999015,
+      "decision": "accepted",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 8.001564100006362,
+        "vad": 0.0,
+        "stt": 0.42938929999945685,
+        "lid": 0.0,
+        "background_stt": 1.3880139000248164,
+        "rules": 0.0005187999922782183,
+        "llm": 0.5209849999810103,
+        "insert": 0.0011252999829594046
+      },
+      "cleanup_gate": {
+        "reason": "call",
+        "need_score": 2,
+        "need_reasons": [
+          "polished"
+        ],
+        "remaining_ms": 723.6386000004131,
+        "predicted_ms": 337.1349152542372,
+        "source_tokens": 15,
+        "pending_tokens": 12,
+        "outcome": "ok"
+      },
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 8,
+      "repeat": 5,
+      "seconds": 1.0691349999979138,
+      "decision": "accepted",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 8.00151659999392,
+        "vad": 0.0,
+        "stt": 0.4247552999877371,
+        "lid": 0.0,
+        "background_stt": 1.6479226000083145,
+        "rules": 0.0005261000187601894,
+        "llm": 0.5001469000126235,
+        "insert": 0.0015705999976489693
+      },
+      "cleanup_gate": {
+        "reason": "call",
+        "need_score": 2,
+        "need_reasons": [
+          "polished"
+        ],
+        "remaining_ms": 718.5415999847464,
+        "predicted_ms": 337.1349152542372,
+        "source_tokens": 15,
+        "pending_tokens": 12,
+        "outcome": "ok"
+      },
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 8,
+      "repeat": 6,
+      "seconds": 1.0584823999961372,
+      "decision": "accepted",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 8.000737900001695,
+        "vad": 0.0,
+        "stt": 0.4214615000237245,
+        "lid": 0.0,
+        "background_stt": 1.298317099979613,
+        "rules": 0.000966200022958219,
+        "llm": 0.5102771999954712,
+        "insert": 0.0012469000066630542
+      },
+      "cleanup_gate": {
+        "reason": "call",
+        "need_score": 2,
+        "need_reasons": [
+          "polished"
+        ],
+        "remaining_ms": 719.7338999831118,
+        "predicted_ms": 337.1349152542372,
+        "source_tokens": 15,
+        "pending_tokens": 12,
+        "outcome": "ok"
+      },
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 8,
+      "repeat": 7,
+      "seconds": 1.1045034999842755,
+      "decision": "accepted",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 8.00074570000288,
+        "vad": 0.0,
+        "stt": 0.5152031000179704,
+        "lid": 0.0,
+        "background_stt": 1.479986699996516,
+        "rules": 0.0006507000070996583,
+        "llm": 0.4537236999894958,
+        "insert": 0.0024224000226240605
+      },
+      "cleanup_gate": {
+        "reason": "call",
+        "need_score": 2,
+        "need_reasons": [
+          "polished"
+        ],
+        "remaining_ms": 721.2690000014845,
+        "predicted_ms": 337.1349152542372,
+        "source_tokens": 15,
+        "pending_tokens": 12,
+        "outcome": "ok"
+      },
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 8,
+      "repeat": 8,
+      "seconds": 1.1049165000149515,
+      "decision": "accepted",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 8.0014705999929,
+        "vad": 0.0,
+        "stt": 0.39160060000722297,
+        "lid": 0.0,
+        "background_stt": 1.3594352999934927,
+        "rules": 0.0006430999783333391,
+        "llm": 0.5739388999936637,
+        "insert": 0.0013284999877214432
+      },
+      "cleanup_gate": {
+        "reason": "call",
+        "need_score": 2,
+        "need_reasons": [
+          "polished"
+        ],
+        "remaining_ms": 726.1164000083227,
+        "predicted_ms": 337.1349152542372,
+        "source_tokens": 15,
+        "pending_tokens": 12,
+        "outcome": "ok"
+      },
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 8,
+      "repeat": 9,
+      "seconds": 1.0250854999758303,
+      "decision": "accepted",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 8.001147200004198,
+        "vad": 0.0,
+        "stt": 0.3368225000158418,
+        "lid": 0.0,
+        "background_stt": 1.1772905999678187,
+        "rules": 0.0004913999873679131,
+        "llm": 0.5544714000134263,
+        "insert": 0.001208700006827712
+      },
+      "cleanup_gate": {
+        "reason": "call",
+        "need_score": 2,
+        "need_reasons": [
+          "polished"
+        ],
+        "remaining_ms": 721.8783999851439,
+        "predicted_ms": 337.1349152542372,
+        "source_tokens": 15,
+        "pending_tokens": 12,
+        "outcome": "ok"
+      },
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 8,
+      "repeat": 10,
+      "seconds": 1.2762703000043985,
+      "decision": "accepted",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 8.000929600006202,
+        "vad": 0.0,
+        "stt": 0.5772624000092037,
+        "lid": 0.0,
+        "background_stt": 1.3985957999830134,
+        "rules": 0.0007040000054985285,
+        "llm": 0.5573441000015009,
+        "insert": 0.00175119997584261
+      },
+      "cleanup_gate": {
+        "reason": "call",
+        "need_score": 2,
+        "need_reasons": [
+          "polished"
+        ],
+        "remaining_ms": 715.0680999911856,
+        "predicted_ms": 337.1349152542372,
+        "source_tokens": 15,
+        "pending_tokens": 12,
+        "outcome": "ok"
+      },
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 8,
+      "repeat": 11,
+      "seconds": 1.0768912000057753,
+      "decision": "accepted",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 8.001334500004305,
+        "vad": 0.0,
+        "stt": 0.4419581999827642,
+        "lid": 0.0,
+        "background_stt": 1.2201217000256293,
+        "rules": 0.0006616000027861446,
+        "llm": 0.46142199999303557,
+        "insert": 0.0010173000046052039
+      },
+      "cleanup_gate": {
+        "reason": "call",
+        "need_score": 2,
+        "need_reasons": [
+          "polished"
+        ],
+        "remaining_ms": 722.2249000042211,
+        "predicted_ms": 337.1349152542372,
+        "source_tokens": 15,
+        "pending_tokens": 12,
+        "outcome": "ok"
+      },
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 8,
+      "repeat": 12,
+      "seconds": 1.1379304000001866,
+      "decision": "accepted",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 8.002025699999649,
+        "vad": 0.0,
+        "stt": 0.3388289000140503,
+        "lid": 0.0,
+        "background_stt": 1.0358497000124771,
+        "rules": 0.0006030999938957393,
+        "llm": 0.5281639999884646,
+        "insert": 0.0009336000075563788
+      },
+      "cleanup_gate": {
+        "reason": "call",
+        "need_score": 2,
+        "need_reasons": [
+          "polished"
+        ],
+        "remaining_ms": 726.8197999801487,
+        "predicted_ms": 337.1349152542372,
+        "source_tokens": 15,
+        "pending_tokens": 12,
+        "outcome": "ok"
+      },
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 8,
+      "repeat": 13,
+      "seconds": 0.9930371000082232,
+      "decision": "accepted",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 8.00165679998463,
+        "vad": 0.0,
+        "stt": 0.35094089998165146,
+        "lid": 0.0,
+        "background_stt": 1.073024000012083,
+        "rules": 0.0006215000175870955,
+        "llm": 0.4618657999963034,
+        "insert": 0.0009622999932616949
+      },
+      "cleanup_gate": {
+        "reason": "call",
+        "need_score": 2,
+        "need_reasons": [
+          "polished"
+        ],
+        "remaining_ms": 727.4357000133023,
+        "predicted_ms": 337.1349152542372,
+        "source_tokens": 15,
+        "pending_tokens": 12,
+        "outcome": "ok"
+      },
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 8,
+      "repeat": 14,
+      "seconds": 1.009252000018023,
+      "decision": "accepted",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 8.001575000002049,
+        "vad": 0.0,
+        "stt": 0.3423672000062652,
+        "lid": 0.0,
+        "background_stt": 1.0937211000418756,
+        "rules": 0.0005221000174060464,
+        "llm": 0.5459558999864385,
+        "insert": 0.0008000999805517495
+      },
+      "cleanup_gate": {
+        "reason": "call",
+        "need_score": 2,
+        "need_reasons": [
+          "polished"
+        ],
+        "remaining_ms": 724.6758999826852,
+        "predicted_ms": 337.1349152542372,
+        "source_tokens": 15,
+        "pending_tokens": 12,
+        "outcome": "ok"
+      },
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 8,
+      "repeat": 15,
+      "seconds": 1.109775000018999,
+      "decision": "accepted",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 8.002488400001312,
+        "vad": 0.0,
+        "stt": 0.42434729999513365,
+        "lid": 0.0,
+        "background_stt": 1.139885599957779,
+        "rules": 0.000693499983754009,
+        "llm": 0.5254878999840003,
+        "insert": 0.0009208999981638044
+      },
+      "cleanup_gate": {
+        "reason": "call",
+        "need_score": 2,
+        "need_reasons": [
+          "polished"
+        ],
+        "remaining_ms": 694.7311999974772,
+        "predicted_ms": 337.1349152542372,
+        "source_tokens": 15,
+        "pending_tokens": 12,
+        "outcome": "ok"
+      },
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 8,
+      "repeat": 16,
+      "seconds": 0.876644900010433,
+      "decision": "accepted",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 8.001118900021538,
+        "vad": 0.0,
+        "stt": 0.3483626999950502,
+        "lid": 0.0,
+        "background_stt": 1.0640570000105072,
+        "rules": 0.000618099991697818,
+        "llm": 0.37993359999381937,
+        "insert": 0.0012054999824613333
+      },
+      "cleanup_gate": {
+        "reason": "call",
+        "need_score": 2,
+        "need_reasons": [
+          "polished"
+        ],
+        "remaining_ms": 727.7417000150308,
+        "predicted_ms": 337.1349152542372,
+        "source_tokens": 15,
+        "pending_tokens": 12,
+        "outcome": "ok"
+      },
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 8,
+      "repeat": 17,
+      "seconds": 0.8757738000131212,
+      "decision": "accepted",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 8.002552299993113,
+        "vad": 0.0,
+        "stt": 0.33293699999921955,
+        "lid": 0.0,
+        "background_stt": 1.094397899985779,
+        "rules": 0.0006438999844249338,
+        "llm": 0.3916392999817617,
+        "insert": 0.001000499993097037
+      },
+      "cleanup_gate": {
+        "reason": "call",
+        "need_score": 2,
+        "need_reasons": [
+          "polished"
+        ],
+        "remaining_ms": 727.290200011339,
+        "predicted_ms": 337.1349152542372,
+        "source_tokens": 15,
+        "pending_tokens": 12,
+        "outcome": "ok"
+      },
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 8,
+      "repeat": 18,
+      "seconds": 1.0910170999995898,
+      "decision": "accepted",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 8.003912899992429,
+        "vad": 0.0,
+        "stt": 0.4293930999992881,
+        "lid": 0.0,
+        "background_stt": 1.1991294999897946,
+        "rules": 0.0007800000021234155,
+        "llm": 0.4966304000117816,
+        "insert": 0.0010452000133227557
+      },
+      "cleanup_gate": {
+        "reason": "call",
+        "need_score": 2,
+        "need_reasons": [
+          "polished"
+        ],
+        "remaining_ms": 708.7445999786723,
+        "predicted_ms": 337.1349152542372,
+        "source_tokens": 15,
+        "pending_tokens": 12,
+        "outcome": "ok"
+      },
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 8,
+      "repeat": 19,
+      "seconds": 1.0793940000003204,
+      "decision": "accepted",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 8.002542000001995,
+        "vad": 0.0,
+        "stt": 0.47779699999955483,
+        "lid": 0.0,
+        "background_stt": 1.4647769999864977,
+        "rules": 0.0007815000135451555,
+        "llm": 0.4084312000195496,
+        "insert": 0.0019276999810244888
+      },
+      "cleanup_gate": {
+        "reason": "call",
+        "need_score": 2,
+        "need_reasons": [
+          "polished"
+        ],
+        "remaining_ms": 718.30000000773,
+        "predicted_ms": 337.1349152542372,
+        "source_tokens": 15,
+        "pending_tokens": 12,
+        "outcome": "ok"
+      },
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 20,
+      "repeat": 0,
+      "seconds": 0.6960821000102442,
+      "decision": "skip_budget",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 20.000983599980827,
+        "vad": 0.0,
+        "stt": 0.5004993000184186,
+        "lid": 0.0,
+        "background_stt": 3.5943970000371337,
+        "rules": 0.0013284000160638243,
+        "llm": 0.05746949999593198,
+        "insert": 0.0012812000059057027
+      },
+      "cleanup_gate": {
+        "reason": "skip_budget",
+        "need_score": 4,
+        "need_reasons": [
+          "long",
+          "polished"
+        ],
+        "remaining_ms": 700.6387999863364,
+        "predicted_ms": 832.3018220338982,
+        "source_tokens": 37,
+        "pending_tokens": 41,
+        "outcome": "skip_budget"
+      },
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 20,
+      "repeat": 1,
+      "seconds": 0.4141684000205714,
+      "decision": "skip_budget",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 20.002628099988215,
+        "vad": 0.0,
+        "stt": 0.22953290000441484,
+        "lid": 0.0,
+        "background_stt": 3.4256113000155892,
+        "rules": 0.0010513000015635043,
+        "llm": 0.025053599994862452,
+        "insert": 0.000877000013133511
+      },
+      "cleanup_gate": {
+        "reason": "skip_budget",
+        "need_score": 4,
+        "need_reasons": [
+          "long",
+          "polished"
+        ],
+        "remaining_ms": 725.4805999982636,
+        "predicted_ms": 832.3018220338982,
+        "source_tokens": 37,
+        "pending_tokens": 41,
+        "outcome": "skip_budget"
+      },
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 20,
+      "repeat": 2,
+      "seconds": 0.5120151000155602,
+      "decision": "skip_budget",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 20.002628700021887,
+        "vad": 0.0,
+        "stt": 0.3171143000072334,
+        "lid": 0.0,
+        "background_stt": 3.415167900006054,
+        "rules": 0.0012351000041235238,
+        "llm": 0.03274979998241179,
+        "insert": 0.001340099988738075
+      },
+      "cleanup_gate": {
+        "reason": "skip_budget",
+        "need_score": 4,
+        "need_reasons": [
+          "long",
+          "polished"
+        ],
+        "remaining_ms": 718.3431000448763,
+        "predicted_ms": 832.3018220338982,
+        "source_tokens": 37,
+        "pending_tokens": 41,
+        "outcome": "skip_budget"
+      },
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 20,
+      "repeat": 3,
+      "seconds": 0.47525519999908283,
+      "decision": "skip_budget",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 20.001179500017315,
+        "vad": 0.0,
+        "stt": 0.28862460001255386,
+        "lid": 0.0,
+        "background_stt": 2.986584900005255,
+        "rules": 0.001335700013441965,
+        "llm": 0.03273920001811348,
+        "insert": 0.000967200001468882
+      },
+      "cleanup_gate": {
+        "reason": "skip_budget",
+        "need_score": 4,
+        "need_reasons": [
+          "long",
+          "polished"
+        ],
+        "remaining_ms": 718.007999996189,
+        "predicted_ms": 832.3018220338982,
+        "source_tokens": 37,
+        "pending_tokens": 41,
+        "outcome": "skip_budget"
+      },
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 20,
+      "repeat": 4,
+      "seconds": 0.849838499998441,
+      "decision": "skip_budget",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 20.002182600001106,
+        "vad": 0.0,
+        "stt": 0.29736919997958466,
+        "lid": 0.0,
+        "background_stt": 3.5784335999924224,
+        "rules": 0.001309399987803772,
+        "llm": 0.0327920000127051,
+        "insert": 0.0018834000220522285
+      },
+      "cleanup_gate": {
+        "reason": "skip_budget",
+        "need_score": 4,
+        "need_reasons": [
+          "long",
+          "polished"
+        ],
+        "remaining_ms": 717.8547000221442,
+        "predicted_ms": 832.3018220338982,
+        "source_tokens": 37,
+        "pending_tokens": 41,
+        "outcome": "skip_budget"
+      },
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 20,
+      "repeat": 5,
+      "seconds": 0.4735072999901604,
+      "decision": "skip_budget",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 20.000851800024975,
+        "vad": 0.0,
+        "stt": 0.2862701000121888,
+        "lid": 0.0,
+        "background_stt": 2.64672829999472,
+        "rules": 0.001427700015483424,
+        "llm": 0.033514800015836954,
+        "insert": 0.0018871999927796423
+      },
+      "cleanup_gate": {
+        "reason": "skip_budget",
+        "need_score": 4,
+        "need_reasons": [
+          "long",
+          "polished"
+        ],
+        "remaining_ms": 718.167800019728,
+        "predicted_ms": 832.3018220338982,
+        "source_tokens": 37,
+        "pending_tokens": 41,
+        "outcome": "skip_budget"
+      },
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 20,
+      "repeat": 6,
+      "seconds": 0.4369624999817461,
+      "decision": "skip_budget",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 20.00131550000515,
+        "vad": 0.0,
+        "stt": 0.2531154000025708,
+        "lid": 0.0,
+        "background_stt": 2.8971727000316605,
+        "rules": 0.0014325999945867807,
+        "llm": 0.02522859998862259,
+        "insert": 0.0008806000114418566
+      },
+      "cleanup_gate": {
+        "reason": "skip_budget",
+        "need_score": 4,
+        "need_reasons": [
+          "long",
+          "polished"
+        ],
+        "remaining_ms": 725.8507999940775,
+        "predicted_ms": 832.3018220338982,
+        "source_tokens": 37,
+        "pending_tokens": 41,
+        "outcome": "skip_budget"
+      },
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 20,
+      "repeat": 7,
+      "seconds": 0.42067029999452643,
+      "decision": "skip_budget",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 20.002275100006955,
+        "vad": 0.0,
+        "stt": 0.24324530002195388,
+        "lid": 0.0,
+        "background_stt": 2.6898819000052754,
+        "rules": 0.0012125000066589564,
+        "llm": 0.029930599994258955,
+        "insert": 0.0009464999893680215
+      },
+      "cleanup_gate": {
+        "reason": "skip_budget",
+        "need_score": 4,
+        "need_reasons": [
+          "long",
+          "polished"
+        ],
+        "remaining_ms": 720.7502999808639,
+        "predicted_ms": 832.3018220338982,
+        "source_tokens": 37,
+        "pending_tokens": 41,
+        "outcome": "skip_budget"
+      },
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 20,
+      "repeat": 8,
+      "seconds": 0.4301102999888826,
+      "decision": "skip_budget",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 20.001701300003333,
+        "vad": 0.0,
+        "stt": 0.23300320000271313,
+        "lid": 0.0,
+        "background_stt": 2.692585499957204,
+        "rules": 0.0012008000048808753,
+        "llm": 0.027094499993836507,
+        "insert": 0.001266500010387972
+      },
+      "cleanup_gate": {
+        "reason": "skip_budget",
+        "need_score": 4,
+        "need_reasons": [
+          "long",
+          "polished"
+        ],
+        "remaining_ms": 723.7701999838464,
+        "predicted_ms": 832.3018220338982,
+        "source_tokens": 37,
+        "pending_tokens": 41,
+        "outcome": "skip_budget"
+      },
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 20,
+      "repeat": 9,
+      "seconds": 0.3620851000014227,
+      "decision": "skip_budget",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 20.00177210001857,
+        "vad": 0.0,
+        "stt": 0.2161793999839574,
+        "lid": 0.0,
+        "background_stt": 2.5130190000054426,
+        "rules": 0.000905399996554479,
+        "llm": 0.02368029998615384,
+        "insert": 0.0011955000227317214
+      },
+      "cleanup_gate": {
+        "reason": "skip_budget",
+        "need_score": 4,
+        "need_reasons": [
+          "long",
+          "polished"
+        ],
+        "remaining_ms": 726.9939000252634,
+        "predicted_ms": 832.3018220338982,
+        "source_tokens": 37,
+        "pending_tokens": 41,
+        "outcome": "skip_budget"
+      },
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 20,
+      "repeat": 10,
+      "seconds": 0.44521619999432005,
+      "decision": "skip_budget",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 20.002834699989762,
+        "vad": 0.0,
+        "stt": 0.26493969999137335,
+        "lid": 0.0,
+        "background_stt": 2.7475795000209473,
+        "rules": 0.001253599999472499,
+        "llm": 0.028414800006430596,
+        "insert": 0.0015309000154957175
+      },
+      "cleanup_gate": {
+        "reason": "skip_budget",
+        "need_score": 4,
+        "need_reasons": [
+          "long",
+          "polished"
+        ],
+        "remaining_ms": 722.2571000165772,
+        "predicted_ms": 832.3018220338982,
+        "source_tokens": 37,
+        "pending_tokens": 41,
+        "outcome": "skip_budget"
+      },
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 20,
+      "repeat": 11,
+      "seconds": 0.4022508999914862,
+      "decision": "skip_budget",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 20.001993400015635,
+        "vad": 0.0,
+        "stt": 0.2518908000201918,
+        "lid": 0.0,
+        "background_stt": 2.521113199996762,
+        "rules": 0.0013175999920349568,
+        "llm": 0.024402599985478446,
+        "insert": 0.001118200016207993
+      },
+      "cleanup_gate": {
+        "reason": "skip_budget",
+        "need_score": 4,
+        "need_reasons": [
+          "long",
+          "polished"
+        ],
+        "remaining_ms": 726.7679999931715,
+        "predicted_ms": 832.3018220338982,
+        "source_tokens": 37,
+        "pending_tokens": 41,
+        "outcome": "skip_budget"
+      },
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 20,
+      "repeat": 12,
+      "seconds": 0.3924059999990277,
+      "decision": "skip_budget",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 20.00165510000079,
+        "vad": 0.0,
+        "stt": 0.23878590000094846,
+        "lid": 0.0,
+        "background_stt": 2.502502400049707,
+        "rules": 0.0013429000100586563,
+        "llm": 0.02433260000543669,
+        "insert": 0.0008869000012055039
+      },
+      "cleanup_gate": {
+        "reason": "skip_budget",
+        "need_score": 4,
+        "need_reasons": [
+          "long",
+          "polished"
+        ],
+        "remaining_ms": 726.2997999787331,
+        "predicted_ms": 832.3018220338982,
+        "source_tokens": 37,
+        "pending_tokens": 41,
+        "outcome": "skip_budget"
+      },
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 20,
+      "repeat": 13,
+      "seconds": 0.40300849999766797,
+      "decision": "skip_budget",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 20.002046700014034,
+        "vad": 0.0,
+        "stt": 0.22426489999634214,
+        "lid": 0.0,
+        "background_stt": 2.4628250999958254,
+        "rules": 0.001172300020698458,
+        "llm": 0.021136299998033792,
+        "insert": 0.0011143000156152993
+      },
+      "cleanup_gate": {
+        "reason": "skip_budget",
+        "need_score": 4,
+        "need_reasons": [
+          "long",
+          "polished"
+        ],
+        "remaining_ms": 729.4146999774966,
+        "predicted_ms": 832.3018220338982,
+        "source_tokens": 37,
+        "pending_tokens": 41,
+        "outcome": "skip_budget"
+      },
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 20,
+      "repeat": 14,
+      "seconds": 0.37593169999308884,
+      "decision": "skip_budget",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 20.002247299999,
+        "vad": 0.0,
+        "stt": 0.22179350000806153,
+        "lid": 0.0,
+        "background_stt": 2.366193500085501,
+        "rules": 0.0013258999970275909,
+        "llm": 0.020813999988604337,
+        "insert": 0.0011379000206943601
+      },
+      "cleanup_gate": {
+        "reason": "skip_budget",
+        "need_score": 4,
+        "need_reasons": [
+          "long",
+          "polished"
+        ],
+        "remaining_ms": 729.7267999965698,
+        "predicted_ms": 832.3018220338982,
+        "source_tokens": 37,
+        "pending_tokens": 41,
+        "outcome": "skip_budget"
+      },
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 20,
+      "repeat": 15,
+      "seconds": 0.40068250001058914,
+      "decision": "skip_budget",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 20.00235490000341,
+        "vad": 0.0,
+        "stt": 0.22622929999488406,
+        "lid": 0.0,
+        "background_stt": 2.395768099988345,
+        "rules": 0.0008855999913066626,
+        "llm": 0.02500049999798648,
+        "insert": 0.0010418000165373087
+      },
+      "cleanup_gate": {
+        "reason": "skip_budget",
+        "need_score": 4,
+        "need_reasons": [
+          "long",
+          "polished"
+        ],
+        "remaining_ms": 725.6463000085205,
+        "predicted_ms": 832.3018220338982,
+        "source_tokens": 37,
+        "pending_tokens": 41,
+        "outcome": "skip_budget"
+      },
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 20,
+      "repeat": 16,
+      "seconds": 0.42717690000426956,
+      "decision": "skip_budget",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 20.001462400017772,
+        "vad": 0.0,
+        "stt": 0.24147340000490658,
+        "lid": 0.0,
+        "background_stt": 2.4133189999556635,
+        "rules": 0.0012051999801769853,
+        "llm": 0.024306900013471022,
+        "insert": 0.0012373000208754092
+      },
+      "cleanup_gate": {
+        "reason": "skip_budget",
+        "need_score": 4,
+        "need_reasons": [
+          "long",
+          "polished"
+        ],
+        "remaining_ms": 726.3101999997161,
+        "predicted_ms": 832.3018220338982,
+        "source_tokens": 37,
+        "pending_tokens": 41,
+        "outcome": "skip_budget"
+      },
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 20,
+      "repeat": 17,
+      "seconds": 0.4342833000118844,
+      "decision": "skip_budget",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 20.002217300003394,
+        "vad": 0.0,
+        "stt": 0.2671154999989085,
+        "lid": 0.0,
+        "background_stt": 2.480204900028184,
+        "rules": 0.001204100000904873,
+        "llm": 0.020639599999412894,
+        "insert": 0.0010683999862521887
+      },
+      "cleanup_gate": {
+        "reason": "skip_budget",
+        "need_score": 4,
+        "need_reasons": [
+          "long",
+          "polished"
+        ],
+        "remaining_ms": 729.9076000053901,
+        "predicted_ms": 832.3018220338982,
+        "source_tokens": 37,
+        "pending_tokens": 41,
+        "outcome": "skip_budget"
+      },
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 20,
+      "repeat": 18,
+      "seconds": 0.46800890000304207,
+      "decision": "skip_budget",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 20.00657929998124,
+        "vad": 0.0,
+        "stt": 0.29786749999038875,
+        "lid": 0.0,
+        "background_stt": 2.7708432999497745,
+        "rules": 0.0013488999975379556,
+        "llm": 0.023963999992702156,
+        "insert": 0.0010170000023208559
+      },
+      "cleanup_gate": {
+        "reason": "skip_budget",
+        "need_score": 4,
+        "need_reasons": [
+          "long",
+          "polished"
+        ],
+        "remaining_ms": 726.6467000008561,
+        "predicted_ms": 832.3018220338982,
+        "source_tokens": 37,
+        "pending_tokens": 41,
+        "outcome": "skip_budget"
+      },
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 20,
+      "repeat": 19,
+      "seconds": 0.38426040002377704,
+      "decision": "skip_budget",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 20.00220679998165,
+        "vad": 0.0,
+        "stt": 0.21009700000286102,
+        "lid": 0.0,
+        "background_stt": 2.3650723999890033,
+        "rules": 0.000982600002316758,
+        "llm": 0.019403400016017258,
+        "insert": 0.0008526999736204743
+      },
+      "cleanup_gate": {
+        "reason": "skip_budget",
+        "need_score": 4,
+        "need_reasons": [
+          "long",
+          "polished"
+        ],
+        "remaining_ms": 731.1724000028335,
+        "predicted_ms": 832.3018220338982,
+        "source_tokens": 37,
+        "pending_tokens": 41,
+        "outcome": "skip_budget"
+      },
+      "release_deadline_present": true
+    }
+  ],
+  "stage": "delivered",
+  "background_preparation": {
+    "prepared": true,
+    "seconds": 4.55504259999725,
+    "decoder_calibration": {
+      "generation": 1,
+      "tokens_per_sample": 60,
+      "sample_count": 3,
+      "tokens_per_second": [
+        142.3762352344985,
+        151.34763525732944,
+        149.10624704630632
+      ],
+      "median_tps": 149.10624704630632,
+      "conservative_tps": 142.3762352344985
+    }
+  },
+  "peak_native_working_set_bytes": [
+    1663582208
+  ],
+  "native_exit_observed": [
+    true
+  ],
+  "groups": {
+    "3": {
+      "n": 20,
+      "p50_seconds": 0.506300499982899,
+      "p95_seconds": 0.8336691000149585,
+      "max_seconds": 0.9144914000062272,
+      "decisions": {
+        "accepted": 20
+      }
+    },
+    "8": {
+      "n": 20,
+      "p50_seconds": 1.0768912000057753,
+      "p95_seconds": 1.2762703000043985,
+      "max_seconds": 1.29018109999015,
+      "decisions": {
+        "accepted": 20
+      }
+    },
+    "20": {
+      "n": 20,
+      "p50_seconds": 0.42717690000426956,
+      "p95_seconds": 0.6960821000102442,
+      "max_seconds": 0.849838499998441,
+      "decisions": {
+        "skip_budget": 20
+      }
+    }
+  },
+  "p50_target_seconds": 1.2,
+  "p95_target_seconds": 2.0,
+  "targets_met": true,
+  "accepted_replies": 40,
+  "measurement_complete": true,
+  "latency_target_met": true
+}
