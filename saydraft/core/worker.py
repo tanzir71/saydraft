@@ -49,6 +49,7 @@ class SessionWorker:
         self._background = None
         self._preview = None
         self._preview_language_blocked = False
+        self._record_request_current = None
         self.last_failed_audio = None
         self.last_result = None
         self._retrying_history = False
@@ -57,6 +58,8 @@ class SessionWorker:
             current=lambda generation: generation == self.session.session_id and not self._closing
                 and not self._cancel_request.is_set(), emit=self.emit, known_terms=self._dictionary_terms)
         self.hotkeys = HotkeyService(services.config, start=lambda: self.start_recording(_return_generation=True),
+                                     start_guarded=lambda current: self.start_recording(
+                                         _return_generation=True, request_current=current),
                                      stop=self.stop_recording,
                                      cancel=self.cancel, save=self.record_note,
                                      notify=lambda message: self.emit("notification_requested", message),
@@ -249,13 +252,33 @@ class SessionWorker:
             timer.cancel()
         self._timers.clear()
 
-    def start_recording(self, *, insert_text=True, _return_generation=False):
+    @staticmethod
+    def _request_current(guard):
+        try:
+            return guard is None or bool(guard())
+        except Exception:
+            return False
+
+    def _capture_request_current(self, generation):
+        return (generation == self.session.session_id and self.session.state == State.ARMING
+            and not self._closing and not self._cancel_request.is_set()
+            and self._request_current(self._record_request_current))
+
+    def _reject_arming(self, generation):
+        with self._lock:
+            self.session.dispatch(Input.CANCEL, session_id=generation, reason="request_expired")
+            if generation == self.session.session_id:
+                self.hotkeys._controller.discard_active_recording()
+        self.bar_status.session(generation, BarPhase.IDLE)
+        self.emit("processing_finished", "")
+
+    def start_recording(self, *, insert_text=True, _return_generation=False, request_current=None):
         # Native action dispatch must not wait behind Settings while Settings
         # retires that same dispatcher. A locked worker is temporarily busy.
         if not self._lock.acquire(blocking=False):
             return False
         try:
-            if self.busy or self._closing:
+            if self.busy or self._closing or not self._request_current(request_current):
                 if self._retrying_history:
                     self.emit("notification_requested", "History retry is in progress. Dictation will be ready when it finishes.")
                 elif self._benchmarking:
@@ -279,7 +302,8 @@ class SessionWorker:
                 self.emit("notification_requested", "Could not read the target field. Try dictation again.")
                 return False
             with self._lock:
-                if self._cancel_request.is_set() or self._closing or self._pending_config is not None:
+                if (self._cancel_request.is_set() or self._closing or self._pending_config is not None
+                        or not self._request_current(request_current)):
                     return False
                 context = select_context(services.config, services.profiles, target.app_title,
                     app_group=target.app_group, app_exe=target.app_exe, app_site=target.app_site)
@@ -289,6 +313,7 @@ class SessionWorker:
                 self._target = target
                 self._context = context
                 self._insert_text = insert_text
+                self._record_request_current = request_current
                 self._submit(self._arm, generation)
                 accepted = True
                 return generation if _return_generation else True
@@ -305,6 +330,10 @@ class SessionWorker:
     def _arm(self, generation):
         preparing_asr = False
         try:
+            with self._lock:
+                if not self._capture_request_current(generation):
+                    self._reject_arming(generation)
+                    return
             self._warm_cleanup(replace(self._context, app_group=self._target.app_group))
             set_context = getattr(self.services.asr, "set_context", None)
             if set_context is not None:
@@ -315,9 +344,8 @@ class SessionWorker:
                 prepare()
                 preparing_asr = False
             with self._lock:
-                if generation != self.session.session_id or self.session.state != State.ARMING:
-                    self.bar_status.session(generation, BarPhase.IDLE)
-                    self.emit("processing_finished", "")
+                if not self._capture_request_current(generation):
+                    self._reject_arming(generation)
                     return
             recorder = self.services.recorder
             self._background = None
@@ -346,19 +374,18 @@ class SessionWorker:
 
                 recorder.chunk_callback = feed if background or preview else None
             with self._lock:
-                current = generation == self.session.session_id and self.session.state == State.ARMING
+                current = self._capture_request_current(generation)
             if not current:
                 self._close_background(discard=True)
                 self._close_preview(discard=True)
-                self.bar_status.session(generation, BarPhase.IDLE)
-                self.emit("processing_finished", "")
+                self._reject_arming(generation)
                 return
             self.services.recorder.start()
             self.corrections.prepare(generation, self.services.context, self._target,
                 enabled=self._insert_text and self.services.config["dictation"].get("learn_corrections", False),
                 lease_seconds=min(3660, max(1, self.services.config["recording"]["max_seconds"] + 60)))
             with self._lock:
-                event = self.session.dispatch(Input.ARMED, session_id=generation)
+                event = self.session.dispatch(Input.ARMED, session_id=generation) if self._capture_request_current(generation) else None
                 if event is not None:
                     self.bar_status.session(generation, BarPhase.LISTENING)
                     self.emit("recording_started")
@@ -373,8 +400,7 @@ class SessionWorker:
             self.services.recorder.stop()  # Released/cancelled while the device opened.
             self._close_background(discard=True)
             self._close_preview(discard=True)
-            self.bar_status.session(generation, BarPhase.IDLE)
-            self.emit("processing_finished", "")
+            self._reject_arming(generation)
         except Exception:
             self.corrections.cancel(generation)
             logger.exception("Could not arm microphone")

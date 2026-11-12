@@ -14,9 +14,13 @@ logger = logging.getLogger(__name__)
 
 class HotkeyService:
     def __init__(self, config, *, start, stop, cancel, save, notify, keyboard_module=None,
-                 stop_timed=None, native_factory=None, stop_session=None, timer_factory=threading.Timer, paste=None):
+                 stop_timed=None, native_factory=None, stop_session=None, timer_factory=threading.Timer, paste=None,
+                 start_guarded=None):
         self.config = config
         self.start_recording = start
+        self.start_guarded = start_guarded
+        self._requests_cancelled = threading.Event()
+        self._start_guard = None
         self.stop_recording = stop
         self.cancel_recording = cancel
         self.save = save
@@ -36,25 +40,55 @@ class HotkeyService:
 
     def _make_controller(self):
         return HotkeyController(HotkeyConfig.from_app_config(self.config),
-                                on_record_start=self.start_recording,
+                                on_record_start=self._start_if_allowed,
+                                on_record_start_guarded=self._guarded_start if self.start_guarded is not None else None,
                                 on_record_stop=lambda session: (self.stop_session(session) if self.stop_session is not None
                                     else self.stop_timed(session.stopped_at) if self.stop_timed is not None
                                     else self.stop_recording()),
-                                on_record_cancel=self.cancel_recording, on_save=self.save,
+                                on_record_cancel=self.cancel_recording, on_save=self._save_if_allowed,
                                 on_backend_failure=self._native_failed, native_factory=self.native_factory,
-                                timer_factory=self.timer_factory, on_paste=self.paste)
+                                timer_factory=self.timer_factory, on_paste=self._paste_if_allowed if self.paste is not None else None)
+
+    def _allowed(self, guard=None):
+        return not self._requests_cancelled.is_set() and (guard is None or bool(guard()))
+
+    def _start_if_allowed(self):
+        return self.start_recording() if self._allowed(self._start_guard) else False
+
+    def _guarded_start(self, current):
+        guard = self._start_guard
+        return self.start_guarded(lambda: self._allowed(guard) and current())
+
+    def _save_if_allowed(self):
+        if self._allowed(self._start_guard):
+            return self.save()
+
+    def _paste_if_allowed(self):
+        if self._allowed(self._start_guard):
+            return self.paste()
+
+    def revoke_requests(self):
+        """Immediate admission gate; native teardown may finish in the background."""
+        self._requests_cancelled.set()
 
     def _native_failed(self, reason):
         self._failure_reason = reason  # Notification/recovery waits for the completion thread.
 
-    def start(self):
+    def start(self, *, valid=None):
         with self._lock:
             if self.enabled:
                 return
+            if valid is not None and not valid():
+                return
+            self._requests_cancelled.clear()
+            self._start_guard = valid
             try:
                 self._controller.start(self.keyboard)
+                if not self._allowed(valid):
+                    self._controller.stop()
+                    return
                 if self.keyboard is not None:
-                    self._save_handle = self.keyboard.add_hotkey(self.config["hotkeys"]["save"], self.save)
+                    self._save_handle = self.keyboard.add_hotkey(self.config["hotkeys"]["save"], self._save_if_allowed)
             except Exception:
                 self._controller.stop()
                 raise
@@ -89,6 +123,7 @@ class HotkeyService:
             self._monitor.start()
 
     def stop(self):
+        self.revoke_requests()
         with self._lock:
             was_enabled = self.enabled
             self.enabled = False
@@ -130,7 +165,7 @@ class HotkeyService:
                 if self.keyboard is not None:
                     if self._save_handle is not None:
                         self.keyboard.remove_hotkey(self._save_handle)
-                    self._save_handle = self.keyboard.add_hotkey(self.config["hotkeys"]["save"], self.save)
+                    self._save_handle = self.keyboard.add_hotkey(self.config["hotkeys"]["save"], self._save_if_allowed)
             except Exception:
                 self.stop()
                 self.notify("Native hotkeys unavailable. Check shortcuts in Settings and re-enable listening.")

@@ -23,9 +23,22 @@ acceptance still needs a permitted native/manual check.
 Bar start/stop requests go through the existing native hotkey action queue.
 They do not read field context or open the microphone on the GUI thread. A
 queued request is discarded if its backend or recording generation changes.
-Click-to-start currently requires listening to be enabled; paused listening
-produces a tray instruction. The stop dot follows the hotkey controller's
-hands-free state, including a double-tap lock.
+When listening is paused, a click immediately shows “Getting ready”, resumes
+listening on a separate serial control worker, then queues hands-free capture.
+Listening stays enabled for subsequent shortcuts; the saved startup preference
+is unchanged. The stop target is available during startup and follows the
+hotkey controller's hands-free state, including a double-tap lock.
+
+Stop, Settings changes before capture, shutdown and native cancellation retire
+pending startup requests. An immediate admission gate closes before background
+native teardown; a request predicate is checked before/after target capture,
+model preparation and microphone opening. Cancellation during device opening
+closes that device without announcing listening. Native failure also retires a
+click whose callback was dropped with its queue, allowing an explicit retry.
+Later listening/configuration/shutdown changes share the same serial control
+worker. Startup/control failures produce a recovery notification and listening
+changes reach the tray on the Qt thread. Settings changes during an accepted
+dictation retain the existing deferred-apply behavior.
 
 Settings → General includes idle Bar visibility (`app.show_bar`, default true).
 Error fixes route to Models or Microphone. The initial Microphone page explains
@@ -116,8 +129,7 @@ Actual output-device/auditory acceptance remains open. Asset package imports,
 WAVs, manifest and full MIT notice are included in the PyInstaller source spec;
 this is a read-only collector check, not the deferred P8 clean installer build.
 
-Other P6.2 work remains: paused-listening click behavior and native
-sound/timing/mixed-DPI/click-through/focus
+Other P6.2 work remains: native sound/timing/mixed-DPI/click-through/focus
 acceptance. The Command label is a
 visual fixture/API only; it does not implement P7 Command Mode. Native high
 contrast and complete accessibility acceptance remain tracked in P6.7.
@@ -159,6 +171,12 @@ The sound revision passes 2335 tests with five explicit skips, rules 556/556,
 adversarial 100/100, lint, tokens and byte-exact sound regeneration. The independent
 FFmpeg meter confirms all three padded targets and true peaks. Playback remains
 stubbed during QA; no native output device or audible preview is exercised.
+The paused-click revision passes 2359 tests with the same five explicit skips,
+rules 556/556, adversarial 100/100, lint, tokens and sound regeneration. Twenty-four
+new cases cover startup/control queues, blocked target/native startup, each
+recording-admission boundary, dropped callbacks, explicit retry, failures and
+save/paste revocation. Real offscreen Qt checks confirm listening changes are
+delivered on the GUI thread. No desktop control or native capture resumed.
 
 Window behavior references: [Qt window flags](https://doc.qt.io/qt-6/qt.html#WindowType-enum),
 [Windows layered-window hit testing](https://learn.microsoft.com/en-us/windows/win32/winmsg/window-features#layered-windows).

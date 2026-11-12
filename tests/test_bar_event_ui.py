@@ -29,7 +29,8 @@ def test_real_app_signal_wiring_uses_delivery_outcomes_and_rejects_late_events(m
         def fail(_entry):
             raise OSError("fixture history unavailable")
         worker.services.history.append = fail
-    updates, delivery_threads, timers = [], [], []
+    updates, delivery_threads, timers, listening_calls = [], [], [], []
+    listening = [True]
 
     class Controller:
         supports_bar_updates = True
@@ -62,7 +63,10 @@ def test_real_app_signal_wiring_uses_delivery_outcomes_and_rejects_late_events(m
         def is_hands_free(self):
             return False
 
-    tray = SimpleNamespace(set_listening=lambda *_: None, set_state=lambda *_: None,
+        def is_listening(self):
+            return listening[0]
+
+    tray = SimpleNamespace(set_listening=lambda value: listening_calls.append((threading.get_ident(), value)), set_state=lambda *_: None,
         show_notification=lambda *_: None, set_model_label=lambda *_: None)
     config = default_config()
     config["app"]["onboarded"] = True
@@ -82,6 +86,14 @@ def test_real_app_signal_wiring_uses_delivery_outcomes_and_rejects_late_events(m
     app._apply_bar_update = observe
     assert app.run() == 0
     try:
+        listening_calls.clear()
+        listening[0] = False
+        listener = threading.Thread(target=lambda: app.signals.listening_changed.emit(False))
+        listener.start()
+        listener.join(2)
+        assert not listener.is_alive() and not listening_calls
+        application.processEvents()
+        assert listening_calls == [(threading.get_ident(), False)]
         start = threading.Thread(target=worker.start_recording)
         start.start()
         start.join(2)

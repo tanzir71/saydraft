@@ -74,9 +74,11 @@ class HotkeyController:
         native_factory=None,
         timer_factory=threading.Timer,
         on_paste=None,
+        on_record_start_guarded=None,
     ):
         self.config = config or HotkeyConfig()
         self.on_record_start = on_record_start
+        self.on_record_start_guarded = on_record_start_guarded
         self.on_record_stop = on_record_stop
         self.on_record_cancel = on_record_cancel
         self.clock = clock
@@ -292,8 +294,14 @@ class HotkeyController:
         self._locked = self._second_tap = False
         self._session_id = None
 
-    def _start_capture(self, request):
-        result = self.on_record_start()
+    def _start_capture(self, request, valid=None):
+        def current():
+            return (request == self._request and self.is_recording
+                and (valid is None or valid()) and request == self._request)
+
+        if not current():
+            return
+        result = self.on_record_start_guarded(current) if self.on_record_start_guarded is not None else self.on_record_start()
         with self._lock:
             if request != self._request or not self.is_recording:
                 return  # Cancel/disable may have completed while context was read.
@@ -363,7 +371,7 @@ class HotkeyController:
             self.on_record_stop(expired)
         self._start_capture(request)
 
-    def request_hands_free(self, *, stop=False) -> bool:
+    def request_hands_free(self, *, stop=False, valid=None, finished=None) -> bool:
         """Queue a Bar click on the native action thread, never the GUI thread."""
         with self._lock:
             native = self._native
@@ -371,20 +379,29 @@ class HotkeyController:
                     or (not self.is_recording if stop else self.is_recording)
                     or (stop and not self._locked)):
                 return False
-            expected = native, self._request, bool(stop)
-        return bool(native.defer(lambda: self._on_hands_free_press(expected=expected)))
+            expected = native, self._request, bool(stop), valid
+
+        def action():
+            try:
+                self._on_hands_free_press(expected=expected)
+            finally:
+                if finished is not None:
+                    finished()
+
+        return bool(native.defer(action))
 
     def _on_hands_free_press(self, when=None, *, expected=None) -> None:
         session = None
         start = False
+        valid = None
         with self._lock:
             if not self._listening:
                 return
             if expected is not None:
-                native, request, stop = expected
+                native, request, stop, valid = expected
                 if (native is not self._native or request != self._request
                         or (not self.is_recording if stop else self.is_recording)
-                        or (stop and not self._locked)):
+                        or (stop and not self._locked) or (valid is not None and not valid())):
                     return  # A queued click cannot start/stop a newer session.
             now = self.clock() if when is None else when
             if self._locked:
@@ -403,7 +420,7 @@ class HotkeyController:
         if session is not None:
             self.on_record_stop(session)
         elif start:
-            self._start_capture(request)
+            self._start_capture(request, valid)
 
     def _tap_window(self):
         return max(0, min(2, self.config.tap_lock_ms / 1000.0))

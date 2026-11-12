@@ -43,6 +43,7 @@ def create_worker_signals(QtCore):
         dictionary_changed = QtCore.Signal(object)
         style_preview_finished = QtCore.Signal(object)
         bar_updated = QtCore.Signal(object)
+        listening_changed = QtCore.Signal(bool)
 
     return SaydraftWorkerSignals()
 
@@ -55,9 +56,20 @@ class WorkerController:
     def __init__(self, signals):
         self.signals = signals
         self.core = None
+        self._bar_actions = None
 
     def _emit(self, name, *args):
         getattr(self.signals, name).emit(*args)
+
+    def _bar_updated(self, update):
+        from .core.bar_status import BarPhase
+
+        # Native backend failure/Esc can cancel before the deferred click runs.
+        # Retire that click even when its queue is discarded during teardown.
+        if (update.phase == BarPhase.IDLE and update.reason == "cancelled"
+                and self._bar_actions is not None and self._bar_actions.pending):
+            self._bar_actions.cancel_pending()
+        self.signals.bar_updated.emit(update)
 
     def start(self):
         from .core.container import create_services
@@ -68,23 +80,33 @@ class WorkerController:
             config, level_callback=self.signals.audio_level_changed.emit,
             notify=self.signals.notification_requested.emit,
         )
-        self.core = SessionWorker(services, emit=self._emit, bar_emit=self.signals.bar_updated.emit)
+        self.core = SessionWorker(services, emit=self._emit, bar_emit=self._bar_updated)
         if config["app"]["auto_start_listening"]:
             self.start_listening()
 
     def stop(self):
         if self.core is not None:
-            self.core.shutdown()
+            core = self.core
             self.core = None
+            if self._bar_actions is not None:
+                self._bar_actions.close()
+            else:
+                core.shutdown()
 
     def start_listening(self):
         if self.core is not None:
-            self.core.hotkeys.start()
+            if self._bar_actions is not None:
+                self._bar_actions.start_listening()
+            else:
+                self.core.hotkeys.start()
 
     def stop_listening(self):
         if self.core is not None:
-            self.core.cancel()
-            self.core.hotkeys.stop()
+            if self._bar_actions is not None:
+                self._bar_actions.stop_listening()
+            else:
+                self.core.cancel()
+                self.core.hotkeys.stop()
 
     def is_listening(self):
         return bool(self.core and self.core.hotkeys.enabled)
@@ -105,16 +127,32 @@ class WorkerController:
         return str(config["hotkeys"]["speech"]).upper()
 
     def is_hands_free(self):
-        return bool(self.core and self.core.hotkeys._controller.is_locked)
+        return bool(self.core and ((self._bar_actions is not None and self._bar_actions.pending)
+            or self.core.hotkeys._controller.is_locked))
 
     def is_current_bar(self, generation):
         return bool(self.core and not self.core._closing and self.core.bar_status.is_current(generation))
 
     def request_bar_action(self, *, stop=False):
-        queued = bool(self.core and self.core.hotkeys._controller.request_hands_free(stop=stop))
-        if not queued and not stop:
-            self.signals.notification_requested.emit("Enable listening in the tray to start hands-free dictation.")
-        return queued
+        if self.core is None:
+            return False
+        if self._bar_actions is not None and self._bar_actions.pending:
+            if stop:
+                self._bar_actions.cancel_pending()
+                return True
+            return False
+        if not stop and not self.core.hotkeys.enabled:
+            if self._bar_actions is None:
+                from .core.bar_actions import BarActions
+                core = self.core
+
+                def changed():
+                    if self.core is core:
+                        self.signals.listening_changed.emit(bool(core.hotkeys.enabled))
+
+                self._bar_actions = BarActions(core, changed=changed)
+            return self._bar_actions.request_start()
+        return bool(self.core.hotkeys._controller.request_hands_free(stop=stop))
 
     def history_store(self):
         return self.core.services.history if self.core else None
@@ -139,7 +177,10 @@ class WorkerController:
 
     def apply_config(self, config):
         if self.core is not None:
-            self.core.configure(config)
+            if self._bar_actions is not None:
+                self._bar_actions.configure(config)
+            else:
+                self.core.configure(config)
 
     def poll_corrections(self):
         if self.core is not None:
@@ -281,6 +322,10 @@ class SaydraftApp:
         self.signals.hardware_benchmark_finished.connect(self._finish_hardware_benchmark)
         self.signals.preview_text_changed.connect(self._show_preview)
         self.signals.preview_unavailable.connect(self._preview_unavailable)
+        if typed_bar:
+            self.signals.listening_changed.connect(self._listening_changed, qt_modules.QtCore.Qt.QueuedConnection)
+        else:
+            self.signals.listening_changed.connect(self._listening_changed)
         if hasattr(self.pill, "start_requested") and hasattr(self.controller, "request_bar_action"):
             self.pill.start_requested.connect(lambda: self.controller.request_bar_action())
             self.pill.stop_requested.connect(lambda: self.controller.request_bar_action(stop=True))
@@ -521,6 +566,9 @@ class SaydraftApp:
     def _sync_listening_state(self) -> None:
         if hasattr(self.controller, "is_listening"):
             self.tray.set_listening(bool(self.controller.is_listening()))
+
+    def _listening_changed(self, _enabled: bool) -> None:
+        self._sync_listening_state()
 
     def _load_app_config(self) -> dict:
         try:
