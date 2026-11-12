@@ -14,9 +14,65 @@ from ctypes import wintypes as wt
 from pathlib import Path
 
 from saydraft.context.tracked_edit import FieldIdentity, ObservedEdit, TrackedEditReader
+from saydraft.context.observation_worker import ObservationWorker
+from saydraft.context.focused_edit import read_focused_edit
 from saydraft.context.uia_native import NativeUIAReader
 from saydraft.dictionary.alignment import suggest_correction
 from saydraft.insert._clipboard_win32 import NativeClipboardApi
+
+
+def asynchronous_case(metadata, identity, mutate, child, row):
+    now = [0]
+    entered, release = threading.Event(), threading.Event()
+    def factory():
+        native = NativeUIAReader()
+        row["observation_thread"] = threading.get_ident()
+        native.focused_element = lambda: native.client.ElementFromHandleBuildCache(child, native.cache)
+        native.keyboard_focus_snapshot = lambda element: True  # Own invisible fixture only.
+        edges, read = native.insertion_edges, native._read_range
+        def gated(*args):
+            entered.set()
+            assert release.wait(5)
+            return edges(*args)
+        def counted(*args):
+            row["observation_reads"] = row.get("observation_reads", 0) + 1
+            return read(*args)
+        native.insertion_edges, native._read_range = gated, counted
+        return native
+    owner = ObservationWorker(factory=factory, clock=lambda: now[0])
+    try:
+        started = time.perf_counter()
+        ticket = owner.prepare(identity)
+        row["prepare_call_seconds"] = time.perf_counter() - started
+        assert ticket is not None and entered.wait(5) and not ticket.ready.is_set()
+        # The real critical reader on this separate MTA can verify its own field
+        # while the background owner prepares. No proxy crosses between them.
+        metadata.same_focus = lambda element: True  # Own fixture cannot receive desktop focus.
+        row["async_stage"] = "critical_metadata"
+        row["critical_status"] = read_focused_edit(metadata, identity.window, include_text=False).status
+        assert row["critical_status"] == "ok"
+        release.set()
+        row["async_stage"] = "reserve"
+        assert ticket.ready.wait(5) and owner.reserve(ticket)
+        mutate("insert")
+        started = time.perf_counter()
+        assert owner.commit(ticket, "Kubernetis")
+        row["commit_call_seconds"] = time.perf_counter() - started
+        assert ticket.active.wait(5) and not ticket.done.is_set()
+        mutate("correction")
+        now[0] = 15
+        owner._wake.set()
+        assert ticket.done.wait(5)
+        result = owner.take(ticket)
+        assert result == ObservedEdit("Kubernetis", "Kubernetes")
+        assert suggest_correction(result.original, result.current, "en").term == "Kubernetes"
+        assert row["observation_thread"] != threading.get_ident()
+        row["independent_critical_reader"] = True
+    finally:
+        release.set()
+        owner.close()
+        assert owner.wait_closed(5)
+        row["observation_closed"] = True
 
 
 def probe():
@@ -33,7 +89,8 @@ def probe():
         "git_commit": subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip(),
         "source_dirty": bool(subprocess.check_output(["git", "status", "--porcelain"], text=True).strip()),
         "source_sha256": {p: hashlib.sha256(Path(p).read_bytes()).hexdigest() for p in (
-            "saydraft/context/tracked_edit.py", "saydraft/context/uia_native.py", "tools/probe_tracked_edit.py")}}
+            "saydraft/context/tracked_edit.py", "saydraft/context/uia_native.py",
+            "saydraft/context/observation_worker.py", "tools/probe_tracked_edit.py")}}
     @contextmanager
     def fixture_window():
         parent = api.user.CreateWindowExW(0, "STATIC", "Public tracked-edit fixture", 0x00C80000,
@@ -44,7 +101,7 @@ def probe():
         finally:
             assert api.user.DestroyWindow(parent)
     with fixture_window() as parent:
-        for case in ("correction", "runtime_lookup", "password", "becomes_password"):
+        for case in ("correction", "runtime_lookup", "password", "becomes_password", "asynchronous"):
             child = api.user.CreateWindowExW(0, "EDIT", "Before 🙂 OLD after.",
                 (0x00C80000 if case == "runtime_lookup" else 0x40000000) | (0x20 if case == "password" else 0),
                 0, 0, 300, 40, None if case == "runtime_lookup" else parent, None, None, None)
@@ -72,6 +129,7 @@ def probe():
                     reader.keyboard_focus_snapshot = lambda element: True  # Own invisible fixture cannot receive desktop focus.
                     identity = FieldIdentity(child if case == "runtime_lookup" else parent, os.getpid(),
                         reader.current_runtime_id(reader.focused_element()))
+                    mutate("select")  # Establish the fixture selection after its UIA provider exists.
                     now = [0]
                     observer = TrackedEditReader(reader, clock=lambda: now[0])
                     read = reader._read_range
@@ -80,6 +138,11 @@ def probe():
                         return read(*args)
                     reader._read_range = counted
                     row["stage"] = "capture"
+                    if case == "asynchronous":
+                        asynchronous_case(reader, identity, mutate, child, row)
+                        row["complete"] = True
+                        report["cases"].append(row)
+                        return
                     ticket = timed("capture", lambda: observer.begin(identity, "Kubernetis"))
                     if case == "password":
                         assert ticket is None and row["reads"] == 0
@@ -121,7 +184,9 @@ def probe():
                     except queue.Empty:
                         requested = None
                     if requested is not None:
-                        if requested == "becomes_password":
+                        if requested == "select":
+                            api.user.SendMessageW(child, 0xB1, prefix, prefix + 3)
+                        elif requested == "becomes_password":
                             api.user.SendMessageW(child, 0xCC, ord("*"), 0)
                         else:
                             value = "Kubernetis" if requested == "insert" else "Kubernetes"
@@ -139,7 +204,7 @@ def probe():
             finally:
                 assert api.user.DestroyWindow(child)
     report["own_windows_closed"] = True
-    report["probe_complete"] = len(report["cases"]) == 4 and not report["failures"]
+    report["probe_complete"] = len(report["cases"]) == 5 and not report["failures"]
     return report
 
 

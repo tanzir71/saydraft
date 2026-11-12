@@ -63,10 +63,11 @@ class NativeForegroundApi:
 
 
 class ForegroundContextProvider:
-    def __init__(self, *, api=None, profiles=(), uia=None, use_uia=False):
+    def __init__(self, *, api=None, profiles=(), uia=None, use_uia=False, observation=None):
         self.api, self.profiles = api, profiles
         self._uia, self._use_uia, self._closed = uia, use_uia or uia is not None, False
         self._uia_lock = threading.Lock()
+        self._observation = observation
 
     def prepare(self):
         with self._uia_lock:
@@ -80,8 +81,43 @@ class ForegroundContextProvider:
     def close(self):
         with self._uia_lock:
             self._closed = True
-            uia = self._uia
-        return uia.close() if uia is not None else True
+            owners = self._uia, self._observation
+        closed = True
+        for owner in owners:
+            if owner is not None:
+                try:
+                    closed = owner.close() and closed
+                except Exception:
+                    closed = False
+        return closed
+
+    def prepare_observation(self, target, *, lease_seconds=1260):
+        from .tracked_edit import FieldIdentity
+        identity = FieldIdentity(target.focus, target.process_id, target.field_id)
+        if (self._closed or not self._use_uia or target.uia_status != "ok"
+                or target.is_password or not identity.valid()):
+            return None
+        with self._uia_lock:
+            if self._closed:
+                return None
+            if self._observation is None:
+                from .observation_worker import ObservationWorker
+                self._observation = ObservationWorker()
+            observation = self._observation
+        return observation.prepare(identity, lease_seconds=lease_seconds)
+
+    def reserve_observation(self, ticket):
+        return bool(not self._closed and self._observation and self._observation.reserve(ticket))
+
+    def commit_observation(self, ticket, text):
+        return bool(not self._closed and self._observation and self._observation.commit(ticket, text))
+
+    def cancel_observation(self, ticket):
+        if self._observation is not None:
+            self._observation.cancel(ticket)
+
+    def take_observation(self, ticket):
+        return self._observation.take(ticket) if not self._closed and self._observation else None
 
     def _field(self, window, *, include_text=True):
         if self._closed:

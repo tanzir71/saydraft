@@ -1,6 +1,7 @@
 """One short-lived insertion observation; owned exclusively by the UIA MTA."""
 
 import hashlib
+import math
 import threading
 import time
 from dataclasses import dataclass
@@ -9,6 +10,7 @@ FIELD_LIMIT = 8192  # UTF-16 units, including surrounding text in this field onl
 INSERT_LIMIT = 4096
 CHECK_AFTER = 15
 RETIRE_AFTER = 16  # One second for a scheduled final read; then release everything.
+MAX_PREPARATION_LEASE = 3660  # Settings permits a one-hour recording; allow processing time.
 
 
 @dataclass(frozen=True)
@@ -42,10 +44,19 @@ class _Tracked:
     suffix_hash: bytes
     started: float
     confirmed: bool = False
+    lease_seconds: float = RETIRE_AFTER
 
 
 def _digest(text):
     return hashlib.sha256(text.encode("utf-16-le")).digest()
+
+
+def valid_inserted(text):
+    try:
+        return (isinstance(text, str) and 0 < len(text) <= INSERT_LIMIT
+            and len(text.encode("utf-16-le")) // 2 <= INSERT_LIMIT)
+    except UnicodeError:
+        return False
 
 
 class TrackedEditReader:
@@ -59,7 +70,7 @@ class TrackedEditReader:
 
     @property
     def expires_at(self):
-        return self._tracked.started + RETIRE_AFTER if self._tracked else None
+        return self._tracked.started + self._tracked.lease_seconds if self._tracked else None
 
     def clear(self, ticket=None):
         self._owned()
@@ -72,7 +83,7 @@ class TrackedEditReader:
 
     def _valid(self, tracked, current):
         reader, key = self.reader, tracked.identity
-        if (not current() or self.clock() >= tracked.started + RETIRE_AFTER
+        if (not current() or self.clock() >= tracked.started + tracked.lease_seconds
                 or reader.window_pid(key.window) != key.process_id):
             return False
         # Retained Win32 proxy objects can expose stale text/password state even
@@ -86,15 +97,25 @@ class TrackedEditReader:
             and reader.password(tracked.element) is False and current())  # Just-fetched batch, not a retained cache.
 
     def begin(self, identity, inserted, *, current=lambda: True):
+        if not valid_inserted(inserted):
+            self.clear()
+            return None
+        ticket = self.prepare(identity, lease_seconds=RETIRE_AFTER, current=current)
+        if ticket is not None:
+            self._tracked.original = inserted
+        return ticket
+
+    def prepare(self, identity, *, lease_seconds=RETIRE_AFTER, current=lambda: True):
+        """Capture edges before recognition finishes; retain no transcript yet."""
         self._owned()
         self.clear()
         try:
             if (not isinstance(identity, FieldIdentity) or not identity.valid()
-                    or not isinstance(inserted, str) or not 0 < len(inserted) <= INSERT_LIMIT
-                    or len(inserted.encode("utf-16-le")) // 2 > INSERT_LIMIT or not current()):
+                    or type(lease_seconds) not in (int, float) or not math.isfinite(lease_seconds)
+                    or not 0 < lease_seconds <= MAX_PREPARATION_LEASE or not current()):
                 return None
             element = self.reader.focused_element()
-            tracked = _Tracked(0, identity, element, inserted, 0, 0, b"", b"", self.clock())
+            tracked = _Tracked(0, identity, element, "", 0, 0, b"", b"", self.clock(), lease_seconds=lease_seconds)
             def valid():
                 return self._valid(tracked, current)
             if not valid() or self.reader.keyboard_focus_snapshot(tracked.element) is not True:
@@ -131,19 +152,35 @@ class TrackedEditReader:
         return text[a:b]
 
     def confirm(self, ticket, *, current=lambda: True):
+        """Compatibility for callers that supplied text to begin()."""
+        self._owned()
+        tracked = self._tracked
+        return (tracked is not None and tracked.ticket == ticket
+            and self.commit(ticket, tracked.original, current=current) is None)
+
+    def commit(self, ticket, inserted, *, inserted_at=None, current=lambda: True):
+        """None starts watching; a terminal span also covers an already-made edit."""
         self._owned()
         tracked = self._tracked
         if tracked is None or tracked.ticket != ticket:
-            return False
+            return ObservedEdit("", "")
         try:
-            if tracked.confirmed or self._span(tracked, current) != tracked.original:
+            now = self.clock()
+            when = now if inserted_at is None else inserted_at
+            if (tracked.confirmed or not valid_inserted(inserted) or now >= self.expires_at
+                    or type(when) not in (int, float) or not math.isfinite(when) or not 0 <= when <= now):
                 self.clear(ticket)
-                return False
-            tracked.started, tracked.confirmed = self.clock(), True
-            return True
+                return ObservedEdit("", "")
+            tracked.original, tracked.started = inserted, when
+            tracked.lease_seconds, tracked.confirmed = RETIRE_AFTER, True
+            span = self._span(tracked, current)
+            if span == inserted:
+                return None
+            self.clear(ticket)
+            return ObservedEdit(inserted, span) if span is not None else ObservedEdit("", "")
         except Exception:
             self.clear(ticket)
-            return False
+            return ObservedEdit("", "")
 
     def check(self, ticket, *, current=lambda: True):
         """None is pending; terminal results are one-shot (empty means unavailable)."""

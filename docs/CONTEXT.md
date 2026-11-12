@@ -131,6 +131,12 @@ reads; late results are discarded. Idle workers retain no completed field text.
 Only immutable data crosses threads; proxy construction, reads and closure stay
 on the MTA owner.
 
+Optional correction learning uses one separate fixed MTA owner, created lazily.
+It cannot occupy the critical adapter above, increase its deadlines or create
+replacement workers after timeout. Context shutdown signals both owners without
+joining either on the GUI. The prepare/reserve/commit protocol and native proof
+are documented in [Dictionary learning](DICTIONARY_LEARNING.md).
+
 Close cancels caller waits immediately and signals worker retirement without a
 GUI join. If a provider never returns, that one daemon remains until process exit;
 the adapter does not claim it can terminate an arbitrary native COM call. A
