@@ -1,7 +1,8 @@
 """Create a hidden process inside a kill-on-close Job Object from its first instruction.
 
 Windows 10 JOB_LIST closes the create-then-assign orphan window. HANDLE_LIST
-inherits only NUL for standard I/O, never the job handle or unrelated app handles.
+inherits only NUL for inference I/O. Short metadata probes may opt into a bounded
+output pipe; neither mode inherits the job handle or unrelated app handles.
 """
 
 from __future__ import annotations
@@ -11,6 +12,7 @@ import math
 import os
 import subprocess
 import threading
+import time
 from ctypes import wintypes as w
 from pathlib import Path
 
@@ -54,6 +56,9 @@ def _kernel():
         "SetInformationJobObject": (w.BOOL, [w.HANDLE, c.c_int, c.c_void_p, w.DWORD]),
         "TerminateJobObject": (w.BOOL, [w.HANDLE, w.UINT]),
         "CreateFileW": (w.HANDLE, [w.LPCWSTR, w.DWORD, w.DWORD, c.POINTER(_Security), w.DWORD, w.DWORD, w.HANDLE]),
+        "CreatePipe": (w.BOOL, [c.POINTER(w.HANDLE), c.POINTER(w.HANDLE), c.POINTER(_Security), w.DWORD]),
+        "SetHandleInformation": (w.BOOL, [w.HANDLE, w.DWORD, w.DWORD]),
+        "ReadFile": (w.BOOL, [w.HANDLE, c.c_void_p, w.DWORD, c.POINTER(w.DWORD), c.c_void_p]),
         "InitializeProcThreadAttributeList": (w.BOOL, [c.c_void_p, w.DWORD, w.DWORD, c.POINTER(c.c_size_t)]),
         "UpdateProcThreadAttribute": (w.BOOL, [c.c_void_p, w.DWORD, c.c_size_t, c.c_void_p, c.c_size_t,
                                                c.c_void_p, c.POINTER(c.c_size_t)]),
@@ -87,9 +92,15 @@ def _environment(values):
 
 
 class WindowsJobProcess:
-    def __init__(self, argv, *, env, cwd=None):
+    def __init__(self, argv, *, env, cwd=None, capture_output=False, max_output_bytes=65536):
         self._lock = threading.RLock()
         self._job = self._process = None
+        self._reader = self._read_handle = None
+        self._read_ready, self._read_abort = threading.Event(), False
+        self._output, self._output_error, self._output_done = bytearray(), None, threading.Event()
+        if type(capture_output) is not bool or type(max_output_bytes) is not int or not 1 <= max_output_bytes <= 1024**2:
+            raise ValueError("Native output capture requires a bounded byte limit")
+        self._capture, self._output_limit = capture_output, max_output_bytes
         self._api = _kernel()
         if not argv or any(not isinstance(value, str) or "\0" in value for value in argv):
             raise ValueError("Process arguments must be nonempty strings without NUL")
@@ -100,7 +111,7 @@ class WindowsJobProcess:
         if not working.is_absolute() or not working.is_dir():
             raise ValueError("Working directory must be an existing absolute directory")
         environment = _environment(env)  # No implicit inheritance of environment variables.
-        info, attributes, null = _ProcessInfo(), None, None
+        info, attributes, null, write_pipe = _ProcessInfo(), None, None, None
         try:
             self._job = _check(self._api.CreateJobObjectW(None, None))
             limits = _JobLimits()
@@ -110,6 +121,11 @@ class WindowsJobProcess:
             null = self._api.CreateFileW("NUL", 0xC0000000, 3, c.byref(security), 3, 0x80, None)
             if null in (None, c.c_void_p(-1).value):
                 raise c.WinError(c.get_last_error())
+            if capture_output:
+                read, write = w.HANDLE(), w.HANDLE()
+                _check(self._api.CreatePipe(c.byref(read), c.byref(write), c.byref(security), 0))
+                self._read_handle, write_pipe = read.value, write.value
+                _check(self._api.SetHandleInformation(self._read_handle, 1, 0))  # Read end never inherited.
             size = c.c_size_t()
             self._api.InitializeProcThreadAttributeList(None, 2, 0, c.byref(size))
             if not size.value:
@@ -117,7 +133,8 @@ class WindowsJobProcess:
             buffer = c.create_string_buffer(size.value)
             _check(self._api.InitializeProcThreadAttributeList(buffer, 2, 0, c.byref(size)))
             attributes = c.cast(buffer, c.c_void_p)
-            handles, jobs = (w.HANDLE * 1)(null), (w.HANDLE * 1)(self._job)
+            handles = (w.HANDLE * (2 if capture_output else 1))(*([null, write_pipe] if capture_output else [null]))
+            jobs = (w.HANDLE * 1)(self._job)
             for attribute, values in ((0x20002, handles), (0x2000D, jobs)):
                 _check(self._api.UpdateProcThreadAttribute(attributes, 0, attribute, c.byref(values),
                                                           c.sizeof(values), None, None))
@@ -125,11 +142,18 @@ class WindowsJobProcess:
             startup.startup.cb = c.sizeof(startup)
             startup.startup.flags = 0x101  # STARTF_USESTDHANDLES | STARTF_USESHOWWINDOW (SW_HIDE).
             startup.startup.stdin = startup.startup.stdout = startup.startup.stderr = null
+            if capture_output:
+                startup.startup.stdout = startup.startup.stderr = write_pipe
             startup.attributes = attributes
             command = c.create_unicode_buffer(subprocess.list2cmdline(argv))
             _check(self._api.CreateProcessW(str(executable), command, None, None, True,
                 0x08000000 | 0x00080000 | 0x00000400, environment, str(working), c.byref(startup), c.byref(info)))
             self._process, self.pid = info.process, int(info.pid)
+            if capture_output:
+                reader = threading.Thread(target=self._read_output, name="Saydraft-native-metadata", daemon=True)
+                reader.start()
+                self._reader = reader
+                self._read_ready.set()  # Transfer read-handle ownership only after thread startup succeeds.
         except BaseException:
             unadopted = info.process if self._process is None else None
             self.close()  # Closing the job also covers errors after successful process creation.
@@ -143,6 +167,45 @@ class WindowsJobProcess:
                 self._api.DeleteProcThreadAttributeList(attributes)
             if null not in (None, c.c_void_p(-1).value):
                 self._api.CloseHandle(null)
+            if write_pipe:
+                self._api.CloseHandle(write_pipe)
+
+    def _read_output(self):
+        self._read_ready.wait()
+        if self._read_abort:
+            self._output_done.set()
+            return
+        handle = self._read_handle
+        try:
+            buffer, count = c.create_string_buffer(4096), w.DWORD()
+            while self._api.ReadFile(handle, buffer, len(buffer), c.byref(count), None):
+                if not count.value:
+                    break
+                if len(self._output) + count.value > self._output_limit:
+                    self._output_error = "Native metadata output exceeded its bound"
+                    self.terminate()
+                    return
+                self._output.extend(buffer.raw[:count.value])
+            else:
+                if c.get_last_error() != 109:  # ERROR_BROKEN_PIPE is normal EOF.
+                    self._output_error = "Native metadata pipe failed"
+        except Exception:
+            self._output_error = "Native metadata capture failed"
+        finally:
+            self._api.CloseHandle(handle)
+            self._read_handle = None
+            self._output_done.set()
+
+    def read_output(self, timeout=1):
+        if not self._capture:
+            raise RuntimeError("Native output capture is disabled")
+        if not math.isfinite(timeout) or timeout < 0:
+            raise ValueError("Output wait must be finite and nonnegative")
+        if not self._output_done.wait(timeout):
+            raise TimeoutError("Native metadata output did not finish")
+        if self._output_error:
+            raise OSError(self._output_error)
+        return bytes(self._output)
 
     def _wait(self, milliseconds):
         if self._process is None:
@@ -163,11 +226,16 @@ class WindowsJobProcess:
     def wait(self, timeout=1):
         if not math.isfinite(timeout) or not 0 <= timeout < 0xFFFFFFFE / 1000:
             raise ValueError("Wait timeout must be finite and nonnegative")
-        with self._lock:
-            code = self._wait(math.ceil(timeout * 1000))
-            if code is None:
+        deadline = time.monotonic() + timeout
+        while True:
+            with self._lock:
+                code = self._wait(0)
+            if code is not None:
+                return code
+            remaining = deadline - time.monotonic()
+            if remaining <= 0:
                 raise TimeoutError("Local process did not exit before the deadline")
-            return code
+            time.sleep(min(.01, remaining))  # Let output-limit/close threads terminate the job.
 
     def terminate(self):
         with self._lock:
@@ -176,12 +244,21 @@ class WindowsJobProcess:
 
     def close(self):
         with self._lock:
+            owns_read_handle = not self._read_ready.is_set()
+            if owns_read_handle:
+                self._read_abort = True
+                self._read_ready.set()
             if self._job is not None:
                 _check(self._api.CloseHandle(self._job))
                 self._job = None
             if self._process is not None:
                 _check(self._api.CloseHandle(self._process))
                 self._process = None
+            if owns_read_handle and self._read_handle is not None:
+                self._api.CloseHandle(self._read_handle)
+                self._read_handle = None
+        if self._reader is not None:
+            self._reader.join(1)
 
     def __enter__(self):
         return self
