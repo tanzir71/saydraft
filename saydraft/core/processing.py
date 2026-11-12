@@ -56,7 +56,7 @@ class TranscriptProcessor:
                 duration_seconds: float | None = None, insert_text: bool = True,
                 insert_action=None, timings: dict | None = None, language: str = "auto",
                 audio_path: str | None = None, edits: list | None = None, enter_guard=None,
-                field_guard=None) -> ProcessingResult:
+                field_guard=None, before_insert=None) -> ProcessingResult:
         stages = dict(timings or {})
         notes = tuple(copy.deepcopy(edits or ()))
         cleaned = raw_text
@@ -121,6 +121,8 @@ class TranscriptProcessor:
                     options["enter_guard"] = enter_guard
                 if field_guard is not None:
                     options["field_guard"] = field_guard
+                if before_insert is not None:
+                    options["before_insert"] = before_insert
                 return self.inserter.insert_text(cleaned, **options)
             try:
                 insertion = insert_action(action) if insert_action is not None else action()

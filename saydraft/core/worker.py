@@ -19,6 +19,7 @@ from .segments import SegmentTranscriber
 from .preview import PreviewSession, choose_preview_result
 from .context import ForegroundContextProvider
 from .interfaces import insertion_block
+from .corrections import CorrectionController
 
 logger = logging.getLogger(__name__)
 
@@ -50,6 +51,9 @@ class SessionWorker:
         self.last_result = None
         self._retrying_history = False
         self._benchmarking = False
+        self.corrections = CorrectionController(executor=self.executor,
+            current=lambda generation: generation == self.session.session_id and not self._closing
+                and not self._cancel_request.is_set(), emit=self.emit, known_terms=self._dictionary_terms)
         self.hotkeys = HotkeyService(services.config, start=lambda: self.start_recording(_return_generation=True),
                                      stop=self.stop_recording,
                                      cancel=self.cancel, save=self.record_note,
@@ -81,6 +85,18 @@ class SessionWorker:
     def _field_guard(self, target):
         verify = getattr(self.services.context, "verify", None)
         return (lambda: verify(target)) if verify is not None else None
+
+    def _dictionary_terms(self):
+        from itertools import chain, islice
+        glossary = getattr(self.services.cleaner, "glossary", None)
+        return tuple(islice(chain(getattr(glossary, "user_terms", ()),
+            getattr(glossary, "protected_terms", ())), 1024))
+
+    def poll_corrections(self):
+        self.corrections.poll()
+
+    def is_current_correction(self, suggestion):
+        return self.corrections.is_current(suggestion)
 
     def _warm_cleanup(self, context=None):
         try:
@@ -161,6 +177,7 @@ class SessionWorker:
         finally:
             self._lock.release()
         try:
+            self.corrections.cancel()
             # UIA may require GUI message processing. Reserve the start slot,
             # but let Settings/cancel/shutdown return while context is read.
             try:
@@ -238,6 +255,9 @@ class SessionWorker:
                 self.emit("processing_finished", "")
                 return
             self.services.recorder.start()
+            self.corrections.prepare(generation, self.services.context, self._target,
+                enabled=self._insert_text and self.services.config["dictation"].get("learn_corrections", False),
+                lease_seconds=min(3660, max(1, self.services.config["recording"]["max_seconds"] + 60)))
             with self._lock:
                 event = self.session.dispatch(Input.ARMED, session_id=generation)
                 if event is not None:
@@ -249,11 +269,13 @@ class SessionWorker:
                         self._schedule(warning, lambda: self._warn(generation, maximum))
                     self._schedule(maximum, lambda: self._cap(generation))
                     return
+            self.corrections.cancel(generation)
             self.services.recorder.stop()  # Released/cancelled while the device opened.
             self._close_background(discard=True)
             self._close_preview(discard=True)
             self.emit("processing_finished", "")
         except Exception:
+            self.corrections.cancel(generation)
             logger.exception("Could not arm microphone")
             self.hotkeys._controller.discard_active_recording()
             self._close_background(discard=True)
@@ -319,6 +341,7 @@ class SessionWorker:
     def cancel(self):
         # Observed by delivery even while native clipboard rendering is in progress.
         self._cancel_request.set()
+        self.corrections.cancel()
         if not self.session.active:
             return  # Also aborts a pending context capture before START dispatch.
         with self._lock:
@@ -430,7 +453,9 @@ class SessionWorker:
                 audio_path=audio_path,
                 enter_guard=lambda: not self._cancel_request.is_set() and not self._closing,
                 field_guard=self._field_guard(self._target),
+                before_insert=self.corrections.hook(generation),
             )
+            self.corrections.complete(generation, result.cleaned_text, result.insertion, choice.language)
             self.last_result = result
             completed_text = result.cleaned_text
             if choice.review_only:
@@ -458,6 +483,7 @@ class SessionWorker:
                 self.session.dispatch(Input.FAIL, session_id=generation)
             self.emit("error", "Could not complete dictation; saved words remain in history.")
         finally:
+            self.corrections.finish(generation)
             self._close_background(discard=True)
             self._close_preview(discard=True)
             if not failed:
@@ -682,6 +708,7 @@ class SessionWorker:
             return True
 
     def _reinsert_text(self, text, *, target=None):
+        generation = self.session.session_id
         try:
             if self._closing or self._cancel_request.is_set():
                 return
@@ -689,18 +716,26 @@ class SessionWorker:
             if insertion_block(target):
                 self.emit("notification_requested", "Cannot reinsert into this field; use Copy in History.")
                 return
+            self.corrections.prepare(generation, self.services.context, target,
+                enabled=self.services.config["dictation"].get("learn_corrections", False), lease_seconds=60)
             options = {"start_focus": target.focus, "app_title": target.app_title,
                        "enter_guard": lambda: not self._cancel_request.is_set() and not self._closing}
             if (guard := self._field_guard(target)) is not None:
                 options["field_guard"] = guard
+            if (hook := self.corrections.hook(generation)) is not None:
+                options["before_insert"] = hook
             result = self.services.inserter.insert_text(text, **options)
+            self.corrections.complete(generation, text, result, self.services.config["stt"].get("language", "auto"))
             if result.status != "inserted":
                 self.emit("notification_requested", "Could not reinsert text; use Copy in History.")
         except Exception:
             logger.warning("History reinsertion unavailable")
             self.emit("notification_requested", "Could not reinsert text; use Copy in History.")
+        finally:
+            self.corrections.finish(generation)
 
     def configure(self, config):
+        self.corrections.cancel()
         with self._lock:
             if self._closing:
                 return

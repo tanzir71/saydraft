@@ -42,6 +42,7 @@ CONFIG_SCHEMA: dict[str, Any] = {
         "app_profiles_path": str,
         "drop_message_period": bool,
         "voice_enter_enabled": bool,
+        "learn_corrections": bool,
     },
     "stt": {
         "routing_enabled": bool,
@@ -108,6 +109,7 @@ _DEFAULT_CONFIG: dict[str, Any] = {
         "app_profiles_path": "app_profiles.json",
         "drop_message_period": True,
         "voice_enter_enabled": False,
+        "learn_corrections": False,
     },
     "stt": {
         "routing_enabled": True,

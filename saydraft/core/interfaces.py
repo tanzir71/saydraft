@@ -76,7 +76,8 @@ class Inserter(Protocol):
     def insert_text(self, text: str, *, start_focus: Any = None,
                     app_title: str | None = None, send_enter: bool = False,
                     enter_guard: Callable[[], bool] | None = None,
-                    field_guard: Callable[[], str] | None = None) -> InsertionResult: ...
+                    field_guard: Callable[[], str] | None = None,
+                    before_insert: Callable[[], None] | None = None) -> InsertionResult: ...
 
 
 class ContextProvider(Protocol):

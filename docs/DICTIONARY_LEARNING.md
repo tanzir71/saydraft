@@ -2,8 +2,44 @@
 
 P5.6 is in progress. Offline frequency filtering and pure span alignment are
 implemented. The native original-field reader and asynchronous owner are
-implemented; delivery integration, suggestions, Auto-add and Undo remain.
+implemented, including session delivery and result polling. Suggestion presentation,
+Auto-add and Undo remain.
 Manual desktop acceptance remains deferred after Computer Use was stopped.
+
+## Session delivery
+
+`dictation.learn_corrections` is a persisted, default-off integration flag. The
+Settings control and suggestion actions follow separately; default profiles do
+not start the observation owner. When enabled, the session prepares after the
+recorder starts. Pending lease length follows the configured recording cap plus
+60 seconds, bounded at 3660 seconds. History-only notes do not prepare.
+
+The inserter calls the optional reservation hook inside delivery, after the
+existing clipboard delay and before its final safety check and keyboard call.
+Typing, native paste, legacy paste and guarded typing fallback use the same
+protocol. Callback failure cannot bypass the field/cancellation checks or change
+the insertion result. Raw and cleaned History remain saved before delivery.
+Successful insertion commits the exact cleaned text and resolved language;
+failure, short/silent recording, cancelled arming, Settings changes and shutdown
+retire the observation. History reinsertion uses a fresh attempt with a 60-second
+lease and the configured language, without creating another History row. An
+unresolved Auto language yields no suggestion.
+
+A parented 250 ms Qt timer checks only a plain completion event. At most one
+alignment task per observation is submitted to the existing serial executor;
+polling does not mark dictation busy or wait for UIA. The result is a separate
+`dictionary_suggestion` object signal, never the notification channel that is
+logged. Generation and observation-epoch checks revoke late consumers and queued
+UI events. Only the latest candidate's individual words remain available for a
+future presentation/action handler; full field spans are not retained there.
+
+The six-case native probe now includes the real session worker, critical and
+learning UIA owners, SQLite History, an authored ASR/recorder stub, and checked
+memory delivery that mutates only its own invisible EDIT. It verifies one
+Kubernetes suggestion, History-before-input ordering, clipboard-port restoration
+and owner/serial retirement. It uses no microphone, real ASR, OS input or owner
+clipboard. This is integration evidence, not manual Notepad or end-to-end latency
+acceptance. Visible suggestion/Add/Auto-add/Undo behavior is still pending.
 
 ## Background scheduling
 
@@ -22,8 +58,8 @@ two-second budget. Before OS insertion, `reserve()` accepts only an already-read
 snapshot. An unready snapshot is cancelled; it cannot capture after paste.
 Successful delivery calls `commit()` with the final inserted text and insertion
 timestamp. Neither call waits for native UIA. Failed/cancelled delivery must cancel
-its ticket. Delivery wiring follows separately; defining this port does not yet
-enable app field observation.
+its ticket. Session wiring above uses these ports only when the integration flag
+is explicitly enabled.
 
 The owner polls only the original field's metadata until focus leaves or 15
 seconds from insertion, then reads its bounded span once. An edit already present
@@ -89,7 +125,7 @@ so that earlier diagnostic is retained as a failed probe. Current successful
 captures take about 0.8–1.0 seconds, confirmation 0.4–0.6 and final check 0.5–0.7
 on this fixture. These timings exceed the existing 500 ms caller budget in some
 stages. The separate asynchronous owner addresses scheduling without increasing
-critical-query budgets. Delivery wiring and notification/store integration remain;
+critical-query budgets. Notification/store integration remains;
 no manual Notepad/browser acceptance is claimed. Fixture selection is established
 after the provider exists; earlier startup/baseline refusals remain in diagnostic
 reports rather than being hidden by retries of the code under test.
@@ -100,9 +136,9 @@ reports rather than being hidden by retries of the code under test.
 insertion spans. It does not read a field, prove field identity or modify the
 dictionary. Exactly one word may change; every character outside that word must
 stay identical, including punctuation and whitespace. Returned offsets index the
-original Python strings, while the candidate spelling is NFC. The future UIA
-observer must handle UTF-16 conversion separately and prove the original field
-is still the same non-password element before reading its retained range.
+original Python strings, while the candidate spelling is NFC. The native observer
+proves field identity and derives its span using UIA endpoints and edge hashes;
+these Python offsets must not be passed directly to UIA.
 
 Words include Unicode letters/marks and internal apostrophes/hyphens. Input is
 limited to 4096 characters, 512 words, and 3–64 characters per changed word. A

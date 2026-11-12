@@ -63,6 +63,7 @@ class Inserter:
         send_enter: bool = False,
         enter_guard: Callable[[], bool] | None = None,
         field_guard: Callable[[], str] | None = None,
+        before_insert: Callable[[], None] | None = None,
     ) -> InsertionResult:
         if not text:
             return InsertionResult(status="skipped_empty", method="none", reason="empty_text")
@@ -89,22 +90,32 @@ class Inserter:
             # focus/integrity/modifiers before using its answer.
             return self._delivery_block(start_focus, enter_guard)
 
-        guarded = send_enter or self.delivery_guard is not None or enter_guard is not None or field_guard is not None
-        if guarded and (reason := check()):
+        def observing():
+            if before_insert is not None:
+                try:
+                    before_insert()
+                except Exception:
+                    pass  # Optional evidence capture never changes delivery/fallback behavior.
+
+        guarded = send_enter or self.delivery_guard is not None or enter_guard is not None or field_guard is not None or before_insert is not None
+        if method != "typing" and guarded and (reason := check()):
             return InsertionResult("skipped_focus_changed" if reason == "focus_changed" else "not_inserted",
                                    "none", reason)
         note = ""
         if method == "typing":
+            observing()
+            if guarded and (reason := check()):
+                return InsertionResult("skipped_focus_changed" if reason == "focus_changed" else "not_inserted", "none", reason)
             self.keyboard.write(text)
         elif hasattr(self.clipboard, "temporary_text"):
-            delivered = self._native_paste(text, check)
+            delivered = self._native_paste(text, check, observing)
             if (delivered.status != "inserted" or delivered.clipboard_pending
                     or delivered.reason in ("clipboard_cleanup_failed", "clipboard_restore_failed")):
                 return delivered
             method, note = delivered.method, delivered.reason
         else:
             reason = self._paste_with_restore(text,
-                check_before_paste=check if guarded else None)
+                check_before_paste=check if guarded else None, before_insert=observing)
             if reason:
                 return InsertionResult("skipped_focus_changed" if reason == "focus_changed" else "not_inserted",
                                        "none", reason)
@@ -119,13 +130,14 @@ class Inserter:
             return InsertionResult("inserted", method, note, enter_sent=True)
         return InsertionResult(status="inserted", method=method, reason=note)
 
-    def _native_paste(self, text, check):
+    def _native_paste(self, text, check, before_insert=lambda: None):
         from .clipboard_win import DeliveryBlocked
         attempted = pasted = False
         blocked, lease = "", None
         try:
             with self.clipboard.temporary_text(text, guard=check) as lease:
                 self.sleep(self.restore_delay)
+                before_insert()
                 blocked = check() or ("" if lease.current() else "clipboard_changed")
                 if not blocked:
                     attempted = True
@@ -140,6 +152,7 @@ class Inserter:
             elif attempted:
                 blocked = "insertion_unconfirmed"
             else:
+                before_insert()
                 blocked = check()
                 if not blocked:
                     self.keyboard.write(text)
@@ -173,11 +186,12 @@ class Inserter:
         except Exception:
             return "delivery_check_failed"
 
-    def _paste_with_restore(self, text: str, *, check_before_paste=None) -> str:
+    def _paste_with_restore(self, text: str, *, check_before_paste=None, before_insert=lambda: None) -> str:
         previous = self.clipboard.paste()
         try:
             self.clipboard.copy(text)
             self.sleep(self.restore_delay)
+            before_insert()
             if check_before_paste is not None and (reason := check_before_paste()):
                 return reason
             self.keyboard.send(self.paste_hotkey)

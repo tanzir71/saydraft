@@ -39,6 +39,7 @@ def create_worker_signals(QtCore):
         hardware_benchmark_finished = QtCore.Signal(object)
         preview_text_changed = QtCore.Signal(int, str)
         preview_unavailable = QtCore.Signal(int)
+        dictionary_suggestion = QtCore.Signal(object)
 
     return SaydraftWorkerSignals()
 
@@ -122,6 +123,13 @@ class WorkerController:
     def apply_config(self, config):
         if self.core is not None:
             self.core.configure(config)
+
+    def poll_corrections(self):
+        if self.core is not None:
+            self.core.poll_corrections()
+
+    def is_current_correction(self, suggestion):
+        return bool(self.core and self.core.is_current_correction(suggestion))
 
 
 class SaydraftApp:
@@ -226,6 +234,12 @@ class SaydraftApp:
             notify=self.signals.notification_requested.emit
         )
         self.controller.start()
+        if hasattr(qt_modules.QtCore, "QTimer") and hasattr(self.controller, "poll_corrections"):
+            self.correction_timer = qt_modules.QtCore.QTimer(application)
+            self.correction_timer.timeout.connect(self.controller.poll_corrections)
+            self.correction_timer.start(250)
+            if about_to_quit is not None:
+                about_to_quit.connect(self.correction_timer.stop)
         self._sync_listening_state()
         if hasattr(self.tray, "set_model_label"):
             self.tray.set_model_label(self._controller_model_label())

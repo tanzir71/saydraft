@@ -39,5 +39,7 @@ def test_native_tracked_edit_reads_fresh_original_field_and_refuses_password_cha
     report = json.loads((output / "report.json").read_text(encoding="utf-8"))
     assert report["probe_complete"] and report["own_windows_closed"] and not report["failures"]
     assert not report["active_application_read"] and not report["input_injected"] and not report["owner_clipboard_accessed"]
-    assert [row["case"] for row in report["cases"]] == ["correction", "runtime_lookup", "password", "becomes_password", "asynchronous"]
-    assert report["cases"][-1]["independent_critical_reader"] and report["cases"][-1]["observation_closed"]
+    assert [row["case"] for row in report["cases"]] == ["correction", "runtime_lookup", "password", "becomes_password", "asynchronous", "session"]
+    assert report["cases"][-2]["independent_critical_reader"] and report["cases"][-2]["observation_closed"]
+    assert report["cases"][-1]["history_before_input"] and report["cases"][-1]["session_suggestion_emitted"]
+    assert report["cases"][-1]["session_owners_closed"] and not report["microphone_used"] and not report["asr_performed"]

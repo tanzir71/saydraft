@@ -21,6 +21,89 @@ from saydraft.dictionary.alignment import suggest_correction
 from saydraft.insert._clipboard_win32 import NativeClipboardApi
 
 
+def session_case(metadata, identity, mutate, child, row, output):
+    from types import SimpleNamespace as NS
+    import numpy as np
+    from saydraft.config import default_config
+    from saydraft.context.foreground import ForegroundContextProvider, NativeForegroundApi
+    from saydraft.context.uia_worker import BoundedUIA
+    from saydraft.core.container import Services
+    from saydraft.core.processing import IdentityFormatter, TranscriptProcessor
+    from saydraft.core.session import DictationSession
+    from saydraft.core.worker import SessionWorker
+    from saydraft.history import DictationHistoryStore
+    from saydraft.insert.inserter import Inserter
+
+    metadata.close()  # Only the two actual app owners below remain; no proxy crosses threads.
+    audio_clock, observation_clock = NS(now=0), NS(now=0)
+    listening, finished, suggested = threading.Event(), threading.Event(), threading.Event()
+    suggestions = []
+    def factory():
+        native = NativeUIAReader()
+        native.focused_element = lambda: native.client.ElementFromHandleBuildCache(child, native.cache)
+        native.keyboard_focus_snapshot = native.same_focus = lambda element: True  # Own invisible fixture only.
+        return native
+    class Foreground(NativeForegroundApi):
+        def foreground(self):
+            return identity.window
+    critical = BoundedUIA(factory=factory, capture_timeout=.5)
+    observation = ObservationWorker(factory=factory, clock=lambda: observation_clock.now)
+    context = ForegroundContextProvider(api=Foreground(), uia=critical, observation=observation)
+    worker = None
+    try:
+        config = default_config()
+        config["dictation"]["learn_corrections"], config["stt"]["language"] = True, "en"
+        store = DictationHistoryStore(output / "session.db")
+        cleaner = NS(process_transcript=lambda text, context: text)
+        clipboard = NS(value="Public original clipboard fixture")
+        clipboard.paste = lambda: clipboard.value
+        clipboard.copy = lambda text: setattr(clipboard, "value", text)
+        def send(key):
+            assert key == "ctrl+v"
+            rows = store.list_recent()
+            assert len(rows) == 1 and rows[0].raw_text == rows[0].cleaned_text == clipboard.value == "Kubernetis"
+            row["history_before_input"] = True
+            mutate("insert")
+        inserter = Inserter(clipboard=clipboard, keyboard=NS(send=send), focus_provider=context.focus, sleep=lambda _: None)
+        processor = TranscriptProcessor(cleaner=cleaner, formatter=IdentityFormatter(), history=store, inserter=inserter)
+        recorder = NS(start=lambda: None, stop=lambda: np.ones(16000, dtype=np.float32), sample_rate=16000)
+        asr = NS(transcribe=lambda audio: "Kubernetis", model_id="authored-stub", last_timings={}, last_language="en")
+        services = Services(config, recorder, asr, cleaner, IdentityFormatter(), inserter, context, store, processor, [])
+        def emit(name, *args):
+            if name == "recording_started":
+                listening.set()
+            elif name == "processing_finished":
+                finished.set()
+            elif name == "dictionary_suggestion":
+                suggestions.append(args[0])
+                suggested.set()
+        worker = SessionWorker(services, emit=emit, session=DictationSession(clock=lambda: audio_clock.now),
+            keyboard_module=NS(), timer_factory=lambda *a: NS(start=lambda: None, cancel=lambda: None))
+        assert worker.start_recording() and listening.wait(5)
+        ticket = observation._scope  # Plain synchronization data; no COM object is exposed.
+        assert ticket is not None and ticket.ready.wait(5)
+        audio_clock.now = 1
+        worker.stop_recording()
+        assert finished.wait(5) and ticket.active.wait(5) and not ticket.done.is_set()
+        assert worker.last_result.insertion.status == "inserted"
+        mutate("correction")
+        observation_clock.now = 15
+        observation._wake.set()
+        assert ticket.done.wait(5)
+        worker.poll_corrections()
+        assert suggested.wait(5) and len(suggestions) == 1
+        assert suggestions[0].candidate.term == "Kubernetes" and worker.is_current_correction(suggestions[0])
+        assert len(store.list_recent()) == 1 and clipboard.value == "Public original clipboard fixture"
+        row["session_suggestion_emitted"] = True
+    finally:
+        if worker is not None:
+            worker.shutdown()
+            worker.executor.shutdown(wait=True)
+        context.close()
+        assert critical.wait_closed(3) and observation.wait_closed(3)
+        row["session_owners_closed"] = True
+
+
 def asynchronous_case(metadata, identity, mutate, child, row):
     now = [0]
     entered, release = threading.Event(), threading.Event()
@@ -75,7 +158,7 @@ def asynchronous_case(metadata, identity, mutate, child, row):
         row["observation_closed"] = True
 
 
-def probe():
+def probe(output):
     api = NativeClipboardApi()  # Window bindings only; never open any clipboard.
     for name, args, result in (
         ("SendMessageW", [wt.HWND, wt.UINT, wt.WPARAM, wt.LPARAM], ct.c_ssize_t),
@@ -90,7 +173,10 @@ def probe():
         "source_dirty": bool(subprocess.check_output(["git", "status", "--porcelain"], text=True).strip()),
         "source_sha256": {p: hashlib.sha256(Path(p).read_bytes()).hexdigest() for p in (
             "saydraft/context/tracked_edit.py", "saydraft/context/uia_native.py",
-            "saydraft/context/observation_worker.py", "tools/probe_tracked_edit.py")}}
+            "saydraft/context/observation_worker.py", "saydraft/core/corrections.py",
+            "saydraft/core/worker.py", "saydraft/core/processing.py", "saydraft/config.py",
+            "saydraft/insert/inserter.py", "tools/probe_tracked_edit.py")},
+        "microphone_used": False, "asr_performed": False}
     @contextmanager
     def fixture_window():
         parent = api.user.CreateWindowExW(0, "STATIC", "Public tracked-edit fixture", 0x00C80000,
@@ -101,7 +187,7 @@ def probe():
         finally:
             assert api.user.DestroyWindow(parent)
     with fixture_window() as parent:
-        for case in ("correction", "runtime_lookup", "password", "becomes_password", "asynchronous"):
+        for case in ("correction", "runtime_lookup", "password", "becomes_password", "asynchronous", "session"):
             child = api.user.CreateWindowExW(0, "EDIT", "Before 🙂 OLD after.",
                 (0x00C80000 if case == "runtime_lookup" else 0x40000000) | (0x20 if case == "password" else 0),
                 0, 0, 300, 40, None if case == "runtime_lookup" else parent, None, None, None)
@@ -140,6 +226,11 @@ def probe():
                     row["stage"] = "capture"
                     if case == "asynchronous":
                         asynchronous_case(reader, identity, mutate, child, row)
+                        row["complete"] = True
+                        report["cases"].append(row)
+                        return
+                    if case == "session":
+                        session_case(reader, identity, mutate, child, row, output)
                         row["complete"] = True
                         report["cases"].append(row)
                         return
@@ -204,7 +295,7 @@ def probe():
             finally:
                 assert api.user.DestroyWindow(child)
     report["own_windows_closed"] = True
-    report["probe_complete"] = len(report["cases"]) == 5 and not report["failures"]
+    report["probe_complete"] = len(report["cases"]) == 6 and not report["failures"]
     return report
 
 
@@ -213,7 +304,7 @@ def main():
     parser.add_argument("--output", required=True, type=Path)
     args = parser.parse_args()
     args.output.mkdir(parents=True, exist_ok=False)
-    report = probe()
+    report = probe(args.output)
     (args.output / "report.json").write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
     print(json.dumps(report))
     return 0 if report["probe_complete"] else 1
