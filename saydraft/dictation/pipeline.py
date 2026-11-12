@@ -154,8 +154,12 @@ class DictationPipeline:
         llm_ok_text: Optional[str] = None
         llm_started = time.perf_counter()
         if self.llm.available():
+            after_rules = getattr(self.llm, "clean_after_rules", None)
             contextual = getattr(self.llm, "clean_with_context", None)
-            if contextual is not None:
+            if after_rules is not None:
+                candidate, status = after_rules(rule_clean, context=context, raw_text=protected_text,
+                    glossary=(*self.glossary.user_terms, *self.glossary.protected_terms))
+            elif contextual is not None:
                 candidate, status = contextual(rule_clean, context=context,
                     glossary=(*self.glossary.user_terms, *self.glossary.protected_terms))
             else:

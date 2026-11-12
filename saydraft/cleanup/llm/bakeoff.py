@@ -31,7 +31,7 @@ class ObservedCleaner:
             def clean(self, *args, **kwargs):
                 reply = super().clean(*args, **kwargs)
                 owner.reply = {"client_reason": reply.reason, "source_tokens": reply.input_tokens,
-                               "output_limit": reply.output_limit}
+                               "output_limit": reply.output_limit, "gate": reply.gate}
                 return reply
 
         return RecordingClient(manager, **kwargs)
@@ -43,8 +43,16 @@ class ObservedCleaner:
         self.calls, self.reply = [], {}
 
     def clean_with_context(self, text, *, context, glossary=()):
+        return self._observe(text, context, glossary,
+            lambda: self.delegate.clean_with_context(text, context=context, glossary=glossary))
+
+    def clean_after_rules(self, text, *, context, raw_text, glossary=()):
+        return self._observe(text, context, glossary,
+            lambda: self.delegate.clean_after_rules(text, context=context, raw_text=raw_text, glossary=glossary))
+
+    def _observe(self, text, context, glossary, operation):
         started = self.clock()
-        candidate, reason = self.delegate.clean_with_context(text, context=context, glossary=glossary)
+        candidate, reason = operation()
         validation = validate_llm_output(text, candidate, mode=context.mode,
             intensity=context.intensity, glossary=glossary) if candidate else None
         self.calls.append({"reason": reason, "seconds": self.clock() - started,

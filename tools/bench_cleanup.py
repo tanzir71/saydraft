@@ -118,6 +118,7 @@ def main(argv=None):
     report = {"schema_version": 1, "candidate": model, "runtime": runtime_model_id(args.backend),
         "delivery": "simulated; no live OS keys or microphone", "latency_acceptance_evaluated": False,
         "interactive_prompt_preparation": False,
+        "interactive_budget_gate": False,
         "backend": args.backend, "device_override": args.device, "threads": args.threads,
         "quality_timeout_ms": args.timeout_ms, "decoding_temperature": 0, "context_size": 4096,
         "max_output_tokens": 256, "full_corpus": args.limit is None, "isolation_declared": args.isolated,

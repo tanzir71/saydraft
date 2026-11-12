@@ -7,6 +7,7 @@ import re
 import subprocess
 import time
 from pathlib import Path
+from types import SimpleNamespace
 
 from saydraft.cleanup.llm.candidates import ROOT, candidate_directory, candidate_weight, get_candidate
 from saydraft.cleanup.llm.prompts import PromptHints
@@ -24,6 +25,7 @@ def main(argv=None):
         parser.add_argument("--" + name, required=True, type=str if name == "candidate" else Path)
     parser.add_argument("--backend", choices=("cpu", "vulkan"), default="cpu")
     parser.add_argument("--device")
+    parser.add_argument("--budget-gate", action="store_true", help="exercise actual need/budget policy with five cases")
     args = parser.parse_args(argv)
     if os.name != "nt" or args.device and (args.backend != "vulkan" or not re.fullmatch(r"Vulkan\d+", args.device)):
         parser.error("Windows and a matching bounded Vulkan device are required")
@@ -32,6 +34,7 @@ def main(argv=None):
     args.output.mkdir(parents=True, exist_ok=False)
     report = {"candidate": model["id"], "revision": model["revision"], "runtime": runtime_model_id(args.backend),
         "device": args.device, "app_timeout_ms": 800, "interactive_prompt_preparation": True,
+        "interactive_budget_gate": args.budget_gate,
         "git_commit": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip(),
         "source_dirty": bool(subprocess.check_output(["git", "status", "--porcelain"], cwd=ROOT, text=True).strip()),
         "delivery": "no microphone, database or live insertion", "cases": [], "selection_performed": False}
@@ -40,10 +43,21 @@ def main(argv=None):
     try:
         def spawn(values, **kwargs):
             return meter.spawn([*values, "--device", args.device] if args.device else values, **kwargs)
-        cfg = LocalLLMConfig(enabled=True, model_path=str(weight), backend=args.backend, n_threads=4)
+        cfg = LocalLLMConfig(enabled=True, model_path=str(weight), backend=args.backend,
+                             n_threads=4, budget_gate=args.budget_gate)
         local = LocalLLMCleaner(cfg, manager_factory=lambda config: SidecarManager(config,
             resolver=lambda name: args.runtime_dir.resolve(), process_factory=spawn))
         pipeline = DictationPipeline(DictationConfig(llm=cfg), llm_cleaner=local)
+
+        def measure(context, text, preparation, expected_decision):
+            expected = baseline.process_transcript(text, context)
+            started = time.perf_counter()
+            actual = pipeline.process_transcript(text, context)
+            row = {**preparation, "profile": context.profile, "expected_decision": expected_decision,
+                "cleanup_seconds": time.perf_counter() - started, "decision": pipeline.last_llm_decision,
+                "exact": actual == expected, "gate": local.last_gate_info}
+            report["cases"].append(row)
+            print(json.dumps(row), flush=True)
         for profile, title, group, text in (("general", "Eval Editor", "general", "send 2 files"),
                                              ("email", "Eval Mail", "email", "please review the draft")):
             context = DictationContext(profile=profile, app_title=title, app_group=group)
@@ -58,15 +72,16 @@ def main(argv=None):
                    "preparation_status": local._preparation.status,
                    "decoder_calibration": calibration.metadata() if calibration is not None else None}
             if prepared:
-                expected = baseline.process_transcript(text, context)
-                started = time.perf_counter()
-                actual = pipeline.process_transcript(text, context)
-                row.update(cleanup_seconds=time.perf_counter() - started, decision=pipeline.last_llm_decision,
-                           exact=actual == expected)
-            report["cases"].append(row)
-            print(json.dumps(row), flush=True)
-            if not prepared or row.get("decision") != "accepted":
+                measure(context, text, row, "skip_low_need" if args.budget_gate else "accepted")
+                if args.budget_gate:
+                    measure(context, "um " + text, row, "high_need")
+            else:
+                report["cases"].append(row)
+            if not prepared:
                 break
+        if args.budget_gate and len(report["cases"]) == 4:
+            expired = SimpleNamespace(**(vars(context) | {"cleanup_deadline": time.monotonic()}))
+            measure(expired, "um " + text, row, "skip_budget")
     except BaseException as error:
         report["error_type"] = type(error).__name__
     finally:
@@ -76,8 +91,11 @@ def main(argv=None):
         baseline.close()
         report["native_exit_observed"] = meter.finish()
         NetworkGuard.uninstall()
-        report["probe_complete"] = (len(report["cases"]) == 2 and all(row.get("exact") and row.get("decoder_calibration")
-            and row.get("decision") == "accepted" and row["cleanup_seconds"] <= .8 for row in report["cases"])
+        report["accepted_replies"] = sum(row.get("decision") == "accepted" for row in report["cases"])
+        report["probe_complete"] = (len(report["cases"]) == (5 if args.budget_gate else 2)
+            and all(row.get("exact") and row.get("decoder_calibration") and row["cleanup_seconds"] <= .8
+                and (row.get("decision") in ("accepted", "skip_budget") if row.get("expected_decision") == "high_need"
+                     else row.get("decision") == row.get("expected_decision")) for row in report["cases"])
             and bool(report["native_exit_observed"]) and all(report["native_exit_observed"]) and not report.get("error_type"))
         with (args.output / "report.json").open("x", encoding="utf-8") as target:
             json.dump(report, target, indent=2, allow_nan=False)

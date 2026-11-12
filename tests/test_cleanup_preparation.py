@@ -131,7 +131,7 @@ def test_actual_pipeline_keeps_rules_while_background_probe_blocks_then_uses_pre
         prepare_prompt=lambda **kw: block("prepared") if blocked_phase == "prefix" else CleanupReply(None, "prepared"),
         clean=lambda text, **kw: (
         user_calls.append(text) or CleanupReply(text, "ok")))
-    cfg = LocalLLMConfig(enabled=True, model_path="unit-fixture-not-a-model")
+    cfg = LocalLLMConfig(enabled=True, model_path="unit-fixture-not-a-model", budget_gate=False)
     local = LocalLLMCleaner(cfg, manager_factory=lambda cfg: manager, client_factory=lambda *a, **kw: client)
     pipeline = DictationPipeline(DictationConfig(llm=cfg), llm_cleaner=local)
     try:

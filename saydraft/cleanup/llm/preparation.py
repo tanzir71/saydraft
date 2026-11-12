@@ -125,3 +125,7 @@ class PromptPreparation:
             self._closed, self._prepared, self._wanted = True, None, None
             self._reason = "closed"
             self._settled.set()
+
+    def invalidate(self):
+        with self._lock:
+            self._prepared = self._failed = None
