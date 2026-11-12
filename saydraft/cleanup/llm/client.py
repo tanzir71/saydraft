@@ -7,7 +7,7 @@ from dataclasses import dataclass
 
 from .loopback import LocalHTTPError
 from .calibration import DecoderCalibration
-from .gate import decision, predict
+from .gate import MIN_REQUEST_SECONDS, decision, predict
 from .prompts import PromptHints, bridge_protected, build_messages, output_token_limit
 from .sidecar import SidecarReply
 from .streaming import read_completion
@@ -50,6 +50,13 @@ class CleanupClient:
 
         def operation(client, deadline):
             nonlocal gate_plan
+            def budget_skip(source_tokens=0):
+                remaining = max(0, deadline - self.clock())
+                if gate is not None and remaining <= MIN_REQUEST_SECONDS:
+                    return {"skipped": "skip_budget", "gate": decision(gate, "skip_budget",
+                        remaining=remaining, source_tokens=source_tokens)}
+                return None
+
             def check():
                 if self.clock() >= deadline:
                     raise TimeoutError("Cleanup deadline expired")
@@ -60,7 +67,11 @@ class CleanupClient:
                 if not isinstance(tokens, list) or any(type(token) is not int or token < 0 for token in tokens):
                     raise LocalHTTPError("Local tokenizer returned unsupported tokens")
                 return tokens
+            if skipped := budget_skip():
+                return skipped
             tokens = tokenize(text)
+            if skipped := budget_skip(len(tokens)):
+                return skipped
             limit = min(self.max_tokens if max_tokens is None else max_tokens, output_token_limit(len(tokens)))
             generation = getattr(self.manager, "generation", None)
             base = tuple((m["role"], m["content"]) for m in messages[:-1])
@@ -68,7 +79,9 @@ class CleanupClient:
             plan = None
             if gate is not None:
                 remaining = max(0, deadline - self.clock())
-                if self._prefix is None or generation is None or self._prefix[:2] != (generation, base):
+                if remaining <= MIN_REQUEST_SECONDS:
+                    plan = decision(gate, "skip_budget", remaining=remaining, source_tokens=len(tokens))
+                elif self._prefix is None or generation is None or self._prefix[:2] != (generation, base):
                     plan = decision(gate, "skip_unprepared_prefix", remaining=remaining)
                 else:
                     common = 0

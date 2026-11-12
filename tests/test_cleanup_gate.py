@@ -220,3 +220,29 @@ def test_busy_transport_still_records_need_and_outcome_without_generation_eviden
     assert local.clean_after_rules("Hello", raw_text="um hello", context=DictationContext()) == (None, "busy")
     assert local.last_gate_info["need_score"] == 2 and local.last_gate_info["outcome"] == "busy"
     assert local.last_gate_info["source_tokens"] == 0 and not model.requests
+
+
+def test_nearly_exhausted_outer_budget_skips_before_model_construction():
+    local = LocalLLMCleaner(LocalLLMConfig(enabled=True, model_path="unused"), clock=lambda: 100,
+        manager_factory=lambda cfg: pytest.fail("tiny RPC budget must not construct a model"))
+    context = DictationContext(cleanup_deadline=100.09)
+    assert local.clean_after_rules("Hello", raw_text="um hello", context=context) == (None, "skip_budget")
+
+
+def test_prompt_assembly_consuming_the_rpc_window_skips_before_tokenization(monkeypatch):
+    from saydraft.cleanup.llm import client as client_module
+    _pipeline, model, local, _client, clock, _timeouts, _invalidations = prepared_pipeline()
+    original = client_module.build_messages
+    def delayed(*args, **kwargs):
+        clock.now += .72
+        return original(*args, **kwargs)
+    monkeypatch.setattr(client_module, "build_messages", delayed)
+    assert local.clean_after_rules("Hello", raw_text="um hello", context=DictationContext()) == (None, "skip_budget")
+    assert not model.requests
+
+
+def test_source_tokenization_consuming_the_rpc_window_skips_the_second_rpc():
+    _pipeline, model, local, _client, _clock, _timeouts, _invalidations = prepared_pipeline()
+    model.delay = .71
+    assert local.clean_after_rules("Hello", raw_text="um hello", context=DictationContext()) == (None, "skip_budget")
+    assert len(model.requests) == 1 and model.requests[0][0] == "/tokenize"

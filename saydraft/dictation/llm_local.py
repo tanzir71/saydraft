@@ -11,7 +11,7 @@ from saydraft.cleanup.llm.client import CleanupClient
 from saydraft.cleanup.llm.prompts import PromptHints, STYLES, user_message
 from saydraft.cleanup.llm.sidecar import SidecarConfig, SidecarManager
 from saydraft.cleanup.llm.preparation import PromptPreparation
-from saydraft.cleanup.llm.gate import decision, request_timeout, score_need
+from saydraft.cleanup.llm.gate import MIN_REQUEST_SECONDS, decision, request_timeout, score_need
 
 logger = logging.getLogger(__name__)
 
@@ -115,7 +115,7 @@ class LocalLLMCleaner:
                 now = self._clock()
                 timeout = request_timeout(self.cfg.timeout_ms, now=now, deadline=deadline)
                 stop_at = now + timeout
-                if need.score < 2 or timeout <= 0:
+                if need.score < 2 or timeout <= MIN_REQUEST_SECONDS:
                     reason = "skip_low_need" if need.score < 2 else "skip_budget"
                     self._gate_log(decision(need, reason, remaining=timeout))
                     return None, reason

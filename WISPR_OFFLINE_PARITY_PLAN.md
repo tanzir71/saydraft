@@ -739,6 +739,8 @@ Cloud anything (sync, accounts, team dictionaries, web search in Ask), mobile ap
 
 ## 14. Changelog
 
+- 2026-11-12 | P4.6 (minimum RPC window) | Decline ≤50 ms RPC windows after the separate delivery reserve, before model creation and across prompt/tokenization stages; preserve rules and generation-credit semantics. Added top-level live calibration and portable source paths to future policy reports for evidence checks. Fresh native quality/latency acceptance remains. | saydraft/cleanup/llm/, saydraft/dictation/llm_local.py, tools/bench_cleanup.py, tests/test_cleanup_gate.py, docs/CLEANUP_RPC_BUDGET.md
+
 - 2026-11-12 | P4.6 (native background release proof) | Immutable 0dbf024 real-time RTX run completes sixty 3/8/20-second samples with normal recording guard, background ASR, SQLite-first checked delivery and observed exit. Release p50/p95: 0.506/0.834, 1.077/1.276, 0.427/0.696 s; forty accepted replies, twenty budget skips. Meets Pro fixture targets; Standard/rules-only background, broad tier and real-paste acceptance remain. | eval/cleanup/results/2026-11-12-background-replay/, docs/CLEANUP_LATENCY.md
 
 - 2026-11-12 | P4.6 (background release replay) | Added real-time fixture frames through the production background-ASR queue, retaining the normal minimum-duration guard and release→cleanup→SQLite→checked-insertion path. Deterministic cadence tests preserve every sample and reject a missing callback; native streaming runs remain. | tools/probe_cleanup_latency.py, tests/test_cleanup_latency_probe.py, docs/CLEANUP_LATENCY.md

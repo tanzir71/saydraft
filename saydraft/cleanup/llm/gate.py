@@ -10,6 +10,7 @@ _BACKTRACK = re.compile(r"\b(?:actually|scratch\s+that|never\s+mind|no\s+wait)\b
 _LIST = re.compile(r"\b(?:new\s+(?:line|paragraph)|(?:bullet|numbered)\s+list|next\s+item)\b", re.I)
 _FILLER = re.compile(r"\b(?:um|uh|erm|you\s+know|i\s+mean)\b", re.I)
 PREDICTION_HEADROOM = 2.0  # Native CPU replies exceeded the raw estimate by up to 1.60x.
+MIN_REQUEST_SECONDS = .05  # Decline tiny RPC windows after the separate 50 ms delivery reserve.
 
 
 @dataclass(frozen=True)

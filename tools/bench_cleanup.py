@@ -160,7 +160,7 @@ def main(argv=None):
         "max_output_tokens": 256, "full_corpus": args.limit is None, "isolation_declared": args.isolated,
         "git_commit": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip(),
         "source_dirty": bool(status.strip()), "golden_sha256": corpus_digest(golden),
-        "source_fingerprints": {str(p.relative_to(ROOT)): hashlib.sha256(p.read_bytes()).hexdigest()
+        "source_fingerprints": {p.relative_to(ROOT).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest()
             for p in [*(ROOT / "saydraft").rglob("*.py"), Path(__file__).resolve()]},
         "adversarial_sha256": hashlib.sha256(json.dumps(adversarial, sort_keys=True).encode()).hexdigest(),
         "prompt_sha256": {p.name: hashlib.sha256(p.read_bytes()).hexdigest()
@@ -201,6 +201,10 @@ def main(argv=None):
     finally:
         report["peak_native_working_set_bytes"] = meter.peaks()
         if pipeline is not None:
+            if args.interactive_policy:
+                client = observed.delegate._client
+                measurement = client.decoder.current if client is not None else None
+                report["live_decoder_calibration"] = measurement.metadata() if measurement is not None else None
             pipeline.close()
         if manager is not None:
             report["last_sidecar_status"] = manager.status
