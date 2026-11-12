@@ -43,7 +43,8 @@ def main(argv=None):
         assert api.user.SendInput(2, values, c.sizeof(_Input)) == 2
         assert done.wait(3)
         report["phases"] = [row["phase"] for row in actions]
-        report["off_hook_dispatch"] = all(row["thread"] != api.thread_id for row in actions)
+        report["off_hook_dispatch"] = all(row["thread"] == hooks._worker.ident
+            and row["thread"] != hooks._pump_thread.ident for row in actions)
         report["timestamps_ordered"] = actions[0]["timestamp"] <= actions[-1]["timestamp"]
         started, cpu = time.perf_counter(), time.process_time()
         time.sleep(.5)
