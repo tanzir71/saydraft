@@ -9,6 +9,7 @@ from .validate import extract_words
 _BACKTRACK = re.compile(r"\b(?:actually|scratch\s+that|never\s+mind|no\s+wait)\b", re.I)
 _LIST = re.compile(r"\b(?:new\s+(?:line|paragraph)|(?:bullet|numbered)\s+list|next\s+item)\b", re.I)
 _FILLER = re.compile(r"\b(?:um|uh|erm|you\s+know|i\s+mean)\b", re.I)
+PREDICTION_HEADROOM = 2.0  # Native CPU replies exceeded the raw estimate by up to 1.60x.
 
 
 @dataclass(frozen=True)
@@ -52,9 +53,9 @@ def predict(need, *, source_tokens, pending_tokens, output_limit, rate, remainin
         return decision(need, "skip_calibration", remaining=remaining)
     if source_tokens <= 0:
         return decision(need, "skip_tokenization", remaining=remaining)
-    # Expected output differs from the larger safety cap. Prefix processing uses
-    # a conservative 4x decode-rate estimate; the hard deadline remains binding.
+    # Expected output differs from the larger safety cap. Prefill assumes 4x the
+    # decode rate; uniform headroom covers observed underprediction, not a guarantee.
     output = min(output_limit, math.ceil(source_tokens * 1.25) + 2)
-    predicted = pending_tokens / (rate * 4) + output / rate
+    predicted = PREDICTION_HEADROOM * (pending_tokens / (rate * 4) + output / rate)
     return decision(need, "call" if predicted <= remaining else "skip_budget", remaining=remaining,
                     predicted=predicted, source_tokens=source_tokens, pending_tokens=pending_tokens)

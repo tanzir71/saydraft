@@ -11,11 +11,14 @@ uses the minimum of the live instance's three decode samples. It tokenizes the
 rules result and final user message, compares token IDs with the last completed
 request for the same generation and static prefix, and estimates:
 
-`predicted_seconds = (changed_user_tokens + 12) / (4 * decode_tps)
-                   + min(output_cap, ceil(source_tokens * 1.25) + 2) / decode_tps`
+`predicted_seconds = 2 * ((changed_user_tokens + 12) / (4 * decode_tps)
+                       + min(output_cap, ceil(source_tokens * 1.25) + 2) / decode_tps)`
 
-The 4x prefill estimate and 12-token boundary allowance are heuristics, not a
-measured prefill rate or a guaranteed cache hit. The hard deadline is binding.
+The 4x prefill estimate, 12-token boundary allowance and 2x prediction headroom
+are heuristics, not a measured prefill rate or a guaranteed cache hit. Headroom
+was added after the retained initial CPU run exposed actual completed calls up to
+1.60x the raw estimate. It applies uniformly across backends and inputs, without
+changing expected output, cue thresholds or the app cap. The hard deadline is binding.
 Missing/stale calibration, an unknown prefix, or an estimate above the remaining
 budget preserves rules. An unknown prefix schedules background re-preparation.
 Only ephemeral token IDs track the previous user message; it is not persisted.
@@ -35,7 +38,9 @@ retains the configured request cap.
 
 History stores the existing accepted/fallback/skip reason before insertion. The
 diagnostic log contains score/cue labels, token counts and predicted/remaining
-milliseconds, with no transcript, app name, glossary, caret text or generated text.
+milliseconds and transport outcome, with no transcript, app name, glossary, caret
+text or generated text. A failed generated request retains its prediction metadata
+without receiving complete-response token credit; a busy lease still logs its need.
 Tokenization-only skips receive no generation token credit in evaluation reports.
 Accepted replies still require complete SSE, a stop finish and existing detail,
 protected-token and structure validation.
@@ -49,7 +54,7 @@ High-need cases may legitimately skip for budget; `accepted_replies` is reported
 separately. Five correct policy outcomes do not imply five model replies or model
 quality acceptance. The probe performs no capture, database write or live insertion.
 
-Validation: 1391 tests pass with four optional native skips; rules 432/432,
+Validation: 1394 tests pass with four optional native skips; rules 432/432,
 authored adversarial checks 100/100, and Ruff/diff checks pass.
 
 Tests cover pre-rule cues, Unicode word counts, low-need/expired zero-call paths,
@@ -112,4 +117,5 @@ one timeout with rules fallback, then refusal to count unprepared followups. Its
 live minimum is 27.81 tok/s, yet completed CPU replies cost up to 1.60x their
 prediction. The partial run fails policy completion and cannot establish Standard
 acceptance. Both native exits are observed. Original reports/digests are retained
-in `eval/cleanup/results/2026-11-12-policy/`; predictor headroom needs revision.
+in `eval/cleanup/results/2026-11-12-policy/`. The subsequent uniform 2x headroom
+addresses this observed underprediction; fresh native proof remains necessary.

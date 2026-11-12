@@ -46,7 +46,10 @@ class CleanupClient:
                 info = decision(gate, "skip_budget", remaining=0) if gate is not None else None
                 return SidecarReply({"skipped": "skip_budget", "gate": info}, "ok")
 
+        gate_plan = None
+
         def operation(client, deadline):
+            nonlocal gate_plan
             def check():
                 if self.clock() >= deadline:
                     raise TimeoutError("Cleanup deadline expired")
@@ -77,6 +80,7 @@ class CleanupClient:
                     rate = min(measurement.rates) if measurement is not None else None
                     plan = predict(gate, source_tokens=len(tokens), pending_tokens=len(user_tokens) - common + 12,
                                    output_limit=limit, rate=rate, remaining=remaining)
+                gate_plan = plan
                 if plan["reason"] != "call":
                     return {"skipped": plan["reason"], "gate": plan}  # Tokenization earns no generation credit.
             payload = {"model": "saydraft-cleanup", "messages": messages, "stream": True, "n": 1,
@@ -89,7 +93,10 @@ class CleanupClient:
                             if user_tokens is not None and result["done"] else None)
             return {**result, "input_tokens": len(tokens), "output_limit": limit, "gate": plan}
 
-        return self.manager.run(operation, timeout=timeout)
+        reply = self.manager.run(operation, timeout=timeout)
+        if reply.value is None and gate_plan is not None:
+            return SidecarReply({"failed": reply.reason, "gate": gate_plan}, "ok")
+        return reply
 
     def prepare_prompt(self, *, style="neutral", post_rules=True, app="", group="general", timeout=60):
         # A fixed one-token probe warms the real chat prefix, never user content.
@@ -113,6 +120,8 @@ class CleanupClient:
                   "gate": value.get("gate")}
         if value.get("skipped"):
             return CleanupReply(None, value["skipped"], **counts)
+        if value.get("failed"):
+            return CleanupReply(None, value["failed"], **counts)
         if not value.get("done") or value.get("finish_reason") != "stop":
             return CleanupReply(None, "incomplete", **counts)
         if value.get("tool_calls"):

@@ -129,8 +129,10 @@ class LocalLLMCleaner:
                 return None, "prompt_warming" if requested else "prompt_unprepared"
             options = {"gate": need, "stop_at": stop_at} if need is not None else {}
             reply = client.clean(text, hints=hints, glossary=glossary, timeout=timeout, **options)
-            if getattr(reply, "gate", None) is not None:
-                self._gate_log(reply.gate)
+            if need is not None:
+                info = getattr(reply, "gate", None) or decision(need, reply.reason,
+                    remaining=max(0.0, stop_at - self._clock()))
+                self._gate_log({**info, "outcome": reply.reason})
             if reply.reason == "skip_unprepared_prefix" and self._preparation is not None:
                 self._preparation.invalidate()
                 self._preparation.request(hints)

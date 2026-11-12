@@ -39,8 +39,8 @@ def test_prediction_uses_live_rate_output_length_and_uncached_prefix_cost():
     need = NeedScore(2, ("polished",))
     fast = predict(need, source_tokens=10, pending_tokens=20, output_limit=256, rate=100, remaining=.75)
     slow = predict(need, source_tokens=10, pending_tokens=20, output_limit=256, rate=10, remaining=.75)
-    assert fast["reason"] == "call" and fast["predicted_ms"] == 200
-    assert slow["reason"] == "skip_budget" and slow["predicted_ms"] == 2000
+    assert fast["reason"] == "call" and fast["predicted_ms"] == 400
+    assert slow["reason"] == "skip_budget" and slow["predicted_ms"] == 4000
     assert predict(need, source_tokens=10, pending_tokens=20, output_limit=256,
                    rate=None, remaining=.75)["reason"] == "skip_calibration"
 
@@ -192,3 +192,31 @@ def test_extreme_positive_rate_cannot_put_infinity_into_gate_metadata():
                    output_limit=256, rate=1e-320, remaining=.75)
     assert info["reason"] == "skip_budget"
     json.dumps(info, allow_nan=False)
+
+
+def test_prediction_headroom_declines_short_cpu_work_that_the_raw_estimate_admitted():
+    info = predict(NeedScore(2, ("polished",)), source_tokens=5, pending_tokens=21,
+                   output_limit=256, rate=27.8, remaining=.719)
+    assert info["reason"] == "skip_budget" and info["predicted_ms"] > 1000
+
+
+def test_failed_generation_retains_the_plan_without_claiming_complete_token_evidence():
+    _pipeline, _model, local, client, *_ = prepared_pipeline()
+    run = client.manager.run
+    def failed(operation, *, timeout):
+        run(operation, timeout=timeout)
+        return SidecarReply(None, "timeout")
+    client.manager.run = failed
+    assert local.clean_after_rules("Hello", raw_text="um hello", context=DictationContext()) == (None, "timeout")
+    assert local.last_gate_info["reason"] == "call" and local.last_gate_info["outcome"] == "timeout"
+    assert local.last_gate_info["predicted_ms"] > 0
+    reply = client.clean("Hello", hints=PromptHints(post_rules=True), gate=NeedScore(2, ("fillers",)))
+    assert reply.reason == "timeout" and reply.input_tokens == reply.output_limit == 0
+
+
+def test_busy_transport_still_records_need_and_outcome_without_generation_evidence():
+    _pipeline, model, local, client, *_ = prepared_pipeline()
+    client.manager.run = lambda operation, timeout: SidecarReply(None, "busy")
+    assert local.clean_after_rules("Hello", raw_text="um hello", context=DictationContext()) == (None, "busy")
+    assert local.last_gate_info["need_score"] == 2 and local.last_gate_info["outcome"] == "busy"
+    assert local.last_gate_info["source_tokens"] == 0 and not model.requests
