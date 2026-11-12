@@ -117,28 +117,56 @@ in [CLEANUP_CANDIDATES.md](CLEANUP_CANDIDATES.md#reproducible-native-measurement
 
 Immutable source `b32a03e` reruns the same corpus, artifacts and RTX/Vulkan settings
 with explicit rules-stage demonstrations and finite structure refusals. Golden
-strings and normal detail validation are unchanged. Both runs completed all
+strings and normal detail validation are unchanged. Each full run completed all
 532 inputs and all three 60-token samples; native exits were observed.
 
 | Candidate | Exact golden | Accepted exact / 314 model calls | Safe fallback exact | Remaining exact regression IDs |
 | --- | ---: | ---: | ---: | --- |
 | Qwen3.5 0.8B Q4_K_M | 431/432 (99.8%) | 297/314 | 16 | `balanced-chat-05` |
 | Qwen3.5 2B Q4_K_M | 429/432 (99.3%) | 302/314 | 9 | `balanced-general-04`, `balanced-email-01`, `balanced-chat-05` |
+| Qwen3.5 4B Q4_K_M | 403/432 (93.3%) | 257/314 | 28 | 29 IDs in the report |
+| Gemma 4 E2B Q4_0 | 429/432 (99.3%) | 299/314 | 12 | `delivery-19`, `backtrack-31`, `balanced-chat-02` |
+| Gemma 4 E4B Q4_0 | 410/432 (94.9%) | 260/314 | 32 | 22 IDs in the report |
 
-The other 118 cases bypass the model. Remaining mismatches add commas beside the
-literal word “comma”; all previous observed layout/question/ellipsis regressions
-now match through accepted output or explicit safe fallback. All 100 runtime
-adversarial inputs per model were accepted with zero finite guard failures,
-separately from the authored validator's 100/100 refusals. This does not prove
-semantic safety or establish zero must-keep regressions. Need-score integration
-and the remaining candidate/isolated backend matrix still precede defaults.
+The other 118 cases bypass the model. Remaining 0.8B/2B mismatches add commas beside
+the literal word “comma”; their previous layout/question/ellipsis failures now
+match through accepted output or safe fallback. Gemma E2B adds three commas; 4B
+also adds periods, rewrites phrasing and changes explicit casing/dash choices.
+Each runtime adversarial suite completed 100 inputs with zero finite preservation
+guard failures, separately from the authored validator's 100/100 refusals.
+Acceptance/refusal counts remain in each report; Gemma E2B refused one changed
+number. These finite checks cannot establish semantic safety or zero must-keep
+regressions. All five candidates now have full quality measurements. Need-score
+integration, isolated backend measurements and zero-regression acceptance still
+precede defaults.
 
 | Candidate | Cleanup call p50 / p95 | 60-token decode rates (tok/s), all samples | Native peak host working set |
 | --- | ---: | --- | ---: |
 | Qwen3.5 0.8B | 125 / 205 ms | 206.88, 214.06, 204.76 | 905,449,472 bytes |
 | Qwen3.5 2B | 151 / 287 ms | 138.60, 140.93, 140.06 | 1,664,913,408 bytes |
+| Qwen3.5 4B | 271 / 575 ms | 72.23, 71.03, 71.81 | 3,410,239,488 bytes |
+| Gemma 4 E2B | 146 / 226 ms | 116.69, 118.43, 117.22 | 2,205,523,968 bytes |
+| Gemma 4 E4B | 226 / 401 ms | 73.19, 73.16, 72.07 | 3,467,509,760 bytes |
 
-Transfers remain concurrent, driver caches were primed, host working set excludes
+Gemma E2B preparation took 17.418 s, its first cleanup 43.987 s, and a later
+same-style request 25.718 s. Fast median/decode rates hide those cold outliers.
+Qwen 4B's first cleanup took 1.952 s; it has no measured quality/speed advantage
+over the smaller Qwen artifacts on this corpus. These are exact-artifact results,
+not an architecture ranking or a clean-machine latency guarantee.
+
+Current rules-contract CPU diagnostics remain four-case subsets, with concurrent
+transfers and three raw 60-token samples each:
+
+| Candidate | First / cached-successor cleanup | Decode samples (tok/s) | Native peak host working set |
+| --- | ---: | --- | ---: |
+| Qwen3.5 4B | 23.937 / 1.848 s | 6.23, 6.69, 6.14 | 4,800,602,112 bytes |
+| Gemma 4 E2B | 5.547 / 0.276 s | 12.07, 12.85, 12.89 | 2,836,353,024 bytes |
+
+Both subsets completed with observed native exit. They cannot establish a full
+CPU quality score or a tier recommendation.
+
+Earlier runs overlapped transfers; Gemma E4B ran after transfers finished, without
+declaring isolation. Driver caches were partly primed, host working set excludes
 VRAM, and processor times exclude ASR/native insertion. These are diagnostics,
 not isolated tier or release-to-text acceptance. Unmodified reports and journal
 digests are retained in

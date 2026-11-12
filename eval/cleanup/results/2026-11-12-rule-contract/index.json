@@ -16,6 +16,38 @@
       "report_sha256": "546ea3f3e36f6000848aa872df90b56a270a5e5ff7e3cd8abb38067c3e736121",
       "local_journal_directory": "cleanup-bakeoff-b32a03e-qwen2-vulkan1",
       "journal_sha256": "b5d76fe5449ad0430861a84286fe9dfc2ee832a924eb6c2275939baa5d50a8f6"
+    },
+    {
+      "report": "gemma2-vulkan1.json",
+      "report_sha256": "01d143cf46e70ef3201f2d56b1efb605e9be5b3e6717d97207c2b0e52d92d994",
+      "local_journal_directory": "cleanup-bakeoff-b32a03e-gemma2-vulkan1",
+      "journal_sha256": "8f8ee0bf755fcde8dcfb9673a61794a2fda31d9ebaaa8e7f3f0d6c9f15682e4d"
+    },
+    {
+      "report": "qwen4-vulkan1.json",
+      "report_sha256": "a4ef1871f341ac0a90936f10e7887102dff61830a26414ecbbb4aba58413e41e",
+      "local_journal_directory": "cleanup-bakeoff-b32a03e-qwen4-vulkan1",
+      "journal_sha256": "3025e79c68aa899f5b22d8daa1fa53ce6851a42618c7c81ac33aadc7503fe5a3"
+    },
+    {
+      "report": "gemma2-cpu-debug.json",
+      "report_sha256": "00743002bd475b84879daf2d8d4ce4f1ec90adad5a4e263d976e08b26a7607c3",
+      "local_journal_directory": "cleanup-bakeoff-b32a03e-gemma2-cpu-debug",
+      "journal_sha256": "b14f5364864289c95e5e45aada992b0c205a85b0c2b66c32e753ff9d38fd348f"
+    },
+    {
+      "report": "qwen4-cpu-debug.json",
+      "report_sha256": "1519ae20a869dffcb41b37e4c63c265b10771354b59fdbbee5a66da82d9d644f",
+      "local_journal_directory": "cleanup-bakeoff-b32a03e-qwen4-cpu-debug",
+      "journal_sha256": "8e58dc815cffd6e8476a5b4ce489e88b0174eda35a1b99474032544d4496f252"
+    },
+    {
+      "report": "gemma4-vulkan1.json",
+      "report_sha256": "3daeb3b30ff8d297ddbc35f5cd4104dea91d10a645a9d0e3c0e67c6e18f1f336",
+      "local_journal_directory": "cleanup-bakeoff-b32a03e-gemma4-vulkan1",
+      "journal_sha256": "901e297aacc876ed33cc9a746e0cd526aa6364efaf673d4bc8c263ca07f33f8f"
     }
-  ]
+  ],
+  "quality_matrix_complete": true,
+  "isolated_latency_matrix_complete": false
 }
