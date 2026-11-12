@@ -70,7 +70,9 @@ def test_settings_window_has_required_tabs_and_loads_values(tmp_path):
     tabs = [window.tabs.tabText(index) for index in range(window.tabs.count())]
 
     assert tabs == ["General", "Languages", "Cleanup", "Dictionary", "Snippets", "Models", "Performance", "Labs", "About"]
-    assert window.speech_hotkey_edit.text() == "f9"
+    assert window.speech_hotkey_edit.text() == "ctrl+win"
+    assert window.alternative_hotkey_edit.text() == "f9"
+    assert window.mouse_hotkey_edit.text() == "xbutton1"
     assert window.language_combo.currentData() is None
     assert window.mode_combo.currentText() == "balanced"
     assert window.profile_combo.currentText() == "notes"
@@ -134,6 +136,28 @@ def test_settings_window_blocks_duplicate_hotkeys(tmp_path):
     assert window.apply_changes() is False
     assert "conflict" in window.status_label.text().lower()
     assert json.loads(config_path.read_text(encoding="utf-8")) == before
+
+
+def test_shortcut_validation_uses_native_aliases_sides_and_prefix_rules_before_saving(tmp_path):
+    window, config_path, autostart = make_window(tmp_path)
+    before = config_path.read_bytes()
+    for field, value in ((window.save_hotkey_edit, "control+windows+s"),
+                         (window.alternative_hotkey_edit, "WIN + control"),
+                         (window.alternative_hotkey_edit, "left_ctrl+left_win"),
+                         (window.cancel_hotkey_edit, "Control+Windows"),
+                         (window.mouse_hotkey_edit, "mouse4+f9"),
+                         (window.mouse_hotkey_edit, "not_a_key"),
+                         (window.alternative_hotkey_edit, "mouse4")):
+        original = field.text()
+        field.setText(value)
+        assert not window.apply_changes(), value
+        assert config_path.read_bytes() == before
+        assert not autostart.calls
+        field.setText(original)
+    window.mouse_hotkey_edit.setText("")
+    assert window.apply_changes()
+    assert json.loads(config_path.read_text(encoding="utf-8"))["hotkeys"]["speech_mouse"] == ""
+    window.close()
 
 
 def test_all_languages_model_and_arabic_setting_persist(tmp_path):

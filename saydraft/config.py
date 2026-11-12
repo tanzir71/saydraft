@@ -16,6 +16,7 @@ CONFIG_SCHEMA: dict[str, Any] = {
     "hotkeys": {
         "speech": str,
         "speech_alternative": str,
+        "speech_mouse": str,
         "save": str,
         "cancel": str,
         "tap_lock_ms": int,
@@ -77,8 +78,9 @@ CONFIG_SCHEMA: dict[str, Any] = {
 _DEFAULT_CONFIG: dict[str, Any] = {
     "schema_version": DEFAULT_CONFIG_VERSION,
     "hotkeys": {
-        "speech": "f9",
-        "speech_alternative": "ctrl+win",
+        "speech": "ctrl+win",
+        "speech_alternative": "f9",
+        "speech_mouse": "xbutton1",
         "save": "f10",
         "cancel": "esc",
         "tap_lock_ms": 300,
@@ -190,7 +192,7 @@ def load_config(
     else:
         cfg = default_config()
         if legacy_settings.exists():
-            cfg = migrate_settings_txt(legacy_settings, cfg)
+            cfg = migrate_settings_txt(legacy_settings)
 
     cfg = sanitize_config(cfg)
     save_config(cfg, target)
@@ -212,7 +214,12 @@ def save_config(
 
 def sanitize_config(config: dict[str, Any] | None) -> dict[str, Any]:
     source = config if isinstance(config, dict) else {}
-    cfg = _sanitize_mapping(source, CONFIG_SCHEMA, _DEFAULT_CONFIG)
+    defaults = default_config()
+    hotkeys = source.get("hotkeys", {})
+    if not isinstance(hotkeys, dict) or "speech_mouse" not in hotkeys:
+        # Old profiles keep their key order and never acquire mouse interception.
+        defaults["hotkeys"].update(speech="f9", speech_alternative="ctrl+win", speech_mouse="")
+    cfg = _sanitize_mapping(source, CONFIG_SCHEMA, defaults)
     # Existing JSON predates engine selection. Keep its Whisper model preference.
     stt = source.get("stt", {})
     if not isinstance(stt, dict) or stt.get("engine") not in ("whisper", "parakeet"):
@@ -257,7 +264,10 @@ def migrate_settings_txt(
     The legacy file is read only and never modified.
     """
 
-    cfg = sanitize_config(base_config or default_config())
+    if base_config is None:
+        base_config = default_config()
+        base_config["hotkeys"].update(speech="f9", speech_alternative="ctrl+win", speech_mouse="")
+    cfg = sanitize_config(base_config)
     cfg["stt"]["engine"] = "whisper"
     cfg["stt"]["routing_enabled"] = False
     values = _read_legacy_settings(Path(settings_path))

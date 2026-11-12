@@ -24,6 +24,7 @@ from saydraft.ui.hardware_page import HardwarePage
 from saydraft.ui.labs_page import LabsPage
 from saydraft.models.hardware import latest_report
 from saydraft.asr.router import choose_route
+from saydraft.hotkeys.wispr import shortcut_warning, wispr_running
 
 logger = logging.getLogger(__name__)
 
@@ -45,17 +46,16 @@ def resolve_project_path(value: str | os.PathLike[str], *, base: Path | None = N
 
 
 def find_hotkey_conflicts(hotkeys: dict[str, str]) -> list[str]:
-    seen: dict[str, str] = {}
-    conflicts: list[str] = []
-    for name in ("speech", "speech_alternative", "save", "cancel"):
-        value = " ".join(str(hotkeys.get(name, "")).lower().split())
-        if not value:
-            continue
-        if value in seen:
-            conflicts.append(f"{seen[value]} and {name} both use {value}")
-        else:
-            seen[value] = name
-    return conflicts
+    from saydraft.hotkeys.recording import recording_bindings
+    keys = {name: hotkeys[name] for name in ("speech", "speech_alternative", "speech_mouse")
+            if hotkeys.get(name, "").strip()}
+    if not keys:
+        return ["Enter at least one recording shortcut"]
+    try:
+        recording_bindings(keys, cancel_key=hotkeys.get("cancel", ""), save_key=hotkeys.get("save", ""))
+    except ValueError as exc:
+        return [str(exc)]
+    return []
 
 
 class SettingsWindow(QtWidgets.QDialog):
@@ -102,6 +102,7 @@ class SettingsWindow(QtWidgets.QDialog):
 
         self._build()
         self._load_values()
+        self._refresh_shortcut_warning()
         self.languages_page.changed.connect(self._sync_language_model)
         self.languages_page.changed.connect(self.refresh_labs)
         self.model_combo.currentIndexChanged.connect(self._use_manual_model)
@@ -109,6 +110,7 @@ class SettingsWindow(QtWidgets.QDialog):
         self.model_picker.busy_changed.connect(lambda busy: self.languages_page.setEnabled(not busy))
         self._sync_language_model()
         self.tabs.currentChanged.connect(lambda index: self.refresh_labs())
+        self.tabs.currentChanged.connect(lambda index: self._refresh_shortcut_warning() if index == 0 else None)
 
     def _build(self) -> None:
         layout = QtWidgets.QVBoxLayout(self)
@@ -141,6 +143,9 @@ class SettingsWindow(QtWidgets.QDialog):
         form = QtWidgets.QFormLayout(page)
         self.speech_hotkey_edit = QtWidgets.QLineEdit()
         self.alternative_hotkey_edit = QtWidgets.QLineEdit()
+        self.mouse_hotkey_edit = QtWidgets.QLineEdit()
+        self.mouse_hotkey_edit.setPlaceholderText("xbutton1, xbutton2, middle_mouse; blank disables")
+        self.mouse_hotkey_edit.setToolTip("Hold a mouse button to dictate. Leave blank to disable this binding.")
         self.save_hotkey_edit = QtWidgets.QLineEdit()
         self.cancel_hotkey_edit = QtWidgets.QLineEdit()
         self.tap_lock_spin = QtWidgets.QSpinBox()
@@ -156,8 +161,22 @@ class SettingsWindow(QtWidgets.QDialog):
 
         form.addRow("Speech hotkey", self.speech_hotkey_edit)
         form.addRow("Alternate hotkey", self.alternative_hotkey_edit)
+        form.addRow("Mouse recording shortcut", self.mouse_hotkey_edit)
+        self.shortcut_warning_label = QtWidgets.QLabel()
+        self.shortcut_warning_label.setWordWrap(True)
+        form.addRow(self.shortcut_warning_label)
+        for edit in (self.speech_hotkey_edit, self.alternative_hotkey_edit, self.mouse_hotkey_edit,
+                     self.save_hotkey_edit, self.cancel_hotkey_edit):
+            edit.textChanged.connect(lambda text: self._show_shortcut_warning())
         form.addRow("Save hotkey", self.save_hotkey_edit)
         form.addRow("Cancel hotkey", self.cancel_hotkey_edit)
+        hotkey_help = QtWidgets.QLabel(
+            'Hotkeys may be unavailable in admin windows. '
+            f'<a href="{QtCore.QUrl.fromLocalFile(str(project_root() / "docs" / "HOTKEYS.md")).toString()}">'
+            'Shortcut help</a>')
+        hotkey_help.setWordWrap(True)
+        hotkey_help.setOpenExternalLinks(True)
+        form.addRow(hotkey_help)
         form.addRow("Tap lock threshold", self.tap_lock_spin)
         form.addRow("Start with Windows", self.autostart_checkbox)
         form.addRow("Auto-start listening", self.auto_listen_checkbox)
@@ -301,6 +320,7 @@ class SettingsWindow(QtWidgets.QDialog):
         cfg = self.config
         self.speech_hotkey_edit.setText(cfg["hotkeys"]["speech"])
         self.alternative_hotkey_edit.setText(cfg["hotkeys"]["speech_alternative"])
+        self.mouse_hotkey_edit.setText(cfg["hotkeys"]["speech_mouse"])
         self.save_hotkey_edit.setText(cfg["hotkeys"]["save"])
         self.cancel_hotkey_edit.setText(cfg["hotkeys"]["cancel"])
         self.tap_lock_spin.setValue(int(cfg["hotkeys"]["tap_lock_ms"]))
@@ -331,6 +351,7 @@ class SettingsWindow(QtWidgets.QDialog):
     def apply_changes(self) -> bool:
         try:
             cfg = self._collect_config()
+            self._refresh_shortcut_warning()
             conflicts = find_hotkey_conflicts(cfg["hotkeys"])
             if conflicts:
                 self.status_label.setText("Hotkey conflict: " + "; ".join(conflicts))
@@ -353,10 +374,23 @@ class SettingsWindow(QtWidgets.QDialog):
         self.status_label.setText("Saved")
         return True
 
+    def _refresh_shortcut_warning(self):
+        self._wispr_running = wispr_running()
+        self._show_shortcut_warning()
+
+    def _show_shortcut_warning(self):
+        values = {"speech": self.speech_hotkey_edit.text(), "speech_alternative": self.alternative_hotkey_edit.text(),
+                  "speech_mouse": self.mouse_hotkey_edit.text(), "save": self.save_hotkey_edit.text(),
+                  "cancel": self.cancel_hotkey_edit.text()}
+        warning = shortcut_warning(values, detector=lambda: getattr(self, "_wispr_running", None))
+        self.shortcut_warning_label.setText(warning)
+        self.shortcut_warning_label.setVisible(bool(warning))
+
     def _collect_config(self) -> dict[str, Any]:
         cfg = json.loads(json.dumps(self.config))
         cfg["hotkeys"]["speech"] = self.speech_hotkey_edit.text().strip()
         cfg["hotkeys"]["speech_alternative"] = self.alternative_hotkey_edit.text().strip()
+        cfg["hotkeys"]["speech_mouse"] = self.mouse_hotkey_edit.text().strip()
         cfg["hotkeys"]["save"] = self.save_hotkey_edit.text().strip()
         cfg["hotkeys"]["cancel"] = self.cancel_hotkey_edit.text().strip()
         cfg["hotkeys"]["tap_lock_ms"] = int(self.tap_lock_spin.value())

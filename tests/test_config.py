@@ -1,6 +1,31 @@
 import json
 
 
+def test_shortcut_upgrade_preserves_old_bindings_and_does_not_intercept_mouse(tmp_path):
+    from saydraft.config import load_config, save_config
+
+    path = tmp_path / "config.json"
+    old = {"hotkeys": {"speech": "ctrl+alt+r", "speech_alternative": "", "save": "f8", "cancel": "f12"}}
+    path.write_text(json.dumps(old), encoding="utf-8")
+    cfg = load_config(config_path=path, settings_path=tmp_path / "absent.txt")
+    assert cfg["hotkeys"] == {**old["hotkeys"], "speech_mouse": "", "tap_lock_ms": 300}
+    assert save_config(cfg, path) == cfg
+    assert load_config(config_path=path, settings_path=tmp_path / "absent.txt") == cfg
+
+
+def test_legacy_defaults_do_not_acquire_new_mouse_or_duplicate_f9(tmp_path):
+    from saydraft.config import load_config
+    from saydraft.ui.settings_window import find_hotkey_conflicts
+
+    settings = tmp_path / "settings.txt"
+    settings.write_text("speech_hotkey=f9\n", encoding="utf-8")
+    cfg = load_config(config_path=tmp_path / "config.json", settings_path=settings)
+    assert cfg["hotkeys"]["speech"] == "f9"
+    assert cfg["hotkeys"]["speech_alternative"] == "ctrl+win"
+    assert cfg["hotkeys"]["speech_mouse"] == ""
+    assert not find_hotkey_conflicts(cfg["hotkeys"])
+
+
 def test_fresh_profile_defaults_to_parakeet_while_existing_whisper_choice_survives(tmp_path):
     from saydraft.config import load_config
 
@@ -38,8 +63,9 @@ def test_default_config_contains_schema_and_expected_defaults(tmp_path):
     cfg = default_config()
 
     assert cfg["schema_version"] == 1
-    assert cfg["hotkeys"]["speech"] == "f9"
-    assert cfg["hotkeys"]["speech_alternative"] == "ctrl+win"
+    assert cfg["hotkeys"]["speech"] == "ctrl+win"
+    assert cfg["hotkeys"]["speech_alternative"] == "f9"
+    assert cfg["hotkeys"]["speech_mouse"] == "xbutton1"
     assert cfg["hotkeys"]["save"] == "f10"
     assert cfg["hotkeys"]["cancel"] == "esc"
     assert cfg["hotkeys"]["tap_lock_ms"] == 300
@@ -72,7 +98,7 @@ def test_load_config_writes_defaults_when_no_files_exist(tmp_path):
 
     cfg = load_config(config_path=config_path, settings_path=tmp_path / "missing-settings.txt")
 
-    assert cfg["hotkeys"]["speech"] == "f9"
+    assert cfg["hotkeys"]["speech"] == "ctrl+win"
     assert config_path.exists()
     assert json.loads(config_path.read_text(encoding="utf-8")) == cfg
 
@@ -111,6 +137,7 @@ def test_load_config_migrates_settings_txt_once_and_keeps_old_file_untouched(tmp
     assert cfg["hotkeys"] == {
         "speech": "ctrl+shift+r",
         "speech_alternative": "ctrl+win",
+        "speech_mouse": "",
         "save": "f8",
         "cancel": "esc",
         "tap_lock_ms": 300,
@@ -161,6 +188,7 @@ def test_existing_config_ignores_unknown_keys_and_fills_missing_defaults(tmp_pat
     assert cfg["hotkeys"] == {
         "speech": "f7",
         "speech_alternative": "ctrl+win",
+        "speech_mouse": "",
         "save": "f10",
         "cancel": "esc",
         "tap_lock_ms": 300,

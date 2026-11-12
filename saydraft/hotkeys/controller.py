@@ -25,6 +25,7 @@ class HotkeyConfig:
     suppress: bool = True
     timeout: float = 1.0
     save_hotkey: str = "f10"
+    mouse_record_hotkey: str | None = None
 
     @classmethod
     def from_app_config(cls, config: dict[str, Any]) -> "HotkeyConfig":
@@ -37,6 +38,7 @@ class HotkeyConfig:
             cancel_hotkey=str(hotkeys.get("cancel", cls.cancel_hotkey)),
             tap_lock_ms=int(hotkeys.get("tap_lock_ms", cls.tap_lock_ms)),
             save_hotkey=str(hotkeys.get("save", cls.save_hotkey)),
+            mouse_record_hotkey=str(hotkeys.get("speech_mouse", "")),
         )
 
 
@@ -262,7 +264,7 @@ class HotkeyController:
             self._locked = False
 
     def _record_hotkeys(self) -> list[str]:
-        hotkeys = [self.config.record_hotkey, self.config.alternate_record_hotkey]
+        hotkeys = [self.config.record_hotkey, self.config.alternate_record_hotkey, self.config.mouse_record_hotkey]
         seen = set()
         normalized = []
         for hotkey in hotkeys:

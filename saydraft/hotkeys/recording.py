@@ -1,6 +1,30 @@
 """Route named native transitions to recording gestures and History capture."""
 
-from .chords import Binding, Chord
+from .chords import Binding, Chord, conflicts
+
+
+def recording_bindings(keys, *, cancel_key, save_key, suppress=True):
+    """Compile and validate exactly the bindings installed by the app, without hooks."""
+    def binding(name, key, **options):
+        try:
+            return Binding(name, Chord.parse(key), **options)
+        except ValueError as exc:
+            raise ValueError(f"{name}: {exc}") from exc
+
+    bindings = [binding(name, key, suppress=suppress) for name, key in keys.items()]
+    if cancel_key:
+        bindings.append(binding("cancel", cancel_key, suppress=False, extra_modifiers=True))
+    if save_key:
+        saved = binding("save", save_key)
+        for record in bindings:
+            if record.name in keys and (any(record.chord.held(state) for state in saved.chord.possibilities())
+                    or any(saved.chord.held(state) for state in record.chord.possibilities())):
+                raise ValueError(f"History and recording shortcuts share a prefix ({record.name}, save)")
+        bindings.append(saved)
+    overlap = conflicts(bindings)
+    if overlap:
+        raise ValueError("Shortcut conflict: " + "; ".join(f"{a} and {b}" for a, b in overlap))
+    return bindings
 
 
 class RecordingHooks:
@@ -9,16 +33,8 @@ class RecordingHooks:
             from .llhook import LowLevelHooks
             factory = LowLevelHooks
         self.keys = {f"record{index}": key for index, key in enumerate(keys)}
-        bindings = [Binding(name, Chord.parse(key), suppress=suppress) for name, key in self.keys.items()]
-        if cancel_key:
-            bindings.append(Binding("cancel", Chord.parse(cancel_key), suppress=False, extra_modifiers=True))
-        if save_key and save is not None:
-            saved = Binding("save", Chord.parse(save_key))
-            for record in bindings:
-                if record.name in self.keys and (any(record.chord.held(keys) for keys in saved.chord.possibilities())
-                        or any(saved.chord.held(keys) for keys in record.chord.possibilities())):
-                    raise ValueError("History and recording shortcuts share a prefix")
-            bindings.append(saved)
+        bindings = recording_bindings(self.keys, cancel_key=cancel_key,
+            save_key=save_key if save is not None else "", suppress=suppress)
         self.press, self.release, self.cancel, self.save = press, release, cancel, save
         self.owner = factory(bindings, on_action=self._action, on_failure=failure)
 

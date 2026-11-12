@@ -35,8 +35,9 @@ use a dedicated message-pump thread, forward unhandled/negative-code events and
 keep application work off the callback. Current-key async state is unavailable
 inside the keyboard callback. The requested vkE8 technique is documented in
 the [official AutoHotkey mask-key reference](https://github.com/AutoHotkey/AutoHotkeyDocs/blob/v2/docs/lib/A_MenuMaskKey.htm).
-Native installation, worker lifetime, tagged mask injection, app wiring,
-conflict UI/Wispr detection and removal of `keyboard` remain P5.1 work.
+At this first engine checkpoint, native installation, worker lifetime, tagged
+mask injection, app wiring, conflict UI and dependency removal were still pending;
+the later checkpoints below record their implementation.
 
 Validation: 1541 tests pass with four optional native skips; rules 432/432,
 authored adversarial checks 100/100, Ruff and diff checks pass. Synthetic tests
@@ -146,3 +147,44 @@ warm replay; the earlier dirty development replay took 1.719 s. These two warm
 whole-clip observations are not a latency distribution or tier acceptance.
 Original reports/digests, including the clearly marked development diagnostic,
 are retained under `eval/hardware/results/2026-11-12-native-recording/`.
+
+## Fresh shortcuts and Settings validation
+
+Fresh profiles now use Ctrl+Win for recording, F9 as the keyboard alternate and
+XButton1 as the mouse alternate. General Settings exposes all three and permits
+disabling the mouse binding with a blank value. Existing JSON and legacy
+`settings.txt` profiles keep their configured strings and old fallback ordering;
+they receive an empty mouse binding, so upgrading never takes over a Back button.
+Saving and reloading preserve that choice. History remains F10 and Cancel Esc.
+
+Settings and the native route use the same binding compiler. It validates key
+grammar, canonical aliases, generic/physical modifier overlaps, cancel conflicts
+and History/recording prefixes before saving or installing a hook. Recording
+prefix handoff remains supported. All-empty recording shortcuts are refused by
+Settings; optional alternate/mouse fields may be blank.
+
+On listening startup and when opening/applying General Settings, a read-only
+process snapshot checks for the exact executable name `Wispr Flow.exe`. If a
+configured shortcut includes Ctrl+Win, an advisory suggests rebinding or quitting
+Wispr Flow. Other apps' custom shortcuts are unknown: this is a possible clash,
+not proof of a collision. No processes are stopped; no command lines or process
+lists are logged or persisted. Settings caches the snapshot while editing and
+refreshes it on return to General or Apply; there is no background polling and
+no process work in input callbacks. An unavailable snapshot is unknown.
+
+The snapshot uses Microsoft's [Tool Help process snapshot](https://learn.microsoft.com/en-us/windows/win32/api/tlhelp32/nf-tlhelp32-createtoolhelp32snapshot)
+and [Process32FirstW](https://learn.microsoft.com/en-us/windows/win32/api/tlhelp32/nf-tlhelp32-process32firstw)
+contracts, with pointer-sized fields, explicit Unicode ABI and a snapshot handle
+closed even on an early match. The actual Windows check runs successfully on the
+development machine (Wispr absent; Win64 entry size 568 bytes).
+
+Settings includes an admin-window shortcut-help link. Hotkeys can be unavailable
+while an elevated window is focused; Saydraft never auto-elevates. Focused-window
+integrity diagnostics and delivery safeguards remain P5.2/P5.3 work.
+
+Validation: 1577 tests pass, four optional native skips; rules 432/432 and authored
+adversarial checks 100/100; Ruff/diff pass. Migration, mouse route/disable,
+canonical and prefix conflicts, snapshot failure/handle lifetime, live-edit
+advisory behavior and startup notification are covered. Offscreen General layout
+was visually checked at 760×560 with the warning shown. Actual Ctrl+Win/F9 and
+Start-menu desktop acceptance is still outstanding; P5.1 stays unchecked.

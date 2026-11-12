@@ -7,6 +7,7 @@ import threading
 import weakref
 
 from saydraft.hotkeys import HotkeyConfig, HotkeyController
+from saydraft.hotkeys.wispr import shortcut_warning
 
 logger = logging.getLogger(__name__)
 
@@ -55,6 +56,10 @@ class HotkeyService:
                 raise
             self.enabled, self._restarts, self._failure_reason = True, 0, None
             self._attach_monitor()
+            if self.keyboard is None:
+                warning = shortcut_warning(self.config.get("hotkeys", {}))
+                if warning:
+                    self.notify(warning)
 
     def _attach_monitor(self):
         thread, watched = self._controller.completion_thread, self._controller

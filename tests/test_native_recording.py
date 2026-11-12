@@ -42,6 +42,27 @@ def factory():
     return create, owners
 
 
+def test_fresh_mouse_route_and_explicit_disable_reconfigure_without_changing_other_keys():
+    cfg = default_config()
+    create, owners = factory()
+    starts, stops = [], []
+    controller = HotkeyController(HotkeyConfig.from_app_config(cfg), on_record_start=lambda: starts.append(True),
+        on_record_stop=stops.append, native_factory=create)
+    controller.start()
+    assert [row.chord.keys for row in owners[0].bindings[:3]] == [
+        frozenset(("ctrl", "win")), frozenset(("f9",)), frozenset(("xbutton1",))]
+    owners[0].action(Transition("record2", "press"), 10)
+    owners[0].action(Transition("record2", "release"), 11)
+    assert starts == [True] and stops[0].duration_seconds == 1
+    assert controller.stop()
+    cfg["hotkeys"]["speech_mouse"] = ""
+    controller = HotkeyController(HotkeyConfig.from_app_config(cfg), on_record_start=lambda: None,
+        on_record_stop=lambda result: None, native_factory=create)
+    controller.start()
+    assert [row.name for row in owners[-1].bindings] == ["record0", "record1", "cancel"]
+    assert controller.stop()
+
+
 def test_default_controller_uses_native_without_importing_keyboard_and_keeps_physical_times(monkeypatch):
     create, owners = factory()
     monkeypatch.setattr("saydraft.hotkeys.llhook.LowLevelHooks", create)
