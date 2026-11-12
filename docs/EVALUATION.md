@@ -3,12 +3,12 @@
 The rules-only command is:
 
 ```powershell
-python -m saydraft.eval --min-pass-rate 100 --min-cases 326
+python -m saydraft.eval --min-pass-rate 100 --min-cases 380
 ```
 
-CI currently requires all 326 unique examples to pass, exceeding P4.7's 300-case
+CI currently requires all 380 unique examples to pass, exceeding P4.7's 300-case
 minimum. P4.7 remains unchecked until the remaining deterministic behaviors join
-the corpus (restatements and opt-in Enter). The separate
+the corpus (opt-in Enter), followed by the model bake-off. The separate
 adversarial command requires at least 100 refusals and a 100% catch rate.
 
 Each JSONL row requires nonblank `id` and string `input`/`expected`. Empty text is
@@ -45,3 +45,8 @@ abbreviations, literals, Unicode punctuation and multi-sentence boundaries.
 Final policy also runs after snippet expansion in the actual processor, before
 History and insertion; those paths have separate integration checks. Details:
 `docs/MESSAGE_PUNCTUATION.md`.
+
+Backtracks add 54 authored examples (326 → 380) for changed-length replacements,
+chained cues, natural restatements, literal/adverb guards, mixed scripts and a
+long paragraph. See `docs/BACKTRACKS.md` for supported frames and ambiguity
+limits. These rules-only results do not establish model bake-off acceptance.

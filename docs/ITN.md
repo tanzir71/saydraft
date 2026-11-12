@@ -35,7 +35,8 @@ This is a finite deterministic grammar. Unsupported or ambiguous forms can stay
 literal; it does not claim spoken-detail normalization for Bengali/Arabic or all
 languages. Existing Unicode text remains unchanged. Full pipeline integration,
 ordering and golden coverage are described below. P4.5 remains unchecked while
-code mode, messaging-period behavior, broader restatements and opt-in Enter remain.
+opt-in Enter remains. Code, messaging and backtrack details are in their separate
+feature documents.
 
 The isolated parser-foundation snapshot passed 916 tests with four optional native skips
 and real preview/Silero/LID fixtures enabled; rules 90/90; adversarial 100/100;
@@ -56,7 +57,8 @@ commands, backtracks and punctuation. Restoration unwinds quote and entity layer
 in order. Backtracks retain unaffected original slices and protected/Unicode
 tokens instead of reconstructing text from ASCII words. “I actually agree”,
 several pronoun/adverb contexts and quoted content remain meaningful; “never
-mind” with a replacement is recognized. Broader restatement work still follows.
+mind” with a replacement is recognized. Broader clause/phrase alignment and
+pause-marked natural restatements are now in `docs/BACKTRACKS.md`.
 
 Default prose intensities match the existing prompt/validator policy: balanced 3,
 aggressive 4. An explicit context intensity controls ITN, prompt hints, validation

@@ -1,3 +1,57 @@
+{"id":"backtrack-01","mode":"aggressive","input":"send it to John Smith actually Jane","expected":"Send it to Jane"}
+{"id":"backtrack-02","mode":"aggressive","input":"call John actually Jane Doe","expected":"Call Jane Doe"}
+{"id":"backtrack-03","mode":"aggressive","input":"use old endpoint actually new production endpoint","expected":"Use new production endpoint"}
+{"id":"backtrack-04","mode":"aggressive","input":"use the old endpoint actually the new production endpoint","expected":"Use the new production endpoint"}
+{"id":"backtrack-05","mode":"aggressive","input":"book it tomorrow morning sorry Friday afternoon before lunch","expected":"Book it Friday afternoon before lunch"}
+{"id":"backtrack-06","mode":"aggressive","input":"send it to John actually Jane after lunch with the final report attached","expected":"Send it to Jane after lunch with the final report attached"}
+{"id":"backtrack-07","mode":"aggressive","input":"set priority high sorry very low","expected":"Set priority very low"}
+{"id":"backtrack-08","mode":"aggressive","input":"move the meeting to Friday at two actually Monday at three after lunch","expected":"Move the meeting to Monday at 3 after lunch"}
+{"id":"backtrack-09","mode":"aggressive","input":"send it to John actually Jane actually Priya","expected":"Send it to Priya"}
+{"id":"backtrack-10","mode":"aggressive","input":"call John actually Jane. bring apples scratch that oranges","expected":"Call Jane. Bring oranges"}
+{"id":"backtrack-11","mode":"aggressive","input":"please save this period send it to John actually Jane period","expected":"Please save this. Send it to Jane."}
+{"id":"backtrack-12","mode":"aggressive","input":"I will send it tomorrow scratch that we will send it on Friday after the review","expected":"We will send it on Friday after the review"}
+{"id":"backtrack-13","mode":"aggressive","input":"bring apples never mind call Jane","expected":"Call Jane"}
+{"id":"backtrack-14","mode":"aggressive","input":"I can attend no actually I cannot attend","expected":"I cannot attend"}
+{"id":"backtrack-15","mode":"aggressive","input":"I will send the draft actually I will send the final report","expected":"I will send the final report"}
+{"id":"backtrack-16","mode":"aggressive","input":"send 東京 actually ঢাকা","expected":"Send ঢাকা"}
+{"id":"backtrack-17","mode":"aggressive","input":"call مُحَمَّد no sorry فاطمة","expected":"Call فاطمة"}
+{"id":"backtrack-18","mode":"aggressive","input":"pay two dollars actually three dollars before Friday","expected":"Pay $3 before Friday"}
+{"id":"backtrack-19","mode":"aggressive","input":"I bought it as a gift… as a present","expected":"I bought it as a present"}
+{"id":"backtrack-20","mode":"aggressive","input":"I bought it as a small gift ellipsis as a present for you","expected":"I bought it as a present for you"}
+{"id":"backtrack-21","mode":"aggressive","input":"use it for the demo — for the final presentation tomorrow","expected":"Use it for the final presentation tomorrow"}
+{"id":"backtrack-22","mode":"aggressive","input":"meet me at the old station… at the new office after lunch","expected":"Meet me at the new office after lunch"}
+{"id":"backtrack-23","mode":"aggressive","input":"I would like the blue one… I would like the red one","expected":"I would like the red 1"}
+{"id":"backtrack-24","mode":"aggressive","input":"please send the draft… please send the report","expected":"Please send the report"}
+{"id":"backtrack-25","mode":"aggressive","input":"use it as a gift… as a present… as a donation","expected":"Use it as a donation"}
+{"id":"backtrack-26","mode":"aggressive","input":"the app actually responds quickly","expected":"The app actually responds quickly"}
+{"id":"backtrack-27","mode":"aggressive","input":"Sara is actually brilliant","expected":"Sara is actually brilliant"}
+{"id":"backtrack-28","mode":"aggressive","input":"I do not actually agree","expected":"I do not actually agree"}
+{"id":"backtrack-29","mode":"aggressive","input":"send it when John actually arrives","expected":"Send it when John actually arrives"}
+{"id":"backtrack-30","mode":"aggressive","input":"I am sorry I missed the meeting","expected":"I am sorry I missed the meeting"}
+{"id":"backtrack-31","mode":"aggressive","input":"well I mean well","expected":"Well I mean well"}
+{"id":"backtrack-32","mode":"aggressive","input":"please scratch that itch","expected":"Please scratch that itch"}
+{"id":"backtrack-33","mode":"aggressive","input":"say \"send it to John actually Jane\"","expected":"Say \"send it to John actually Jane\""}
+{"id":"backtrack-34","mode":"aggressive","input":"keep `call John actually Jane`","expected":"Keep `call John actually Jane`"}
+{"id":"backtrack-35","mode":"aggressive","input":"I work as a developer as a parent","expected":"I work as a developer as a parent"}
+{"id":"backtrack-36","mode":"aggressive","input":"I work as a developer, as a parent","expected":"I work as a developer, as a parent"}
+{"id":"backtrack-37","mode":"aggressive","input":"as a gift… and as a present","expected":"As a gift… and as a present"}
+{"id":"backtrack-38","mode":"aggressive","input":"I want blue… I want","expected":"I want blue… I want"}
+{"id":"backtrack-39","mode":"aggressive","input":"as a gift. As a present","expected":"As a gift. As a present"}
+{"id":"backtrack-40","mode":"aggressive","input":"call John\nactually Jane","expected":"Call John\nActually Jane"}
+{"id":"backtrack-41","mode":"aggressive","input":"جاهز؟ call John actually Jane","expected":"جاهز؟ call Jane"}
+{"id":"backtrack-42","mode":"aggressive","input":"no, wait for me","expected":"No, wait for me"}
+{"id":"backtrack-43","mode":"aggressive","input":"the words scratch that mean redo","expected":"The words scratch that mean redo"}
+{"id":"backtrack-44","mode":"aggressive","input":"envíalo a Juan actually María","expected":"Envíalo a María"}
+{"id":"backtrack-45","mode":"aggressive","input":"Bitte sende es an Hans actually Anna","expected":"Bitte sende es an Anna"}
+{"id":"backtrack-46","mode":"aggressive","input":"পাঠাও John actually Jane","expected":"পাঠাও Jane"}
+{"id":"backtrack-47","mode":"aggressive","input":"أرسل John actually Jane","expected":"أرسل Jane"}
+{"id":"backtrack-48","mode":"balanced","input":"I bought it as a gift… as a present","expected":"I bought it as a gift… as a present"}
+{"id":"backtrack-49","mode":"raw","input":"send it to John Smith actually Jane","expected":"send it to John Smith actually Jane"}
+{"id":"backtrack-50","profile":"code/comments","mode":"aggressive","input":"as a gift… as a present","expected":"as a gift… as a present"}
+{"id":"backtrack-51","app_group":"code","mode":"aggressive","input":"send John actually Jane","expected":"send John actually Jane"}
+{"id":"backtrack-52","mode":"aggressive","input":"say \"as a gift… as a present\"","expected":"Say \"as a gift… as a present\""}
+{"id":"backtrack-53","mode":"aggressive","input":"send the damn report to John actually Jane","expected":"Send the damn report to Jane"}
+{"id":"backtrack-54","mode":"aggressive","input":"Please keep the report in the shared folder until the review is complete. The team needs enough time to read the proposal and compare it with the notes from our earlier discussion. We should preserve the original wording wherever the requirements describe a decision that has already been approved. Please ask the reviewers to leave their questions beside the relevant paragraphs so that everyone can see the context without opening another document. The final report should explain the assumptions, the remaining work, and the evidence behind the recommendation. We also need a clear account of the practical limits so that readers can judge whether the result applies to their own situation. Please keep the supporting examples together and make sure the comments remain available after the review. I will send the draft actually I will send the final report before lunch.","expected":"Please keep the report in the shared folder until the review is complete. The team needs enough time to read the proposal and compare it with the notes from our earlier discussion. We should preserve the original wording wherever the requirements describe a decision that has already been approved. Please ask the reviewers to leave their questions beside the relevant paragraphs so that everyone can see the context without opening another document. The final report should explain the assumptions, the remaining work, and the evidence behind the recommendation. We also need a clear account of the practical limits so that readers can judge whether the result applies to their own situation. Please keep the supporting examples together and make sure the comments remain available after the review. I will send the final report before lunch."}
 {"id":"message-01","app_group":"messages","input":"um thanks for your help.","expected":"Thanks for your help"}
 {"id":"message-02","app_group":"work_chat","input":"the build is ready.","expected":"The build is ready"}
 {"id":"message-03","app_group":"messages","input":"thanks. I will check.","expected":"Thanks. I will check."}

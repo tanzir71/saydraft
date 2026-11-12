@@ -10,7 +10,8 @@ def test_eval_corpus_has_required_size_and_coverage():
 
     cases = load_eval_corpus(DEFAULT_CORPUS_PATH)
 
-    assert len(cases) >= 326
+    assert len(cases) >= 380
+    assert any(len(case.input_text.split()) >= 120 for case in cases)
     assert {case.mode for case in cases} >= {"raw", "balanced", "aggressive"}
     assert {case.profile for case in cases} >= {"general", "email", "chat", "notes", "code/comments"}
     assert all(case.input_text.strip() for case in cases)

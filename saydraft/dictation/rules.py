@@ -7,6 +7,7 @@ from typing import List, Tuple
 from saydraft.cleanup.commands import render_commands
 from saydraft.cleanup.commands import SPOKEN_PUNCTUATION as SPOKEN_PUNCTUATION
 from saydraft.cleanup.itn import normalize_addresses, normalize_itn
+from saydraft.cleanup.backtrack import repair_backtracks
 from .protect import protect_spans, restore_spans
 
 FILLER_PHRASES_CONSERVATIVE: Tuple[str, ...] = (
@@ -254,132 +255,13 @@ def basic_grammar(text: str) -> str:
     return text
 
 
-SELF_CORRECTION_MARKERS: Tuple[Tuple[str, str], ...] = (
-    ("scratch that", r"\bscratch[\s,]+that\b"),
-    ("never mind", r"\bnever[\s,]+mind\b"),
-    ("no actually", r"\bno[\s,]+actually\b"),
-    ("no sorry", r"\bno[\s,]+sorry\b"),
-    ("no wait", r"\bno[\s,]+wait\b"),
-    ("i mean", r"\bi[\s,]+mean\b"),
-    ("actually", r"\bactually\b"),
-    ("sorry", r"\bsorry\b"),
-)
-
-MAX_SELF_CORRECTION_REPLACEMENT_WORDS = 6
 WORD_RE = re.compile(r"[A-Za-z0-9]+(?:'[A-Za-z0-9]+)?")
-CORRECTION_TOKEN_RE = re.compile(r"__(?:GLOSSARY|SPAN)_\d+__|[+−-]?[$€£¥₹৳]?\d+(?:[.,:]\d+)*[%٪]?|[^\s,;:!?]+")
-ACTUALLY_ADVERB_CONTEXT = frozenset(("i", "we", "you", "he", "she", "it", "they", "who", "really",
-    "do", "did", "does", "can", "could", "would", "should", "will", "might", "must", "have", "has", "had",
-    "আমি", "আমরা", "তুমি", "আপনি", "তোমরা", "আপনারা", "সে", "তারা", "أنا", "نحن", "أنت", "هو", "هي", "هم"))
-ACTUALLY_VERB_STARTS = frozenset(("agree", "work", "works", "want", "need", "like", "know", "think", "believe",
-    "care", "support", "love", "hate", "understand", "remember", "helps", "matters", "means", "happened"))
-
-FALSE_REPLACEMENT_STARTS = {
-    "and",
-    "but",
-    "or",
-    "so",
-    "because",
-    "if",
-    "when",
-    "while",
-    "is",
-    "are",
-    "was",
-    "were",
-    "am",
-    "be",
-    "been",
-    "being",
-    "appears",
-    "appeared",
-}
-
-NO_WAIT_FALSE_STARTS = {
-    "for",
-    "list",
-    "time",
-}
-
-LINKING_OR_SPEECH_VERBS = {
-    "am",
-    "are",
-    "be",
-    "been",
-    "being",
-    "is",
-    "said",
-    "say",
-    "says",
-    "was",
-    "were",
-}
 
 
 def apply_self_corrections(text: str) -> str:
-    if not text:
-        return text
-
-    marker_match = _find_last_self_correction_marker(text)
-    if marker_match is None:
-        return text
-
-    marker, start, end = marker_match
-    before, after = text[:start], text[end:]
-    before_tokens = list(CORRECTION_TOKEN_RE.finditer(before))
-    after_tokens = list(CORRECTION_TOKEN_RE.finditer(after))
-    before_words = [match[0].strip(".\"'“”()[]") for match in before_tokens]
-    after_words = [match[0].strip(".\"'“”()[]") for match in after_tokens]
-    if not before_words or not _is_plausible_replacement(marker, before_words, after_words):
-        return text
-
-    cut = before_tokens[len(before_tokens) - len(after_tokens)].start()
-    prefix = before[:cut].rstrip(" ,;:")
-    replacement = after.lstrip(" ,;:").strip()
-    return (prefix + " " + replacement).strip()
-
-
-def _find_last_self_correction_marker(text: str) -> Tuple[str, int, int] | None:
-    matches: List[Tuple[int, int, str]] = []
-    for marker, pattern in SELF_CORRECTION_MARKERS:
-        for match in re.finditer(pattern, text, flags=re.IGNORECASE):
-            matches.append((match.start(), match.end(), marker))
-    if not matches:
-        return None
-
-    start, end, marker = max(matches, key=lambda item: (item[1], item[1] - item[0]))
-    return marker, start, end
-
-
-def _words(text: str) -> List[str]:
-    return [match.group(0) for match in WORD_RE.finditer(text)]
-
-
-def _is_plausible_replacement(marker: str, before_words: List[str], after_words: List[str]) -> bool:
-    if not after_words:
-        return False
-
-    replacement_len = len(after_words)
-    if replacement_len > MAX_SELF_CORRECTION_REPLACEMENT_WORDS:
-        return False
-
-    if len(before_words) < replacement_len:
-        return False
-
-    first_after = after_words[0].lower()
-    if first_after in FALSE_REPLACEMENT_STARTS:
-        return False
-
-    if marker == "no wait" and first_after in NO_WAIT_FALSE_STARTS:
-        return False
-
-    if before_words[-1].lower() in LINKING_OR_SPEECH_VERBS:
-        return False
-    if marker == "actually" and (before_words[-1].casefold() in ACTUALLY_ADVERB_CONTEXT
-                                  or first_after in ACTUALLY_VERB_STARTS):
-        return False
-
-    return True
+    reserved = re.findall(r"__(?:GLOSSARY|SPAN)_\d+__", text)
+    protected, mapping = protect_spans(text, protected_tokens=reserved)
+    return restore_spans(repair_backtracks(protected), mapping)
 
 
 def maybe_format_list(text: str) -> str:
