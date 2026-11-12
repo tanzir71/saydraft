@@ -32,7 +32,7 @@ class AudioRecorder:
         *,
         sample_rate: int = 16_000,
         channels: int = 1,
-        max_seconds: float = 600.0,
+        max_seconds: float = 1200.0,
         level_callback: LevelCallback | None = None,
         chunk_callback: ChunkCallback | None = None,
         level_hz: float = 30.0,

@@ -9,7 +9,7 @@ from saydraft.core.container import create_services
 def test_container_wires_local_services_with_separate_user_profile(tmp_path, monkeypatch):
     monkeypatch.setenv("LOCALAPPDATA", str(tmp_path))
     services = create_services(default_config())
-    assert services.recorder.max_seconds == 600
+    assert services.recorder.max_seconds == 1200
     assert services.asr.model_id == "parakeet-tdt-0-6b-v3-int8"
     assert services.processor.history is services.history
     assert services.processor.cleaner is services.cleaner

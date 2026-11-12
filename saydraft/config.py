@@ -94,8 +94,8 @@ _DEFAULT_CONFIG: dict[str, Any] = {
     "labs": {"live_preview": False, "use_streaming_result": False},
     "recording": {
         "retain_audio": False,
-        "max_seconds": 600,
-        "warning_seconds": 540,
+        "max_seconds": 1200,
+        "warning_seconds": 1140,
     },
     "dictation": {
         "mode": "balanced",

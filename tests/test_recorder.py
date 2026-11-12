@@ -135,12 +135,12 @@ def test_stop_without_start_returns_empty_float32_audio():
     assert audio.shape == (0,)
 
 
-def test_recorder_default_ring_buffer_limit_is_ten_minutes():
+def test_recorder_default_ring_buffer_limit_is_twenty_minutes():
     from saydraft.audio.recorder import AudioRecorder
 
     recorder = AudioRecorder(stream_factory=FakeInputStream)
 
-    assert recorder.max_seconds == 600.0
+    assert recorder.max_seconds == 1200.0
 
 
 def test_recorder_retries_default_input_stream_after_open_failure():

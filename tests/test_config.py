@@ -1,6 +1,18 @@
 import json
 
 
+def test_saved_custom_recording_limits_survive_the_twenty_minute_default(tmp_path):
+    from saydraft.config import load_config
+
+    for maximum, warning in ((600, 540), (90, 0), (1800, 1740)):
+        path = tmp_path / f"cap-{maximum}.json"
+        expected = {"max_seconds": maximum, "warning_seconds": warning, "retain_audio": False}
+        path.write_text(json.dumps({"recording": expected}), encoding="utf-8")
+        config = load_config(config_path=path, settings_path=tmp_path / "absent-settings.txt")
+        assert config["recording"] == expected
+        assert load_config(config_path=path)["recording"] == expected
+
+
 def test_shortcut_upgrade_preserves_old_bindings_and_does_not_intercept_mouse(tmp_path):
     from saydraft.config import load_config, save_config
 
@@ -72,8 +84,8 @@ def test_default_config_contains_schema_and_expected_defaults(tmp_path):
     assert cfg["app"]["auto_start_listening"] is True
     assert cfg["app"]["start_with_windows"] is False
     assert cfg["app"]["onboarded"] is False
-    assert cfg["recording"]["max_seconds"] == 600
-    assert cfg["recording"]["warning_seconds"] == 540
+    assert cfg["recording"]["max_seconds"] == 1200
+    assert cfg["recording"]["warning_seconds"] == 1140
     assert cfg["dictation"]["mode"] == "balanced"
     assert cfg["dictation"]["profile"] == "general"
     assert cfg["dictation"]["drop_message_period"] is True
@@ -145,8 +157,8 @@ def test_load_config_migrates_settings_txt_once_and_keeps_old_file_untouched(tmp
     assert cfg["app"]["start_with_windows"] is True
     assert cfg["app"]["auto_start_listening"] is False
     assert cfg["app"]["notification_duration"] == 7
-    assert cfg["recording"]["max_seconds"] == 600
-    assert cfg["recording"]["warning_seconds"] == 540
+    assert cfg["recording"]["max_seconds"] == 1200
+    assert cfg["recording"]["warning_seconds"] == 1140
     assert cfg["dictation"]["mode"] == "aggressive"
     assert cfg["dictation"]["profile"] == "email"
     assert cfg["dictation"]["glossary_path"] == "custom_glossary.json"

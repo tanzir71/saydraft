@@ -304,15 +304,49 @@ def test_warning_and_soft_cap_are_configurable_and_stop_once():
     worker, clock, _executor, events, signals, _keyboard = make_worker()
     worker.start_recording()
     timers = list(worker._timers)
-    assert [timer.seconds for timer in timers] == [540, 600]
+    assert [timer.seconds for timer in timers] == [1140, 1200]
     assert all(timer.started for timer in timers)
+    clock.now = 1140
     timers[0].callback()
-    assert ("notification_requested", "Recording will stop at 10:00. Finish up soon.") in signals
-    clock.now = 600
+    assert ("notification_requested", "Recording will stop at 20:00. Finish up soon.") in signals
+    clock.now = 1200
     timers[1].callback()
     assert [event[0] for event in events] == ["history", "insert"]
     assert all(timer.cancelled for timer in timers)
     assert worker.services.recorder.stopped == 1
+    timers[1].callback()
+    assert worker.services.recorder.stopped == 1
+    assert [event[0] for event in events] == ["history", "insert"]
+
+
+def test_old_warning_and_cap_cannot_interrupt_the_next_session():
+    worker, clock, _executor, events, signals, _keyboard = make_worker()
+    worker.start_recording()
+    old_timers = list(worker._timers)
+    clock.now = 1
+    worker.cancel()
+    assert all(timer.cancelled for timer in old_timers)
+    assert worker.start_recording()
+    signals.clear()
+    clock.now = 1140
+    for timer in old_timers:
+        timer.callback()  # A callback already in flight cannot be revoked by Timer.cancel.
+    assert worker.session.state == State.LISTENING and worker.services.recorder.stopped == 1
+    assert not signals and not events
+    worker.cancel()
+    worker.shutdown()
+
+
+def test_custom_recording_limit_and_disabled_warning_are_respected():
+    worker, clock, _executor, events, signals, _keyboard = make_worker()
+    worker.services.config["recording"].update(max_seconds=90, warning_seconds=0)
+    worker.start_recording()
+    assert [timer.seconds for timer in worker._timers] == [90]
+    clock.now = 90
+    worker._timers[0].callback()
+    assert worker.services.recorder.stopped == 1
+    assert [event[0] for event in events] == ["history", "insert"]
+    assert not any("Finish up soon" in str(signal) for signal in signals)
 
 
 @pytest.mark.parametrize("seconds", [0, 0.499])
