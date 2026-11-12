@@ -23,7 +23,7 @@ recognized suffix. `normalize_addresses` provides an address-only pass so an
 app can protect labels such as `um` before filler cleanup. Generated values are
 restored once from collision-free internal placeholders.
 
-The parser has 106 focused cases covering supported forms, refusal/literal
+The parser has 107 focused cases covering supported forms, refusal/literal
 examples, Unicode preservation, low-intensity prose and malformed long tokens.
 A long-token probe exposed quadratic restart matching in the original address
 patterns: 10,000 dotted characters took 1.416 s. Boundary-aware patterns reduce
@@ -37,3 +37,7 @@ languages. Existing Unicode text remains unchanged. Full pipeline integration,
 ordering around repetition/list/command cleanup and sentence-level golden
 acceptance follow in the next change; this parser foundation alone changes no
 running-app behavior. P4.5 remains unchecked.
+
+Exact parser-snapshot validation: 916 tests pass with four optional native skips
+and real preview/Silero/LID fixtures enabled; rules 90/90; adversarial 100/100;
+Ruff and diff checks pass. The review worktree is retained in QA.
