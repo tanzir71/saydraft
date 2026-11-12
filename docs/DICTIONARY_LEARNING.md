@@ -42,6 +42,14 @@ The control-plane calls measured about 0.04–0.05 ms in this fixture; native wo
 still takes the times below in the background. These are helper measurements,
 not full microphone/ASR/clipboard latency or browser acceptance.
 
+One initial PR CI run failed in the older `probe_uia_reader` fixture with a COM
+error; the parallel push run passed. That fixture now uses a standard invisible
+window rather than its previous clipboard-oriented HWND_MESSAGE host, and reports
+the initialization/acquisition/policy/close stage and HRESULT without provider
+messages. Tests surface the full bounded report on failure. The original report
+lacked that detail, so the exact COM cause is unproven. No production timeout or
+retry policy changed; the final local full rerun passes 2093 tests with five skips.
+
 ## Original-field reader
 
 `context/tracked_edit.py` owns one pending/confirmed insertion on the UIA MTA.

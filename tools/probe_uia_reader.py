@@ -6,6 +6,7 @@ import json
 import subprocess
 import threading
 import time
+from contextlib import contextmanager
 from ctypes import wintypes as wt
 from pathlib import Path
 
@@ -23,7 +24,16 @@ def probe(report):
         function = getattr(api.user, name)
         function.argtypes, function.restype = args, result
     report["results"], report["failures"] = [], []
-    with api.window() as parent:
+    @contextmanager
+    def fixture_window():
+        parent = api.user.CreateWindowExW(0, "STATIC", "Public UIA fixture", 0x00C80000,
+            0, 0, 400, 120, None, None, None, None)  # Standard invisible host, not HWND_MESSAGE.
+        assert parent
+        try:
+            yield parent
+        finally:
+            assert api.user.DestroyWindow(parent)
+    with fixture_window() as parent:
         for password in (True, False):
             child = api.user.CreateWindowExW(0, "EDIT", "Public UIA fixture",
                 0x40000000 | (0x20 if password else 0), 0, 0, 100, 20, parent, None, None, None)
@@ -31,8 +41,10 @@ def probe(report):
             def run():
                 reader, element = None, None
                 reads = []
+                stage = "initialize"
                 try:
                     reader = NativeUIAReader()
+                    stage = "acquire_element"
                     element = reader.client.ElementFromHandleBuildCache(child, reader.cache)
                     reader.focused_element = lambda: reader.client.ElementFromHandleBuildCache(child, reader.cache)
                     reader.same_focus = lambda value: bool(reader.client.CompareElements(value, element))
@@ -41,6 +53,7 @@ def probe(report):
                             reads.append(True)
                             raise AssertionError("Password read")
                         reader.text_context = forbidden
+                    stage = "read_policy"
                     result = read_focused_edit(reader, child)
                     assert not reads
                     assert result.is_password == password and result.status == ("password" if password else "ok")
@@ -48,7 +61,8 @@ def probe(report):
                     report["results"].append({"is_password": result.is_password, "status": result.status,
                                               "control_type": result.control_type})
                 except Exception as error:
-                    report["failures"].append(type(error).__name__)
+                    report["failures"].append({"password_case": password, "stage": stage,
+                        "error_type": type(error).__name__, "hresult": getattr(error, "hresult", None)})
                 finally:
                     element = None
                     if reader is not None:
@@ -56,7 +70,8 @@ def probe(report):
                             reader.close()
                             reader.close()  # Idempotent; no second CoUninitialize.
                         except Exception as error:
-                            report["failures"].append(type(error).__name__)
+                            report["failures"].append({"password_case": password, "stage": "close",
+                                "error_type": type(error).__name__, "hresult": getattr(error, "hresult", None)})
             thread = threading.Thread(target=run, daemon=True)
             try:
                 thread.start()
