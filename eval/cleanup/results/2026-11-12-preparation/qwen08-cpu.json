@@ -1,0 +1,47 @@
+{
+  "candidate": "qwen35-08b-q4-k-m",
+  "revision": "f36b1ea49a332ede8fe5f389bbf5b3575ef71f48",
+  "runtime": "llama-cpp-b12110-cpu-x64",
+  "device": null,
+  "app_timeout_ms": 800,
+  "interactive_prompt_preparation": true,
+  "git_commit": "086c2bb145ab4a81cde6acca4384b5d980915f0a",
+  "source_dirty": false,
+  "delivery": "no microphone, database or live insertion",
+  "cases": [
+    {
+      "profile": "general",
+      "prepared": true,
+      "preparation_seconds": 6.62464190000901,
+      "preparation_status": {
+        "state": "prepared",
+        "reason": "prepared",
+        "prompt_seconds": 4.647953799983952
+      },
+      "cleanup_seconds": 0.5405758999986574,
+      "decision": "accepted",
+      "exact": true
+    },
+    {
+      "profile": "email",
+      "prepared": true,
+      "preparation_seconds": 2.98871129998588,
+      "preparation_status": {
+        "state": "prepared",
+        "reason": "prepared",
+        "prompt_seconds": 2.9882815000019036
+      },
+      "cleanup_seconds": 0.5361066999903414,
+      "decision": "accepted",
+      "exact": true
+    }
+  ],
+  "selection_performed": false,
+  "peak_native_working_set_bytes": [
+    1030668288
+  ],
+  "native_exit_observed": [
+    true
+  ],
+  "probe_complete": true
+}

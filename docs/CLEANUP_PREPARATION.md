@@ -28,6 +28,8 @@ Shutdown closes the owned server and refuses late preparation results.
 Prefix preparation does not certify latency for every transcript, language,
 caret value or glossary. Need-score, remaining-budget prediction and end-to-end
 Standard/Pro acceptance remain P4.6 work. Model defaults remain unselected.
+The one-token probe primes the chat prefix; decoder warm-up/calibration and
+clean-driver-cache checks remain necessary before tier acceptance.
 
 The developer quality runner and lifecycle fault probe explicitly disable
 interactive preparation, allowing independent cold/use/fallback measurements.
@@ -47,4 +49,17 @@ Validation: 1333 tests pass, four optional native skips with local
 Silero/preview/language-ID fixtures; rules 432/432; authored adversarial 100/100;
 Ruff/diff pass. Tests cover blocked preparation, latest-context coalescing,
 instance changes, partial streams, Raw/Code, captured context and shutdown races.
-Native production-path probe results follow separately.
+
+Immutable native probes from `086c2bb` pass with networking blocked:
+
+| Model/backend | Initial preparation (including load) | Neutral cleanup | Formal preparation | Formal cleanup |
+| --- | ---: | ---: | ---: | ---: |
+| Qwen 0.8B CPU, 4 threads | 6.625 s | 0.541 s | 2.989 s | 0.536 s |
+| Qwen 2B RTX/Vulkan1, 4 threads | 3.171 s | 0.144 s | 0.246 s | 0.121 s |
+
+All four replies are accepted, exactly match the rules baseline, and complete
+within the unchanged 800 ms deadline. Independent native handles observe exit
+after both runs. No capture, database or live insertion occurs. These two short
+cases per backend verify preparation behavior, not corpus-wide latency or model
+quality; GPU driver caches were already primed. Unmodified metadata reports are
+retained in `eval/cleanup/results/2026-11-12-preparation/`.
