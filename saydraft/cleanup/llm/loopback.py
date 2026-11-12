@@ -9,6 +9,7 @@ import re
 import socket
 import threading
 import time
+from contextlib import contextmanager
 
 MAX_JSON_BYTES = 1024 * 1024
 _GET = frozenset(("/health", "/v1/models"))
@@ -31,7 +32,10 @@ class LoopbackClient:
             raise ValueError("Local authentication key is invalid")
         self._port, self._key, self._clock = port, api_key, clock
 
-    def request_json(self, path, *, payload=None, deadline):
+    @contextmanager
+    def response_bytes(self, path, *, payload=None, deadline, content_type="application/json"):
+        if content_type not in ("application/json", "text/event-stream"):
+            raise ValueError("Unsupported local response type")
         if path not in (_GET if payload is None else _POST):
             raise ValueError("Unsupported local server endpoint")
         remaining = deadline - self._clock()
@@ -64,38 +68,35 @@ class LoopbackClient:
                 raise TimeoutError("Local request deadline expired")
             connection.request("GET" if payload is None else "POST", path, body=body, headers={
                 "Authorization": f"Bearer {self._key}", "Content-Type": "application/json; charset=utf-8",
-                "Accept": "application/json", "Connection": "close"})
+                "Accept": content_type, "Connection": "close"})
             response = connection.getresponse()
             if response.status != 200:
                 raise LocalHTTPError(f"Local server returned HTTP {response.status}")
-            content_type = response.getheader("Content-Type", "").split(";", 1)[0].strip().lower()
-            if content_type != "application/json":
+            actual_type = response.getheader("Content-Type", "").split(";", 1)[0].strip().lower()
+            if actual_type != content_type:
                 raise LocalHTTPError("Local server returned an unsupported content type")
             length = response.getheader("Content-Length")
             if length is not None and (not length.isdecimal() or int(length) > MAX_JSON_BYTES):
                 raise LocalHTTPError("Local response exceeds its size limit")
-            chunks, size = [], 0
-            while True:
-                if expired.is_set() or self._clock() >= deadline:
-                    raise TimeoutError("Local request deadline expired")
-                chunk = response.read1(min(64 * 1024, MAX_JSON_BYTES + 1 - size))
-                if not chunk:
-                    break
-                chunks.append(chunk)
-                size += len(chunk)
-                if size > MAX_JSON_BYTES:
-                    raise LocalHTTPError("Local response exceeds its size limit")
+
+            def chunks():
+                size = 0
+                while True:
+                    if expired.is_set() or self._clock() >= deadline:
+                        raise TimeoutError("Local request deadline expired")
+                    chunk = response.read1(min(64 * 1024, MAX_JSON_BYTES + 1 - size))
+                    if expired.is_set() or self._clock() >= deadline:
+                        raise TimeoutError("Local request deadline expired")
+                    if not chunk:
+                        return
+                    size += len(chunk)
+                    if size > MAX_JSON_BYTES:
+                        raise LocalHTTPError("Local response exceeds its size limit")
+                    yield chunk
+
+            yield chunks()
             if expired.is_set() or self._clock() >= deadline:
                 raise TimeoutError("Local request deadline expired")
-            try:
-                result = json.loads(b"".join(chunks).decode("utf-8"), parse_constant=_reject_constant)
-            except (UnicodeError, ValueError):
-                raise LocalHTTPError("Local server returned invalid JSON") from None
-            if not isinstance(result, dict):
-                raise LocalHTTPError("Local server returned an unsupported JSON value")
-            if expired.is_set() or self._clock() >= deadline:
-                raise TimeoutError("Local request deadline expired")
-            return result
         except (OSError, http.client.HTTPException) as error:
             if expired.is_set() or self._clock() >= deadline or isinstance(error, TimeoutError):
                 raise TimeoutError("Local request deadline expired") from None
@@ -107,3 +108,13 @@ class LoopbackClient:
             connection.close()
             if abort_socket is not None:
                 abort_socket.close()
+
+    def request_json(self, path, *, payload=None, deadline):
+        with self.response_bytes(path, payload=payload, deadline=deadline) as chunks:
+            try:
+                result = json.loads(b"".join(chunks).decode("utf-8"), parse_constant=_reject_constant)
+            except (UnicodeError, ValueError):
+                raise LocalHTTPError("Local server returned invalid JSON") from None
+            if not isinstance(result, dict):
+                raise LocalHTTPError("Local server returned an unsupported JSON value")
+            return result

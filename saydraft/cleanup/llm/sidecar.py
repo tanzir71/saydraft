@@ -273,6 +273,9 @@ class SidecarManager:
         self._idle_timer = self._schedule(self.config.idle_seconds, idle)
 
     def request_json(self, path, payload, *, timeout):
+        return self.run(lambda client, deadline: client.request_json(path, payload=payload, deadline=deadline), timeout=timeout)
+
+    def run(self, operation, *, timeout):
         if not math.isfinite(timeout) or timeout <= 0:
             raise ValueError("Cleanup request timeout must be positive and finite")
         if not self._requesting.acquire(blocking=False):
@@ -287,7 +290,7 @@ class SidecarManager:
                 self._cancel("_idle_timer")
             deadline = self._clock() + timeout
             try:
-                value = client.request_json(path, payload=payload, deadline=deadline)
+                value = operation(client, deadline)
                 if self._clock() >= deadline:
                     raise TimeoutError("Cleanup deadline expired")
                 with self._lock:

@@ -32,8 +32,24 @@ Both build entry points collect the two text/JSON prompt resources through
 PyInstaller's package-data helper. Actual collection finds both files. Contract
 tests cover all styles, untrusted markup/metadata, Unicode, glossary/context
 bounds, full-word preservation, token collisions/order/counts and isolation of
-mutable message lists. Streaming client and app adapter integration follow;
-the running app still uses its existing cleanup path at this foundation stage.
+mutable message lists.
 
-Validation: 584 tests pass, four optional native skips with real preview/Silero/LID
+`CleanupClient` now tokenizes the complete protected transcript, then consumes
+the server's UTF-8 SSE chat response within one manager lease and absolute
+deadline. It requests deterministic plain text with thinking disabled, the
+configured output cap and `</out>` stop. The decoder handles fragmented Unicode,
+CR/LF boundaries, comments and multiline data with bounded line/event/body sizes.
+It does not publish partial text or accumulate reasoning fields. Only a finished
+`stop` response followed by `[DONE]`, with no tool calls and exact protected-token
+restoration, can become a candidate. Length limits, malformed events, missing
+completion markers, timeouts and token changes return fallback metadata.
+
+The fake-model contract verifies that there is no JSON response-format request
+or output JSON decoding. A real owned CPU server also passes SSE decoding under
+NetworkGuard; the eight-token developer probe stops with `length`, which the
+cleanup client deliberately refuses. This is transport evidence, not model
+quality evidence. App adapter integration still follows; the running app uses
+its existing cleanup path at this foundation stage.
+
+Validation: 601 tests pass, four optional native skips with real preview/Silero/LID
 enabled; cleanup evaluation 42/42; Ruff and diff checks pass.
