@@ -37,6 +37,24 @@ them, add their full notices to the installer and model-download UI.
 |---|---|---|
 | llama.cpp | MIT | [License](https://github.com/ggml-org/llama.cpp/blob/master/LICENSE) |
 
+## Bundled fonts
+
+Eight unchanged TTF files are bundled under **SIL Open Font License 1.1**. Their
+full copyright/license texts and original publisher metadata are retained under
+`assets/fonts/`, separately from Saydraft's MIT license. Font names and binary
+contents are unchanged; fonts are not sold on their own.
+
+| Families | Role | Complete notice |
+|---|---|---|
+| Geist, Geist Mono | Body and code; upright/italic | [Geist](assets/fonts/geist/OFL.txt), [Geist Mono](assets/fonts/geistmono/OFL.txt) |
+| Instrument Serif | Display; regular/italic | [Instrument Serif](assets/fonts/instrumentserif/OFL.txt) |
+| Noto Sans Bengali | Bengali script fallback | [Noto Bengali](assets/fonts/notosansbengali/OFL.txt) |
+| Noto Sans Arabic | Arabic script fallback | [Noto Arabic](assets/fonts/notosansarabic/OFL.txt) |
+
+Source: [Google Fonts at the pinned revision](https://github.com/google/fonts/tree/2e5fa2e951237b6ae65f705693d12ca76a7f78c8/ofl).
+The [font manifest](assets/fonts/manifest.json) records per-file immutable URLs,
+sizes, Git blob identities and SHA-256 hashes. No Windows system font is bundled.
+
 ## Model weights (downloaded separately)
 
 No model weights are included in source or installers. Each pinned model entry

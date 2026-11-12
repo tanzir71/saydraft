@@ -196,6 +196,9 @@ class SaydraftApp:
 
         application.setApplicationName("Saydraft")
         application.setQuitOnLastWindowClosed(False)
+        if hasattr(qt_modules.QtGui, "QFontDatabase"):
+            from .ui.fonts import install_bundled_fonts
+            install_bundled_fonts(application, QtGui=qt_modules.QtGui)
 
         self.qt_app = application
         self.config = self._load_app_config()

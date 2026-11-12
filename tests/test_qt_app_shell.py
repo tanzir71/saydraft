@@ -74,7 +74,7 @@ def fake_qt_modules():
     )
 
 
-def test_voice_tray_app_runs_qt_event_loop_and_controller():
+def test_voice_tray_app_runs_qt_event_loop_and_controller(monkeypatch):
     from saydraft.app import SaydraftApp
 
     events = []
@@ -132,9 +132,12 @@ def test_voice_tray_app_runs_qt_event_loop_and_controller():
         def show_error(self, message):
             events.append(("pill_error", message))
 
+    qt = fake_qt_modules()
+    qt.QtGui.QFontDatabase = object()
+    monkeypatch.setattr("saydraft.ui.fonts.install_bundled_fonts", lambda application, **kwargs: events.append("fonts"))
     app = SaydraftApp(
         argv=["saydraft"],
-        qt_modules=fake_qt_modules(),
+        qt_modules=qt,
         controller_factory=lambda signals: FakeController(signals),
         tray_factory=lambda **kwargs: FakeTray(**kwargs),
         pill_factory=lambda **kwargs: FakePill(**kwargs),
@@ -155,6 +158,7 @@ def test_voice_tray_app_runs_qt_event_loop_and_controller():
 
     assert result == 23
     assert events == [
+        "fonts",
         ("tray", "small"),
         ("pill", "F9"),
         "start",

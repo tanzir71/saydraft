@@ -14,6 +14,11 @@ assets/dictionary/frequency/CC-BY-SA-4.0.txt -text whitespace=-blank-at-eof
 assets/dictionary/frequency/wordfreq-NOTICE.md -text whitespace=-blank-at-eof
 assets/dictionary/frequency/manifest.json -text
 
+# Unmodified font binaries, licenses and provenance retain pinned source bytes.
+assets/fonts/** -text
+assets/fonts/**/*.ttf binary
+assets/fonts/**/OFL.txt whitespace=-blank-at-eof,-blank-at-eol
+
 # Native measurement reports retain their recorded SHA-256 across checkouts.
 eval/cleanup/results/**/*.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 eval/hardware/results/**/*.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
