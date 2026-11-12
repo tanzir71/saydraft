@@ -1,0 +1,1133 @@
+{
+  "git_commit": "ec3a680d3db32db4ae2d2f84f26d13710f33a12c",
+  "mode": "rules",
+  "candidate": null,
+  "backend": "cpu",
+  "device": null,
+  "repeats_per_duration": 20,
+  "source_fixture_sha256": "cc6d363cc90b6c99427041ba6366e334131b05101a142761ae84b2a8b5e2c5ab",
+  "delivery": "fixture replay; SQLite History and stub insertion; no microphone, hooks or OS keys",
+  "background_transcription": false,
+  "capture_guard_disabled_for_replay": true,
+  "scope": "warm repeated public fixture; no owner accuracy or tier acceptance",
+  "cases": [
+    {
+      "audio_seconds": 3,
+      "repeat": 0,
+      "seconds": 0.444577099988237,
+      "decision": "disabled",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 0.0009348999883513898,
+        "vad": 0.02047580000362359,
+        "stt": 0.15227990000857972,
+        "lid": 0.12395780000952072,
+        "rules": 0.0019242999842390418,
+        "llm": 2.7999922167509794e-06,
+        "insert": 0.0005148000200279057
+      },
+      "cleanup_gate": null,
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 3,
+      "repeat": 1,
+      "seconds": 0.46326470002532005,
+      "decision": "disabled",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 0.002097799995681271,
+        "vad": 0.0016138000064529479,
+        "stt": 0.1660042000003159,
+        "lid": 0.15439020001213066,
+        "rules": 0.00023820000933483243,
+        "llm": 3.600027412176132e-06,
+        "insert": 0.0005850000015925616
+      },
+      "cleanup_gate": null,
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 3,
+      "repeat": 2,
+      "seconds": 0.4544538000191096,
+      "decision": "disabled",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 0.002503800002159551,
+        "vad": 0.0013863999920431525,
+        "stt": 0.18936749998829328,
+        "lid": 0.1325621999858413,
+        "rules": 0.0002103000006172806,
+        "llm": 1.400010660290718e-06,
+        "insert": 0.000534999999217689
+      },
+      "cleanup_gate": null,
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 3,
+      "repeat": 3,
+      "seconds": 0.4379344999906607,
+      "decision": "disabled",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 0.0022908000100869685,
+        "vad": 0.0014922000118531287,
+        "stt": 0.14958690002094954,
+        "lid": 0.13348439999390393,
+        "rules": 0.00024280001525767148,
+        "llm": 1.6999838408082724e-06,
+        "insert": 0.0006176000169944018
+      },
+      "cleanup_gate": null,
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 3,
+      "repeat": 4,
+      "seconds": 0.42210150000755675,
+      "decision": "disabled",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 0.00218390001100488,
+        "vad": 0.0017957999953068793,
+        "stt": 0.1602005000167992,
+        "lid": 0.13355800000135787,
+        "rules": 0.0002710999979171902,
+        "llm": 1.9999861251562834e-06,
+        "insert": 0.0007473999867215753
+      },
+      "cleanup_gate": null,
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 3,
+      "repeat": 5,
+      "seconds": 0.5382552999944892,
+      "decision": "disabled",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 0.0021631999989040196,
+        "vad": 0.0015592999989166856,
+        "stt": 0.20501820000936277,
+        "lid": 0.18230270000640303,
+        "rules": 0.0003100999747402966,
+        "llm": 1.700012944638729e-06,
+        "insert": 0.0006477999850176275
+      },
+      "cleanup_gate": null,
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 3,
+      "repeat": 6,
+      "seconds": 0.5465290999854915,
+      "decision": "disabled",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 0.002235899999504909,
+        "vad": 0.0030402000120375305,
+        "stt": 0.2588531000073999,
+        "lid": 0.15799669999978505,
+        "rules": 0.0003278000222053379,
+        "llm": 1.9000144675374031e-06,
+        "insert": 0.0006499000010080636
+      },
+      "cleanup_gate": null,
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 3,
+      "repeat": 7,
+      "seconds": 0.51158089999808,
+      "decision": "disabled",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 0.002356200013309717,
+        "vad": 0.002170399995520711,
+        "stt": 0.2130151000164915,
+        "lid": 0.1535229999863077,
+        "rules": 0.00030189999961294234,
+        "llm": 1.8999853637069464e-06,
+        "insert": 0.0006058999861124903
+      },
+      "cleanup_gate": null,
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 3,
+      "repeat": 8,
+      "seconds": 0.538097500015283,
+      "decision": "disabled",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 0.00210240000160411,
+        "vad": 0.002224999974714592,
+        "stt": 0.21267760000773706,
+        "lid": 0.1554409999807831,
+        "rules": 0.00036219999310560524,
+        "llm": 1.8999853637069464e-06,
+        "insert": 0.0005899999814573675
+      },
+      "cleanup_gate": null,
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 3,
+      "repeat": 9,
+      "seconds": 0.5046433999959845,
+      "decision": "disabled",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 0.0025310000055469573,
+        "vad": 0.002594999998109415,
+        "stt": 0.1986550999863539,
+        "lid": 0.14735379998455755,
+        "rules": 0.00021590001415461302,
+        "llm": 1.700012944638729e-06,
+        "insert": 0.0009228000126313418
+      },
+      "cleanup_gate": null,
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 3,
+      "repeat": 10,
+      "seconds": 0.5590200000151526,
+      "decision": "disabled",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 0.0022763999877497554,
+        "vad": 0.0021675000025425106,
+        "stt": 0.24584049999248236,
+        "lid": 0.15523500001290813,
+        "rules": 0.0004014000005554408,
+        "llm": 3.7999998312443495e-06,
+        "insert": 0.0008677000005263835
+      },
+      "cleanup_gate": null,
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 3,
+      "repeat": 11,
+      "seconds": 0.5030245000089053,
+      "decision": "disabled",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 0.0021462000149767846,
+        "vad": 0.002540700021199882,
+        "stt": 0.19490410000435077,
+        "lid": 0.14647429998149164,
+        "rules": 0.0002237000153400004,
+        "llm": 1.7999846022576094e-06,
+        "insert": 0.0007181999972090125
+      },
+      "cleanup_gate": null,
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 3,
+      "repeat": 12,
+      "seconds": 0.4422150000173133,
+      "decision": "disabled",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 0.0021025000023655593,
+        "vad": 0.0014295000000856817,
+        "stt": 0.16825940000126138,
+        "lid": 0.13656639997498132,
+        "rules": 0.00026840000646188855,
+        "llm": 2.3999891709536314e-06,
+        "insert": 0.0006852999795228243
+      },
+      "cleanup_gate": null,
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 3,
+      "repeat": 13,
+      "seconds": 0.42632769999909215,
+      "decision": "disabled",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 0.002232200000435114,
+        "vad": 0.0015005999885033816,
+        "stt": 0.1669496000104118,
+        "lid": 0.12725659998250194,
+        "rules": 0.0002690000110305846,
+        "llm": 1.300009898841381e-06,
+        "insert": 0.0005868999869562685
+      },
+      "cleanup_gate": null,
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 3,
+      "repeat": 14,
+      "seconds": 0.427634300023783,
+      "decision": "disabled",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 0.00218239999958314,
+        "vad": 0.0013668000174220651,
+        "stt": 0.16099099998245947,
+        "lid": 0.12738949997583404,
+        "rules": 0.00034130000858567655,
+        "llm": 1.7999846022576094e-06,
+        "insert": 0.0007256999961100519
+      },
+      "cleanup_gate": null,
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 3,
+      "repeat": 15,
+      "seconds": 0.4878960000060033,
+      "decision": "disabled",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 0.0023187999904621392,
+        "vad": 0.0015540999884251505,
+        "stt": 0.17056910000974312,
+        "lid": 0.13776169999619015,
+        "rules": 0.0002758000046014786,
+        "llm": 2.00001522898674e-06,
+        "insert": 0.0005742000066675246
+      },
+      "cleanup_gate": null,
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 3,
+      "repeat": 16,
+      "seconds": 0.44928870000876486,
+      "decision": "disabled",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 0.0024012999783735722,
+        "vad": 0.0014241000171750784,
+        "stt": 0.16254550000303425,
+        "lid": 0.1357793000061065,
+        "rules": 0.00020560002303682268,
+        "llm": 1.200009137392044e-06,
+        "insert": 0.0005862999823875725
+      },
+      "cleanup_gate": null,
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 3,
+      "repeat": 17,
+      "seconds": 0.47850340002332814,
+      "decision": "disabled",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 0.0020265000057406723,
+        "vad": 0.0015001000137999654,
+        "stt": 0.16684950000490062,
+        "lid": 0.13956539999344386,
+        "rules": 0.00020249999943189323,
+        "llm": 1.200009137392044e-06,
+        "insert": 0.0005966000026091933
+      },
+      "cleanup_gate": null,
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 3,
+      "repeat": 18,
+      "seconds": 0.495667900016997,
+      "decision": "disabled",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 0.0021440999989863485,
+        "vad": 0.0013045999803580344,
+        "stt": 0.1838006000034511,
+        "lid": 0.13916440002503805,
+        "rules": 0.00020680000307038426,
+        "llm": 1.300009898841381e-06,
+        "insert": 0.0006413999944925308
+      },
+      "cleanup_gate": null,
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 3,
+      "repeat": 19,
+      "seconds": 0.525967000023229,
+      "decision": "disabled",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 0.002122900012182072,
+        "vad": 0.0013727000041399151,
+        "stt": 0.2108453999971971,
+        "lid": 0.1462664999999106,
+        "rules": 0.0003217000048607588,
+        "llm": 4.4000043999403715e-06,
+        "insert": 0.0009422000148333609
+      },
+      "cleanup_gate": null,
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 8,
+      "repeat": 0,
+      "seconds": 1.0713262000062969,
+      "decision": "disabled",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 0.0020688999793492258,
+        "vad": 0.006190500018419698,
+        "stt": 0.655207200004952,
+        "lid": 0.24061879998771474,
+        "rules": 0.00047560001257807016,
+        "llm": 1.7999846022576094e-06,
+        "insert": 0.0006258999928832054
+      },
+      "cleanup_gate": null,
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 8,
+      "repeat": 1,
+      "seconds": 0.9759285000036471,
+      "decision": "disabled",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 0.002101199992466718,
+        "vad": 0.0038483999960590154,
+        "stt": 0.5816842000058386,
+        "lid": 0.2351288000063505,
+        "rules": 0.0004459000192582607,
+        "llm": 1.400010660290718e-06,
+        "insert": 0.0010181000106967986
+      },
+      "cleanup_gate": null,
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 8,
+      "repeat": 2,
+      "seconds": 0.9785632000130136,
+      "decision": "disabled",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 0.0020684000046458095,
+        "vad": 0.003378800000064075,
+        "stt": 0.5671070999815129,
+        "lid": 0.23152359999949113,
+        "rules": 0.0003178000042680651,
+        "llm": 1.2999807950109243e-06,
+        "insert": 0.0006072000251151621
+      },
+      "cleanup_gate": null,
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 8,
+      "repeat": 3,
+      "seconds": 0.9795566000102554,
+      "decision": "disabled",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 0.0022418999869842082,
+        "vad": 0.003914100001566112,
+        "stt": 0.588797300006263,
+        "lid": 0.2292981999926269,
+        "rules": 0.00031239999225363135,
+        "llm": 1.100008375942707e-06,
+        "insert": 0.0009222999797202647
+      },
+      "cleanup_gate": null,
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 8,
+      "repeat": 4,
+      "seconds": 0.8838077000109479,
+      "decision": "disabled",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 0.0021214000007603317,
+        "vad": 0.0037798999983351678,
+        "stt": 0.4893957999884151,
+        "lid": 0.23445270000956953,
+        "rules": 0.0003195999888703227,
+        "llm": 1.100008375942707e-06,
+        "insert": 0.0006419999990612268
+      },
+      "cleanup_gate": null,
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 8,
+      "repeat": 5,
+      "seconds": 0.9403375000110827,
+      "decision": "disabled",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 0.0021982000034768134,
+        "vad": 0.003309599997010082,
+        "stt": 0.5453861999849323,
+        "lid": 0.23069319999194704,
+        "rules": 0.00038559999666176736,
+        "llm": 1.4999823179095984e-06,
+        "insert": 0.0006275000050663948
+      },
+      "cleanup_gate": null,
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 8,
+      "repeat": 6,
+      "seconds": 0.873975700000301,
+      "decision": "disabled",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 0.0021587999945040792,
+        "vad": 0.00311580000561662,
+        "stt": 0.49441690000821836,
+        "lid": 0.2193834999925457,
+        "rules": 0.0004563999827951193,
+        "llm": 1.7999846022576094e-06,
+        "insert": 0.0006251999875530601
+      },
+      "cleanup_gate": null,
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 8,
+      "repeat": 7,
+      "seconds": 0.8998044000181835,
+      "decision": "disabled",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 0.002064000000245869,
+        "vad": 0.003548000007867813,
+        "stt": 0.5014305999793578,
+        "lid": 0.22796049999305978,
+        "rules": 0.00044260002323426306,
+        "llm": 1.300009898841381e-06,
+        "insert": 0.0009034000104293227
+      },
+      "cleanup_gate": null,
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 8,
+      "repeat": 8,
+      "seconds": 0.9919545999728143,
+      "decision": "disabled",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 0.0021724999824073166,
+        "vad": 0.0034588999988045543,
+        "stt": 0.5689599000033922,
+        "lid": 0.2517775000014808,
+        "rules": 0.0003541999903973192,
+        "llm": 1.200009137392044e-06,
+        "insert": 0.0007216999947559088
+      },
+      "cleanup_gate": null,
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 8,
+      "repeat": 9,
+      "seconds": 0.8877396000025328,
+      "decision": "disabled",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 0.0020348000107333064,
+        "vad": 0.0034456999856047332,
+        "stt": 0.4884316000097897,
+        "lid": 0.23379019999993034,
+        "rules": 0.0003502999898046255,
+        "llm": 1.200009137392044e-06,
+        "insert": 0.0008049000171013176
+      },
+      "cleanup_gate": null,
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 8,
+      "repeat": 10,
+      "seconds": 1.0935404000047129,
+      "decision": "disabled",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 0.002063399995677173,
+        "vad": 0.004448099993169308,
+        "stt": 0.6529538999893703,
+        "lid": 0.2502746000245679,
+        "rules": 0.0003233000170439482,
+        "llm": 1.200009137392044e-06,
+        "insert": 0.0010648999887052923
+      },
+      "cleanup_gate": null,
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 8,
+      "repeat": 11,
+      "seconds": 0.8601779000018723,
+      "decision": "disabled",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 0.0023852000012993813,
+        "vad": 0.003205500019248575,
+        "stt": 0.4899306000152137,
+        "lid": 0.21105030001490377,
+        "rules": 0.0003178000042680651,
+        "llm": 1.100008375942707e-06,
+        "insert": 0.0008204999903682619
+      },
+      "cleanup_gate": null,
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 8,
+      "repeat": 12,
+      "seconds": 1.011017200013157,
+      "decision": "disabled",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 0.0021117000142112374,
+        "vad": 0.0034774999949149787,
+        "stt": 0.5926309000060428,
+        "lid": 0.24113340000621974,
+        "rules": 0.0003208999987691641,
+        "llm": 1.100008375942707e-06,
+        "insert": 0.0007298999989870936
+      },
+      "cleanup_gate": null,
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 8,
+      "repeat": 13,
+      "seconds": 0.9464958000171464,
+      "decision": "disabled",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 0.0024250999849755317,
+        "vad": 0.0037093000137247145,
+        "stt": 0.5424180999980308,
+        "lid": 0.2516258000105154,
+        "rules": 0.0003274999908171594,
+        "llm": 1.0999792721122503e-06,
+        "insert": 0.0006873999955132604
+      },
+      "cleanup_gate": null,
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 8,
+      "repeat": 14,
+      "seconds": 0.9503847000014503,
+      "decision": "disabled",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 0.0019761000003200024,
+        "vad": 0.0035936000058427453,
+        "stt": 0.5501538000244182,
+        "lid": 0.23087390000000596,
+        "rules": 0.00032270001247525215,
+        "llm": 1.200009137392044e-06,
+        "insert": 0.0007445000228472054
+      },
+      "cleanup_gate": null,
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 8,
+      "repeat": 15,
+      "seconds": 0.8742890999710653,
+      "decision": "disabled",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 0.002033199998550117,
+        "vad": 0.003224399988539517,
+        "stt": 0.47605729999486357,
+        "lid": 0.23107029998209327,
+        "rules": 0.00034690002212300897,
+        "llm": 1.200009137392044e-06,
+        "insert": 0.0007031999994069338
+      },
+      "cleanup_gate": null,
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 8,
+      "repeat": 16,
+      "seconds": 0.9580487000057474,
+      "decision": "disabled",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 0.002215599990449846,
+        "vad": 0.00386260001687333,
+        "stt": 0.5683103000046685,
+        "lid": 0.23389909998513758,
+        "rules": 0.0003346000157762319,
+        "llm": 1.400010660290718e-06,
+        "insert": 0.000685799983330071
+      },
+      "cleanup_gate": null,
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 8,
+      "repeat": 17,
+      "seconds": 0.9867557000252418,
+      "decision": "disabled",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 0.0020071000035386533,
+        "vad": 0.004473300010431558,
+        "stt": 0.5898067000089213,
+        "lid": 0.2370163000014145,
+        "rules": 0.00044770000386051834,
+        "llm": 1.500011421740055e-06,
+        "insert": 0.0007886000094003975
+      },
+      "cleanup_gate": null,
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 8,
+      "repeat": 18,
+      "seconds": 1.0140547000046354,
+      "decision": "disabled",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 0.002171000000089407,
+        "vad": 0.003481299994746223,
+        "stt": 0.6031366999959573,
+        "lid": 0.23358959998586215,
+        "rules": 0.0003318999952170998,
+        "llm": 1.2999807950109243e-06,
+        "insert": 0.000949900015257299
+      },
+      "cleanup_gate": null,
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 8,
+      "repeat": 19,
+      "seconds": 0.9420717000029981,
+      "decision": "disabled",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 0.0020708999945782125,
+        "vad": 0.003304399986518547,
+        "stt": 0.5519235999963712,
+        "lid": 0.2244156000087969,
+        "rules": 0.0005077999958302826,
+        "llm": 1.5999830793589354e-06,
+        "insert": 0.0008305000083055347
+      },
+      "cleanup_gate": null,
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 20,
+      "repeat": 0,
+      "seconds": 1.7825702999834903,
+      "decision": "disabled",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 0.002447500010021031,
+        "vad": 0.007506900001317263,
+        "stt": 1.3830286999873351,
+        "lid": 0.22340299998177215,
+        "rules": 0.0006509000086225569,
+        "llm": 1.300009898841381e-06,
+        "insert": 0.000820400018710643
+      },
+      "cleanup_gate": null,
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 20,
+      "repeat": 1,
+      "seconds": 1.7332624999980908,
+      "decision": "disabled",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 0.002097400021739304,
+        "vad": 0.007552600000053644,
+        "stt": 1.348073100001784,
+        "lid": 0.2119918999960646,
+        "rules": 0.0006266999989748001,
+        "llm": 1.100008375942707e-06,
+        "insert": 0.0007164999842643738
+      },
+      "cleanup_gate": null,
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 20,
+      "repeat": 2,
+      "seconds": 1.7942992000025697,
+      "decision": "disabled",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 0.002168299979530275,
+        "vad": 0.007731599995167926,
+        "stt": 1.3816829999850597,
+        "lid": 0.23669809999410063,
+        "rules": 0.0009138000023085624,
+        "llm": 1.700012944638729e-06,
+        "insert": 0.0010097000049427152
+      },
+      "cleanup_gate": null,
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 20,
+      "repeat": 3,
+      "seconds": 1.7217434000049252,
+      "decision": "disabled",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 0.0021576000144705176,
+        "vad": 0.008419000019785017,
+        "stt": 1.2924783999915235,
+        "lid": 0.2199620000028517,
+        "rules": 0.00092299998505041,
+        "llm": 1.3999815564602613e-06,
+        "insert": 0.0007803000044077635
+      },
+      "cleanup_gate": null,
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 20,
+      "repeat": 4,
+      "seconds": 1.8583603000151925,
+      "decision": "disabled",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 0.002091300004394725,
+        "vad": 0.007953899999847636,
+        "stt": 1.4238920000207145,
+        "lid": 0.2448593000008259,
+        "rules": 0.0010763000173028558,
+        "llm": 1.700012944638729e-06,
+        "insert": 0.0008128999907057732
+      },
+      "cleanup_gate": null,
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 20,
+      "repeat": 5,
+      "seconds": 2.0008997000113595,
+      "decision": "disabled",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 0.0020218999998178333,
+        "vad": 0.007983199990121648,
+        "stt": 1.5689971999963745,
+        "lid": 0.24039079999784008,
+        "rules": 0.0006236000044737011,
+        "llm": 1.100008375942707e-06,
+        "insert": 0.0007894999871496111
+      },
+      "cleanup_gate": null,
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 20,
+      "repeat": 6,
+      "seconds": 2.15059299999848,
+      "decision": "disabled",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 0.002103300008457154,
+        "vad": 0.008176100003765896,
+        "stt": 1.6958474999992177,
+        "lid": 0.2801523999951314,
+        "rules": 0.001006699982099235,
+        "llm": 2.5999906938523054e-06,
+        "insert": 0.0007749999931547791
+      },
+      "cleanup_gate": null,
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 20,
+      "repeat": 7,
+      "seconds": 1.8625563999812584,
+      "decision": "disabled",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 0.002437699993606657,
+        "vad": 0.008108700014417991,
+        "stt": 1.4469234000134747,
+        "lid": 0.2340085000032559,
+        "rules": 0.000824499991722405,
+        "llm": 1.500011421740055e-06,
+        "insert": 0.000829399999929592
+      },
+      "cleanup_gate": null,
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 20,
+      "repeat": 8,
+      "seconds": 1.8926573999924585,
+      "decision": "disabled",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 0.001949199999216944,
+        "vad": 0.00795020000077784,
+        "stt": 1.4790594000078272,
+        "lid": 0.25154919998021796,
+        "rules": 0.0014673999976366758,
+        "llm": 2.0999868866056204e-06,
+        "insert": 0.0010731999936979264
+      },
+      "cleanup_gate": null,
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 20,
+      "repeat": 9,
+      "seconds": 1.8753268000145908,
+      "decision": "disabled",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 0.0023289000091608614,
+        "vad": 0.013920500001404434,
+        "stt": 1.467593899986241,
+        "lid": 0.22298449999652803,
+        "rules": 0.0006314000056590885,
+        "llm": 1.300009898841381e-06,
+        "insert": 0.0007908999978099018
+      },
+      "cleanup_gate": null,
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 20,
+      "repeat": 10,
+      "seconds": 1.8422377000097185,
+      "decision": "disabled",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 0.0020453000033739954,
+        "vad": 0.007697200024267659,
+        "stt": 1.4517020999919623,
+        "lid": 0.22115970001323149,
+        "rules": 0.0007244999869726598,
+        "llm": 1.300009898841381e-06,
+        "insert": 0.0008896999934222549
+      },
+      "cleanup_gate": null,
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 20,
+      "repeat": 11,
+      "seconds": 2.02277770001092,
+      "decision": "disabled",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 0.002022599976044148,
+        "vad": 0.011702700023306534,
+        "stt": 1.5041962999966927,
+        "lid": 0.3437405999866314,
+        "rules": 0.001209999987622723,
+        "llm": 1.8999853637069464e-06,
+        "insert": 0.0016104999813251197
+      },
+      "cleanup_gate": null,
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 20,
+      "repeat": 12,
+      "seconds": 3.340444600005867,
+      "decision": "disabled",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 0.00225499999942258,
+        "vad": 0.015591899980790913,
+        "stt": 2.8401098000176717,
+        "lid": 0.32749920000787824,
+        "rules": 0.001496000011684373,
+        "llm": 2.0999868866056204e-06,
+        "insert": 0.002007399976719171
+      },
+      "cleanup_gate": null,
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 20,
+      "repeat": 13,
+      "seconds": 2.816878000012366,
+      "decision": "disabled",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 0.002100200013956055,
+        "vad": 0.01248829998075962,
+        "stt": 2.3333109999948647,
+        "lid": 0.2955703000188805,
+        "rules": 0.0010163999977521598,
+        "llm": 2.500019036233425e-06,
+        "insert": 0.001538299984531477
+      },
+      "cleanup_gate": null,
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 20,
+      "repeat": 14,
+      "seconds": 2.654457299999194,
+      "decision": "disabled",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 0.0021650999842677265,
+        "vad": 0.01093869999749586,
+        "stt": 2.147005300008459,
+        "lid": 0.3481813999824226,
+        "rules": 0.001502200000686571,
+        "llm": 2.100015990436077e-06,
+        "insert": 0.0013740000140387565
+      },
+      "cleanup_gate": null,
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 20,
+      "repeat": 15,
+      "seconds": 2.6381541999871843,
+      "decision": "disabled",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 0.0020982999994885176,
+        "vad": 0.013588600006187335,
+        "stt": 2.124595600005705,
+        "lid": 0.3054831000044942,
+        "rules": 0.0010922999936155975,
+        "llm": 2.900022082030773e-06,
+        "insert": 0.0016202999977394938
+      },
+      "cleanup_gate": null,
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 20,
+      "repeat": 16,
+      "seconds": 2.461068399978103,
+      "decision": "disabled",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 0.00436340001760982,
+        "vad": 0.015562100015813485,
+        "stt": 2.010039399989182,
+        "lid": 0.2786257999832742,
+        "rules": 0.0008642999746371061,
+        "llm": 2.0999868866056204e-06,
+        "insert": 0.0013352000096347183
+      },
+      "cleanup_gate": null,
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 20,
+      "repeat": 17,
+      "seconds": 2.622097199986456,
+      "decision": "disabled",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 0.002300499996636063,
+        "vad": 0.011698100017383695,
+        "stt": 2.138564900000347,
+        "lid": 0.33105030001024716,
+        "rules": 0.0013075000024400651,
+        "llm": 2.4999899324029684e-06,
+        "insert": 0.0026907999999821186
+      },
+      "cleanup_gate": null,
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 20,
+      "repeat": 18,
+      "seconds": 2.715242899983423,
+      "decision": "disabled",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 0.0019616999779827893,
+        "vad": 0.015750600025057793,
+        "stt": 2.162909699982265,
+        "lid": 0.37886019999859855,
+        "rules": 0.0010859999747481197,
+        "llm": 2.1999876480549574e-06,
+        "insert": 0.0016105000104289502
+      },
+      "cleanup_gate": null,
+      "release_deadline_present": true
+    },
+    {
+      "audio_seconds": 20,
+      "repeat": 19,
+      "seconds": 2.4535003999772016,
+      "decision": "disabled",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 0.004274300008546561,
+        "vad": 0.014400400017620996,
+        "stt": 1.979732799984049,
+        "lid": 0.27785499999299645,
+        "rules": 0.0013490999990608543,
+        "llm": 3.1999952625483274e-06,
+        "insert": 0.001662800001213327
+      },
+      "cleanup_gate": null,
+      "release_deadline_present": true
+    }
+  ],
+  "stage": "delivered",
+  "peak_native_working_set_bytes": [],
+  "native_exit_observed": [],
+  "groups": {
+    "3": {
+      "n": 20,
+      "p50_seconds": 0.47850340002332814,
+      "p95_seconds": 0.5465290999854915,
+      "max_seconds": 0.5590200000151526,
+      "decisions": {
+        "disabled": 20
+      }
+    },
+    "8": {
+      "n": 20,
+      "p50_seconds": 0.9503847000014503,
+      "p95_seconds": 1.0713262000062969,
+      "max_seconds": 1.0935404000047129,
+      "decisions": {
+        "disabled": 20
+      }
+    },
+    "20": {
+      "n": 20,
+      "p50_seconds": 2.0008997000113595,
+      "p95_seconds": 2.816878000012366,
+      "max_seconds": 3.340444600005867,
+      "decisions": {
+        "disabled": 20
+      }
+    }
+  },
+  "p50_target_seconds": 0.6,
+  "p95_target_seconds": 1.2,
+  "targets_met": false,
+  "accepted_replies": 0,
+  "measurement_complete": true,
+  "latency_target_met": false
+}

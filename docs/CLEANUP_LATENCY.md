@@ -41,7 +41,22 @@ python -m tools.probe_cleanup_latency --mode llm --parakeet-dir D:\QA\Parakeet -
 
 The device identifier must be appropriate to the actual machine; this tool does
 not implement automatic native adapter selection. CPU uses its verified runtime
-without a device override. Full native measurements remain pending at this stage.
+without a device override. The first native baseline is recorded below.
+
+The immutable `ec3a680` baseline now completes all sixty samples in each of rules,
+CPU 0.8B policy and RTX 2B policy, with History-first checked delivery and every
+native exit observed. No run meets every latency target. Rules p50/p95 at 3/8/20 s
+are 0.479/0.547, 0.950/1.071 and 2.001/2.817 s. RTX accepts forty replies (all
+3/8-second cases); its p50/p95 are 0.822/1.304, 1.473/1.970 and 2.455/2.734 s.
+CPU accepts none: 59 budget skips and one tokenizer timeout in a nearly exhausted
+release budget; both its original and restarted native processes exit. Its
+20-second p50/p95 are 2.969/3.725 s. No model generation receives timeout credit.
+
+These whole-clip baselines explicitly disable background ASR. Long-input ASR
+costs dominate, so comparison with production background recognition is required.
+Unmodified reports/digests are in `eval/cleanup/results/2026-11-12-release-replay/`;
+local fixture databases and journals remain retained. Completion is recorded
+separately from target acceptance, and no tier/default claim follows.
 
 Harness validation: 1398 tests pass with four optional native skips; rules 432/432,
 adversarial checks 100/100, and Ruff/diff checks pass. Focused tests reject undersized
