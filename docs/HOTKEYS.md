@@ -285,6 +285,8 @@ new session or its context capture before START.
 If Settings holds the session mutex, release returns to the native dispatcher
 and finishes on the existing serial worker, retaining that session ID and release
 timestamp. This prevents hook retirement from waiting on its own blocked stop.
+The legacy F10 History-only capture's three-second stop also carries its session
+ID, so a callback already in flight after cancellation cannot stop a later dictation.
 
 Controlled-clock tests cover the interval boundary, late expiry, stale decisions,
 failed scheduling, mixed shortcuts, longer second holds, arming on either side
@@ -293,8 +295,8 @@ History-before-delivery. A fake native message pump verifies ordering and thread
 retirement without OS input. Desktop double-tap acceptance remains open because
 the owner stopped Computer Use; historical single-tap reports do not satisfy it.
 
-Validation: 27 new regression cases; ordinary full suite 1906 pass, five explicit
+Validation: 28 new regression cases; ordinary full suite 1907 pass, five explicit
 native/model skips; golden 472/472; adversarial 100/100; Ruff/diff pass. The local
-full-run log is `build/qa/double-tap-full-3.stdout.log`. Offscreen General layout
+full-run log is `build/qa/double-tap-full-4.stdout.log`. Offscreen General layout
 was reviewed at 760×560 with loaded Windows Segoe UI and Disabled displayed.
 Desktop helpers now describe the new gesture or held F9; they were not run.

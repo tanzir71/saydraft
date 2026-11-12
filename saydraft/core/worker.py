@@ -621,8 +621,9 @@ class SessionWorker:
         return getattr(self.services.asr, "model_id", configured_model_id(self.services.config))
 
     def record_note(self):
-        if self.start_recording(insert_text=False):
-            self._schedule(3.0, self.stop_recording)
+        generation = self.start_recording(insert_text=False, _return_generation=True)
+        if generation is not False:
+            self._schedule(3.0, lambda: self.stop_recording(session_id=generation))
 
     def reinsert_text(self, text):
         with self._lock:

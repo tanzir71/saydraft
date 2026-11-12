@@ -282,3 +282,18 @@ def test_release_returns_to_dispatcher_while_settings_holds_the_session_mutex():
     assert [event[0] for event in events] == ["history", "insert"]
     assert worker.services.recorder.stopped == 1
     worker.shutdown()
+
+
+def test_cancelled_history_only_capture_timer_cannot_stop_the_next_recording():
+    worker, clock, _, events, _, _ = make_worker()
+    worker.record_note()
+    old_stop = worker._timers[-1]
+    clock.now = 1
+    worker.cancel()
+    assert worker.start_recording()
+    clock.now = 3
+    old_stop.callback()
+    assert old_stop.cancelled and worker.session.state == State.LISTENING
+    assert worker.services.recorder.stopped == 1 and not events
+    worker.cancel()
+    worker.shutdown()
