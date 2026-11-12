@@ -736,6 +736,8 @@ Cloud anything (sync, accounts, team dictionaries, web search in Ask), mobile ap
 
 ## 14. Changelog
 
+- 2026-11-12 | P4.6 (native gate proof) | Immutable 735e5d8 completes five policy outcomes per backend: CPU rejects both high-need calls on live budget; RTX accepts both exact replies in 179/143 ms. Low-need/expired calls skip, all native exits observed. Accepted replies reported separately; no quality/tier acceptance. | eval/cleanup/results/2026-11-12-gate/, docs/CLEANUP_GATE.md
+
 - 2026-11-12 | P4.6 (interactive need/budget gate) | Added pre-rule cue scoring, live token/rate prediction, shared absolute request deadlines, rules fallback reasons and metadata-only diagnostics; extended native policy probing without giving skips generation credit. Release timing and tier acceptance remain pending. | saydraft/cleanup/llm/gate.py, saydraft/cleanup/llm/client.py, saydraft/dictation/, tools/probe_prompt_preparation.py, tests/test_cleanup_gate.py, docs/CLEANUP_GATE.md
 
 - 2026-11-12 | P4.6 (native decoder calibration proof) | Verified three measured 60-token samples per live CPU/RTX process, reuse across styles, four actual accepted exact replies below 800 ms and independent observed exits. Retained unmodified metadata; no tier/default/corpus-latency acceptance. | eval/cleanup/results/2026-11-12-calibration/, docs/CLEANUP_PREPARATION.md

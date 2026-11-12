@@ -47,6 +47,22 @@ authored adversarial checks 100/100, and Ruff/diff checks pass.
 
 Tests cover pre-rule cues, Unicode word counts, low-need/expired zero-call paths,
 live rates, shared deadlines, tokenization time, cache invalidation, metadata
-privacy and History ordering. Native policy proof, automatic adapter/benchmark
-integration, full gated quality and Standard/Pro end-to-end latency acceptance
+privacy and History ordering. Automatic adapter/benchmark integration, full gated
+quality and Standard/Pro end-to-end latency acceptance
 remain required. No candidate is promoted or selected by this change.
+
+Native policy proof from immutable `735e5d8`, with networking blocked:
+
+| Backend | Live decode minimum | Low-need outcomes | High-need outcomes | Expired budget | Accepted replies |
+| --- | ---: | --- | --- | --- | ---: |
+| Qwen 0.8B CPU, 4 threads | 15.88 tok/s | Both skip; each <1 ms | Both budget-skip; 38/42 ms | Skip, <1 ms | 0 |
+| Qwen 2B RTX/Vulkan1, 4 threads | 120.91 tok/s | Both skip; each <1 ms | Both accepted exact; 179/143 ms | Skip, <1 ms | 2 |
+
+Each backend completes all five expected policy outcomes and every result exactly
+matches its rules baseline. Independent native handles observe both processes
+exit. CPU predicts 756 ms before the hard reserve, above the 715 ms remaining
+after tokenization, so its policy pass contains no generated cleanup replies.
+Initial background preparation takes 18.701 s CPU / 5.717 s RTX; changed-style
+prefix preparation takes 4.383 s / 0.277 s. This is short-case policy evidence,
+with primed driver caches, not full-corpus quality or tier latency acceptance.
+Unmodified reports: `eval/cleanup/results/2026-11-12-gate/`.
