@@ -16,6 +16,7 @@ class PillState(str, Enum):
     HIDDEN = "hidden"
     IDLE = "idle"
     HOVER = "hover"
+    PREPARING = "preparing"
     RECORDING = "recording"
     PROCESSING = "processing"
     WARNING = "warning"
@@ -223,8 +224,8 @@ class SaydraftPill(QtWidgets.QWidget):
 
     @property
     def capsule_rect(self):
-        width = 164 if self.state in (PillState.RECORDING, PillState.PROCESSING) else 268 if self.state == PillState.COMMAND else self.width()
-        height = 36 if self.state in (PillState.RECORDING, PillState.PROCESSING, PillState.COMMAND) else self.height()
+        width = 164 if self.state in (PillState.PREPARING, PillState.RECORDING, PillState.PROCESSING) else 268 if self.state == PillState.COMMAND else self.width()
+        height = 36 if self.state in (PillState.PREPARING, PillState.RECORDING, PillState.PROCESSING, PillState.COMMAND) else self.height()
         return QtCore.QRect((self.width() - width) // 2, self.height() - height, width, height)
 
     def set_hotkey_hint(self, hotkey_hint):
@@ -252,6 +253,19 @@ class SaydraftPill(QtWidgets.QWidget):
         self.state = PillState.HOVER if hovered else PillState.IDLE
         self._layout(160, 32) if hovered else self._layout(36, 8)
 
+    def show_preparing(self, *, hands_free=False):
+        self._transition(PillState.PREPARING)
+        self._anchor = None
+        self.hands_free = bool(hands_free)
+        self.level_meter.envelope.reset(self.clock())
+        self.level_meter.frozen = True
+        self.level_meter.shimmer_seconds = None
+        self.status_label.setText("Getting ready")
+        self.setAccessibleName("Getting ready · microphone has not started")
+        self.level_meter.setVisible(not self.hands_free)
+        self._layout(164, 36)
+        self.animation_timer.start()
+
     def show_recording(self, *, hands_free=False, command=False):
         self._transition(PillState.COMMAND if command else PillState.RECORDING)
         self._anchor = None
@@ -269,6 +283,8 @@ class SaydraftPill(QtWidgets.QWidget):
 
     def set_hands_free(self, enabled):
         self.hands_free = bool(enabled)
+        if self.state == PillState.PREPARING:
+            self.level_meter.setVisible(not self.hands_free)
         self._sync_target()
 
     def update_level(self, rms):
@@ -308,7 +324,7 @@ class SaydraftPill(QtWidgets.QWidget):
         self.animation_timer.start()
 
     def advance_frame(self):
-        if self.state in (PillState.RECORDING, PillState.COMMAND) and self.hands_free_provider is not None:
+        if self.state in (PillState.PREPARING, PillState.RECORDING, PillState.COMMAND) and self.hands_free_provider is not None:
             current = bool(self.hands_free_provider())
             if current != self.hands_free:
                 self.set_hands_free(current)
@@ -372,6 +388,8 @@ class SaydraftPill(QtWidgets.QWidget):
         self.preview_label.setGeometry(0, 0, width, 24)
         capsule = self.capsule_rect
         self.level_meter.move(capsule.x() + (151 if self.state == PillState.COMMAND else 48), capsule.y() + 6)
+        if self.state == PillState.PREPARING:
+            self.level_meter.move(capsule.x() + 90, capsule.y() + 6)
         self.move(self._anchor.x() + (self._anchor.width() - width) // 2,
                   self._anchor.y() + self._anchor.height() - height - 24)
         self.show()
@@ -398,7 +416,7 @@ class SaydraftPill(QtWidgets.QWidget):
             rect = QtCore.QRect(-6, -8, 48, 24) if self.state == PillState.IDLE else QtCore.QRect(0, 0, 160, 40)
             self.target.setAccessibleName("Start hands-free dictation")
             self.target.setAccessibleDescription(self.hint)
-        elif self.state in (PillState.RECORDING, PillState.COMMAND) and self.hands_free:
+        elif self.state in (PillState.PREPARING, PillState.RECORDING, PillState.COMMAND) and self.hands_free:
             self.target.kind = "stop"
             rect = QtCore.QRect(capsule.right() - 31, capsule.y() + 6, 24, 24)
             self.target.setAccessibleName("Stop hands-free dictation")
@@ -483,6 +501,9 @@ class SaydraftPill(QtWidgets.QWidget):
             painter.drawPath(mark)
             painter.restore()
             painter.drawText(self.capsule_rect.adjusted(36, 0, -100, 0), QtCore.Qt.AlignVCenter, "Command")
+        elif self.state == PillState.PREPARING:
+            painter.setOpacity(.80)
+            painter.drawText(self.rect().adjusted(9, 0, -72, 0), QtCore.Qt.AlignVCenter, "Getting ready")
         elif self.state == PillState.PROCESSING and self.clock() - self.processing_at > 1.5:
             painter.setOpacity(.80)
             painter.drawText(self.rect().adjusted(9, 0, -75, 0), QtCore.Qt.AlignVCenter, "Cleaning up")

@@ -39,7 +39,7 @@ assert not attempts
     assert not report["microphone_opened"]
     from PySide6.QtGui import QImage
     for theme in report["themes"]:
-        assert len(theme["states"]) == 12
+        assert len(theme["states"]) == 13
         states = {row["state"]: row for row in theme["states"]}
         assert (states["idle"]["width"], states["idle"]["height"]) == (36, 8)
         assert (states["hover"]["width"], states["hover"]["height"]) == (160, 32)

@@ -42,12 +42,15 @@ def create_worker_signals(QtCore):
         dictionary_suggestion = QtCore.Signal(object)
         dictionary_changed = QtCore.Signal(object)
         style_preview_finished = QtCore.Signal(object)
+        bar_updated = QtCore.Signal(object)
 
     return SaydraftWorkerSignals()
 
 
 class WorkerController:
     """Connect Qt signals to the injected, UI-independent session worker."""
+
+    supports_bar_updates = True
 
     def __init__(self, signals):
         self.signals = signals
@@ -65,7 +68,7 @@ class WorkerController:
             config, level_callback=self.signals.audio_level_changed.emit,
             notify=self.signals.notification_requested.emit,
         )
-        self.core = SessionWorker(services, emit=self._emit)
+        self.core = SessionWorker(services, emit=self._emit, bar_emit=self.signals.bar_updated.emit)
         if config["app"]["auto_start_listening"]:
             self.start_listening()
 
@@ -103,6 +106,9 @@ class WorkerController:
 
     def is_hands_free(self):
         return bool(self.core and self.core.hotkeys._controller.is_locked)
+
+    def is_current_bar(self, generation):
+        return bool(self.core and not self.core._closing and self.core.bar_status.is_current(generation))
 
     def request_bar_action(self, *, stop=False):
         queued = bool(self.core and self.core.hotkeys._controller.request_hands_free(stop=stop))
@@ -239,21 +245,28 @@ class SaydraftApp:
         self.signals.recording_started.connect(
             lambda: self.tray.set_state(TrayState.RECORDING)
         )
-        self.signals.recording_started.connect(self._show_recording_bar)
+        typed_bar = bool(getattr(self.controller, "supports_bar_updates", False)) and hasattr(self.pill, "show_preparing")
+        if typed_bar:
+            self.signals.bar_updated.connect(self._apply_bar_update, qt_modules.QtCore.Qt.QueuedConnection)
+        else:
+            self.signals.recording_started.connect(self._show_recording_bar)
         self.signals.audio_level_changed.connect(self.pill.update_level)
         self.signals.processing_started.connect(
             lambda: self.tray.set_state(TrayState.PROCESSING)
         )
-        self.signals.processing_started.connect(self.pill.show_processing)
+        if not typed_bar:
+            self.signals.processing_started.connect(self.pill.show_processing)
         self.signals.processing_finished.connect(
             lambda _text: self.tray.set_state(TrayState.IDLE)
         )
-        self.signals.processing_finished.connect(lambda _text: self.pill.finish_success())
+        if not typed_bar:
+            self.signals.processing_finished.connect(lambda _text: self.pill.finish_success())
         self.signals.notification_requested.connect(self._log_notification)
         self.signals.notification_requested.connect(self.tray.show_notification)
         self.signals.error.connect(self._log_error)
         self.signals.error.connect(self._set_error_state)
-        self.signals.error.connect(self.pill.show_error)
+        if not typed_bar:
+            self.signals.error.connect(self.pill.show_error)
         self.signals.history_updated.connect(self._refresh_history)
         self.signals.history_retry_finished.connect(self._finish_history_retry)
         self.signals.hardware_benchmark_finished.connect(self._finish_hardware_benchmark)
@@ -292,6 +305,26 @@ class SaydraftApp:
             self.tray.set_model_label(self._controller_model_label())
         self._show_onboarding_if_needed()
         return int(application.exec())
+
+    def _apply_bar_update(self, update):
+        from .core.bar_status import BarPhase, BarUpdate
+
+        if not isinstance(update, BarUpdate) or not self.controller.is_current_bar(update.generation):
+            return
+        if update.phase == BarPhase.PREPARING:
+            self.pill.show_preparing(hands_free=self.controller.is_hands_free())
+        elif update.phase == BarPhase.LISTENING:
+            self._show_recording_bar()
+        elif update.phase == BarPhase.PROCESSING:
+            self.pill.show_processing()
+        elif update.phase == BarPhase.NOT_INSERTED:
+            self.pill.show_not_inserted(update.reason, saved=update.saved)
+        elif update.phase == BarPhase.ERROR:
+            message = {"microphone_unavailable": "No microphone", "model_unavailable": "Speech model unavailable",
+                "processing_failed": "Could not complete dictation"}.get(update.reason, "Dictation unavailable")
+            self.pill.show_error(message, fix_page="microphone" if update.reason == "microphone_unavailable" else "models")
+        elif update.phase in (BarPhase.INSERTED, BarPhase.IDLE):
+            self.pill.finish_success()
 
     def _show_recording_bar(self):
         provider = getattr(self.controller, "is_hands_free", None)

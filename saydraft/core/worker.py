@@ -20,6 +20,7 @@ from .preview import PreviewSession, choose_preview_result
 from .context import ForegroundContextProvider
 from .interfaces import insertion_block
 from .corrections import CorrectionController, DictionaryChange
+from .bar_status import BarPhase, BarStatus
 
 logger = logging.getLogger(__name__)
 
@@ -30,9 +31,10 @@ RELEASE_TO_TEXT_BUDGET_SECONDS = 2.0
 class SessionWorker:
     def __init__(self, services: Services, *, emit=lambda name, *args: None, executor=None,
                  session=None, timer_factory=threading.Timer, keyboard_module=None,
-                 services_factory=create_services):
+                 services_factory=create_services, bar_emit=None):
         self.services = services
         self.emit_callback = emit
+        self.bar_status = BarStatus(bar_emit)
         self.executor = executor or ThreadPoolExecutor(max_workers=1, thread_name_prefix="Saydraft-session")
         self.session = session or DictationSession()
         self.timer_factory = timer_factory
@@ -262,8 +264,10 @@ class SessionWorker:
             self._cancel_request.clear()
             self._capturing_context = True
             services = self.services
+            bar_generation = self.bar_status.begin()
         finally:
             self._lock.release()
+        accepted = False
         try:
             self.corrections.cancel()
             # UIA may require GUI message processing. Reserve the start slot,
@@ -281,12 +285,16 @@ class SessionWorker:
                     app_group=target.app_group, app_exe=target.app_exe, app_site=target.app_site)
                 self.session.dispatch(Input.START)
                 generation = self.session.session_id
+                self.bar_status.bind(generation, bar_generation)
                 self._target = target
                 self._context = context
                 self._insert_text = insert_text
                 self._submit(self._arm, generation)
+                accepted = True
                 return generation if _return_generation else True
         finally:
+            if not accepted:
+                self.bar_status.publish(bar_generation, BarPhase.IDLE)
             with self._lock:
                 self._capturing_context = False
                 if self._pending_config is not None and not self.busy and not self._closing:
@@ -308,6 +316,7 @@ class SessionWorker:
                 preparing_asr = False
             with self._lock:
                 if generation != self.session.session_id or self.session.state != State.ARMING:
+                    self.bar_status.session(generation, BarPhase.IDLE)
                     self.emit("processing_finished", "")
                     return
             recorder = self.services.recorder
@@ -341,6 +350,7 @@ class SessionWorker:
             if not current:
                 self._close_background(discard=True)
                 self._close_preview(discard=True)
+                self.bar_status.session(generation, BarPhase.IDLE)
                 self.emit("processing_finished", "")
                 return
             self.services.recorder.start()
@@ -350,6 +360,7 @@ class SessionWorker:
             with self._lock:
                 event = self.session.dispatch(Input.ARMED, session_id=generation)
                 if event is not None:
+                    self.bar_status.session(generation, BarPhase.LISTENING)
                     self.emit("recording_started")
                     limits = self.services.config["recording"]
                     maximum = limits["max_seconds"]
@@ -362,6 +373,7 @@ class SessionWorker:
             self.services.recorder.stop()  # Released/cancelled while the device opened.
             self._close_background(discard=True)
             self._close_preview(discard=True)
+            self.bar_status.session(generation, BarPhase.IDLE)
             self.emit("processing_finished", "")
         except Exception:
             self.corrections.cancel(generation)
@@ -371,6 +383,8 @@ class SessionWorker:
             self._close_preview(discard=True)
             with self._lock:
                 self.session.dispatch(Input.FAIL, session_id=generation)
+            self.bar_status.session(generation, BarPhase.ERROR,
+                reason="model_unavailable" if preparing_asr else "microphone_unavailable")
             self.emit("error", "Speech model unavailable. Download or resume it in Settings → Models."
                       if preparing_asr else "No microphone")
 
@@ -410,11 +424,16 @@ class SessionWorker:
                 return  # Includes a newer context capture before its START transition.
             if self._capturing_context and not self.session.active:
                 self._cancel_request.set()
+                self.bar_status.cancel()
                 return
             ended = released_at if type(released_at) in (int, float) and math.isfinite(released_at) else None
             event = self.session.dispatch(Input.RELEASE, recording_stopped_at=ended)
             if event is None:
                 return
+            if event.state == State.CANCELLED:
+                self.bar_status.cancel()
+            else:
+                self.bar_status.session(event.session_id, BarPhase.PROCESSING)
             if event.previous != State.ARMING and event.state != State.CANCELLED:
                 released = (min(event.timestamp, released_at) if type(released_at) in (int, float)
                             and math.isfinite(released_at) else event.timestamp)
@@ -430,6 +449,7 @@ class SessionWorker:
     def cancel(self):
         # Observed by delivery even while native clipboard rendering is in progress.
         self._cancel_request.set()
+        self.bar_status.cancel()
         self.corrections.cancel()
         if not self.session.active:
             return  # Also aborts a pending context capture before START dispatch.
@@ -467,6 +487,7 @@ class SessionWorker:
     def _finalize(self, generation, duration, discard):
         completed_text = ""
         failed = False
+        bar_outcome = False
         audio_path = None
         raw = ""
         asr_error = None
@@ -544,6 +565,13 @@ class SessionWorker:
                 field_guard=self._field_guard(self._target),
                 before_insert=self.corrections.hook(generation),
             )
+            reason = result.insertion.reason
+            if reason == "history_only":
+                reason = "review_only" if choice.review_only else "saved_only"
+            self.bar_status.session(generation,
+                BarPhase.INSERTED if result.insertion.status == "inserted" else BarPhase.NOT_INSERTED,
+                reason=reason, saved=result.history_id is not None)
+            bar_outcome = True
             self.corrections.complete(generation, result.cleaned_text, result.insertion, choice.language)
             self.last_result = result
             completed_text = result.cleaned_text
@@ -570,12 +598,16 @@ class SessionWorker:
             logger.exception("Could not complete dictation")
             with self._lock:
                 self.session.dispatch(Input.FAIL, session_id=generation)
+            if not bar_outcome:
+                self.bar_status.session(generation, BarPhase.ERROR, reason="processing_failed")
             self.emit("error", "Could not complete dictation; saved words remain in history.")
         finally:
             self.corrections.finish(generation)
             self._close_background(discard=True)
             self._close_preview(discard=True)
             if not failed:
+                if not bar_outcome:
+                    self.bar_status.session(generation, BarPhase.IDLE)
                 self.emit("processing_finished", completed_text)
 
     def _save_unrecognized_audio(self, path, duration, reason):

@@ -26,14 +26,14 @@ def render(output: Path, scale: int = 1):
     assert len(install_bundled_fonts(app)) == 8
     theme = install_theme(app, mode="light")
     assert theme is not None
-    states = ("idle", "hover", "listening", "hands-free", "preview", "processing",
+    states = ("idle", "hover", "preparing", "listening", "hands-free", "preview", "processing",
               "cleaning", "not-inserted", "not-saved", "mic-error", "model-error", "command")
     report = {"platform": app.platformName(), "scale": scale,
         "network_guard_enabled": bool(NetworkGuard._originals), "active_application_read": False,
         "owner_clipboard_accessed": False, "microphone_opened": False, "themes": []}
     for mode, background, foreground in (("light", "#F5F2E9", "#141414"), ("dark", "#111111", "#F5F2E9")):
         theme.set_mode(mode)
-        atlas = QtGui.QImage(920 * scale, 1060 * scale, QtGui.QImage.Format_ARGB32_Premultiplied)
+        atlas = QtGui.QImage(920 * scale, (40 + len(states) * 85) * scale, QtGui.QImage.Format_ARGB32_Premultiplied)
         atlas.setDevicePixelRatio(scale)
         atlas.fill(QtGui.QColor(background))
         painter = QtGui.QPainter(atlas)
@@ -50,6 +50,8 @@ def render(output: Path, scale: int = 1):
                 bar.show_idle()
                 if state == "hover":
                     bar.set_hovered(True)
+            elif state == "preparing":
+                bar.show_preparing()
             else:
                 bar.show_recording(hands_free=state == "hands-free", command=state == "command")
                 bar.update_level(.09)
