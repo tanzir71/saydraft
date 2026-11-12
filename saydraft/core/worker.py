@@ -6,6 +6,7 @@ import logging
 import json
 import threading
 import time
+from dataclasses import replace
 from concurrent.futures import ThreadPoolExecutor
 
 from saydraft.insert.inserter import InsertionResult
@@ -48,8 +49,12 @@ class SessionWorker:
                                      keyboard_module=keyboard_module)
         self._warm_cleanup()
 
-    def _warm_cleanup(self):
+    def _warm_cleanup(self, context=None):
         try:
+            contextual = getattr(self.services.cleaner, "warm_for_context", None)
+            if contextual is not None:
+                contextual(context or select_context(self.services.config, self.services.profiles, None))
+                return
             warm = getattr(self.services.cleaner, "warm", None)
             if warm is not None:
                 warm()
@@ -127,7 +132,7 @@ class SessionWorker:
     def _arm(self, generation):
         preparing_asr = False
         try:
-            self._warm_cleanup()
+            self._warm_cleanup(replace(self._context, app_group=self._target.app_group))
             set_context = getattr(self.services.asr, "set_context", None)
             if set_context is not None:
                 set_context(self._target)

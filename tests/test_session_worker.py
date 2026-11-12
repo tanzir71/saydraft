@@ -138,6 +138,20 @@ def test_cleanup_warm_failure_does_not_block_microphone_and_shutdown_closes_clea
     assert calls == ["warm", "close"]
 
 
+def test_contextual_cleanup_preparation_receives_captured_app_and_selected_profile_before_capture():
+    from dataclasses import replace
+
+    worker, _clock, _executor, _events, _signals, _keyboard = make_worker()
+    warmed = []
+    original = worker.services.context.capture()
+    worker.services.context.capture = lambda: replace(original, app_title="Mail", app_group="email")
+    worker.services.config["dictation"]["profile"] = "email"
+    worker.services.cleaner.warm_for_context = lambda context: warmed.append(context)
+    assert worker.start_recording() and worker.services.recorder.started == 1
+    assert len(warmed) == 1 and (warmed[0].app_title, warmed[0].app_group, warmed[0].profile) == ("Mail", "email", "email")
+    worker.shutdown()
+
+
 def test_settings_replacement_closes_previous_cleaner_before_warming_successor():
     from dataclasses import replace
 

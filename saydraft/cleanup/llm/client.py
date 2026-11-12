@@ -6,7 +6,8 @@ import time
 from dataclasses import dataclass
 
 from .loopback import LocalHTTPError
-from .prompts import bridge_protected, build_messages, output_token_limit
+from .prompts import PromptHints, bridge_protected, build_messages, output_token_limit
+from .sidecar import SidecarReply
 from .streaming import read_completion
 from .structure import rule_structure_reason
 
@@ -25,25 +26,22 @@ class CleanupClient:
             raise ValueError("Cleanup output cap must be a positive integer")
         self.manager, self.max_tokens, self.clock = manager, max_tokens, clock
 
-    def clean(self, text, *, hints=None, glossary=(), timeout=0.8):
-        if not text.strip():
-            return CleanupReply(None, "empty")
-        protected = bridge_protected(text)
+    def _request(self, text, *, hints=None, glossary=(), timeout=0.8, max_tokens=None):
         try:
-            messages = build_messages(protected.text, hints=hints, glossary=glossary)
+            messages = build_messages(text, hints=hints, glossary=glossary)
         except (OSError, ValueError):
-            return CleanupReply(None, "prompt_unavailable")
+            return SidecarReply(None, "prompt_unavailable")
 
         def operation(client, deadline):
             def check():
                 if self.clock() >= deadline:
                     raise TimeoutError("Cleanup deadline expired")
 
-            tokens = client.request_json("/tokenize", payload={"content": protected.text, "add_special": False},
+            tokens = client.request_json("/tokenize", payload={"content": text, "add_special": False},
                                          deadline=deadline).get("tokens")
             if not isinstance(tokens, list) or any(type(token) is not int or token < 0 for token in tokens):
                 raise LocalHTTPError("Local tokenizer returned unsupported tokens")
-            limit = min(self.max_tokens, output_token_limit(len(tokens)))
+            limit = min(self.max_tokens if max_tokens is None else max_tokens, output_token_limit(len(tokens)))
             payload = {"model": "saydraft-cleanup", "messages": messages, "stream": True, "n": 1,
                 "temperature": 0, "max_tokens": limit, "stop": ["</out>"], "cache_prompt": True,
                 "chat_template_kwargs": {"enable_thinking": False}, "reasoning_effort": "none"}
@@ -52,7 +50,23 @@ class CleanupClient:
                 result = read_completion(chunks, check)
             return {**result, "input_tokens": len(tokens), "output_limit": limit}
 
-        reply = self.manager.run(operation, timeout=timeout)
+        return self.manager.run(operation, timeout=timeout)
+
+    def prepare_prompt(self, *, style="neutral", post_rules=True, app="", group="general", timeout=60):
+        # A fixed one-token probe warms the real chat prefix, never user content.
+        reply = self._request("Ready", hints=PromptHints(style=style, post_rules=post_rules, app=app, group=group),
+                              timeout=timeout, max_tokens=1)
+        value = reply.value or {}
+        complete = (value.get("done") and value.get("finish_reason") in ("stop", "length")
+                    and not value.get("tool_calls") and value.get("input_tokens", 0) > 0)
+        reason = "prepared" if complete else reply.reason if reply.reason != "ok" else "prompt_incomplete"
+        return CleanupReply(None, reason)
+
+    def clean(self, text, *, hints=None, glossary=(), timeout=0.8):
+        if not text.strip():
+            return CleanupReply(None, "empty")
+        protected = bridge_protected(text)
+        reply = self._request(protected.text, hints=hints, glossary=glossary, timeout=timeout)
         if reply.value is None:
             return CleanupReply(None, reply.reason)
         value = reply.value

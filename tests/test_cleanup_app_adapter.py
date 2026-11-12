@@ -26,7 +26,7 @@ def test_owned_stream_adapter_validates_and_restores_before_history_and_insertio
     manager = SimpleNamespace(
         run=lambda operation, *, timeout: SidecarReply(operation(model, time.monotonic() + timeout), "ok"),
         warm=lambda: True, close=lambda: closed.append(True))
-    cfg = LocalLLMConfig(enabled=True, model_path=str(tmp_path / "fixture.gguf"))
+    cfg = LocalLLMConfig(enabled=True, model_path=str(tmp_path / "fixture.gguf"), prepare_prompt=False)
     cleaner = DictationPipeline(DictationConfig(llm=cfg), llm_cleaner=LocalLLMCleaner(
         cfg, manager_factory=lambda config: manager))
     cleaner.glossary = Glossary(user_terms=("Saydraft",))

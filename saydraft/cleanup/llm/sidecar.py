@@ -111,6 +111,12 @@ class SidecarManager:
     def ready(self):
         return self.status["state"] == "ready"
 
+    @property
+    def generation(self):
+        """Identify the live instance without exposing its port or credentials."""
+        with self._lock:
+            return self._epoch if self.ready else None
+
     def _cancel(self, name):
         timer = getattr(self, name)
         if timer is not None:

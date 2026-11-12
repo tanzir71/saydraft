@@ -98,6 +98,12 @@ class DictationPipeline:
         warm = getattr(self.llm, "warm", None)
         return warm() if warm is not None else False
 
+    def warm_for_context(self, context):
+        if context.mode == "raw" or context.profile == "code/comments" or context.app_group == "code":
+            return False
+        warm = getattr(self.llm, "warm_for_context", None)
+        return warm(context) if warm is not None else self.warm()
+
     def close(self):
         close = getattr(self.llm, "close", None)
         if close is not None:

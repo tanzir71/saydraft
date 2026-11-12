@@ -28,7 +28,7 @@ def make_cleaner(tmp_path, *, enabled=True, reply=None):
         return SimpleNamespace(manager=owner, clean=clean)
 
     cfg = LocalLLMConfig(enabled=enabled, model_path=str(tmp_path / "manual.gguf"), backend="vulkan",
-                         timeout_ms=125, n_threads=2, n_gpu_layers=17)
+                         timeout_ms=125, n_threads=2, n_gpu_layers=17, prepare_prompt=False)
     return LocalLLMCleaner(cfg, manager_factory=manager_factory, client_factory=client_factory), events
 
 

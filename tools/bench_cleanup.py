@@ -117,6 +117,7 @@ def main(argv=None):
     args.output.mkdir(parents=True, exist_ok=False)
     report = {"schema_version": 1, "candidate": model, "runtime": runtime_model_id(args.backend),
         "delivery": "simulated; no live OS keys or microphone", "latency_acceptance_evaluated": False,
+        "interactive_prompt_preparation": False,
         "backend": args.backend, "device_override": args.device, "threads": args.threads,
         "quality_timeout_ms": args.timeout_ms, "decoding_temperature": 0, "context_size": 4096,
         "max_output_tokens": 256, "full_corpus": args.limit is None, "isolation_declared": args.isolated,
@@ -137,7 +138,7 @@ def main(argv=None):
         manager = SidecarManager(SidecarConfig(weight, backend=args.backend, threads=args.threads,
             startup_seconds=60, max_restarts=0), resolver=lambda name: args.runtime_dir.resolve(), process_factory=spawn)
         cfg = LocalLLMConfig(enabled=True, model_path=str(weight), backend=args.backend,
-                             n_threads=args.threads, timeout_ms=args.timeout_ms)
+                             n_threads=args.threads, timeout_ms=args.timeout_ms, prepare_prompt=False)
         observed = ObservedCleaner(lambda factory: LocalLLMCleaner(cfg,
             manager_factory=lambda config: manager, client_factory=factory))
         pipeline = DictationPipeline(DictationConfig(llm=cfg), llm_cleaner=observed)

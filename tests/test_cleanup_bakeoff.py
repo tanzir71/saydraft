@@ -16,7 +16,7 @@ def pipeline_for(output="Send 2 files", reason="ok"):
     model = FakeModel([frame(output, finish="stop"), DONE])
     manager = SimpleNamespace(close=lambda: None, run=lambda operation, timeout: (
         SidecarReply(operation(model, time.monotonic() + timeout), "ok") if reason == "ok" else SidecarReply(None, reason)))
-    cfg = LocalLLMConfig(enabled=True, model_path="unit-fixture-not-a-real-model")
+    cfg = LocalLLMConfig(enabled=True, model_path="unit-fixture-not-a-real-model", prepare_prompt=False)
     observer = ObservedCleaner(lambda factory: LocalLLMCleaner(cfg, manager_factory=lambda config: manager,
                                                              client_factory=factory))
     return DictationPipeline(DictationConfig(llm=cfg), llm_cleaner=observer), observer

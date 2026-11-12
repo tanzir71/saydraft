@@ -108,7 +108,7 @@ def main(argv=None):
     history = DictationHistoryStore(args.output / "history.db")
     raw = "um send 2 files to Saydraft"
     cfg = LocalLLMConfig(enabled=True, model_path=str(args.model.resolve()), backend=args.backend,
-                         n_threads=1, max_tokens=1)
+                         n_threads=1, max_tokens=1, prepare_prompt=False)
     cleaner = DictationPipeline(DictationConfig(llm=cfg), llm_cleaner=LocalLLMCleaner(
         cfg, manager_factory=manager_factory))
     cleaner.glossary = Glossary(user_terms=("Saydraft",))
