@@ -90,10 +90,28 @@ Auto language detection when enabled. It stores metadata and timings, never the
 recognized words. Missing or failed models keep the result pending and provide
 Settings guidance. Previous snapshots survive failures.
 
-The optional cleanup callback accepts only complete 60-token measurements with
-finite positive durations and model-size metadata. Fake contract tests verify
-the tier rules; they are not real LLM throughput results. The P4 sidecar will
-supply actual generation measurements once its models are available.
+The cleanup callback now uses the currently enabled installed model through the
+owned P4 sidecar. Disabled cleanup returns no samples and does not construct a
+runtime. No check enables cleanup, changes model selection or downloads weights.
+It waits for startup preparation to settle, then runs three fresh 60-token raw
+generations after the ASR check has loaded speech weights. A single 60-second
+request lease bounds all three generations; fixed garden text is discarded.
+
+Model size comes from the live `/v1/models` metadata, never a path or filename.
+Missing/malformed metadata and instance replacement refuse a measurement. Only
+numeric size, token-count and timing fields enter the persisted cleanup rows.
+The median of three rates informs the tier matrix. Nominal 0.8B/2B classes allow
+±10% actual parameter counts; other sizes show measured throughput but establish
+neither matrix rate. This class is a performance comparison, not model-quality
+approval. Partial triples, invalid values and duplicate classes are rejected
+atomically, with no partial rate retained.
+
+Explicit checks refresh generation calibration even when startup cached a result;
+normal dictation keeps the cached per-instance behavior. Raw generation invalidates
+the chat prefix before running, including failure paths. Background readiness is
+invalidated too, and fixed neutral preparation is requested afterward. Interactive
+cleanup keeps rules until its captured context is prepared again. The page shows
+the cleanup median/sample count and provides guidance when measurement fails.
 
 A native offline Auto/Parakeet check with the language detector loaded recorded
 0.945, 0.870 and 0.996 s for the eight-second fixture: median 0.945 s. Other tests
@@ -111,3 +129,19 @@ capture exclusion, failed/unqueued work, explicit UI actions and Qt result wirin
 ```powershell
 python -m tools.bench_hardware --parakeet-dir C:\path\to\verified\parakeet-v3 --lid-dir C:\path\to\verified\language-detector --output-dir build/qa/new-hardware-benchmarks
 ```
+
+`tools.probe_hardware_cleanup` exercises the same installed-model callback with
+native ASR/LID and independently observes inventory/inference exits. It requires
+explicit verified candidate/runtime paths, writes a new artifact directory,
+restores prefix readiness and never captures, inserts or writes History. Initial
+development verification selects RTX automatically, measures 1.068 s speech and
+135.9 tokens/s median for the actual 1.943B model, and observes both exits.
+Immutable-source verification follows separately; neither this repeated fixture
+nor its recommendation establishes owner accuracy or general tier latency.
+
+Integrated validation: 1483 tests pass with four optional native skips; rules
+432/432, authored adversarial checks 100/100, Ruff and diff checks pass. The
+Performance page was rendered and reviewed with the native report. Tests cover
+fresh versus cached calibration, live metadata validation, instance replacement,
+background exclusion, prefix invalidation/recovery, numeric-only snapshots,
+three-sample/two-model medians, atomic failures and the default serial callback.

@@ -1,6 +1,7 @@
 """Show persisted local benchmarks and request a check on the serial worker."""
 
 from datetime import datetime
+import statistics
 
 from PySide6 import QtCore, QtWidgets
 
@@ -25,8 +26,9 @@ class HardwarePage(QtWidgets.QWidget):
         self.check_button.setEnabled(callback is not None)
         self.check_button.clicked.connect(self.start)
         layout = QtWidgets.QVBoxLayout(self)
-        explanation = QtWidgets.QLabel("Tests your currently applied speech model using bundled audio. "
-                                      "Models must already be installed. No microphone is used.")
+        explanation = QtWidgets.QLabel("Tests your speech model using bundled audio and your enabled AI cleanup "
+                                      "model using fixed sample text. Models must already be installed. "
+                                      "No microphone is used. Cleanup checks can take several minutes.")
         explanation.setWordWrap(True)
         layout.addWidget(explanation)
         layout.addWidget(self.summary)
@@ -70,13 +72,19 @@ class HardwarePage(QtWidgets.QWidget):
         else:
             rows.append("Speech performance: Not measured")
         rows.append("AI cleanup performance: " + ("Measured" if measured.get("cleanup_status") == "ok" else "Not measured"))
+        groups = {}
         for row in measured.get("cleanup", []):
-            rows.append(f"AI cleanup: {row['parameters_b']:g}B · {60 / row['seconds']:.1f} tokens/s over 60 tokens")
+            groups.setdefault(row["parameters_b"], []).append(60 / row["seconds"])
+        for size, rates in groups.items():
+            rows.append(f"AI cleanup: {size:.2g}B · {statistics.median(rates):.1f} tokens/s median "
+                        f"over {len(rates)} × 60 tokens")
         self.details.setPlainText("\n".join(rows))
         if measured.get("asr_status") == "model_missing":
             self.status.setText("Install the speech model in Models, apply Settings, then check again.")
         elif measured.get("asr_status") == "failed":
             self.status.setText("Speech check failed. Verify the model in Models and try again.")
+        elif measured.get("cleanup_status") == "failed":
+            self.status.setText("AI cleanup could not be measured. Check your installed cleanup model and try again.")
         else:
             self.status.setText("Recommendation only. Choose your model and AI cleanup options in Settings.")
 

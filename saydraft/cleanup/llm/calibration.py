@@ -31,13 +31,15 @@ class DecoderCalibration:
             return self._measurement if (generation is not None and self._measurement is not None
                                          and self._measurement.generation == generation) else None
 
-    def measure(self, *, timeout=60):
+    def measure(self, *, timeout=60, force=False):
         generation = self.manager.generation
         if type(generation) is not int or generation <= 0:
             return "not_ready"
-        if self.current is not None:
+        if not force and self.current is not None:
             return "calibrated"
         with self._lock:
+            if force:
+                self._measurement = self._failed = None
             if self._failed == generation:
                 return "decoder_calibration_invalid"
 

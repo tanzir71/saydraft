@@ -31,8 +31,41 @@ class CleanupClient:
         self.decoder = DecoderCalibration(manager)
         self._prefix = None
 
-    def calibrate_decoder(self, *, timeout=60):
-        return CleanupReply(None, self.decoder.measure(timeout=timeout))
+    def calibrate_decoder(self, *, timeout=60, force=False):
+        # Raw completion replaces the native KV cache, including on failure.
+        if force or self.decoder.current is None:
+            self._prefix = None
+        return CleanupReply(None, self.decoder.measure(timeout=timeout, force=force))
+
+    def benchmark(self):
+        """Explicit installed-model check; return timings, never names or text."""
+        generation = self.manager.generation
+
+        def metadata(client, deadline):
+            value = client.request_json("/v1/models", deadline=deadline)
+            data = value.get("data")
+            if not isinstance(data, list) or len(data) != 1 or not isinstance(data[0], dict):
+                return None
+            meta = data[0].get("meta")
+            count, size = (meta.get("n_params"), meta.get("size")) if isinstance(meta, dict) else (None, None)
+            if (type(count) is not int or not 0 < count <= 10**12
+                    or type(size) is not int or not 0 < size <= 2**41):
+                return None
+            return count
+
+        reply = self.manager.run(metadata, timeout=2)
+        if (generation is None or self.manager.generation != generation or reply.reason != "ok"
+                or not reply.value):
+            raise RuntimeError("Cleanup model metadata unavailable")
+        count = reply.value
+        if self.calibrate_decoder(force=True).reason != "calibrated":
+            raise RuntimeError("Cleanup measurement unavailable")
+        measurement = self.decoder.current
+        if (measurement is None or measurement.generation != generation
+                or self.manager.generation != generation):
+            raise RuntimeError("Cleanup instance changed")
+        return [{"parameters_b": count / 10**9, "tokens": 60, "seconds": 60 / rate}
+                for rate in measurement.rates]
 
     def _request(self, text, *, hints=None, glossary=(), timeout=0.8, max_tokens=None, gate=None,
                  cache_tokens=False, stop_at=None):

@@ -40,7 +40,8 @@ def test_benchmark_excludes_prepare_warms_once_and_persists_metrics_without_text
     asr, clock, seen = make_asr()
     report = run_benchmark(asr, directory=tmp_path, clock=lambda: clock.now,
         hardware_probe=lambda: {"schema_version": 1, "ram_bytes": 16 * 1024**3},
-        cleanup_benchmark=lambda: [{"parameters_b": 0.8, "tokens": 60, "seconds": 2}])
+        cleanup_benchmark=lambda: [{"parameters_b": 0.8, "tokens": 60, "seconds": seconds}
+                                  for seconds in (1, 2, 6)])
     assert len(seen) == 4 and all(audio.shape == (128000,) for audio in seen)
     measured = report["measurements"]
     assert measured["prepare_seconds"] == 3 and measured["asr_seconds"] == 0.5
@@ -67,6 +68,82 @@ def test_incomplete_cleanup_generation_cannot_establish_a_rate(tmp_path):
     assert report["measurements"]["cleanup_status"] == "failed"
     assert report["measurements"]["llm_08_tps"] is None
     assert report["assessment"]["tier"] == "pending"
+
+
+@pytest.mark.parametrize("change", ["partial", "bad_second_model", "bool_tokens", "bool_seconds", "mixed_sizes"])
+def test_cleanup_sample_failure_is_atomic_and_cannot_promote_a_tier(tmp_path, change):
+    asr, clock, _ = make_asr()
+    rows = [{"parameters_b": 0.8, "tokens": 60, "seconds": 1} for _ in range(3)]
+    if change == "partial":
+        rows.pop()
+    elif change == "bad_second_model":
+        rows += [{"parameters_b": 2, "tokens": 60, "seconds": float("nan")} for _ in range(3)]
+    elif change == "bool_tokens":
+        rows[2]["tokens"] = True
+    elif change == "bool_seconds":
+        rows[2]["seconds"] = True
+    else:
+        rows[2]["parameters_b"] = 2
+    measured = run_benchmark(asr, directory=tmp_path, clock=lambda: clock.now,
+        hardware_probe=lambda: {"schema_version": 1, "ram_bytes": 16 * 1024**3},
+        cleanup_benchmark=lambda: rows)["measurements"]
+    assert measured["cleanup_status"] == "failed" and measured["cleanup"] == []
+    assert measured["llm_08_tps"] is measured["llm_2_tps"] is None
+
+
+@pytest.mark.parametrize("size,key", [(0.82, "llm_08_tps"), (2.03, "llm_2_tps"), (4, None)])
+def test_actual_parameter_class_and_numeric_metadata_only(tmp_path, size, key):
+    asr, clock, _ = make_asr()
+    measured = run_benchmark(asr, directory=tmp_path, clock=lambda: clock.now,
+        hardware_probe=lambda: {"schema_version": 1, "ram_bytes": 16 * 1024**3},
+        cleanup_benchmark=lambda: [{"parameters_b": size, "tokens": 60, "seconds": seconds,
+                                    "content": "private generated words"} for seconds in (1, 3, 2)])["measurements"]
+    assert measured["cleanup_status"] == "ok"
+    assert all(set(row) == {"parameters_b", "tokens", "seconds"} for row in measured["cleanup"])
+    if key:
+        assert measured[key] == 30
+    else:
+        assert measured["llm_08_tps"] is measured["llm_2_tps"] is None
+
+
+def test_complete_two_model_triples_have_independent_medians(tmp_path):
+    asr, clock, _ = make_asr()
+    rows = [{"parameters_b": size, "tokens": 60, "seconds": seconds}
+            for size, costs in ((0.8, (1, 2, 6)), (2, (2, 1, 0.5))) for seconds in costs]
+    measured = run_benchmark(asr, directory=tmp_path, clock=lambda: clock.now,
+        hardware_probe=lambda: {"schema_version": 1, "ram_bytes": 16 * 1024**3},
+        cleanup_benchmark=lambda: rows)["measurements"]
+    assert measured["llm_08_tps"] == 30 and measured["llm_2_tps"] == 60
+
+
+def test_performance_page_shows_cleanup_median_and_failed_measurement_guidance(tmp_path):
+    from PySide6 import QtWidgets
+    app = QtWidgets.QApplication.instance() or QtWidgets.QApplication([])
+    page = HardwarePage(directory=tmp_path)
+    report = {"measurements": {"cleanup_status": "ok", "cleanup": [
+        {"parameters_b": 2.03, "tokens": 60, "seconds": seconds} for seconds in (1, 2, 6)]}}
+    page.render(report)
+    assert "30.0 tokens/s median over 3 × 60 tokens" in page.details.toPlainText()
+    page.render({"measurements": {"cleanup_status": "failed"}})
+    assert "could not be measured" in page.status.text()
+    page.deleteLater()
+    app.processEvents()
+
+
+def test_default_worker_supplies_applied_cleaner_benchmark_after_asr(monkeypatch):
+    worker, _, executor, events, signals, _ = make_worker(queued=True)
+    calls = []
+    worker.services.cleaner.benchmark = lambda: calls.append("cleanup") or []
+    def benchmark(asr, *, cleanup_benchmark):
+        assert asr is worker.services.asr
+        calls.append("speech")
+        cleanup_benchmark()
+        return {"checked": True}
+    monkeypatch.setattr("saydraft.models.benchmark.run_benchmark", benchmark)
+    assert worker.benchmark_hardware() and not calls
+    executor.drain()
+    assert calls == ["speech", "cleanup"] and not events
+    assert ("hardware_benchmark_finished", {"checked": True}) in signals
 
 
 def test_serial_worker_benchmark_blocks_capture_and_never_records_or_inserts():

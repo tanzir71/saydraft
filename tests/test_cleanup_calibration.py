@@ -76,6 +76,14 @@ def test_instance_replacement_while_measuring_refuses_stale_result():
     assert calibration.measure() == "instance_changed" and calibration.current is None
 
 
+def test_explicit_check_replaces_cached_measurement_and_can_retry_invalid_generation():
+    calibration, _, requests, _ = decoder([sample(10)] * 3 + [sample(count=59)] + [sample(40)] * 3)
+    assert calibration.measure() == "calibrated" and calibration.current.rates == (10, 10, 10)
+    assert calibration.measure(force=True) == "decoder_calibration_invalid" and calibration.current is None
+    assert calibration.measure() == "decoder_calibration_invalid" and len(requests) == 4
+    assert calibration.measure(force=True) == "calibrated" and calibration.current.rates == (40, 40, 40)
+
+
 def test_background_preparation_calibrates_before_priming_chat_prefix():
     prep, threads, _manager, _calls = fixture()
     order = []

@@ -109,6 +109,10 @@ class DictationPipeline:
         if close is not None:
             close()
 
+    def benchmark(self):
+        measure = getattr(self.llm, "benchmark", None)
+        return measure() if measure is not None else []
+
     def learn_word(self, term: str) -> Glossary:
         if not self.cfg.glossary_path:
             normalized = term.strip()

@@ -451,7 +451,9 @@ class SessionWorker:
             if benchmark is None:
                 from saydraft.models.benchmark import run_benchmark
 
-                benchmark = run_benchmark
+                cleanup = getattr(self.services.cleaner, "benchmark", None)
+                def benchmark(asr):
+                    return run_benchmark(asr, cleanup_benchmark=cleanup)
             self._benchmarking = True
             try:
                 self._submit(self._benchmark_hardware, benchmark)

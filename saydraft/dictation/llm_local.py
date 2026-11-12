@@ -105,6 +105,25 @@ class LocalLLMCleaner:
         if preparation is not None:
             preparation.close()
 
+    def benchmark(self):
+        """Called only by the explicit serial performance check, after ASR."""
+        client = self._get_client()
+        if client is None:
+            return []
+        preparation = self._preparation
+        # Startup, decoder calibration and prefix preparation each have a 60 s cap.
+        if preparation is not None and not preparation.wait(185):
+            raise RuntimeError("Cleanup preparation still running")
+        if self._closed or not client.manager.prepare():
+            raise RuntimeError("Cleanup model unavailable")
+        if preparation is not None:
+            preparation.invalidate()
+        try:
+            return client.benchmark()
+        finally:
+            if preparation is not None and not self._closed:
+                preparation.request(PromptHints(post_rules=True))
+
     def _clean(self, text, hints, glossary=(), *, need=None, deadline=None):
         try:
             if not self.available():

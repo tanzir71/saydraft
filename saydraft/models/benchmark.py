@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import hashlib
+import math
 import statistics
 import time
 from pathlib import Path
@@ -13,6 +14,33 @@ from .hardware import assess_tier, probe_hardware, save_report
 
 def fixture_path():
     return Path(__file__).resolve().parents[2] / "assets" / "audio" / "benchmark.wav"
+
+
+def _cleanup_metrics(rows):
+    # Accept complete triples atomically. Copy only numeric timing metadata.
+    if not isinstance(rows, list) or len(rows) not in (0, 3, 6):
+        raise ValueError("Cleanup measurements require three samples per model")
+    clean, groups = [], {}
+    for row in rows:
+        size, seconds, tokens = row["parameters_b"], row["seconds"], row["tokens"]
+        if (type(size) not in (int, float) or not math.isfinite(size) or not 0 < size <= 1000
+                or type(tokens) is not int or tokens != 60 or type(seconds) not in (int, float)
+                or not math.isfinite(seconds) or seconds <= 0 or not math.isfinite(60 / seconds)):
+            raise ValueError("Invalid cleanup benchmark sample")
+        clean.append({"parameters_b": float(size), "tokens": 60, "seconds": float(seconds)})
+        groups.setdefault(size, []).append(60 / seconds)
+    if any(len(rates) != 3 for rates in groups.values()):
+        raise ValueError("Cleanup measurements require three samples per model")
+    metrics = {"cleanup": clean, "cleanup_status": "ok" if clean else "not_available",
+               "llm_08_tps": None, "llm_2_tps": None}
+    for size, rates in groups.items():
+        # Nominal matrix classes allow ±10% actual parameters; no filename inference.
+        key = "llm_08_tps" if 0.72 <= size <= 0.88 else "llm_2_tps" if 1.8 <= size <= 2.2 else None
+        if key is not None:
+            if metrics[key] is not None:
+                raise ValueError("Duplicate cleanup model class")
+            metrics[key] = statistics.median(rates)
+    return metrics
 
 
 def run_benchmark(asr, *, directory=None, hardware_probe=probe_hardware,
@@ -55,19 +83,7 @@ def run_benchmark(asr, *, directory=None, hardware_probe=probe_hardware,
     measurement["asr_model"] = getattr(asr, "model_id", "unknown")
     if cleanup_benchmark is not None:
         try:
-            rows = cleanup_benchmark()
-            # Only comparable 60-token measurements can inform the tier matrix.
-            for row in rows:
-                size = row["parameters_b"]
-                seconds = row["seconds"]
-                if (size not in (0.8, 2) or row["tokens"] != 60 or
-                        not np.isfinite(seconds) or seconds <= 0):
-                    raise ValueError("Invalid cleanup benchmark sample")
-            measurement["cleanup"] = rows
-            for row in rows:
-                key = "llm_08_tps" if row["parameters_b"] == 0.8 else "llm_2_tps"
-                measurement[key] = 60 / row["seconds"]
-            measurement["cleanup_status"] = "ok" if rows else "not_available"
+            measurement.update(_cleanup_metrics(cleanup_benchmark()))
         except Exception:
             measurement["cleanup_status"] = "failed"
     report["assessment"] = assess_tier(report, **{key: measurement[key] for key in (
