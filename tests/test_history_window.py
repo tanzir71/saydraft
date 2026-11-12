@@ -129,6 +129,17 @@ def test_history_retry_requires_saved_audio_and_selects_new_result_for_review(tm
     assert window.retry_button.isEnabled()
 
 
+def test_history_window_rejected_reinsertion_does_not_claim_it_was_queued(tmp_path):
+    from saydraft.ui.history_window import HistoryWindow
+    qt_modules()
+    window = HistoryWindow(store=build_history(tmp_path), reinsert_callback=lambda *args: False)
+    try:
+        assert not window.reinsert_current_text()
+        assert "busy" in window.status_label.text() and "Queued" not in window.status_label.text()
+    finally:
+        window.close()
+
+
 def test_history_window_copy_reinsert_and_add_dictionary_actions(tmp_path):
     from saydraft.ui.history_window import HistoryWindow
 

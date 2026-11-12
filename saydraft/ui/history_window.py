@@ -261,9 +261,12 @@ class HistoryWindow(QtWidgets.QDialog):
         if row is None or not text or self.reinsert_callback is None:
             return False
         try:
-            self.reinsert_callback(text, row)
+            queued = self.reinsert_callback(text, row)
         except TypeError:
-            self.reinsert_callback(text)
+            queued = self.reinsert_callback(text)
+        if queued is False:
+            self.status_label.setText("Dictation is busy. Try reinserting again when it finishes.")
+            return False
         self.status_label.setText("Queued for insertion")
         return True
 

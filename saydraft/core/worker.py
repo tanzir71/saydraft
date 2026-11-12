@@ -17,6 +17,8 @@ from .preferences import select_context
 from .session import DictationSession, SessionInput as Input, SessionState as State
 from .segments import SegmentTranscriber
 from .preview import PreviewSession, choose_preview_result
+from .context import ForegroundContextProvider
+from .interfaces import insertion_block
 
 logger = logging.getLogger(__name__)
 
@@ -53,7 +55,29 @@ class SessionWorker:
                                      notify=lambda message: self.emit("notification_requested", message),
                                      keyboard_module=keyboard_module,
                                      stop_timed=lambda when: self.stop_recording(released_at=when))
+        self._prepare_context()
         self._warm_cleanup()
+
+    def _prepare_context(self):
+        prepare = getattr(self.services.context, "prepare", None)
+        if prepare is not None:
+            try:
+                prepare()
+            except Exception:
+                logger.warning("Field context preparation unavailable; unverified delivery will be refused")
+
+    @staticmethod
+    def _close_context(context):
+        close = getattr(context, "close", None)
+        if close is not None:
+            try:
+                close()
+            except Exception:
+                logger.warning("Field context retirement unavailable")
+
+    def _field_guard(self, target):
+        verify = getattr(self.services.context, "verify", None)
+        return (lambda: verify(target)) if verify is not None else None
 
     def _warm_cleanup(self, context=None):
         try:
@@ -381,6 +405,7 @@ class SessionWorker:
                 insert_action=lambda action: self._insert_if_current(generation, action), timings=timings,
                 audio_path=audio_path,
                 enter_guard=lambda: not self._cancel_request.is_set() and not self._closing,
+                field_guard=self._field_guard(self._target),
             )
             self.last_result = result
             completed_text = result.cleaned_text
@@ -575,19 +600,60 @@ class SessionWorker:
         if self.start_recording(insert_text=False):
             self._schedule(3.0, self.stop_recording)
 
+    def reinsert_text(self, text):
+        with self._lock:
+            if self.busy or self._closing or not isinstance(text, str) or not text:
+                return False
+            self._cancel_request.clear()
+            self._submit(self._reinsert_text, text)
+            return True
+
+    def _reinsert_text(self, text):
+        try:
+            if self._closing or self._cancel_request.is_set():
+                return
+            target = self.services.context.capture()
+            if insertion_block(target):
+                self.emit("notification_requested", "Cannot reinsert into this field; use Copy in History.")
+                return
+            options = {"start_focus": target.focus, "app_title": target.app_title,
+                       "enter_guard": lambda: not self._cancel_request.is_set() and not self._closing}
+            if (guard := self._field_guard(target)) is not None:
+                options["field_guard"] = guard
+            result = self.services.inserter.insert_text(text, **options)
+            if result.status != "inserted":
+                self.emit("notification_requested", "Could not reinsert text; use Copy in History.")
+        except Exception:
+            logger.warning("History reinsertion unavailable")
+            self.emit("notification_requested", "Could not reinsert text; use Copy in History.")
+
     def configure(self, config):
         with self._lock:
+            if self._closing:
+                return
             if self.busy:
                 self._pending_config = config
                 self.emit("notification_requested", "Settings will apply after the current dictation.")
                 return
             pending = self.services.processor.pending_results
             previous = self.services.cleaner
+            context = self.services.context
             clipboard = getattr(self.services.inserter, "clipboard", None)
             self.services = self.services_factory(
                 config, level_callback=lambda level: self.emit("audio_level_changed", level),
                 notify=lambda message: self.emit("notification_requested", message))
             self.services.processor.pending_results.extend(pending)
+            replacement = self.services.context
+            if isinstance(context, ForegroundContextProvider) and isinstance(replacement, ForegroundContextProvider):
+                if replacement is not context:
+                    self._close_context(replacement)
+                context.set_profiles(self.services.profiles)
+                self.services.context = context
+                if hasattr(self.services.inserter, "focus_provider"):
+                    self.services.inserter.focus_provider = context.focus
+            elif context is not replacement:
+                self._close_context(context)
+            self._prepare_context()
             if clipboard is not None and hasattr(self.services.inserter, "clipboard"):
                 self.services.inserter.clipboard = clipboard  # Retain recovery and the History window's shared port.
             if previous is not self.services.cleaner:
@@ -598,6 +664,7 @@ class SessionWorker:
     def shutdown(self):
         self._closing = True
         self.cancel()
+        self._close_context(self.services.context)
         self.hotkeys.stop()
         self._cancel_timers()
         self._close_cleanup(self.services.cleaner)

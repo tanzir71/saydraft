@@ -1,4 +1,5 @@
 import importlib
+import sys
 from pathlib import Path
 
 from saydraft.config import default_config
@@ -15,6 +16,7 @@ def test_container_wires_local_services_with_separate_user_profile(tmp_path, mon
     assert services.processor.inserter is services.inserter
     assert services.context.profiles is services.profiles
     assert services.inserter.focus_provider == services.context.focus
+    assert services.context._use_uia == (sys.platform == "win32")
     assert services.processor.voice_enter_enabled is False
     assert services.history.db_path == tmp_path / "Saydraft/history.db"
     assert services.cleaner.cfg.glossary_path == str(tmp_path / "Saydraft/glossary.json")

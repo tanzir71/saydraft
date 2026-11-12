@@ -28,6 +28,16 @@ class TargetContext:
     selection_truncated: bool = False
 
 
+def insertion_block(target: TargetContext) -> str:
+    if target.focus is None:
+        return "unknown_target"
+    if target.is_password:
+        return "password_field"
+    if target.uia_status == "changed":
+        return "focus_changed"
+    return "" if target.uia_status in ("ok", "not_requested") else "field_unavailable"
+
+
 class AsrEngine(Protocol):
     def transcribe(self, audio: Any) -> str: ...
 
@@ -61,7 +71,8 @@ class Formatter(Protocol):
 class Inserter(Protocol):
     def insert_text(self, text: str, *, start_focus: Any = None,
                     app_title: str | None = None, send_enter: bool = False,
-                    enter_guard: Callable[[], bool] | None = None) -> InsertionResult: ...
+                    enter_guard: Callable[[], bool] | None = None,
+                    field_guard: Callable[[], str] | None = None) -> InsertionResult: ...
 
 
 class ContextProvider(Protocol):

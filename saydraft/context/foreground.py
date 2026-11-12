@@ -123,6 +123,8 @@ class ForegroundContextProvider:
             except OSError:
                 exe = ""  # A protected process may still have a usable HWND/title.
             field = self._field(window)
+            if self._closed:
+                return TargetContext()
             if api.foreground() != window or api.window_pid(window) != pid:
                 return TargetContext()
             site = browser_site(exe, title)
@@ -149,6 +151,8 @@ class ForegroundContextProvider:
             if api.foreground() != target.focus or api.window_pid(target.focus) != target.process_id:
                 return "focus_changed"
             field = self._field(target.focus, include_text=False)
+            if self._closed:
+                return "field_unavailable"
             if field.is_password:
                 return "password_field"
             if field.status != "ok":

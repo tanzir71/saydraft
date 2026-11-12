@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+import sys
 
 from .interfaces import AsrEngine, AudioCapture, Cleaner, ContextProvider, Formatter, HistoryStore, Inserter, PreviewModel
 from .processing import IdentityFormatter, TranscriptProcessor
@@ -54,7 +55,7 @@ def create_services(config: dict, *, level_callback=None, notify=lambda message:
     ))
     recorder = AudioRecorder(max_seconds=config["recording"]["max_seconds"], level_callback=level_callback)
     asr = create_asr(config)
-    context = ForegroundContextProvider(profiles=profiles)
+    context = ForegroundContextProvider(profiles=profiles, use_uia=sys.platform == "win32")
     inserter = ClipboardInserter(focus_provider=context.focus, profiles=profiles)
     snippets = read_snippets()
     history = DictationHistoryStore(import_paths={

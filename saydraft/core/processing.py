@@ -11,7 +11,7 @@ from dataclasses import dataclass, field, replace
 from saydraft.history import HistoryEntry
 from saydraft.cleanup.delivery import DeliveryIntent, trailing_enter
 from saydraft.insert.inserter import InsertionResult
-from .interfaces import Cleaner, Formatter, HistoryStore, Inserter, TargetContext
+from .interfaces import Cleaner, Formatter, HistoryStore, Inserter, TargetContext, insertion_block
 from .preferences import protect_snippets, restore_snippets
 from .timings import TimingReporter
 
@@ -54,7 +54,8 @@ class TranscriptProcessor:
     def process(self, raw_text: str, *, target: TargetContext, context, model: str,
                 duration_seconds: float | None = None, insert_text: bool = True,
                 insert_action=None, timings: dict | None = None, language: str = "auto",
-                audio_path: str | None = None, edits: list | None = None, enter_guard=None) -> ProcessingResult:
+                audio_path: str | None = None, edits: list | None = None, enter_guard=None,
+                field_guard=None) -> ProcessingResult:
         stages = dict(timings or {})
         notes = tuple(copy.deepcopy(edits or ()))
         cleaned = raw_text
@@ -103,10 +104,9 @@ class TranscriptProcessor:
             return result
         insertion = InsertionResult("not_inserted", "none", "history_only")
         started = self.clock()
-        if target.focus is None and insert_text:
-            insertion = InsertionResult("not_inserted", "none", "unknown_target")
-        elif target.is_password:
-            insertion = InsertionResult("not_inserted", "none", "password_field")
+        if insert_text and (reason := insertion_block(target)):
+            insertion = InsertionResult("skipped_focus_changed" if reason == "focus_changed" else "not_inserted",
+                                        "none", reason)
         elif cleaned and insert_text:
             def action():
                 options = {"start_focus": target.focus, "app_title": target.app_title}
@@ -114,6 +114,8 @@ class TranscriptProcessor:
                     options["send_enter"] = True
                 if enter_guard is not None:
                     options["enter_guard"] = enter_guard
+                if field_guard is not None:
+                    options["field_guard"] = field_guard
                 return self.inserter.insert_text(cleaned, **options)
             try:
                 insertion = insert_action(action) if insert_action is not None else action()
@@ -124,6 +126,10 @@ class TranscriptProcessor:
         stages["insert"] = self.clock() - started
         if insertion.status == "skipped_focus_changed":
             self.notify("Copied to history; focus changed before insertion.")
+        elif insertion.reason == "password_field":
+            self.notify("Dictation saved in History. Automatic insertion is disabled in password fields.")
+        elif insertion.reason == "field_unavailable":
+            self.notify("Dictation saved in History. The target field could not be verified; use Copy in History.")
         elif insertion.reason == "target_elevated":
             self.notify("Dictation saved in History. The target is an admin window; automatic insertion is blocked.")
         elif insertion.reason == "modifier_held":
@@ -139,6 +145,8 @@ class TranscriptProcessor:
         elif delivery.send_enter and insertion.status == "inserted" and not insertion.enter_sent:
             self.notify("Text inserted; Enter was skipped because focus changed." if insertion.reason == "enter_focus_changed"
                         else "Text inserted; Enter was cancelled." if insertion.reason == "enter_cancelled"
+                        else "Text inserted; Enter was skipped because the field could not be verified."
+                        if insertion.reason in ("enter_password_field", "enter_field_unavailable")
                         else "Text inserted; Enter delivery could not be confirmed." if insertion.reason == "enter_failed"
                         else "Text inserted; Enter could not be sent.")
         elif insertion.reason not in ("history_only", "cancelled") and insertion.status != "inserted":

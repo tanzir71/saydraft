@@ -111,16 +111,10 @@ class WorkerController:
         return bool(self.core and self.core.is_current_preview(generation, listening_only=listening_only))
 
     def reinsert_text(self, text):
-        if self.core is None:
-            return
-        services = self.core.services
-        target = services.context.capture()
-        if target.is_password or target.focus is None:
-            self.signals.notification_requested.emit("Cannot reinsert into this field; use Copy in History.")
-            return
-        result = services.inserter.insert_text(text, start_focus=target.focus, app_title=target.app_title)
-        if result.status != "inserted":
-            self.signals.notification_requested.emit("Could not reinsert text; use Copy in History.")
+        queued = bool(self.core and self.core.reinsert_text(text))
+        if not queued:
+            self.signals.notification_requested.emit("Finish the current work before reinserting History text.")
+        return queued
 
     def clipboard(self):
         return getattr(self.core.services.inserter, "clipboard", None) if self.core is not None else None
@@ -366,9 +360,10 @@ class SaydraftApp:
                 return store
         return None
 
-    def _reinsert_history_text(self, text: str, _row=None) -> None:
+    def _reinsert_history_text(self, text: str, _row=None):
         if hasattr(self.controller, "reinsert_text"):
-            self.controller.reinsert_text(text)
+            return self.controller.reinsert_text(text)
+        return False
 
     def _controller_model_label(self) -> str:
         if hasattr(self.controller, "model_label"):

@@ -62,6 +62,7 @@ class Inserter:
         app_title: str | None = None,
         send_enter: bool = False,
         enter_guard: Callable[[], bool] | None = None,
+        field_guard: Callable[[], str] | None = None,
     ) -> InsertionResult:
         if not text:
             return InsertionResult(status="skipped_empty", method="none", reason="empty_text")
@@ -76,9 +77,19 @@ class Inserter:
 
         method = self._method_for_app(app_title)
         def check():
+            reason = self._delivery_block(start_focus, enter_guard)
+            if reason or field_guard is None:
+                return reason
+            try:
+                if reason := field_guard():
+                    return reason
+            except Exception:
+                return "field_unavailable"
+            # UIA may have waited for a provider. Recheck cancellation and OS
+            # focus/integrity/modifiers before using its answer.
             return self._delivery_block(start_focus, enter_guard)
 
-        guarded = send_enter or self.delivery_guard is not None or enter_guard is not None
+        guarded = send_enter or self.delivery_guard is not None or enter_guard is not None or field_guard is not None
         if guarded and (reason := check()):
             return InsertionResult("skipped_focus_changed" if reason == "focus_changed" else "not_inserted",
                                    "none", reason)

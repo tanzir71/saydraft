@@ -109,10 +109,9 @@ clipboard and reads no active application. CI repeats the probe in a bounded
 child process. Pure policy/range tests cover sensitive-state/focus races, unknown
 properties, malformed IDs, bounded Unicode and range movement.
 
-The reader is not yet enabled in application context capture. App insertion
-refusal for unavailable/password fields and manual password acceptance remain
-under P5.3. Provider timeouts alone do not bound a total call sequence; the adapter
-below supplies the outer caller budget.
+The application uses the adapter and refusal checks below. Manual active-field
+acceptance remains under P5.3. Provider timeouts alone do not bound a total call
+sequence; the adapter supplies the outer caller budget.
 
 Clean immutable `097d502` passes the native own-control probe with no failures,
 both worker threads exited and all owned windows closed. The original report and
@@ -144,7 +143,35 @@ ID, HWND and original PID before delivery. Verification never reads caret or
 selection text. Closed adapters perform no further foreground reads. Per-app
 group changes can update the provider without replacing its owner.
 
-Production enablement remains off until app integration supplies persistent owner
-reuse, shutdown, and refusal checks on all delivery routes. Nineteen new cases
-exercise caller timeout, blocked initialization, shutdown, overlapping requests,
-late-text suppression, provider failures and field/window/process changes.
+Nineteen adapter cases exercise caller timeout, blocked initialization, shutdown,
+overlapping requests, late-text suppression, provider failures and field/window/
+process changes.
+
+## Application delivery
+
+Windows services enable UIA and prepare the MTA owner before listening. Settings
+reuse the same context/reader, update group overrides and rebind the replacement
+inserter's HWND-only provider. Discarded replacement providers never start a
+worker. Shutdown signals context closure before retiring hooks; configuration
+after shutdown cannot create another owner.
+
+Normal dictation persists both text versions before refusing password, unknown or
+changed fields. A fresh metadata-only field guard runs before publication, paste,
+typing fallback and trailing Enter. It checks password state, runtime identity,
+HWND and original PID. Cancellation and Windows focus/integrity/modifiers are
+checked again after any UIA wait. Windows offers no atomic field-check-and-send
+operation; these checks reduce races rather than eliminate them.
+
+History reinsertion reserves the serial worker rather than running capture or OS
+delivery on the GUI. It uses the same field and cancellation checks; cancelled
+queued work reads no field. Rejected queueing is shown as busy instead of claiming
+delivery was queued. History-only notes remain available without an insertion
+warning. `not_requested` context remains an injected legacy/test seam; production
+Windows capture supplies an explicit UIA result.
+
+Sixteen new integration/UI cases cover captured and later password changes,
+clipboard preservation, skipped Enter, cancellation during verification, typing/
+legacy fallback, History reinsertion and one blocked owner across Settings and
+shutdown. Full local suite: 1800 pass, five explicit native/model skips; rules
+432/432, authored adversarial 100/100, Ruff/diff pass. Native composed app-context
+proof and active-field manual acceptance remain separate; P5.3 stays unchecked.
