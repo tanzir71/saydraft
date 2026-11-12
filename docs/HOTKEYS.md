@@ -77,3 +77,14 @@ forwarding, mouse decode, off-thread dispatch, masks, queue saturation, late
 startup, adoption/partial-install failure and cleanup observation. Initial native
 vkE8-only probes install both hooks, dispatch off-thread, ignore our own mask and
 observe both threads/hooks retired. A reusable immutable-source probe follows.
+
+The explicit `tools.probe_native_hooks` command installs both hooks and exercises
+only unassigned vkE8 with a different origin tag. It verifies two action phases,
+off-hook dispatch, monotonic timestamps, our own mask's exclusion and complete
+shutdown. A half-second process CPU observation is recorded separately; it is
+not a general idle/latency distribution. It sends no Win/Ctrl chord, mouse click,
+text, recording or insertion and does not change application preferences:
+
+```powershell
+python -m tools.probe_native_hooks --output D:\QA\New-Native-Hook-Probe
+```
