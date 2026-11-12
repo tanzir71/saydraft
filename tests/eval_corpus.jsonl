@@ -40,3 +40,51 @@
 {"id":"aggressive-chat-01","mode":"aggressive","profile":"chat","input":"you know we should ship this","expected":"We should ship this"}
 {"id":"aggressive-chat-02","mode":"aggressive","profile":"chat","input":"make it red no wait blue","expected":"Make it blue"}
 {"id":"aggressive-code-01","mode":"aggressive","profile":"code/comments","input":"like hello hello world","expected":"like hello world"}
+{"id":"commands-v1-01","mode":"aggressive","profile":"email","input":"um hello comma team exclamation point","expected":"Hello, team!"}
+{"id":"commands-v1-02","mode":"aggressive","profile":"general","input":"is it ready question mark","expected":"Is it ready?"}
+{"id":"commands-v1-03","mode":"aggressive","profile":"general","input":"check the server colon then deploy semicolon then check logs","expected":"Check the server: then deploy; then check logs"}
+{"id":"commands-v1-04","mode":"aggressive","profile":"general","input":"I think ellipsis maybe tomorrow","expected":"I think… maybe tomorrow"}
+{"id":"commands-v1-05","mode":"aggressive","profile":"general","input":"it works em dash mostly","expected":"It works — mostly"}
+{"id":"commands-v1-06","mode":"aggressive","profile":"general","input":"the range is short en dash maybe","expected":"The range is short – maybe"}
+{"id":"commands-v1-07","mode":"aggressive","profile":"general","input":"a well hyphen known bug","expected":"A well-known bug"}
+{"id":"commands-v1-08","mode":"aggressive","profile":"general","input":"send cap john apostrophe s report","expected":"Send John's report"}
+{"id":"commands-v1-09","mode":"aggressive","profile":"general","input":"open paren maybe close paren send it","expected":"(Maybe) send it"}
+{"id":"commands-v1-10","mode":"aggressive","profile":"notes","input":"open parenthesis optional close parenthesis add notes","expected":"(Optional) add notes"}
+{"id":"commands-v1-11","mode":"aggressive","profile":"email","input":"open bracket draft close bracket review this","expected":"[Draft] review this."}
+{"id":"commands-v1-12","mode":"aggressive","profile":"general","input":"open quote hello close quote","expected":"“Hello”"}
+{"id":"commands-v1-13","mode":"aggressive","profile":"general","input":"please say open quote hello close quote now","expected":"Please say “hello” now"}
+{"id":"commands-v1-14","mode":"aggressive","profile":"email","input":"all caps urgent please review","expected":"URGENT please review."}
+{"id":"commands-v1-15","mode":"aggressive","profile":"general","input":"please write all caps asap in the subject","expected":"Please write ASAP in the subject"}
+{"id":"commands-v1-16","mode":"aggressive","profile":"general","input":"please use cap saydraft here","expected":"Please use Saydraft here"}
+{"id":"commands-v1-17","mode":"aggressive","profile":"general","input":"cap welcome comma team","expected":"Welcome, team"}
+{"id":"commands-v1-18","mode":"aggressive","profile":"general","input":"the cap on spending remains","expected":"The cap on spending remains"}
+{"id":"commands-v1-19","mode":"aggressive","profile":"general","input":"we write in all caps for headings","expected":"We write in all caps for headings"}
+{"id":"commands-v1-20","mode":"aggressive","profile":"general","input":"the all caps style is optional","expected":"The all caps style is optional"}
+{"id":"commands-v1-21","mode":"aggressive","profile":"email","input":"hello new paragraph world exclamation mark","expected":"Hello\n\nWorld!"}
+{"id":"commands-v1-22","mode":"aggressive","profile":"notes","input":"first note new line next note","expected":"First note\nNext note"}
+{"id":"commands-v1-23","mode":"aggressive","profile":"general","input":"hello full stop are you ready question mark","expected":"Hello. Are you ready?"}
+{"id":"commands-v1-24","mode":"aggressive","profile":"general","input":"great exclamation point next step colon review","expected":"Great! Next step: review"}
+{"id":"commands-v1-25","mode":"aggressive","profile":"general","input":"please use a reader hyphen friendly format","expected":"Please use a reader-friendly format"}
+{"id":"commands-v1-26","mode":"aggressive","profile":"email","input":"this is cap alice apostrophe s document","expected":"This is Alice's document."}
+{"id":"commands-v1-27","mode":"aggressive","profile":"general","input":"the result dash as expected dash is ready","expected":"The result — as expected — is ready"}
+{"id":"commands-v1-28","mode":"aggressive","profile":"general","input":"um cap hello comma cap world","expected":"Hello, World"}
+{"id":"commands-v1-29","mode":"aggressive","profile":"general","input":"open quote hello close quote period next thought","expected":"“Hello”. Next thought"}
+{"id":"commands-v1-30","mode":"aggressive","profile":"general","input":"please retain `open quote hello close quote` exactly","expected":"Please retain `open quote hello close quote` exactly"}
+{"id":"commands-v1-31","mode":"aggressive","profile":"general","input":"please retain “all caps urgent” exactly","expected":"Please retain “all caps urgent” exactly"}
+{"id":"commands-v1-32","mode":"aggressive","profile":"general","input":"visit https://example.com/cap now comma please","expected":"Visit https://example.com/cap now, please"}
+{"id":"commands-v1-33","mode":"aggressive","profile":"general","input":"email owner@example.com comma please","expected":"Email owner@example.com, please"}
+{"id":"commands-v1-34","mode":"aggressive","profile":"general","input":"open bracket cap draft close bracket then review","expected":"[Draft] then review"}
+{"id":"commands-v1-35","mode":"aggressive","profile":"general","input":"a real hyphen time check","expected":"A real-time check"}
+{"id":"commands-v1-36","mode":"aggressive","profile":"general","input":"john apostrophe-s notes are ready","expected":"John's notes are ready"}
+{"id":"commands-v1-37","mode":"aggressive","profile":"general","input":"keep cap api unchanged","expected":"Keep Api unchanged"}
+{"id":"commands-v1-38","mode":"aggressive","profile":"general","input":"all caps api is ready","expected":"API is ready"}
+{"id":"commands-v1-39","mode":"aggressive","profile":"general","input":"please press enter","expected":"Please press enter"}
+{"id":"commands-v1-40","mode":"aggressive","profile":"general","input":"the periodical arrived","expected":"The periodical arrived"}
+{"id":"commands-v1-41","mode":"aggressive","profile":"email","input":"hello newline world","expected":"Hello\nWorld."}
+{"id":"commands-v1-42","mode":"aggressive","profile":"general","input":"open paren all caps optional close paren send it","expected":"(OPTIONAL) send it"}
+{"id":"commands-v1-43","mode":"aggressive","profile":"notes","input":"hello comma team new paragraph please review","expected":"Hello, team\n\nPlease review"}
+{"id":"commands-v1-44","mode":"aggressive","profile":"general","input":"the plan colon test comma review comma ship","expected":"The plan: test, review, ship"}
+{"id":"commands-v1-45","mode":"aggressive","profile":"email","input":"a follow hyphen up message","expected":"A follow-up message."}
+{"id":"commands-v1-46","mode":"aggressive","profile":"general","input":"the new word is cap codex","expected":"The new word is Codex"}
+{"id":"commands-v1-47","mode":"aggressive","profile":"email","input":"are the notes ready question mark new paragraph please confirm","expected":"Are the notes ready?\n\nPlease confirm."}
+{"id":"commands-v1-48","mode":"aggressive","profile":"general","input":"ready ellipsis almost","expected":"Ready… almost"}

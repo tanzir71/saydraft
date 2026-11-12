@@ -8,6 +8,7 @@ _SPAN_PATTERNS = [
     re.compile(r"```[\s\S]*?```"),
     re.compile(r"`[^`]*?`"),
     re.compile(r"\"[^\"\n]*\""),
+    re.compile(r"“[^”\n]*”"),
     re.compile(r"__(?:SPAN|GLOSSARY)_\d+__|⟦T\d+⟧"),
     re.compile(r"https?://[^\s<>\"'\])]+", re.IGNORECASE),
     re.compile(r"[\w.!#$%&'*+/=?^`{|}~+-]+@(?:[\w-]+\.)+[\w-]+", re.UNICODE),

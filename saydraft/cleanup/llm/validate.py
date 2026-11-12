@@ -14,7 +14,7 @@ from difflib import SequenceMatcher
 
 from saydraft.text_boundaries import whole_word_match
 TOKENS = re.compile(r"__(?:GLOSSARY|SPAN)_\d+__|⟦T\d+⟧")
-CODE = re.compile(r"```[\s\S]*?```|`[^`]*`|\"[^\"\n]*\"")
+CODE = re.compile(r"```[\s\S]*?```|`[^`]*`|\"[^\"\n]*\"|“[^”\n]*”")
 URLS = re.compile(r"https?://[^\s<>\"'\])]+", re.IGNORECASE)
 EMAILS = re.compile(r"[\w.!#$%&'*+/=?^`{|}~+-]+@(?:[\w-]+\.)+[\w-]+", re.UNICODE)
 NUMBER = r"[+−-]?\d+(?:[.,\u066b\u066c]\d+)*"

@@ -4,6 +4,8 @@ import re
 from dataclasses import dataclass
 from typing import List, Tuple
 
+from saydraft.cleanup.commands import render_commands
+from saydraft.cleanup.commands import SPOKEN_PUNCTUATION as SPOKEN_PUNCTUATION
 
 FILLER_PHRASES_CONSERVATIVE: Tuple[str, ...] = (
     "um",
@@ -25,18 +27,6 @@ FILLER_PHRASES_AGGRESSIVE: Tuple[str, ...] = (
     "basically",
     "sort of",
     "kind of",
-)
-
-
-SPOKEN_PUNCTUATION: Tuple[Tuple[str, str], ...] = (
-    ("comma", ","),
-    ("period", "."),
-    ("full stop", "."),
-    ("question mark", "?"),
-    ("exclamation point", "!"),
-    ("exclamation mark", "!"),
-    ("colon", ":"),
-    ("semicolon", ";"),
 )
 
 
@@ -69,21 +59,7 @@ def convert_spoken_punctuation(
     convert_newlines: bool,
     convert_punctuation: bool = True,
 ) -> str:
-    if not text:
-        return text
-    out = " " + text + " "
-
-    if convert_newlines:
-        out = re.sub(r"\bnew paragraph\b", "\n\n", out, flags=re.IGNORECASE)
-        out = re.sub(r"\b(new line|newline)\b", "\n", out, flags=re.IGNORECASE)
-
-    if convert_punctuation:
-        for spoken, punct in SPOKEN_PUNCTUATION:
-            out = re.sub(r"\b" + re.escape(spoken) + r"\b", punct, out, flags=re.IGNORECASE)
-
-    out = re.sub(r"[ \t\f\v]+([,.!?;:])", r"\1", out)
-    out = re.sub(r"([,.!?;:])([A-Za-z])", r"\1 \2", out)
-    return out.strip()
+    return render_commands(text, convert_newlines=convert_newlines, convert_punctuation=convert_punctuation)
 
 
 def remove_fillers(text: str, aggressive: bool) -> str:
@@ -239,8 +215,8 @@ def basic_grammar(text: str) -> str:
         return text
 
     text = re.sub(
-        r"(^|[.!?]\s+|\n+[ \t]*)([a-z])",
-        lambda match: match.group(1) + match.group(2).upper(),
+        r"(^|[.!?]\s+|\n+[ \t]*)([([“]*)([a-z])",
+        lambda match: match.group(1) + match.group(2) + match.group(3).upper(),
         text,
     )
     text = re.sub(r"[ \t\f\v]+", " ", text)
