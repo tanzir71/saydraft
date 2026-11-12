@@ -113,6 +113,38 @@ Full local journals remain under the corresponding D: QA directories; their
 digests are in the results index. Reproduce with the candidate runner documented
 in [CLEANUP_CANDIDATES.md](CLEANUP_CANDIDATES.md#reproducible-native-measurements).
 
+### Rules-cleaned contract reevaluation
+
+Immutable source `b32a03e` reruns the same corpus, artifacts and RTX/Vulkan settings
+with explicit rules-stage demonstrations and finite structure refusals. Golden
+strings and normal detail validation are unchanged. Both runs completed all
+532 inputs and all three 60-token samples; native exits were observed.
+
+| Candidate | Exact golden | Accepted exact / 314 model calls | Safe fallback exact | Remaining exact regression IDs |
+| --- | ---: | ---: | ---: | --- |
+| Qwen3.5 0.8B Q4_K_M | 431/432 (99.8%) | 297/314 | 16 | `balanced-chat-05` |
+| Qwen3.5 2B Q4_K_M | 429/432 (99.3%) | 302/314 | 9 | `balanced-general-04`, `balanced-email-01`, `balanced-chat-05` |
+
+The other 118 cases bypass the model. Remaining mismatches add commas beside the
+literal word “comma”; all previous observed layout/question/ellipsis regressions
+now match through accepted output or explicit safe fallback. All 100 runtime
+adversarial inputs per model were accepted with zero finite guard failures,
+separately from the authored validator's 100/100 refusals. This does not prove
+semantic safety or establish zero must-keep regressions. Need-score integration
+and the remaining candidate/isolated backend matrix still precede defaults.
+
+| Candidate | Cleanup call p50 / p95 | 60-token decode rates (tok/s), all samples | Native peak host working set |
+| --- | ---: | --- | ---: |
+| Qwen3.5 0.8B | 125 / 205 ms | 206.88, 214.06, 204.76 | 905,449,472 bytes |
+| Qwen3.5 2B | 151 / 287 ms | 138.60, 140.93, 140.06 | 1,664,913,408 bytes |
+
+Transfers remain concurrent, driver caches were primed, host working set excludes
+VRAM, and processor times exclude ASR/native insertion. These are diagnostics,
+not isolated tier or release-to-text acceptance. Unmodified reports and journal
+digests are retained in
+[`2026-11-12-rule-contract`](../eval/cleanup/results/2026-11-12-rule-contract).
+The original baseline reports remain unchanged. No model is selected.
+
 The bundled [catalog](../saydraft/models/manifest.json) pins every file's revision,
 size, SHA-256 digest and exact HTTPS download/redirect hosts. Parakeet revisions:
 

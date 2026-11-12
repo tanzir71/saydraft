@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "source_commit": "b32a03ec9bc6e4d8503ba79cb44b526f8e29a2e3",
+  "isolation_declared": false,
+  "selection_performed": false,
+  "measurement_matrix_complete": false,
+  "reports": [
+    {
+      "report": "qwen08-vulkan1.json",
+      "report_sha256": "1f0d8e7d3cd27ca79322663211898c84bbb9330a1f56867a4ab45ab94a6bca22",
+      "local_journal_directory": "cleanup-bakeoff-b32a03e-qwen08-vulkan1",
+      "journal_sha256": "e2c22f0570582dbf6dba586045949a2a35a068204ebdfc544e9de588f434b87c"
+    },
+    {
+      "report": "qwen2-vulkan1.json",
+      "report_sha256": "546ea3f3e36f6000848aa872df90b56a270a5e5ff7e3cd8abb38067c3e736121",
+      "local_journal_directory": "cleanup-bakeoff-b32a03e-qwen2-vulkan1",
+      "journal_sha256": "b5d76fe5449ad0430861a84286fe9dfc2ee832a924eb6c2275939baa5d50a8f6"
+    }
+  ]
+}
