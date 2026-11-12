@@ -1,6 +1,6 @@
 # Local cleanup runtime
 
-The app's future sidecar uses the Windows x64 llama.cpp build referenced by
+The app's sidecar uses the Windows x64 llama.cpp build referenced by
 [stable release v0.9.0](https://github.com/ggml-org/llama.cpp/releases/tag/v0.9.0):
 binary release **b12110**, source commit
 `cd959bae99ff4bed22bef2604f45241c09bbb8c8`. Both archives and every selected
@@ -29,8 +29,9 @@ part of the sidecar/installer work.
 the pinned CPU/Vulkan choices, uses the existing staged archive installer,
 supports pause/resume and preserves old versions and partial work. It writes to
 the per-user `models/runtime/<catalog-id>` directory. Runtime packages never
-appear in the speech-model picker. There is no automatic download or new app
-startup behavior in this foundation change; controls and lifecycle follow.
+appear in the speech-model picker. Construction and startup never initiate a
+download. Combined model/setup controls follow the
+cleanup-model bake-off and onboarding work.
 
 Actual cached installations verified all payloads and notices with **zero network
 calls**. Both installed executables ran `--offline --version` in hidden processes
@@ -38,7 +39,7 @@ and exited successfully without opening a server or loading a model. This checks
 the installed dependency closure on the development machine, not clean-machine
 deployment, GPU inference, request deadlines or process ownership.
 
-Validation: 606 tests pass, four optional native skips with real preview/Silero/LID
+Validation: 624 tests pass, four optional native skips with real preview/Silero/LID
 enabled; cleanup evaluation 42/42; Ruff and diff checks pass.
 
 `cleanup.llm.windows_process.WindowsJobProcess` now supplies native process
@@ -70,7 +71,7 @@ timeouts would keep resetting, including Connection: close responses whose body
 outlives HTTPConnection's socket reference. Local server tests cover Unicode,
 authentication failure, redirects, invalid/nonfinite JSON, wrong content types,
 declared/streamed size overflow and slow headers/bodies. No app requests start
-from construction or imports; manager integration follows.
+from transport construction or imports.
 
 A real pinned CPU server also passes this path under NetworkGuard, inside the
 owned hidden process wrapper: health becomes ready, `/v1/models` reports the
@@ -107,8 +108,7 @@ Native CPU probes additionally verify completion/idle/reload, interruption and
 absolute deadlines. Killing an active request returned fallback control in
 **0.028 s**; an **0.080 s** deadline returned in **0.091 s**. Vulkan preparation
 and a sixteen-token completion also pass. These are control-flow observations,
-not cleanup-quality or general latency measurements. App/prompt integration is
-still pending, so P4.1 remains unchecked.
+not cleanup-quality or general latency measurements.
 
 Process admission is shared across all manager instances. A settings/service
 replacement cannot launch until the previous native process's exit is observed.
@@ -128,10 +128,32 @@ The original 260K fixture stopped at its token/context limit before the timed ki
 could exercise interruption. Both unsuccessful probe notes are retained; the
 larger fixture supplies the passing interruption check. Neither is an app model.
 
-The sidecar manager must additionally use an absolute verified binary/model
-path, loopback binding, `--offline`, a fresh authentication key and a sanitized
-child environment. It must disable the web UI/tools/tunnel,
-keep one process, health-check with a deadline, stop on failure/timeout and unload
-after idle. Those behaviors require their own tests before P4.1 is checked off.
+The running app now uses this manager through its streaming cleanup adapter.
+Worker startup/arming warms enabled installed files in the background, replacement
+closes the old cleaner before warming the new one, and shutdown terminates the
+owned process. Missing/unready files, request errors and deadlines retain rules
+text. No Python `llama_cpp` dependency or output-JSON contract remains.
+
+`tools/probe_cleanup_app.py` verifies the real worker, pipeline and SQLite History
+with fixture capture and insertion stubs under NetworkGuard. The passing native
+100-cycle run saves 100 History rows before 100 insertion calls; fifty owned
+processes all exit. Fifty normal responses hit the deliberate one-token ceiling
+and are refused. Fifty termination-after-tokenization attempts retain rules,
+including one deadline fallback. Maximum observed release-to-History/insertion
+was 0.866 s. This is lifecycle evidence, not cleanup-quality or tier performance.
+
+The tiny fixture declares 128 context tokens, while the complete prompt in this
+probe needs 1277. The probe's explicit `--fixture-context-override` is restricted
+to the pinned fixture SHA and changes only the child arguments; it never rewrites
+the model or the app policy. The unexpanded context-overflow run remains retained.
+The first 100-cycle report incorrectly failed intended timeout fallbacks despite
+preserving all words and exiting all 52 processes. It also remains retained; the
+corrected classifier requires normal streaming evidence and still fails ordinary
+HTTP/protocol errors. The subsequent 100-cycle report passes.
+
 The [pinned server documentation](https://github.com/ggml-org/llama.cpp/blob/cd959bae99ff4bed22bef2604f45241c09bbb8c8/tools/server/README.md)
-documents offline mode, `LLAMA_API_KEY`, web UI controls and idle sleeping.
+documents offline mode, `LLAMA_API_KEY`, web UI controls and metadata overrides.
+The [pinned server source](https://github.com/ggml-org/llama.cpp/blob/cd959bae99ff4bed22bef2604f45241c09bbb8c8/tools/server/server-context.cpp)
+caps slot context at the model's declared training context. Clean-machine VC
+runtime handling, combined setup controls and app-model quality selection remain
+separate installer/onboarding/bake-off work.

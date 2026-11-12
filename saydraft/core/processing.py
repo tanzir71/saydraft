@@ -6,7 +6,7 @@ import logging
 import time
 import json
 import copy
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 
 from saydraft.history import HistoryEntry
 from saydraft.insert.inserter import InsertionResult
@@ -56,6 +56,8 @@ class TranscriptProcessor:
         notes = tuple(copy.deepcopy(edits or ()))
         cleaned = raw_text
         try:
+            context = replace(context, app_title=target.app_title, app_group=target.app_group,
+                              language=language, before_caret=target.before_caret)
             cleaned = self.cleaner.process_transcript(raw_text, context) or raw_text
             stages.update(getattr(self.cleaner, "last_timings", {}))
         except Exception:
@@ -71,6 +73,7 @@ class TranscriptProcessor:
                              context.profile, duration_seconds, model,
                              app_exe=target.app_exe, app_group=target.app_group,
                              intensity={"raw": 0, "balanced": 1, "aggressive": 3}.get(context.mode),
+                             llm_decision=getattr(self.cleaner, "last_llm_decision", None),
                              language=language, asr_model=model, timings_json=json.dumps(stages),
                              audio_path=audio_path, edits_json=json.dumps(notes))
         try:

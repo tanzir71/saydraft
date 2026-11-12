@@ -156,3 +156,32 @@ def test_pipeline_learn_word_persists_and_reloads_glossary(tmp_path):
     out = p.process_transcript("qwen turbo is ready", DictationContext(mode="balanced", profile="general"))
     assert "qwen turbo" in out.lower()
 
+
+def test_contextual_sidecar_receives_protected_text_and_glossary_but_still_passes_validator():
+    calls = []
+
+    class Contextual:
+        def available(self):
+            return True
+
+        def clean_with_context(self, text, **kwargs):
+            calls.append((text, kwargs))
+            return text.replace("2", "3"), "ok"
+
+    p = DictationPipeline(DictationConfig(), llm_cleaner=Contextual())
+    p.glossary = Glossary(user_terms=("Saydraft",), protected_terms=("ACME",))
+    context = DictationContext(app_group="email", language="en", before_caret="Dear team,")
+    output = p.process_transcript("send 2 files to Saydraft", context)
+    assert "2" in output and "3" not in output and "Saydraft" in output
+    assert "Saydraft" not in calls[0][0] and "__GLOSSARY_" in calls[0][0]
+    assert calls[0][1] == {"context": context, "glossary": ("Saydraft", "ACME")}
+
+
+def test_raw_code_profile_and_code_group_bypass_cleanup_requests():
+    fake = FakeLLMRecordsTone()
+    pipeline = DictationPipeline(DictationConfig(), llm_cleaner=fake)
+    for context in (DictationContext(mode="raw"), DictationContext(profile="code/comments"),
+                    DictationContext(app_group="code")):
+        assert pipeline.process_transcript("hello world", context)
+    assert not fake.calls
+

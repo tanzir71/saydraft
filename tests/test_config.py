@@ -199,3 +199,15 @@ def test_main_initializes_logging_and_config_before_qt_shell(monkeypatch, tmp_pa
     assert main.main() == 0
 
     assert calls == ["logging", "config", "qt"]
+
+
+def test_cleanup_sidecar_settings_are_bounded_without_reinterpreting_legacy_gpu_layers():
+    from saydraft.config import default_config, sanitize_config
+
+    cfg = default_config()
+    cfg["llm"].update(backend="remote", n_ctx=-1, max_tokens=0, timeout_ms=-20,
+                      idle_seconds=0, threads=999, gpu_layers=17)
+    clean = sanitize_config(cfg)["llm"]
+    assert clean["backend"] == "cpu" and clean["n_ctx"] == 256 and clean["max_tokens"] == 1
+    assert clean["timeout_ms"] == 50 and clean["idle_seconds"] == 30 and clean["threads"] == 64
+    assert clean["gpu_layers"] == 17

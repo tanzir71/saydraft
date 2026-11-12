@@ -48,8 +48,33 @@ The fake-model contract verifies that there is no JSON response-format request
 or output JSON decoding. A real owned CPU server also passes SSE decoding under
 NetworkGuard; the eight-token developer probe stops with `length`, which the
 cleanup client deliberately refuses. This is transport evidence, not model
-quality evidence. App adapter integration still follows; the running app uses
-its existing cleanup path at this foundation stage.
+quality evidence.
 
-Validation: 601 tests pass, four optional native skips with real preview/Silero/LID
+The app's `LocalLLMCleaner` now delegates to this owned streaming path. The
+legacy Python `llama_cpp` import and JSON output prompt/parser are removed.
+Captured app/group, detected language, last caret context and glossary feed the
+prompt; raw/code dictation bypasses cleanup requests. Complete candidates still
+pass the pipeline validator before glossary/span restoration, History and
+insertion. History records acceptance or fallback metadata. The existing
+`clean(text, tone_hint=...)` interface remains compatible with injected cleaners.
+
+Worker startup/arming warms only enabled, installed cleanup files in the
+background. Missing/unready files preserve rules immediately; settings replacement
+closes the previous cleaner before warming its successor. Shutdown stops cleanup
+and refuses late candidates. CPU is the default backend; `llm.backend` explicitly
+selects CPU/Vulkan, `timeout_ms` defaults to 800 and `idle_seconds` to 900. Context
+defaults to 4096. Legacy temperature/top-p/GPU-layer preferences remain readable
+but decoding uses temperature zero and the selected runtime's GPU policy.
+
+A complete safe fake-model response passes through the real streaming adapter,
+validator, SQLite History and insertion stub. Changed numbers, lost protected
+tokens and partial output instead retain the rules text. The native app probe
+also passes 100 capture/process/History/stub-insertion cycles, including forced
+termination and deadline fallback; all fifty cleanup processes exit on shutdown.
+It uses a checksum-restricted developer-only context override because the tiny
+fixture declares only 128 tokens, below this prompt's 1277-token test request.
+The model file is unchanged and supplies no cleanup-quality result. The original
+context-overflow run and an overly strict probe-classifier failure remain in QA.
+
+Validation: 624 tests pass, four optional native skips with real preview/Silero/LID
 enabled; cleanup evaluation 42/42; Ruff and diff checks pass.

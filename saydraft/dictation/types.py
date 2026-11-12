@@ -13,4 +13,7 @@ class DictationContext:
     mode: CleanupMode = "balanced"
     profile: FormatProfile = "general"
     app_title: Optional[str] = None
+    app_group: str = "general"
+    language: str = "auto"
+    before_caret: str = ""
 

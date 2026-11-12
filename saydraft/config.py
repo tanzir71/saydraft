@@ -66,6 +66,9 @@ CONFIG_SCHEMA: dict[str, Any] = {
         "top_p": float,
         "threads": (int, type(None)),
         "gpu_layers": (int, type(None)),
+        "backend": str,
+        "timeout_ms": int,
+        "idle_seconds": int,
     },
 }
 
@@ -118,12 +121,15 @@ _DEFAULT_CONFIG: dict[str, Any] = {
     "llm": {
         "enabled": False,
         "model_path": "models/llm/model.gguf",
-        "n_ctx": 2048,
+        "n_ctx": 4096,
         "max_tokens": 256,
         "temperature": 0.05,
         "top_p": 0.9,
         "threads": None,
         "gpu_layers": None,
+        "backend": "cpu",
+        "timeout_ms": 800,
+        "idle_seconds": 900,
     },
 }
 
@@ -226,6 +232,15 @@ def sanitize_config(config: dict[str, Any] | None) -> dict[str, Any]:
         and isinstance(item.get("model_id"), str) and item["model_id"] in models]
     if not cfg["labs"]["live_preview"]:
         cfg["labs"]["use_streaming_result"] = False
+    llm = cfg["llm"]
+    if llm["backend"] not in ("cpu", "vulkan"):
+        llm["backend"] = "cpu"
+    llm["n_ctx"] = max(256, min(65536, llm["n_ctx"]))
+    llm["max_tokens"] = max(1, min(4096, llm["max_tokens"]))
+    llm["timeout_ms"] = max(50, min(5000, llm["timeout_ms"]))
+    llm["idle_seconds"] = max(30, min(86400, llm["idle_seconds"]))
+    if llm["threads"] is not None:
+        llm["threads"] = max(1, min(64, llm["threads"]))
     return cfg
 
 

@@ -47,6 +47,8 @@ def create_services(config: dict, *, level_callback=None, notify=lambda message:
             enabled=llm["enabled"], model_path=str(resolve_data_path(llm["model_path"])),
             n_ctx=llm["n_ctx"], max_tokens=llm["max_tokens"], temperature=llm["temperature"],
             top_p=llm["top_p"], n_threads=llm["threads"], n_gpu_layers=llm["gpu_layers"],
+            backend=llm.get("backend", "cpu"), timeout_ms=llm.get("timeout_ms", 800),
+            idle_seconds=llm.get("idle_seconds", 900),
         ),
     ))
     recorder = AudioRecorder(max_seconds=config["recording"]["max_seconds"], level_callback=level_callback)

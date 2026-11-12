@@ -120,3 +120,15 @@ def test_snippet_expansion_preserves_literal_backslashes_and_is_not_recursive():
     processor, _events, _notifications = make_processor()
     processor.snippets = {"path": r"C:\team\notes", "alias": "path"}
     assert process(processor, "path alias").cleaned_text == r"clean C:\team\notes path"
+
+
+def test_cleanup_receives_captured_app_group_language_and_caret_without_mutating_original_context():
+    seen = []
+    processor, _events, _notifications = make_processor(cleaner=types.SimpleNamespace(
+        process_transcript=lambda text, context: seen.append(context) or text))
+    context = DictationContext()
+    target = TargetContext("captured", "Mail", before_caret="Dear team,", app_group="email")
+    processor.process("words", target=target, context=context, model="fixture", language="bn")
+    assert (seen[0].app_title, seen[0].app_group, seen[0].language, seen[0].before_caret) == (
+        "Mail", "email", "bn", "Dear team,")
+    assert context == DictationContext()

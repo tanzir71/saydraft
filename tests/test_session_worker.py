@@ -123,6 +123,36 @@ def test_model_is_prepared_before_microphone_and_actual_model_is_saved():
     assert events[0][1].model == "parakeet-actual"
 
 
+def test_cleanup_warm_failure_does_not_block_microphone_and_shutdown_closes_cleaner():
+    worker, _clock, _executor, _events, _signals, _keyboard = make_worker()
+    calls = []
+
+    def failed_warm():
+        calls.append("warm")
+        raise OSError("fixture missing runtime")
+
+    worker.services.cleaner.warm = failed_warm
+    worker.services.cleaner.close = lambda: calls.append("close")
+    assert worker.start_recording() and worker.services.recorder.started == 1
+    worker.shutdown()
+    assert calls == ["warm", "close"]
+
+
+def test_settings_replacement_closes_previous_cleaner_before_warming_successor():
+    from dataclasses import replace
+
+    worker, _clock, _executor, _events, _signals, _keyboard = make_worker()
+    calls = []
+    worker.services.cleaner.close = lambda: calls.append("old close")
+    cleaner = types.SimpleNamespace(warm=lambda: calls.append("new warm"), close=lambda: None)
+    processor, _events, _notifications = make_processor(cleaner=cleaner)
+    next_services = replace(worker.services, cleaner=cleaner, processor=processor)
+    worker.services_factory = lambda *args, **kwargs: next_services
+    worker.configure(default_config())
+    assert calls == ["old close", "new warm"] and worker.services is next_services
+    worker.shutdown()
+
+
 def test_missing_model_does_not_open_microphone_and_has_actionable_error():
     worker, clock, executor, events, signals, keyboard = make_worker()
 

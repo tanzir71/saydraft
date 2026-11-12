@@ -97,9 +97,19 @@ class DictationPipeline:
         self.glossary: Glossary = load_glossary(cfg.glossary_path) if cfg.glossary_path else Glossary()
         self.llm = llm_cleaner if llm_cleaner is not None else LocalLLMCleaner(cfg.llm)
         self.last_timings: dict[str, float] = {"rules": 0.0, "llm": 0.0}
+        self.last_llm_decision = "disabled"
 
     def reload_glossary(self):
         self.glossary = load_glossary(self.cfg.glossary_path) if self.cfg.glossary_path else Glossary()
+
+    def warm(self):
+        warm = getattr(self.llm, "warm", None)
+        return warm() if warm is not None else False
+
+    def close(self):
+        close = getattr(self.llm, "close", None)
+        if close is not None:
+            close()
 
     def learn_word(self, term: str) -> Glossary:
         if not self.cfg.glossary_path:
@@ -117,6 +127,7 @@ class DictationPipeline:
 
     def process_transcript(self, raw_text: str, context: DictationContext) -> str:
         self.last_timings = {"rules": 0.0, "llm": 0.0}
+        self.last_llm_decision = "disabled"
         if not raw_text:
             return ""
 
@@ -130,18 +141,28 @@ class DictationPipeline:
         rule_clean = apply_rules(protected_text, rule_opts)
         self.last_timings["rules"] = time.perf_counter() - rules_started
 
-        if context.mode == "raw" or context.profile == "code/comments":
+        if context.mode == "raw" or context.profile == "code/comments" or context.app_group == "code":
+            self.last_llm_decision = "bypassed"
             out = restore_spans(rule_clean, span_mapping)
             return restore_terms(out, mapping)
 
         llm_ok_text: Optional[str] = None
         llm_started = time.perf_counter()
         if self.llm.available():
-            candidate, status = self.llm.clean(rule_clean, tone_hint=_tone_hint_for(context))
+            contextual = getattr(self.llm, "clean_with_context", None)
+            if contextual is not None:
+                candidate, status = contextual(rule_clean, context=context,
+                    glossary=(*self.glossary.user_terms, *self.glossary.protected_terms))
+            else:
+                candidate, status = self.llm.clean(rule_clean, tone_hint=_tone_hint_for(context))
+            self.last_llm_decision = status
             if candidate:
                 validation = validate_llm_output(rule_clean, candidate, mode=context.mode)
                 if validation.ok:
                     llm_ok_text = candidate
+                    self.last_llm_decision = "accepted"
+                else:
+                    self.last_llm_decision = f"rejected:{validation.reason}"
         self.last_timings["llm"] = time.perf_counter() - llm_started
 
         final_text = llm_ok_text if llm_ok_text is not None else rule_clean
@@ -156,6 +177,8 @@ _DEFAULT_PIPELINE: Optional[DictationPipeline] = None
 def process_transcript(raw_text: str, context: DictationContext, cfg: Optional[DictationConfig] = None) -> str:
     global _DEFAULT_PIPELINE
     if cfg is not None or _DEFAULT_PIPELINE is None:
+        if _DEFAULT_PIPELINE is not None:
+            _DEFAULT_PIPELINE.close()
         _DEFAULT_PIPELINE = DictationPipeline(cfg or DictationConfig())
     return _DEFAULT_PIPELINE.process_transcript(raw_text, context)
 

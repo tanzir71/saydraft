@@ -45,6 +45,24 @@ class SessionWorker:
                                      cancel=self.cancel, save=self.record_note,
                                      notify=lambda message: self.emit("notification_requested", message),
                                      keyboard_module=keyboard_module)
+        self._warm_cleanup()
+
+    def _warm_cleanup(self):
+        try:
+            warm = getattr(self.services.cleaner, "warm", None)
+            if warm is not None:
+                warm()
+        except Exception:
+            logger.warning("Local cleanup warmup unavailable; rules remain available")
+
+    @staticmethod
+    def _close_cleanup(cleaner):
+        try:
+            close = getattr(cleaner, "close", None)
+            if close is not None:
+                close()
+        except Exception:
+            logger.warning("Local cleanup closure unavailable; owner-exit job cleanup remains active")
 
     @property
     def busy(self):
@@ -107,6 +125,7 @@ class SessionWorker:
     def _arm(self, generation):
         preparing_asr = False
         try:
+            self._warm_cleanup()
             set_context = getattr(self.services.asr, "set_context", None)
             if set_context is not None:
                 set_context(self._target)
@@ -502,10 +521,14 @@ class SessionWorker:
                 self.emit("notification_requested", "Settings will apply after the current dictation.")
                 return
             pending = self.services.processor.pending_results
+            previous = self.services.cleaner
             self.services = self.services_factory(
                 config, level_callback=lambda level: self.emit("audio_level_changed", level),
                 notify=lambda message: self.emit("notification_requested", message))
             self.services.processor.pending_results.extend(pending)
+            if previous is not self.services.cleaner:
+                self._close_cleanup(previous)
+            self._warm_cleanup()
             self.hotkeys.configure(config)
 
     def shutdown(self):
@@ -513,5 +536,6 @@ class SessionWorker:
         self.cancel()
         self.hotkeys.stop()
         self._cancel_timers()
+        self._close_cleanup(self.services.cleaner)
         # An in-flight ASR may finish and persist its words, but can no longer paste.
         self.executor.shutdown(wait=False, cancel_futures=False)
