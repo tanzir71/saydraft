@@ -21,6 +21,11 @@ class TargetContext:
     app_exe: str = ""
     app_group: str = "general"
     app_site: str = ""
+    process_id: int | None = None
+    uia_status: str = "not_requested"
+    control_type: int | None = None
+    field_id: tuple[int, ...] = ()
+    selection_truncated: bool = False
 
 
 class AsrEngine(Protocol):

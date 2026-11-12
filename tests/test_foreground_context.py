@@ -34,7 +34,7 @@ def test_capture_enriches_stable_context_and_focus_checks_do_not_enrich():
     api = Api()
     provider = ForegroundContextProvider(api=api)
     assert provider.capture() == TargetContext(focus=123, app_title="Inbox - Gmail - Google Chrome",
-        app_exe="chrome.exe", app_group="email", app_site="mail.google.com")
+        app_exe="chrome.exe", app_group="email", app_site="mail.google.com", process_id=42)
     api.window_pid = lambda window: pytest.fail("A delivery focus check must not enrich context")
     assert provider.focus() == 123
 

@@ -16,9 +16,11 @@ class FocusedEdit:
     selection_truncated: bool = False
 
 
-def read_focused_edit(reader, window):
+def read_focused_edit(reader, window, *, include_text=True, current=lambda: True):
     """All element/proxy lifetimes stay on the caller's non-GUI MTA thread."""
     try:
+        if not current():
+            return FocusedEdit()
         element = reader.focused_element()
         if element is None or not reader.belongs(element, window):
             return FocusedEdit(status="changed")
@@ -36,10 +38,14 @@ def read_focused_edit(reader, window):
             return FocusedEdit()
         if not reader.same_focus(element):
             return FocusedEdit(status="changed")
-        try:
-            before, selection = reader.text_context(element, TEXT_LIMIT)
-        except Exception:
-            before, selection = "", ""  # No supported caret pattern is a normal case.
+        if not current():
+            return FocusedEdit()
+        before, selection = "", ""
+        if include_text:
+            try:
+                before, selection = reader.text_context(element, TEXT_LIMIT)
+            except Exception:
+                pass  # No supported caret pattern is a normal case.
         if not isinstance(before, str) or not isinstance(selection, str):
             return FocusedEdit()
         # Recheck sensitive state and identity before returning any text.
@@ -50,6 +56,8 @@ def read_focused_edit(reader, window):
             return FocusedEdit()
         if not reader.same_focus(element):
             return FocusedEdit(status="changed")
+        if not current():
+            return FocusedEdit()
         preceding = before.encode("utf-16-le", errors="surrogatepass")
         selected = selection.encode("utf-16-le", errors="surrogatepass")
         return FocusedEdit("ok", False, control_type,

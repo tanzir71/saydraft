@@ -109,10 +109,10 @@ clipboard and reads no active application. CI repeats the probe in a bounded
 child process. Pure policy/range tests cover sensitive-state/focus races, unknown
 properties, malformed IDs, bounded Unicode and range movement.
 
-The reader is not yet wired into application context capture. A bounded MTA
-request/lifetime adapter, insertion refusal for unavailable/password fields and
-manual password acceptance remain under P5.3. Provider timeouts alone do not prove
-a bounded total call sequence; the request adapter must impose the outer budget.
+The reader is not yet enabled in application context capture. App insertion
+refusal for unavailable/password fields and manual password acceptance remain
+under P5.3. Provider timeouts alone do not bound a total call sequence; the adapter
+below supplies the outer caller budget.
 
 Clean immutable `097d502` passes the native own-control probe with no failures,
 both worker threads exited and all owned windows closed. The original report and
@@ -120,3 +120,31 @@ SHA-256 index are retained in `eval/hardware/results/2026-11-12-uia-reader/`.
 This establishes the reader on real UIA providers, not application integration or
 manual active-password-field acceptance. Full local suite: 1765 pass, five explicit
 native/model skips; rules 432/432, authored adversarial 100/100, Ruff/diff pass.
+
+## Bounded request adapter
+
+`BoundedUIA` owns one daemon MTA worker and permits one outstanding request, with
+a 200 ms caller budget. Overlapping, closed or expired requests return unavailable
+without adding a worker or queueing more work. An abandoned native call retains
+that single slot until it returns. Expired work stops before additional text
+reads; late results are discarded. Idle workers retain no completed field text.
+Only immutable data crosses threads; proxy construction, reads and closure stay
+on the MTA owner.
+
+Close cancels caller waits immediately and signals worker retirement without a
+GUI join. If a provider never returns, that one daemon remains until process exit;
+the adapter does not claim it can terminate an arbitrary native COM call. A
+background/QA wait method observes actual retirement when the call does return.
+Initialization failure is terminal for that owner, with no retry loop or logged
+provider exception.
+
+The foreground adapter can copy this result into ephemeral field/type/selection
+context and perform a fresh metadata-only verification of password state, runtime
+ID, HWND and original PID before delivery. Verification never reads caret or
+selection text. Closed adapters perform no further foreground reads. Per-app
+group changes can update the provider without replacing its owner.
+
+Production enablement remains off until app integration supplies persistent owner
+reuse, shutdown, and refusal checks on all delivery routes. Nineteen new cases
+exercise caller timeout, blocked initialization, shutdown, overlapping requests,
+late-text suppression, provider failures and field/window/process changes.

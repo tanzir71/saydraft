@@ -3,10 +3,12 @@
 import ctypes as ct
 import ntpath
 import sys
+import threading
 from ctypes import wintypes as wt
 
 from saydraft.core.interfaces import TargetContext
 from .app_groups import app_group, browser_site
+from .focused_edit import FocusedEdit
 
 
 class NativeForegroundApi:
@@ -61,8 +63,36 @@ class NativeForegroundApi:
 
 
 class ForegroundContextProvider:
-    def __init__(self, *, api=None, profiles=()):
+    def __init__(self, *, api=None, profiles=(), uia=None, use_uia=False):
         self.api, self.profiles = api, profiles
+        self._uia, self._use_uia, self._closed = uia, use_uia or uia is not None, False
+        self._uia_lock = threading.Lock()
+
+    def prepare(self):
+        with self._uia_lock:
+            if self._use_uia and self._uia is None and not self._closed:
+                from .uia_worker import BoundedUIA
+                self._uia = BoundedUIA()
+
+    def set_profiles(self, profiles):
+        self.profiles = profiles
+
+    def close(self):
+        with self._uia_lock:
+            self._closed = True
+            uia = self._uia
+        return uia.close() if uia is not None else True
+
+    def _field(self, window, *, include_text=True):
+        if self._closed:
+            return FocusedEdit()
+        if not self._use_uia:
+            return FocusedEdit(status="not_requested")
+        try:
+            self.prepare()
+            return self._uia.query(int(window), include_text=include_text)
+        except Exception:
+            return FocusedEdit()
 
     def _native(self):
         if self.api is None and sys.platform == "win32":
@@ -71,10 +101,14 @@ class ForegroundContextProvider:
 
     def focus(self):
         """Delivery checks need only HWND, never title, image or future UIA calls."""
+        if self._closed:
+            return None
         api = self._native()
         return (api.foreground() or None) if api is not None else None
 
     def capture(self):
+        if self._closed:
+            return TargetContext()
         api = self._native()
         if api is None:
             return TargetContext()
@@ -88,10 +122,40 @@ class ForegroundContextProvider:
                 exe = api.executable(pid)
             except OSError:
                 exe = ""  # A protected process may still have a usable HWND/title.
+            field = self._field(window)
             if api.foreground() != window or api.window_pid(window) != pid:
                 return TargetContext()
             site = browser_site(exe, title)
             return TargetContext(focus=int(window), app_title=title or None, app_exe=exe,
-                                 app_group=app_group(exe, site, self.profiles), app_site=site)
+                app_group=app_group(exe, site, self.profiles), app_site=site, process_id=pid,
+                is_password=field.is_password, before_caret=field.before_caret, selection=field.selection,
+                uia_status=field.status, control_type=field.control_type, field_id=field.runtime_id,
+                selection_truncated=field.selection_truncated)
         except OSError:
             return TargetContext()
+
+    def verify(self, target):
+        """Fresh metadata-only check for the captured field, with no caret/selection read."""
+        if self._closed:
+            return "field_unavailable"
+        if target.is_password:
+            return "password_field"
+        if target.uia_status == "not_requested" and not self._use_uia:
+            return ""
+        if target.uia_status != "ok" or not target.field_id:
+            return "focus_changed" if target.uia_status == "changed" else "field_unavailable"
+        try:
+            api = self._native()
+            if api.foreground() != target.focus or api.window_pid(target.focus) != target.process_id:
+                return "focus_changed"
+            field = self._field(target.focus, include_text=False)
+            if field.is_password:
+                return "password_field"
+            if field.status != "ok":
+                return "focus_changed" if field.status == "changed" else "field_unavailable"
+            if (field.runtime_id != target.field_id or api.foreground() != target.focus
+                    or api.window_pid(target.focus) != target.process_id):
+                return "focus_changed"
+            return ""
+        except Exception:
+            return "field_unavailable"
