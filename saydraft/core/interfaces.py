@@ -20,6 +20,7 @@ class TargetContext:
     selection: str = ""
     app_exe: str = ""
     app_group: str = "general"
+    app_site: str = ""
 
 
 class AsrEngine(Protocol):

@@ -214,6 +214,8 @@ class SettingsWindow(QtWidgets.QDialog):
         layout.addLayout(form)
         self.app_profiles_editor = QtWidgets.QPlainTextEdit()
         self.app_profiles_editor.setObjectName("appProfilesEditor")
+        self.app_profiles_editor.setToolTip('App group override: {"exe":"notepad.exe","app_group":"docs"}. '
+                                           'Optional "site" matches a browser title hint.')
         layout.addWidget(QtWidgets.QLabel("Per-app profile JSON"))
         layout.addWidget(self.app_profiles_editor, 1)
         return page

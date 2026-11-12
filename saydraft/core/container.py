@@ -54,8 +54,8 @@ def create_services(config: dict, *, level_callback=None, notify=lambda message:
     ))
     recorder = AudioRecorder(max_seconds=config["recording"]["max_seconds"], level_callback=level_callback)
     asr = create_asr(config)
-    context = ForegroundContextProvider()
-    inserter = ClipboardInserter(focus_provider=lambda: context.capture().focus, profiles=profiles)
+    context = ForegroundContextProvider(profiles=profiles)
+    inserter = ClipboardInserter(focus_provider=context.focus, profiles=profiles)
     snippets = read_snippets()
     history = DictationHistoryStore(import_paths={
         "glossary": resolve_data_path(config["dictation"]["glossary_path"]),
