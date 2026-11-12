@@ -50,11 +50,14 @@ class SessionWorker:
         self.last_result = None
         self._retrying_history = False
         self._benchmarking = False
-        self.hotkeys = HotkeyService(services.config, start=self.start_recording, stop=self.stop_recording,
+        self.hotkeys = HotkeyService(services.config, start=lambda: self.start_recording(_return_generation=True),
+                                     stop=self.stop_recording,
                                      cancel=self.cancel, save=self.record_note,
                                      notify=lambda message: self.emit("notification_requested", message),
                                      keyboard_module=keyboard_module,
-                                     stop_timed=lambda when: self.stop_recording(released_at=when))
+                                     stop_session=lambda result: self.stop_recording(
+                                         released_at=result.stopped_at, session_id=result.session_id),
+                                     timer_factory=timer_factory)
         self._prepare_context()
         self._warm_cleanup()
 
@@ -140,7 +143,7 @@ class SessionWorker:
             timer.cancel()
         self._timers.clear()
 
-    def start_recording(self, *, insert_text=True):
+    def start_recording(self, *, insert_text=True, _return_generation=False):
         # Native action dispatch must not wait behind Settings while Settings
         # retires that same dispatcher. A locked worker is temporarily busy.
         if not self._lock.acquire(blocking=False):
@@ -176,7 +179,7 @@ class SessionWorker:
                 self._context = context
                 self._insert_text = insert_text
                 self._submit(self._arm, generation)
-                return True
+                return generation if _return_generation else True
         finally:
             with self._lock:
                 self._capturing_context = False
@@ -272,12 +275,33 @@ class SessionWorker:
                 if self.hotkeys._controller.force_stop() is None:
                     self.stop_recording()
 
-    def stop_recording(self, *, released_at=None):
+    def stop_recording(self, *, released_at=None, session_id=None):
+        if self._closing:
+            return
+        if not self._lock.acquire(blocking=False):
+            # Settings may be retiring this native dispatcher while holding the
+            # session mutex. Finish on the serial owner without waiting here.
+            expected = self.session.session_id if session_id is None else session_id
+            try:
+                self.executor.submit(lambda: self._stop_recording(released_at=released_at, session_id=expected))
+            except RuntimeError:
+                if not self._closing:
+                    raise
+            return
+        try:
+            self._stop_recording(released_at=released_at, session_id=session_id)
+        finally:
+            self._lock.release()
+
+    def _stop_recording(self, *, released_at=None, session_id=None):
         with self._lock:
+            if session_id is not None and (session_id != self.session.session_id or not self.session.active):
+                return  # Includes a newer context capture before its START transition.
             if self._capturing_context and not self.session.active:
                 self._cancel_request.set()
                 return
-            event = self.session.dispatch(Input.RELEASE)
+            ended = released_at if type(released_at) in (int, float) and math.isfinite(released_at) else None
+            event = self.session.dispatch(Input.RELEASE, recording_stopped_at=ended)
             if event is None:
                 return
             if event.previous != State.ARMING and event.state != State.CANCELLED:

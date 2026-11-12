@@ -92,7 +92,7 @@ class DictationSession:
         return self.state in ACTIVE_STATES
 
     def dispatch(self, trigger: SessionInput | str, *, session_id: int | None = None,
-                 reason: str = "") -> SessionEvent | None:
+                 reason: str = "", recording_stopped_at: float | None = None) -> SessionEvent | None:
         """Return one immutable event per transition; ignore bounce/stale events.
 
         The recording clock starts when capture is armed, not on key-down. Every
@@ -136,7 +136,12 @@ class DictationSession:
         if destination == SessionState.LISTENING:
             self._listening_at = now
         if self.state == SessionState.LISTENING:
-            self._recording_seconds = now - self._listening_at
+            stopped = now
+            if trigger == SessionInput.RELEASE and recording_stopped_at is not None:
+                if type(recording_stopped_at) not in (int, float) or not math.isfinite(recording_stopped_at):
+                    raise ValueError("recording release must be a finite timestamp")
+                stopped = max(self._listening_at, min(now, recording_stopped_at))
+            self._recording_seconds = stopped - self._listening_at
             if trigger == SessionInput.RELEASE and self._recording_seconds < self.minimum_recording_seconds:
                 destination = SessionState.CANCELLED
                 reason = reason or "too_short"

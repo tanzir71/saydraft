@@ -47,7 +47,7 @@ def main(argv=None):
         if not expected.strip():
             raise ValueError("Bundled speech produced empty output")
         cfg = default_config()
-        cfg["hotkeys"].update(speech="vkE8", speech_alternative="", cancel="", save="")
+        cfg["hotkeys"].update(speech="vkE8", speech_alternative="", speech_mouse="", hands_free="", cancel="", save="")
         history = DictationHistoryStore(args.output / "history.db")
         def row_count():
             with sqlite3.connect(history.db_path) as db:
@@ -69,11 +69,11 @@ def main(argv=None):
             if name == "error":
                 errors.append(name)
         worker = SessionWorker(services, emit=emit)
-        original_stop = worker.hotkeys.stop_timed
-        def stop(when):
-            report["native_release_timestamp"] = when
-            original_stop(when)
-        worker.hotkeys.stop_timed = stop
+        original_stop = worker.hotkeys.stop_session
+        def stop(result):
+            report["native_release_timestamp"] = result.stopped_at
+            original_stop(result)
+        worker.hotkeys.stop_session = stop
         worker.hotkeys.start()  # Default native route; no injected keyboard backend.
         hooks = worker.hotkeys._controller._native.owner
         def send(flags):

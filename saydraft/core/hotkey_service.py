@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 
 class HotkeyService:
     def __init__(self, config, *, start, stop, cancel, save, notify, keyboard_module=None,
-                 stop_timed=None, native_factory=None):
+                 stop_timed=None, native_factory=None, stop_session=None, timer_factory=threading.Timer):
         self.config = config
         self.start_recording = start
         self.stop_recording = stop
@@ -23,6 +23,7 @@ class HotkeyService:
         self.notify = notify
         self.keyboard = keyboard_module
         self.stop_timed, self.native_factory = stop_timed, native_factory
+        self.stop_session, self.timer_factory = stop_session, timer_factory
         self._lock, self._restarts = threading.RLock(), 0
         self._failure_reason = None
         self.enabled = False
@@ -35,10 +36,12 @@ class HotkeyService:
     def _make_controller(self):
         return HotkeyController(HotkeyConfig.from_app_config(self.config),
                                 on_record_start=self.start_recording,
-                                on_record_stop=lambda session: (self.stop_timed(session.stopped_at)
-                                    if self.stop_timed is not None else self.stop_recording()),
+                                on_record_stop=lambda session: (self.stop_session(session) if self.stop_session is not None
+                                    else self.stop_timed(session.stopped_at) if self.stop_timed is not None
+                                    else self.stop_recording()),
                                 on_record_cancel=self.cancel_recording, on_save=self.save,
-                                on_backend_failure=self._native_failed, native_factory=self.native_factory)
+                                on_backend_failure=self._native_failed, native_factory=self.native_factory,
+                                timer_factory=self.timer_factory)
 
     def _native_failed(self, reason):
         self._failure_reason = reason  # Notification/recovery waits for the completion thread.

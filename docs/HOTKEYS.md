@@ -217,9 +217,11 @@ To repeat the F9 observation with no audio or delivery:
 python -m tools.probe_desktop_hotkeys --output D:\QA\New-Desktop-F9-Probe
 ```
 
-During its two-minute window, tap F9 twice in an empty editor. It accepts only the
-expected native sequence and completed cleanup; unrelated bound keys fail the
-probe rather than receiving credit.
+The current observer expects a double-tap of F9 (under 300 ms between taps), then
+a later F9 tap to stop: six native transitions. It accepts only that sequence and
+completed cleanup; unrelated bound keys fail rather than receiving credit. This
+updated observer has not been run on the desktop; the earlier four-transition
+report describes the previous single-tap implementation only.
 
 ## Dedicated hands-free chord
 
@@ -243,9 +245,8 @@ Windows Segoe UI, verifies readable layout and the toggle-only warning. It opens
 no active desktop application. The first default-font offscreen artifact was
 unreadable; it is not counted as visual acceptance.
 
-This adds the dedicated chord. The existing single-short-tap lock behavior still
-needs replacement with the specified double-tap gesture; paste-last and P5.5
-manual acceptance also remain open. Bar visuals/stop controls remain P6.2. No
+The dedicated chord and the double-tap behavior below are implemented; paste-last
+and P5.5 manual acceptance remain open. Bar visuals/stop controls remain P6.2. No
 Computer Use or Windows-key input was performed for this change; desktop testing
 remains stopped at the owner's request.
 
@@ -255,3 +256,45 @@ new synthetic matcher/session cases cover both modifier orders, release order,
 repeat filtering, rebinding/disable/conflicts, failed starts, Escape, one-capture
 prefix handoff and History-before-delivery/short-discard composition. The local
 full-run log is `build/qa/hands-free-full-2.stdout.log`.
+
+## Double-tap recording
+
+Two short taps of the same recording shortcut lock hands-free mode. Each tap is
+shorter than 300 ms. The interval from the first release to the next press uses
+Settings → General → Double-tap interval (300 ms by default, at most 2000 ms).
+Zero displays Disabled and preserves ordinary hold/release operation. The stored
+`tap_lock_ms` key is retained for configuration compatibility.
+
+A first short release keeps the same capture pending for that interval. A second
+short tap locks it; a longer second hold finishes normally. A single tap expires
+at its original physical release time, so waiting for the decision cannot turn
+speech under 0.5 s into an eligible recording. Recording duration still starts
+when the microphone is armed. Transition timestamps remain monotonic even if the
+release predates microphone startup. Holds of 300 ms or longer stop immediately;
+the ordinary 0.5 s speech minimum still applies.
+
+There is one pending decision with a unique cancellation token. Cancel, disable,
+force-stop and the dedicated toggle retire it. Timer creation/start failure stops
+at the release rather than leaving capture open. Expiry enters the native
+owner's existing bounded action queue behind already captured key events: a slow
+context read cannot make expiry overtake a queued physical second tap. Full
+queues use the existing cancellation/owner-retirement policy, with no replay.
+The callback carries the originating session ID; a late stop cannot abort a
+new session or its context capture before START.
+
+If Settings holds the session mutex, release returns to the native dispatcher
+and finishes on the existing serial worker, retaining that session ID and release
+timestamp. This prevents hook retirement from waiting on its own blocked stop.
+
+Controlled-clock tests cover the interval boundary, late expiry, stale decisions,
+failed scheduling, mixed shortcuts, longer second holds, arming on either side
+of release/expiry, queued startup, short-discard, exact session generation and
+History-before-delivery. A fake native message pump verifies ordering and thread
+retirement without OS input. Desktop double-tap acceptance remains open because
+the owner stopped Computer Use; historical single-tap reports do not satisfy it.
+
+Validation: 27 new regression cases; ordinary full suite 1906 pass, five explicit
+native/model skips; golden 472/472; adversarial 100/100; Ruff/diff pass. The local
+full-run log is `build/qa/double-tap-full-3.stdout.log`. Offscreen General layout
+was reviewed at 760×560 with loaded Windows Segoe UI and Disabled displayed.
+Desktop helpers now describe the new gesture or held F9; they were not run.

@@ -1,4 +1,4 @@
-"""Observe two F9 taps through the real native gesture route; inject no input."""
+"""Observe an F9 double-tap and later stop tap; inject no input."""
 
 import argparse
 import json
@@ -38,7 +38,7 @@ def main(argv=None):
             on_action(transition, when)
             report["transitions"], report["gestures"] = transitions, gestures
             publish()
-            if len(transitions) >= 4:
+            if len(transitions) >= 6:
                 done.set()
         owner = LowLevelHooks(bindings, on_action=action, on_failure=on_failure)
         owners.append(owner)
@@ -55,9 +55,9 @@ def main(argv=None):
         controller.start()
         report["ready"] = controller.is_backend_alive()
         publish()
-        print("Native observer ready: tap F9 twice in an empty editor.", flush=True)
+        print("Ready: double-tap F9 (gap under 300 ms), wait, then tap F9 once to stop.", flush=True)
         report["completed_in_time"] = done.wait(max(1, min(300, args.timeout)))
-        # Let the fourth transition finish before bounded retirement.
+        # Let the sixth transition finish before bounded retirement.
         time.sleep(.05)
     except Exception as error:
         report["error_type"] = type(error).__name__
@@ -71,7 +71,8 @@ def main(argv=None):
             and report["native_status"] == {"state": "closed", "reason": None,
                                           "pump_alive": False, "worker_alive": False}
             and [(row["name"], row["phase"]) for row in transitions] == [
-                ("record1", "press"), ("record1", "release"), ("record1", "press"), ("record1", "release")]
+                ("record1", "press"), ("record1", "release"), ("record1", "press"), ("record1", "release"),
+                ("record1", "press"), ("record1", "release")]
             and [row["phase"] for row in gestures] == ["start", "stop"] and gestures[-1]["locked"])
         publish()
         print(json.dumps(report), flush=True)

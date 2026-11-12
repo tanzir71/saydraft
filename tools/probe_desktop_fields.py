@@ -65,7 +65,7 @@ def main(argv=None):
     NetworkGuard.install()
     try:
         cfg = default_config()
-        cfg["hotkeys"].update(speech="f9", speech_alternative="", speech_mouse="", save="")
+        cfg["hotkeys"].update(speech="f9", speech_alternative="", speech_mouse="", hands_free="", save="")
         owner = BoundedUIA(factory=ObservedUIA, capture_timeout=.5)
         context = ForegroundContextProvider(api=FixtureForeground(), uia=owner)
         history = DictationHistoryStore(args.output / "history.db")
@@ -126,7 +126,7 @@ def main(argv=None):
         hooks = worker.hotkeys._controller._native.owner
         report["ready"] = worker.hotkeys.enabled and hooks.status["state"] == "running"
         publish()
-        print("Ready: tap F9 twice in the public password field. In the plain field, press End, then tap F9 twice.",
+        print("Ready: hold F9 at least 0.5 s and release in each field. Press End in the plain field first.",
               flush=True)
         deadline = time.monotonic() + args.timeout
         while not done.wait(.1) and time.monotonic() < deadline and not (args.output / "stop.request").exists():

@@ -91,6 +91,7 @@ def test_settings_window_applies_config_live_and_updates_autostart(tmp_path):
 
     window.speech_hotkey_edit.setText("ctrl+shift+r")
     window.hands_free_hotkey_edit.setText("ctrl+alt+h")
+    window.tap_lock_spin.setValue(0)
     window.save_hotkey_edit.setText("f8")
     window.autostart_checkbox.setChecked(True)
     window.language_combo.setCurrentIndex(window.language_combo.findData("en"))
@@ -107,6 +108,7 @@ def test_settings_window_applies_config_live_and_updates_autostart(tmp_path):
     saved = json.loads(config_path.read_text(encoding="utf-8"))
     assert saved["hotkeys"]["speech"] == "ctrl+shift+r"
     assert saved["hotkeys"]["hands_free"] == "ctrl+alt+h"
+    assert saved["hotkeys"]["tap_lock_ms"] == 0
     assert saved["hotkeys"]["save"] == "f8"
     assert saved["app"]["start_with_windows"] is True
     assert saved["stt"]["language"] == "en"
@@ -127,6 +129,7 @@ def test_settings_window_applies_config_live_and_updates_autostart(tmp_path):
     assert not reopened.drop_message_period_checkbox.isChecked()
     assert reopened.voice_enter_checkbox.isChecked()
     assert reopened.hands_free_hotkey_edit.text() == "ctrl+alt+h"
+    assert reopened.tap_lock_spin.value() == 0
     reopened.close()
 
 

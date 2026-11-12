@@ -139,6 +139,17 @@ class LowLevelHooks:
             self._pump_done.set()
             self._stop_dispatch()
 
+    def post_action(self, callback):
+        """Serialize a deferred decision behind already captured physical events."""
+        if not self._ready.is_set() or self._stop.is_set():
+            return False
+        try:
+            self._queue.put_nowait((None, callback))
+            return True
+        except queue.Full:
+            self._fail("action_queue_full")
+            return False
+
     def _dispatch(self):
         try:
             while True:
@@ -146,6 +157,9 @@ class LowLevelHooks:
                 if row is None or self._stop.is_set():
                     return
                 transitions, when = row
+                if transitions is None:
+                    when()
+                    continue
                 for transition in transitions:
                     if self._stop.is_set():
                         return

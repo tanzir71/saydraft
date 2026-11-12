@@ -75,8 +75,9 @@ def test_hold_hotkey_starts_on_press_and_stops_on_release_after_threshold():
     assert controller.is_recording is False
 
 
-def test_short_tap_enters_lock_mode_and_second_tap_stops_recording():
+def test_double_tap_enters_lock_mode_and_later_tap_stops_recording():
     from saydraft.hotkeys import HotkeyConfig, HotkeyController
+    from tests.test_session_worker import Timer
 
     clock = FakeClock()
     starts = []
@@ -86,6 +87,7 @@ def test_short_tap_enters_lock_mode_and_second_tap_stops_recording():
         on_record_start=lambda: starts.append("start"),
         on_record_stop=stops.append,
         clock=clock.now,
+        timer_factory=Timer,
     )
     keyboard = FakeKeyboard()
     controller.start(keyboard)
@@ -97,8 +99,14 @@ def test_short_tap_enters_lock_mode_and_second_tap_stops_recording():
     assert starts == ["start"]
     assert stops == []
     assert controller.is_recording is True
-    assert controller.is_locked is True
+    assert controller.is_locked is False
 
+    keyboard.press("f9")
+    clock.advance(0.1)
+    keyboard.release("f9")
+
+    assert starts == ["start"] and not stops and controller.is_locked
+    clock.advance(1)
     keyboard.press("f9")
     clock.advance(0.1)
     keyboard.release("f9")
@@ -112,6 +120,7 @@ def test_short_tap_enters_lock_mode_and_second_tap_stops_recording():
 
 def test_escape_stops_lock_mode_recording():
     from saydraft.hotkeys import HotkeyConfig, HotkeyController
+    from tests.test_session_worker import Timer
 
     clock = FakeClock()
     starts = []
@@ -121,10 +130,14 @@ def test_escape_stops_lock_mode_recording():
         on_record_start=lambda: starts.append("start"),
         on_record_stop=stops.append,
         clock=clock.now,
+        timer_factory=Timer,
     )
     keyboard = FakeKeyboard()
     controller.start(keyboard)
 
+    keyboard.press("f9")
+    clock.advance(0.1)
+    keyboard.release("f9")
     keyboard.press("f9")
     clock.advance(0.1)
     keyboard.release("f9")
@@ -134,7 +147,7 @@ def test_escape_stops_lock_mode_recording():
     assert starts == ["start"]
     assert len(stops) == 1
     assert stops[0].locked is True
-    assert stops[0].duration_seconds == 2.1
+    assert stops[0].duration_seconds == 2.2
     assert controller.is_recording is False
 
 

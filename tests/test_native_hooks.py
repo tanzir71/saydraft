@@ -117,7 +117,8 @@ def test_own_tag_is_ignored_without_disabling_external_macro_or_accessibility_in
         hooks.close()
 
 
-def test_slow_callback_does_not_block_hook_and_full_queue_stops_without_replaying_actions():
+@pytest.mark.parametrize("deferred", [False, True])
+def test_slow_callback_does_not_block_hook_and_full_queue_stops_without_replaying_actions(deferred):
     entered, release = threading.Event(), threading.Event()
     calls = []
     def block(transition, when):
@@ -128,9 +129,14 @@ def test_slow_callback_does_not_block_hook_and_full_queue_stops_without_replayin
     hooks.start()
     try:
         assert api.emit("keyboard", 0x100, KeyboardPacket(0xE8)) == 1 and entered.wait(3)
-        assert api.emit("keyboard", 0x101, KeyboardPacket(0xE8)) == 1
-        assert api.emit("keyboard", 0x100, KeyboardPacket(0xE8)) == 1
-        assert api.emit("keyboard", 0x101, KeyboardPacket(0xE8)) == 17
+        if deferred:
+            assert hooks.post_action(lambda: pytest.fail("Abandoned deferred work was replayed"))
+            assert hooks.post_action(lambda: pytest.fail("Abandoned deferred work was replayed"))
+            assert not hooks.post_action(lambda: pytest.fail("Full queue accepted work"))
+        else:
+            assert api.emit("keyboard", 0x101, KeyboardPacket(0xE8)) == 1
+            assert api.emit("keyboard", 0x100, KeyboardPacket(0xE8)) == 1
+            assert api.emit("keyboard", 0x101, KeyboardPacket(0xE8)) == 17
         assert hooks.status["reason"] == "action_queue_full"
         assert not hooks.close(timeout=0) and hooks.status["worker_alive"]
     finally:

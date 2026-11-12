@@ -12,7 +12,7 @@ from typing import Any
 logger = logging.getLogger(__name__)
 
 Clock = Callable[[], float]
-StartCallback = Callable[[], None]
+StartCallback = Callable[[], int | bool | None]
 StopCallback = Callable[["RecordingSession"], None]
 
 
@@ -49,6 +49,7 @@ class RecordingSession:
     started_at: float
     stopped_at: float
     locked: bool
+    session_id: int | None = None
 
     @property
     def duration_seconds(self) -> float:
@@ -56,7 +57,7 @@ class RecordingSession:
 
 
 class HotkeyController:
-    """State machine for hold-to-talk plus short-tap lock mode."""
+    """Hold-to-talk, double-tap lock and explicit hands-free recording."""
 
     def __init__(
         self,
@@ -69,6 +70,7 @@ class HotkeyController:
         on_save=None,
         on_backend_failure=None,
         native_factory=None,
+        timer_factory=threading.Timer,
     ):
         self.config = config or HotkeyConfig()
         self.on_record_start = on_record_start
@@ -77,6 +79,7 @@ class HotkeyController:
         self.clock = clock
         self.on_save, self.on_backend_failure = on_save, on_backend_failure
         self._native_factory, self._native = native_factory, None
+        self._timer_factory = timer_factory
 
         self._lock = threading.RLock()
         self._keyboard: Any | None = None
@@ -86,6 +89,10 @@ class HotkeyController:
         self._recording_started_at: float | None = None
         self._locked = False
         self._listening = False
+        self._tap = None
+        self._second_tap = False
+        self._request = 0
+        self._session_id = None
 
     @property
     def is_listening(self) -> bool:
@@ -232,10 +239,7 @@ class HotkeyController:
             self._handles.clear()
             self._keyboard = None
             self._listening = False
-            self._pressed_hotkey = None
-            self._pressed_at = None
-            self._locked = False
-            self._recording_started_at = None
+            self._reset_recording_locked()
             native = self._native
 
         if keyboard_module is not None:
@@ -265,10 +269,45 @@ class HotkeyController:
     def discard_active_recording(self) -> None:
         """Reset backend key state after cancellation or a failed microphone start."""
         with self._lock:
-            self._pressed_hotkey = None
-            self._pressed_at = None
-            self._recording_started_at = None
-            self._locked = False
+            self._reset_recording_locked()
+
+    def _cancel_tap_locked(self):
+        tap, self._tap = self._tap, None
+        if tap is not None:
+            tap[3].cancel()
+
+    def _reset_recording_locked(self):
+        self._cancel_tap_locked()
+        self._request += 1
+        self._pressed_hotkey = self._pressed_at = self._recording_started_at = None
+        self._locked = self._second_tap = False
+        self._session_id = None
+
+    def _start_capture(self, request):
+        result = self.on_record_start()
+        with self._lock:
+            if request != self._request or not self.is_recording:
+                return  # Cancel/disable may have completed while context was read.
+            if result is False:
+                self._reset_recording_locked()
+            elif type(result) is int and result > 0:
+                self._session_id = result
+
+    def _queue_tap_expiry(self, token):
+        with self._lock:
+            native = self._native
+        if native is None:
+            self._expire_tap(token)
+        else:
+            native.defer(lambda: self._expire_tap(token))
+
+    def _expire_tap(self, token):
+        with self._lock:
+            if self._tap is None or self._tap[2] is not token or not self._listening:
+                return
+            session = self._finish_recording_locked(self._tap[1], locked=False)
+        if session is not None:
+            self.on_record_stop(session)
 
     def _record_hotkeys(self) -> list[str]:
         hotkeys = [self.config.record_hotkey, self.config.alternate_record_hotkey, self.config.mouse_record_hotkey]
@@ -282,24 +321,38 @@ class HotkeyController:
         return normalized
 
     def _on_record_press(self, hotkey: str, when=None, *, retarget=False) -> None:
+        expired = None
         with self._lock:
             if not self._listening:
                 return
+            now = self.clock() if when is None else when
             if self._locked:
                 self._pressed_hotkey = hotkey
-                self._pressed_at = self.clock() if when is None else when
+                self._pressed_at = now
                 return
             if self.is_recording:
-                if retarget:
+                if self._tap is not None:
+                    key, released, _, _ = self._tap
+                    if not released <= now <= released + self._tap_window():
+                        expired = self._finish_recording_locked(released, locked=False)
+                    else:
+                        self._second_tap = key == hotkey
+                        self._cancel_tap_locked()
+                        self._pressed_hotkey, self._pressed_at = hotkey, now
+                elif retarget:
+                    self._second_tap = self._second_tap and self._pressed_hotkey == hotkey
                     self._pressed_hotkey = hotkey
-                return
-            now = self.clock() if when is None else when
+                if expired is None:
+                    return
+            self._request += 1
+            request = self._request
             self._pressed_hotkey = hotkey
             self._pressed_at = now
             self._recording_started_at = now
 
-        if self.on_record_start() is False:
-            self.discard_active_recording()
+        if expired is not None:
+            self.on_record_stop(expired)
+        self._start_capture(request)
 
     def _on_hands_free_press(self, when=None) -> None:
         session = None
@@ -313,14 +366,21 @@ class HotkeyController:
             else:
                 start = not self.is_recording
                 if start:
+                    self._request += 1
+                    request = self._request
                     self._recording_started_at = now
+                self._cancel_tap_locked()
+                self._second_tap = False
                 self._locked = True
                 # A superseded PTT chord's eventual release cannot stop the lock.
                 self._pressed_hotkey = self._pressed_at = None
         if session is not None:
             self.on_record_stop(session)
-        elif start and self.on_record_start() is False:
-            self.discard_active_recording()
+        elif start:
+            self._start_capture(request)
+
+    def _tap_window(self):
+        return max(0, min(2, self.config.tap_lock_ms / 1000.0))
 
     def _on_record_release(self, hotkey: str, when=None) -> None:
         session: RecordingSession | None = None
@@ -329,14 +389,26 @@ class HotkeyController:
                 return
             now = self.clock() if when is None else when
             press_duration = now - self._pressed_at
-            tap_threshold = self.config.tap_lock_ms / 1000.0
 
             if self._locked:
                 session = self._finish_recording_locked(now, locked=True)
-            elif press_duration < tap_threshold:
+            elif self._second_tap and 0 <= press_duration < .3:
                 self._locked = True
                 self._pressed_hotkey = None
                 self._pressed_at = None
+                self._second_tap = False
+            elif 0 <= press_duration < .3 and self._tap_window() > 0:
+                token = object()
+                delay = max(0, self._tap_window() - max(0, self.clock() - now))
+                try:
+                    timer = self._timer_factory(delay, lambda: self._queue_tap_expiry(token))
+                    timer.daemon = True
+                    self._tap = hotkey, now, token, timer
+                    self._pressed_hotkey = self._pressed_at = None
+                    self._second_tap = False
+                    timer.start()
+                except Exception:
+                    session = self._finish_recording_locked(now, locked=False)
             else:
                 session = self._finish_recording_locked(now, locked=False)
 
@@ -361,9 +433,7 @@ class HotkeyController:
             started_at=self._recording_started_at,
             stopped_at=stopped_at,
             locked=locked,
+            session_id=self._session_id,
         )
-        self._pressed_hotkey = None
-        self._pressed_at = None
-        self._recording_started_at = None
-        self._locked = False
+        self._reset_recording_locked()
         return session

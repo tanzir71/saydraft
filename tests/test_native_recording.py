@@ -32,6 +32,12 @@ class Owner:
         self.running = False
         return True
 
+    def post_action(self, callback):
+        if not self.running:
+            return False
+        callback()
+        return True
+
 
 def factory():
     owners = []

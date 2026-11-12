@@ -62,6 +62,9 @@ class RecordingHooks:
     def completion_thread(self):
         return self.owner.completion_thread
 
+    def defer(self, callback):
+        return self.owner.post_action(callback)
+
     @property
     def alive(self):
         return self.owner.status["state"] == "running"

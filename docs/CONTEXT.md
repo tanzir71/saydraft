@@ -222,9 +222,8 @@ The running fixture writes its PID beside the executable.
 
 Launch/select the fixture through Computer Use, then run
 `python -m tools.probe_desktop_fields --fixture-pid <pid> --output D:\QA\New-Desktop-Field-Probe`.
-Tap F9 twice in its password field. In its plain field press End, then tap F9
-twice; allow at least
-0.5 s per recording. The observer uses actual foreground/focus/UIA and native
+Hold F9 for at least 0.5 s and release in its password field. In its plain field
+press End, then hold/release F9 the same way. The observer uses actual foreground/focus/UIA and native
 integrity checks, restricted to the supplied fixture PID/executable. Transcript,
 microphone and delivery remain authored/in-memory stubs. It never sends keys,
 opens the real clipboard or requests field content from an unrelated window.
