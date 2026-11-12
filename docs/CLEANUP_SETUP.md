@@ -57,3 +57,11 @@ python -m tools.probe_cleanup_setup --model qwen35-2b-q4-k-m --backend vulkan --
 Validation: 1496 tests pass with four optional native skips, rules 432/432,
 authored adversarial checks 100/100, Ruff and diff checks pass. Native cached
 installation and inference proof follows separately; UI work remains pending.
+
+Clean immutable `42c28d1` native checks now pass for both 0.8B/CPU and 2B/Vulkan.
+Each real installer publishes the seeded model, verifies its runtime and reuses
+the installation on a second call with zero HTTP requests. Native inference
+produces three complete samples, restores the prefix and independently observes
+all inventory/inference exits. This proves cached setup/inference, not general
+tier latency. Original reports/digests are retained under
+`eval/hardware/results/2026-11-12-cleanup-setup/`. UI integration remains next.

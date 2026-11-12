@@ -741,6 +741,8 @@ Cloud anything (sync, accounts, team dictionaries, web search in Ask), mobile ap
 
 ## 14. Changelog
 
+- 2026-11-12 | P4.4 (native cached setup proof) | Clean 42c28d1 0.8B/CPU and 2B/Vulkan probes use real combined installers twice with zero HTTP, complete three native generations, restore prefixes and independently observe all process exits. Model/runtime receipts and original report digests are retained. This proves cached setup/inference, not broader tier latency; UI integration follows. | eval/hardware/results/2026-11-12-cleanup-setup/, docs/CLEANUP_SETUP.md
+
 - 2026-11-12 | P4.4 (app catalog/setup foundation) | Added the measured 0.8B/2B pins and hardware-conditional defaults to the app manifest, pinned bundled license receipts, versioned atomic cleanup-model installation and explicit combined model/runtime setup. No inferred tier, implicit download or owner accuracy claim. GUI integration and native setup proof follow. | saydraft/models/manifest.json, saydraft/models/cleanup.py, saydraft/models/downloader.py, saydraft/model_download.py, tests/test_cleanup_catalog.py, tools/probe_cleanup_setup.py, docs/CLEANUP_SETUP.md
 
 - 2026-11-12 | P3.6 (complete) | Clean immutable 078644c CPU/GPU production callback probes pass with fresh triple medians, restored prefixes and independent exits. RTX: 1.000 s ASR / 125.1 tokens/s cleanup → Pro; co-loaded CPU: 1.536 s / 21.2 tokens/s → Lite. Marks the persisted hardware/tier/Performance task complete; general latency, model defaults and owner accuracy remain separate. | eval/hardware/results/2026-11-12-cleanup-performance/, docs/HARDWARE.md

@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "source_commit": "42c28d1e631c3f5a13478623b84450fa95016207",
+  "tier_acceptance_performed": false,
+  "reports": [
+    {
+      "report": "cpu.json",
+      "report_sha256": "9da96e74b49b81ef027ee1c756a7a3c7a518a3f21d16ea5516be5801088a667c"
+    },
+    {
+      "report": "vulkan.json",
+      "report_sha256": "480d2866a660176649f9beed112a8cb1ae361fe53e5cff93c1f67b6aa060f64e"
+    }
+  ]
+}

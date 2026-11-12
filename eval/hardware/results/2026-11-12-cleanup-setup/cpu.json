@@ -1,0 +1,33 @@
+{
+  "git_commit": "42c28d1e631c3f5a13478623b84450fa95016207",
+  "source_dirty": false,
+  "model": "qwen35-08b-q4-k-m",
+  "revision": "f36b1ea49a332ede8fe5f389bbf5b3575ef71f48",
+  "backend": "cpu",
+  "delivery": "no microphone, history, insertion or user settings",
+  "tier_acceptance_performed": false,
+  "network_requests": 0,
+  "complete_installation": true,
+  "cleanup_samples": [
+    {
+      "parameters_b": 0.772845888,
+      "tokens": 60,
+      "seconds": 3.6003335593220345
+    },
+    {
+      "parameters_b": 0.772845888,
+      "tokens": 60,
+      "seconds": 4.619075593220339
+    },
+    {
+      "parameters_b": 0.772845888,
+      "tokens": 60,
+      "seconds": 5.0126572881355935
+    }
+  ],
+  "prefix_restored": true,
+  "native_exit_observed": [
+    true
+  ],
+  "probe_complete": true
+}
