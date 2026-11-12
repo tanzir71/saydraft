@@ -642,6 +642,7 @@ P0.3/P0.4 implementation is locally verified and published in draft PR #1. Hoste
 - [ ] **P4.6** Need-score + latency predictor + hard timeout; log the decision. **Acceptance:** the latency suite meets §1 row 8 on Standard and Pro.
 - [ ] **P4.7** Golden set ≥ 300 + adversarial 100; CI thresholds enforced (§11).
   - Adversarial component complete under P4.3: 100 authored refusals, per-category reports, duplicate/empty checks and CI threshold enforced. Rules golden set is now 192 after P4.5 commands/ITN; continue expanding alongside deterministic upgrades before checking P4.7 or selecting P4.4 defaults.
+  - Golden harness strengthened: app/group/caret/language/intensity context reaches the actual pipeline; unknown/malformed fields, duplicate IDs/examples/JSON fields and empty corpora are refused. CI now enforces the current 192-case minimum plus 100% pass rate; smaller custom evaluations remain explicit. Context-forwarding and shrink/fake-acceptance tests pass. Suite 952 pass, 4 optional native skips; rules 192/192; adversarial 100/100; lint/diff pass. Minimum 300 and remaining golden behaviors are still pending. Details: `docs/EVALUATION.md`.
 
 ### P5: Windows integration (the "it just works" feel)
 - [ ] **P5.1** `hotkeys/llhook.py` (keyboard + mouse LL hooks), chords, Start-menu mask, mouse buttons, conflict detection (including a running Wispr Flow), defaults per §8.2; remove the `keyboard` dependency. **Acceptance:** chord tests with synthetic events; manual: Ctrl+Win never opens the Start menu; F9 legacy still works.
@@ -712,6 +713,8 @@ Cloud anything (sync, accounts, team dictionaries, web search in Ask), mobile ap
 ---
 
 ## 14. Changelog
+
+- 2026-11-12 | P4.7 (golden context/acceptance harness) | Forwarded complete app context, rejected malformed or silently ignored fields and duplicate/empty data, and enforced a 192-case CI minimum with 100% pass rate. Actual Code-group and injected-context tests prove forwarding; 300-case/full-behavior acceptance still follows. | saydraft/eval.py, tests/test_eval_harness.py, .github/workflows/ci.yml, docs/EVALUATION.md
 
 - 2026-11-12 | P4.5 (ITN app integration) | Wired ITN with address/filler, list/count, repetition and generated-quote/entity ordering; corrected protected/Unicode backtracks and meaningful actually guards. Explicit intensity is consistent across cleanup and History. Added 102 golden cases to reach 192 and strengthened signed-currency/bare-address validation. | saydraft/dictation/{rules,pipeline,protect,types,llm_local}.py, saydraft/core/processing.py, saydraft/cleanup/llm/validate.py, saydraft/eval.py, tests/test_itn.py, tests/eval_corpus.jsonl, docs/ITN.md
 

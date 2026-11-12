@@ -3,7 +3,7 @@ from __future__ import annotations
 import argparse
 import json
 import sys
-from dataclasses import dataclass
+from dataclasses import astuple, dataclass
 from pathlib import Path
 from typing import Iterable, Sequence
 
@@ -23,6 +23,10 @@ class EvalCase:
     mode: str
     profile: str
     intensity: int | None = None
+    app_title: str | None = None
+    app_group: str = "general"
+    before_caret: str = ""
+    language: str = "auto"
 
 
 @dataclass(frozen=True)
@@ -48,30 +52,50 @@ class EvalResult:
         return (self.passed / self.total) * 100.0
 
 
+def _unique_fields(pairs):
+    result = {}
+    for key, value in pairs:
+        if key in result:
+            raise ValueError("Duplicate field in golden corpus row")
+        result[key] = value
+    return result
+
+
 def load_eval_corpus(path: str | Path = DEFAULT_CORPUS_PATH) -> list[EvalCase]:
     corpus_path = Path(path)
     cases: list[EvalCase] = []
+    ids, examples = set(), set()
+    allowed = {"id", "input", "expected", "mode", "profile", "intensity", "app_title", "app_group", "before_caret", "language"}
     with corpus_path.open("r", encoding="utf-8") as handle:
         for line_number, line in enumerate(handle, start=1):
             line = line.strip()
             if not line:
                 continue
-            data = json.loads(line)
-            case_id = str(data.get("id") or f"line-{line_number}")
-            input_text = str(data["input"])
-            expected = str(data["expected"])
-            mode = str(data.get("mode", "balanced"))
-            profile = str(data.get("profile", "general"))
-            cases.append(
-                EvalCase(
-                    id=case_id,
-                    input_text=input_text,
-                    expected=expected,
-                    mode=mode,
-                    profile=profile,
-                    intensity=data.get("intensity"),
-                )
-            )
+            data = json.loads(line, object_pairs_hook=_unique_fields)
+            if (not isinstance(data, dict) or set(data) - allowed
+                    or any(not isinstance(data.get(key), str) for key in ("id", "input", "expected"))
+                    or not data["id"].strip()):
+                raise ValueError(f"Invalid fields in golden corpus row {line_number}")
+            mode, profile = data.get("mode", "balanced"), data.get("profile", "general")
+            intensity = data.get("intensity")
+            if (mode not in ("raw", "balanced", "aggressive")
+                    or profile not in ("general", "email", "chat", "notes", "code/comments")
+                    or intensity is not None and (type(intensity) is not int or not 0 <= intensity <= 4
+                                                  or intensity == 0 and mode != "raw")
+                    or data.get("app_title") is not None and not isinstance(data["app_title"], str)
+                    or any(not isinstance(data.get(key, ""), str) for key in ("app_group", "before_caret", "language"))):
+                raise ValueError(f"Invalid context in golden corpus row {line_number}")
+            case = EvalCase(data["id"], data["input"], data["expected"], mode, profile, intensity,
+                           data.get("app_title"), data.get("app_group", "general"),
+                           data.get("before_caret", ""), data.get("language", "auto"))
+            signature = astuple(case)[1:]
+            if case.id in ids or signature in examples:
+                raise ValueError(f"Duplicate ID or example in golden corpus row {line_number}")
+            ids.add(case.id)
+            examples.add(signature)
+            cases.append(case)
+    if not cases:
+        raise ValueError("Golden corpus is empty")
     return cases
 
 
@@ -87,7 +111,8 @@ def run_eval(
     passed = 0
     for case in cases:
         total += 1
-        context = DictationContext(mode=case.mode, profile=case.profile, intensity=case.intensity)
+        context = DictationContext(mode=case.mode, profile=case.profile, intensity=case.intensity,
+            app_title=case.app_title, app_group=case.app_group, before_caret=case.before_caret, language=case.language)
         actual = active_pipeline.process_transcript(case.input_text, context)
         if actual == case.expected:
             passed += 1
@@ -122,11 +147,19 @@ def main(argv: Sequence[str] | None = None) -> int:
         default=DEFAULT_MIN_PASS_RATE,
         help="Minimum pass rate percentage required for exit code 0.",
     )
+    parser.add_argument("--min-cases", type=int, default=1, help="Minimum number of unique golden examples.")
     args = parser.parse_args(argv)
+    if not 0 <= args.min_pass_rate <= 100 or args.min_cases < 1:
+        parser.error("pass rate must be 0–100 and minimum case count must be positive")
 
-    result = run_eval(load_eval_corpus(args.corpus))
+    try:
+        result = run_eval(load_eval_corpus(args.corpus))
+    except (OSError, ValueError) as error:
+        parser.error(str(error))
     print_result(result)
-    return 0 if result.pass_rate >= args.min_pass_rate else 1
+    if result.total < args.min_cases:
+        sys.stderr.write(f"Corpus too small: {result.total} < {args.min_cases} required.\n")
+    return 0 if result.total >= args.min_cases and result.pass_rate >= args.min_pass_rate else 1
 
 
 if __name__ == "__main__":
