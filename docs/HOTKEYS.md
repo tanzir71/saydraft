@@ -88,3 +88,12 @@ text, recording or insertion and does not change application preferences:
 ```powershell
 python -m tools.probe_native_hooks --output D:\QA\New-Native-Hook-Probe
 ```
+
+Clean immutable `dd520f0` passes: both hooks install, exactly two transitions
+arrive on the identified action worker rather than the hook thread, and our own
+tagged mask does not recurse. All timestamps are ordered, both threads exit and
+both native handles are removed. The 0.500 s CPU observation records 0.000 CPU
+seconds; this short observation is not broad idle acceptance. Original report
+bytes/digest are retained in `eval/hardware/results/2026-11-12-native-hooks/`.
+No Win/Ctrl, mouse, text, recording, insertion or owner configuration action is
+performed. Application transport replacement and actual Start-menu proof remain.

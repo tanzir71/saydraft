@@ -1,0 +1,25 @@
+{
+  "git_commit": "dd520f08ff4252cadf4b43d584fa1472fd3b61c3",
+  "source_dirty": false,
+  "input": "unassigned vkE8 only; no Win/Ctrl, mouse, text, microphone or insertion",
+  "both_hooks_installed": true,
+  "phases": [
+    "press",
+    "release"
+  ],
+  "off_hook_dispatch": true,
+  "timestamps_ordered": true,
+  "idle_sample_seconds": 0.5002384000108577,
+  "idle_cpu_seconds": 0.0,
+  "idle_cpu_percent": 0.0,
+  "closed": true,
+  "remaining_hooks": 0,
+  "status": {
+    "state": "closed",
+    "reason": null,
+    "pump_alive": false,
+    "worker_alive": false
+  },
+  "failures": [],
+  "probe_complete": true
+}

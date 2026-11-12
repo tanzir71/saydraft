@@ -742,6 +742,8 @@ Cloud anything (sync, accounts, team dictionaries, web search in Ask), mobile ap
 
 ## 14. Changelog
 
+- 2026-11-12 | P5.1 (immutable native hook proof) | Clean dd520f0 vkE8-only probe installs both hooks, ignores our tagged mask, dispatches exactly two transitions on the identified action worker, preserves timestamp order and observes both hooks/threads removed. Short 0.500 s sample records 0.000 CPU seconds; no broad idle/Start-menu acceptance is inferred. Original report/digest retained; app wiring and dependency removal remain next. | eval/hardware/results/2026-11-12-native-hooks/, docs/HOTKEYS.md
+
 - 2026-11-12 | P5.1 (native probe helper) | Added an explicit vkE8-only hook probe that verifies both native installations, tagged mask exclusion, off-thread ordered action delivery and observed shutdown. Captures a short CPU observation separately; performs no Win/Ctrl, mouse, text, microphone or insertion action. Immutable proof follows before service wiring. | tools/probe_native_hooks.py, docs/HOTKEYS.md
 
 - 2026-11-12 | P5.1 (native transport) | Added owned keyboard/mouse LL hooks with a dedicated message pump, bounded off-thread timestamped action dispatch, startup key-state seeding, tagged vkE8 masking and observed shutdown/failure paths. Queue overflow drops stale work and reports failure; external accessibility/macro input remains usable. Suite 1557 pass, 4 optional native skips; rules 432/432, adversarial 100/100 and initial native vkE8-only probes pass. App wiring, defaults/conflict UI/Wispr detection, dependency removal and actual Start-menu/F9 proof remain. | saydraft/hotkeys/llhook.py, saydraft/hotkeys/_win32_hooks.py, saydraft/input_origin.py, tests/test_native_hooks.py, docs/HOTKEYS.md
