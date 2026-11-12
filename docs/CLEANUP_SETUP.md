@@ -65,3 +65,32 @@ produces three complete samples, restores the prefix and independently observes
 all inventory/inference exits. This proves cached setup/inference, not general
 tier latency. Original reports/digests are retained under
 `eval/hardware/results/2026-11-12-cleanup-setup/`. UI integration remains next.
+
+## Settings controls
+
+Settings → Models now shows the measured recommendation, a cleanup model choice,
+CPU/GPU processor choice, combined transfer size, both licenses and source credits.
+Fresh unused defaults can prefill the recommendation; existing custom paths and
+processors remain selected. Refreshing performance updates guidance and does not
+replace the user's selection. Lite/pending recommendations preselect no model.
+
+Download / Resume explicitly installs or verifies the selected package on the
+background download worker. Progress and Pause are independent of the speech
+download. A successful model setup fills the GGUF path without enabling cleanup
+or applying Settings. The user enables cleanup and presses Apply. Failed/paused
+work keeps the previous path, and closing Settings requests pause. The existing
+worker-lifetime guard retains the signal source until physical worker exit.
+
+Custom GGUF paths can install processor files alone, with their size/licenses
+shown and no catalog weights fetched. The old unpinned Qwen2.5 link is removed.
+The Models page scrolls at the existing 760×560 minimum so all controls remain
+reachable. The isolated Settings replay uses the real cached installer, forbids
+HTTP, checks configuration before/after Apply and renders both viewport positions.
+It changes no owner profile, microphone, hooks, History or insertion.
+
+Settings validation: 1505 tests pass with four optional native skips; rules
+432/432, authored adversarial checks 100/100 and Ruff/diff checks pass. The
+initial real cached replay passes with zero HTTP, an unchanged configuration
+until Apply, explicit enablement and unchanged speech preferences. Both Models
+viewport positions were rendered and reviewed at 760×560. Immutable-source
+Settings proof follows separately; broader gated tier acceptance remains open.

@@ -9,7 +9,7 @@ from collections.abc import Callable
 from pathlib import Path
 from typing import Any
 
-from PySide6 import QtCore, QtGui, QtWidgets
+from PySide6 import QtCore, QtWidgets
 
 from saydraft.config import load_config, save_config
 from saydraft.autostart import WindowsAutoStartManager
@@ -18,6 +18,7 @@ from saydraft.model_download import download_silero_vad_model
 from saydraft.asr.selection import select_model
 from saydraft.ui.download_task import DownloadTask, call_download
 from saydraft.ui.model_picker import ModelPicker
+from saydraft.ui.cleanup_picker import CleanupPicker
 from saydraft.ui.languages_page import LanguagesPage
 from saydraft.ui.hardware_page import HardwarePage
 from saydraft.ui.labs_page import LabsPage
@@ -70,6 +71,8 @@ class SettingsWindow(QtWidgets.QDialog):
         vad_download_callback=None,
         hardware_benchmark_callback=None,
         preview_download_callback=None,
+        cleanup_download_callback=None,
+        cleanup_runtime_download_callback=None,
     ):
         super().__init__()
         self.qt = qt_modules
@@ -80,6 +83,8 @@ class SettingsWindow(QtWidgets.QDialog):
         self.vad_download_callback = vad_download_callback or download_silero_vad_model
         self.hardware_benchmark_callback = hardware_benchmark_callback
         self.preview_download_callback = preview_download_callback
+        self.cleanup_download_callback = cleanup_download_callback
+        self.cleanup_runtime_download_callback = cleanup_runtime_download_callback
         self._vad_download_task = None
         self.config = load_config(config_path=self.config_path)
         self.snippets_path = Path(snippets_path) if snippets_path is not None else resolve_project_path("snippets.txt")
@@ -211,8 +216,11 @@ class SettingsWindow(QtWidgets.QDialog):
         return page
 
     def _models_tab(self):
-        page = QtWidgets.QWidget()
-        layout = QtWidgets.QVBoxLayout(page)
+        page = QtWidgets.QScrollArea()
+        page.setWidgetResizable(True)
+        content = QtWidgets.QWidget()
+        page.setWidget(content)
+        layout = QtWidgets.QVBoxLayout(content)
         form = QtWidgets.QFormLayout()
         self.model_picker = ModelPicker(self.config, callback=self.model_download_callback)
         self.model_combo = self.model_picker.combo
@@ -225,8 +233,10 @@ class SettingsWindow(QtWidgets.QDialog):
         self.llm_path_edit = QtWidgets.QLineEdit()
         self.model_progress = self.model_picker.progress
         self.download_button = self.model_picker.download_button
-        self.llm_link_button = QtWidgets.QPushButton("Open LLM Link")
-        self.llm_link_button.clicked.connect(self.open_llm_download_link)
+        self.cleanup_picker = CleanupPicker(self.config, callback=self.cleanup_download_callback,
+            runtime_callback=self.cleanup_runtime_download_callback,
+            report=latest_report(self.config_path.parent / "hardware-benchmarks" if self.config_path else None))
+        self.cleanup_picker.ready.connect(self._cleanup_model_ready)
         self.vad_download_button = QtWidgets.QPushButton("Download speech detection (2.3 MB)")
         self.vad_download_button.clicked.connect(self.download_vad_model)
         self.vad_license = QtWidgets.QLabel('Silero Team · <a href="https://github.com/snakers4/silero-vad/blob/v5.0/LICENSE">MIT license</a>')
@@ -238,8 +248,8 @@ class SettingsWindow(QtWidgets.QDialog):
         form.addRow("Compute type", self.compute_combo)
         form.addRow("Use local model files only", self.local_files_checkbox)
         form.addRow("Enable local LLM cleanup", self.llm_enabled_checkbox)
+        form.addRow("AI cleanup setup", self.cleanup_picker)
         form.addRow("GGUF model path", self.llm_path_edit)
-        form.addRow("LLM model link", self.llm_link_button)
         form.addRow("Speech detection", self.vad_download_button)
         form.addRow("Model license", self.vad_license)
         layout.addLayout(form)
@@ -368,12 +378,20 @@ class SettingsWindow(QtWidgets.QDialog):
         cfg["stt"]["local_files_only"] = bool(self.local_files_checkbox.isChecked())
         cfg["llm"]["enabled"] = bool(self.llm_enabled_checkbox.isChecked())
         cfg["llm"]["model_path"] = self.llm_path_edit.text().strip()
+        cfg["llm"]["backend"] = self.cleanup_picker.backend.currentData()
         return cfg
+
+    @QtCore.Slot(str, str)
+    def _cleanup_model_ready(self, path, backend):
+        self.llm_path_edit.setText(path)
+        self.cleanup_picker.backend.setCurrentIndex(self.cleanup_picker.backend.findData(backend))
 
     def refresh_labs(self, report=None):
         cfg = json.loads(json.dumps(self.config))
         self.languages_page.apply_to(cfg)
         self.labs_page.update_eligibility(cfg, report)
+        self.cleanup_picker.refresh_recommendation(report if report is not None else latest_report(
+            self.config_path.parent / "hardware-benchmarks" if self.config_path else None))
 
     def _sync_language_model(self):
         if not self.languages_page.routing.isChecked() or self.model_picker.task is not None:
@@ -397,14 +415,10 @@ class SettingsWindow(QtWidgets.QDialog):
     def closeEvent(self, event):
         self.model_picker.pause()
         self.labs_page.pause()
+        self.cleanup_picker.pause()
         if self._vad_download_task is not None:
             self._vad_download_task.pause()
         super().closeEvent(event)
-
-    def open_llm_download_link(self) -> None:
-        QtGui.QDesktopServices.openUrl(
-            QtCore.QUrl("https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct-GGUF")
-        )
 
     def show_tab(self, tab_name: str | None) -> None:
         if not tab_name:

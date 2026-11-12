@@ -46,10 +46,11 @@ the weights' license. See [third-party notices](../THIRD_PARTY_NOTICES.md).
 ## Verified downloads and storage
 
 Developer cleanup candidates have a separate [catalog and artifact table](CLEANUP_CANDIDATES.md).
-They are unselected and absent from the app picker/setup downloads. Chosen Qwen
-Q4_K_M weights are 0.58/1.40/3.01 GB; ggml-org Gemma Q4_0 weights are 2.84/4.59 GB,
-above the earlier Gemma estimates. Full bake-off quality, actual-use/fallback rates,
-CPU/Vulkan tier acceptance and defaults remain unestablished.
+The two chosen Qwen 0.8B/2B pins now also appear in the app's explicit cleanup
+setup; the larger alternatives remain developer-only. Qwen Q4_K_M weights are
+0.58/1.40/3.01 GB; ggml-org Gemma Q4_0 weights are 2.84/4.59 GB, above the earlier
+Gemma estimates. Five-artifact quality and conditional manifest choices are
+recorded below; current-source policy and broad tier latency acceptance remain open.
 Initial 0.8B compatibility probes and retained cold-request failures are recorded
 in that document; concurrent downloads and two curated examples cannot establish
 quality or tier acceptance.

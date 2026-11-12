@@ -1,8 +1,10 @@
 # Cleanup evaluation candidates
 
-`eval/cleanup/candidates.json` is a developer-only catalog for P4.4, separate
-from the application picker. Every candidate is `unselected`. No app default,
-onboarding transfer, installation requirement or quality claim changes here.
+`eval/cleanup/candidates.json` retains the developer measurement recipes for
+P4.4. Each recipe stays `unselected` to keep its original fixture contract;
+the app separately copies the exact measured 0.8B/2B pins into its manifest.
+Larger alternatives remain developer-only. Conditional defaults and explicit
+licensed model/runtime controls are documented in [Cleanup setup](CLEANUP_SETUP.md).
 
 | Candidate | Conversion | Weight bytes | Revision |
 | --- | --- | ---: | --- |
