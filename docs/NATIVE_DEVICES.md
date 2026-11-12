@@ -44,3 +44,8 @@ authored adversarial checks 100/100, and Ruff/diff checks pass. Native tests cov
 bounded output, stuck probes, handle cleanup, reader adoption failure and unchanged
 inference I/O. Selection tests cover reversed Windows order, shared memory, missing
 or ambiguous matches, malformed inventories, cancellation and deadlines.
+
+The clean immutable `9748bb5` probe also passes, with an independently observed
+native exit, no weights/inference/settings changes, and the expected name/type
+match. Its original report bytes and digest are retained in
+`eval/hardware/results/2026-11-12-native-devices/`.

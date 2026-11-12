@@ -8,3 +8,4 @@ assets/licenses/*.pdf binary
 
 # Native measurement reports retain their recorded SHA-256 across checkouts.
 eval/cleanup/results/**/*.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+eval/hardware/results/**/*.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol

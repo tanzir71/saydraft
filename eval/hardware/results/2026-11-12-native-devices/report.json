@@ -1,0 +1,45 @@
+{
+  "git_commit": "9748bb5e6e7cf5347dd49c0720dc06f6e5b00527",
+  "source_dirty": false,
+  "weights_loaded": false,
+  "inference_performed": false,
+  "settings_changed": false,
+  "native": [
+    {
+      "id": "Vulkan0",
+      "name": "AMD Radeon(TM) Graphics",
+      "total_mb": 34506,
+      "free_mb": 32780
+    },
+    {
+      "id": "Vulkan1",
+      "name": "NVIDIA GeForce RTX 3060",
+      "total_mb": 12113,
+      "free_mb": 11345
+    }
+  ],
+  "windows": [
+    {
+      "name": "AMD Radeon(TM) Graphics",
+      "vendor_id": 4098,
+      "device_id": 5688,
+      "device_type": 1
+    },
+    {
+      "name": "NVIDIA GeForce RTX 3060",
+      "vendor_id": 4318,
+      "device_id": 9476,
+      "device_type": 2
+    }
+  ],
+  "selected": {
+    "id": "Vulkan1",
+    "name": "NVIDIA GeForce RTX 3060",
+    "total_mb": 12113,
+    "free_mb": 11345
+  },
+  "native_exit_observed": [
+    true
+  ],
+  "passed": true
+}
