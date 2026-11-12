@@ -59,6 +59,13 @@ to `main` after local verification and successful exact-head push CI. The owner
 also asked when the landing page would be built; start the permitted P9 site
 foundation alongside shared tokens rather than waiting for P7/P8 completion.
 
+**Owner website follow-up (2026-11-12):** rounded color sections must have outer
+gutters and comfortable internal padding. Apply this to the shared night/deep
+stack and final CTA instead of running their rounded edges against the viewport.
+Credit the creator in the footer like the owner's other landing pages: "Built by
+tanziro.com" with the existing portfolio and support links, verified against the
+INTRX (`tanzir71/interaction`) footer.
+
 ---
 
 ## 1. Parity scorecard (the contract)
@@ -782,6 +789,8 @@ Cloud anything (sync, accounts, team dictionaries, web search in Ask), mobile ap
 ---
 
 ## 14. Changelog
+
+- 2026-11-12 | P9.3 layout/creator follow-up | Added shared outer gutters to the rounded night/deep stack and final CTA, retained internal padding, and added the owner's INTRX-style portfolio/support footer credit. Build/type diagnostics, Storybook and all 15 browser checks pass; updated 390/768/1440 baselines and sheet/footer captures are inspected. Browser checks now enforce panel/content insets and exact creator/support destinations with no external asset requests. | site/src/styles/home.css, site/src/layouts/Base.astro, site/tests/, docs/SITE.md
 
 - 2026-11-12 | P0.3/P0.4 main acceptance | Verified GitHub's default-branch MIT detection, successful exact-head main Windows CI 43270748066, and the README badge's HTTP 200/passing response. Closed the two earlier main-review acceptance gaps after the owner authorized direct pushes. | WISPR_OFFLINE_PARITY_PLAN.md
 

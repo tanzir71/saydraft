@@ -35,8 +35,8 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <footer class="container site-footer">
       <a class="footer-mark" href={base}>Saydraft<span aria-hidden="true">✳</span></a>
       <p class="muted">Your words. Your machine.</p>
-      <div><a href={`${base}docs/getting-started/`}>Getting started</a><a href={`${base}privacy/`}>Privacy</a><a href={`${base}credits/`}>Credits</a><a href="https://github.com/tanzir71/saydraft/blob/main/LICENSE">MIT license ↗</a></div>
-      <small>Free, open-source dictation for Windows.</small>
+      <div class="footer-links"><a href={`${base}docs/getting-started/`}>Getting started</a><a href={`${base}privacy/`}>Privacy</a><a href={`${base}credits/`}>Credits</a><a href="https://github.com/tanzir71/saydraft/blob/main/LICENSE">MIT license ↗</a></div>
+      <div class="footer-bottom"><small>Free, open-source dictation for Windows.</small><nav aria-label="Creator links"><a href="https://tanziro.com" target="_blank" rel="noopener">Built by tanziro.com</a><a href="https://buymeacoffee.com/tanzir" target="_blank" rel="noopener">Support Saydraft ↗</a></nav></div>
     </footer>
   </body>
 </html>
@@ -45,7 +45,9 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
   .footer-mark { font: 42px/1 var(--font-display); text-decoration: none; }
   .footer-mark span { color: var(--color-signal); margin-left: 6px; font-size: 28px; }
   .site-footer p { text-align: right; font-size: 14px; }
-  .site-footer div { display: flex; flex-wrap: wrap; gap: 24px; grid-column: 1 / -1; margin-top: 22px; }
-  .site-footer div a, small { font-size: 12px; }
-  small { color: var(--color-ink-muted); grid-column: 1 / -1; }
+  .footer-links { display: flex; flex-wrap: wrap; gap: 24px; grid-column: 1 / -1; margin-top: 22px; }
+  .footer-links a, small, .footer-bottom a { font-size: 12px; }
+  .footer-bottom { grid-column: 1 / -1; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 20px; border-top: 1px solid var(--color-hairline); padding-top: 24px; margin-top: 8px; }
+  .footer-bottom nav { display: flex; flex-wrap: wrap; gap: 24px; }
+  small { color: var(--color-ink-muted); }
 </style>

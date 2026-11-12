@@ -17,6 +17,16 @@ test('home is local, responsive, and light on JavaScript', async ({ page, reques
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Speak messy.Paste polished.');
   expect(await page.getByRole('heading', { level: 1 }).evaluate((heading) => parseFloat(getComputedStyle(heading).fontSize))).toBeGreaterThanOrEqual(56);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+  for (const selector of ['.credits-sheet', '.thought-sheet', '.final-sheet']) {
+    const panel = await page.locator(selector).boundingBox();
+    const content = await page.locator(`${selector} > .container`).boundingBox();
+    expect(panel && content).toBeTruthy();
+    expect(panel!.x).toBeGreaterThanOrEqual(16);
+    expect(panel!.x + panel!.width).toBeLessThanOrEqual(page.viewportSize()!.width - 16);
+    expect(content!.x).toBeGreaterThan(panel!.x);
+  }
+  await expect(page.getByRole('contentinfo').getByRole('link', { name: 'Built by tanziro.com' })).toHaveAttribute('href', 'https://tanziro.com');
+  await expect(page.getByRole('contentinfo').getByRole('link', { name: 'Support Saydraft' })).toHaveAttribute('href', 'https://buymeacoffee.com/tanzir');
   const scripts = await page.locator('script[src]').evaluateAll((nodes) => nodes.map((node) => (node as HTMLScriptElement).src));
   const inline = await page.locator('script:not([src]):not([type="application/ld+json"])').allTextContents();
   let bytes = gzipSync(inline.join('\n')).length;
@@ -28,6 +38,11 @@ test('home is local, responsive, and light on JavaScript', async ({ page, reques
   const viewport = testInfo.outputPath('viewport.png');
   await page.screenshot({ path: viewport, animations: 'disabled' });
   await testInfo.attach('Viewport', { path: viewport, contentType: 'image/png' });
+  for (const [name, selector] of [['sheet', '.credits-sheet'], ['footer', '.site-footer']]) {
+    const path = testInfo.outputPath(`${name}.png`);
+    await page.locator(selector).screenshot({ path, animations: 'disabled' });
+    await testInfo.attach(name, { path, contentType: 'image/png' });
+  }
 });
 
 test('native navigation, questions, and reduced-motion simulation work', async ({ page }) => {

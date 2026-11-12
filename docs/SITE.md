@@ -15,6 +15,14 @@ microphone. Native details/summary navigation and FAQ work without JavaScript.
 The small example script respects reduced motion; React components render to
 static HTML without shipping a React hydration runtime to readers.
 
+The owner requested outer gutters around rounded color sheets and explicit
+creator credit. The night/deep stack and final CTA now use the shared page gutter,
+with their own internal content padding. The footer uses the owner's INTRX pattern:
+"Built by tanziro.com" linking to `https://tanziro.com`, plus "Support Saydraft"
+linking to `https://buymeacoffee.com/tanzir`. Both are ordinary links; no external
+widget, image, script or tracking request is introduced. Browser checks cover
+the panel gutters/content inset and both footer destinations at all three widths.
+
 ## Develop and verify
 
 Use Node 24.22.2 or newer. All direct versions and transitive integrity hashes are
