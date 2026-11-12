@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "source_commit": "887e1da",
+  "selection_performed": false,
+  "tier_acceptance_performed": false,
+  "reports": [
+    {
+      "report": "qwen08-cpu.json",
+      "report_sha256": "7f94c73e36282136e80fc8c2e0ec2232c4937feec3ce9afc4d956bc3328c6d70",
+      "local_journal_directory": "cleanup-policy-887e1da-qwen08-cpu",
+      "journal_sha256": "6d089eb9be4f04e22d3134ddf43dfd7c4d03aa5c18923c2de2f84a6d5112ffa4"
+    },
+    {
+      "report": "qwen2-vulkan1.json",
+      "report_sha256": "996dd6b1f7648bf373c2f4f10a4db3b8f14181eb28193e6239b52ab6582dcc88",
+      "local_journal_directory": "cleanup-policy-887e1da-qwen2-vulkan1",
+      "journal_sha256": "65f3e9c07e41ce23331c8d73d0873a72f391c90e4071dc65250ac0c387135b55"
+    }
+  ],
+  "diagnostics": [
+    {
+      "report": "threads2-debug.json",
+      "report_sha256": "429e3c20a573fb15cf9251c2dfc2d9ea37fcd799fa47c54066e751e1e077e4d9",
+      "local_journal_directory": "cleanup-threads-887e1da-cpu2-debug",
+      "journal_sha256": "88a9b7d73f08dd64e00d04c435477e14406577723de626d6de6ded1a426f9898"
+    },
+    {
+      "report": "threads6-debug.json",
+      "report_sha256": "78b7c202f0ce1c4b6369f5fbceb30ae3088804473a5ecdf60dcaa67339c1c7c5",
+      "local_journal_directory": "cleanup-threads-887e1da-cpu6-debug",
+      "journal_sha256": "38203706c03c871251ab034b3de05c2101db7939f750ace4b2f8eb3285cbc6a3"
+    }
+  ]
+}

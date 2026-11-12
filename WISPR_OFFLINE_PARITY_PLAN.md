@@ -739,6 +739,8 @@ Cloud anything (sync, accounts, team dictionaries, web search in Ask), mobile ap
 
 ## 14. Changelog
 
+- 2026-11-12 | P4.6 (current RPC policy proof) | Immutable 887e1da CPU/RTX each complete 432 exact goldens and 100 low-need adversarial skips with observed exits. RTX accepts 213 replies; CPU zero at 23.44 tok/s median, below Standard target. Two/six-thread diagnostics are slower; retain all data and no CPU hybrid/tier credit. Suite 1403 pass, 4 skips; rules/adversarial/lint/Windows CI pass. | eval/cleanup/results/2026-11-12-rpc-policy/, docs/CLEANUP_RPC_BUDGET.md
+
 - 2026-11-12 | P4.6 (minimum RPC window) | Decline ≤50 ms RPC windows after the separate delivery reserve, before model creation and across prompt/tokenization stages; preserve rules and generation-credit semantics. Added top-level live calibration and portable source paths to future policy reports for evidence checks. Fresh native quality/latency acceptance remains. | saydraft/cleanup/llm/, saydraft/dictation/llm_local.py, tools/bench_cleanup.py, tests/test_cleanup_gate.py, docs/CLEANUP_RPC_BUDGET.md
 
 - 2026-11-12 | P4.6 (native background release proof) | Immutable 0dbf024 real-time RTX run completes sixty 3/8/20-second samples with normal recording guard, background ASR, SQLite-first checked delivery and observed exit. Release p50/p95: 0.506/0.834, 1.077/1.276, 0.427/0.696 s; forty accepted replies, twenty budget skips. Meets Pro fixture targets; Standard/rules-only background, broad tier and real-paste acceptance remain. | eval/cleanup/results/2026-11-12-background-replay/, docs/CLEANUP_LATENCY.md

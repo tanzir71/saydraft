@@ -21,4 +21,14 @@ save rules before normal delivery.
 The full policy runner also retains final live decoder calibration in the top-level
 report, before closing the server. This makes the three exact 60-token rates
 available to an offline evidence checker alongside the per-case local journal.
-Fresh native corpus measurements remain necessary before acceptance.
+Fresh immutable `887e1da` policy runs each complete 432 exact goldens and 100
+low-need adversarial skips without a timeout or finite preservation failure; all
+native exits are observed. RTX accepts 213 exact model replies. CPU accepts none:
+its fresh four-thread median is 23.44 tok/s, below Standard's 25 tok/s target.
+Two/six-thread diagnostic medians are 14.74/12.43 tok/s, so no faster configuration
+is selected. Zero CPU generation cannot earn hybrid-quality credit. Reports and
+journal digests are retained in `eval/cleanup/results/2026-11-12-rpc-policy/`;
+Standard/tier acceptance remains pending.
+
+Validation on the immutable implementation: 1403 tests pass, four optional native
+skips; rules 432/432; authored adversarial checks 100/100; Ruff/diff and Windows CI pass.
