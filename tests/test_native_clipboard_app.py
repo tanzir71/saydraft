@@ -150,13 +150,13 @@ def test_explicit_history_copy_uses_privacy_flags_replaces_opaque_data_and_disca
 
 
 def test_history_window_shared_recovery_and_copy_errors_are_visible(tmp_path):
-    from saydraft.ui.history_window import HistoryWindow
+    from saydraft.ui.history_page import HistoryPage
     from tests.test_history_window import build_history, qt_modules
     inserter, api, _keyboard = adapter()
     original = api.data()
     with inserter.clipboard.temporary_text("fixture"):
         api.busy = True
-    window = HistoryWindow(qt_modules=qt_modules(), store=build_history(tmp_path), clipboard=inserter.clipboard)
+    window = HistoryPage(qt_modules=qt_modules(), store=build_history(tmp_path), clipboard=inserter.clipboard)
     assert window.restore_clipboard_button.isEnabled()
     assert not window.copy_current_text() and "Could not copy" in window.status_label.text()
     assert not window.restore_clipboard()

@@ -1,4 +1,4 @@
-"""PySide6 history window."""
+"""Private History review controls hosted by the Saydraft Hub."""
 
 from __future__ import annotations
 
@@ -13,7 +13,7 @@ from PySide6 import QtCore, QtGui, QtWidgets
 
 from saydraft.dictation.glossary import learn_word
 from saydraft.history import DictationHistoryStore, HistoryRow
-from saydraft.data.history_view import result_details, save_history_export, transcript_diff
+from saydraft.data.history_view import result_details, save_history_export, timestamp_label, transcript_diff
 from .private_text import PrivatePlainTextEdit
 
 
@@ -30,7 +30,7 @@ def add_word_to_dictionary_action(
     return term
 
 
-class HistoryWindow(QtWidgets.QDialog):
+class HistoryPage(QtWidgets.QWidget):
     def __init__(
         self,
         *,
@@ -59,8 +59,7 @@ class HistoryWindow(QtWidgets.QDialog):
         self.rows: list[HistoryRow] = []
         self.filtered_rows: list[HistoryRow] = []
 
-        self.setWindowTitle("Saydraft History")
-        self.setMinimumSize(860, 560)
+        self.setAccessibleName("Saydraft History")
         self.search_edit = QtWidgets.QLineEdit(self)
         self.search_edit.setPlaceholderText("Search history")
         self.list_widget = QtWidgets.QListWidget(self)
@@ -214,11 +213,8 @@ class HistoryWindow(QtWidgets.QDialog):
             " | ".join(
                 part
                 for part in (
-                    row.created_at,
                     row.app_name or "Unknown app",
-                    row.mode,
-                    row.profile,
-                    row.model,
+                    timestamp_label(row.created_at),
                     self._duration_text(row),
                     self._retry_origin(row),
                 )
@@ -402,7 +398,7 @@ class HistoryWindow(QtWidgets.QDialog):
         if len(preview) > 80:
             preview = preview[:77] + "..."
         app = row.app_name or "Unknown"
-        return f"{preview}  [{app}]"
+        return f"{app} · {timestamp_label(row.created_at)}\n{preview}"
 
     def _duration_text(self, row: HistoryRow) -> str:
         if row.duration_seconds is None:

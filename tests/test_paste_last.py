@@ -10,7 +10,7 @@ from saydraft.config import default_config, load_config, save_config
 from saydraft.context.focused_edit import FocusedEdit
 from saydraft.history import DictationHistoryStore, HistoryEntry
 from saydraft.hotkeys import HotkeyConfig, HotkeyController
-from saydraft.ui.settings_window import find_hotkey_conflicts
+from saydraft.ui.settings_page import find_hotkey_conflicts
 from tests.test_native_recording import factory
 from tests.test_uia_delivery import setup
 

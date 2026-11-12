@@ -160,6 +160,8 @@ def test_app_wires_current_ai_callback_and_queues_worker_result_to_the_page(tmp_
         page.callback = kwargs["style_preview_callback"]
         return NS(styles_page=page, show=lambda: None, raise_=lambda: None, activateWindow=lambda: None)
     subject.settings_window_factory = window
+    from tests.test_qt_app_shell import fake_hub_factory
+    subject.hub_window_factory = fake_hub_factory("Settings")
     try:
         subject._show_settings()
         page.preview_ai()

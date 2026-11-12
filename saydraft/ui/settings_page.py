@@ -1,4 +1,4 @@
-"""In-process PySide6 settings window."""
+"""Shared Settings controls hosted by the Saydraft Hub."""
 
 from __future__ import annotations
 
@@ -62,7 +62,7 @@ def find_hotkey_conflicts(hotkeys: dict[str, str]) -> list[str]:
     return []
 
 
-class SettingsWindow(QtWidgets.QDialog):
+class SettingsPage(QtWidgets.QWidget):
     def __init__(
         self,
         *,
@@ -99,16 +99,20 @@ class SettingsWindow(QtWidgets.QDialog):
         self.glossary_path = resolve_project_path(self.config["dictation"]["glossary_path"])
         self.app_profiles_path = resolve_project_path(self.config["dictation"]["app_profiles_path"])
 
-        self.setWindowTitle("Saydraft Settings")
-        self.setMinimumSize(760, 560)
+        self.setAccessibleName("Saydraft Settings")
         self.tabs = QtWidgets.QTabWidget(self)
+        self.tabs.tabBar().hide()
+        self.section_combo = QtWidgets.QComboBox(self)
+        self.section_combo.setAccessibleName("Settings section")
         self.status_label = QtWidgets.QLabel("", self)
         self.apply_button = QtWidgets.QPushButton("Apply", self)
         self.close_button = QtWidgets.QPushButton("Close", self)
         self.apply_button.clicked.connect(self.apply_changes)
-        self.close_button.clicked.connect(self.close)
+        self.close_button.clicked.connect(lambda: self.window().close())
 
         self._build()
+        self.section_combo.currentIndexChanged.connect(self.tabs.setCurrentIndex)
+        self.tabs.currentChanged.connect(self._sync_section_index)
         self._load_values()
         for signal in (self.mode_combo.currentIndexChanged, self.profile_combo.currentIndexChanged,
                 self.drop_message_period_checkbox.toggled, self.voice_enter_checkbox.toggled,
@@ -122,10 +126,16 @@ class SettingsWindow(QtWidgets.QDialog):
         self.model_picker.busy_changed.connect(lambda busy: self.languages_page.setEnabled(not busy))
         self._sync_language_model()
         self.tabs.currentChanged.connect(lambda index: self.refresh_labs())
-        self.tabs.currentChanged.connect(lambda index: self._refresh_shortcut_warning() if index == 0 else None)
+        self.tabs.currentChanged.connect(lambda index: self._refresh_shortcut_warning() if self.tabs.tabText(index) == "Shortcuts" else None)
 
     def _build(self) -> None:
         layout = QtWidgets.QVBoxLayout(self)
+        navigation = QtWidgets.QHBoxLayout()
+        label = QtWidgets.QLabel("Settings")
+        label.setProperty("role", "eyebrow")
+        navigation.addWidget(label)
+        navigation.addWidget(self.section_combo, 1)
+        layout.addLayout(navigation)
         layout.addWidget(self.tabs)
 
         footer = QtWidgets.QHBoxLayout()
@@ -134,30 +144,79 @@ class SettingsWindow(QtWidgets.QDialog):
         footer.addWidget(self.close_button)
         layout.addLayout(footer)
 
-        self.tabs.addTab(self._general_tab(), "General")
+        self._add_tab(self._general_tab(), "General")
+        self._add_tab(self._shortcuts_tab(), "Shortcuts")
         self.languages_page = LanguagesPage(self.config)
         self.language_combo = self.languages_page.combos[0]
-        self.tabs.addTab(self.languages_page, "Languages")
-        self.tabs.addTab(self._cleanup_tab(), "Cleanup")
+        self._add_tab(self.languages_page, "Languages")
+        self._add_tab(self._cleanup_tab(), "Cleanup")
         self.styles_page = StylesPage(self.config, config_provider=self._collect_config,
             profiles_provider=lambda: self._parse_json_editor(self.app_profiles_editor, list, "Per-app profiles"),
             snippets_provider=lambda: self.snippets_editor.toPlainText(), callback=self.style_preview_callback,
             glossary_provider=self.style_glossary_provider or (lambda: load_glossary(self.glossary_path)))
-        self.tabs.addTab(self.styles_page, "Style")
-        self.tabs.addTab(self._dictionary_tab(), "Dictionary")
-        self.tabs.addTab(self._snippets_tab(), "Snippets")
-        self.tabs.addTab(self._models_tab(), "Models")
+        self._add_tab(self.styles_page, "Style")
+        self._add_tab(self._dictionary_tab(), "Dictionary")
+        self._add_tab(self._snippets_tab(), "Snippets")
+        self._add_tab(self._models_tab(), "Models")
         self.hardware_page = HardwarePage(callback=self.hardware_benchmark_callback,
             directory=self.config_path.parent / "hardware-benchmarks" if self.config_path else None)
-        self.tabs.addTab(self.hardware_page, "Performance")
+        self._add_tab(self.hardware_page, "Performance")
         self.labs_page = LabsPage(self.config, callback=self.preview_download_callback,
             report_loader=lambda: latest_report(self.config_path.parent / "hardware-benchmarks" if self.config_path else None))
-        self.tabs.addTab(self.labs_page, "Labs")
+        self._add_tab(self.labs_page, "Labs")
         self.microphone_page = self._microphone_tab()
-        self.tabs.addTab(self.microphone_page, "Microphone")
-        self.tabs.addTab(self._about_tab(), "About")
+        self._add_tab(self.microphone_page, "Microphone")
+        self._add_tab(self._privacy_tab(), "Privacy")
+        self._add_tab(self._about_tab(), "About")
+        self.sync_sections()
+
+    def _add_tab(self, page, name):
+        if not isinstance(page, QtWidgets.QAbstractScrollArea):
+            page = self._scroll(page)
+        self.tabs.addTab(page, name)
+
+    def sync_sections(self):
+        self.section_combo.blockSignals(True)
+        self.section_combo.clear()
+        self.section_combo.addItems([self.tabs.tabText(index) for index in range(self.tabs.count())])
+        self.section_combo.setCurrentIndex(self.tabs.currentIndex())
+        self.section_combo.blockSignals(False)
+
+    def _sync_section_index(self, index):
+        self.section_combo.blockSignals(True)
+        self.section_combo.setCurrentIndex(index)
+        self.section_combo.blockSignals(False)
 
     def _general_tab(self):
+        page = QtWidgets.QWidget()
+        form = QtWidgets.QFormLayout(page)
+        self.autostart_checkbox = QtWidgets.QCheckBox()
+        self.auto_listen_checkbox = QtWidgets.QCheckBox()
+        self.show_bar_checkbox = QtWidgets.QCheckBox("Show the idle Saydraft Bar")
+        self.start_sound_checkbox = QtWidgets.QCheckBox("Play a tick when recording starts")
+        self.end_sound_checkbox = QtWidgets.QCheckBox("Play a soft tick after insertion")
+        self.notification_spin = QtWidgets.QSpinBox()
+        self.notification_spin.setRange(1, 30)
+        self.notification_spin.setSuffix(" s")
+        self.retain_audio_checkbox = QtWidgets.QCheckBox("Save recordings locally for History retries")
+        self.retain_audio_checkbox.setToolTip("Off by default. Enabling this retains future recording audio on this computer.")
+        form.addRow("Start with Windows", self.autostart_checkbox)
+        form.addRow("Auto-start listening", self.auto_listen_checkbox)
+        form.addRow("Saydraft Bar", self.show_bar_checkbox)
+        form.addRow("Start sound", self.start_sound_checkbox)
+        form.addRow("End sound", self.end_sound_checkbox)
+        form.addRow("Notification duration", self.notification_spin)
+        return self._scroll(page)
+
+    @staticmethod
+    def _scroll(page):
+        scroll = QtWidgets.QScrollArea()
+        scroll.setWidgetResizable(True)
+        scroll.setFrameShape(QtWidgets.QFrame.NoFrame)
+        scroll.setWidget(page)
+        return scroll
+
+    def _shortcuts_tab(self):
         page = QtWidgets.QWidget()
         form = QtWidgets.QFormLayout(page)
         self.speech_hotkey_edit = QtWidgets.QLineEdit()
@@ -179,17 +238,6 @@ class SettingsWindow(QtWidgets.QDialog):
         self.tap_lock_spin.setToolTip("Two taps of the same recording shortcut lock hands-free mode. "
                                      "Each tap must be shorter than 300 ms. Zero disables double-tap.")
         self.tap_lock_spin.setSuffix(" ms")
-        self.autostart_checkbox = QtWidgets.QCheckBox()
-        self.auto_listen_checkbox = QtWidgets.QCheckBox()
-        self.show_bar_checkbox = QtWidgets.QCheckBox("Show the idle Saydraft Bar")
-        self.start_sound_checkbox = QtWidgets.QCheckBox("Play a tick when recording starts")
-        self.end_sound_checkbox = QtWidgets.QCheckBox("Play a soft tick after insertion")
-        self.notification_spin = QtWidgets.QSpinBox()
-        self.notification_spin.setRange(1, 30)
-        self.notification_spin.setSuffix(" s")
-        self.retain_audio_checkbox = QtWidgets.QCheckBox("Save recordings locally for History retries")
-        self.retain_audio_checkbox.setToolTip("Off by default. Enabling this retains future recording audio on this computer.")
-
         form.addRow("Speech hotkey", self.speech_hotkey_edit)
         form.addRow("Alternate hotkey", self.alternative_hotkey_edit)
         form.addRow("Mouse recording shortcut", self.mouse_hotkey_edit)
@@ -211,18 +259,7 @@ class SettingsWindow(QtWidgets.QDialog):
         hotkey_help.setOpenExternalLinks(True)
         form.addRow(hotkey_help)
         form.addRow("Double-tap interval", self.tap_lock_spin)
-        form.addRow("Start with Windows", self.autostart_checkbox)
-        form.addRow("Auto-start listening", self.auto_listen_checkbox)
-        form.addRow("Saydraft Bar", self.show_bar_checkbox)
-        form.addRow("Start sound", self.start_sound_checkbox)
-        form.addRow("End sound", self.end_sound_checkbox)
-        form.addRow("Notification duration", self.notification_spin)
-        form.addRow("Audio history", self.retain_audio_checkbox)
-        scroll = QtWidgets.QScrollArea()
-        scroll.setWidgetResizable(True)
-        scroll.setFrameShape(QtWidgets.QFrame.NoFrame)
-        scroll.setWidget(page)
-        return scroll
+        return self._scroll(page)
 
     def _microphone_tab(self):
         page = QtWidgets.QWidget()
@@ -241,6 +278,34 @@ class SettingsWindow(QtWidgets.QDialog):
         layout.addWidget(privacy)
         layout.addStretch()
         return page
+
+    def _privacy_tab(self):
+        from saydraft.privacy.netguard import NetworkGuard
+
+        page = QtWidgets.QWidget()
+        layout = QtWidgets.QVBoxLayout(page)
+        heading = QtWidgets.QLabel("Your words stay on your machine.")
+        heading.setProperty("role", "display")
+        heading.setWordWrap(True)
+        layout.addWidget(heading)
+        self.privacy_status = QtWidgets.QLabel()
+        self.privacy_status.setWordWrap(True)
+        layout.addWidget(self.privacy_status)
+        explanation = QtWidgets.QLabel("Dictation and cleanup run locally. History, dictionary and retained audio stay on this PC. "
+            "Model downloads happen only when you request them. Telemetry is disabled.")
+        explanation.setWordWrap(True)
+        layout.addWidget(explanation)
+        layout.addWidget(self.retain_audio_checkbox)
+        note = QtWidgets.QLabel("Audio history is off by default. Turning it on retains future recordings for recognition retry.")
+        note.setWordWrap(True)
+        layout.addWidget(note)
+        layout.addStretch()
+        self.privacy_status.setText("Offline mode active" if NetworkGuard.is_installed() else "Offline policy unavailable")
+        return self._scroll(page)
+
+    def refresh_privacy(self):
+        from saydraft.privacy.netguard import NetworkGuard
+        self.privacy_status.setText("Offline mode active" if NetworkGuard.is_installed() else "Offline policy unavailable")
 
     def _cleanup_tab(self):
         page = QtWidgets.QWidget()
@@ -566,12 +631,15 @@ class SettingsWindow(QtWidgets.QDialog):
         if self._vad_download_task is None:
             self.model_picker.start_download()
 
-    def closeEvent(self, event):
+    def pause_downloads(self):
         self.model_picker.pause()
         self.labs_page.pause()
         self.cleanup_picker.pause()
         if self._vad_download_task is not None:
             self._vad_download_task.pause()
+
+    def closeEvent(self, event):
+        self.pause_downloads()
         super().closeEvent(event)
 
     def show_tab(self, tab_name: str | None) -> None:

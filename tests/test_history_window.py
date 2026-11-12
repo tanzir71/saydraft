@@ -4,7 +4,7 @@ import types
 
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
-from saydraft.ui.history_window import add_word_to_dictionary_action
+from saydraft.ui.history_page import add_word_to_dictionary_action
 
 
 def qt_modules():
@@ -73,10 +73,10 @@ def test_history_add_word_to_dictionary_action_returns_none_for_blank_selection(
 
 
 def test_history_window_loads_reverse_chron_and_toggles_raw_clean(tmp_path):
-    from saydraft.ui.history_window import HistoryWindow
+    from saydraft.ui.history_page import HistoryPage
 
     store = build_history(tmp_path)
-    window = HistoryWindow(qt_modules=qt_modules(), store=store, glossary_path=tmp_path / "glossary.json")
+    window = HistoryPage(qt_modules=qt_modules(), store=store, glossary_path=tmp_path / "glossary.json")
 
     assert window.list_widget.count() == 2
     assert "Newer clean" in window.list_widget.item(0).text()
@@ -91,10 +91,10 @@ def test_history_window_loads_reverse_chron_and_toggles_raw_clean(tmp_path):
 
 
 def test_history_window_search_filters_rows(tmp_path):
-    from saydraft.ui.history_window import HistoryWindow
+    from saydraft.ui.history_page import HistoryPage
 
     store = build_history(tmp_path)
-    window = HistoryWindow(qt_modules=qt_modules(), store=store, glossary_path=tmp_path / "glossary.json")
+    window = HistoryPage(qt_modules=qt_modules(), store=store, glossary_path=tmp_path / "glossary.json")
 
     window.search_edit.setText("older")
 
@@ -105,11 +105,11 @@ def test_history_window_search_filters_rows(tmp_path):
 
 def test_history_retry_requires_saved_audio_and_selects_new_result_for_review(tmp_path):
     from saydraft.history import HistoryEntry
-    from saydraft.ui.history_window import HistoryWindow
+    from saydraft.ui.history_page import HistoryPage
 
     store = build_history(tmp_path)
     calls = []
-    window = HistoryWindow(qt_modules=qt_modules(), store=store,
+    window = HistoryPage(qt_modules=qt_modules(), store=store,
                            retry_callback=lambda row: calls.append(row.id) or True)
     assert not window.retry_button.isEnabled()
     source = store.append(HistoryEntry("Notepad", "", "", "raw", "notes", 1, "primary", audio_path="local.wav"))
@@ -130,9 +130,9 @@ def test_history_retry_requires_saved_audio_and_selects_new_result_for_review(tm
 
 
 def test_history_window_rejected_reinsertion_does_not_claim_it_was_queued(tmp_path):
-    from saydraft.ui.history_window import HistoryWindow
+    from saydraft.ui.history_page import HistoryPage
     qt_modules()
-    window = HistoryWindow(store=build_history(tmp_path), reinsert_callback=lambda *args: False)
+    window = HistoryPage(store=build_history(tmp_path), reinsert_callback=lambda *args: False)
     try:
         assert not window.reinsert_current_text()
         assert "busy" in window.status_label.text() and "Queued" not in window.status_label.text()
@@ -141,13 +141,13 @@ def test_history_window_rejected_reinsertion_does_not_claim_it_was_queued(tmp_pa
 
 
 def test_history_window_copy_reinsert_and_add_dictionary_actions(tmp_path):
-    from saydraft.ui.history_window import HistoryWindow
+    from saydraft.ui.history_page import HistoryPage
 
     store = build_history(tmp_path)
     clipboard = FakeClipboard()
     reinserts = []
     glossary_path = tmp_path / "glossary.json"
-    window = HistoryWindow(
+    window = HistoryPage(
         qt_modules=qt_modules(),
         store=store,
         clipboard=clipboard,

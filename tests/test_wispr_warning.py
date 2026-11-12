@@ -67,7 +67,7 @@ def test_settings_warning_is_advisory_refreshes_and_tracks_unsaved_rebinding(mon
     def running():
         calls.append(True)
         return True
-    monkeypatch.setattr("saydraft.ui.settings_window.wispr_running", running)
+    monkeypatch.setattr("saydraft.ui.settings_page.wispr_running", running)
     window, path, _autostart = make_window(tmp_path)
     before = path.read_bytes()
     assert "Wispr Flow is running" in window.shortcut_warning_label.text()

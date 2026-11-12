@@ -28,7 +28,7 @@ def test_shortcut_upgrade_preserves_old_bindings_and_does_not_intercept_mouse(tm
 
 def test_legacy_defaults_do_not_acquire_new_mouse_or_duplicate_f9(tmp_path):
     from saydraft.config import load_config
-    from saydraft.ui.settings_window import find_hotkey_conflicts
+    from saydraft.ui.settings_page import find_hotkey_conflicts
 
     settings = tmp_path / "settings.txt"
     settings.write_text("speech_hotkey=f9\n", encoding="utf-8")

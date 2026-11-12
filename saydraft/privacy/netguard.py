@@ -65,6 +65,11 @@ class NetworkGuard:
     _originals: dict[tuple[object, str], object] = {}
 
     @classmethod
+    def is_installed(cls) -> bool:
+        with cls._lock:
+            return bool(cls._originals)
+
+    @classmethod
     def install(cls) -> None:
         """Install once, before loading workers and optional model libraries."""
         with cls._lock:

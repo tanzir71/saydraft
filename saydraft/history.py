@@ -24,14 +24,15 @@ class WeeklyStats:
     dictations: int
     words: int
     audio_seconds: float
+    duration_complete: bool = True
 
     @property
     def words_per_minute(self):
-        return self.words * 60 / self.audio_seconds if self.audio_seconds > 0 else None
+        return self.words * 60 / self.audio_seconds if self.duration_complete and self.audio_seconds > 0 else None
 
     @property
     def seconds_saved(self):
-        return max(0., self.words * 60 / 40 - self.audio_seconds)
+        return max(0., self.words * 60 / 40 - self.audio_seconds) if self.duration_complete else None
 
 
 @dataclass(frozen=True)
@@ -149,7 +150,11 @@ class DictationHistoryStore:
             row = conn.execute("""SELECT coalesce(sum(dictations),0), coalesce(sum(words),0),
                 coalesce(sum(audio_seconds),0) FROM stats_daily WHERE day>=? AND day<=?""",
                 (start.isoformat(), end.isoformat())).fetchone()
-        return WeeklyStats(start, end, int(row[0]), int(row[1]), float(row[2]))
+            unknown = conn.execute("""SELECT count(*) FROM dictations
+                WHERE (duration_seconds IS NULL OR duration_seconds<=0)
+                AND date(created_at,'localtime')>=? AND date(created_at,'localtime')<=?""",
+                (start.isoformat(), end.isoformat())).fetchone()[0]
+        return WeeklyStats(start, end, int(row[0]), int(row[1]), float(row[2]), not unknown)
 
     def update_timings(self, row_id: int, timings: dict[str, float]) -> None:
         """Complete timing metadata after insertion, retaining the earlier text record."""

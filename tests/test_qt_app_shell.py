@@ -74,6 +74,42 @@ def fake_qt_modules():
     )
 
 
+def fake_hub_factory(page_name):
+    """Exercise app-to-Hub routing while an isolated page records UI calls."""
+    def create(**options):
+        key = "settings" if page_name == "Settings" else "history"
+        page = options[key + "_page_factory"](**options[key + "_options"])
+
+        class Hub:
+            settings_page = page if key == "settings" else None
+            history_page = page if key == "history" else None
+            home_page = types.SimpleNamespace(refresh=lambda: None)
+
+            def show_page(self, name):
+                assert name == page_name
+                if name == "History":
+                    page.refresh()
+
+            def show(self):
+                page.show()
+
+            def raise_(self):
+                page.raise_()
+
+            def activateWindow(self):
+                page.activateWindow()
+
+            def refresh(self):
+                if key == "history":
+                    page.refresh()
+
+            def close(self):
+                if hasattr(page, "close"):
+                    page.close()
+        return Hub()
+    return create
+
+
 def test_voice_tray_app_runs_qt_event_loop_and_controller(monkeypatch):
     from saydraft.app import SaydraftApp
 
@@ -249,7 +285,7 @@ def test_voice_tray_app_opens_in_process_settings_window():
         def set_hotkey_hint(self, hint):
             events.append(("hotkey", hint))
 
-    class FakeSettingsWindow:
+    class FakeSettingsPage:
         def __init__(self, *, on_config_applied, **_kwargs):
             self.on_config_applied = on_config_applied
             self.hardware_callback = _kwargs["hardware_benchmark_callback"]
@@ -273,7 +309,8 @@ def test_voice_tray_app_opens_in_process_settings_window():
         controller_factory=lambda signals: FakeController(signals),
         tray_factory=lambda **kwargs: FakeTray(**kwargs),
         pill_factory=lambda **kwargs: FakePill(**kwargs),
-        settings_window_factory=lambda **kwargs: FakeSettingsWindow(**kwargs),
+        settings_window_factory=lambda **kwargs: FakeSettingsPage(**kwargs),
+        hub_window_factory=fake_hub_factory("Settings"),
         config_loader=lambda **_kwargs: {"app": {"onboarded": True}},
         crash_guard_installer=lambda notify: None,
     )
@@ -363,7 +400,7 @@ def test_voice_tray_app_passes_model_download_callback_to_setup_windows():
         def show_error(self, _message):
             pass
 
-    class FakeSettingsWindow:
+    class FakeSettingsPage:
         def __init__(self, *, model_download_callback, **_kwargs):
             events.append(("settings-callback", model_download_callback("small", lambda _value: None)))
 
@@ -400,7 +437,8 @@ def test_voice_tray_app_passes_model_download_callback_to_setup_windows():
         controller_factory=lambda signals: FakeController(signals),
         tray_factory=lambda **kwargs: FakeTray(**kwargs),
         pill_factory=lambda **kwargs: FakePill(**kwargs),
-        settings_window_factory=lambda **kwargs: FakeSettingsWindow(**kwargs),
+        settings_window_factory=lambda **kwargs: FakeSettingsPage(**kwargs),
+        hub_window_factory=fake_hub_factory("Settings"),
         onboarding_window_factory=lambda **kwargs: FakeOnboardingWindow(**kwargs),
         config_loader=lambda **_kwargs: {"app": {"onboarded": False}},
         model_download_callback=callback,
@@ -479,7 +517,7 @@ def test_voice_tray_app_opens_in_process_history_window():
         def show_error(self, _message):
             pass
 
-    class FakeHistoryWindow:
+    class FakeHistoryPage:
         def __init__(self, *, store, reinsert_callback, **_kwargs):
             self.store = store
             self.reinsert_callback = reinsert_callback
@@ -503,7 +541,8 @@ def test_voice_tray_app_opens_in_process_history_window():
         controller_factory=lambda signals: FakeController(signals),
         tray_factory=lambda **kwargs: FakeTray(**kwargs),
         pill_factory=lambda **kwargs: FakePill(**kwargs),
-        history_window_factory=lambda **kwargs: FakeHistoryWindow(**kwargs),
+        history_window_factory=lambda **kwargs: FakeHistoryPage(**kwargs),
+        hub_window_factory=fake_hub_factory("History"),
         config_loader=lambda **_kwargs: {"app": {"onboarded": True}},
         crash_guard_installer=lambda notify: None,
     )

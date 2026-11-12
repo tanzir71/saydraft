@@ -1,17 +1,32 @@
 import csv
 from dataclasses import replace
-from datetime import date
+from datetime import date, datetime, timedelta, timezone
 import io
+from contextlib import contextmanager
+import sqlite3
 
 import pytest
 
-from saydraft.data.history_view import export_history, result_details, save_history_export, transcript_diff
+from saydraft.data.history_view import export_history, result_details, save_history_export, timestamp_label, transcript_diff
 from saydraft.history import DictationHistoryStore, HistoryRow
 
 
 def row(**kwargs):
     return replace(HistoryRow(4, "2026-11-13 12:30:00", "Notepad", "um hello", "Hello.", "balanced",
         "notes", 2., "Parakeet"), **kwargs)
+
+
+@pytest.mark.parametrize("value", ["2026-11-12T21:45:00Z", "2026-11-12 21:45:00", "2026-11-13T03:45:00+06:00"])
+def test_timestamp_labels_convert_utc_legacy_and_iso_offsets_to_the_local_day(value):
+    zone = timezone(timedelta(hours=6))
+    assert timestamp_label(value, now=datetime(2026, 11, 13, 9, tzinfo=zone), tz=zone) == "Today · 03:45"
+
+
+def test_timestamp_labels_keep_older_years_and_tolerate_invalid_legacy_metadata():
+    now = datetime(2026, 11, 13, tzinfo=timezone.utc)
+    assert timestamp_label("2025-10-01 12:00:00", now=now, tz=timezone.utc) == "01 Oct 2025 · 12:00"
+    assert timestamp_label("2026-10-01 12:00:00", now=now, tz=timezone.utc) == "01 Oct · 12:00"
+    assert timestamp_label("unknown", now=now) == "Time unavailable"
 
 
 @pytest.mark.parametrize("raw,cleaned", [
@@ -89,14 +104,23 @@ def test_export_writes_utf8_exactly_and_rejects_unknown_formats_before_opening(t
     assert destination.read_bytes() == previous
 
 
-def test_weekly_stats_use_local_monday_sunday_boundaries_without_reading_transcripts(tmp_path):
+def test_weekly_stats_use_local_monday_sunday_boundaries_without_reading_transcripts(tmp_path, monkeypatch):
     store = DictationHistoryStore(tmp_path / "history.db")
     with store._connect() as connection:
         for day, count, words, seconds in (("2026-11-08", 10, 999, 10), ("2026-11-09", 2, 80, 30),
                 ("2026-11-15", 1, 40, 10), ("2026-11-16", 10, 999, 10)):
             connection.execute("INSERT INTO stats_daily(day,dictations,words,audio_seconds) VALUES(?,?,?,?)",
                 (day, count, words, seconds))
-        connection.execute("DROP TABLE dictations")  # Only aggregate storage is needed by this view.
+    @contextmanager
+    def metadata_connection():
+        connection = sqlite3.connect(store.db_path)
+        connection.set_authorizer(lambda action, table, column, *_: sqlite3.SQLITE_DENY
+            if action == sqlite3.SQLITE_READ and column in ("raw_text", "cleaned_text") else sqlite3.SQLITE_OK)
+        try:
+            yield connection
+        finally:
+            connection.close()
+    monkeypatch.setattr(store, "_connect", metadata_connection)
     stats = store.weekly_stats(today=date(2026, 11, 13))
     assert (stats.start, stats.end) == (date(2026, 11, 9), date(2026, 11, 15))
     assert (stats.dictations, stats.words, stats.audio_seconds) == (3, 120, 40.)
@@ -109,3 +133,17 @@ def test_empty_and_year_crossing_weeks_have_honest_unmeasured_speed(tmp_path):
     assert (stats.start, stats.end) == (date(2026, 12, 28), date(2027, 1, 3))
     assert (stats.dictations, stats.words, stats.audio_seconds) == (0, 0, 0.)
     assert stats.words_per_minute is None and stats.seconds_saved == 0
+
+
+def test_missing_legacy_duration_does_not_overstate_weekly_speed_or_time_saved(tmp_path):
+    from saydraft.history import HistoryEntry
+
+    store = DictationHistoryStore(tmp_path / "history.db")
+    store.append(HistoryEntry("Notes", "known words", "Known words.", "raw", "notes", 2, "primary"))
+    store.append(HistoryEntry("Notes", "unknown duration", "Unknown duration.", "raw", "notes", None, "legacy"))
+    with store._connect() as connection:
+        connection.execute("UPDATE dictations SET created_at='2026-11-13T12:00:00Z'")
+        connection.execute("UPDATE stats_daily SET day='2026-11-13'")
+    stats = store.weekly_stats(today=date(2026, 11, 13))
+    assert stats.words == 4 and stats.audio_seconds == 2
+    assert not stats.duration_complete and stats.words_per_minute is None and stats.seconds_saved is None

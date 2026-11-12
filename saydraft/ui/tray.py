@@ -42,6 +42,7 @@ class TrayAssets:
 
 @dataclass(frozen=True)
 class TrayCallbacks:
+    show_hub: Callable[[], None] = field(default=_noop)
     start_listening: Callable[[], None] = field(default=_noop)
     stop_listening: Callable[[], None] = field(default=_noop)
     show_history: Callable[[], None] = field(default=_noop)
@@ -98,6 +99,9 @@ class SaydraftTray:
         self.tray_icon.show()
 
     def _build_menu(self) -> None:
+        hub_action = self.menu.addAction("Open Saydraft")
+        hub_action.triggered.connect(lambda _checked=False: self._defer(self.callbacks.show_hub))
+        self.menu.addSeparator()
         self.toggle_action = self.menu.addAction("Start Listening")
         self.toggle_action.setCheckable(True)
         self.toggle_action.triggered.connect(

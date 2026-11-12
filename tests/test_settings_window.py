@@ -50,11 +50,11 @@ def write_config(tmp_path, overrides=None):
 
 
 def make_window(tmp_path, *, overrides=None, on_config_applied=None):
-    from saydraft.ui.settings_window import SettingsWindow
+    from saydraft.ui.settings_page import SettingsPage
 
     config_path = write_config(tmp_path, overrides)
     autostart = FakeAutoStartManager()
-    window = SettingsWindow(
+    window = SettingsPage(
         qt_modules=qt_modules(),
         config_path=config_path,
         snippets_path=tmp_path / "snippets.txt",
@@ -69,7 +69,7 @@ def test_settings_window_has_required_tabs_and_loads_values(tmp_path):
 
     tabs = [window.tabs.tabText(index) for index in range(window.tabs.count())]
 
-    assert tabs == ["General", "Languages", "Cleanup", "Style", "Dictionary", "Snippets", "Models", "Performance", "Labs", "Microphone", "About"]
+    assert tabs == ["General", "Shortcuts", "Languages", "Cleanup", "Style", "Dictionary", "Snippets", "Models", "Performance", "Labs", "Microphone", "Privacy", "About"]
     assert window.speech_hotkey_edit.text() == "ctrl+win"
     assert window.alternative_hotkey_edit.text() == "f9"
     assert window.mouse_hotkey_edit.text() == "xbutton1"
@@ -152,8 +152,8 @@ def test_settings_window_applies_config_live_and_updates_autostart(tmp_path):
     assert autostart.calls == [True]
     assert applied[-1] == saved
     window.close()
-    from saydraft.ui.settings_window import SettingsWindow
-    reopened = SettingsWindow(config_path=config_path, snippets_path=tmp_path / "snippets.txt",
+    from saydraft.ui.settings_page import SettingsPage
+    reopened = SettingsPage(config_path=config_path, snippets_path=tmp_path / "snippets.txt",
                               autostart_manager=FakeAutoStartManager())
     assert not reopened.drop_message_period_checkbox.isChecked()
     assert reopened.voice_enter_checkbox.isChecked()
@@ -292,7 +292,7 @@ def test_stale_dictionary_editor_refuses_save_without_applying_settings(tmp_path
 
 
 def test_windows_autostart_manager_uses_hkcu_run_key():
-    from saydraft.ui.settings_window import WindowsAutoStartManager
+    from saydraft.ui.settings_page import WindowsAutoStartManager
 
     class FakeRegistry:
         HKEY_CURRENT_USER = "HKCU"
@@ -334,7 +334,7 @@ def test_windows_autostart_manager_uses_hkcu_run_key():
 def test_windows_autostart_manager_uses_frozen_exe_command(monkeypatch, tmp_path):
     import sys
 
-    from saydraft.ui.settings_window import WindowsAutoStartManager
+    from saydraft.ui.settings_page import WindowsAutoStartManager
 
     exe = tmp_path / "Saydraft.exe"
     monkeypatch.setattr(sys, "frozen", True, raising=False)

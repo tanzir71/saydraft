@@ -1,6 +1,7 @@
 """Plain-text History presentation and portable exports; no Qt or OS access."""
 
 from dataclasses import dataclass
+from datetime import datetime, timezone
 from difflib import SequenceMatcher
 import csv
 import io
@@ -15,6 +16,20 @@ import tempfile
 class DiffRun:
     kind: str
     text: str
+
+
+def timestamp_label(value, *, now=None, tz=None):
+    """Display legacy UTC SQLite timestamps and ISO timestamps in local time."""
+    try:
+        moment = datetime.fromisoformat(value)
+        if moment.tzinfo is None:
+            moment = moment.replace(tzinfo=timezone.utc)
+        local = moment.astimezone(tz)
+    except (TypeError, ValueError, OverflowError, OSError):
+        return "Time unavailable"
+    today = (now or datetime.now()).astimezone(tz).date()
+    day = "Today" if local.date() == today else local.strftime("%d %b" if local.year == today.year else "%d %b %Y")
+    return f"{day} · {local:%H:%M}"
 
 
 def transcript_diff(raw, cleaned):
@@ -45,7 +60,7 @@ def result_details(row):
     lines = [f"Speech model: {row.asr_model or row.model or 'Unknown'}",
              f"Cleanup model: {row.llm_model or 'None'}",
              f"Cleanup decision: {row.llm_decision or 'Not recorded'}",
-             f"Language: {row.language or 'Not recorded'}",
+             f"Language: {row.language or 'Not recorded'}", f"Cleanup mode: {row.mode}",
              f"Style: {row.style or row.profile} · intensity: {row.intensity or 'Not recorded'}"]
     try:
         timings = json.loads(row.timings_json)

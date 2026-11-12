@@ -73,6 +73,7 @@ QWidget:disabled { color: ${c.muted}; }
 QLabel[role="muted"] { color: ${c.muted}; }
 QLabel[role="display"] { font-family: "Instrument Serif"; font-size: 34px; }
 QLabel[role="eyebrow"] { font-family: "Geist Mono"; font-size: 12px; }
+QLabel[keycap="true"] { background-color: ${c.surface}; border: 1px solid ${c.muted}; border-radius: 6px; padding: 6px 8px; }
 QProgressBar { border: none; background-color: ${c.surface}; color: ${c.foreground}; selection-color: ${c.selectedText}; selection-background-color: ${c.selected}; border-radius: 6px; text-align: center; }
 QProgressBar::chunk { background-color: ${c.foreground}; border-radius: 6px; }
 QTabBar::tab { padding: 10px 16px; background-color: ${c.background}; color: ${c.muted}; }

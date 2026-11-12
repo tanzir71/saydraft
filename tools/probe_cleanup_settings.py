@@ -27,7 +27,7 @@ def main(argv=None):
     args = parser.parse_args(argv)
     os.environ["QT_QPA_PLATFORM"] = "offscreen"
     from PySide6 import QtGui, QtWidgets
-    from saydraft.ui.settings_window import SettingsWindow
+    from saydraft.ui.settings_page import SettingsPage
 
     args.output.mkdir(parents=True, exist_ok=False)
     config_path = args.output / "config.json"
@@ -52,7 +52,7 @@ def main(argv=None):
         def download(model, backend, progress, *, pause_event):
             return download_cleanup_model(model, backend, progress, models_dir=args.models_dir, pause_event=pause_event)
         with patch("urllib.request.OpenerDirector.open", side_effect=AssertionError("Unexpected HTTP request")) as network:
-            window = SettingsWindow(config_path=config_path, snippets_path=args.output / "snippets.txt",
+            window = SettingsPage(config_path=config_path, snippets_path=args.output / "snippets.txt",
                 autostart_manager=SimpleNamespace(is_enabled=lambda: False, set_enabled=lambda _value: None),
                 cleanup_download_callback=download, on_config_applied=applied.append)
             window.show_tab("models")

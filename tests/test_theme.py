@@ -192,7 +192,7 @@ def test_minimum_settings_size_keeps_controls_readable_and_reachable(setup_theme
     from saydraft.ui.fonts import install_bundled_fonts, role_font
     from tests.test_settings_window import make_window
     app, _hints, install = setup_theme
-    monkeypatch.setattr("saydraft.ui.settings_window.wispr_running", lambda: False)
+    monkeypatch.setattr("saydraft.ui.settings_page.wispr_running", lambda: False)
     install_bundled_fonts(app)
     font = role_font("body")
     font.setPixelSize(pixels)
@@ -203,14 +203,16 @@ def test_minimum_settings_size_keeps_controls_readable_and_reachable(setup_theme
     window.resize(760, 560)
     window.show()
     app.processEvents()
-    scroll = window.tabs.widget(0)
+    window.show_tab("Shortcuts")
+    app.processEvents()
+    scroll = window.tabs.currentWidget()
     assert isinstance(scroll, QtWidgets.QScrollArea)
     assert window.speech_hotkey_edit.height() >= window.speech_hotkey_edit.sizeHint().height()
-    assert scroll.verticalScrollBar().maximum() > 0
-    scroll.ensureWidgetVisible(window.retain_audio_checkbox)
+    assert window.size() == QtCore.QSize(760, 560)
+    scroll.ensureWidgetVisible(window.tap_lock_spin)
     app.processEvents()
-    position = window.retain_audio_checkbox.mapTo(scroll.viewport(), QtCore.QPoint())
-    assert position.y() >= 0 and position.y() + window.retain_audio_checkbox.height() <= scroll.viewport().height()
+    position = window.tap_lock_spin.mapTo(scroll.viewport(), QtCore.QPoint())
+    assert position.y() >= 0 and position.y() + window.tap_lock_spin.height() <= scroll.viewport().height()
     assert window.apply_button.geometry().bottom() < window.height()
     assert path.read_bytes() == before
     window.close()

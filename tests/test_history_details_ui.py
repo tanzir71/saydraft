@@ -10,7 +10,7 @@ from tests.test_history_window import FakeClipboard, build_history, qt_modules
 
 @pytest.fixture
 def subject(tmp_path):
-    from saydraft.ui.history_window import HistoryWindow
+    from saydraft.ui.history_page import HistoryPage
 
     qt = qt_modules()
     store = build_history(tmp_path)
@@ -18,7 +18,7 @@ def subject(tmp_path):
         "balanced", "notes", 2, "Parakeet", llm_model="Qwen", llm_decision="rules_budget",
         timings_json='{"stt":0.2,"rules":0.001}'))
     clipboard, inserted = FakeClipboard(), []
-    window = HistoryWindow(store=store, clipboard=clipboard, reinsert_callback=lambda text, row: inserted.append(text))
+    window = HistoryPage(store=store, clipboard=clipboard, reinsert_callback=lambda text, row: inserted.append(text))
     try:
         yield window, qt, clipboard, inserted
     finally:

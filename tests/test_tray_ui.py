@@ -170,6 +170,7 @@ def test_tray_menu_queues_actions_and_updates_toggle_state(tmp_path):
     tray = SaydraftTray(
         qt_modules=qt_modules,
         callbacks=TrayCallbacks(
+            show_hub=lambda: events.append("hub"),
             start_listening=lambda: events.append("start"),
             stop_listening=lambda: events.append("stop"),
             show_history=lambda: events.append("history"),
@@ -182,6 +183,7 @@ def test_tray_menu_queues_actions_and_updates_toggle_state(tmp_path):
 
     tray_actions = [item.text for item in tray.menu.items if item != "separator"]
     assert tray_actions == [
+        "Open Saydraft",
         "Start Listening",
         "History...",
         "Settings...",
@@ -211,6 +213,9 @@ def test_tray_menu_queues_actions_and_updates_toggle_state(tmp_path):
     FakeTimer.flush()
     assert events == ["start", "stop", "history", "settings", "quit"]
     assert FakeDesktopServices.opened == [str(tmp_path)]
+    action_by_text(tray.menu, "Open Saydraft").trigger()
+    FakeTimer.flush()
+    assert events[-1] == "hub"
 
     tray.set_state(TrayState.RECORDING)
     assert tray.tray_icon.icon.path.endswith("mic_recording.ico")

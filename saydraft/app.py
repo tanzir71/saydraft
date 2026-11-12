@@ -10,10 +10,11 @@ from typing import Callable, Sequence
 from .config import load_config
 from .crash_guard import install_crash_guard
 from .model_download import download_asr_model
-from .ui.history_window import HistoryWindow
+from .ui.history_page import HistoryPage
+from .ui.hub import HubWindow
 from .ui.onboarding import OnboardingWizard
 from .ui.pill import SaydraftPill
-from .ui.settings_window import SettingsWindow
+from .ui.settings_page import SettingsPage
 from .ui.tray import TrayCallbacks, TrayState, SaydraftTray
 
 logger = logging.getLogger(__name__)
@@ -215,6 +216,7 @@ class SaydraftApp:
         pill_factory: Callable[..., object] | None = None,
         settings_window_factory: Callable[..., object] | None = None,
         history_window_factory: Callable[..., object] | None = None,
+        hub_window_factory: Callable[..., object] | None = None,
         onboarding_window_factory: Callable[..., object] | None = None,
         config_loader: Callable[..., dict] | None = None,
         config_path=None,
@@ -227,8 +229,9 @@ class SaydraftApp:
         self.controller_factory = controller_factory or WorkerController
         self.tray_factory = tray_factory or SaydraftTray
         self.pill_factory = pill_factory or SaydraftPill
-        self.settings_window_factory = settings_window_factory or SettingsWindow
-        self.history_window_factory = history_window_factory or HistoryWindow
+        self.settings_window_factory = settings_window_factory or SettingsPage
+        self.history_window_factory = history_window_factory or HistoryPage
+        self.hub_window_factory = hub_window_factory or HubWindow
         self.onboarding_window_factory = onboarding_window_factory or OnboardingWizard
         self.config_loader = config_loader or load_config
         self.config_path = config_path
@@ -243,6 +246,7 @@ class SaydraftApp:
         self.pill = None
         self.settings_window = None
         self.history_window = None
+        self.hub_window = None
         self.onboarding_window = None
         self.config = None
         self.crash_guard = None
@@ -269,6 +273,7 @@ class SaydraftApp:
         self.tray = self.tray_factory(
             qt_modules=qt_modules,
             callbacks=TrayCallbacks(
+                show_hub=self._show_hub,
                 start_listening=self._start_listening,
                 stop_listening=self._stop_listening,
                 show_history=self._show_history,
@@ -446,22 +451,11 @@ class SaydraftApp:
         self.tray.set_listening(False)
 
     def _show_history(self) -> None:
-        if self.history_window is None:
-            self.history_window = self.history_window_factory(
-                qt_modules=self.qt_modules,
-                store=self._controller_history_store(),
-                clipboard=self.controller.clipboard() if hasattr(self.controller, "clipboard") else None,
-                reinsert_callback=self._reinsert_history_text,
-                retry_callback=self._retry_history_audio,
-            )
-        self.history_window.refresh()
-        self.history_window.show()
-        self.history_window.raise_()
-        self.history_window.activateWindow()
+        self._show_hub("History")
 
     def _refresh_history(self, row_id):
-        if self.history_window is not None:
-            self.history_window.refresh()
+        if self.hub_window is not None:
+            self.hub_window.refresh()
         if hasattr(self.tray, "set_model_label"):
             self.tray.set_model_label(self._controller_model_label())
 
@@ -484,25 +478,50 @@ class SaydraftApp:
         refresh = getattr(self.settings_window, "refresh_labs", None)
         if report is not None and refresh is not None:
             refresh(report)
+        if self.hub_window is not None:
+            self.hub_window.home_page.refresh()
 
     def _show_settings(self) -> None:
-        if self.settings_window is None:
-            self.settings_window = self.settings_window_factory(
-                qt_modules=self.qt_modules,
-                config_path=self.config_path,
-                on_config_applied=self._on_settings_applied,
-                model_download_callback=self.model_download_callback,
-                hardware_benchmark_callback=self._benchmark_hardware,
-                style_preview_callback=getattr(self.controller, "preview_style", None),
-                style_glossary_provider=getattr(self.controller, "style_glossary", None),
-            )
+        self._show_hub("Settings")
+
+    def _hub_tier(self):
+        from pathlib import Path
+        from .models.hardware import latest_report
+
+        report = latest_report(Path(self.config_path).parent / "hardware-benchmarks" if self.config_path else None)
+        assessment = report.get("assessment") if isinstance(report, dict) else None
+        tier = assessment.get("tier") if isinstance(assessment, dict) else None
+        return tier if tier in ("lite", "standard", "pro") else "pending"
+
+    def _ensure_hub(self):
+        if self.hub_window is None:
+            self.hub_window = self.hub_window_factory(
+                settings_options=dict(qt_modules=self.qt_modules, config_path=self.config_path,
+                    on_config_applied=self._on_settings_applied, model_download_callback=self.model_download_callback,
+                    hardware_benchmark_callback=self._benchmark_hardware,
+                    style_preview_callback=getattr(self.controller, "preview_style", None),
+                    style_glossary_provider=getattr(self.controller, "style_glossary", None)),
+                history_options=dict(qt_modules=self.qt_modules, store=self._controller_history_store(),
+                    clipboard=self.controller.clipboard() if hasattr(self.controller, "clipboard") else None,
+                    reinsert_callback=self._reinsert_history_text, retry_callback=self._retry_history_audio),
+                settings_page_factory=self.settings_window_factory, history_page_factory=self.history_window_factory,
+                shortcut=self._controller_hotkey_hint, model=self._controller_model_label, tier=self._hub_tier)
+            self.settings_window = self.hub_window.settings_page
+            self.history_window = self.hub_window.history_page
             page = getattr(self.settings_window, "styles_page", None)
             if page is not None:
                 qt = self.qt_modules or _load_qt_modules()
                 self.signals.style_preview_finished.connect(page.accept_result, qt.QtCore.Qt.QueuedConnection)
-        self.settings_window.show()
-        self.settings_window.raise_()
-        self.settings_window.activateWindow()
+            about = getattr(self.qt_app, "aboutToQuit", None)
+            if about is not None:
+                about.connect(self.hub_window.close)
+
+    def _show_hub(self, page="Home"):
+        self._ensure_hub()
+        self.hub_window.show_page(page)
+        self.hub_window.show()
+        self.hub_window.raise_()
+        self.hub_window.activateWindow()
 
     def _show_onboarding_if_needed(self) -> None:
         cfg = self.config if isinstance(self.config, dict) else {}
