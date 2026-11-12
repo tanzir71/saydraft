@@ -1,0 +1,6 @@
+{
+  "schema_version": 1,
+  "report_sha256": "499381635c5504e603cf2f5531568b4952413d17b771aa236ee5f7536e95eed0",
+  "source_commit": "fa5d3f95de8bfc1b50185f4c026c5a598b2d08c6",
+  "scope": "Public native in-memory object copying/cleanup only; no system clipboard, dictation, OS input or Win+V acceptance"
+}

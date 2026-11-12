@@ -1,0 +1,69 @@
+{
+  "git_commit": "fa5d3f95de8bfc1b50185f4c026c5a598b2d08c6",
+  "source_dirty": false,
+  "clipboard_accessed": false,
+  "input_injected": false,
+  "fixtures": "public in-memory objects only",
+  "gdi_before": 0,
+  "formats": [
+    {
+      "format": 13,
+      "bytes": 30,
+      "exact": true,
+      "survives_source_release": true
+    },
+    {
+      "format": 49153,
+      "bytes": 28,
+      "exact": true,
+      "survives_source_release": true
+    },
+    {
+      "format": 2,
+      "bytes": 16,
+      "exact": true,
+      "survives_source_release": true
+    },
+    {
+      "format": 130,
+      "bytes": 16,
+      "exact": true,
+      "survives_source_release": true
+    },
+    {
+      "format": 9,
+      "bytes": 12,
+      "exact": true,
+      "survives_source_release": true
+    },
+    {
+      "format": 14,
+      "bytes": 128,
+      "exact": true,
+      "survives_source_release": true
+    },
+    {
+      "format": 142,
+      "bytes": 128,
+      "exact": true,
+      "survives_source_release": true
+    },
+    {
+      "format": 3,
+      "bytes": 48,
+      "exact": true,
+      "survives_source_release": true
+    },
+    {
+      "format": 131,
+      "bytes": 48,
+      "exact": true,
+      "survives_source_release": true
+    }
+  ],
+  "gdi_live_min": 14,
+  "gdi_live_max": 14,
+  "gdi_after": 0,
+  "iterations": 10,
+  "probe_complete": true
+}

@@ -51,3 +51,8 @@ The next checkpoint must implement bounded clipboard-open retries, an owned
 window, ordered enumeration, snapshot/write/restore transactions, privacy flags,
 clipboard-change protection and the native inserter route. Actual copied-image,
 rich-text and Win+V acceptance remain open.
+
+Clean immutable `fa5d3f9` repeats all nine exact source-independent copies in
+ten round trips. Native GDI count is 14 while fixtures/copies live and returns
+to zero after each run. Original report bytes/digest are retained under
+`eval/hardware/results/2026-11-12-clipboard-handles/`.
