@@ -30,3 +30,21 @@ def test_long_text_is_batched_with_complete_press_release_pairs():
 
     type_unicode("a" * 300, sender=sender)
     assert batches == [256, 256, 88]
+
+
+def test_enter_uses_a_return_press_release_pair_and_releases_partial_delivery_without_repressing():
+    from saydraft.insert.sendinput import press_enter
+
+    batches = []
+    def sender(count, inputs, size):
+        batches.append([(event.data.ki.wVk, event.data.ki.dwFlags) for event in inputs])
+        return count
+    press_enter(sender=sender)
+    assert batches == [[(0x0D, 0), (0x0D, KEYEVENTF_KEYUP)]]
+    batches.clear()
+    def partial(count, inputs, size):
+        sender(count, inputs, size)
+        return 1
+    with pytest.raises(OSError, match="only 1 of 2"):
+        press_enter(sender=partial)
+    assert batches == [[(0x0D, 0), (0x0D, KEYEVENTF_KEYUP)], [(0x0D, KEYEVENTF_KEYUP)]]

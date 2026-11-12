@@ -54,7 +54,8 @@ class Formatter(Protocol):
 
 class Inserter(Protocol):
     def insert_text(self, text: str, *, start_focus: Any = None,
-                    app_title: str | None = None) -> InsertionResult: ...
+                    app_title: str | None = None, send_enter: bool = False,
+                    enter_guard: Callable[[], bool] | None = None) -> InsertionResult: ...
 
 
 class ContextProvider(Protocol):

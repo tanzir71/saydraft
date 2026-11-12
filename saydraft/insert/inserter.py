@@ -20,6 +20,7 @@ class InsertionResult:
     status: str
     method: str
     reason: str = ""
+    enter_sent: bool = False
 
 
 class Inserter:
@@ -50,6 +51,8 @@ class Inserter:
         *,
         start_focus: Any | None = None,
         app_title: str | None = None,
+        send_enter: bool = False,
+        enter_guard: Callable[[], bool] | None = None,
     ) -> InsertionResult:
         if not text:
             return InsertionResult(status="skipped_empty", method="none", reason="empty_text")
@@ -63,22 +66,55 @@ class Inserter:
             )
 
         method = self._method_for_app(app_title)
+        def check():
+            return self._delivery_block(start_focus, enter_guard)
+
+        if send_enter and (reason := check()):
+            return InsertionResult("skipped_focus_changed" if reason == "focus_changed" else "not_inserted",
+                                   "none", reason)
         if method == "typing":
             self.keyboard.write(text)
-            return InsertionResult(status="inserted", method="typing")
+        else:
+            reason = self._paste_with_restore(text, check_before_paste=check if send_enter else None)
+            if reason:
+                return InsertionResult("skipped_focus_changed" if reason == "focus_changed" else "not_inserted",
+                                       "none", reason)
+        if send_enter:
+            if reason := check():
+                return InsertionResult("inserted", method, "enter_" + reason)
+            try:
+                self.keyboard.send("enter")
+            except Exception:
+                logger.warning("Text inserted; trailing Enter delivery failed")
+                return InsertionResult("inserted", method, "enter_failed")
+            return InsertionResult("inserted", method, enter_sent=True)
+        return InsertionResult(status="inserted", method=method)
 
-        self._paste_with_restore(text)
-        return InsertionResult(status="inserted", method="paste")
+    def _delivery_block(self, start_focus, enter_guard):
+        try:
+            if enter_guard is not None and not enter_guard():
+                return "cancelled"
+            if start_focus is None or self.focus_provider is None:
+                return "unknown_target"
+            current = self.focus_provider()
+            if current is None:
+                return "unknown_target"
+            return "focus_changed" if current != start_focus else ""
+        except Exception:
+            return "delivery_check_failed"
 
-    def _paste_with_restore(self, text: str) -> None:
+    def _paste_with_restore(self, text: str, *, check_before_paste=None) -> str:
         previous = self.clipboard.paste()
         try:
             self.clipboard.copy(text)
             self.sleep(self.restore_delay)
+            if check_before_paste is not None and (reason := check_before_paste()):
+                return reason
             self.keyboard.send(self.paste_hotkey)
             self.sleep(self.restore_delay)
         finally:
             self.clipboard.copy(previous)
+        return ""
 
     def _method_for_app(self, app_title: str | None) -> str:
         if not app_title:
@@ -120,6 +156,11 @@ class _PyperclipClipboard:
 
 class _KeyboardAdapter:
     def send(self, hotkey: str) -> None:
+        if hotkey == "enter" and sys.platform == "win32":
+            from .sendinput import press_enter
+
+            press_enter()
+            return
         import keyboard
 
         keyboard.send(hotkey)

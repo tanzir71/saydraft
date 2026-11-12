@@ -60,3 +60,25 @@ def type_unicode(text: str, *, sender=None) -> None:
         accepted = sender(len(inputs), inputs, ctypes.sizeof(_Input))
         if accepted != len(inputs):
             raise OSError(f"Windows accepted only {accepted} of {len(inputs)} text input events")
+
+
+def press_enter(*, sender=None) -> None:
+    """One Return press/release pair, with no retry of a partially sent press."""
+    events = (_Input * 2)()
+    for event, flags in zip(events, (0, KEYEVENTF_KEYUP)):
+        event.type = 1
+        event.data.ki = _KeyboardInput(0x0D, 0, flags, 0, 0)
+    if sender is None:
+        user32 = ctypes.WinDLL("user32", use_last_error=True)
+        user32.SendInput.argtypes = [wintypes.UINT, ctypes.POINTER(_Input), ctypes.c_int]
+        user32.SendInput.restype = wintypes.UINT
+        sender = user32.SendInput
+    accepted = sender(2, events, ctypes.sizeof(_Input))
+    if accepted != 2:
+        # A partial batch can leave Return down. Release only; never resubmit it.
+        try:
+            release = (_Input * 1)(events[1])
+            sender(1, release, ctypes.sizeof(_Input))
+        except Exception:
+            pass
+        raise OSError(f"Windows accepted only {accepted} of 2 Enter input events")
