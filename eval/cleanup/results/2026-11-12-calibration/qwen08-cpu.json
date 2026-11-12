@@ -1,0 +1,71 @@
+{
+  "candidate": "qwen35-08b-q4-k-m",
+  "revision": "f36b1ea49a332ede8fe5f389bbf5b3575ef71f48",
+  "runtime": "llama-cpp-b12110-cpu-x64",
+  "device": null,
+  "app_timeout_ms": 800,
+  "interactive_prompt_preparation": true,
+  "git_commit": "b39331558423314a5ccb199b03d8f9d0f55e0ee9",
+  "source_dirty": false,
+  "delivery": "no microphone, database or live insertion",
+  "cases": [
+    {
+      "profile": "general",
+      "prepared": true,
+      "preparation_seconds": 33.21714530000463,
+      "preparation_status": {
+        "state": "prepared",
+        "reason": "prepared",
+        "prompt_seconds": 7.3109068000048865
+      },
+      "decoder_calibration": {
+        "generation": 1,
+        "tokens_per_sample": 60,
+        "sample_count": 3,
+        "tokens_per_second": [
+          9.956646398984761,
+          15.044875804550234,
+          16.105362922069695
+        ],
+        "median_tps": 15.044875804550234,
+        "conservative_tps": 9.956646398984761
+      },
+      "cleanup_seconds": 0.7303405999846291,
+      "decision": "accepted",
+      "exact": true
+    },
+    {
+      "profile": "email",
+      "prepared": true,
+      "preparation_seconds": 4.237654099997599,
+      "preparation_status": {
+        "state": "prepared",
+        "reason": "prepared",
+        "prompt_seconds": 4.237017999985255
+      },
+      "decoder_calibration": {
+        "generation": 1,
+        "tokens_per_sample": 60,
+        "sample_count": 3,
+        "tokens_per_second": [
+          9.956646398984761,
+          15.044875804550234,
+          16.105362922069695
+        ],
+        "median_tps": 15.044875804550234,
+        "conservative_tps": 9.956646398984761
+      },
+      "cleanup_seconds": 0.7536899999831803,
+      "decision": "accepted",
+      "exact": true
+    }
+  ],
+  "selection_performed": false,
+  "peak_native_working_set_bytes": [
+    1030664192
+  ],
+  "native_exit_observed": [
+    true
+  ],
+  "probe_complete": true
+}

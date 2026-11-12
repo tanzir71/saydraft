@@ -77,3 +77,17 @@ after both runs. No capture, database or live insertion occurs. These two short
 cases per backend verify preparation behavior, not corpus-wide latency or model
 quality; GPU driver caches were already primed. Unmodified metadata reports are
 retained in `eval/cleanup/results/2026-11-12-preparation/`.
+
+Current decoder-plus-prefix probes from immutable `b393315` also pass:
+
+| Model/backend | Three decode samples (tok/s) | Initial preparation, including calibration/load | Neutral / formal cleanup |
+| --- | --- | ---: | ---: |
+| Qwen 0.8B CPU | 9.96, 15.04, 16.11 | 33.217 s | 0.730 / 0.754 s |
+| Qwen 2B RTX/Vulkan1 | 116.99, 139.76, 138.15 | 4.989 s | 0.125 / 0.124 s |
+
+Both styles reuse the same three samples and generation identifier per process.
+All four actual replies are accepted exact matches within 800 ms, and independent
+handles observe both native exits. CPU rates differ substantially from the prior
+isolated run, reinforcing the live-instance requirement; no tier promotion follows.
+These fixed short probes do not establish corpus latency or clean-driver-cache
+performance. Reports are retained in `eval/cleanup/results/2026-11-12-calibration/`.

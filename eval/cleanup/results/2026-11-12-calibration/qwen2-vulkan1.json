@@ -1,0 +1,71 @@
+{
+  "candidate": "qwen35-2b-q4-k-m",
+  "revision": "7d26695454df6de5fbcce2e58681e62dae06ce43",
+  "runtime": "llama-cpp-b12110-vulkan-x64",
+  "device": "Vulkan1",
+  "app_timeout_ms": 800,
+  "interactive_prompt_preparation": true,
+  "git_commit": "b39331558423314a5ccb199b03d8f9d0f55e0ee9",
+  "source_dirty": false,
+  "delivery": "no microphone, database or live insertion",
+  "cases": [
+    {
+      "profile": "general",
+      "prepared": true,
+      "preparation_seconds": 4.988827100023627,
+      "preparation_status": {
+        "state": "prepared",
+        "reason": "prepared",
+        "prompt_seconds": 0.3883845999953337
+      },
+      "decoder_calibration": {
+        "generation": 1,
+        "tokens_per_sample": 60,
+        "sample_count": 3,
+        "tokens_per_second": [
+          116.98550172900606,
+          139.75512060393163,
+          138.14612582068165
+        ],
+        "median_tps": 138.14612582068165,
+        "conservative_tps": 116.98550172900606
+      },
+      "cleanup_seconds": 0.1251336999994237,
+      "decision": "accepted",
+      "exact": true
+    },
+    {
+      "profile": "email",
+      "prepared": true,
+      "preparation_seconds": 0.24628069999744184,
+      "preparation_status": {
+        "state": "prepared",
+        "reason": "prepared",
+        "prompt_seconds": 0.2458288000198081
+      },
+      "decoder_calibration": {
+        "generation": 1,
+        "tokens_per_sample": 60,
+        "sample_count": 3,
+        "tokens_per_second": [
+          116.98550172900606,
+          139.75512060393163,
+          138.14612582068165
+        ],
+        "median_tps": 138.14612582068165,
+        "conservative_tps": 116.98550172900606
+      },
+      "cleanup_seconds": 0.12428009998984635,
+      "decision": "accepted",
+      "exact": true
+    }
+  ],
+  "selection_performed": false,
+  "peak_native_working_set_bytes": [
+    1664536576
+  ],
+  "native_exit_observed": [
+    true
+  ],
+  "probe_complete": true
+}
