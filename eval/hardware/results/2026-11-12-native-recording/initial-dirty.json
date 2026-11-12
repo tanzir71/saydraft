@@ -1,0 +1,22 @@
+{
+  "git_commit": "b0c4e09f233b1a164be27357862dcc3c8b918542",
+  "source_dirty": true,
+  "delivery": "vkE8 only; bundled audio, isolated SQLite, stub insertion; no microphone or OS paste",
+  "start_menu_acceptance_performed": false,
+  "native_release_timestamp": 191391.4474388,
+  "release_seconds": 1.718758400005754,
+  "history_rows": 1,
+  "insertions": 1,
+  "exact_fixture_result": true,
+  "native_release_budget": true,
+  "errors": [],
+  "closed": true,
+  "remaining_hooks": 0,
+  "status": {
+    "state": "closed",
+    "reason": null,
+    "pump_alive": false,
+    "worker_alive": false
+  },
+  "probe_complete": true
+}

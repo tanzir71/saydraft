@@ -1,0 +1,25 @@
+{
+  "git_commit": "af23d3f131cb518acad537f60afb0f05f2443cde",
+  "source_dirty": false,
+  "delivery": "vkE8 only; bundled audio, isolated SQLite, stub insertion; no microphone or OS paste",
+  "start_menu_acceptance_performed": false,
+  "native_release_timestamp": 191903.2095297,
+  "release_seconds": 0.9070850000134669,
+  "history_rows": 1,
+  "insertions": 1,
+  "exact_fixture_result": true,
+  "native_release_budget": true,
+  "asr_model": "parakeet-tdt-0-6b-v3-int8",
+  "native_recoveries": 0,
+  "hook_failure_reason": null,
+  "errors": [],
+  "closed": true,
+  "remaining_hooks": 0,
+  "status": {
+    "state": "closed",
+    "reason": null,
+    "pump_alive": false,
+    "worker_alive": false
+  },
+  "probe_complete": true
+}

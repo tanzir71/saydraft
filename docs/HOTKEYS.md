@@ -138,3 +138,11 @@ owner configuration. The repeated fixture is not owner accuracy or tier latency:
 ```powershell
 python -m tools.probe_native_recording --parakeet-dir D:\QA\parakeet-v3 --output D:\QA\New-Native-Recording-Probe
 ```
+
+Clean immutable `af23d3f` passes with Parakeet v3, one exact saved fixture result
+and one checked delivery, the native release ceiling and zero recovery/failures.
+Both hooks and both threads retire. Release to stub delivery is 0.907 s in this
+warm replay; the earlier dirty development replay took 1.719 s. These two warm
+whole-clip observations are not a latency distribution or tier acceptance.
+Original reports/digests, including the clearly marked development diagnostic,
+are retained under `eval/hardware/results/2026-11-12-native-recording/`.

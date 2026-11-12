@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "source_commit": "af23d3f131cb518acad537f60afb0f05f2443cde",
+  "report": "report.json",
+  "report_sha256": "51ab31ce5776cd7a25f259e7a21e49d52c490c2b7e25a2e6b7abb943a5524fb8",
+  "start_menu_acceptance_performed": false,
+  "os_insertion_acceptance_performed": false,
+  "tier_latency_acceptance_performed": false,
+  "diagnostics": [
+    {
+      "report": "initial-dirty.json",
+      "report_sha256": "90b2d1af0f7f029b1c893ef1d4aadd7d7403f097a25716a4433061b7e4a67d71",
+      "source_dirty": true
+    }
+  ]
+}
