@@ -1,8 +1,9 @@
 """Replay bundled audio through native ASR, cleanup, SQLite and checked stub insertion.
 
 Warm 3/8/20-second fixture replays; no microphone, global hooks or OS keys.
-Capture is instantaneous replay with the minimum-recording guard disabled only
-in this probe. All recognition occurs after release; background ASR is disabled.
+Default capture is instantaneous replay with the minimum-recording guard disabled
+only in this probe. --streaming-capture feeds samples in real time through the
+production background-ASR queue and retains the normal recording guard.
 """
 
 import argparse
@@ -59,6 +60,18 @@ def wait_for(predicate, seconds=120):
         time.sleep(.002)
 
 
+def feed_capture(capture, *, clock=time.monotonic, sleep=time.sleep):
+    started = clock()
+    for offset in range(0, len(capture.audio), 1600):
+        chunk = capture.audio[offset:offset + 1600]
+        if capture.chunk_callback is None:
+            raise RuntimeError("Background replay callback unavailable")
+        capture.chunk_callback(chunk)
+        due = started + (offset + len(chunk)) / capture.sample_rate
+        while (remaining := due - clock()) > 0:
+            sleep(min(.01, remaining))
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     for name in ("parakeet-dir", "lid-dir", "output"):
@@ -70,6 +83,7 @@ def main(argv=None):
     parser.add_argument("--backend", choices=("cpu", "vulkan"), default="cpu")
     parser.add_argument("--device")
     parser.add_argument("--repeats", type=int, default=20)
+    parser.add_argument("--streaming-capture", action="store_true", help="real-time feed through production background ASR")
     args = parser.parse_args(argv)
     if (os.name != "nt" or not 20 <= args.repeats <= 100 or args.mode == "llm" and not all(
             (args.candidate, args.models_dir, args.runtime_dir)) or args.device and (
@@ -82,7 +96,7 @@ def main(argv=None):
         "mode": args.mode, "candidate": args.candidate, "backend": args.backend, "device": args.device,
         "repeats_per_duration": args.repeats, "source_fixture_sha256": hashlib.sha256(fixture_path().read_bytes()).hexdigest(),
         "delivery": "fixture replay; SQLite History and stub insertion; no microphone, hooks or OS keys",
-        "background_transcription": False, "capture_guard_disabled_for_replay": True,
+        "background_transcription": args.streaming_capture, "capture_guard_disabled_for_replay": not args.streaming_capture,
         "scope": "warm repeated public fixture; no owner accuracy or tier acceptance", "cases": []}
     meter, worker, local, pipeline = NativeMeter(), None, None, None
     released_at, inserted = None, []
@@ -93,7 +107,7 @@ def main(argv=None):
         if rate != 16000 or audio.shape != (128000,) or not np.isfinite(audio).all():
             raise ValueError("Invalid bundled speech fixture")
         config = default_config()
-        config["stt"]["background_transcription"] = False
+        config["stt"]["background_transcription"] = args.streaming_capture
         config["dictation"]["mode"] = "aggressive" if args.mode == "llm" else "balanced"
         cfg = LocalLLMConfig()
         if args.mode == "llm":
@@ -111,6 +125,8 @@ def main(argv=None):
             inserted.append(time.perf_counter())
             return InsertionResult("inserted", "fixture")
         capture = SimpleNamespace(sample_rate=rate, audio=audio, start=lambda: None, stop=lambda: capture.audio.copy())
+        if args.streaming_capture:
+            capture.chunk_callback = None
         primary = ParakeetEngine(model_dir=args.parakeet_dir)
         router = AsrRouter(config, engine_factory=lambda settings, route: primary, installed=lambda model: False,
             language_identifier=AudioLanguageIdentifier(model_dir=args.lid_dir))
@@ -118,7 +134,8 @@ def main(argv=None):
         processor = TranscriptProcessor(cleaner=pipeline, formatter=formatter, history=history, inserter=inserter)
         services = Services(config, capture, router, pipeline, formatter, inserter,
             SimpleNamespace(capture=lambda: TargetContext("fixture", "Fixture QA")), history, processor, [])
-        worker = SessionWorker(services, session=DictationSession(minimum_recording_seconds=0))
+        worker = SessionWorker(services, session=DictationSession(
+            minimum_recording_seconds=.5 if args.streaming_capture else 0))
         if local is not None:
             report["stage"] = "prefix_preparation"
             from tools.bench_cleanup import prepare_policy_case
@@ -137,6 +154,11 @@ def main(argv=None):
                     wait_for(lambda: worker.session.state != SessionState.ARMING)
                     if worker.session.state != SessionState.LISTENING or len(inserted) != before:
                         raise RuntimeError("Replay capture failed to arm safely")
+                    if args.streaming_capture:
+                        report["stage"] = "streaming_capture"
+                        feed_capture(capture)
+                        if len(inserted) != before:
+                            raise RuntimeError("Replay delivered before release")
                     released_at = time.perf_counter()
                     report["stage"] = "release_processing"
                     worker.stop_recording()

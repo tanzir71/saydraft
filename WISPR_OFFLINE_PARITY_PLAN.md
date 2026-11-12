@@ -739,6 +739,8 @@ Cloud anything (sync, accounts, team dictionaries, web search in Ask), mobile ap
 
 ## 14. Changelog
 
+- 2026-11-12 | P4.6 (background release replay) | Added real-time fixture frames through the production background-ASR queue, retaining the normal minimum-duration guard and release→cleanup→SQLite→checked-insertion path. Deterministic cadence tests preserve every sample and reject a missing callback; native streaming runs remain. | tools/probe_cleanup_latency.py, tests/test_cleanup_latency_probe.py, docs/CLEANUP_LATENCY.md
+
 - 2026-11-12 | P4.6 (native whole-clip release baseline) | Immutable ec3a680 rules/CPU/RTX runs each complete sixty 3/8/20-second replays with SQLite-first checked delivery and observed exits. All miss some latency targets with background ASR disabled; RTX accepts forty replies, CPU none (59 budget skips and one near-expired tokenizer timeout). Retained original failures; production background comparison and tier acceptance remain. | eval/cleanup/results/2026-11-12-release-replay/, docs/CLEANUP_LATENCY.md
 
 - 2026-11-12 | P4.6 (release replay harness) | Added reproducible warm native ASR→cleanup→SQLite→checked-delivery measurements for 3/8/20-second fixtures, with ≥20 samples per group, written latency thresholds, accepted-reply accounting and explicit replay/capture limits. | tools/probe_cleanup_latency.py, tests/test_cleanup_latency_probe.py, docs/CLEANUP_LATENCY.md

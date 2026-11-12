@@ -17,6 +17,16 @@ replay wall time; report `audio_seconds` records the actual ASR input length.
 Repeated fixture timings cannot establish owner accuracy, diverse-speaker latency
 or general hardware-tier acceptance.
 
+Add `--streaming-capture` to feed 100 ms audio frames at their real sample cadence
+through the production background-ASR queue. This mode retains the normal 0.5 s
+minimum-recording guard and its History recording duration reflects real elapsed
+capture. Partial recognition still cannot reach History/insertion before release.
+The same worker, release deadline, cleanup, SQLite and checked stub insertion run
+after release; stage metadata separates background work from the remaining tail.
+It opens no microphone and makes no OS paste. With twenty samples per duration,
+real-time capture alone takes about ten minutes per run. Use fresh output paths
+and collect runs sequentially without competing benchmarks.
+
 ASR/model initialization and static prefix preparation happen before release.
 Rules mode uses Balanced cleanup. LLM mode uses Polished cleanup so the need gate
 can admit real work; normal prediction, timeout, output validation and rules
@@ -58,7 +68,9 @@ Unmodified reports/digests are in `eval/cleanup/results/2026-11-12-release-repla
 local fixture databases and journals remain retained. Completion is recorded
 separately from target acceptance, and no tier/default claim follows.
 
-Harness validation: 1398 tests pass with four optional native skips; rules 432/432,
+Harness validation: 1400 tests pass with four optional native skips; rules 432/432,
 adversarial checks 100/100, and Ruff/diff checks pass. Focused tests reject undersized
 sample groups, expose a slow p95 behind a fast median, preserve decision counts,
 use the distinct written thresholds and refuse dirty source before artifact creation.
+Streaming-feed tests preserve every sample, retain its real cadence including a
+partial final frame, and refuse an unavailable background callback.

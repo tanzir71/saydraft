@@ -1,4 +1,6 @@
 import pytest
+import numpy as np
+from types import SimpleNamespace
 
 from tools import probe_cleanup_latency as probe
 
@@ -39,3 +41,18 @@ def test_latency_probe_refuses_dirty_source_before_creating_artifacts_or_loading
     with pytest.raises(SystemExit) as error:
         probe.main(["--parakeet-dir", "unused", "--lid-dir", "unused", "--output", str(target), "--mode", "rules"])
     assert error.value.code == 2 and not target.exists()
+
+
+def test_streaming_feed_preserves_every_sample_and_real_audio_cadence():
+    now, chunks = [10.0], []
+    capture = SimpleNamespace(audio=np.arange(3300, dtype=np.float32), sample_rate=16000,
+        chunk_callback=lambda chunk: chunks.append((now[0], chunk.copy())))
+    probe.feed_capture(capture, clock=lambda: now[0], sleep=lambda seconds: now.__setitem__(0, now[0] + seconds))
+    np.testing.assert_array_equal(np.concatenate([chunk for _, chunk in chunks]), capture.audio)
+    assert [stamp for stamp, _ in chunks] == pytest.approx([10, 10.1, 10.2])
+    assert now[0] == pytest.approx(10 + 3300 / 16000)
+
+
+def test_streaming_feed_refuses_a_missing_background_callback():
+    with pytest.raises(RuntimeError, match="callback unavailable"):
+        probe.feed_capture(SimpleNamespace(audio=np.ones(1600), sample_rate=16000, chunk_callback=None))
