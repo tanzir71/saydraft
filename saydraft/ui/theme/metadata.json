@@ -1,4 +1,12 @@
 {
   "schema": 1,
-  "bodySizePx": 16
+  "bodySizePx": 16,
+  "bar": {
+    "ink": "#141414",
+    "barBg": "#141414",
+    "barFg": "#F5F2E9",
+    "barWarn": "#B45309",
+    "barError": "#B42318",
+    "signal": "#FF5B3A"
+  }
 }

@@ -101,6 +101,15 @@ class WorkerController:
         config = self.core.services.config if self.core else load_config()
         return str(config["hotkeys"]["speech"]).upper()
 
+    def is_hands_free(self):
+        return bool(self.core and self.core.hotkeys._controller.is_locked)
+
+    def request_bar_action(self, *, stop=False):
+        queued = bool(self.core and self.core.hotkeys._controller.request_hands_free(stop=stop))
+        if not queued and not stop:
+            self.signals.notification_requested.emit("Enable listening in the tray to start hands-free dictation.")
+        return queued
+
     def history_store(self):
         return self.core.services.history if self.core else None
 
@@ -230,7 +239,7 @@ class SaydraftApp:
         self.signals.recording_started.connect(
             lambda: self.tray.set_state(TrayState.RECORDING)
         )
-        self.signals.recording_started.connect(self.pill.show_recording)
+        self.signals.recording_started.connect(self._show_recording_bar)
         self.signals.audio_level_changed.connect(self.pill.update_level)
         self.signals.processing_started.connect(
             lambda: self.tray.set_state(TrayState.PROCESSING)
@@ -250,11 +259,19 @@ class SaydraftApp:
         self.signals.hardware_benchmark_finished.connect(self._finish_hardware_benchmark)
         self.signals.preview_text_changed.connect(self._show_preview)
         self.signals.preview_unavailable.connect(self._preview_unavailable)
+        if hasattr(self.pill, "start_requested") and hasattr(self.controller, "request_bar_action"):
+            self.pill.start_requested.connect(lambda: self.controller.request_bar_action())
+            self.pill.stop_requested.connect(lambda: self.controller.request_bar_action(stop=True))
+            self.pill.fix_requested.connect(self._fix_bar_error)
+            self.pill.hands_free_provider = self.controller.is_hands_free
+        if about_to_quit is not None and hasattr(self.pill, "hide"):
+            about_to_quit.connect(self.pill.hide)
 
         self.crash_guard = self.crash_guard_installer(
             notify=self.signals.notification_requested.emit
         )
         self.controller.start()
+        self._configure_bar()
         if hasattr(qt_modules.QtCore, "QTimer") and hasattr(self.controller, "add_correction"):
             from .ui.dictionary_toast import DictionaryPresenter
             self.dictionary_presenter = DictionaryPresenter(self.controller,
@@ -275,6 +292,30 @@ class SaydraftApp:
             self.tray.set_model_label(self._controller_model_label())
         self._show_onboarding_if_needed()
         return int(application.exec())
+
+    def _show_recording_bar(self):
+        provider = getattr(self.controller, "is_hands_free", None)
+        if provider is not None and hasattr(self.pill, "set_hands_free"):
+            self.pill.show_recording(hands_free=provider())
+        else:
+            self.pill.show_recording()
+
+    def _configure_bar(self):
+        cfg = self.config if isinstance(self.config, dict) else {}
+        if hasattr(self.pill, "set_paste_hint"):
+            self.pill.set_paste_hint(cfg.get("hotkeys", {}).get("paste_last", "shift+alt+z"))
+        if hasattr(self.pill, "set_idle_enabled"):
+            self.pill.set_idle_enabled(cfg.get("app", {}).get("show_bar", True))
+
+    def _fix_bar_error(self, page):
+        self._show_settings()
+        tabs = getattr(self.settings_window, "tabs", None)
+        if tabs is not None:
+            label = "Microphone" if page == "microphone" else "Models"
+            for index in range(tabs.count()):
+                if tabs.tabText(index) == label:
+                    tabs.setCurrentIndex(index)
+                    break
 
     def _show_preview(self, generation, text):
         current = getattr(self.controller, "is_current_preview", None)
@@ -403,6 +444,7 @@ class SaydraftApp:
             self.tray.set_model_label(self._controller_model_label())
         if hasattr(self.pill, "set_hotkey_hint"):
             self.pill.set_hotkey_hint(str(config.get("hotkeys", {}).get("speech", "F9")).upper())
+        self._configure_bar()
 
     def _on_onboarding_applied(self, config: dict) -> None:
         self._on_settings_applied(config)

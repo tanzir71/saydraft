@@ -69,7 +69,7 @@ def test_settings_window_has_required_tabs_and_loads_values(tmp_path):
 
     tabs = [window.tabs.tabText(index) for index in range(window.tabs.count())]
 
-    assert tabs == ["General", "Languages", "Cleanup", "Style", "Dictionary", "Snippets", "Models", "Performance", "Labs", "About"]
+    assert tabs == ["General", "Languages", "Cleanup", "Style", "Dictionary", "Snippets", "Models", "Performance", "Labs", "Microphone", "About"]
     assert window.speech_hotkey_edit.text() == "ctrl+win"
     assert window.alternative_hotkey_edit.text() == "f9"
     assert window.mouse_hotkey_edit.text() == "xbutton1"
@@ -87,6 +87,24 @@ def test_settings_window_has_required_tabs_and_loads_values(tmp_path):
     assert "CC-BY-4.0" in window.model_picker.license_label.text()
     assert "Saydraft" in window.dictionary_editor.toPlainText()
     assert "addr=123 Main" in window.snippets_editor.toPlainText()
+
+
+def test_bar_visibility_round_trips_and_microphone_fixes_are_explicit_links(tmp_path, monkeypatch):
+    from saydraft.config import load_config
+
+    window, config_path, _ = make_window(tmp_path)
+    qt = qt_modules()
+    opened = []
+    monkeypatch.setattr(qt.QtGui.QDesktopServices, "openUrl", lambda url: opened.append(url.toString()) or True)
+    assert window.show_bar_checkbox.isChecked()
+    window.show_bar_checkbox.setChecked(False)
+    window.apply_changes()
+    assert load_config(config_path=config_path)["app"]["show_bar"] is False
+    assert not opened
+    for button in window.microphone_page.findChildren(qt.QtWidgets.QPushButton):
+        button.click()
+    assert opened == ["ms-settings:sound", "ms-settings:privacy-microphone"]
+    window.close()
 
 
 def test_settings_window_applies_config_live_and_updates_autostart(tmp_path):

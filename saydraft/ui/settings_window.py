@@ -9,7 +9,7 @@ from collections.abc import Callable
 from pathlib import Path
 from typing import Any
 
-from PySide6 import QtCore, QtWidgets
+from PySide6 import QtCore, QtGui, QtWidgets
 
 from saydraft.config import load_config, save_config
 from saydraft.dictionary.store import read_dictionary, save_dictionary
@@ -153,6 +153,8 @@ class SettingsWindow(QtWidgets.QDialog):
         self.labs_page = LabsPage(self.config, callback=self.preview_download_callback,
             report_loader=lambda: latest_report(self.config_path.parent / "hardware-benchmarks" if self.config_path else None))
         self.tabs.addTab(self.labs_page, "Labs")
+        self.microphone_page = self._microphone_tab()
+        self.tabs.addTab(self.microphone_page, "Microphone")
         self.tabs.addTab(self._about_tab(), "About")
 
     def _general_tab(self):
@@ -179,6 +181,7 @@ class SettingsWindow(QtWidgets.QDialog):
         self.tap_lock_spin.setSuffix(" ms")
         self.autostart_checkbox = QtWidgets.QCheckBox()
         self.auto_listen_checkbox = QtWidgets.QCheckBox()
+        self.show_bar_checkbox = QtWidgets.QCheckBox("Show the idle Saydraft Bar")
         self.notification_spin = QtWidgets.QSpinBox()
         self.notification_spin.setRange(1, 30)
         self.notification_spin.setSuffix(" s")
@@ -208,6 +211,7 @@ class SettingsWindow(QtWidgets.QDialog):
         form.addRow("Double-tap interval", self.tap_lock_spin)
         form.addRow("Start with Windows", self.autostart_checkbox)
         form.addRow("Auto-start listening", self.auto_listen_checkbox)
+        form.addRow("Saydraft Bar", self.show_bar_checkbox)
         form.addRow("Notification duration", self.notification_spin)
         form.addRow("Audio history", self.retain_audio_checkbox)
         scroll = QtWidgets.QScrollArea()
@@ -215,6 +219,24 @@ class SettingsWindow(QtWidgets.QDialog):
         scroll.setFrameShape(QtWidgets.QFrame.NoFrame)
         scroll.setWidget(page)
         return scroll
+
+    def _microphone_tab(self):
+        page = QtWidgets.QWidget()
+        layout = QtWidgets.QVBoxLayout(page)
+        title = QtWidgets.QLabel("Microphone")
+        title.setProperty("role", "display")
+        layout.addWidget(title)
+        help_text = QtWidgets.QLabel("Saydraft uses the default Windows input. Connect a microphone, then choose it as your default input in Windows sound settings. If access is blocked, allow desktop apps in Windows microphone privacy settings.")
+        help_text.setWordWrap(True)
+        layout.addWidget(help_text)
+        sound = QtWidgets.QPushButton("Open Windows sound settings")
+        sound.clicked.connect(lambda: QtGui.QDesktopServices.openUrl(QtCore.QUrl("ms-settings:sound")))
+        privacy = QtWidgets.QPushButton("Open microphone privacy settings")
+        privacy.clicked.connect(lambda: QtGui.QDesktopServices.openUrl(QtCore.QUrl("ms-settings:privacy-microphone")))
+        layout.addWidget(sound)
+        layout.addWidget(privacy)
+        layout.addStretch()
+        return page
 
     def _cleanup_tab(self):
         page = QtWidgets.QWidget()
@@ -386,6 +408,7 @@ class SettingsWindow(QtWidgets.QDialog):
         self.tap_lock_spin.setValue(int(cfg["hotkeys"]["tap_lock_ms"]))
         self.autostart_checkbox.setChecked(bool(cfg["app"]["start_with_windows"] or self.autostart_manager.is_enabled()))
         self.auto_listen_checkbox.setChecked(bool(cfg["app"]["auto_start_listening"]))
+        self.show_bar_checkbox.setChecked(bool(cfg["app"]["show_bar"]))
         self.notification_spin.setValue(int(cfg["app"]["notification_duration"]))
         self.retain_audio_checkbox.setChecked(cfg["recording"].get("retain_audio", False))
         self._set_combo(self.mode_combo, cfg["dictation"]["mode"])
@@ -480,6 +503,7 @@ class SettingsWindow(QtWidgets.QDialog):
         cfg["hotkeys"]["tap_lock_ms"] = int(self.tap_lock_spin.value())
         cfg["app"]["start_with_windows"] = bool(self.autostart_checkbox.isChecked())
         cfg["app"]["auto_start_listening"] = bool(self.auto_listen_checkbox.isChecked())
+        cfg["app"]["show_bar"] = bool(self.show_bar_checkbox.isChecked())
         cfg["app"]["notification_duration"] = int(self.notification_spin.value())
         cfg["recording"]["max_seconds"] = int(self.max_seconds_spin.value())
         cfg["recording"]["retain_audio"] = self.retain_audio_checkbox.isChecked()

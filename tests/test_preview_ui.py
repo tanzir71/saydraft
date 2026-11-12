@@ -100,10 +100,10 @@ def test_preview_strip_keeps_last_sixty_characters_and_never_reopens_dismissed_b
     words = "<b>literal preview</b> " * 5
     pill.update_preview(words)
     assert pill.preview_label.text() == words[-60:] and pill.preview_label.isVisible()
-    assert pill.preview_label.property("truncated") and pill.height() == 104
+    assert pill.preview_label.property("truncated") and pill.height() == 68
     pill.show_processing()
     pill.update_preview("late words")
-    assert not pill.preview_label.isVisible() and pill.height() == 76
+    assert not pill.preview_label.isVisible() and pill.height() == 36
     pill.show_recording()
     assert not pill.preview_label.text()
     pill.hide()
@@ -117,8 +117,7 @@ def test_old_completion_timer_cannot_hide_a_new_recording_with_preview():
     qt_modules()
     scheduled = []
     pill = SaydraftPill(timer_single_shot=lambda delay, callback: scheduled.append(callback))
-    pill.show_processing()
-    pill.finish_success()
+    pill.show_not_inserted("focus_changed", saved=True)
     pill.show_recording()
     pill.update_preview("current recording")
     scheduled[0]()

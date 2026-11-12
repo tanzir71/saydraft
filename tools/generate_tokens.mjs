@@ -87,7 +87,9 @@ const outputs = new Map([
   ['site/src/styles/tokens.css', `/* ${header} */\n:root {\n${declarations.join('\n')}\n}\n`],
   ['saydraft/ui/theme/tokens.qss', qtTheme(false)],
   ['saydraft/ui/theme/tokens-dark.qss', qtTheme(true)],
-  ['saydraft/ui/theme/metadata.json', JSON.stringify({ schema: 1, bodySizePx: Number.parseFloat(tokens.type.body) }, null, 2) + '\n'],
+  ['saydraft/ui/theme/metadata.json', JSON.stringify({ schema: 1, bodySizePx: Number.parseFloat(tokens.type.body),
+    bar: Object.fromEntries(['ink', 'barBg', 'barFg', 'barWarn', 'barError', 'signal'].map(name => [name, tokens.color[name]])),
+  }, null, 2) + '\n'],
 ]);
 for (const mode of ['light', 'dark']) {
   const c = semantic(mode === 'dark');

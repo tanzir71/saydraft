@@ -26,6 +26,7 @@ CONFIG_SCHEMA: dict[str, Any] = {
     "app": {
         "start_with_windows": bool,
         "auto_start_listening": bool,
+        "show_bar": bool,
         "notification_duration": int,
         "onboarded": bool,
     },
@@ -95,6 +96,7 @@ _DEFAULT_CONFIG: dict[str, Any] = {
     "app": {
         "start_with_windows": False,
         "auto_start_listening": True,
+        "show_bar": True,
         "notification_duration": 3,
         "onboarded": False,
     },
