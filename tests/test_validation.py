@@ -14,7 +14,7 @@ def test_validation_rejects_changed_urls():
 
 def test_validation_rejects_output_that_is_too_short_by_length_ratio():
     result = validate_llm_output(
-        "please send the quarterly planning report to the finance team tomorrow morning",
+        "please send the quarterly planning report to the finance team with all supporting documents",
         "send report",
         mode="aggressive",
     )
@@ -26,7 +26,7 @@ def test_validation_rejects_output_that_is_too_short_by_length_ratio():
 def test_validation_rejects_output_that_is_too_long_by_length_ratio():
     result = validate_llm_output(
         "send report",
-        "send the full detailed quarterly planning report to the finance leadership team tomorrow morning",
+        "send the full detailed quarterly planning report to the finance leadership team with all supporting documents",
         mode="aggressive",
     )
 

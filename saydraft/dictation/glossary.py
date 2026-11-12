@@ -7,6 +7,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Dict, List, Tuple
 
+from saydraft.text_boundaries import whole_word_match
 
 @dataclass(frozen=True)
 class Glossary:
@@ -110,29 +111,29 @@ def protect_terms(text: str, glossary: Glossary) -> Tuple[str, Dict[str, str]]:
         return text, {}
 
     mapping: Dict[str, str] = {}
-    out = text
     idx = 0
-    for term in protected:
-        if not term.strip():
-            continue
+    terms = [re.escape(term) for term in protected if term.strip()]
+    if not terms:
+        return text, {}
+    pattern = re.compile("|".join(terms), re.IGNORECASE)
+
+    def protect(match):
+        nonlocal idx
+        if not whole_word_match(text, match):
+            return match[0]
+        while f"__GLOSSARY_{idx}__" in text:
+            idx += 1
         placeholder = f"__GLOSSARY_{idx}__"
         idx += 1
-        pattern = re.compile(re.escape(term), flags=re.IGNORECASE)
-        if not pattern.search(out):
-            continue
-        match = pattern.search(out)
-        if match is None:
-            continue
-        mapping[placeholder] = out[match.start() : match.end()]
-        out = pattern.sub(placeholder, out)
-    return out, mapping
+        mapping[placeholder] = match[0]  # Preserve each occurrence's original casing.
+        return placeholder
+
+    return pattern.sub(protect, text), mapping
 
 
 def restore_terms(text: str, mapping: Dict[str, str]) -> str:
     if not text or not mapping:
         return text
-    out = text
-    for placeholder, original in mapping.items():
-        out = out.replace(placeholder, original)
-    return out
+    pattern = re.compile("|".join(re.escape(token) for token in mapping))
+    return pattern.sub(lambda match: mapping[match[0]], text)
 

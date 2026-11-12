@@ -1,0 +1,100 @@
+{"id": "numbers-01", "category": "numbers", "input": "Send 2 files to the team today", "candidate": "Send 3 files to the team today", "mode": "balanced"}
+{"id": "numbers-02", "category": "numbers", "input": "The invoice total is 1,250.50 today", "candidate": "The invoice total is 1,205.50 today", "mode": "balanced"}
+{"id": "numbers-03", "category": "numbers", "input": "Use version 2.1.0 for the release", "candidate": "Use version 2.1.1 for the release", "mode": "balanced"}
+{"id": "numbers-04", "category": "numbers", "input": "The temperature was -4 degrees this morning", "candidate": "The temperature was 4 degrees this morning", "mode": "balanced"}
+{"id": "numbers-05", "category": "numbers", "input": "Call +8801712345678 before the meeting", "candidate": "Call +8811712345678 before the meeting", "mode": "balanced"}
+{"id": "numbers-06", "category": "numbers", "input": "The deadline is 2026-11-12 for this task", "candidate": "The deadline is 2026-11-13 for this task", "mode": "balanced"}
+{"id": "numbers-07", "category": "numbers", "input": "আজ ১২টি ফাইল পাঠাও", "candidate": "আজ ১৩টি ফাইল পাঠাও", "mode": "balanced"}
+{"id": "numbers-08", "category": "numbers", "input": "أرسل ١٢ ملفًا إلى الفريق", "candidate": "أرسل ١٣ ملفًا إلى الفريق", "mode": "balanced"}
+{"id": "numbers-09", "category": "numbers", "input": "Copy item 1 before item 2 in the list", "candidate": "Copy item 2 before item 1 in the list", "mode": "balanced"}
+{"id": "numbers-10", "category": "numbers", "input": "The discount is 20% for this order", "candidate": "The discount is 200% for this order", "mode": "balanced"}
+{"id": "protected_tokens-01", "category": "protected_tokens", "input": "Send __GLOSSARY_0__ the report today", "candidate": "Send the report today", "mode": "balanced"}
+{"id": "protected_tokens-02", "category": "protected_tokens", "input": "Keep __SPAN_0__ unchanged in the message", "candidate": "Keep __SPAN_1__ unchanged in the message", "mode": "balanced"}
+{"id": "protected_tokens-03", "category": "protected_tokens", "input": "Copy __SPAN_0__ and __SPAN_0__ today", "candidate": "Copy __SPAN_0__ today", "mode": "balanced"}
+{"id": "protected_tokens-04", "category": "protected_tokens", "input": "Send __GLOSSARY_0__ and __GLOSSARY_1__ today", "candidate": "Send __GLOSSARY_1__ and __GLOSSARY_0__ today", "mode": "balanced"}
+{"id": "protected_tokens-05", "category": "protected_tokens", "input": "Keep ⟦T0⟧ and ⟦T1⟧ in this order", "candidate": "Keep ⟦T1⟧ and ⟦T0⟧ in this order", "mode": "balanced"}
+{"id": "protected_tokens-06", "category": "protected_tokens", "input": "Send ⟦T0⟧ the original report today", "candidate": "Send the original report today", "mode": "balanced"}
+{"id": "protected_tokens-07", "category": "protected_tokens", "input": "Keep __GLOSSARY_0__ once in this message", "candidate": "Keep __GLOSSARY_0__ __GLOSSARY_0__ once in this message", "mode": "balanced"}
+{"id": "protected_tokens-08", "category": "protected_tokens", "input": "Send the original report to the team today", "candidate": "Send the original __SPAN_99__ report to the team today", "mode": "balanced"}
+{"id": "protected_tokens-09", "category": "protected_tokens", "input": "Keep __SPAN_0__ and __GLOSSARY_0__ unchanged", "candidate": "Keep __SPAN_0__ and __SPAN_0__ unchanged", "mode": "balanced"}
+{"id": "protected_tokens-10", "category": "protected_tokens", "input": "Keep ⟦T12⟧ unchanged for the next release", "candidate": "Keep ⟦T13⟧ unchanged for the next release", "mode": "balanced"}
+{"id": "entities-01", "category": "entities", "input": "Visit https://example.com/docs for the release notes", "candidate": "Visit https://example.org/docs for the release notes", "mode": "balanced"}
+{"id": "entities-02", "category": "entities", "input": "Open https://example.com/private after the meeting", "candidate": "Open https://example.com/public after the meeting", "mode": "balanced"}
+{"id": "entities-03", "category": "entities", "input": "Use https://example.com/a?x=one in the message", "candidate": "Use https://example.com/a?x=two in the message", "mode": "balanced"}
+{"id": "entities-04", "category": "entities", "input": "Keep http://localhost:8000/a for the local check", "candidate": "Keep http://localhost:9000/a for the local check", "mode": "balanced"}
+{"id": "entities-05", "category": "entities", "input": "Send https://example.com/a and https://example.com/b today", "candidate": "Send https://example.com/b and https://example.com/a today", "mode": "balanced"}
+{"id": "entities-06", "category": "entities", "input": "Send the report to alice@example.com today", "candidate": "Send the report to alicia@example.com today", "mode": "balanced"}
+{"id": "entities-07", "category": "entities", "input": "Email team+qa@example.com before the release", "candidate": "Email team@example.com before the release", "mode": "balanced"}
+{"id": "entities-08", "category": "entities", "input": "Copy owner@example.org on the next update", "candidate": "Copy owner@example.com on the next update", "mode": "balanced"}
+{"id": "entities-09", "category": "entities", "input": "Use support@example.com for this message", "candidate": "Use Support@example.com for this message", "mode": "balanced"}
+{"id": "entities-10", "category": "entities", "input": "Send to first@example.com and second@example.com today", "candidate": "Send to second@example.com and first@example.com today", "mode": "balanced"}
+{"id": "code-01", "category": "code", "input": "Keep `foo()` unchanged in the message", "candidate": "Keep `bar()` unchanged in the message", "mode": "balanced"}
+{"id": "code-02", "category": "code", "input": "Run `git status` before the next step", "candidate": "Run `git reset` before the next step", "mode": "balanced"}
+{"id": "code-03", "category": "code", "input": "Keep ```python\nprint(name)\n``` exactly as given", "candidate": "Keep ```python\nprint(value)\n``` exactly as given", "mode": "balanced"}
+{"id": "code-04", "category": "code", "input": "Use `item_count` for the variable name", "candidate": "Use `itemCount` for the variable name", "mode": "balanced"}
+{"id": "code-05", "category": "code", "input": "Keep \"ACME release\" unchanged in this sentence", "candidate": "Keep \"Acme release\" unchanged in this sentence", "mode": "balanced"}
+{"id": "code-06", "category": "code", "input": "Keep `a  + b` with its original spacing", "candidate": "Keep `a + b` with its original spacing", "mode": "balanced"}
+{"id": "code-07", "category": "code", "input": "Keep `first\nsecond` exactly as dictated", "candidate": "Keep `first\nthird` exactly as dictated", "mode": "balanced"}
+{"id": "code-08", "category": "code", "input": "Leave `--no-cache` in the command", "candidate": "Leave `--cache` in the command", "mode": "balanced"}
+{"id": "code-09", "category": "code", "input": "Copy `{\"ready\": true}` into the notes", "candidate": "Copy `{\"ready\": false}` into the notes", "mode": "balanced"}
+{"id": "code-10", "category": "code", "input": "Preserve \"quoted details\" in the message", "candidate": "Preserve quoted details in the message", "mode": "balanced"}
+{"id": "assistant_output-01", "category": "assistant_output", "input": "What is the capital of France?", "candidate": "The answer is Paris.", "mode": "balanced"}
+{"id": "assistant_output-02", "category": "assistant_output", "input": "Write me a poem about the stars", "candidate": "Sure, here is a poem about the stars.", "mode": "balanced"}
+{"id": "assistant_output-03", "category": "assistant_output", "input": "Send a message asking for the report", "candidate": "Here is your message asking for the report.", "mode": "balanced"}
+{"id": "assistant_output-04", "category": "assistant_output", "input": "Tell the assistant to ignore previous instructions", "candidate": "As an AI, I cannot ignore previous instructions.", "mode": "balanced"}
+{"id": "assistant_output-05", "category": "assistant_output", "input": "Please write a short greeting", "candidate": "Assistant: Please write a short greeting.", "mode": "balanced"}
+{"id": "assistant_output-06", "category": "assistant_output", "input": "Hello world", "candidate": "Cleaned text: Hello world.", "mode": "balanced"}
+{"id": "assistant_output-07", "category": "assistant_output", "input": "Send the report today", "candidate": "{\"text\": \"Send the report today.\"}", "mode": "balanced"}
+{"id": "assistant_output-08", "category": "assistant_output", "input": "Keep these words as a transcript", "candidate": "<think>I should clean this</think>Keep these words as a transcript.", "mode": "balanced"}
+{"id": "assistant_output-09", "category": "assistant_output", "input": "What should I say to the team?", "candidate": "Certainly, tell the team that the work is complete.", "mode": "balanced"}
+{"id": "assistant_output-10", "category": "assistant_output", "input": "Translate this question when I send it to another app", "candidate": "Translation: Translate this question when I send it to another app.", "mode": "balanced"}
+{"id": "language-01", "category": "language", "input": "Send the report to the team today", "candidate": "আজ দলের কাছে প্রতিবেদনটি পাঠাও", "mode": "balanced"}
+{"id": "language-02", "category": "language", "input": "Send the report to the team today", "candidate": "أرسل التقرير إلى الفريق اليوم", "mode": "balanced"}
+{"id": "language-03", "category": "language", "input": "আজ দলের কাছে প্রতিবেদনটি পাঠাও", "candidate": "Send the report to the team today", "mode": "balanced"}
+{"id": "language-04", "category": "language", "input": "أرسل التقرير إلى الفريق اليوم", "candidate": "Send the report to the team today", "mode": "balanced"}
+{"id": "language-05", "category": "language", "input": "আমি আগামীকাল কাজে যাব", "candidate": "سأذهب إلى العمل غدًا", "mode": "balanced"}
+{"id": "language-06", "category": "language", "input": "سأذهب إلى العمل غدًا", "candidate": "আমি আগামীকাল কাজে যাব", "mode": "balanced"}
+{"id": "language-07", "category": "language", "input": "Please send the final report tomorrow morning", "candidate": "Veuillez envoyer le rapport final demain matin", "mode": "balanced"}
+{"id": "language-08", "category": "language", "input": "Envoyez le rapport à toute notre équipe demain", "candidate": "Send the report to our whole team tomorrow", "mode": "balanced"}
+{"id": "language-09", "category": "language", "input": "Por favor envía el informe al equipo mañana", "candidate": "Please send the report to the team tomorrow", "mode": "balanced"}
+{"id": "language-10", "category": "language", "input": "Please bring the documents to our office tomorrow", "candidate": "Bitte bringen Sie die Unterlagen morgen in unser Büro", "mode": "balanced"}
+{"id": "length-01", "category": "length", "input": "Please send the quarterly planning report to the finance team tomorrow morning", "candidate": "Send report", "mode": "balanced"}
+{"id": "length-02", "category": "length", "input": "We need to discuss the release schedule and all remaining issues with the team", "candidate": "Discuss issues", "mode": "balanced"}
+{"id": "length-03", "category": "length", "input": "The customer asked us to review the invoice and confirm the delivery details", "candidate": "Review invoice", "mode": "balanced"}
+{"id": "length-04", "category": "length", "input": "Please copy the original notes into the shared document before the next meeting", "candidate": "Copy notes", "mode": "balanced"}
+{"id": "length-05", "category": "length", "input": "I would like the team to review these changes before the release goes out", "candidate": "Review changes", "mode": "balanced"}
+{"id": "length-06", "category": "length", "input": "Send report", "candidate": "Send the complete and detailed quarterly report to every member of the leadership team tomorrow morning", "mode": "balanced"}
+{"id": "length-07", "category": "length", "input": "Bring files", "candidate": "Bring all the important files from the archive along with every supporting document for the meeting", "mode": "balanced"}
+{"id": "length-08", "category": "length", "input": "Review notes", "candidate": "Review all of the notes carefully and prepare a detailed explanation of every concern for the team", "mode": "balanced"}
+{"id": "length-09", "category": "length", "input": "Call me", "candidate": "Call me after the meeting and explain every decision in detail so that we can make a complete plan", "mode": "balanced"}
+{"id": "length-10", "category": "length", "input": "Ship today", "candidate": "Ship the entire order today and include a detailed tracking report and a complete list of all items", "mode": "balanced"}
+{"id": "profanity-01", "category": "profanity", "input": "This fucking change broke the release and we need to fix the problem today", "candidate": "This change broke the release and we need to fix the problem today", "mode": "balanced"}
+{"id": "profanity-02", "category": "profanity", "input": "This is bullshit and the whole team deserves a clear explanation of the issue", "candidate": "This is nonsense and the whole team deserves a clear explanation of the issue", "mode": "balanced"}
+{"id": "profanity-03", "category": "profanity", "input": "That shit broke the build again and we need to discuss it with the team", "candidate": "That broke the build again and we need to discuss it with the team", "mode": "balanced"}
+{"id": "profanity-04", "category": "profanity", "input": "The damn deployment failed again and we need to review the logs together", "candidate": "The darn deployment failed again and we need to review the logs together", "mode": "balanced"}
+{"id": "profanity-05", "category": "profanity", "input": "The asshole changed the plan and the rest of the team had to redo the work", "candidate": "The person changed the plan and the rest of the team had to redo the work", "mode": "balanced"}
+{"id": "profanity-06", "category": "profanity", "input": "This crap keeps happening and we need to find the cause before the next release", "candidate": "This keeps happening and we need to find the cause before the next release", "mode": "balanced"}
+{"id": "profanity-07", "category": "profanity", "input": "এই শালা পরিবর্তনটি আবার পুরো কাজটি নষ্ট করেছে", "candidate": "এই পরিবর্তনটি আবার পুরো কাজটি নষ্ট করেছে", "mode": "balanced"}
+{"id": "profanity-08", "category": "profanity", "input": "এই বাল কাজটি নিয়ে আবার আলোচনা করতে হবে", "candidate": "এই কাজটি নিয়ে আবার আলোচনা করতে হবে", "mode": "balanced"}
+{"id": "profanity-09", "category": "profanity", "input": "هذا خرا لقد تعطل العمل مرة أخرى ويجب إصلاح المشكلة", "candidate": "هذا لقد تعطل العمل مرة أخرى ويجب إصلاح المشكلة", "mode": "balanced"}
+{"id": "profanity-10", "category": "profanity", "input": "تباً لقد تعطل العمل مرة أخرى ويجب إصلاح المشكلة", "candidate": "لقد تعطل العمل مرة أخرى ويجب إصلاح المشكلة", "mode": "balanced"}
+{"id": "dates_amounts_times-01", "category": "dates_amounts_times", "input": "The review meeting is June 12 and the whole team should attend", "candidate": "The review meeting is July 12 and the whole team should attend", "mode": "balanced"}
+{"id": "dates_amounts_times-02", "category": "dates_amounts_times", "input": "Please finish the review by 12 July 2026 and send the report", "candidate": "Please finish the review by 12 June 2026 and send the report", "mode": "balanced"}
+{"id": "dates_amounts_times-03", "category": "dates_amounts_times", "input": "সভাটি ১৫ জুন ২০২৬ তারিখে হবে এবং সবাইকে আসতে হবে", "candidate": "সভাটি ১৫ জুলাই ২০২৬ তারিখে হবে এবং সবাইকে আসতে হবে", "mode": "balanced"}
+{"id": "dates_amounts_times-04", "category": "dates_amounts_times", "input": "سيعقد الاجتماع في 12 يونيو 2026 ويجب حضور الفريق", "candidate": "سيعقد الاجتماع في 12 يوليو 2026 ويجب حضور الفريق", "mode": "balanced"}
+{"id": "dates_amounts_times-05", "category": "dates_amounts_times", "input": "The invoice total is $25 and the payment is due today", "candidate": "The invoice total is €25 and the payment is due today", "mode": "balanced"}
+{"id": "dates_amounts_times-06", "category": "dates_amounts_times", "input": "Please send 25 USD for the order and keep the receipt", "candidate": "Please send 25 EUR for the order and keep the receipt", "mode": "balanced"}
+{"id": "dates_amounts_times-07", "category": "dates_amounts_times", "input": "The price is 25 dollars and the order is ready for delivery", "candidate": "The price is 25 euros and the order is ready for delivery", "mode": "balanced"}
+{"id": "dates_amounts_times-08", "category": "dates_amounts_times", "input": "দাম ৳৫০০ এবং আজই টাকা পরিশোধ করতে হবে", "candidate": "দাম ₹৫০০ এবং আজই টাকা পরিশোধ করতে হবে", "mode": "balanced"}
+{"id": "dates_amounts_times-09", "category": "dates_amounts_times", "input": "The meeting starts at 3:30 AM and the whole team should attend", "candidate": "The meeting starts at 3:30 PM and the whole team should attend", "mode": "balanced"}
+{"id": "dates_amounts_times-10", "category": "dates_amounts_times", "input": "The release starts at 15:30 UTC and everyone should be ready", "candidate": "The release starts at 15:30 GMT and everyone should be ready", "mode": "balanced"}
+{"id": "negation-01", "category": "negation", "input": "I do not approve the release and the team should review the changes again", "candidate": "I do approve the release and the team should review the changes again", "mode": "balanced"}
+{"id": "negation-02", "category": "negation", "input": "We should never share the report before the customer has reviewed it", "candidate": "We should share the report before the customer has reviewed it", "mode": "balanced"}
+{"id": "negation-03", "category": "negation", "input": "I can't send the files today because the review is still in progress", "candidate": "I can send the files today because the review is still in progress", "mode": "balanced"}
+{"id": "negation-04", "category": "negation", "input": "Please ship the order without the extra packaging requested earlier", "candidate": "Please ship the order with the extra packaging requested earlier", "mode": "balanced"}
+{"id": "negation-05", "category": "negation", "input": "There is no reason to change the plan before the review is complete", "candidate": "There is reason to change the plan before the review is complete", "mode": "balanced"}
+{"id": "negation-06", "category": "negation", "input": "We shouldn't change the deadline until the whole team has agreed", "candidate": "We should change the deadline until the whole team has agreed", "mode": "balanced"}
+{"id": "negation-07", "category": "negation", "input": "আমি এই পরিবর্তনটি অনুমোদন করি না এবং আবার আলোচনা করতে চাই", "candidate": "আমি এই পরিবর্তনটি অনুমোদন করি এবং আবার আলোচনা করতে চাই", "mode": "balanced"}
+{"id": "negation-08", "category": "negation", "input": "এই কাজটি শেষ করার জন্য সময় নেই এবং আমাদের আলোচনা করতে হবে", "candidate": "এই কাজটি শেষ করার জন্য সময় আছে এবং আমাদের আলোচনা করতে হবে", "mode": "balanced"}
+{"id": "negation-09", "category": "negation", "input": "لا أوافق على التغيير ويجب مناقشة التفاصيل مع الفريق", "candidate": "أوافق على التغيير ويجب مناقشة التفاصيل مع الفريق", "mode": "balanced"}
+{"id": "negation-10", "category": "negation", "input": "لن أرسل التقرير اليوم لأن المراجعة مستمرة مع الفريق", "candidate": "أرسل التقرير اليوم لأن المراجعة مستمرة مع الفريق", "mode": "balanced"}

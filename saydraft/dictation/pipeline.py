@@ -134,7 +134,7 @@ class DictationPipeline:
         text = raw_text
         text = apply_replacements(text, self.glossary)
         protected_text, mapping = protect_terms(text, self.glossary)
-        protected_text, span_mapping = protect_spans(protected_text)
+        protected_text, span_mapping = protect_spans(protected_text, protected_tokens=mapping)
 
         rule_opts = _options_for(context)
         rules_started = time.perf_counter()
@@ -157,7 +157,8 @@ class DictationPipeline:
                 candidate, status = self.llm.clean(rule_clean, tone_hint=_tone_hint_for(context))
             self.last_llm_decision = status
             if candidate:
-                validation = validate_llm_output(rule_clean, candidate, mode=context.mode)
+                validation = validate_llm_output(rule_clean, candidate, mode=context.mode,
+                    glossary=(*self.glossary.user_terms, *self.glossary.protected_terms))
                 if validation.ok:
                     llm_ok_text = candidate
                     self.last_llm_decision = "accepted"
