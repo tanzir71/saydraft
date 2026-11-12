@@ -12,6 +12,7 @@ from typing import Any
 from PySide6 import QtCore, QtWidgets
 
 from saydraft.config import load_config, save_config
+from saydraft.dictionary.store import read_dictionary, save_dictionary
 from saydraft.autostart import WindowsAutoStartManager
 from saydraft.paths import resolve_data_path
 from saydraft.model_download import download_silero_vad_model
@@ -238,7 +239,22 @@ class SettingsWindow(QtWidgets.QDialog):
         self.dictionary_editor = QtWidgets.QPlainTextEdit()
         self.dictionary_editor.setObjectName("dictionaryEditor")
         layout.addWidget(self.dictionary_editor)
+        self.reload_dictionary_button = QtWidgets.QPushButton("Reload Dictionary")
+        self.reload_dictionary_button.setToolTip("Replace this editor's text with the dictionary saved on disk.")
+        self.reload_dictionary_button.clicked.connect(self.reload_dictionary)
+        layout.addWidget(self.reload_dictionary_button)
         return page
+
+    def reload_dictionary(self):
+        try:
+            snapshot = read_dictionary(self.glossary_path)
+        except (OSError, ValueError):
+            self.status_label.setText("Could not reload Dictionary. Repair its JSON on disk, then reload.")
+            return False
+        self._dictionary_snapshot = snapshot
+        self.dictionary_editor.setPlainText(json.dumps(snapshot.editable, ensure_ascii=False, indent=2) + "\n")
+        self.status_label.setText("Dictionary reloaded")
+        return True
 
     def _snippets_tab(self):
         page = QtWidgets.QWidget()
@@ -355,7 +371,16 @@ class SettingsWindow(QtWidgets.QDialog):
         self.local_files_checkbox.setChecked(bool(cfg["stt"]["local_files_only"]))
         self.llm_enabled_checkbox.setChecked(bool(cfg["llm"]["enabled"]))
         self.llm_path_edit.setText(cfg["llm"]["model_path"])
+        self._dictionary_snapshot = None
+        try:
+            self._dictionary_snapshot = read_dictionary(self.glossary_path)
+        except (OSError, ValueError):
+            pass
         self.dictionary_editor.setPlainText(self._read_text(self.glossary_path, default='{"user_terms": [], "protected_terms": [], "replacements": {}}\n'))
+        if self._dictionary_snapshot is not None:
+            # Show exactly the snapshot that will be checked on save.
+            data = self._dictionary_snapshot.editable
+            self.dictionary_editor.setPlainText(json.dumps(data, ensure_ascii=False, indent=2) + "\n")
         self.snippets_editor.setPlainText(self._read_text(self.snippets_path))
         self.app_profiles_editor.setPlainText(self._read_text(self.app_profiles_path, default="[]\n"))
 
@@ -375,12 +400,20 @@ class SettingsWindow(QtWidgets.QDialog):
 
             dictionary = self._parse_json_editor(self.dictionary_editor, dict, "Dictionary")
             profiles = self._parse_json_editor(self.app_profiles_editor, list, "Per-app profiles")
-        except ValueError as exc:
+            if self._dictionary_snapshot is None:
+                raise ValueError("Dictionary could not be read. Repair its JSON on disk, then use Reload Dictionary.")
+            if dictionary == self._dictionary_snapshot.editable:
+                snapshot = read_dictionary(self.glossary_path)
+            else:
+                snapshot = save_dictionary(self.glossary_path, dictionary,
+                    expected_revision=self._dictionary_snapshot.revision)
+        except (OSError, ValueError) as exc:
             self.status_label.setText(str(exc))
             return False
 
         saved = save_config(cfg, self.config_path)
-        self._write_json(self.glossary_path, dictionary)
+        self._dictionary_snapshot = snapshot
+        self.dictionary_editor.setPlainText(json.dumps(snapshot.editable, ensure_ascii=False, indent=2) + "\n")
         self._write_text(self.snippets_path, self._normalized_plain_text(self.snippets_editor))
         self._write_json(self.app_profiles_path, profiles)
         self.autostart_manager.set_enabled(saved["app"]["start_with_windows"])

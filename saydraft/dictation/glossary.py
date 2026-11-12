@@ -4,10 +4,10 @@ import json
 import os
 import re
 from dataclasses import dataclass
-from pathlib import Path
 from typing import Dict, List, Tuple
 
 from saydraft.text_boundaries import whole_word_match
+from saydraft.dictionary.store import add_term
 
 @dataclass(frozen=True)
 class Glossary:
@@ -60,39 +60,8 @@ def load_glossary(path: str) -> Glossary:
 
 
 def learn_word(path: str | os.PathLike[str], term: str) -> Glossary:
-    normalized = _normalize_learned_term(term)
-    glossary = load_glossary(os.fspath(path))
-    if not normalized:
-        return glossary
-
-    existing = list(glossary.user_terms)
-    existing_lower = {value.casefold() for value in existing}
-    if normalized.casefold() not in existing_lower:
-        existing.append(normalized)
-
-    data = {
-        "user_terms": existing,
-        "protected_terms": list(glossary.protected_terms),
-        "replacements": {src: dst for src, dst in glossary.replacements},
-    }
-    _write_glossary(path, data)
+    add_term(path, term)
     return load_glossary(os.fspath(path))
-
-
-def _normalize_learned_term(term: str) -> str:
-    if not isinstance(term, str):
-        return ""
-    return re.sub(r"\s+", " ", term).strip()
-
-
-def _write_glossary(path: str | os.PathLike[str], data: Dict[str, object]) -> None:
-    glossary_path = Path(path)
-    if glossary_path.parent != Path("."):
-        glossary_path.parent.mkdir(parents=True, exist_ok=True)
-    glossary_path.write_text(
-        json.dumps(data, indent=2, ensure_ascii=False) + "\n",
-        encoding="utf-8",
-    )
 
 
 def apply_replacements(text: str, glossary: Glossary) -> str:

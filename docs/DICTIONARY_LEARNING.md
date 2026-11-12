@@ -6,6 +6,36 @@ implemented, including session delivery and result polling. Suggestion presentat
 Auto-add and Undo remain.
 Manual desktop acceptance remains deferred after Computer Use was stopped.
 
+## Atomic dictionary edits
+
+The glossary JSON remains the live dictionary until the planned Hub migration;
+the SQLite v2 dictionary table remains its earlier copy-only import. All current
+app glossary writers now use `dictionary.store`: a bounded strict read, a shared
+per-path process lock, a same-directory temporary file, flush/fsync and atomic
+replacement. Unknown owner fields, protected terms and replacements survive a
+single-term edit. Invalid or oversized files are refused without overwriting
+them. A final byte-revision comparison refuses external edits observed during
+staging. This is not a cross-process editor lock.
+
+Learning returns a dictionary-path-bound receipt with a unique per-term revision.
+Undo checks both the revision and exact current spelling, removes only that
+addition or restores its earlier capitalization, and retains unrelated changes.
+A manual Add claims the word and revokes the old learning receipt. A newer
+learning change also revokes it; restoring a previous learned spelling creates a
+fresh revision, preventing an older Undo from becoming valid again. The small
+`_saydraft_learning` metadata map records learned provenance, without retaining
+the original field span or the mistaken word. Receipts stay in memory.
+
+Settings hides that internal map. An unchanged dictionary editor refreshes from
+disk without writing over newer learning. An edited stale snapshot is refused
+before applying configuration, leaving the editor text available. Valid edits
+retain provenance only for unchanged terms; they cannot resurrect a revoked
+receipt. Reload Dictionary explicitly replaces the editor with the latest saved
+version, including after a conflict. Invalid JSON must be repaired on disk before
+reloading; it is never silently replaced by an empty dictionary.
+The visible Add/Auto-add/Undo actions and their Settings toggles still
+follow separately; these store methods do not enable observation by default.
+
 ## Session delivery
 
 `dictation.learn_corrections` is a persisted, default-off integration flag. The

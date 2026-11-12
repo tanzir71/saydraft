@@ -218,6 +218,38 @@ def test_settings_window_saves_dictionary_snippets_and_profiles(tmp_path):
     assert json.loads((tmp_path / "app_profiles.json").read_text(encoding="utf-8")) == profiles
 
 
+def test_unchanged_dictionary_editor_keeps_new_learning_and_hides_receipts(tmp_path):
+    from saydraft.dictionary.store import add_term, undo_learning
+    window, _config_path, _autostart = make_window(tmp_path)
+    receipt = add_term(tmp_path / "glossary.json", "Kubernetes", learned=True)
+    assert window.apply_changes()
+    assert "Kubernetes" in window.dictionary_editor.toPlainText()
+    assert "_saydraft_learning" not in window.dictionary_editor.toPlainText()
+    assert receipt.revision not in window.dictionary_editor.toPlainText()
+    assert undo_learning(tmp_path / "glossary.json", receipt)
+
+
+def test_stale_dictionary_editor_refuses_save_without_applying_settings(tmp_path):
+    from saydraft.dictionary.store import add_term
+    applied = []
+    window, config_path, autostart = make_window(tmp_path, on_config_applied=applied.append)
+    original = config_path.read_bytes()
+    window.dictionary_editor.setPlainText('{"user_terms": ["Edited"]}')
+    window.autostart_checkbox.setChecked(True)
+    add_term(tmp_path / "glossary.json", "Kubernetes", learned=True)
+    assert not window.apply_changes()
+    assert "Dictionary changed" in window.status_label.text()
+    assert "Edited" in window.dictionary_editor.toPlainText()
+    assert config_path.read_bytes() == original
+    assert not applied and not autostart.calls
+    assert "Kubernetes" in (tmp_path / "glossary.json").read_text(encoding="utf-8")
+    window.reload_dictionary_button.click()
+    assert "Kubernetes" in window.dictionary_editor.toPlainText()
+    assert "Edited" not in window.dictionary_editor.toPlainText()
+    assert window.apply_changes()
+    assert len(applied) == 1
+
+
 def test_windows_autostart_manager_uses_hkcu_run_key():
     from saydraft.ui.settings_window import WindowsAutoStartManager
 
