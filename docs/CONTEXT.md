@@ -241,3 +241,25 @@ were inspected. The owner stopped Computer Use with physical Escape before the
 observer started or any F9 test input. No desktop acceptance report was produced.
 Keep active-field acceptance open; desktop interaction remains stopped pending an
 explicit owner request to resume it. Independent repository work continues.
+
+## Caret range availability
+
+Caret capture distinguishes a known empty prefix/end-of-field from unsupported
+or ambiguous context. A single TextPattern selection supplies known replacement
+boundaries; a caret-only fallback cannot claim a known selection. Disjoint or
+unsupported patterns keep layout context unknown while retaining verified field
+metadata. A promoted/distant preceding range is also unknown.
+
+After the selection, the reader moves a cloned endpoint by at most two Character
+units and requests at most two UTF-16 units. Transport keeps one complete Unicode
+character, or marks a broken surrogate peek unknown. The real selection never
+moves. Requests check expiry/cancellation before each additional native GetText;
+late/partial context is discarded. Metadata-only delivery verification reads none
+of these ranges.
+
+The before/selection/after availability flags reach cleanup in ephemeral context;
+field surroundings never enter History rows. Legacy injected two-string readers
+remain supported. P5.4 can now apply layout only to reliable boundaries rather
+than assuming that an empty string means an empty field. Spacing/casing behavior
+and its 30-case golden acceptance follow separately. Desktop testing remains
+stopped as requested.

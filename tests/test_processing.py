@@ -38,6 +38,20 @@ def test_persists_both_versions_before_paste_to_captured_target():
     assert processor.last_result is result
 
 
+def test_known_empty_caret_context_reaches_cleanup_without_persisting_field_surroundings():
+    captured = []
+    cleaner = types.SimpleNamespace(process_transcript=lambda raw, context: captured.append(context) or raw)
+    processor, events, _ = make_processor(cleaner=cleaner)
+    target = TargetContext("fixture", "Fixture", before_caret_known=True, selection_known=True,
+                           after_caret="r", after_caret_known=True)
+    process(processor, target=target)
+    context = captured[0]
+    assert context.before_caret == "" and context.before_caret_known and context.selection_known
+    assert context.after_caret == "r" and context.after_caret_known
+    entry = events[0][1]
+    assert entry.raw_text == entry.cleaned_text == "words" and not hasattr(entry, "after_caret")
+
+
 def test_repeated_dictation_is_never_silently_suppressed():
     processor, events, _notifications = make_processor()
     process(processor)

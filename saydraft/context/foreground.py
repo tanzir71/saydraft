@@ -132,7 +132,9 @@ class ForegroundContextProvider:
                 app_group=app_group(exe, site, self.profiles), app_site=site, process_id=pid,
                 is_password=field.is_password, before_caret=field.before_caret, selection=field.selection,
                 uia_status=field.status, control_type=field.control_type, field_id=field.runtime_id,
-                selection_truncated=field.selection_truncated)
+                selection_truncated=field.selection_truncated, before_caret_known=field.before_caret_known,
+                selection_known=field.selection_known, after_caret=field.after_caret,
+                after_caret_known=field.after_caret_known)
         except OSError:
             return TargetContext()
 

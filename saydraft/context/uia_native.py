@@ -7,6 +7,8 @@ from ctypes import wintypes as wt
 import comtypes
 import comtypes.client
 
+from .focused_edit import CaretText
+
 _TYPELIB_LOCK = threading.Lock()
 
 
@@ -85,28 +87,50 @@ class NativeUIAReader:
     def runtime_id(self, element):
         return tuple(element.GetCachedPropertyValueEx(self.lib.UIA_RuntimeIdPropertyId, True))
 
-    def text_context(self, element, limit):
+    def text_context_for_request(self, element, limit, current):
+        return self.text_context(element, limit, current=current)
+
+    def text_context(self, element, limit, *, current=lambda: True):
         if type(limit) is not int or not 1 <= limit <= 1024:
             raise ValueError("UIA text read must be bounded")
         lib = self.lib
         pattern = element.GetCurrentPattern(lib.UIA_TextPatternId).QueryInterface(lib.IUIAutomationTextPattern)
         ranges = pattern.GetSelection()
+        selection_known = ranges.Length == 1
         if ranges.Length == 1:
             selected = ranges.GetElement(0)
         elif ranges.Length == 0:
             pattern2 = element.GetCurrentPattern(lib.UIA_TextPattern2Id).QueryInterface(lib.IUIAutomationTextPattern2)
             active, selected = pattern2.GetCaretRange()
             if not active:
-                return "", ""
+                return CaretText()
         else:
-            return "", ""  # Multiple disjoint selections have no single insertion context.
+            return CaretText()  # Multiple disjoint selections have no single insertion context.
+        if not current():
+            return CaretText()
         selection = selected.GetText(limit + 1)
+        if not current():
+            return CaretText()
         before = selected.Clone()
         before.MoveEndpointByRange(lib.TextPatternRangeEndpoint_End, selected, lib.TextPatternRangeEndpoint_Start)
         before.MoveEndpointByUnit(lib.TextPatternRangeEndpoint_Start, lib.TextUnit_Character, -limit)
         preceding = before.GetText(limit + 1)
         # Providers may promote Character to a larger unit. A bounded prefix
         # of that larger range would not be adjacent to the caret.
-        if len(preceding.encode("utf-16-le", errors="surrogatepass")) // 2 > limit:
+        before_known = len(preceding.encode("utf-16-le", errors="surrogatepass")) // 2 <= limit
+        if not before_known:
             preceding = ""
-        return preceding, selection
+        if not current():
+            return CaretText()
+        following, after_known = "", False
+        if selection_known:
+            try:
+                after = selected.Clone()
+                after.MoveEndpointByRange(lib.TextPatternRangeEndpoint_Start, selected, lib.TextPatternRangeEndpoint_End)
+                after.MoveEndpointByUnit(lib.TextPatternRangeEndpoint_End, lib.TextUnit_Character, 2)
+                if not current():
+                    return CaretText()
+                following, after_known = after.GetText(2), True  # At most one surrogate pair.
+            except Exception:
+                pass  # A valid preceding range remains useful without a suffix peek.
+        return CaretText(preceding, selection, following, before_known, selection_known, after_known)

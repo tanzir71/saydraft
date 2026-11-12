@@ -63,7 +63,9 @@ class TranscriptProcessor:
         snippet_mapping = {}
         try:
             context = replace(context, app_title=target.app_title, app_group=target.app_group,
-                              language=language, before_caret=target.before_caret)
+                language=language, before_caret=target.before_caret, before_caret_known=target.before_caret_known,
+                selection=target.selection, selection_known=target.selection_known,
+                after_caret=target.after_caret, after_caret_known=target.after_caret_known)
             delivery = trailing_enter(raw_text, context, enabled=self.voice_enter_enabled and insert_text)
             if delivery.send_enter:
                 notes += ({"type": "voice_enter", "requested": True},)

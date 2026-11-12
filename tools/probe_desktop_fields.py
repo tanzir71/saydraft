@@ -59,9 +59,9 @@ def main(argv=None):
             except OSError:
                 return None
     class ObservedUIA(NativeUIAReader):
-        def text_context(self, *args):
+        def text_context(self, *args, **kwargs):
             text_reads.append(True)
-            return super().text_context(*args)
+            return super().text_context(*args, **kwargs)
     NetworkGuard.install()
     try:
         cfg = default_config()

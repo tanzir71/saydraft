@@ -2,7 +2,7 @@
 
 import pytest
 
-from saydraft.context.focused_edit import FocusedEdit, TEXT_LIMIT, read_focused_edit
+from saydraft.context.focused_edit import CaretText, FocusedEdit, TEXT_LIMIT, read_focused_edit
 
 
 class Reader:
@@ -32,7 +32,8 @@ class Reader:
 
 def test_explicit_non_password_field_returns_bounded_context_and_identity():
     assert read_focused_edit(Reader(), 123) == FocusedEdit(
-        "ok", False, 50004, "Before caret ", "Public selection", (1, 2, 3))
+        "ok", False, 50004, "Before caret ", "Public selection", (1, 2, 3),
+        before_caret_known=True, selection_known=True)
 
 
 @pytest.mark.parametrize("password", [True, None, 0, "false"])
@@ -105,3 +106,22 @@ def test_metadata_verification_uses_one_fresh_password_and_focus_check_without_t
     result = read_focused_edit(reader, 123, include_text=False)
     assert result.status == "ok" and result.before_caret == result.selection == ""
     assert calls == ["password", "focus"]
+
+
+def test_known_empty_context_differs_from_unavailable_and_suffix_is_one_unicode_character():
+    reader = Reader()
+    reader.text_context = lambda *args: CaretText("", "", "😀x", True, True, True)
+    result = read_focused_edit(reader, 123)
+    assert result.before_caret == "" and result.before_caret_known and result.selection_known
+    assert result.after_caret == "😀" and result.after_caret_known
+    reader.text_context = lambda *args: CaretText("Unplaced prefix", "Unknown selection", "x")
+    result = read_focused_edit(reader, 123)
+    assert result.before_caret == result.selection == result.after_caret == ""
+    assert not result.before_caret_known and not result.selection_known and not result.after_caret_known
+
+
+def test_incomplete_surrogate_peek_is_unknown_rather_than_an_empty_field_suffix():
+    reader = Reader()
+    reader.text_context = lambda *args: CaretText("", "", "\ud83d", True, True, True)
+    result = read_focused_edit(reader, 123)
+    assert result.after_caret == "" and not result.after_caret_known

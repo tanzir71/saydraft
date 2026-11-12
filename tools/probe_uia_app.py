@@ -47,18 +47,18 @@ def replay(parent, child, output, password, row):
                 close()
             reader.close = retire
             text = reader.text_context
-            def observed(*args):
+            def observed(*args, **kwargs):
                 reads.append(True)
-                return text(*args)
+                return text(*args, **kwargs)
             reader.text_context = observed
             for name in ("focused_element", "belongs", "password", "fresh_password", "control_type", "runtime_id",
                          "same_focus", "text_context"):
                 method = getattr(reader, name)
-                def timed(*args, _method=method, _name=name):
+                def timed(*args, _method=method, _name=name, **kwargs):
                     started = time.monotonic()
                     call = {"method": _name}
                     try:
-                        return _method(*args)
+                        return _method(*args, **kwargs)
                     except Exception as error:
                         call["error_type"] = type(error).__name__
                         raise
@@ -120,6 +120,8 @@ def replay(parent, child, output, password, row):
         owner._thread.join(1)
         rows, result = history.list_recent(limit=2), worker.last_result
         row.update(captured_status=worker._target.uia_status, history_rows=len(rows),
+            caret_ranges_known=worker._target.before_caret_known and worker._target.selection_known,
+            suffix_known=worker._target.after_caret_known,
             raw_clean_exact=len(rows) == 1 and rows[0].raw_text == raw and rows[0].cleaned_text == expected,
             status=result.insertion.status, reason=result.insertion.reason, deliveries=len(delivered),
             text_read_attempts=len(reads), memory_clipboard_restored=memory.value == "Public original clipboard fixture",
@@ -129,6 +131,7 @@ def replay(parent, child, output, password, row):
         assert row["serial_closed"] and row["mta_closed"] and not worker.busy
         assert row["focus_property_supported"] and row["unfocused_fixture_refused"]
         assert row["captured_status"] == ("password" if password else "ok")
+        assert row["caret_ranges_known"] == row["suffix_known"] == (not password)
         assert result.insertion.reason == ("password_field" if password else "")
         assert len(delivered) == (0 if password else 1) and (not password or not reads)
         row["stage"], row["complete"] = "complete", True

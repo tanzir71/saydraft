@@ -26,6 +26,10 @@ class TargetContext:
     control_type: int | None = None
     field_id: tuple[int, ...] = ()
     selection_truncated: bool = False
+    before_caret_known: bool = False
+    selection_known: bool = False
+    after_caret: str = ""
+    after_caret_known: bool = False
 
 
 def insertion_block(target: TargetContext) -> str:
