@@ -39,4 +39,6 @@ report tests cover positive model evidence, stale source, exact thresholds,
 regressions, incomplete runs, generation credit, immutable bytes, unsafe paths,
 portable line endings and separate rate-target reporting. These fixtures are
 test data, not new native measurements. Running the checker on current retained
-reports returns the expected refusal: `Rules fallback cannot earn accepted model credit`.
+reports at `c240d92` returned the expected refusal: `Rules fallback cannot earn
+accepted model credit`. Subsequent native-startup changes also invalidate those
+older source fingerprints until new measurements are collected.

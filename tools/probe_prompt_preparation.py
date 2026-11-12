@@ -6,6 +6,7 @@ import os
 import re
 import subprocess
 import time
+from dataclasses import replace
 from pathlib import Path
 from types import SimpleNamespace
 
@@ -15,6 +16,7 @@ from saydraft.cleanup.llm.sidecar import SidecarManager
 from saydraft.dictation import DictationConfig, DictationContext, DictationPipeline
 from saydraft.dictation.llm_local import LocalLLMConfig, LocalLLMCleaner
 from saydraft.models.runtime_ids import runtime_model_id
+from saydraft.models.native_devices import select_device
 from saydraft.privacy.netguard import NetworkGuard
 from tools.bench_cleanup import NativeMeter
 
@@ -41,12 +43,11 @@ def main(argv=None):
     meter, pipeline, baseline = NativeMeter(), None, DictationPipeline(DictationConfig())
     NetworkGuard.install()
     try:
-        def spawn(values, **kwargs):
-            return meter.spawn([*values, "--device", args.device] if args.device else values, **kwargs)
         cfg = LocalLLMConfig(enabled=True, model_path=str(weight), backend=args.backend,
                              n_threads=4, budget_gate=args.budget_gate)
-        local = LocalLLMCleaner(cfg, manager_factory=lambda config: SidecarManager(config,
-            resolver=lambda name: args.runtime_dir.resolve(), process_factory=spawn))
+        local = LocalLLMCleaner(cfg, manager_factory=lambda config: SidecarManager(replace(config, device=args.device),
+            resolver=lambda name: args.runtime_dir.resolve(), process_factory=meter.spawn,
+            device_selector=lambda *a, **kw: select_device(*a, **kw, process_factory=meter.spawn)))
         pipeline = DictationPipeline(DictationConfig(llm=cfg), llm_cleaner=local)
 
         def measure(context, text, preparation, expected_decision):
@@ -87,6 +88,7 @@ def main(argv=None):
     finally:
         report["peak_native_working_set_bytes"] = meter.peaks()
         if pipeline is not None:
+            report["selected_device"] = local._manager.selected_device if local._manager is not None else None
             pipeline.close()
         baseline.close()
         report["native_exit_observed"] = meter.finish()

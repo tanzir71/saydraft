@@ -6,6 +6,21 @@ import threading
 logger = logging.getLogger(__name__)
 
 
+class ProcessSlotBusy(RuntimeError):
+    pass
+
+
+class _ProbeLease:
+    def __init__(self, slot, process):
+        self.slot, self.process = slot, process
+
+    def __enter__(self):
+        return self.process
+
+    def __exit__(self, *_args):
+        self.slot.retire(self.process)
+
+
 class ProcessSlot:
     def __init__(self, *, timer_factory=threading.Timer):
         self._lock = threading.RLock()
@@ -31,6 +46,12 @@ class ProcessSlot:
             process = factory(argv, env=env)
             self._process = process
             return process
+
+    def start_probe(self, factory, argv, *, env, **options):
+        process = self.start(lambda values, *, env: factory(values, env=env, **options), argv, env=env)
+        if process is None:
+            raise ProcessSlotBusy("Another native cleanup process is active")
+        return _ProbeLease(self, process)
 
     def retire(self, process):
         with self._lock:

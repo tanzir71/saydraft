@@ -49,3 +49,31 @@ The clean immutable `9748bb5` probe also passes, with an independently observed
 native exit, no weights/inference/settings changes, and the expected name/type
 match. Its original report bytes and digest are retained in
 `eval/hardware/results/2026-11-12-native-devices/`.
+
+## Sidecar integration
+
+Vulkan startup now performs this selection before loading model weights and passes
+one explicit native `--device` ID. Automatic selection reserves the GGUF's byte
+size plus 1 GiB when comparing free-memory budgets; the runtime still performs
+its own auto-fit checks. CPU startup does not discover GPUs. An explicit developer
+device override must exist in the current native inventory and cannot silently
+fall through to a different device.
+
+The inventory probe shares the process-wide admission slot with inference. Its
+lease retires the probe and observes its exit before a model process can start.
+Busy admission backs off; missing/ambiguous/invalid device selection keeps rules
+available without starting a model. Closing during selection refuses a late launch.
+Idle unload/restart performs fresh discovery and does not reuse Windows ordinals.
+
+Native quality/release probes now pass explicit overrides through configuration
+and retain the selected-device metadata. Their independent observer tracks both
+inventory and inference exits. An initial normal-path run with no device override
+selects RTX Vulkan1, accepts both short neutral/formal replies in 171/167 ms,
+performs the three expected need/expiry skips, and observes both native exits.
+This verifies device selection and short cleanup, not broader tier latency or
+model-default acceptance. Cleanup benchmark callback integration remains pending.
+
+Integrated validation: 1459 tests pass with four optional native skips; rules
+432/432, authored adversarial checks 100/100 and Ruff/diff checks pass. This also
+includes a reproduced download-owner lifetime fix discovered during full-suite
+verification; see [download lifetime](DOWNLOAD_LIFETIME.md).

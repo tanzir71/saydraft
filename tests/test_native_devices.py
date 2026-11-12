@@ -2,7 +2,9 @@ import threading
 
 import pytest
 
-from saydraft.models.native_devices import choose_device, parse_devices, probe_devices
+from saydraft.models.native_devices import choose_device, parse_devices, probe_devices, select_device
+from saydraft.cleanup.llm.ownership import ProcessSlot
+from tests.test_sidecar_manager import Process as OwnedProcess
 
 OUTPUT = b"driver initialization\nAvailable devices:\n  Vulkan0: Integrated (32000 MiB, 24000 MiB free)\n  Vulkan1: Discrete (12000 MiB, 11000 MiB free)\n"
 WINDOWS = [{"name": "Discrete", "device_type": 2}, {"name": "Integrated", "device_type": 1}]
@@ -101,3 +103,26 @@ def test_hung_probe_deadline_closes_it(tmp_path):
 def test_invalid_probe_budget_does_not_launch(tmp_path, timeout):
     with pytest.raises(ValueError, match="timeout"):
         probe_devices(tmp_path, timeout=timeout, process_factory=lambda *a, **kw: pytest.fail("unexpected launch"))
+
+
+def test_production_selection_uses_the_slot_and_respects_memory_and_explicit_ids(tmp_path, monkeypatch):
+    from saydraft.models import native_devices
+
+    slot, processes = ProcessSlot(), []
+    model = tmp_path / "model.gguf"
+    model.write_bytes(b"fixture")
+    def factory(*args, **kwargs):
+        process = OwnedProcess()
+        processes.append(process)
+        return process
+    def inventory(directory, *, process_factory, **kwargs):
+        with process_factory([], env={}, capture_output=True) as process:
+            assert slot._process is process
+            assert slot.start(lambda *a, **kw: pytest.fail("concurrent model"), [], env={}) is None
+        return parse_devices(OUTPUT)
+    monkeypatch.setattr(native_devices, "probe_devices", inventory)
+    options = {"slot": slot, "cancel": threading.Event(), "process_factory": factory, "windows_probe": lambda: WINDOWS}
+    assert select_device(tmp_path, model, **options)["id"] == "Vulkan1"
+    assert select_device(tmp_path, model, requested="Vulkan0", **options)["id"] == "Vulkan0"
+    assert select_device(tmp_path, model, requested="Vulkan9", **options) is None
+    assert all(process.closed for process in processes) and slot._process is None

@@ -22,15 +22,29 @@ class DownloadTask(QtCore.QObject):
     failed = QtCore.Signal(str)
     paused = QtCore.Signal(str)
     finished = QtCore.Signal()
+    _settled = QtCore.Signal()
+    _active = set()
 
     def __init__(self, parent=None):
-        super().__init__(parent)
+        # The window may disappear while Python is still downloading. Keep the
+        # signal source alive independently until the worker really exits.
+        super().__init__()
         self.pause_event = threading.Event()
+        self._thread = None
+        self._settled.connect(self._complete, QtCore.Qt.ConnectionType.QueuedConnection)
+        if parent is not None:
+            parent.destroyed.connect(self.pause)
+        app = QtCore.QCoreApplication.instance()
+        if app is not None:
+            app.aboutToQuit.connect(self.pause)
 
+    @QtCore.Slot()
     def pause(self):
         self.pause_event.set()
 
     def start(self, action):
+        if self._thread is not None:
+            raise RuntimeError("Download task can only start once")
         def run():
             try:
                 result = action(self.progress.emit)
@@ -40,7 +54,25 @@ class DownloadTask(QtCore.QObject):
             except Exception as error:
                 self.failed.emit(str(error))
             finally:
-                self.finished.emit()
+                self._settled.emit()
 
         self._thread = threading.Thread(target=run, name="Saydraft-model-download", daemon=True)
-        self._thread.start()
+        self._active.add(self)
+        try:
+            self._thread.start()
+        except BaseException:
+            if not self._thread.is_alive():
+                self._active.discard(self)
+                self.deleteLater()
+            else:
+                self.pause()
+            raise
+
+    @QtCore.Slot()
+    def _complete(self):
+        if self._thread.is_alive():
+            QtCore.QTimer.singleShot(1, self._complete)
+            return
+        self.finished.emit()  # GUI thread, after no worker can emit from this object.
+        self._active.discard(self)
+        self.deleteLater()

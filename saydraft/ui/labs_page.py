@@ -98,7 +98,6 @@ class LabsPage(QtWidgets.QWidget):
         task.failed.connect(self._failed)
         task.paused.connect(self.status.setText)
         task.finished.connect(self._finished)
-        task.finished.connect(task.deleteLater)
         task.start(lambda progress: call_download(self.callback, progress, pause_event=task.pause_event))
 
     @QtCore.Slot(str)

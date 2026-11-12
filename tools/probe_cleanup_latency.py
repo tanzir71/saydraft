@@ -14,6 +14,7 @@ import re
 import subprocess
 import time
 from collections import Counter
+from dataclasses import replace
 from pathlib import Path
 from types import SimpleNamespace
 
@@ -37,6 +38,7 @@ from saydraft.dictation.llm_local import LocalLLMConfig, LocalLLMCleaner
 from saydraft.history import DictationHistoryStore
 from saydraft.insert.inserter import InsertionResult
 from saydraft.models.benchmark import fixture_path
+from saydraft.models.native_devices import select_device
 from saydraft.privacy.netguard import NetworkGuard
 from tools.bench_cleanup import NativeMeter
 
@@ -113,11 +115,10 @@ def main(argv=None):
         if args.mode == "llm":
             model = get_candidate(args.candidate)
             weight = candidate_weight(model, candidate_directory(args.models_dir, model))
-            def spawn(values, **kwargs):
-                return meter.spawn([*values, "--device", args.device] if args.device else values, **kwargs)
             cfg = LocalLLMConfig(enabled=True, model_path=str(weight), backend=args.backend, n_threads=4)
-            local = LocalLLMCleaner(cfg, manager_factory=lambda settings: SidecarManager(settings,
-                resolver=lambda name: args.runtime_dir.resolve(), process_factory=spawn))
+            local = LocalLLMCleaner(cfg, manager_factory=lambda settings: SidecarManager(replace(settings, device=args.device),
+                resolver=lambda name: args.runtime_dir.resolve(), process_factory=meter.spawn,
+                device_selector=lambda *a, **kw: select_device(*a, **kw, process_factory=meter.spawn)))
         pipeline = DictationPipeline(DictationConfig(llm=cfg), **({"llm_cleaner": local} if local else {}))
         history = DictationHistoryStore(args.output / "history.db")
         def insert(text, **kwargs):
@@ -179,6 +180,7 @@ def main(argv=None):
         report["error_type"] = type(error).__name__
     finally:
         report["peak_native_working_set_bytes"] = meter.peaks()
+        report["selected_device"] = local._manager.selected_device if local is not None and local._manager is not None else None
         if worker is not None:
             worker.shutdown()
             worker.executor.shutdown(wait=True)

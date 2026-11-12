@@ -83,3 +83,18 @@ def choose_device(native, windows, *, required_bytes=0):
         if rank is not None and device["free_mb"] * 1024**2 >= required_bytes:
             candidates.append((rank, device["free_mb"], device["total_mb"], device["id"], device))
     return max(candidates, key=lambda row: row[:4])[-1] if candidates else None
+
+
+def select_device(directory, model_path, *, slot, cancel, requested=None,
+                  process_factory=WindowsJobProcess, windows_probe=None):
+    from .windows_hardware import vulkan_devices
+
+    native = probe_devices(directory, cancel=cancel,
+        process_factory=lambda argv, **kwargs: slot.start_probe(process_factory, argv, **kwargs))
+    if cancel.is_set():
+        raise RuntimeError("Native inventory cancelled")
+    if requested is not None:
+        return next((row for row in native if row["id"] == requested), None)
+    windows = (windows_probe or vulkan_devices)()
+    # The pinned runtime's auto-fit also reserves memory; this preflight is not an allocation guarantee.
+    return choose_device(native, windows, required_bytes=Path(model_path).stat().st_size + 1024**3)

@@ -5,6 +5,7 @@ from __future__ import annotations
 import logging
 import math
 import os
+import re
 import secrets
 import socket
 import threading
@@ -17,7 +18,7 @@ from saydraft.models.downloader import installation_ready
 from saydraft.models.manifest import get_model
 from saydraft.models.runtime_ids import runtime_model_id
 from .loopback import LoopbackClient
-from .ownership import PROCESS_SLOT
+from .ownership import PROCESS_SLOT, ProcessSlotBusy
 from .windows_process import WindowsJobProcess
 
 logger = logging.getLogger(__name__)
@@ -33,9 +34,13 @@ class SidecarConfig:
     startup_seconds: float = 15
     retry_seconds: float = 1
     max_restarts: int = 3
+    device: str | None = None
 
     def __post_init__(self):
         runtime_model_id(self.backend)
+        if self.device is not None and (self.backend != "vulkan" or not isinstance(self.device, str)
+                or not re.fullmatch(r"Vulkan\d{1,2}", self.device) or int(self.device[6:]) >= 64):
+            raise ValueError("Native device requires Vulkan and a valid device ID")
         if not Path(self.model_path).is_absolute():
             raise ValueError("Cleanup model path must be absolute")
         if type(self.threads) is not int or not 1 <= self.threads <= 64:
@@ -80,11 +85,13 @@ class SidecarManager:
     def __init__(self, config, *, resolver=find_installed_model, verify=installation_ready,
                  capability_check=_capable, process_factory=WindowsJobProcess, client_factory=LoopbackClient,
                  clock=time.monotonic, timer_factory=threading.Timer, port_factory=_port, waiter=None,
-                 process_slot=PROCESS_SLOT):
+                 process_slot=PROCESS_SLOT, device_selector=None):
         self.config = config
         self._resolver, self._verify, self._capable = resolver, verify, capability_check
         self._process_factory, self._client_factory = process_factory, client_factory
         self._process_slot = process_slot
+        self._device_selector = device_selector
+        self._selected_device = None
         self._clock, self._timer, self._port_factory = clock, timer_factory, port_factory
         self._lock, self._starting, self._requesting = threading.RLock(), threading.Lock(), threading.Lock()
         self._closed = threading.Event()
@@ -93,6 +100,11 @@ class SidecarManager:
         self._epoch, self._failed_epoch, self._failures = 0, -1, 0
         self._next_start = self._last_used = 0.0
         self._state, self._reason = "idle", "not_started"
+
+    @property
+    def selected_device(self):
+        with self._lock:
+            return dict(self._selected_device) if self._selected_device is not None else None
 
     @property
     def status(self):
@@ -202,11 +214,34 @@ class SidecarManager:
                     if not self._closed.is_set():
                         self._state, self._reason = "missing", "model_runtime_or_hardware_unavailable"
                 return False
+            selected = None
+            if self.config.backend == "vulkan":
+                from saydraft.models.native_devices import select_device
+
+                try:
+                    selected = (self._device_selector or select_device)(directory, self.config.model_path,
+                        slot=self._process_slot, cancel=self._closed, requested=self.config.device)
+                    if (selected is None or not isinstance(selected.get("id"), str)
+                            or not re.fullmatch(r"Vulkan\d{1,2}", selected["id"]) or int(selected["id"][6:]) >= 64):
+                        raise ValueError("No compatible native device")
+                    selected = dict(selected)
+                except ProcessSlotBusy:
+                    with self._lock:
+                        if not self._closed.is_set():
+                            self._state, self._reason = "backoff", "another_manager_active"
+                            self._retry_locked()
+                    return False
+                except Exception:
+                    with self._lock:
+                        if not self._closed.is_set():
+                            self._state, self._reason = "missing", "gpu_device_unavailable"
+                    return False
             with self._lock:
                 if self._closed.is_set():
                     return False
                 self._epoch += 1
                 epoch = self._epoch
+                self._selected_device = selected
                 port, key = self._port_factory(), secrets.token_urlsafe(32)
                 argv = [str(Path(directory) / "llama-server.exe"), "--offline", "--model", str(self.config.model_path),
                     "--host", "127.0.0.1", "--port", str(port), "--ctx-size", str(self.config.context_size),
@@ -214,6 +249,8 @@ class SidecarManager:
                     "0" if self.config.backend == "cpu" else "auto", "--no-webui", "--no-agent",
                     "--no-ui-mcp-proxy", "--cache-ram", "0", "--no-cache-idle-slots", "--no-context-shift",
                     "--alias", "saydraft-cleanup"]
+                if selected is not None:
+                    argv.extend(("--device", selected["id"]))
                 try:
                     self._process = self._process_slot.start(self._process_factory, argv, env=child_environment(key))
                     if self._process is None:

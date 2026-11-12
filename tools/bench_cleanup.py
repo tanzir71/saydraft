@@ -24,6 +24,7 @@ from saydraft.dictation.llm_local import LocalLLMConfig, LocalLLMCleaner
 from saydraft.eval import DEFAULT_CORPUS_PATH, load_eval_corpus
 from saydraft.models.hardware import probe_hardware
 from saydraft.models.runtime_ids import runtime_model_id
+from saydraft.models.native_devices import select_device
 from saydraft.privacy.netguard import NetworkGuard
 
 
@@ -170,10 +171,10 @@ def main(argv=None):
     NetworkGuard.install()
     try:
         report["hardware"] = probe_hardware()
-        def spawn(values, **kwargs):
-            return meter.spawn([*values, "--device", args.device] if args.device else values, **kwargs)
         manager = SidecarManager(SidecarConfig(weight, backend=args.backend, threads=args.threads,
-            startup_seconds=60, max_restarts=0), resolver=lambda name: args.runtime_dir.resolve(), process_factory=spawn)
+            startup_seconds=60, max_restarts=0, device=args.device), resolver=lambda name: args.runtime_dir.resolve(),
+            process_factory=meter.spawn,
+            device_selector=lambda *a, **kw: select_device(*a, **kw, process_factory=meter.spawn))
         cfg = LocalLLMConfig(enabled=True, model_path=str(weight), backend=args.backend,
                              n_threads=args.threads, timeout_ms=args.timeout_ms, prepare_prompt=args.interactive_policy)
         observed = ObservedCleaner(lambda factory: LocalLLMCleaner(cfg,
@@ -207,6 +208,7 @@ def main(argv=None):
                 report["live_decoder_calibration"] = measurement.metadata() if measurement is not None else None
             pipeline.close()
         if manager is not None:
+            report["selected_device"] = manager.selected_device
             report["last_sidecar_status"] = manager.status
             manager.close()
         report["native_exit_observed"] = meter.finish()

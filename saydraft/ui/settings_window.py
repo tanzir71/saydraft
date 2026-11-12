@@ -266,14 +266,22 @@ class SettingsWindow(QtWidgets.QDialog):
         self.model_progress.setValue(0)
         self.status_label.setText("Downloading speech detection…")
         task.progress.connect(self.model_progress.setValue)
-        task.succeeded.connect(lambda path: self.status_label.setText("Speech detection ready. Apply Settings to use it."))
-        task.failed.connect(lambda error: self.status_label.setText(f"Could not download speech detection: {error}"))
+        task.succeeded.connect(self._vad_download_succeeded)
+        task.failed.connect(self._vad_download_failed)
         task.paused.connect(self.status_label.setText)
         task.finished.connect(self._finish_vad_download)
-        task.finished.connect(task.deleteLater)
         task.start(lambda progress: call_download(self.vad_download_callback, progress,
                                                    pause_event=task.pause_event))
 
+    @QtCore.Slot(str)
+    def _vad_download_succeeded(self, path):
+        self.status_label.setText("Speech detection ready. Apply Settings to use it.")
+
+    @QtCore.Slot(str)
+    def _vad_download_failed(self, error):
+        self.status_label.setText(f"Could not download speech detection: {error}")
+
+    @QtCore.Slot()
     def _finish_vad_download(self):
         self.vad_download_button.setEnabled(True)
         self.model_picker.setEnabled(True)

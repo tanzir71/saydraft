@@ -99,7 +99,6 @@ class ModelPicker(QtWidgets.QWidget):
         task.failed.connect(self._failed)
         task.paused.connect(self.status.setText)
         task.finished.connect(self._finished)
-        task.finished.connect(task.deleteLater)
         # Preserve the original Whisper-size callback contract for integrations.
         argument = self.model_id.removeprefix("whisper-")
         task.start(lambda progress: call_download(self.callback, argument, progress,
