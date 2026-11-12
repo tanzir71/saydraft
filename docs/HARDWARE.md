@@ -145,3 +145,14 @@ Performance page was rendered and reviewed with the native report. Tests cover
 fresh versus cached calibration, live metadata validation, instance replacement,
 background exclusion, prefix invalidation/recovery, numeric-only snapshots,
 three-sample/two-model medians, atomic failures and the default serial callback.
+
+Clean immutable `078644c` verification passes for both backends. RTX is selected
+automatically; the GPU run measures 1.000 s speech and 125.1 tokens/s cleanup
+(actual 1.943B parameters), recommending Pro. The co-loaded CPU run measures
+1.536 s speech and 21.2 tokens/s cleanup (actual 0.773B), correctly recommending
+Lite: speech exceeds 1.2 s and cleanup is below the 25 tokens/s Standard target.
+Startup preparation may compete with ASR, as in the app; cleanup samples are
+fresh after ASR loading. Neither check is general release latency acceptance.
+Both restore the static prefix and independently observe all native exits.
+Original report bytes and digests are retained under
+`eval/hardware/results/2026-11-12-cleanup-performance/`.

@@ -1,0 +1,133 @@
+{
+  "git_commit": "078644c3baac71545812c854ed1ee2c9bf765bc5",
+  "source_dirty": false,
+  "candidate": "qwen35-2b-q4-k-m",
+  "revision": "7d26695454df6de5fbcce2e58681e62dae06ce43",
+  "backend": "vulkan",
+  "device_override": null,
+  "delivery": "no microphone, history or insertion",
+  "selection_performed": false,
+  "tier_acceptance_performed": false,
+  "hardware": {
+    "schema_version": 1,
+    "measured_at": "2026-11-12T07:39:42.195165+00:00",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD",
+    "logical_cores": 12,
+    "errors": {},
+    "cpu_features": {
+      "physical_cores": 6,
+      "avx2": true,
+      "avx512f": false
+    },
+    "ram_bytes": 64312434688,
+    "adapters": [
+      {
+        "name": "AMD Radeon(TM) Graphics",
+        "vendor_id": 4098,
+        "device_id": 5688,
+        "vram_bytes": 4277944320,
+        "shared_ram_bytes": 47132565504
+      },
+      {
+        "name": "NVIDIA GeForce RTX 3060",
+        "vendor_id": 4318,
+        "device_id": 9476,
+        "vram_bytes": 12701401088,
+        "shared_ram_bytes": 47132565504
+      },
+      {
+        "name": "NVIDIA GeForce RTX 3060",
+        "vendor_id": 4318,
+        "device_id": 9476,
+        "vram_bytes": 12701401088,
+        "shared_ram_bytes": 47132565504
+      }
+    ],
+    "vulkan": [
+      {
+        "name": "AMD Radeon(TM) Graphics",
+        "vendor_id": 4098,
+        "device_id": 5688,
+        "device_type": 1
+      },
+      {
+        "name": "NVIDIA GeForce RTX 3060",
+        "vendor_id": 4318,
+        "device_id": 9476,
+        "device_type": 2
+      }
+    ],
+    "cuda": [
+      {
+        "name": "NVIDIA GeForce RTX 3060"
+      }
+    ],
+    "measurements": {
+      "fixture_sha256": "cc6d363cc90b6c99427041ba6366e334131b05101a142761ae84b2a8b5e2c5ab",
+      "fixture_seconds": 8,
+      "fixture_kind": "repeated_bundled_hello",
+      "asr_seconds": 1.0003369000041857,
+      "asr_status": "ok",
+      "cleanup_status": "ok",
+      "cleanup": [
+        {
+          "parameters_b": 1.942653248,
+          "tokens": 60,
+          "seconds": 0.6638989830508474
+        },
+        {
+          "parameters_b": 1.942653248,
+          "tokens": 60,
+          "seconds": 0.4797305084745763
+        },
+        {
+          "parameters_b": 1.942653248,
+          "tokens": 60,
+          "seconds": 0.44238610169491516
+        }
+      ],
+      "llm_08_tps": null,
+      "llm_2_tps": 125.0702195088344,
+      "prepare_seconds": 4.850438499997836,
+      "asr_runs": [
+        1.0003369000041857,
+        0.9465634999796748,
+        1.1336476000142284
+      ],
+      "asr_model": "parakeet-tdt-0-6b-v3-int8"
+    },
+    "assessment": {
+      "tier": "pro",
+      "reason": "gpu_available"
+    }
+  },
+  "decoder_calibration": {
+    "generation": 1,
+    "tokens_per_sample": 60,
+    "sample_count": 3,
+    "tokens_per_second": [
+      90.37519491938227,
+      125.0702195088344,
+      135.6281306535667
+    ],
+    "median_tps": 125.0702195088344,
+    "conservative_tps": 90.37519491938227
+  },
+  "prefix_restored": true,
+  "peak_native_working_set_bytes": [
+    57499648,
+    1707499520
+  ],
+  "selected_device": {
+    "id": "Vulkan1",
+    "name": "NVIDIA GeForce RTX 3060",
+    "total_mb": 12113,
+    "free_mb": 11345
+  },
+  "native_exit_observed": [
+    true,
+    true
+  ],
+  "probe_complete": true
+}

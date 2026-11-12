@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "source_commit": "078644c3baac71545812c854ed1ee2c9bf765bc5",
+  "selection_performed": false,
+  "tier_acceptance_performed": false,
+  "reports": [
+    {
+      "report": "cpu.json",
+      "report_sha256": "94aa4bb886a69ecb7f8d931868ccb8d98812c37f867ddf5306ee55b5061f78c5"
+    },
+    {
+      "report": "vulkan.json",
+      "report_sha256": "c9addd234d348677b8f2ef20e0a1f4be9b4c1a0d10993bf70180df6c5d652fb5"
+    }
+  ]
+}
