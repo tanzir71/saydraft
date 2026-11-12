@@ -11,11 +11,14 @@ import tempfile
 import threading
 import unicodedata
 import uuid
+from collections import Counter
 from dataclasses import dataclass
 from pathlib import Path
 
 _LOCKS = tuple(threading.RLock() for _ in range(64))
 _METADATA = "_saydraft_learning"
+_IMPORTS = "_saydraft_imports"
+_CATEGORIES = ("user_terms", "protected_terms", "replacements")
 _LIMIT = 4 * 1024 * 1024
 
 
@@ -31,7 +34,7 @@ class DictionarySnapshot:
 
     @property
     def editable(self):
-        return {key: copy.deepcopy(value) for key, value in self.data.items() if key != _METADATA}
+        return {key: copy.deepcopy(value) for key, value in self.data.items() if key not in (_METADATA, _IMPORTS)}
 
 
 @dataclass(frozen=True)
@@ -76,13 +79,15 @@ def _validate(data):
         raise ValueError("Dictionary replacements must contain string pairs.")
     if not isinstance(data.get(_METADATA, {}), dict):
         raise ValueError("Dictionary learning metadata must be an object.")
+    if not isinstance(data.get(_IMPORTS, {}), dict):
+        raise ValueError("Dictionary import metadata must be an object.")
 
 
 def _snapshot(path):
     raw = _bytes(path)
     try:
-        data = json.loads(raw.decode("utf-8")) if raw is not None else {}
-    except (ValueError, UnicodeError) as exc:
+        data = json.loads(raw.decode("utf-8-sig")) if raw is not None else {}
+    except (ValueError, UnicodeError, RecursionError) as exc:
         raise ValueError("Dictionary could not be read. Repair its JSON before editing.") from exc
     _validate(data)
     return DictionarySnapshot(data, _revision(raw))
@@ -94,11 +99,16 @@ def read_dictionary(path) -> DictionarySnapshot:
         return _snapshot(path)
 
 
-def _write(path, data, revision):
+def _payload(data):
     _validate(data)
     payload = (json.dumps(data, ensure_ascii=False, indent=2) + "\n").encode("utf-8")
     if len(payload) > _LIMIT:
         raise ValueError("Dictionary exceeds the 4 MB editing limit.")
+    return payload
+
+
+def _write(path, data, revision):
+    payload = _payload(data)
     path.parent.mkdir(parents=True, exist_ok=True)
     temporary = None
     try:
@@ -121,6 +131,62 @@ def _key(term):
 
 def _record(term):
     return {"term": term, "revision": uuid.uuid4().hex}
+
+
+def term_key(term):
+    return _key(term)
+
+
+def _contains(data, category, record, index=None):
+    if not isinstance(record, dict) or not isinstance(record.get("term"), str):
+        return False
+    term = record["term"]
+    if category == "replacements":
+        return term in data.get(category, {}) and data[category][term] == record.get("value")
+    return term in (index[category] if index is not None else data.get(category, []))
+
+
+def entry_source(snapshot, category, term, value=None):
+    """Expose a source label without exposing learning receipt tokens."""
+    if snapshot is None:
+        return "Manual"
+    key = _key(term)
+    learned = snapshot.data.get(_METADATA, {}).get(key)
+    if category == "user_terms" and isinstance(learned, dict) and learned.get("term") == term:
+        return "Learned"
+    records = snapshot.data.get(_IMPORTS, {}).get(category, {})
+    record = records.get(key) if isinstance(records, dict) else None
+    if isinstance(record, dict) and record.get("term") == term:
+        if category != "replacements" or record.get("value") == value:
+            return "Imported"
+    return "Manual"
+
+
+def _preserved_imports(snapshot, data, learned, index):
+    output = {}
+    for category in _CATEGORIES:
+        records = snapshot.data.get(_IMPORTS, {}).get(category, {})
+        if not isinstance(records, dict):
+            continue
+        for key, record in records.items():
+            if _contains(data, category, record, index):
+                output.setdefault(category, {})[key] = copy.deepcopy(record)
+            elif category == "user_terms" and isinstance(record, dict) and isinstance(record.get("term"), str):
+                # A learned capitalization change may be undone back to the
+                # imported spelling. Preserve that origin while Undo is valid.
+                active = learned.get(key)
+                if (isinstance(active, dict) and _contains(data, category, active, index)
+                        and _key(record["term"]) == key):
+                    output.setdefault(category, {})[key] = copy.deepcopy(record)
+    return output
+
+
+def _set_imports(data, records):
+    records = {category: values for category, values in records.items() if values}
+    if records:
+        data[_IMPORTS] = records
+    else:
+        data.pop(_IMPORTS, None)
 
 
 def _metadata(data, values):
@@ -163,6 +229,11 @@ def add_term(path, term, *, learned=False) -> LearningReceipt | None:
                 isinstance(previous_record, dict) and previous_record.get("term") == previous)
         else:
             records.pop(key, None)
+            imports = copy.deepcopy(data.get(_IMPORTS, {}))
+            imported = imports.get("user_terms", {})
+            if isinstance(imported, dict):
+                imported.pop(key, None)
+            _set_imports(data, imports)
             receipt = None
         _metadata(data, records)
         if data != snapshot.data:
@@ -197,19 +268,52 @@ def undo_learning(path, receipt: LearningReceipt) -> bool:
         return True
 
 
-def save_dictionary(path, data, *, expected_revision):
+def _edited_data(snapshot, data, *, imports=None, manual_claims=()):
+    data = copy.deepcopy(data)
+    _validate(data)
+    index = {category: Counter(data.get(category, [])) for category in ("user_terms", "protected_terms")}
+    records = snapshot.data.get(_METADATA, {}).copy()
+    for key, record in list(records.items()):
+        if (not isinstance(record, dict) or not isinstance(record.get("term"), str)
+                or index["user_terms"][record["term"]] != 1):
+            records.pop(key)
+    claims = list(manual_claims)
+    for category, term in claims:
+        if category not in _CATEGORIES or not isinstance(term, str):
+            raise ValueError("Invalid Dictionary source update.")
+        if category == "user_terms":
+            records.pop(_key(term), None)
+    _metadata(data, records)  # The editor cannot resurrect revoked learning receipts.
+    origins = _preserved_imports(snapshot, data, records, index)
+    for category, values in (imports or {}).items():
+        if category not in _CATEGORIES or not isinstance(values, dict):
+            raise ValueError("Invalid Dictionary import source.")
+        for key, record in values.items():
+            if not _contains(data, category, record, index) or _key(record["term"]) != key:
+                raise ValueError("Imported Dictionary entry no longer matches its source update.")
+            if category != "user_terms" or key not in records:
+                origins.setdefault(category, {})[key] = copy.deepcopy(record)
+    for category, term in claims:
+        origins.get(category, {}).pop(_key(term), None)
+    _set_imports(data, origins)
+    return data
+
+
+def validate_dictionary_edit(snapshot, data, *, imports=None, manual_claims=()):
+    """Validate a complete staged edit, including its private metadata budget."""
+    try:
+        _payload(_edited_data(snapshot, data, imports=imports, manual_claims=manual_claims))
+    except RecursionError as exc:
+        raise ValueError("Dictionary nesting is too deep to edit.") from exc
+
+
+def save_dictionary(path, data, *, expected_revision, imports=None, manual_claims=()):
     """Save an edited Settings snapshot; unchanged terms keep their provenance."""
     path, lock = _path_lock(path)
     with lock:
         snapshot = _snapshot(path)
         if snapshot.revision != expected_revision:
             raise DictionaryConflict()
-        data = copy.deepcopy(data)
-        _validate(data)
-        records = snapshot.data.get(_METADATA, {}).copy()
-        for key, record in list(records.items()):
-            if not isinstance(record, dict) or data.get("user_terms", []).count(record.get("term")) != 1:
-                records.pop(key)
-        _metadata(data, records)  # The editor cannot resurrect revoked learning receipts.
+        data = _edited_data(snapshot, data, imports=imports, manual_claims=manual_claims)
         _write(path, data, snapshot.revision)
         return read_dictionary(path)

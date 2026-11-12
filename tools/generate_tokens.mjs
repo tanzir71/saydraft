@@ -52,6 +52,7 @@ QListWidget { border: 2px solid transparent; border-radius: 8px; selection-backg
 QListWidget:focus { border-color: ${c.foreground}; }
 QListWidget::item { padding: 8px; border-radius: 6px; }
 QListWidget::item:selected { background-color: ${c.selected}; color: ${c.selectedText}; }
+QTableView { background-color: ${c.background}; alternate-background-color: ${c.surface}; selection-background-color: ${c.selected}; selection-color: ${c.selectedText}; border: none; }
 QCheckBox, QRadioButton { border: 2px solid transparent; padding: 2px; }
 QCheckBox:focus, QRadioButton:focus { border-color: ${c.foreground}; border-radius: 4px; }
 QCheckBox::indicator, QRadioButton::indicator { width: 18px; height: 18px; background: ${c.surface}; border: 1px solid ${c.muted}; border-radius: 4px; }

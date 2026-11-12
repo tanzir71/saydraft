@@ -242,6 +242,15 @@ def test_hub_keeps_its_minimum_size_with_larger_text_and_all_controls_reachable(
             hub.show_page(name)
             application.processEvents()
             assert hub.size() == qt.QtCore.QSize(880, 600)
+        hub.show_page("Dictionary")
+        application.processEvents()
+        dictionary_scroll = hub.page_widgets["Dictionary"]
+        assert dictionary_scroll.horizontalScrollBar().maximum() == 0
+        dictionary_scroll.ensureWidgetVisible(hub.settings_page.dictionary_page.reload_button)
+        application.processEvents()
+        control = hub.settings_page.dictionary_page.reload_button
+        point = control.mapTo(dictionary_scroll.viewport(), qt.QtCore.QPoint())
+        assert 0 <= point.y() and point.y() + control.height() <= dictionary_scroll.viewport().height()
         hub.show_page("Settings", tab="Shortcuts")
         application.processEvents()
         scroll = hub.settings_page.tabs.currentWidget()

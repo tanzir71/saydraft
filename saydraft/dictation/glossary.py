@@ -70,7 +70,7 @@ def apply_replacements(text: str, glossary: Glossary) -> str:
     out = text
     for src, dst in glossary.replacements:
         pattern = r"\b" + re.escape(src) + r"\b"
-        out = re.sub(pattern, dst, out, flags=re.IGNORECASE)
+        out = re.sub(pattern, lambda _match: dst, out, flags=re.IGNORECASE)
     return out
 
 

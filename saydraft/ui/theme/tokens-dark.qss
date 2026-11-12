@@ -10,6 +10,7 @@ QListWidget { border: 2px solid transparent; border-radius: 8px; selection-backg
 QListWidget:focus { border-color: #F5F2E9; }
 QListWidget::item { padding: 8px; border-radius: 6px; }
 QListWidget::item:selected { background-color: #DDE6F6; color: #141414; }
+QTableView { background-color: #111111; alternate-background-color: #1C2740; selection-background-color: #DDE6F6; selection-color: #141414; border: none; }
 QCheckBox, QRadioButton { border: 2px solid transparent; padding: 2px; }
 QCheckBox:focus, QRadioButton:focus { border-color: #F5F2E9; border-radius: 4px; }
 QCheckBox::indicator, QRadioButton::indicator { width: 18px; height: 18px; background: #1C2740; border: 1px solid #B9B6AC; border-radius: 4px; }

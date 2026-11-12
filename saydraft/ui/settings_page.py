@@ -24,6 +24,7 @@ from saydraft.ui.languages_page import LanguagesPage
 from saydraft.ui.hardware_page import HardwarePage
 from saydraft.ui.labs_page import LabsPage
 from saydraft.ui.styles_page import StylesPage
+from saydraft.ui.dictionary_page import DictionaryPage
 from saydraft.dictation.glossary import load_glossary
 from saydraft.models.hardware import latest_report
 from saydraft.asr.router import choose_route
@@ -105,6 +106,7 @@ class SettingsPage(QtWidgets.QWidget):
         self.section_combo = QtWidgets.QComboBox(self)
         self.section_combo.setAccessibleName("Settings section")
         self.status_label = QtWidgets.QLabel("", self)
+        self.status_label.setTextFormat(QtCore.Qt.PlainText)
         self.apply_button = QtWidgets.QPushButton("Apply", self)
         self.close_button = QtWidgets.QPushButton("Close", self)
         self.apply_button.clicked.connect(self.apply_changes)
@@ -344,25 +346,14 @@ class SettingsPage(QtWidgets.QWidget):
         return page
 
     def _dictionary_tab(self):
-        page = QtWidgets.QWidget()
-        layout = QtWidgets.QVBoxLayout(page)
-        self.learn_corrections_checkbox = QtWidgets.QCheckBox("Suggest words from my corrections")
-        self.learn_corrections_checkbox.setToolTip(
-            "After dictation, read the original field when focus leaves or after 15 seconds to compare the inserted text. "
-            "Password and unreadable fields are skipped. Suggestions stay on this computer.")
-        self.auto_add_dictionary_checkbox = QtWidgets.QCheckBox("Auto-add to dictionary")
-        self.auto_add_dictionary_checkbox.setToolTip("Save suggested words automatically and show an Undo action.")
-        self.learn_corrections_checkbox.toggled.connect(self.auto_add_dictionary_checkbox.setEnabled)
-        layout.addWidget(self.learn_corrections_checkbox)
-        layout.addWidget(self.auto_add_dictionary_checkbox)
-        self.dictionary_editor = QtWidgets.QPlainTextEdit()
-        self.dictionary_editor.setObjectName("dictionaryEditor")
-        layout.addWidget(self.dictionary_editor)
-        self.reload_dictionary_button = QtWidgets.QPushButton("Reload Dictionary")
-        self.reload_dictionary_button.setToolTip("Replace this editor's text with the dictionary saved on disk.")
-        self.reload_dictionary_button.clicked.connect(self.reload_dictionary)
-        layout.addWidget(self.reload_dictionary_button)
-        return page
+        self.dictionary_page = DictionaryPage(self.glossary_path)
+        self.learn_corrections_checkbox = self.dictionary_page.learn_checkbox
+        self.auto_add_dictionary_checkbox = self.dictionary_page.auto_add_checkbox
+        self.dictionary_editor = self.dictionary_page.json_editor
+        self.reload_dictionary_button = self.dictionary_page.reload_button
+        self.dictionary_page.reload_requested.connect(self.reload_dictionary)
+        self.dictionary_page.status_changed.connect(self.status_label.setText)
+        return self.dictionary_page
 
     def reload_dictionary(self):
         try:
@@ -371,9 +362,15 @@ class SettingsPage(QtWidgets.QWidget):
             self.status_label.setText("Could not reload Dictionary. Repair its JSON on disk, then reload.")
             return False
         self._dictionary_snapshot = snapshot
-        self.dictionary_editor.setPlainText(json.dumps(snapshot.editable, ensure_ascii=False, indent=2) + "\n")
+        self.dictionary_page.set_snapshot(snapshot)
         self.status_label.setText("Dictionary reloaded")
         return True
+
+    def refresh_dictionary(self, _change=None):
+        if self.dictionary_page.dirty:
+            self.dictionary_page.note("Saved Dictionary changed. Your staged edits are kept; reload before saving them.")
+            return False
+        return self.reload_dictionary()
 
     def _snippets_tab(self):
         page = QtWidgets.QWidget()
@@ -499,13 +496,13 @@ class SettingsPage(QtWidgets.QWidget):
         self._dictionary_snapshot = None
         try:
             self._dictionary_snapshot = read_dictionary(self.glossary_path)
-        except (OSError, ValueError):
-            pass
-        self.dictionary_editor.setPlainText(self._read_text(self.glossary_path, default='{"user_terms": [], "protected_terms": [], "replacements": {}}\n'))
+        except (OSError, ValueError) as exc:
+            # The bounded store already refused this file. Do not reread an
+            # oversized or invalid-encoding file into the editor during startup.
+            self.dictionary_page.set_invalid(str(exc))
         if self._dictionary_snapshot is not None:
             # Show exactly the snapshot that will be checked on save.
-            data = self._dictionary_snapshot.editable
-            self.dictionary_editor.setPlainText(json.dumps(data, ensure_ascii=False, indent=2) + "\n")
+            self.dictionary_page.set_snapshot(self._dictionary_snapshot)
         self.snippets_editor.setPlainText(self._read_text(self.snippets_path))
         self.app_profiles_editor.setPlainText(self._read_text(self.app_profiles_path, default="[]\n"))
 
@@ -523,22 +520,26 @@ class SettingsPage(QtWidgets.QWidget):
                 self.status_label.setText("Hotkey conflict: " + "; ".join(conflicts))
                 return False
 
-            dictionary = self._parse_json_editor(self.dictionary_editor, dict, "Dictionary")
+            if not self.dictionary_page.commit_form():
+                return False
+            dictionary = self.dictionary_page.data()
             profiles = self._parse_json_editor(self.app_profiles_editor, list, "Per-app profiles")
             if self._dictionary_snapshot is None:
                 raise ValueError("Dictionary could not be read. Repair its JSON on disk, then use Reload Dictionary.")
-            if dictionary == self._dictionary_snapshot.editable:
+            if dictionary == self._dictionary_snapshot.editable and not (
+                    self.dictionary_page.imports or self.dictionary_page.manual_claims):
                 snapshot = read_dictionary(self.glossary_path)
             else:
                 snapshot = save_dictionary(self.glossary_path, dictionary,
-                    expected_revision=self._dictionary_snapshot.revision)
+                    expected_revision=self._dictionary_snapshot.revision,
+                    imports=self.dictionary_page.imports, manual_claims=self.dictionary_page.manual_claims)
         except (OSError, ValueError) as exc:
             self.status_label.setText(str(exc))
             return False
 
         saved = save_config(cfg, self.config_path)
         self._dictionary_snapshot = snapshot
-        self.dictionary_editor.setPlainText(json.dumps(snapshot.editable, ensure_ascii=False, indent=2) + "\n")
+        self.dictionary_page.set_snapshot(snapshot)
         self._write_text(self.snippets_path, self._normalized_plain_text(self.snippets_editor))
         self._write_json(self.app_profiles_path, profiles)
         self.autostart_manager.set_enabled(saved["app"]["start_with_windows"])

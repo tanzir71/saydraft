@@ -9,7 +9,7 @@ Manual desktop acceptance remains deferred after Computer Use was stopped.
 
 ## Suggestions and actions
 
-Settings → Dictionary exposes **Suggest words from my corrections** and a separate
+Hub → Dictionary exposes **Suggest words from corrections** and a separate
 **Auto-add to dictionary** control, available when suggestions are enabled. The
 default shows an Add/Dismiss toast for the latest valid suggestion. Auto-add
 queues the same store operation and shows Undo after a successful save. Toasts
@@ -33,11 +33,12 @@ default-off settings, stale results, busy/rejected queues, write/reload failures
 timer/Escape dismissal and GUI-thread delivery. Offscreen English/Arabic/Bengali
 states were inspected. The offscreen font database needs explicit loading of the
 existing Windows Segoe UI and Nirmala fonts; Bengali/Arabic glyph checks pass
-with those fonts. No proprietary font is redistributed. P6 font bundling remains.
+with those fonts. No proprietary font is redistributed. The later Hub uses the
+verified bundled font set documented in `docs/FONTS.md`.
 
 ## Atomic dictionary edits
 
-The glossary JSON remains the live dictionary until the planned Hub migration;
+The glossary JSON remains the live compatibility dictionary in the Hub;
 the SQLite v2 dictionary table remains its earlier copy-only import. All current
 app glossary writers now use `dictionary.store`: a bounded strict read, a shared
 per-path process lock, a same-directory temporary file, flush/fsync and atomic
@@ -55,7 +56,7 @@ fresh revision, preventing an older Undo from becoming valid again. The small
 `_saydraft_learning` metadata map records learned provenance, without retaining
 the original field span or the mistaken word. Receipts stay in memory.
 
-Settings hides that internal map. An unchanged dictionary editor refreshes from
+The Hub hides that internal map. An unchanged dictionary editor refreshes from
 disk without writing over newer learning. An edited stale snapshot is refused
 before applying configuration, leaving the editor text available. Valid edits
 retain provenance only for unchanged terms; they cannot resurrect a revoked
@@ -64,6 +65,14 @@ version, including after a conflict. Invalid JSON must be repaired on disk befor
 reloading; it is never silently replaced by an empty dictionary.
 The visible actions use these store methods; observation remains disabled by
 default.
+
+The structured Hub editor adds Manual/Learned/Imported source chips, protected
+terms, replacement pairs and staged import/export. Import provenance lives in
+`_saydraft_imports`; portable exports omit both private metadata maps. Explicit
+Make manual claims retire learning Undo only when saved, while unrelated saves
+retain valid receipts. Background results refresh clean rows through a queued
+GUI connection and preserve pending edits for revision-checked saving. See
+`docs/HUB.md` for the complete editor and conflict behavior.
 
 ## Session delivery
 

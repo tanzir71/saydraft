@@ -31,8 +31,42 @@ glyphs and follow theme changes. Six model-label encoding artifacts are fixed;
 artifact URLs, hashes, versions, licenses and all other catalog data are unchanged.
 
 Notes currently has an empty state pending the Scratchpad and Notetaker producers.
-The structured Dictionary/Snippets editors and full remaining §8.3 features
+The structured Snippets editor and full remaining §8.3 features
 listed below are still outstanding; the shell is not full P6.3 acceptance.
+
+## Dictionary controls
+
+Dictionary now has searchable term, protected-term and replacement-pair lists
+with Manual, Learned and Imported source chips. Select a row to update/remove
+it, or add a new term/spoken phrase. Shared Save also stages a pending form before
+validating the complete edit. Duplicate detection uses NFC and case folding.
+Replacement text, including backslashes, stays literal during cleanup. A closed
+Advanced JSON editor retains access to owner extension fields and uses the
+private selection MIME converter. Learning and Auto-add keep their default-off
+configuration and existing eligibility checks.
+
+Import accepts bounded UTF-8 JSON, including a BOM, merges new entries, and keeps
+existing spellings and replacement values on conflicts. The summary reports
+added, duplicate and conflicting entries. Imports remain staged until shared
+Save. Export writes a portable copy of the current staged data, strips internal
+learning/import metadata, and refuses the active Dictionary path. The dialog sets
+its suffix before overwrite confirmation and writes to the exact selected path.
+Atomic replacement failures retain the destination bytes.
+
+Source labels persist in a private import metadata map; they do not contain file
+paths or transcripts. Unchanged entries retain their provenance across saves.
+Make manual explicitly claims a learned/imported entry; saving that claim retires
+the previous learning Undo for that term. Unrelated saves preserve valid learning
+receipts, including Undo back to an imported spelling after a case correction.
+Pasted private metadata cannot revive receipts or forge imported provenance.
+
+Queued learning results update a clean editor on the GUI thread without opening
+a Hub. A draft, invalid JSON or pending form stays intact when the saved Dictionary
+changes; an edited stale snapshot refuses Save before applying configuration.
+Reload saved Dictionary explicitly discards the draft. Unknown owner fields and
+the complete 4 MB payload budget, including private metadata, are preserved.
+The compatibility JSON remains the live store; the SQLite Dictionary table still
+contains the earlier copy-only migration.
 
 ## History controls
 
@@ -93,6 +127,7 @@ zero. Existing retry accounting continues to avoid counting one recording twice.
 ```powershell
 node tools/generate_tokens.mjs --check
 python -m pytest tests/test_hub.py tests/test_history_view.py tests/test_history_details_ui.py tests/test_history.py tests/test_history_window.py tests/test_settings_window.py tests/test_native_clipboard_app.py -q
+python -m pytest tests/test_dictionary_page.py tests/test_dictionary_portable.py tests/test_dictionary_store.py -q
 ```
 
 Tests cover exact reconstruction of both diff inputs, Bengali/Arabic combining
@@ -131,8 +166,24 @@ The final guarded 1×/2× render review follows the keycap-lifetime fix; earlier
 renders exposing that defect are retained separately in QA storage. Existing
 component/Bar snapshot tests still pass. No native desktop control resumed.
 
+The structured Dictionary revision adds 25 cases. Final full verification passes
+2432 tests with five explicit optional/native skips, rules 556/556, adversarial
+validation 100/100, lint and all 12 generated outputs. Site build/type checks and
+all 15 browser checks pass. Owned renders cover all three Dictionary lists in
+both themes, at 1080×720/880×600, with 16/22 px body text and 1×/2× density
+(48 exact-size PNGs); selected final renders are inspected. Larger-text tests
+also reject horizontal overflow and reach Reload/Save through the scroll view.
+Invalid encoding, oversized startup files and deep JSON nesting refuse editing
+without rereading or overwriting the rejected saved file.
+
+One earlier full run reported a confirmation assertion in the existing
+own-control native tracked-edit probe. Its failed report is retained; the isolated
+repeat and final full suite pass. The native observer/probe and its checks are
+unchanged, and the underlying intermittency remains unresolved. These probes use
+only owned invisible controls. Desktop/manual acceptance remains deferred.
+
 Full §8.3 still requires the structured
-Dictionary/Snippets/Notes pages, microphone picker/test, Privacy controls, complete
+Snippets page and Notes producers, microphone picker/test, Privacy controls, complete
 model/disk controls, History paging/global search and model/cleanup retry
 choices. The later onboarding, Scratchpad/Notetaker and complete gallery/
 accessibility milestones retain their original scope.

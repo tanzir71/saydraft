@@ -323,6 +323,10 @@ class SaydraftApp:
         if not typed_bar:
             self.signals.error.connect(self.pill.show_error)
         self.signals.history_updated.connect(self._refresh_history)
+        if hasattr(qt_modules.QtCore, "Qt"):
+            self.signals.dictionary_changed.connect(self._refresh_dictionary, qt_modules.QtCore.Qt.QueuedConnection)
+        else:
+            self.signals.dictionary_changed.connect(self._refresh_dictionary)
         self.signals.history_retry_finished.connect(self._finish_history_retry)
         self.signals.hardware_benchmark_finished.connect(self._finish_hardware_benchmark)
         self.signals.preview_text_changed.connect(self._show_preview)
@@ -458,6 +462,11 @@ class SaydraftApp:
             self.hub_window.refresh()
         if hasattr(self.tray, "set_model_label"):
             self.tray.set_model_label(self._controller_model_label())
+
+    def _refresh_dictionary(self, change):
+        refresh = getattr(self.settings_window, "refresh_dictionary", None)
+        if refresh is not None:
+            refresh(change)
 
     def _retry_history_audio(self, row):
         callback = getattr(self.controller, "retry_history_audio", None)
