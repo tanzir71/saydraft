@@ -5,3 +5,6 @@
 assets/licenses/*.txt text eol=lf
 assets/licenses/qwen35-Apache-2.0.txt -text
 assets/licenses/*.pdf binary
+
+# Native measurement reports retain their recorded SHA-256 across checkouts.
+eval/cleanup/results/**/*.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol

@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "source_commit": "536a5cbefb5bb98a3ff82f15b290e99cb5bc5d32",
+  "isolation_declared": false,
+  "selection_performed": false,
+  "measurement_matrix_complete": false,
+  "reports": [
+    {
+      "report": "qwen08-vulkan1.json",
+      "report_sha256": "388a964f0d26c7f2c4a88af97d70087f21baa995a09c3ec379b9b12d5afb9dd1",
+      "local_journal_directory": "cleanup-bakeoff-536a5cb-qwen08-vulkan1",
+      "journal_sha256": "abdd7262fe9a1588b559a058b13d1062e7dfb0dcd1945c7e31a6e9b733c9c048"
+    },
+    {
+      "report": "qwen2-vulkan1.json",
+      "report_sha256": "55aa8b218f0ca0c11b2817521c7295f5c0ecaa7295cb5ae647146ee5cc8c39f7",
+      "local_journal_directory": "cleanup-bakeoff-536a5cb-qwen2-vulkan1",
+      "journal_sha256": "7387442b251492761aea2fbb2f94f3326cfc9ebe912f6210206995e16ecdbedf"
+    },
+    {
+      "report": "qwen08-cpu-debug.json",
+      "report_sha256": "6c29f0230167409f18b6f2dab222927955d3c3c16cfa464ab5986255b120d4a1",
+      "local_journal_directory": "cleanup-bakeoff-536a5cb-qwen08-cpu-debug",
+      "journal_sha256": "f053187fd3cb5e44265d5336d8f215f60335fc999ae1d9875e9d7a9f3ab910ee"
+    },
+    {
+      "report": "qwen2-cpu-debug.json",
+      "report_sha256": "7b0cecc570c90f4606cf3050f673a3052a96d07efe966fb56adb9c3bf3b2c3a1",
+      "local_journal_directory": "cleanup-bakeoff-536a5cb-qwen2-cpu-debug",
+      "journal_sha256": "cc567e2e5744f9b43b72c12866c99359f530f3f2ba34cf6b46c3011d46b9ef90"
+    }
+  ]
+}

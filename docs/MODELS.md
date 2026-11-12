@@ -49,10 +49,69 @@ Developer cleanup candidates have a separate [catalog and artifact table](CLEANU
 They are unselected and absent from the app picker/setup downloads. Chosen Qwen
 Q4_K_M weights are 0.58/1.40/3.01 GB; ggml-org Gemma Q4_0 weights are 2.84/4.59 GB,
 above the earlier Gemma estimates. Full bake-off quality, actual-use/fallback rates,
-CPU/Vulkan latency and defaults remain unmeasured.
+CPU/Vulkan tier acceptance and defaults remain unestablished.
 Initial 0.8B compatibility probes and retained cold-request failures are recorded
 in that document; concurrent downloads and two curated examples cannot establish
 quality or tier acceptance.
+
+### Cleanup baseline measurements (2026-11-12; incomplete matrix)
+
+Both available Qwen candidates completed the same 432 golden/100 runtime
+adversarial inputs on explicit RTX 3060 `Vulkan1`, from immutable source
+`536a5cb`. Four CPU threads, context 4096, temperature 0, reasoning off and a
+120 s quality deadline were fixed. The app deadline remains 800 ms. Concurrent
+model transfers mean these are diagnostic timings, not isolated tier results.
+Native processes exited after each run; no live insertion or microphone was used.
+
+| Candidate | Exact golden | Accepted exact / 314 model calls | Safe fallback exact | Exact regressions | Runtime preservation guard failures |
+| --- | ---: | ---: | ---: | ---: | --- |
+| Qwen3.5 0.8B Q4_K_M | 251/432 (58.1%) | 108/314 | 25 | 181 | `message-07` |
+| Qwen3.5 2B Q4_K_M | 234/432 (54.2%) | 95/314 | 21 | 198 | `message-07` |
+
+The other 118 golden cases bypass the model (Raw/Code). Accepted exact passes
+exclude refusals and rules fallback. Authored unsafe-candidate validation remains
+100/100, separately from sending those 100 inputs through each real model. Both
+runtime adversarial suites had zero finite preservation-guard failures; this is
+not a semantic safety guarantee. The original question/layout regressions below
+show why passing those guards alone cannot establish quality.
+
+| Candidate | Cleanup call wall time p50 / p95 | 60-token decode rates (tok/s), all samples | Native peak host working set |
+| --- | ---: | --- | ---: |
+| Qwen3.5 0.8B | 121 / 198 ms | 140.85, 218.79, 217.02 | 1,278,533,632 bytes |
+| Qwen3.5 2B | 151 / 277 ms | 143.21, 137.94, 143.82 | 1,701,310,464 bytes |
+
+Call times cover the processor, with in-memory History and simulated delivery;
+they exclude ASR and native insertion and cannot establish release-to-text parity.
+Native decode rates exclude prompt processing; one 0.8B throughput request spent
+5.50 s processing its short prompt. Earlier probes primed driver/shader caches.
+Working set is host memory, not VRAM; no VRAM peak is claimed.
+
+CPU debug runs cover only two golden/two adversarial cases, plus three exact
+60-token samples. They are not full-corpus quality or isolated tier measurements:
+
+| Candidate | First / cached-successor cleanup | 60-token decode rates (tok/s) | Native peak host working set |
+| --- | ---: | --- | ---: |
+| Qwen3.5 0.8B | 5.383 / 0.610 s | 13.66, 18.89, 23.42 | 1,030,250,496 bytes |
+| Qwen3.5 2B | 13.002 / 1.027 s | 5.52, 6.44, 6.51 | 2,163,232,768 bytes |
+
+All four requests per CPU run completed and native exits were observed. These
+variable rates reinforce the need for isolated measurements; the earlier single
+0.8B CPU smoke's 27.06 tok/s cannot alone justify the Standard tier.
+
+Of the 0.8B's 181 exact mismatches, 167 solely add a final period. Other accepted
+changes flatten paragraphs/lists, replace a question mark, or turn `Wait...` into
+`Wait` after messaging formatting. Prompt demonstrations encourage final periods
+while the strict general-profile oracle omits them. Preserve the oracle and these
+baseline results while resolving that prompt/formatting contract. Neither model
+meets the quality gate and neither is promoted. The 4B/Gemma transfers, CPU matrix,
+isolated latency, need-score integration and defaults remain pending.
+
+Unmodified generated reports, including revisions/hashes, source/prompt/corpus
+fingerprints, per-prefix latency, decisions and regression IDs, are retained in
+[`eval/cleanup/results/2026-11-12`](../eval/cleanup/results/2026-11-12).
+Full local journals remain under the corresponding D: QA directories; their
+digests are in the results index. Reproduce with the candidate runner documented
+in [CLEANUP_CANDIDATES.md](CLEANUP_CANDIDATES.md#reproducible-native-measurements).
 
 The bundled [catalog](../saydraft/models/manifest.json) pins every file's revision,
 size, SHA-256 digest and exact HTTPS download/redirect hosts. Parakeet revisions:
