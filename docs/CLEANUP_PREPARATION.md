@@ -14,8 +14,19 @@ History, insertion, a microphone or an external service. Weights never download.
 Only a complete SSE response with `[DONE]`, no tool calls and a `stop` or `length`
 finish can establish preparation. Actual dictation still requires a complete
 `stop` response, protected-token restoration and normal detail/structure validation.
-Preparation allows 60 s each for background model loading and prompt work; the
-interactive timeout remains 800 ms.
+Preparation allows 60 s each for background model loading, decoder calibration
+and prefix work; the interactive timeout remains 800 ms. Interactive cleanup
+never waits for these stages.
+
+Before the prefix probe, the live decoder generates three fixed 60-token garden
+continuations with temperature zero and EOS ignored. All three share one manager
+lease and deadline. Exact native token counts and positive finite decode rates
+are required; generated prose is discarded. Metadata retains all three rates,
+their median for reporting and their minimum for conservative prediction.
+Measurements cache only for the current server generation. Restart/unload
+invalidates them; a malformed measurement cannot establish readiness or repeatedly
+probe the same instance. Raw generation runs before the chat-prefix probe so it
+does not overwrite the final prepared prefix.
 
 One worker coalesces requests to the latest app/style prefix. Startup uses the
 configured profile, and arming uses the captured app/group and selected profile.
@@ -28,8 +39,9 @@ Shutdown closes the owned server and refuses late preparation results.
 Prefix preparation does not certify latency for every transcript, language,
 caret value or glossary. Need-score, remaining-budget prediction and end-to-end
 Standard/Pro acceptance remain P4.6 work. Model defaults remain unselected.
-The one-token probe primes the chat prefix; decoder warm-up/calibration and
-clean-driver-cache checks remain necessary before tier acceptance.
+The one-token probe primes the chat prefix after decoder warm-up. These samples
+do not certify every context length, changing system load or clean-driver-cache
+behavior; tier acceptance still requires the remaining latency suite.
 
 The developer quality runner and lifecycle fault probe explicitly disable
 interactive preparation, allowing independent cold/use/fallback measurements.
@@ -45,12 +57,14 @@ directory. The probe checks neutral/formal prefixes and actual accepted output
 within 800 ms, retaining metadata, host working set and independent native exit
 observations. It uses fixed public text and no live delivery.
 
-Validation: 1333 tests pass, four optional native skips with local
+Validation: 1352 tests pass, four optional native skips with local
 Silero/preview/language-ID fixtures; rules 432/432; authored adversarial 100/100;
 Ruff/diff pass. Tests cover blocked preparation, latest-context coalescing,
 instance changes, partial streams, Raw/Code, captured context and shutdown races.
+Calibration tests reject partial/invalid samples and stale instances, check the
+single deadline/cache, and prove both background stages preserve foreground rules.
 
-Immutable native probes from `086c2bb` pass with networking blocked:
+Earlier prefix-only native probes from `086c2bb` pass with networking blocked:
 
 | Model/backend | Initial preparation (including load) | Neutral cleanup | Formal preparation | Formal cleanup |
 | --- | ---: | ---: | ---: | ---: |

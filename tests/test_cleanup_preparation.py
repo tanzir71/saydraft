@@ -25,7 +25,8 @@ class DeferredThreads:
 def fixture(reply="prepared", *, prepare=True):
     threads, calls = DeferredThreads(), []
     manager = SimpleNamespace(generation=1, prepare=lambda: prepare)
-    client = SimpleNamespace(manager=manager, prepare_prompt=lambda **kw: (
+    client = SimpleNamespace(manager=manager, calibrate_decoder=lambda **kw: CleanupReply(None, "calibrated"),
+                             prepare_prompt=lambda **kw: (
         calls.append(kw) or CleanupReply(None, reply)))
     return PromptPreparation(client, thread_factory=threads), threads, manager, calls
 
@@ -113,18 +114,22 @@ def test_static_probe_requires_complete_stream_and_never_returns_generated_text(
     assert '<transcript>Ready</transcript>' in message and 'style: "formal"' in message
 
 
-def test_actual_pipeline_keeps_rules_while_background_probe_blocks_then_uses_prepared_client():
+@pytest.mark.parametrize("blocked_phase", ["decoder", "prefix"])
+def test_actual_pipeline_keeps_rules_while_background_probe_blocks_then_uses_prepared_client(blocked_phase):
     started, release = threading.Event(), threading.Event()
     user_calls = []
     manager = SimpleNamespace(generation=1, prepare=lambda: True, close=lambda: setattr(manager, "generation", None))
 
-    def probe(**kwargs):
+    def block(reason):
         started.set()
         if not release.wait(3):
             return CleanupReply(None, "timeout")
-        return CleanupReply(None, "prepared")
+        return CleanupReply(None, reason)
 
-    client = SimpleNamespace(manager=manager, prepare_prompt=probe, clean=lambda text, **kw: (
+    client = SimpleNamespace(manager=manager,
+        calibrate_decoder=lambda **kw: block("calibrated") if blocked_phase == "decoder" else CleanupReply(None, "calibrated"),
+        prepare_prompt=lambda **kw: block("prepared") if blocked_phase == "prefix" else CleanupReply(None, "prepared"),
+        clean=lambda text, **kw: (
         user_calls.append(text) or CleanupReply(text, "ok")))
     cfg = LocalLLMConfig(enabled=True, model_path="unit-fixture-not-a-model")
     local = LocalLLMCleaner(cfg, manager_factory=lambda cfg: manager, client_factory=lambda *a, **kw: client)

@@ -6,6 +6,7 @@ import time
 from dataclasses import dataclass
 
 from .loopback import LocalHTTPError
+from .calibration import DecoderCalibration
 from .prompts import PromptHints, bridge_protected, build_messages, output_token_limit
 from .sidecar import SidecarReply
 from .streaming import read_completion
@@ -25,6 +26,10 @@ class CleanupClient:
         if type(max_tokens) is not int or max_tokens < 1:
             raise ValueError("Cleanup output cap must be a positive integer")
         self.manager, self.max_tokens, self.clock = manager, max_tokens, clock
+        self.decoder = DecoderCalibration(manager)
+
+    def calibrate_decoder(self, *, timeout=60):
+        return CleanupReply(None, self.decoder.measure(timeout=timeout))
 
     def _request(self, text, *, hints=None, glossary=(), timeout=0.8, max_tokens=None):
         try:

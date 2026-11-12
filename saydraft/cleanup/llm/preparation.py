@@ -80,11 +80,21 @@ class PromptPreparation:
                     reason, generation = "model_not_ready", None
                 else:
                     generation = manager.generation
-                    started = self._clock()
-                    reply = self.client.prepare_prompt(style=key[0], post_rules=key[1],
-                                                       app=key[2], group=key[3], timeout=60)
-                    seconds = self._clock() - started
-                    reason = reply.reason
+                    with self._lock:
+                        self._reason = "decoder_calibrating"
+                    reason = self.client.calibrate_decoder(timeout=60).reason
+                    if reason == "calibrated":
+                        with self._lock:
+                            if self._closed:
+                                self._running = False
+                                self._settled.set()
+                                return
+                            key, self._reason = self._wanted, "prompt_warming"
+                        started = self._clock()
+                        reply = self.client.prepare_prompt(style=key[0], post_rules=key[1],
+                                                           app=key[2], group=key[3], timeout=60)
+                        seconds = self._clock() - started
+                        reason = reply.reason
                 current = manager.generation
                 if reason == "prepared" and (generation is None or generation != current):
                     reason = "instance_changed"

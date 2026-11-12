@@ -49,12 +49,14 @@ def main(argv=None):
             context = DictationContext(profile=profile, app_title=title, app_group=group)
             started = time.perf_counter()
             requested = pipeline.warm_for_context(context)
-            settled = requested and local._preparation.wait(125)
+            settled = requested and local._preparation.wait(185)
             hints = PromptHints(style="formal" if profile == "email" else "neutral", post_rules=True,
                                 app=title, group=group)
             prepared = bool(settled and local._preparation.ready(hints))
+            calibration = local._client.decoder.current
             row = {"profile": profile, "prepared": prepared, "preparation_seconds": time.perf_counter() - started,
-                   "preparation_status": local._preparation.status}
+                   "preparation_status": local._preparation.status,
+                   "decoder_calibration": calibration.metadata() if calibration is not None else None}
             if prepared:
                 expected = baseline.process_transcript(text, context)
                 started = time.perf_counter()
@@ -74,7 +76,7 @@ def main(argv=None):
         baseline.close()
         report["native_exit_observed"] = meter.finish()
         NetworkGuard.uninstall()
-        report["probe_complete"] = (len(report["cases"]) == 2 and all(row.get("exact")
+        report["probe_complete"] = (len(report["cases"]) == 2 and all(row.get("exact") and row.get("decoder_calibration")
             and row.get("decision") == "accepted" and row["cleanup_seconds"] <= .8 for row in report["cases"])
             and bool(report["native_exit_observed"]) and all(report["native_exit_observed"]) and not report.get("error_type"))
         with (args.output / "report.json").open("x", encoding="utf-8") as target:
