@@ -579,12 +579,15 @@ design/tokens.json  → build step emits site/src/styles/tokens.css and saydraft
 ### P0: Foundations
 - [x] **P0.1** `git mv CODEX_HANDOFF.md docs/history/CODEX_HANDOFF_v1.md`; keep this file at the root; add `docs/README.md` explaining the doc set. **Acceptance:** old file reachable at the new path; history intact (`git log --follow`).
 - [x] **P0.2** Repo hygiene: add a full `.gitignore` (Python, PyInstaller `build/` `dist/`, `__pycache__/`, `*.pyc`, `models/`, `.venv/`, `site/node_modules/`, `site/dist/`, `.vercel`). Run `git rm -r --cached dist build` and `git rm -r --cached '**/__pycache__'`. **Files stay on disk.** **Acceptance:** `git ls-files | grep -E '^(dist|build)/' | wc -l` = 0; local `dist/` still exists. *(P0.2b history purge only if G4 approved.)*
-- [ ] **P0.3** (G2) Add `LICENSE` and `THIRD_PARTY_NOTICES.md` (PySide6 LGPL-3.0 dynamic-link note, faster-whisper/CTranslate2 MIT, sherpa-onnx Apache-2.0, onnxruntime MIT, llama.cpp MIT, model licenses table). **Acceptance:** a license is detected on the GitHub repo page.
-- [ ] **P0.4** CI `.github/workflows/ci.yml` on `windows-latest`: Python 3.13, `pip install -r requirements-dev.txt`, `ruff`, `pytest` (offscreen Qt), eval; cache pip. **Acceptance:** green on main; the README badge works.
+- [x] **P0.3** (G2) Add `LICENSE` and `THIRD_PARTY_NOTICES.md` (PySide6 LGPL-3.0 dynamic-link note, faster-whisper/CTranslate2 MIT, sherpa-onnx Apache-2.0, onnxruntime MIT, llama.cpp MIT, model licenses table). **Acceptance:** GitHub detects MIT on the default main branch (repo `licenseInfo` and license API verified 2026-11-12).
+- [x] **P0.4** CI `.github/workflows/ci.yml` on `windows-latest`: Python 3.13, `pip install -r requirements-dev.txt`, `ruff`, `pytest` (offscreen Qt), eval; cache pip. **Acceptance:** main CI run 43270748066 passed at f54f788; the README's matching CI badge returns HTTP 200 and passing (verified 2026-11-12).
 - [x] **P0.5** `tools/bench.py` + `docs/BASELINE.md`: record current latency per stage and RAM on the owner machine (owner runs it, Codex writes the tool). **Acceptance:** the baseline table is committed.
 - [x] **P0.6** `privacy/netguard.py`: wrap `socket.socket.connect`/`create_connection` and `getaddrinfo`; allow loopback; allow downloader sessions only inside a `with NetworkGuard.allow_downloads(manifest_hosts)` context; block and log everything else. Install it at startup. **Acceptance:** `pytest -m offline` passes; a test proves a stray `urllib.request.urlopen('https://example.com')` raises.
 
-P0.3/P0.4 implementation is locally verified and published in draft PR #1. Hosted Windows CI passed on the PR and branch (runs 43075796248 and 43075669613). Final main-branch acceptance (license detection and green CI on main) awaits owner review/merge; this is the reason these two boxes remain unchecked.
+P0.3/P0.4 main acceptance is complete after the owner's direct-push override.
+GitHub detects the default branch's MIT license, main Windows CI passes, and the
+README badge reports passing. The earlier branch/PR runs remain historical proof;
+the task's draft PRs are now closed or merged.
 
 ### P1: Rename to Saydraft (G1 approved 2026-11-12)
 - [x] **P1.1** Package rename + shim + spec/exe/AUMID (§5.2 step 1). **Acceptance:** `python -m saydraft` runs; `python -m voicetray` prints a deprecation warning and runs; all tests pass.
@@ -779,6 +782,8 @@ Cloud anything (sync, accounts, team dictionaries, web search in Ask), mobile ap
 ---
 
 ## 14. Changelog
+
+- 2026-11-12 | P0.3/P0.4 main acceptance | Verified GitHub's default-branch MIT detection, successful exact-head main Windows CI 43270748066, and the README badge's HTTP 200/passing response. Closed the two earlier main-review acceptance gaps after the owner authorized direct pushes. | WISPR_OFFLINE_PARITY_PLAN.md
 
 - 2026-11-12 | P6.1/P9 foundation | Added exact approved shared tokens and CSS/light-dark QSS generation, pinned Astro/React/Storybook with five components/13 states, self-hosted licensed webfonts, the first homepage and four supporting pages. All 15 browser checks and inspected 390/768/1440 snapshots pass; nine Lighthouse runs score 100/100/100, max 960 ms LCP and zero CLS; home JS is 470 bytes gzip. Full suite 2213 pass, five explicit skips; rules 556/556, adversarial 100/100 and lint/diff pass. Owner override now commits/pushes to main without PRs; all 101 task PRs were closed or merged. App themes/gallery, complete P9 content and remaining parity work stay open. No desktop control resumed. | design/, tools/generate_tokens.mjs, saydraft/ui/theme/, site/, .github/workflows/site.yml, .github/workflows/pages.yml, docs/SITE.md
 
