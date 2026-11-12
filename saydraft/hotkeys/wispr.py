@@ -45,7 +45,7 @@ def wispr_running(*, kernel=None):
 def shortcut_warning(hotkeys, *, detector=wispr_running):
     """Other apps' custom bindings are unknown; report a possible default clash."""
     default = Chord.parse("ctrl+win")
-    for name in ("speech", "speech_alternative", "speech_mouse", "hands_free", "save", "cancel"):
+    for name in ("speech", "speech_alternative", "speech_mouse", "hands_free", "paste_last", "save", "cancel"):
         try:
             chord = Chord.parse(hotkeys.get(name, ""))
         except ValueError:

@@ -264,3 +264,11 @@ reliable boundaries, with 40 authored golden cases. Truncated selections disable
 layout. The native own-control probe checks exact formatted History/delivery;
 the desktop helper now requires the plain caret at End and checks that geometry.
 Desktop testing remains stopped as requested.
+
+Paste-last uses `capture_for_insertion`, which captures the same verified
+window/PID/password/control/runtime identity with `include_text=False`. No
+caret/selection/body range is requested. This snapshot is frozen at the shortcut
+invocation before the asynchronous History read; normal fresh metadata and OS
+delivery guards apply afterward. It does not recapture a different field and
+treat that as the requested target. Ordinary dictation retains its text-aware
+capture for caret formatting.

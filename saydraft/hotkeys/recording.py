@@ -3,7 +3,7 @@
 from .chords import Binding, Chord, conflicts
 
 
-def recording_bindings(keys, *, cancel_key, save_key, suppress=True):
+def recording_bindings(keys, *, cancel_key, save_key, paste_key="", suppress=True):
     """Compile and validate exactly the bindings installed by the app, without hooks."""
     def binding(name, key, **options):
         try:
@@ -14,13 +14,14 @@ def recording_bindings(keys, *, cancel_key, save_key, suppress=True):
     bindings = [binding(name, key, suppress=suppress) for name, key in keys.items()]
     if cancel_key:
         bindings.append(binding("cancel", cancel_key, suppress=False, extra_modifiers=True))
-    if save_key:
-        saved = binding("save", save_key)
-        for record in bindings:
-            if record.name in keys and (any(record.chord.held(state) for state in saved.chord.possibilities())
-                    or any(saved.chord.held(state) for state in record.chord.possibilities())):
-                raise ValueError(f"History and recording shortcuts share a prefix ({record.name}, save)")
-        bindings.append(saved)
+    for name, key in (("save", save_key), ("paste_last", paste_key)):
+        if key:
+            command = binding(name, key)
+            for previous in bindings:
+                if (any(previous.chord.held(state) for state in command.chord.possibilities())
+                        or any(command.chord.held(state) for state in previous.chord.possibilities())):
+                    raise ValueError(f"Shortcut prefix conflict: {previous.name} and {name}")
+            bindings.append(command)
     overlap = conflicts(bindings)
     if overlap:
         raise ValueError("Shortcut conflict: " + "; ".join(f"{a} and {b}" for a, b in overlap))
@@ -29,7 +30,7 @@ def recording_bindings(keys, *, cancel_key, save_key, suppress=True):
 
 class RecordingHooks:
     def __init__(self, keys, *, cancel_key, save_key, suppress, press, release, cancel, save, failure, factory=None,
-                 hands_free_key=None, toggle=None):
+                 hands_free_key=None, toggle=None, paste_key=None, paste=None):
         if factory is None:
             from .llhook import LowLevelHooks
             factory = LowLevelHooks
@@ -37,9 +38,11 @@ class RecordingHooks:
         if hands_free_key:
             self.keys["hands_free"] = hands_free_key
         bindings = recording_bindings(self.keys, cancel_key=cancel_key,
-            save_key=save_key if save is not None else "", suppress=suppress)
+            save_key=save_key if save is not None else "", paste_key=paste_key if paste is not None else "",
+            suppress=suppress)
         self.press, self.release, self.cancel, self.save = press, release, cancel, save
         self.toggle = toggle
+        self.paste = paste
         self.owner = factory(bindings, on_action=self._action, on_failure=failure)
 
     def _action(self, transition, when):
@@ -52,6 +55,9 @@ class RecordingHooks:
                 self.press(key, when, retarget=True)
             elif transition.reason != "superseded":
                 self.release(key, when)
+        elif transition.name == "paste_last":
+            if transition.phase == "release" and transition.reason == "physical" and self.paste is not None:
+                self.paste()
         elif transition.phase == "press":
             if transition.name == "cancel":
                 self.cancel(when)

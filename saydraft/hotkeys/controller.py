@@ -27,6 +27,7 @@ class HotkeyConfig:
     save_hotkey: str = "f10"
     mouse_record_hotkey: str | None = None
     hands_free_hotkey: str | None = None
+    paste_last_hotkey: str | None = None
 
     @classmethod
     def from_app_config(cls, config: dict[str, Any]) -> "HotkeyConfig":
@@ -41,6 +42,7 @@ class HotkeyConfig:
             save_hotkey=str(hotkeys.get("save", cls.save_hotkey)),
             mouse_record_hotkey=str(hotkeys.get("speech_mouse", "")),
             hands_free_hotkey=str(hotkeys.get("hands_free", "")),
+            paste_last_hotkey=str(hotkeys.get("paste_last", "")),
         )
 
 
@@ -71,6 +73,7 @@ class HotkeyController:
         on_backend_failure=None,
         native_factory=None,
         timer_factory=threading.Timer,
+        on_paste=None,
     ):
         self.config = config or HotkeyConfig()
         self.on_record_start = on_record_start
@@ -93,6 +96,7 @@ class HotkeyController:
         self._second_tap = False
         self._request = 0
         self._session_id = None
+        self.on_paste = on_paste
 
     @property
     def is_listening(self) -> bool:
@@ -181,7 +185,8 @@ class HotkeyController:
                 save_key=self.config.save_hotkey, suppress=self.config.suppress,
                 press=self._on_record_press, release=self._on_record_release, cancel=self._on_cancel_press,
                 save=self.on_save, failure=self._native_failed, factory=self._native_factory,
-                hands_free_key=self.config.hands_free_hotkey, toggle=self._on_hands_free_press)
+                hands_free_key=self.config.hands_free_hotkey, toggle=self._on_hands_free_press,
+                paste_key=self.config.paste_last_hotkey, paste=self.on_paste)
             self._listening = True
         try:
             self._native.start()
@@ -220,6 +225,10 @@ class HotkeyController:
             if self.config.hands_free_hotkey:
                 self._handles.append(self._keyboard.add_hotkey(
                     self.config.hands_free_hotkey, self._on_hands_free_press,
+                    suppress=self.config.suppress, timeout=self.config.timeout))
+            if self.config.paste_last_hotkey and self.on_paste is not None:
+                self._handles.append(self._keyboard.add_hotkey(
+                    self.config.paste_last_hotkey, self.on_paste, trigger_on_release=True,
                     suppress=self.config.suppress, timeout=self.config.timeout))
             if self.config.cancel_hotkey:
                 self._handles.append(

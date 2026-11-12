@@ -47,7 +47,8 @@ def main(argv=None):
         if not expected.strip():
             raise ValueError("Bundled speech produced empty output")
         cfg = default_config()
-        cfg["hotkeys"].update(speech="vkE8", speech_alternative="", speech_mouse="", hands_free="", cancel="", save="")
+        cfg["hotkeys"].update(speech="vkE8", speech_alternative="", speech_mouse="", hands_free="",
+                              paste_last="", cancel="", save="")
         history = DictationHistoryStore(args.output / "history.db")
         def row_count():
             with sqlite3.connect(history.db_path) as db:

@@ -20,7 +20,8 @@ def test_shortcut_upgrade_preserves_old_bindings_and_does_not_intercept_mouse(tm
     old = {"hotkeys": {"speech": "ctrl+alt+r", "speech_alternative": "", "save": "f8", "cancel": "f12"}}
     path.write_text(json.dumps(old), encoding="utf-8")
     cfg = load_config(config_path=path, settings_path=tmp_path / "absent.txt")
-    assert cfg["hotkeys"] == {**old["hotkeys"], "speech_mouse": "", "hands_free": "ctrl+win+space", "tap_lock_ms": 300}
+    assert cfg["hotkeys"] == {**old["hotkeys"], "speech_mouse": "", "hands_free": "ctrl+win+space",
+                              "paste_last": "shift+alt+z", "tap_lock_ms": 300}
     assert save_config(cfg, path) == cfg
     assert load_config(config_path=path, settings_path=tmp_path / "absent.txt") == cfg
 
@@ -79,6 +80,7 @@ def test_default_config_contains_schema_and_expected_defaults(tmp_path):
     assert cfg["hotkeys"]["speech_alternative"] == "f9"
     assert cfg["hotkeys"]["speech_mouse"] == "xbutton1"
     assert cfg["hotkeys"]["hands_free"] == "ctrl+win+space"
+    assert cfg["hotkeys"]["paste_last"] == "shift+alt+z"
     assert cfg["hotkeys"]["save"] == "f10"
     assert cfg["hotkeys"]["cancel"] == "esc"
     assert cfg["hotkeys"]["tap_lock_ms"] == 300
@@ -152,6 +154,7 @@ def test_load_config_migrates_settings_txt_once_and_keeps_old_file_untouched(tmp
         "speech_alternative": "ctrl+win",
         "speech_mouse": "",
         "hands_free": "ctrl+win+space",
+        "paste_last": "shift+alt+z",
         "save": "f8",
         "cancel": "esc",
         "tap_lock_ms": 300,
@@ -204,6 +207,7 @@ def test_existing_config_ignores_unknown_keys_and_fills_missing_defaults(tmp_pat
         "speech_alternative": "ctrl+win",
         "speech_mouse": "",
         "hands_free": "ctrl+win+space",
+        "paste_last": "shift+alt+z",
         "save": "f10",
         "cancel": "esc",
         "tap_lock_ms": 300,

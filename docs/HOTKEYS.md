@@ -245,8 +245,8 @@ Windows Segoe UI, verifies readable layout and the toggle-only warning. It opens
 no active desktop application. The first default-font offscreen artifact was
 unreadable; it is not counted as visual acceptance.
 
-The dedicated chord and the double-tap behavior below are implemented; paste-last
-and P5.5 manual acceptance remain open. Bar visuals/stop controls remain P6.2. No
+The dedicated chord, double-tap and paste-last behaviors below are implemented;
+P5.5 manual acceptance remains open. Bar visuals/stop controls remain P6.2. No
 Computer Use or Windows-key input was performed for this change; desktop testing
 remains stopped at the owner's request.
 
@@ -300,3 +300,37 @@ native/model skips; golden 472/472; adversarial 100/100; Ruff/diff pass. The loc
 full-run log is `build/qa/double-tap-full-4.stdout.log`. Offscreen General layout
 was reviewed at 760×560 with loaded Windows Segoe UI and Disabled displayed.
 Desktop helpers now describe the new gesture or held F9; they were not run.
+
+## Paste last transcript
+
+Shift+Alt+Z pastes the latest nonblank cleaned transcript saved in SQLite History,
+including across app restarts. Settings → General → Paste last transcript can
+rebind it or save a blank to disable it. A missing setting receives the new
+default; other saved bindings remain unchanged. Exact overlaps and prefixes with
+recording, hands-free, cancel or F10 are refused before native installation/save.
+The Wispr advisory includes an unsaved paste binding if it uses Ctrl+Win.
+
+The action starts on shortcut release, letting the modifiers go before guarded
+delivery. It freezes the requested window/field with metadata-only UIA capture,
+reserves the worker, then reads saved text on the serial executor. It does not
+read the field's caret/selection/body. A window, process or field change before
+delivery refuses insertion. Password/unknown fields are refused before reading
+History. Cancellation, Settings and shutdown can return during capture; stale or
+cancelled work performs no delivery. A rejected queue releases the reservation.
+
+Replay preserves the exact stored whitespace, casing, punctuation and literal
+words, without ASR, cleanup, new History/statistics rows or an Enter action.
+Empty/blank recognition rows are skipped; empty/unavailable History is explained
+without changing the clipboard. Delivery uses the existing privacy formats,
+all-format restoration, focus/integrity/modifier checks and cancellation guards.
+If modifiers are still held, release them and retry, as for ordinary insertion.
+
+Validation: 25 new SQLite/memory-delivery/gesture/lifecycle regression cases;
+ordinary full suite 1932 pass, five explicit native/model skips; golden 472/472;
+adversarial 100/100; Ruff/diff pass. Local log: `build/qa/paste-last-full.stdout.log`.
+Offscreen General reviewed at 760×560 with loaded Windows Segoe UI, the default
+shortcut and warning visible; a paste-only warning rebind was also verified.
+No microphone, OS paste or desktop shortcut acceptance follows from these tests.
+Native recording/field helpers explicitly disable the unrelated paste binding;
+they were not run. P5.5's remaining manual acceptance is deferred while Computer
+Use stays stopped at the owner's request.

@@ -107,6 +107,12 @@ class ForegroundContextProvider:
         return (api.foreground() or None) if api is not None else None
 
     def capture(self):
+        return self._capture(include_text=True)
+
+    def capture_for_insertion(self):
+        return self._capture(include_text=False)
+
+    def _capture(self, *, include_text):
         if self._closed:
             return TargetContext()
         api = self._native()
@@ -122,7 +128,7 @@ class ForegroundContextProvider:
                 exe = api.executable(pid)
             except OSError:
                 exe = ""  # A protected process may still have a usable HWND/title.
-            field = self._field(window)
+            field = self._field(window, include_text=include_text)
             if self._closed:
                 return TargetContext()
             if api.foreground() != window or api.window_pid(window) != pid:

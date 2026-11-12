@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 
 class HotkeyService:
     def __init__(self, config, *, start, stop, cancel, save, notify, keyboard_module=None,
-                 stop_timed=None, native_factory=None, stop_session=None, timer_factory=threading.Timer):
+                 stop_timed=None, native_factory=None, stop_session=None, timer_factory=threading.Timer, paste=None):
         self.config = config
         self.start_recording = start
         self.stop_recording = stop
@@ -24,6 +24,7 @@ class HotkeyService:
         self.keyboard = keyboard_module
         self.stop_timed, self.native_factory = stop_timed, native_factory
         self.stop_session, self.timer_factory = stop_session, timer_factory
+        self.paste = paste
         self._lock, self._restarts = threading.RLock(), 0
         self._failure_reason = None
         self.enabled = False
@@ -41,7 +42,7 @@ class HotkeyService:
                                     else self.stop_recording()),
                                 on_record_cancel=self.cancel_recording, on_save=self.save,
                                 on_backend_failure=self._native_failed, native_factory=self.native_factory,
-                                timer_factory=self.timer_factory)
+                                timer_factory=self.timer_factory, on_paste=self.paste)
 
     def _native_failed(self, reason):
         self._failure_reason = reason  # Notification/recovery waits for the completion thread.

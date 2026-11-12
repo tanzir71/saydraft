@@ -114,6 +114,14 @@ class DictationHistoryStore:
             ).fetchall()
         return [HistoryRow(*row) for row in rows]
 
+    def last_transcript(self) -> str | None:
+        """Read the latest nonblank saved result without loading raw text or full rows."""
+        with self._connect() as conn:
+            for (text,) in conn.execute("SELECT cleaned_text FROM dictations ORDER BY id DESC"):
+                if isinstance(text, str) and text.strip():
+                    return text  # Preserve exact stored whitespace, punctuation and casing.
+        return None
+
     def update_timings(self, row_id: int, timings: dict[str, float]) -> None:
         """Complete timing metadata after insertion, retaining the earlier text record."""
         with self._connect() as conn:

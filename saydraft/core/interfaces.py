@@ -85,6 +85,7 @@ class ContextProvider(Protocol):
 
 class HistoryStore(Protocol):
     def append(self, entry: HistoryEntry) -> int: ...
+    def last_transcript(self) -> str | None: ...
 
 
 class AudioCapture(Protocol):

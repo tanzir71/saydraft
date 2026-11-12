@@ -426,9 +426,9 @@ def test_keyboard_backend_lifetime_and_save_hotkey():
     worker, _clock, _executor, _events, _signals, keyboard = make_worker()
     worker.hotkeys.start()
     assert [key for key, callback in keyboard.added] == ["ctrl+win", "ctrl+win", "f9", "f9",
-                                                       "xbutton1", "xbutton1", "ctrl+win+space", "esc", "f10"]
+                                                       "xbutton1", "xbutton1", "ctrl+win+space", "shift+alt+z", "esc", "f10"]
     worker.hotkeys.stop()
-    assert sorted(keyboard.removed) == list(range(1, 10))
+    assert sorted(keyboard.removed) == list(range(1, 11))
     assert not worker.hotkeys.enabled
 
 

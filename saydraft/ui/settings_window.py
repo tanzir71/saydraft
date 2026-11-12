@@ -52,7 +52,8 @@ def find_hotkey_conflicts(hotkeys: dict[str, str]) -> list[str]:
     if not keys:
         return ["Enter at least one recording shortcut"]
     try:
-        recording_bindings(keys, cancel_key=hotkeys.get("cancel", ""), save_key=hotkeys.get("save", ""))
+        recording_bindings(keys, cancel_key=hotkeys.get("cancel", ""), save_key=hotkeys.get("save", ""),
+                           paste_key=hotkeys.get("paste_last", ""))
     except ValueError as exc:
         return [str(exc)]
     return []
@@ -149,6 +150,9 @@ class SettingsWindow(QtWidgets.QDialog):
         self.hands_free_hotkey_edit = QtWidgets.QLineEdit()
         self.hands_free_hotkey_edit.setPlaceholderText("ctrl+win+space; blank disables")
         self.hands_free_hotkey_edit.setToolTip("Toggle hands-free recording. The recording shortcut finishes it; Esc cancels it.")
+        self.paste_last_hotkey_edit = QtWidgets.QLineEdit()
+        self.paste_last_hotkey_edit.setPlaceholderText("shift+alt+z; blank disables")
+        self.paste_last_hotkey_edit.setToolTip("Paste the latest saved transcript into the current field after releasing the shortcut.")
         self.save_hotkey_edit = QtWidgets.QLineEdit()
         self.cancel_hotkey_edit = QtWidgets.QLineEdit()
         self.tap_lock_spin = QtWidgets.QSpinBox()
@@ -169,11 +173,12 @@ class SettingsWindow(QtWidgets.QDialog):
         form.addRow("Alternate hotkey", self.alternative_hotkey_edit)
         form.addRow("Mouse recording shortcut", self.mouse_hotkey_edit)
         form.addRow("Hands-free shortcut", self.hands_free_hotkey_edit)
+        form.addRow("Paste last transcript", self.paste_last_hotkey_edit)
         self.shortcut_warning_label = QtWidgets.QLabel()
         self.shortcut_warning_label.setWordWrap(True)
         form.addRow(self.shortcut_warning_label)
         for edit in (self.speech_hotkey_edit, self.alternative_hotkey_edit, self.mouse_hotkey_edit,
-                     self.hands_free_hotkey_edit, self.save_hotkey_edit, self.cancel_hotkey_edit):
+                     self.hands_free_hotkey_edit, self.paste_last_hotkey_edit, self.save_hotkey_edit, self.cancel_hotkey_edit):
             edit.textChanged.connect(lambda text: self._show_shortcut_warning())
         form.addRow("Save hotkey", self.save_hotkey_edit)
         form.addRow("Cancel hotkey", self.cancel_hotkey_edit)
@@ -331,6 +336,7 @@ class SettingsWindow(QtWidgets.QDialog):
         self.alternative_hotkey_edit.setText(cfg["hotkeys"]["speech_alternative"])
         self.mouse_hotkey_edit.setText(cfg["hotkeys"]["speech_mouse"])
         self.hands_free_hotkey_edit.setText(cfg["hotkeys"]["hands_free"])
+        self.paste_last_hotkey_edit.setText(cfg["hotkeys"]["paste_last"])
         self.save_hotkey_edit.setText(cfg["hotkeys"]["save"])
         self.cancel_hotkey_edit.setText(cfg["hotkeys"]["cancel"])
         self.tap_lock_spin.setValue(int(cfg["hotkeys"]["tap_lock_ms"]))
@@ -392,6 +398,7 @@ class SettingsWindow(QtWidgets.QDialog):
         values = {"speech": self.speech_hotkey_edit.text(), "speech_alternative": self.alternative_hotkey_edit.text(),
                   "speech_mouse": self.mouse_hotkey_edit.text(), "save": self.save_hotkey_edit.text(),
                   "hands_free": self.hands_free_hotkey_edit.text(),
+                  "paste_last": self.paste_last_hotkey_edit.text(),
                   "cancel": self.cancel_hotkey_edit.text()}
         warning = shortcut_warning(values, detector=lambda: getattr(self, "_wispr_running", None))
         self.shortcut_warning_label.setText(warning)
@@ -403,6 +410,7 @@ class SettingsWindow(QtWidgets.QDialog):
         cfg["hotkeys"]["speech_alternative"] = self.alternative_hotkey_edit.text().strip()
         cfg["hotkeys"]["speech_mouse"] = self.mouse_hotkey_edit.text().strip()
         cfg["hotkeys"]["hands_free"] = self.hands_free_hotkey_edit.text().strip()
+        cfg["hotkeys"]["paste_last"] = self.paste_last_hotkey_edit.text().strip()
         cfg["hotkeys"]["save"] = self.save_hotkey_edit.text().strip()
         cfg["hotkeys"]["cancel"] = self.cancel_hotkey_edit.text().strip()
         cfg["hotkeys"]["tap_lock_ms"] = int(self.tap_lock_spin.value())

@@ -57,7 +57,7 @@ class SessionWorker:
                                      keyboard_module=keyboard_module,
                                      stop_session=lambda result: self.stop_recording(
                                          released_at=result.stopped_at, session_id=result.session_id),
-                                     timer_factory=timer_factory)
+                                     timer_factory=timer_factory, paste=self.paste_last)
         self._prepare_context()
         self._warm_cleanup()
 
@@ -625,6 +625,54 @@ class SessionWorker:
         if generation is not False:
             self._schedule(3.0, lambda: self.stop_recording(session_id=generation))
 
+    def paste_last(self):
+        if not self._lock.acquire(blocking=False):
+            return False
+        try:
+            if self.busy or self._closing:
+                self.emit("notification_requested", "Finish the current work before pasting the last transcript.")
+                return False
+            self._cancel_request.clear()
+            self._capturing_context = True
+            context = self.services.context
+        finally:
+            self._lock.release()
+        try:
+            capture = getattr(context, "capture_for_insertion", context.capture)
+            target = capture()  # Freeze the requested field before the serial History read.
+            with self._lock:
+                if self._closing or self._cancel_request.is_set() or self._pending_config is not None:
+                    return False
+                if insertion_block(target):
+                    self.emit("notification_requested", "Cannot paste into this field; use Copy in History.")
+                    return False
+                self._submit(self._paste_last, target)
+                return True
+        except Exception:
+            logger.warning("Could not prepare last-transcript insertion")
+            self.emit("notification_requested", "Could not paste the last transcript; use Copy in History.")
+            return False
+        finally:
+            with self._lock:
+                self._capturing_context = False
+                if self._pending_config is not None and not self.busy and not self._closing:
+                    self._submit(lambda: None)  # Settings must not retire its own dispatcher.
+
+    def _paste_last(self, target):
+        if self._closing or self._cancel_request.is_set():
+            return
+        try:
+            text = self.services.history.last_transcript()
+            if self._closing or self._cancel_request.is_set():
+                return
+            if text:
+                self._reinsert_text(text, target=target)
+            else:
+                self.emit("notification_requested", "No saved transcript is available yet.")
+        except Exception:
+            logger.warning("Last saved transcript unavailable")
+            self.emit("notification_requested", "Could not read the last transcript; open History to copy it.")
+
     def reinsert_text(self, text):
         with self._lock:
             if self.busy or self._closing or not isinstance(text, str) or not text:
@@ -633,11 +681,11 @@ class SessionWorker:
             self._submit(self._reinsert_text, text)
             return True
 
-    def _reinsert_text(self, text):
+    def _reinsert_text(self, text, *, target=None):
         try:
             if self._closing or self._cancel_request.is_set():
                 return
-            target = self.services.context.capture()
+            target = target if target is not None else self.services.context.capture()
             if insertion_block(target):
                 self.emit("notification_requested", "Cannot reinsert into this field; use Copy in History.")
                 return

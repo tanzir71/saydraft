@@ -65,7 +65,7 @@ def main(argv=None):
     NetworkGuard.install()
     try:
         cfg = default_config()
-        cfg["hotkeys"].update(speech="f9", speech_alternative="", speech_mouse="", hands_free="", save="")
+        cfg["hotkeys"].update(speech="f9", speech_alternative="", speech_mouse="", hands_free="", paste_last="", save="")
         owner = BoundedUIA(factory=ObservedUIA, capture_timeout=.5)
         context = ForegroundContextProvider(api=FixtureForeground(), uia=owner)
         history = DictationHistoryStore(args.output / "history.db")
