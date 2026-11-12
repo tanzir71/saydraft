@@ -38,8 +38,8 @@ Shutdown closes the owned server and refuses late preparation results.
 
 Prefix preparation does not certify latency for every transcript, language,
 caret value or glossary. The [interactive gate](CLEANUP_GATE.md) now adds need
-scoring and per-request budget prediction. Release-deadline propagation and
-end-to-end Standard/Pro acceptance remain P4.6 work. Model defaults remain unselected.
+scoring, per-request prediction and release-deadline propagation through ASR.
+End-to-end Standard/Pro acceptance remains P4.6 work. Model defaults remain unselected.
 The one-token probe primes the chat prefix after decoder warm-up. These samples
 do not certify every context length, changing system load or clean-driver-cache
 behavior; tier acceptance still requires the remaining latency suite.

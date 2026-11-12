@@ -147,7 +147,7 @@ def test_low_need_does_not_construct_any_model_when_called_without_worker_warmup
 
 
 def test_expired_outer_budget_refuses_even_high_need_without_constructing_a_model():
-    context = SimpleNamespace(**vars(DictationContext()), cleanup_deadline=100.04)
+    context = DictationContext(cleanup_deadline=100.04)
     local = LocalLLMCleaner(LocalLLMConfig(enabled=True, model_path="unused"), clock=lambda: 100,
         manager_factory=lambda cfg: pytest.fail("expired budget must not construct a model"))
     assert local.clean_after_rules("Hello", raw_text="um hello", context=context) == (None, "skip_budget")
@@ -155,7 +155,7 @@ def test_expired_outer_budget_refuses_even_high_need_without_constructing_a_mode
 
 def test_outer_deadline_shortens_the_shared_transport_deadline():
     _pipeline, model, local, _client, clock, timeouts, _invalidations = prepared_pipeline()
-    context = SimpleNamespace(**vars(DictationContext()), cleanup_deadline=clock.now + .3)
+    context = DictationContext(cleanup_deadline=clock.now + .3)
     assert local.clean_after_rules("Hello", raw_text="um hello", context=context) == ("Hello", "ok")
     assert timeouts == [pytest.approx(.25)] and len(generation_requests(model)) == 1
 
@@ -176,7 +176,7 @@ def test_prompt_assembly_cannot_reset_the_absolute_budget(monkeypatch):
         clock.now += .4
         return original(*args, **kwargs)
     monkeypatch.setattr(client_module, "build_messages", delayed)
-    context = SimpleNamespace(**vars(DictationContext()), cleanup_deadline=clock.now + .3)
+    context = DictationContext(cleanup_deadline=clock.now + .3)
     assert local.clean_after_rules("Hello", raw_text="um hello", context=context) == (None, "skip_budget")
     assert not model.requests and not timeouts
 

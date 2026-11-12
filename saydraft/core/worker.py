@@ -19,6 +19,9 @@ from .preview import PreviewSession, choose_preview_result
 
 logger = logging.getLogger(__name__)
 
+# §1 row 8: with-LLM release-to-text p95 target. Cleanup retains its smaller cap.
+RELEASE_TO_TEXT_BUDGET_SECONDS = 2.0
+
 
 class SessionWorker:
     def __init__(self, services: Services, *, emit=lambda name, *args: None, executor=None,
@@ -221,6 +224,9 @@ class SessionWorker:
             event = self.session.dispatch(Input.RELEASE)
             if event is None:
                 return
+            if event.previous != State.ARMING and event.state != State.CANCELLED:
+                self._context = replace(self._context,
+                    cleanup_deadline=event.timestamp + RELEASE_TO_TEXT_BUDGET_SECONDS)
             self._cancel_timers()
             self.emit("recording_stopped", float(event.recording_seconds or 0))
             if event.previous == State.ARMING:

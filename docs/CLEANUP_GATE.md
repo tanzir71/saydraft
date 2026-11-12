@@ -23,8 +23,15 @@ Only ephemeral token IDs track the previous user message; it is not persisted.
 The request uses the smaller of the configured 800 ms cap and an optional outer
 deadline, reserving 50 ms for fallback/delivery. Prompt assembly, tokenization and
 generation consume that same absolute deadline. Expired requests do not start a
-model. Release-to-cleanup deadline propagation through ASR/queueing is a remaining
-integration task; the per-request cap does not establish release-to-text latency.
+model. The worker captures the release event's monotonic timestamp and carries
+its two-second outer deadline in ephemeral `DictationContext` metadata. Recorder
+shutdown, executor queueing, ASR, preview completion and processor work all consume
+that budget; captured-app/language replacement preserves it. No fresh budget starts
+after recognition, and each new recording starts without a previous deadline.
+The outer cap follows the with-LLM p95 ceiling in §1 row 8; it does not guarantee
+that ASR, fallback, History or insertion finishes within the target, or establish
+the tighter rules-only or p50 targets. Standalone cleanup without a release event
+retains the configured request cap.
 
 History stores the existing accepted/fallback/skip reason before insertion. The
 diagnostic log contains score/cue labels, token counts and predicted/remaining
@@ -42,12 +49,14 @@ High-need cases may legitimately skip for budget; `accepted_replies` is reported
 separately. Five correct policy outcomes do not imply five model replies or model
 quality acceptance. The probe performs no capture, database write or live insertion.
 
-Validation: 1375 tests pass with four optional native skips; rules 432/432,
+Validation: 1383 tests pass with four optional native skips; rules 432/432,
 authored adversarial checks 100/100, and Ruff/diff checks pass.
 
 Tests cover pre-rule cues, Unicode word counts, low-need/expired zero-call paths,
 live rates, shared deadlines, tokenization time, cache invalidation, metadata
-privacy and History ordering. Automatic adapter/benchmark integration, full gated
+privacy and History ordering. Worker/processor tests charge simulated recorder,
+queue and ASR delays through the real gate/client and prove an expired budget
+still saves rules before simulated insertion. Automatic adapter/benchmark integration, full gated
 quality and Standard/Pro end-to-end latency acceptance
 remain required. No candidate is promoted or selected by this change.
 

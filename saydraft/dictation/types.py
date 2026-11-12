@@ -17,4 +17,5 @@ class DictationContext:
     language: str = "auto"
     before_caret: str = ""
     intensity: Optional[int] = None
+    cleanup_deadline: Optional[float] = None  # Monotonic, ephemeral; never persisted.
 
