@@ -3,10 +3,10 @@
 The rules-only command is:
 
 ```powershell
-python -m saydraft.eval --min-pass-rate 100 --min-cases 192
+python -m saydraft.eval --min-pass-rate 100 --min-cases 286
 ```
 
-CI currently requires all 192 unique examples to pass. The minimum will rise with
+CI currently requires all 286 unique examples to pass. The minimum will rise with
 the corpus toward P4.7's 300-case acceptance; P4.7 remains unchecked. The separate
 adversarial command requires at least 100 refusals and a 100% catch rate.
 
@@ -39,6 +39,6 @@ pass rate alone does not prove a model was used. The bake-off must separately
 record actual model use, refusals, timeouts and rules fallback. This change makes
 no model-quality or owner-ASR accuracy claim.
 
-Validation: 952 tests pass with four optional native skips and real
-preview/Silero/LID fixtures enabled; rules 192/192; adversarial 100/100; Ruff and
+Validation: 1044 tests pass with four optional native skips and real
+preview/Silero/LID fixtures enabled; rules 286/286; adversarial 100/100; Ruff and
 diff checks pass.

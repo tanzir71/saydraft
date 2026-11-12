@@ -4,6 +4,7 @@ import time
 from dataclasses import dataclass
 from typing import Optional
 
+from saydraft.cleanup.code_mode import render_code
 from .glossary import Glossary, apply_replacements, learn_word, load_glossary, protect_terms, restore_terms
 from .llm_local import LocalLLMConfig, LocalLLMCleaner
 from .protect import protect_spans, restore_spans
@@ -29,20 +30,6 @@ def _options_for(context: DictationContext) -> RuleOptions:
         return RuleOptions(
             remove_fillers=False,
             remove_repetitions=False,
-            handle_self_corrections=False,
-            normalize_punctuation=False,
-            normalize_capitalization=False,
-            normalize_whitespace=True,
-            enable_list_formatting=False,
-            convert_spoken_punctuation=False,
-            convert_spoken_newlines=False,
-            final_period=False,
-        )
-
-    if context.profile == "code/comments" or context.app_group == "code":
-        return RuleOptions(
-            remove_fillers=False,
-            remove_repetitions=True,
             handle_self_corrections=False,
             normalize_punctuation=False,
             normalize_capitalization=False,
@@ -140,9 +127,9 @@ class DictationPipeline:
         protected_text, mapping = protect_terms(text, self.glossary)
         protected_text, span_mapping = protect_spans(protected_text, protected_tokens=mapping)
 
-        rule_opts = _options_for(context)
         rules_started = time.perf_counter()
-        rule_clean = apply_rules(protected_text, rule_opts)
+        code = context.mode != "raw" and (context.profile == "code/comments" or context.app_group == "code")
+        rule_clean = render_code(protected_text) if code else apply_rules(protected_text, _options_for(context))
         self.last_timings["rules"] = time.perf_counter() - rules_started
 
         if context.mode == "raw" or context.profile == "code/comments" or context.app_group == "code":

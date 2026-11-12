@@ -23,8 +23,8 @@
 {"id":"balanced-chat-03","mode":"balanced","profile":"chat","input":"you know we should ship this","expected":"You know we should ship this"}
 {"id":"balanced-chat-04","mode":"balanced","profile":"chat","input":"make it red no wait blue","expected":"Make it red no wait blue"}
 {"id":"balanced-chat-05","mode":"balanced","profile":"chat","input":"thanks comma talk soon","expected":"Thanks comma talk soon"}
-{"id":"balanced-code-01","mode":"balanced","profile":"code/comments","input":"um hello hello world","expected":"um hello world"}
-{"id":"balanced-code-02","mode":"balanced","profile":"code/comments","input":"print hello comma world","expected":"print hello comma world"}
+{"id":"balanced-code-01","mode":"balanced","profile":"code/comments","input":"um hello hello world","expected":"um hello hello world"}
+{"id":"balanced-code-02","mode":"balanced","profile":"code/comments","input":"print hello comma world","expected":"print hello, world"}
 {"id":"balanced-code-03","mode":"balanced","profile":"code/comments","input":"one apples two bananas","expected":"one apples two bananas"}
 {"id":"aggressive-general-01","mode":"aggressive","profile":"general","input":"um like hello hello world","expected":"Hello world"}
 {"id":"aggressive-general-02","mode":"aggressive","profile":"general","input":"set the meeting for two actually three","expected":"Set the meeting for 3"}
@@ -39,7 +39,7 @@
 {"id":"aggressive-notes-03","mode":"aggressive","profile":"notes","input":"new line apples new line bananas","expected":"Apples\nBananas"}
 {"id":"aggressive-chat-01","mode":"aggressive","profile":"chat","input":"you know we should ship this","expected":"We should ship this"}
 {"id":"aggressive-chat-02","mode":"aggressive","profile":"chat","input":"make it red no wait blue","expected":"Make it blue"}
-{"id":"aggressive-code-01","mode":"aggressive","profile":"code/comments","input":"like hello hello world","expected":"like hello world"}
+{"id":"aggressive-code-01","mode":"aggressive","profile":"code/comments","input":"like hello hello world","expected":"like hello hello world"}
 {"id":"commands-v1-01","mode":"aggressive","profile":"email","input":"um hello comma team exclamation point","expected":"Hello, team!"}
 {"id":"commands-v1-02","mode":"aggressive","profile":"general","input":"is it ready question mark","expected":"Is it ready?"}
 {"id":"commands-v1-03","mode":"aggressive","profile":"general","input":"check the server colon then deploy semicolon then check logs","expected":"Check the server: then deploy; then check logs"}
@@ -190,3 +190,97 @@
 {"id":"itn-v1-100","mode":"aggressive","profile":"general","input":"phone double five double zero one two three","expected":"Phone 5500123"}
 {"id":"itn-v1-101","mode":"aggressive","profile":"general","input":"a hundredth of the total","expected":"A hundredth of the total"}
 {"id":"itn-v1-102","mode":"aggressive","profile":"general","input":"per second","expected":"Per second"}
+{"id":"code-v1-001","mode":"balanced","profile":"general","app_group":"code","input":"camel case user name","expected":"userName"}
+{"id":"code-v1-002","mode":"balanced","profile":"general","app_group":"code","input":"snake case user name","expected":"user_name"}
+{"id":"code-v1-003","mode":"balanced","profile":"general","app_group":"code","input":"kebab case user name","expected":"user-name"}
+{"id":"code-v1-004","mode":"balanced","profile":"general","app_group":"code","input":"pascal case user name","expected":"UserName"}
+{"id":"code-v1-005","mode":"balanced","profile":"general","app_group":"code","input":"constant case user name","expected":"USER_NAME"}
+{"id":"code-v1-006","mode":"balanced","profile":"general","app_group":"code","input":"snake case XMLParser","expected":"xml_parser"}
+{"id":"code-v1-007","mode":"balanced","profile":"general","app_group":"code","input":"camel case http response code","expected":"httpResponseCode"}
+{"id":"code-v1-008","mode":"balanced","profile":"general","app_group":"code","input":"constant case max retry count","expected":"MAX_RETRY_COUNT"}
+{"id":"code-v1-009","mode":"balanced","profile":"general","app_group":"code","input":"snake case _private value","expected":"_private_value"}
+{"id":"code-v1-010","mode":"balanced","profile":"general","app_group":"code","input":"pascal case api client v2","expected":"ApiClientV2"}
+{"id":"code-v1-011","mode":"balanced","profile":"general","app_group":"code","input":"camel case বাংলা নাম","expected":"বাংলানাম"}
+{"id":"code-v1-012","mode":"balanced","profile":"general","app_group":"code","input":"snake case اسم المستخدم","expected":"اسم_المستخدم"}
+{"id":"code-v1-013","mode":"balanced","profile":"general","app_group":"code","input":"camel case request id equals snake case user id","expected":"requestId = user_id"}
+{"id":"code-v1-014","mode":"balanced","profile":"general","app_group":"code","input":"constant case api key equals open quote local value close quote","expected":"API_KEY = \"local value\""}
+{"id":"code-v1-015","mode":"balanced","profile":"general","app_group":"code","input":"snake case first name comma snake case last name","expected":"first_name, last_name"}
+{"id":"code-v1-016","mode":"balanced","profile":"general","app_group":"code","input":"snake case first name new line snake case last name","expected":"first_name\nlast_name"}
+{"id":"code-v1-017","mode":"balanced","profile":"general","app_group":"code","input":"    camel case request id","expected":"    requestId"}
+{"id":"code-v1-018","mode":"balanced","profile":"general","app_group":"code","input":"camel case item count equals number two","expected":"itemCount = 2"}
+{"id":"code-v1-019","mode":"balanced","profile":"general","app_group":"code","input":"git dash dash help","expected":"git --help"}
+{"id":"code-v1-020","mode":"balanced","profile":"general","app_group":"code","input":"git dash x","expected":"git -x"}
+{"id":"code-v1-021","mode":"balanced","profile":"general","app_group":"code","input":"python dash dash version","expected":"python --version"}
+{"id":"code-v1-022","mode":"balanced","profile":"general","app_group":"code","input":"npm dash dash version","expected":"npm --version"}
+{"id":"code-v1-023","mode":"balanced","profile":"general","app_group":"code","input":"python dash m pytest","expected":"python -m pytest"}
+{"id":"code-v1-024","mode":"balanced","profile":"general","app_group":"code","input":"foo dot baz open paren close paren","expected":"foo.baz()"}
+{"id":"code-v1-025","mode":"balanced","profile":"general","app_group":"code","input":"data open bracket number zero close bracket","expected":"data[0]"}
+{"id":"code-v1-026","mode":"balanced","profile":"general","app_group":"code","input":"if value greater than number zero","expected":"if value > 0"}
+{"id":"code-v1-027","mode":"balanced","profile":"general","app_group":"code","input":"if value less than or equal number ten","expected":"if value <= 10"}
+{"id":"code-v1-028","mode":"balanced","profile":"general","app_group":"code","input":"x not equals y","expected":"x != y"}
+{"id":"code-v1-029","mode":"balanced","profile":"general","app_group":"code","input":"x double equals y","expected":"x == y"}
+{"id":"code-v1-030","mode":"balanced","profile":"general","app_group":"code","input":"x triple equals y","expected":"x === y"}
+{"id":"code-v1-031","mode":"balanced","profile":"general","app_group":"code","input":"x equals open paren y plus z close paren","expected":"x = (y + z)"}
+{"id":"code-v1-032","mode":"balanced","profile":"general","app_group":"code","input":"x asterisk y","expected":"x * y"}
+{"id":"code-v1-033","mode":"balanced","profile":"general","app_group":"code","input":"x slash y","expected":"x/y"}
+{"id":"code-v1-034","mode":"balanced","profile":"general","app_group":"code","input":"a double ampersand b","expected":"a && b"}
+{"id":"code-v1-035","mode":"balanced","profile":"general","app_group":"code","input":"a double pipe b","expected":"a || b"}
+{"id":"code-v1-036","mode":"balanced","profile":"general","app_group":"code","input":"expr pipe consumer","expected":"expr | consumer"}
+{"id":"code-v1-037","mode":"balanced","profile":"general","app_group":"code","input":"list open bracket a comma b close bracket","expected":"list[a, b]"}
+{"id":"code-v1-038","mode":"balanced","profile":"general","app_group":"code","input":"open brace key colon value close brace","expected":"{key: value}"}
+{"id":"code-v1-039","mode":"balanced","profile":"general","app_group":"code","input":"result equals number minus five","expected":"result = -5"}
+{"id":"code-v1-040","mode":"balanced","profile":"general","app_group":"code","input":"result equals number negative two point five","expected":"result = -2.5"}
+{"id":"code-v1-041","mode":"balanced","profile":"general","app_group":"code","input":"console dot log open paren open quote hello close quote close paren","expected":"console.log(\"hello\")"}
+{"id":"code-v1-042","mode":"balanced","profile":"general","app_group":"code","input":"echo open single quote hello world close single quote","expected":"echo 'hello world'"}
+{"id":"code-v1-043","mode":"balanced","profile":"general","app_group":"code","input":"print open paren x comma y close paren semicolon","expected":"print(x, y);"}
+{"id":"code-v1-044","mode":"balanced","profile":"general","app_group":"code","input":"at file main dot py","expected":"@main.py"}
+{"id":"code-v1-045","mode":"balanced","profile":"general","app_group":"code","input":"at file src slash main dot py","expected":"@src/main.py"}
+{"id":"code-v1-046","mode":"balanced","profile":"general","app_group":"code","input":"at file dot slash config dot json","expected":"@./config.json"}
+{"id":"code-v1-047","mode":"balanced","profile":"general","app_group":"code","input":"at file dot dot slash setup dot py","expected":"@../setup.py"}
+{"id":"code-v1-048","mode":"balanced","profile":"general","app_group":"code","input":"at file my hyphen module dot py","expected":"@my-module.py"}
+{"id":"code-v1-049","mode":"balanced","profile":"general","app_group":"code","input":"at file test underscore api dot py","expected":"@test_api.py"}
+{"id":"code-v1-050","mode":"balanced","profile":"general","app_group":"code","input":"review at file app.py","expected":"review @app.py"}
+{"id":"code-v1-051","mode":"balanced","profile":"general","app_group":"code","input":"python at file main dot py dash dash verbose","expected":"python @main.py --verbose"}
+{"id":"code-v1-052","mode":"balanced","profile":"general","app_group":"code","input":"at file src slash app dot ts comma at file tests slash app dot ts","expected":"@src/app.ts, @tests/app.ts"}
+{"id":"code-v1-053","mode":"balanced","profile":"general","app_group":"code","input":"at file c colon backslash Users backslash app dot py","expected":"@c:\\Users\\app.py"}
+{"id":"code-v1-054","mode":"balanced","profile":"general","app_group":"code","input":"const value = plus","expected":"const value = plus"}
+{"id":"code-v1-055","mode":"balanced","profile":"general","app_group":"code","input":"def minus(x):\n    return x","expected":"def minus(x):\n    return x"}
+{"id":"code-v1-056","mode":"balanced","profile":"general","app_group":"code","input":"result: int = plus","expected":"result: int = plus"}
+{"id":"code-v1-057","mode":"balanced","profile":"general","app_group":"code","input":"items[minus]","expected":"items[minus]"}
+{"id":"code-v1-058","mode":"balanced","profile":"general","app_group":"code","input":"# use camel case here","expected":"# use camel case here"}
+{"id":"code-v1-059","mode":"balanced","profile":"general","app_group":"code","input":"// snake case remains literal","expected":"// snake case remains literal"}
+{"id":"code-v1-060","mode":"balanced","profile":"general","app_group":"code","input":"x = plus  # camel case remains literal","expected":"x = plus  # camel case remains literal"}
+{"id":"code-v1-061","mode":"balanced","profile":"general","app_group":"code","input":"'dot slash equals'","expected":"'dot slash equals'"}
+{"id":"code-v1-062","mode":"balanced","profile":"general","app_group":"code","input":"\"camel case words\"","expected":"\"camel case words\""}
+{"id":"code-v1-063","mode":"balanced","profile":"general","app_group":"code","input":"`git dash dash help`","expected":"`git dash dash help`"}
+{"id":"code-v1-064","mode":"balanced","profile":"general","app_group":"code","input":"https://example.com/dot","expected":"https://example.com/dot"}
+{"id":"code-v1-065","mode":"balanced","profile":"general","app_group":"code","input":"two@example.com","expected":"two@example.com"}
+{"id":"code-v1-066","mode":"balanced","profile":"general","app_group":"code","input":"obj.value","expected":"obj.value"}
+{"id":"code-v1-067","mode":"balanced","profile":"general","app_group":"code","input":"foo foo bar","expected":"foo foo bar"}
+{"id":"code-v1-068","mode":"balanced","profile":"general","app_group":"code","input":"um like foo foo","expected":"um like foo foo"}
+{"id":"code-v1-069","mode":"balanced","profile":"general","app_group":"code","input":"    return x","expected":"    return x"}
+{"id":"code-v1-070","mode":"balanced","profile":"general","app_group":"code","input":"\treturn  x\r\n    return y","expected":"\treturn  x\r\n    return y"}
+{"id":"code-v1-071","mode":"balanced","profile":"general","app_group":"code","input":"hello.","expected":"hello."}
+{"id":"code-v1-072","mode":"balanced","profile":"general","app_group":"code","input":"camel case","expected":"camel case"}
+{"id":"code-v1-073","mode":"balanced","profile":"general","app_group":"code","input":"camel case 3 items","expected":"camel case 3 items"}
+{"id":"code-v1-074","mode":"balanced","profile":"general","app_group":"code","input":"at file","expected":"at file"}
+{"id":"code-v1-075","mode":"balanced","profile":"general","app_group":"code","input":"number of values","expected":"number of values"}
+{"id":"code-v1-076","mode":"balanced","profile":"general","app_group":"code","input":"foo = camel case item count","expected":"foo = itemCount"}
+{"id":"code-v1-077","mode":"balanced","profile":"general","app_group":"code","input":"value = \"dot slash\"\r\n    snake case item count","expected":"value = \"dot slash\"\r\n    item_count"}
+{"id":"code-v1-078","mode":"balanced","profile":"general","app_group":"code","input":"camelcase build id","expected":"buildId"}
+{"id":"code-v1-079","mode":"balanced","profile":"general","app_group":"code","input":"snakecase build id","expected":"build_id"}
+{"id":"code-v1-080","mode":"balanced","profile":"general","app_group":"code","input":"kebabcase build id","expected":"build-id"}
+{"id":"code-v1-081","mode":"balanced","profile":"general","app_group":"code","input":"pascalcase build id","expected":"BuildId"}
+{"id":"code-v1-082","mode":"balanced","profile":"general","app_group":"code","input":"constantcase build id","expected":"BUILD_ID"}
+{"id":"code-v1-083","mode":"raw","profile":"general","app_group":"code","input":"camel case raw name","expected":"camel case raw name"}
+{"id":"code-v1-084","mode":"aggressive","profile":"general","app_group":"code","input":"git dash dash status","expected":"git --status"}
+{"id":"code-v1-085","mode":"balanced","profile":"code/comments","app_group":"general","input":"camel case profile name","expected":"profileName"}
+{"id":"code-v1-086","mode":"balanced","profile":"general","app_group":"code","input":"def plus open paren x close paren colon","expected":"def plus(x):"}
+{"id":"code-v1-087","mode":"balanced","profile":"general","app_group":"code","input":"function minus open paren x close paren open brace new line return x new line close brace","expected":"function minus(x){\nreturn x\n}"}
+{"id":"code-v1-088","mode":"balanced","profile":"general","app_group":"code","input":"from math import plus","expected":"from math import plus"}
+{"id":"code-v1-089","mode":"balanced","profile":"general","app_group":"code","input":"return plus","expected":"return plus"}
+{"id":"code-v1-090","mode":"balanced","profile":"general","app_group":"code","input":"let minus equals number two","expected":"let minus = 2"}
+{"id":"code-v1-091","mode":"balanced","profile":"general","app_group":"code","input":"at file plus dot py","expected":"@plus.py"}
+{"id":"code-v1-092","mode":"balanced","profile":"general","app_group":"code","input":"at file hash dot json","expected":"@hash.json"}
+{"id":"code-v1-093","mode":"balanced","profile":"general","app_group":"code","input":"at file src slash minus dot py","expected":"@src/minus.py"}
+{"id":"code-v1-094","mode":"balanced","profile":"general","app_group":"code","input":"return minus number two","expected":"return -2"}
