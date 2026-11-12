@@ -94,3 +94,11 @@ initial real cached replay passes with zero HTTP, an unchanged configuration
 until Apply, explicit enablement and unchanged speech preferences. Both Models
 viewport positions were rendered and reviewed at 760×560. Immutable-source
 Settings proof follows separately; broader gated tier acceptance remains open.
+
+Clean immutable `30d096d` Settings replays now pass for both 0.8B/CPU and
+2B/Vulkan using the real cached installer. Both forbid HTTP, verify the returned
+model, preserve configuration until explicit enable/Apply and leave speech
+preferences unchanged. Original metadata reports and both viewport PNGs, with
+digests, are retained under `eval/hardware/results/2026-11-12-cleanup-settings/`.
+These are isolated Settings checks; native owned inference is covered separately
+by `42c28d1`. Current-source full policy and tier latency acceptance remain open.

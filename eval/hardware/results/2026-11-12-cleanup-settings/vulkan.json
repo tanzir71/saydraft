@@ -1,0 +1,15 @@
+{
+  "git_commit": "30d096daf8f0c61a02bcdbdf15f352928bb214f1",
+  "source_dirty": false,
+  "delivery": "isolated QA profile; no microphone, hooks, history or insertion",
+  "model": "qwen35-2b-q4-k-m",
+  "backend": "vulkan",
+  "network_requests": 0,
+  "verified_model": true,
+  "config_unchanged_before_apply": true,
+  "cleanup_still_disabled": true,
+  "applied": true,
+  "applied_path_backend": true,
+  "speech_unchanged": true,
+  "probe_complete": true
+}

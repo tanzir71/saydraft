@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "source_commit": "30d096daf8f0c61a02bcdbdf15f352928bb214f1",
+  "tier_acceptance_performed": false,
+  "reports": [
+    {
+      "report": "cpu.json",
+      "report_sha256": "e54f46886900b7e606b1676cf6521bd609d05bcedde9e7b9b4bb29b5888c58a2",
+      "screenshots": [
+        {
+          "file": "cpu-top.png",
+          "sha256": "c6245563f79ffe8b00cb6bd57ab0c9b4d5c4dacb384e5ecf0be14111e5049a3f"
+        },
+        {
+          "file": "cpu-bottom.png",
+          "sha256": "be3c5b864eb73231145e245eb4e5a3efbb641e9a05c7c70b368e610912dfd752"
+        }
+      ]
+    },
+    {
+      "report": "vulkan.json",
+      "report_sha256": "9ef4940e8bb8256054e913059131fc1ab0edae78dcfa8a58e708258c3e968563",
+      "screenshots": [
+        {
+          "file": "vulkan-top.png",
+          "sha256": "0a983ba343894e798a5bc28edfa2af9c8c0902e32c127754737b65fe3a66c880"
+        },
+        {
+          "file": "vulkan-bottom.png",
+          "sha256": "7500bde2b5aefd93beefbaa3745de68477275940374d405841656bd5d2e970b1"
+        }
+      ]
+    }
+  ]
+}
