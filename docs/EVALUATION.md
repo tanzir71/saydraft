@@ -3,11 +3,12 @@
 The rules-only command is:
 
 ```powershell
-python -m saydraft.eval --min-pass-rate 100 --min-cases 286
+python -m saydraft.eval --min-pass-rate 100 --min-cases 326
 ```
 
-CI currently requires all 286 unique examples to pass. The minimum will rise with
-the corpus toward P4.7's 300-case acceptance; P4.7 remains unchecked. The separate
+CI currently requires all 326 unique examples to pass, exceeding P4.7's 300-case
+minimum. P4.7 remains unchecked until the remaining deterministic behaviors join
+the corpus (restatements and opt-in Enter). The separate
 adversarial command requires at least 100 refusals and a 100% catch rate.
 
 Each JSONL row requires nonblank `id` and string `input`/`expected`. Empty text is
@@ -39,6 +40,8 @@ pass rate alone does not prove a model was used. The bake-off must separately
 record actual model use, refusals, timeouts and rules fallback. This change makes
 no model-quality or owner-ASR accuracy claim.
 
-Validation: 1044 tests pass with four optional native skips and real
-preview/Silero/LID fixtures enabled; rules 286/286; adversarial 100/100; Ruff and
-diff checks pass.
+Messaging adds 40 authored examples (286 → 326), covering app/profile guards,
+abbreviations, literals, Unicode punctuation and multi-sentence boundaries.
+Final policy also runs after snippet expansion in the actual processor, before
+History and insertion; those paths have separate integration checks. Details:
+`docs/MESSAGE_PUNCTUATION.md`.

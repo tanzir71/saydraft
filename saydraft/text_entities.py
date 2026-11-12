@@ -2,6 +2,13 @@
 
 import re
 
+# Finite English abbreviations, kept exact through prose rules. Unknown forms
+# remain conservative sentence boundaries rather than guessed abbreviations.
+ABBREVIATION = re.compile(
+    r"(?<!\w)(?:(?:[A-Za-z]\.){2,}|(?:Mr|Mrs|Ms|Dr|Prof|Sr|Jr|St|vs|etc|Inc|Ltd|Corp|approx|Fig)\.)(?!\w)",
+    re.IGNORECASE,
+)
+
 # Literal dotted labels are protected broadly, including technical dotted names.
 # Spoken-address conversion separately requires a recognized suffix.
 BARE_DOMAIN_PATTERN = (r"(?<![\w@.-])[.-]*(?:[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?\.)+"

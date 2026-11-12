@@ -66,6 +66,9 @@ class TranscriptProcessor:
         try:
             cleaned = expand_snippets(cleaned, self.snippets)
             cleaned = self.formatter.format(cleaned, target) or cleaned
+            format_final = getattr(self.cleaner, "format_final", None)
+            if format_final is not None:
+                cleaned = format_final(cleaned, context) or cleaned
         except Exception:
             logger.warning("Formatting failed; preserving available words")
             logger.debug("Formatting failure detail", exc_info=True)

@@ -74,6 +74,7 @@ def test_settings_window_has_required_tabs_and_loads_values(tmp_path):
     assert window.language_combo.currentData() is None
     assert window.mode_combo.currentText() == "balanced"
     assert window.profile_combo.currentText() == "notes"
+    assert window.drop_message_period_checkbox.isChecked()
     assert window.model_picker.model_id == "parakeet-tdt-0-6b-v3-int8"
     assert "CC-BY-4.0" in window.model_picker.license_label.text()
     assert "Saydraft" in window.dictionary_editor.toPlainText()
@@ -90,6 +91,7 @@ def test_settings_window_applies_config_live_and_updates_autostart(tmp_path):
     window.language_combo.setCurrentIndex(window.language_combo.findData("en"))
     window.mode_combo.setCurrentText("aggressive")
     window.profile_combo.setCurrentText("email")
+    window.drop_message_period_checkbox.setChecked(False)
     window.model_combo.setCurrentText("small")
     window.llm_enabled_checkbox.setChecked(True)
     window.llm_path_edit.setText("models/qwen.gguf")
@@ -103,12 +105,19 @@ def test_settings_window_applies_config_live_and_updates_autostart(tmp_path):
     assert saved["stt"]["language"] == "en"
     assert saved["dictation"]["mode"] == "aggressive"
     assert saved["dictation"]["profile"] == "email"
+    assert saved["dictation"]["drop_message_period"] is False
     assert saved["stt"]["model_size"] == "small"
     assert saved["stt"]["engine"] == "whisper"
     assert saved["llm"]["enabled"] is True
     assert saved["llm"]["model_path"] == "models/qwen.gguf"
     assert autostart.calls == [True]
     assert applied[-1] == saved
+    window.close()
+    from saydraft.ui.settings_window import SettingsWindow
+    reopened = SettingsWindow(config_path=config_path, snippets_path=tmp_path / "snippets.txt",
+                              autostart_manager=FakeAutoStartManager())
+    assert not reopened.drop_message_period_checkbox.isChecked()
+    reopened.close()
 
 
 def test_settings_window_blocks_duplicate_hotkeys(tmp_path):

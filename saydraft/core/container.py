@@ -43,6 +43,7 @@ def create_services(config: dict, *, level_callback=None, notify=lambda message:
     llm = dict(config["llm"])
     cleaner = DictationPipeline(DictationConfig(
         glossary_path=str(resolve_data_path(config["dictation"]["glossary_path"])),
+        drop_message_period=config["dictation"].get("drop_message_period", True),
         llm=LocalLLMConfig(
             enabled=llm["enabled"], model_path=str(resolve_data_path(llm["model_path"])),
             n_ctx=llm["n_ctx"], max_tokens=llm["max_tokens"], temperature=llm["temperature"],

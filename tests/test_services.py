@@ -23,9 +23,11 @@ def test_container_preserves_explicit_whisper_engine(tmp_path, monkeypatch):
     from saydraft.asr.selection import select_model
 
     select_model(config, "whisper-small")
+    config["dictation"]["drop_message_period"] = False
     services = create_services(config)
     assert services.asr.config.local_files_only
     assert services.asr.config.model_size == "small"
+    assert services.cleaner.cfg.drop_message_period is False
 
 
 def test_runtime_does_not_depend_on_retired_worker():

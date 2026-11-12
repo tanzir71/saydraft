@@ -3,7 +3,7 @@ from __future__ import annotations
 import re
 from typing import Dict, Tuple
 
-from saydraft.text_entities import BARE_DOMAIN, EMAIL
+from saydraft.text_entities import ABBREVIATION, BARE_DOMAIN, EMAIL
 
 _SPAN_PATTERNS = [
     re.compile(r"```[\s\S]*?```"),
@@ -11,6 +11,7 @@ _SPAN_PATTERNS = [
     re.compile(r"\"[^\"\n]*\""),
     re.compile(r"“[^”\n]*”"),
     re.compile(r"__(?:SPAN|GLOSSARY)_\d+__|⟦T\d+⟧"),
+    ABBREVIATION,
     re.compile(r"https?://[^\s<>\"'\])]+", re.IGNORECASE),
     EMAIL,
     re.compile(r"(?<!\w)v\d+(?:\.\d+)+(?!\w)", re.IGNORECASE),
@@ -29,7 +30,8 @@ def protect_spans(text: str, *, protected_tokens=(), entities_only=False) -> Tup
 
     def protect(match):
         nonlocal idx
-        if match[0] in protected_tokens:
+        # Leave meridiems visible to the time ITN pass (three p.m. -> 3 PM).
+        if match[0] in protected_tokens or match[0].lower() in ("a.m.", "p.m."):
             return match[0]
         original = match[0]
         suffix = ""

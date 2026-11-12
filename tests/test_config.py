@@ -50,6 +50,7 @@ def test_default_config_contains_schema_and_expected_defaults(tmp_path):
     assert cfg["recording"]["warning_seconds"] == 540
     assert cfg["dictation"]["mode"] == "balanced"
     assert cfg["dictation"]["profile"] == "general"
+    assert cfg["dictation"]["drop_message_period"] is True
     assert cfg["stt"]["model_size"] == "base"
     assert cfg["stt"]["compute_type"] == "int8"
     assert cfg["stt"]["local_files_only"] is True

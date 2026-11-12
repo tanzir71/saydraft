@@ -37,6 +37,7 @@ CONFIG_SCHEMA: dict[str, Any] = {
         "profile": str,
         "glossary_path": str,
         "app_profiles_path": str,
+        "drop_message_period": bool,
     },
     "stt": {
         "routing_enabled": bool,
@@ -98,6 +99,7 @@ _DEFAULT_CONFIG: dict[str, Any] = {
         "profile": "general",
         "glossary_path": "glossary.json",
         "app_profiles_path": "app_profiles.json",
+        "drop_message_period": True,
     },
     "stt": {
         "routing_enabled": True,

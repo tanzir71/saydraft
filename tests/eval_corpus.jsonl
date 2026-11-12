@@ -1,3 +1,43 @@
+{"id":"message-01","app_group":"messages","input":"um thanks for your help.","expected":"Thanks for your help"}
+{"id":"message-02","app_group":"work_chat","input":"the build is ready.","expected":"The build is ready"}
+{"id":"message-03","app_group":"messages","input":"thanks. I will check.","expected":"Thanks. I will check."}
+{"id":"message-04","app_group":"work_chat","input":"ready? yes.","expected":"Ready? Yes."}
+{"id":"message-05","app_group":"messages","input":"thanks!","expected":"Thanks!"}
+{"id":"message-06","app_group":"messages","input":"are we ready?","expected":"Are we ready?"}
+{"id":"message-07","app_group":"messages","input":"wait...","expected":"Wait..."}
+{"id":"message-08","app_group":"work_chat","input":"wait… please.","expected":"Wait… please."}
+{"id":"message-09","app_group":"messages","input":"the value is 0.5.","expected":"The value is 0.5"}
+{"id":"message-10","app_group":"messages","input":"use v2.1.","expected":"Use v2.1"}
+{"id":"message-11","app_group":"work_chat","input":"open example.com.","expected":"Open example.com"}
+{"id":"message-12","app_group":"work_chat","input":"see https://example.com/v1.2.","expected":"See https://example.com/v1.2"}
+{"id":"message-13","app_group":"messages","input":"email a.b@example.com.","expected":"Email a.b@example.com"}
+{"id":"message-14","app_group":"work_chat","input":"call Dr. Smith.","expected":"Call Dr. Smith"}
+{"id":"message-15","app_group":"messages","input":"I live in the U.S.","expected":"I live in the U.S."}
+{"id":"message-16","app_group":"messages","input":"send pens and paper etc.","expected":"Send pens and paper etc."}
+{"id":"message-17","app_group":"work_chat","input":"ask John A. Smith.","expected":"Ask John A. Smith"}
+{"id":"message-18","app_group":"messages","input":"read `x.y`.","expected":"Read `x.y`"}
+{"id":"message-19","app_group":"work_chat","input":"\"keep this.\"","expected":"\"keep this.\""}
+{"id":"message-20","app_group":"messages","input":"thanks (really).","expected":"Thanks (really)"}
+{"id":"message-21","app_group":"messages","input":"1. Ready.","expected":"1. Ready."}
+{"id":"message-22","app_group":"messages","input":"- Ready.","expected":"- Ready."}
+{"id":"message-23","app_group":"messages","input":"ready\ngo.","expected":"Ready\nGo."}
+{"id":"message-24","app_group":"messages","input":"ধন্যবাদ।","expected":"ধন্যবাদ"}
+{"id":"message-25","app_group":"work_chat","input":"مرحبا.","expected":"مرحبا"}
+{"id":"message-26","app_group":"messages","input":"谢谢。","expected":"谢谢"}
+{"id":"message-27","app_group":"messages","input":"আমি আসছি। তুমি থাকো।","expected":"আমি আসছি। তুমি থাকো।"}
+{"id":"message-28","app_group":"messages","input":"هل انتهيت؟ نعم.","expected":"هل انتهيت؟ نعم."}
+{"id":"message-29","mode":"aggressive","app_group":"work_chat","input":"thanks period","expected":"Thanks"}
+{"id":"message-30","mode":"raw","app_group":"messages","input":"um thanks.","expected":"um thanks."}
+{"id":"message-31","profile":"chat","app_group":"email","input":"thanks.","expected":"Thanks."}
+{"id":"message-32","profile":"chat","app_group":"docs","input":"thanks.","expected":"Thanks."}
+{"id":"message-33","profile":"email","app_group":"messages","input":"please review this","expected":"Please review this."}
+{"id":"message-34","profile":"notes","app_group":"messages","input":"done.","expected":"Done."}
+{"id":"message-35","profile":"code/comments","app_group":"messages","input":"x = 1.","expected":"x = 1."}
+{"id":"message-36","profile":"chat","input":"thanks.","expected":"Thanks"}
+{"id":"message-37","app_group":"messages","input":"buy pens etc. Bring paper.","expected":"Buy pens etc. Bring paper."}
+{"id":"message-38","profile":"email","input":"\"Hello.\"","expected":"\"Hello.\""}
+{"id":"message-39","profile":"email","input":"হয়ে গেছে।","expected":"হয়ে গেছে।"}
+{"id":"message-40","profile":"email","input":"I live in the U.S.","expected":"I live in the U.S."}
 {"id":"raw-general-01","mode":"raw","profile":"general","input":"um hello hello world","expected":"um hello hello world"}
 {"id":"raw-notes-01","mode":"raw","profile":"notes","input":"one apples two bananas","expected":"one apples two bananas"}
 {"id":"raw-code-01","mode":"raw","profile":"code/comments","input":"def foo open paren close paren","expected":"def foo open paren close paren"}

@@ -132,3 +132,32 @@ def test_cleanup_receives_captured_app_group_language_and_caret_without_mutating
     assert (seen[0].app_title, seen[0].app_group, seen[0].language, seen[0].before_caret) == (
         "Mail", "email", "bn", "Dear team,")
     assert context == DictationContext()
+
+
+@pytest.mark.parametrize("snippet, expected", [
+    ("Thanks.", "Thanks"), ("Thanks. Talk soon.", "Thanks. Talk soon."),
+    ("Are you ready?", "Are you ready?"),
+])
+def test_real_pipeline_formats_expanded_snippets_before_history_and_insertion(snippet, expected):
+    from saydraft.dictation import DictationConfig, DictationPipeline
+
+    pipeline = DictationPipeline(DictationConfig())
+    processor, events, _ = make_processor(cleaner=pipeline)
+    processor.snippets = {"signature": snippet}
+    result = processor.process("signature", context=DictationContext(), model="fixture",
+        target=TargetContext("captured", "Chat", app_group="work_chat"))
+    assert result.cleaned_text == expected
+    assert events[0][0] == "history" and events[0][1].cleaned_text == expected
+    assert events[1][0:2] == ("insert", expected)
+
+
+def test_final_punctuation_failure_preserves_text_and_history_failure_still_refuses_insertion():
+    def broken_final(text, context):
+        raise ValueError("final punctuation failed")
+    pipeline = types.SimpleNamespace(process_transcript=lambda text, context: "Ready.", format_final=broken_final)
+    processor, events, _ = make_processor(cleaner=pipeline)
+    assert process(processor).cleaned_text == events[0][1].cleaned_text == "Ready."
+    processor.history = types.SimpleNamespace(append=lambda entry: (_ for _ in ()).throw(OSError("full")))
+    before = len(events)
+    assert process(processor).insertion.reason == "history_unavailable"
+    assert len(events) == before
