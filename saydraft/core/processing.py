@@ -111,7 +111,9 @@ class TranscriptProcessor:
             def action():
                 options = {"start_focus": target.focus, "app_title": target.app_title}
                 if delivery.send_enter:
-                    options.update(send_enter=True, enter_guard=enter_guard)
+                    options["send_enter"] = True
+                if enter_guard is not None:
+                    options["enter_guard"] = enter_guard
                 return self.inserter.insert_text(cleaned, **options)
             try:
                 insertion = insert_action(action) if insert_action is not None else action()

@@ -101,7 +101,7 @@ class WindowsClipboard:
         """Explicit Copy replaces the clipboard and keeps all dictation privacy flags."""
         if not isinstance(text, str) or "\0" in text:
             raise ValueError("Clipboard text must be a string without embedded NUL characters")
-        with self._lock:
+        with self._ui_lock():
             api, payloads = self._factory(), []
             try:
                 with api.window() as hwnd, api.opened(hwnd):
@@ -121,6 +121,15 @@ class WindowsClipboard:
                             self.pending_sequence = api.sequence()
             finally:
                 release(payloads)
+
+    @contextmanager
+    def _ui_lock(self):
+        if not self._lock.acquire(blocking=False):
+            raise ClipboardUnavailable("A clipboard transaction is active")
+        try:
+            yield
+        finally:
+            self._lock.release()
 
     def _restore_locked(self, api, snapshot):
         copies = snapshot.stage(api)  # All allocations happen before EmptyClipboard.
@@ -145,6 +154,14 @@ class WindowsClipboard:
 
     def recover(self):
         """Retry the single retained original, unless a new clipboard copy supersedes it."""
+        if not self._lock.acquire(blocking=False):
+            return False
+        try:
+            return self._recover_locked()
+        finally:
+            self._lock.release()
+
+    def _recover_locked(self):
         with self._lock:
             if self.pending is None:
                 return True

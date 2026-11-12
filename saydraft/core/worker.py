@@ -247,7 +247,7 @@ class SessionWorker:
                          event.state == State.CANCELLED)
 
     def cancel(self):
-        # Observed by delivery even while the insertion lock is held.
+        # Observed by delivery even while native clipboard rendering is in progress.
         self._cancel_request.set()
         if not self.session.active:
             return  # Also aborts a pending context capture before START dispatch.
@@ -267,10 +267,17 @@ class SessionWorker:
     def _insert_if_current(self, generation, action):
         with self._lock:
             if (generation != self.session.session_id or self.session.state != State.CLEANING
-                    or self._closing):
+                    or self._closing or self._cancel_request.is_set()):
                 return InsertionResult("not_inserted", "none", "cancelled")
             self.session.dispatch(Input.CLEANED, session_id=generation)
+        # Clipboard rendering can call into the GUI; never hold the session lock across OS delivery.
+        try:
             result = action()
+        except Exception:
+            with self._lock:
+                self.session.dispatch(Input.NOT_INSERTED, session_id=generation, reason="insertion_error")
+            raise
+        with self._lock:
             outcome = Input.INSERTED if result.status == "inserted" else Input.NOT_INSERTED
             self.session.dispatch(outcome, session_id=generation, reason=result.reason)
             return result
@@ -576,7 +583,7 @@ class SessionWorker:
         if close_inserter is not None:
             try:
                 if not close_inserter():
-                    logger.warning("Clipboard recovery is still pending during shutdown")
+                    logger.warning("Clipboard transaction or recovery is still active during shutdown")
             except OSError:
                 logger.warning("Clipboard recovery could not finish during shutdown")
         # An in-flight ASR may finish and persist its words, but can no longer paste.

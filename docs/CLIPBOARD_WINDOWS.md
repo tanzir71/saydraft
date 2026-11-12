@@ -111,6 +111,30 @@ full run hit three loopback two-second timeouts; all 12 loopback cases then pass
 in isolation and the complete repeat passes. No causal clipboard link is proven;
 both the failed and passing logs remain in build/qa/native-clipboard-app-*.
 
+## GUI reentry and selection copies
+
+Clipboard rendering can require the GUI thread. Delivery releases the session
+mutex before entering the OS transaction; cancel, Settings and shutdown can run
+while rendering waits. The in-flight job still prevents another recording or
+service replacement. Ordinary text receives the cancellation guard, and an
+unexpected delivery exception retires INSERTING while preserving History.
+
+History Copy and Restore acquire the clipboard mutex without waiting. Busy
+transactions return through the existing retry status instead of blocking the
+GUI. A background transaction retains serial ownership and restores on exit.
+
+History selection copy and drag also attach the three zero-DWORD privacy flags
+through Qt's [selection MIME hook](https://doc.qt.io/qt-6/qplaintextedit.html#createMimeDataFromSelection)
+and [Windows MIME format mapping](https://doc.qt.io/qt-6/qmimedata.html).
+The standard Ctrl+C slot and context menu retain their normal selection behavior.
+Offscreen tests verify the virtual hook and C++ copy slot, including Unicode;
+they do not establish native Win+V acceptance.
+
+Validation: 1699 tests pass, five explicit native/model skips; rules 432/432,
+authored adversarial checks 100/100, Ruff and diff checks pass. Concurrency tests
+hold rendering until GUI copy/recovery/cancel/Settings/shutdown have returned,
+then require complete original restoration and retirement of owned handles.
+
 ## Native transaction probe
 
 `tools.probe_native_clipboard` runs ten real Windows clipboard transactions with

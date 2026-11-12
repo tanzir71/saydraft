@@ -12,6 +12,7 @@ from PySide6 import QtCore, QtWidgets
 
 from saydraft.dictation.glossary import learn_word
 from saydraft.history import DictationHistoryStore, HistoryRow
+from .private_text import PrivatePlainTextEdit
 
 
 def add_word_to_dictionary_action(
@@ -60,7 +61,7 @@ class HistoryWindow(QtWidgets.QDialog):
         self.search_edit = QtWidgets.QLineEdit(self)
         self.search_edit.setPlaceholderText("Search history")
         self.list_widget = QtWidgets.QListWidget(self)
-        self.detail_editor = QtWidgets.QPlainTextEdit(self)
+        self.detail_editor = PrivatePlainTextEdit(self)
         self.detail_editor.setReadOnly(True)
         self.raw_toggle = QtWidgets.QCheckBox("Show raw transcript", self)
         self.metadata_label = QtWidgets.QLabel("", self)

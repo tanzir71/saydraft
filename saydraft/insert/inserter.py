@@ -78,7 +78,8 @@ class Inserter:
         def check():
             return self._delivery_block(start_focus, enter_guard)
 
-        if (send_enter or self.delivery_guard is not None) and (reason := check()):
+        guarded = send_enter or self.delivery_guard is not None or enter_guard is not None
+        if guarded and (reason := check()):
             return InsertionResult("skipped_focus_changed" if reason == "focus_changed" else "not_inserted",
                                    "none", reason)
         note = ""
@@ -92,7 +93,7 @@ class Inserter:
             method, note = delivered.method, delivered.reason
         else:
             reason = self._paste_with_restore(text,
-                check_before_paste=check if send_enter or self.delivery_guard is not None else None)
+                check_before_paste=check if guarded else None)
             if reason:
                 return InsertionResult("skipped_focus_changed" if reason == "focus_changed" else "not_inserted",
                                        "none", reason)
