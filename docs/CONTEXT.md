@@ -210,3 +210,34 @@ uncached timing and first passing reports/digests are retained in
 `eval/hardware/results/2026-11-12-uia-app/`. Full local suite: 1812 pass, five
 explicit native/model skips; rules 432/432, authored adversarial 100/100 and
 Ruff/diff pass. Active-field manual acceptance remains open.
+
+## Desktop field acceptance helper
+
+`tools/fixtures/FieldProbe.cs` supplies a local public WinForms fixture with an
+empty password-style field and a fixed plain field. It has no sign-in, submission
+or saved user data. Compile with the preinstalled .NET Framework compiler, for
+example `csc /target:winexe /r:System.Windows.Forms.dll /r:System.Drawing.dll
+/out:D:\QA\Saydraft.FieldProbe.exe tools\fixtures\FieldProbe.cs`.
+The running fixture writes its PID beside the executable.
+
+Launch/select the fixture through Computer Use, then run
+`python -m tools.probe_desktop_fields --fixture-pid <pid> --output D:\QA\New-Desktop-Field-Probe`.
+Tap F9 twice in its password field, then twice in its plain field; allow at least
+0.5 s per recording. The observer uses actual foreground/focus/UIA and native
+integrity checks, restricted to the supplied fixture PID/executable. Transcript,
+microphone and delivery remain authored/in-memory stubs. It never sends keys,
+opens the real clipboard or requests field content from an unrelated window.
+
+The probe checks two exact History rows, no password text reads/delivery, one
+plain text read/delivery and hook/serial/MTA retirement with zero native recovery.
+It exits after completion or its bounded timeout; writing `stop.request` inside
+its fresh output directory also requests graceful closure. Keep the fixture's
+controls unchanged and close its window through Computer Use afterward. This
+helper provides no actual ASR, microphone, OS paste, elevated-window, Win+V or
+parity-latency acceptance.
+
+Desktop attempt (2026-11-12): the fixture compiled and its two public controls
+were inspected. The owner stopped Computer Use with physical Escape before the
+observer started or any F9 test input. No desktop acceptance report was produced.
+Keep active-field acceptance open; desktop interaction remains stopped pending an
+explicit owner request to resume it. Independent repository work continues.
