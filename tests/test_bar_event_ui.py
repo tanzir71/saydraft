@@ -14,6 +14,7 @@ def test_real_app_signal_wiring_uses_delivery_outcomes_and_rejects_late_events(m
     from saydraft.app import SaydraftApp
     from saydraft.config import default_config
     from saydraft.ui.pill import PillState, SaydraftPill
+    from tests.test_bar_sounds import FakeBank
 
     qt = qt_modules()
     application = qt.QtWidgets.QApplication.instance()
@@ -65,11 +66,13 @@ def test_real_app_signal_wiring_uses_delivery_outcomes_and_rejects_late_events(m
         show_notification=lambda *_: None, set_model_label=lambda *_: None)
     config = default_config()
     config["app"]["onboarded"] = True
+    sound_bank = FakeBank()
     app = SaydraftApp(qt_modules=qt, controller_factory=Controller, tray_factory=lambda **kwargs: tray,
         pill_factory=lambda **kwargs: SaydraftPill(**kwargs,
             screen_geometry_provider=lambda: qt.QtCore.QRect(0, 0, 1000, 800),
             timer_single_shot=lambda ms, callback: timers.append(callback)),
-        config_loader=lambda **kwargs: config, crash_guard_installer=lambda **kwargs: None)
+        config_loader=lambda **kwargs: config, crash_guard_installer=lambda **kwargs: None,
+        sound_bank_factory=lambda application: sound_bank)
     original = app._apply_bar_update
 
     def observe(update):
@@ -85,6 +88,7 @@ def test_real_app_signal_wiring_uses_delivery_outcomes_and_rejects_late_events(m
         assert not start.is_alive() and app.pill.state == PillState.IDLE
         application.processEvents()
         assert app.pill.state == PillState.RECORDING
+        assert sound_bank.requests == ["start"]
         clock.now = 1
         stop = threading.Thread(target=worker.stop_recording)
         stop.start()
@@ -115,8 +119,10 @@ def test_real_app_signal_wiring_uses_delivery_outcomes_and_rejects_late_events(m
         app.signals.blockSignals(True)
         worker.shutdown()
         app.pill.hide()
+        app.bar_sounds.close()
         application.aboutToQuit.disconnect(app.controller.stop)
         application.aboutToQuit.disconnect(app.pill.hide)
+        application.aboutToQuit.disconnect(app.bar_sounds.close)
         app.pill.deleteLater()
         app.signals.deleteLater()
         application.sendPostedEvents(None, qt.QtCore.QEvent.DeferredDelete)

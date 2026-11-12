@@ -97,9 +97,14 @@ def test_bar_visibility_round_trips_and_microphone_fixes_are_explicit_links(tmp_
     opened = []
     monkeypatch.setattr(qt.QtGui.QDesktopServices, "openUrl", lambda url: opened.append(url.toString()) or True)
     assert window.show_bar_checkbox.isChecked()
+    assert window.start_sound_checkbox.isChecked() and not window.end_sound_checkbox.isChecked()
     window.show_bar_checkbox.setChecked(False)
+    window.start_sound_checkbox.setChecked(False)
+    window.end_sound_checkbox.setChecked(True)
     window.apply_changes()
     assert load_config(config_path=config_path)["app"]["show_bar"] is False
+    assert load_config(config_path=config_path)["app"]["start_sound"] is False
+    assert load_config(config_path=config_path)["app"]["end_sound"] is True
     assert not opened
     for button in window.microphone_page.findChildren(qt.QtWidgets.QPushButton):
         button.click()

@@ -1,0 +1,38 @@
+{
+  "schema": 1,
+  "sample_rate": 48000,
+  "channels": 1,
+  "sample_bits": 16,
+  "license": "MIT",
+  "generator": "tools/generate_bar_sounds.py",
+  "measurement": "BS.1770 K weighting; one 400 ms mono block; cue followed by silence; padding is not in the WAV",
+  "cues": {
+    "start": {
+      "file": "start.wav",
+      "sha256": "dba3a4e53ebcc0ebf1516c9df576475a71858b01f42c151a9319ad7e1a147af9",
+      "frames": 4608,
+      "duration_ms": 96.0,
+      "target_lufs": -18.0,
+      "padded_400ms_lufs": -18.0,
+      "sample_peak_dbfs": -3.47042
+    },
+    "end": {
+      "file": "end.wav",
+      "sha256": "a37c44973bbcf2e29a01958e6c73694ab1f735f79a72e6a912c721660b78b596",
+      "frames": 3840,
+      "duration_ms": 80.0,
+      "target_lufs": -24.0,
+      "padded_400ms_lufs": -24.0,
+      "sample_peak_dbfs": -7.03087
+    },
+    "command": {
+      "file": "command.wav",
+      "sha256": "e44bde219c945cf61e4d7ee9a29e7b0588839aaccf98e99e7b05d5329170c0d6",
+      "frames": 5376,
+      "duration_ms": 112.0,
+      "target_lufs": -18.0,
+      "padded_400ms_lufs": -18.00001,
+      "sample_peak_dbfs": -5.48903
+    }
+  }
+}

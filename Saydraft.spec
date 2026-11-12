@@ -3,7 +3,7 @@ from pathlib import Path
 from PyInstaller.utils.hooks import collect_data_files, collect_dynamic_libs, collect_submodules
 
 project = Path(SPECPATH)
-datas = collect_data_files('ctranslate2') + collect_data_files('saydraft.cleanup.llm.prompts') + collect_data_files('saydraft.ui.theme') + [
+datas = collect_data_files('ctranslate2') + collect_data_files('saydraft.cleanup.llm.prompts') + collect_data_files('saydraft.ui.theme') + collect_data_files('saydraft.ui.sound_assets') + [
     (str(project / 'saydraft/models/manifest.json'), 'saydraft/models'),
     (str(project / 'assets'), 'assets'),
     (str(project / 'LICENSE'), '.'),

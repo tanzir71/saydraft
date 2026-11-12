@@ -84,8 +84,40 @@ owned offscreen paint. Thirty local trials passed the 50 ms budget (initial run:
 maximum 18.4 ms). This excludes physical keyboard dispatch, Windows composition
 and active-desktop behavior; native keydown-to-screen acceptance remains open.
 
-Other P6.2 work remains: original measured start/end/command sounds,
-paused-listening click behavior and native timing/mixed-DPI/click-through/focus
+The original Bar cues are now bundled locally in `ui/sound_assets/` under MIT.
+The deterministic generator uses no samples, model, network or audio device.
+Start sound defaults on; the softer end sound defaults off. Settings → General
+persists both preferences. The command cue and visual route accept a typed
+`LISTENING` update with reason `command`; the actual P7 command gesture remains
+future work.
+
+| Cue | File duration | Padded loudness | FFmpeg true peak |
+|---|---:|---:|---:|
+| Start | 96 ms | −18.0 LUFS | −3.5 dBFS |
+| Command | 112 ms | −18.0 LUFS | −5.5 dBFS |
+| End | 80 ms | −24.0 LUFS | −7.0 dBFS |
+
+BS.1770 uses 400 ms gating blocks, so these shorter cues are followed by silence
+to complete one block **for measurement only**. The WAV contains only the cue;
+it is not stretched to 400 ms. The generator uses the standard's 48 kHz
+K-weighting coefficients; an independent FFmpeg ebur128/true-peak pass verifies
+the padded targets and headroom. This convention is explicit because a raw
+sub-400-ms file does not provide a complete gated block.
+
+The application preloads and reuses Qt sound effects. Only microphone-ready
+listening can request start; only confirmed insertion can request end. Refusals,
+no speech, cancellation, preparing and generic legacy completion do not request
+an end cue. Generation, phase, mute and duplicate guards are checked again when
+asynchronous loading finishes. A pending cue expires after 120 ms, so a late
+device/load callback cannot produce a misplaced tick. Offscreen runs use a silent
+bank and never initialize Qt Multimedia or an output device. Playback tests use
+an injected effect stub; no sound has been played during this verification.
+Actual output-device/auditory acceptance remains open. Asset package imports,
+WAVs, manifest and full MIT notice are included in the PyInstaller source spec;
+this is a read-only collector check, not the deferred P8 clean installer build.
+
+Other P6.2 work remains: paused-listening click behavior and native
+sound/timing/mixed-DPI/click-through/focus
 acceptance. The Command label is a
 visual fixture/API only; it does not implement P7 Command Mode. Native high
 contrast and complete accessibility acceptance remain tracked in P6.7.
@@ -99,6 +131,9 @@ python -m saydraft.ui.bar_gallery --render D:\new-bar-render --scale 2
 python tools/probe_bar_startup.py --output D:\new-bar-startup --iterations 30
 python -m pytest tests/test_bar_placement.py -q
 python tools/probe_bar_monitors.py --output D:\new-bar-monitors
+python tools/generate_bar_sounds.py --check
+python -m pytest tests/test_bar_sounds.py -q
+python tools/verify_bar_sounds.py --output D:\new-bar-sounds
 ```
 
 The generated theme metadata supplies the exact approved Bar colors. Thirteen
@@ -120,6 +155,10 @@ The monitor-placement revision passes 2316 tests with five explicit skips,
 rules 556/556, adversarial 100/100, lint, tokens and unchanged Bar snapshots.
 Its 30 synthetic startup trials also remain below 50 ms (maximum 18.5 ms in
 the initial placement run). These checks do not replace visible native acceptance.
+The sound revision passes 2335 tests with five explicit skips, rules 556/556,
+adversarial 100/100, lint, tokens and byte-exact sound regeneration. The independent
+FFmpeg meter confirms all three padded targets and true peaks. Playback remains
+stubbed during QA; no native output device or audible preview is exercised.
 
 Window behavior references: [Qt window flags](https://doc.qt.io/qt-6/qt.html#WindowType-enum),
 [Windows layered-window hit testing](https://learn.microsoft.com/en-us/windows/win32/winmsg/window-features#layered-windows).
@@ -127,3 +166,5 @@ Placement references: [Qt native Windows screen handles](https://doc.qt.io/qt-6/
 [Qt high-DPI screen geometry](https://doc.qt.io/qt-6/highdpi.html),
 [MonitorFromWindow](https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-monitorfromwindow),
 [WinEvent delivery and message-loop requirements](https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setwineventhook).
+Sound references: [Qt sound-effect preparation/playback](https://doc.qt.io/qt-6/qsoundeffect.html),
+[ITU-R BS.1770-5, Annex 1](https://www.itu.int/dms_pubrec/itu-r/rec/bs/R-REC-BS.1770-5-202311-I!!PDF-E.pdf).

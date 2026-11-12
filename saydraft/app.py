@@ -179,6 +179,7 @@ class SaydraftApp:
         config_path=None,
         model_download_callback: Callable[[str, Callable[[int], None]], None] | None = None,
         crash_guard_installer: Callable[..., object] | None = None,
+        sound_bank_factory: Callable[..., object] | None = None,
     ):
         self.argv = list(sys.argv if argv is None else argv)
         self.qt_modules = qt_modules
@@ -192,6 +193,8 @@ class SaydraftApp:
         self.config_path = config_path
         self.model_download_callback = model_download_callback or download_asr_model
         self.crash_guard_installer = crash_guard_installer or install_crash_guard
+        self.sound_bank_factory = sound_bank_factory
+        self.bar_sounds = None
         self.qt_app = None
         self.signals = None
         self.controller = None
@@ -247,7 +250,13 @@ class SaydraftApp:
         )
         typed_bar = bool(getattr(self.controller, "supports_bar_updates", False)) and hasattr(self.pill, "show_preparing")
         if typed_bar:
+            from .ui.bar_sounds import BarSoundPresenter, sound_bank
+            self.bar_sounds = BarSoundPresenter((self.sound_bank_factory or sound_bank)(application),
+                current=self.controller.is_current_bar, state=lambda: self.pill.state,
+                config=lambda: self.config)
             self.signals.bar_updated.connect(self._apply_bar_update, qt_modules.QtCore.Qt.QueuedConnection)
+            if about_to_quit is not None:
+                about_to_quit.connect(self.bar_sounds.close)
         else:
             self.signals.recording_started.connect(self._show_recording_bar)
         self.signals.audio_level_changed.connect(self.pill.update_level)
@@ -314,7 +323,10 @@ class SaydraftApp:
         if update.phase == BarPhase.PREPARING:
             self.pill.show_preparing(hands_free=self.controller.is_hands_free())
         elif update.phase == BarPhase.LISTENING:
-            self._show_recording_bar()
+            if update.reason == "command":
+                self.pill.show_recording(hands_free=self.controller.is_hands_free(), command=True)
+            else:
+                self._show_recording_bar()
         elif update.phase == BarPhase.PROCESSING:
             self.pill.show_processing()
         elif update.phase == BarPhase.NOT_INSERTED:
@@ -325,6 +337,8 @@ class SaydraftApp:
             self.pill.show_error(message, fix_page="microphone" if update.reason == "microphone_unavailable" else "models")
         elif update.phase in (BarPhase.INSERTED, BarPhase.IDLE):
             self.pill.finish_success()
+        if self.bar_sounds is not None:
+            self.bar_sounds.handle(update)
 
     def _show_recording_bar(self):
         provider = getattr(self.controller, "is_hands_free", None)

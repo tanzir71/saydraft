@@ -1,5 +1,6 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+*.wav binary
 
 # Preserve byte-for-byte checksums for bundled model notices.
 assets/licenses/*.txt text eol=lf
