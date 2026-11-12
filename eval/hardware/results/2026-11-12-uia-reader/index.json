@@ -1,0 +1,6 @@
+{
+  "schema_version": 1,
+  "report_sha256": "68c6bfb7236c97b43c745129941353d90ddb495fb36bac5ac348320c82dce63c",
+  "source_commit": "097d50273b51a53b81a4b0bd9d4a47e17c1107c9",
+  "scope": "Own invisible password/plain EDIT controls through a windowless native MTA UIA client; no active app, input, clipboard or application insertion acceptance"
+}

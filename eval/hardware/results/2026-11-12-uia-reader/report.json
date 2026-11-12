@@ -1,0 +1,22 @@
+{
+  "git_commit": "097d50273b51a53b81a4b0bd9d4a47e17c1107c9",
+  "source_dirty": false,
+  "input_injected": false,
+  "owner_clipboard_accessed": false,
+  "active_application_read": false,
+  "results": [
+    {
+      "is_password": true,
+      "status": "password",
+      "control_type": null
+    },
+    {
+      "is_password": false,
+      "status": "ok",
+      "control_type": 50004
+    }
+  ],
+  "failures": [],
+  "own_windows_closed": true,
+  "probe_complete": true
+}

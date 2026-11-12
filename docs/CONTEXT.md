@@ -113,3 +113,10 @@ The reader is not yet wired into application context capture. A bounded MTA
 request/lifetime adapter, insertion refusal for unavailable/password fields and
 manual password acceptance remain under P5.3. Provider timeouts alone do not prove
 a bounded total call sequence; the request adapter must impose the outer budget.
+
+Clean immutable `097d502` passes the native own-control probe with no failures,
+both worker threads exited and all owned windows closed. The original report and
+SHA-256 index are retained in `eval/hardware/results/2026-11-12-uia-reader/`.
+This establishes the reader on real UIA providers, not application integration or
+manual active-password-field acceptance. Full local suite: 1765 pass, five explicit
+native/model skips; rules 432/432, authored adversarial 100/100, Ruff/diff pass.
