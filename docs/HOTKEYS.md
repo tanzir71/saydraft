@@ -127,3 +127,14 @@ real Parakeet recognition, private SQLite before stub insertion, the exact bundl
 result and the native release ceiling, then retires both hooks/threads. It uses
 no microphone or OS paste. Immutable replay proof, default/conflict controls and
 actual Ctrl+Win/F9/Start-menu acceptance remain next.
+
+`tools.probe_native_recording` replays the application route with native vkE8,
+prepared local Parakeet, the bundled eight-second fixture, private SQLite and a
+checked stub inserter. It keeps the normal 0.5 s recording guard and verifies
+History before delivery, exact fixture output, the hook release deadline and
+complete retirement with no recovery needed. It uses no microphone, OS paste or
+owner configuration. The repeated fixture is not owner accuracy or tier latency:
+
+```powershell
+python -m tools.probe_native_recording --parakeet-dir D:\QA\parakeet-v3 --output D:\QA\New-Native-Recording-Probe
+```
