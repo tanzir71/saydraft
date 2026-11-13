@@ -39,6 +39,7 @@ def create_worker_signals(QtCore):
         history_retry_finished = QtCore.Signal(int)
         microphone_test_status = QtCore.Signal(int, str)
         microphone_test_level = QtCore.Signal(int, float)
+        audio_retention_updated = QtCore.Signal(object)
         hardware_benchmark_finished = QtCore.Signal(object)
         preview_text_changed = QtCore.Signal(int, str)
         preview_unavailable = QtCore.Signal(int)
@@ -171,6 +172,9 @@ class WorkerController:
 
     def stop_microphone_test(self, generation=None):
         return bool(self.core and self.core.stop_microphone_test(generation))
+
+    def cleanup_audio(self, policy):
+        return bool(self.core and self.core.cleanup_audio(policy))
 
     def benchmark_hardware(self):
         return bool(self.core and self.core.benchmark_hardware())
@@ -522,7 +526,8 @@ class SaydraftApp:
                     style_preview_callback=getattr(self.controller, "preview_style", None),
                     style_glossary_provider=getattr(self.controller, "style_glossary", None),
                     microphone_start_callback=getattr(self.controller,"start_microphone_test",None),
-                    microphone_stop_callback=getattr(self.controller,"stop_microphone_test",None)),
+                    microphone_stop_callback=getattr(self.controller,"stop_microphone_test",None),
+                    audio_cleanup_callback=getattr(self.controller,"cleanup_audio",None)),
                 history_options=dict(qt_modules=self.qt_modules, store=self._controller_history_store(),
                     clipboard=self.controller.clipboard() if hasattr(self.controller, "clipboard") else None,
                     reinsert_callback=self._reinsert_history_text, retry_callback=self._retry_history_audio,
@@ -539,6 +544,11 @@ class SaydraftApp:
                     if signal is not None:
                         qt = self.qt_modules or _load_qt_modules()
                         signal.connect(slot,qt.QtCore.Qt.QueuedConnection)
+            privacy = getattr(self.settings_window,"privacy_page",None)
+            retention_signal = getattr(self.signals,"audio_retention_updated",None)
+            if privacy is not None and retention_signal is not None:
+                qt = self.qt_modules or _load_qt_modules()
+                retention_signal.connect(privacy.accept_retention,qt.QtCore.Qt.QueuedConnection)
             page = getattr(self.settings_window, "styles_page", None)
             if page is not None:
                 qt = self.qt_modules or _load_qt_modules()

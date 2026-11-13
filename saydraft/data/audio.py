@@ -5,16 +5,83 @@ from __future__ import annotations
 import os
 import shutil
 import uuid
+import re
+import stat
+import threading
+import weakref
+from contextlib import contextmanager
 from pathlib import Path
 
 import numpy as np
 import soundfile as sf
+
+_LOCKS = weakref.WeakValueDictionary()
+_LOCKS_GUARD = threading.Lock()
+
+
+def _shared_lock(root):
+    with _LOCKS_GUARD:
+        key = os.path.normcase(str(root))
+        lock = _LOCKS.get(key)
+        if lock is None:
+            lock = threading.RLock()
+            _LOCKS[key] = lock
+        return lock
 
 
 class AudioStore:
     def __init__(self, root, *, max_seconds=1200):
         self.root = Path(root).absolute()
         self.max_seconds = max_seconds
+        self._lease = _shared_lock(self.root)
+
+    @contextmanager
+    def lease(self, _value):
+        with self._lease:
+            yield
+
+    def expire(self, value, cutoff, *, clear_reference, cancelled=lambda:False):
+        path = Path(value)
+        if (not path.is_absolute() or path.parent!=self.root
+                or not re.fullmatch(r"[0-9a-f]{32}\.wav",path.name)
+                or str(self.root).startswith(("\\\\","//"))):
+            return "skipped"
+        if not self._lease.acquire(blocking=False):
+            return "skipped"
+        try:
+            if cancelled():
+                return "skipped"
+            if self.root.is_symlink() or self.root.is_junction():
+                return "skipped"
+            root = self.root.resolve(strict=True)
+            root_info = root.stat()
+            target = root/path.name
+            try:
+                info = target.lstat()
+            except FileNotFoundError:
+                if cancelled():
+                    return "skipped"
+                clear_reference()
+                return "unavailable"
+            if (not stat.S_ISREG(info.st_mode) or info.st_nlink!=1 or info.st_mtime>=cutoff
+                    or getattr(info,"st_file_attributes",0)&getattr(stat,"FILE_ATTRIBUTE_REPARSE_POINT",0)
+                    or target.resolve().parent!=root):
+                return "skipped"
+            # Recheck the exact local directory/file identities immediately before
+            # unlinking this single managed entry. Never traverse an audio link.
+            current, parent = target.lstat(), root.stat()
+            if (current.st_dev,current.st_ino,current.st_size,current.st_mtime_ns)!=(
+                    info.st_dev,info.st_ino,info.st_size,info.st_mtime_ns) or (
+                    parent.st_dev,parent.st_ino)!=(root_info.st_dev,root_info.st_ino) or cancelled():
+                return "skipped"
+            target.unlink()
+            try:
+                clear_reference()
+            except Exception:
+                return "removed_unindexed"  # The next sweep repairs the stale reference.
+            return "removed"
+        finally:
+            self._lease.release()
 
     def save(self, audio, sample_rate=16000):
         samples = np.asarray(audio, dtype=np.float32)
@@ -39,6 +106,10 @@ class AudioStore:
         return final
 
     def load(self, value):
+        with self._lease:
+            return self._load(value)
+
+    def _load(self, value):
         path = Path(value)
         # Reject external/UNC paths before resolve/stat can contact another host.
         if not path.is_absolute() or path.parent != self.root or path.suffix.lower() != ".wav":

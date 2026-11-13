@@ -88,6 +88,8 @@ class SettingsPage(QtWidgets.QWidget):
         microphone_start_callback=None,
         microphone_stop_callback=None,
         microphone_devices_provider=None,
+        audio_cleanup_callback=None,
+        firewall_status_provider=None,
     ):
         super().__init__()
         self.qt = qt_modules
@@ -104,6 +106,7 @@ class SettingsPage(QtWidgets.QWidget):
         self.style_glossary_provider = style_glossary_provider
         self.microphone_start_callback, self.microphone_stop_callback = microphone_start_callback, microphone_stop_callback
         self.microphone_devices_provider = microphone_devices_provider
+        self.audio_cleanup_callback,self.firewall_status_provider = audio_cleanup_callback,firewall_status_provider
         self._vad_download_task = None
         self.config = load_config(config_path=self.config_path)
         self.snippets_path = Path(snippets_path) if snippets_path is not None else resolve_project_path("snippets.txt")
@@ -284,32 +287,16 @@ class SettingsPage(QtWidgets.QWidget):
             stop_callback=self.microphone_stop_callback,devices_provider=self.microphone_devices_provider)
 
     def _privacy_tab(self):
-        from saydraft.privacy.netguard import NetworkGuard
-
-        page = QtWidgets.QWidget()
-        layout = QtWidgets.QVBoxLayout(page)
-        heading = QtWidgets.QLabel("Your words stay on your machine.")
-        heading.setProperty("role", "display")
-        heading.setWordWrap(True)
-        layout.addWidget(heading)
-        self.privacy_status = QtWidgets.QLabel()
-        self.privacy_status.setWordWrap(True)
-        layout.addWidget(self.privacy_status)
-        explanation = QtWidgets.QLabel("Dictation and cleanup run locally. History, dictionary and retained audio stay on this PC. "
-            "Model downloads happen only when you request them. Telemetry is disabled.")
-        explanation.setWordWrap(True)
-        layout.addWidget(explanation)
-        layout.addWidget(self.retain_audio_checkbox)
-        note = QtWidgets.QLabel("Audio history is off by default. Turning it on retains future recordings for recognition retry.")
-        note.setWordWrap(True)
-        layout.addWidget(note)
-        layout.addStretch()
-        self.privacy_status.setText("Offline mode active" if NetworkGuard.is_installed() else "Offline policy unavailable")
-        return self._scroll(page)
+        from .privacy_page import PrivacyPage
+        from saydraft.data.retention import AudioRetentionPolicy
+        self.privacy_page = PrivacyPage(self.config,self.retain_audio_checkbox,
+            saved_policy=lambda:AudioRetentionPolicy.from_config(self.config),
+            cleanup_callback=self.audio_cleanup_callback,firewall_provider=self.firewall_status_provider)
+        self.privacy_status = self.privacy_page.network_status
+        return self._scroll(self.privacy_page)
 
     def refresh_privacy(self):
-        from saydraft.privacy.netguard import NetworkGuard
-        self.privacy_status.setText("Offline mode active" if NetworkGuard.is_installed() else "Offline policy unavailable")
+        self.privacy_page.refresh_network()
 
     def _cleanup_tab(self):
         page = QtWidgets.QWidget()
@@ -491,6 +478,8 @@ class SettingsPage(QtWidgets.QWidget):
         self.end_sound_checkbox.setChecked(bool(cfg["app"]["end_sound"]))
         self.notification_spin.setValue(int(cfg["app"]["notification_duration"]))
         self.retain_audio_checkbox.setChecked(cfg["recording"].get("retain_audio", False))
+        from saydraft.data.retention import AudioRetentionPolicy
+        self.privacy_page.set_policy(AudioRetentionPolicy.from_config(cfg))
         self._set_combo(self.mode_combo, cfg["dictation"]["mode"])
         self._set_combo(self.profile_combo, cfg["dictation"]["profile"])
         self.drop_message_period_checkbox.setChecked(cfg["dictation"]["drop_message_period"])
@@ -570,6 +559,7 @@ class SettingsPage(QtWidgets.QWidget):
         self._write_json(self.app_profiles_path, profiles)
         self.autostart_manager.set_enabled(saved["app"]["start_with_windows"])
         self.config = saved
+        self.privacy_page.policy_saved()
         if self.on_config_applied is not None:
             self.on_config_applied(saved)
         self.status_label.setText("Saved")
@@ -609,6 +599,7 @@ class SettingsPage(QtWidgets.QWidget):
         cfg["app"]["notification_duration"] = int(self.notification_spin.value())
         cfg["recording"]["max_seconds"] = int(self.max_seconds_spin.value())
         cfg["recording"]["retain_audio"] = self.retain_audio_checkbox.isChecked()
+        cfg["recording"]["audio_retention_days"] = self.privacy_page.policy().days
         cfg["recording"]["warning_seconds"] = int(self.warning_seconds_spin.value())
         cfg["dictation"]["mode"] = self.mode_combo.currentText()
         cfg["dictation"]["profile"] = self.profile_combo.currentText()

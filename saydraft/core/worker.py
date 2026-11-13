@@ -57,6 +57,8 @@ class SessionWorker:
         from .history_retry import RetryCleanup
         self._retry_cleanup = RetryCleanup()
         self._benchmarking = False
+        self.audio_retention = None
+        self._retention_generation = 0
         from .microphone import MicrophoneTest
         self.microphone_test = MicrophoneTest(schedule=self._schedule_microphone,
             emit=self.emit, timer_factory=timer_factory, finished=self._microphone_finished)
@@ -75,6 +77,30 @@ class SessionWorker:
                                      timer_factory=timer_factory, paste=self.paste_last)
         self._prepare_context()
         self._warm_cleanup()
+        self._start_audio_retention()
+
+    def _start_audio_retention(self):
+        from .audio_retention import AudioRetention
+        from saydraft.data.retention import AudioRetentionPolicy
+        if self.services.audio_store is not None:
+            self._retention_generation += 1
+            generation = self._retention_generation
+            self.audio_retention = AudioRetention(self.services.history,self.services.audio_store,
+                AudioRetentionPolicy.from_config(self.services.config),
+                changed=lambda update:self._audio_retention_changed(generation,update))
+            self.audio_retention.request()
+
+    def _audio_retention_changed(self, generation, update):
+        if self._closing:
+            return
+        if generation==self._retention_generation:
+            self.emit("audio_retention_updated",replace(update,generation=generation))
+        if update.result is not None and (update.result.removed or update.result.unavailable):
+            self.emit("history_updated",0)
+
+    def cleanup_audio(self, policy):
+        owner = self.audio_retention
+        return bool(owner is not None and owner.policy==policy and owner.request())
 
     def _prepare_context(self):
         prepare = getattr(self.services.context, "prepare", None)
@@ -717,6 +743,12 @@ class SessionWorker:
         return True
 
     def _retry_history(self, row, options, cancel):
+        from contextlib import nullcontext
+        lease = getattr(self.services.audio_store,"lease",None)
+        with lease(row.audio_path) if lease is not None else nullcontext():
+            self._run_history_retry(row,options,cancel)
+
+    def _run_history_retry(self, row, options, cancel):
         reading_audio = True
         new_id = 0
         def cancelled():
@@ -956,6 +988,9 @@ class SessionWorker:
             self.corrections.finish(generation)
 
     def configure(self, config):
+        self._retention_generation += 1
+        if self.audio_retention is not None:
+            self.audio_retention.close()
         self.corrections.cancel()
         with self._lock:
             if self._closing:
@@ -991,10 +1026,14 @@ class SessionWorker:
             if previous is not self.services.cleaner:
                 self._close_cleanup(previous)
             self._warm_cleanup()
+            self._start_audio_retention()
             self.hotkeys.configure(config)
 
     def shutdown(self):
         self._closing = True
+        self._retention_generation += 1
+        if self.audio_retention is not None:
+            self.audio_retention.close()
         self.microphone_test.close()
         self.cancel()
         self._retry_cleanup.close()

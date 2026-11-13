@@ -29,6 +29,11 @@ Use the packaged app or `run_app.bat`, complete onboarding if prompted, and keep
 
 ## Reliability Checks
 
+- In an isolated profile, verify audio retention defaults off and legacy opt-in settings stay at Keep forever; editing a time limit performs no cleanup before Save.
+- With aged public recording fixtures, save Keep N days and confirm expired eligible audio is removed while raw/cleaned text, retry provenance and statistics remain intact; active retries and other files stay untouched.
+- Confirm Off/forever and shutdown cancel pending expiry; failed metadata updates can be repaired by a later sweep without losing text.
+- Use Check firewall rules and confirm it changes no OS policy or requests elevation; a matching process rule must not be presented as complete native/network coverage. P8.6's installation/offline tests remain separate.
+
 - Unplug and replug the default microphone, then start a new dictation without restarting Saydraft.
 - In Settings → Microphone, refresh inputs, choose a named microphone/audio API, test it, save, and confirm future dictation uses that input after restarting the app.
 - Confirm Test input stops after ten seconds and on Stop, leaving the page, closing the Hub or changing Settings; it creates no History entry or retained recording.

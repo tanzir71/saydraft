@@ -35,6 +35,27 @@ Logs contain destinations and timing metadata; transcript text is logged only
 when debug logging is explicitly enabled.
 
 This is an application policy for Python sockets. It does not intercept native
-libraries' network stacks or sidecar subprocesses. The planned Windows Firewall
-control provides that OS boundary; it is not implemented by this milestone.
+libraries' network stacks or sidecar subprocesses. Settings → Privacy shows this
+boundary separately from an explicit, read-only Windows Firewall check. The check
+counts enabled outbound block rules whose application filter matches this
+process in ActiveStore. It does not establish profile/address applicability,
+system-wide default-policy behavior or coverage of native helper processes.
+Missing, unsupported, timed-out or denied inspection stays absent/unknown; it
+never becomes a claim that the OS boundary is protected.
+
+The helper uses a fixed hidden PowerShell query, passes the process path as JSON
+on stdin, and returns only a bounded integer count. It creates, changes and
+removes no firewall rule, starts no elevation prompt, and omits provider error
+details. The query follows Microsoft's [application-filter association](https://learn.microsoft.com/en-us/powershell/module/netsecurity/get-netfirewallapplicationfilter)
+and [rule inspection](https://learn.microsoft.com/en-us/powershell/module/netsecurity/get-netfirewallrule)
+APIs. Packaged rule installation plus complete native/sidecar boundary testing
+remain P8.6.
 After downloading a model, also verify real dictation with Wi-Fi disabled.
+
+Audio remains off by default, with explicit Keep forever / Keep N days controls.
+Saved time limits expire eligible app-owned recordings in the background and
+preserve History text/statistics; Off/forever preserve existing files. Editing
+a draft starts no cleanup. See [AUDIO_RETENTION.md](AUDIO_RETENTION.md) for cutoff,
+ownership, retry leases, failure recovery and verification. The new retention and
+inspection jobs report counts/status without logging text, paths or backend
+exception details. Telemetry remains disabled; no opt-in analytics is added.

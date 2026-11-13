@@ -37,6 +37,7 @@ CONFIG_SCHEMA: dict[str, Any] = {
         "input_device": str,
         "input_hostapi": str,
         "retain_audio": bool,
+        "audio_retention_days": int,
         "max_seconds": int,
         "warning_seconds": int,
     },
@@ -111,6 +112,7 @@ _DEFAULT_CONFIG: dict[str, Any] = {
         "input_device": "",
         "input_hostapi": "",
         "retain_audio": False,
+        "audio_retention_days": 0,
         "max_seconds": 1200,
         "warning_seconds": 1140,
     },
@@ -246,6 +248,9 @@ def sanitize_config(config: dict[str, Any] | None) -> dict[str, Any]:
     except ValueError:
         selected = InputSelection()
     cfg["recording"].update(input_device=selected.name, input_hostapi=selected.hostapi)
+    days = cfg["recording"]["audio_retention_days"]
+    if type(days) is not int or not 0<=days<=3650:
+        cfg["recording"]["audio_retention_days"] = 0
     from .cleanup.styles import sanitize_styles
     cfg["dictation"]["styles"] = sanitize_styles(cfg["dictation"]["styles"])
     # Existing JSON predates engine selection. Keep its Whisper model preference.

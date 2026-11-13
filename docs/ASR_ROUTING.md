@@ -89,11 +89,14 @@ latency results. Owner accuracy acceptance remains deferred.
 
 ## Retained-audio History retries
 
-Settings → General → Audio history enables saving future recordings locally.
+Settings → Privacy → Saved recordings enables saving future recordings locally.
 It is off by default. Saved mono 16 kHz float32 WAV files live in
 `%LOCALAPPDATA%\Saydraft\audio`; the files are published after complete writes.
-Turning retention off applies to future captures. Existing recordings are retained,
-and no automatic deletion is introduced. Cancelling during capture stores no audio.
+Turning retention off applies to future captures and preserves existing files.
+Existing opt-in profiles default to Keep forever. Choosing and saving Keep N days
+explicitly enables expiry of eligible old recordings without changing History
+text/statistics; full retries lease their shared audio through persistence. See
+[AUDIO_RETENTION.md](AUDIO_RETENTION.md). Cancelling during capture stores no audio.
 
 History entries with retained audio offer Retry audio with installed speech-model
 selection, including All languages, plus current/rules-only/AI-on cleanup choices.

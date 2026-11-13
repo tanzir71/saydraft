@@ -81,8 +81,9 @@ def migrate_database(path: str | Path, *, import_paths: dict[str, Path] | None =
             raise ValueError("This history database requires a newer version of Saydraft")
         tables = {row[0] for row in connection.execute("SELECT name FROM sqlite_master WHERE type='table'")}
         columns = {row[1] for row in connection.execute("PRAGMA table_info(dictations)")}
+        indexes = {row[0] for row in connection.execute("SELECT name FROM sqlite_master WHERE type='index'")}
         needs_schema = (version < SCHEMA_VERSION or not set(HISTORY_METADATA).issubset(columns)
-                        or not set(_TABLES).issubset(tables))
+                        or not set(_TABLES).issubset(tables) or "idx_dictations_audio_path" not in indexes)
         backup_path = _backup(connection, path) if needs_schema and tables else None
         with connection:
             connection.execute("BEGIN IMMEDIATE")
@@ -92,6 +93,7 @@ def migrate_database(path: str | Path, *, import_paths: dict[str, Path] | None =
                     connection.execute(f'ALTER TABLE dictations ADD COLUMN "{name}" {declaration}')
             for statement in _TABLES.values():
                 connection.execute(statement)
+            connection.execute("CREATE INDEX IF NOT EXISTS idx_dictations_audio_path ON dictations(audio_path) WHERE audio_path IS NOT NULL")
             connection.execute("UPDATE dictations SET asr_model = model WHERE asr_model IS NULL")
             if "stats_daily" not in tables:
                 _backfill_stats(connection)

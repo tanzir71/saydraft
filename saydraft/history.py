@@ -181,6 +181,19 @@ class DictationHistoryStore:
             ).fetchall()
         return [HistoryRow(*row) for row in rows]
 
+    def audio_retention_ceiling(self):
+        with self._connect(timeout=.25) as connection:
+            return connection.execute("SELECT coalesce(max(id),0) FROM dictations").fetchone()[0]
+
+    def audio_retention_page(self, *, after_id, ceiling_id):
+        with self._connect(timeout=.25) as connection:
+            return connection.execute("SELECT id,audio_path,created_at FROM dictations WHERE id>? AND id<=? "
+                "ORDER BY id LIMIT 200",(after_id,ceiling_id)).fetchall()
+
+    def clear_audio_reference(self, path):
+        with self._connect(timeout=.25) as connection:
+            connection.execute("UPDATE dictations SET audio_path=NULL WHERE audio_path=?",(path,))
+
     def last_transcript(self) -> str | None:
         """Read the latest nonblank saved result without loading raw text or full rows."""
         with self._connect() as conn:

@@ -52,3 +52,10 @@ must exist and reference the same audio to classify the row as a retry for stats
 Reprocessing adds processing time without adding dictation, word or audio totals.
 Failed database writes retain recognized retry text and its audio path in the
 processor's pending results. No schema version change or data deletion is needed.
+
+Privacy's later time-limit policy can explicitly expire eligible recordings.
+It clears only shared `audio_path` references after removal, retaining all text,
+provenance and statistics. Complete retries hold a file lease through persistence.
+An additive `idx_dictations_audio_path` partial index supports reference cleanup;
+the existing version-2 database is backed up before that missing index is added.
+Off/forever preserve previous files. See [AUDIO_RETENTION.md](AUDIO_RETENTION.md).

@@ -233,6 +233,18 @@ audio is not buffered, saved, transcribed, pasted or played. Existing Windows
 sound/privacy links remain. Details and verification: [MICROPHONE.md](MICROPHONE.md).
 Whisper-mode processing and live hardware/manual acceptance remain separate.
 
+## Privacy controls
+
+Privacy retains its default-off audio switch and adds Keep forever / Keep N days,
+shared-save staging and explicit cleanup using the applied policy. Old profiles
+keep their recordings indefinitely. Expiry uses bounded metadata reads, local
+ownership/age checks and full-retry leases; text/statistics remain intact.
+The page separately displays Python network-policy state, telemetry: none, and
+an explicit background read of matching Windows Firewall process rules. Its
+scope does not imply complete native/sidecar or destination coverage, and it
+changes no OS rule. Status generations reject old work. Details:
+[AUDIO_RETENTION.md](AUDIO_RETENTION.md), [PRIVACY.md](PRIVACY.md).
+
 ## Home data
 
 `DictationHistoryStore.weekly_stats(today=...)` reads `stats_daily` plus duration
@@ -344,7 +356,7 @@ correctly rejected oversized bodies. Logs remain in permanent QA storage; the
 intermittent timeout's cause is unresolved. No loopback code or test deadline
 was changed for this History revision.
 
-Full §8.3 still requires Notes producers, Privacy controls
-and complete model/disk controls. The later
+Full §8.3 still requires Notes producers, complete model/disk controls and the
+packaged firewall installation/native coverage requirement shared with P8.6. The later
 onboarding, Scratchpad/Notetaker and complete gallery/
 accessibility milestones retain their original scope.
