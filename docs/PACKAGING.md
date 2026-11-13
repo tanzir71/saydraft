@@ -102,8 +102,10 @@ It then creates a GitHub **draft**, attaching the installer, portable ZIP,
 checksums and release manifest. Existing releases are not overwritten.
 
 The release notes identify the unsigned build and its remaining publication
-checks. Signing is the separate G5/P8.3 owner gate. P8.2 remains unchecked until
-a real dry-run tag has produced a draft successfully.
+checks. Signing is the separate G5/P8.3 owner gate. P8.2 passed its real
+[`v0.1.0-dry-run.20261114` tag verification](../eval/packaging/results/2026-11-14-draft/README.md):
+the workflow created a draft with four verified uploaded assets. The release
+remains unsigned and unpublished.
 
 The build uses PyInstaller's supported spec-file output/work paths. References:
 [PyInstaller spec files](https://pyinstaller.org/en/stable/spec-files.html),

@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "verified_at_utc": "2026-11-13T21:34:24.786491+00:00",
+  "source_commit": "7a9486a2cf106e87386585eaf5dd7438e6048245",
+  "tag": "v0.1.0-dry-run.20261114",
+  "workflow_run": 43510576550,
+  "ci_gate_run": 43509272069,
+  "ci_gate_passed": 3195,
+  "ci_gate_skipped": 12,
+  "draft": true,
+  "published": false,
+  "signed": false,
+  "files": {
+    "release-manifest.json": "5e55bd0868563cfc112eb034e6356c6f3d46cd15a0ab61fcd98aaddb93765cd2",
+    "SHA256SUMS.txt": "7af066873eee9eff9e5d775c064b4f8f303d0481c96482ed3a16ea6afe9bfcaa",
+    "verified-release.json": "035717cb8e15d73687e21048abbeb5d3a83868b9a648c2f6a2f73e68912cad72",
+    "workflow.json": "d55755961e055194e7ac81c9ffdce27f01fb4a637c70662d37f96078ed91cf38"
+  },
+  "verification": "Actual tag-to-draft execution; uploaded installer/ZIP SHA-256 digests from GitHub match the manifest. Downloaded small manifest/checksum assets match their server digests; checksum contents match both binaries. No binary download or native execution performed during isolated local latency measurement."
+}

@@ -22,12 +22,14 @@ dictation has no cloud fallback or subscription.
 ## Current status
 
 Saydraft is in active development. Run from source using the steps below.
-There is no published installer release yet; installer, signing, updates, and
+There is no published installer release yet; signing, updates, and
 clean-machine validation remain on the [roadmap](WISPR_OFFLINE_PARITY_PLAN.md).
 The [packaging pipeline](docs/PACKAGING.md) produces a 104.0 MB unsigned installer
 that passes resource, dependency-notice and install/uninstall checks. Its
 [retained verification](eval/packaging/results/2026-11-14-notices/README.md)
 covers 38 components and 506 notice files.
+The [tag-to-draft release workflow](eval/packaging/results/2026-11-14-draft/README.md)
+has also passed its real dry run; signing and publication remain separate.
 
 Core dictation and the Hub are available from source. Owner accuracy acceptance
 is deferred. Implementation and remaining

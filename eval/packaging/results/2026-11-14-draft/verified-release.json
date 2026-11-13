@@ -1,0 +1,41 @@
+{
+  "tag": "v0.1.0-dry-run.20261114",
+  "commit": "7a9486a2cf106e87386585eaf5dd7438e6048245",
+  "draft": true,
+  "published_at": null,
+  "url": "https://github.com/tanzir71/saydraft/releases/tag/untagged-c275b4712ef9266ddbd6",
+  "release_id": 444758925,
+  "workflow_run": 43510576550,
+  "assets": [
+    {
+      "name": "release-manifest.json",
+      "bytes": 673,
+      "digest": "sha256:5e55bd0868563cfc112eb034e6356c6f3d46cd15a0ab61fcd98aaddb93765cd2"
+    },
+    {
+      "name": "Saydraft-0.1.0-Setup.exe",
+      "bytes": 103976636,
+      "digest": "sha256:6c1f95ed4f956d9d8cd43819999cce196fc62d78a55eb47aa8f5fd470452b8ad"
+    },
+    {
+      "name": "Saydraft-0.1.0-win-x64.zip",
+      "bytes": 160033099,
+      "digest": "sha256:b22d604da4fd6b91041ceb0d2cdf58ec1434d4e4de4033bb7c2b2f568516f914"
+    },
+    {
+      "name": "SHA256SUMS",
+      "bytes": 186,
+      "digest": "sha256:7af066873eee9eff9e5d775c064b4f8f303d0481c96482ed3a16ea6afe9bfcaa"
+    }
+  ],
+  "notice_inventory": {
+    "components": 38,
+    "files": 506,
+    "index_sha256": "7f33cd43bd47dcc5f94439d5fdd048ab94be58e4d56ac144b52d6cb882a39964"
+  },
+  "source_responses": {
+    "releases-response.json": "caf32880c34d1b9e20862f5c7c72d85a4a8bf3abb6e8060ead97abc3a231039d",
+    "tag-response.json": "ab147e22ff61538593c429829d4fd771aa23f169e33786b3269393165bf3177e"
+  },
+  "scope": "Actual tag-to-draft success; GitHub-computed uploaded asset digests match manifest. No binary download performed during isolated native latency baseline."
+}

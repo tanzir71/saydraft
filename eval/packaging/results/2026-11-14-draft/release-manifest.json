@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "tag": "v0.1.0-dry-run.20261114",
+  "version": "0.1.0",
+  "commit": "7a9486a2cf106e87386585eaf5dd7438e6048245",
+  "draft": true,
+  "signed": false,
+  "artifacts": {
+    "Saydraft-0.1.0-Setup.exe": {
+      "bytes": 103976636,
+      "sha256": "6c1f95ed4f956d9d8cd43819999cce196fc62d78a55eb47aa8f5fd470452b8ad"
+    },
+    "Saydraft-0.1.0-win-x64.zip": {
+      "bytes": 160033099,
+      "sha256": "b22d604da4fd6b91041ceb0d2cdf58ec1434d4e4de4033bb7c2b2f568516f914"
+    }
+  },
+  "third_party_notices": {
+    "components": 38,
+    "files": 506,
+    "index_sha256": "7f33cd43bd47dcc5f94439d5fdd048ab94be58e4d56ac144b52d6cb882a39964"
+  }
+}
