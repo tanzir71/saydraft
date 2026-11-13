@@ -35,6 +35,12 @@ appear in the speech-model picker. Construction and startup never initiate a
 download. Combined model/setup controls are available in Settings → Models;
 see [cleanup setup](CLEANUP_SETUP.md). Onboarding v2 remains roadmap work.
 
+## Implementation checkpoints
+
+The following records describe incremental source checkpoints. Test counts and
+then-pending work belong to those checkpoints; use the current controls above
+and [cleanup setup](CLEANUP_SETUP.md) for today's installation path.
+
 Actual cached installations verified all payloads and notices with **zero network
 calls**. Both installed executables ran `--offline --version` in hidden processes
 and exited successfully without opening a server or loading a model. This checks

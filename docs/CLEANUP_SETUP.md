@@ -1,5 +1,21 @@
 # Verified cleanup setup
 
+## Current controls
+
+Settings → Models offers explicit combined installation of a pinned Qwen3.5
+0.8B or 2B model and CPU/Vulkan runtime, with size/license disclosure,
+progress and pause/resume. AI cleanup stays off until enabled; recommendations
+and tier changes start no download. Shared Save applies staged settings.
+See [model storage](MODEL_STORAGE.md) for current tier, versioned layout,
+inventory and confirmed-removal behavior. Onboarding v2 and complete
+quality/performance/native acceptance remain open.
+
+## Implementation and measurement checkpoints
+
+The records below retain the source-specific measurements and then-pending
+work from each implementation step. They do not supersede the current controls
+above or establish owner accuracy acceptance.
+
 The app catalog now includes the exact measured Qwen3.5 0.8B and 2B Q4_K_M
 artifacts, their original conversion cards and the bundled Apache-2.0 notice.
 They use the existing pinned llama.cpp b12110 CPU or Vulkan runtime. Importing

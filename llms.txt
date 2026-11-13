@@ -1,29 +1,57 @@
 # Saydraft
 
-Saydraft is a free, open-source Windows tray dictation app. Hold F9, speak, and release to run local faster-whisper transcription, guarded local cleanup, local SQLite history, and safe insertion into the focused application.
+> Speak messy. Paste polished. Local voice dictation for Windows, with local speech recognition, cleanup, and a searchable Hub. Open source under MIT; downloaded models and dependencies retain separate licenses.
 
-Website: https://voicetray-offline.vercel.app/
-Simulation: https://voicetray-offline.vercel.app/demo/
-Repository: https://github.com/tanzir71/saydraft
+Saydraft is in active development. Source setup is available; no installer release is published yet. Native/manual Windows acceptance, owner ASR accuracy acceptance, and several roadmap features remain open. Do not describe the project as complete parity or infer accuracy from its test counts.
 
-The public simulation is canned browser state. It requests no microphone access and performs no audio capture, STT, network request, or foreground insertion.
+## Project links
 
-## From source
+- Website: https://tanzir71.github.io/saydraft/
+- Setup: https://tanzir71.github.io/saydraft/docs/getting-started/
+- Downloads and release status: https://tanzir71.github.io/saydraft/download/
+- Repository: https://github.com/tanzir71/saydraft
+- README: https://github.com/tanzir71/saydraft/blob/main/readme.md
+- Documentation: https://github.com/tanzir71/saydraft/blob/main/docs/README.md
+- Contributing: https://github.com/tanzir71/saydraft/blob/main/CONTRIBUTING.md
+- Roadmap and acceptance: https://github.com/tanzir71/saydraft/blob/main/WISPR_OFFLINE_PARITY_PLAN.md
+- Licenses: https://github.com/tanzir71/saydraft/blob/main/THIRD_PARTY_NOTICES.md
 
-pip install -r requirements.txt
-python -B -m pytest tests\ -q
-python -B -m saydraft.eval
-pythonw -m saydraft
+## Source setup
 
-Windows and a microphone are required for the real app. tools/build.ps1 creates the one-folder packaged application.
+Use Windows 10 or 11, 64-bit Python 3.13, Git, a microphone, and free disk space for selected models. In PowerShell:
 
-## Dictation path
+```powershell
+git clone https://github.com/tanzir71/saydraft.git
+cd saydraft
+py -3.13 -m venv .venv
+.venv\Scripts\python -m pip install -r requirements.txt
+.venv\Scripts\python -m saydraft
+```
 
-1. F9 hold or lock mode records locally with VAD and a floating pill.
-2. faster-whisper transcribes using base, small, or medium.
-3. Deterministic rules remove fillers/repetitions, apply spoken punctuation/lists, and handle backtracking.
-4. An optional local GGUF LLM can polish text; risky edits fail validation and fall back to rules.
-5. Per-app profiles, local glossary, and snippets refine output.
-6. Raw and clean text are saved in local SQLite before safe foreground insertion.
+The legacy tools/build.ps1 awaits the P8 clean-environment rewrite; it is not the supported installation path. Development checks are in CONTRIBUTING.md and .github/workflows/ci.yml.
 
-The runtime dictation path has zero network calls, telemetry, or cloud fallback. Network is used only for explicit model downloads. Saydraft is Windows-only in v1, has no command mode, and local accuracy/speed depends on model size and hardware.
+## Models and downloads
+
+Fresh profiles recommend Parakeet v3 int8 with a language detector (773.4 MB combined). Parakeet v2 int8 is an English option (661.3 MB). Whisper base/small/medium are alternatives. The optional All languages Whisper large-v3-turbo model (1,621.7 MB) supports multilingual recognition, including Bengali and Arabic. Both languages share the same download; there are no separate language packs.
+
+Setup shows model sizes and licenses before an explicit Download action, with progress and pause/resume. Selecting a language or model starts no transfer. Later launches reuse installed weights; language pins and automatic routing use compatible installed models. New installations use %LOCALAPPDATA%\Saydraft\models\<id>\<version>; compatible legacy models remain readable in place.
+
+Optional AI cleanup is disabled by default. Explicit setup offers pinned Qwen3.5 0.8B or 2B Q4_K_M with a local llama.cpp CPU or Vulkan runtime. Recommendations do not enable or download cleanup. Validated output can fall back to deterministic rules. See docs/MODELS.md, docs/ASR_ROUTING.md, and docs/CLEANUP_SETUP.md for requirements, measurements, and limits.
+
+## App behavior
+
+1. Hold Ctrl+Win to record; F9 and XButton1 are configurable alternatives. Ctrl+Win+Space toggles hands-free mode; two short recording-shortcut taps also lock it. Esc cancels.
+2. Local Parakeet or Whisper transcribes; rules handle fillers, repetitions, self-corrections, punctuation, and lists. Optional local AI cleanup, per-app styles, Dictionary, and Snippets refine output.
+3. History stores raw and cleaned text before attempted delivery into the original target. Focus changes, protected fields, and elevated targets can prevent delivery; saved text remains reviewable in History.
+4. Shift+Alt+Z pastes the last dictation. F10 captures to History without foreground insertion. Fresh profiles warn at 19 minutes and cap recordings at 20; saved custom bindings/limits remain unchanged.
+
+One Hub contains Home statistics/recent dictations, global History search/changes/export/retry, Dictionary, Snippets, Style, Notes, and Settings. Notes is currently a placeholder. Command, Translate, Ask, Scratchpad, and Notetaker remain roadmap work.
+
+## Privacy and evidence
+
+Dictation has no cloud fallback or telemetry. Audio retention is off by default; optional Keep forever / Keep N days policies preserve History text when eligible recordings expire. Retry requires retained audio. Python networking is restricted outside authorized model downloads and loopback. Complete native/helper-process firewall enforcement remains release work; the read-only firewall-rule check does not establish full coverage. See docs/PRIVACY.md.
+
+The public website example is a canned simulation and requests no microphone access. Dated benchmark reports describe their recorded source/corpus, not automatic current-source or owner accuracy acceptance. Preserve historical report bytes and distinguish implementation from acceptance.
+
+Built by Tanzir Rahman: https://tanziro.com
+Support: https://buymeacoffee.com/tanzir
