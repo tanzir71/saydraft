@@ -14,8 +14,9 @@ The source instructions use the same `python -m saydraft` entrypoint as the
 repository README and contributor guide.
 The getting-started page follows the current setup order: microphone, model
 recommendation and explicit download, shortcut, owned practice, and Style/Home. It distinguishes
-provisional PC checks from explicit selected-model performance checks, shows the current Finish limitation,
-and links to the implementation guide for the unfinished onboarding steps.
+provisional PC checks from explicit selected-model performance checks, explains
+the model-readiness and fresh Finish checks, and links to the implementation guide
+for remaining permission/manual acceptance.
 The animated example is labeled as an illustrative simulation and never uses a
 microphone. Native details/summary navigation and FAQ work without JavaScript.
 The small example script respects reduced motion; React components render to

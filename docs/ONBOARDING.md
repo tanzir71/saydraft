@@ -2,8 +2,8 @@
 
 P6.4 is in progress. The six-page wizard now connects the shared microphone test,
 explicit model setup, shortcut learning, owned chat/email practice, Style quick
-pick, selected-model performance checks, and final Hub Home handoff. Strict
-advance/finish readiness gating, physical Windows checks and fresh-profile manual
+pick, selected-model performance checks, readiness gates and final Hub Home handoff.
+Physical Windows checks, complete permission diagnostics and fresh-profile manual
 timing acceptance remain under §8.4 of the root plan. The connected flow does not
 establish complete onboarding acceptance or owner speech accuracy.
 
@@ -30,8 +30,9 @@ with bundled audio and measures already enabled local AI cleanup when available.
 work returns. Successful reports are separate from setup preference saving.
 
 At least one compatible installed speech model is needed before dictating.
-The current wizard allows Finish with missing weights; complete installation
-in **Hub → Settings → Models** if needed. Bengali and Arabic use the same optional
+Next stays unavailable until the selected package is verified or an existing
+local Whisper model passes its offline check. Finish checks the current model
+again before saving preferences. Bengali and Arabic use the same optional
 **All languages** package. Choosing either language starts no download.
 
 Finish saves only changed microphone/model/shortcut/style-tone choices, preserving newer unrelated
@@ -121,7 +122,7 @@ survive Finish. A rules preview uses the last practice transcript or an explicit
 labeled example; it is not a claim about AI output. Finish stays unavailable until
 practice retirement is observed, then merges choices once and opens Hub Home.
 Practice can be skipped. Practice preparation is separate from the explicit
-model performance check; missing-model advance/finish gating remains open.
+model performance check and the model file checks used by navigation and Finish.
 
 ### Practice recovery
 
@@ -223,6 +224,57 @@ physical/manual acceptance.
 
 ## Model setup
 
+### Readiness and saving
+
+Next requires every declared catalog dependency to pass its revision-bound
+SHA-256 check. Transfer completion alone cannot unlock it. A failed check,
+unknown/custom unavailable model, missing helper weights or an active download
+keeps the step incomplete. The check stays off the GUI thread. Completeness
+notifications are guarded so Qt's temporary page re-layout cannot cancel a check
+or create a verification loop; programmatic Next uses the same validation.
+
+Existing local directories and cache-only Hugging Face Whisper snapshots remain
+readable in place. Unpinned files first appear as local, with no catalog checksum
+claim. Check model performance must load and recognize bundled audio successfully
+before a fresh file inspection can mark that model compatible. Its in-memory
+receipt covers the selected files' identity, paths, sizes and timestamps, including
+a model-local or cached tokenizer. It is a freshness receipt, not a content hash
+or accuracy result. Changed files or a moved cache alias require a fresh engine
+and check; a cached engine cannot validate a different snapshot. Parakeet's
+required pinned dependencies cannot use this Whisper compatibility path.
+
+Finish starts a separate asynchronous inspection of the currently staged speech
+model, including a newer unchanged model saved elsewhere. The window remains
+responsive and Finish stays unavailable while checking. The queued result must
+still belong to the current attempt and model. Settings are reloaded/merged after
+verification, so newer unrelated values survive; a changed model requires another
+explicit Finish. Missing/changed files, conflicts and failed reads/queues/saves
+preserve preferences and leave setup open. Cancel, close, hide and navigation
+revoke even an already queued success. Reopening requires a fresh explicit Finish;
+successful saving and Home handoff still happen once.
+
+Whisper's shared loader resolves a catalog installation, custom local directory
+or existing HF cache before constructing the model. Inference forces local-only
+loading, including older configurations that allowed implicit fetching. Public
+`hf_hub_download`/`snapshot_download` runtime entrypoints also force local-only
+access without stored account credentials, covering the tokenizer Python binding's
+fallback. Explicit model transfers continue through pinned manifest URLs.
+Missing tokenizers fail locally. Owner directories and cached files are not
+moved, rewritten or pruned by readiness checks.
+
+```powershell
+python -m pytest tests/test_onboarding_readiness.py tests/test_whisper_local.py tests/test_runtime_telemetry.py -q -rs
+```
+
+Checksum fixtures cover missing/corrupt dependencies, direct navigation and Finish,
+queue/provider failures, late cancellation, changed models, and current preference
+merging. Optional verified Whisper turbo fixtures exercise real local/cached/missing
+tokenizers with HTTP requests and credential lookup forbidden, plus cache → native
+benchmark → queued compatible state → Next → rechecked Finish. Existing synthetic
+and pinned Parakeet six-page practice paths also pass. All audio is public bundled
+speech and all configuration/cache views are disposable; no owner device,
+clipboard, foreground input or physical shortcut acceptance follows from these tests.
+
 ### Selected-model performance
 
 Check model performance is an explicit action after reviewing/installing the
@@ -303,12 +355,11 @@ License links follow the current text palette, remain underlined and keyboard
 accessible, and update during theme changes without clearing active progress.
 Bengali and Arabic still share one optional All languages model; selecting a
 model or language performs no transfer. The final Style quick pick page states
-that saving choices opens Home; successful saving does not establish model readiness.
+that saving choices opens Home after the separate fresh readiness check succeeds.
 
-The six-page navigation and selected-model measurements are connected. Strict
-advance/finish gating remains in P6.4; the app still refuses actual dictation when
-the selected weights are unavailable. Existing engine/cache compatibility is
-preserved while that complete flow is implemented.
+The six-page navigation, selected-model measurements and readiness gates are
+connected. Actual dictation also refuses unavailable selected weights. Physical
+Windows/permission checks and fresh-profile timing acceptance remain in P6.4.
 
 Model verification commands:
 

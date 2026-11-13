@@ -6,12 +6,13 @@ Start with the [project README](../readme.md),
 
 The active roadmap is [WISPR_OFFLINE_PARITY_PLAN.md](../WISPR_OFFLINE_PARITY_PLAN.md).
 Its Loop State distinguishes implementation, acceptance, remaining decisions,
-and dated evidence. Installer/signing, onboarding readiness/manual acceptance,
+and dated evidence. Installer/signing, onboarding permission/manual acceptance,
 Notes producers, several power features, and native/manual acceptance remain open.
 Use the plan for the complete status; an implemented component is not full
 milestone acceptance.
 
 For a first source launch, follow the [six-page walkthrough](ONBOARDING.md#current-setup-walkthrough).
+If setup cannot advance or finish, review [model readiness](ONBOARDING.md#readiness-and-saving).
 If practice cannot prepare a model or input, use the
 [setup recovery guide](ONBOARDING.md#practice-recovery).
 Contributors can run the [focused setup checks](../CONTRIBUTING.md#first-run-setup-checks),

@@ -50,6 +50,10 @@ Stop requests wait for observed native retirement; failed/cancelled setup checks
 keep the previous successful report. Successful setup reports carry
 `source: onboarding` and live beside an explicitly selected configuration under
 `hardware-benchmarks`. See the [setup measurement flow](ONBOARDING.md#selected-model-performance).
+For unpinned local Whisper caches, a successful measurement also supplies an
+in-memory file-freshness receipt. Setup re-inspects the files before allowing
+Next/Finish; changed files or a moved alias require a fresh engine. This receipt
+is separate from catalog checksums and hardware/accuracy acceptance.
 
 Snapshots are appended atomically under
 `%LOCALAPPDATA%\Saydraft\hardware-benchmarks`. Previous JSON files and interrupted

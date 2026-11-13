@@ -25,6 +25,16 @@ bytes and a 64 MiB reserve. If a server ignores Range, a full restart gets its o
 space check before the old partial is archived. Disk-write failures preserve the
 partial for another explicit resume.
 
+Whisper inference resolves existing local files before construction and forces
+local-only loading even for legacy preferences. Runtime Hugging Face download
+entrypoints are restricted to existing cache entries with account-token lookup
+disabled, including the tokenizer Python binding's fallback. Missing tokenizers
+fail locally; explicit catalog transfers use the separate pinned-URL installer.
+Setup gates Next on verified packages or a successful local-model load with
+unchanged files, then checks again before Finish saves preferences. Cache load
+receipts do not claim catalog SHA-256 verification. See
+[setup readiness](ONBOARDING.md#readiness-and-saving).
+
 Verify the Python boundary with:
 
 ```powershell

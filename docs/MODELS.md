@@ -15,6 +15,13 @@ background package verification and per-file download/SHA-256 progress. Those
 recommendations never qualify a measured tier or enable AI cleanup; see
 [onboarding implementation and remaining work](ONBOARDING.md#model-setup).
 
+On the setup model page, Next requires the complete catalog package to pass its
+file checks. Existing local Whisper directories and cached snapshots can instead
+pass an explicit offline performance check; setup accepts them only while their
+files remain unchanged. This compatibility check does not certify catalog hashes
+or speech accuracy. Finish checks the current model again before saving choices.
+See [readiness and saving](ONBOARDING.md#readiness-and-saving).
+
 The owner confirmed the written setup flow: show the recommendation, size and
 license, then start a one-click user-initiated download with progress and
 pause/resume. Later launches reuse installed models.

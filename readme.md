@@ -98,15 +98,17 @@ Try it, and Style quick pick.
    You can continue without recording.
 6. In **Style quick pick**, choose Casual or Formal for Messages and Email.
    The rules preview uses your last practice transcript or a labeled example.
-   **Finish** saves changed choices and opens Home after practice has stopped.
+   **Finish** rechecks the selected model, saves changed choices, and opens Home
+   after setup work has stopped.
    Existing intensity and AI settings stay unchanged. **Cancel** preserves saved
    preferences; completed downloads and resumable partials remain separate.
 
-Finish currently saves settings even if model installation is incomplete; a
-compatible installed speech model is required for dictation. Strict readiness
-gating and fresh-profile manual acceptance remain in development. Capability
-recommendations and actual model measurements are distinct; unavailable cleanup
-measurements stay unmeasured. See the [first-run guide](docs/ONBOARDING.md).
+In **Set up models**, **Next** requires a ready speech model. Catalog packages
+must pass their file checks; an existing local Whisper model needs a successful offline load check
+through **Check model performance**. **Finish** checks the current model again
+before saving. Cancel, hiding setup, or going Back revokes a pending Finish.
+Capability recommendations and measured speed remain distinct. Fresh-profile
+manual acceptance is still open. See the [first-run guide](docs/ONBOARDING.md).
 
 ### Set up once, then go offline
 
@@ -185,6 +187,10 @@ Compatible legacy model installations remain readable in place. See
 - **No input:** check Windows microphone permissions, then open
   Settings → Microphone, refresh inputs, and run Test input. A missing saved
   microphone does not silently switch to another device.
+- **Next is unavailable in Set up models:** finish installing the selected
+  package and its dependencies. For an existing local Whisper model, run
+  **Check model performance**. If files change later, return to this step and
+  check them again before finishing setup.
 - **Practice is unavailable:** return to Set up models to install the selected
   speech model, or to Microphone to check the input. After an app stop or Settings
   change, choose **Prepare practice** to start again. If setup cannot confirm

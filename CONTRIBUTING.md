@@ -82,9 +82,10 @@ Keep setup instructions, defaults, download sizes, and licenses aligned with
 the source and pinned model manifest. First-run capability recommendations are
 provisional; they do not replace inference measurements or the saved performance
 tier. Distinguish a completed file transfer, a verified model package, and saving
-setup preferences. The current wizard does not gate Finish on installed weights.
-Practice does gate completion on observed retirement of its microphone and
-temporary shortcuts; these are separate checks.
+setup preferences. Next requires a verified package or a successfully loaded,
+unchanged local Whisper model. Finish rechecks the current model asynchronously
+before merging/saving preferences; Cancel/hide/navigation revoke late results.
+Observed retirement of practice, shortcuts and performance work is a separate gate.
 
 For user-facing setup changes, keep the [README](readme.md),
 [first-run guide](docs/ONBOARDING.md), [documentation index](docs/README.md),
@@ -102,6 +103,7 @@ the offscreen environment above:
 ```powershell
 .venv\Scripts\python -m pytest tests/test_practice.py tests/test_onboarding_practice.py tests/test_onboarding_window.py tests/test_onboarding_shortcuts.py tests/test_qt_app_shell.py tests/test_session_worker.py -q -rs
 .venv\Scripts\python -m pytest tests/test_setup_benchmark.py tests/test_hardware_benchmark.py tests/test_setup_models.py -q -rs
+.venv\Scripts\python -m pytest tests/test_onboarding_readiness.py tests/test_whisper_local.py tests/test_runtime_telemetry.py -q -rs
 ```
 
 The six-page integration test uses synthetic native key packets, an injected
@@ -121,7 +123,15 @@ Both cases use fake native hooks and input rather than operating the desktop,
 microphone or clipboard. The optional case checks the real local recognizer and
 cleanup path; it does not establish accuracy acceptance or physical shortcut
 behavior. See the [first-run guide](docs/ONBOARDING.md) for ownership, cancellation
-and remaining benchmark/readiness work.
+and remaining permission/manual acceptance.
+
+For the optional real Whisper cache/readiness cases, provide an already verified
+turbo model directory through `SAYDRAFT_TEST_WHISPER_TURBO_MODEL`. Keep pytest's
+temporary folder on the same volume so disposable HF snapshots can link those
+public fixtures without copying large weights. These tests never download a model.
+They also verify cached-tokenizer reuse and missing-tokenizer rejection while
+HTTP requests and account-token lookup are forbidden. Preserve any failed native
+probe reports; an isolated success does not erase a broader failure.
 
 ### Reports and licensing
 
