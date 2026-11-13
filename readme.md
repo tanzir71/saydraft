@@ -3,6 +3,7 @@
 **Speak messy. Paste polished.**
 
 [![CI](https://github.com/tanzir71/saydraft/actions/workflows/ci.yml/badge.svg)](https://github.com/tanzir71/saydraft/actions/workflows/ci.yml)
+[![Site checks](https://github.com/tanzir71/saydraft/actions/workflows/site.yml/badge.svg)](https://github.com/tanzir71/saydraft/actions/workflows/site.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 Saydraft is an open-source Windows tray app for local voice dictation. Hold a
@@ -13,6 +14,10 @@ dictation has no cloud fallback or subscription.
 [Website](https://tanzir71.github.io/saydraft/) ·
 [Getting started](https://tanzir71.github.io/saydraft/docs/getting-started/) ·
 [Documentation](docs/README.md) · [Contributing](CONTRIBUTING.md)
+
+[Install from source](#run-from-source) · [First launch](#first-launch) ·
+[Models and languages](#set-up-once-then-go-offline) · [Daily use](#daily-use) ·
+[Troubleshooting](#troubleshooting-and-development)
 
 ## Current status
 
@@ -39,10 +44,12 @@ test suite does not establish full product parity or accuracy on your voice.
   raw/cleaned changes, Markdown/CSV export, and retry when audio was retained.
 - **Personal vocabulary:** searchable Dictionary terms, protected terms, and
   replacement pairs; Snippets with date/clipboard variables and import/export.
-- **Explicit setup:** model recommendations, disclosed sizes/licenses,
-  resumable downloads with per-file verification progress, microphone selection
-  and a level-only test, provisional PC checks, tier overrides, and model storage
-  controls.
+- **Guided first launch:** microphone selection and a level-only test, focused
+  shortcut learning, chat/email dictation practice with before/after review,
+  and a Style quick pick before opening Home.
+- **Explicit model setup:** provisional PC recommendations, disclosed
+  sizes/licenses, resumable downloads with per-file verification progress,
+  tier overrides, and model storage controls.
 - **Local data controls:** no telemetry, audio retention off by default,
   optional retention limits, and a separate read-only firewall-rule check.
 
@@ -82,10 +89,12 @@ Try it, and Style quick pick.
    and press/release your keys. Review any conflicts before continuing.
 5. In **Try it**, practice in the window's own chat or email field. Preparation
    opens no microphone. Hold your shortcut or choose **Record**, then release or
-   stop to review the transcript, cleaned text, and edit chips. Practice audio
-   stays in memory; it creates no History entries and uses no external paste or
-   clipboard. You can continue without recording.
+   choose **Stop and preview** to review the transcript, cleaned text, and edit
+   chips. Each practice recording is limited to one minute. Audio stays in memory;
+   practice creates no History entries and uses no external paste or clipboard.
+   You can continue without recording.
 6. In **Style quick pick**, choose Casual or Formal for Messages and Email.
+   The rules preview uses your last practice transcript or a labeled example.
    **Finish** saves changed choices and opens Home after practice has stopped.
    Existing intensity and AI settings stay unchanged. **Cancel** preserves saved
    preferences; completed downloads and resumable partials remain separate.
@@ -172,6 +181,10 @@ Compatible legacy model installations remain readable in place. See
 - **No input:** check Windows microphone permissions, then open
   Settings → Microphone, refresh inputs, and run Test input. A missing saved
   microphone does not silently switch to another device.
+- **Practice is unavailable:** return to Set up models to install the selected
+  speech model, or to Microphone to check the input. After an app stop or Settings
+  change, choose **Prepare practice** to start again. If setup cannot confirm
+  that practice stopped, cancel setup and restart Saydraft as prompted.
 - **Shortcut conflict:** review Settings → Shortcuts and rebind conflicting
   combinations. Another dictation app may use Ctrl + Win.
 - **Text did not insert:** open History to review/copy the saved result.
@@ -183,6 +196,9 @@ Compatible legacy model installations remain readable in place. See
 For development setup and checks, read [CONTRIBUTING.md](CONTRIBUTING.md).
 [Documentation](docs/README.md) links to implementation notes, evaluation
 methods, Windows acceptance checks, and the website workflow.
+Report reproducible problems in [GitHub Issues](https://github.com/tanzir71/saydraft/issues)
+with redacted logs and your source version; keep private recordings and transcripts out
+of public reports.
 
 Saydraft's code is licensed under [MIT](LICENSE). Built by
 [Tanzir Rahman](https://tanziro.com). You can

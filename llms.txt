@@ -13,6 +13,8 @@ Saydraft is in active development. Source setup is available; no installer relea
 - README: https://github.com/tanzir71/saydraft/blob/main/readme.md
 - Documentation: https://github.com/tanzir71/saydraft/blob/main/docs/README.md
 - Contributing: https://github.com/tanzir71/saydraft/blob/main/CONTRIBUTING.md
+- First-run behavior and recovery: https://github.com/tanzir71/saydraft/blob/main/docs/ONBOARDING.md
+- Test and manual acceptance checklist: https://github.com/tanzir71/saydraft/blob/main/docs/TEST_CHECKLIST.md
 - Roadmap and acceptance: https://github.com/tanzir71/saydraft/blob/main/WISPR_OFFLINE_PARITY_PLAN.md
 - Licenses: https://github.com/tanzir71/saydraft/blob/main/THIRD_PARTY_NOTICES.md
 
@@ -46,6 +48,8 @@ Shortcut setup provides a Wispr-compatible preset, manual entry, and explicit pr
 
 Try it uses the selected microphone and installed ASR with the real cleanup processor, private in-memory History/delivery ports, and owned chat/email fields. Preparation opens no input; capture starts only on a shortcut or Record, with a one-minute cap. Practice has no audio-retention or persistent-History path, no foreground field is inspected, no clipboard is read, and no external insertion or Enter occurs. Before/after text and plain-text edit chips show actual changes. Cancellation, target/window changes, stale generations, settings replacement and shutdown retire owned work; unknown cleanup blocks completion and requests restart. External stop does not automatically restart practice. The user can skip recording.
 
+For unavailable practice models, return to Set up models and explicitly install the selected package. For input failures, return to Microphone and check the staged device. After an external stop or Settings change, choose Prepare practice explicitly when idle. If retirement cannot be confirmed, cancel setup and restart as prompted. The one-minute practice limit is separate from daily dictation's twenty-minute default cap.
+
 Style quick pick stages Casual/Formal for Messages/Email while preserving existing Very casual, intensity, other groups, and unchanged newer settings. A labeled rules preview uses the last practice transcript or an explicit example. It does not enable/download AI. Finish waits for observed practice retirement, saves changes once and opens Hub Home.
 
 In-setup measured model benchmarks, strict readiness gating, physical Windows checks, and fresh-profile manual timing acceptance remain open under P6.4. See https://github.com/tanzir71/saydraft/blob/main/docs/ONBOARDING.md. Do not infer owner accuracy or full product parity from fixture tests.
@@ -68,6 +72,8 @@ One Hub contains Home statistics/recent dictations, global History search/change
 Dictation has no cloud fallback or telemetry. Audio retention is off by default; optional Keep forever / Keep N days policies preserve History text when eligible recordings expire. Retry requires retained audio. Python networking is restricted outside authorized model downloads and loopback. Complete native/helper-process firewall enforcement remains release work; the read-only firewall-rule check does not establish full coverage. See docs/PRIVACY.md.
 
 The public website example is a canned simulation and requests no microphone access. Dated benchmark reports describe their recorded source/corpus, not automatic current-source or owner accuracy acceptance. Preserve historical report bytes and distinguish implementation from acceptance.
+
+CONTRIBUTING.md includes focused setup checks and the optional SAYDRAFT_TEST_PARAKEET_V3_MODEL fixture root for a real-recognizer smoke using tests/fixtures/hello.wav. Synthetic hooks/input and private profiles keep this separate from owner microphone, clipboard, desktop and physical shortcut acceptance. The archived docs/history/CODEX_HANDOFF_v1.md describes earlier VoiceTray milestones; its defaults and loop instructions are superseded by the current root plan and source.
 
 Built by Tanzir Rahman: https://tanziro.com
 Support: https://buymeacoffee.com/tanzir

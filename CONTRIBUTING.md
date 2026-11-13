@@ -83,6 +83,8 @@ the source and pinned model manifest. First-run capability recommendations are
 provisional; they do not replace inference measurements or the saved performance
 tier. Distinguish a completed file transfer, a verified model package, and saving
 setup preferences. The current wizard does not gate Finish on installed weights.
+Practice does gate completion on observed retirement of its microphone and
+temporary shortcuts; these are separate checks.
 
 For user-facing setup changes, keep the [README](readme.md),
 [first-run guide](docs/ONBOARDING.md), [documentation index](docs/README.md),
@@ -91,6 +93,35 @@ For user-facing setup changes, keep the [README](readme.md),
 Run `.venv\Scripts\python -m pytest tests/test_readme.py -q` to check the public
 Markdown navigation. Changes under `site/` also need the website checks above;
 successful Site checks trigger the Pages deployment for that exact commit.
+
+### First-run setup checks
+
+For changes to the connected setup flow, run its focused integration checks in
+the offscreen environment above:
+
+```powershell
+.venv\Scripts\python -m pytest tests/test_practice.py tests/test_onboarding_practice.py tests/test_onboarding_window.py tests/test_onboarding_shortcuts.py tests/test_qt_app_shell.py tests/test_session_worker.py -q -rs
+```
+
+The six-page integration test uses synthetic native key packets, an injected
+input stream, a mocked explicit download, private preferences, and queued Qt
+signals. The optional recognizer case uses the public
+[hello fixture](tests/fixtures/hello.wav) with an already installed, verified
+Parakeet v3 model. To include that case, point to your disposable fixture model
+directory; this command does not download weights:
+
+```powershell
+$env:SAYDRAFT_TEST_PARAKEET_V3_MODEL = 'D:\QA\models\parakeet-tdt-0-6b-v3-int8'
+.venv\Scripts\python -m pytest tests/test_onboarding_practice.py -k synthetic_native_shortcut -q -rs
+```
+
+Both cases use fake native hooks and input rather than operating the desktop,
+microphone or clipboard. The optional case checks the real local recognizer and
+cleanup path; it does not establish accuracy acceptance or physical shortcut
+behavior. See the [first-run guide](docs/ONBOARDING.md) for ownership, cancellation
+and remaining benchmark/readiness work.
+
+### Reports and licensing
 
 Link to dated measurements rather than
 rewriting historical results as current acceptance. Describe a reproducible

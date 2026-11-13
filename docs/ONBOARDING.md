@@ -119,6 +119,23 @@ practice retirement is observed, then merges choices once and opens Hub Home.
 Practice can be skipped. Model preparation is not the still-pending setup
 performance benchmark, and missing-model advance/finish gating remains open.
 
+### Practice recovery
+
+| Message or state | Next step |
+|---|---|
+| Selected speech model is unavailable | Return to Set up models, install the selected model with Download / Resume, then return to Try it. Choosing a model alone does not install it. |
+| Could not open the selected input | Return to Microphone, refresh inputs if needed, choose an available device and run Test input. |
+| Recording was too short / no usable text | Record a clear sentence longer than half a second; practice stops at one minute. |
+| Practice stopped after an app stop or Settings change | Choose Prepare practice explicitly when the app is idle; focus changes cannot restart an externally stopped session. |
+| Practice is still stopping | Wait for microphone and shortcut retirement before Finish becomes available. |
+| Could not confirm practice stopped | Cancel setup and restart Saydraft, as prompted. Completion stays blocked while ownership is uncertain. |
+
+These limits apply to setup practice. Daily dictation has its separate
+[recording limits](RECORDING_LIMITS.md), persistent History and optional audio
+retention. Practice results do not appear in History after setup.
+
+### Practice verification
+
 ```powershell
 python -m pytest tests/test_practice.py tests/test_onboarding_practice.py tests/test_onboarding_window.py tests/test_onboarding_shortcuts.py tests/test_qt_app_shell.py tests/test_session_worker.py -q
 ```
@@ -231,8 +248,8 @@ Changing models clears the previous download's completion and file details.
 License links follow the current text palette, remain underlined and keyboard
 accessible, and update during theme changes without clearing active progress.
 Bengali and Arabic still share one optional All languages model; selecting a
-model or language performs no transfer. The Done page now states that a speech
-model is required rather than claiming immediate readiness from saving settings.
+model or language performs no transfer. The final Style quick pick page states
+that saving choices opens Home; successful saving does not establish model readiness.
 
 The six-page navigation is connected. Selected model measurements within setup
 and strict advance/finish gating remain in P6.4; the app still refuses actual dictation when

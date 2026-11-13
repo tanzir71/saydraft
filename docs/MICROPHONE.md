@@ -47,13 +47,18 @@ No provider exception text is shown or logged by these controls. Device names
 are local configuration metadata, not dictated content.
 
 Whisper-mode gain/AGC/enhancement and its owner whispered-clip accuracy gate remain
-P7.4. Onboarding's microphone flow/privacy check remains P6.4. This increment does
-not establish either acceptance or the deferred live microphone/desktop checks.
+P7.4. First-run permission diagnostics and live microphone/desktop acceptance
+remain open under P6.4 and P2.2.
 
 First-run setup now reuses these controls with generation-tagged test signals.
 Its device choice stays staged until Finish; Cancel preserves saved preferences,
-and leaving/dismissing setup stops the test. Full onboarding v2 and permission
-diagnostics remain open. See [first-run setup](ONBOARDING.md).
+and leaving/dismissing setup stops the test. The later Try it page uses that staged
+choice for actual recognition and cleanup in owned chat/email fields. Preparing
+practice opens no input; a shortcut or Record starts capture with a one-minute
+limit. Practice audio stays in memory and creates no retained recording or
+History entry. This is separate from the ten-second, level-only Test input.
+See [first-run setup](ONBOARDING.md) and its
+[practice recovery guide](ONBOARDING.md#practice-recovery).
 
 ## Verification
 

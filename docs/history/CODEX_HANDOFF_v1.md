@@ -1,5 +1,12 @@
 # VoiceTray — Codex Handoff Spec (Loop-Runnable)
 
+> **Historical document — superseded.** This file preserves the earlier VoiceTray
+> M0–M6 handoff. Its instructions, defaults, task states and source-of-truth claims
+> describe that earlier work. Use the current
+> [Saydraft README](../../readme.md), [documentation index](../README.md) and
+> [active parity plan](../../WISPR_OFFLINE_PARITY_PLAN.md) for current behavior and
+> acceptance. The historical body below is retained unchanged.
+
 > **Purpose.** This document is the single source of truth for iteratively refining VoiceTray into a polished, **100% free and local** Windows dictation app that matches the "magic" of Wispr Flow and Typeless: speak messily → get clean, ready-to-post text typed into any app.
 >
 > **How to run this in a loop (Codex protocol):**

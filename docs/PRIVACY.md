@@ -11,10 +11,14 @@ Unknown or corrupt files are preserved in the model directory's `_archive`.
 Only a fully verified transfer receives an atomic completion marker. Model loaders
 recheck downloaded files' hashes before use.
 
-The catalog covers Parakeet v3/v2 int8, Whisper base/small/medium/turbo and Silero VAD.
-It is in `saydraft/models/manifest.json`. Extending the
-catalog requires checking the publisher's artifact checksums, revision, license
-and actual redirect hosts. Arbitrary automatic model fetches are blocked.
+The catalog in `saydraft/models/manifest.json` includes Parakeet v3/v2 int8,
+Whisper base/small/medium/turbo, Tiny Whisper language detection, Silero VAD,
+the experimental Nemotron preview model, optional Qwen3.5 cleanup weights and
+llama.cpp CPU/Vulkan runtimes. Catalog presence does not enable a model or qualify
+an experimental feature for release. Extending it requires checking the publisher's
+artifact checksums, revision, license and actual redirect hosts. Arbitrary
+automatic model fetches are blocked. See [model choices](MODELS.md) and
+[package installation](MODEL_PACKAGES.md).
 
 Downloads check free disk space before requesting data, accounting for resumable
 bytes and a 64 MiB reserve. If a server ignores Range, a full restart gets its own
@@ -59,3 +63,20 @@ a draft starts no cleanup. See [AUDIO_RETENTION.md](AUDIO_RETENTION.md) for cuto
 ownership, retry leases, failure recovery and verification. The new retention and
 inspection jobs report counts/status without logging text, paths or backend
 exception details. Telemetry remains disabled; no opt-in analytics is added.
+
+## First-run audio and practice
+
+Setup's Microphone page lists available inputs after Refresh inputs. Test input
+opens the selected device for a ten-second, level-only check; samples are not
+retained or transcribed. Navigating setup alone does not start microphone capture.
+
+Try it prepares an installed recognizer locally, then captures only after a
+recording shortcut or Record. Its one-minute recordings, raw words and cleaned
+results stay in memory. Practice uses the real recognition/cleanup path with
+private History and delivery adapters, so it writes no persistent History or
+audio-retention files, reads no foreground field or clipboard, and sends no paste
+or Enter into another app. This remains true when daily audio retention is enabled.
+Changing target, leaving the page, cancellation or shutdown stops owned work and
+rejects late results. Unknown microphone/shortcut retirement blocks completion
+and requests a restart. See [first-run setup](ONBOARDING.md) for the full boundary
+and recovery behavior.

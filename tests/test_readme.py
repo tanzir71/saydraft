@@ -18,6 +18,6 @@ def test_public_documentation_local_links_resolve(document):
 
     assert local_links, f"No local documentation links checked in {document}"
     for link in local_links:
-        destination = (source.parent / unquote(link.path)).resolve()
+        destination = (source.parent / (unquote(link.path) or source.name)).resolve()
         assert destination.is_relative_to(ROOT), f"Link escapes repository: {link.path}"
         assert destination.is_file(), f"Broken link in {document}: {link.path}"
