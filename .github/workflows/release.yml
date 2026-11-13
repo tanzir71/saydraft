@@ -1,0 +1,71 @@
+name: Draft release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  unsigned-draft:
+    runs-on: windows-latest
+    timeout-minutes: 50
+    permissions:
+      contents: write
+      actions: read
+    env:
+      GH_TOKEN: ${{ github.token }}
+      RELEASE_TAG: ${{ github.ref_name }}
+      SOURCE_COMMIT: ${{ github.sha }}
+      HF_HUB_OFFLINE: '1'
+      HF_HUB_DISABLE_TELEMETRY: '1'
+      DO_NOT_TRACK: '1'
+      QT_QPA_PLATFORM: offscreen
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.13'
+      - name: Require successful CI for this exact source
+        shell: pwsh
+        run: |
+          for ($Attempt = 0; $Attempt -lt 40; $Attempt++) {
+            $Runs = gh run list --workflow ci.yml --commit $env:SOURCE_COMMIT --limit 30 --json status,conclusion | ConvertFrom-Json
+            if ($LASTEXITCODE -ne 0) { throw 'Could not verify exact-source CI.' }
+            if (@($Runs | Where-Object { $_.status -eq 'completed' -and $_.conclusion -eq 'success' }).Count -gt 0) { exit 0 }
+            if ($Attempt -lt 39) { Start-Sleep -Seconds 30 }
+          }
+          throw 'No successful CI result for this exact source within 20 minutes.'
+      - name: Choose fresh retained build directory
+        shell: pwsh
+        run: |
+          "SAYDRAFT_PACKAGE_ROOT=$(Join-Path $env:RUNNER_TEMP 'saydraft-release')" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+      - name: Build and verify unsigned installer
+        shell: pwsh
+        run: |
+          ./tools/build.ps1 -Python "$env:pythonLocation\python.exe" -OutputRoot $env:SAYDRAFT_PACKAGE_ROOT
+          ./tools/check_installer.ps1 -BuildRoot $env:SAYDRAFT_PACKAGE_ROOT
+      - name: Validate delivered hashes and write draft notes
+        shell: pwsh
+        run: |
+          python -m tools.release_manifest --build-root $env:SAYDRAFT_PACKAGE_ROOT --tag $env:RELEASE_TAG --commit $env:SOURCE_COMMIT --notes "$env:SAYDRAFT_PACKAGE_ROOT\audit\release-notes.md" --manifest "$env:SAYDRAFT_PACKAGE_ROOT\audit\release-manifest.json"
+      - name: Create draft with verified artifacts
+        shell: pwsh
+        run: |
+          $Manifest = Get-Content -LiteralPath "$env:SAYDRAFT_PACKAGE_ROOT\audit\release-manifest.json" -Raw | ConvertFrom-Json
+          $Files = @($Manifest.artifacts.PSObject.Properties.Name | ForEach-Object { Join-Path "$env:SAYDRAFT_PACKAGE_ROOT\artifacts" $_ })
+          $Files += Join-Path "$env:SAYDRAFT_PACKAGE_ROOT\artifacts" 'SHA256SUMS'
+          $Files += "$env:SAYDRAFT_PACKAGE_ROOT\audit\release-manifest.json"
+          gh release create $env:RELEASE_TAG --draft --verify-tag --title "Saydraft $($Manifest.version) (unsigned draft)" --notes-file "$env:SAYDRAFT_PACKAGE_ROOT\audit\release-notes.md" @Files
+          if ($LASTEXITCODE -ne 0) { throw 'Draft release creation failed; no release was published.' }
+      - name: Retain release verification receipts
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: draft-release-receipts
+          if-no-files-found: warn
+          path: |
+            ${{ env.SAYDRAFT_PACKAGE_ROOT }}/audit/*
+            ${{ env.SAYDRAFT_PACKAGE_ROOT }}/third-party-notices/index.json

@@ -1,0 +1,6074 @@
+{
+  "source_toc_sha256": "1077aff4ec84d7dc4f1caf925a31b4c8e7c1f5b7504bd5af5d7e324818cfce13",
+  "producer_commit": "94e4cce651ea54cf0f0c807d5d13f8177e0de801",
+  "modules": [
+    {
+      "name": "PySide6",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "PySide6.support",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "PySide6.support.deprecated",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "PySide6\\QtCore.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "PySide6\\QtGui.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "PySide6\\QtMultimedia.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "PySide6\\QtMultimediaWidgets.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "PySide6\\QtNetwork.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "PySide6\\QtSvg.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "PySide6\\QtWidgets.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "__future__",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "_aix_support",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "_asyncio.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "_bz2.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "_cffi_backend.cp313-win_amd64.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "_collections_abc",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "_colorize",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "_compat_pickle",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "_compression",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "_ctypes.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "_decimal.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "_distutils_hack",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "_distutils_hack.override",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "_hashlib.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "_lzma.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "_multiprocessing.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "_opcode_metadata",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "_osx_support",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "_overlapped.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "_py_abc",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "_pydatetime",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "_pydecimal",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "_pyi_rth_utils",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "_pyi_rth_utils.qt",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "_pyrepl",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "_pyrepl._minimal_curses",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "_pyrepl._threading_handler",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "_pyrepl.base_eventqueue",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "_pyrepl.commands",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "_pyrepl.completing_reader",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "_pyrepl.console",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "_pyrepl.curses",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "_pyrepl.fancy_termios",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "_pyrepl.historical_reader",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "_pyrepl.input",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "_pyrepl.keymap",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "_pyrepl.main",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "_pyrepl.pager",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "_pyrepl.reader",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "_pyrepl.readline",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "_pyrepl.simple_interact",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "_pyrepl.trace",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "_pyrepl.types",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "_pyrepl.unix_console",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "_pyrepl.unix_eventqueue",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "_pyrepl.utils",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "_pyrepl.windows_console",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "_pyrepl.windows_eventqueue",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "_queue.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "_sitebuiltins",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "_socket.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "_sounddevice",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "_sounddevice_data",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "_soundfile",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "_soundfile_data",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "_sqlite3.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "_ssl.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "_strptime",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "_threading_local",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "_uuid.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "_weakrefset",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "_webrtcvad.cp313-win_amd64.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "_wmi.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "abc",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "anyio",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "anyio._backends",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "anyio._backends._asyncio",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "anyio._backends._trio",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "anyio._core",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "anyio._core._asyncio_selector_thread",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "anyio._core._concurrency_utils",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "anyio._core._contextmanagers",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "anyio._core._eventloop",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "anyio._core._exceptions",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "anyio._core._fileio",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "anyio._core._futures",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "anyio._core._resources",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "anyio._core._signals",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "anyio._core._sockets",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "anyio._core._streams",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "anyio._core._subprocesses",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "anyio._core._synchronization",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "anyio._core._tasks",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "anyio._core._tempfile",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "anyio._core._testing",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "anyio._core._typedattr",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "anyio._lazyimport",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "anyio.abc",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "anyio.abc._eventloop",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "anyio.abc._resources",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "anyio.abc._sockets",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "anyio.abc._streams",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "anyio.abc._subprocesses",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "anyio.abc._tasks",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "anyio.abc._testing",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "anyio.from_thread",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "anyio.functools",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "anyio.itertools",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "anyio.lowlevel",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "anyio.streams",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "anyio.streams.buffered",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "anyio.streams.memory",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "anyio.streams.stapled",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "anyio.streams.tls",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "anyio.to_interpreter",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "anyio.to_process",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "anyio.to_thread",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "argparse",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "ast",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "asyncio",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "asyncio.base_events",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "asyncio.base_futures",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "asyncio.base_subprocess",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "asyncio.base_tasks",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "asyncio.constants",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "asyncio.coroutines",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "asyncio.events",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "asyncio.exceptions",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "asyncio.format_helpers",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "asyncio.futures",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "asyncio.locks",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "asyncio.log",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "asyncio.mixins",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "asyncio.proactor_events",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "asyncio.protocols",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "asyncio.queues",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "asyncio.runners",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "asyncio.selector_events",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "asyncio.sslproto",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "asyncio.staggered",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "asyncio.streams",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "asyncio.subprocess",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "asyncio.taskgroups",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "asyncio.tasks",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "asyncio.threads",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "asyncio.timeouts",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "asyncio.transports",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "asyncio.trsock",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "asyncio.unix_events",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "asyncio.windows_events",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "asyncio.windows_utils",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "av",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "av.__main__",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "av.about",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "av.audio",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "av.codec",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "av.container",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "av.datasets",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "av.filter",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "av.sidedata",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "av.subtitles",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "av.video",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "av\\_core.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "av\\_cyutil.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "av\\audio\\codeccontext.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "av\\audio\\fifo.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "av\\audio\\format.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "av\\audio\\frame.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "av\\audio\\layout.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "av\\audio\\plane.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "av\\audio\\resampler.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "av\\audio\\stream.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "av\\bitstream.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "av\\buffer.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "av\\codec\\codec.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "av\\codec\\context.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "av\\codec\\hwaccel.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "av\\container\\core.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "av\\container\\input.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "av\\container\\output.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "av\\container\\pyio.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "av\\container\\streams.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "av\\device.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "av\\dictionary.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "av\\error.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "av\\filter\\context.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "av\\filter\\filter.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "av\\filter\\graph.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "av\\filter\\link.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "av\\filter\\loudnorm.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "av\\format.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "av\\frame.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "av\\index.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "av\\logging.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "av\\opaque.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "av\\packet.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "av\\plane.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "av\\rational.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "av\\sidedata\\encparams.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "av\\sidedata\\motionvectors.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "av\\sidedata\\sidedata.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "av\\stream.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "av\\subtitles\\codeccontext.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "av\\subtitles\\stream.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "av\\subtitles\\subtitle.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "av\\utils.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "av\\video\\codeccontext.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "av\\video\\format.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "av\\video\\frame.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "av\\video\\plane.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "av\\video\\reformatter.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "av\\video\\stream.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "base64",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "bdb",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "bisect",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "bz2",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "calendar",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "click",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "click._compat",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "click._termui_impl",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "click._textwrap",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "click._utils",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "click._winconsole",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "click.core",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "click.decorators",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "click.exceptions",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "click.formatting",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "click.globals",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "click.parser",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "click.shell_completion",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "click.termui",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "click.types",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "click.utils",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "cmd",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "code",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "codecs",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "codeop",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "collections",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "colorama",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "colorama.ansi",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "colorama.ansitowin32",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "colorama.initialise",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "colorama.win32",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "colorama.winterm",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "comtypes",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "comtypes.GUID",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "comtypes._comobject",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "comtypes._memberspec",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "comtypes._meta",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "comtypes._npsupport",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "comtypes._post_coinit",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "comtypes._post_coinit._cominterface_meta_patcher",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "comtypes._post_coinit.activeobj",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "comtypes._post_coinit.bstr",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "comtypes._post_coinit.instancemethod",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "comtypes._post_coinit.misc",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "comtypes._post_coinit.unknwn",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "comtypes._safearray",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "comtypes._tlib_version_checker",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "comtypes._vtbl",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "comtypes.automation",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "comtypes.client",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "comtypes.client._activeobj",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "comtypes.client._code_cache",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "comtypes.client._constants",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "comtypes.client._create",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "comtypes.client._events",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "comtypes.client._generate",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "comtypes.client._managing",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "comtypes.client.dynamic",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "comtypes.client.lazybind",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "comtypes.connectionpoints",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "comtypes.errorinfo",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "comtypes.hresult",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "comtypes.messageloop",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "comtypes.patcher",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "comtypes.persist",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "comtypes.safearray",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "comtypes.server",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "comtypes.stream",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "comtypes.tools",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "comtypes.tools.codegenerator",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "comtypes.tools.codegenerator.codegenerator",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "comtypes.tools.codegenerator.comments",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "comtypes.tools.codegenerator.heads",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "comtypes.tools.codegenerator.helpers",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "comtypes.tools.codegenerator.modulenamer",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "comtypes.tools.codegenerator.namespaces",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "comtypes.tools.codegenerator.packing",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "comtypes.tools.codegenerator.typeannotator",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "comtypes.tools.tlbparser",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "comtypes.tools.typedesc",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "comtypes.tools.typedesc_base",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "comtypes.typeinfo",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "concurrent",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "concurrent.futures",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "concurrent.futures._base",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "concurrent.futures.process",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "concurrent.futures.thread",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "configparser",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "contextlib",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "contextvars",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "copy",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "copyreg",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "csv",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "ctranslate2",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "ctranslate2.extensions",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "ctranslate2.logging",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "ctranslate2.models",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "ctranslate2.version",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "ctranslate2\\_ext.cp313-win_amd64.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "ctypes",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "ctypes._aix",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "ctypes._endian",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "ctypes.macholib",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "ctypes.macholib.dyld",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "ctypes.macholib.dylib",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "ctypes.macholib.framework",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "ctypes.util",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "ctypes.wintypes",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "curses",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "curses.has_key",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "dataclasses",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "datetime",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "decimal",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "difflib",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "dis",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "doctest",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "email",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "email._encoded_words",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "email._header_value_parser",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "email._parseaddr",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "email._policybase",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "email.base64mime",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "email.charset",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "email.contentmanager",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "email.encoders",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "email.errors",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "email.feedparser",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "email.generator",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "email.header",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "email.headerregistry",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "email.iterators",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "email.message",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "email.parser",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "email.policy",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "email.quoprimime",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "email.utils",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.aliases",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.ascii",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.base64_codec",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.big5",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.big5hkscs",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.bz2_codec",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.charmap",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.cp037",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.cp1006",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.cp1026",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.cp1125",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.cp1140",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.cp1250",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.cp1251",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.cp1252",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.cp1253",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.cp1254",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.cp1255",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.cp1256",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.cp1257",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.cp1258",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.cp273",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.cp424",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.cp437",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.cp500",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.cp720",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.cp737",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.cp775",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.cp850",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.cp852",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.cp855",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.cp856",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.cp857",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.cp858",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.cp860",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.cp861",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.cp862",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.cp863",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.cp864",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.cp865",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.cp866",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.cp869",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.cp874",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.cp875",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.cp932",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.cp949",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.cp950",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.euc_jis_2004",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.euc_jisx0213",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.euc_jp",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.euc_kr",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.gb18030",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.gb2312",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.gbk",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.hex_codec",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.hp_roman8",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.hz",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.idna",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.iso2022_jp",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.iso2022_jp_1",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.iso2022_jp_2",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.iso2022_jp_2004",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.iso2022_jp_3",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.iso2022_jp_ext",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.iso2022_kr",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.iso8859_1",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.iso8859_10",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.iso8859_11",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.iso8859_13",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.iso8859_14",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.iso8859_15",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.iso8859_16",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.iso8859_2",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.iso8859_3",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.iso8859_4",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.iso8859_5",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.iso8859_6",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.iso8859_7",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.iso8859_8",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.iso8859_9",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.johab",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.koi8_r",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.koi8_t",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.koi8_u",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.kz1048",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.latin_1",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.mac_arabic",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.mac_croatian",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.mac_cyrillic",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.mac_farsi",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.mac_greek",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.mac_iceland",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.mac_latin2",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.mac_roman",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.mac_romanian",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.mac_turkish",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.mbcs",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.oem",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.palmos",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.ptcp154",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.punycode",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.quopri_codec",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.raw_unicode_escape",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.rot_13",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.shift_jis",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.shift_jis_2004",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.shift_jisx0213",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.tis_620",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.undefined",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.unicode_escape",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.utf_16",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.utf_16_be",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.utf_16_le",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.utf_32",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.utf_32_be",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.utf_32_le",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.utf_7",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.utf_8",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.utf_8_sig",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.uu_codec",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "encodings.zlib_codec",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "enum",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "faster_whisper",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "faster_whisper.assets",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "faster_whisper.audio",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "faster_whisper.feature_extractor",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "faster_whisper.tokenizer",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "faster_whisper.transcribe",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "faster_whisper.utils",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "faster_whisper.vad",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "faster_whisper.version",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "filelock",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "filelock._api",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "filelock._async",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "filelock._async_read_write",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "filelock._descriptor",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "filelock._error",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "filelock._identity",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "filelock._lease",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "filelock._marker",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "filelock._read_write",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "filelock._soft",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "filelock._soft_protocol",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "filelock._soft_rw",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "filelock._soft_rw._async",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "filelock._soft_rw._protocol",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "filelock._soft_rw._storage",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "filelock._soft_rw._sync",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "filelock._strict",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "filelock._unix",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "filelock._util",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "filelock._windows",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "filelock.asyncio",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "filelock.version",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "fnmatch",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "fractions",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "fsspec",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "fsspec._version",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "fsspec.archive",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "fsspec.asyn",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "fsspec.caching",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "fsspec.callbacks",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "fsspec.compression",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "fsspec.config",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "fsspec.conftest",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "fsspec.core",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "fsspec.dircache",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "fsspec.exceptions",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "fsspec.fuse",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "fsspec.generic",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "fsspec.gui",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "fsspec.implementations",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "fsspec.implementations.arrow",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "fsspec.implementations.asyn_wrapper",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "fsspec.implementations.cache_mapper",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "fsspec.implementations.cache_metadata",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "fsspec.implementations.cached",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "fsspec.implementations.chained",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "fsspec.implementations.dask",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "fsspec.implementations.data",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "fsspec.implementations.dbfs",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "fsspec.implementations.dirfs",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "fsspec.implementations.ftp",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "fsspec.implementations.gist",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "fsspec.implementations.git",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "fsspec.implementations.github",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "fsspec.implementations.http",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "fsspec.implementations.http_sync",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "fsspec.implementations.jupyter",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "fsspec.implementations.libarchive",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "fsspec.implementations.local",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "fsspec.implementations.memory",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "fsspec.implementations.reference",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "fsspec.implementations.sftp",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "fsspec.implementations.smb",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "fsspec.implementations.tar",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "fsspec.implementations.webhdfs",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "fsspec.implementations.zip",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "fsspec.json",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "fsspec.mapping",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "fsspec.parquet",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "fsspec.prefetcher",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "fsspec.registry",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "fsspec.spec",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "fsspec.transaction",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "fsspec.utils",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "ftplib",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "functools",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "genericpath",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "getopt",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "getpass",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "gettext",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "glob",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "gzip",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "h11",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "h11._abnf",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "h11._connection",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "h11._events",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "h11._headers",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "h11._readers",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "h11._receivebuffer",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "h11._state",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "h11._util",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "h11._version",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "h11._writers",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "hashlib",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "heapq",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "hf_xet",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "hf_xet\\hf_xet.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "hmac",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "html",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "html.entities",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "http",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "http.client",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "http.cookiejar",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "http.server",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "httpcore2",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "httpcore2._api",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "httpcore2._async",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "httpcore2._async.connection",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "httpcore2._async.connection_pool",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "httpcore2._async.http11",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "httpcore2._async.http2",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "httpcore2._async.http_proxy",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "httpcore2._async.interfaces",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "httpcore2._async.socks_proxy",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "httpcore2._backends",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "httpcore2._backends.anyio",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "httpcore2._backends.auto",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "httpcore2._backends.base",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "httpcore2._backends.mock",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "httpcore2._backends.sync",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "httpcore2._backends.trio",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "httpcore2._exceptions",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "httpcore2._models",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "httpcore2._ssl",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "httpcore2._sync",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "httpcore2._sync.connection",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "httpcore2._sync.connection_pool",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "httpcore2._sync.http11",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "httpcore2._sync.http2",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "httpcore2._sync.http_proxy",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "httpcore2._sync.interfaces",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "httpcore2._sync.socks_proxy",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "httpcore2._synchronization",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "httpcore2._trace",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "httpcore2._utils",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "httpx2",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "httpx2.__version__",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "httpx2._alias",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "httpx2._api",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "httpx2._auth",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "httpx2._client",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "httpx2._config",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "httpx2._content",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "httpx2._cookies",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "httpx2._decoders",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "httpx2._exceptions",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "httpx2._main",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "httpx2._models",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "httpx2._multipart",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "httpx2._sse",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "httpx2._status_codes",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "httpx2._transports",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "httpx2._transports.asgi",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "httpx2._transports.base",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "httpx2._transports.default",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "httpx2._transports.mock",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "httpx2._transports.wsgi",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "httpx2._types",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "httpx2._urlparse",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "httpx2._urls",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "httpx2._utils",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "httpx2.websockets",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "httpx2.websockets._api",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "httpx2.websockets._exceptions",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "httpx2.websockets._ping",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "httpx2.websockets._transport",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub._bucket_live_follow",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub._buckets",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub._commit_api",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub._commit_scheduler",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub._dataset_viewer",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub._eval_results",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub._hot_reload",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub._hot_reload.sse_client",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub._inference_endpoints",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub._jobs_api",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub._local_folder",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub._login",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub._oauth",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub._oidc",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub._revision",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub._sandbox",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub._sandbox_cache",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub._snapshot_download",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub._space_api",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub._tensorboard_logger",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub._tree_cache",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub._upload_pipeline",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub._webhooks_payload",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub._webhooks_server",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.cli",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.cli._cli_utils",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.cli._framework",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.cli._help_formatter",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.cli._output",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.community",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.constants",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.errors",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.fastai_utils",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.file_download",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.hf_api",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.hf_file_system",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.hub_mixin",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.inference",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.inference._client",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.inference._common",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.inference._generated",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.inference._generated._async_client",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.inference._generated.types",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.inference._generated.types.audio_classification",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.inference._generated.types.audio_to_audio",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.inference._generated.types.automatic_speech_recognition",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.inference._generated.types.base",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.inference._generated.types.chat_completion",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.inference._generated.types.depth_estimation",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.inference._generated.types.document_question_answering",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.inference._generated.types.feature_extraction",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.inference._generated.types.fill_mask",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.inference._generated.types.image_classification",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.inference._generated.types.image_segmentation",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.inference._generated.types.image_text_to_image",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.inference._generated.types.image_text_to_video",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.inference._generated.types.image_to_image",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.inference._generated.types.image_to_text",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.inference._generated.types.image_to_video",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.inference._generated.types.object_detection",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.inference._generated.types.question_answering",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.inference._generated.types.sentence_similarity",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.inference._generated.types.summarization",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.inference._generated.types.table_question_answering",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.inference._generated.types.text2text_generation",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.inference._generated.types.text_classification",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.inference._generated.types.text_generation",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.inference._generated.types.text_to_audio",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.inference._generated.types.text_to_image",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.inference._generated.types.text_to_speech",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.inference._generated.types.text_to_video",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.inference._generated.types.token_classification",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.inference._generated.types.translation",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.inference._generated.types.video_classification",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.inference._generated.types.visual_question_answering",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.inference._generated.types.zero_shot_classification",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.inference._generated.types.zero_shot_image_classification",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.inference._generated.types.zero_shot_object_detection",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.inference._mcp",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.inference._mcp.agent",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.inference._mcp.constants",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.inference._mcp.mcp_client",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.inference._mcp.types",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.inference._mcp.utils",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.inference._providers",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.inference._providers._common",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.inference._providers.baseten",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.inference._providers.cerebras",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.inference._providers.cohere",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.inference._providers.deepinfra",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.inference._providers.fal_ai",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.inference._providers.featherless_ai",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.inference._providers.fireworks_ai",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.inference._providers.groq",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.inference._providers.hf_inference",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.inference._providers.novita",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.inference._providers.nscale",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.inference._providers.openai",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.inference._providers.ovhcloud",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.inference._providers.publicai",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.inference._providers.replicate",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.inference._providers.scaleway",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.inference._providers.together",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.inference._providers.wavespeed",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.inference._providers.zai_org",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.lfs",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.repocard",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.repocard_data",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.serialization",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.serialization._base",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.serialization._dduf",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.serialization._torch",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.utils",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.utils._auth",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.utils._cache_assets",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.utils._cache_manager",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.utils._chunk_utils",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.utils._datetime",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.utils._detect_agent",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.utils._dotenv",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.utils._experimental",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.utils._fixes",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.utils._git_credential",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.utils._headers",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.utils._hf_uris",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.utils._http",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.utils._lfs",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.utils._oauth_device",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.utils._pagination",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.utils._parsing",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.utils._paths",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.utils._runtime",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.utils._safetensors",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.utils._shared_blobs",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.utils._subprocess",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.utils._telemetry",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.utils._terminal",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.utils._typing",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.utils._validators",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.utils._verification",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.utils._xet",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.utils._xet_progress_reporting",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.utils.endpoint_helpers",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.utils.insecure_hashlib",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.utils.logging",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.utils.sha",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "huggingface_hub.utils.tqdm",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "idna",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "idna.core",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "idna.idnadata",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "idna.intranges",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "idna.package_data",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "idna.uts46data",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "importlib",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "importlib._abc",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "importlib._bootstrap",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "importlib._bootstrap_external",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "importlib.abc",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "importlib.machinery",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "importlib.metadata",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "importlib.metadata._adapters",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "importlib.metadata._collections",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "importlib.metadata._functools",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "importlib.metadata._itertools",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "importlib.metadata._meta",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "importlib.metadata._text",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "importlib.readers",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "importlib.resources",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "importlib.resources._adapters",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "importlib.resources._common",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "importlib.resources._functional",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "importlib.resources._itertools",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "importlib.resources.abc",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "importlib.resources.readers",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "importlib.util",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "inspect",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "io",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "ipaddress",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "json",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "json.decoder",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "json.encoder",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "json.scanner",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "keyword",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "linecache",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "locale",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "logging",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "logging.handlers",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "lzma",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "mimetypes",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "multiprocessing",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "multiprocessing.connection",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "multiprocessing.context",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "multiprocessing.dummy",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "multiprocessing.dummy.connection",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "multiprocessing.forkserver",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "multiprocessing.heap",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "multiprocessing.managers",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "multiprocessing.pool",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "multiprocessing.popen_fork",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "multiprocessing.popen_forkserver",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "multiprocessing.popen_spawn_posix",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "multiprocessing.popen_spawn_win32",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "multiprocessing.process",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "multiprocessing.queues",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "multiprocessing.reduction",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "multiprocessing.resource_sharer",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "multiprocessing.resource_tracker",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "multiprocessing.shared_memory",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "multiprocessing.sharedctypes",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "multiprocessing.spawn",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "multiprocessing.synchronize",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "multiprocessing.util",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "netrc",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "ntpath",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "nturl2path",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numbers",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy.__config__",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy._array_api_info",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy._core",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy._core._add_newdocs",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy._core._add_newdocs_scalars",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy._core._asarray",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy._core._dtype",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy._core._dtype_ctypes",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy._core._exceptions",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy._core._internal",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy._core._methods",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy._core._string_helpers",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy._core._type_aliases",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy._core._ufunc_config",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy._core.arrayprint",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy._core.defchararray",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy._core.einsumfunc",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy._core.fromnumeric",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy._core.function_base",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy._core.getlimits",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy._core.memmap",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy._core.multiarray",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy._core.numeric",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy._core.numerictypes",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy._core.overrides",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy._core.printoptions",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy._core.records",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy._core.shape_base",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy._core.strings",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy._core.umath",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy._distributor_init",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy._expired_attrs_2_0",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy._globals",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy._pytesttester",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy._typing",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy._typing._add_docstring",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy._typing._array_like",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy._typing._char_codes",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy._typing._dtype_like",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy._typing._nbit",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy._typing._nbit_base",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy._typing._nested_sequence",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy._typing._scalars",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy._typing._shape",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy._typing._ufunc",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy._utils",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy._utils._conversions",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy._utils._inspect",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy.char",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy.core",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy.core._utils",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy.ctypeslib",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy.ctypeslib._ctypeslib",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy.dtypes",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy.exceptions",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy.fft",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy.fft._helper",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy.fft._pocketfft",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy.lib",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy.lib._array_utils_impl",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy.lib._arraypad_impl",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy.lib._arraysetops_impl",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy.lib._arrayterator_impl",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy.lib._datasource",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy.lib._format_impl",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy.lib._function_base_impl",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy.lib._histograms_impl",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy.lib._index_tricks_impl",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy.lib._iotools",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy.lib._nanfunctions_impl",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy.lib._npyio_impl",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy.lib._polynomial_impl",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy.lib._scimath_impl",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy.lib._shape_base_impl",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy.lib._stride_tricks_impl",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy.lib._twodim_base_impl",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy.lib._type_check_impl",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy.lib._ufunclike_impl",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy.lib._utils_impl",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy.lib._version",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy.lib.array_utils",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy.lib.format",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy.lib.introspect",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy.lib.mixins",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy.lib.npyio",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy.lib.recfunctions",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy.lib.scimath",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy.lib.stride_tricks",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy.linalg",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy.linalg._linalg",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy.ma",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy.ma.core",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy.ma.extras",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy.ma.mrecords",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy.matlib",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy.matrixlib",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy.matrixlib.defmatrix",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy.polynomial",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy.polynomial._polybase",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy.polynomial.chebyshev",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy.polynomial.hermite",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy.polynomial.hermite_e",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy.polynomial.laguerre",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy.polynomial.legendre",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy.polynomial.polynomial",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy.polynomial.polyutils",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy.random",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy.random._pickle",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy.rec",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy.strings",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy.testing",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy.testing._private",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy.testing._private.extbuild",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy.testing._private.utils",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy.testing.overrides",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy.typing",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy.version",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "numpy\\_core\\_multiarray_tests.cp313-win_amd64.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "numpy\\_core\\_multiarray_umath.cp313-win_amd64.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "numpy\\fft\\_pocketfft_umath.cp313-win_amd64.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "numpy\\linalg\\_umath_linalg.cp313-win_amd64.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "numpy\\random\\_bounded_integers.cp313-win_amd64.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "numpy\\random\\_common.cp313-win_amd64.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "numpy\\random\\_generator.cp313-win_amd64.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "numpy\\random\\_mt19937.cp313-win_amd64.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "numpy\\random\\_pcg64.cp313-win_amd64.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "numpy\\random\\_philox.cp313-win_amd64.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "numpy\\random\\_sfc64.cp313-win_amd64.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "numpy\\random\\bit_generator.cp313-win_amd64.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "numpy\\random\\mtrand.cp313-win_amd64.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "onnxruntime",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "onnxruntime.capi",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "onnxruntime.capi._ld_preload",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "onnxruntime.capi._pybind_state",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "onnxruntime.capi.build_and_package_info",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "onnxruntime.capi.onnxruntime_collect_build_info",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "onnxruntime.capi.onnxruntime_inference_collection",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "onnxruntime.capi.onnxruntime_validation",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "onnxruntime.capi.version_info",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "onnxruntime.transformers",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "onnxruntime.transformers.machine_info",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "onnxruntime\\capi\\onnxruntime_pybind11_state.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "opcode",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "operator",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "os",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "packaging",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "packaging._elffile",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "packaging._manylinux",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "packaging._musllinux",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "packaging._parser",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "packaging._ranges",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "packaging._tokenizer",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "packaging.licenses",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "packaging.licenses._spdx",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "packaging.markers",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "packaging.ranges",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "packaging.requirements",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "packaging.specifiers",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "packaging.tags",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "packaging.utils",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "packaging.version",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "pathlib",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "pathlib._abc",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "pathlib._local",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "pdb",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "pickle",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "pkgutil",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "platform",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "posixpath",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "pprint",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "py_compile",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "pydoc",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "pydoc_data",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "pydoc_data.module_docs",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "pydoc_data.topics",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "pyexpat.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "pyperclip",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "queue",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "quopri",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "random",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "re",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "re._casefix",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "re._compiler",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "re._constants",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "re._parser",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "reprlib",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "rlcompleter",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "runpy",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.app",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.asr",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.asr.language_id",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.asr.languages",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.asr.model_ids",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.asr.retry",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.asr.router",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.asr.selection",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.asr.sherpa_parakeet",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.asr.sherpa_stream",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.asr.whisper_ct2",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.audio",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.audio.devices",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.audio.meter",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.audio.privacy",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.audio.recorder",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.audio.vad",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.audio.vad_silero",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.autostart",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.cleanup",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.cleanup.backtrack",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.cleanup.code_mode",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.cleanup.commands",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.cleanup.delivery",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.cleanup.formatter",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.cleanup.itn",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.cleanup.llm",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.cleanup.llm.calibration",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.cleanup.llm.client",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.cleanup.llm.gate",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.cleanup.llm.loopback",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.cleanup.llm.ownership",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.cleanup.llm.preparation",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.cleanup.llm.prompts",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.cleanup.llm.sidecar",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.cleanup.llm.streaming",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.cleanup.llm.structure",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.cleanup.llm.validate",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.cleanup.llm.windows_process",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.cleanup.styles",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.compat",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.compat.migrate",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.config",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.context",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.context.app_groups",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.context.focused_edit",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.context.foreground",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.context.observation_worker",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.context.tracked_edit",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.context.uia_native",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.context.uia_worker",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.core",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.core.audio_retention",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.core.bar_actions",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.core.bar_status",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.core.container",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.core.context",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.core.corrections",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.core.history_retry",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.core.hotkey_service",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.core.interfaces",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.core.microphone",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.core.note_draft",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.core.practice",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.core.preferences",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.core.preview",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.core.processing",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.core.segments",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.core.session",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.core.shortcut_capture",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.core.style_preview",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.core.timings",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.core.worker",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.crash_guard",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.data",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.data.audio",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.data.db",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.data.history_view",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.data.notes",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.data.retention",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.data.snippets",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.dictation",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.dictation.glossary",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.dictation.llm_local",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.dictation.pipeline",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.dictation.protect",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.dictation.rules",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.dictation.types",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.dictation.validation",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.dictionary",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.dictionary.alignment",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.dictionary.frequency",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.dictionary.portable",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.dictionary.store",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.history",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.hotkeys",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.hotkeys._win32_hooks",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.hotkeys.capture",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.hotkeys.chords",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.hotkeys.controller",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.hotkeys.focused",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.hotkeys.keys",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.hotkeys.llhook",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.hotkeys.recording",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.hotkeys.wispr",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.input_origin",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.insert",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.insert._clipboard_win32",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.insert.clipboard_handles",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.insert.clipboard_win",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.insert.guards_win",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.insert.inserter",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.insert.sendinput",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.logging_config",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.main",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.model_download",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.models",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.models.benchmark",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.models.cleanup",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.models.downloader",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.models.hardware",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.models.installation",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.models.layout",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.models.manifest",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.models.native_devices",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.models.packages",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.models.progress",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.models.runtime_ids",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.models.setup",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.models.storage",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.models.storage_lock",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.models.tiers",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.models.whisper_local",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.models.windows_hardware",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.package_check",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.paths",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.privacy",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.privacy.firewall",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.privacy.netguard",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.privacy.telemetry",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.single_instance",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.snippets",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.stt",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.stt.whisper_engine",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.text_boundaries",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.text_entities",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.third_party",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.ui",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.ui.bar_motion",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.ui.bar_placement",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.ui.bar_sounds",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.ui.bar_widget",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.ui.cleanup_picker",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.ui.dictionary_page",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.ui.dictionary_toast",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.ui.download_task",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.ui.fonts",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.ui.hardware_page",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.ui.history_jobs",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.ui.history_page",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.ui.history_retry",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.ui.home_page",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.ui.hub",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.ui.icons",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.ui.labs_page",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.ui.languages_page",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.ui.microphone_page",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.ui.model_picker",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.ui.model_storage",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.ui.notes_page",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.ui.onboarding",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.ui.onboarding_models",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.ui.onboarding_practice",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.ui.onboarding_shortcuts",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.ui.onboarding_style",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.ui.pill",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.ui.privacy_page",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.ui.private_text",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.ui.progress",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.ui.scratchpad",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.ui.settings_page",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.ui.snippets_page",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.ui.sound_assets",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.ui.styles_page",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.ui.theme",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.ui.theme.controller",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.ui.tier_picker",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "saydraft.ui.tray",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "secrets",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "select.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "selectors",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._core_metadata",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._discovery",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._distutils",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._distutils._dataclass",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._distutils._log",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._distutils._modified",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._distutils._msvccompiler",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._distutils.archive_util",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._distutils.ccompiler",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._distutils.cmd",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._distutils.command",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._distutils.command.bdist",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._distutils.command.build",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._distutils.command.build_ext",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._distutils.command.sdist",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._distutils.compat",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._distutils.compat.numpy",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._distutils.compat.py310",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._distutils.compilers",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._distutils.compilers.C",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._distutils.compilers.C.base",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._distutils.compilers.C.cygwin",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._distutils.compilers.C.errors",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._distutils.compilers.C.msvc",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._distutils.compilers.C.unix",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._distutils.compilers.C.zos",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._distutils.compilers._modified",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._distutils.compilers._util",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._distutils.compilers.errors",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._distutils.compilers.logging",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._distutils.compilers.platform",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._distutils.compilers.platform.detect",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._distutils.compilers.platform.macos",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._distutils.core",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._distutils.debug",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._distutils.dir_util",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._distutils.dist",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._distutils.errors",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._distutils.extension",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._distutils.fancy_getopt",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._distutils.file_util",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._distutils.filelist",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._distutils.log",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._distutils.spawn",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._distutils.sysconfig",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._distutils.text_file",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._distutils.util",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._distutils.version",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._distutils.versionpredicate",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._entry_points",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._imp",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._importlib",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._itertools",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._normalization",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._path",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._reqs",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._shutil",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._static",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._vendor",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._vendor.backports",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._vendor.backports.tarfile",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._vendor.backports.tarfile.compat",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._vendor.backports.tarfile.compat.py38",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._vendor.jaraco",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._vendor.jaraco.context",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._vendor.jaraco.functools",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._vendor.jaraco.text",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._vendor.more_itertools",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._vendor.more_itertools.more",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._vendor.more_itertools.recipes",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._vendor.packaging",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._vendor.packaging._elffile",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._vendor.packaging._manylinux",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._vendor.packaging._musllinux",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._vendor.packaging._parser",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._vendor.packaging._ranges",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._vendor.packaging._tokenizer",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._vendor.packaging.markers",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._vendor.packaging.ranges",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._vendor.packaging.requirements",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._vendor.packaging.specifiers",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._vendor.packaging.tags",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._vendor.packaging.utils",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._vendor.packaging.version",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._vendor.tomli",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._vendor.tomli._parser",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._vendor.tomli._re",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._vendor.tomli._types",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._vendor.wheel",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._vendor.wheel.macosx_libfile",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools._vendor.wheel.wheelfile",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools.archive_util",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools.command",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools.command._requirestxt",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools.command.bdist_egg",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools.command.bdist_wheel",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools.command.build",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools.command.egg_info",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools.command.sdist",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools.command.setopt",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools.compat",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools.compat.py310",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools.compat.py311",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools.compat.py39",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools.config",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools.config._apply_pyprojecttoml",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools.config._validate_pyproject",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools.config._validate_pyproject.error_reporting",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools.config._validate_pyproject.extra_validations",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools.config._validate_pyproject.fastjsonschema_exceptions",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools.config._validate_pyproject.fastjsonschema_validations",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools.config._validate_pyproject.formats",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools.config.expand",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools.config.pyprojecttoml",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools.config.setupcfg",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools.depends",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools.discovery",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools.dist",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools.errors",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools.extension",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools.glob",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools.installer",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools.logging",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools.monkey",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools.msvc",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools.unicode_utils",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools.version",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools.warnings",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools.wheel",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "setuptools.windows_support",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "sherpa_onnx",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "sherpa_onnx.__main__",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "sherpa_onnx._info",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "sherpa_onnx.cli",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "sherpa_onnx.display",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "sherpa_onnx.keyword_spotter",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "sherpa_onnx.lib",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "sherpa_onnx.offline_recognizer",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "sherpa_onnx.online_recognizer",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "sherpa_onnx.utils",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "sherpa_onnx\\lib\\_sherpa_onnx.cp313-win_amd64.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "shiboken6",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "shiboken6\\Shiboken.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "shlex",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "shutil",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "signal",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "site",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "smtplib",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "socket",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "socketserver",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "sounddevice",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "soundfile",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "sqlite3",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "sqlite3.__main__",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "sqlite3.dbapi2",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "sqlite3.dump",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "sre_compile",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "sre_constants",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "sre_parse",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "ssl",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "stat",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "statistics",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "string",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "stringprep",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "struct",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "subprocess",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "sysconfig",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "tarfile",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "tempfile",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "textwrap",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "threading",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "token",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "tokenize",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "tokenizers",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "tokenizers.decoders",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "tokenizers.implementations",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "tokenizers.implementations.base_tokenizer",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "tokenizers.implementations.bert_wordpiece",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "tokenizers.implementations.byte_level_bpe",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "tokenizers.implementations.char_level_bpe",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "tokenizers.implementations.sentencepiece_bpe",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "tokenizers.implementations.sentencepiece_unigram",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "tokenizers.models",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "tokenizers.normalizers",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "tokenizers.pre_tokenizers",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "tokenizers.processors",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "tokenizers.trainers",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "tokenizers\\tokenizers.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "tomllib",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "tomllib._parser",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "tomllib._re",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "tomllib._types",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "tqdm",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "tqdm._monitor",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "tqdm._tqdm_pandas",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "tqdm.asyncio",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "tqdm.auto",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "tqdm.autonotebook",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "tqdm.cli",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "tqdm.gui",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "tqdm.notebook",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "tqdm.std",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "tqdm.utils",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "tqdm.version",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "traceback",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "tracemalloc",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "truststore",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "truststore._api",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "truststore._macos",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "truststore._openssl",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "truststore._ssl_constants",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "truststore._windows",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "tty",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "types",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "typing",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "typing_extensions",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "unicodedata.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "unittest",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "unittest._log",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "unittest.async_case",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "unittest.case",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "unittest.loader",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "unittest.main",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "unittest.result",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "unittest.runner",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "unittest.signals",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "unittest.suite",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "unittest.util",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "urllib",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "urllib.error",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "urllib.parse",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "urllib.request",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "urllib.response",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "uuid",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "warnings",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "weakref",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "webbrowser",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "webrtcvad",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "xml",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "xml.parsers",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "xml.parsers.expat",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "xml.sax",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "xml.sax._exceptions",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "xml.sax.expatreader",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "xml.sax.handler",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "xml.sax.saxutils",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "xml.sax.xmlreader",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "xmlrpc",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "xmlrpc.client",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "yaml",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "yaml.composer",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "yaml.constructor",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "yaml.cyaml",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "yaml.dumper",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "yaml.emitter",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "yaml.error",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "yaml.events",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "yaml.loader",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "yaml.nodes",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "yaml.parser",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "yaml.reader",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "yaml.representer",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "yaml.resolver",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "yaml.scanner",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "yaml.serializer",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "yaml.tokens",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "yaml\\_yaml.cp313-win_amd64.pyd",
+      "kind": "EXTENSION"
+    },
+    {
+      "name": "zipfile",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "zipfile._path",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "zipfile._path.glob",
+      "kind": "PYMODULE"
+    },
+    {
+      "name": "zipimport",
+      "kind": "PYMODULE"
+    }
+  ]
+}

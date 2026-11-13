@@ -1,0 +1,47 @@
+{
+  "schema": 1,
+  "producer_commit": "94e4cce651ea54cf0f0c807d5d13f8177e0de801",
+  "workflow_run": 43506285087,
+  "ci_run": 43506285180,
+  "ci_log_sha256": "63296d93670a4937bd1acf3b92d7b2d4262ca71f0368612b902145b5e2a59f38",
+  "ci": {
+    "passed": 3169,
+    "skipped": 12,
+    "seconds": 323.46,
+    "rules_passed": 556,
+    "rules_total": 556,
+    "authored_adversarial_caught": 100,
+    "authored_adversarial_total": 100
+  },
+  "files": {
+    "artifact-verification.json": "10bebfe3171c6bde61a229cb11060d5075c29fbc41c403acf8ccec806dc331ad",
+    "bundle.json": "c3e5c53ee4bbed41a4fe65419e724fbf3f6645e7fda1e1b8208d359ff966b40f",
+    "inno-version.txt": "1e063f8901a0c465e58cec73897efbf9a999db4c42caa65be2f22a59110f5875",
+    "installed-runtime.json": "a714ed91e6d2b3d5e914446fcf8f9bd1b61cbb6cffff0ebd8466e6cc14005ec2",
+    "installer-smoke.json": "35e4202aba06aa66f31cc7331e82faf53b8448be56fdddc2ca2b89c0f40b7f21",
+    "module-table.json": "e27183fb3470ce69b8f69b75b919ce3d26c92f1a00665e40a1fe4d4ab0037c30",
+    "preflight.json": "443d59242de71fdd766a9f1bad05ddc4ee4cc636df314bca740c99e2b4ea4316",
+    "requirements-frozen.txt": "f0804a0a3666a4d3a562b14f88bfc3e9d67911cffbc35d4a8cede180be25e300",
+    "runtime.json": "a714ed91e6d2b3d5e914446fcf8f9bd1b61cbb6cffff0ebd8466e6cc14005ec2",
+    "third-party-notices.json": "7f33cd43bd47dcc5f94439d5fdd048ab94be58e4d56ac144b52d6cb882a39964"
+  },
+  "artifacts": {
+    "Saydraft-0.1.0-Setup.exe": {
+      "bytes": 103968660,
+      "sha256": "8e80ac7e3d535f4a0453a782fe5757c02f05f012279cb45a687aabf3d23c14fe"
+    },
+    "Saydraft-0.1.0-win-x64.zip": {
+      "bytes": 160033514,
+      "sha256": "7e2fe1c1748003d214aad79c7fcf62e14c743ae094fae0cd86f6c7f124321490"
+    }
+  },
+  "third_party_notices": {
+    "components": 38,
+    "files": 506,
+    "index_sha256": "7f33cd43bd47dcc5f94439d5fdd048ab94be58e4d56ac144b52d6cb882a39964"
+  },
+  "license_coverage_incomplete": false,
+  "scope": "P8.1 unsigned clean build, retained notices, resources and disposable lifecycle; no signing, public-release corresponding-source delivery, physical dictation, owner accuracy or native-firewall acceptance",
+  "compiler_version_receipt_usable": false,
+  "earlier_incomplete_package": "../2026-11-14-unsigned/index.json"
+}

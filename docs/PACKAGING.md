@@ -8,15 +8,19 @@ development dependency; PyInstaller remains the pinned build dependency.
 Dependencies use published wheels, with a source-distribution exception for the
 pinned pure-Python pyperclip package, which has no wheel at that version.
 
-The clean `afddeec` build and installer lifecycle pass, with a 109.2 MB installer
-and no forbidden pyarrow/aiohttp modules. The [retained evidence](../eval/packaging/results/2026-11-14-unsigned/README.md)
-includes exact artifact hashes, runtime checks and install/uninstall receipts.
-Artifact review found incomplete upstream license-text coverage; its correction
-now includes a module-based notice collector, pinned upstream supplements and
-an enforcing integrity/coverage gate. A new frozen build must pass that gate
-before P8.1 acceptance; the initial receipts predate it.
+The clean `94e4cce` build and installer lifecycle pass, with a 103,968,660-byte
+(104.0 MB) installer and no forbidden pyarrow/aiohttp modules. The
+[retained evidence](../eval/packaging/results/2026-11-14-notices/README.md)
+includes exact artifact hashes, runtime checks, the notice index and
+install/uninstall receipts. Notice verification covers 38 components and 506
+files before and after installation. The downloaded installer and portable ZIP
+match their reported hashes; all notice payloads were also checked inside the ZIP.
+These checks complete P8.1's unsigned packaging acceptance. The
+[initial afddeec evidence](../eval/packaging/results/2026-11-14-unsigned/README.md)
+is retained with its notice-coverage gap, which this build corrects.
 This does not establish signing, owner accuracy, physical Windows acceptance
-or readiness for a public release. No installer release is published yet.
+or readiness for a public release. Corresponding-source delivery and other
+public-release checks remain separate. No installer release is published yet.
 
 ## Build
 
@@ -87,6 +91,19 @@ reinstalls with autostart, explicitly removes data, and checks that an external
 junction target survives. That script refuses an account with pre-existing
 Saydraft data or startup registration; it is intended for disposable QA accounts.
 CI retains unsigned artifacts and reports even on failure. It creates no release.
+
+## Draft release automation
+
+`release.yml` runs for `v*` tags. It requires successful CI for the exact source,
+builds a fresh unsigned package, repeats the disposable installer lifecycle and
+validates delivered artifact hashes against the package audit and SHA256SUMS.
+The tag must match the packaged version, with an optional prerelease suffix.
+It then creates a GitHub **draft**, attaching the installer, portable ZIP,
+checksums and release manifest. Existing releases are not overwritten.
+
+The release notes identify the unsigned build and its remaining publication
+checks. Signing is the separate G5/P8.3 owner gate. P8.2 remains unchecked until
+a real dry-run tag has produced a draft successfully.
 
 The build uses PyInstaller's supported spec-file output/work paths. References:
 [PyInstaller spec files](https://pyinstaller.org/en/stable/spec-files.html),

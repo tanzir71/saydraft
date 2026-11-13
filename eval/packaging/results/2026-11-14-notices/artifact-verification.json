@@ -1,0 +1,15 @@
+{
+  "source": "Downloaded unsigned-windows-package from workflow 43506285087; both artifacts hashed locally; all 506 notice payloads checked inside the portable ZIP",
+  "artifacts": {
+    "Saydraft-0.1.0-Setup.exe": {
+      "bytes": 103968660,
+      "sha256": "8e80ac7e3d535f4a0453a782fe5757c02f05f012279cb45a687aabf3d23c14fe"
+    },
+    "Saydraft-0.1.0-win-x64.zip": {
+      "bytes": 160033514,
+      "sha256": "7e2fe1c1748003d214aad79c7fcf62e14c743ae094fae0cd86f6c7f124321490"
+    }
+  },
+  "notice_payloads_checked": 506,
+  "notice_index_sha256": "7f33cd43bd47dcc5f94439d5fdd048ab94be58e4d56ac144b52d6cb882a39964"
+}

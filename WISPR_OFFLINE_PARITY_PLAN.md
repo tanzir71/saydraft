@@ -793,14 +793,13 @@ the task's draft PRs are now closed or merged.
 - [ ] **P7.5** Notetaker (§8.6). **Acceptance:** a 30-min test meeting produces a Markdown note with speakers + summary + next steps fully offline; the NetworkGuard test passes during capture.
 
 ### P8: Distribution and trust
-The initial package resource/lifecycle gates pass, but artifact review found
-incomplete upstream license-text coverage. Keep P8.1 open until notice collection
-and an enforcing coverage check pass a new frozen build. The collector, pinned
-upstream supplements and integrity/module-coverage checks are implemented;
-the initial package receipts predate these checks.
-- [ ] **P8.1** Clean-venv build script (`tools/build.ps1` rewrite: fresh venv, `requirements.txt` only, exclusion list), plus an Inno Setup per-user installer (no admin), Start menu entry, optional autostart, and an uninstaller that **keeps user data unless the user ticks "Also remove my data"**. **Acceptance:** installer ≤ 250 MB; `pyarrow`/`aiohttp` absent from the bundle.
-  - Clean afddeec build passes with a 109,188,877-byte unsigned installer, 526 files and 1,516 inspected modules; pyarrow/aiohttp and other forbidden packages/weights/profile data are absent. Frozen resources/imports/Python NetworkGuard pass before and after installation. Disposable Windows lifecycle proves default data retention, explicit removal, opt-in autostart and external-junction preservation. CI 3,137 pass / 12 skips; rules 556/556 and authored validator 100/100. Unchanged raw receipts and artifact hashes: `eval/packaging/results/2026-11-14-unsigned/`; scope and first failed dependency attempt: `docs/PACKAGING.md`. Signing, public release, physical dictation and native firewall remain separate.
+The clean rebuild verifies notice collection, module coverage, frozen resources
+and the disposable installer lifecycle. Signing, corresponding-source delivery
+for a public release, physical dictation and native firewall remain separate.
+- [x] **P8.1** Clean-venv build script (`tools/build.ps1` rewrite: fresh venv, `requirements.txt` only, exclusion list), plus an Inno Setup per-user installer (no admin), Start menu entry, optional autostart, and an uninstaller that **keeps user data unless the user ticks "Also remove my data"**. **Acceptance:** installer ≤ 250 MB; `pyarrow`/`aiohttp` absent from the bundle.
+  - Clean 94e4cce build passes with a 103,968,660-byte unsigned installer, 1,417 files and 1,517 inspected modules. The notice gate verifies 38 components and 506 files; delivered artifact hashes and all notice payloads inside the portable ZIP were independently checked. Forbidden packages, unused Qt PDF/QML/Quick runtimes, weights and profile data are absent. Frozen resources/imports/Python NetworkGuard pass before and after installation. Disposable lifecycle proves default data retention, explicit removal, opt-in autostart and external-junction preservation. CI 3,169 pass / 12 skips; rules 556/556 and authored validator 100/100. Raw receipts and hashes: `eval/packaging/results/2026-11-14-notices/`. The earlier incomplete package evidence is retained unchanged. See `docs/PACKAGING.md` for scope.
 - [ ] **P8.2** `release.yml`: on tag `v*` → build → SHA256SUMS → draft GitHub Release with notes. **Acceptance:** a dry-run tag produces a draft.
+  - Implemented exact-source CI gating, fresh unsigned build/lifecycle verification, artifact/notice/version checks and draft creation with installer, ZIP, checksums and manifest. Local contract tests pass; a real dry-run tag is still required before checking this task off. Signing remains G5/P8.3.
 - [ ] **P8.3** (G5) Signing in the release workflow. **Acceptance:** a signed installer verifies with `signtool verify /pa`.
 - [ ] **P8.4** winget manifest PR (`Tanzir.Saydraft`) + Scoop bucket. **Acceptance:** `winget install Tanzir.Saydraft` works after the PR merges (owner submits).
 - [ ] **P8.5** Opt-in update check (default **off**), GitHub Releases API only, shows a notice and opens the release page; never auto-downloads. **Acceptance:** the NetworkGuard test passes with it off; it works when on.
@@ -851,6 +850,8 @@ Cloud anything (sync, accounts, team dictionaries, web search in Ask), mobile ap
 ---
 
 ## 14. Changelog
+
+- 2026-11-14 | P8.1 accepted; P8.2 implementation | Rebuilt clean 94e4cce with 38-component/506-file notice coverage and removed unused native Qt plugins. Independently checked the delivered installer/ZIP hashes and all notice payloads, retained raw receipts and marked unsigned packaging acceptance complete. Producer CI: 3,169/12; subsequent runtime-provenance source: 3,178/12. Added tag-to-draft release automation with strict artifact/version/lifecycle gates; actual tag acceptance follows separately. | eval/packaging/results/2026-11-14-notices/, docs/PACKAGING.md, readme.md, llms.txt, .github/workflows/release.yml, tools/release_manifest.py, tests/test_release_manifest.py
 
 - 2026-11-14 | Owned UIA diagnostic detail | Retained the initial 2d96f62 CI failure (3087 passed, one owned reader failure, 12 skips) and native artifact: Win32 timeout during owned provider acquisition, followed by an unrecorded policy assertion. Added metadata-only policy outcomes before assertions and failure-line capture; production deadlines, setup bounds and success assertions remain unchanged. One unchanged diagnostic repeat is tracked separately. | tools/probe_uia_reader.py, tests/test_uia_native.py, docs/TEST_CHECKLIST.md
 
