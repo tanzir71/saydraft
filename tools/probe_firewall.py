@@ -18,6 +18,39 @@ import sys
 ROOT = Path(__file__).resolve().parents[1]
 
 
+def rule_shape(executable):
+    """Bounded public-fixture diagnostics; no program paths or provider errors."""
+    import base64
+    script = r"""$ErrorActionPreference = 'Stop'
+[Console]::InputEncoding = [System.Text.UTF8Encoding]::new($false)
+$program = ([Console]::In.ReadToEnd() | ConvertFrom-Json).program
+$rules = @(Get-NetFirewallApplicationFilter -PolicyStore PersistentStore | Where-Object {
+    $_.Program -ieq $program
+} | Get-NetFirewallRule | Where-Object { $_.Group -ceq 'Saydraft.Managed.v1' })
+if ($rules.Count -ne 1) { throw 'Unexpected fixture count' }
+$rule = $rules[0]
+$app = $rule | Get-NetFirewallApplicationFilter
+$port = $rule | Get-NetFirewallPortFilter
+$address = $rule | Get-NetFirewallAddressFilter
+[pscustomobject]@{
+    enabled=[string]$rule.Enabled; profile=[string]$rule.Profile;
+    direction=[string]$rule.Direction; action=[string]$rule.Action;
+    package=[string]$app.Package; protocol=[string]$port.Protocol;
+    local=[string]$address.LocalAddress; remote=[string]$address.RemoteAddress;
+    service=[string]($rule | Get-NetFirewallServiceFilter).Service;
+    alias=[string]($rule | Get-NetFirewallInterfaceFilter).InterfaceAlias;
+    type=[string]($rule | Get-NetFirewallInterfaceTypeFilter).InterfaceType
+} | ConvertTo-Json -Compress
+"""
+    from saydraft.privacy.firewall_control import _system_directory
+    process = subprocess.run([str(_system_directory() / "WindowsPowerShell/v1.0/powershell.exe"),
+        "-NoProfile", "-NonInteractive", "-WindowStyle", "Hidden", "-EncodedCommand",
+        base64.b64encode(script.encode("utf-16-le")).decode("ascii")],
+        input=json.dumps({"program": str(executable)}), capture_output=True, text=True,
+        encoding="utf-8", timeout=15, creationflags=subprocess.CREATE_NO_WINDOW, check=True)
+    return json.loads(process.stdout.lstrip("\ufeff"))
+
+
 def native_http():
     """A fixed credential-free WinHTTP request, bypassing Python socket hooks."""
     from ctypes import wintypes as w
@@ -172,6 +205,8 @@ def run_probe(output):
         for key in ("block", "block_idempotent"):
             report["stage"] = key
             report["steps"][key] = helper_main(["block"], target_provider=lambda: executable)
+            if key == "block" and report["steps"][key] == 0:
+                report["rule_shape"] = rule_shape(executable)
             if report["steps"][key] != 0:
                 raise RuntimeError("Owned rule creation/idempotence failed")
         report["steps"]["matching_rules"] = inspect_firewall(program=executable).matching_rules
@@ -229,7 +264,7 @@ def main(argv=None):
     if args.output is None:
         parser.error("--output is required")
     report = run_probe(args.output)
-    print(json.dumps({"complete": report["complete"], "cleanup_absent": report["cleanup_absent"], "error_type": report.get("error_type")}))
+    print(json.dumps({key: report.get(key) for key in ("complete", "stage", "cleanup_absent", "error_type", "rule_shape")}))
     return 0 if report["complete"] else 1
 
 
