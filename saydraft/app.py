@@ -585,9 +585,18 @@ class SaydraftApp:
                 on_config_applied=self._on_onboarding_applied,
                 model_download_callback=self.model_download_callback,
                 hotkey_hint=self._controller_hotkey_hint(),
+                microphone_start_callback=getattr(self.controller, "start_microphone_test", None),
+                microphone_stop_callback=getattr(self.controller, "stop_microphone_test", None),
             )
-            if hasattr(self.onboarding_window, "update_audio_level"):
-                self.signals.audio_level_changed.connect(self.onboarding_window.update_audio_level)
+            microphone = getattr(self.onboarding_window, "microphone_page", None)
+            if microphone is not None:
+                qt = self.qt_modules or _load_qt_modules()
+                self.signals.microphone_test_status.connect(microphone.accept_status, qt.QtCore.Qt.QueuedConnection)
+                self.signals.microphone_test_level.connect(microphone.accept_level, qt.QtCore.Qt.QueuedConnection)
+            about = getattr(self.qt_app, "aboutToQuit", None)
+            close = getattr(self.onboarding_window, "close", None)
+            if about is not None and close is not None:
+                about.connect(close)
         self.onboarding_window.show()
         self.onboarding_window.raise_()
         self.onboarding_window.activateWindow()

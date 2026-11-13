@@ -13,8 +13,10 @@ from .progress import ThemedProgressBar
 class MicrophonePage(QtWidgets.QWidget):
     devices_ready = QtCore.Signal(int, object)
 
-    def __init__(self, config, *, start_callback=None, stop_callback=None, devices_provider=None, parent=None):
+    def __init__(self, config, *, start_callback=None, stop_callback=None, devices_provider=None,
+                 apply_label="Save", show_title=True, parent=None):
         super().__init__(parent)
+        self.apply_label = apply_label
         self.start_callback, self.stop_callback = start_callback, stop_callback
         self.provider = devices_provider or list_inputs
         self._selection = InputSelection.from_config(config)
@@ -33,8 +35,9 @@ class MicrophonePage(QtWidgets.QWidget):
                 label.setProperty("role", "display")
             layout.addWidget(label)
             return label
-        paragraph("Microphone", display=True)
-        paragraph("Choose an input for dictation. Save applies it to future recordings; Test input uses the selected choice now.")
+        if show_title:
+            paragraph("Microphone", display=True)
+        paragraph(f"Choose an input for dictation. {apply_label} applies it to future recordings; Test input uses the selected choice now.")
         self.device_combo = QtWidgets.QComboBox()
         self.device_combo.setAccessibleName("Dictation microphone")
         self.device_combo.setSizePolicy(QtWidgets.QSizePolicy.Ignored, QtWidgets.QSizePolicy.Fixed)
@@ -98,7 +101,7 @@ class MicrophonePage(QtWidgets.QWidget):
         self._selection = self.device_combo.currentData()
         self.level_bar.setValue(0)
         if not self._test_generation:
-            self.status.setText("Input choice changed. Save to use it for future dictation.")
+            self.status.setText(f"Input choice changed. {self.apply_label} to use it for future dictation.")
         self._update_actions()
 
     def _available(self):

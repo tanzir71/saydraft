@@ -50,6 +50,11 @@ Whisper-mode gain/AGC/enhancement and its owner whispered-clip accuracy gate rem
 P7.4. Onboarding's microphone flow/privacy check remains P6.4. This increment does
 not establish either acceptance or the deferred live microphone/desktop checks.
 
+First-run setup now reuses these controls with generation-tagged test signals.
+Its device choice stays staged until Finish; Cancel preserves saved preferences,
+and leaving/dismissing setup stops the test. Full onboarding v2 and permission
+diagnostics remain open. See [first-run setup](ONBOARDING.md).
+
 ## Verification
 
 ```powershell

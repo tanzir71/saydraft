@@ -2,22 +2,18 @@
 
 from __future__ import annotations
 
-import json
-import logging
 import os
 from collections.abc import Callable
 from pathlib import Path
 from typing import Any
 
-from PySide6 import QtCore, QtWidgets
+from PySide6 import QtCore, QtGui, QtWidgets
 
 from saydraft.config import load_config, save_config
+from saydraft.audio.devices import InputSelection
 from saydraft.asr.selection import configured_model_id, select_model
+from saydraft.ui.microphone_page import MicrophonePage
 from saydraft.ui.model_picker import ModelPicker
-from saydraft.ui.progress import ThemedProgressBar
-
-logger = logging.getLogger(__name__)
-
 
 
 class OnboardingWizard(QtWidgets.QWizard):
@@ -35,16 +31,24 @@ class OnboardingWizard(QtWidgets.QWizard):
         on_config_applied: Callable[[dict[str, Any]], None] | None = None,
         model_download_callback: Callable[[str, Callable[[int], None]], None] | None = None,
         hotkey_hint: str | None = None,
+        microphone_start_callback=None,
+        microphone_stop_callback=None,
+        microphone_devices_provider=None,
     ):
         super().__init__()
         self.qt = qt_modules
         self.config_path = Path(config_path) if config_path is not None else None
         self.on_config_applied = on_config_applied
         self.model_download_callback = model_download_callback
+        self.microphone_start_callback = microphone_start_callback
+        self.microphone_stop_callback = microphone_stop_callback
+        self.microphone_devices_provider = microphone_devices_provider
         self.config = load_config(config_path=self.config_path)
+        self._completed = False
         self.hotkey_hint = hotkey_hint or str(self.config["hotkeys"]["speech"]).upper()
 
         self.setWindowTitle("Saydraft Setup")
+        self.setWizardStyle(QtWidgets.QWizard.ModernStyle)
         self.setMinimumSize(640, 440)
         self.setOption(QtWidgets.QWizard.NoBackButtonOnStartPage, True)
 
@@ -53,6 +57,38 @@ class OnboardingWizard(QtWidgets.QWizard):
         self.addPage(self._model_page())
         self.addPage(self._hotkey_page())
         self.addPage(self._done_page())
+
+        self.title_timer = QtCore.QTimer(self)
+        self.title_timer.setSingleShot(True)
+        self.title_timer.timeout.connect(self._refresh_title_font)
+        self.currentIdChanged.connect(lambda _page: self.title_timer.start(0))
+        QtWidgets.QApplication.instance().fontChanged.connect(self._schedule_title_font)
+
+    @QtCore.Slot()
+    def _schedule_title_font(self):
+        self.title_timer.start(0)
+
+    def changeEvent(self, event):
+        super().changeEvent(event)
+        if event.type() in (QtCore.QEvent.FontChange, QtCore.QEvent.StyleChange) and hasattr(self, "title_timer"):
+            self.title_timer.start(0)
+
+    def _refresh_title_font(self):
+        page = self.currentPage()
+        if page is None:
+            return
+        # Qt 6.11 derives this label with pointSize() + 4, even when the app
+        # uses pixels (-1 points). Repair the heading without freezing body
+        # fonts or recreating/hiding the page during an active input test.
+        font = QtGui.QFont(self.font())
+        if font.pixelSize() > 0:
+            font.setPixelSize(font.pixelSize() + 4)
+        else:
+            font.setPointSizeF(font.pointSizeF() + 3)
+        font.setBold(True)
+        for label in self.findChildren(QtWidgets.QLabel):
+            if label.isVisibleTo(self) and label.text() == page.title() and not page.isAncestorOf(label):
+                label.setFont(font)
 
     def _welcome_page(self) -> QtWidgets.QWizardPage:
         page = QtWidgets.QWizardPage()
@@ -74,15 +110,19 @@ class OnboardingWizard(QtWidgets.QWizard):
         page = QtWidgets.QWizardPage()
         page.setTitle("Microphone")
         layout = QtWidgets.QVBoxLayout(page)
-        self.level_bar = ThemedProgressBar()
-        self.level_bar.setRange(0, 100)
-        self.level_bar.setValue(0)
-        self.mic_status_label = QtWidgets.QLabel("Waiting for microphone signal")
-        self.mic_status_label.setAlignment(QtCore.Qt.AlignCenter)
-        layout.addWidget(QtWidgets.QLabel("Speak briefly and watch the level move."))
-        layout.addWidget(self.level_bar)
-        layout.addWidget(self.mic_status_label)
-        layout.addStretch(1)
+        self.microphone_page = MicrophonePage(self.config,
+            start_callback=self.microphone_start_callback,
+            stop_callback=self.microphone_stop_callback,
+            devices_provider=self.microphone_devices_provider,
+            apply_label="Finish setup", show_title=False)
+        scroll = QtWidgets.QScrollArea()
+        scroll.setWidgetResizable(True)
+        scroll.setFrameShape(QtWidgets.QFrame.NoFrame)
+        scroll.setWidget(self.microphone_page)
+        layout.addWidget(scroll)
+        self.microphone_scroll = scroll
+        self.level_bar = self.microphone_page.level_bar
+        self.mic_status_label = self.microphone_page.status
         return page
 
     def _model_page(self) -> QtWidgets.QWizardPage:
@@ -122,19 +162,13 @@ class OnboardingWizard(QtWidgets.QWizard):
         page.setTitle("Done")
         layout = QtWidgets.QVBoxLayout(page)
         self.finish_status_label = QtWidgets.QLabel("Ready to dictate")
+        self.finish_status_label.setWordWrap(True)
+        self.finish_status_label.setTextFormat(QtCore.Qt.PlainText)
         self.finish_status_label.setAlignment(QtCore.Qt.AlignCenter)
         layout.addStretch(1)
         layout.addWidget(self.finish_status_label)
         layout.addStretch(1)
         return page
-
-    def update_audio_level(self, level: float) -> None:
-        value = int(max(0.0, min(1.0, float(level))) * 100)
-        self.level_bar.setValue(value)
-        if value > 0:
-            self.mic_status_label.setText("Microphone signal detected")
-        else:
-            self.mic_status_label.setText("Waiting for microphone signal")
 
     def download_selected_model(self) -> None:
         self.model_picker.start_download()
@@ -143,22 +177,37 @@ class OnboardingWizard(QtWidgets.QWizard):
         self.model_progress.setValue(max(0, min(100, int(value))))
 
     def finish_onboarding(self) -> bool:
-        cfg = json.loads(json.dumps(self.config))
-        cfg["app"]["onboarded"] = True
-        select_model(cfg, self.model_picker.model_id,
-                     manual=self.model_picker.model_id != configured_model_id(self.config))
-        saved = save_config(cfg, self.config_path)
+        if self._completed:
+            return True
+        self.microphone_page.stop_test()
+        try:
+            # Merge only setup edits into the latest saved preferences. An open
+            # Hub can save unrelated settings while the wizard is still visible.
+            cfg = load_config(config_path=self.config_path)
+            cfg["app"]["onboarded"] = True
+            if self.model_picker.model_id != configured_model_id(self.config):
+                select_model(cfg, self.model_picker.model_id, manual=True)
+            selection = self.microphone_page.selection
+            if selection != InputSelection.from_config(self.config):
+                cfg["recording"].update(input_device=selection.name, input_hostapi=selection.hostapi)
+            saved = save_config(cfg, self.config_path)
+        except (OSError, ValueError):
+            self.finish_status_label.setText("Could not save setup. Check your configuration folder and try Finish again.")
+            return False
         self.config = saved
+        self._completed = True
         self.finish_status_label.setText("Ready to dictate")
         if self.on_config_applied is not None:
             self.on_config_applied(saved)
         return True
 
     def accept(self) -> None:
-        self.finish_onboarding()
-        super().accept()
+        if self.finish_onboarding():
+            self.model_picker.pause()
+            super().accept()
 
     def reject(self) -> None:
+        self.microphone_page.stop_test()
         self.model_picker.pause()
         super().reject()
 

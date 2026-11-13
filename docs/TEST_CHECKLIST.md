@@ -42,6 +42,10 @@ do not automate microphone capture or foreground insertion into an owner's apps.
 
 ## Reliability Checks
 
+- In isolated first-run setup, confirm no input is opened/listed until explicit Refresh/Test; select a fixture microphone and verify Cancel leaves configuration bytes unchanged.
+- Test the input, then leave the microphone step, hide/close setup or finish; confirm stop is requested promptly and late levels cannot revive it. Body text, heading, Back/Next/Cancel and both Windows settings links remain readable/reachable at larger text and 200% density.
+- Save unrelated settings from another Hub while setup remains open; Finish preserves those fields, merges explicit setup edits only, and does not silently replace an unchanged newer input/model choice. A save failure keeps setup open; repeated completion applies once. Full six-step onboarding/manual timing acceptance remains P6.4.
+
 - In an isolated profile, verify audio retention defaults off and legacy opt-in settings stay at Keep forever; editing a time limit performs no cleanup before Save.
 - With aged public recording fixtures, save Keep N days and confirm expired eligible audio is removed while raw/cleaned text, retry provenance and statistics remain intact; active retries and other files stay untouched.
 - Confirm Off/forever and shutdown cancel pending expiry; failed metadata updates can be repaired by a later sweep without losing text.

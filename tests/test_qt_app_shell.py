@@ -24,7 +24,7 @@ class FakeSignalChannel:
         self.connected = []
         self.emitted = []
 
-    def connect(self, callback):
+    def connect(self, callback, *_connection_type):
         self.connected.append(callback)
 
     def emit(self, *args):
@@ -586,6 +586,12 @@ def test_voice_tray_app_shows_onboarding_when_config_is_not_onboarded():
         def apply_config(self, config):
             events.append(("applied", config["app"]["onboarded"]))
 
+        def start_microphone_test(self, _selection):
+            return 7
+
+        def stop_microphone_test(self, _generation):
+            return True
+
     class FakeTray:
         def __init__(self, *, callbacks, **_kwargs):
             self.callbacks = callbacks
@@ -627,6 +633,10 @@ def test_voice_tray_app_shows_onboarding_when_config_is_not_onboarded():
     class FakeOnboardingWindow:
         def __init__(self, *, on_config_applied, hotkey_hint, **_kwargs):
             self.on_config_applied = on_config_applied
+            self.options = _kwargs
+            self.microphone_page = types.SimpleNamespace(
+                accept_status=lambda generation, state: events.append(("input-status", generation, state)),
+                accept_level=lambda generation, level: events.append(("input-level", generation, level)))
             events.append(("onboarding-created", hotkey_hint))
 
         def update_audio_level(self, level):
@@ -641,9 +651,14 @@ def test_voice_tray_app_shows_onboarding_when_config_is_not_onboarded():
         def activateWindow(self):
             events.append("onboarding-activate")
 
+        def close(self):
+            events.append("onboarding-close")
+
+    qt = fake_qt_modules()
+    qt.QtCore.Qt = types.SimpleNamespace(QueuedConnection=object())
     app = SaydraftApp(
         argv=["saydraft"],
-        qt_modules=fake_qt_modules(),
+        qt_modules=qt,
         controller_factory=lambda signals: FakeController(signals),
         tray_factory=lambda **kwargs: FakeTray(**kwargs),
         pill_factory=lambda **kwargs: FakePill(**kwargs),
@@ -654,6 +669,11 @@ def test_voice_tray_app_shows_onboarding_when_config_is_not_onboarded():
 
     assert app.run() == 23
     app.signals.audio_level_changed.emit(0.6)
+    app.signals.microphone_test_status.emit(7, "listening")
+    app.signals.microphone_test_level.emit(7, 0.6)
+    assert app.onboarding_window.options["microphone_start_callback"].__self__ is app.controller
+    assert app.onboarding_window.options["microphone_stop_callback"].__self__ is app.controller
+    assert app.onboarding_window.close in app.qt_app.aboutToQuit.connected
     app.onboarding_window.on_config_applied(
         {"app": {"onboarded": True}, "stt": {"model_size": "small"}, "hotkeys": {"speech": "f8"}}
     )
@@ -665,7 +685,8 @@ def test_voice_tray_app_shows_onboarding_when_config_is_not_onboarded():
         "onboarding-show",
         "onboarding-raise",
         "onboarding-activate",
-        ("onboarding-level", 0.6),
+        ("input-status", 7, "listening"),
+        ("input-level", 7, 0.6),
         ("applied", True),
         ("model", "base"),
         ("hotkey", "F8"),
