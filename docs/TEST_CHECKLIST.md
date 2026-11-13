@@ -26,6 +26,14 @@ for an explicit real GitHub metadata request. Both checks require the scoped
 API permission to be retired; neither downloads an installer or opens a browser.
 See [optional app updates](UPDATES.md). The online job is separate so a temporary
 GitHub failure can be retried without rerunning the offline regression suite.
+The separate firewall job runs `python -m pip install -r requirements.txt` and
+`python -m tools.probe_firewall --output "$env:RUNNER_TEMP/saydraft-firewall-probe"`.
+It refuses owner machines and self-hosted runners. It blocks only a freshly
+copied interpreter on a disposable GitHub-hosted Windows runner, verifies native
+WinHTTP and pinned Python downloads before/under/after the rule, and runs two
+real-worker public-audio dictations under the rule with memory input. Its finally
+block removes only that owned rule. The receipts distinguish this source/runtime
+smoke from frozen-app, cleanup-sidecar, physical input and owner-accuracy gates.
 CI prepares its pinned VAD fixture explicitly. Other real-model measurements
 are separate. Its disposable checkout uses
 `python -m pytest tests -q -rs --basetemp=build/pytest` so owned-window native

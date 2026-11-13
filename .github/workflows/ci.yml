@@ -65,3 +65,36 @@ jobs:
         run: python -m tools.probe_updates
       - name: Explicit opt-in public update metadata smoke
         run: python -m tools.probe_updates --enabled
+
+  firewall-owned-rule-smoke:
+    runs-on: windows-latest
+    timeout-minutes: 20
+    env:
+      QT_QPA_PLATFORM: offscreen
+      HF_HUB_OFFLINE: '1'
+      HF_HUB_DISABLE_TELEMETRY: '1'
+      DO_NOT_TRACK: '1'
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.13'
+          cache: pip
+          cache-dependency-path: requirements*.txt
+      - name: Install isolated probe dependencies
+        run: python -m pip install -r requirements.txt
+      - name: Verify owned rule, native boundary, worker and download recovery
+        shell: pwsh
+        run: python -m tools.probe_firewall --output "$env:RUNNER_TEMP/saydraft-firewall-probe"
+      - name: Retain disposable rule receipts
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: owned-firewall-receipts
+          if-no-files-found: warn
+          path: |
+            ${{ runner.temp }}/saydraft-firewall-probe/report.json
+            ${{ runner.temp }}/saydraft-firewall-probe/child-*/result.json
+            ${{ runner.temp }}/saydraft-firewall-probe/child-*/process.json
+            ${{ runner.temp }}/saydraft-firewall-probe/worker/report.json
+            ${{ runner.temp }}/saydraft-firewall-probe/worker/cases.jsonl

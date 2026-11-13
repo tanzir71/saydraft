@@ -2,11 +2,11 @@
 
 import threading
 import inspect
-from urllib.error import URLError
 
 from PySide6 import QtCore
 
 from saydraft.models.downloader import DownloadPaused
+from saydraft.models.errors import download_failure_message
 
 
 def call_download(callback, *args, pause_event, file_progress_callback=None):
@@ -57,10 +57,8 @@ class DownloadTask(QtCore.QObject):
                 self.succeeded.emit(str(result or ""))
             except DownloadPaused as error:
                 self.paused.emit(str(error))
-            except (URLError, ConnectionError, TimeoutError):
-                self.failed.emit("Could not reach the model host. Check your connection. If you enabled “Block Saydraft from the internet”, remove Saydraft’s block rule in Settings → Privacy, then choose Download to resume.")
             except Exception as error:
-                self.failed.emit(str(error))
+                self.failed.emit(download_failure_message(error))
             finally:
                 self._settled.emit()
 

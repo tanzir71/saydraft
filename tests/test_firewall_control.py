@@ -87,7 +87,8 @@ def test_only_one_elevation_request_runs_and_failures_release_the_owner():
         entered.set()
         assert release.wait(3)
         return control.FirewallChange("cancelled")
-    target = lambda: Path("C:/Owned/Saydraft.exe")
+    def target():
+        return Path("C:/Owned/Saydraft.exe")
     thread = threading.Thread(target=lambda: result.append(control.change_firewall("block", target_provider=target, launcher=launch)))
     try:
         thread.start()
