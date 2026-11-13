@@ -36,7 +36,7 @@ def test_app_catalog_matches_measured_pins_and_bundles_notices_without_developer
         assert notice["path"] == "LICENSE.txt" and "url" not in notice
         raw = bundled_license_path(notice["bundled_source"]).read_bytes()
         assert len(raw) == notice["size"] and hashlib.sha256(raw).hexdigest() == notice["sha256"]
-        assert model_relative_dir(model) == Path("llm") / model_id / model["revision"]
+        assert model_relative_dir(model) == Path(model_id) / model["version"]
         for backend in ("cpu", "vulkan"):
             package = cleanup_bundle(model_id, backend)
             assert package[0] == model and package[1]["backend"] == backend

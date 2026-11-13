@@ -102,16 +102,28 @@ def _check_space(model, target):
 def check_bundle_space(models_and_targets):
     volumes = {}
     for model, target in models_and_targets:
-        target.mkdir(parents=True, exist_ok=True)
+        target = Path(target)
+        if "archive" in model:
+            from .layout import archive_cache_directory
+            archive = {key: model["archive"][key] for key in ("path", "url", "size", "sha256")}
+            archive["accept"] = "application/octet-stream"
+            remaining = (0 if installation_ready(model, target, check_hashes=True) else
+                         sum(file["size"] for file in model["files"]) +
+                         _remaining_bytes({"files": [archive]}, archive_cache_directory(model, target)))
+        else:
+            remaining = _remaining_bytes(model, target)
         key = target.resolve().anchor.casefold()
         prior, exemplar = volumes.get(key, (0, target))
-        volumes[key] = (prior + _remaining_bytes(model, target), exemplar)
+        volumes[key] = (prior + remaining, exemplar)
     for remaining, target in volumes.values():
         _require_space(remaining, target)
 
 
 def _require_space(remaining, target):
-    free = shutil.disk_usage(target.resolve()).free
+    existing = target.resolve()
+    while not existing.exists() and existing != existing.parent:
+        existing = existing.parent
+    free = shutil.disk_usage(existing).free
     required = remaining + 64 * 1024 * 1024 if remaining else 0
     if free < required:
         raise OSError(f"Not enough disk space: need {required / 1_000_000:.0f} MB, "

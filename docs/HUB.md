@@ -356,7 +356,7 @@ correctly rejected oversized bodies. Logs remain in permanent QA storage; the
 intermittent timeout's cause is unresolved. No loopback code or test deadline
 was changed for this History revision.
 
-Full §8.3 still requires Notes producers, the uniform versioned model layout and the
+Full §8.3 still requires Notes producers and the
 packaged firewall installation/native coverage requirement shared with P8.6. The later
 onboarding, Scratchpad/Notetaker and complete gallery/
 accessibility milestones retain their original scope.
@@ -368,5 +368,8 @@ logical disk usage, other retained bytes and drive free space. Confirmed manual
 removal verifies declared payloads, protects configured/cached models and busy
 work, and preserves unknown files, portable copies and other versions. The
 confirmation details scroll/wrap at 200% density and default to Cancel.
-See `docs/MODEL_STORAGE.md` for the exact scope, lifecycle and remaining layout
-migration/native acceptance.
+See `docs/MODEL_STORAGE.md` for the exact scope, lifecycle and native acceptance.
+New downloads now publish into pinned ID/version directories for every model
+role. Discovery and removal protection cover both the new and earlier layouts;
+existing installations stay in place. The inventory recognizes older version
+directories while keeping staging/cache bytes in the retained other total.

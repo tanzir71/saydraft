@@ -187,5 +187,7 @@ def test_bundle_checks_combined_remaining_bytes_on_same_volume(tmp_path, monkeyp
         free=64 * 1024 * 1024 + 9))  # Either model fits individually; their package does not.
     with pytest.raises(OSError, match="Not enough disk space"):
         check_bundle_space([(model, tmp_path / "primary"), (model, tmp_path / "helper")])
+    assert not list(tmp_path.iterdir())
+    (tmp_path / "primary").mkdir()
     seed_partial(tmp_path / "primary", model, b"abc")
     check_bundle_space([(model, tmp_path / "primary"), (model, tmp_path / "helper")])

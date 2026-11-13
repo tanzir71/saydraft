@@ -1,5 +1,10 @@
 
 
+import threading
+
+from saydraft.models.manifest import get_model
+
+
 def test_new_downloads_use_user_profile_even_when_frozen(monkeypatch, tmp_path):
     import sys
 
@@ -22,7 +27,7 @@ def test_download_whisper_model_uses_verified_downloader_and_reports_progress(tm
         calls.append((model["id"], target))
         progress_callback(50)
 
-    monkeypatch.setattr("saydraft.model_download.download_model", fake_download)
+    monkeypatch.setattr("saydraft.model_download.install_files", fake_download)
 
     result = download_whisper_model(
         "base",
@@ -36,7 +41,7 @@ def test_download_whisper_model_uses_verified_downloader_and_reports_progress(tm
         },
     )
 
-    assert result == tmp_path / "models" / "whisper" / "base"
+    assert result == tmp_path / "models" / "whisper-base" / get_model("whisper-base")["version"]
     assert progress == [5, 50, 100]
     assert calls == [("whisper-base", result)]
 
@@ -79,12 +84,12 @@ def test_one_explicit_download_covers_displayed_dependencies_with_aggregate_prog
         progress_callback(50)
         progress_callback(100)
 
-    monkeypatch.setattr("saydraft.model_download.download_model", download)
-    pause = object()
+    monkeypatch.setattr("saydraft.model_download.install_files", download)
+    pause = threading.Event()
     result = download_asr_model(model_id, progress.append, models_dir=tmp_path, pause_event=pause)
-    assert result == tmp_path / "asr" / model_id
+    assert result == tmp_path / model_id / get_model(model_id)["version"]
     assert [call[0] for call in calls] == [model["id"] for model in package]
-    assert calls[1][1] == tmp_path / "lid" / "whisper-tiny-lid-int8"
+    assert calls[1][1] == tmp_path / "whisper-tiny-lid-int8" / get_model("whisper-tiny-lid-int8")["version"]
     assert all(call[2] is pause for call in calls)
     assert len(preflight) == 2 and progress == sorted(progress) and progress[-1] == 100
 
@@ -96,7 +101,7 @@ def test_preview_archive_download_is_a_separate_explicit_action(tmp_path, monkey
     calls = []
     monkeypatch.setattr("saydraft.models.packages.install_archive", lambda model, target, **kwargs:
                         calls.append((model, target, kwargs)) or target)
-    pause = object()
+    pause = threading.Event()
     target = download_preview_model(models_dir=tmp_path, pause_event=pause)
-    assert target == tmp_path / "preview" / PREVIEW_MODEL
+    assert target == tmp_path / PREVIEW_MODEL / get_model(PREVIEW_MODEL)["version"]
     assert calls[0][0]["role"] == "preview" and calls[0][2]["pause_event"] is pause

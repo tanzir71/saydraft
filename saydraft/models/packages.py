@@ -17,6 +17,8 @@ from .downloader import (
 )
 from .manifest import validate_archive_model
 from .storage_lock import storage_lock
+from .installation import check_staging_files, publish_directory
+from .layout import archive_cache_directory, require_local_paths, require_model_target
 
 _install_lock = threading.Lock()
 
@@ -82,9 +84,7 @@ def install_archive(model, target, *, cache_dir=None, bundled_root=None,
                     progress_callback=None, pause_event=None, opener=None):
     """User action only. Network resumes; interrupted staging and old versions are retained."""
     validate_archive_model(model)
-    target = Path(target)
-    if target.name != model["id"] or target.is_symlink() or target.is_junction():
-        raise ValueError("Model destination must be its catalog ID and cannot be a linked directory")
+    target = require_model_target(model, target, allow_legacy=True)
     parent = target.parent.resolve()
     target = parent / target.name
     if target.exists() and not target.is_dir():
@@ -94,7 +94,8 @@ def install_archive(model, target, *, cache_dir=None, bundled_root=None,
     archive_file = {key: archive[key] for key in ("path", "url", "size", "sha256")}
     archive_file["accept"] = "application/octet-stream"
     cache_model = {"revision": model["revision"], "download_hosts": model["download_hosts"], "files": [archive_file]}
-    cache = Path(cache_dir) if cache_dir is not None else parent / "_packages" / model["id"]
+    cache = Path(cache_dir) if cache_dir is not None else archive_cache_directory(model, target)
+    require_local_paths(cache)
     with storage_lock, _install_lock:
         _check_pause(pause_event)
         if installation_ready(model, target, check_hashes=True):
@@ -102,6 +103,7 @@ def install_archive(model, target, *, cache_dir=None, bundled_root=None,
                 progress_callback(100)
             return target
         notices = [(file, _bundle_source(file, root)) for file in model["files"] if "bundled_source" in file]
+        check_staging_files(cache_model, cache)
         parent.mkdir(parents=True, exist_ok=True)
         cache.mkdir(parents=True, exist_ok=True)
         # A new staging directory needs the full payload even when an older
@@ -116,7 +118,7 @@ def install_archive(model, target, *, cache_dir=None, bundled_root=None,
         download_model(cache_model, cache, opener=opener, pause_event=pause_event,
                        progress_callback=lambda value: progress_callback(value * 70 // 100) if progress_callback else None)
         _check_pause(pause_event)
-        stage = parent / f".{model['id']}-{uuid.uuid4().hex}.installing"
+        stage = parent / f".{uuid.uuid4().hex}.installing"
         stage.mkdir()
         completed = 0
 
@@ -132,25 +134,7 @@ def install_archive(model, target, *, cache_dir=None, bundled_root=None,
         _extract(model, cache / archive["path"], stage, pause_event, progress)
         _check_pause(pause_event)
         _write_json(stage / ".verified.json", _receipt(model))
-        # Verify resolved move destinations immediately before directory renames.
-        archive_root = parent / "_archive"
-        if not archive_root.resolve().is_relative_to(parent):
-            raise ValueError("Archive directory leaves the model storage folder")
-        if stage.is_symlink() or stage.is_junction() or stage.resolve().parent != parent:
-            raise ValueError("Installation staging directory changed before publication")
-        if target.is_symlink() or target.is_junction() or target.resolve().parent != parent:
-            raise ValueError("Model destination changed during installation")
-        previous = None
-        if target.exists():
-            archive_root.mkdir(exist_ok=True)
-            previous = archive_root / f"{model['id']}-{uuid.uuid4().hex}"
-            target.rename(previous)
-        try:
-            stage.rename(target)
-        except OSError:
-            if previous is not None and not target.exists():
-                previous.rename(target)
-            raise  # Staging and the prior version remain available after failure.
+        publish_directory(stage, target)
         if progress_callback:
             progress_callback(100)
         return target

@@ -31,39 +31,25 @@ def recommend_cleanup(report, config=None):
 
 
 def download_cleanup_model(model_id, backend, progress_callback=None, *, models_dir=None, pause_event=None):
-    from saydraft.model_download import default_models_dir, model_relative_dir
-    from .downloader import _archive, _check_pause, check_bundle_space, download_model, installation_ready
+    from saydraft.model_download import default_models_dir
+    from .downloader import _check_pause, check_bundle_space, installation_ready
+    from .installation import installation_target, install_files, transfer_directory
     from .packages import install_archive
 
     model, runtime = cleanup_bundle(model_id, backend)
-    root = default_models_dir(models_dir).resolve()
-    target = root / model_relative_dir(model)
-    stage = target.with_name(target.name + ".download")
-    runtime_target = root / model_relative_dir(runtime)
-    def check_destinations():
-        if any(not path.resolve().is_relative_to(root) for path in
-               (target, stage, runtime_target, target.parent / "_archive")):
-            raise ValueError("Cleanup installation leaves the model storage folder")
-    check_destinations()
+    root = default_models_dir(models_dir)
     total = transfer_bytes(model) + transfer_bytes(runtime)
     def progress(completed, size, value):
         if progress_callback:
             progress_callback(int((completed + size * value / 100) / total * 100))
     with storage_lock, _install_lock:
         _check_pause(pause_event)
-        check_bundle_space([(model, stage if not installation_ready(model, target, check_hashes=True) else target),
+        target = installation_target(root, model)
+        runtime_target = installation_target(root, runtime)
+        check_bundle_space([(model, transfer_directory(model, target)),
                             (runtime, runtime_target)])
-        if not installation_ready(model, target, check_hashes=True):
-            download_model(model, stage, pause_event=pause_event,
-                progress_callback=lambda value: progress(0, transfer_bytes(model), value))
-            _check_pause(pause_event)
-            if not installation_ready(model, stage, check_hashes=True):
-                raise ValueError("Cleanup model installation did not pass verification")
-            check_destinations()
-            target.parent.mkdir(parents=True, exist_ok=True)
-            if target.exists():
-                _archive(target)  # Retain changed files; never delete an older version.
-            stage.rename(target)
+        install_files(model, target, pause_event=pause_event,
+            progress_callback=lambda value: progress(0, transfer_bytes(model), value))
         install_archive(runtime, runtime_target, pause_event=pause_event,
             progress_callback=lambda value: progress(transfer_bytes(model), transfer_bytes(runtime), value))
         _check_pause(pause_event)

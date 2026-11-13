@@ -24,6 +24,16 @@ def safe_member(value):
             and all(safe_filename(part) for part in path.parts))
 
 
+def model_version(model):
+    """The immutable source pin also names its version directory; old descriptors remain readable."""
+    revision = model.get("revision")
+    version = model.get("version", revision)
+    if (not isinstance(version, str) or not safe_filename(version)
+            or version.startswith((".", "_")) or len(version) > 160 or version != revision):
+        raise ValueError("Model versions must match their immutable revision and be safe directory names")
+    return version
+
+
 def bundled_license_path(value):
     if not safe_member(value) or not value.startswith("assets/licenses/"):
         raise ValueError("Bundled notices must stay inside assets/licenses")
@@ -36,6 +46,7 @@ def bundled_license_path(value):
 
 def validate_archive_model(model):
     """GitHub asset IDs and content hashes pin packages independently of mutable tags."""
+    model_version(model)
     archive = model["archive"]
     if not isinstance(archive, dict):
         raise ValueError("Archive metadata must be an object")
@@ -88,6 +99,7 @@ def load_manifest(path: Path | None = None) -> dict:
         if model["id"] in seen or not re.fullmatch(r"[a-z0-9-]+", model["id"]):
             raise ValueError("model IDs must be unique safe directory names")
         seen.add(model["id"])
+        model_version(model)
         if "archive" in model:
             validate_archive_model(model)
             continue

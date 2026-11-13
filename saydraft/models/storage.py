@@ -204,28 +204,43 @@ def _entry(root, target, model, found):
     matches_catalog = receipt == {"revision": model["revision"], "files": model["files"]}
     status = ("Installed (receipt and sizes)" if complete and matches_catalog else
               "Retained receipt (sizes match)" if complete else "Partial or unverified")
-    if revision != model["revision"] or target.name != model.get("_current_name", target.name):
+    if revision != model["revision"] or model.get("_retained", False):
         status = "Retained version · " + status
     return StoredModel(root, target, model["id"], model.get("label", model["id"]), revision, status,
                        tuple(files), _identity(target), _identity(root.path))
 
 
 def inventory(roots=None, models=None):
-    from saydraft.model_download import model_relative_dir
+    from .layout import model_directories
     entries, usages = [], []
     models = load_manifest()["models"] if models is None else models
     for supplied in storage_roots() if roots is None else roots:
         root = StorageRoot(Path(os.path.abspath(supplied.path)), supplied.label, supplied.managed)
         found, skipped = _scan(root.path)
+        receipts = {}
+        for path in found:
+            if path.name != ".verified.json" or not _regular(root.path, path):
+                continue
+            try:
+                receipt = _json(path)
+                if _valid_receipt(receipt):
+                    receipts[path.parent] = receipt
+            except (OSError, ValueError, UnicodeError):
+                pass
         candidates = {}
         for model in models:
-            target = root.path / model_relative_dir(model)
-            candidates[target] = model
-            for receipt in (path for path in found if path.name == ".verified.json"):
-                folder = receipt.parent
-                if (model.get("role") == "llm" and folder.parent in (target.parent, target.parent / "_archive")
-                        or folder.parent == target.parent / "_archive" and folder.name.startswith(target.name + "-")):
-                    candidates.setdefault(folder, dict(model, _current_name=target.name))
+            locations = model_directories(root.path, model)
+            canonical, legacy = locations[0], locations[-1]
+            candidates[canonical] = candidates[legacy] = model
+            version_parents = {canonical.parent}
+            if model.get("role") == "llm":
+                version_parents.add(legacy.parent)
+            for folder, receipt in receipts.items():
+                versioned = folder.parent in version_parents and folder.name == receipt["revision"]
+                archived = (folder.parent in {parent / "_archive" for parent in version_parents}
+                            or folder.parent == legacy.parent / "_archive" and folder.name.startswith(legacy.name + "-"))
+                if versioned or archived:
+                    candidates.setdefault(folder, dict(model, _retained=True))
         known = set()
         for target, model in sorted(candidates.items(), key=lambda item: str(item[0])):
             if not _safe(root.path, target) or not target.is_dir():
@@ -256,7 +271,7 @@ def protected_paths(config, active_models=()):
     from saydraft.asr.model_ids import LANGUAGE_ID_MODEL, PREVIEW_MODEL
     from saydraft.asr.router import choose_route
     from saydraft.asr.selection import configured_model_id
-    from saydraft.model_download import model_relative_dir
+    from .layout import model_directories
     from saydraft.paths import resolve_data_path
     from .manifest import model_bundle
     from .runtime_ids import runtime_model_id
@@ -274,7 +289,7 @@ def protected_paths(config, active_models=()):
     for identifier in identifiers:
         try:
             for model in model_bundle(identifier):
-                paths.extend(root.path / model_relative_dir(model) for root in storage_roots())
+                paths.extend(path for root in storage_roots() for path in model_directories(root.path, model))
         except ValueError:
             continue
     llm_path = config.get("llm", {}).get("model_path")

@@ -6,9 +6,11 @@ from collections.abc import Callable
 from pathlib import Path
 from typing import Any
 
-from .models.downloader import check_bundle_space, download_model, installation_ready
+from .models.downloader import _check_pause, check_bundle_space, installation_ready
 from .models.manifest import get_model, model_bundle
 from .models.storage_lock import storage_lock
+from .models.layout import model_directories, model_relative_dir as model_relative_dir
+from .models.installation import installation_target, install_files, transfer_directory
 
 ProgressCallback = Callable[[int], None]
 
@@ -21,15 +23,6 @@ def default_models_dir(models_dir: str | Path | None = None) -> Path:
     return profile_root() / "Saydraft" / "models"
 
 
-def model_relative_dir(model: dict) -> Path:
-    if model["engine"] == "whisper":
-        return Path("whisper") / model["model_size"]
-    folder = {"vad": "vad", "lid": "lid", "llm": "llm", "runtime": "runtime", "preview": "preview"}.get(model.get("role"), "asr")
-    if model.get("role") == "llm":
-        return Path(folder) / model["id"] / model["revision"]
-    return Path(folder) / model["id"]
-
-
 def find_installed_model(model_id: str, *, check_hashes=False) -> Path | None:
     """Read old portable installations in place; new downloads use the user profile."""
     import sys
@@ -39,9 +32,9 @@ def find_installed_model(model_id: str, *, check_hashes=False) -> Path | None:
     if getattr(sys, "frozen", False):
         roots.append(Path(sys.executable).resolve().parent / "models")
     for root in dict.fromkeys(roots):
-        directory = root / model_relative_dir(model)
-        if installation_ready(model, directory, check_hashes=check_hashes):
-            return directory
+        for directory in model_directories(root, model):
+            if installation_ready(model, directory, check_hashes=check_hashes):
+                return directory
     return None
 
 
@@ -54,9 +47,10 @@ def download_asr_model(model_id: str, progress_callback=None, *, models_dir=None
     if model.get("role", "asr") != "asr":
         raise ValueError("Choose a speech recognition model")
     package = model_bundle(model_id)
-    targets = [(item, default_models_dir(models_dir) / model_relative_dir(item)) for item in package]
     with storage_lock:
-        check_bundle_space(targets)
+        _check_pause(pause_event)
+        targets = [(item, installation_target(default_models_dir(models_dir), item)) for item in package]
+        check_bundle_space([(item, transfer_directory(item, target)) for item, target in targets])
         total = sum(file["size"] for item in package for file in item["files"])
         completed = 0
         for item, target in targets:
@@ -66,7 +60,7 @@ def download_asr_model(model_id: str, progress_callback=None, *, models_dir=None
                 if progress_callback:
                     progress_callback(int((completed + size * value / 100) / total * 100))
 
-            download_model(item, target, progress_callback=progress, pause_event=pause_event)
+            install_files(item, target, progress_callback=progress, pause_event=pause_event)
             completed += size
     return targets[0][1]
 
@@ -79,9 +73,10 @@ def download_whisper_model(
     config: dict[str, Any] | None = None,
 ) -> Path:
     model = get_model(f"whisper-{model_size}")
-    target = default_models_dir(models_dir) / "whisper" / str(model_size)
     _emit_progress(progress_callback, 5)
-    download_model(model, target, progress_callback=progress_callback)
+    with storage_lock:
+        target = installation_target(default_models_dir(models_dir), model)
+        install_files(model, target, progress_callback=progress_callback)
     _emit_progress(progress_callback, 100)
     return target
 
@@ -95,8 +90,10 @@ def download_silero_vad_model(progress_callback: ProgressCallback | None = None,
                               pause_event=None) -> Path:
     """Explicit Settings action; inference never calls this function."""
     model = get_model("silero-vad-v5")
-    target = default_models_dir(models_dir) / "vad" / model["id"]
-    return download_model(model, target, progress_callback=progress_callback, pause_event=pause_event)
+    with storage_lock:
+        _check_pause(pause_event)
+        target = installation_target(default_models_dir(models_dir), model)
+        return install_files(model, target, progress_callback=progress_callback, pause_event=pause_event)
 
 
 def download_preview_model(progress_callback=None, *, models_dir=None, pause_event=None):
@@ -105,8 +102,10 @@ def download_preview_model(progress_callback=None, *, models_dir=None, pause_eve
     from .models.packages import install_archive
 
     model = get_model(PREVIEW_MODEL)
-    target = default_models_dir(models_dir) / model_relative_dir(model)
-    return install_archive(model, target, progress_callback=progress_callback, pause_event=pause_event)
+    with storage_lock:
+        _check_pause(pause_event)
+        target = installation_target(default_models_dir(models_dir), model)
+        return install_archive(model, target, progress_callback=progress_callback, pause_event=pause_event)
 
 
 def download_cleanup_runtime(backend, progress_callback=None, *, models_dir=None, pause_event=None):
@@ -115,5 +114,7 @@ def download_cleanup_runtime(backend, progress_callback=None, *, models_dir=None
     from .models.packages import install_archive
 
     model = get_model(runtime_model_id(backend))
-    target = default_models_dir(models_dir) / model_relative_dir(model)
-    return install_archive(model, target, progress_callback=progress_callback, pause_event=pause_event)
+    with storage_lock:
+        _check_pause(pause_event)
+        target = installation_target(default_models_dir(models_dir), model)
+        return install_archive(model, target, progress_callback=progress_callback, pause_event=pause_event)

@@ -1,4 +1,5 @@
 import hashlib
+import threading
 from pathlib import Path
 
 import pytest
@@ -30,12 +31,12 @@ def test_runtime_catalog_keeps_server_dependencies_notices_and_exact_archive_pin
 @pytest.mark.parametrize("backend", ["cpu", "vulkan"])
 def test_cleanup_runtime_download_is_separate_explicit_and_resumable(tmp_path, monkeypatch, backend):
     calls = []
-    pause = object()
+    pause = threading.Event()
     monkeypatch.setattr("saydraft.models.packages.install_archive",
         lambda model, target, **kwargs: calls.append((model, target, kwargs)) or target)
     assert not calls
     target = download_cleanup_runtime(backend, models_dir=tmp_path, pause_event=pause)
-    assert target == tmp_path / "runtime" / RUNTIME_MODELS[backend]
+    assert target == tmp_path / RUNTIME_MODELS[backend] / get_model(RUNTIME_MODELS[backend])["version"]
     assert len(calls) == 1 and calls[0][2]["pause_event"] is pause
 
 

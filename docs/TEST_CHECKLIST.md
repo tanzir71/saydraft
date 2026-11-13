@@ -48,3 +48,7 @@ Use the packaged app or `run_app.bat`, complete onboarding if prompted, and keep
 - Using only disposable fixture models, cancel Remove and confirm no file changes; then confirm removal names the exact version/path/size and preserves unrelated files and other versions.
 - Confirm configured/cached models, active app work, downloads, stale snapshots and changed checksums refuse removal; a file-lock failure reports partial progress without a valid completion receipt.
 - At both themes/200% scaling, review long removal paths with keyboard/scrolling; Remove and Cancel remain reachable and Cancel is the initial default. Native owner model removal remains unrun.
+- On disposable storage, verify every model role installs into its pinned `<id>/<version>` path, with no live directory before successful SHA-256 verification and publication.
+- Start a new versioned transfer, pause and resume it; confirm staged bytes survive, older pins/unknown files remain intact, and a publication failure restores the prior directory.
+- Confirm complete legacy installations work offline and explicit setup reuses them in place; older partial transfers remain untouched and separate from new staging.
+- Verify storage/protection lists both layouts and retained versions, while compressed caches and incomplete staging remain other retained data; preflight must include compressed plus unpacked space without writing directories.

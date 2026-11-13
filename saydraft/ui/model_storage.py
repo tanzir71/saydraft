@@ -1,6 +1,7 @@
 """Background model inventory and concrete confirmation before manual removal."""
 
 import threading
+import math
 
 from PySide6 import QtCore, QtGui, QtWidgets
 
@@ -9,6 +10,33 @@ from saydraft.models.storage import inventory, protected_paths, removal_reason
 
 def bytes_label(value):
     return f"{value / 1e9:.2f} GB" if value >= 1e9 else f"{value / 1e6:.1f} MB" if value >= 1e6 else f"{value:,} bytes"
+
+
+class StorageDetailsLabel(QtWidgets.QLabel):
+    """Plain accessible text with fallback wrapping for unbroken Windows paths."""
+
+    def document_for_width(self, width):
+        document = QtGui.QTextDocument()
+        document.setDocumentMargin(0)
+        document.setDefaultFont(self.font())
+        option = QtGui.QTextOption()
+        option.setWrapMode(QtGui.QTextOption.WrapAtWordBoundaryOrAnywhere)
+        document.setDefaultTextOption(option)
+        document.setPlainText(self.text())
+        cursor = QtGui.QTextCursor(document)
+        cursor.select(QtGui.QTextCursor.Document)
+        formatting = QtGui.QTextCharFormat()
+        formatting.setForeground(self.palette().color(QtGui.QPalette.WindowText))
+        cursor.mergeCharFormat(formatting)
+        document.setTextWidth(max(1, width))
+        return document
+
+    def heightForWidth(self, width):
+        return math.ceil(self.document_for_width(width).size().height())
+
+    def paintEvent(self, event):
+        painter = QtGui.QPainter(self)
+        self.document_for_width(self.width()).drawContents(painter)
 
 
 class ModelRemovalDialog(QtWidgets.QDialog):
@@ -92,11 +120,13 @@ class ModelStorage(QtWidgets.QWidget):
         self.combo.setAccessibleName("Installed models and retained versions")
         self.combo.setSizePolicy(QtWidgets.QSizePolicy.Ignored, QtWidgets.QSizePolicy.Fixed)
         self.combo.setMinimumContentsLength(20)
-        self.summary, self.details, self.status = (QtWidgets.QLabel() for _ in range(3))
+        self.summary, self.details, self.status = (StorageDetailsLabel() for _ in range(3))
         for label in (self.summary, self.details, self.status):
             label.setTextFormat(QtCore.Qt.PlainText)
             label.setWordWrap(True)
-            label.setSizePolicy(QtWidgets.QSizePolicy.Ignored, QtWidgets.QSizePolicy.Preferred)
+            policy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Ignored, QtWidgets.QSizePolicy.Preferred)
+            policy.setHeightForWidth(True)
+            label.setSizePolicy(policy)
         self.summary.setText("Refresh to inspect installed models and disk usage. No files are changed by inspection.")
         self.refresh_button = QtWidgets.QPushButton("Refresh storage")
         self.remove_button = QtWidgets.QPushButton("Remove…")

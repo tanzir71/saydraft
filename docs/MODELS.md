@@ -1,8 +1,9 @@
 # Local models
 
 Tier overrides, explicit staged defaults, storage inventory and confirmed manual
-removal are documented in [MODEL_STORAGE.md](MODEL_STORAGE.md). The uniform
-versioned-directory rollout and native/manual acceptance remain open.
+removal are documented in [MODEL_STORAGE.md](MODEL_STORAGE.md). New app installs
+use `<id>/<version>` for every role; compatible legacy installations remain
+readable in place. Native/manual acceptance remains open.
 
 Fresh profiles select Parakeet TDT 0.6B v3 int8. Existing configurations without
 an engine field retain their Whisper model size and language. Settings → Models

@@ -29,11 +29,15 @@ transfer sizes, including the runtime archive rather than its unpacked size.
 and runtime with aggregate progress and the existing pause/resume behavior.
 No optional language model is included in this package.
 
-New model storage is `models/llm/<id>/<revision>/`. Resumable files stay in a
-sibling `.download` directory. All weight/card/notice hashes must pass before
+New model storage is `models/<id>/<version>/`, with version equal to the immutable
+revision. The same layout applies to runtimes and all speech-related roles.
+Earlier `models/llm/<id>/<revision>/` installations remain usable in place.
+Resumable files stay in a sibling `<version>.download` directory. All weight/card/notice hashes must pass before
 the complete directory is renamed into place. A changed existing directory is
 retained under `_archive`; earlier revisions remain untouched. Move destinations
-are checked against the resolved storage root, including archive junctions.
+are checked before moving; linked installation/staging/cache paths are refused.
+Read-only combined space checks budget missing compressed runtime caches as well
+as unpacked payloads, without creating live version directories.
 Both model and runtime must verify before the helper returns a usable GGUF path.
 A failed runtime installation retains the completed model for a later retry.
 

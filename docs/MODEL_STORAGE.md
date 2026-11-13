@@ -77,10 +77,41 @@ and reports exact completed counts/bytes and the remaining error; the leftover
 folder cannot appear installed through a stale completion marker. Only an empty
 package folder is removed afterward. Nothing automatically prunes old versions.
 
-Existing disk layouts remain compatible: cleanup GGUFs use revision directories;
-ASR/runtime packages still use their established paths and retained archives.
-The spec's uniform `<id>/<version>` layout across all model roles remains open.
-This increment does not migrate or delete existing owner model/artifact folders.
+## Versioned installation layout
+
+All new app downloads use `%LOCALAPPDATA%\Saydraft\models\<id>\<version>\`,
+including speech, language detection, VAD, preview, cleanup GGUFs and runtimes.
+Every bundled catalog entry records an explicit `version` equal to its immutable
+`revision` pin. Mutable aliases, reserved names and escaping version paths fail
+validation. Older schema-1 descriptors without `version` use their revision.
+
+Discovery checks the current canonical pin, then the earlier role-based layout
+within each profile/portable root. Complete legacy installations remain usable
+in place; explicit setup can reuse a SHA-256-verified legacy package without a
+transfer or migration. Custom GGUF paths stay valid. Damaged current copies do
+not hide a complete compatible legacy copy.
+
+File downloads resume in the sibling `<version>.download` directory. The complete
+receipt and every payload must verify before a sibling-directory rename publishes
+the version. Archive packages keep compressed downloads in the model's
+`_packages/<version>/` directory and extract into unique `.installing` siblings.
+Space preflight is read-only and budgets both unpacked payloads and any missing
+compressed cache, with the existing free-space reserve. It never creates an empty
+live version directory. Linked staging/cache paths and writable hard-linked
+partials are refused before transfer.
+
+Different pins coexist. Repairing a changed current directory preserves the whole
+previous directory under `_archive`; publication failure restores it when the
+destination remains available. Unknown files and older pins are never pruned.
+Earlier partial transfers remain untouched in their original locations; new
+versioned transfers use their own resumable staging rather than moving or copying
+the older attempts. The inventory lists compatible legacy/current packages and
+identifiable older pins of catalogued IDs. Staging and compressed caches remain
+retained other bytes. Current/cached model protection covers both layouts.
+
+No owner model/artifact folder is migrated or removed to implement or test this
+transition. A later release may retire catalog IDs; unrecognized data remains
+retained rather than acquiring an automatic deletion policy.
 
 ## Verification scope
 
@@ -89,6 +120,13 @@ and older versions, explicit cancellation, preserved unknown/resume files,
 checksum/snapshot refusal, portable/external paths, hard links, junctions,
 download leases, partial unlink failures, worker reservation and deferred Save.
 Qt checks cover the actual confirmation/default and refreshed saved preferences.
+Versioning tests enumerate all 13 bundled entries and cover immutable version
+validation, legacy reuse/hash fallback, hidden partial publication, Range resume,
+atomic rollback, separate archive caches and read-only peak-space checks. Real
+owned Qt/worker composition removes an older fixture version while preserving
+current and legacy copies. Storage labels use word-boundary wrapping with a
+fallback for long unbroken paths; glyph-width checks verify the full plain text
+fits rather than relying only on label height.
 Owned offscreen renders exercise both themes, two window sizes, 16/22 px text and
 1×/2× density with explicit no-capture/no-clipboard/no-removal adapters.
 
