@@ -37,8 +37,9 @@ only in the separate QA History databases; JSON reports/journals contain metadat
 
 ## Running the matrix
 
-Use already installed pinned Parakeet, language-ID and Silero bundles. Standard
-uses Qwen3.5 0.8B on CPU; Pro uses Qwen3.5 2B on an explicit verified Vulkan
+Lite uses the pinned Whisper base engine with rules cleanup. Standard/Pro use
+Parakeet and language identification. All recipes use the pinned Silero bundle.
+Standard uses Qwen3.5 0.8B on CPU; Pro uses Qwen3.5 2B on an explicit verified Vulkan
 adapter. These are requested measurement recipes, not hardware certification.
 The runner never downloads models. The verified small Silero bundle is copied
 into each child's private profile so normal production VAD discovery works.
@@ -46,7 +47,7 @@ Runtime modules remain available from the parent interpreter's explicit search
 paths; application state, temporary files and caches use the private profile.
 
 ```powershell
-python -m tools.bench matrix --tier lite --parakeet-dir D:\QA\Parakeet --lid-dir D:\QA\LanguageID --vad-dir D:\QA\Silero --isolated --output D:\QA\Latency-Lite-New
+python -m tools.bench matrix --tier lite --whisper-dir D:\QA\WhisperBase --vad-dir D:\QA\Silero --isolated --output D:\QA\Latency-Lite-New
 python -m tools.bench matrix --tier standard --parakeet-dir D:\QA\Parakeet --lid-dir D:\QA\LanguageID --vad-dir D:\QA\Silero --models-dir D:\QA\Candidates --runtime-dir D:\QA\llama-cpp-b12110-cpu-x64 --isolated --output D:\QA\Latency-Standard-New
 python -m tools.bench matrix --tier pro --parakeet-dir D:\QA\Parakeet --lid-dir D:\QA\LanguageID --vad-dir D:\QA\Silero --models-dir D:\QA\Candidates --runtime-dir D:\QA\llama-cpp-b12110-vulkan-x64 --device Vulkan1 --isolated --output D:\QA\Latency-Pro-New
 ```
@@ -74,6 +75,8 @@ qualify. A failed pair and its partial evidence remain in its own subdirectory.
 teardown. `full_matrix` additionally requires all eight cells, at least twenty
 samples each, clean unchanged source, isolation, pinned VAD and no debug mode.
 Both source identity and the immutable child reports are fingerprinted.
+Each child and case must also report the requested actual ASR model. A Parakeet
+case cannot qualify as the written Lite Whisper recipe.
 
 The summary uses nearest-rank p50/p95 and retains maxima and decision counts for
 every cell. Lite targets are 600 ms/1.2 s; with-LLM targets are 1.2 s/2.0 s. A
@@ -91,3 +94,11 @@ the gates because a completed run can miss its targets.
 
 The older [warm 3/8/20-second probe](CLEANUP_LATENCY.md) and
 [Whisper baseline](BASELINE.md) retain their original scope and values.
+
+The original `d76d22e` harness incorrectly used Parakeet for every recipe. Its
+diagnostics retain that actual model metadata. A subsequent planned full run at
+`0ba3d80` was stopped at a pair boundary after 118 cases when this mismatch was
+found. Those raw reports remain a partial Parakeet/rules baseline; they establish
+no Lite tier or full-matrix acceptance. The corrected Lite recipe uses Whisper
+base through the production `WhisperCT2Engine`, with model verification and
+preparation before capture. Fresh full qualification remains pending.

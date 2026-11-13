@@ -16,13 +16,15 @@ from collections import Counter
 from datetime import datetime, timezone
 from pathlib import Path
 
+from saydraft.asr.model_ids import DEFAULT_MODEL
+
 ROOT = Path(__file__).resolve().parents[1]
 DURATIONS = (3, 10, 30, 90)
 PHASES = ("cold", "warm")
 RECIPES = {
-    "lite": {"candidate": None, "backend": "cpu", "decode_target_tps": None},
-    "standard": {"candidate": "qwen35-08b-q4-k-m", "backend": "cpu", "decode_target_tps": 25},
-    "pro": {"candidate": "qwen35-2b-q4-k-m", "backend": "vulkan", "decode_target_tps": 40},
+    "lite": {"asr_model": "whisper-base", "candidate": None, "backend": "cpu", "decode_target_tps": None},
+    "standard": {"asr_model": DEFAULT_MODEL, "candidate": "qwen35-08b-q4-k-m", "backend": "cpu", "decode_target_tps": 25},
+    "pro": {"asr_model": DEFAULT_MODEL, "candidate": "qwen35-2b-q4-k-m", "backend": "vulkan", "decode_target_tps": 40},
 }
 
 
@@ -68,18 +70,20 @@ def summarize(rows, tier):
         "actual_model_use": tier == "lite" or all(accepted.values())}
 
 
-def validate_pair(pair, *, seconds, repeat, commit):
+def validate_pair(pair, *, seconds, repeat, commit, model):
     """Refuse a stale, duplicate, incomplete or mismatched child receipt."""
     if (not pair.get("complete") or pair.get("git_commit") != commit
-            or pair.get("audio_seconds") != seconds or pair.get("repeat") != repeat
+            or pair.get("audio_seconds") != seconds or pair.get("repeat") != repeat or pair.get("asr_model") != model
             or len(pair.get("cases", [])) != 2):
         raise ValueError("Child pair did not complete against this source and request")
     for phase, row in zip(PHASES, pair["cases"], strict=True):
         if (row.get("phase") != phase or row.get("audio_seconds") != seconds or row.get("repeat") != repeat
                 or not row.get("history_before_paste") or not row.get("clipboard_restored")
                 or not row.get("release_deadline_present") or not row.get("no_early_delivery")
-                or row.get("fed_samples") != seconds * 16000):
+                or row.get("fed_samples") != seconds * 16000 or row.get("asr_model") != model):
             raise ValueError("Child pair lacks checked worker delivery evidence")
+        if model == DEFAULT_MODEL and row.get('language_identifier_ready') is not True:
+            raise ValueError('Parakeet recipe did not prepare its language identifier')
     if any(value is not True for value in pair.get("native_exits", [])):
         raise ValueError("Child native exit was not independently observed")
 
@@ -142,9 +146,8 @@ def run_pair(spec, output, *, process_factory=None):
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--tier", choices=RECIPES, required=True)
-    for name in ("parakeet-dir", "lid-dir", "output"):
-        parser.add_argument("--" + name, type=Path, required=True)
-    for name in ("models-dir", "runtime-dir"):
+    parser.add_argument("--output", type=Path, required=True)
+    for name in ("models-dir", "runtime-dir", "parakeet-dir", "lid-dir", "whisper-dir"):
         parser.add_argument("--" + name, type=Path)
     parser.add_argument("--vad-dir", type=Path, help="installed pinned Silero bundle; required for full runs")
     parser.add_argument("--device", help="explicit verified Pro adapter, e.g. Vulkan1")
@@ -161,11 +164,14 @@ def main(argv=None):
     if not args.debug and (not args.isolated or args.repeats < 20 or tuple(args.durations) != DURATIONS or not args.vad_dir):
         parser.error("full runs require --isolated, --vad-dir, all four durations in order and at least 20 repeats")
     recipe = RECIPES[args.tier]
+    if (args.tier == "lite" and (not args.whisper_dir or args.parakeet_dir or args.lid_dir)
+            or args.tier != "lite" and (args.whisper_dir or not args.parakeet_dir or not args.lid_dir)):
+        parser.error("Lite requires --whisper-dir for pinned Whisper base; Standard/Pro require --parakeet-dir and --lid-dir")
     if (args.tier != "lite" and not all((args.models_dir, args.runtime_dir)) or
             args.tier == "pro" and not re.fullmatch(r"Vulkan\d+", args.device or "") or
             args.tier != "pro" and args.device is not None):
         parser.error("Standard/Pro require installed model/runtime paths; only Pro requires an explicit Vulkan device")
-    for path in (args.parakeet_dir, args.lid_dir, args.models_dir, args.runtime_dir, args.vad_dir):
+    for path in (args.parakeet_dir, args.lid_dir, args.whisper_dir, args.models_dir, args.runtime_dir, args.vad_dir):
         if path is not None and not path.is_dir():
             parser.error("an installed model/runtime directory is unavailable")
     source = source_receipt()
@@ -195,11 +201,11 @@ def main(argv=None):
                 spec = {"git_commit": source["git_commit"], "audio_seconds": seconds, "repeat": repeat,
                     "tier": args.tier, **recipe, "device": args.device, "output": str(pair_output),
                     **{name: str(getattr(args, name).resolve()) if getattr(args, name) else None
-                       for name in ("parakeet_dir", "lid_dir", "models_dir", "runtime_dir", "vad_dir")}}
+                       for name in ("parakeet_dir", "lid_dir", "whisper_dir", "models_dir", "runtime_dir", "vad_dir")}}
                 report["active_pair"] = {"audio_seconds": seconds, "repeat": repeat}
                 write_json(args.output / "report.json", report)
                 pair = run_pair(spec, pair_output)
-                validate_pair(pair, seconds=seconds, repeat=repeat, commit=source["git_commit"])
+                validate_pair(pair, seconds=seconds, repeat=repeat, commit=source["git_commit"], model=recipe["asr_model"])
                 report["cases"].extend(pair["cases"])
                 report["pairs"].append({"path": pair_output.name + "/report.json",
                     "sha256": hashlib.sha256((pair_output / "report.json").read_bytes()).hexdigest(),

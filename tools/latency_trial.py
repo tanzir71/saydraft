@@ -15,8 +15,11 @@ import numpy as np
 import soundfile as sf
 
 from saydraft.asr.language_id import AudioLanguageIdentifier
+from saydraft.asr.model_ids import LANGUAGE_ID_MODEL
 from saydraft.asr.router import AsrRouter
+from saydraft.asr.selection import select_model
 from saydraft.asr.sherpa_parakeet import ParakeetEngine
+from saydraft.asr.whisper_ct2 import WhisperCT2Engine, WhisperEngineConfig
 from saydraft.cleanup.llm.candidates import candidate_directory, candidate_weight, get_candidate
 from saydraft.cleanup.llm.sidecar import SidecarManager
 from saydraft.config import default_config
@@ -34,6 +37,7 @@ from saydraft.models.downloader import installation_ready
 from saydraft.models.manifest import get_model
 from saydraft.models.native_devices import select_device
 from saydraft.privacy.netguard import NetworkGuard
+from saydraft.stt.whisper_engine import _default_model_factory
 from tools.bench_cleanup import NativeMeter
 from tools.latency_matrix import PHASES, write_json
 from tools.probe_cleanup_latency import feed_capture, wait_for
@@ -72,9 +76,27 @@ class CheckedDelivery:
         self.pasted_at = self.clock()
 
 
+def replay_asr(spec, config):
+    """Use the written tier's production engine, preserving its reported model ID."""
+    if spec['tier'] == 'lite':
+        directory = Path(spec['whisper_dir'])
+        if not installation_ready(get_model('whisper-base'), directory, check_hashes=True):
+            raise ValueError('Pinned Whisper base bundle is incomplete or changed')
+        select_model(config, 'whisper-base')
+        primary = WhisperCT2Engine(WhisperEngineConfig.from_app_config(config),
+            model_factory=lambda _name, **kwargs: _default_model_factory(str(directory), **kwargs))
+        return primary, primary
+    if not installation_ready(get_model(LANGUAGE_ID_MODEL), Path(spec['lid_dir']), check_hashes=True):
+        raise ValueError('Pinned language identification bundle is incomplete or changed')
+    primary = ParakeetEngine(model_dir=spec['parakeet_dir'])
+    router = AsrRouter(config, engine_factory=lambda _settings, _route: primary, installed=lambda _model: False,
+        language_identifier=AudioLanguageIdentifier(model_dir=spec['lid_dir']))
+    return primary, router
+
+
 def run_trial(spec):
     output = Path(spec["output"])
-    report = {"schema": 1, **{name: spec[name] for name in ("git_commit", "audio_seconds", "repeat", "tier")},
+    report = {"schema": 1, **{name: spec[name] for name in ("git_commit", "audio_seconds", "repeat", "tier", "asr_model")},
         "cases": [], "native_exits": [], "complete": False}
     meter, worker, pipeline, local = None, None, None, None
     started = time.monotonic()
@@ -116,9 +138,7 @@ def run_trial(spec):
         delivery = CheckedDelivery(history)
         inserter = Inserter(clipboard=delivery.clipboard, keyboard=delivery.keyboard,
             focus_provider=lambda: "fixture", restore_delay=.15)
-        primary = ParakeetEngine(model_dir=spec["parakeet_dir"])
-        router = AsrRouter(config, engine_factory=lambda _settings, _route: primary, installed=lambda _model: False,
-            language_identifier=AudioLanguageIdentifier(model_dir=spec["lid_dir"]))
+        primary, router = replay_asr(spec, config)
         capture = SimpleNamespace(sample_rate=rate, audio=audio, chunk_callback=None,
             start=lambda: None, stop=lambda: audio.copy())
         formatter = IdentityFormatter()
@@ -137,6 +157,10 @@ def run_trial(spec):
                 armed = time.monotonic()
                 if worker.session.state != SessionState.LISTENING:
                     raise RuntimeError("Worker did not arm")
+                identifier = getattr(router, '_language_identifier', None)
+                lid_ready = getattr(identifier, '_model', None) is not None if identifier is not None else None
+                if identifier is not None and not lid_ready:
+                    raise RuntimeError('Language identification did not prepare')
                 at_capture = cleanup_snapshot(local)
                 feed_started = time.monotonic()
                 feed_capture(capture, clock=time.monotonic, deliver_after_frame=True)
@@ -159,12 +183,13 @@ def run_trial(spec):
                 row = rows[0]
                 item = {"phase": phase, "audio_seconds": seconds, "repeat": spec["repeat"],
                     "fed_samples": len(audio), "arming_seconds": armed - arm_started,
-                    "capture_seconds": captured - feed_started, "asr_load_seconds": primary.load_seconds,
+                    "capture_seconds": captured - feed_started, "asr_load_seconds": getattr(primary, 'load_seconds', None),
                     "release_to_paste_seconds": delivery.pasted_at - delivery.released_at,
                     "release_to_settled_seconds": settled - delivery.released_at,
                     "history_before_paste": True, "clipboard_restored": True, "no_early_delivery": no_early,
                     "release_deadline_present": worker._context.cleanup_deadline is not None,
                     "decision": row.llm_decision, "asr_model": row.model, "timings": json.loads(row.timings_json),
+                    "language_identifier_ready": lid_ready,
                     "cleanup_at_capture": at_capture, "cleanup_at_release": at_release,
                     "cleanup_after_delivery": cleanup_snapshot(local), "cleanup_gate": local.last_gate_info if local else None}
                 report["cases"].append(item)
@@ -204,7 +229,8 @@ def run_trial(spec):
         report["elapsed_seconds"] = time.monotonic() - started
         report["complete"] = (len(report["cases"]) == 2 and not report.get("error_type")
             and not report.get("shutdown_error_type") and all(report["native_exits"])
-            and (spec["tier"] == "lite" or bool(report["native_exits"])))
+            and (spec["tier"] == "lite" or bool(report["native_exits"]))
+            and all(row['asr_model'] == spec['asr_model'] for row in report['cases']))
         write_json(output / "report.json", report)
     return report
 

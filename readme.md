@@ -49,7 +49,8 @@ model default.
 
 The [release-latency matrix](docs/LATENCY_MATRIX.md) now covers the specified
 3/10/30/90-second cold/warm runs through the actual worker, History and checked
-simulated paste. Full native qualification is still pending; the earlier warm
+simulated paste, using Whisper base for Lite and Parakeet for Standard/Pro.
+Full native qualification is still pending; the earlier warm
 fixture results retain their original scope.
 
 ## What works today

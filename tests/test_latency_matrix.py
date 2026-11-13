@@ -7,6 +7,7 @@ import pytest
 
 from tools import bench, latency_matrix as matrix
 from tools.latency_trial import CheckedDelivery
+from tools import latency_trial as trial
 
 
 def cases(*, seconds=.2, decision="accepted", count=20):
@@ -16,10 +17,10 @@ def cases(*, seconds=.2, decision="accepted", count=20):
 
 
 def pair():
-    return {"complete": True, "git_commit": "source", "audio_seconds": 3, "repeat": 0,
+    return {"complete": True, "git_commit": "source", "audio_seconds": 3, "repeat": 0, "asr_model": "whisper-base",
         "native_exits": [True], "cases": [{"phase": phase, "audio_seconds": 3, "repeat": 0,
             "history_before_paste": True, "clipboard_restored": True, "release_deadline_present": True,
-            "no_early_delivery": True, "fed_samples": 48000} for phase in matrix.PHASES]}
+            "no_early_delivery": True, "fed_samples": 48000, "asr_model": "whisper-base"} for phase in matrix.PHASES]}
 
 
 def test_matrix_requires_twenty_independent_samples_in_every_phase_and_duration():
@@ -62,22 +63,22 @@ def test_rules_fallback_cannot_earn_model_use_in_either_phase():
 
 @pytest.mark.parametrize("change", [
     {"complete": False}, {"git_commit": "other"}, {"repeat": 1}, {"audio_seconds": 10},
-    {"native_exits": [False]}, {"native_exits": [1]}, {"cases": []},
+    {"native_exits": [False]}, {"native_exits": [1]}, {"cases": []}, {"asr_model": "parakeet"},
 ])
 def test_parent_rejects_incomplete_or_mismatched_child_receipts(change):
     value = {**pair(), **change}
     with pytest.raises(ValueError):
-        matrix.validate_pair(value, seconds=3, repeat=0, commit="source")
+        matrix.validate_pair(value, seconds=3, repeat=0, commit="source", model="whisper-base")
 
 
 @pytest.mark.parametrize("field,value", [("phase", "cold"), ("fed_samples", 47999),
     ("history_before_paste", False), ("clipboard_restored", False),
-    ("release_deadline_present", False), ("no_early_delivery", False)])
+    ("release_deadline_present", False), ("no_early_delivery", False), ("asr_model", "parakeet")])
 def test_parent_checks_both_cases(field, value):
     receipt = pair()
     receipt["cases"][1][field] = value
     with pytest.raises(ValueError):
-        matrix.validate_pair(receipt, seconds=3, repeat=0, commit="source")
+        matrix.validate_pair(receipt, seconds=3, repeat=0, commit="source", model="whisper-base")
 
 
 def test_checked_delivery_times_only_the_current_durable_paste():
@@ -149,7 +150,7 @@ def test_dirty_source_is_rejected_before_artifacts_or_child_launch(tmp_path, mon
     monkeypatch.setattr(matrix, "os", SimpleNamespace(name="nt"))
     output = tmp_path / "new"
     with pytest.raises(SystemExit) as caught:
-        matrix.main(["--tier", "lite", "--parakeet-dir", str(tmp_path), "--lid-dir", str(tmp_path),
+        matrix.main(["--tier", "lite", "--whisper-dir", str(tmp_path),
                      "--vad-dir", str(tmp_path), "--isolated", "--output", str(output)])
     assert caught.value.code == 2 and not output.exists()
 
@@ -168,7 +169,7 @@ def test_debug_completion_keeps_full_matrix_and_target_false(tmp_path, monkeypat
 
     monkeypatch.setattr(matrix, "run_pair", run)
     output = tmp_path / "new"
-    assert matrix.main(["--tier", "lite", "--parakeet-dir", str(tmp_path), "--lid-dir", str(tmp_path),
+    assert matrix.main(["--tier", "lite", "--whisper-dir", str(tmp_path),
         "--output", str(output), "--debug", "--repeats", "1", "--durations", "3"]) == 0
     report = json.loads((output / "report.json").read_text(encoding="utf-8"))
     assert report["complete"] and not report["full_matrix"] and not report["latency_target_met"]
@@ -196,9 +197,10 @@ def test_full_measurement_separates_latency_model_use_decoder_and_source_integri
 
     def run(spec, output):
         value = pair()
-        value.update(audio_seconds=spec["audio_seconds"], repeat=spec["repeat"])
+        value.update(audio_seconds=spec["audio_seconds"], repeat=spec["repeat"], asr_model=spec["asr_model"])
         value["cases"] = [{**row, "audio_seconds": spec["audio_seconds"], "repeat": spec["repeat"],
-            "fed_samples": spec["audio_seconds"] * 16000, "release_to_paste_seconds": .2,
+            "fed_samples": spec["audio_seconds"] * 16000, "release_to_paste_seconds": .2, "asr_model": spec["asr_model"],
+            "language_identifier_ready": spec['asr_model'] == matrix.DEFAULT_MODEL,
             "decision": "skip_budget" if change == "rules_only" else "accepted",
             "cleanup_at_release": {"decoder": {"median_tps": 20 if change == "slow_decoder" else 30}}}
             for row in value["cases"]]
@@ -222,6 +224,44 @@ def test_full_run_refuses_artifacts_inside_source_checkout(tmp_path, monkeypatch
     monkeypatch.setattr(matrix, "os", SimpleNamespace(name="nt"))
     output = tmp_path / "new"
     with pytest.raises(SystemExit) as caught:
-        matrix.main(["--tier", "lite", "--parakeet-dir", str(tmp_path), "--lid-dir", str(tmp_path),
+        matrix.main(["--tier", "lite", "--whisper-dir", str(tmp_path),
                      "--vad-dir", str(tmp_path), "--isolated", "--output", str(output)])
+    assert caught.value.code == 2 and not output.exists()
+
+
+def test_lite_replay_uses_whisper_base_without_changing_its_reported_identity(tmp_path, monkeypatch):
+    from saydraft.config import default_config
+
+    monkeypatch.setattr(trial, 'installation_ready', lambda model, path, **kw: model['id'] == 'whisper-base' and path == tmp_path)
+    calls = []
+    monkeypatch.setattr(trial, '_default_model_factory', lambda path, **kw: calls.append((path, kw)))
+
+    class Engine:
+        def __init__(self, config, *, model_factory):
+            self.config, self.model_factory = config, model_factory
+
+    monkeypatch.setattr(trial, 'WhisperCT2Engine', Engine)
+    config = default_config()
+    primary, routed = trial.replay_asr({'tier': 'lite', 'whisper_dir': str(tmp_path)}, config)
+    assert primary is routed and primary.config.model_size == 'base'
+    assert primary.config.compute_type == 'int8' and primary.config.local_files_only
+    assert config['stt']['engine'] == 'whisper' and not config['stt']['routing_enabled']
+    primary.model_factory('base', local_files_only=True)
+    assert calls == [(str(tmp_path), {'local_files_only': True})]
+
+
+def test_parakeet_recipes_require_their_pinned_language_identifier(tmp_path, monkeypatch):
+    from saydraft.config import default_config
+
+    monkeypatch.setattr(trial, 'installation_ready', lambda *a, **kw: False)
+    with pytest.raises(ValueError, match='language identification'):
+        trial.replay_asr({'tier': 'pro', 'lid_dir': str(tmp_path)}, default_config())
+
+
+def test_lite_refuses_parakeet_paths_before_artifacts_or_model_loading(tmp_path, monkeypatch):
+    monkeypatch.setattr(matrix, 'os', SimpleNamespace(name='nt'))
+    output = tmp_path / 'unused'
+    with pytest.raises(SystemExit) as caught:
+        matrix.main(['--tier', 'lite', '--parakeet-dir', str(tmp_path), '--lid-dir', str(tmp_path),
+                     '--output', str(output), '--debug', '--repeats', '1', '--durations', '3'])
     assert caught.value.code == 2 and not output.exists()
