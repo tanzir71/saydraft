@@ -6,6 +6,7 @@ Install the development requirements in an isolated Python 3.13 environment;
 see [CONTRIBUTING.md](../CONTRIBUTING.md). Run from the repository root:
 
 ```powershell
+.venv\Scripts\python -m pip install -r requirements-dev.txt
 $env:QT_QPA_PLATFORM = 'offscreen'
 $env:HF_HUB_OFFLINE = '1'
 $env:HF_HUB_DISABLE_TELEMETRY = '1'

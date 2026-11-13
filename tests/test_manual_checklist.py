@@ -1,4 +1,5 @@
 from pathlib import Path
+import re
 
 
 def test_manual_test_checklist_covers_required_targets():
@@ -18,8 +19,10 @@ def test_manual_test_checklist_covers_required_targets():
 
 
 def test_manual_test_checklist_records_verification_commands():
-    text = Path("docs/TEST_CHECKLIST.md").read_text(encoding="utf-8").lower()
+    text = Path("docs/TEST_CHECKLIST.md").read_text(encoding="utf-8")
+    workflow = Path(".github/workflows/ci.yml").read_text(encoding="utf-8")
+    commands = re.findall(r"^\s*run: (python -m [^\r\n]+)$", workflow, re.MULTILINE)
 
-    assert "python -b -m pytest tests\\ -q" in text
-    assert "python -b -m saydraft.eval" in text
-    assert "python -b tools\\soak.py --cycles 50 --target synthetic" in text
+    assert commands, "No CI verification commands found"
+    for command in commands:
+        assert command in text, f"Checklist is missing a CI gate: {command}"
