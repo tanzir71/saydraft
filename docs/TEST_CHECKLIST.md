@@ -42,6 +42,10 @@ do not automate microphone capture or foreground insertion into an owner's apps.
 
 ## Reliability Checks
 
+- In disposable six-page setup with mocked downloads, confirm one explicit Download precedes model readiness, then use the staged shortcut/microphone in Try it. Preparation opens no input. Chat/email receive only matching results; before/after and edit chips are plain text. No real History/audio retention, clipboard, external insertion or Enter is used by practice.
+- Cancel or switch target during model loading, input opening and recognition. Native hooks must retire without a GUI join; capture/model ownership remains reserved until observed done. Queued results/levels cannot revive a cancelled attempt. Unobserved audio/hook cleanup blocks Finish and requests restart; external stop never auto-restarts practice.
+- Move from practice to Style while work retires; Finish stays unavailable until retirement is observed. Change Messages/Email tone and save newer unrelated styles in another Hub; Finish merges only changed tones, preserves current intensity/AI/other groups and unchanged newer tones, and opens Home once. Check adjacent before/after fields, all controls/navigation and readable wrapped text at larger fonts and 200% density.
+
 - In disposable setup, verify Learn shortcut suppresses normal dictation and captures only after every key releases; Esc, focus/window changes, Back, Cancel and shutdown stop learning. No stale result may change a newer attempt. An unobserved hook teardown must keep setup incomplete and request restart.
 - Verify the preset and manual shortcut choices stay staged until Finish; test duplicate-alternate guidance and conflict rejection against newer saved shortcuts. Check other app conflicts is explicit, advisory and responsive; hidden/closed probes cannot update the page. Physical Ctrl+Win/Start-menu acceptance requires a deliberate manual Windows session.
 

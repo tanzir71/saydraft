@@ -1,13 +1,11 @@
 # First-run setup
 
-P6.4 is in progress. The existing five-step wizard now uses the shared
-microphone selector/test and a model-setup page with explicit capability checks,
-package verification and per-file download progress. Shortcut setup now has a
-staged preset, manual entry, focused press-to-learn and shared conflict validation.
-The complete six-step flow, in-setup inference measurements and readiness gating,
-owned practice sandbox, Style quick pick, and final Hub Home handoff remain
-work under §8.4 of the root plan. These increments do not establish full
-onboarding or fresh-profile manual acceptance.
+P6.4 is in progress. The six-page wizard now connects the shared microphone test,
+explicit model setup, shortcut learning, owned chat/email practice, Style quick
+pick, and final Hub Home handoff. In-setup measured model benchmarks, strict
+advance/finish readiness gating, physical Windows checks and fresh-profile manual
+timing acceptance remain under §8.4 of the root plan. The connected flow does not
+establish complete onboarding acceptance or owner speech accuracy.
 
 ## Current setup walkthrough
 
@@ -17,7 +15,8 @@ onboarding or fresh-profile manual acceptance.
 | Microphone | Default Windows input or a named device; explicit Refresh inputs and ten-second, level-only Test input |
 | Set up models | Optional Check this PC and Use speech recommendation; size/license review, Download / Resume, Pause, and installed-file verification |
 | Shortcut | Preserved custom bindings or Wispr-compatible preset; manual entry, focused Learn shortcut, validation, and explicit other-app advisory |
-| Done | Finish saves changed setup choices; it does not establish that model installation is complete |
+| Try it | Installed-model preparation, explicit real dictation into owned chat/email fields, before/after review and edit chips; recording can be skipped |
+| Style quick pick | Casual/Formal for Messages/Email, rules preview, staged saving and Hub Home handoff; existing intensities/AI stay unchanged |
 
 Start with the [source installation commands](../readme.md#run-from-source).
 On the model page, a PC check only suggests a starting speech model. It does
@@ -31,7 +30,7 @@ The current wizard allows Finish with missing weights; complete installation
 in **Hub → Settings → Models** if needed. Bengali and Arabic use the same optional
 **All languages** package. Choosing either language starts no download.
 
-Finish saves only changed microphone/model/shortcut choices, preserving newer unrelated
+Finish saves only changed microphone/model/shortcut/style-tone choices, preserving newer unrelated
 settings. Cancel leaves saved preferences unchanged and requests a download pause.
 Completed downloads and resumable partials remain on disk.
 The microphone test stops when you leave its page or close setup. It records
@@ -59,10 +58,10 @@ complete first-run permission diagnostics remain part of P6.4.
 
 ## Saving choices
 
-Device/model/shortcut choices stay staged until Finish. Cancel preserves configuration
+Device/model/shortcut/style-tone choices stay staged until Finish. Cancel preserves configuration
 bytes. Finish reloads current preferences and merges only the setup choices
 that changed, preserving newer unrelated Hub settings and unchanged newer
-model/input/shortcut selections. Recording limits, audio retention and unchanged
+model/input/shortcut/style selections. Recording limits, audio retention and unchanged
 custom shortcuts remain intact. A new conflict against the latest shortcuts
 refuses Finish without saving or marking setup complete. The saved device identity is its name/audio-API pair, never an
 enumeration index.
@@ -70,6 +69,77 @@ enumeration index.
 A save failure keeps setup open with a generic recovery message and does not
 mark setup complete or apply configuration. A successful Finish is idempotent;
 repeated completion cannot apply twice or overwrite subsequent preferences.
+
+## Owned practice and Style quick pick
+
+Try it prepares the selected installed ASR model on the serial worker, reusing
+the live engine when its speech settings match. A staged different model gets
+its own engine. Preparation neither downloads nor opens an input. Only a
+recording shortcut or Record starts the staged microphone. Capture is bounded
+to one minute and ignores sub-half-second audio. The level meter carries tagged
+RMS values, not audio samples. Missing weights/input produce separate guidance.
+
+Practice has its own temporary shortcuts and an owned-window foreground guard.
+Its native matcher forwards unrelated input, balances suppressed releases and
+revokes permanently when the target is lost. A named revocation travels through
+the existing off-hook action queue to cancel without relying on GUI focus
+delivery. The ordinary worker reserves practice before context/microphone work;
+History capture, paste-last, benchmarks, input tests and model removal cannot
+compete. Practice installs no History/paste-last actions and owns Esc locally.
+
+The real recognizer and cleanup processor use the staged Messages/Email context,
+recognized language, current Dictionary/cleanup and snippets. Private in-memory
+History/delivery ports replace persistent History and native insertion. No
+foreground field, clipboard or external app is read or written. Clipboard
+snippet variables stay unavailable rather than reading the owner's clipboard.
+Enabled voice-Enter intent is simulated and labeled; no Enter is sent. Audio
+has no retention path, even when normal dictation retention is enabled.
+
+Read-only chat/email fields receive only matching generation/capture/group
+results while setup remains active. Adjacent before/after fields retain complete
+plain text; added/removed chips summarize the actual diff without interpreting
+markup. Queued results/levels are rejected after Cancel, target switches, window
+loss, settings replacement or shutdown. External stop requires a fresh explicit
+Prepare; failed preparation never enters an automatic retry loop. Changing
+chat/email waits for the old lease before preparing the latest selected target.
+
+Native hook retirement runs independently of blocked model loading, input opening
+or recognition. The reservation lasts until both hooks and audio/model work are
+observed done. Unknown device/hook cleanup retains ownership, disables completion
+and requests restart. Scheduling occurs outside the practice lock, so concurrent
+settings/cancellation cannot invert the worker/practice locks. Cancellation that
+queues ahead of arming never waits ahead of that arming job on the serial queue.
+No GUI callback joins a native thread or inference operation.
+
+Style quick pick stages only changed Messages/Email tones. Existing Very casual
+can be kept; saved intensity, other groups, newer unchanged tones and AI settings
+survive Finish. A rules preview uses the last practice transcript or an explicitly
+labeled example; it is not a claim about AI output. Finish stays unavailable until
+practice retirement is observed, then merges choices once and opens Hub Home.
+Practice can be skipped. Model preparation is not the still-pending setup
+performance benchmark, and missing-model advance/finish gating remains open.
+
+```powershell
+python -m pytest tests/test_practice.py tests/test_onboarding_practice.py tests/test_onboarding_window.py tests/test_onboarding_shortcuts.py tests/test_qt_app_shell.py tests/test_session_worker.py -q
+```
+
+An explicit Parakeet v3 fixture root enables the additional bundled-audio setup
+smoke. It drives all six pages with an explicit mocked download, synthetic native
+shortcut packets, the actual pinned recognizer, real cleanup, queued owned-field
+review and staged Finish. It installs no real hook, captures no microphone and
+accesses no owner clipboard/desktop. A public fixture is not owner accuracy or
+native physical acceptance.
+
+Final focused integration passes 127 cases with one explicit optional recognizer
+skip. Supplying the verified Parakeet root passes both the synthetic-ASR and real
+Parakeet paths; preparation/recognition run on the serial worker, outside the GUI
+and native hook thread. Rules remain 556/556 and authored adversarial checks
+100/100. The final owned layout matrix covers 240 states (480 captures): fifteen
+practice/Style states, both themes, 640×440/880×600, 16/22 px and 1×/2× density.
+Exact dimensions, readable headings, full control/navigation reachability, no
+horizontal overflow, retained recording permission and simultaneous practice before/after
+visibility pass. Source hashes are checked before and after rendering; selected
+final captures were inspected. Earlier exploratory renders remain superseded.
 
 ## Shortcut learning
 
@@ -108,7 +178,7 @@ updates navigation before granting capture permission, then emits completeness
 changes only when the value changes. This avoids immediately cancelling a newly
 granted attempt. Learning controls/status precede the longer preset/shortcut
 summary and scroll into view. The old ordinary text field has been removed;
-the real owned practice sandbox remains pending.
+the owned practice sandbox now follows on the next page.
 
 ```powershell
 python -m pytest tests/test_shortcut_capture.py tests/test_onboarding_shortcuts.py tests/test_onboarding_window.py tests/test_qt_app_shell.py tests/test_session_worker.py tests/test_native_hooks.py -q
@@ -164,9 +234,8 @@ Bengali and Arabic still share one optional All languages model; selecting a
 model or language performs no transfer. The Done page now states that a speech
 model is required rather than claiming immediate readiness from saving settings.
 
-The current five-step navigation/saving behavior remains transitional. Selected
-model measurements within setup and strict advance/finish gating belong to the
-remaining six-step implementation; the app still refuses actual dictation when
+The six-page navigation is connected. Selected model measurements within setup
+and strict advance/finish gating remain in P6.4; the app still refuses actual dictation when
 the selected weights are unavailable. Existing engine/cache compatibility is
 preserved while that complete flow is implemented.
 

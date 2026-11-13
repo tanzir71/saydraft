@@ -40,6 +40,9 @@ def create_worker_signals(QtCore):
         microphone_test_status = QtCore.Signal(int, str)
         microphone_test_level = QtCore.Signal(int, float)
         shortcut_capture_status = QtCore.Signal(int, str, str)
+        practice_status = QtCore.Signal(int, int, str)
+        practice_level = QtCore.Signal(int, int, float)
+        practice_result = QtCore.Signal(object)
         audio_retention_updated = QtCore.Signal(object)
         hardware_benchmark_finished = QtCore.Signal(object)
         preview_text_changed = QtCore.Signal(int, str)
@@ -179,6 +182,18 @@ class WorkerController:
 
     def cancel_shortcut_capture(self, generation=None):
         return bool(self.core and self.core.cancel_shortcut_capture(generation))
+
+    def open_practice(self, config, window, valid, group):
+        return self.core.open_practice(config, window, valid, group) if self.core else 0
+
+    def start_practice_recording(self, generation):
+        return self.core.start_practice_recording(generation) if self.core else False
+
+    def stop_practice_recording(self, generation, capture=None, *, cancel=False):
+        return bool(self.core and self.core.stop_practice_recording(generation, capture, cancel=cancel))
+
+    def close_practice(self, generation=None):
+        return bool(self.core and self.core.close_practice(generation))
 
     def cleanup_audio(self, policy):
         return bool(self.core and self.core.cleanup_audio(policy))
@@ -596,6 +611,10 @@ class SaydraftApp:
                 microphone_stop_callback=getattr(self.controller, "stop_microphone_test", None),
                 shortcut_start_callback=getattr(self.controller, "start_shortcut_capture", None),
                 shortcut_cancel_callback=getattr(self.controller, "cancel_shortcut_capture", None),
+                practice_open_callback=getattr(self.controller, 'open_practice', None),
+                practice_start_callback=getattr(self.controller, 'start_practice_recording', None),
+                practice_stop_callback=getattr(self.controller, 'stop_practice_recording', None),
+                practice_close_callback=getattr(self.controller, 'close_practice', None),
             )
             microphone = getattr(self.onboarding_window, "microphone_page", None)
             if microphone is not None:
@@ -606,6 +625,12 @@ class SaydraftApp:
             if shortcuts is not None:
                 qt = self.qt_modules or _load_qt_modules()
                 self.signals.shortcut_capture_status.connect(shortcuts.accept_status, qt.QtCore.Qt.QueuedConnection)
+            practice = getattr(self.onboarding_window, 'practice_page', None)
+            if practice is not None:
+                qt = self.qt_modules or _load_qt_modules()
+                for name, slot in (('practice_status', practice.accept_status), ('practice_level', practice.accept_level),
+                                   ('practice_result', practice.accept_result)):
+                    getattr(self.signals, name).connect(slot, qt.QtCore.Qt.QueuedConnection)
             about = getattr(self.qt_app, "aboutToQuit", None)
             close = getattr(self.onboarding_window, "close", None)
             if about is not None and close is not None:
@@ -629,6 +654,7 @@ class SaydraftApp:
 
     def _on_onboarding_applied(self, config: dict) -> None:
         self._on_settings_applied(config)
+        self._show_hub('Home')
 
     def _controller_history_store(self):
         if hasattr(self.controller, "history_store"):

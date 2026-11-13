@@ -66,8 +66,8 @@ artifacts will appear when available.
 
 ### First launch
 
-The current setup wizard has five pages: Welcome, Microphone, Set up models,
-Shortcut, and Done.
+The setup wizard has six pages: Welcome, Microphone, Set up models, Shortcut,
+Try it, and Style quick pick.
 
 1. In **Microphone**, choose Default Windows input or select **Refresh inputs**
    to find a named device. **Test input** runs a ten-second, level-only check;
@@ -79,14 +79,20 @@ Shortcut, and Done.
    Setup shows package progress and individual file transfer/checksum phases.
    Installed-file checks run in the background, including pinned dependencies.
 4. In **Shortcut**, keep the preset, enter a binding, or choose **Learn shortcut**
-   and press/release your keys. Review any conflicts, then choose **Finish** to
-   save changed microphone/model/shortcut choices. **Cancel** preserves saved
-   preferences. Downloads already performed are separate from those preferences
-   and can be resumed.
+   and press/release your keys. Review any conflicts before continuing.
+5. In **Try it**, practice in the window's own chat or email field. Preparation
+   opens no microphone. Hold your shortcut or choose **Record**, then release or
+   stop to review the transcript, cleaned text, and edit chips. Practice audio
+   stays in memory; it creates no History entries and uses no external paste or
+   clipboard. You can continue without recording.
+6. In **Style quick pick**, choose Casual or Formal for Messages and Email.
+   **Finish** saves changed choices and opens Home after practice has stopped.
+   Existing intensity and AI settings stay unchanged. **Cancel** preserves saved
+   preferences; completed downloads and resumable partials remain separate.
 
 Finish currently saves settings even if model installation is incomplete; a
-compatible installed speech model is required for dictation. A dedicated
-practice sandbox, Style quick pick, and the complete six-step onboarding flow
+compatible installed speech model is required for dictation. In-setup measured
+model benchmarks, strict readiness gating, and fresh-profile manual acceptance
 remain in development. See the [first-run guide](docs/ONBOARDING.md).
 
 ### Set up once, then go offline

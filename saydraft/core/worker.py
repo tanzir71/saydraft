@@ -66,6 +66,11 @@ class SessionWorker:
         from .shortcut_capture import ShortcutCapture
         self.shortcut_capture = ShortcutCapture(emit=self.emit, timer_factory=timer_factory,
             finished=self._microphone_finished)
+        from .practice import PracticeController
+        self.practice = PracticeController(schedule=self._schedule_microphone, emit=self.emit,
+            asr_factory=self._practice_asr, cleaner=lambda: self.services.cleaner,
+            snippets=lambda: self.services.processor.snippets, finished=self._microphone_finished,
+            timer_factory=timer_factory)
         self.corrections = CorrectionController(executor=self.executor,
             current=lambda generation: generation == self.session.session_id and not self._closing
                 and not self._cancel_request.is_set(), emit=self.emit, known_terms=self._dictionary_terms)
@@ -251,7 +256,7 @@ class SessionWorker:
     @property
     def busy(self):
         return (self._capturing_context or self._inflight > 0 or self.session.active
-                or self.microphone_test.active or self.shortcut_capture.active or self._model_storage_busy)
+                or self.microphone_test.active or self.shortcut_capture.active or self.practice.active or self._model_storage_busy)
 
     def remove_stored_model(self, entry):
         """The storage UI calls this off-thread after confirmation; reserve the idle app."""
@@ -316,6 +321,32 @@ class SessionWorker:
 
     def cancel_shortcut_capture(self, generation=None):
         return self.shortcut_capture.cancel(generation)
+
+    def _practice_asr(self, config):
+        if config['stt'] == self.services.config['stt']:
+            return self.services.asr
+        from saydraft.asr.selection import create_asr
+        return create_asr(config)
+
+    def open_practice(self, config, window, valid, group):
+        if not self._lock.acquire(blocking=False):
+            return 0
+        try:
+            if self.busy or self._closing or self._pending_config is not None:
+                return 0
+            self.corrections.cancel()
+            return self.practice.open(config, window, valid, group)
+        finally:
+            self._lock.release()
+
+    def start_practice_recording(self, generation):
+        return self.practice.start_recording(generation)
+
+    def stop_practice_recording(self, generation, capture=None, *, cancel=False):
+        return self.practice.stop_recording(generation, capture, cancel=cancel)
+
+    def close_practice(self, generation=None):
+        return self.practice.close_session(generation)
 
     def _submit(self, function, *args):
         self._inflight += 1
@@ -579,6 +610,7 @@ class SessionWorker:
         self._history_retry_cancel.set()
         self.microphone_test.stop()
         self.shortcut_capture.cancel()
+        self.practice.close_session(external=True)
         self.bar_status.cancel()
         self.corrections.cancel()
         if not self.session.active:
@@ -1046,6 +1078,7 @@ class SessionWorker:
                 self._pending_config = config
                 self.microphone_test.stop()
                 self.shortcut_capture.cancel()
+                self.practice.close_session(external=True)
                 self.emit("notification_requested", "Settings will apply after the current dictation.")
                 return
             pending = self.services.processor.pending_results
@@ -1083,6 +1116,7 @@ class SessionWorker:
             self.audio_retention.close()
         self.microphone_test.close()
         self.shortcut_capture.close()
+        self.practice.close()
         self.cancel()
         self._retry_cleanup.close()
         self._close_context(self.services.context)

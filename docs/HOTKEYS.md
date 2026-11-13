@@ -10,6 +10,14 @@ application's bindings. Synthetic/offscreen coverage does not establish the
 outstanding physical Windows/Start-menu acceptance. See
 [first-run shortcut behavior](ONBOARDING.md#shortcut-learning).
 
+Setup's Try it page uses a separate temporary controller for its staged shortcuts.
+The focused matcher revokes permanently on target loss and sends a named cancel
+through the off-hook queue. Its private session owns Esc, installs no History or
+paste-last action, and reserves the normal worker before any foreground capture.
+External stop/settings replacement do not automatically restart it. This is
+synthetic/offscreen-tested ownership, not physical Start-menu acceptance; see
+[owned practice](ONBOARDING.md#owned-practice-and-style-quick-pick).
+
 P5.1 starts with a pure bounded chord engine. The existing gesture controller
 moves from `hotkeys.py` into `hotkeys/controller.py`; the package re-exports its
 public classes so existing application imports and injected tests stay intact.

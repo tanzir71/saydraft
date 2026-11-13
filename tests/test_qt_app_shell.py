@@ -598,6 +598,18 @@ def test_voice_tray_app_shows_onboarding_when_config_is_not_onboarded():
         def cancel_shortcut_capture(self, _generation):
             return True
 
+        def open_practice(self, _config, _window, _valid, _group):
+            return 21
+
+        def start_practice_recording(self, _generation):
+            return 1
+
+        def stop_practice_recording(self, _generation, _capture=None, **_kwargs):
+            return True
+
+        def close_practice(self, _generation=None):
+            return True
+
     class FakeTray:
         def __init__(self, *, callbacks, **_kwargs):
             self.callbacks = callbacks
@@ -645,6 +657,10 @@ def test_voice_tray_app_shows_onboarding_when_config_is_not_onboarded():
                 accept_level=lambda generation, level: events.append(("input-level", generation, level)))
             self.shortcuts_page = types.SimpleNamespace(
                 accept_status=lambda generation, state, chord: events.append(("shortcut-status", generation, state, chord)))
+            self.practice_page = types.SimpleNamespace(
+                accept_status=lambda *args: events.append(('practice-status', *args)),
+                accept_level=lambda *args: events.append(('practice-level', *args)),
+                accept_result=lambda result: events.append(('practice-result', result)))
             events.append(("onboarding-created", hotkey_hint))
 
         def update_audio_level(self, level):
@@ -680,11 +696,17 @@ def test_voice_tray_app_shows_onboarding_when_config_is_not_onboarded():
     app.signals.microphone_test_status.emit(7, "listening")
     app.signals.microphone_test_level.emit(7, 0.6)
     app.signals.shortcut_capture_status.emit(13, "captured", "ctrl+alt+f8")
+    app.signals.practice_status.emit(21, 1, 'recording')
+    app.signals.practice_level.emit(21, 1, .1)
+    app.signals.practice_result.emit('public result fixture')
     assert app.onboarding_window.options["microphone_start_callback"].__self__ is app.controller
     assert app.onboarding_window.options["microphone_stop_callback"].__self__ is app.controller
     assert app.onboarding_window.options["shortcut_start_callback"].__self__ is app.controller
     assert app.onboarding_window.options["shortcut_cancel_callback"].__self__ is app.controller
+    for name in ('open', 'start', 'stop', 'close'):
+        assert app.onboarding_window.options[f'practice_{name}_callback'].__self__ is app.controller
     assert app.onboarding_window.close in app.qt_app.aboutToQuit.connected
+    app._show_hub = lambda page: events.append(('hub', page))
     app.onboarding_window.on_config_applied(
         {"app": {"onboarded": True}, "stt": {"model_size": "small"}, "hotkeys": {"speech": "f8"}}
     )
@@ -699,9 +721,13 @@ def test_voice_tray_app_shows_onboarding_when_config_is_not_onboarded():
         ("input-status", 7, "listening"),
         ("input-level", 7, 0.6),
         ("shortcut-status", 13, "captured", "ctrl+alt+f8"),
+        ('practice-status', 21, 1, 'recording'),
+        ('practice-level', 21, 1, .1),
+        ('practice-result', 'public result fixture'),
         ("applied", True),
         ("model", "base"),
         ("hotkey", "F8"),
+        ('hub', 'Home'),
     ]
 
 

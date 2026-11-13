@@ -15,6 +15,8 @@ from saydraft.asr.selection import configured_model_id, select_model
 from saydraft.ui.microphone_page import MicrophonePage
 from saydraft.ui.onboarding_models import OnboardingModelsPage
 from saydraft.ui.onboarding_shortcuts import OnboardingShortcutsPage
+from saydraft.ui.onboarding_practice import OnboardingPracticePage
+from saydraft.ui.onboarding_style import OnboardingStylePage
 
 
 class OnboardingWizard(QtWidgets.QWizard):
@@ -22,7 +24,8 @@ class OnboardingWizard(QtWidgets.QWizard):
     PAGE_MIC = 1
     PAGE_MODEL = 2
     PAGE_HOTKEY = 3
-    PAGE_DONE = 4
+    PAGE_PRACTICE = 4
+    PAGE_STYLE = PAGE_DONE = 5
 
     def __init__(
         self,
@@ -40,6 +43,10 @@ class OnboardingWizard(QtWidgets.QWizard):
         shortcut_start_callback=None,
         shortcut_cancel_callback=None,
         shortcut_conflict_detector=None,
+        practice_open_callback=None,
+        practice_start_callback=None,
+        practice_stop_callback=None,
+        practice_close_callback=None,
     ):
         super().__init__()
         self.qt = qt_modules
@@ -54,6 +61,8 @@ class OnboardingWizard(QtWidgets.QWizard):
         self.shortcut_start_callback = shortcut_start_callback
         self.shortcut_cancel_callback = shortcut_cancel_callback
         self.shortcut_conflict_detector = shortcut_conflict_detector
+        self.practice_callbacks = dict(open_callback=practice_open_callback, start_callback=practice_start_callback,
+            stop_callback=practice_stop_callback, close_callback=practice_close_callback)
         self.config = load_config(config_path=self.config_path)
         self._completed = False
         # Saved preferences, rather than an optional display hint, own the staged binding.
@@ -68,7 +77,13 @@ class OnboardingWizard(QtWidgets.QWizard):
         self.addPage(self._microphone_page())
         self.addPage(self._model_page())
         self.addPage(self._hotkey_page())
-        self.addPage(self._done_page())
+        self.practice_page = OnboardingPracticePage(config_provider=self.practice_config, **self.practice_callbacks)
+        self.addPage(self.practice_page)
+        self.style_page = OnboardingStylePage(self.config, sample_provider=self.practice_page.last_raw,
+            ready_callback=lambda: not self.practice_page._generation and not self.practice_page._cleanup_failed)
+        self.finish_status_label = self.style_page.status
+        self.addPage(self.style_page)
+        self.practice_page.settled.connect(self._practice_settled)
 
         self.title_timer = QtCore.QTimer(self)
         self.title_timer.setSingleShot(True)
@@ -110,7 +125,7 @@ class OnboardingWizard(QtWidgets.QWizard):
         title.setObjectName("onboardingTitle")
         title.setAlignment(QtCore.Qt.AlignCenter)
         title.setStyleSheet("font-size: 28px; font-weight: 600;")
-        subtitle = QtWidgets.QLabel("Offline dictation that stays in your tray.")
+        subtitle = QtWidgets.QLabel("Your voice never leaves this PC.")
         subtitle.setAlignment(QtCore.Qt.AlignCenter)
         layout.addStretch(1)
         layout.addWidget(title)
@@ -154,18 +169,22 @@ class OnboardingWizard(QtWidgets.QWizard):
             conflict_detector=self.shortcut_conflict_detector)
         return self.shortcuts_page
 
-    def _done_page(self) -> QtWidgets.QWizardPage:
-        page = QtWidgets.QWizardPage()
-        page.setTitle("Done")
-        layout = QtWidgets.QVBoxLayout(page)
-        self.finish_status_label = QtWidgets.QLabel("Finish to save your choices. A speech model must be installed before dictating.")
-        self.finish_status_label.setWordWrap(True)
-        self.finish_status_label.setTextFormat(QtCore.Qt.PlainText)
-        self.finish_status_label.setAlignment(QtCore.Qt.AlignCenter)
-        layout.addStretch(1)
-        layout.addWidget(self.finish_status_label)
-        layout.addStretch(1)
-        return page
+    def practice_config(self):
+        config = load_config(config_path=self.config_path)
+        config['hotkeys'] = self.shortcuts_page.merge_changes(config['hotkeys'])
+        if self.model_picker.model_id != configured_model_id(self.config):
+            select_model(config, self.model_picker.model_id, manual=True)
+        selected = self.microphone_page.selection
+        if selected != InputSelection.from_config(self.config):
+            config['recording'].update(input_device=selected.name, input_hostapi=selected.hostapi)
+        config['dictation']['styles'] = self.style_page.merge_changes(config['dictation'].get('styles', {}))
+        return config
+
+    def _practice_settled(self):
+        self.finish_status_label.setText('Restart Saydraft before completing setup; practice cleanup could not be confirmed.'
+            if self.practice_page._cleanup_failed else 'Finish to save your choices and open Home.')
+        if self.currentPage() is self.style_page:
+            self.style_page.completeChanged.emit()
 
     def download_selected_model(self) -> None:
         self.model_picker.start_download()
@@ -178,6 +197,13 @@ class OnboardingWizard(QtWidgets.QWizard):
             return True
         self.microphone_page.stop_test()
         self.shortcuts_page.cancel_learning()
+        self.practice_page.stop_session()
+        if self.practice_page._cleanup_failed:
+            self.finish_status_label.setText('Restart Saydraft before completing setup; practice cleanup could not be confirmed.')
+            return False
+        if self.practice_page._generation:
+            self.finish_status_label.setText('Practice is still stopping. Wait for its microphone and shortcuts to retire, then choose Finish again.')
+            return False
         if self.shortcuts_page.learning:
             self.finish_status_label.setText("Wait for shortcut learning to stop before finishing setup.")
             return False
@@ -191,6 +217,7 @@ class OnboardingWizard(QtWidgets.QWizard):
                 self.finish_status_label.setText("Shortcut settings changed or conflict. Review the Shortcut step before finishing.")
                 return False
             cfg["app"]["onboarded"] = True
+            cfg['dictation']['styles'] = self.style_page.merge_changes(cfg['dictation'].get('styles', {}))
             if self.model_picker.model_id != configured_model_id(self.config):
                 select_model(cfg, self.model_picker.model_id, manual=True)
             selection = self.microphone_page.selection
@@ -202,7 +229,7 @@ class OnboardingWizard(QtWidgets.QWizard):
             return False
         self.config = saved
         self._completed = True
-        self.finish_status_label.setText("Setup saved. Complete speech model installation in Hub → Settings → Models before dictating.")
+        self.finish_status_label.setText("Setup saved. Opening Home. A compatible installed speech model is required for dictation.")
         if self.on_config_applied is not None:
             self.on_config_applied(saved)
         return True
@@ -215,6 +242,7 @@ class OnboardingWizard(QtWidgets.QWizard):
     def reject(self) -> None:
         self.microphone_page.stop_test()
         self.shortcuts_page.cancel_learning()
+        self.practice_page.stop_session()
         self.models_page.cancel_checks()
         self.model_picker.pause()
         super().reject()

@@ -338,12 +338,13 @@ def test_owned_setup_to_native_matcher_to_queued_ui_saves_a_learned_chord(tmp_pa
         return owner
 
     worker.shortcut_capture.hooks_factory = hooks
-    worker.shortcut_capture.guard_factory = lambda window: lambda: window == int(wizard.winId())
     worker.services.context.capture = lambda: forbidden.append("foreground capture")
     worker.services.recorder.start = lambda: forbidden.append("microphone")
     path = write_config(tmp_path)
     wizard = OnboardingWizard(config_path=path, shortcut_start_callback=controller.start_shortcut_capture,
         shortcut_cancel_callback=controller.cancel_shortcut_capture, shortcut_conflict_detector=lambda: False)
+    owned_window = int(wizard.winId())
+    worker.shortcut_capture.guard_factory = lambda window: lambda: window == owned_window
     signals.shortcut_capture_status.connect(wizard.shortcuts_page.accept_status, qt.QtCore.Qt.QueuedConnection)
     try:
         before = path.read_bytes()

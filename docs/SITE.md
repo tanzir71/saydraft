@@ -13,7 +13,7 @@ there are no invented installers, checksums, package-manager commands or release
 The source instructions use the same `python -m saydraft` entrypoint as the
 repository README and contributor guide.
 The getting-started page follows the current setup order: microphone, model
-recommendation and explicit download, then the first dictation. It distinguishes
+recommendation and explicit download, shortcut, owned practice, and Style/Home. It distinguishes
 provisional PC checks from measured tiers, shows the current Finish limitation,
 and links to the implementation guide for the unfinished onboarding steps.
 The animated example is labeled as an illustrative simulation and never uses a

@@ -36,7 +36,7 @@ def test_onboarding_wizard_has_required_steps_and_explicit_microphone_controls(t
 
     titles = [wizard.page(page_id).title() for page_id in wizard.pageIds()]
 
-    assert titles == ["Welcome", "Microphone", "Set up models", "Shortcut", "Done"]
+    assert titles == ["Welcome", "Microphone", "Set up models", "Shortcut", "Try it", "Style quick pick"]
     assert wizard.shortcuts_page.primary.text() == "ctrl+win"  # Saved config owns the binding, not a display hint.
 
     assert wizard.microphone_page._future is None

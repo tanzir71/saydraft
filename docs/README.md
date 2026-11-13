@@ -6,7 +6,7 @@ Start with the [project README](../readme.md),
 
 The active roadmap is [WISPR_OFFLINE_PARITY_PLAN.md](../WISPR_OFFLINE_PARITY_PLAN.md).
 Its Loop State distinguishes implementation, acceptance, remaining decisions,
-and dated evidence. Installer/signing, onboarding v2, Notes producers, several
+and dated evidence. Installer/signing, onboarding benchmarks/readiness acceptance, Notes producers, several
 power features, and native/manual acceptance remain open. Use the plan for the
 complete status; an implemented component is not full milestone acceptance.
 
@@ -18,7 +18,7 @@ complete status; an implemented component is not full milestone acceptance.
 | [Shortcuts](HOTKEYS.md) | Native chords, hands-free double-tap, paste-last, and outstanding Windows checks |
 | [Dictation Bar](BAR.md) | Recording/processing states and controls |
 | [Microphone](MICROPHONE.md) | Device selection, level-only test, missing-input behavior |
-| [First-run setup](ONBOARDING.md) | Five-page walkthrough, microphone test, provisional PC recommendations, verified downloads, shortcut learning/conflicts, and remaining onboarding work |
+| [First-run setup](ONBOARDING.md) | Six-page walkthrough, microphone test, model setup, shortcut learning, owned practice, Style quick pick, and remaining acceptance |
 | [Recording limits](RECORDING_LIMITS.md) | 19-minute warning, 20-minute default cap, saved overrides |
 | [Styles](STYLES.md) | Per-app tone, intensity, and preview behavior |
 | [Snippets](SNIPPETS.md) | Triggers, variables, import/export, and SQLite adoption |
