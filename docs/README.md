@@ -63,6 +63,7 @@ including the optional public-audio recognizer smoke.
 ## Development and verification
 
 - [Test checklist](TEST_CHECKLIST.md): automated gates and manual Windows acceptance.
+- [Soak checks](SOAK.md): combined RSS, History, memory-clipboard and owned native cleanup cycles.
 - [Evaluation](EVALUATION.md): cleanup harness, exact outputs, and action cases.
 - [Cleanup evidence](CLEANUP_EVIDENCE.md): source/corpus fingerprints and native evidence.
 - [Baseline](BASELINE.md): local latency/memory measurements and their limits.

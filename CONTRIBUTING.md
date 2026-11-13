@@ -54,6 +54,13 @@ preservation checks to make a candidate pass. Distinguish deterministic rule
 tests and authored validator cases from real ASR/LLM accuracy measurements.
 See [evaluation](docs/EVALUATION.md) and [cleanup evidence](docs/CLEANUP_EVIDENCE.md).
 
+The [soak guide](docs/SOAK.md) covers the canonical 200-cycle regression command
+and its explicit native-cleanup recipe. Finish local checks and commit the source
+before running a full native measurement from a clean checkout. Keep native runs
+serial with other tests, builds and model transfers; use a fresh retained QA
+directory. The runner uses memory clipboard/keyboard adapters, with physical
+Windows acceptance tracked separately.
+
 For post-rules AI cleanup changes, run the word-preservation, real-pipeline,
 policy, and evidence checks as well:
 

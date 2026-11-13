@@ -17,6 +17,12 @@ reload checks pass, as do 100 synthetic app cycles with all 66 sidecars exiting.
 The separate 200-cycle RSS/clipboard gate and broad release-latency acceptance
 remain open. The developer idle interval does not change production's 900 s.
 
+The [combined soak runner](SOAK.md) now supports the 200-cycle RSS, private
+History, real Inserter/memory-clipboard and native-shutdown checks in one process.
+It rejects unmeasured RSS, incomplete runs and failed teardown. The legacy native
+probe delegates to it. Full measurement of this changed QA runner remains pending;
+the earlier 100-cycle report retains its original source and insertion scope.
+
 The app's sidecar uses the Windows x64 llama.cpp build referenced by
 [stable release v0.9.0](https://github.com/ggml-org/llama.cpp/releases/tag/v0.9.0):
 binary release **b12110**, source commit

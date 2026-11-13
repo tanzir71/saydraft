@@ -28,6 +28,12 @@ are described in [evaluation](EVALUATION.md), [models](MODELS.md), and
 [cleanup evidence](CLEANUP_EVIDENCE.md); these gates do not establish owner ASR
 accuracy, end-to-end latency, or manual Windows acceptance.
 
+The [soak guide](SOAK.md) describes `tools/soak.py --cycles 200 --json` and its
+explicit native-cleanup recipe. Native runs join measured RSS, History-before-
+paste checks, restored memory clipboard and observed sidecar exits in one runner.
+Only a clean, isolated full run can earn its native regression gate. This scope
+uses synthetic capture/input and does not exercise the owner's clipboard.
+
 For the connected setup flow and its optional bundled-audio Parakeet smoke, use
 the [focused first-run commands](../CONTRIBUTING.md#first-run-setup-checks).
 They exercise synthetic hooks/input and queued UI with a private configuration;

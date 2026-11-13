@@ -51,12 +51,12 @@ def test_soak_run_counts_slow_cycles_as_ui_freezes():
     assert result.ok is False
 
 
-def test_soak_parser_defaults_to_fifty_synthetic_cycles():
+def test_soak_parser_defaults_to_two_hundred_synthetic_cycles():
     from tools.soak import build_parser
 
     args = build_parser().parse_args([])
 
-    assert args.cycles == 50
+    assert args.cycles == 200
     assert args.target == "synthetic"
     assert args.max_rss_growth == 0.10
 
