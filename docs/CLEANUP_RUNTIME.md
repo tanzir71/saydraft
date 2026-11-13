@@ -28,10 +28,12 @@ part of the sidecar/installer work.
 `download_cleanup_runtime(backend)` is an explicit setup helper. It accepts only
 the pinned CPU/Vulkan choices, uses the existing staged archive installer,
 supports pause/resume and preserves old versions and partial work. It writes to
-the per-user `models/runtime/<catalog-id>` directory. Runtime packages never
+the per-user `models/<catalog-id>/<version>` directory, where the version is
+the pinned immutable revision. Older `models/runtime/<catalog-id>` installations
+remain readable in place. Runtime packages never
 appear in the speech-model picker. Construction and startup never initiate a
-download. Combined model/setup controls follow the
-cleanup-model bake-off and onboarding work.
+download. Combined model/setup controls are available in Settings → Models;
+see [cleanup setup](CLEANUP_SETUP.md). Onboarding v2 remains roadmap work.
 
 Actual cached installations verified all payloads and notices with **zero network
 calls**. Both installed executables ran `--offline --version` in hidden processes

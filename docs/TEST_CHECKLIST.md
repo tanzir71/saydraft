@@ -2,25 +2,37 @@
 
 ## Automated Verification
 
-Run these before manual acceptance:
+Install the development requirements in an isolated Python 3.13 environment;
+see [CONTRIBUTING.md](../CONTRIBUTING.md). Run from the repository root:
 
 ```powershell
-$env:PYTHONDONTWRITEBYTECODE='1'; $env:QT_QPA_PLATFORM='offscreen'; python -B -m pytest tests\ -q
-$env:PYTHONDONTWRITEBYTECODE='1'; python -B -m saydraft.eval
-$env:PYTHONDONTWRITEBYTECODE='1'; python -B tools\soak.py --cycles 50 --target synthetic
+$env:QT_QPA_PLATFORM = 'offscreen'
+$env:HF_HUB_OFFLINE = '1'
+$env:HF_HUB_DISABLE_TELEMETRY = '1'
+$env:DO_NOT_TRACK = '1'
+.venv\Scripts\python -m ruff check .
+.venv\Scripts\python -m pytest tests -q -rs
+.venv\Scripts\python -m saydraft.eval --min-pass-rate 100 --min-cases 556
+.venv\Scripts\python -m saydraft.cleanup.llm.eval_validation --min-catch-rate 100 --min-cases 100
 ```
 
-Expected current result:
-
-- Pytest: 188 passed, 1 skipped
-- Eval harness: 42/42 passed
-- Soak: 50 cycles, 0 failures, 0 UI freezes, RSS growth below 10%
+Require zero failures, all 556 current rules cases, and all 100 authored
+adversarial cases. Record the commit, test count, and every skip with each run;
+optional model/native skips require their separate fixtures and acceptance.
+CI prepares its pinned VAD fixture explicitly. Other real-model measurements
+are described in [evaluation](EVALUATION.md), [models](MODELS.md), and
+[cleanup evidence](CLEANUP_EVIDENCE.md); these gates do not establish owner ASR
+accuracy, end-to-end latency, or manual Windows acceptance.
 
 ## Manual App Matrix
 
-Use the packaged app or `run_app.bat`, complete onboarding if prompted, and keep the History window available for raw/cleaned comparison.
+These are deliberate manual checks, not results established by the automated
+suite. Launch `.venv\Scripts\python -m saydraft` in an isolated test profile,
+complete setup, and open Hub → History for raw/cleaned comparison. A published
+installer is not yet available. Use public test phrases and disposable data;
+do not automate microphone capture or foreground insertion into an owner's apps.
 
-- Notepad: hold F9, dictate two paragraphs with fillers, a self-correction, and a spoken numbered list. Confirm cleaned text inserts, raw text appears in History, and the pill returns to hidden.
+- Notepad: hold Ctrl+Win (or the F9 alternate), dictate two paragraphs with fillers, a self-correction, and a spoken numbered list. Confirm cleaned text inserts, raw text appears in History, and the Bar returns to its configured idle state.
 - VS Code: repeat the same dictation in an editor tab. Confirm code/comment profile behavior still avoids aggressive punctuation changes when configured.
 - Chrome textarea: dictate into a web textarea. Confirm clipboard paste insertion succeeds and the original clipboard content is restored.
 - Slack: dictate into the message composer. Confirm chat-style cleanup, no duplicate send, and History copy/re-insert actions work.

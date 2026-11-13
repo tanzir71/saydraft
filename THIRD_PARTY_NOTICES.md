@@ -28,14 +28,17 @@ and provide the corresponding source or source-access information required by
 their licenses. Do not restrict debugging or modification of these libraries.
 Any modifications to the libraries require their corresponding modified source.
 
-## Planned optional runtimes
+## Optional downloaded runtimes
 
-These components are not installed by the current requirements. Before enabling
-them, add their full notices to the installer and model-download UI.
+These components are not installed by `requirements.txt`. Explicit cleanup
+setup can download a pinned CPU or Vulkan llama.cpp package, retaining its full
+notices beside the verified payloads. See [runtime details](docs/CLEANUP_RUNTIME.md)
+and [combined setup](docs/CLEANUP_SETUP.md). Release packaging must retain those
+notices whenever it distributes a runtime.
 
 | Component | License | Source |
 |---|---|---|
-| llama.cpp | MIT | [License](https://github.com/ggml-org/llama.cpp/blob/master/LICENSE) |
+| llama.cpp / ggml | MIT; bundled OpenMP retains its separate notice | [Pinned license](assets/licenses/llama-cpp-MIT.txt); exact runtime payloads/notices in `saydraft/models/manifest.json` |
 
 ## Bundled fonts
 
@@ -73,7 +76,7 @@ conversion or quantization must credit the original model and describe changes.
 | Whisper tiny language detector | MIT | Original weights by [OpenAI](https://github.com/openai/whisper/blob/main/LICENSE), exported to ONNX and quantized to int8 by sherpa-onnx. [Converted artifacts](https://huggingface.co/csukuangfj/sherpa-onnx-whisper-tiny), revision `65176e2deb88badc814a94058666cadccc29b61c`. Saydraft retains the artifacts unchanged; both files are downloaded as a disclosed dependency of the default setup package. |
 | Silero VAD v5 | MIT; downloaded with its full license | [Silero Team model and license](https://github.com/snakers4/silero-vad/tree/v5.0) |
 | Parakeet TDT 0.6B v3 / v2 | CC-BY-4.0; attribution required | Original weights by NVIDIA; exported to ONNX and quantized to int8 by the sherpa-onnx project. [v3 original](https://huggingface.co/nvidia/parakeet-tdt-0.6b-v3), [v2 original](https://huggingface.co/nvidia/parakeet-tdt-0.6b-v2), [v3 conversion](https://huggingface.co/csukuangfj/sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8), [v2 conversion](https://huggingface.co/csukuangfj/sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8), [license](https://creativecommons.org/licenses/by/4.0/). Saydraft does not further modify the downloaded weights. |
-| Qwen2.5-1.5B-Instruct (manual optional cleanup) | Apache-2.0 | [Qwen model card and license](https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct-GGUF) |
+| Qwen2.5-1.5B-Instruct (legacy user-supplied cleanup path; not a current recommended download) | Apache-2.0 | [Qwen model card and license](https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct-GGUF) |
 | Nemotron Speech Streaming English 0.6B, 160 ms ONNX/int8 preview candidate | NVIDIA Open Model License; optional Labs preview | Original model by [NVIDIA](https://huggingface.co/nvidia/nemotron-speech-streaming-en-0.6b); ONNX/int8 conversion by sherpa-onnx, release asset `405279013`. The [complete agreement](assets/licenses/nvidia-open-model-license-2025-10-24.pdf) and [required attribution](assets/licenses/nemotron-NOTICE.txt) are retained for installation alongside the optional weights. No weights are bundled. |
 | Qwen3.5 0.8B / 2B optional cleanup; 4B developer candidate | Apache-2.0 | Original weights by [Qwen](https://huggingface.co/Qwen/Qwen3.5-0.8B), GGUF Q4_K_M quantizations by [Bartowski](https://huggingface.co/bartowski/Qwen_Qwen3.5-0.8B-GGUF). Explicit setup retains the original cards and [license](assets/licenses/qwen35-Apache-2.0.txt) beside the verified weights. App pins and conditional Standard/Pro defaults are in `saydraft/models/manifest.json`; all five measurement recipes remain in `eval/cleanup/candidates.json`. No weights are bundled with the application. |
 | Gemma 4 E2B / E4B it cleanup candidates | Apache-2.0; developer evaluation only, unselected | Original weights by [Google](https://huggingface.co/google/gemma-4-E2B-it), converted to GGUF Q4_0 by [ggml-org](https://huggingface.co/ggml-org/gemma-4-E2B-it-GGUF). Retained unchanged with cards and [complete license text](assets/licenses/Apache-2.0.txt); no projector/MTP weights. Exact revisions/hashes are in the separate developer catalog. |

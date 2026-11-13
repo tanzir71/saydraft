@@ -3,7 +3,7 @@ import Base from '../../layouts/Base.astro';
 import { Button } from '../../components/Button/Button';
 import '../../styles/prose.css';
 const base = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/`;
-const commands = 'git clone https://github.com/tanzir71/saydraft.git\ncd saydraft\npy -3.13 -m venv .venv\n.venv\\Scripts\\python -m pip install -r requirements.txt\n.venv\\Scripts\\python speech_to_text_app.py';
+const commands = 'git clone https://github.com/tanzir71/saydraft.git\ncd saydraft\npy -3.13 -m venv .venv\n.venv\\Scripts\\python -m pip install -r requirements.txt\n.venv\\Scripts\\python -m saydraft';
 ---
 <Base title="Get Saydraft for Windows — Download and setup" description="Get started with Saydraft offline dictation on Windows 10 and 11. Check the current build status, run from source, and set up local speech models.">
   <main id="main" class="document container"><p class="eyebrow">A home for your next thought</p><h1>Make it<br /><em>your own.</em></h1>

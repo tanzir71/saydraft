@@ -1,18 +1,61 @@
-# Project documentation
+# Saydraft documentation
+
+Start with the [project README](../readme.md),
+[setup guide](https://tanzir71.github.io/saydraft/docs/getting-started/), or
+[contributor guide](../CONTRIBUTING.md).
 
 The active roadmap is [WISPR_OFFLINE_PARITY_PLAN.md](../WISPR_OFFLINE_PARITY_PLAN.md).
-Its Loop State tracks implementation, acceptance checks, outstanding owner decisions,
-and dated changes. Keep that plan at the repository root.
+Its Loop State distinguishes implementation, acceptance, remaining decisions,
+and dated evidence. Installer/signing, onboarding v2, Notes producers, several
+power features, and native/manual acceptance remain open. Use the plan for the
+complete status; an implemented component is not full milestone acceptance.
 
-- [TEST_CHECKLIST.md](TEST_CHECKLIST.md): manual Windows verification and regression commands.
-- [BASELINE.md](BASELINE.md): measured local latency and memory, with methodology and limits.
-- [PRIVACY.md](PRIVACY.md): offline enforcement, verified downloads and boundary tests.
-- [MODELS.md](MODELS.md): pinned model selection, licenses and measured ASR limits.
-- [ASR_ROUTING.md](ASR_ROUTING.md): language pins, optional models and automatic-retry limits.
-- [HUB.md](HUB.md): Hub migration scope, History review/export and Home statistics.
-- [history/CODEX_HANDOFF_v1.md](history/CODEX_HANDOFF_v1.md): the completed Saydraft
-  M0–M6 handoff, retained for context. It is superseded by the parity plan.
+## Using the app
 
-Implementation evidence, model benchmarks, and launch material belong alongside
-these documents as their corresponding roadmap tasks are completed. Never record
-private dictation text or copy user databases into the repository.
+| Guide | Contents |
+|---|---|
+| [Hub](HUB.md) | Home, global History search/export/retry, Dictionary, Snippets, Style, and Settings |
+| [Shortcuts](HOTKEYS.md) | Native chords, hands-free double-tap, paste-last, and outstanding Windows checks |
+| [Dictation Bar](BAR.md) | Recording/processing states and controls |
+| [Microphone](MICROPHONE.md) | Device selection, level-only test, missing-input behavior |
+| [Recording limits](RECORDING_LIMITS.md) | 19-minute warning, 20-minute default cap, saved overrides |
+| [Styles](STYLES.md) | Per-app tone, intensity, and preview behavior |
+| [Snippets](SNIPPETS.md) | Triggers, variables, import/export, and SQLite adoption |
+| [Dictionary learning](DICTIONARY_LEARNING.md) | Vocabulary, correction learning, and Undo |
+| [Delivery](DELIVERY.md) | Focus checks, protected/elevated targets, and insertion fallbacks |
+
+## Models, privacy, and data
+
+| Guide | Contents |
+|---|---|
+| [Models](MODELS.md) | Pinned speech/cleanup choices, bundle sizes, licenses, and dated measurements |
+| [ASR routing](ASR_ROUTING.md) | Language pins, shared optional All languages model, retry limits |
+| [Model storage](MODEL_STORAGE.md) | Tiers, staged defaults, inventory, protected models, confirmed removal |
+| [Model packages](MODEL_PACKAGES.md) | Verified archive handling and installation |
+| [Cleanup setup](CLEANUP_SETUP.md) | Explicit Qwen3.5 plus llama.cpp installation and recommendations |
+| [Cleanup runtime](CLEANUP_RUNTIME.md) | Pinned CPU/Vulkan sidecars, requirements, and process lifecycle |
+| [Privacy boundary](PRIVACY.md) | Python network policy, explicit downloads, firewall inspection, remaining native enforcement |
+| [Audio retention](AUDIO_RETENTION.md) | Default-off storage, expiry, retry leases, and recovery |
+| [Data migration](DATA_MIGRATION.md) | Compatibility, backups, and preserved legacy data |
+| [Database](DATABASE.md) | Local SQLite behavior and qualification limits |
+| [Third-party notices](../THIRD_PARTY_NOTICES.md) | Dependency, font, data, runtime, and model licenses |
+
+## Development and verification
+
+- [Test checklist](TEST_CHECKLIST.md): automated gates and manual Windows acceptance.
+- [Evaluation](EVALUATION.md): cleanup harness, exact outputs, and action cases.
+- [Cleanup evidence](CLEANUP_EVIDENCE.md): source/corpus fingerprints and native evidence.
+- [Baseline](BASELINE.md): local latency/memory measurements and their limits.
+- [Hardware](HARDWARE.md): measurements and tier recommendations.
+- [Core refactor](CORE_REFACTOR.md): application boundaries and injected ports.
+- [Theme](THEME.md) and [fonts](FONTS.md): shared tokens, Qt rendering, and bundled typefaces.
+- [Website](SITE.md): Astro, Storybook, Playwright, Lighthouse, and GitHub Pages.
+
+Dated benchmark sections and `eval/` reports describe the source and corpus
+used in those runs. They are not automatically current-source, owner-accuracy,
+or release acceptance. Keep original reports intact and record new evidence
+alongside them. Never commit private dictations, recordings, or user databases.
+
+The [M0–M6 handoff](history/CODEX_HANDOFF_v1.md) is retained as historical context
+and is superseded by the root parity plan. The old root website and demo are
+also retained pending the P9 transition; the live site is built from `site/`.

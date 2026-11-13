@@ -1,45 +1,23 @@
+"""Check the public documentation's local navigation, independent of marketing copy."""
+
 from pathlib import Path
+import re
+from urllib.parse import unquote, urlsplit
+
+import pytest
 
 
 ROOT = Path(__file__).resolve().parents[1]
-README = ROOT / "readme.md"
-PILL_GIF = ROOT / "assets" / "readme" / "pill-preview.gif"
 
 
-def readme_text():
-    return README.read_text(encoding="utf-8")
+@pytest.mark.parametrize("document", ["readme.md", "CONTRIBUTING.md", "docs/README.md"])
+def test_public_documentation_local_links_resolve(document):
+    source = ROOT / document
+    destinations = re.findall(r"\[[^\]]*\]\(([^\s)]+)\)", source.read_text(encoding="utf-8"))
+    local_links = [urlsplit(link) for link in destinations if not urlsplit(link).scheme]
 
-
-def test_readme_positions_saydraft_against_cloud_competitors():
-    text = readme_text()
-
-    assert "Wispr Flow magic, 100% offline and free" in text
-    assert "| Capability | Wispr Flow | Typeless | Saydraft |" in text
-    assert "| Privacy | Cloud dictation | Cloud dictation | 100% offline |" in text
-    assert "| Price | $15/mo | $12/mo | Free, open source |" in text
-
-
-def test_readme_embeds_real_pill_preview_gif():
-    text = readme_text()
-
-    assert "![Saydraft dictation pill](assets/readme/pill-preview.gif)" in text
-    assert PILL_GIF.exists()
-    assert PILL_GIF.read_bytes().startswith((b"GIF87a", b"GIF89a"))
-
-
-def test_readme_documents_local_model_size_guidance():
-    text = readme_text()
-
-    for phrase in (
-        "Whisper `base`",
-        "~148 MB",
-        "Parakeet v3 int8",
-        "%LOCALAPPDATA%\\Saydraft\\models",
-        "small (better accuracy)",
-        "medium (best CPU-viable accuracy)",
-        "int8",
-        "Qwen2.5-1.5B-Instruct",
-        "Q4_K_M",
-        "~1 GB",
-    ):
-        assert phrase in text
+    assert local_links, f"No local documentation links checked in {document}"
+    for link in local_links:
+        destination = (source.parent / unquote(link.path)).resolve()
+        assert destination.is_relative_to(ROOT), f"Link escapes repository: {link.path}"
+        assert destination.is_file(), f"Broken link in {document}: {link.path}"

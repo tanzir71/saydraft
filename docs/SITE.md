@@ -10,6 +10,8 @@ launch assets and final acceptance remain open.
 The current pages are Home, Download, Getting started, Privacy and Credits. The
 download page discloses development status and provides actual source commands;
 there are no invented installers, checksums, package-manager commands or releases.
+The source instructions use the same `python -m saydraft` entrypoint as the
+repository README and contributor guide.
 The animated example is labeled as an illustrative simulation and never uses a
 microphone. Native details/summary navigation and FAQ work without JavaScript.
 The small example script respects reduced motion; React components render to

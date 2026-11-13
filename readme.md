@@ -1,199 +1,157 @@
 # Saydraft
 
+**Speak messy. Paste polished.**
+
 [![CI](https://github.com/tanzir71/saydraft/actions/workflows/ci.yml/badge.svg)](https://github.com/tanzir71/saydraft/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-Licensed under [MIT](LICENSE). See [third-party notices](THIRD_PARTY_NOTICES.md)
-for dependency and separately downloaded model licenses.
+Saydraft is an open-source Windows tray app for local voice dictation. Hold a
+shortcut, speak, and release to transcribe, clean up, and insert text into the
+focused app. Speech recognition, cleanup, and History run on your computer;
+dictation has no cloud fallback or subscription.
 
-**Wispr Flow magic, 100% offline and free.**
+[Website](https://tanzir71.github.io/saydraft/) ·
+[Getting started](https://tanzir71.github.io/saydraft/docs/getting-started/) ·
+[Documentation](docs/README.md) · [Contributing](CONTRIBUTING.md)
 
-## Website & demo
+## Current status
 
-- 🌐 Landing page: https://voicetray-offline.vercel.app/
-- ▶️ Offline dictation simulation: https://voicetray-offline.vercel.app/demo/
+Saydraft is in active development. Run from source using the steps below.
+There is no published installer release yet; installer, signing, updates, and
+clean-machine validation remain on the [roadmap](WISPR_OFFLINE_PARITY_PLAN.md).
+The existing `tools/build.ps1` is a legacy helper awaiting that work, not the
+supported installation path.
 
-The public demo uses canned cleanup examples. It requests no microphone permission and performs no audio capture, STT, network request, or foreground insertion.
+The Hub, dictation Bar, local models, and core editing tools are implemented.
+Accuracy acceptance, performance targets, native Windows interaction checks,
+and several planned features remain open. Notes is currently a placeholder;
+Command, Translate, Ask, Scratchpad, and Notetaker are roadmap work. A passing
+test suite does not establish full product parity or accuracy on your voice.
 
-Saydraft is a Windows tray dictation app that lets you speak messily and inserts clean, ready-to-send text into the app you were already using. It runs local speech recognition with Parakeet or faster-whisper, keeps raw and cleaned dictations in local SQLite history, and never sends your voice or text to a cloud service during dictation.
+## What works today
 
-![Saydraft dictation pill](assets/readme/pill-preview.gif)
+- **Local dictation:** Parakeet or Whisper recognition, hold-to-talk and
+  hands-free capture, a floating Bar, cancellation, and History before delivery.
+- **Cleanup and style:** rules for fillers, repetitions, self-corrections,
+  punctuation, and lists; per-app styles; optional local AI cleanup with
+  validation and rules fallback.
+- **One Hub:** Home statistics and recent dictations; searchable History with
+  raw/cleaned changes, Markdown/CSV export, and retry when audio was retained.
+- **Personal vocabulary:** searchable Dictionary terms, protected terms, and
+  replacement pairs; Snippets with date/clipboard variables and import/export.
+- **Explicit setup:** model recommendations, disclosed sizes/licenses,
+  resumable downloads, microphone selection and a level-only test, tier
+  overrides, and model storage controls.
+- **Local data controls:** no telemetry, audio retention off by default,
+  optional retention limits, and a separate read-only firewall-rule check.
 
-## What You Get
+## Run from source
 
-- Hold `F9` to dictate into Notepad, VS Code, Chrome textareas, Slack, terminals, and most Windows input fields.
-- Short-tap `F9` for hands-free lock mode; tap `F9` again or press `Esc` to stop.
-- Use `F10` to capture a dictation into local History without typing into the foreground app.
-- See a floating dictation pill with live microphone level, elapsed time, processing state, and brief error feedback.
-- Browse raw vs cleaned dictations in History, copy or reinsert text, and add selected words to the personal dictionary.
-- Configure hotkeys, autostart, cleanup modes, app profiles, dictionary, snippets, and models from the in-process Settings window.
-- Stay offline at runtime: local STT, local cleanup rules, optional local GGUF cleanup model, local logs, and local history.
-
-## Architecture
-
-```
-        you hold F9 and speak
-                │
-                ▼
-┌────────────────── Saydraft (Python, Windows tray) ──────────────────┐
-│                                                                       │
-│  global hotkey hook (F9 hold · F9 tap = lock · F10 = history-only)    │
-│        │                                                              │
-│  mic capture ──► floating pill UI (level, elapsed, state)             │
-│        │                                                              │
-│        ▼                                                              │
-│  local ASR (Parakeet v3/v2 or Whisper base/small/medium/turbo)        │
-│        │  raw transcript                                              │
-│        ▼                                                              │
-│  cleanup pipeline:                                                    │
-│   1. deterministic rules — fillers, repetitions, spoken punctuation,  │
-│      lists, backtracking ("no wait, make that…")                       │
-│   2. optional local GGUF LLM polish (validated; falls back to rules   │
-│      if an edit looks risky)                                          │
-│   3. per-app profile tone (email / chat / notes / code comments)      │
-│      + personal dictionary + snippet expansion                        │
-│        │  clean text                                                  │
-│        ▼                                                              │
-│  text insertion into the foreground app (Notepad, VS Code, Chrome,    │
-│  Slack, terminals…)                                                   │
-│                                                                       │
-│  SQLite history (raw + cleaned) · settings · glossary — all local     │
-└───────────────────────────────────────────────────────────────────────┘
-```
-
-Everything on this diagram runs on your machine. There is no network call in the dictation path — models are downloaded once, when you choose them.
-
-## Honest Comparison
-
-Saydraft aims for the feel of polished cloud dictation while taking the opposite privacy and pricing tradeoff.
-
-| Capability | Wispr Flow | Typeless | Saydraft |
-|---|---|---|---|
-| STT engine | Cloud OpenAI/Meta models, about 97% accuracy | Cloud STT with auto language detection | Local Parakeet v3/v2 int8 and Whisper `base`, `small`, `medium`, `large-v3-turbo` |
-| Recording model | Hold-hotkey push-to-talk plus hands-free lock; 6-minute cap | Hold-hotkey push-to-talk | Hold-to-talk plus toggle lock mode; 10-minute soft cap |
-| Filler removal | Automatic | Automatic | Rules plus optional local LLM cleanup |
-| Backtrack and self-correction | Core feature | Core feature | Rule handling plus optional validation-guarded local LLM cleanup |
-| Repetition removal | Yes | Yes | Yes |
-| Auto punctuation and capitalization | Yes | Yes | Whisper plus cleanup rules |
-| Spoken punctuation and new lines | Yes | Yes | Yes |
-| Auto lists | Yes | Yes | Yes |
-| App-specific tone | Styles and context | Tone presets | Per-app profiles for general, email, chat, notes, and code comments |
-| Personal dictionary | Learns corrections | Yes | Local glossary with History-to-dictionary action |
-| Snippets | Yes | No | Local snippet expansion |
-| Command mode | Yes | No | Not in v1 |
-| Code and IDE awareness | Strong | Limited | Conservative code/comments profile |
-| Quiet speech | Supported | Not highlighted | Best-effort; use Windows input gain if needed |
-| Languages | 100+ | 100+ with auto-detect | Whisper multilingual with language setting or auto |
-| History | Dashboard | Yes | Local History window with raw/clean toggle |
-| Privacy | Cloud dictation | Cloud dictation | 100% offline |
-| Price | $15/mo | $12/mo | Free, open source |
-
-## Install
-
-### Packaged App
-
-1. Run `tools\build.ps1` to create the one-folder Windows app.
-2. Launch `dist\Saydraft\Saydraft.exe`.
-3. Choose a speech model in setup, review its license and size, and select Download. Downloads can pause and resume while the window stays responsive.
-
-The packaged app keeps assets beside the executable. New model downloads live in your profile:
-
-```text
-dist\Saydraft\Saydraft.exe
-dist\Saydraft\assets\
-%LOCALAPPDATA%\Saydraft\models\
-```
-
-### From Source
+Use Windows 10 or 11, 64-bit Python 3.13, Git, a microphone, and enough free disk
+space for your selected models. In PowerShell:
 
 ```powershell
-pip install -r requirements.txt
-pythonw -m saydraft
+git clone https://github.com/tanzir71/saydraft.git
+cd saydraft
+py -3.13 -m venv .venv
+.venv\Scripts\python -m pip install -r requirements.txt
+.venv\Scripts\python -m saydraft
 ```
 
-Use `python -m saydraft` or `run_debug.bat` when you want a visible console and debug logs.
+Keep the console available while diagnosing startup problems. The current
+[download page](https://tanzir71.github.io/saydraft/download/) also links to
+[GitHub Releases](https://github.com/tanzir71/saydraft/releases), where packaged
+artifacts will appear when available.
 
-## Model Size Guidance
+### Set up once, then go offline
 
-Saydraft downloads models only when you choose them during onboarding or in Settings -> Models.
+Review the recommended speech model, its download size, and its license, then
+select **Download**. Progress and pause/resume are available. Later launches
+reuse installed files. Choosing a language or model never starts a download
+by itself; you need an installed compatible model before dictating.
 
-| Model | Size | Best For | Notes |
-|---|---:|---|---|
-| Parakeet v3 int8 | ~671 MB | Default for fresh profiles; 25 European languages | NVIDIA weights, sherpa-onnx conversion, CC-BY-4.0 |
-| Parakeet v2 int8 | ~661 MB | English max option | English only, CC-BY-4.0 |
-| All languages · Whisper turbo | ~1,622 MB | Bengali, Arabic and other supported languages | MIT; stored FP16, int8 compute on CPU |
-| Whisper `base` | ~148 MB | Smaller download and other languages | MIT; existing profiles keep their Whisper preference |
-| `small` | small (better accuracy) | More accurate writing and names | Slower than base; Saydraft warns if it misses the local performance budget |
-| `medium` | medium (best CPU-viable accuracy) | Highest local STT quality | Best for patient desktop CPUs; expect larger download and slower first use |
+| Speech option | Approximate download | Purpose |
+|---|---:|---|
+| Default: Parakeet v3 int8 + language detector | 773.4 MB | Recognition in 25 European languages |
+| Parakeet v2 int8, English max | 661.3 MB | English recognition |
+| All languages · Whisper large-v3-turbo | 1,621.7 MB | Multilingual recognition, including Bengali and Arabic |
+| Whisper base / small / medium | Shown in setup | Alternative multilingual models |
 
-Optional cleanup tier: install a local GGUF runtime and point Settings -> Models at `Qwen2.5-1.5B-Instruct` `Q4_K_M` (~1 GB). Saydraft validates local LLM edits and falls back to deterministic rules when an edit looks risky.
+Bengali and Arabic share the optional **All languages** model. Download it
+once for both; there are no separate language packs or language-specific
+download buttons. Installed models can be selected through language pins and
+automatic routing; [routing details](docs/ASR_ROUTING.md) explain its limits.
 
-See [model details and measurements](docs/MODELS.md). Existing portable models
-and Hugging Face Whisper caches remain readable in place. Automatic routing to
-Whisper for languages outside Parakeet's supported set is still a roadmap task;
-select All languages · Whisper turbo explicitly for those languages.
+Optional AI cleanup is disabled by default. Explicit setup offers pinned
+Qwen3.5 0.8B or 2B Q4_K_M weights with a local llama.cpp CPU or Vulkan runtime.
+Recommendations depend on the selected tier and available measurements; they
+do not enable or download AI cleanup. See [model details](docs/MODELS.md),
+[cleanup setup](docs/CLEANUP_SETUP.md), and [storage controls](docs/MODEL_STORAGE.md).
+Model weights and dependencies retain their [own licenses](THIRD_PARTY_NOTICES.md).
 
-## Daily Use
+## Daily use
 
-1. Click where text should go.
-2. Hold `F9`, speak, then release.
-3. Saydraft transcribes locally, cleans the text, writes raw and cleaned versions to History, and inserts the cleaned version into the focused app.
+1. Click the field where you want text.
+2. Hold **Ctrl + Win**, speak, then release.
+3. Saydraft transcribes and cleans locally, saves History, and attempts delivery
+   into the original target. Review History if delivery is skipped or fails.
 
-Long recordings warn at 9 minutes and stop at 10 minutes to keep memory bounded. If the focused app changes before insertion, Saydraft skips unsafe typing and leaves the dictation in History.
+Fresh profiles use these shortcuts. Existing custom bindings are preserved;
+change them in **Hub → Settings → Shortcuts**.
 
-## Tray Menu
+| Shortcut | Action |
+|---|---|
+| Ctrl + Win | Hold to dictate |
+| F9 | Alternate hold-to-talk shortcut |
+| XButton1 | Configurable mouse hold-to-talk shortcut |
+| Ctrl + Win + Space | Toggle hands-free dictation |
+| Shift + Alt + Z | Paste the last dictation |
+| F10 | Capture to History without foreground insertion |
+| Esc | Cancel the current recording |
 
-- **Start Listening / Stop Listening** toggles global hotkeys.
-- **History** opens the local raw/clean dictation browser.
-- **Settings** opens hotkeys, cleanup, dictionary, snippets, models, autostart, and About.
-- **Open Log Folder** opens `%LOCALAPPDATA%\Saydraft\logs`.
-- **Quit** exits the app.
+Two short taps of a recording shortcut also lock hands-free mode; a single
+short tap does not. The default recording cap is **20 minutes**, with a warning
+at **19 minutes**. Saved custom limits stay unchanged. See
+[shortcut behavior](docs/HOTKEYS.md) and [recording limits](docs/RECORDING_LIMITS.md).
 
-## Local Files
+## Privacy and local files
 
-- Config: `%LOCALAPPDATA%\Saydraft\config.json`
-- Logs: `%LOCALAPPDATA%\Saydraft\logs\saydraft.log`
-- History: `%LOCALAPPDATA%\Saydraft\history.db`
-- Saved recordings, when Audio history is enabled: `%LOCALAPPDATA%\Saydraft\audio` (off by default)
-- New model downloads: `%LOCALAPPDATA%\Saydraft\models`
+The dictation path is microphone → local recognition → cleanup → History →
+delivery. Models are fetched only through explicit setup actions. Python
+network access is restricted outside authorized downloads and loopback;
+complete native-library and helper-process firewall enforcement remains
+release work. See [the privacy boundary](docs/PRIVACY.md).
 
-Saydraft has no telemetry and no cloud fallback for dictation. Network access is only used for explicit model downloads that you start from onboarding or Settings.
+| Data | Default location |
+|---|---|
+| Configuration | `%LOCALAPPDATA%\Saydraft\config.json` |
+| History | `%LOCALAPPDATA%\Saydraft\history.db` |
+| Logs | `%LOCALAPPDATA%\Saydraft\logs\saydraft.log` |
+| Audio, only when retention is enabled | `%LOCALAPPDATA%\Saydraft\audio` |
+| New model installations | `%LOCALAPPDATA%\Saydraft\models\<id>\<version>` |
 
-## Troubleshooting
+Audio retention is **off by default**. You can enable Keep forever or Keep N
+days; expiry preserves History text and statistics. Retry needs retained audio.
+Compatible legacy model installations remain readable in place. See
+[audio retention](docs/AUDIO_RETENTION.md) and [data migration](docs/DATA_MIGRATION.md).
 
-**No microphone**
+## Troubleshooting and development
 
-- Check Windows microphone privacy permissions.
-- Unplug and reconnect the device; Saydraft retries the default input stream and shows a no-microphone tray state when needed.
-- Open Settings after reconnecting if Windows changed the default input device.
+- **No input:** check Windows microphone permissions, then open
+  Settings → Microphone, refresh inputs, and run Test input. A missing saved
+  microphone does not silently switch to another device.
+- **Shortcut conflict:** review Settings → Shortcuts and rebind conflicting
+  combinations. Another dictation app may use Ctrl + Win.
+- **Text did not insert:** open History to review/copy the saved result.
+  Focus changes, protected fields, and elevated targets can prevent delivery;
+  see [delivery behavior](docs/DELIVERY.md).
+- **Slow setup or recognition:** review the model size and installed files in
+  Settings → Models, and use the performance check before selecting a tier.
 
-**Hotkey does not respond**
+For development setup and checks, read [CONTRIBUTING.md](CONTRIBUTING.md).
+[Documentation](docs/README.md) links to implementation notes, evaluation
+methods, Windows acceptance checks, and the website workflow.
 
-- Confirm Saydraft is running in the tray.
-- Check Settings for a hotkey conflict.
-- Try running as administrator if another elevated app has focus.
-
-**Text does not insert**
-
-- Click the target field again and retry.
-- Check History; Saydraft stores dictation before insertion so the text is still available.
-- Some terminal or remote-desktop contexts may need the fallback typing path.
-
-**Model download or first dictation is slow**
-
-- Start with `base`.
-- Use `small` only if accuracy matters more than latency on this machine.
-- Keep `medium` for quality-sensitive work on faster CPUs.
-
-## Development Checks
-
-```powershell
-$env:PYTHONDONTWRITEBYTECODE='1'
-$env:QT_QPA_PLATFORM='offscreen'
-python -B -m pytest tests\ -q
-python -B -m saydraft.eval
-python -B tools\soak.py --cycles 50 --target synthetic
-```
-
-## License
-
-Saydraft is free and open source.
+Saydraft's code is licensed under [MIT](LICENSE). Built by
+[Tanzir Rahman](https://tanziro.com). You can
+[support Saydraft](https://buymeacoffee.com/tanzir).
