@@ -1,0 +1,27 @@
+{
+  "complete": true,
+  "frozen_helper": true,
+  "microphone_used": false,
+  "input_injected": false,
+  "owner_clipboard_accessed": false,
+  "helper_created_profile": false,
+  "managed_removed": true,
+  "witness_preserved": true,
+  "actual_network_blocking_verified": true,
+  "asr_performed": true,
+  "steps": {
+    "online_before": true,
+    "block": 0,
+    "block_idempotent": 0,
+    "managed_count": 1,
+    "conflict_block": 21,
+    "conflict_remove": 21,
+    "narrowed_block": 21,
+    "package_verification_under_rule": true,
+    "frozen_speech_under_rule": true,
+    "remove": 0,
+    "remove_idempotent": 0,
+    "online_after": true,
+    "cleanup": 0
+  }
+}

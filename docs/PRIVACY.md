@@ -65,7 +65,7 @@ system-wide default-policy behavior or coverage of native helper processes.
 Missing, unsupported, timed-out or denied inspection stays absent/unknown; it
 never becomes a claim that the OS boundary is protected.
 
-The helper uses a fixed hidden PowerShell query, passes the process path as JSON
+The inspection uses a fixed hidden PowerShell query, passes the process path as JSON
 on stdin, and returns only a bounded integer count. It creates, changes and
 removes no firewall rule, starts no elevation prompt, and omits provider error
 details. The query follows Microsoft's [application-filter association](https://learn.microsoft.com/en-us/powershell/module/netsecurity/get-netfirewallapplicationfilter)
@@ -74,8 +74,11 @@ APIs. Packaged installations also offer explicit create/remove controls for one
 path-specific managed outbound block rule, with confirmation and Windows UAC.
 They never block shared source Python or alter unrelated rules. Model downloads
 and opt-in update checks need the rule removed. See [Verify offline](VERIFY_OFFLINE.md)
-for the workflow, effective-policy limits and recovery. Complete packaged
-dictation/download and native/sidecar boundary testing remain P8.6.
+for the workflow, effective-policy limits and recovery. The disposable packaged
+smoke exercises real public-audio recognition, rules, temporary History, native
+WinHTTP and pinned Python downloads before, under and after the rule. Separate
+helper executables, effective organizational policy and physical Windows
+acceptance remain distinct from that in-process boundary.
 After downloading a model, also verify real dictation with Wi-Fi disabled.
 
 Audio remains off by default, with explicit Keep forever / Keep N days controls.

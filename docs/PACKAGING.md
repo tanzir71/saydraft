@@ -70,6 +70,17 @@ recognition, hooks, foreground reads or clipboard access. It does not prove the
 native firewall boundary. Sounddevice is checked without importing it, because
 that import initializes PortAudio.
 
+The separate disposable-runner firewall step invokes the actual bundled helper
+to create/remove its path-specific rule, reject ownership conflicts and narrowed
+rules, and preserve an unrelated witness. Its explicit
+`--verify-package NEW_REPORT.json --firewall-smoke PINNED_BASE_DIRECTORY` mode
+performs public-fixture Whisper recognition, rules and temporary History, plus
+fixed native WinHTTP and pinned model-file download probes. Online controls must
+work before/after removal and fail under the rule, with clear resume guidance.
+This mode refuses source Python and owner/self-hosted machines. The ordinary
+verification command above retains its original no-recognition scope. See
+[Verify offline](VERIFY_OFFLINE.md) for effective-policy and helper-process limits.
+
 ## Installation and removal
 
 The installer targets the current user's Programs folder, creates a Start menu

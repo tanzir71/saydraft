@@ -32,3 +32,7 @@ eval/soak/results/**/*.json -text whitespace=blank-at-eol,blank-at-eof,space-bef
 eval/packaging/results/**/*.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 eval/packaging/results/**/*.txt -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 eval/updates/results/**/*.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+eval/privacy/results/**/*.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+eval/privacy/results/**/*.jsonl -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+eval/latency/results/**/*.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+eval/latency/results/**/*.jsonl -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol

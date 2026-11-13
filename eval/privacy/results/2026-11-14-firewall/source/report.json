@@ -1,0 +1,119 @@
+{
+  "complete": true,
+  "measured_at": "2026-11-13T22:53:11.019964+00:00",
+  "git_commit": "7d80be2dfc845f9c6fd7b3bd52aa064b13d8bade",
+  "scope": "copied owned Python executable, production fixed rule script and real worker; not a frozen application",
+  "executable_sha256": "7c2fc2b303a4ee3cc14cc17b47bc6e8bca98c78792edd123b846a560da44b203",
+  "rule_name": "Saydraft.Outbound.v1.b4b5c8e4a3416ddff2a64c8cc970c6a848caf844ffcd831ed2e609dcdce17e37",
+  "microphone_used": false,
+  "input_injected": false,
+  "owner_clipboard_accessed": false,
+  "steps": {
+    "initial_firewall": {
+      "state": "absent",
+      "matching_rules": 0
+    },
+    "native_before": {
+      "reachable": true,
+      "http_status": 404
+    },
+    "download_before": {
+      "downloaded": true
+    },
+    "block": 0,
+    "block_idempotent": 0,
+    "matching_rules": 1,
+    "native_blocked": {
+      "reachable": false,
+      "winerror": 12029
+    },
+    "download_blocked": {
+      "downloaded": false,
+      "error_type": "URLError",
+      "firewall_recovery_message": true,
+      "resume_message": true
+    },
+    "dictation_blocked": {
+      "complete": true,
+      "cases": 2,
+      "model_ids": [
+        "whisper-base",
+        "whisper-base"
+      ],
+      "history_before_paste": true,
+      "memory_clipboard_restored": true,
+      "error_type": null
+    },
+    "remove": 0,
+    "native_after": {
+      "reachable": true,
+      "http_status": 404
+    },
+    "download_after": {
+      "downloaded": true
+    }
+  },
+  "runtime_environment": {
+    "python": "3.13.17",
+    "implementation": "cpython",
+    "cache_tag": "cpython-313",
+    "architecture": "AMD64",
+    "interpreter_sha256": "7c2fc2b303a4ee3cc14cc17b47bc6e8bca98c78792edd123b846a560da44b203",
+    "packages": {
+      "numpy": "2.5.4",
+      "soundfile": "0.14.0",
+      "webrtcvad-wheels": "2.0.14",
+      "faster-whisper": "1.2.1",
+      "ctranslate2": "4.9.0",
+      "sherpa-onnx": "1.13.4",
+      "sherpa-onnx-core": "1.13.4",
+      "onnxruntime": "1.32.0"
+    }
+  },
+  "inspections": [
+    {
+      "timeout_seconds": 30,
+      "return_code": 0,
+      "seconds": 5.915217499999983,
+      "state": "absent",
+      "matching_rules": 0
+    },
+    {
+      "timeout_seconds": 30,
+      "return_code": 0,
+      "seconds": 1.1839468999999951,
+      "state": "found",
+      "matching_rules": 1
+    },
+    {
+      "timeout_seconds": 30,
+      "return_code": 0,
+      "seconds": 1.1171950000000095,
+      "state": "absent",
+      "matching_rules": 0
+    },
+    {
+      "timeout_seconds": 30,
+      "return_code": 0,
+      "seconds": 1.2064563000000135,
+      "state": "absent",
+      "matching_rules": 0
+    }
+  ],
+  "stage": "complete",
+  "rule_shape": {
+    "enabled": "True",
+    "profile": "Any",
+    "direction": "Outbound",
+    "action": "Block",
+    "package": "",
+    "protocol": "Any",
+    "local": "Any",
+    "remote": "Any",
+    "service": "Any",
+    "alias": "Any",
+    "type": "Any"
+  },
+  "cleanup_exit": 0,
+  "cleanup_absent": true
+}

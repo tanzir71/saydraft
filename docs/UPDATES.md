@@ -18,6 +18,9 @@ may finish, but its result is retired and cannot restore an update notice or
 release button. Closing the app cancels queued work without waiting for a
 request. Network errors leave dictation available and show a retry message in
 Settings. A repository with no published stable release shows that status.
+If you enabled the packaged Windows Firewall block, remove Saydraft’s rule in
+Privacy before checking for updates. The Python API exception does not bypass
+an OS block rule. See [Verify offline](VERIFY_OFFLINE.md).
 
 ## Network and validation
 
@@ -32,7 +35,7 @@ The Python NetworkGuard grants `api.github.com` only in the check's own worker
 context and retires that permission afterward. It does not give the dictation
 worker a general internet exception. The default-off path does not construct a
 transport, resolve DNS or open a socket. This is a Python policy check; the
-separate native/firewall boundary still needs its own acceptance.
+[packaged firewall verification](VERIFY_OFFLINE.md) records its separate scope.
 
 Only a published, non-draft, non-prerelease, three-part version newer than the
 installed version can be offered. The release page must match this repository

@@ -109,4 +109,13 @@ diagnostics retain that actual model metadata. A subsequent planned full run at
 found. Those raw reports remain a partial Parakeet/rules baseline; they establish
 no Lite tier or full-matrix acceptance. The corrected Lite recipe uses Whisper
 base through the production `WhisperCT2Engine`, with model verification and
-preparation before capture. Fresh full qualification remains pending.
+preparation before capture.
+
+The [full corrected Lite baseline](../eval/latency/results/2026-11-14-lite-whisper-base/README.md)
+at immutable `874a9c4` completes all 160 cases with actual Whisper base/Silero,
+clean unchanged source and matching runtime identities. Every pair hash,
+journal, process exit and memory-delivery check was independently audited. Its
+3-second cold p50/p95 is 1.297/1.357 seconds; warm is 1.270/1.330 seconds. Full
+collection passes, while latency targets fail. All 241 raw metadata files remain
+unchanged. Standard/Pro, performance targets, physical Windows and deferred owner
+accuracy acceptance remain open.

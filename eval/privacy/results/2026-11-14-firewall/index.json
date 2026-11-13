@@ -1,0 +1,72 @@
+{
+  "schema": 1,
+  "recorded_at": "2026-11-13T23:01:13.347173+00:00",
+  "git_commit": "7d80be2dfc845f9c6fd7b3bd52aa064b13d8bade",
+  "ci_run": 43522750848,
+  "package_run": 43522751029,
+  "files_sha256": {
+    "ci-run.json": "69f73a7ddfdb94ce29e1a8978ab4b29abcdaf25aff23c2d33b27e6d8cb315a1d",
+    "package-artifacts.json": "9e0c5eac1930263dda0000cee881bda7c74e669b5f6646cfb252d25f57828313",
+    "package-run.json": "62862d68e11f55788fe8e5b781957334995ed82195fb7629d70af1862ed4e693",
+    "source-artifacts.json": "70986087bdbdd7e1f5a28a3fc058fda565dc6d4914027a11e15498f8dcd9bc92",
+    "earlier/2e493ac-artifact.json": "cd2a3816804aa6a21f38f363178e81aa6f018f6786367128162923ab4993357f",
+    "earlier/2e493ac-report.json": "5b368d56e1519aec0cc27251a85c8b38d5b673dbeb7465b8f7aa297a8eec2abd",
+    "earlier/d4b5ddf-artifact.json": "54901847c4fd09ea5f777fc48ae3452170b38eaf0b0c5cef5b6f4270d4a93524",
+    "earlier/d4b5ddf-report.json": "e51417c617883b9782fec164ae3e996e775888c3ad9f793ca3c9721e8fe298a3",
+    "earlier/fc5401e-artifact.json": "ed37e5ea66cc823bb6ff2542304e2dbf0cfc47c84df5ae5a2809c02f95297036",
+    "earlier/fc5401e-report.json": "16d7edebd73ce53a13fb9f13f0419d8d31c66c3b826547f974dbe8b29cc5c189",
+    "source/report.json": "e8ecf12682fb3ebb3b1f4e07236a189f187e90a556eafea8d43d8dffe1cb11bb",
+    "source/child-01-native/process.json": "cb4c85fa8c29fd983ca459b00faad4d35efe70c6f07187f3e92bf4c7c27f3d78",
+    "source/child-01-native/result.json": "83b6d1e75d4f3ce0f780a7d4a3c8addd46256b63fe4065898841cb1ca9458eae",
+    "source/child-02-download/process.json": "cb4c85fa8c29fd983ca459b00faad4d35efe70c6f07187f3e92bf4c7c27f3d78",
+    "source/child-02-download/result.json": "6dd3f6403aae33e9ae6a7afdb48c2581e022103c150ff81ca550f7a768a72ad1",
+    "source/child-03-native/process.json": "cb4c85fa8c29fd983ca459b00faad4d35efe70c6f07187f3e92bf4c7c27f3d78",
+    "source/child-03-native/result.json": "a517e5e91fdd07e46c8a5e8f86460aadda07186b7c7ea3ff4072e9c8fddc15a5",
+    "source/child-04-download/process.json": "cb4c85fa8c29fd983ca459b00faad4d35efe70c6f07187f3e92bf4c7c27f3d78",
+    "source/child-04-download/result.json": "befb2cf5ffd80638986fb2beb85594a46c8b478aea293cce836f0f026dde8084",
+    "source/child-05-dictation/process.json": "cb4c85fa8c29fd983ca459b00faad4d35efe70c6f07187f3e92bf4c7c27f3d78",
+    "source/child-05-dictation/result.json": "d3002237a2dabf2f926569784a861353196a1f2a8b81d73b2460ca6acff7f661",
+    "source/child-06-native/process.json": "cb4c85fa8c29fd983ca459b00faad4d35efe70c6f07187f3e92bf4c7c27f3d78",
+    "source/child-06-native/result.json": "83b6d1e75d4f3ce0f780a7d4a3c8addd46256b63fe4065898841cb1ca9458eae",
+    "source/child-07-download/process.json": "cb4c85fa8c29fd983ca459b00faad4d35efe70c6f07187f3e92bf4c7c27f3d78",
+    "source/child-07-download/result.json": "6dd3f6403aae33e9ae6a7afdb48c2581e022103c150ff81ca550f7a768a72ad1",
+    "source/worker/cases.jsonl": "a6a9ae53219e0eaa5bb9a646e2a2554cba5771ffd0a32faf6947a06651be1d64",
+    "source/worker/report.json": "64f03048c01bc2088d80e01f09caed8a797cfdaf64fdae2df016f73e0b760e94",
+    "frozen/audit/bundle.json": "9f342dd1bca21e9feda03cbcb1fee915cfb651994ac750351eb08582fb8b7b36",
+    "frozen/audit/firewall-after.json": "6efecf72806373b9fe4dcbc8f859736061abaa7ee299345f3825b3cf94ba293b",
+    "frozen/audit/firewall-before.json": "6efecf72806373b9fe4dcbc8f859736061abaa7ee299345f3825b3cf94ba293b",
+    "frozen/audit/firewall-blocked.json": "6a93c222e4766dcae8a0e2f3292f6b74631a7e0b813463f480bff2c79b5d1520",
+    "frozen/audit/firewall-helper.json": "8da30870add3d5063d91852cecddc19b7e541d75ada8f10b5274fe16f30af34b",
+    "frozen/audit/firewall-runtime.json": "a714ed91e6d2b3d5e914446fcf8f9bd1b61cbb6cffff0ebd8466e6cc14005ec2",
+    "frozen/audit/installer-smoke.json": "35e4202aba06aa66f31cc7331e82faf53b8448be56fdddc2ca2b89c0f40b7f21",
+    "frozen/audit/runtime.json": "a714ed91e6d2b3d5e914446fcf8f9bd1b61cbb6cffff0ebd8466e6cc14005ec2"
+  },
+  "private_logs_sha256": {
+    "2e493ac-windows.log": "2121abf6f6707f6025a4eefb9a53e76e9179737a69af0d8e4ee1f818969a75cb",
+    "b052758-lint.log": "cd500c5500f13960aecf7d7658ed10463cd896947adcb4f860cd399404da06eb",
+    "d4b5ddf-native.log": "a59b6f6e6a5866aafc311e5cd78982fd8d202043d16374d4e3875da32b0e5e2e",
+    "fc5401e-native.log": "4288f14ed82e8a7c2f1e4c4e9c370ca6f425148474d0a15a12ad85e8fe05ad54",
+    "native.log": "8b30bc6cdd91cb347a436d83fe004786f57b4247049f8a105084919829c9d1eb",
+    "package.log": "30e21fb9536b2f9fbaa9e5f6945de38cdf36c9903a21249a0b69333474ed7f72",
+    "windows.log": "b1bc32713615d948b005d4a631e0cfaa37971d2ddc913c4e2c8f47974dc4660f"
+  },
+  "scope": "Two public-fixture real-worker dictations with memory input in an owned copied interpreter; actual frozen public-fixture ASR/rules/temporary History and native/Python network controls; fixed managed rule lifecycle/conflict/witness preservation; no owner devices/input/clipboard and no physical/manual UAC acceptance.",
+  "local_evidence_collection_downloaded_no_binary_or_model_artifacts": true,
+  "earlier_metadata_archives": {
+    "2e493ac": {
+      "artifact_id": 14081904146,
+      "sha256": "e9fc25971b5105da4a7fb814728450bb20e44f25ff4a09dbac6eb943fef8373f",
+      "bytes": 1704
+    },
+    "fc5401e": {
+      "artifact_id": 14083057306,
+      "sha256": "36f58328ac4adf53496ef773e8e381407ce5757ea21f192e63bf0bdd5d6f94c6",
+      "bytes": 1783
+    },
+    "d4b5ddf": {
+      "artifact_id": 14083536248,
+      "sha256": "84294a8687ea40bd7c428158daf18d261d3413c0d6991cc8c6dcd866f2cd2787",
+      "bytes": 760
+    }
+  }
+}

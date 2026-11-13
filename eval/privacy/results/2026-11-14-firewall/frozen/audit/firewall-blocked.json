@@ -1,0 +1,22 @@
+{
+  "complete": true,
+  "frozen": true,
+  "microphone_used": false,
+  "audio_devices_enumerated": false,
+  "owner_clipboard_accessed": false,
+  "input_injected": false,
+  "scope": "packaged public-fixture ASR, rules and temporary History; separate source probe covers full worker/memory insertion",
+  "network": {
+    "reachable": false,
+    "winerror": 12029
+  },
+  "download": {
+    "downloaded": false,
+    "error_type": "URLError",
+    "firewall_recovery_message": true,
+    "resume_message": true
+  },
+  "asr_nonempty": true,
+  "cleaned_nonempty": true,
+  "history_matches": true
+}

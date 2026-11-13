@@ -1,0 +1,26 @@
+{
+  "version": "0.1.0",
+  "frozen": true,
+  "microphone_used": false,
+  "audio_devices_enumerated": false,
+  "input_injected": false,
+  "owner_clipboard_accessed": false,
+  "active_application_read": false,
+  "asr_performed": false,
+  "native_firewall_verified": false,
+  "checks": {
+    "resources": true,
+    "third_party_notices": true,
+    "native_imports": true,
+    "tray_images": true,
+    "python_network_guard": true,
+    "forbidden_modules_absent": true
+  },
+  "complete": true,
+  "third_party_notices": {
+    "components": 38,
+    "files": 506,
+    "index_sha256": "7f33cd43bd47dcc5f94439d5fdd048ab94be58e4d56ac144b52d6cb882a39964"
+  },
+  "stage": "complete"
+}

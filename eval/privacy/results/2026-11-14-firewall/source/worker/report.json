@@ -1,0 +1,120 @@
+{
+  "schema": 1,
+  "git_commit": "7d80be2dfc845f9c6fd7b3bd52aa064b13d8bade",
+  "audio_seconds": 3,
+  "repeat": 0,
+  "tier": "lite",
+  "asr_model": "whisper-base",
+  "runtime_environment": {
+    "python": "3.13.17",
+    "implementation": "cpython",
+    "cache_tag": "cpython-313",
+    "architecture": "AMD64",
+    "interpreter_sha256": "7c2fc2b303a4ee3cc14cc17b47bc6e8bca98c78792edd123b846a560da44b203",
+    "packages": {
+      "numpy": "2.5.4",
+      "soundfile": "0.14.0",
+      "webrtcvad-wheels": "2.0.14",
+      "faster-whisper": "1.2.1",
+      "ctranslate2": "4.9.0",
+      "sherpa-onnx": "1.13.4",
+      "sherpa-onnx-core": "1.13.4",
+      "onnxruntime": "1.32.0"
+    }
+  },
+  "cases": [
+    {
+      "phase": "cold",
+      "audio_seconds": 3,
+      "repeat": 0,
+      "fed_samples": 48000,
+      "arming_seconds": 1.2909836999999982,
+      "capture_seconds": 3.000194399999998,
+      "asr_load_seconds": null,
+      "release_to_paste_seconds": 1.5185371999999973,
+      "release_to_settled_seconds": 1.671876999999995,
+      "history_before_paste": true,
+      "clipboard_restored": true,
+      "no_early_delivery": true,
+      "release_deadline_present": true,
+      "decision": "disabled",
+      "asr_model": "whisper-base",
+      "timings": {
+        "record": 3.0012045,
+        "vad": 0.0,
+        "stt": 1.3527870000000064,
+        "background_stt": 1.6491339999999752,
+        "lid": 0.0,
+        "rules": 0.0033851000000026943,
+        "llm": 4.00000001832268e-06,
+        "insert": 0.30153769999998303
+      },
+      "language_identifier_ready": null,
+      "cleanup_at_capture": {
+        "state": "disabled",
+        "decoder": {}
+      },
+      "cleanup_at_release": {
+        "state": "disabled",
+        "decoder": {},
+        "observed_after_release_seconds": 0.0011757999999986168
+      },
+      "cleanup_after_delivery": {
+        "state": "disabled",
+        "decoder": {}
+      },
+      "cleanup_gate": null
+    },
+    {
+      "phase": "warm",
+      "audio_seconds": 3,
+      "repeat": 0,
+      "fed_samples": 48000,
+      "arming_seconds": 0.0998982000000126,
+      "capture_seconds": 3.009069499999981,
+      "asr_load_seconds": null,
+      "release_to_paste_seconds": 1.3233185999999932,
+      "release_to_settled_seconds": 1.4777976000000024,
+      "history_before_paste": true,
+      "clipboard_restored": true,
+      "no_early_delivery": true,
+      "release_deadline_present": true,
+      "decision": "disabled",
+      "asr_model": "whisper-base",
+      "timings": {
+        "record": 3.009764099999984,
+        "vad": 0.0,
+        "stt": 1.1611460000000022,
+        "background_stt": 1.4664597999999955,
+        "lid": 0.0,
+        "rules": 0.00039270000002034067,
+        "llm": 2.6999999818144715e-06,
+        "insert": 0.3015419000000179
+      },
+      "language_identifier_ready": null,
+      "cleanup_at_capture": {
+        "state": "disabled",
+        "decoder": {}
+      },
+      "cleanup_at_release": {
+        "state": "disabled",
+        "decoder": {},
+        "observed_after_release_seconds": 0.0011018000000149186
+      },
+      "cleanup_after_delivery": {
+        "state": "disabled",
+        "decoder": {}
+      },
+      "cleanup_gate": null
+    }
+  ],
+  "native_exits": [],
+  "complete": true,
+  "vad": "pinned Silero in private QA profile; production fallback remains enabled",
+  "source_fixture_sha256": "cc6d363cc90b6c99427041ba6366e334131b05101a142761ae84b2a8b5e2c5ab",
+  "replay_samples_sha256": "16acc22ae0ae46451b1fb35c86a624b3a89f6e7dc2f74f1c7320adb2fecc3614",
+  "service_setup_seconds": 0.23226880000001415,
+  "selected_device": null,
+  "native_peak_rss_bytes": [],
+  "elapsed_seconds": 10.78521090000001
+}

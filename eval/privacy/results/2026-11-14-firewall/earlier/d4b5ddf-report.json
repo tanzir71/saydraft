@@ -1,0 +1,33 @@
+{
+  "complete": false,
+  "measured_at": "2026-11-13T22:49:40.501236+00:00",
+  "git_commit": "d4b5ddf234ed31ed98e23eacd6e5b9c4a23d906b",
+  "scope": "copied owned Python executable, production fixed rule script and real worker; not a frozen application",
+  "executable_sha256": "7c2fc2b303a4ee3cc14cc17b47bc6e8bca98c78792edd123b846a560da44b203",
+  "rule_name": "Saydraft.Outbound.v1.b4b5c8e4a3416ddff2a64c8cc970c6a848caf844ffcd831ed2e609dcdce17e37",
+  "microphone_used": false,
+  "input_injected": false,
+  "owner_clipboard_accessed": false,
+  "steps": {},
+  "runtime_environment": {
+    "python": "3.13.17",
+    "implementation": "cpython",
+    "cache_tag": "cpython-313",
+    "architecture": "AMD64",
+    "interpreter_sha256": "7c2fc2b303a4ee3cc14cc17b47bc6e8bca98c78792edd123b846a560da44b203",
+    "packages": {
+      "numpy": "2.5.4",
+      "soundfile": "0.14.0",
+      "webrtcvad-wheels": "2.0.14",
+      "faster-whisper": "1.2.1",
+      "ctranslate2": "4.9.0",
+      "sherpa-onnx": "1.13.4",
+      "sherpa-onnx-core": "1.13.4",
+      "onnxruntime": "1.32.0"
+    }
+  },
+  "stage": "fresh-rule-check",
+  "error_type": "RuntimeError",
+  "cleanup_exit": 0,
+  "cleanup_absent": true
+}

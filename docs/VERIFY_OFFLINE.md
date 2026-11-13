@@ -53,10 +53,11 @@ moving or uninstalling; uninstall does not silently elevate to change OS policy.
 
 The [Python policy](PRIVACY.md) remains a separate application boundary. It
 restricts Python sockets, not every native process. Neither a checkbox nor a
-successful rule write establishes native-boundary acceptance. The packaged
-dictation/download smoke remains P8.6 verification work until its dated evidence
-is retained in the plan. Separate cleanup-helper coverage remains a distinct gate. No physical dictation,
-native firewall acceptance or owner ASR accuracy is claimed by the unit suite.
+successful rule write establishes native-boundary acceptance. The
+[dated packaged acceptance](../eval/privacy/results/2026-11-14-firewall/README.md)
+retains actual native/download denial, frozen speech/History success and recovery.
+Separate cleanup-helper coverage remains a distinct gate. The unit suite alone
+does not establish native protection, physical dictation or owner ASR accuracy.
 
 Implementation follows Microsoft's [program/profile rule parameters](https://learn.microsoft.com/en-us/powershell/module/netsecurity/new-netfirewallrule),
 [rule removal](https://learn.microsoft.com/en-us/powershell/module/netsecurity/remove-netfirewallrule),

@@ -35,6 +35,12 @@ has also passed its real dry run; signing and publication remain separate.
 Settings → Privacy for startup/daily notices and a release-page link. Install
 updates manually from GitHub.
 
+Packaged builds also offer an optional [Windows Firewall block](docs/VERIFY_OFFLINE.md)
+in Settings → Privacy. Confirm the installation path, then approve Windows UAC.
+Remove the rule before downloading models or checking for updates. The rule
+covers that `Saydraft.exe`; separate helper executables need their own coverage.
+Source Python is never blocked by these controls.
+
 Core dictation and the Hub are available from source. Owner accuracy acceptance
 is deferred. Implementation and remaining
 qualification are tracked separately:
@@ -58,8 +64,10 @@ model default.
 The [release-latency matrix](docs/LATENCY_MATRIX.md) now covers the specified
 3/10/30/90-second cold/warm runs through the actual worker, History and checked
 simulated paste, using Whisper base for Lite and Parakeet for Standard/Pro.
-Full native qualification is still pending; the earlier warm
-fixture results retain their original scope.
+The [full Lite baseline](eval/latency/results/2026-11-14-lite-whisper-base/README.md)
+completes all 160 cases, but misses the latency targets: 3-second warm p50/p95
+is 1.270/1.330 seconds. Standard/Pro and performance qualification remain open;
+the earlier warm fixture results retain their original scope.
 
 ## What works today
 
@@ -84,7 +92,8 @@ fixture results retain their original scope.
   sizes/licenses, resumable downloads with per-file verification progress,
   tier overrides, and model storage controls.
 - **Local data controls:** no telemetry, audio retention off by default,
-  optional retention limits, and a separate read-only firewall-rule check.
+  optional retention limits, a read-only firewall-rule check, and explicit
+  firewall controls for packaged installations.
 
 ## Run from source
 
@@ -206,9 +215,10 @@ at **19 minutes**. Saved custom limits stay unchanged. See
 The dictation path is microphone → local recognition → cleanup → History →
 delivery. Models are fetched only through explicit setup actions. Python
 network access is restricted to loopback, requested model downloads and saved
-opt-in GitHub update checks;
-complete native-library and helper-process firewall enforcement remains
-release work. See [the privacy boundary](docs/PRIVACY.md).
+opt-in GitHub update checks. Packaged firewall controls add an OS rule for that
+executable, including its native libraries. Effective Windows policy and separate
+helper processes have their own verification limits. See
+[the privacy boundary](docs/PRIVACY.md) and [Verify offline](docs/VERIFY_OFFLINE.md).
 
 | Data | Default location |
 |---|---|
