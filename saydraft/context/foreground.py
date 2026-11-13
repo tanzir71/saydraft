@@ -4,11 +4,20 @@ import ctypes as ct
 import ntpath
 import sys
 import threading
+from dataclasses import dataclass
 from ctypes import wintypes as wt
 
 from saydraft.core.interfaces import TargetContext
 from .app_groups import app_group, browser_site
 from .focused_edit import FocusedEdit
+from .selection import SelectionSnapshot
+from .tracked_edit import FieldIdentity
+
+
+@dataclass(frozen=True)
+class SelectedContext:
+    target: TargetContext = TargetContext()
+    selection: SelectionSnapshot = SelectionSnapshot()
 
 
 class NativeForegroundApi:
@@ -147,6 +156,81 @@ class ForegroundContextProvider:
 
     def capture_for_insertion(self):
         return self._capture(include_text=False)
+
+    def cancel_selection(self, captured=None):
+        owner = self._uia
+        if owner is None or (captured is not None and type(captured) is not SelectedContext):
+            return False
+        return owner.cancel_selection(None if captured is None else captured.selection)
+
+    def capture_selection(self, *, lease_seconds=1260):
+        """Explicit power-feature read; normal dictation keeps its smaller context bound."""
+        if self._closed or not self._use_uia:
+            return SelectedContext()
+        self.cancel_selection()  # A new intent retires the previous range before any new read.
+        try:
+            api = self._native()
+            if api is None or not (window := api.foreground()):
+                return SelectedContext()
+            if type(window) is not int or not 0 < window < 2**64:
+                return SelectedContext()
+            pid = api.window_pid(window)
+            if type(pid) is not int or not 0 < pid < 2**32:
+                return SelectedContext()
+            title = api.title(window, pid)
+            try:
+                exe = api.executable(pid)
+            except OSError:
+                exe = ""
+            self.prepare()
+            snapshot = self._uia.capture_selection(int(window), pid, lease_seconds=lease_seconds)
+            if self._closed or api.foreground() != window or api.window_pid(window) != pid:
+                self._uia.cancel_selection(snapshot)
+                return SelectedContext()
+            identity = snapshot.identity
+            if identity is None or identity.window != window or identity.process_id != pid:
+                return SelectedContext(selection=snapshot)
+            site = browser_site(exe, title)
+            target = TargetContext(focus=int(window), app_title=title or None, app_exe=exe,
+                app_group=app_group(exe, site, self.profiles), app_site=site, process_id=pid,
+                uia_status="ok", control_type=snapshot.control_type, field_id=identity.runtime_id,
+                selection=snapshot.text, selection_known=snapshot.status in ("ready", "empty"),
+                selection_truncated=snapshot.status == "selection_too_long")
+            return SelectedContext(target, snapshot)
+        except Exception:
+            self.cancel_selection()
+            return SelectedContext()
+
+    def verify_selection(self, captured, *, for_write=True):
+        if self._closed or not self._use_uia or self._uia is None:
+            return "field_unavailable"
+        if (type(captured) is not SelectedContext or type(captured.selection) is not SelectionSnapshot
+                or type(captured.target) is not TargetContext or captured.selection.status != "ready"):
+            return "selection_expired"
+        target, snapshot = captured.target, captured.selection
+        identity = snapshot.identity
+        if (type(identity) is not FieldIdentity or not identity.valid() or type(for_write) is not bool
+                or target.focus != identity.window or target.process_id != identity.process_id
+                or target.field_id != identity.runtime_id or target.control_type != snapshot.control_type
+                or target.selection != snapshot.text or target.uia_status != "ok"
+                or not target.selection_known or target.selection_truncated or target.is_password):
+            self.cancel_selection(captured)
+            return "field_unavailable"
+        reason = "field_unavailable"
+        try:
+            api = self._native()
+            if api.foreground() != target.focus or api.window_pid(target.focus) != target.process_id:
+                reason = "focus_changed"
+            else:
+                reason = self._uia.verify_selection(snapshot, for_write=for_write)
+                if not reason and (self._closed or api.foreground() != target.focus
+                                   or api.window_pid(target.focus) != target.process_id):
+                    reason = "focus_changed"
+        except Exception:
+            pass
+        if reason:
+            self.cancel_selection(captured)
+        return reason
 
     def _capture(self, *, include_text):
         if self._closed:

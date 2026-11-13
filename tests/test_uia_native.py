@@ -47,3 +47,16 @@ def test_native_tracked_edit_reads_fresh_original_field_and_refuses_password_cha
     assert report["cases"][-1]["history_before_input"] and report["cases"][-1]["session_suggestion_emitted"]
     assert report["cases"][-1]["session_dictionary_add_undo"]
     assert report["cases"][-1]["session_owners_closed"] and not report["microphone_used"] and not report["asr_performed"]
+
+
+@pytest.mark.skipif(sys.platform != "win32", reason="Windows UI Automation required")
+def test_native_selection_uses_only_own_ranges_and_rejects_changed_read_only_or_password_fields(tmp_path):
+    output = tmp_path / "own-selection"
+    completed = subprocess.run([sys.executable, "-m", "tools.probe_selection", "--output", str(output)],
+                               capture_output=True, timeout=30)
+    report = json.loads((output / "report.json").read_text(encoding="utf-8"))
+    assert completed.returncode == 0, report
+    assert report["probe_complete"] and report["mta_closed"] and report["own_windows_closed"]
+    assert not report["active_application_read"] and not report["owner_clipboard_accessed"]
+    assert not report["input_injected"] and not report["microphone_used"]
+    assert [row["case"] for row in report["cases"]] == ["long_selection", "same_text_new_range", "changed_text", "read_only", "password", "cancel"]

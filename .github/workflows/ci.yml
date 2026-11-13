@@ -48,6 +48,7 @@ jobs:
             build/pytest/**/own-controls/report.json
             build/pytest/**/own-app-context/report.json
             build/pytest/**/own-tracked-edit/report.json
+            build/pytest/**/own-selection/report.json
       - name: Cleanup regression evaluation
         run: python -m saydraft.eval --min-pass-rate 100 --min-cases 556
       - name: Adversarial cleanup validation

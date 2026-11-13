@@ -162,6 +162,39 @@ class NativeUIAReader:
     def text_context_for_request(self, element, limit, current):
         return self.text_context(element, limit, current=current)
 
+    def selection_range(self, element, current):
+        """Clone one selected range; no caret/document/value fallback or selection mutation."""
+        if not current():
+            return None
+        lib = self.lib
+        pattern = element.GetCurrentPattern(lib.UIA_TextPatternId).QueryInterface(lib.IUIAutomationTextPattern)
+        ranges = pattern.GetSelection()
+        if type(ranges.Length) is not int or ranges.Length != 1 or not current():
+            return None
+        selected = ranges.GetElement(0).Clone()
+        return selected if current() else None
+
+    def selection_text(self, selected, limit, current):
+        if type(limit) is not int or not 1 <= limit <= 8192 or not current():
+            return None
+        text = selected.GetText(limit + 1)
+        return text if current() else None
+
+    def same_selection(self, saved, current):
+        lib = self.lib
+        for endpoint in (lib.TextPatternRangeEndpoint_Start, lib.TextPatternRangeEndpoint_End):
+            comparison = saved.CompareEndpoints(endpoint, current, endpoint)
+            if type(comparison) is not int or comparison != 0:
+                return False
+        return True
+
+    def selection_read_only(self, element):
+        try:
+            value = element.GetCurrentPropertyValueEx(self.lib.UIA_ValueIsReadOnlyPropertyId, True)
+            return value if type(value) is bool else None
+        except Exception:
+            return None
+
     def text_context(self, element, limit, *, current=lambda: True):
         if type(limit) is not int or not 1 <= limit <= 1024:
             raise ValueError("UIA text read must be bounded")
