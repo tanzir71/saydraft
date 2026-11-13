@@ -79,7 +79,20 @@ remain pending their planned archive/port; they are not the current Pages source
 ## Documentation and reports
 
 Keep setup instructions, defaults, download sizes, and licenses aligned with
-the source and pinned model manifest. Link to dated measurements rather than
+the source and pinned model manifest. First-run capability recommendations are
+provisional; they do not replace inference measurements or the saved performance
+tier. Distinguish a completed file transfer, a verified model package, and saving
+setup preferences. The current wizard does not gate Finish on installed weights.
+
+For user-facing setup changes, keep the [README](readme.md),
+[first-run guide](docs/ONBOARDING.md), [documentation index](docs/README.md),
+[project context](llms.txt), and public
+[getting-started page](site/src/pages/docs/getting-started/index.astro) consistent.
+Run `.venv\Scripts\python -m pytest tests/test_readme.py -q` to check the public
+Markdown navigation. Changes under `site/` also need the website checks above;
+successful Site checks trigger the Pages deployment for that exact commit.
+
+Link to dated measurements rather than
 rewriting historical results as current acceptance. Describe a reproducible
 failure with the source commit, Windows/Python version, relevant configuration,
 and redacted logs in a [GitHub issue](https://github.com/tanzir71/saydraft/issues).

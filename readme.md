@@ -40,8 +40,9 @@ test suite does not establish full product parity or accuracy on your voice.
 - **Personal vocabulary:** searchable Dictionary terms, protected terms, and
   replacement pairs; Snippets with date/clipboard variables and import/export.
 - **Explicit setup:** model recommendations, disclosed sizes/licenses,
-  resumable downloads, microphone selection and a level-only test, tier
-  overrides, and model storage controls.
+  resumable downloads with per-file verification progress, microphone selection
+  and a level-only test, provisional PC checks, tier overrides, and model storage
+  controls.
 - **Local data controls:** no telemetry, audio retention off by default,
   optional retention limits, and a separate read-only firewall-rule check.
 
@@ -62,6 +63,29 @@ Keep the console available while diagnosing startup problems. The current
 [download page](https://tanzir71.github.io/saydraft/download/) also links to
 [GitHub Releases](https://github.com/tanzir71/saydraft/releases), where packaged
 artifacts will appear when available.
+
+### First launch
+
+The current setup wizard has five pages: Welcome, Microphone, Set up models,
+Hotkey, and Done.
+
+1. In **Microphone**, choose Default Windows input or select **Refresh inputs**
+   to find a named device. **Test input** runs a ten-second, level-only check;
+   it does not transcribe or save a recording.
+2. In **Set up models**, optionally select **Check this PC**, then **Use speech
+   recommendation**. This is a provisional capability recommendation, not a
+   measured performance tier. It does not start a download or enable AI cleanup.
+3. Review the speech model, size, and licenses, then select **Download / Resume**.
+   Setup shows package progress and individual file transfer/checksum phases.
+   Installed-file checks run in the background, including pinned dependencies.
+4. Review the shortcut and choose **Finish** to save changed microphone/model
+   choices. **Cancel** preserves saved preferences. Downloads already performed
+   are separate from those preferences and can be resumed.
+
+Finish currently saves settings even if model installation is incomplete; a
+compatible installed speech model is required for dictation. Shortcut learning,
+a dedicated practice sandbox, Style quick pick, and the complete six-step
+onboarding flow remain in development. See the [first-run guide](docs/ONBOARDING.md).
 
 ### Set up once, then go offline
 

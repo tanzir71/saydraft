@@ -8,6 +8,34 @@ UI, owned practice sandbox, Style quick pick, and final Hub Home handoff remain
 work under §8.4 of the root plan. These increments do not establish full
 onboarding or fresh-profile manual acceptance.
 
+## Current setup walkthrough
+
+| Page | Available now |
+|---|---|
+| Welcome | Introduces local tray dictation |
+| Microphone | Default Windows input or a named device; explicit Refresh inputs and ten-second, level-only Test input |
+| Set up models | Optional Check this PC and Use speech recommendation; size/license review, Download / Resume, Pause, and installed-file verification |
+| Hotkey | Displays the configured shortcut and a text field; shortcut learning and the dedicated practice sandbox are still pending |
+| Done | Finish saves changed setup choices; it does not establish that model installation is complete |
+
+Start with the [source installation commands](../readme.md#run-from-source).
+On the model page, a PC check only suggests a starting speech model. It does
+not download weights, run a benchmark, or change the saved tier. Review the
+selected model's size and licenses before choosing Download / Resume. Package
+progress and per-file verification are separate from the installed-package check.
+You can recheck with **Check installed files**.
+
+At least one compatible installed speech model is needed before dictating.
+The current wizard allows Finish with missing weights; complete installation
+in **Hub → Settings → Models** if needed. Bengali and Arabic use the same optional
+**All languages** package. Choosing either language starts no download.
+
+Finish saves only changed microphone/model choices, preserving newer unrelated
+settings. Cancel leaves saved preferences unchanged and requests a download pause.
+Completed downloads and resumable partials remain on disk.
+The microphone test stops when you leave its page or close setup. It records
+levels only, without transcription or a saved audio file.
+
 ## Microphone step
 
 Setup reuses `MicrophonePage`, including Default Windows input, named-device
