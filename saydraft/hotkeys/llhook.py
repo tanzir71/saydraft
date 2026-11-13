@@ -14,10 +14,12 @@ from .keys import physical_key
 
 class LowLevelHooks:
     def __init__(self, bindings, *, on_action, on_failure=lambda reason: None,
-                 api_factory=Win32Hooks, clock=time.monotonic, capacity=64, thread_factory=threading.Thread):
+                 api_factory=Win32Hooks, clock=time.monotonic, capacity=64, thread_factory=threading.Thread,
+                 matcher=None):
         if type(capacity) is not int or not 2 <= capacity <= 256:
             raise ValueError("Hotkey action queue capacity must be between 2 and 256")
-        self.matcher, self._on_action, self._on_failure = ChordMatcher(bindings), on_action, on_failure
+        self.matcher = ChordMatcher(bindings) if matcher is None else matcher
+        self._on_action, self._on_failure = on_action, on_failure
         self._api_factory, self._clock, self._thread_factory = api_factory, clock, thread_factory
         self._queue = queue.Queue(capacity)
         self._lock = threading.RLock()

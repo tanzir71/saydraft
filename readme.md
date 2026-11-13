@@ -67,7 +67,7 @@ artifacts will appear when available.
 ### First launch
 
 The current setup wizard has five pages: Welcome, Microphone, Set up models,
-Hotkey, and Done.
+Shortcut, and Done.
 
 1. In **Microphone**, choose Default Windows input or select **Refresh inputs**
    to find a named device. **Test input** runs a ten-second, level-only check;
@@ -78,14 +78,16 @@ Hotkey, and Done.
 3. Review the speech model, size, and licenses, then select **Download / Resume**.
    Setup shows package progress and individual file transfer/checksum phases.
    Installed-file checks run in the background, including pinned dependencies.
-4. Review the shortcut and choose **Finish** to save changed microphone/model
-   choices. **Cancel** preserves saved preferences. Downloads already performed
-   are separate from those preferences and can be resumed.
+4. In **Shortcut**, keep the preset, enter a binding, or choose **Learn shortcut**
+   and press/release your keys. Review any conflicts, then choose **Finish** to
+   save changed microphone/model/shortcut choices. **Cancel** preserves saved
+   preferences. Downloads already performed are separate from those preferences
+   and can be resumed.
 
 Finish currently saves settings even if model installation is incomplete; a
-compatible installed speech model is required for dictation. Shortcut learning,
-a dedicated practice sandbox, Style quick pick, and the complete six-step
-onboarding flow remain in development. See the [first-run guide](docs/ONBOARDING.md).
+compatible installed speech model is required for dictation. A dedicated
+practice sandbox, Style quick pick, and the complete six-step onboarding flow
+remain in development. See the [first-run guide](docs/ONBOARDING.md).
 
 ### Set up once, then go offline
 

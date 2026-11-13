@@ -592,6 +592,12 @@ def test_voice_tray_app_shows_onboarding_when_config_is_not_onboarded():
         def stop_microphone_test(self, _generation):
             return True
 
+        def start_shortcut_capture(self, _window, _valid):
+            return 13
+
+        def cancel_shortcut_capture(self, _generation):
+            return True
+
     class FakeTray:
         def __init__(self, *, callbacks, **_kwargs):
             self.callbacks = callbacks
@@ -637,6 +643,8 @@ def test_voice_tray_app_shows_onboarding_when_config_is_not_onboarded():
             self.microphone_page = types.SimpleNamespace(
                 accept_status=lambda generation, state: events.append(("input-status", generation, state)),
                 accept_level=lambda generation, level: events.append(("input-level", generation, level)))
+            self.shortcuts_page = types.SimpleNamespace(
+                accept_status=lambda generation, state, chord: events.append(("shortcut-status", generation, state, chord)))
             events.append(("onboarding-created", hotkey_hint))
 
         def update_audio_level(self, level):
@@ -671,8 +679,11 @@ def test_voice_tray_app_shows_onboarding_when_config_is_not_onboarded():
     app.signals.audio_level_changed.emit(0.6)
     app.signals.microphone_test_status.emit(7, "listening")
     app.signals.microphone_test_level.emit(7, 0.6)
+    app.signals.shortcut_capture_status.emit(13, "captured", "ctrl+alt+f8")
     assert app.onboarding_window.options["microphone_start_callback"].__self__ is app.controller
     assert app.onboarding_window.options["microphone_stop_callback"].__self__ is app.controller
+    assert app.onboarding_window.options["shortcut_start_callback"].__self__ is app.controller
+    assert app.onboarding_window.options["shortcut_cancel_callback"].__self__ is app.controller
     assert app.onboarding_window.close in app.qt_app.aboutToQuit.connected
     app.onboarding_window.on_config_applied(
         {"app": {"onboarded": True}, "stt": {"model_size": "small"}, "hotkeys": {"speech": "f8"}}
@@ -687,6 +698,7 @@ def test_voice_tray_app_shows_onboarding_when_config_is_not_onboarded():
         "onboarding-activate",
         ("input-status", 7, "listening"),
         ("input-level", 7, 0.6),
+        ("shortcut-status", 13, "captured", "ctrl+alt+f8"),
         ("applied", True),
         ("model", "base"),
         ("hotkey", "F8"),

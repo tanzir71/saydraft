@@ -14,6 +14,7 @@ from saydraft.audio.devices import InputSelection
 from saydraft.asr.selection import configured_model_id, select_model
 from saydraft.ui.microphone_page import MicrophonePage
 from saydraft.ui.onboarding_models import OnboardingModelsPage
+from saydraft.ui.onboarding_shortcuts import OnboardingShortcutsPage
 
 
 class OnboardingWizard(QtWidgets.QWizard):
@@ -36,6 +37,9 @@ class OnboardingWizard(QtWidgets.QWizard):
         microphone_devices_provider=None,
         model_hardware_probe=None,
         model_status_provider=None,
+        shortcut_start_callback=None,
+        shortcut_cancel_callback=None,
+        shortcut_conflict_detector=None,
     ):
         super().__init__()
         self.qt = qt_modules
@@ -47,9 +51,13 @@ class OnboardingWizard(QtWidgets.QWizard):
         self.microphone_devices_provider = microphone_devices_provider
         self.model_hardware_probe = model_hardware_probe
         self.model_status_provider = model_status_provider
+        self.shortcut_start_callback = shortcut_start_callback
+        self.shortcut_cancel_callback = shortcut_cancel_callback
+        self.shortcut_conflict_detector = shortcut_conflict_detector
         self.config = load_config(config_path=self.config_path)
         self._completed = False
-        self.hotkey_hint = hotkey_hint or str(self.config["hotkeys"]["speech"]).upper()
+        # Saved preferences, rather than an optional display hint, own the staged binding.
+        self.hotkey_hint = str(self.config["hotkeys"]["speech"]).upper()
 
         self.setWindowTitle("Saydraft Setup")
         self.setWizardStyle(QtWidgets.QWizard.ModernStyle)
@@ -141,23 +149,10 @@ class OnboardingWizard(QtWidgets.QWizard):
         return page
 
     def _hotkey_page(self) -> QtWidgets.QWizardPage:
-        page = QtWidgets.QWizardPage()
-        page.setTitle("Hotkey")
-        layout = QtWidgets.QVBoxLayout(page)
-        self.hotkey_hint_label = QtWidgets.QLabel(self.hotkey_hint)
-        self.hotkey_hint_label.setObjectName("hotkeyHint")
-        self.hotkey_hint_label.setAlignment(QtCore.Qt.AlignCenter)
-        self.hotkey_hint_label.setStyleSheet("font-size: 24px; font-weight: 600;")
-        self.hotkey_test_field = QtWidgets.QPlainTextEdit()
-        self.hotkey_test_field.setPlaceholderText("Dictated text appears here during the tutorial")
-        self.hotkey_test_field.textChanged.connect(self._update_hotkey_status)
-        self.hotkey_status_label = QtWidgets.QLabel("Waiting for tutorial text")
-        self.hotkey_status_label.setAlignment(QtCore.Qt.AlignCenter)
-        layout.addWidget(QtWidgets.QLabel("Hold the speech hotkey and dictate into this field."))
-        layout.addWidget(self.hotkey_hint_label)
-        layout.addWidget(self.hotkey_test_field, 1)
-        layout.addWidget(self.hotkey_status_label)
-        return page
+        self.shortcuts_page = OnboardingShortcutsPage(self.config,
+            start_callback=self.shortcut_start_callback, cancel_callback=self.shortcut_cancel_callback,
+            conflict_detector=self.shortcut_conflict_detector)
+        return self.shortcuts_page
 
     def _done_page(self) -> QtWidgets.QWizardPage:
         page = QtWidgets.QWizardPage()
@@ -182,10 +177,19 @@ class OnboardingWizard(QtWidgets.QWizard):
         if self._completed:
             return True
         self.microphone_page.stop_test()
+        self.shortcuts_page.cancel_learning()
+        if self.shortcuts_page.learning:
+            self.finish_status_label.setText("Wait for shortcut learning to stop before finishing setup.")
+            return False
         try:
             # Merge only setup edits into the latest saved preferences. An open
             # Hub can save unrelated settings while the wizard is still visible.
             cfg = load_config(config_path=self.config_path)
+            try:
+                cfg["hotkeys"] = self.shortcuts_page.merge_changes(cfg["hotkeys"])
+            except ValueError:
+                self.finish_status_label.setText("Shortcut settings changed or conflict. Review the Shortcut step before finishing.")
+                return False
             cfg["app"]["onboarded"] = True
             if self.model_picker.model_id != configured_model_id(self.config):
                 select_model(cfg, self.model_picker.model_id, manual=True)
@@ -210,12 +214,7 @@ class OnboardingWizard(QtWidgets.QWizard):
 
     def reject(self) -> None:
         self.microphone_page.stop_test()
+        self.shortcuts_page.cancel_learning()
         self.models_page.cancel_checks()
         self.model_picker.pause()
         super().reject()
-
-    def _update_hotkey_status(self) -> None:
-        if self.hotkey_test_field.toPlainText().strip():
-            self.hotkey_status_label.setText("Tutorial text received")
-        else:
-            self.hotkey_status_label.setText("Waiting for tutorial text")

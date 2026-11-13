@@ -55,17 +55,8 @@ def resolve_project_path(value: str | os.PathLike[str], *, base: Path | None = N
 
 
 def find_hotkey_conflicts(hotkeys: dict[str, str]) -> list[str]:
-    from saydraft.hotkeys.recording import recording_bindings
-    keys = {name: hotkeys[name] for name in ("speech", "speech_alternative", "speech_mouse", "hands_free")
-            if hotkeys.get(name, "").strip()}
-    if not keys:
-        return ["Enter at least one recording shortcut"]
-    try:
-        recording_bindings(keys, cancel_key=hotkeys.get("cancel", ""), save_key=hotkeys.get("save", ""),
-                           paste_key=hotkeys.get("paste_last", ""))
-    except ValueError as exc:
-        return [str(exc)]
-    return []
+    from saydraft.hotkeys.recording import validate_hotkeys
+    return validate_hotkeys(hotkeys)
 
 
 class SettingsPage(QtWidgets.QWidget):

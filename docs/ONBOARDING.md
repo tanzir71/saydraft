@@ -2,9 +2,10 @@
 
 P6.4 is in progress. The existing five-step wizard now uses the shared
 microphone selector/test and a model-setup page with explicit capability checks,
-package verification and per-file download progress. The complete six-step flow,
-in-setup inference measurements and readiness gating, shortcut learning/conflict
-UI, owned practice sandbox, Style quick pick, and final Hub Home handoff remain
+package verification and per-file download progress. Shortcut setup now has a
+staged preset, manual entry, focused press-to-learn and shared conflict validation.
+The complete six-step flow, in-setup inference measurements and readiness gating,
+owned practice sandbox, Style quick pick, and final Hub Home handoff remain
 work under §8.4 of the root plan. These increments do not establish full
 onboarding or fresh-profile manual acceptance.
 
@@ -15,7 +16,7 @@ onboarding or fresh-profile manual acceptance.
 | Welcome | Introduces local tray dictation |
 | Microphone | Default Windows input or a named device; explicit Refresh inputs and ten-second, level-only Test input |
 | Set up models | Optional Check this PC and Use speech recommendation; size/license review, Download / Resume, Pause, and installed-file verification |
-| Hotkey | Displays the configured shortcut and a text field; shortcut learning and the dedicated practice sandbox are still pending |
+| Shortcut | Preserved custom bindings or Wispr-compatible preset; manual entry, focused Learn shortcut, validation, and explicit other-app advisory |
 | Done | Finish saves changed setup choices; it does not establish that model installation is complete |
 
 Start with the [source installation commands](../readme.md#run-from-source).
@@ -30,7 +31,7 @@ The current wizard allows Finish with missing weights; complete installation
 in **Hub → Settings → Models** if needed. Bengali and Arabic use the same optional
 **All languages** package. Choosing either language starts no download.
 
-Finish saves only changed microphone/model choices, preserving newer unrelated
+Finish saves only changed microphone/model/shortcut choices, preserving newer unrelated
 settings. Cancel leaves saved preferences unchanged and requests a download pause.
 Completed downloads and resumable partials remain on disk.
 The microphone test stops when you leave its page or close setup. It records
@@ -58,16 +59,76 @@ complete first-run permission diagnostics remain part of P6.4.
 
 ## Saving choices
 
-Device/model choices stay staged until Finish. Cancel preserves configuration
+Device/model/shortcut choices stay staged until Finish. Cancel preserves configuration
 bytes. Finish reloads current preferences and merges only the setup choices
 that changed, preserving newer unrelated Hub settings and unchanged newer
-model/input selections. Recording limits, audio retention and custom shortcuts
-remain intact. The saved device identity is its name/audio-API pair, never an
+model/input/shortcut selections. Recording limits, audio retention and unchanged
+custom shortcuts remain intact. A new conflict against the latest shortcuts
+refuses Finish without saving or marking setup complete. The saved device identity is its name/audio-API pair, never an
 enumeration index.
 
 A save failure keeps setup open with a generic recovery message and does not
 mark setup complete or apply configuration. A successful Finish is idempotent;
 repeated completion cannot apply twice or overwrite subsequent preferences.
+
+## Shortcut learning
+
+Fresh profiles show the Wispr-compatible preset (Ctrl+Win to dictate,
+Ctrl+Win+Space for hands-free, Shift+Alt+Z for paste-last). Existing custom
+bindings stay selected. Use Wispr-compatible preset explicitly stages those
+three bindings; other choices remain unchanged. The primary binding also has
+manual entry and Learn shortcut. Moving an identical alternate/mouse gesture
+to the primary action explicitly shows that the duplicate will be disabled.
+
+Learn shortcut grants one ten-second attempt only while its button and setup
+window remain focused. The temporary hook is ahead of normal dictation hooks;
+the idle session worker reserves learning before any context/microphone work.
+Only canonical key identifiers are held, without translating events into text.
+Keys held before arming are forwarded until released. A chord is published only
+after all captured keys release and native teardown is observed. Win/Alt release
+mask requests and tagged-input exclusion use the existing native transport.
+
+Esc, an ordinary mouse click, focus loss, window deactivation, leaving/hiding/
+closing the page, Cancel, Finish, settings replacement and shutdown revoke the
+attempt. Stale generations and revoked foreground permissions cannot update the
+field. GUI callbacks never join native threads; an unobserved owner retains its
+reservation rather than permitting another hook; setup stays incomplete and
+requests a restart. Native physical chords and
+Start-menu behavior still require the outstanding manual Windows acceptance.
+
+The native binding compiler validates both the draft and its merge into current
+preferences. Invalid/conflicting shortcuts block Next and Finish. Check other
+app conflicts performs an explicit background, read-only check for Wispr Flow;
+its result is advisory, not proof that a shortcut is globally available. Editing
+the staged chord updates that advisory without another process scan. Hidden,
+closed and stale probes cannot publish, and cleanup never joins on the GUI.
+
+QWizard can briefly hide/re-layout a page when completeness changes. Setup
+updates navigation before granting capture permission, then emits completeness
+changes only when the value changes. This avoids immediately cancelling a newly
+granted attempt. Learning controls/status precede the longer preset/shortcut
+summary and scroll into view. The old ordinary text field has been removed;
+the real owned practice sandbox remains pending.
+
+```powershell
+python -m pytest tests/test_shortcut_capture.py tests/test_onboarding_shortcuts.py tests/test_onboarding_window.py tests/test_qt_app_shell.py tests/test_session_worker.py tests/test_native_hooks.py -q
+```
+
+Tests use synthetic key packets, fake native APIs/foreground guards, private
+configuration, and an offscreen setup window. The full UI → controller → worker
+→ native matcher → queued UI path verifies observed teardown before publication
+and saving only on Finish. No owner input, microphone, clipboard, playback or
+desktop interaction is used. Full onboarding/manual timing acceptance remains open.
+
+Final focused integration passes 155 cases; rules pass 556/556 and authored
+adversarial checks pass 100/100, with Ruff, diff and all 12 generated token
+outputs passing. Final offscreen renders cover 144 states (288 captures): nine
+states, both themes, 640×440/880×600, 16/22 px and 1×/2× density. Exact window
+sizes, readable headings, wrapped detail text, complete action/navigation
+reachability, no horizontal overflow and retained capture permission pass;
+selected final captures were inspected. Earlier development captures remain
+superseded evidence. This is neither the complete component gallery nor native
+physical/manual acceptance.
 
 ## Model setup
 
@@ -131,7 +192,7 @@ link contrast pass; the minimum link contrast is 16.46:1. Selected final capture
 were inspected. Earlier captures retain the dark blue-link issue that this
 review found; they are superseded rather than counted as final visual proof.
 
-Final model-setup source: 2,755 tests pass with five explicit native/model skips;
+Earlier model-setup source: 2,755 tests pass with five explicit native/model skips;
 rules 556/556, authored adversarial 100/100, Ruff/diff and all 12 generated token
 outputs pass. These checks do not qualify a hardware tier, owner ASR accuracy,
 or the complete onboarding/manual timing acceptance.

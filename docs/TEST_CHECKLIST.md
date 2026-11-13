@@ -42,6 +42,9 @@ do not automate microphone capture or foreground insertion into an owner's apps.
 
 ## Reliability Checks
 
+- In disposable setup, verify Learn shortcut suppresses normal dictation and captures only after every key releases; Esc, focus/window changes, Back, Cancel and shutdown stop learning. No stale result may change a newer attempt. An unobserved hook teardown must keep setup incomplete and request restart.
+- Verify the preset and manual shortcut choices stay staged until Finish; test duplicate-alternate guidance and conflict rejection against newer saved shortcuts. Check other app conflicts is explicit, advisory and responsive; hidden/closed probes cannot update the page. Physical Ctrl+Win/Start-menu acceptance requires a deliberate manual Windows session.
+
 - In disposable first-run setup, verify Check this PC is explicit and yields provisional/pending guidance without writing a benchmark, changing the saved tier, enabling AI or downloading. Use speech recommendation stages only the model choice.
 - Verify installed-package checks include required helper weights, stay responsive, discard late results after selection/hide/close, and coalesce rapid selections. Transfer completion alone must not be reported as package verification.
 - Pause/resume fixture transfers while inspecting per-file bytes and SHA-256 phases; corrupt files never report verified or publish a live installation. Switch models after completion and confirm the prior progress/details clear. Review license links and keyboard focus in both themes/larger text; changing the palette during a download preserves progress.

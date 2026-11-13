@@ -1,5 +1,15 @@
 # Native Windows hotkeys
 
+First-run setup now has explicit focused shortcut learning, a staged
+Wispr-compatible preset, manual entry and the shared native conflict validator.
+Its temporary capture hook reserves the idle worker and publishes a chord only
+after observed retirement; it does not start ordinary dictation. Focus/page/
+window changes, Esc, timeout and cancellation revoke learning. The explicit
+other-app check is a read-only Wispr Flow advisory, not an inventory of every
+application's bindings. Synthetic/offscreen coverage does not establish the
+outstanding physical Windows/Start-menu acceptance. See
+[first-run shortcut behavior](ONBOARDING.md#shortcut-learning).
+
 P5.1 starts with a pure bounded chord engine. The existing gesture controller
 moves from `hotkeys.py` into `hotkeys/controller.py`; the package re-exports its
 public classes so existing application imports and injected tests stay intact.

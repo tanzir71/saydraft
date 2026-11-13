@@ -38,11 +38,13 @@ Setup shows model sizes and licenses before an explicit Download action, with pr
 
 ## First-run setup
 
-The current wizard has five pages: Welcome, Microphone, Set up models, Hotkey, and Done. Refresh inputs explicitly discovers devices; Test input is a ten-second level-only check without transcription or saved audio. Check this PC produces a provisional capability recommendation, not a measured tier. Use speech recommendation stages the speech model without downloading or enabling AI cleanup.
+The current wizard has five pages: Welcome, Microphone, Set up models, Shortcut, and Done. Refresh inputs explicitly discovers devices; Test input is a ten-second level-only check without transcription or saved audio. Check this PC produces a provisional capability recommendation, not a measured tier. Use speech recommendation stages the speech model without downloading or enabling AI cleanup.
 
-Download / Resume is explicit. Setup checks installed pinned dependencies asynchronously and displays per-file transfer/checksum progress separately from whole-package verification. Finish merges changed microphone/model choices into the latest preferences; Cancel preserves saved preferences. Downloaded files are separate from preference saving. Finish can currently save with weights missing; actual dictation requires a compatible installed model.
+Download / Resume is explicit. Setup checks installed pinned dependencies asynchronously and displays per-file transfer/checksum progress separately from whole-package verification. Finish merges changed microphone/model/shortcut choices into the latest preferences and refuses shortcut conflicts; Cancel preserves saved preferences. Downloaded files are separate from preference saving. Finish can currently save with weights missing; actual dictation requires a compatible installed model.
 
-The complete six-step flow, in-setup inference measurements/readiness gating, shortcut learning, a dedicated practice sandbox, Style quick pick, and final Hub Home handoff remain in development. See https://github.com/tanzir71/saydraft/blob/main/docs/ONBOARDING.md. Do not infer these features from the roadmap or an unconnected implementation component.
+Shortcut setup provides a Wispr-compatible preset, manual entry, and explicit press-to-learn for up to ten seconds in the focused setup window. Learning reserves the idle worker, suppresses its chord through a temporary native hook, publishes only after observed cleanup, and cancels on focus/page/window changes. Check other app conflicts is an explicit read-only Wispr Flow advisory; other apps' custom bindings are unknown. Native physical/manual acceptance remains open.
+
+The complete six-step flow, in-setup inference measurements/readiness gating, a dedicated practice sandbox, Style quick pick, and final Hub Home handoff remain in development. See https://github.com/tanzir71/saydraft/blob/main/docs/ONBOARDING.md. Do not infer these features from the roadmap or an unconnected implementation component.
 
 ## Optional AI cleanup
 

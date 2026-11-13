@@ -36,8 +36,8 @@ def test_onboarding_wizard_has_required_steps_and_explicit_microphone_controls(t
 
     titles = [wizard.page(page_id).title() for page_id in wizard.pageIds()]
 
-    assert titles == ["Welcome", "Microphone", "Set up models", "Hotkey", "Done"]
-    assert wizard.hotkey_hint_label.text() == "F9"
+    assert titles == ["Welcome", "Microphone", "Set up models", "Shortcut", "Done"]
+    assert wizard.shortcuts_page.primary.text() == "ctrl+win"  # Saved config owns the binding, not a display hint.
 
     assert wizard.microphone_page._future is None
     assert wizard.level_bar.value() == 0
@@ -77,15 +77,19 @@ def test_onboarding_model_download_updates_progress_and_selected_model(tmp_path)
     assert "complete" in wizard.model_status_label.text().lower()
 
 
-def test_onboarding_hotkey_page_marks_tutorial_text_received(tmp_path):
+def test_onboarding_shortcut_page_validates_staged_input_without_saving(tmp_path):
     from saydraft.ui.onboarding import OnboardingWizard
 
     config_path = write_config(tmp_path)
     wizard = OnboardingWizard(qt_modules=qt_modules(), config_path=config_path)
 
-    wizard.hotkey_test_field.setPlainText("hello from dictation")
-
-    assert "received" in wizard.hotkey_status_label.text().lower()
+    before = config_path.read_bytes()
+    wizard.shortcuts_page.primary.setText("f10")
+    assert not wizard.shortcuts_page.isComplete()
+    assert "conflict" in wizard.shortcuts_page.validation.text().lower()
+    wizard.shortcuts_page.primary.setText("ctrl+alt+f8")
+    assert wizard.shortcuts_page.isComplete()
+    assert config_path.read_bytes() == before
 
 
 def test_onboarding_finish_sets_onboarded_and_applies_config(tmp_path):

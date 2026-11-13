@@ -18,7 +18,7 @@ complete status; an implemented component is not full milestone acceptance.
 | [Shortcuts](HOTKEYS.md) | Native chords, hands-free double-tap, paste-last, and outstanding Windows checks |
 | [Dictation Bar](BAR.md) | Recording/processing states and controls |
 | [Microphone](MICROPHONE.md) | Device selection, level-only test, missing-input behavior |
-| [First-run setup](ONBOARDING.md) | Five-page walkthrough, microphone test, provisional PC recommendations, verified downloads, saving/cancellation, and remaining onboarding work |
+| [First-run setup](ONBOARDING.md) | Five-page walkthrough, microphone test, provisional PC recommendations, verified downloads, shortcut learning/conflicts, and remaining onboarding work |
 | [Recording limits](RECORDING_LIMITS.md) | 19-minute warning, 20-minute default cap, saved overrides |
 | [Styles](STYLES.md) | Per-app tone, intensity, and preview behavior |
 | [Snippets](SNIPPETS.md) | Triggers, variables, import/export, and SQLite adoption |

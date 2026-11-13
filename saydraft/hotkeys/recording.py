@@ -3,6 +3,20 @@
 from .chords import Binding, Chord, conflicts
 
 
+def validate_hotkeys(hotkeys):
+    """Validate saved or staged preferences with the native binding compiler."""
+    keys = {name: hotkeys[name] for name in ("speech", "speech_alternative", "speech_mouse", "hands_free")
+            if hotkeys.get(name, "").strip()}
+    if not keys:
+        return ["Enter at least one recording shortcut"]
+    try:
+        recording_bindings(keys, cancel_key=hotkeys.get("cancel", ""), save_key=hotkeys.get("save", ""),
+                           paste_key=hotkeys.get("paste_last", ""))
+    except ValueError as exc:
+        return [str(exc)]
+    return []
+
+
 def recording_bindings(keys, *, cancel_key, save_key, paste_key="", suppress=True):
     """Compile and validate exactly the bindings installed by the app, without hooks."""
     def binding(name, key, **options):

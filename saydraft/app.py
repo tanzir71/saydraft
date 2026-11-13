@@ -39,6 +39,7 @@ def create_worker_signals(QtCore):
         history_retry_finished = QtCore.Signal(int)
         microphone_test_status = QtCore.Signal(int, str)
         microphone_test_level = QtCore.Signal(int, float)
+        shortcut_capture_status = QtCore.Signal(int, str, str)
         audio_retention_updated = QtCore.Signal(object)
         hardware_benchmark_finished = QtCore.Signal(object)
         preview_text_changed = QtCore.Signal(int, str)
@@ -172,6 +173,12 @@ class WorkerController:
 
     def stop_microphone_test(self, generation=None):
         return bool(self.core and self.core.stop_microphone_test(generation))
+
+    def start_shortcut_capture(self, window, valid):
+        return self.core.start_shortcut_capture(window, valid) if self.core else 0
+
+    def cancel_shortcut_capture(self, generation=None):
+        return bool(self.core and self.core.cancel_shortcut_capture(generation))
 
     def cleanup_audio(self, policy):
         return bool(self.core and self.core.cleanup_audio(policy))
@@ -587,12 +594,18 @@ class SaydraftApp:
                 hotkey_hint=self._controller_hotkey_hint(),
                 microphone_start_callback=getattr(self.controller, "start_microphone_test", None),
                 microphone_stop_callback=getattr(self.controller, "stop_microphone_test", None),
+                shortcut_start_callback=getattr(self.controller, "start_shortcut_capture", None),
+                shortcut_cancel_callback=getattr(self.controller, "cancel_shortcut_capture", None),
             )
             microphone = getattr(self.onboarding_window, "microphone_page", None)
             if microphone is not None:
                 qt = self.qt_modules or _load_qt_modules()
                 self.signals.microphone_test_status.connect(microphone.accept_status, qt.QtCore.Qt.QueuedConnection)
                 self.signals.microphone_test_level.connect(microphone.accept_level, qt.QtCore.Qt.QueuedConnection)
+            shortcuts = getattr(self.onboarding_window, "shortcuts_page", None)
+            if shortcuts is not None:
+                qt = self.qt_modules or _load_qt_modules()
+                self.signals.shortcut_capture_status.connect(shortcuts.accept_status, qt.QtCore.Qt.QueuedConnection)
             about = getattr(self.qt_app, "aboutToQuit", None)
             close = getattr(self.onboarding_window, "close", None)
             if about is not None and close is not None:
