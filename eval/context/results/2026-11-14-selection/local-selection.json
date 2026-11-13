@@ -1,0 +1,50 @@
+{
+  "probe_complete": true,
+  "git_commit": "5339fa94077540416d9466cc908b015aaa8d0180",
+  "source_dirty": false,
+  "input_injected": false,
+  "owner_clipboard_accessed": false,
+  "active_application_read": false,
+  "microphone_used": false,
+  "scope": "invisible own EDIT, actual native ranges and bounded owner; fixture substitutes own focus; physical focus/insertion unmeasured",
+  "cases": [
+    {
+      "case": "long_selection",
+      "status": "ready",
+      "selected_units": 1408,
+      "exact": true
+    },
+    {
+      "case": "same_text_new_range",
+      "reason": "selection_changed"
+    },
+    {
+      "case": "changed_text",
+      "reason": "selection_changed"
+    },
+    {
+      "case": "read_only",
+      "reason": "read_only"
+    },
+    {
+      "case": "password",
+      "status": "password_field",
+      "no_text_read": true
+    },
+    {
+      "case": "cancel",
+      "reason": "selection_expired"
+    }
+  ],
+  "reads": 13,
+  "provider_setup": [
+    {
+      "attempts": 1,
+      "timeouts": 0,
+      "ready": true,
+      "seconds": 0.016395099984947592
+    }
+  ],
+  "mta_closed": true,
+  "own_windows_closed": true
+}

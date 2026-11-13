@@ -58,6 +58,12 @@ same-text/different-position rejection, text changes, read-only behavior, passwo
 refusal, cancellation and observed MTA/window retirement. This is not physical
 focus/paste, native clipboard fallback, full Command Mode or owner-data acceptance.
 
+The selected-target layer passes at clean `5339fa9`: 3,343 tests / 12 skips,
+rules 556/556, authored adversarial 100/100 and frozen package/regression checks.
+The same own-invisible-window probe passes locally and on CI. Unchanged reports,
+workflow metadata, hashes and scope limits are in the
+[dated record](../eval/context/results/2026-11-14-selection/README.md).
+
 ```powershell
 python -m pytest tests/test_selection.py tests/test_selection_worker.py tests/test_selection_patterns.py -q
 python -m tools.probe_selection --output D:\QA\OwnSelection-New

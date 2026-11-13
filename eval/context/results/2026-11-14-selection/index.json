@@ -1,0 +1,33 @@
+{
+  "schema": 1,
+  "recorded_at": "2026-11-13T23:48:51.322382+00:00",
+  "git_commit": "5339fa94077540416d9466cc908b015aaa8d0180",
+  "ci_run": 43528600278,
+  "package_run": 43528600306,
+  "artifact_id": 14085384793,
+  "artifact_zip_sha256": "72565cbfba6e3bebd38b3e83c67541195554c494069a3163a63c8c868f60f0b3",
+  "artifact_alias_entries": [
+    "test_native_selection_uses_onl0/own-selection/report.json",
+    "test_native_selection_uses_onlcurrent/own-selection/report.json"
+  ],
+  "aliases_have_identical_payload": true,
+  "tests": {
+    "passed": 3343,
+    "skipped": 12,
+    "seconds": 262.9,
+    "rules": "556/556",
+    "authored_adversarial": "100/100"
+  },
+  "scope": "Selected-target boundary only. Own invisible EDIT with substituted own focus, actual native ranges and bounded owner; no owner active application, input, clipboard or microphone. Full Command Mode/clipboard/edit validation/generation/replacement not implemented or accepted.",
+  "files_sha256": {
+    "artifact.json": "4a00de2ba0b6a56963e1b96f5a3fdedac7f4290c21b55cb1cd266e9f36fb4558",
+    "ci-run.json": "f42748b5352245ebdddb5c8a3c2809ebc61ed2fd6a28859ca06a7a65f2f62e24",
+    "ci-selection.json": "016b548697715940a2c9c5931db549649974ee34a9c91c7d80505cf712e926dd",
+    "local-selection.json": "49717ba14a0eeed9b0590dc8f879ff139d6633975cafc0bee07be1055460fcea",
+    "package-run.json": "744e5e1878f6c54a72594eee528d7e8126010708ec27ed23cea07bdd3bec6ea6"
+  },
+  "private_logs_sha256": {
+    "package.log": "e9ed18b8d35db8857bec7fea7c941cd257adaef95453f2c308cf7f56cec438df",
+    "windows.log": "39aa92964eac8fc95aa1986f4a21349f27deeb1199b91d6e0e8c0d22ded0ef5b"
+  }
+}
