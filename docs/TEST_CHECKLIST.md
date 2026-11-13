@@ -45,6 +45,10 @@ each timeout and attempt is retained in `provider_setup`. Production connection
 and transaction timeouts remain 100 ms. CI retains the three JSON probe reports
 as `owned-window-native-diagnostics`, including on failure. This preparation
 does not establish cold-provider or foreground-app latency acceptance.
+The tracked-edit session fixture waits for both owned MTA readers to finish
+provider preparation before timed session work. Its reports include session
+phase, capture status/elapsed time, and the failed assertion's source line,
+without field text. Runtime caller deadlines and success assertions are unchanged.
 
 ## Manual App Matrix
 

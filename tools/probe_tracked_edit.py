@@ -9,6 +9,7 @@ import hashlib
 import subprocess
 import threading
 import time
+import traceback
 from contextlib import contextmanager
 from ctypes import wintypes as wt
 from pathlib import Path
@@ -40,24 +41,41 @@ def session_case(metadata, identity, mutate, child, row, output):
     audio_clock, observation_clock = NS(now=0), NS(now=0)
     listening, finished, suggested, changed = (threading.Event() for _ in range(4))
     suggestions, changes = [], []
-    def factory():
+    provider_ready = {name: threading.Event() for name in ('critical', 'observation')}
+    def factory(role):
         native = NativeUIAReader()
         try:
             prepare_owned_element(native, child, row)
-        except Exception:
+        except Exception as error:
+            row.setdefault('factory_errors', []).append({'owner': role, 'error_type': type(error).__name__,
+                'hresult': getattr(error, 'hresult', None)})
             native.close()
             raise
         native.focused_element = lambda: native.client.ElementFromHandleBuildCache(child, native.cache)
         native.keyboard_focus_snapshot = native.same_focus = lambda element: True  # Own invisible fixture only.
+        row.setdefault('session_provider_ready', {})[role] = True
+        provider_ready[role].set()
         return native
     class Foreground(NativeForegroundApi):
         def foreground(self):
             return identity.window
-    critical = BoundedUIA(factory=factory, capture_timeout=.5)
-    observation = ObservationWorker(factory=factory, clock=lambda: observation_clock.now)
+    critical = BoundedUIA(factory=lambda: factory('critical'), capture_timeout=.5)
+    observation = ObservationWorker(factory=lambda: factory('observation'), clock=lambda: observation_clock.now)
     context = ForegroundContextProvider(api=Foreground(), uia=critical, observation=observation)
+    for name in ('capture', 'capture_for_insertion'):
+        capture = getattr(context, name)
+        def measured(*args, _capture=capture, _name=name, **options):
+            started = time.perf_counter()
+            result = _capture(*args, **options)
+            row.setdefault('context_captures', []).append({'method': _name, 'seconds': time.perf_counter() - started,
+                'status': result.uia_status, 'field_known': bool(result.field_id)})
+            return result
+        setattr(context, name, measured)
     worker = None
     try:
+        row['session_stage'] = 'provider_readiness'
+        assert all(event.wait(3) for event in provider_ready.values())
+        row['session_stage'] = 'worker_preparation'
         config = default_config()
         config["dictation"]["learn_corrections"], config["stt"]["language"] = True, "en"
         store = DictationHistoryStore(output / "session.db")
@@ -92,22 +110,30 @@ def session_case(metadata, identity, mutate, child, row, output):
                 changed.set()
         worker = SessionWorker(services, emit=emit, session=DictationSession(clock=lambda: audio_clock.now),
             keyboard_module=NS(), timer_factory=lambda *a: NS(start=lambda: None, cancel=lambda: None))
-        assert worker.start_recording() and listening.wait(5)
+        row['session_stage'] = 'start_recording'
+        row['recording_admitted'] = bool(worker.start_recording())
+        assert row['recording_admitted'] and listening.wait(5)
+        row['session_stage'] = 'observation_preparation'
         ticket = observation._scope  # Plain synchronization data; no COM object is exposed.
+        row['observation_ticket_present'] = ticket is not None
         assert ticket is not None and ticket.ready.wait(5)
         audio_clock.now = 1
+        row['session_stage'] = 'processing'
         worker.stop_recording()
         assert finished.wait(5) and ticket.active.wait(5) and not ticket.done.is_set()
         assert worker.last_result.insertion.status == "inserted"
+        row['session_stage'] = 'correction'
         mutate("correction")
         observation_clock.now = 15
         observation._wake.set()
         assert ticket.done.wait(5)
+        row['session_stage'] = 'suggestion'
         worker.poll_corrections()
         assert suggested.wait(5) and len(suggestions) == 1
         assert suggestions[0].candidate.term == "Kubernetes" and worker.is_current_correction(suggestions[0])
         assert len(store.list_recent()) == 1 and clipboard.value == "Public original clipboard fixture"
         row["session_suggestion_emitted"] = True
+        row['session_stage'] = 'dictionary_add_undo'
         assert worker.add_correction(suggestions[0]) and changed.wait(5)
         worker.executor.submit(lambda: None).result(timeout=5)
         assert changes[-1].status == "added" and cleaner.glossary.user_terms == ("Kubernetes",)
@@ -118,6 +144,7 @@ def session_case(metadata, identity, mutate, child, row, output):
         assert changes[-1].status == "undone" and cleaner.glossary.user_terms == ()
         assert len(store.list_recent()) == 1
         row["session_dictionary_add_undo"] = True
+        row['session_stage'] = 'complete'
     finally:
         if worker is not None:
             worker.shutdown()
@@ -289,7 +316,8 @@ def probe(output):
                     row["complete"] = True
                     report["cases"].append(row)
                 except Exception as error:
-                    report["failures"].append({**row, "error_type": type(error).__name__})
+                    report["failures"].append({**row, "error_type": type(error).__name__,
+                        'failure_line': traceback.extract_tb(error.__traceback__)[-1].lineno})
                 finally:
                     if observer is not None:
                         observer.clear()

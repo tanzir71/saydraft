@@ -842,6 +842,8 @@ Cloud anything (sync, accounts, team dictionaries, web search in Ask), mobile ap
 
 ## 14. Changelog
 
+- 2026-11-13 | Tracked-edit CI diagnostics | Retained the failing `0f6f28a` CI artifact (3035 passed, one owned tracked-edit session failure, 12 skips). Made both session MTA factory readiness acknowledgements explicit before timed work and added per-phase/capture-status/elapsed/failure-line diagnostics. Runtime deadlines and all six success assertions remain unchanged; full CI rechecks the fixture. | tools/probe_tracked_edit.py, docs/TEST_CHECKLIST.md
+
 - 2026-11-13 | P6.5 capture ownership | Preserved existing hands-free capture when Ctrl+Win+D opens the last diff and refused cancellation of unrelated work when the recording prefix was not admitted. Added synthetic native regression cases proving both continued capture/normal finish and busy-job preservation; 75 focused checks pass. | saydraft/hotkeys/controller.py, saydraft/hotkeys/recording.py, tests/test_notes_shortcuts.py, docs/NOTES.md, docs/HOTKEYS.md
 
 - 2026-11-13 | P6.5 implementation | Added persistent Scratchpad drafts, searchable Hub Notes, revision-safe recovery, flush-before-Quit and native Scratchpad/last-diff shortcuts. Preserved custom bindings, History statistics, clipboard privacy and existing SQLite data. Reviewed owned light/dark layouts; physical Windows acceptance remains open. | saydraft/data/notes.py, saydraft/core/note_draft.py, saydraft/ui/scratchpad.py, saydraft/ui/notes_page.py, saydraft/ui/hub.py, saydraft/ui/history_page.py, saydraft/app.py, saydraft/config.py, saydraft/core/hotkey_service.py, saydraft/hotkeys/, tests/test_notes*.py, tests/test_scratchpad.py, tests/test_last_diff.py, docs/NOTES.md, readme.md
