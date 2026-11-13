@@ -20,7 +20,7 @@ _SCRIPT = """$ErrorActionPreference = 'Stop'
 [Console]::OutputEncoding = [System.Text.UTF8Encoding]::new($false)
 $request = [Console]::In.ReadToEnd() | ConvertFrom-Json
 $filters = @(Get-NetFirewallApplicationFilter -PolicyStore ActiveStore | Where-Object {
-    [Environment]::ExpandEnvironmentVariables($_.Program) -ieq $request.program
+    [Environment]::ExpandEnvironmentVariables([string]$_.Program) -ieq $request.program
 })
 $count = 0
 foreach ($filter in $filters) {

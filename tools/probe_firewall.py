@@ -14,6 +14,7 @@ from pathlib import Path
 import shutil
 import subprocess
 import sys
+import time
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -100,6 +101,26 @@ def run_probe(output):
               "rule_name": rule_name(executable), "microphone_used": False, "input_injected": False,
               "owner_clipboard_accessed": False, "steps": {}}
     report["runtime_environment"] = runtime_environment()
+    report["inspections"] = []
+    def inspect_owned():
+        diagnostic = {"timeout_seconds": 30}
+        def inspect_runner(*args, **options):
+            # Cold NetSecurity startup on a disposable VM can exceed the GUI's
+            # interactive8s budget. Keep the exact query; use a bounded QA budget.
+            options["timeout"] = 30
+            started = time.monotonic()
+            try:
+                response = subprocess.run(*args, **options)
+                diagnostic["return_code"] = response.returncode
+                return response
+            except Exception as error:
+                diagnostic["error_type"] = type(error).__name__
+                raise
+            finally:
+                diagnostic["seconds"] = time.monotonic() - started
+        status = inspect_firewall(program=executable, runner=inspect_runner)
+        report["inspections"].append({**diagnostic, "state": status.state, "matching_rules": status.matching_rules})
+        return status
     request_count = 0
     def invoke(kind, **options):
         nonlocal request_count
@@ -128,7 +149,8 @@ def run_probe(output):
         from saydraft.model_download import download_silero_vad_model
         vad = download_silero_vad_model(models_dir=output / "models")
         report["stage"] = "fresh-rule-check"
-        before = inspect_firewall(program=executable)
+        before = inspect_owned()
+        report["steps"]["initial_firewall"] = {"state": before.state, "matching_rules": before.matching_rules}
         if before.state != "absent":
             raise RuntimeError("Fresh executable already has a matching rule")
         report["stage"] = "online-controls-before"
@@ -143,7 +165,7 @@ def run_probe(output):
                 report["rule_shape"] = rule_shape(executable)
             if report["steps"][key] != 0:
                 raise RuntimeError("Owned rule creation/idempotence failed")
-        report["steps"]["matching_rules"] = inspect_firewall(program=executable).matching_rules
+        report["steps"]["matching_rules"] = inspect_owned().matching_rules
         if report["steps"]["matching_rules"] != 1:
             raise RuntimeError("Owned block rule is not present in ActiveStore")
         report["stage"] = "blocked-native-and-download"
@@ -165,7 +187,7 @@ def run_probe(output):
             raise RuntimeError("Real worker failed under the owned block rule")
         report["stage"] = "remove"
         report["steps"]["remove"] = helper_main(["remove"], target_provider=lambda: executable)
-        if report["steps"]["remove"] != 0 or inspect_firewall(program=executable).state != "absent":
+        if report["steps"]["remove"] != 0 or inspect_owned().state != "absent":
             raise RuntimeError("Owned rule removal failed")
         report["stage"] = "online-controls-after"
         report["steps"]["native_after"] = invoke("native")
@@ -178,7 +200,7 @@ def run_probe(output):
         report["error_type"] = type(error).__name__
     finally:
         report["cleanup_exit"] = helper_main(["remove"], target_provider=lambda: executable)
-        report["cleanup_absent"] = inspect_firewall(program=executable).state == "absent"
+        report["cleanup_absent"] = inspect_owned().state == "absent"
         report["complete"] = report["complete"] and report["cleanup_exit"] == 0 and report["cleanup_absent"]
         (output / "report.json").write_text(json.dumps(report, indent=2), encoding="utf-8")
     return report

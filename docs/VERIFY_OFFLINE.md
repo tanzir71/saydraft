@@ -74,6 +74,10 @@ Whisper recognition/rules/temporary History under its rule. Its native WinHTTP
 and pinned model-file positive controls must work before and after removal,
 and fail under the rule with download recovery guidance. These explicit probes
 are reachable only through the package-verification CLI on a disposable runner.
+The source probe records each read-only inspection's state, duration, return code
+and safe error category, with a 30-second cold-VM query budget. The interactive
+Privacy query retains its eight-second budget and reports unknown when it cannot
+read policy; its timeout does not become a protection claim.
 Both mutation probes refuse owner machines and self-hosted runners; neither
 invokes UAC in CI. These are distinct scopes, and neither alone establishes
 physical dictation or cleanup-sidecar coverage.
