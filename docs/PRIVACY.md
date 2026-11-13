@@ -1,7 +1,8 @@
 # Offline networking
 
 The process entrypoint installs `NetworkGuard` before starting workers. Python
-socket connections, DNS lookups and UDP sends are denied outside loopback.
+socket connections, DNS lookups and UDP sends are denied outside loopback,
+apart from scoped downloads and saved opt-in app update checks.
 Explicit model downloads temporarily authorize only exact hosts from the bundled
 model manifest, in the downloading context. Other worker threads stay offline.
 Redirects must remain HTTPS on listed hosts. Files are pinned to an immutable
@@ -10,6 +11,13 @@ Interrupted transfers retain revision-bound `.part` files for HTTP Range resume.
 Unknown or corrupt files are preserved in the model directory's `_archive`.
 Only a fully verified transfer receives an atomic completion marker. Model loaders
 recheck downloaded files' hashes before use.
+
+App update checks are off by default. When explicitly enabled and saved,
+startup/daily checks may read public release metadata from `api.github.com` in
+their own worker context. They do not send speech or app-field data, follow
+redirects, download installers or install updates. Turning them off retires
+pending results. The release-page link opens only after a user action. See
+[optional update checks](UPDATES.md) for the request and verification scope.
 
 The catalog in `saydraft/models/manifest.json` includes Parakeet v3/v2 int8,
 Whisper base/small/medium/turbo, Tiny Whisper language detection, Silero VAD,

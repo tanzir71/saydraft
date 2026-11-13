@@ -36,6 +36,7 @@ CONFIG_SCHEMA: dict[str, Any] = {
         "onboarded": bool,
     },
     "labs": {"live_preview": bool, "use_streaming_result": bool},
+    "updates": {"enabled": bool},
     "recording": {
         "input_device": str,
         "input_hostapi": str,
@@ -114,6 +115,7 @@ _DEFAULT_CONFIG: dict[str, Any] = {
         "onboarded": False,
     },
     "labs": {"live_preview": False, "use_streaming_result": False},
+    "updates": {"enabled": False},
     "recording": {
         "input_device": "",
         "input_hostapi": "",

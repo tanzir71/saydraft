@@ -55,6 +55,7 @@ including the optional public-audio recognizer smoke.
 | [Cleanup validator](VALIDATOR_V2.md) | Protected details, content-word checks, permitted edits, and limits |
 | [Cleanup evidence](CLEANUP_EVIDENCE.md) | Current native comparisons, production-policy results, and retained failures |
 | [Privacy boundary](PRIVACY.md) | Python network policy, explicit downloads, firewall inspection, remaining native enforcement |
+| [Optional app updates](UPDATES.md) | Saved default-off checks, public GitHub metadata, release notices and explicit browser action |
 | [Audio retention](AUDIO_RETENTION.md) | Default-off storage, expiry, retry leases, and recovery |
 | [Data migration](DATA_MIGRATION.md) | Compatibility, backups, and preserved legacy data |
 | [Database](DATABASE.md) | Local SQLite behavior and qualification limits |

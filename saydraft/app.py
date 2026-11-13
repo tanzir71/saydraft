@@ -278,6 +278,7 @@ class SaydraftApp:
         model_download_callback: Callable[[str, Callable[[int], None]], None] | None = None,
         crash_guard_installer: Callable[..., object] | None = None,
         sound_bank_factory: Callable[..., object] | None = None,
+        update_presenter_factory=None,
     ):
         self.argv = list(sys.argv if argv is None else argv)
         self.qt_modules = qt_modules
@@ -294,6 +295,8 @@ class SaydraftApp:
         self.model_download_callback = model_download_callback or download_asr_model
         self.crash_guard_installer = crash_guard_installer or install_crash_guard
         self.sound_bank_factory = sound_bank_factory
+        self.update_presenter_factory = update_presenter_factory
+        self.update_presenter = None
         self.bar_sounds = None
         self.qt_app = None
         self.signals = None
@@ -426,7 +429,35 @@ class SaydraftApp:
         if hasattr(self.tray, "set_model_label"):
             self.tray.set_model_label(self._controller_model_label())
         self._show_onboarding_if_needed()
+        self._configure_updates(self.config)
         return int(application.exec())
+
+    def _ensure_update_presenter(self):
+        if self.qt_app is None:
+            return None
+        if self.update_presenter is None:
+            qt = self.qt_modules or _load_qt_modules()
+            factory = self.update_presenter_factory
+            if factory is None:
+                if not hasattr(qt.QtCore, 'QTimer') or not isinstance(self.qt_app, qt.QtCore.QObject):
+                    return None
+                from .ui.updates import UpdatePresenter
+                factory = UpdatePresenter
+            self.update_presenter = factory(parent=self.qt_app, on_available=self._update_available)
+            about = getattr(self.qt_app, 'aboutToQuit', None)
+            if about is not None:
+                about.connect(self.update_presenter.close)
+        return self.update_presenter
+
+    def _configure_updates(self, config):
+        from .updates import updates_enabled
+        presenter = self._ensure_update_presenter()
+        if presenter is not None:
+            presenter.configure(updates_enabled(config))
+
+    def _update_available(self, result):
+        self.signals.notification_requested.emit(
+            f'Saydraft {result.version} is available. View the release in Settings → Privacy → App updates.')
 
     def _apply_bar_update(self, update):
         from .core.bar_status import BarPhase, BarUpdate
@@ -607,6 +638,7 @@ class SaydraftApp:
             self.hub_window = self.hub_window_factory(
                 settings_options=dict(qt_modules=self.qt_modules, config_path=self.config_path,
                     on_config_applied=self._on_settings_applied, model_download_callback=self.model_download_callback,
+                    update_presenter=self._ensure_update_presenter(),
                     hardware_benchmark_callback=self._benchmark_hardware,
                     style_preview_callback=getattr(self.controller, "preview_style", None),
                     style_glossary_provider=getattr(self.controller, "style_glossary", None),
@@ -709,6 +741,7 @@ class SaydraftApp:
 
     def _on_settings_applied(self, config: dict) -> None:
         self.config = config
+        self._configure_updates(config)
         presenter = getattr(self, "dictionary_presenter", None)
         if presenter is not None:
             presenter.retire_suggestion()

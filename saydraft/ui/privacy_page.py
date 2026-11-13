@@ -12,7 +12,8 @@ from saydraft.privacy.netguard import NetworkGuard
 class PrivacyPage(QtWidgets.QWidget):
     firewall_ready = QtCore.Signal(int,object)
 
-    def __init__(self, config, checkbox, *, saved_policy, cleanup_callback=None, firewall_provider=None, parent=None):
+    def __init__(self, config, checkbox, *, saved_policy, cleanup_callback=None, firewall_provider=None,
+                 update_presenter=None, parent=None):
         super().__init__(parent)
         self.checkbox,self.saved_policy,self.cleanup_callback = checkbox,saved_policy,cleanup_callback
         self.firewall_provider = firewall_provider or inspect_firewall
@@ -33,12 +34,15 @@ class PrivacyPage(QtWidgets.QWidget):
             return label
         paragraph("Your words stay on your machine.",display=True)
         self.network_status = paragraph("")
-        paragraph("The Python network policy blocks connections outside loopback. Model downloads happen only when requested. OS rules and native helpers need separate verification.")
+        paragraph("The Python network policy blocks connections outside loopback, apart from requested model downloads and optional app update checks. OS rules and native helpers need separate verification.")
         paragraph("Telemetry: none. Dictation, cleanup, History and preferences stay local.")
         self.firewall_status = paragraph("Windows Firewall: not checked.")
         self.firewall_button = QtWidgets.QPushButton("Check firewall rules")
         self.firewall_button.clicked.connect(self.check_firewall)
         layout.addWidget(self.firewall_button)
+        from .updates import UpdatesCard
+        self.updates_card = UpdatesCard(config, presenter=update_presenter, parent=self)
+        layout.addWidget(self.updates_card)
         paragraph("Saved recordings",display=True)
         layout.addWidget(checkbox)
         self.retention_combo = QtWidgets.QComboBox()
@@ -165,6 +169,8 @@ class PrivacyPage(QtWidgets.QWidget):
     @QtCore.Slot()
     def _shutdown(self):
         self._closed = True
+        if self.updates_card._owns_presenter:
+            self.updates_card.presenter.close()
         if self._pool is not None:
             self._pool.shutdown(wait=False,cancel_futures=True)
 

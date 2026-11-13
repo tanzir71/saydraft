@@ -1,4 +1,4 @@
-"""Process-wide Python socket policy: loopback or scoped model downloads only.
+"""Process-wide Python socket policy: loopback and explicit scoped exceptions.
 
 This guards Python socket APIs, not native extensions or child processes. Use an
 OS firewall rule for that boundary (see the distribution/privacy milestone).
@@ -144,6 +144,13 @@ class NetworkGuard:
             for (owner, name), original in cls._originals.items():
                 setattr(owner, name, original)
             cls._originals.clear()
+
+    @staticmethod
+    @contextmanager
+    def allow_update_check():
+        """Authorize only GitHub's API in the opted-in check's own context."""
+        with NetworkGuard.allow_downloads({'api.github.com'}):
+            yield
 
     @staticmethod
     @contextmanager

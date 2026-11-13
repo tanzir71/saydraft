@@ -803,6 +803,7 @@ for a public release, physical dictation and native firewall remain separate.
 - [ ] **P8.3** (G5) Signing in the release workflow. **Acceptance:** a signed installer verifies with `signtool verify /pa`.
 - [ ] **P8.4** winget manifest PR (`Tanzir.Saydraft`) + Scoop bucket. **Acceptance:** `winget install Tanzir.Saydraft` works after the PR merges (owner submits).
 - [ ] **P8.5** Opt-in update check (default **off**), GitHub Releases API only, shows a notice and opens the release page; never auto-downloads. **Acceptance:** the NetworkGuard test passes with it off; it works when on.
+  - Implemented saved default-off startup/daily/manual checks, fixed public API scope, bounded metadata and stable-version/repository checks, queued notices and explicit release-page action. Off/close retire pending results; no installer download or execution. Unit/UI and separate real-metadata CI checks are authored; acceptance awaits those runs while the isolated local latency baseline continues. See `docs/UPDATES.md`.
 - [ ] **P8.6** Privacy extras: Settings → Privacy "Block Saydraft from the internet" creates/removes a Windows Firewall outbound rule for `Saydraft.exe` (UAC prompt; explains that model downloads then need the rule off); "Verify offline" docs page. **Acceptance:** with the rule on, dictation works and downloads fail with a clear message.
   - Read-only inspection foundation now exists in Privacy: query current-process enabled outbound block rules from ActiveStore with fixed hidden PowerShell and JSON stdin; return counts/unknown without exposing rule details or changing policy. The page distinguishes Python enforcement from unverified profile/destination/native-helper coverage. This does not create/remove rules or satisfy P8.6; packaged controls and actual native-boundary/download acceptance remain open.
 
@@ -850,6 +851,8 @@ Cloud anything (sync, accounts, team dictionaries, web search in Ask), mobile ap
 ---
 
 ## 14. Changelog
+
+- 2026-11-14 | P8.5 implementation | Added default-off saved update preferences, a public-metadata-only client and scoped NetworkGuard permission, one daemon request with generation retirement, responsive Qt controls and startup/daily notices. Installer updates remain manual. Added offline contract/UI cases and a separate explicit public metadata smoke job; verification is pending CI to preserve the ongoing isolated local latency run. | saydraft/updates.py, saydraft/ui/updates.py, saydraft/privacy/netguard.py, saydraft/config.py, saydraft/app.py, saydraft/ui/settings_page.py, saydraft/ui/privacy_page.py, tests/test_updates*.py, tools/probe_updates.py, .github/workflows/ci.yml, docs/UPDATES.md, docs/PRIVACY.md
 
 - 2026-11-14 | P8.2 accepted | Pushed the real dry-run tag after exact-source CI passed. The workflow built/verified the package and created unsigned draft 444758925 with four assets; GitHub asset digests, source tag, draft status and downloaded small manifest/checksum files were independently checked. Retained evidence without binary downloads during the separate isolated Lite baseline. | eval/packaging/results/2026-11-14-draft/, docs/PACKAGING.md, readme.md, llms.txt
 

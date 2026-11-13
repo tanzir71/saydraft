@@ -84,6 +84,7 @@ class SettingsPage(QtWidgets.QWidget):
         firewall_status_provider=None,
         model_remove_callback=None,
         model_inventory_provider=None,
+        update_presenter=None,
     ):
         super().__init__()
         self.qt = qt_modules
@@ -102,6 +103,7 @@ class SettingsPage(QtWidgets.QWidget):
         self.microphone_devices_provider = microphone_devices_provider
         self.audio_cleanup_callback,self.firewall_status_provider = audio_cleanup_callback,firewall_status_provider
         self.model_remove_callback, self.model_inventory_provider = model_remove_callback, model_inventory_provider
+        self.update_presenter = update_presenter
         self._vad_download_task = None
         self.config = load_config(config_path=self.config_path)
         self.snippets_path = Path(snippets_path) if snippets_path is not None else resolve_project_path("snippets.txt")
@@ -297,7 +299,8 @@ class SettingsPage(QtWidgets.QWidget):
         from saydraft.data.retention import AudioRetentionPolicy
         self.privacy_page = PrivacyPage(self.config,self.retain_audio_checkbox,
             saved_policy=lambda:AudioRetentionPolicy.from_config(self.config),
-            cleanup_callback=self.audio_cleanup_callback,firewall_provider=self.firewall_status_provider)
+            cleanup_callback=self.audio_cleanup_callback,firewall_provider=self.firewall_status_provider,
+            update_presenter=self.update_presenter)
         self.privacy_status = self.privacy_page.network_status
         return self._scroll(self.privacy_page)
 
@@ -501,6 +504,8 @@ class SettingsPage(QtWidgets.QWidget):
         self.retain_audio_checkbox.setChecked(cfg["recording"].get("retain_audio", False))
         from saydraft.data.retention import AudioRetentionPolicy
         self.privacy_page.set_policy(AudioRetentionPolicy.from_config(cfg))
+        from saydraft.updates import updates_enabled
+        self.privacy_page.updates_card.set_choice(updates_enabled(cfg))
         self._set_combo(self.mode_combo, cfg["dictation"]["mode"])
         self._set_combo(self.profile_combo, cfg["dictation"]["profile"])
         self.drop_message_period_checkbox.setChecked(cfg["dictation"]["drop_message_period"])
@@ -582,6 +587,8 @@ class SettingsPage(QtWidgets.QWidget):
         self.config = saved
         self.model_storage.selection_changed()
         self.privacy_page.policy_saved()
+        from saydraft.updates import updates_enabled
+        self.privacy_page.updates_card.apply_policy(updates_enabled(saved))
         if self.on_config_applied is not None:
             self.on_config_applied(saved)
         self.status_label.setText("Saved")
@@ -626,6 +633,7 @@ class SettingsPage(QtWidgets.QWidget):
         cfg["recording"]["max_seconds"] = int(self.max_seconds_spin.value())
         cfg["recording"]["retain_audio"] = self.retain_audio_checkbox.isChecked()
         cfg["recording"]["audio_retention_days"] = self.privacy_page.policy().days
+        cfg['updates']['enabled'] = self.privacy_page.updates_card.enabled_checkbox.isChecked()
         cfg["recording"]["warning_seconds"] = int(self.warning_seconds_spin.value())
         cfg["dictation"]["mode"] = self.mode_combo.currentText()
         cfg["dictation"]["profile"] = self.profile_combo.currentText()
