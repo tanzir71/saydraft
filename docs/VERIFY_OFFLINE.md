@@ -63,3 +63,13 @@ Implementation follows Microsoft's [program/profile rule parameters](https://lea
 and [ShellExecuteEx elevation/process-handle API](https://learn.microsoft.com/en-us/windows/win32/api/shellapi/nf-shellapi-shellexecuteexw).
 Provider messages and rule details are not sent to a server or shown in error
 dialogs. Requests are local; no account or telemetry is added.
+
+The separate `firewall-owned-rule-smoke` CI job blocks a newly copied Python
+interpreter, tests fixed native WinHTTP and pinned model-file downloads
+before/under/after the rule, and replays two real-worker dictations while blocked.
+It uses only public fixture audio and memory keyboard/clipboard adapters. The
+Package workflow separately exercises the frozen helper, conflicts/idempotence,
+unrelated-rule preservation, and frozen resource verification under its rule.
+Both mutation probes refuse owner machines and self-hosted runners; neither
+invokes UAC in CI. These are distinct scopes, and neither alone establishes
+physical dictation or cleanup-sidecar coverage.

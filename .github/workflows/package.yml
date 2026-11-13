@@ -12,6 +12,7 @@ on:
       - 'tools/package_audit.py'
       - 'tools/package_notices.py'
       - 'tools/check_installer.ps1'
+      - 'tools/check_firewall.ps1'
       - 'Saydraft.spec'
       - 'requirements*.txt'
       - 'LICENSE'
@@ -45,6 +46,9 @@ jobs:
       - name: Verify disposable per-user install and uninstall
         shell: pwsh
         run: ./tools/check_installer.ps1 -BuildRoot $env:SAYDRAFT_PACKAGE_ROOT
+      - name: Verify frozen firewall helper on disposable runner
+        shell: pwsh
+        run: ./tools/check_firewall.ps1 -BuildRoot $env:SAYDRAFT_PACKAGE_ROOT
       - name: Retain unsigned binary artifacts
         if: always()
         uses: actions/upload-artifact@v7
