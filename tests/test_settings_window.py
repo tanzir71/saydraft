@@ -106,7 +106,7 @@ def test_bar_visibility_round_trips_and_microphone_fixes_are_explicit_links(tmp_
     assert load_config(config_path=config_path)["app"]["start_sound"] is False
     assert load_config(config_path=config_path)["app"]["end_sound"] is True
     assert not opened
-    for button in window.microphone_page.findChildren(qt.QtWidgets.QPushButton):
+    for button in (window.microphone_page.sound_button,window.microphone_page.privacy_button):
         button.click()
     assert opened == ["ms-settings:sound", "ms-settings:privacy-microphone"]
     window.close()

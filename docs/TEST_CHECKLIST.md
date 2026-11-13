@@ -30,5 +30,9 @@ Use the packaged app or `run_app.bat`, complete onboarding if prompted, and keep
 ## Reliability Checks
 
 - Unplug and replug the default microphone, then start a new dictation without restarting Saydraft.
+- In Settings → Microphone, refresh inputs, choose a named microphone/audio API, test it, save, and confirm future dictation uses that input after restarting the app.
+- Confirm Test input stops after ten seconds and on Stop, leaving the page, closing the Hub or changing Settings; it creates no History entry or retained recording.
+- Disconnect a selected named input and confirm it remains visible as unavailable and never silently switches to another microphone; selecting Default Windows input is explicit.
+- Confirm late test levels/timers after stopping do not revive the meter, and input discovery remains responsive at larger text/200% scaling.
 - Start with no microphone available and confirm the tray tooltip shows "No microphone" and the pill shows the error state.
 - Kill and relaunch Saydraft, then confirm no duplicate tray icons remain and the single-instance notification appears on a second launch.

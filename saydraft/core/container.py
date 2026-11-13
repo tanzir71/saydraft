@@ -30,6 +30,8 @@ class Services:
 
 def create_services(config: dict, *, level_callback=None, notify=lambda message: None) -> Services:
     from saydraft.audio.recorder import AudioRecorder
+    from saydraft.audio.devices import InputSelection, selected_input_stream
+    from functools import partial
     from saydraft.dictation import DictationConfig, DictationPipeline
     from saydraft.dictation.llm_local import LocalLLMConfig
     from saydraft.history import DictationHistoryStore
@@ -53,7 +55,9 @@ def create_services(config: dict, *, level_callback=None, notify=lambda message:
             idle_seconds=llm.get("idle_seconds", 900),
         ),
     ))
-    recorder = AudioRecorder(max_seconds=config["recording"]["max_seconds"], level_callback=level_callback)
+    selected = InputSelection.from_config(config)
+    recorder = AudioRecorder(max_seconds=config["recording"]["max_seconds"], level_callback=level_callback,
+        device=selected.name or None, stream_factory=partial(selected_input_stream, selected) if selected.name else None)
     asr = create_asr(config)
     context = ForegroundContextProvider(profiles=profiles, use_uia=sys.platform == "win32")
     inserter = ClipboardInserter(focus_provider=context.focus, profiles=profiles)

@@ -220,6 +220,19 @@ help checks are retained in QA logs; final focused/full checks pass after their
 selection and layout fixes. No actual new speech/cleanup-model accuracy or live
 desktop acceptance is inferred from injected review tests and owned renders.
 
+## Microphone controls
+
+Settings → Microphone now has staged named-device/API selection, explicit
+background discovery and a ten-second level-only test. Test uses the selected
+draft; shared Save applies it to future dictation. Missing/ambiguous inputs stay
+visible and never silently fall back to another microphone. Capture and device
+closure run on the serial worker, with cancellation/generation checks and
+reservation against dictation/retry/preview/benchmark work. Page hiding, Hub close,
+Settings changes and shutdown stop the test. The GUI receives RMS numbers only;
+audio is not buffered, saved, transcribed, pasted or played. Existing Windows
+sound/privacy links remain. Details and verification: [MICROPHONE.md](MICROPHONE.md).
+Whisper-mode processing and live hardware/manual acceptance remain separate.
+
 ## Home data
 
 `DictationHistoryStore.weekly_stats(today=...)` reads `stats_daily` plus duration
@@ -331,7 +344,7 @@ correctly rejected oversized bodies. Logs remain in permanent QA storage; the
 intermittent timeout's cause is unresolved. No loopback code or test deadline
 was changed for this History revision.
 
-Full §8.3 still requires Notes producers, microphone picker/test, Privacy controls
+Full §8.3 still requires Notes producers, Privacy controls
 and complete model/disk controls. The later
 onboarding, Scratchpad/Notetaker and complete gallery/
 accessibility milestones retain their original scope.

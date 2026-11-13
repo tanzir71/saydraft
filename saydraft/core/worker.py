@@ -57,6 +57,9 @@ class SessionWorker:
         from .history_retry import RetryCleanup
         self._retry_cleanup = RetryCleanup()
         self._benchmarking = False
+        from .microphone import MicrophoneTest
+        self.microphone_test = MicrophoneTest(schedule=self._schedule_microphone,
+            emit=self.emit, timer_factory=timer_factory, finished=self._microphone_finished)
         self.corrections = CorrectionController(executor=self.executor,
             current=lambda generation: generation == self.session.session_id and not self._closing
                 and not self._cancel_request.is_set(), emit=self.emit, known_terms=self._dictionary_terms)
@@ -217,7 +220,31 @@ class SessionWorker:
 
     @property
     def busy(self):
-        return self._capturing_context or self._inflight > 0 or self.session.active
+        return self._capturing_context or self._inflight > 0 or self.session.active or self.microphone_test.active
+
+    def _schedule_microphone(self, action, *args):
+        with self._lock:
+            self._submit(action, *args)
+
+    def _microphone_finished(self):
+        with self._lock:
+            if self._pending_config is not None and not self.busy and not self._closing:
+                config, self._pending_config = self._pending_config, None
+                self.configure(config)
+
+    def start_microphone_test(self, selection):
+        from saydraft.audio.devices import InputSelection
+        if not isinstance(selection, InputSelection) or not self._lock.acquire(blocking=False):
+            return 0
+        try:
+            if self.busy or self._closing:
+                return 0
+            return self.microphone_test.start(selection)
+        finally:
+            self._lock.release()
+
+    def stop_microphone_test(self, generation=None):
+        return self.microphone_test.stop(generation)
 
     def _submit(self, function, *args):
         self._inflight += 1
@@ -479,6 +506,7 @@ class SessionWorker:
         # Observed by delivery even while native clipboard rendering is in progress.
         self._cancel_request.set()
         self._history_retry_cancel.set()
+        self.microphone_test.stop()
         self.bar_status.cancel()
         self.corrections.cancel()
         if not self.session.active:
@@ -935,6 +963,7 @@ class SessionWorker:
             if self.busy:
                 self._history_retry_cancel.set()
                 self._pending_config = config
+                self.microphone_test.stop()
                 self.emit("notification_requested", "Settings will apply after the current dictation.")
                 return
             pending = self.services.processor.pending_results
@@ -966,6 +995,7 @@ class SessionWorker:
 
     def shutdown(self):
         self._closing = True
+        self.microphone_test.close()
         self.cancel()
         self._retry_cleanup.close()
         self._close_context(self.services.context)

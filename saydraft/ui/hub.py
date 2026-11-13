@@ -144,5 +144,8 @@ class HubWindow(QtWidgets.QWidget):
         self.home_page.refresh()
 
     def closeEvent(self, event):
+        microphone = getattr(self.settings_page,"microphone_page",None)
+        if microphone is not None:
+            microphone.stop_test()
         self.settings_page.pause_downloads()
         super().closeEvent(event)

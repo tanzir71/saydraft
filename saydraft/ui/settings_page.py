@@ -10,7 +10,7 @@ from collections.abc import Callable
 from pathlib import Path
 from typing import Any
 
-from PySide6 import QtCore, QtGui, QtWidgets
+from PySide6 import QtCore, QtWidgets
 
 from saydraft.config import load_config, save_config
 from saydraft.dictionary.store import read_dictionary, save_dictionary
@@ -85,6 +85,9 @@ class SettingsPage(QtWidgets.QWidget):
         cleanup_runtime_download_callback=None,
         style_preview_callback=None,
         style_glossary_provider=None,
+        microphone_start_callback=None,
+        microphone_stop_callback=None,
+        microphone_devices_provider=None,
     ):
         super().__init__()
         self.qt = qt_modules
@@ -99,6 +102,8 @@ class SettingsPage(QtWidgets.QWidget):
         self.cleanup_runtime_download_callback = cleanup_runtime_download_callback
         self.style_preview_callback = style_preview_callback
         self.style_glossary_provider = style_glossary_provider
+        self.microphone_start_callback, self.microphone_stop_callback = microphone_start_callback, microphone_stop_callback
+        self.microphone_devices_provider = microphone_devices_provider
         self._vad_download_task = None
         self.config = load_config(config_path=self.config_path)
         self.snippets_path = Path(snippets_path) if snippets_path is not None else resolve_project_path("snippets.txt")
@@ -274,22 +279,9 @@ class SettingsPage(QtWidgets.QWidget):
         return self._scroll(page)
 
     def _microphone_tab(self):
-        page = QtWidgets.QWidget()
-        layout = QtWidgets.QVBoxLayout(page)
-        title = QtWidgets.QLabel("Microphone")
-        title.setProperty("role", "display")
-        layout.addWidget(title)
-        help_text = QtWidgets.QLabel("Saydraft uses the default Windows input. Connect a microphone, then choose it as your default input in Windows sound settings. If access is blocked, allow desktop apps in Windows microphone privacy settings.")
-        help_text.setWordWrap(True)
-        layout.addWidget(help_text)
-        sound = QtWidgets.QPushButton("Open Windows sound settings")
-        sound.clicked.connect(lambda: QtGui.QDesktopServices.openUrl(QtCore.QUrl("ms-settings:sound")))
-        privacy = QtWidgets.QPushButton("Open microphone privacy settings")
-        privacy.clicked.connect(lambda: QtGui.QDesktopServices.openUrl(QtCore.QUrl("ms-settings:privacy-microphone")))
-        layout.addWidget(sound)
-        layout.addWidget(privacy)
-        layout.addStretch()
-        return page
+        from .microphone_page import MicrophonePage
+        return MicrophonePage(self.config,start_callback=self.microphone_start_callback,
+            stop_callback=self.microphone_stop_callback,devices_provider=self.microphone_devices_provider)
 
     def _privacy_tab(self):
         from saydraft.privacy.netguard import NetworkGuard
@@ -482,6 +474,8 @@ class SettingsPage(QtWidgets.QWidget):
 
     def _load_values(self) -> None:
         cfg = self.config
+        from saydraft.audio.devices import InputSelection
+        self.microphone_page.set_selection(InputSelection.from_config(cfg))
         self.speech_hotkey_edit.setText(cfg["hotkeys"]["speech"])
         self.alternative_hotkey_edit.setText(cfg["hotkeys"]["speech_alternative"])
         self.mouse_hotkey_edit.setText(cfg["hotkeys"]["speech_mouse"])
@@ -530,6 +524,7 @@ class SettingsPage(QtWidgets.QWidget):
         combo.setCurrentText(value)
 
     def apply_changes(self) -> bool:
+        self.microphone_page.stop_test()
         try:
             cfg = self._collect_config()
             self._refresh_shortcut_warning()
@@ -596,6 +591,8 @@ class SettingsPage(QtWidgets.QWidget):
 
     def _collect_config(self) -> dict[str, Any]:
         cfg = json.loads(json.dumps(self.config))
+        cfg["recording"].update(input_device=self.microphone_page.selection.name,
+            input_hostapi=self.microphone_page.selection.hostapi)
         cfg["hotkeys"]["speech"] = self.speech_hotkey_edit.text().strip()
         cfg["hotkeys"]["speech_alternative"] = self.alternative_hotkey_edit.text().strip()
         cfg["hotkeys"]["speech_mouse"] = self.mouse_hotkey_edit.text().strip()
@@ -671,6 +668,7 @@ class SettingsPage(QtWidgets.QWidget):
             self._vad_download_task.pause()
 
     def closeEvent(self, event):
+        self.microphone_page.stop_test()
         self.pause_downloads()
         super().closeEvent(event)
 

@@ -37,6 +37,8 @@ def create_worker_signals(QtCore):
         notification_requested = QtCore.Signal(str)
         history_updated = QtCore.Signal(int)
         history_retry_finished = QtCore.Signal(int)
+        microphone_test_status = QtCore.Signal(int, str)
+        microphone_test_level = QtCore.Signal(int, float)
         hardware_benchmark_finished = QtCore.Signal(object)
         preview_text_changed = QtCore.Signal(int, str)
         preview_unavailable = QtCore.Signal(int)
@@ -163,6 +165,12 @@ class WorkerController:
 
     def cancel_history_retry(self):
         return bool(self.core and self.core.cancel_history_retry())
+
+    def start_microphone_test(self, selection):
+        return self.core.start_microphone_test(selection) if self.core else 0
+
+    def stop_microphone_test(self, generation=None):
+        return bool(self.core and self.core.stop_microphone_test(generation))
 
     def benchmark_hardware(self):
         return bool(self.core and self.core.benchmark_hardware())
@@ -512,7 +520,9 @@ class SaydraftApp:
                     on_config_applied=self._on_settings_applied, model_download_callback=self.model_download_callback,
                     hardware_benchmark_callback=self._benchmark_hardware,
                     style_preview_callback=getattr(self.controller, "preview_style", None),
-                    style_glossary_provider=getattr(self.controller, "style_glossary", None)),
+                    style_glossary_provider=getattr(self.controller, "style_glossary", None),
+                    microphone_start_callback=getattr(self.controller,"start_microphone_test",None),
+                    microphone_stop_callback=getattr(self.controller,"stop_microphone_test",None)),
                 history_options=dict(qt_modules=self.qt_modules, store=self._controller_history_store(),
                     clipboard=self.controller.clipboard() if hasattr(self.controller, "clipboard") else None,
                     reinsert_callback=self._reinsert_history_text, retry_callback=self._retry_history_audio,
@@ -521,6 +531,14 @@ class SaydraftApp:
                 shortcut=self._controller_hotkey_hint, model=self._controller_model_label, tier=self._hub_tier)
             self.settings_window = self.hub_window.settings_page
             self.history_window = self.hub_window.history_page
+            microphone = getattr(self.settings_window,"microphone_page",None)
+            if microphone is not None:
+                for name, slot in (("microphone_test_status",microphone.accept_status),
+                                   ("microphone_test_level",microphone.accept_level)):
+                    signal = getattr(self.signals,name,None)
+                    if signal is not None:
+                        qt = self.qt_modules or _load_qt_modules()
+                        signal.connect(slot,qt.QtCore.Qt.QueuedConnection)
             page = getattr(self.settings_window, "styles_page", None)
             if page is not None:
                 qt = self.qt_modules or _load_qt_modules()

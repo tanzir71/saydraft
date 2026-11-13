@@ -9,8 +9,9 @@ def test_saved_custom_recording_limits_survive_the_twenty_minute_default(tmp_pat
         expected = {"max_seconds": maximum, "warning_seconds": warning, "retain_audio": False}
         path.write_text(json.dumps({"recording": expected}), encoding="utf-8")
         config = load_config(config_path=path, settings_path=tmp_path / "absent-settings.txt")
-        assert config["recording"] == expected
-        assert load_config(config_path=path)["recording"] == expected
+        upgraded = {**expected, "input_device": "", "input_hostapi": ""}
+        assert config["recording"] == upgraded
+        assert load_config(config_path=path)["recording"] == upgraded
 
 
 def test_shortcut_upgrade_preserves_old_bindings_and_does_not_intercept_mouse(tmp_path):
