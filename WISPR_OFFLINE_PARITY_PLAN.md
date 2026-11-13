@@ -842,6 +842,8 @@ Cloud anything (sync, accounts, team dictionaries, web search in Ask), mobile ap
 
 ## 14. Changelog
 
+- 2026-11-13 | Owned UIA message pumping | Replaced fixture-window polling joins with a bounded, message-aware Windows wait that wakes for sent and already-seen messages. Added ABI/queue/error-path checks. This removes artificial host-message delay without changing application UIA deadlines, OS timer resolution, privacy rules or success assertions. Native CI validates the change while the final isolated model job runs. | tools/owned_uia.py, tools/probe_uia_reader.py, tools/probe_uia_app.py, tools/probe_tracked_edit.py, tests/test_owned_uia_setup.py, docs/TEST_CHECKLIST.md
+
 - 2026-11-13 | Tracked-edit CI diagnostics | Retained the failing `0f6f28a` CI artifact (3035 passed, one owned tracked-edit session failure, 12 skips). Made both session MTA factory readiness acknowledgements explicit before timed work and added per-phase/capture-status/elapsed/failure-line diagnostics. Runtime deadlines and all six success assertions remain unchanged; full CI rechecks the fixture. | tools/probe_tracked_edit.py, docs/TEST_CHECKLIST.md
 
 - 2026-11-13 | P6.5 capture ownership | Preserved existing hands-free capture when Ctrl+Win+D opens the last diff and refused cancellation of unrelated work when the recording prefix was not admitted. Added synthetic native regression cases proving both continued capture/normal finish and busy-job preservation; 75 focused checks pass. | saydraft/hotkeys/controller.py, saydraft/hotkeys/recording.py, tests/test_notes_shortcuts.py, docs/NOTES.md, docs/HOTKEYS.md

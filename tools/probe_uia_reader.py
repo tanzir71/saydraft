@@ -13,11 +13,12 @@ from pathlib import Path
 from saydraft.context.focused_edit import read_focused_edit
 from saydraft.context.uia_native import NativeUIAReader
 from saydraft.insert._clipboard_win32 import NativeClipboardApi
-from tools.owned_uia import prepare_owned_element
+from tools.owned_uia import message_waiter, prepare_owned_element
 
 
 def probe(report):
     api = NativeClipboardApi()  # Window allocation only: never opens the clipboard.
+    wait_messages = message_waiter(api.user)
     for name, args, result in (
         ("PeekMessageW", [ct.POINTER(wt.MSG), wt.HWND, wt.UINT, wt.UINT, wt.UINT], wt.BOOL),
         ("TranslateMessage", [ct.POINTER(wt.MSG)], wt.BOOL),
@@ -81,7 +82,7 @@ def probe(report):
                     while api.user.PeekMessageW(ct.byref(message), None, 0, 0, 1):
                         api.user.TranslateMessage(ct.byref(message))
                         api.user.DispatchMessageW(ct.byref(message))
-                    thread.join(.005)
+                    wait_messages()
                 assert not thread.is_alive()
             finally:
                 assert api.user.DestroyWindow(child)

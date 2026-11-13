@@ -49,6 +49,10 @@ The tracked-edit session fixture waits for both owned MTA readers to finish
 provider preparation before timed session work. Its reports include session
 phase, capture status/elapsed time, and the failed assertion's source line,
 without field text. Runtime caller deadlines and success assertions are unchanged.
+The fixture window threads use a
+[message-aware wait](https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-msgwaitformultipleobjectsex)
+for sent/posted UIA messages. They do not pause on polling joins between provider
+calls or change the OS timer resolution. The same watchdog and runtime limits apply.
 
 ## Manual App Matrix
 

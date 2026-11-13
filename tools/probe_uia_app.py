@@ -25,7 +25,7 @@ from saydraft.history import DictationHistoryStore
 from saydraft.insert._clipboard_win32 import NativeClipboardApi
 from saydraft.insert.inserter import Inserter
 from saydraft.privacy.netguard import NetworkGuard
-from tools.owned_uia import prepare_owned_element
+from tools.owned_uia import message_waiter, prepare_owned_element
 
 
 def replay(parent, child, output, password, row):
@@ -154,6 +154,7 @@ def replay(parent, child, output, password, row):
 
 def probe(output, report):
     api = NativeClipboardApi()  # Only its window bindings; never opens the clipboard.
+    wait_messages = message_waiter(api.user)
     for name, args, result in (
         ("PeekMessageW", [ct.POINTER(wt.MSG), wt.HWND, wt.UINT, wt.UINT, wt.UINT], wt.BOOL),
         ("TranslateMessage", [ct.POINTER(wt.MSG)], wt.BOOL),
@@ -184,7 +185,7 @@ def probe(output, report):
                 while api.user.PeekMessageW(ct.byref(message), None, 0, 0, 1):
                     api.user.TranslateMessage(ct.byref(message))
                     api.user.DispatchMessageW(ct.byref(message))
-                thread.join(.005)
+                wait_messages()
             assert not thread.is_alive() and row.get("complete")
         finally:
             child_closed = not child or bool(api.user.DestroyWindow(child))

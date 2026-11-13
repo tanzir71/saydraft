@@ -2,6 +2,25 @@
 
 import os
 import time
+import ctypes as ct
+from ctypes import wintypes as wt
+
+
+def message_waiter(user):
+    """Wake the fixture's own window thread for UIA RPC instead of polling join.
+
+    https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-msgwaitformultipleobjectsex
+    Zero handles waits only on this thread's queue. INPUTAVAILABLE also wakes
+    for messages already seen by PeekMessage, including sent UIA messages.
+    """
+    native = user.MsgWaitForMultipleObjectsEx
+    native.argtypes = [wt.DWORD, ct.POINTER(wt.HANDLE), wt.DWORD, wt.DWORD, wt.DWORD]
+    native.restype = wt.DWORD
+    def wait():
+        # QS_ALLINPUT on supported Windows 10/11; MWMO_INPUTAVAILABLE.
+        if native(0, None, 5, 0x1CFF, 0x0004) == 0xFFFFFFFF:
+            raise OSError('Owned fixture message wait failed')
+    return wait
 
 
 def prepare_owned_element(reader, handle, report, *, clock=time.monotonic):

@@ -20,7 +20,7 @@ from saydraft.context.focused_edit import read_focused_edit
 from saydraft.context.uia_native import NativeUIAReader
 from saydraft.dictionary.alignment import suggest_correction
 from saydraft.insert._clipboard_win32 import NativeClipboardApi
-from tools.owned_uia import prepare_owned_element
+from tools.owned_uia import message_waiter, prepare_owned_element
 
 
 def session_case(metadata, identity, mutate, child, row, output):
@@ -215,6 +215,7 @@ def asynchronous_case(metadata, identity, mutate, child, row):
 
 def probe(output):
     api = NativeClipboardApi()  # Window bindings only; never open any clipboard.
+    wait_messages = message_waiter(api.user)
     for name, args, result in (
         ("SendMessageW", [wt.HWND, wt.UINT, wt.WPARAM, wt.LPARAM], ct.c_ssize_t),
         ("PeekMessageW", [ct.POINTER(wt.MSG), wt.HWND, wt.UINT, wt.UINT, wt.UINT], wt.BOOL),
@@ -348,7 +349,7 @@ def probe(output):
                     while api.user.PeekMessageW(ct.byref(message), None, 0, 0, 1):
                         api.user.TranslateMessage(ct.byref(message))
                         api.user.DispatchMessageW(ct.byref(message))
-                    thread.join(.005)
+                    wait_messages()
                 assert not thread.is_alive()
             finally:
                 assert api.user.DestroyWindow(child)
