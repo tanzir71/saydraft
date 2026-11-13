@@ -70,8 +70,12 @@ on stdin, and returns only a bounded integer count. It creates, changes and
 removes no firewall rule, starts no elevation prompt, and omits provider error
 details. The query follows Microsoft's [application-filter association](https://learn.microsoft.com/en-us/powershell/module/netsecurity/get-netfirewallapplicationfilter)
 and [rule inspection](https://learn.microsoft.com/en-us/powershell/module/netsecurity/get-netfirewallrule)
-APIs. Packaged rule installation plus complete native/sidecar boundary testing
-remain P8.6.
+APIs. Packaged installations also offer explicit create/remove controls for one
+path-specific managed outbound block rule, with confirmation and Windows UAC.
+They never block shared source Python or alter unrelated rules. Model downloads
+and opt-in update checks need the rule removed. See [Verify offline](VERIFY_OFFLINE.md)
+for the workflow, effective-policy limits and recovery. Complete packaged
+dictation/download and native/sidecar boundary testing remain P8.6.
 After downloading a model, also verify real dictation with Wi-Fi disabled.
 
 Audio remains off by default, with explicit Keep forever / Keep N days controls.

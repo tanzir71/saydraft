@@ -5,14 +5,19 @@ from __future__ import annotations
 
 def main() -> int:
     """Run Saydraft."""
+    import sys
+
+    # The elevated helper must not migrate profiles, open devices, acquire the
+    # application lock or start the tray. Its target is always its own EXE.
+    if sys.argv[1:2] == ["--manage-firewall"]:
+        from .privacy.firewall_control import helper_main
+        return helper_main(sys.argv[2:])
     from .privacy.netguard import NetworkGuard
 
     NetworkGuard.install()
     from .privacy.telemetry import configure_process_privacy
 
     configure_process_privacy()
-    import sys
-
     if sys.platform == "win32":
         import ctypes
 

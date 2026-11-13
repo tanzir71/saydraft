@@ -1,4 +1,5 @@
 import threading
+from urllib.error import URLError
 
 import pytest
 from PySide6 import QtTest, QtWidgets
@@ -93,4 +94,30 @@ def test_finished_is_delivered_on_gui_only_after_the_python_thread_exits(tmp_pat
             break
         QtTest.QTest.qWait(10)
     assert finished == [(gui_thread, False)] and task not in download_task.DownloadTask._active
+    window.close()
+
+
+@pytest.mark.parametrize("error", [URLError("private host"), TimeoutError("private host"),
+    ConnectionError("private host"), PermissionError("fixture disk denied")], ids=["url", "timeout", "connection", "disk"])
+def test_network_failures_explain_firewall_recovery_without_reclassifying_disk_errors(tmp_path, error):
+    from saydraft.ui.download_task import DownloadTask
+    window, *_ = make_window(tmp_path)
+    task = DownloadTask(window)
+    messages = []
+    task.failed.connect(messages.append)
+    def fail(progress):
+        raise error
+    task.start(fail)
+    task._thread.join(2)
+    for _ in range(100):
+        QtWidgets.QApplication.processEvents()
+        if messages:
+            break
+        QtTest.QTest.qWait(10)
+    assert len(messages) == 1
+    if isinstance(error, PermissionError):
+        assert messages == ["fixture disk denied"]
+    else:
+        assert "remove Saydraft’s block rule" in messages[0] and "Download to resume" in messages[0]
+        assert "private host" not in messages[0]
     window.close()

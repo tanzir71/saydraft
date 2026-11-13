@@ -40,6 +40,9 @@ class PrivacyPage(QtWidgets.QWidget):
         self.firewall_button = QtWidgets.QPushButton("Check firewall rules")
         self.firewall_button.clicked.connect(self.check_firewall)
         layout.addWidget(self.firewall_button)
+        from .firewall_card import FirewallCard
+        self.firewall_card = FirewallCard(parent=self)
+        layout.addWidget(self.firewall_card)
         from .updates import UpdatesCard
         self.updates_card = UpdatesCard(config, presenter=update_presenter, parent=self)
         layout.addWidget(self.updates_card)
@@ -169,6 +172,7 @@ class PrivacyPage(QtWidgets.QWidget):
     @QtCore.Slot()
     def _shutdown(self):
         self._closed = True
+        self.firewall_card.retire()
         if self.updates_card._owns_presenter:
             self.updates_card.presenter.close()
         if self._pool is not None:
