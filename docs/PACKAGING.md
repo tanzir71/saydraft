@@ -8,9 +8,13 @@ development dependency; PyInstaller remains the pinned build dependency.
 Dependencies use published wheels, with a source-distribution exception for the
 pinned pure-Python pyperclip package, which has no wheel at that version.
 
-Initial remote build and installer-lifecycle verification are pending. This
-pipeline does not establish signing, owner accuracy, physical Windows acceptance
-or readiness for a public release. No installer is published yet.
+The clean `afddeec` build and installer lifecycle pass, with a 109.2 MB installer
+and no forbidden pyarrow/aiohttp modules. The [retained evidence](../eval/packaging/results/2026-11-14-unsigned/README.md)
+includes exact artifact hashes, runtime checks and install/uninstall receipts.
+Artifact review found incomplete upstream license-text coverage; its correction
+and an enforcing coverage gate are pending before P8.1 acceptance.
+This does not establish signing, owner accuracy, physical Windows acceptance
+or readiness for a public release. No installer release is published yet.
 
 ## Build
 

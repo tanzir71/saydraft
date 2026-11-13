@@ -1,0 +1,38 @@
+{
+  "schema": 1,
+  "producer_commit": "afddeec5fc2f38747d739d5df9f07e60393c3325",
+  "workflow_run": 43498108469,
+  "ci_run": 43498108425,
+  "ci_summary": [
+    "3137 passed, 12 skipped in 382.24s (0:06:22)",
+    "Pass rate: 100.0% (556/556 passed)"
+  ],
+  "files": {
+    "bundle.json": "7eb789aca0e2d1a83deb4942084bf726cb9e5bca07b35a31a678584a0fc74887",
+    "inno-version.txt": "1e063f8901a0c465e58cec73897efbf9a999db4c42caa65be2f22a59110f5875",
+    "installed-runtime.json": "e75e19b1d5026fdae6b9129ad12a02e47a3a57e13d7349bf0114e9c1ee54940d",
+    "installer-smoke.json": "35e4202aba06aa66f31cc7331e82faf53b8448be56fdddc2ca2b89c0f40b7f21",
+    "module-table.json": "79fc3ccb29c0588ffd696a45f6045553e2237b85f913f9f7658331ad25d26db9",
+    "preflight.json": "cb53e1a62582f1839fb1ebea5005f139d3113a9feb1728a587e41895eb14bff8",
+    "requirements-frozen.txt": "f0804a0a3666a4d3a562b14f88bfc3e9d67911cffbc35d4a8cede180be25e300",
+    "runtime.json": "e75e19b1d5026fdae6b9129ad12a02e47a3a57e13d7349bf0114e9c1ee54940d"
+  },
+  "artifacts": {
+    "Saydraft-0.1.0-Setup.exe": {
+      "bytes": 109188877,
+      "sha256": "95a3b08143ef5b2076e0465c29998b066dd2d26a9cab6fa2a07cb8f5d057d1f9"
+    },
+    "Saydraft-0.1.0-win-x64.zip": {
+      "bytes": 166768090,
+      "sha256": "3920939df7c0ba77f3296c3ed4dcec642c99a9a1c89054457f4c9b2baec24b77"
+    }
+  },
+  "scope": "Initial unsigned resource/lifecycle evidence only; full upstream license-text coverage was found incomplete. No P8.1, ASR, physical dictation, signing or native firewall acceptance.",
+  "first_failed_attempt": {
+    "commit": "9336a2ee9128e113a0226a9d93bdca3db385a0ef",
+    "run": 43496520989,
+    "reason": "binary-only install refused source-only pinned pyperclip 1.9.0"
+  },
+  "compiler_version_receipt_usable": false,
+  "license_coverage_incomplete": true
+}

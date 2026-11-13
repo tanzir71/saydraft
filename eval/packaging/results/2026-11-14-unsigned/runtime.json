@@ -1,0 +1,20 @@
+{
+  "version": "0.1.0",
+  "frozen": true,
+  "microphone_used": false,
+  "audio_devices_enumerated": false,
+  "input_injected": false,
+  "owner_clipboard_accessed": false,
+  "active_application_read": false,
+  "asr_performed": false,
+  "native_firewall_verified": false,
+  "checks": {
+    "resources": true,
+    "native_imports": true,
+    "tray_images": true,
+    "python_network_guard": true,
+    "forbidden_modules_absent": true
+  },
+  "complete": true,
+  "stage": "complete"
+}

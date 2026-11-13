@@ -793,8 +793,11 @@ the task's draft PRs are now closed or merged.
 - [ ] **P7.5** Notetaker (§8.6). **Acceptance:** a 30-min test meeting produces a Markdown note with speakers + summary + next steps fully offline; the NetworkGuard test passes during capture.
 
 ### P8: Distribution and trust
+The initial package resource/lifecycle gates pass, but artifact review found
+incomplete upstream license-text coverage. Keep P8.1 open until notice collection
+and an enforcing coverage check are implemented and verified.
 - [ ] **P8.1** Clean-venv build script (`tools/build.ps1` rewrite: fresh venv, `requirements.txt` only, exclusion list), plus an Inno Setup per-user installer (no admin), Start menu entry, optional autostart, and an uninstaller that **keeps user data unless the user ticks "Also remove my data"**. **Acceptance:** installer ≤ 250 MB; `pyarrow`/`aiohttp` absent from the bundle.
-  - Packaging foundation implemented: fresh Python 3.13 venv/output and private caches, pinned build tool, curated assets/exclusions, frozen resource/import verification, actual Analysis table/file audit, 250 MB gate, portable ZIP/checksums and unsigned per-user Inno installer. Uninstall defaults to keeping data, with explicit opt-in removal and reparse-point protection; disposable Windows CI checks install/keep/remove/autostart/junction behavior. Initial remote build verification remains pending; keep unchecked. Details: `docs/PACKAGING.md`.
+  - Clean afddeec build passes with a 109,188,877-byte unsigned installer, 526 files and 1,516 inspected modules; pyarrow/aiohttp and other forbidden packages/weights/profile data are absent. Frozen resources/imports/Python NetworkGuard pass before and after installation. Disposable Windows lifecycle proves default data retention, explicit removal, opt-in autostart and external-junction preservation. CI 3,137 pass / 12 skips; rules 556/556 and authored validator 100/100. Unchanged raw receipts and artifact hashes: `eval/packaging/results/2026-11-14-unsigned/`; scope and first failed dependency attempt: `docs/PACKAGING.md`. Signing, public release, physical dictation and native firewall remain separate.
 - [ ] **P8.2** `release.yml`: on tag `v*` → build → SHA256SUMS → draft GitHub Release with notes. **Acceptance:** a dry-run tag produces a draft.
 - [ ] **P8.3** (G5) Signing in the release workflow. **Acceptance:** a signed installer verifies with `signtool verify /pa`.
 - [ ] **P8.4** winget manifest PR (`Tanzir.Saydraft`) + Scoop bucket. **Acceptance:** `winget install Tanzir.Saydraft` works after the PR merges (owner submits).

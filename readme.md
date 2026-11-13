@@ -24,8 +24,9 @@ dictation has no cloud fallback or subscription.
 Saydraft is in active development. Run from source using the steps below.
 There is no published installer release yet; installer, signing, updates, and
 clean-machine validation remain on the [roadmap](WISPR_OFFLINE_PARITY_PLAN.md).
-The [packaging pipeline](docs/PACKAGING.md) now defines fresh-environment unsigned
-builds and disposable installer checks; its initial build verification is pending.
+The [packaging pipeline](docs/PACKAGING.md) produces a 109.2 MB unsigned installer
+that passes resource and install/uninstall checks. Upstream notice coverage is
+being completed before packaging acceptance.
 
 Core dictation and the Hub are available from source. Owner accuracy acceptance
 is deferred. Implementation and remaining
@@ -36,7 +37,7 @@ qualification are tracked separately:
 | Local dictation, rules cleanup, optional local AI cleanup | Current-model quality and release latency qualification |
 | Hub, History, Dictionary, Snippets, Style, Scratchpad and Notes | Command, Translate, Ask, Notetaker |
 | Six-page setup, verified downloads, model performance check | Fresh-profile and physical Windows acceptance |
-| Public website and setup guide | Packaged installer, signing, automatic updates |
+| Public website, setup guide and verified unsigned installer builds | Signing, release publication, automatic updates |
 
 See the [documentation index](docs/README.md) for individual features and the
 [parity plan](WISPR_OFFLINE_PARITY_PLAN.md) for the complete acceptance status.

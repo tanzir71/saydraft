@@ -20,8 +20,8 @@ Run the app explicitly with `.venv\Scripts\python -m saydraft`. App launches
 use your local profile and can install global shortcuts; use the offscreen
 checks below when you only need to validate code. The rewritten
 [packaging pipeline](docs/PACKAGING.md) creates a fresh build environment and
-retains unsigned artifacts and audit reports. Its initial remote verification,
-signing and broader clean-machine acceptance remain under P8.
+retains unsigned artifacts and audit reports. Its first clean build and disposable
+installer lifecycle pass; signing and broader clean-machine acceptance remain under P8.
 
 ## App checks
 
