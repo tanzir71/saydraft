@@ -1,0 +1,48 @@
+{
+  "schema": 1,
+  "source_commit": "222913dc92d0db58a569d84689ce84a158281982",
+  "ci_run": 43516930104,
+  "ci_windows_job": 132201145689,
+  "online_job": 132201146277,
+  "package_run": 43516930111,
+  "verification": {
+    "passed": 3237,
+    "skipped": 12,
+    "seconds": 409.38,
+    "rules_passed": 556,
+    "rules_total": 556,
+    "authored_adversarial_caught": 100,
+    "authored_adversarial_total": 100,
+    "online_default_off": true,
+    "online_opt_in": true,
+    "api_exception_retired": true,
+    "frozen_package_and_lifecycle": true
+  },
+  "files": {
+    "ci-run.json": "64ccf877a66d8716021b231f582f761aa4ed3d4285005f37c9f5ba86d0b0ee30",
+    "package-run.json": "198bdc182922a89bdd277c7b045a19c5deb1f43d4ea2f055d121aefcc8796031",
+    "probe-results.json": "c5f8333988edb9bfb4b7e090740a0c8d568c0e93944df6258f3b2701469e462a"
+  },
+  "private_log_sha256": {
+    "ci.log": "53e2acc93ec6e415a00fac3d661332ddacd2efdc77f26eac42bea23836dc1b4c",
+    "package.log": "29e5ba0f9cd1229c9cbd1df887fe6c71948d0e1bca31b477a0540e382a2c0012"
+  },
+  "earlier_failures": [
+    {
+      "commit": "821e8c0a51455a3d2f5a22b138d4e338af55e2e1",
+      "run": 43514844329,
+      "passed": 3232,
+      "skipped": 12,
+      "failed": 1,
+      "errors": 2,
+      "reason": "Large bytes parameter generated a Windows environment-variable-length failure during pytest setup/teardown; checklist lacked new CI commands. Fixed explicit short parameter IDs and checklist."
+    },
+    {
+      "commit": "85bd34d965c80089f35b96967e5d47c20d50cc89",
+      "run": 43516196132,
+      "job": 132198646464,
+      "reason": "Live opt-in returned unavailable with retired scope; that version did not record the HTTP/network cause. Retained as undiagnosed, not relabeled as rate limiting."
+    }
+  ],
+  "scope": "P8.5 client/policy/owned-Qt acceptance and real public metadata request only. No automatic installer download/installation, browser launch in live probes, owner microphone/clipboard/input or physical Windows acceptance."
+}

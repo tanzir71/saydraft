@@ -58,6 +58,15 @@ metadata request and proves that the API exception is retired afterward. It
 downloads no binaries and starts no desktop app. The job can be rerun without
 repeating the full offline unit suite if GitHub is temporarily unavailable.
 
+Acceptance passed at clean `222913d`: 3,237 tests / 12 skips, both cleanup gates,
+the live default-off/opt-in probes and frozen packaging/lifecycle. The opt-in
+request returned HTTP 404 because no stable release was published; its API
+permission was retired afterward. Controlled published-release fixtures exercise
+the available-version notice and explicit release-page action. The
+[retained record](../eval/updates/results/2026-11-14-default-off/README.md)
+also preserves earlier failed verification attempts. Diagnostic fields contain
+only an HTTP status and fixed error category, never a response or error body.
+
 ```powershell
 python -m tools.probe_updates
 python -m tools.probe_updates --enabled

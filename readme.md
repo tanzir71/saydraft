@@ -22,7 +22,7 @@ dictation has no cloud fallback or subscription.
 ## Current status
 
 Saydraft is in active development. Run from source using the steps below.
-There is no published installer release yet; signing, updates, and
+There is no published installer release yet; signing and
 clean-machine validation remain on the [roadmap](WISPR_OFFLINE_PARITY_PLAN.md).
 The [packaging pipeline](docs/PACKAGING.md) produces a 104.0 MB unsigned installer
 that passes resource, dependency-notice and install/uninstall checks. Its
@@ -30,6 +30,10 @@ that passes resource, dependency-notice and install/uninstall checks. Its
 covers 38 components and 506 notice files.
 The [tag-to-draft release workflow](eval/packaging/results/2026-11-14-draft/README.md)
 has also passed its real dry run; signing and publication remain separate.
+
+[App update checks](docs/UPDATES.md) are off by default. Enable and save them in
+Settings → Privacy for startup/daily notices and a release-page link. Install
+updates manually from GitHub.
 
 Core dictation and the Hub are available from source. Owner accuracy acceptance
 is deferred. Implementation and remaining
@@ -40,7 +44,7 @@ qualification are tracked separately:
 | Local dictation, rules cleanup, optional local AI cleanup | Current-model quality and release latency qualification |
 | Hub, History, Dictionary, Snippets, Style, Scratchpad and Notes | Command, Translate, Ask, Notetaker |
 | Six-page setup, verified downloads, model performance check | Fresh-profile and physical Windows acceptance |
-| Public website, setup guide and verified unsigned installer builds | Signing, release publication, automatic updates |
+| Public website, setup guide, verified unsigned builds and opt-in update notices | Signing and release publication |
 
 See the [documentation index](docs/README.md) for individual features and the
 [parity plan](WISPR_OFFLINE_PARITY_PLAN.md) for the complete acceptance status.
@@ -201,7 +205,8 @@ at **19 minutes**. Saved custom limits stay unchanged. See
 
 The dictation path is microphone → local recognition → cleanup → History →
 delivery. Models are fetched only through explicit setup actions. Python
-network access is restricted outside authorized downloads and loopback;
+network access is restricted to loopback, requested model downloads and saved
+opt-in GitHub update checks;
 complete native-library and helper-process firewall enforcement remains
 release work. See [the privacy boundary](docs/PRIVACY.md).
 

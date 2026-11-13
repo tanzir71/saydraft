@@ -1,0 +1,35 @@
+{
+  "source_commit": "222913dc92d0db58a569d84689ce84a158281982",
+  "run": 43516930104,
+  "job": 132201146277,
+  "probes": [
+    {
+      "timestamp_utc": "2026-11-13T22:09:48.5735957Z",
+      "result": {
+        "complete": true,
+        "opt_in": false,
+        "state": "disabled",
+        "http_status": null,
+        "failure_reason": null,
+        "api_scope_retired": true,
+        "installer_downloaded": false,
+        "browser_opened": false,
+        "desktop_app_started": false
+      }
+    },
+    {
+      "timestamp_utc": "2026-11-13T22:09:49.6765809Z",
+      "result": {
+        "complete": true,
+        "opt_in": true,
+        "state": "no_release",
+        "http_status": 404,
+        "failure_reason": "http",
+        "api_scope_retired": true,
+        "installer_downloaded": false,
+        "browser_opened": false,
+        "desktop_app_started": false
+      }
+    }
+  ]
+}
