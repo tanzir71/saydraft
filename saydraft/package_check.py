@@ -90,10 +90,15 @@ def verify_runtime():
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('report', type=Path, help='new metadata report filename')
+    parser.add_argument('--firewall-smoke', type=Path, help='disposable CI only: pinned local Whisper base fixture')
     args = parser.parse_args(argv)
     if args.report.exists():
         parser.error('report exists; choose a fresh filename')
-    result = verify_runtime()
+    if args.firewall_smoke:
+        from .privacy.firewall_verification import frozen_smoke
+        result = frozen_smoke(args.firewall_smoke, args.report.parent)
+    else:
+        result = verify_runtime()
     with args.report.open('x', encoding='utf-8') as stream:
         json.dump(result, stream, indent=2, allow_nan=False)
     return 0 if result['complete'] else 1

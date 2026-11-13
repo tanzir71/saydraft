@@ -53,9 +53,9 @@ moving or uninstalling; uninstall does not silently elevate to change OS policy.
 
 The [Python policy](PRIVACY.md) remains a separate application boundary. It
 restricts Python sockets, not every native process. Neither a checkbox nor a
-successful rule write establishes native-boundary acceptance. The full packaged
-dictation/download smoke and separate helper coverage remain P8.6 verification
-work until their dated evidence is retained in the plan. No physical dictation,
+successful rule write establishes native-boundary acceptance. The packaged
+dictation/download smoke remains P8.6 verification work until its dated evidence
+is retained in the plan. Separate cleanup-helper coverage remains a distinct gate. No physical dictation,
 native firewall acceptance or owner ASR accuracy is claimed by the unit suite.
 
 Implementation follows Microsoft's [program/profile rule parameters](https://learn.microsoft.com/en-us/powershell/module/netsecurity/new-netfirewallrule),
@@ -69,7 +69,11 @@ interpreter, tests fixed native WinHTTP and pinned model-file downloads
 before/under/after the rule, and replays two real-worker dictations while blocked.
 It uses only public fixture audio and memory keyboard/clipboard adapters. The
 Package workflow separately exercises the frozen helper, conflicts/idempotence,
-unrelated-rule preservation, and frozen resource verification under its rule.
+unrelated-rule preservation, frozen resource verification and public-fixture
+Whisper recognition/rules/temporary History under its rule. Its native WinHTTP
+and pinned model-file positive controls must work before and after removal,
+and fail under the rule with download recovery guidance. These explicit probes
+are reachable only through the package-verification CLI on a disposable runner.
 Both mutation probes refuse owner machines and self-hosted runners; neither
 invokes UAC in CI. These are distinct scopes, and neither alone establishes
 physical dictation or cleanup-sidecar coverage.

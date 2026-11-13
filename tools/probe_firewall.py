@@ -51,81 +51,15 @@ $address = $rule | Get-NetFirewallAddressFilter
     return json.loads(process.stdout.lstrip("\ufeff"))
 
 
-def native_http():
-    """A fixed credential-free WinHTTP request, bypassing Python socket hooks."""
-    from ctypes import wintypes as w
-    api = ctypes.WinDLL("winhttp", use_last_error=True)
-    signatures = {
-        "WinHttpOpen": ([w.LPCWSTR, w.DWORD, w.LPCWSTR, w.LPCWSTR, w.DWORD], w.HANDLE),
-        "WinHttpConnect": ([w.HANDLE, w.LPCWSTR, w.WORD, w.DWORD], w.HANDLE),
-        "WinHttpOpenRequest": ([w.HANDLE, w.LPCWSTR, w.LPCWSTR, w.LPCWSTR, w.LPCWSTR, ctypes.c_void_p, w.DWORD], w.HANDLE),
-        "WinHttpSetTimeouts": ([w.HANDLE, ctypes.c_int, ctypes.c_int, ctypes.c_int, ctypes.c_int], w.BOOL),
-        "WinHttpSendRequest": ([w.HANDLE, w.LPCWSTR, w.DWORD, ctypes.c_void_p, w.DWORD, w.DWORD, ctypes.c_size_t], w.BOOL),
-        "WinHttpReceiveResponse": ([w.HANDLE, ctypes.c_void_p], w.BOOL),
-        "WinHttpQueryHeaders": ([w.HANDLE, w.DWORD, w.LPCWSTR, ctypes.c_void_p, ctypes.POINTER(w.DWORD), ctypes.c_void_p], w.BOOL),
-        "WinHttpCloseHandle": ([w.HANDLE], w.BOOL),
-    }
-    for name, (args, result) in signatures.items():
-        method = getattr(api, name)
-        method.argtypes, method.restype = args, result
-    handles = []
-    try:
-        session = api.WinHttpOpen("Saydraft-disposable-firewall-probe", 1, None, None, 0)  # no proxy
-        if not session:
-            raise ctypes.WinError(ctypes.get_last_error())
-        handles.append(session)
-        if not api.WinHttpSetTimeouts(session, 3000, 3000, 3000, 3000):
-            raise ctypes.WinError(ctypes.get_last_error())
-        connection = api.WinHttpConnect(session, "api.github.com", 443, 0)
-        if not connection:
-            raise ctypes.WinError(ctypes.get_last_error())
-        handles.append(connection)
-        request = api.WinHttpOpenRequest(connection, "GET", "/repos/tanzir71/saydraft/releases/latest", None, None, None, 0x800000)
-        if not request:
-            raise ctypes.WinError(ctypes.get_last_error())
-        handles.append(request)
-        # Disable redirects: no second host is contacted by this probe.
-        api.WinHttpSetOption.argtypes = [w.HANDLE, w.DWORD, ctypes.c_void_p, w.DWORD]
-        api.WinHttpSetOption.restype = w.BOOL
-        policy = w.DWORD(0)  # WINHTTP_OPTION_REDIRECT_POLICY_NEVER
-        if not api.WinHttpSetOption(request, 88, ctypes.byref(policy), ctypes.sizeof(policy)):
-            raise ctypes.WinError(ctypes.get_last_error())
-        disabled = w.DWORD(0x1 | 0x2 | 0x4)  # cookies, redirects, automatic authentication
-        if not api.WinHttpSetOption(request, 63, ctypes.byref(disabled), ctypes.sizeof(disabled)):
-            raise ctypes.WinError(ctypes.get_last_error())
-        if not api.WinHttpSendRequest(request, None, 0, None, 0, 0, 0) or not api.WinHttpReceiveResponse(request, None):
-            raise ctypes.WinError(ctypes.get_last_error())
-        code, size = w.DWORD(), w.DWORD(ctypes.sizeof(w.DWORD))
-        if not api.WinHttpQueryHeaders(request, 19 | 0x20000000, None, ctypes.byref(code), ctypes.byref(size), None):
-            raise ctypes.WinError(ctypes.get_last_error())
-        return {"reachable": True, "http_status": code.value}
-    except OSError as error:
-        return {"reachable": False, "winerror": error.winerror}
-    finally:
-        for handle in reversed(handles):
-            api.WinHttpCloseHandle(handle)
-
 
 def child(request):
+    from saydraft.privacy.firewall_verification import native_http, download_probe
     from saydraft.privacy.netguard import NetworkGuard
     NetworkGuard.install()
     if request["kind"] == "native":
         return native_http()
     if request["kind"] == "download":
-        from saydraft.models.downloader import download_model
-        from saydraft.models.manifest import get_model
-        from saydraft.models.errors import download_failure_message
-        source = get_model("whisper-base")
-        file = next(file for file in source["files"] if file["path"] == "config.json")
-        model = {**source, "files": [file]}
-        try:
-            download_model(model, Path(request["directory"]))
-            return {"downloaded": True}
-        except Exception as error:
-            message = download_failure_message(error)
-            return {"downloaded": False, "error_type": type(error).__name__,
-                    "firewall_recovery_message": "remove Saydraft’s block rule" in message,
-                    "resume_message": "Download to resume" in message}
+        return download_probe(request["directory"])
     if request["kind"] == "dictation":
         from tools.latency_trial import run_trial
         report = run_trial(request["trial"])
@@ -254,7 +188,17 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path)
     parser.add_argument("--child", nargs=2, type=Path, metavar=("REQUEST", "RESULT"))
+    parser.add_argument("--prepare-speech-model", type=Path, help="explicit pinned fixture download on a disposable runner")
     args = parser.parse_args(argv)
+    if args.prepare_speech_model:
+        from saydraft.privacy.firewall_verification import require_disposable_runner
+        require_disposable_runner()
+        from saydraft.model_download import download_asr_model
+        if not args.prepare_speech_model.absolute().is_relative_to(Path(os.environ["RUNNER_TEMP"]).resolve()):
+            parser.error("Fixture root must be under RUNNER_TEMP")
+        directory = download_asr_model("whisper-base", models_dir=args.prepare_speech_model)
+        print(json.dumps({"directory": str(directory)}))
+        return 0
     if args.child:
         request, result = args.child
         data = child(json.loads(request.read_text(encoding="utf-8")))

@@ -40,8 +40,26 @@ function Get-ProgramRules {
         $_.Program -ieq $Exe
     } | Get-NetFirewallRule)
 }
+function Invoke-FrozenSmoke {
+    param([string]$Name, [string]$Model)
+    $Path = Join-Path $BuildRoot ('audit\firewall-' + $Name + '.json')
+    $Arguments = @('--verify-package', ('"' + $Path + '"'), '--firewall-smoke', ('"' + $Model + '"'))
+    $OwnedProcess = Start-Process -FilePath $Exe -ArgumentList $Arguments -WindowStyle Hidden -PassThru -Wait
+    if ($OwnedProcess.ExitCode -ne 0 -or -not (Test-Path -LiteralPath $Path)) { throw 'Frozen speech/network smoke failed.' }
+    $Result = Get-Content -LiteralPath $Path -Raw | ConvertFrom-Json
+    if (-not $Result.complete -or -not $Result.frozen -or -not $Result.asr_nonempty -or
+        -not $Result.cleaned_nonempty -or -not $Result.history_matches) { throw 'Incomplete frozen speech smoke.' }
+    return $Result
+}
 try {
     if (@(Get-ProgramRules).Count -ne 0) { throw 'Fresh bundled executable already has firewall rules.' }
+    $VenvPython = Join-Path $BuildRoot 'venv\Scripts\python.exe'
+    $Prepared = & $VenvPython -m tools.probe_firewall --prepare-speech-model (Join-Path $BuildRoot 'firewall-fixtures')
+    if ($LASTEXITCODE -ne 0) { throw 'Pinned public speech fixture download failed.' }
+    $SpeechModel = ($Prepared | ConvertFrom-Json).directory
+    $Before = Invoke-FrozenSmoke -Name 'before' -Model $SpeechModel
+    if (-not $Before.network.reachable -or -not $Before.download.downloaded) { throw 'Frozen online positive controls failed.' }
+    $Report.steps.online_before = $true
     New-NetFirewallRule -PolicyStore PersistentStore -Name $WitnessName -DisplayName $WitnessName `
         -Group 'Saydraft.TestWitness' -Program $Exe -Direction Outbound -Action Allow -Enabled False | Out-Null
     $WitnessCreated = $true
@@ -76,11 +94,22 @@ try {
         -WindowStyle Hidden -PassThru -Wait
     if ($Runtime.ExitCode -ne 0) { throw 'Frozen resources/imports/Python policy failed with the block rule.' }
     $Report.steps.package_verification_under_rule = $true
+    $Blocked = Invoke-FrozenSmoke -Name 'blocked' -Model $SpeechModel
+    if ($Blocked.network.reachable -or $Blocked.download.downloaded -or
+        -not $Blocked.download.firewall_recovery_message -or -not $Blocked.download.resume_message) {
+        throw 'Frozen block rule did not deny native and Python downloads with recovery guidance.'
+    }
+    $Report.actual_network_blocking_verified = $true
+    $Report.asr_performed = $true
+    $Report.steps.frozen_speech_under_rule = $true
     $Report.steps.remove = Invoke-Helper -Action 'remove'
     $Report.steps.remove_idempotent = Invoke-Helper -Action 'remove'
     $Report.managed_removed = @(Get-ProgramRules | Where-Object { $_.Group -ceq 'Saydraft.Managed.v1' }).Count -eq 0
     $RemainingWitness = @(Get-ProgramRules | Where-Object { $_.Name -ceq $WitnessName -and $_.Group -ceq 'Saydraft.TestWitness' })
     $Report.witness_preserved = $RemainingWitness.Count -eq 1 -and $RemainingWitness[0].Enabled -eq 'False'
+    $After = Invoke-FrozenSmoke -Name 'after' -Model $SpeechModel
+    if (-not $After.network.reachable -or -not $After.download.downloaded) { throw 'Frozen connectivity did not recover.' }
+    $Report.steps.online_after = $true
     $Report.helper_created_profile = Test-Path -LiteralPath $DataRoot
     $Report.complete = $Report.steps.remove -eq 0 -and $Report.steps.remove_idempotent -eq 0 -and
         $Report.managed_removed -and $Report.witness_preserved -and -not $Report.helper_created_profile
