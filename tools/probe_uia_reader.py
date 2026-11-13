@@ -57,14 +57,23 @@ def probe(report):
                         reader.text_context = forbidden
                     stage = "read_policy"
                     result = read_focused_edit(reader, child)
+                    # Keep failed policy outcomes as metadata too; assertions below
+                    # retain their original requirements and production deadlines.
+                    report.setdefault("policy_attempts", []).append({"password_case": password,
+                        "is_password": result.is_password, "status": result.status,
+                        "control_type": result.control_type})
                     assert not reads
                     assert result.is_password == password and result.status == ("password" if password else "ok")
                     assert password or result.control_type == 50004
                     report["results"].append({"is_password": result.is_password, "status": result.status,
                                               "control_type": result.control_type})
                 except Exception as error:
+                    trace = error.__traceback__
+                    while trace.tb_next is not None:
+                        trace = trace.tb_next
                     report["failures"].append({"password_case": password, "stage": stage,
-                        "error_type": type(error).__name__, "hresult": getattr(error, "hresult", None)})
+                        "error_type": type(error).__name__, "hresult": getattr(error, "hresult", None),
+                        "failure_line": trace.tb_lineno})
                 finally:
                     element = None
                     if reader is not None:

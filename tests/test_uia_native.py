@@ -15,6 +15,9 @@ def test_windowless_mta_reads_only_own_password_and_plain_controls_then_retires(
     assert report["probe_complete"] and report["own_windows_closed"] and not report["failures"]
     assert not report["active_application_read"] and not report["input_injected"] and not report["owner_clipboard_accessed"]
     assert [result["status"] for result in report["results"]] == ["password", "ok"]
+    assert [result["status"] for result in report["policy_attempts"]] == ["password", "ok"]
+    assert all(set(result) == {"password_case", "is_password", "status", "control_type"}
+               for result in report["policy_attempts"])
 
 
 @pytest.mark.skipif(sys.platform != "win32", reason="Windows UI Automation required")

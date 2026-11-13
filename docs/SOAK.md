@@ -65,3 +65,12 @@ delivery rather than stub insertion alone. The old `--target notepad` only opene
 a window while still using memory devices; it is rejected so it cannot imply
 actual Windows insertion coverage. Use the explicit owned/manual Windows checks
 in the [test checklist](TEST_CHECKLIST.md) for that scope.
+
+## Retained full run
+
+The [2026-11-14 combined run](../eval/soak/results/2026-11-14-native/README.md)
+at `2d96f62` completes all 200 cycles with 3.50% current-process RSS growth,
+200 saved/checked paste events, zero memory-clipboard failures, 100 genuine
+native streams and 100 injected terminations. All 100 sidecars exit after
+shutdown. It establishes this scoped regression gate; physical Windows and
+model-quality acceptance remain separate.

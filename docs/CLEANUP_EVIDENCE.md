@@ -41,7 +41,10 @@ retained. Exact-input priming was outside the corrected interruption's timing.
 Native idle/activity/reload checks also pass with a 250 ms probe interval while
 production stays at 900 s. A 100-cycle synthetic app probe preserves all History
 rows and stub insertions; all 66 native sidecars exit after shutdown. The separate
-§11 200-cycle RSS/clipboard gate remains open under P4.1/global qualification.
+scoped §11 200-cycle gate now also passes in the
+[combined native run](../eval/soak/results/2026-11-14-native/README.md), with
+3.50% RSS growth and all 100 sidecars exiting. Its clipboard is in-memory;
+physical Windows acceptance remains separate.
 
 ## Offline checker
 

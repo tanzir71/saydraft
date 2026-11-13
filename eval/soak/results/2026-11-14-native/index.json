@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "source_commit": "2d96f62ff86284455bd399f5350a2fc960f1b821",
+  "scope": "200 consecutive owned native cleanup/SessionWorker/SQLite/Inserter cycles; memory clipboard and keyboard; measured current-process RSS; no physical Windows or quality acceptance",
+  "report": "native-200.json",
+  "report_sha256": "74b68b70ee96bad98fa28d656bbe2a359f464381840e57deda4e0da4d51fb5d7",
+  "private_journal_sha256": "ea60134f0e0e34b1f7f76e61352d05eca521efccea6e7726acc92d0bb8b40967",
+  "cycles": 200,
+  "rss_growth_ratio": 0.03496380010595091,
+  "native_processes_exited": 100,
+  "native_regression_gate_passed": true,
+  "owner_windows_acceptance_evaluated": false,
+  "started_utc": "2026-11-13T18:20:37.928408+00:00",
+  "finished_utc": "2026-11-13T18:23:03.941011+00:00"
+}

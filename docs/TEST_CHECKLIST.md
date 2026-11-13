@@ -55,6 +55,9 @@ The tracked-edit session fixture waits for both owned MTA readers to finish
 provider preparation before timed session work. Its reports include session
 phase, capture status/elapsed time, and the failed assertion's source line,
 without field text. Runtime caller deadlines and success assertions are unchanged.
+The direct reader probe retains metadata-only `policy_attempts` before asserting
+expected password/plain outcomes, plus a failed assertion's source line. This
+keeps unknown/failed policy results visible without recording field content.
 The fixture window threads use a
 [message-aware wait](https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-msgwaitformultipleobjectsex)
 for sent/posted UIA messages. They do not pause on polling joins between provider

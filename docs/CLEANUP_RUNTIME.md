@@ -14,14 +14,17 @@ deadline and 9.6 ms after killing actual generation in a cached-input request,
 without partial output. The first uncached interruption fixture timed out before
 observing generation and remains retained as a failed probe. Native idle/activity/
 reload checks pass, as do 100 synthetic app cycles with all 66 sidecars exiting.
-The separate 200-cycle RSS/clipboard gate and broad release-latency acceptance
-remain open. The developer idle interval does not change production's 900 s.
+The scoped 200-cycle RSS/memory-clipboard/native-exit regression gate now passes;
+broad release-latency and physical Windows acceptance remain open. The developer
+idle interval does not change production's 900 s.
 
 The [combined soak runner](SOAK.md) now supports the 200-cycle RSS, private
 History, real Inserter/memory-clipboard and native-shutdown checks in one process.
 It rejects unmeasured RSS, incomplete runs and failed teardown. The legacy native
-probe delegates to it. Full measurement of this changed QA runner remains pending;
-the earlier 100-cycle report retains its original source and insertion scope.
+probe delegates to it. The full `2d96f62` run completes 200 saved/checked paste
+events with 3.50% RSS growth, no clipboard restoration failures and all 100
+sidecars exiting. Its [unchanged report](../eval/soak/results/2026-11-14-native/README.md)
+records the memory-device scope; earlier reports retain their original sources.
 
 The app's sidecar uses the Windows x64 llama.cpp build referenced by
 [stable release v0.9.0](https://github.com/ggml-org/llama.cpp/releases/tag/v0.9.0):
