@@ -74,7 +74,8 @@ try {
     $VenvPython = Join-Path $VenvRoot 'Scripts\python.exe'
     Invoke-Checked -Executable $VenvPython -Arguments @('-c', 'import sys,site; assert sys.prefix != sys.base_prefix and not site.ENABLE_USER_SITE') -Stage 'Environment isolation check'
     Invoke-Checked -Executable $VenvPython -Arguments @('-m', 'pip', '--isolated', 'install',
-        '--disable-pip-version-check', '--only-binary=:all:', '--cache-dir', (Join-Path $RunRoot 'pip-cache'),
+        '--disable-pip-version-check', '--only-binary=:all:', '--no-binary=pyperclip',
+        '--cache-dir', (Join-Path $RunRoot 'pip-cache'),
         '-r', (Join-Path $ProjectRoot 'requirements.txt')) -Stage 'Runtime requirements installation'
     & $VenvPython -m pip freeze --all | Set-Content -LiteralPath (Join-Path $RunRoot 'audit\requirements-frozen.txt') -Encoding utf8
     if ($LASTEXITCODE -ne 0) { throw 'Dependency receipt failed.' }

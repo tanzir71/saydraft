@@ -5,6 +5,8 @@ the source checkout. It installs only `requirements.txt`, uses the canonical
 `Saydraft.spec`, verifies the frozen runtime, audits the actual module graph and
 files, and compiles an unsigned per-user Inno Setup installer. Pytest is a
 development dependency; PyInstaller remains the pinned build dependency.
+Dependencies use published wheels, with a source-distribution exception for the
+pinned pure-Python pyperclip package, which has no wheel at that version.
 
 Initial remote build and installer-lifecycle verification are pending. This
 pipeline does not establish signing, owner accuracy, physical Windows acceptance

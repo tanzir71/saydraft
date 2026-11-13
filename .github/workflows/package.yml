@@ -42,7 +42,7 @@ jobs:
       - name: Verify disposable per-user install and uninstall
         shell: pwsh
         run: ./tools/check_installer.ps1 -BuildRoot $env:SAYDRAFT_PACKAGE_ROOT
-      - name: Retain unsigned artifacts and verification receipts
+      - name: Retain unsigned binary artifacts
         if: always()
         uses: actions/upload-artifact@v7
         with:
@@ -51,6 +51,13 @@ jobs:
           if-no-files-found: warn
           path: |
             ${{ env.SAYDRAFT_PACKAGE_ROOT }}/artifacts/*
+      - name: Retain package verification receipts
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: windows-package-receipts
+          if-no-files-found: warn
+          path: |
             ${{ env.SAYDRAFT_PACKAGE_ROOT }}/audit/*
             ${{ env.SAYDRAFT_PACKAGE_ROOT }}/work/Saydraft/Analysis-00.toc
             ${{ env.SAYDRAFT_PACKAGE_ROOT }}/work/Saydraft/warn-Saydraft.txt
