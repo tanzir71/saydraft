@@ -23,6 +23,12 @@ linking to `https://buymeacoffee.com/tanzir`. Both are ordinary links; no extern
 widget, image, script or tracking request is introduced. Browser checks cover
 the panel gutters/content inset and both footer destinations at all three widths.
 
+Button variants now retain their own foreground colors inside document pages;
+the prose link rule can no longer produce dark text on a dark CTA. Focus rings
+use a contrasting color for paper and dark surfaces. All 15 browser checks pass,
+and 27 actual normal/hover/focus checks across the three widths confirm at least
+13.27:1 text/arrow contrast and visible keyboard focus.
+
 ## Develop and verify
 
 Use Node 24.22.2 or newer. All direct versions and transitive integrity hashes are

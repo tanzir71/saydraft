@@ -5,9 +5,11 @@
   transition: background var(--motion-fast), transform var(--motion-fast);
 }
 .button:hover { transform: translateY(-2px); }
-.primary { background: var(--color-ink); color: var(--color-paper); }
-.primary:hover { background: var(--color-deep); }
-.secondary { background: var(--color-paper-raised); color: var(--color-ink); }
-.on-dark { background: var(--color-paper); color: var(--color-ink); }
+.button.primary { background: var(--color-ink); color: var(--color-paper); }
+.button.primary:hover { background: var(--color-deep); }
+.button.secondary { background: var(--color-paper-raised); color: var(--color-ink); }
+.button.on-dark { background: var(--color-paper); color: var(--color-ink); }
+.button:focus-visible { outline: 2px solid var(--color-ink); outline-offset: 5px; }
+.button.on-dark:focus-visible { outline-color: var(--color-paper); }
 @media (prefers-reduced-motion: reduce) { .button { transition: none; } .button:hover { transform: none; } }
 :global([data-motion='reduced']) .button { transition: none; transform: none; }
