@@ -79,6 +79,8 @@ Try it, and Style quick pick.
 1. In **Microphone**, choose Default Windows input or select **Refresh inputs**
    to find a named device. **Test input** runs a ten-second, level-only check;
    it does not transcribe or save a recording.
+   **Check microphone privacy** reads Windows permission status without opening
+   an input; it provides guidance when access is blocked or unknown.
 2. In **Set up models**, optionally select **Check this PC**, then **Use speech
    recommendation**. This is a provisional capability recommendation, not a
    measured performance tier. It does not start a download or enable AI cleanup.

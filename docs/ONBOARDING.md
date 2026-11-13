@@ -3,7 +3,7 @@
 P6.4 is in progress. The six-page wizard now connects the shared microphone test,
 explicit model setup, shortcut learning, owned chat/email practice, Style quick
 pick, selected-model performance checks, readiness gates and final Hub Home handoff.
-Physical Windows checks, complete permission diagnostics and fresh-profile manual
+Physical Windows checks, privacy-toggle acceptance and fresh-profile manual
 timing acceptance remain under §8.4 of the root plan. The connected flow does not
 establish complete onboarding acceptance or owner speech accuracy.
 
@@ -57,9 +57,13 @@ or closing setup, Cancel, Finish, and shutdown request test stop without a GUI
 join. Late levels cannot revive a stopping/stopped test. The page scrolls at
 640×440; Back, Next and Cancel remain outside the scrolling controls.
 
-The existing privacy deep link and generic failed-input guidance are available.
-A failure does not prove that Windows privacy permissions are the cause;
-complete first-run permission diagnostics remain part of P6.4.
+Check microphone privacy explicitly reads Windows' current-process capability
+off the GUI thread, without requesting access or opening a device. It distinguishes
+allowed, user/system blocks, undeclared capability, permission not yet granted and
+unknown results, with the existing privacy deep link for recovery. Hiding or
+closing setup rejects late results; the check never saves preferences. An allowed
+result does not confirm device availability, and a failed input test does not
+establish a privacy block. Actual privacy-toggle and device acceptance remain manual.
 
 ## Saving choices
 

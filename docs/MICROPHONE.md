@@ -7,6 +7,21 @@ choosing a device neither enumerates hardware nor opens a stream. Save applies
 the staged selection to future dictation; Test input uses that draft immediately.
 The existing explicit Windows sound/privacy links remain available.
 
+**Check microphone privacy** reads Windows' current-process microphone capability
+on a background thread. It does not request permission, enumerate devices, open
+an input, record audio, or change Windows settings. It distinguishes allowed,
+blocked by the user/system, not declared by the app, permission not yet granted,
+and unknown/unavailable API results. The supported
+[CheckAccess API](https://learn.microsoft.com/en-us/uwp/api/windows.security.authorization.appcapabilityaccess.appcapability.checkaccess)
+is used in the Saydraft process, rather than querying a helper app's permission.
+Windows versions without this API show unknown with manual settings guidance.
+
+An allowed result does not prove the selected device is available or usable;
+**Test input** remains the explicit recording check. Results appear separately
+from device/test status. Hiding or closing the page revokes queued results;
+reopening requires another explicit check. Provider/queue failures expose no
+exception details, and the check never saves preferences or edits the registry.
+
 `recording.input_device` and `recording.input_hostapi` persist a normalized name
 and audio-API pair. Both default to empty strings for the Windows default. Legacy
 recording duration/retention values survive migration. These fields are separate
@@ -47,8 +62,9 @@ No provider exception text is shown or logged by these controls. Device names
 are local configuration metadata, not dictated content.
 
 Whisper-mode gain/AGC/enhancement and its owner whispered-clip accuracy gate remain
-P7.4. First-run permission diagnostics and live microphone/desktop acceptance
-remain open under P6.4 and P2.2.
+P7.4. The read-only first-run permission diagnostic is implemented; real privacy
+toggle changes and live microphone/desktop acceptance remain manual work under
+P6.4 and P2.2.
 
 First-run setup now reuses these controls with generation-tagged test signals.
 Its device choice stays staged until Finish; Cancel preserves saved preferences,
@@ -64,6 +80,7 @@ See [first-run setup](ONBOARDING.md) and its
 
 ```powershell
 python -m pytest tests/test_microphone.py tests/test_microphone_ui.py -q
+python -m pytest tests/test_microphone_privacy.py -q
 python -m pytest tests/test_config.py tests/test_recorder.py tests/test_services.py tests/test_session_worker.py tests/test_settings_window.py tests/test_hub.py -q
 ```
 

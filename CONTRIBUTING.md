@@ -103,7 +103,7 @@ the offscreen environment above:
 ```powershell
 .venv\Scripts\python -m pytest tests/test_practice.py tests/test_onboarding_practice.py tests/test_onboarding_window.py tests/test_onboarding_shortcuts.py tests/test_qt_app_shell.py tests/test_session_worker.py -q -rs
 .venv\Scripts\python -m pytest tests/test_setup_benchmark.py tests/test_hardware_benchmark.py tests/test_setup_models.py -q -rs
-.venv\Scripts\python -m pytest tests/test_onboarding_readiness.py tests/test_whisper_local.py tests/test_runtime_telemetry.py -q -rs
+.venv\Scripts\python -m pytest tests/test_onboarding_readiness.py tests/test_whisper_local.py tests/test_runtime_telemetry.py tests/test_microphone_privacy.py -q -rs
 ```
 
 The six-page integration test uses synthetic native key packets, an injected

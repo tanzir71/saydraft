@@ -7,18 +7,23 @@ import math
 from PySide6 import QtCore, QtGui, QtWidgets
 
 from saydraft.audio.devices import InputSelection, list_inputs
+from saydraft.audio.privacy import check_microphone_privacy
 from .progress import ThemedProgressBar
 
 
 class MicrophonePage(QtWidgets.QWidget):
     devices_ready = QtCore.Signal(int, object)
+    privacy_ready = QtCore.Signal(int, object)
 
     def __init__(self, config, *, start_callback=None, stop_callback=None, devices_provider=None,
-                 apply_label="Save", show_title=True, parent=None):
+                 privacy_provider=None, apply_label="Save", show_title=True, parent=None):
         super().__init__(parent)
         self.apply_label = apply_label
         self.start_callback, self.stop_callback = start_callback, stop_callback
         self.provider = devices_provider or list_inputs
+        self.privacy_provider = privacy_provider or check_microphone_privacy
+        self._privacy_pool = self._privacy_future = None
+        self._privacy_generation = 0
         self._selection = InputSelection.from_config(config)
         self._devices, self._pool, self._future = None, None, None
         self._scan_generation, self._test_generation = 0, 0
@@ -57,6 +62,11 @@ class MicrophonePage(QtWidgets.QWidget):
         paragraph("Say ‘testing one two three’ and watch the meter. The test stops after 10 seconds. Audio is neither saved nor transcribed, and no sound is played.")
         self.status = paragraph("")
         paragraph("If access is blocked, allow desktop apps in Windows microphone privacy settings.")
+        self.privacy_check_button = QtWidgets.QPushButton('Check microphone privacy')
+        self.privacy_check_button.clicked.connect(self.check_privacy)
+        layout.addWidget(self.privacy_check_button)
+        self.privacy_status = paragraph('Check Windows microphone privacy without recording.')
+        self.privacy_status.setAccessibleName('Windows microphone privacy status')
         self.sound_button = QtWidgets.QPushButton("Open Windows sound settings")
         self.privacy_button = QtWidgets.QPushButton("Open microphone privacy settings")
         self.sound_button.clicked.connect(lambda: QtGui.QDesktopServices.openUrl(QtCore.QUrl("ms-settings:sound")))
@@ -68,6 +78,7 @@ class MicrophonePage(QtWidgets.QWidget):
         self.refresh_button.clicked.connect(self.refresh_devices)
         self.test_button.clicked.connect(self.toggle_test)
         self.devices_ready.connect(self._accept_devices, QtCore.Qt.QueuedConnection)
+        self.privacy_ready.connect(self._accept_privacy, QtCore.Qt.QueuedConnection)
         self.destroyed.connect(self._shutdown)
         QtWidgets.QApplication.instance().aboutToQuit.connect(self._shutdown)
         self.set_selection(self._selection)
@@ -109,6 +120,8 @@ class MicrophonePage(QtWidgets.QWidget):
             device.selection.key==self.selection.key for device in self._devices)==1
 
     def _update_actions(self):
+        self.privacy_check_button.setEnabled(not self._closed and
+            (self._privacy_future is None or self._privacy_future.done()))
         self.test_button.setText("Stop test" if self._test_generation else "Test input")
         self.test_button.setEnabled(not self._closed and not self._stopping and
             bool(self.stop_callback if self._test_generation else self.start_callback and self._available()))
@@ -149,6 +162,62 @@ class MicrophonePage(QtWidgets.QWidget):
             self.set_selection(self.selection)
             self.status.setText("Inputs refreshed." if self._available() else
                 "The selected input is unavailable or ambiguous. Choose another input or Default Windows input.")
+        self._update_actions()
+
+    def check_privacy(self):
+        if self._closed or self._privacy_future is not None and not self._privacy_future.done():
+            return False
+        self._privacy_generation += 1
+        generation = self._privacy_generation
+        self.privacy_status.setText('Checking Windows microphone privacy…')
+
+        def run():
+            try:
+                result = self.privacy_provider()
+            except Exception:
+                result = 'unknown'
+            if not self._closed:
+                try:
+                    self.privacy_ready.emit(generation, result)
+                except RuntimeError:
+                    pass
+        try:
+            if self._privacy_pool is None:
+                self._privacy_pool = ThreadPoolExecutor(max_workers=1, thread_name_prefix='Saydraft-mic-privacy')
+            self._privacy_future = self._privacy_pool.submit(run)
+        except Exception:
+            if self._privacy_pool is not None:
+                self._privacy_pool.shutdown(wait=False, cancel_futures=True)
+            self._privacy_pool = self._privacy_future = None
+            self._accept_privacy(generation, 'unknown')
+            return False
+        self._update_actions()
+        return True
+
+    @QtCore.Slot(int, object)
+    def _accept_privacy(self, generation, result):
+        if self._closed:
+            return
+        if generation != self._privacy_generation:
+            self._update_actions()
+            return
+        self._privacy_future = None
+        messages = {
+            'allowed': 'Windows reports microphone access is allowed. Use Test input to check the selected device.',
+            'denied_by_user': 'Microphone access is off in Windows privacy settings. Enable microphone access and access for desktop apps, then check again.',
+            'denied_by_system': 'Windows blocks microphone access for this app. If privacy controls are managed, ask your administrator.',
+            'not_declared': 'Windows reports this app has not declared its microphone capability. Check the Saydraft build and microphone privacy settings.',
+            'prompt_required': 'Microphone permission has not been granted yet. Review Windows microphone privacy settings, then check again.',
+        }
+        self.privacy_status.setText(messages.get(result if isinstance(result, str) else '',
+            'Could not determine microphone privacy status. Check Windows microphone privacy settings, then use Test input.'))
+        self._update_actions()
+
+    def _cancel_privacy(self):
+        self._privacy_generation += 1
+        if self._privacy_future is not None and self._privacy_future.cancel():
+            self._privacy_future = None
+        self.privacy_status.setText('Check Windows microphone privacy without recording.')
         self._update_actions()
 
     def toggle_test(self):
@@ -204,6 +273,7 @@ class MicrophonePage(QtWidgets.QWidget):
         self._update_actions()
 
     def hideEvent(self,event):
+        self._cancel_privacy()
         self.stop_test()
         super().hideEvent(event)
 
@@ -216,5 +286,8 @@ class MicrophonePage(QtWidgets.QWidget):
         if not self._closed:
             self.stop_test()
             self._closed = True
+            self._cancel_privacy()
+            if self._privacy_pool is not None:
+                self._privacy_pool.shutdown(wait=False, cancel_futures=True)
             if self._pool is not None:
                 self._pool.shutdown(wait=False,cancel_futures=True)

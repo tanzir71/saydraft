@@ -25,7 +25,7 @@ including the optional public-audio recognizer smoke.
 | [Hub](HUB.md) | Home, global History search/export/retry, Dictionary, Snippets, Style, and Settings |
 | [Shortcuts](HOTKEYS.md) | Native chords, hands-free double-tap, paste-last, and outstanding Windows checks |
 | [Dictation Bar](BAR.md) | Recording/processing states and controls |
-| [Microphone](MICROPHONE.md) | Device selection, level-only test, missing-input behavior |
+| [Microphone](MICROPHONE.md) | Device selection, read-only Windows privacy check, level-only test, missing-input behavior |
 | [First-run setup](ONBOARDING.md) | Six-page walkthrough, microphone test, model setup, shortcut learning, owned practice, Style quick pick, and remaining acceptance |
 | [Recording limits](RECORDING_LIMITS.md) | 19-minute warning, 20-minute default cap, saved overrides |
 | [Styles](STYLES.md) | Per-app tone, intensity, and preview behavior |
