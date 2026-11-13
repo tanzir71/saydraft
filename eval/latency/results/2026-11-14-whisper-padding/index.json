@@ -1,0 +1,22 @@
+{
+  "git_commit": "0bbc3e159147eff16e85852a8e7735d4eb12e3ba",
+  "complete": true,
+  "cases": 72,
+  "production_qualification": false,
+  "decision": "Do not enable shorter padding: three speech fixtures change output identities, and decoder-only silence behavior changes. No production modification.",
+  "files_sha256": {
+    "cases.jsonl": "e49ac6e2c1fe14bcacaaa8c6e41c572b6f0c632daf6207aeeb228d1e18f430f0",
+    "process.json": "f027587a50bcf81a4a12e82ad10f6ea0f132f6ebf0ea18525cfb54a9d02a5ece",
+    "report.json": "e09009b09518040b17c82b63c375f497541d3155efd9bce9ae56199bb3a7a68a"
+  },
+  "validation": [
+    "all72 rows successful and journal identical",
+    "all features retained before padding",
+    "all baseline identities stable across3 repeats",
+    "installed source files unchanged",
+    "probe source hash identical",
+    "owned process exited0 and hooks restored",
+    "capture runtime absent"
+  ],
+  "scope": "warm decoder-only compatibility/timing diagnostic; full public audio retained, no production or timestamp/owner-accuracy qualification"
+}

@@ -119,3 +119,8 @@ journal, process exit and memory-delivery check was independently audited. Its
 collection passes, while latency targets fail. All 241 raw metadata files remain
 unchanged. Standard/Pro, performance targets, physical Windows and deferred owner
 accuracy acceptance remain open.
+
+The subsequent [short-padding diagnostic](spikes/whisper-padding.md) completes
+72 warm decoder-only cases. Shorter encoder inputs improve the shortest English
+timing but change other bundled speech outputs and direct-silence behavior.
+Production padding stays unchanged; this diagnostic earns no latency acceptance.
