@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "asset_directories": ["audio", "dictionary", "fonts", "licenses", "tray"],
+  "excluded_modules": [
+    "torch", "transformers", "sklearn", "scipy", "pandas", "pyarrow", "aiohttp",
+    "pytest", "_pytest", "PyInstaller", "django", "PIL", "pygame", "yt_dlp",
+    "IPython", "jupyter", "matplotlib", "tkinter", "numpy.f2py", "numpy.tests",
+    "PySide6.QtWebEngineCore", "PySide6.QtWebEngineWidgets", "PySide6.QtWebEngineQuick",
+    "PySide6.QtQml", "PySide6.QtQuick", "PySide6.QtQuickWidgets", "PySide6.Qt3DCore",
+    "PySide6.QtPdf", "PySide6.QtPdfWidgets", "PySide6.QtDesigner", "PySide6.QtHelp"
+  ],
+  "forbidden_modules": ["pyarrow", "aiohttp", "pytest", "_pytest", "PyInstaller", "torch", "transformers"],
+  "forbidden_suffixes": [".gguf", ".safetensors", ".onnx", ".bin", ".tflite", ".pt", ".pth", ".db", ".sqlite", ".sqlite3"],
+  "maximum_installer_bytes": 250000000
+}

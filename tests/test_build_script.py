@@ -1,38 +1,67 @@
+import hashlib
+import json
 from pathlib import Path
 
+import pytest
 
-def test_pyinstaller_build_script_uses_onedir_windowed_icon_and_version():
-    script = Path("tools/build.ps1")
-
-    assert script.exists()
-    text = script.read_text(encoding="utf-8").lower()
-
-    assert "pyinstaller" in text
-    assert "--onedir" in text
-    assert "--windowed" in text or "--noconsole" in text
-    assert "--name" in text and "saydraft" in text
-    assert "--icon" in text and "assets\\tray\\mic_idle.ico" in text
-    assert "--version-file" in text
-    assert "__version__" in text
-    assert "saydraft\\__init__.py" in text
-    assert "$lastexitcode" in text
-    assert "pyinstaller failed" in text
-    assert "--hidden-import _webrtcvad" in text
-    assert "--exclude-module webrtcvad" not in text
-    assert "--collect-binaries sherpa_onnx" in text
+from tools.package_audit import audit_bundle
 
 
-def test_pyinstaller_build_script_keeps_assets_and_models_external():
-    text = Path("tools/build.ps1").read_text(encoding="utf-8").lower()
-
-    assert "copy-item" in text
-    assert "assets" in text
-    assert "dist\\saydraft\\assets" in text
-    assert "dist\\saydraft\\models" in text
-    assert "new-item" in text
+POLICY = json.loads(Path('installer/bundle-policy.json').read_text(encoding='utf-8'))
 
 
-def test_pyinstaller_is_available_as_build_dependency():
-    requirements = Path("requirements.txt").read_text(encoding="utf-8").lower()
+def frozen_fixture(tmp_path, *, modules=()):
+    bundle = tmp_path / 'application'
+    bundle.mkdir()
+    (bundle / 'Saydraft.exe').write_bytes(b'owned frozen fixture')
+    table = tmp_path / 'Analysis-00.toc'
+    rows = [('saydraft.main', '/source/saydraft/main.py', 'PYMODULE'), *modules]
+    table.write_text(repr((rows,)), encoding='utf-8')
+    return bundle, table
 
-    assert "pyinstaller" in requirements
+
+def test_bundle_audit_reads_the_module_table_even_when_packages_are_compressed(tmp_path):
+    bundle, table = frozen_fixture(tmp_path, modules=[('pyarrow.lib', '/wheel/lib.pyd', 'EXTENSION')])
+    assert not list(bundle.rglob('*pyarrow*'))
+    with pytest.raises(ValueError, match='forbidden module'):
+        audit_bundle(bundle, table, POLICY)
+
+
+@pytest.mark.parametrize('name', ['aiohttp.client', 'pytest', '_pytest.config', 'PyInstaller.loader', 'torch'])
+def test_bundle_audit_refuses_development_and_unrelated_runtime_modules(tmp_path, name):
+    bundle, table = frozen_fixture(tmp_path, modules=[(name, '/wheel/file.py', 'PYMODULE')])
+    with pytest.raises(ValueError, match='forbidden module'):
+        audit_bundle(bundle, table, POLICY)
+
+
+@pytest.mark.parametrize('relative', ['model.gguf', 'model.bin', 'History.DB', '_internal/Config.JSON',
+    '_internal/faster_whisper/assets/silero_vad.onnx', 'weights.safetensors'])
+def test_bundle_audit_refuses_model_weights_and_user_data(tmp_path, relative):
+    bundle, table = frozen_fixture(tmp_path)
+    path = bundle / relative
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_bytes(b'not distributable')
+    with pytest.raises(ValueError):
+        audit_bundle(bundle, table, POLICY)
+
+
+def test_bundle_audit_retains_exact_file_hashes(tmp_path):
+    bundle, table = frozen_fixture(tmp_path)
+    report = audit_bundle(bundle, table, POLICY)
+    assert report['inspected_modules'] == 1 and report['files'] == 1
+    assert report['uncompressed_bytes'] == len(b'owned frozen fixture')
+    assert report['file_sha256'] == {'Saydraft.exe': hashlib.sha256(b'owned frozen fixture').hexdigest()}
+
+
+def test_empty_analysis_cannot_earn_a_bundle_audit(tmp_path):
+    bundle, table = frozen_fixture(tmp_path)
+    table.write_text('([],)', encoding='utf-8')
+    with pytest.raises(ValueError, match='no inspected modules'):
+        audit_bundle(bundle, table, POLICY)
+
+
+def test_runtime_requirements_do_not_install_pytest_into_the_build_environment():
+    requirements = Path('requirements.txt').read_text(encoding='utf-8').lower()
+    development = Path('requirements-dev.txt').read_text(encoding='utf-8').lower()
+    assert 'pytest' not in requirements and 'pytest==8.3.2' in development
+    assert 'pyinstaller==6.22.3' in requirements

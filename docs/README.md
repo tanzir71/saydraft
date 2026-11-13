@@ -69,6 +69,7 @@ including the optional public-audio recognizer smoke.
 - [Baseline](BASELINE.md): local latency/memory measurements and their limits.
 - [Cold/warm latency matrix](LATENCY_MATRIX.md): exact 3/10/30/90-second worker replays for each tier recipe.
 - [Hardware](HARDWARE.md): measurements and tier recommendations.
+- [Packaging](PACKAGING.md): clean unsigned builds, bundle audit and disposable installer lifecycle checks.
 - [Core refactor](CORE_REFACTOR.md): application boundaries and injected ports.
 - [Theme](THEME.md) and [fonts](FONTS.md): shared tokens, Qt rendering, and bundled typefaces.
 - [Website](SITE.md): Astro, Storybook, Playwright, Lighthouse, and GitHub Pages.

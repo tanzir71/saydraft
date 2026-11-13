@@ -51,9 +51,12 @@ class TrayCallbacks:
 
 
 def default_asset_dir() -> Path:
+    bundled = Path(__file__).resolve().parents[2] / "assets" / "tray"
+    if bundled.is_dir():
+        return bundled
     if getattr(sys, "frozen", False):
         return Path(sys.executable).resolve().parent / "assets" / "tray"
-    return Path(__file__).resolve().parents[2] / "assets" / "tray"
+    return bundled
 
 
 def default_tray_assets(asset_dir: str | Path | None = None) -> TrayAssets:

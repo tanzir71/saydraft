@@ -24,8 +24,8 @@ dictation has no cloud fallback or subscription.
 Saydraft is in active development. Run from source using the steps below.
 There is no published installer release yet; installer, signing, updates, and
 clean-machine validation remain on the [roadmap](WISPR_OFFLINE_PARITY_PLAN.md).
-The existing `tools/build.ps1` is a legacy helper awaiting that work, not the
-supported installation path.
+The [packaging pipeline](docs/PACKAGING.md) now defines fresh-environment unsigned
+builds and disposable installer checks; its initial build verification is pending.
 
 Core dictation and the Hub are available from source. Owner accuracy acceptance
 is deferred. Implementation and remaining

@@ -153,13 +153,27 @@ def test_default_tray_assets_are_real_ico_files():
 
 def test_default_asset_dir_uses_exe_sibling_assets_when_frozen(monkeypatch, tmp_path):
     import sys
+    import saydraft.ui.tray as tray
 
     from saydraft.ui.tray import default_asset_dir
 
     monkeypatch.setattr(sys, "frozen", True, raising=False)
     monkeypatch.setattr(sys, "executable", str(tmp_path / "Saydraft.exe"))
+    monkeypatch.setattr(tray, '__file__', str(tmp_path / '_internal/saydraft/ui/tray.py'))
 
     assert default_asset_dir() == tmp_path / "assets" / "tray"
+
+
+def test_default_asset_dir_prefers_actual_frozen_bundle_data(monkeypatch, tmp_path):
+    import sys
+    import saydraft.ui.tray as tray
+
+    bundled = tmp_path / '_internal/assets/tray'
+    bundled.mkdir(parents=True)
+    monkeypatch.setattr(sys, 'frozen', True, raising=False)
+    monkeypatch.setattr(sys, 'executable', str(tmp_path / 'Saydraft.exe'))
+    monkeypatch.setattr(tray, '__file__', str(tmp_path / '_internal/saydraft/ui/tray.py'))
+    assert tray.default_asset_dir() == bundled
 
 
 def test_tray_menu_queues_actions_and_updates_toggle_state(tmp_path):

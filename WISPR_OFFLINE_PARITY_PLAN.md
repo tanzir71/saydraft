@@ -793,6 +793,7 @@ the task's draft PRs are now closed or merged.
 
 ### P8: Distribution and trust
 - [ ] **P8.1** Clean-venv build script (`tools/build.ps1` rewrite: fresh venv, `requirements.txt` only, exclusion list), plus an Inno Setup per-user installer (no admin), Start menu entry, optional autostart, and an uninstaller that **keeps user data unless the user ticks "Also remove my data"**. **Acceptance:** installer ≤ 250 MB; `pyarrow`/`aiohttp` absent from the bundle.
+  - Packaging foundation implemented: fresh Python 3.13 venv/output and private caches, pinned build tool, curated assets/exclusions, frozen resource/import verification, actual Analysis table/file audit, 250 MB gate, portable ZIP/checksums and unsigned per-user Inno installer. Uninstall defaults to keeping data, with explicit opt-in removal and reparse-point protection; disposable Windows CI checks install/keep/remove/autostart/junction behavior. Initial remote build verification remains pending; keep unchecked. Details: `docs/PACKAGING.md`.
 - [ ] **P8.2** `release.yml`: on tag `v*` → build → SHA256SUMS → draft GitHub Release with notes. **Acceptance:** a dry-run tag produces a draft.
 - [ ] **P8.3** (G5) Signing in the release workflow. **Acceptance:** a signed installer verifies with `signtool verify /pa`.
 - [ ] **P8.4** winget manifest PR (`Tanzir.Saydraft`) + Scoop bucket. **Acceptance:** `winget install Tanzir.Saydraft` works after the PR merges (owner submits).

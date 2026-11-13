@@ -1,0 +1,56 @@
+name: Package
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'saydraft/**'
+      - 'installer/**'
+      - 'assets/**'
+      - 'tools/build.ps1'
+      - 'tools/package_audit.py'
+      - 'tools/check_installer.ps1'
+      - 'Saydraft.spec'
+      - 'requirements*.txt'
+      - '.github/workflows/package.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  unsigned-windows:
+    runs-on: windows-latest
+    timeout-minutes: 40
+    env:
+      HF_HUB_OFFLINE: '1'
+      HF_HUB_DISABLE_TELEMETRY: '1'
+      DO_NOT_TRACK: '1'
+      QT_QPA_PLATFORM: offscreen
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.13'
+      - name: Choose fresh retained build directory
+        shell: pwsh
+        run: |
+          "SAYDRAFT_PACKAGE_ROOT=$(Join-Path $env:RUNNER_TEMP 'saydraft-package')" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+      - name: Build and audit unsigned application and installer
+        shell: pwsh
+        run: ./tools/build.ps1 -Python "$env:pythonLocation\python.exe" -OutputRoot $env:SAYDRAFT_PACKAGE_ROOT
+      - name: Verify disposable per-user install and uninstall
+        shell: pwsh
+        run: ./tools/check_installer.ps1 -BuildRoot $env:SAYDRAFT_PACKAGE_ROOT
+      - name: Retain unsigned artifacts and verification receipts
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: unsigned-windows-package
+          compression-level: 0
+          if-no-files-found: warn
+          path: |
+            ${{ env.SAYDRAFT_PACKAGE_ROOT }}/artifacts/*
+            ${{ env.SAYDRAFT_PACKAGE_ROOT }}/audit/*
+            ${{ env.SAYDRAFT_PACKAGE_ROOT }}/work/Saydraft/Analysis-00.toc
+            ${{ env.SAYDRAFT_PACKAGE_ROOT }}/work/Saydraft/warn-Saydraft.txt

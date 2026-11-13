@@ -40,6 +40,12 @@ and twenty warm samples per duration. Keep recipes serial and inspect completion
 latency, actual model use and decoder gates separately. Debug/partial/dirty-source
 runs cannot qualify, and physical input/owner accuracy remain separate.
 
+The [packaging pipeline](PACKAGING.md) adds a separate disposable Windows build
+and installer lifecycle check. It audits actual frozen module tables, required
+resources, forbidden packages, model/profile exclusions and installer size.
+Default data retention and explicit removal are exercised only on a fresh QA
+account. Build completion does not establish signing or physical dictation.
+
 For the connected setup flow and its optional bundled-audio Parakeet smoke, use
 the [focused first-run commands](../CONTRIBUTING.md#first-run-setup-checks).
 They exercise synthetic hooks/input and queued UI with a private configuration;

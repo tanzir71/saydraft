@@ -18,9 +18,10 @@ py -3.13 -m venv .venv
 
 Run the app explicitly with `.venv\Scripts\python -m saydraft`. App launches
 use your local profile and can install global shortcuts; use the offscreen
-checks below when you only need to validate code. Do not use the legacy
-`tools/build.ps1` for release builds while its clean-environment rewrite is
-pending. Installer and clean-machine acceptance are tracked under P8.
+checks below when you only need to validate code. The rewritten
+[packaging pipeline](docs/PACKAGING.md) creates a fresh build environment and
+retains unsigned artifacts and audit reports. Its initial remote verification,
+signing and broader clean-machine acceptance remain under P8.
 
 ## App checks
 
