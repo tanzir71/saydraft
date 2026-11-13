@@ -155,9 +155,70 @@ selected path and never appends a suffix afterward. This uses Qt's documented
 Offscreen tests inspect the real dialog settings/selected path while replacing
 its modal execution; no native desktop dialog is exercised during QA.
 
-The existing safe clipboard recovery, rejected reinsert feedback, dictionary
-selection action and retained-audio All languages retry remain wired. Retry
-still saves a new review entry without replacing the original or pasting it.
+The existing safe clipboard recovery, rejected reinsert feedback and dictionary
+selection action remain wired.
+
+## Retained-audio retries
+
+“Retry audio…” opens a scrollable dialog listing installed speech models and
+three cleanup choices: Use current setting, AI off (rules only), or AI on (local
+model). All languages is preferred when installed, otherwise the original model
+is selected when available. Dependencies such as VAD/LID are excluded. With no
+installed speech model, Start retry is disabled and setup stays in Settings.
+Discovery reads installation metadata; the engine still verifies its local files
+when loading. No retry downloads a model or changes saved Settings. Bengali and
+Arabic continue to share the existing All languages package.
+
+The serial session worker decodes retained audio through the chosen model and
+preserves the original row's app/group, mode, profile, tone and intensity. It
+does not capture a microphone, read the active field/clipboard, or insert text.
+The source row and recording remain unchanged. Results save as linked review
+entries, with the requested model/cleanup choice in provenance; retry versions
+do not inflate daily dictation/word/audio totals. Failed History writes retain
+the available result in the existing session recovery list.
+
+Rules-only uses a separate pipeline view without touching a live AI owner. AI on
+reuses the active cleanup owner when enabled; when global AI is off, it lazily
+owns a separate local cleaner with the same configured model/processor settings.
+That owner can be reused for later retries and closes on Settings replacement
+or shutdown. Glossary data and persistence ports are shared, while result
+timings/decisions are isolated. The next live dictation follows its saved setting.
+
+An explicit AI-on review may wait on the background worker for up to 185 seconds
+for the existing startup/calibration/prefix preparation stages. Cancellation is
+checked during that wait. Live dictation retains its existing nonwaiting path.
+This is a preparation wait limit, not a whole-retry latency claim. The normal
+need/budget gates, output validator and rules fallback remain active. Raw, Code
+and Verbatim retain their AI bypass. The Why panel now records a catalog cleanup
+model ID (or a generic local-model label), without storing its local path; the
+decision explains whether AI was accepted, skipped or unavailable.
+
+While a retry runs, its action becomes Cancel retry, including while another
+History search is loading. Native recognition finishes its current step before
+cancellation can retire later stages. Checks before audio loading, after ASR,
+after AI preparation and before persistence prevent cancelled partial results.
+An already committed result remains saved and reports success. Settings changes
+and shutdown also retire pending work. The dialog freezes its original source
+even if nested events change the displayed selection. Completion follows the
+source into the new review entry unless the user browsed elsewhere; repeated
+refreshes preserve that newer selection across the app's signal order.
+
+Verification adds 35 cases for model/cleanup isolation, actual pipeline/SQLite
+composition with public audio and injected engines, cancellation, late-owner
+shutdown, source/statistics preservation, router/cache behavior, local-only cold
+Whisper views, preparation waits, dialog choices and selection ordering. Forty-
+seven focused retry/paging checks pass. Guarded owned renders cover available,
+AI-on, missing-model and running states in both themes, two window/dialog sizes,
+16/22 px text and 1×/2× density (64 exact-size PNGs with no horizontal overflow).
+Wrapped help has sufficient layout height and the actions stay outside its scroll
+area. Selected final renders are inspected. No owner clipboard/microphone,
+desktop input or audible playback is used; native/manual acceptance stays open.
+Final full verification passes 2535 tests with five explicit optional/native
+skips; rules pass 556/556, adversarial validation passes 100/100, and Ruff plus
+all 12 generated token outputs pass. The earlier failing browse-away and clipped-
+help checks are retained in QA logs; final focused/full checks pass after their
+selection and layout fixes. No actual new speech/cleanup-model accuracy or live
+desktop acceptance is inferred from injected review tests and owned renders.
 
 ## Home data
 
@@ -176,6 +237,7 @@ zero. Existing retry accounting continues to avoid counting one recording twice.
 node tools/generate_tokens.mjs --check
 python -m pytest tests/test_hub.py tests/test_history_view.py tests/test_history_details_ui.py tests/test_history.py tests/test_history_window.py tests/test_settings_window.py tests/test_native_clipboard_app.py -q
 python -m pytest tests/test_history_queries.py tests/test_history_paging_ui.py -q
+python -m pytest tests/test_history_retry.py tests/test_history_retry_ui.py -q
 python -m pytest tests/test_dictionary_page.py tests/test_dictionary_portable.py tests/test_dictionary_store.py -q
 ```
 
@@ -269,7 +331,7 @@ correctly rejected oversized bodies. Logs remain in permanent QA storage; the
 intermittent timeout's cause is unresolved. No loopback code or test deadline
 was changed for this History revision.
 
-Full §8.3 still requires Notes producers, microphone picker/test, Privacy controls,
-complete model/disk controls and model/cleanup retry choices. The later
+Full §8.3 still requires Notes producers, microphone picker/test, Privacy controls
+and complete model/disk controls. The later
 onboarding, Scratchpad/Notetaker and complete gallery/
 accessibility milestones retain their original scope.

@@ -53,6 +53,9 @@ class SessionWorker:
         self.last_failed_audio = None
         self.last_result = None
         self._retrying_history = False
+        self._history_retry_cancel = threading.Event()
+        from .history_retry import RetryCleanup
+        self._retry_cleanup = RetryCleanup()
         self._benchmarking = False
         self.corrections = CorrectionController(executor=self.executor,
             current=lambda generation: generation == self.session.session_id and not self._closing
@@ -475,6 +478,7 @@ class SessionWorker:
     def cancel(self):
         # Observed by delivery even while native clipboard rendering is in progress.
         self._cancel_request.set()
+        self._history_retry_cancel.set()
         self.bar_status.cancel()
         self.corrections.cancel()
         if not self.session.active:
@@ -655,58 +659,99 @@ class SessionWorker:
             logger.error("Could not index retained audio; the local file is preserved")
             logger.debug("Audio history failure detail", exc_info=True)
 
-    def retry_history(self, row):
-        with self._lock:
+    def retry_history(self, row, options=None):
+        from saydraft.asr.retry import RetryOptions
+        if options is not None and not isinstance(options, RetryOptions):
+            return False
+        if not self._lock.acquire(blocking=False):
+            return False
+        try:
             if (self.busy or self._closing or not row.audio_path or
                     self.services.audio_store is None or self.services.retry_asr is None):
                 return False
             self._retrying_history = True
+            cancelled = self._history_retry_cancel = threading.Event()
             try:
-                self._submit(self._retry_history, row)
+                self._submit(self._retry_history, row, options, cancelled)
             except Exception:
                 self._retrying_history = False
                 logger.warning("Could not queue History retry")
                 self.emit("notification_requested", "Could not start the History retry. Try again after the current work finishes.")
                 return False
             return True
+        finally:
+            self._lock.release()
 
-    def _retry_history(self, row):
+    def cancel_history_retry(self):
+        if not self._retrying_history:
+            return False
+        self._history_retry_cancel.set()
+        return True
+
+    def _retry_history(self, row, options, cancel):
         reading_audio = True
         new_id = 0
+        def cancelled():
+            return cancel.is_set() or self._closing
         try:
             from saydraft.dictation.types import DictationContext
             from .interfaces import TargetContext
+            from .processing import ProcessingCancelled
 
+            if cancelled():
+                return
             audio, rate = self.services.audio_store.load(row.audio_path)
             reading_audio = False
+            if cancelled():
+                return
             asr = self.services.retry_asr
-            raw = asr.transcribe(audio).strip()
+            selected = getattr(asr, "transcribe_with_model", None)
+            if options is not None and selected is not None:
+                raw = selected(audio, options.model_id).strip()
+            elif options is not None and options.model_id != getattr(asr, "model_id", None):
+                raise ValueError("The speech engine does not support this retry model")
+            else:
+                raw = asr.transcribe(audio).strip()
+            if cancelled():
+                return
             if not raw:
                 self.emit("notification_requested", "No speech was recognized in the saved recording.")
                 return
             target = TargetContext(app_title=row.app_name, app_exe=row.app_exe or "",
                                    app_group=row.app_group or "general")
-            result = self.services.processor.process(
-                raw, target=target, context=DictationContext(row.mode, row.profile, row.app_name,
-                    tone=row.style, intensity=row.intensity),
+            context = DictationContext(row.mode, row.profile, row.app_name,
+                app_group=target.app_group, tone=row.style, intensity=row.intensity,
+                language=getattr(asr, "last_language", None) or "auto")
+            processor = self._retry_cleanup.processor(self.services.processor, context,
+                options.cleanup if options is not None else "current", cancelled=cancelled)
+            notes = {"type": "asr_retry", "source_history_id": row.id}
+            if options is not None:
+                notes.update(model_id=options.model_id, cleanup=options.cleanup)
+            result = processor.process(
+                raw, target=target, context=context,
                 model=asr.model_id, duration_seconds=len(audio) / rate,
                 language=getattr(asr, "last_language", None) or "auto",
                 insert_text=False, audio_path=row.audio_path,
                 timings=dict(getattr(asr, "last_timings", {})),
-                edits=[{"type": "asr_retry", "source_history_id": row.id}])
+                edits=[notes], cancelled=cancelled)
             self.last_result = result
+            self.services.processor.last_result = result
             if result.history_id is not None:
                 new_id = result.history_id
                 self.emit("history_updated", new_id)
             else:
                 self.emit("notification_requested", "Retry text is kept in this session while History is unavailable.")
+        except ProcessingCancelled:
+            pass
         except Exception:
             logger.warning("History recognition retry failed")
-            logger.debug("History retry failure detail", exc_info=True)
-            self.emit("notification_requested", "Saved recording is unavailable or invalid." if reading_audio else
-                      "All languages retry failed. Check the model in Settings → Models.")
+            if not cancelled():
+                self.emit("notification_requested", "Saved recording is unavailable or invalid." if reading_audio else
+                          "Audio retry failed. Check the selected model in Settings → Models.")
         finally:
             self._retrying_history = False
+            if cancelled() and not new_id:
+                self.emit("notification_requested", "History retry cancelled.")
             self.hotkeys._controller.discard_active_recording()
             self.emit("history_retry_finished", new_id)
 
@@ -888,10 +933,12 @@ class SessionWorker:
             if self._closing:
                 return
             if self.busy:
+                self._history_retry_cancel.set()
                 self._pending_config = config
                 self.emit("notification_requested", "Settings will apply after the current dictation.")
                 return
             pending = self.services.processor.pending_results
+            self._retry_cleanup.close()
             previous = self.services.cleaner
             context = self.services.context
             clipboard = getattr(self.services.inserter, "clipboard", None)
@@ -920,6 +967,7 @@ class SessionWorker:
     def shutdown(self):
         self._closing = True
         self.cancel()
+        self._retry_cleanup.close()
         self._close_context(self.services.context)
         self.hotkeys.stop()
         self._cancel_timers()

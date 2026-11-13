@@ -95,12 +95,22 @@ It is off by default. Saved mono 16 kHz float32 WAV files live in
 Turning retention off applies to future captures. Existing recordings are retained,
 and no automatic deletion is introduced. Cancelling during capture stores no audio.
 
-History entries with retained audio offer Retry with All languages. It runs on the
-serial worker, uses local installed weights, and saves a new result for review.
+History entries with retained audio offer Retry audio with installed speech-model
+selection, including All languages, plus current/rules-only/AI-on cleanup choices.
+It runs on the serial worker, uses local installed weights, and saves a new result for review.
 It never types or pastes. The original entry and recording remain unchanged, and
 the new entry identifies its source. The retry shares warm Whisper weights when
 available. Retry versions add processing time, but do not inflate daily dictation,
 word or audio totals.
+
+The expanded Hub controls preserve the original recording and per-row style,
+keep global model/cleanup preferences unchanged, and offer cancellation before a
+new review is committed. A cold Whisper language view explicitly stays local-only,
+even when an old primary configuration allowed remote model resolution. Router
+retries reuse their two-model cache without changing the next capture's route.
+Explicit AI-on review can prepare the configured local cleanup model off the GUI
+thread; live cleanup deadlines and validation remain unchanged. See
+[HUB.md](HUB.md#retained-audio-retries) for lifecycle, layout and verification.
 
 ASR failures or empty recognition still receive an audio-backed History entry
 when retention is enabled. Retention failures leave recognition running and keep

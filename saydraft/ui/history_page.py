@@ -41,6 +41,8 @@ class HistoryPage(QtWidgets.QWidget):
         clipboard: Any | None = None,
         reinsert_callback: Callable[[str, HistoryRow], None] | Callable[[str], None] | None = None,
         retry_callback=None,
+        cancel_retry_callback=None,
+        retry_models_provider=None,
         glossary_path: str | os.PathLike[str] = "glossary.json",
         limit: int = 200,
     ):
@@ -53,10 +55,15 @@ class HistoryPage(QtWidgets.QWidget):
         self.clipboard = clipboard
         self.reinsert_callback = reinsert_callback
         self.retry_callback = retry_callback
+        self.cancel_retry_callback = cancel_retry_callback
+        self.retry_models_provider = retry_models_provider
         self._retry_source_id = None
+        self._retry_cancel_requested = False
+        self._retry_follow_source = False
         self.glossary_path = Path(glossary_path)
         self.limit = max(1, min(200, int(limit)))
         self._page = self._snapshot = self._detail = None
+        self._requested_selected_id = None
         self._loading, self._detail_loading, self._exporting = False, False, False
         self._generation = self._export_generation = 0
         self.diff_colors = json.loads(files("saydraft.ui.theme").joinpath("metadata.json").read_text("utf-8"))["history"]
@@ -102,8 +109,8 @@ class HistoryPage(QtWidgets.QWidget):
         self.reinsert_button = QtWidgets.QPushButton("Re-insert", self)
         self.add_dictionary_button = QtWidgets.QPushButton("Add word", self)
         self.add_dictionary_button.setAccessibleName("Add selected text to Dictionary")
-        self.retry_button = QtWidgets.QPushButton("Retry audio", self)
-        self.retry_button.setToolTip("Use All languages to recognize saved audio locally and save a new History entry for review.")
+        self.retry_button = QtWidgets.QPushButton("Retry audio…", self)
+        self.retry_button.setToolTip("Choose an installed speech model and AI cleanup on/off; save a new History entry for review.")
         self.retry_button.setEnabled(False)
         self.status_label = QtWidgets.QLabel("", self)
         self.status_label.setTextFormat(QtCore.Qt.PlainText)
@@ -183,14 +190,18 @@ class HistoryPage(QtWidgets.QWidget):
         self.restore_clipboard_button.clicked.connect(self.restore_clipboard)
         self.reinsert_button.clicked.connect(self.reinsert_current_text)
         self.add_dictionary_button.clicked.connect(self.add_selection_to_dictionary)
-        self.retry_button.clicked.connect(self.retry_current_audio)
+        self.retry_button.clicked.connect(self.choose_retry)
 
     def refresh(self) -> None:
         self.restore_clipboard_button.setEnabled(getattr(self.clipboard, "pending", None) is not None)
         selected = self._selected_id()
+        if selected is None and self.loading:
+            selected = self._requested_selected_id
         self._load_page(fresh=True, selected_id=selected, offset=self._page.offset if self._page else 0)
 
     def apply_filter(self) -> None:
+        self._retry_follow_source = False
+        self._requested_selected_id = None
         self._generation += 1
         self.jobs.cancel_read()
         self._clear_for_read()
@@ -211,6 +222,7 @@ class HistoryPage(QtWidgets.QWidget):
         self.update_detail()
 
     def _load_page(self, *, fresh=False, offset=0, selected_id=None):
+        self._requested_selected_id = selected_id
         self.search_timer.stop()
         self._generation += 1
         self._clear_for_read()
@@ -251,6 +263,8 @@ class HistoryPage(QtWidgets.QWidget):
             self.update_detail()
             return
         self._page, self._snapshot, self._detail = result, view, result.selected
+        if self._retry_source_id is not None and result.selected is not None and result.selected.id != self._retry_source_id:
+            self._retry_follow_source = False
         self.rows = self.filtered_rows = list(result.rows)
         self.list_widget.blockSignals(True)
         self.list_widget.clear()
@@ -272,6 +286,8 @@ class HistoryPage(QtWidgets.QWidget):
 
     def _selection_changed(self, _index):
         row_id = self._selected_id()
+        if row_id is not None and not self._loading and self._retry_source_id is not None:
+            self._retry_follow_source = row_id == self._retry_source_id
         if row_id is None or self._loading or self._snapshot is None:
             self.update_detail()
             return
@@ -292,16 +308,19 @@ class HistoryPage(QtWidgets.QWidget):
 
     def update_detail(self) -> None:
         row = self.current_row()
+        retrying = self._retry_source_id is not None
+        self.retry_button.setText("Cancel retry" if retrying else "Retry audio…")
+        self.retry_button.setToolTip("Cancel after the current recognition step; an already saved result stays in History."
+            if retrying else "Choose an installed speech model and AI cleanup on/off; save a new History entry for review.")
+        self.retry_button.setEnabled(bool(self.cancel_retry_callback and not self._retry_cancel_requested)
+            if retrying else bool(row and row.audio_path and self.retry_callback))
         for button in (self.copy_button, self.reinsert_button, self.add_dictionary_button):
             button.setEnabled(row is not None)
         if row is None:
             self.detail_editor.clear()
             self.metadata_label.setText("")
             self.why_editor.clear()
-            self.retry_button.setEnabled(False)
             return
-
-        self.retry_button.setEnabled(bool(row.audio_path and self.retry_callback and self._retry_source_id is None))
 
         self.why_editor.setPlainText(result_details(row))
         self.copy_button.setText("Copy raw" if self.raw_toggle.isChecked() else "Copy cleaned")
@@ -440,30 +459,76 @@ class HistoryPage(QtWidgets.QWidget):
                 return
         self._load_page(fresh=self._page is None or row_id > self._page.ceiling_id, selected_id=row_id)
 
-    def retry_current_audio(self):
+    def choose_retry(self):
+        if self._retry_source_id is not None:
+            return self.cancel_retry()
         row = self.current_row()
-        if row is None or not row.audio_path or self.retry_callback is None or self._retry_source_id is not None:
+        if row is None or not row.audio_path or self.retry_callback is None or self.jobs.closed:
+            return False
+        from saydraft.asr.retry import installed_retry_models
+        from .history_retry import HistoryRetryDialog
+        try:
+            models = (self.retry_models_provider or installed_retry_models)()
+        except Exception:
+            self.status_label.setText("Could not read installed speech models. Check Settings → Models.")
+            return False
+        dialog = HistoryRetryDialog(models, source_model=row.asr_model or row.model, parent=self)
+        try:
+            if dialog.exec() != QtWidgets.QDialog.Accepted:
+                return False
+            options = dialog.options()
+        finally:
+            dialog.deleteLater()
+        return self.retry_current_audio(options, row=row)
+
+    def retry_current_audio(self, options=None, *, row=None):
+        row = row or self.current_row()
+        if (row is None or not row.audio_path or self.retry_callback is None
+                or self._retry_source_id is not None or self.jobs.closed):
             return False
         self._retry_source_id = row.id
-        self.retry_button.setEnabled(False)
-        self.status_label.setText("Retrying saved audio…")
-        if not self.retry_callback(row):
+        self._retry_follow_source = self._selected_id() == row.id
+        self._retry_cancel_requested = False
+        self.update_detail()
+        self.status_label.setText("Retrying saved audio locally; AI preparation may take a moment…")
+        try:
+            queued = self.retry_callback(row) if options is None else self.retry_callback(row, options)
+        except Exception:
+            queued = False
+        if not queued:
             self._retry_source_id = None
             self.update_detail()
             self.status_label.setText("Finish the current dictation or retry before starting another.")
             return False
         return True
 
+    def cancel_retry(self):
+        if self._retry_source_id is None or self._retry_cancel_requested or self.cancel_retry_callback is None:
+            return False
+        try:
+            queued = bool(self.cancel_retry_callback())
+        except Exception:
+            queued = False
+        if queued:
+            self._retry_cancel_requested = True
+            self.update_detail()
+            self.status_label.setText("Cancelling retry after the current recognition step…")
+        return queued
+
     def finish_retry(self, row_id):
         selected = self.current_row()
-        source_selected = selected is not None and selected.id == self._retry_source_id
+        source_selected = self._retry_follow_source and (selected is None or selected.id == self._retry_source_id)
+        cancelled = self._retry_cancel_requested
         self._retry_source_id = None
+        self._retry_cancel_requested = False
+        self._retry_follow_source = False
         self.refresh()
         if row_id and source_selected:
             self.search_edit.clear()
             self._select_id(row_id)
         self.update_detail()
-        self.status_label.setText("Retry saved as a new History entry" if row_id else "Retry could not finish; check the notification.")
+        self.status_label.setText("Retry saved as a new History entry" if row_id else
+            "Retry cancelled" if cancelled else "Retry could not finish; check the notification.")
 
     def copy_current_text(self) -> bool:
         text = self.current_text()
@@ -530,6 +595,7 @@ class HistoryPage(QtWidgets.QWidget):
         return f"{row.duration_seconds:.1f}s"
 
     def closeEvent(self, event):
+        self.cancel_retry()
         self.search_timer.stop()
         self.jobs.close()
         self._snapshot = None

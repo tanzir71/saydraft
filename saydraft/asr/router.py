@@ -142,14 +142,19 @@ class AsrRouter:
             self._language_identifier.prepare()
 
     def retry_with_all_languages(self, audio):
-        engine = self._engine(Route(ALL_LANGUAGES, None, "manual_retry"))
+        return self.retry_with_model(audio, ALL_LANGUAGES)
+
+    def retry_with_model(self, audio, model_id):
+        if model_id not in ASR_MODELS:
+            raise ValueError("Unknown History speech model")
+        engine = self._engine(Route(model_id, None, "manual_retry"))
         prepare = getattr(engine, "prepare", None)
         if prepare is not None:
             prepare()
         started = self._clock()
         text = engine.transcribe(audio)
-        self._observed[ALL_LANGUAGES] = (len(np.asarray(audio)) / 16000, self._clock() - started)
-        self.model_id = ALL_LANGUAGES
+        self._observed[model_id] = (len(np.asarray(audio)) / 16000, self._clock() - started)
+        self.model_id = model_id
         self.last_language = getattr(engine, "last_language", None)
         self.last_timings = dict(getattr(engine, "last_timings", {}))
         return text

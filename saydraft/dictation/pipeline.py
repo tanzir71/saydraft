@@ -31,6 +31,7 @@ class DictationPipeline:
         self.llm = llm_cleaner if llm_cleaner is not None else LocalLLMCleaner(cfg.llm)
         self.last_timings: dict[str, float] = {"rules": 0.0, "llm": 0.0}
         self.last_llm_decision = "disabled"
+        self.last_llm_model = None
 
     def reload_glossary(self):
         self.glossary = load_glossary(self.cfg.glossary_path) if self.cfg.glossary_path else Glossary()
@@ -80,6 +81,7 @@ class DictationPipeline:
     def process_transcript(self, raw_text: str, context: DictationContext, *, finalize: bool = True) -> str:
         self.last_timings = {"rules": 0.0, "llm": 0.0}
         self.last_llm_decision = "disabled"
+        self.last_llm_model = None
         if not raw_text:
             return ""
 
@@ -103,6 +105,7 @@ class DictationPipeline:
         llm_ok_text: Optional[str] = None
         llm_started = time.perf_counter()
         if self.llm.available():
+            self.last_llm_model = getattr(self.llm, "model_id", None) or "Local cleanup"
             after_rules = getattr(self.llm, "clean_after_rules", None)
             contextual = getattr(self.llm, "clean_with_context", None)
             if after_rules is not None:

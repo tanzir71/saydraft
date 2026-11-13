@@ -17,8 +17,9 @@ class WhisperCT2Engine(WhisperEngine):
         self.config = replace(self.config, language=language)
 
     def with_language(self, language):
-        return WhisperCT2Engine(replace(self.config, language=language),
-                                model_factory=lambda *args, **kwargs: self._load_model())
+        return WhisperCT2Engine(replace(self.config, language=language, local_files_only=True),
+            model_factory=lambda *args, **kwargs:
+                self._model if self._model is not None else self.model_factory(*args, **kwargs))
 
     def prepare(self):
         """Initialize native sessions before capture, keeping the entire clip intact."""

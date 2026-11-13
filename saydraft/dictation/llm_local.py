@@ -56,6 +56,34 @@ class LocalLLMCleaner:
     def available(self) -> bool:
         return bool(self.cfg.enabled and self.cfg.model_path and not self._closed)
 
+    @property
+    def model_id(self):
+        from saydraft.models.manifest import load_manifest
+        name = Path(self.cfg.model_path).name
+        for model in load_manifest()["models"]:
+            if model.get("role") == "llm" and any(
+                    item["path"] == name and name.endswith(".gguf") for item in model["files"]):
+                return model["id"]
+        return "Local cleanup"
+
+    def prepare_for_review(self, context, *, cancelled=lambda: False, timeout=185):
+        """Explicit review may wait for preparation; live dictation never waits."""
+        if cancelled() or not self.warm_for_context(context):
+            return False
+        preparation = self._preparation
+        if preparation is None:
+            return not cancelled() and bool(self._manager and self._manager.prepare())
+        deadline = time.monotonic() + timeout
+        while not cancelled() and not self._closed:
+            remaining = deadline - time.monotonic()
+            if remaining <= 0:
+                return False
+            if preparation.wait(min(.1, remaining)):
+                hints = PromptHints(style=style_for(context).tone, intensity=style_for(context).intensity,
+                    post_rules=True, app=context.app_title or "", group=context.app_group)
+                return not cancelled() and preparation.ready(hints)
+        return False
+
     def _get_client(self):
         with self._lock:
             if not self.available():

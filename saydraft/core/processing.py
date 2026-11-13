@@ -21,6 +21,10 @@ from saydraft.snippets import resolve_mapping
 logger = logging.getLogger(__name__)
 
 
+class ProcessingCancelled(Exception):
+    """An explicit review request expired before persistence."""
+
+
 class IdentityFormatter:
     def format(self, text: str, target: TargetContext) -> str:
         return text
@@ -59,7 +63,9 @@ class TranscriptProcessor:
                 duration_seconds: float | None = None, insert_text: bool = True,
                 insert_action=None, timings: dict | None = None, language: str = "auto",
                 audio_path: str | None = None, edits: list | None = None, enter_guard=None,
-                field_guard=None, before_insert=None) -> ProcessingResult:
+                field_guard=None, before_insert=None, cancelled=lambda: False) -> ProcessingResult:
+        if cancelled():
+            raise ProcessingCancelled()
         stages = dict(timings or {})
         notes = tuple(copy.deepcopy(edits or ()))
         cleaned = raw_text
@@ -106,11 +112,14 @@ class TranscriptProcessor:
         except Exception:
             logger.warning("Formatting failed; preserving available words")
             logger.debug("Formatting failure detail", exc_info=True)
+        if cancelled():
+            raise ProcessingCancelled()
         entry = HistoryEntry(target.app_title, raw_text, cleaned, context.mode,
                              context.profile, duration_seconds, model,
                              app_exe=target.app_exe, app_group=target.app_group,
                              style=style_for(context).tone, intensity=style_for(context).intensity,
                              llm_decision=getattr(self.cleaner, "last_llm_decision", None),
+                             llm_model=getattr(self.cleaner, "last_llm_model", None),
                              language=language, asr_model=model, timings_json=json.dumps(stages),
                              audio_path=audio_path, edits_json=json.dumps(notes))
         try:

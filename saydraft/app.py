@@ -158,8 +158,11 @@ class WorkerController:
     def history_store(self):
         return self.core.services.history if self.core else None
 
-    def retry_history_audio(self, row):
-        return bool(self.core and self.core.retry_history(row))
+    def retry_history_audio(self, row, options=None):
+        return bool(self.core and (self.core.retry_history(row) if options is None else self.core.retry_history(row, options)))
+
+    def cancel_history_retry(self):
+        return bool(self.core and self.core.cancel_history_retry())
 
     def benchmark_hardware(self):
         return bool(self.core and self.core.benchmark_hardware())
@@ -468,9 +471,9 @@ class SaydraftApp:
         if refresh is not None:
             refresh(change)
 
-    def _retry_history_audio(self, row):
+    def _retry_history_audio(self, row, options=None):
         callback = getattr(self.controller, "retry_history_audio", None)
-        return bool(callback and callback(row))
+        return bool(callback and (callback(row) if options is None else callback(row, options)))
 
     def _finish_history_retry(self, row_id):
         if self.history_window is not None and hasattr(self.history_window, "finish_retry"):
@@ -512,7 +515,8 @@ class SaydraftApp:
                     style_glossary_provider=getattr(self.controller, "style_glossary", None)),
                 history_options=dict(qt_modules=self.qt_modules, store=self._controller_history_store(),
                     clipboard=self.controller.clipboard() if hasattr(self.controller, "clipboard") else None,
-                    reinsert_callback=self._reinsert_history_text, retry_callback=self._retry_history_audio),
+                    reinsert_callback=self._reinsert_history_text, retry_callback=self._retry_history_audio,
+                    cancel_retry_callback=getattr(self.controller, "cancel_history_retry", None)),
                 settings_page_factory=self.settings_window_factory, history_page_factory=self.history_window_factory,
                 shortcut=self._controller_hotkey_hint, model=self._controller_model_label, tier=self._hub_tier)
             self.settings_window = self.hub_window.settings_page
