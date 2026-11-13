@@ -20,14 +20,15 @@ def frozen_fixture(tmp_path, *, modules=()):
     return bundle, table
 
 
-def test_bundle_audit_reads_the_module_table_even_when_packages_are_compressed(tmp_path):
-    bundle, table = frozen_fixture(tmp_path, modules=[('pyarrow.lib', '/wheel/lib.pyd', 'EXTENSION')])
+@pytest.mark.parametrize('code', ['EXTENSION', 'PYMODULE', 'PYMODULE-1', 'PYMODULE-2'])
+def test_bundle_audit_reads_the_module_table_even_when_packages_are_compressed(tmp_path, code):
+    bundle, table = frozen_fixture(tmp_path, modules=[('pyarrow.lib', '/wheel/lib.pyd', code)])
     assert not list(bundle.rglob('*pyarrow*'))
     with pytest.raises(ValueError, match='forbidden module'):
         audit_bundle(bundle, table, POLICY)
 
 
-@pytest.mark.parametrize('name', ['aiohttp.client', 'pytest', '_pytest.config', 'PyInstaller.loader', 'torch'])
+@pytest.mark.parametrize('name', ['aiohttp.client', 'AIOHTTP.client', 'pytest', '_pytest.config', 'PyInstaller.loader', 'torch'])
 def test_bundle_audit_refuses_development_and_unrelated_runtime_modules(tmp_path, name):
     bundle, table = frozen_fixture(tmp_path, modules=[(name, '/wheel/file.py', 'PYMODULE')])
     with pytest.raises(ValueError, match='forbidden module'):

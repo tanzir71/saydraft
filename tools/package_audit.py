@@ -15,7 +15,8 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def forbidden_module(name, forbidden):
-    return any(name == prefix or name.startswith(prefix + '.') for prefix in forbidden)
+    name = name.casefold()
+    return any(name == prefix.casefold() or name.startswith(prefix.casefold() + '.') for prefix in forbidden)
 
 
 def audit_bundle(bundle, analysis, policy):
@@ -27,7 +28,7 @@ def audit_bundle(bundle, analysis, policy):
     def walk(value):
         if isinstance(value, (list, tuple)):
             if (len(value) == 3 and isinstance(value[0], str) and isinstance(value[2], str)
-                    and value[2] in ('PYMODULE', 'EXTENSION')):
+                    and value[2] in ('PYMODULE', 'PYMODULE-1', 'PYMODULE-2', 'EXTENSION')):
                 modules.add(value[0])
             for child in value:
                 walk(child)

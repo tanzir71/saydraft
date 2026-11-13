@@ -67,7 +67,7 @@ def verify_runtime():
         else:
             raise ValueError('Python network guard unavailable')
         policy = json.loads((root / 'bundle-policy.json').read_text(encoding='utf-8'))
-        if any(name == prefix or name.startswith(prefix + '.') for name in sys.modules
+        if any(name.casefold() == prefix.casefold() or name.casefold().startswith(prefix.casefold() + '.') for name in sys.modules
                for prefix in policy['forbidden_modules']):
             raise ValueError('Forbidden runtime module loaded')
         result['checks']['forbidden_modules_absent'] = True
