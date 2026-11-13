@@ -13,6 +13,7 @@ from pathlib import Path
 from saydraft.context.focused_edit import read_focused_edit
 from saydraft.context.uia_native import NativeUIAReader
 from saydraft.insert._clipboard_win32 import NativeClipboardApi
+from tools.owned_uia import prepare_owned_element
 
 
 def probe(report):
@@ -45,7 +46,7 @@ def probe(report):
                 try:
                     reader = NativeUIAReader()
                     stage = "acquire_element"
-                    element = reader.client.ElementFromHandleBuildCache(child, reader.cache)
+                    element = prepare_owned_element(reader, child, report)
                     reader.focused_element = lambda: reader.client.ElementFromHandleBuildCache(child, reader.cache)
                     reader.same_focus = lambda value: bool(reader.client.CompareElements(value, element))
                     if password:

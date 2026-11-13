@@ -19,6 +19,7 @@ from saydraft.context.focused_edit import read_focused_edit
 from saydraft.context.uia_native import NativeUIAReader
 from saydraft.dictionary.alignment import suggest_correction
 from saydraft.insert._clipboard_win32 import NativeClipboardApi
+from tools.owned_uia import prepare_owned_element
 
 
 def session_case(metadata, identity, mutate, child, row, output):
@@ -41,6 +42,11 @@ def session_case(metadata, identity, mutate, child, row, output):
     suggestions, changes = [], []
     def factory():
         native = NativeUIAReader()
+        try:
+            prepare_owned_element(native, child, row)
+        except Exception:
+            native.close()
+            raise
         native.focused_element = lambda: native.client.ElementFromHandleBuildCache(child, native.cache)
         native.keyboard_focus_snapshot = native.same_focus = lambda element: True  # Own invisible fixture only.
         return native
@@ -126,6 +132,11 @@ def asynchronous_case(metadata, identity, mutate, child, row):
     entered, release = threading.Event(), threading.Event()
     def factory():
         native = NativeUIAReader()
+        try:
+            prepare_owned_element(native, child, row)
+        except Exception:
+            native.close()
+            raise
         row["observation_thread"] = threading.get_ident()
         native.focused_element = lambda: native.client.ElementFromHandleBuildCache(child, native.cache)
         native.keyboard_focus_snapshot = lambda element: True  # Own invisible fixture only.
@@ -227,6 +238,7 @@ def probe(output):
                     return value
                 try:
                     reader = NativeUIAReader()
+                    prepare_owned_element(reader, child, row)
                     if case == "runtime_lookup":
                         reader.field_handle = lambda element: 0  # Exercise the HWND-less lookup route on an owned element.
                     reader.focused_element = lambda: reader.client.ElementFromHandleBuildCache(child, reader.cache)

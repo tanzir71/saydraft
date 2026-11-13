@@ -25,6 +25,7 @@ from saydraft.history import DictationHistoryStore
 from saydraft.insert._clipboard_win32 import NativeClipboardApi
 from saydraft.insert.inserter import Inserter
 from saydraft.privacy.netguard import NetworkGuard
+from tools.owned_uia import prepare_owned_element
 
 
 def replay(parent, child, output, password, row):
@@ -32,9 +33,10 @@ def replay(parent, child, output, password, row):
     reads, delivered, errors = [], [], []
     row["native_calls"] = []
     def factory():
+        reader = None
         try:
             reader = NativeUIAReader()
-            anchor = reader.client.ElementFromHandleBuildCache(child, reader.cache)
+            anchor = prepare_owned_element(reader, child, row)
             row["focus_property_supported"] = type(anchor.GetCurrentPropertyValueEx(
                 reader.lib.UIA_HasKeyboardFocusPropertyId, True)) is bool
             row["unfocused_fixture_refused"] = not reader.same_focus(anchor)
@@ -67,6 +69,10 @@ def replay(parent, child, output, password, row):
                         row["native_calls"].append(call)
                 setattr(reader, name, timed)
             return reader
+        except Exception:
+            if reader is not None:
+                reader.close()
+            raise
         finally:
             ready.set()
     class OwnForeground(NativeForegroundApi):
