@@ -36,7 +36,7 @@ def test_onboarding_wizard_has_required_steps_and_explicit_microphone_controls(t
 
     titles = [wizard.page(page_id).title() for page_id in wizard.pageIds()]
 
-    assert titles == ["Welcome", "Microphone", "Model", "Hotkey", "Done"]
+    assert titles == ["Welcome", "Microphone", "Set up models", "Hotkey", "Done"]
     assert wizard.hotkey_hint_label.text() == "F9"
 
     assert wizard.microphone_page._future is None
@@ -74,7 +74,7 @@ def test_onboarding_model_download_updates_progress_and_selected_model(tmp_path)
 
     assert calls == ["small"]
     assert wizard.model_progress.value() == 100
-    assert "ready" in wizard.model_status_label.text().lower()
+    assert "complete" in wizard.model_status_label.text().lower()
 
 
 def test_onboarding_hotkey_page_marks_tutorial_text_received(tmp_path):

@@ -13,7 +13,7 @@ from saydraft.config import load_config, save_config
 from saydraft.audio.devices import InputSelection
 from saydraft.asr.selection import configured_model_id, select_model
 from saydraft.ui.microphone_page import MicrophonePage
-from saydraft.ui.model_picker import ModelPicker
+from saydraft.ui.onboarding_models import OnboardingModelsPage
 
 
 class OnboardingWizard(QtWidgets.QWizard):
@@ -34,6 +34,8 @@ class OnboardingWizard(QtWidgets.QWizard):
         microphone_start_callback=None,
         microphone_stop_callback=None,
         microphone_devices_provider=None,
+        model_hardware_probe=None,
+        model_status_provider=None,
     ):
         super().__init__()
         self.qt = qt_modules
@@ -43,6 +45,8 @@ class OnboardingWizard(QtWidgets.QWizard):
         self.microphone_start_callback = microphone_start_callback
         self.microphone_stop_callback = microphone_stop_callback
         self.microphone_devices_provider = microphone_devices_provider
+        self.model_hardware_probe = model_hardware_probe
+        self.model_status_provider = model_status_provider
         self.config = load_config(config_path=self.config_path)
         self._completed = False
         self.hotkey_hint = hotkey_hint or str(self.config["hotkeys"]["speech"]).upper()
@@ -126,16 +130,14 @@ class OnboardingWizard(QtWidgets.QWizard):
         return page
 
     def _model_page(self) -> QtWidgets.QWizardPage:
-        page = QtWidgets.QWizardPage()
-        page.setTitle("Model")
-        layout = QtWidgets.QVBoxLayout(page)
-        self.model_picker = ModelPicker(self.config, callback=self.model_download_callback)
+        page = OnboardingModelsPage(self.config, download_callback=self.model_download_callback,
+            hardware_probe=self.model_hardware_probe, status_provider=self.model_status_provider)
+        self.models_page = page
+        self.model_picker = page.picker
         self.model_combo = self.model_picker.combo
         self.model_progress = self.model_picker.progress
         self.download_button = self.model_picker.download_button
         self.model_status_label = self.model_picker.status
-        layout.addWidget(self.model_picker)
-        layout.addStretch(1)
         return page
 
     def _hotkey_page(self) -> QtWidgets.QWizardPage:
@@ -161,7 +163,7 @@ class OnboardingWizard(QtWidgets.QWizard):
         page = QtWidgets.QWizardPage()
         page.setTitle("Done")
         layout = QtWidgets.QVBoxLayout(page)
-        self.finish_status_label = QtWidgets.QLabel("Ready to dictate")
+        self.finish_status_label = QtWidgets.QLabel("Finish to save your choices. A speech model must be installed before dictating.")
         self.finish_status_label.setWordWrap(True)
         self.finish_status_label.setTextFormat(QtCore.Qt.PlainText)
         self.finish_status_label.setAlignment(QtCore.Qt.AlignCenter)
@@ -196,7 +198,7 @@ class OnboardingWizard(QtWidgets.QWizard):
             return False
         self.config = saved
         self._completed = True
-        self.finish_status_label.setText("Ready to dictate")
+        self.finish_status_label.setText("Setup saved. Complete speech model installation in Hub → Settings → Models before dictating.")
         if self.on_config_applied is not None:
             self.on_config_applied(saved)
         return True
@@ -208,6 +210,7 @@ class OnboardingWizard(QtWidgets.QWizard):
 
     def reject(self) -> None:
         self.microphone_page.stop_test()
+        self.models_page.cancel_checks()
         self.model_picker.pause()
         super().reject()
 

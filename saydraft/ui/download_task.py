@@ -8,16 +8,21 @@ from PySide6 import QtCore
 from saydraft.models.downloader import DownloadPaused
 
 
-def call_download(callback, *args, pause_event):
+def call_download(callback, *args, pause_event, file_progress_callback=None):
     """Keep the old injectable callback API while built-in transfers support pause."""
     parameters = inspect.signature(callback).parameters
     supports_pause = "pause_event" in parameters or any(
         item.kind == inspect.Parameter.VAR_KEYWORD for item in parameters.values())
-    return callback(*args, **({"pause_event": pause_event} if supports_pause else {}))
+    options = {"pause_event": pause_event} if supports_pause else {}
+    if file_progress_callback is not None and ("file_progress_callback" in parameters or any(
+            item.kind == inspect.Parameter.VAR_KEYWORD for item in parameters.values())):
+        options["file_progress_callback"] = file_progress_callback
+    return callback(*args, **options)
 
 
 class DownloadTask(QtCore.QObject):
     progress = QtCore.Signal(int)
+    file_progress = QtCore.Signal(object)
     succeeded = QtCore.Signal(str)
     failed = QtCore.Signal(str)
     paused = QtCore.Signal(str)

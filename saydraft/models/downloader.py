@@ -15,6 +15,7 @@ from urllib.request import HTTPRedirectHandler, ProxyHandler, Request, build_ope
 
 from saydraft.privacy.netguard import NetworkGuard
 from .storage_lock import storage_lock
+from .progress import FileProgress
 
 _lock = threading.Lock()
 
@@ -130,7 +131,7 @@ def _require_space(remaining, target):
                       f"available {free / 1_000_000:.0f} MB. Partial files are kept; free space and resume.")
 
 
-def _download_file(file, destination, open_url, progress, pause_event):
+def _download_file(file, destination, open_url, progress, pause_event, *, verifying=None):
     partial = destination.with_name(destination.name + ".part")
     metadata = destination.with_name(destination.name + ".part.json")
     try:
@@ -176,6 +177,8 @@ def _download_file(file, destination, open_url, progress, pause_event):
     if offset < file["size"]:
         raise OSError("Model download interrupted; choose Download to resume")
     _check_pause(pause_event)
+    if verifying is not None:
+        verifying()
     if not verify_file(partial, file):
         _archive(partial)
         raise ValueError(f"SHA-256 or size mismatch for model file {file['path']}")
@@ -184,7 +187,7 @@ def _download_file(file, destination, open_url, progress, pause_event):
 
 
 def download_model(model: dict, target: Path, *, progress_callback=None, opener=None,
-                   pause_event=None) -> Path:
+                   pause_event=None, file_progress_callback=None) -> Path:
     """Explicit action only. Resume pinned files; publish only after complete SHA-256 checks."""
     total = sum(file["size"] for file in model["files"])
     from .manifest import bundled_license_path
@@ -208,17 +211,30 @@ def download_model(model: dict, target: Path, *, progress_callback=None, opener=
         for file in model["files"]:
             _check_pause(pause_event)
             destination = target / file["path"]
+            def file_status(phase, completed=0):
+                if file_progress_callback is not None:
+                    file_progress_callback(FileProgress(model["id"], file["path"], completed, file["size"], phase))
+
+            file_status("checking")
             if verify_file(destination, file):
                 completed += file["size"]
+                file_status("verified", file["size"])
                 if progress_callback:
                     progress_callback(int(completed / total * 100))
                 continue
             if destination.exists():
                 _archive(destination)
 
+            last_percent = -1
+
             def progress(downloaded):
+                nonlocal last_percent
                 if progress_callback:
                     progress_callback(int((completed + downloaded) / total * 100))
+                percent = downloaded * 100 // file["size"]
+                if percent != last_percent:
+                    file_status("downloading", downloaded)
+                    last_percent = percent
 
             if file["path"] in sources:
                 partial = destination.with_name(destination.name + ".part")
@@ -229,12 +245,17 @@ def download_model(model: dict, target: Path, *, progress_callback=None, opener=
                     output.flush()
                     os.fsync(output.fileno())
                 _check_pause(pause_event)
+                file_status("verifying", file["size"])
                 if not verify_file(partial, file):
                     raise ValueError("Bundled model notice failed verification")
                 partial.replace(destination)
-                progress(file["size"])
+                if progress_callback:
+                    progress_callback(int((completed + file["size"]) / total * 100))
             else:
-                _download_file(file, destination, open_url, progress, pause_event)
+                options = {"verifying": lambda: file_status("verifying", file["size"])} if file_progress_callback else {}
+                _download_file(file, destination, open_url, progress, pause_event,
+                    **options)
+            file_status("verified", file["size"])
             completed += file["size"]
         _write_json(marker, _receipt(model))
     return target

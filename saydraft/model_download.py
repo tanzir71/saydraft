@@ -39,7 +39,7 @@ def find_installed_model(model_id: str, *, check_hashes=False) -> Path | None:
 
 
 def download_asr_model(model_id: str, progress_callback=None, *, models_dir=None,
-                       pause_event=None) -> Path:
+                       pause_event=None, file_progress_callback=None) -> Path:
     """Explicit Settings/setup download; legacy Whisper size aliases remain accepted."""
     if model_id in ("base", "small", "medium", "large-v3-turbo"):
         model_id = f"whisper-{model_id}"
@@ -60,7 +60,8 @@ def download_asr_model(model_id: str, progress_callback=None, *, models_dir=None
                 if progress_callback:
                     progress_callback(int((completed + size * value / 100) / total * 100))
 
-            install_files(item, target, progress_callback=progress, pause_event=pause_event)
+            options = {"file_progress_callback": file_progress_callback} if file_progress_callback is not None else {}
+            install_files(item, target, progress_callback=progress, pause_event=pause_event, **options)
             completed += size
     return targets[0][1]
 

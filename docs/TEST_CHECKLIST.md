@@ -42,6 +42,10 @@ do not automate microphone capture or foreground insertion into an owner's apps.
 
 ## Reliability Checks
 
+- In disposable first-run setup, verify Check this PC is explicit and yields provisional/pending guidance without writing a benchmark, changing the saved tier, enabling AI or downloading. Use speech recommendation stages only the model choice.
+- Verify installed-package checks include required helper weights, stay responsive, discard late results after selection/hide/close, and coalesce rapid selections. Transfer completion alone must not be reported as package verification.
+- Pause/resume fixture transfers while inspecting per-file bytes and SHA-256 phases; corrupt files never report verified or publish a live installation. Switch models after completion and confirm the prior progress/details clear. Review license links and keyboard focus in both themes/larger text; changing the palette during a download preserves progress.
+
 - In isolated first-run setup, confirm no input is opened/listed until explicit Refresh/Test; select a fixture microphone and verify Cancel leaves configuration bytes unchanged.
 - Test the input, then leave the microphone step, hide/close setup or finish; confirm stop is requested promptly and late levels cannot revive it. Body text, heading, Back/Next/Cancel and both Windows settings links remain readable/reachable at larger text and 200% density.
 - Save unrelated settings from another Hub while setup remains open; Finish preserves those fields, merges explicit setup edits only, and does not silently replace an unchanged newer input/model choice. A save failure keeps setup open; repeated completion applies once. Full six-step onboarding/manual timing acceptance remains P6.4.

@@ -12,3 +12,5 @@ def isolate_optional_vad_models(monkeypatch):
     # Hub/download lifecycle tests may inspect storage. Only tests supplying
     # explicit fixture roots should see any model files on the owner's PC.
     monkeypatch.setattr("saydraft.models.storage.storage_roots", lambda: ())
+    monkeypatch.setattr("saydraft.ui.onboarding_models.inspect_speech_package",
+        lambda _model_id: {"state": "missing", "missing": []})

@@ -10,6 +10,11 @@ an engine field retain their Whisper model size and language. Settings → Model
 and setup offer both Parakeet models plus Whisper base/small/medium/turbo. Selection
 never downloads weights automatically.
 
+First-run setup now offers an explicit, provisional PC capability check,
+background package verification and per-file download/SHA-256 progress. Those
+recommendations never qualify a measured tier or enable AI cleanup; see
+[onboarding implementation and remaining work](ONBOARDING.md#model-setup).
+
 The owner confirmed the written setup flow: show the recommendation, size and
 license, then start a one-click user-initiated download with progress and
 pause/resume. Later launches reuse installed models.

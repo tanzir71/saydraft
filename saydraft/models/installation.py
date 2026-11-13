@@ -75,13 +75,18 @@ def publish_directory(stage, target):
     return target
 
 
-def install_files(model, target, *, progress_callback=None, pause_event=None, opener=None):
+def install_files(model, target, *, progress_callback=None, pause_event=None, opener=None,
+                  file_progress_callback=None):
     """New payloads stay resumable in staging until every file and receipt verifies."""
     from .downloader import download_model
     with storage_lock:
         _check_pause(pause_event)
         target = require_model_target(model, target, allow_legacy=True)
         if installation_ready(model, target, check_hashes=True):
+            if file_progress_callback is not None:
+                from .progress import FileProgress
+                for file in model["files"]:
+                    file_progress_callback(FileProgress(model["id"], file["path"], file["size"], file["size"], "verified"))
             if progress_callback:
                 progress_callback(100)
             return target
@@ -91,6 +96,8 @@ def install_files(model, target, *, progress_callback=None, pause_event=None, op
         check_staging_files(model, stage)
         check_bundle_space([(model, stage)])
         options = {"opener": opener} if opener is not None else {}
+        if file_progress_callback is not None:
+            options["file_progress_callback"] = file_progress_callback
         download_model(model, stage, pause_event=pause_event, **options,
             progress_callback=lambda value: progress_callback(min(99, value)) if progress_callback else None)
         _check_pause(pause_event)
