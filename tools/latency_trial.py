@@ -40,6 +40,7 @@ from saydraft.privacy.netguard import NetworkGuard
 from saydraft.stt.whisper_engine import _default_model_factory
 from tools.bench_cleanup import NativeMeter
 from tools.latency_matrix import PHASES, write_json
+from tools.latency_environment import require_runtime_versions, runtime_environment
 from tools.probe_cleanup_latency import feed_capture, wait_for
 from tools.soak_runner import MemoryClipboard, MemoryKeyboard
 
@@ -97,11 +98,15 @@ def replay_asr(spec, config):
 def run_trial(spec):
     output = Path(spec["output"])
     report = {"schema": 1, **{name: spec[name] for name in ("git_commit", "audio_seconds", "repeat", "tier", "asr_model")},
+        'runtime_environment': runtime_environment(),
         "cases": [], "native_exits": [], "complete": False}
     meter, worker, pipeline, local = None, None, None, None
     started = time.monotonic()
     NetworkGuard.install()
     try:
+        if report['runtime_environment'] != spec.get('runtime_environment'):
+            raise ValueError('Trial runtime environment differs from its parent request')
+        require_runtime_versions(report['runtime_environment'], spec['tier'])
         meter = NativeMeter()
         if spec.get("vad_dir"):
             from saydraft.model_download import default_models_dir, model_relative_dir

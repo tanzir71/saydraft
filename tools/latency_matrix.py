@@ -17,6 +17,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from saydraft.asr.model_ids import DEFAULT_MODEL
+from tools.latency_environment import runtime_environment
 
 ROOT = Path(__file__).resolve().parents[1]
 DURATIONS = (3, 10, 30, 90)
@@ -37,9 +38,10 @@ def write_json(path, value):
 
 def source_receipt():
     names = sorted([*ROOT.joinpath("saydraft").rglob("*.py"),
-        *[ROOT / "tools" / name for name in ("bench.py", "latency_matrix.py", "latency_trial.py",
+        *[ROOT / "tools" / name for name in ("bench.py", "latency_matrix.py", "latency_trial.py", "latency_environment.py",
             "probe_cleanup_latency.py", "soak_runner.py", "bench_cleanup.py")],
-        ROOT / "saydraft" / "models" / "manifest.json", ROOT / "eval" / "cleanup" / "candidates.json"])
+        ROOT / "saydraft" / "models" / "manifest.json", ROOT / "eval" / "cleanup" / "candidates.json",
+        ROOT / 'requirements.txt'])
     return {"git_commit": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip(),
         "source_dirty": bool(subprocess.check_output(["git", "status", "--porcelain"], cwd=ROOT, text=True).strip()),
         "source_fingerprints": {p.relative_to(ROOT).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest()
@@ -70,12 +72,14 @@ def summarize(rows, tier):
         "actual_model_use": tier == "lite" or all(accepted.values())}
 
 
-def validate_pair(pair, *, seconds, repeat, commit, model):
+def validate_pair(pair, *, seconds, repeat, commit, model, environment=None):
     """Refuse a stale, duplicate, incomplete or mismatched child receipt."""
     if (not pair.get("complete") or pair.get("git_commit") != commit
             or pair.get("audio_seconds") != seconds or pair.get("repeat") != repeat or pair.get("asr_model") != model
             or len(pair.get("cases", [])) != 2):
         raise ValueError("Child pair did not complete against this source and request")
+    if environment is not None and pair.get('runtime_environment') != environment:
+        raise ValueError('Child runtime environment differs from the parent measurement')
     for phase, row in zip(PHASES, pair["cases"], strict=True):
         if (row.get("phase") != phase or row.get("audio_seconds") != seconds or row.get("repeat") != repeat
                 or not row.get("history_before_paste") or not row.get("clipboard_restored")
@@ -181,8 +185,10 @@ def main(argv=None):
     if not args.debug and args.output.is_relative_to(ROOT):
         parser.error("full-run artifacts must be outside the immutable source checkout")
     args.output.mkdir(parents=True, exist_ok=False)
+    environment = runtime_environment()
     report = {"schema": 1, **source, "measured_at": datetime.now(timezone.utc).isoformat(),
         "platform": platform.platform(), "python": platform.python_version(), "tier_recipe": args.tier,
+        'runtime_environment': environment,
         **recipe, "device": args.device, "repeats_per_cell": args.repeats, "durations": args.durations,
         "isolation_declared": args.isolated, "debug": args.debug, "cases": [], "pairs": [],
         "cold_definition": "first utterance in a fresh worker/ASR/native process; OS disk caches may be warm",
@@ -199,13 +205,15 @@ def main(argv=None):
                 pair_output = args.output / f"{seconds:02d}s-{repeat:03d}"
                 pair_output.mkdir(exist_ok=False)
                 spec = {"git_commit": source["git_commit"], "audio_seconds": seconds, "repeat": repeat,
+                    'runtime_environment': environment,
                     "tier": args.tier, **recipe, "device": args.device, "output": str(pair_output),
                     **{name: str(getattr(args, name).resolve()) if getattr(args, name) else None
                        for name in ("parakeet_dir", "lid_dir", "whisper_dir", "models_dir", "runtime_dir", "vad_dir")}}
                 report["active_pair"] = {"audio_seconds": seconds, "repeat": repeat}
                 write_json(args.output / "report.json", report)
                 pair = run_pair(spec, pair_output)
-                validate_pair(pair, seconds=seconds, repeat=repeat, commit=source["git_commit"], model=recipe["asr_model"])
+                validate_pair(pair, seconds=seconds, repeat=repeat, commit=source["git_commit"], model=recipe["asr_model"],
+                              environment=environment)
                 report["cases"].extend(pair["cases"])
                 report["pairs"].append({"path": pair_output.name + "/report.json",
                     "sha256": hashlib.sha256((pair_output / "report.json").read_bytes()).hexdigest(),
@@ -219,8 +227,10 @@ def main(argv=None):
     finally:
         report["summary"] = summarize(report["cases"], args.tier)
         report["source_unchanged"] = source_receipt() == source
+        report['runtime_environment_unchanged'] = runtime_environment() == environment
         report["full_matrix"] = (report["complete"] and not args.debug and args.isolated
             and not source["source_dirty"] and report["source_unchanged"]
+            and report['runtime_environment_unchanged']
             and tuple(args.durations) == DURATIONS and args.repeats >= 20 and args.vad_dir is not None)
         target = recipe["decode_target_tps"]
         report["decoder_target_met"] = target is None or bool(report["cases"]) and all(

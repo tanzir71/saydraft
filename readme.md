@@ -25,8 +25,9 @@ Saydraft is in active development. Run from source using the steps below.
 There is no published installer release yet; installer, signing, updates, and
 clean-machine validation remain on the [roadmap](WISPR_OFFLINE_PARITY_PLAN.md).
 The [packaging pipeline](docs/PACKAGING.md) produces a 109.2 MB unsigned installer
-that passes resource and install/uninstall checks. Upstream notice coverage is
-being completed before packaging acceptance.
+that passes resource and install/uninstall checks. A new module-based license
+collector and integrity gate are awaiting a verified rebuild before packaging
+acceptance. [Notice sources and scope](assets/licenses/packaged/README.md).
 
 Core dictation and the Hub are available from source. Owner accuracy acceptance
 is deferred. Implementation and remaining

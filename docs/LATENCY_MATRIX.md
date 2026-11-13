@@ -46,6 +46,14 @@ into each child's private profile so normal production VAD discovery works.
 Runtime modules remain available from the parent interpreter's explicit search
 paths; application state, temporary files and caches use the private profile.
 
+Use a fresh requirements-only QA environment for comparable measurements.
+Parent and child reports retain the Python interpreter hash and installed ASR,
+VAD, audio and NumPy package versions. A mismatched child environment is rejected;
+a changed environment at the end prevents full-matrix qualification. Source
+fingerprints include the runtime requirements and provenance helper. These
+records expose dependency differences between runs; they do not retroactively
+establish versions for older reports that lack this evidence.
+
 ```powershell
 python -m tools.bench matrix --tier lite --whisper-dir D:\QA\WhisperBase --vad-dir D:\QA\Silero --isolated --output D:\QA\Latency-Lite-New
 python -m tools.bench matrix --tier standard --parakeet-dir D:\QA\Parakeet --lid-dir D:\QA\LanguageID --vad-dir D:\QA\Silero --models-dir D:\QA\Candidates --runtime-dir D:\QA\llama-cpp-b12110-cpu-x64 --isolated --output D:\QA\Latency-Standard-New

@@ -162,6 +162,7 @@ def test_debug_completion_keeps_full_matrix_and_target_false(tmp_path, monkeypat
 
     def run(spec, output):
         receipt = pair()
+        receipt['runtime_environment'] = spec['runtime_environment']
         receipt["cases"] = [{**row, "release_to_paste_seconds": .1, "decision": "disabled"}
                             for row in receipt["cases"]]
         matrix.write_json(output / "report.json", receipt)
@@ -177,7 +178,7 @@ def test_debug_completion_keeps_full_matrix_and_target_false(tmp_path, monkeypat
 
 @pytest.mark.parametrize("change,latency_ok,recipe_ok", [
     ("none", True, True), ("source", False, False), ("rules_only", False, False),
-    ("slow_decoder", True, False),
+    ("slow_decoder", True, False), ("environment", False, False),
 ])
 def test_full_measurement_separates_latency_model_use_decoder_and_source_integrity(
         tmp_path, monkeypatch, change, latency_ok, recipe_ok):
@@ -194,9 +195,18 @@ def test_full_measurement_separates_latency_model_use_decoder_and_source_integri
 
     monkeypatch.setattr(matrix, "source_receipt", receipt)
     monkeypatch.setattr(matrix, "os", SimpleNamespace(name="nt"))
+    environment_reads = 0
+
+    def environment():
+        nonlocal environment_reads
+        environment_reads += 1
+        return {'packages': {'ctranslate2': '4.8.1' if change == 'environment' and environment_reads > 1 else '4.9.0'}}
+
+    monkeypatch.setattr(matrix, 'runtime_environment', environment)
 
     def run(spec, output):
         value = pair()
+        value['runtime_environment'] = spec['runtime_environment']
         value.update(audio_seconds=spec["audio_seconds"], repeat=spec["repeat"], asr_model=spec["asr_model"])
         value["cases"] = [{**row, "audio_seconds": spec["audio_seconds"], "repeat": spec["repeat"],
             "fed_samples": spec["audio_seconds"] * 16000, "release_to_paste_seconds": .2, "asr_model": spec["asr_model"],
