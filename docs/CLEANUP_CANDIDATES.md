@@ -78,6 +78,13 @@ in progress. No quality, parity-latency or winner acceptance is claimed.
 
 ## Reproducible native measurements
 
+The [2026-11-13 baseline](../eval/cleanup/results/2026-11-13-baseline/README.md)
+contains six completed, isolated 556/100-case runs from `0ebd41f`: all five GPU
+candidates and CPU 0.8B. Review exposed an accepted French word substitution that
+finite checks missed; the batch stopped at the next observed-exit boundary.
+The normal post-rules guard is now stricter. Baseline reports remain unchanged;
+they do not qualify the updated guard, unfinished CPU matrix or model defaults.
+
 `tools.bench_cleanup` evaluates installed, rehashed candidates without downloads.
 Use a clean immutable checkout for a full run and a new output directory:
 
@@ -105,7 +112,7 @@ preparation time, case latency by first/same-style/changed-style prefix, native
 peak working set and observed child exit. Prefix labels do not prove cache hits;
 working set is host memory, not VRAM. Three direct 60-token warm generation samples
 record native decode rates separately from full cleanup latency. Full runs require
-432 golden and 100 adversarial cases, a clean source tree and all three samples.
+556 golden and 100 adversarial cases, a clean source tree and all three samples.
 `measurement_complete` means the requested measurement finished, not acceptance
 or winner selection. Authored unsafe-candidate catch scores are separate from
 runtime adversarial input checks; finite guards cannot prove semantic preservation.

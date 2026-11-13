@@ -1,5 +1,15 @@
 # Retained native cleanup evidence
 
+The checker now enforces the current 556-golden/100-adversarial minimum, including
+otherwise self-consistent reports for a reduced corpus. The
+[2026-11-13 baseline matrix](../eval/cleanup/results/2026-11-13-baseline/README.md)
+is pre-word-guard diagnostic evidence. Its accepted French substitution shows
+why finite preservation checks alone cannot establish semantic safety. Fresh
+post-fix forced and production-policy reports remain required; older reports
+must not be relabeled as current acceptance.
+Forced evidence also pins the pipeline that activates post-rules validation;
+a current validator file cannot make an older caller valid evidence.
+
 The offline evidence checker compares complete CPU 0.8B and Vulkan 2B policy
 measurements with separately forced native model measurements. It performs no
 downloads or inference. Policy completion cannot substitute for actual accepted

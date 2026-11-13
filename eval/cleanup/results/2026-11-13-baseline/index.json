@@ -1,0 +1,45 @@
+{
+  "source_commit": "0ebd41f3c59e692997af11fb2bfc09639efd62c4",
+  "scope": "Six completed forced-quality baseline runs before the post-rules word guard; no current-source, policy, tier, latency or default acceptance",
+  "planned_jobs": 10,
+  "completed_jobs": 6,
+  "stopped_reason": "Accepted French word substitution in runtime language-08 escaped finite validation; finish current model and inspect before continuing qualification",
+  "reports": [
+    {
+      "report": "qwen08-vulkan1.json",
+      "report_sha256": "8373fa26c909edf3f1a1e6b56ca69d64acb13f6cb73f6b1d8c53e78ae0e9ae0c",
+      "candidate": "qwen35-08b-q4-k-m",
+      "backend": "vulkan"
+    },
+    {
+      "report": "qwen2-vulkan1.json",
+      "report_sha256": "f0884558203af4f59d221fc85ada7b03371b78cc9e131127f7b69de3d59e11d7",
+      "candidate": "qwen35-2b-q4-k-m",
+      "backend": "vulkan"
+    },
+    {
+      "report": "qwen4-vulkan1.json",
+      "report_sha256": "6d8077e99b4d7af9401986222af189d03123ed333ccd0130dc36a259806663c0",
+      "candidate": "qwen35-4b-q4-k-m",
+      "backend": "vulkan"
+    },
+    {
+      "report": "gemma2-vulkan1.json",
+      "report_sha256": "c2ac94861894de0f68c481425200ded0f0bd10044309539ccd5d9b3b742035a9",
+      "candidate": "gemma4-e2b-q4-0",
+      "backend": "vulkan"
+    },
+    {
+      "report": "gemma4-vulkan1.json",
+      "report_sha256": "326f7d7df831356f5fbd7fbcca3b0f85162683a669e56e6571406e2f3aade709",
+      "candidate": "gemma4-e4b-q4-0",
+      "backend": "vulkan"
+    },
+    {
+      "report": "qwen08-cpu.json",
+      "report_sha256": "d4b3a275bb07b6eda741f4da62ca70639a7e8f7e175799bb43c8ce5cf1e8e8bc",
+      "candidate": "qwen35-08b-q4-k-m",
+      "backend": "cpu"
+    }
+  ]
+}

@@ -14,6 +14,17 @@ currency words. They include English, Bengali and Arabic examples. Unicode word
 scanning retains combining marks, and shared word-boundary checks prevent a
 glossary term from matching just the base letters of a longer Bengali word.
 
+For post-rules cleanup at intensities 1–3, the pipeline also checks content-word
+identity and order. This closes a real native-model gap: `Envoyez` → `Envélez`
+previously passed the overlap checks. Unknown substitutions, content deletion,
+and reordered roles now fall back with `rejected:post_rules_words_changed`.
+Bounded English agreement, articles/politeness and unambiguous conversational
+expansions remain eligible; tense changes do not count as agreement. Unicode
+combining marks remain part of words. Intensity 4 retains its broader rewording
+contract, and explicit translation retains its separate similarity exemption;
+all existing number/entity/negation/profanity guards still apply. This additional
+check is conservative and does not establish semantic equivalence.
+
 New controls or output wrappers are refused. Assistant/answer prefixes must
 already be present in the source to be eligible. Dominant-script checks and
 Unicode token overlap refuse translation and answering; content-word overlap
@@ -55,9 +66,10 @@ heuristic, not full language identification. The detail/profanity lexicons are
 finite; unknown forms and near-identical semantic changes need more cases and
 model evaluation. Strict checks may decline harmless grammar/style changes,
 which intentionally leaves the available rules output. No app model is promoted
-from these results. The 300-case golden set and model bake-off remain P4.7/P4.4.
+from these results. The golden set now has 556 cases; fresh native hybrid quality,
+model selection and tier/latency acceptance remain under P4.7/P4.4/P4.6.
 
-Validation: 769 tests pass with four optional native skips and real
+Original validator checkpoint: 769 tests pass with four optional native skips and real
 preview/Silero/LID fixtures enabled; rules evaluation 42/42; adversarial 100/100;
 Ruff and diff checks pass. A synthetic repeated 1700-word punctuation edit takes
 25.6 ms median / 32.8 ms maximum in thirty runs concurrent with the suite. This

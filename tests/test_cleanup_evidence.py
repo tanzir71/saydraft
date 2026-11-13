@@ -60,6 +60,23 @@ def test_retained_hybrid_and_forced_model_evidence_are_checked_separately(tmp_pa
     assert "no tier/latency/default acceptance" in result["scope"]
 
 
+@pytest.mark.parametrize('count', [472, 555])
+def test_self_consistent_evidence_cannot_accept_a_shrunken_golden_corpus(tmp_path, monkeypatch, count):
+    golden = evidence.load_eval_corpus(evidence.ROOT / 'tests/eval_corpus.jsonl')
+    assert len(golden) >= 556
+    monkeypatch.setattr(evidence, 'load_eval_corpus', lambda _path: golden[:count])
+    policy, forced = fixture(tmp_path)
+    with pytest.raises(ValueError, match='Cleanup corpus shrank'):
+        evidence.check(policy, forced)
+
+
+def test_forced_evidence_pins_the_pipeline_that_activates_post_rules_validation(tmp_path):
+    policy, forced = fixture(tmp_path)
+    mutate(forced, lambda report: report['source_fingerprints'].update({'saydraft/dictation/pipeline.py': '0' * 64}))
+    with pytest.raises(ValueError, match='Stale cleanup source'):
+        evidence.check(policy, forced)
+
+
 @pytest.mark.parametrize("operation,reason", [
     (lambda report: report["suites"]["golden"].update(completed=431), "Incomplete suite"),
     (lambda report: report["suites"]["golden"].update(accepted_replies=0), "Rules fallback"),

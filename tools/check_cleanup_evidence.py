@@ -22,7 +22,7 @@ REQUIRED = {"saydraft/cleanup/llm/client.py", "saydraft/cleanup/llm/gate.py",
     "saydraft/dictation/llm_local.py", "saydraft/core/processing.py", "saydraft/core/preferences.py", "saydraft/eval.py",
     "saydraft/cleanup/styles.py",
     "saydraft/text_boundaries.py", "saydraft/text_entities.py"}
-GUARDS = {"saydraft/cleanup/llm/validate.py", "saydraft/cleanup/llm/structure.py",
+GUARDS = {"saydraft/cleanup/llm/validate.py", "saydraft/cleanup/llm/structure.py", "saydraft/dictation/pipeline.py",
           "saydraft/text_boundaries.py", "saydraft/text_entities.py"}
 PAIR = {"qwen08-cpu.json": ("qwen35-08b-q4-k-m", "cpu", 25),
         "qwen2-vulkan1.json": ("qwen35-2b-q4-k-m", "vulkan", 40)}
@@ -108,7 +108,7 @@ def check(policy_index=POLICY_INDEX, forced_index=FORCED_INDEX, *, root=ROOT):
     policy, forced = reports(Path(policy_index)), reports(Path(forced_index))
     golden = load_eval_corpus(root / "tests/eval_corpus.jsonl")
     adversarial = load_cases(root / DEFAULT_CORPUS.relative_to(ROOT))
-    require(len(golden) >= 472 and len(adversarial) >= 100, "Cleanup corpus shrank")
+    require(len(golden) >= 556 and len(adversarial) >= 100, "Cleanup corpus shrank")
     golden_sha = corpus_digest(golden)
     adversarial_sha = digest(json.dumps(adversarial, sort_keys=True).encode())
     results = []

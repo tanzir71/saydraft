@@ -52,6 +52,12 @@ AMOUNT_WORDS = frozenset(("dollar dollars euro euros pound pounds taka percent p
 STOPWORDS = frozenset("a an the is are was were be been being am i you he she it we they my your his her our their "
                      "this that these those to of for from in on at as by and or but so with do does did "
                      "what where when who how please".split())
+_STYLE_ARTICLES = frozenset(('a', 'an', 'the', 'please'))
+_AGREEMENT = {'am': 'is', 'are': 'is', 'were': 'was', 'has': 'have', 'does': 'do'}
+_STYLE_EXPANSIONS = {"i'm": ('i', 'am'), "you're": ('you', 'are'), "we're": ('we', 'are'),
+    "they're": ('they', 'are'), "i've": ('i', 'have'), "you've": ('you', 'have'),
+    "we've": ('we', 'have'), "they've": ('they', 'have'), 'gonna': ('going', 'to'),
+    'wanna': ('want', 'to'), 'kinda': ('kind', 'of'), 'sorta': ('sort', 'of')}
 ANSWER_PREFIXES = tuple(re.compile(pattern, re.IGNORECASE) for pattern in (
     r"^(?:sure|certainly|of course)\b", r"^here(?:'s| is| are)\b", r"^the answer (?:is|to)\b",
     r"^as an? (?:ai|assistant|language model)\b", r"^i (?:can|cannot|can't|am unable to)\b",
@@ -130,9 +136,27 @@ def _coverage(source, candidate):
     return common / max(1, source.total()), common / max(1, candidate.total())
 
 
-def validate_llm_output(rule_text, llm_text, mode="balanced", *, glossary=(), intensity=None, translate=False):
+def _post_rules_words(text):
+    """Content order, allowing bounded English agreement and style equivalents.
+
+    Deterministic cleanup has already handled fillers/backtracks. Unknown word
+    replacements are not spelling corrections authorized by the speaker.
+    """
+    words = []
+    for word in extract_words(text):
+        word = word.casefold()
+        for part in _STYLE_EXPANSIONS.get(word, (word,)):
+            if part not in _STYLE_ARTICLES:
+                words.append(_AGREEMENT.get(part, part))
+    return words
+
+
+def validate_llm_output(rule_text, llm_text, mode="balanced", *, glossary=(), intensity=None, translate=False,
+                        post_rules=False):
     if not isinstance(rule_text, str) or not isinstance(llm_text, str) or not llm_text.strip():
         return ValidationResult(False, "empty")
+    if type(post_rules) is not bool:
+        return ValidationResult(False, "invalid_stage")
     a, b = rule_text.strip(), llm_text.strip()
     level = intensity if intensity is not None else (4 if mode == "aggressive" else 3)
     if type(level) is not int or not 1 <= level <= 4:
@@ -203,4 +227,6 @@ def validate_llm_output(rule_text, llm_text, mode="balanced", *, glossary=(), in
         similarity = SequenceMatcher(None, a.casefold(), b.casefold()).ratio()
         if similarity < (0.65 if level == 4 else 0.75):
             return ValidationResult(False, "too_different")
+        if post_rules and level < 4 and _post_rules_words(a) != _post_rules_words(b):
+            return ValidationResult(False, "post_rules_words_changed")
     return ValidationResult(True, "ok")

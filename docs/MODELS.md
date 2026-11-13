@@ -72,6 +72,33 @@ Initial 0.8B compatibility probes and retained cold-request failures are recorde
 in that document; concurrent downloads and two curated examples cannot establish
 quality or tier acceptance.
 
+### Cleanup baseline measurements (2026-11-13; pre-word-guard)
+
+Six serial forced-quality runs from immutable `0ebd41f` completed 556 golden and
+100 runtime adversarial inputs each: all five RTX 3060 candidates and CPU 0.8B.
+All weights/cards/licenses and both pinned runtimes were reverified. Each native
+process exit was observed. Full unchanged reports and hashes are in the
+[baseline evidence](../eval/cleanup/results/2026-11-13-baseline/README.md).
+
+| Candidate | Backend | Exact golden | Accepted exact / cleanup calls | 60-token median tok/s |
+|---|---|---:|---:|---:|
+| qwen35-08b-q4-k-m | vulkan | 555/556 | 385/404 | 192.80 |
+| qwen35-2b-q4-k-m | vulkan | 553/556 | 390/404 | 148.11 |
+| qwen35-4b-q4-k-m | vulkan | 505/556 | 312/404 | 73.29 |
+| gemma4-e2b-q4-0 | vulkan | 552/556 | 362/404 | 121.95 |
+| gemma4-e4b-q4-0 | vulkan | 527/556 | 325/404 | 73.99 |
+| qwen35-08b-q4-k-m | cpu | 555/556 | 384/404 | 25.22 |
+
+Golden totals include rules bypass/fallback; accepted exact counts require model
+replies. Decode rates are three warmed 60-token samples and exclude prompt
+processing, ASR and release-to-text delivery. They do not qualify a hardware tier.
+Review found an accepted `Envoyez` → `Envélez` substitution from 0.8B on CPU/GPU,
+despite finite preservation checks passing. The batch stopped after the current
+run, leaving four CPU candidates unmeasured. Normal post-rules cleanup now has a
+word-fidelity guard; these pre-fix reports cannot qualify it or a model default.
+Fresh complete CPU/Vulkan and production-policy measurements remain open. The
+historical measurements below retain their original scope and failures.
+
 ### Cleanup baseline measurements (2026-11-12; incomplete matrix)
 
 Both available Qwen candidates completed the same 432 golden/100 runtime
