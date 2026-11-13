@@ -77,7 +77,7 @@ try {
             if ($rule.Enabled -ne 'True' -or $rule.Profile -ne 'Any' -or
                 $ports.Count -ne 1 -or $ports[0].Protocol -ne 'Any' -or
                 $addresses.Count -ne 1 -or $addresses[0].LocalAddress -ne 'Any' -or
-                $addresses[0].RemoteAddress -ne 'Any' -or $apps[0].Package -ne 'Any' -or
+                $addresses[0].RemoteAddress -ne 'Any' -or [string]$apps[0].Package -notin @('', 'Any') -or
                 $services.Count -ne 1 -or $services[0].Service -ne 'Any' -or
                 $interfaces.Count -ne 1 -or $interfaces[0].InterfaceAlias -ne 'Any' -or
                 $types.Count -ne 1 -or $types[0].InterfaceType -ne 'Any') { exit 21 }
