@@ -141,6 +141,14 @@ class AsrRouter:
         if self._route.reason == "auto":
             self._language_identifier.prepare()
 
+    @property
+    def local_model_fingerprint(self):
+        return getattr(self._engines.get(self._route.model_id), 'local_model_fingerprint', None)
+
+    def local_model_files_current(self):
+        check = getattr(self._engines.get(self._route.model_id), 'local_model_files_current', None)
+        return check() if check is not None else None
+
     def retry_with_all_languages(self, audio):
         return self.retry_with_model(audio, ALL_LANGUAGES)
 

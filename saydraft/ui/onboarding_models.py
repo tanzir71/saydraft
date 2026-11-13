@@ -17,6 +17,7 @@ from .model_picker import ModelPicker
 class OnboardingModelsPage(QtWidgets.QWizardPage):
     checked = QtCore.Signal(object, object)
     benchmark_settled = QtCore.Signal()
+    finish_checked = QtCore.Signal(int, str, object)
 
     def __init__(self, config, *, download_callback=None, hardware_probe=None, status_provider=None,
                  benchmark_callback=None, benchmark_cancel_callback=None, config_provider=None,
@@ -27,7 +28,7 @@ class OnboardingModelsPage(QtWidgets.QWizardPage):
         self.inspect = status_provider or inspect_speech_package
         self._pool = self._future = self._active = None
         self._pending = {}
-        self._generations = {"hardware": 0, "installed": 0}
+        self._generations = {"hardware": 0, "installed": 0, "finish": 0}
         self._serial = 0
         self._closed = False
         self._candidate = None
@@ -41,6 +42,10 @@ class OnboardingModelsPage(QtWidgets.QWizardPage):
         self._benchmark_model = None
         self.benchmark_report = None
         self.readiness_state = "unknown"
+        self._local_receipts = {}
+        self._last_complete = False
+        self._notifying_complete = False
+        self._visit_started = False
         body = QtWidgets.QWidget()
         layout = QtWidgets.QVBoxLayout(body)
 
@@ -125,6 +130,49 @@ class OnboardingModelsPage(QtWidgets.QWizardPage):
     @property
     def benchmark_active(self):
         return bool(self._benchmark_generation)
+
+    def isComplete(self):
+        return self.readiness_state in ('verified', 'compatible') and self.picker.task is None
+
+    def validatePage(self):
+        return self.isComplete()
+
+    def _notify_complete(self):
+        complete = self.isComplete()
+        if complete != self._last_complete:
+            self._last_complete = complete
+            self._notifying_complete = True
+            try:
+                self.completeChanged.emit()
+            finally:
+                self._notifying_complete = False
+
+    def _readiness_result(self, model_id, result):
+        if not isinstance(result, dict):
+            return {'state': 'failed', 'missing': []}
+        result = dict(result)
+        if result.get('state') == 'local' and not model_id.startswith('whisper-'):
+            return {'state': 'failed', 'missing': []}
+        fingerprint = result.get('fingerprint')
+        if (result.get('state') == 'local' and isinstance(fingerprint, str)
+                and len(fingerprint) == 64 and all(c in '0123456789abcdef' for c in fingerprint)
+                and self._local_receipts.get(model_id) == fingerprint):
+            result['state'] = 'compatible'
+        return result
+
+    def verify_for_finish(self, model_id):
+        if self._closed or self.picker.task is not None:
+            return 0
+        self._generations['finish'] += 1
+        generation = self._generations['finish']
+        self._serial += 1
+        self._pending['finish'] = (self._serial, 'finish', generation, model_id)
+        self._start_next()
+        return generation
+
+    def cancel_finish_check(self):
+        self._generations['finish'] += 1
+        self._pending.pop('finish', None)
 
     def start_benchmark(self):
         if (self._closed or self.benchmark_active or self.picker.task is not None or
@@ -237,6 +285,11 @@ class OnboardingModelsPage(QtWidgets.QWizardPage):
             rows.append('AI cleanup speed is unmeasured. This check never enables or installs AI cleanup.')
         rows.append('An explicit successful check keeps its report separately from setup preferences.')
         self.benchmark_details.setText('\n'.join(rows))
+        fingerprint = measured.get('local_model_fingerprint')
+        if (self._benchmark_model.startswith('whisper-') and isinstance(fingerprint, str) and len(fingerprint) == 64
+                and all(c in '0123456789abcdef' for c in fingerprint)):
+            self._local_receipts[self._benchmark_model] = fingerprint
+            self._request('installed')
         self._update_actions()
 
     def _selection_changed(self):
@@ -244,6 +297,7 @@ class OnboardingModelsPage(QtWidgets.QWizardPage):
         self.benchmark_report = None
         self.benchmark_details.clear()
         self.readiness_state = "unknown"
+        self._notify_complete()
         self.readiness.setText("Installed files have not been checked.")
         self.readiness.show()
         self._generations["installed"] += 1
@@ -255,6 +309,7 @@ class OnboardingModelsPage(QtWidgets.QWizardPage):
         self._generations["installed"] += 1
         self._pending.pop("installed", None)
         self.readiness_state = "unknown"
+        self._notify_complete()
         if busy:
             self.readiness.hide()
         elif self.isVisible():
@@ -273,15 +328,17 @@ class OnboardingModelsPage(QtWidgets.QWizardPage):
             self.recommendation.setText("Checking CPU, memory and graphics capabilities…")
         else:
             self.readiness_state = "checking"
+            self._notify_complete()
             self.readiness.setText("Checking installed package checksums…")
             self.readiness.show()
         self._start_next()
 
     def _start_next(self):
-        if self._closed or self._future is not None or not self._pending or not self.isVisible():
+        if (self._closed or self._future is not None or not self._pending
+                or not self.isVisible() and 'finish' not in self._pending):
             self._update_actions()
             return
-        kind = "hardware" if "hardware" in self._pending else "installed"
+        kind = 'finish' if 'finish' in self._pending else "hardware" if "hardware" in self._pending else "installed"
         job = self._pending.pop(kind)
         self._active = job
         if self._pool is None:
@@ -298,7 +355,15 @@ class OnboardingModelsPage(QtWidgets.QWizardPage):
                 except RuntimeError:
                     pass
 
-        self._future = self._pool.submit(run)
+        try:
+            self._future = self._pool.submit(run)
+        except Exception:
+            pool, self._pool = self._pool, None
+            try:
+                pool.shutdown(wait=False, cancel_futures=True)
+            except Exception:
+                pass
+            self.checked.emit(job, None)
         self._update_actions()
 
     @QtCore.Slot(object, object)
@@ -307,20 +372,26 @@ class OnboardingModelsPage(QtWidgets.QWizardPage):
             return
         self._active = self._future = None
         _, kind, generation, model_id = job
-        if generation == self._generations[kind] and (kind == "hardware" or model_id == self.picker.model_id):
+        if generation == self._generations[kind] and (kind in ("hardware", 'finish') or model_id == self.picker.model_id):
             if kind == "hardware":
                 self._show_recommendation(result)
+            elif kind == 'finish':
+                self.finish_checked.emit(generation, model_id, self._readiness_result(model_id, result))
             else:
+                result = self._readiness_result(model_id, result)
                 state = result.get("state") if isinstance(result, dict) else None
-                self.readiness_state = state if state in ("verified", "missing", "custom") else "failed"
+                self.readiness_state = state if state in ("verified", "missing", "custom", 'local', 'compatible') else "failed"
                 self.readiness.setText({
                     "verified": "Speech package installed and SHA-256 verified.",
                     "missing": "Model setup needed. Use Download / Resume to complete the selected package.",
-                    "custom": "Custom local model. Manage this model in Hub → Settings → Models.",
+                    "custom": "Custom model unavailable. Check its local path or choose a listed model to install.",
+                    'local': 'Existing local model files found. Use Check model performance to confirm they load offline before continuing. These files are not catalog-verified.',
+                    'compatible': 'Local model loaded offline; its files match the completed check. Catalog SHA-256 verification is not claimed.',
                     "failed": "Could not check installed files. Check storage and try again.",
                 }[self.readiness_state])
                 if state == "missing" and result.get("missing"):
                     self.readiness.setText(self.readiness.text() + "\nNeeded: " + "; ".join(result["missing"]))
+                self._notify_complete()
         self._start_next()
 
     def _show_recommendation(self, report):
@@ -373,10 +444,14 @@ class OnboardingModelsPage(QtWidgets.QWizardPage):
 
     def showEvent(self, event):
         super().showEvent(event)
-        self._request("installed")
+        if not self._visit_started and not self._notifying_complete:
+            self._visit_started = True
+            self._request("installed")
 
     def hideEvent(self, event):
-        self.cancel_checks()
+        if not self._notifying_complete:
+            self._visit_started = False
+            self.cancel_checks()
         super().hideEvent(event)
 
     def closeEvent(self, event):

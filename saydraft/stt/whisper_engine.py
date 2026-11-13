@@ -15,6 +15,7 @@ from saydraft.audio.vad import SilenceTrimConfig
 from saydraft.audio.vad_silero import optional_silero, trim_with_fallback
 
 logger = logging.getLogger(__name__)
+_whisper_import_lock = threading.RLock()
 
 StateCallback = Callable[[str], None]
 ModelFactory = Callable[..., Any]
@@ -125,6 +126,25 @@ class WhisperEngine:
                 )
             return self._model
 
+    @property
+    def local_model_fingerprint(self):
+        return getattr(self._model, '_saydraft_local_fingerprint', None)
+
+    def local_model_files_current(self):
+        """Cheap freshness check used by explicit setup work, not each dictation."""
+        from saydraft.model_download import find_installed_model
+        from saydraft.models.whisper_local import file_fingerprint, resolve_directory
+
+        if self.local_model_fingerprint is None:
+            return None
+        try:
+            directory = resolve_directory(self._model._saydraft_model_name,
+                finder=lambda name, **opts: find_installed_model(name, check_hashes=False))
+            return (directory.resolve() == self._model._saydraft_local_directory.resolve()
+                and file_fingerprint(directory) == self.local_model_fingerprint)
+        except (OSError, ValueError):
+            return False
+
     def _emit_state(self, state: str) -> None:
         if self.state_callback:
             self.state_callback(state)
@@ -170,38 +190,43 @@ def _language_arg(language: str) -> str | None:
 
 
 def _default_model_factory(*args: Any, **kwargs: Any) -> Any:
-    from saydraft.model_download import find_installed_model
+    from saydraft.models.whisper_local import file_fingerprint, resolve_directory
 
-    if args:
-        try:
-            local = find_installed_model(f"whisper-{args[0]}", check_hashes=True)
-        except ValueError:  # An existing custom local path or cache name.
-            local = None
-        if local is not None:
-            args = (str(local), *args[1:])
-    WhisperModel = _import_whisper_model(
-        suppress_ipv6_probe=bool(kwargs.get("local_files_only", False))
-    )
-
-    return WhisperModel(*args, **kwargs)
+    # Inference is always cache-only, including old configurations that allowed
+    # implicit fetching. Settings/setup are the only model transfer owners.
+    kwargs['local_files_only'] = True
+    WhisperModel = _import_whisper_model(suppress_ipv6_probe=True)
+    directory = resolve_directory(str(args[0]))
+    before = file_fingerprint(directory)
+    model = WhisperModel(str(directory), *args[1:], **kwargs)
+    if file_fingerprint(directory) != before:
+        raise FileNotFoundError('Whisper files changed during local model loading')
+    model._saydraft_local_fingerprint = before
+    model._saydraft_local_directory = directory
+    model._saydraft_model_name = str(args[0])
+    return model
 
 
 def _import_whisper_model(*, suppress_ipv6_probe: bool) -> Any:
-    from saydraft.privacy.telemetry import disable_python_onnx_telemetry
+    # Metadata checks and serial inference can import concurrently. Keep the
+    # temporary socket capability override paired with its original value.
+    with _whisper_import_lock:
+        return _import_whisper_model_locked(suppress_ipv6_probe=suppress_ipv6_probe)
+
+
+def _import_whisper_model_locked(*, suppress_ipv6_probe: bool) -> Any:
+    from saydraft.privacy.telemetry import disable_python_onnx_telemetry, restrict_hub_to_cache
 
     disable_python_onnx_telemetry()
-    if not suppress_ipv6_probe:
-        from faster_whisper import WhisperModel
-
-        return WhisperModel
-
     import socket
 
     original_has_ipv6 = socket.has_ipv6
     try:
         # urllib3 probes IPv6 by opening a socket at import time; local dictation forbids that.
-        socket.has_ipv6 = False
+        if suppress_ipv6_probe:
+            socket.has_ipv6 = False
         from faster_whisper import WhisperModel
+        restrict_hub_to_cache()
     finally:
         socket.has_ipv6 = original_has_ipv6
 

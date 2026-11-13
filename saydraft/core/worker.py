@@ -943,6 +943,12 @@ class SessionWorker:
             if cancelled():
                 raise CancelledError()
             asr = self._practice_asr(lease.config)
+            check_files = getattr(asr, 'local_model_files_current', None)
+            if check_files is not None and check_files() is False:
+                # A cached engine must not validate different files or an old HF
+                # snapshot after the selected alias moved to another directory.
+                from saydraft.asr.selection import create_asr
+                asr = create_asr(lease.config)
             if cancelled():
                 raise CancelledError()
             report = run_benchmark(asr, cleanup_benchmark=getattr(self.services.cleaner, 'benchmark', None),

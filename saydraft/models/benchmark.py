@@ -103,6 +103,10 @@ def run_benchmark(asr, *, directory=None, hardware_probe=probe_hardware,
     except Exception:
         measurement["asr_status"] = "failed"
     measurement["asr_model"] = getattr(asr, "model_id", "unknown")
+    fingerprint = getattr(asr, 'local_model_fingerprint', None)
+    if (isinstance(fingerprint, str) and len(fingerprint) == 64
+            and all(c in '0123456789abcdef' for c in fingerprint)):
+        measurement['local_model_fingerprint'] = fingerprint
     checkpoint()
     if cleanup_benchmark is not None:
         try:

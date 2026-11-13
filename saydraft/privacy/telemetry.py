@@ -7,6 +7,7 @@ import os
 import sys
 import threading
 from pathlib import Path
+from functools import wraps
 
 _lock = threading.Lock()
 _environments = {}
@@ -16,6 +17,30 @@ def configure_process_privacy():
     os.environ["HF_HUB_OFFLINE"] = "1"
     os.environ["HF_HUB_DISABLE_TELEMETRY"] = "1"
     os.environ["DO_NOT_TRACK"] = "1"
+
+
+def restrict_hub_to_cache():
+    """Guard public HF APIs also called by tokenizers' Python binding.
+
+    App transfers use pinned manifest URLs. Runtime library helpers may only
+    resolve existing snapshots/tokenizers, regardless of their default flags.
+    """
+    import huggingface_hub
+
+    def cache_only(function):
+        @wraps(function)
+        def restricted(*args, **kwargs):
+            kwargs['local_files_only'] = True
+            kwargs['token'] = False  # Local cache reads need no stored account credentials.
+            return function(*args, **kwargs)
+        restricted._saydraft_cache_only = True
+        return restricted
+
+    with _lock:
+        for name in ('hf_hub_download', 'snapshot_download'):
+            function = getattr(huggingface_hub, name)
+            if not getattr(function, '_saydraft_cache_only', False):
+                setattr(huggingface_hub, name, cache_only(function))
 
 
 def disable_python_onnx_telemetry():

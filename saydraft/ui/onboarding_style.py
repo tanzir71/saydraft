@@ -11,12 +11,14 @@ from .private_text import PrivatePlainTextEdit
 
 
 class OnboardingStylePage(QtWidgets.QWizardPage):
-    def __init__(self, config, *, sample_provider=lambda group: '', ready_callback=lambda: True):
+    def __init__(self, config, *, sample_provider=lambda group: '', ready_callback=lambda: True,
+                 waiting_status=lambda: 'Setup is stopping. Finish becomes available when its current work has ended.'):
         super().__init__()
         self.setTitle('Style quick pick')
         self.config = copy.deepcopy(config)
         self.sample_provider = sample_provider
         self.ready_callback = ready_callback
+        self.waiting_status = waiting_status
         self.original, self.tones = {}, {}
         body = QtWidgets.QWidget()
         layout = QtWidgets.QVBoxLayout(body)
@@ -104,6 +106,6 @@ class OnboardingStylePage(QtWidgets.QWizardPage):
 
     def showEvent(self, event):
         if not self.isComplete():
-            self.status.setText('Setup work is stopping. Finish becomes available after its microphone, shortcuts and performance check retire.')
+            self.status.setText(self.waiting_status())
         self.refresh_preview()
         super().showEvent(event)

@@ -9,8 +9,7 @@ import pytest
 
 from saydraft.config import load_config, save_config
 from saydraft.core.practice import PracticeResult
-from saydraft.ui.onboarding import OnboardingWizard
-from tests.test_onboarding_window import qt_modules, write_config
+from tests.test_onboarding_window import qt_modules, write_config, fixture_wizard, finish_setup, advance_to
 
 
 def settle(predicate, timeout=3):
@@ -29,9 +28,7 @@ def show_practice(s):
     assert qt.QtWidgets.QApplication.platformName() == 'offscreen'
     s.wizard.show()
     s.wizard.activateWindow()
-    while s.wizard.currentId() < s.wizard.PAGE_PRACTICE:
-        s.wizard.next()
-        qt.QtWidgets.QApplication.processEvents()
+    advance_to(s.wizard, s.wizard.PAGE_PRACTICE)
     settle(lambda: bool(s.opens) and bool(s.page._generation))
 
 
@@ -54,7 +51,7 @@ def subject(tmp_path, monkeypatch):
         return len(opens)
 
     path = write_config(tmp_path)
-    wizard = OnboardingWizard(config_path=path, practice_open_callback=open_practice,
+    wizard = fixture_wizard(config_path=path, practice_open_callback=open_practice,
         practice_start_callback=lambda gen: starts.append(gen) or len(starts),
         practice_stop_callback=lambda gen, cap=None, **kw: stops.append((gen, cap, kw)) or True,
         practice_close_callback=lambda gen: closes.append(gen) or True, on_config_applied=applied.append)
@@ -149,7 +146,7 @@ def test_finish_waits_for_observed_practice_retirement_and_style_save_merges_lat
     before = s.path.read_bytes()
     s.wizard.next()
     assert s.wizard.currentPage() is s.wizard.style_page
-    assert not s.wizard.style_page.isComplete() and not s.wizard.finish_onboarding()
+    assert not s.wizard.style_page.isComplete() and not finish_setup(s.wizard)
     assert s.path.read_bytes() == before and s.closes == [1]
     s.page.accept_status(1, 0, 'stopped')
     assert s.wizard.style_page.isComplete()
@@ -158,7 +155,7 @@ def test_finish_waits_for_observed_practice_retirement_and_style_save_merges_lat
     latest['dictation']['styles'] = {'messages': {'tone': 'casual', 'intensity': 4},
         'email': {'tone': 'casual', 'intensity': 2}, 'docs': {'tone': 'formal', 'intensity': 1}}
     save_config(latest, s.path)
-    assert s.wizard.finish_onboarding()
+    assert finish_setup(s.wizard)
     saved = load_config(config_path=s.path)
     assert saved['dictation']['styles']['messages'] == {'tone': 'formal', 'intensity': 4}
     assert saved['dictation']['styles']['email'] == latest['dictation']['styles']['email']
@@ -171,7 +168,7 @@ def test_unknown_cleanup_blocks_finish_and_requests_restart(subject):
     show_practice(s)
     s.page.accept_status(1, 0, 'cleanup_failed')
     before = s.path.read_bytes()
-    assert not s.page.isComplete() and not s.wizard.finish_onboarding()
+    assert not s.page.isComplete() and not finish_setup(s.wizard)
     assert 'restart' in s.page.status.text().lower() and s.path.read_bytes() == before
     s.page.accept_status(1, 0, 'closing_external')
     s.page.accept_status(1, 0, 'stopped')
@@ -216,9 +213,7 @@ def test_external_stop_wins_a_race_with_window_deactivation_and_requires_explici
     s.wizard.hide()
     s.wizard.show()
     s.wizard.activateWindow()
-    while s.wizard.currentId() < s.wizard.PAGE_PRACTICE:
-        s.wizard.next()
-        s.qt.QtWidgets.QApplication.processEvents()
+    advance_to(s.wizard, s.wizard.PAGE_PRACTICE)
     # The offscreen platform can ignore a second activateWindow request.
     # Deliver the owned Qt activation explicitly; no native desktop is involved.
     with pytest.warns(DeprecationWarning, match='setActiveWindow'):
@@ -253,12 +248,12 @@ def test_practice_uses_explicit_staged_choices_and_newer_untouched_preferences(s
 def test_style_quick_pick_preserves_third_tone_and_uses_real_rules_preview(tmp_path):
     qt_modules()
     path = write_config(tmp_path, {'dictation': {'styles': {'messages': {'tone': 'very_casual', 'intensity': 4}}}})
-    wizard = OnboardingWizard(config_path=path)
+    wizard = fixture_wizard(config_path=path)
     try:
         page = wizard.style_page
         assert page.tones['messages'].currentData() == 'very_casual'
         assert 'um' in page.before.toPlainText().casefold() and 'um' not in page.after.toPlainText().casefold()
-        assert wizard.finish_onboarding()
+        assert finish_setup(wizard)
         assert load_config(config_path=path)['dictation']['styles']['messages'] == {'tone': 'very_casual', 'intensity': 4}
     finally:
         wizard.close()
@@ -347,7 +342,7 @@ def test_synthetic_native_shortcut_runs_real_practice_cleanup_through_queued_ui(
         installed[0] = True
         progress(100)
 
-    wizard = OnboardingWizard(config_path=path, practice_open_callback=controller.open_practice,
+    wizard = fixture_wizard(config_path=path, practice_open_callback=controller.open_practice,
         practice_start_callback=controller.start_practice_recording,
         practice_stop_callback=controller.stop_practice_recording, practice_close_callback=controller.close_practice,
         model_download_callback=download,
@@ -399,7 +394,7 @@ def test_synthetic_native_shortcut_runs_real_practice_cleanup_through_queued_ui(
         settle(lambda: wizard.style_page.isComplete() and not worker.busy)
         assert api.closed and not worker.busy
         assert wizard.style_page.before.toPlainText() == page.raw.toPlainText()
-        assert wizard.finish_onboarding()
+        assert finish_setup(wizard)
     finally:
         wizard.close()
         worker.shutdown()

@@ -12,6 +12,7 @@ from PySide6 import QtCore, QtGui, QtWidgets
 from saydraft.config import load_config, save_config
 from saydraft.audio.devices import InputSelection
 from saydraft.asr.selection import select_model
+from saydraft.models.setup import setup_model_id
 from saydraft.ui.microphone_page import MicrophonePage
 from saydraft.ui.onboarding_models import OnboardingModelsPage
 from saydraft.ui.onboarding_shortcuts import OnboardingShortcutsPage
@@ -69,6 +70,8 @@ class OnboardingWizard(QtWidgets.QWizard):
             stop_callback=practice_stop_callback, close_callback=practice_close_callback)
         self.config = load_config(config_path=self.config_path)
         self._completed = False
+        self._finish_generation = 0
+        self._dismissed = False
         # Saved preferences, rather than an optional display hint, own the staged binding.
         self.hotkey_hint = str(self.config["hotkeys"]["speech"]).upper()
 
@@ -85,16 +88,20 @@ class OnboardingWizard(QtWidgets.QWizard):
         self.addPage(self.practice_page)
         self.style_page = OnboardingStylePage(self.config, sample_provider=self.practice_page.last_raw,
             ready_callback=lambda: not self.practice_page._generation and not self.practice_page._cleanup_failed
-                and not self.models_page.benchmark_active)
+                and not self.models_page.benchmark_active and not self._finish_generation
+                and not self.shortcuts_page.learning, waiting_status=self._finish_guidance)
         self.finish_status_label = self.style_page.status
         self.addPage(self.style_page)
         self.practice_page.settled.connect(self._practice_settled)
         self.models_page.benchmark_settled.connect(self._practice_settled)
+        self.models_page.finish_checked.connect(self._finish_readiness)
+        self.shortcuts_page.completeChanged.connect(self._practice_settled)
 
         self.title_timer = QtCore.QTimer(self)
         self.title_timer.setSingleShot(True)
         self.title_timer.timeout.connect(self._refresh_title_font)
         self.currentIdChanged.connect(lambda _page: self.title_timer.start(0))
+        self.currentIdChanged.connect(self._cancel_finish_on_navigation)
         QtWidgets.QApplication.instance().fontChanged.connect(self._schedule_title_font)
 
     @QtCore.Slot()
@@ -189,10 +196,16 @@ class OnboardingWizard(QtWidgets.QWizard):
         config['dictation']['styles'] = self.style_page.merge_changes(config['dictation'].get('styles', {}))
         return config
 
+    def _finish_guidance(self):
+        return ('Restart Saydraft before completing setup; practice cleanup could not be confirmed.'
+            if self.practice_page._cleanup_failed else 'Checking current model files before saving setup…'
+            if self._finish_generation else 'Performance check is stopping. Wait before finishing setup.'
+            if self.models_page.benchmark_active else 'Wait for shortcut learning to stop before finishing setup.'
+            if self.shortcuts_page.learning else 'Practice is stopping. Wait before finishing setup.'
+            if self.practice_page._generation else 'Finish to save your choices and open Home.')
+
     def _practice_settled(self):
-        self.finish_status_label.setText('Restart Saydraft before completing setup; practice cleanup could not be confirmed.'
-            if self.practice_page._cleanup_failed else 'Performance check is stopping. Wait before finishing setup.'
-            if self.models_page.benchmark_active else 'Finish to save your choices and open Home.')
+        self.finish_status_label.setText(self._finish_guidance())
         if self.currentPage() is self.style_page:
             self.style_page.completeChanged.emit()
 
@@ -205,6 +218,8 @@ class OnboardingWizard(QtWidgets.QWizard):
     def finish_onboarding(self) -> bool:
         if self._completed:
             return True
+        if self._dismissed or self._finish_generation:
+            return False
         self.microphone_page.stop_test()
         self.shortcuts_page.cancel_learning()
         self.practice_page.stop_session()
@@ -221,39 +236,93 @@ class OnboardingWizard(QtWidgets.QWizard):
         if self.shortcuts_page.learning:
             self.finish_status_label.setText("Wait for shortcut learning to stop before finishing setup.")
             return False
+        if self.model_picker.task is not None:
+            self.finish_status_label.setText('Model download is still running. Wait for installation to finish before completing setup.')
+            return False
         try:
-            # Merge only setup edits into the latest saved preferences. An open
-            # Hub can save unrelated settings while the wizard is still visible.
-            cfg = load_config(config_path=self.config_path)
-            try:
-                cfg["hotkeys"] = self.shortcuts_page.merge_changes(cfg["hotkeys"])
-            except ValueError:
-                self.finish_status_label.setText("Shortcut settings changed or conflict. Review the Shortcut step before finishing.")
-                return False
-            cfg["app"]["onboarded"] = True
-            cfg['dictation']['styles'] = self.style_page.merge_changes(cfg['dictation'].get('styles', {}))
-            if self.model_picker.model_id != self.models_page.initial_model_id:
-                select_model(cfg, self.model_picker.model_id, manual=True)
-            selection = self.microphone_page.selection
-            if selection != InputSelection.from_config(self.config):
-                cfg["recording"].update(input_device=selection.name, input_hostapi=selection.hostapi)
+            cfg = self.practice_config()
+            model_id = setup_model_id(cfg)
+            self._finish_generation = self.models_page.verify_for_finish(model_id)
+        except ValueError:
+            self.finish_status_label.setText('Setup settings changed or conflict. Review the Shortcut and model steps before finishing.')
+            return False
+        except OSError:
+            self.finish_status_label.setText('Could not read setup preferences. Check your configuration folder and try again.')
+            return False
+        if not self._finish_generation:
+            self.finish_status_label.setText('Could not start the model check. Return to Set up models and try again.')
+            return False
+        self._practice_settled()
+        return False  # The queued result, not the button callback, can authorize saving.
+
+    @QtCore.Slot(int, str, object)
+    def _finish_readiness(self, generation, model_id, result):
+        if generation != self._finish_generation or self._dismissed or self._completed:
+            return
+        self._finish_generation = 0
+        self._practice_settled()
+        if (not isinstance(result, dict) or result.get('state') not in ('verified', 'compatible')):
+            self.finish_status_label.setText('The selected speech model is not ready. Return to Set up models to install or check it. Your preferences have not been saved.')
+            return
+        if (self.practice_page._generation or self.practice_page._cleanup_failed
+                or self.models_page.benchmark_active or self.shortcuts_page.learning):
+            self.finish_status_label.setText('Setup work is still active. Wait for it to stop, then choose Finish again.')
+            return
+        try:
+            # Re-merge current preferences after the asynchronous file check.
+            cfg = self.practice_config()
+            if setup_model_id(cfg) != model_id:
+                self.finish_status_label.setText('Speech settings changed during the check. Review Set up models, then choose Finish again.')
+                return
+        except (OSError, ValueError):
+            self.finish_status_label.setText('Setup settings changed or could not be read. Review your choices before finishing.')
+            return
+        if self._save_onboarding(cfg):
+            self.model_picker.pause()
+            super().accept()
+
+    def _save_onboarding(self, cfg):
+        try:
+            cfg['app']['onboarded'] = True
             saved = save_config(cfg, self.config_path)
         except (OSError, ValueError):
             self.finish_status_label.setText("Could not save setup. Check your configuration folder and try Finish again.")
             return False
         self.config = saved
         self._completed = True
-        self.finish_status_label.setText("Setup saved. Opening Home. A compatible installed speech model is required for dictation.")
+        self.finish_status_label.setText('Setup saved. Opening Home.')
         if self.on_config_applied is not None:
             self.on_config_applied(saved)
         return True
 
     def accept(self) -> None:
-        if self.finish_onboarding():
-            self.model_picker.pause()
+        if self._completed:
             super().accept()
+        else:
+            self.finish_onboarding()
+
+    def _cancel_finish(self):
+        self._finish_generation = 0
+        self.models_page.cancel_finish_check()
+
+    def _cancel_finish_on_navigation(self, _page):
+        if self._finish_generation:
+            self._cancel_finish()
+
+    def showEvent(self, event):
+        self._dismissed = False
+        super().showEvent(event)
+        if self.currentPage() is self.style_page:
+            self._practice_settled()
+
+    def hideEvent(self, event):
+        if self._finish_generation and not self._completed:
+            self._cancel_finish()
+        super().hideEvent(event)
 
     def reject(self) -> None:
+        self._dismissed = True
+        self._cancel_finish()
         self.microphone_page.stop_test()
         self.shortcuts_page.cancel_learning()
         self.practice_page.stop_session()

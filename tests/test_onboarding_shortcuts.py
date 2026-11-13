@@ -9,8 +9,7 @@ from types import SimpleNamespace
 import pytest
 
 from saydraft.config import load_config, save_config
-from saydraft.ui.onboarding import OnboardingWizard
-from tests.test_onboarding_window import qt_modules, write_config
+from tests.test_onboarding_window import qt_modules, write_config, fixture_wizard, finish_setup, advance_to
 
 
 def settle(predicate, timeout=3):
@@ -31,9 +30,7 @@ def show_shortcuts(wizard):
     wizard.restart()
     wizard.show()
     wizard.activateWindow()
-    while wizard.currentId() < wizard.PAGE_HOTKEY:
-        wizard.next()
-        qt.QtWidgets.QApplication.processEvents()
+    advance_to(wizard, wizard.PAGE_HOTKEY)
     assert wizard.currentId() == wizard.PAGE_HOTKEY
     wizard.shortcuts_page.learn_button.setFocus()
     settle(lambda: wizard.shortcuts_page.learn_button.hasFocus() and wizard.isActiveWindow())
@@ -62,7 +59,7 @@ def subject(tmp_path, monkeypatch):
         return True
 
     path = write_config(tmp_path)
-    wizard = OnboardingWizard(config_path=path, shortcut_start_callback=start,
+    wizard = fixture_wizard(config_path=path, shortcut_start_callback=start,
         shortcut_cancel_callback=lambda generation: stops.append(generation) or True,
         shortcut_conflict_detector=check)
     try:
@@ -93,7 +90,7 @@ def test_captured_chord_is_staged_until_finish_and_persists_only_after_cleanup_s
     s.page.accept_status(1, "captured", "ctrl+alt+f8")
     assert s.page.primary.text() == "ctrl+alt+f8" and s.page.isComplete()
     assert not s.starts[0][1]() and s.path.read_bytes() == before
-    assert s.wizard.finish_onboarding()
+    assert finish_setup(s.wizard)
     assert load_config(config_path=s.path)["hotkeys"]["speech"] == "ctrl+alt+f8"
 
 
@@ -118,7 +115,7 @@ def test_leaving_learning_revokes_permission_and_rejects_a_late_result(subject, 
     elif action == "close":
         s.page.close()
     else:
-        assert not s.wizard.finish_onboarding()
+        assert not finish_setup(s.wizard)
     qt.QtWidgets.QApplication.processEvents()
     assert s.stops == [1] and not s.starts[0][1]()
     s.page.accept_status(1, "captured", "f8")
@@ -171,14 +168,14 @@ def test_unobserved_cleanup_keeps_setup_incomplete_and_requires_restart(subject)
     assert not s.page.learn_button.isEnabled() and not s.page.primary.isEnabled()
     assert "restart Saydraft" in s.page.learn_status.text()
     before = s.path.read_bytes()
-    assert not s.wizard.finish_onboarding() and s.path.read_bytes() == before
+    assert not finish_setup(s.wizard) and s.path.read_bytes() == before
 
 
 def test_duplicate_alternate_moves_to_primary_with_an_explanation(subject):
     s = subject
     s.page.primary.setText("F9")
     assert s.page.isComplete() and "disabled" in s.page.validation.text()
-    assert s.wizard.finish_onboarding()
+    assert finish_setup(s.wizard)
     hotkeys = load_config(config_path=s.path)["hotkeys"]
     assert hotkeys["speech"] == "F9" and not hotkeys["speech_alternative"]
 
@@ -190,7 +187,7 @@ def test_latest_conflict_refuses_finish_and_preserves_every_configuration_byte(s
     latest["hotkeys"]["speech_alternative"] = "f8"
     save_config(latest, s.path)
     before = s.path.read_bytes()
-    assert not s.wizard.finish_onboarding()
+    assert not finish_setup(s.wizard)
     assert "Shortcut" in s.wizard.finish_status_label.text()
     assert s.path.read_bytes() == before
 
@@ -201,7 +198,7 @@ def test_unchanged_setup_preserves_newer_shortcuts_and_other_preferences(subject
     latest["hotkeys"].update(speech="f8", hands_free="f7")
     latest["recording"]["max_seconds"] = 90
     save_config(latest, s.path)
-    assert s.wizard.finish_onboarding()
+    assert finish_setup(s.wizard)
     saved = load_config(config_path=s.path)
     assert saved["hotkeys"] == latest["hotkeys"]
     assert saved["recording"] == latest["recording"]
@@ -210,12 +207,12 @@ def test_unchanged_setup_preserves_newer_shortcuts_and_other_preferences(subject
 def test_explicit_preset_stages_only_its_three_bindings_and_preserves_other_choices(tmp_path):
     qt_modules()
     path = write_config(tmp_path, {"hotkeys": {"speech": "f8", "hands_free": "f7", "paste_last": "f6"}})
-    wizard = OnboardingWizard(config_path=path)
+    wizard = fixture_wizard(config_path=path)
     try:
         before = path.read_bytes()
         assert "Custom" in wizard.shortcuts_page.preset_label.text()
         wizard.shortcuts_page.use_preset()
-        assert path.read_bytes() == before and wizard.finish_onboarding()
+        assert path.read_bytes() == before and finish_setup(wizard)
         saved = load_config(config_path=path)["hotkeys"]
         assert (saved["speech"], saved["hands_free"], saved["paste_last"]) == (
             "ctrl+win", "ctrl+win+space", "shift+alt+z")
@@ -341,7 +338,7 @@ def test_owned_setup_to_native_matcher_to_queued_ui_saves_a_learned_chord(tmp_pa
     worker.services.context.capture = lambda: forbidden.append("foreground capture")
     worker.services.recorder.start = lambda: forbidden.append("microphone")
     path = write_config(tmp_path)
-    wizard = OnboardingWizard(config_path=path, shortcut_start_callback=controller.start_shortcut_capture,
+    wizard = fixture_wizard(config_path=path, shortcut_start_callback=controller.start_shortcut_capture,
         shortcut_cancel_callback=controller.cancel_shortcut_capture, shortcut_conflict_detector=lambda: False)
     owned_window = int(wizard.winId())
     worker.shortcut_capture.guard_factory = lambda window: lambda: window == owned_window
@@ -358,7 +355,7 @@ def test_owned_setup_to_native_matcher_to_queued_ui_saves_a_learned_chord(tmp_pa
         assert api.closed and api.trace.count("mask") == 1 and not worker.busy
         assert not forbidden and not events and path.read_bytes() == before
         assert wizard.shortcuts_page.primary.text() == "ctrl+win+f8"
-        assert wizard.finish_onboarding()
+        assert finish_setup(wizard)
         assert json.loads(path.read_text(encoding="utf-8"))["hotkeys"]["speech"] == "ctrl+win+f8"
     finally:
         wizard.close()

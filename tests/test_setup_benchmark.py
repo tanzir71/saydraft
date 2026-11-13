@@ -17,7 +17,7 @@ from saydraft.models.hardware import latest_report, save_report
 from saydraft.models.setup import setup_model_id
 from saydraft.ui.onboarding import OnboardingWizard
 from tests.test_hardware_benchmark import make_asr
-from tests.test_onboarding_window import qt_modules, write_config
+from tests.test_onboarding_window import qt_modules, write_config, finish_setup
 from tests.test_setup_models import settle
 from tests.test_session_worker import make_worker
 
@@ -183,6 +183,24 @@ def test_queue_rejection_releases_setup_owner(tmp_path):
     assert not worker.busy and worker._setup_benchmark is None and not worker._benchmarking
 
 
+@pytest.mark.parametrize('current', [None, True, False])
+def test_changed_cached_files_require_a_fresh_engine_before_benchmark_validation(tmp_path, monkeypatch, current):
+    worker, _, executor, _, _, _ = make_worker(queued=True)
+    asr, clock, seen = make_asr()
+    asr.local_model_files_current = lambda: current
+    worker._practice_asr = lambda cfg: asr
+    replacements = []
+    fresh = SimpleNamespace(model_id=asr.model_id, prepare=asr.prepare, transcribe=asr.transcribe)
+    monkeypatch.setattr('saydraft.asr.selection.create_asr', lambda cfg: replacements.append(cfg) or fresh)
+    isolate_measurement(monkeypatch, clock=lambda: clock.now)
+    assert worker.start_setup_benchmark(worker.services.config, directory=tmp_path)
+    executor.drain()
+    assert len(replacements) == (1 if current is False else 0)
+    assert len(seen) == 4 and latest_report(tmp_path)['measurements']['asr_status'] == 'ok'
+    if replacements:
+        assert replacements[0]['stt']['local_files_only'] is True
+
+
 @pytest.fixture
 def ui(tmp_path, monkeypatch):
     import sounddevice
@@ -293,7 +311,7 @@ def test_pinned_bengali_setup_displays_the_shared_model_and_preserves_automatic_
         assert wizard.models_page.initial_model_id == 'whisper-large-v3-turbo'
         staged = wizard.practice_config()
         assert staged['stt']['routing_enabled'] and staged['stt']['pinned_languages'] == ['bn']
-        assert wizard.finish_onboarding()
+        assert finish_setup(wizard)
         assert load_config(config_path=path)['stt'] == staged['stt']
         assert path.read_bytes() != before
     finally:
@@ -334,7 +352,7 @@ def test_newer_unchanged_model_is_reviewed_before_measurement_and_keeps_routing_
     assert ui.page.start_benchmark()
     assert ui.starts[0][0]['stt'] == config['stt'] and ui.path.read_bytes() == before
     ui.page.accept_benchmark_finished(1, result_for(ui.page))
-    assert ui.wizard.finish_onboarding()
+    assert finish_setup(ui.wizard)
     assert load_config(config_path=ui.path)['stt'] == config['stt']
 
 

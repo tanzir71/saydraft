@@ -147,7 +147,7 @@ def test_whisper_engine_empty_audio_returns_empty_without_loading_model():
     assert engine.transcribe(np.array([], dtype=np.float32)) == ""
 
 
-def test_default_model_factory_suppresses_ipv6_probe_for_local_only_import(monkeypatch):
+def test_default_model_factory_suppresses_ipv6_probe_for_local_only_import(monkeypatch, tmp_path):
     import socket
 
     import saydraft.stt.whisper_engine as whisper_engine
@@ -168,12 +168,15 @@ def test_default_model_factory_suppresses_ipv6_probe_for_local_only_import(monke
 
     monkeypatch.setattr(builtins, "__import__", fake_import)
     monkeypatch.setattr(socket, "has_ipv6", True)
+    (tmp_path / 'model.bin').write_bytes(b'public fixture')
+    (tmp_path / 'tokenizer.json').write_bytes(b'{}')
+    monkeypatch.setattr('saydraft.models.whisper_local.resolve_directory', lambda name: tmp_path)
 
     model = whisper_engine._default_model_factory("tiny", local_files_only=True)
 
     assert observed_has_ipv6 == [False]
     assert socket.has_ipv6 is True
-    assert model.args == ("tiny",)
+    assert model.args == (str(tmp_path),)
     assert model.kwargs == {"local_files_only": True}
 
 

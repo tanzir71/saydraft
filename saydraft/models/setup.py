@@ -34,15 +34,29 @@ def capability_recommendation(report):
     return {"candidate_tier": tier, "speech_model": model, "provisional": True}
 
 
-def inspect_speech_package(model_id, *, finder=None):
+def inspect_speech_package(model_id, *, finder=None, local_resolver=None):
     """Verify every pinned dependency without creating folders or fetching files."""
     from saydraft.model_download import find_installed_model
     from .manifest import model_bundle
 
+    # Injected catalog roots do not implicitly inspect the owner's HF cache.
+    if finder is None and local_resolver is None:
+        from .whisper_local import inspect_local
+        local_resolver = inspect_local
     try:
         package = model_bundle(model_id)
     except ValueError:
-        return {"state": "custom", "missing": []}
+        package = None
     finder = finder or find_installed_model
-    missing = [model["label"] for model in package if finder(model["id"], check_hashes=True) is None]
-    return {"state": "missing" if missing else "verified", "missing": missing}
+    missing = [model["label"] for model in package or [] if finder(model["id"], check_hashes=True) is None]
+    if package is not None and not missing:
+        return {"state": "verified", "missing": []}
+    if model_id.startswith('whisper-') and local_resolver is not None:
+        try:
+            fingerprint = local_resolver(model_id.removeprefix('whisper-'))
+            if (isinstance(fingerprint, str) and len(fingerprint) == 64
+                    and all(c in '0123456789abcdef' for c in fingerprint)):
+                return {'state': 'local', 'missing': [], 'fingerprint': fingerprint}
+        except (OSError, ValueError):
+            pass
+    return {"state": "missing" if package is not None else "custom", "missing": missing}

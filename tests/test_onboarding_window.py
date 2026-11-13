@@ -1,6 +1,7 @@
 import json
 import os
 import types
+import time
 
 import pytest
 
@@ -28,11 +29,41 @@ def write_config(tmp_path, overrides=None):
     return path
 
 
-def test_onboarding_wizard_has_required_steps_and_explicit_microphone_controls(tmp_path):
+def fixture_wizard(**options):
+    """Control-only UI tests use an explicit public package-verification fixture."""
     from saydraft.ui.onboarding import OnboardingWizard
 
+    options.setdefault('model_status_provider', lambda model: {'state': 'verified', 'missing': []})
+    return OnboardingWizard(**options)
+
+
+def finish_setup(wizard):
+    """Observe the queued model check and save outcome, including a failed save."""
+    from PySide6 import QtTest, QtWidgets
+
+    wizard.finish_onboarding()
+    deadline = time.monotonic() + 4
+    while wizard._finish_generation and time.monotonic() < deadline:
+        QtWidgets.QApplication.processEvents()
+        QtTest.QTest.qWait(2)
+    assert not wizard._finish_generation, 'Owned setup finish check did not retire'
+    return wizard._completed
+
+
+def advance_to(wizard, page_id):
+    from PySide6 import QtTest, QtWidgets
+
+    deadline = time.monotonic() + 4
+    while wizard.currentId() < page_id and time.monotonic() < deadline:
+        wizard.next()
+        QtWidgets.QApplication.processEvents()
+        QtTest.QTest.qWait(2)
+    assert wizard.currentId() == page_id, ('Setup navigation blocked', wizard.currentId(), page_id)
+
+
+def test_onboarding_wizard_has_required_steps_and_explicit_microphone_controls(tmp_path):
     config_path = write_config(tmp_path)
-    wizard = OnboardingWizard(qt_modules=qt_modules(), config_path=config_path, hotkey_hint="F9")
+    wizard = fixture_wizard(qt_modules=qt_modules(), config_path=config_path, hotkey_hint="F9")
 
     titles = [wizard.page(page_id).title() for page_id in wizard.pageIds()]
 
@@ -46,8 +77,6 @@ def test_onboarding_wizard_has_required_steps_and_explicit_microphone_controls(t
 
 
 def test_onboarding_model_download_updates_progress_and_selected_model(tmp_path):
-    from saydraft.ui.onboarding import OnboardingWizard
-
     calls = []
 
     def fake_download(model_size, progress):
@@ -55,7 +84,7 @@ def test_onboarding_model_download_updates_progress_and_selected_model(tmp_path)
         progress(37)
 
     config_path = write_config(tmp_path)
-    wizard = OnboardingWizard(
+    wizard = fixture_wizard(
         qt_modules=qt_modules(),
         config_path=config_path,
         model_download_callback=fake_download,
@@ -78,10 +107,8 @@ def test_onboarding_model_download_updates_progress_and_selected_model(tmp_path)
 
 
 def test_onboarding_shortcut_page_validates_staged_input_without_saving(tmp_path):
-    from saydraft.ui.onboarding import OnboardingWizard
-
     config_path = write_config(tmp_path)
-    wizard = OnboardingWizard(qt_modules=qt_modules(), config_path=config_path)
+    wizard = fixture_wizard(qt_modules=qt_modules(), config_path=config_path)
 
     before = config_path.read_bytes()
     wizard.shortcuts_page.primary.setText("f10")
@@ -93,18 +120,16 @@ def test_onboarding_shortcut_page_validates_staged_input_without_saving(tmp_path
 
 
 def test_onboarding_finish_sets_onboarded_and_applies_config(tmp_path):
-    from saydraft.ui.onboarding import OnboardingWizard
-
     applied = []
     config_path = write_config(tmp_path, {"app": {"onboarded": False}})
-    wizard = OnboardingWizard(
+    wizard = fixture_wizard(
         qt_modules=qt_modules(),
         config_path=config_path,
         on_config_applied=applied.append,
     )
     wizard.model_combo.setCurrentText("small")
 
-    assert wizard.finish_onboarding() is True
+    assert finish_setup(wizard) is True
 
     saved = json.loads(config_path.read_text(encoding="utf-8"))
     assert saved["app"]["onboarded"] is True
@@ -118,8 +143,6 @@ def input_setup(tmp_path, monkeypatch):
     import sys
 
     from saydraft.audio.devices import InputDevice, InputSelection
-    from saydraft.ui.onboarding import OnboardingWizard
-
     def forbidden(*_args, **_kwargs):
         raise AssertionError("Setup QA must not open or enumerate a real microphone")
 
@@ -135,7 +158,7 @@ def input_setup(tmp_path, monkeypatch):
         scans.append(True)
         return devices
 
-    wizard = OnboardingWizard(config_path=path, microphone_devices_provider=discover,
+    wizard = fixture_wizard(config_path=path, microphone_devices_provider=discover,
         microphone_start_callback=lambda value: starts.append(value) or len(starts),
         microphone_stop_callback=lambda generation: stops.append(generation) or True,
         on_config_applied=applied.append)
@@ -168,7 +191,7 @@ def test_setup_input_is_explicit_and_staged_until_finish(input_setup):
     subject.page.accept_status(1, "listening")
     subject.page.accept_level(1, .15)
     assert subject.wizard.level_bar.value() == 60
-    assert subject.wizard.finish_onboarding()
+    assert finish_setup(subject.wizard)
     assert subject.stops == [1]
     saved = json.loads(subject.path.read_text(encoding="utf-8"))
     assert saved["recording"]["input_device"] == subject.selection.name
@@ -227,7 +250,7 @@ def test_unchanged_setup_choices_preserve_newer_saved_model_and_microphone(input
     latest["hotkeys"]["speech"] = "f8"
     latest["llm"]["timeout_ms"] = 500
     saved = save_config(latest, subject.path)
-    assert subject.wizard.finish_onboarding()
+    assert finish_setup(subject.wizard)
     saved["app"]["onboarded"] = True
     assert load_config(config_path=subject.path) == saved
 
@@ -242,7 +265,7 @@ def test_setup_edits_merge_without_replacing_unrelated_saved_preferences(input_s
     latest["hotkeys"]["speech"] = "f8"
     latest["recording"].update(max_seconds=900, warning_seconds=840, audio_retention_days=7)
     save_config(latest, subject.path)
-    assert subject.wizard.finish_onboarding()
+    assert finish_setup(subject.wizard)
     saved = load_config(config_path=subject.path)
     assert saved["hotkeys"]["speech"] == "f8"
     assert saved["recording"]["max_seconds"] == 900
@@ -261,6 +284,7 @@ def test_save_failure_keeps_setup_open_without_marking_onboarded(input_setup, mo
 
     monkeypatch.setattr("saydraft.ui.onboarding.save_config", fail)
     subject.wizard.accept()
+    assert not finish_setup(subject.wizard)
     assert subject.wizard.result() != subject.qt.QtWidgets.QDialog.Accepted
     assert subject.path.read_bytes() == before
     assert not subject.applied
@@ -288,12 +312,12 @@ def test_completed_setup_does_not_save_or_apply_twice(input_setup):
 
     subject = input_setup
     select_fixture_input(subject)
-    assert subject.wizard.finish_onboarding()
+    assert finish_setup(subject.wizard)
     latest = load_config(config_path=subject.path)
     latest["recording"].update(input_device="New public microphone", input_hostapi="MME")
     save_config(latest, subject.path)
     before = subject.path.read_bytes()
-    assert subject.wizard.finish_onboarding()
+    assert finish_setup(subject.wizard)
     assert subject.path.read_bytes() == before
     assert len(subject.applied) == 1
 
