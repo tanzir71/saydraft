@@ -43,6 +43,7 @@ $Version = $VersionMatch.Groups[1].Value
 $VersionTuple = ($Version.Split('.') + '0') -join ', '
 $SavedEnvironment = @{}
 $EnvironmentNames = @('PYTHONPATH', 'PYTHONHOME', 'PYTHONSTARTUP', 'PYTHONINSPECT', 'PYTHONNOUSERSITE', 'PYINSTALLER_CONFIG_DIR', 'SAYDRAFT_VERSION_FILE',
+    'SAYDRAFT_NOTICE_OUTPUT', 'SAYDRAFT_INNO_COMPILER',
     'TEMP', 'TMP', 'LOCALAPPDATA', 'APPDATA', 'USERPROFILE', 'HF_HOME', 'HF_HUB_OFFLINE',
     'HF_HUB_DISABLE_TELEMETRY', 'DO_NOT_TRACK', 'PYTHONUTF8', 'PYTHONIOENCODING')
 foreach ($Name in $EnvironmentNames) { $SavedEnvironment[$Name] = [Environment]::GetEnvironmentVariable($Name, 'Process') }
@@ -68,6 +69,8 @@ try {
     $env:HF_HOME = Join-Path $RunRoot 'profile\home\hf'
     $env:HF_HUB_OFFLINE = $env:HF_HUB_DISABLE_TELEMETRY = $env:DO_NOT_TRACK = '1'
     $env:PYINSTALLER_CONFIG_DIR = Join-Path $RunRoot 'pyinstaller-cache'
+    $env:SAYDRAFT_NOTICE_OUTPUT = Join-Path $RunRoot 'third-party-notices'
+    $env:SAYDRAFT_INNO_COMPILER = if ($SkipInstaller) { '' } else { $InnoCompiler }
     Invoke-Checked -Executable $Python -Arguments @('-c', 'import sys; assert sys.version_info[:2] == (3, 13), "Python 3.13 is required"') -Stage 'Interpreter check'
     $VenvRoot = Join-Path $RunRoot 'venv'
     Invoke-Checked -Executable $Python -Arguments @('-m', 'venv', $VenvRoot) -Stage 'Fresh environment creation'

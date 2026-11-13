@@ -10,9 +10,12 @@ on:
       - 'assets/**'
       - 'tools/build.ps1'
       - 'tools/package_audit.py'
+      - 'tools/package_notices.py'
       - 'tools/check_installer.ps1'
       - 'Saydraft.spec'
       - 'requirements*.txt'
+      - 'LICENSE'
+      - 'THIRD_PARTY_NOTICES.md'
       - '.github/workflows/package.yml'
 
 permissions:

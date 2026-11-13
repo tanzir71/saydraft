@@ -5,6 +5,12 @@ keep their own licenses. This inventory was checked on 2026-11-12; release
 packaging must retain each distributed dependency's complete copyright and
 license files, including transitive dependencies and native libraries.
 
+Frozen packages collect the supplied notices from their actual module graph
+into `third_party_licenses/`, with a component/version/source/hash index. Pinned
+[upstream supplements](assets/licenses/packaged/README.md) cover omitted wheel
+texts and native notices. Explicit package verification checks this inventory;
+ordinary startup does not restrict replacing dynamically linked libraries.
+
 ## Application dependencies
 
 | Component | License | Source |
@@ -21,6 +27,10 @@ license files, including transitive dependencies and native libraries.
 | pyperclip | BSD-3-Clause | [License](https://github.com/asweigart/pyperclip/blob/master/LICENSE.txt) |
 | keyboard (historical; no longer required or imported) | MIT | [Historical license](https://github.com/boppreh/keyboard/blob/master/LICENSE.txt) |
 | PyInstaller (build tool) | GPL-2.0-or-later with bootloader exception | [License and exception](https://pyinstaller.org/en/stable/license.html) |
+| Python runtime | PSF and included dependency terms | [License](https://docs.python.org/3.13/license.html) |
+| PyAV / FFmpeg and bundled codecs | PyAV BSD; FFmpeg/native components retain their individual terms | [PyAV sources](https://github.com/PyAV-Org/PyAV), [FFmpeg license and source information](https://ffmpeg.org/legal.html), pinned notices above |
+| Intel OpenMP runtime supplied with CTranslate2 | Intel Developer Tools agreement retained unchanged | [Pinned runtime distribution](https://pypi.org/project/intel-openmp/2025.3.0/), pinned notices above |
+| Inno Setup installer | Inno Setup license | [Upstream license](https://github.com/jrsoftware/issrc/blob/main/license.txt); the build retains the installed compiler's text |
 
 Qt and PySide6 are dynamically linked in the one-folder distribution. Keep the
 Qt/PySide6 shared libraries replaceable, retain their notices and LGPL/GPL texts,

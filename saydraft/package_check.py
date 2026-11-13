@@ -38,6 +38,10 @@ def verify_runtime():
             if not (root / name).is_file():
                 raise ValueError('Bundled resource missing')
         result['checks']['resources'] = True
+        from .third_party import verify_notices
+
+        result['third_party_notices'] = verify_notices(root / 'third_party_licenses')
+        result['checks']['third_party_notices'] = True
         for name in ('numpy', 'soundfile', 'ctranslate2', 'faster_whisper', 'sherpa_onnx',
                      'webrtcvad', 'comtypes.client', 'PySide6.QtWidgets', 'PySide6.QtSvg', 'PySide6.QtMultimedia'):
             result['stage'] = 'import:' + name

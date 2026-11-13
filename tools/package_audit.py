@@ -8,8 +8,11 @@ import hashlib
 import json
 import os
 import subprocess
+import sys
 import zipfile
 from pathlib import Path
+
+from saydraft.third_party import verify_notices
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -49,6 +52,8 @@ def audit_bundle(bundle, analysis, policy):
     if not files or not (bundle / 'Saydraft.exe').is_file():
         raise ValueError('Frozen application missing')
     for path in files:
+        if path.name.casefold() in {name.casefold() for name in policy.get('forbidden_binary_names', [])}:
+            raise ValueError('Bundle contains an unused native plugin or runtime')
         if path.is_symlink() or path.suffix.lower() in policy['forbidden_suffixes']:
             raise ValueError('Bundle contains weights, user data or linked files')
         relative = path.relative_to(bundle).as_posix().casefold()
@@ -60,7 +65,14 @@ def audit_bundle(bundle, analysis, policy):
         if any(part.casefold().startswith(prefix.casefold() + '-') and part.casefold().endswith('.dist-info')
                for part in path.parts for prefix in policy['forbidden_modules']):
             raise ValueError('Bundle contains forbidden distribution metadata')
-    return {'inspected_modules': len(modules), 'files': len(files),
+    notices = verify_notices(bundle / '_internal/third_party_licenses')
+    index = json.loads((bundle / '_internal/third_party_licenses/index.json').read_text(encoding='utf-8'))
+    covered = {name for component in index['components'] for name in component.get('modules', [])}
+    roots = {name.replace('\\', '/').split('/')[0].split('.')[0] for name in modules}
+    missing = roots - covered - sys.stdlib_module_names - {'saydraft', '_pyi_rth_utils'}
+    if missing:
+        raise ValueError('Frozen module notice coverage missing: ' + ', '.join(sorted(missing)))
+    return {'inspected_modules': len(modules), 'files': len(files), 'third_party_notices': notices,
         'uncompressed_bytes': sum(p.stat().st_size for p in files),
         'file_sha256': {p.relative_to(bundle).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest() for p in files}}
 

@@ -12,7 +12,9 @@ The clean `afddeec` build and installer lifecycle pass, with a 109.2 MB installe
 and no forbidden pyarrow/aiohttp modules. The [retained evidence](../eval/packaging/results/2026-11-14-unsigned/README.md)
 includes exact artifact hashes, runtime checks and install/uninstall receipts.
 Artifact review found incomplete upstream license-text coverage; its correction
-and an enforcing coverage gate are pending before P8.1 acceptance.
+now includes a module-based notice collector, pinned upstream supplements and
+an enforcing integrity/coverage gate. A new frozen build must pass that gate
+before P8.1 acceptance; the initial receipts predate it.
 This does not establish signing, owner accuracy, physical Windows acceptance
 or readiness for a public release. No installer release is published yet.
 
@@ -45,9 +47,21 @@ so a forbidden package hidden inside the PYZ archive cannot pass. It refuses
 pyarrow, aiohttp, testing/build modules, model weights, profile data and linked
 files/directories. Installer size must be at most 250,000,000 bytes.
 
+The collector retains supplied full license/copyright/notice files and package
+metadata for the actual frozen module graph, plus Python and the installer
+compiler. [Pinned supplements](../assets/licenses/packaged/README.md) cover gaps
+in Qt/PySide, CTranslate2, tokenizers, sherpa-onnx-core and native dependency
+notices. It rejects unknown module owners, missing full texts, unreviewed
+supplement versions and changed pinned bytes. Both the bundle audit and the
+explicit frozen check validate `third_party_licenses/index.json`. Metadata and
+an SPDX label alone cannot replace a full license file. The unused PDF and
+virtual-keyboard Qt plugins are filtered before their dependencies are scanned;
+the audit refuses their PDF/QML/Quick runtimes if they enter the bundle.
+
 The explicit `Saydraft.exe --verify-package NEW_REPORT.json` command checks
 frozen imports, fonts/model notices, dictionary/prompt resources, tray images
-and the Python NetworkGuard. It does not start the application, audio devices,
+and the Python NetworkGuard, plus the collected third-party notice hashes.
+It does not start the application, audio devices,
 recognition, hooks, foreground reads or clipboard access. It does not prove the
 native firewall boundary. Sounddevice is checked without importing it, because
 that import initializes PortAudio.

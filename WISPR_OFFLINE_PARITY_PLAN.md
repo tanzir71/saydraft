@@ -795,7 +795,9 @@ the task's draft PRs are now closed or merged.
 ### P8: Distribution and trust
 The initial package resource/lifecycle gates pass, but artifact review found
 incomplete upstream license-text coverage. Keep P8.1 open until notice collection
-and an enforcing coverage check are implemented and verified.
+and an enforcing coverage check pass a new frozen build. The collector, pinned
+upstream supplements and integrity/module-coverage checks are implemented;
+the initial package receipts predate these checks.
 - [ ] **P8.1** Clean-venv build script (`tools/build.ps1` rewrite: fresh venv, `requirements.txt` only, exclusion list), plus an Inno Setup per-user installer (no admin), Start menu entry, optional autostart, and an uninstaller that **keeps user data unless the user ticks "Also remove my data"**. **Acceptance:** installer ≤ 250 MB; `pyarrow`/`aiohttp` absent from the bundle.
   - Clean afddeec build passes with a 109,188,877-byte unsigned installer, 526 files and 1,516 inspected modules; pyarrow/aiohttp and other forbidden packages/weights/profile data are absent. Frozen resources/imports/Python NetworkGuard pass before and after installation. Disposable Windows lifecycle proves default data retention, explicit removal, opt-in autostart and external-junction preservation. CI 3,137 pass / 12 skips; rules 556/556 and authored validator 100/100. Unchanged raw receipts and artifact hashes: `eval/packaging/results/2026-11-14-unsigned/`; scope and first failed dependency attempt: `docs/PACKAGING.md`. Signing, public release, physical dictation and native firewall remain separate.
 - [ ] **P8.2** `release.yml`: on tag `v*` → build → SHA256SUMS → draft GitHub Release with notes. **Acceptance:** a dry-run tag produces a draft.
