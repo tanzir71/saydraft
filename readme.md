@@ -27,11 +27,19 @@ clean-machine validation remain on the [roadmap](WISPR_OFFLINE_PARITY_PLAN.md).
 The existing `tools/build.ps1` is a legacy helper awaiting that work, not the
 supported installation path.
 
-The Hub, dictation Bar, local models, and core editing tools are implemented.
-Accuracy acceptance, performance targets, native Windows interaction checks,
-and several planned features remain open. Notes is currently a placeholder;
-Command, Translate, Ask, Scratchpad, and Notetaker are roadmap work. A passing
-test suite does not establish full product parity or accuracy on your voice.
+Core dictation and the Hub are available from source. Owner accuracy acceptance
+is deferred, and Notes is currently a placeholder. Implementation and remaining
+qualification are tracked separately:
+
+| Available from source | Still in progress |
+|---|---|
+| Local dictation, rules cleanup, optional local AI cleanup | Current-model quality and release latency qualification |
+| Hub, History, Dictionary, Snippets, per-app Style | Notes, Scratchpad, Command, Translate, Ask, Notetaker |
+| Six-page setup, verified downloads, model performance check | Fresh-profile and physical Windows acceptance |
+| Public website and setup guide | Packaged installer, signing, automatic updates |
+
+See the [documentation index](docs/README.md) for individual features and the
+[parity plan](WISPR_OFFLINE_PARITY_PLAN.md) for the complete acceptance status.
 
 ## What works today
 
@@ -39,7 +47,9 @@ test suite does not establish full product parity or accuracy on your voice.
   hands-free capture, a floating Bar, cancellation, and History before delivery.
 - **Cleanup and style:** rules for fillers, repetitions, self-corrections,
   punctuation, and lists; per-app styles; optional local AI cleanup with
-  validation and rules fallback.
+  validation and rules fallback. Normal AI cleanup also checks content-word
+  identity and order after rules; [validation details](docs/VALIDATOR_V2.md)
+  describe the allowed edits and the broader Polished setting.
 - **One Hub:** Home statistics and recent dictations; searchable History with
   raw/cleaned changes, Markdown/CSV export, and retry when audio was retained.
 - **Personal vocabulary:** searchable Dictionary terms, protected terms, and
@@ -114,6 +124,8 @@ manual acceptance is still open. See the [first-run guide](docs/ONBOARDING.md).
 
 ### Set up once, then go offline
 
+At least one compatible speech model is required to dictate. Model weights
+are downloaded during explicit setup rather than bundled with the source.
 Review the recommended speech model, its download size, and its license, then
 select **Download**. Progress and pause/resume are available. Later launches
 reuse installed files. Choosing a language or model never starts a download
@@ -134,7 +146,8 @@ automatic routing; [routing details](docs/ASR_ROUTING.md) explain its limits.
 Optional AI cleanup is disabled by default. Explicit setup offers pinned
 Qwen3.5 0.8B or 2B Q4_K_M weights with a local llama.cpp CPU or Vulkan runtime.
 Recommendations depend on the selected tier and available measurements; they
-do not enable or download AI cleanup. See [model details](docs/MODELS.md),
+do not enable or download AI cleanup. Rules-only dictation needs no cleanup
+model. See [model details](docs/MODELS.md),
 [cleanup setup](docs/CLEANUP_SETUP.md), and [storage controls](docs/MODEL_STORAGE.md).
 Model weights and dependencies retain their [own licenses](THIRD_PARTY_NOTICES.md).
 
@@ -204,6 +217,10 @@ Compatible legacy model installations remain readable in place. See
   see [delivery behavior](docs/DELIVERY.md).
 - **Slow setup or recognition:** review the model size and installed files in
   Settings → Models, and use the performance check before selecting a tier.
+- **AI cleanup kept the rules result:** check that AI cleanup is enabled and
+  its model/runtime are ready. Low-need text, insufficient time, or a rejected
+  model reply can all keep rules output. See the [cleanup gate](docs/CLEANUP_GATE.md)
+  and [validator](docs/VALIDATOR_V2.md) before treating fallback as a failure.
 
 For development setup and checks, read [CONTRIBUTING.md](CONTRIBUTING.md).
 [Documentation](docs/README.md) links to implementation notes, evaluation
@@ -211,6 +228,14 @@ methods, Windows acceptance checks, and the website workflow.
 Report reproducible problems in [GitHub Issues](https://github.com/tanzir71/saydraft/issues)
 with redacted logs and your source version; keep private recordings and transcripts out
 of public reports.
+
+The automated gates cover the offline test suite, **556 cleanup golden cases**,
+and **100 authored adversarial validator cases**. These are distinct from native
+model measurements and owner accuracy acceptance. The retained
+[native baseline](eval/cleanup/results/2026-11-13-baseline/README.md) exposed a
+word-substitution regression that is now guarded; it predates that fix and is
+not current qualification. See [cleanup evidence](docs/CLEANUP_EVIDENCE.md) for
+the source and corpus checks required of replacement reports.
 
 Saydraft's code is licensed under [MIT](LICENSE). Built by
 [Tanzir Rahman](https://tanziro.com). You can

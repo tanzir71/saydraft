@@ -11,6 +11,13 @@ Notes producers, several power features, and native/manual acceptance remain ope
 Use the plan for the complete status; an implemented component is not full
 milestone acceptance.
 
+The latest cleanup change adds a content-word identity/order check to normal
+post-rules AI cleanup (intensities 1–3). See the [validator](VALIDATOR_V2.md) for
+allowed grammar edits, Polished/translation scope, and conservative fallback.
+The [retained native baseline](../eval/cleanup/results/2026-11-13-baseline/README.md)
+documents the regression that prompted it. Fresh forced-model and production-policy
+qualification remains open; older reports describe their original source.
+
 For a first source launch, follow the [six-page walkthrough](ONBOARDING.md#current-setup-walkthrough).
 If setup cannot advance or finish, review [model readiness](ONBOARDING.md#readiness-and-saving).
 If practice cannot prepare a model or input, use the
@@ -43,6 +50,8 @@ including the optional public-audio recognizer smoke.
 | [Model packages](MODEL_PACKAGES.md) | Verified archive handling and installation |
 | [Cleanup setup](CLEANUP_SETUP.md) | Explicit Qwen3.5 plus llama.cpp installation and recommendations |
 | [Cleanup runtime](CLEANUP_RUNTIME.md) | Pinned CPU/Vulkan sidecars, requirements, and process lifecycle |
+| [Cleanup gate](CLEANUP_GATE.md) | Need scoring, preparation, deadlines, and rules fallback |
+| [Cleanup validator](VALIDATOR_V2.md) | Protected details, content-word checks, permitted edits, and limits |
 | [Privacy boundary](PRIVACY.md) | Python network policy, explicit downloads, firewall inspection, remaining native enforcement |
 | [Audio retention](AUDIO_RETENTION.md) | Default-off storage, expiry, retry leases, and recovery |
 | [Data migration](DATA_MIGRATION.md) | Compatibility, backups, and preserved legacy data |

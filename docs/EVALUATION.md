@@ -1,9 +1,10 @@
 # Cleanup golden evaluation
 
-The rules-only command is:
+The deterministic rules and authored validator commands are:
 
 ```powershell
 python -m saydraft.eval --min-pass-rate 100 --min-cases 556
+python -m saydraft.cleanup.llm.eval_validation --min-catch-rate 100 --min-cases 100
 ```
 
 CI requires all 556 unique examples to pass, exceeding P4.7's 300-case minimum.
@@ -13,6 +14,13 @@ P4.5's deterministic behaviors and snippet/Enter coverage are complete. P4.7
 remains unchecked until the model bake-off establishes §11's rules+LLM threshold
 and zero must-keep regressions. The separate
 adversarial command requires at least 100 refusals and a 100% catch rate.
+
+These authored checks are separate from native model generation. The current
+pipeline also enforces [post-rules content-word preservation](VALIDATOR_V2.md)
+at intensities 1–3. The retained
+[2026-11-13 baseline](../eval/cleanup/results/2026-11-13-baseline/README.md)
+predates that fix; replacement forced-model and production-policy reports must
+meet the current [source/corpus evidence contract](CLEANUP_EVIDENCE.md).
 
 Each JSONL row requires nonblank `id` and string `input`/`expected`. Empty text is
 allowed for intentional empty/verbatim cases. Optional fields are `mode`,

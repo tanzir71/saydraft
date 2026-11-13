@@ -7,8 +7,17 @@ Settings → Models offers explicit combined installation of a pinned Qwen3.5
 progress and pause/resume. AI cleanup stays off until enabled; recommendations
 and tier changes start no download. Shared Save applies staged settings.
 See [model storage](MODEL_STORAGE.md) for current tier, versioned layout,
-inventory and confirmed-removal behavior. Onboarding v2 and complete
-quality/performance/native acceptance remain open.
+inventory and confirmed-removal behavior. The [six-page first-run flow](ONBOARDING.md)
+is implemented; its manual acceptance and complete cleanup quality/performance/native
+qualification remain open.
+
+Speech recognition requires an installed compatible speech model. AI cleanup
+uses a separate, optional model/runtime bundle; rules-only dictation needs
+neither. Choosing a recommendation never starts either transfer. Enabled AI
+cleanup can still keep rules output because of the [interactive gate](CLEANUP_GATE.md)
+or [candidate validation](VALIDATOR_V2.md), including the normal post-rules
+content-word check. A completed installation does not qualify model quality,
+a hardware tier, or release latency.
 
 ## Implementation and measurement checkpoints
 

@@ -54,6 +54,26 @@ preservation checks to make a candidate pass. Distinguish deterministic rule
 tests and authored validator cases from real ASR/LLM accuracy measurements.
 See [evaluation](docs/EVALUATION.md) and [cleanup evidence](docs/CLEANUP_EVIDENCE.md).
 
+For post-rules AI cleanup changes, run the word-preservation, real-pipeline,
+policy, and evidence checks as well:
+
+```powershell
+.venv\Scripts\python -m pytest tests/test_post_rules_words.py tests/test_cleanup_bakeoff.py tests/test_cleanup_gate.py tests/test_cleanup_policy_eval.py tests/test_cleanup_evidence.py -q -rs
+```
+
+Normal intensities 1–3 preserve content-word identity and order after rules,
+with bounded grammar exceptions. Polished and the internal translation contract
+have broader scope; Translate is not yet a user-facing feature. Keep these
+contracts distinct and preserve the [validator's guarantees](docs/VALIDATOR_V2.md).
+Native evidence must also fingerprint the pipeline that invokes validation.
+
+Run native performance measurements serially from a clean, immutable checkout
+with verified fixtures. Keep other model jobs, downloads, builds, and test suites
+out of the measurement window. Record actual native process exit and preserve
+original reports. Forced-generation quality, production-policy acceptance,
+decoder throughput, and release-to-insertion latency are separate measurements;
+rules fallback or a raw token rate cannot establish all four.
+
 ## Website and visual tokens
 
 The public Astro site lives in `site/` and is published at

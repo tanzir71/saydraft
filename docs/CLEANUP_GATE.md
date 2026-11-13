@@ -45,6 +45,13 @@ Tokenization-only skips receive no generation token credit in evaluation reports
 Accepted replies still require complete SSE, a stop finish and existing detail,
 protected-token and structure validation.
 
+For normal post-rules cleanup at intensities 1–3, the pipeline also checks
+content-word identity and order, allowing bounded grammar edits. A candidate
+that changes content falls back with `rejected:post_rules_words_changed`.
+Polished (intensity 4) retains its broader rewording contract. See the
+[validator](VALIDATOR_V2.md) for exact scope and remaining limits; passing the
+time/need gate alone does not make generated text eligible for delivery.
+
 Scientific quality measurements explicitly disable interactive preparation/gating;
 they remain separate from app policy. To exercise the actual gate on installed,
 verified developer candidates, add `--budget-gate` to
