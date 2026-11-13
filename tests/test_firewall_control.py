@@ -48,7 +48,7 @@ def test_helper_uses_fixed_hidden_script_json_data_and_bounded_exit_codes(action
     command, options = calls[0]
     script = base64.b64decode(command[-1]).decode("utf-16-le")
     assert script == control._MANAGE_SCRIPT and "Write-Host injected" not in script
-    assert command[0].endswith("WindowsPowerShell/v1.0/powershell.exe")
+    assert Path(command[0]) == Path("C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe")
     assert command[command.index("-WindowStyle") + 1] == "Hidden"
     assert options["timeout"] == 30 and "shell" not in options
     assert json.loads(options["input"]) == {"action": action, "program": str(target), "name": control.rule_name(target)}
