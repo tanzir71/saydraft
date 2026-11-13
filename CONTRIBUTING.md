@@ -101,6 +101,7 @@ the offscreen environment above:
 
 ```powershell
 .venv\Scripts\python -m pytest tests/test_practice.py tests/test_onboarding_practice.py tests/test_onboarding_window.py tests/test_onboarding_shortcuts.py tests/test_qt_app_shell.py tests/test_session_worker.py -q -rs
+.venv\Scripts\python -m pytest tests/test_setup_benchmark.py tests/test_hardware_benchmark.py tests/test_setup_models.py -q -rs
 ```
 
 The six-page integration test uses synthetic native key packets, an injected
@@ -113,6 +114,7 @@ directory; this command does not download weights:
 ```powershell
 $env:SAYDRAFT_TEST_PARAKEET_V3_MODEL = 'D:\QA\models\parakeet-tdt-0-6b-v3-int8'
 .venv\Scripts\python -m pytest tests/test_onboarding_practice.py -k synthetic_native_shortcut -q -rs
+.venv\Scripts\python -m pytest tests/test_setup_benchmark.py -k selected_model_benchmark_through_worker -q -rs
 ```
 
 Both cases use fake native hooks and input rather than operating the desktop,

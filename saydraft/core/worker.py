@@ -7,8 +7,10 @@ import json
 import math
 import threading
 import time
+import copy
 from dataclasses import replace
-from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import CancelledError, ThreadPoolExecutor
+from types import SimpleNamespace
 
 from saydraft.insert.inserter import InsertionResult
 from .container import Services, create_services
@@ -57,6 +59,8 @@ class SessionWorker:
         from .history_retry import RetryCleanup
         self._retry_cleanup = RetryCleanup()
         self._benchmarking = False
+        self._setup_benchmark = None
+        self._setup_benchmark_serial = 0
         self._model_storage_busy = False
         self.audio_retention = None
         self._retention_generation = 0
@@ -608,6 +612,7 @@ class SessionWorker:
         # Observed by delivery even while native clipboard rendering is in progress.
         self._cancel_request.set()
         self._history_retry_cancel.set()
+        self.cancel_setup_benchmark()
         self.microphone_test.stop()
         self.shortcut_capture.cancel()
         self.practice.close_session(external=True)
@@ -893,6 +898,81 @@ class SessionWorker:
             self.hotkeys._controller.discard_active_recording()
             self.emit("history_retry_finished", new_id)
 
+    def start_setup_benchmark(self, config, *, directory=None):
+        """Measure staged speech settings on the reserved serial worker, without capture."""
+        if not self._lock.acquire(blocking=False):
+            return 0
+        try:
+            if self.busy or self._closing or self._pending_config is not None:
+                return 0
+            staged = copy.deepcopy(config)
+            staged['stt']['local_files_only'] = True
+            self._setup_benchmark_serial += 1
+            lease = SimpleNamespace(generation=self._setup_benchmark_serial, config=staged,
+                directory=directory, cancelled=threading.Event())
+            self._setup_benchmark = lease
+            self._benchmarking = True
+            self.corrections.cancel()
+            try:
+                self._submit(self._run_setup_benchmark, lease)
+            except Exception:
+                self._setup_benchmark = None
+                self._benchmarking = False
+                return 0
+            return lease.generation
+        finally:
+            self._lock.release()
+
+    def cancel_setup_benchmark(self, generation=None):
+        # Cancellation must stay immediate while a native operation is blocked.
+        lease = self._setup_benchmark
+        if lease is None or generation is not None and generation != lease.generation:
+            return False
+        lease.cancelled.set()
+        return True
+
+    def _run_setup_benchmark(self, lease):
+        from saydraft.models.benchmark import run_benchmark
+        from saydraft.models.hardware import save_report
+
+        def cancelled():
+            return lease.cancelled.is_set() or self._closing
+
+        state, report = 'failed', None
+        try:
+            if cancelled():
+                raise CancelledError()
+            asr = self._practice_asr(lease.config)
+            if cancelled():
+                raise CancelledError()
+            report = run_benchmark(asr, cleanup_benchmark=getattr(self.services.cleaner, 'benchmark', None),
+                cancelled=cancelled, persist=False,
+                progress=lambda phase: self.emit('setup_benchmark_progress', lease.generation, phase))
+            if cancelled():
+                raise CancelledError()
+            if report['measurements']['asr_status'] == 'ok':
+                report['source'] = 'onboarding'
+                save_report(report, lease.directory)
+                state = 'complete'
+            else:
+                state = report['measurements']['asr_status']
+        except CancelledError:
+            state, report = 'cancelled', None
+        except Exception:
+            state, report = 'failed', None
+            logger.warning('Setup performance check unavailable')
+        finally:
+            with self._lock:
+                if self._setup_benchmark is lease:
+                    self._setup_benchmark = None
+                    self._benchmarking = False
+            self.hotkeys._controller.discard_active_recording()
+            if cancelled():
+                state, report = 'cancelled', None
+            elif state == 'complete':
+                self.emit('hardware_benchmark_finished', report)
+            self.emit('setup_benchmark_finished', lease.generation, {'state': state, 'report': report})
+
     def benchmark_hardware(self, *, benchmark=None):
         with self._lock:
             if self.busy or self._closing:
@@ -1075,6 +1155,7 @@ class SessionWorker:
                 return
             if self.busy:
                 self._history_retry_cancel.set()
+                self.cancel_setup_benchmark()
                 self._pending_config = config
                 self.microphone_test.stop()
                 self.shortcut_capture.cancel()

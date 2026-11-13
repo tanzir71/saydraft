@@ -43,6 +43,14 @@ capability probe can guide a provisional recommendation; actual model timings
 follow the explicit verified download. An unavailable model must leave the
 benchmark pending rather than initiate a hidden transfer.
 
+Setup now provides **Check model performance** for its staged speech selection.
+It uses this same fixture/matrix on the serial worker, forces offline loading and
+measures enabled installed cleanup without changing AI settings or a manual tier.
+Stop requests wait for observed native retirement; failed/cancelled setup checks
+keep the previous successful report. Successful setup reports carry
+`source: onboarding` and live beside an explicitly selected configuration under
+`hardware-benchmarks`. See the [setup measurement flow](ONBOARDING.md#selected-model-performance).
+
 Snapshots are appended atomically under
 `%LOCALAPPDATA%\Saydraft\hardware-benchmarks`. Previous JSON files and interrupted
 writes are retained. A corrupt latest JSON is skipped in favor of a valid older

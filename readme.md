@@ -85,6 +85,9 @@ Try it, and Style quick pick.
 3. Review the speech model, size, and licenses, then select **Download / Resume**.
    Setup shows package progress and individual file transfer/checksum phases.
    Installed-file checks run in the background, including pinned dependencies.
+   After installation, **Check model performance** measures the selected speech
+   model using bundled audio. It opens no microphone, downloads nothing, and
+   keeps successful measurements separately from saved setup preferences.
 4. In **Shortcut**, keep the preset, enter a binding, or choose **Learn shortcut**
    and press/release your keys. Review any conflicts before continuing.
 5. In **Try it**, practice in the window's own chat or email field. Preparation
@@ -100,9 +103,10 @@ Try it, and Style quick pick.
    preferences; completed downloads and resumable partials remain separate.
 
 Finish currently saves settings even if model installation is incomplete; a
-compatible installed speech model is required for dictation. In-setup measured
-model benchmarks, strict readiness gating, and fresh-profile manual acceptance
-remain in development. See the [first-run guide](docs/ONBOARDING.md).
+compatible installed speech model is required for dictation. Strict readiness
+gating and fresh-profile manual acceptance remain in development. Capability
+recommendations and actual model measurements are distinct; unavailable cleanup
+measurements stay unmeasured. See the [first-run guide](docs/ONBOARDING.md).
 
 ### Set up once, then go offline
 

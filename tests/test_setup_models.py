@@ -89,7 +89,7 @@ def test_model_page_constructs_without_checks_and_requires_clicks_for_probe_reco
     s.page.hardware_button.click()
     settle(s.page)
     assert "Lite candidate" in s.page.recommendation.text()
-    assert "not been measured" in s.page.recommendation.text()
+    assert "not measured by this capability check" in s.page.recommendation.text()
     assert s.page.picker.model_id == DEFAULT_MODEL and not s.downloads
     s.page.use_button.click()
     settle(s.page)

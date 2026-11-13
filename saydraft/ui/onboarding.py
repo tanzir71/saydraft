@@ -11,7 +11,7 @@ from PySide6 import QtCore, QtGui, QtWidgets
 
 from saydraft.config import load_config, save_config
 from saydraft.audio.devices import InputSelection
-from saydraft.asr.selection import configured_model_id, select_model
+from saydraft.asr.selection import select_model
 from saydraft.ui.microphone_page import MicrophonePage
 from saydraft.ui.onboarding_models import OnboardingModelsPage
 from saydraft.ui.onboarding_shortcuts import OnboardingShortcutsPage
@@ -40,6 +40,8 @@ class OnboardingWizard(QtWidgets.QWizard):
         microphone_devices_provider=None,
         model_hardware_probe=None,
         model_status_provider=None,
+        model_benchmark_callback=None,
+        model_benchmark_cancel_callback=None,
         shortcut_start_callback=None,
         shortcut_cancel_callback=None,
         shortcut_conflict_detector=None,
@@ -58,6 +60,8 @@ class OnboardingWizard(QtWidgets.QWizard):
         self.microphone_devices_provider = microphone_devices_provider
         self.model_hardware_probe = model_hardware_probe
         self.model_status_provider = model_status_provider
+        self.model_benchmark_callback = model_benchmark_callback
+        self.model_benchmark_cancel_callback = model_benchmark_cancel_callback
         self.shortcut_start_callback = shortcut_start_callback
         self.shortcut_cancel_callback = shortcut_cancel_callback
         self.shortcut_conflict_detector = shortcut_conflict_detector
@@ -80,10 +84,12 @@ class OnboardingWizard(QtWidgets.QWizard):
         self.practice_page = OnboardingPracticePage(config_provider=self.practice_config, **self.practice_callbacks)
         self.addPage(self.practice_page)
         self.style_page = OnboardingStylePage(self.config, sample_provider=self.practice_page.last_raw,
-            ready_callback=lambda: not self.practice_page._generation and not self.practice_page._cleanup_failed)
+            ready_callback=lambda: not self.practice_page._generation and not self.practice_page._cleanup_failed
+                and not self.models_page.benchmark_active)
         self.finish_status_label = self.style_page.status
         self.addPage(self.style_page)
         self.practice_page.settled.connect(self._practice_settled)
+        self.models_page.benchmark_settled.connect(self._practice_settled)
 
         self.title_timer = QtCore.QTimer(self)
         self.title_timer.setSingleShot(True)
@@ -154,7 +160,10 @@ class OnboardingWizard(QtWidgets.QWizard):
 
     def _model_page(self) -> QtWidgets.QWizardPage:
         page = OnboardingModelsPage(self.config, download_callback=self.model_download_callback,
-            hardware_probe=self.model_hardware_probe, status_provider=self.model_status_provider)
+            hardware_probe=self.model_hardware_probe, status_provider=self.model_status_provider,
+            benchmark_callback=self.model_benchmark_callback, benchmark_cancel_callback=self.model_benchmark_cancel_callback,
+            config_provider=self.practice_config,
+            benchmark_directory=self.config_path.parent / 'hardware-benchmarks' if self.config_path else None)
         self.models_page = page
         self.model_picker = page.picker
         self.model_combo = self.model_picker.combo
@@ -172,7 +181,7 @@ class OnboardingWizard(QtWidgets.QWizard):
     def practice_config(self):
         config = load_config(config_path=self.config_path)
         config['hotkeys'] = self.shortcuts_page.merge_changes(config['hotkeys'])
-        if self.model_picker.model_id != configured_model_id(self.config):
+        if self.model_picker.model_id != self.models_page.initial_model_id:
             select_model(config, self.model_picker.model_id, manual=True)
         selected = self.microphone_page.selection
         if selected != InputSelection.from_config(self.config):
@@ -182,7 +191,8 @@ class OnboardingWizard(QtWidgets.QWizard):
 
     def _practice_settled(self):
         self.finish_status_label.setText('Restart Saydraft before completing setup; practice cleanup could not be confirmed.'
-            if self.practice_page._cleanup_failed else 'Finish to save your choices and open Home.')
+            if self.practice_page._cleanup_failed else 'Performance check is stopping. Wait before finishing setup.'
+            if self.models_page.benchmark_active else 'Finish to save your choices and open Home.')
         if self.currentPage() is self.style_page:
             self.style_page.completeChanged.emit()
 
@@ -198,6 +208,10 @@ class OnboardingWizard(QtWidgets.QWizard):
         self.microphone_page.stop_test()
         self.shortcuts_page.cancel_learning()
         self.practice_page.stop_session()
+        self.models_page.cancel_benchmark()
+        if self.models_page.benchmark_active:
+            self.finish_status_label.setText('Performance check is still stopping. Wait for it to finish, then choose Finish again.')
+            return False
         if self.practice_page._cleanup_failed:
             self.finish_status_label.setText('Restart Saydraft before completing setup; practice cleanup could not be confirmed.')
             return False
@@ -218,7 +232,7 @@ class OnboardingWizard(QtWidgets.QWizard):
                 return False
             cfg["app"]["onboarded"] = True
             cfg['dictation']['styles'] = self.style_page.merge_changes(cfg['dictation'].get('styles', {}))
-            if self.model_picker.model_id != configured_model_id(self.config):
+            if self.model_picker.model_id != self.models_page.initial_model_id:
                 select_model(cfg, self.model_picker.model_id, manual=True)
             selection = self.microphone_page.selection
             if selection != InputSelection.from_config(self.config):

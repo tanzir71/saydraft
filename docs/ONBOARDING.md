@@ -2,7 +2,7 @@
 
 P6.4 is in progress. The six-page wizard now connects the shared microphone test,
 explicit model setup, shortcut learning, owned chat/email practice, Style quick
-pick, and final Hub Home handoff. In-setup measured model benchmarks, strict
+pick, selected-model performance checks, and final Hub Home handoff. Strict
 advance/finish readiness gating, physical Windows checks and fresh-profile manual
 timing acceptance remain under §8.4 of the root plan. The connected flow does not
 establish complete onboarding acceptance or owner speech accuracy.
@@ -13,7 +13,7 @@ establish complete onboarding acceptance or owner speech accuracy.
 |---|---|
 | Welcome | Introduces local tray dictation |
 | Microphone | Default Windows input or a named device; explicit Refresh inputs and ten-second, level-only Test input |
-| Set up models | Optional Check this PC and Use speech recommendation; size/license review, Download / Resume, Pause, and installed-file verification |
+| Set up models | Optional Check this PC and Use speech recommendation; size/license review, Download / Resume, Pause, installed-file verification, and explicit Check model performance |
 | Shortcut | Preserved custom bindings or Wispr-compatible preset; manual entry, focused Learn shortcut, validation, and explicit other-app advisory |
 | Try it | Installed-model preparation, explicit real dictation into owned chat/email fields, before/after review and edit chips; recording can be skipped |
 | Style quick pick | Casual/Formal for Messages/Email, rules preview, staged saving and Hub Home handoff; existing intensities/AI stay unchanged |
@@ -24,6 +24,10 @@ not download weights, run a benchmark, or change the saved tier. Review the
 selected model's size and licenses before choosing Download / Resume. Package
 progress and per-file verification are separate from the installed-package check.
 You can recheck with **Check installed files**.
+After installation, **Check model performance** times the staged speech model
+with bundled audio and measures already enabled local AI cleanup when available.
+**Stop check** requests cancellation; the worker remains reserved until native
+work returns. Successful reports are separate from setup preference saving.
 
 At least one compatible installed speech model is needed before dictating.
 The current wizard allows Finish with missing weights; complete installation
@@ -116,8 +120,8 @@ can be kept; saved intensity, other groups, newer unchanged tones and AI setting
 survive Finish. A rules preview uses the last practice transcript or an explicitly
 labeled example; it is not a claim about AI output. Finish stays unavailable until
 practice retirement is observed, then merges choices once and opens Hub Home.
-Practice can be skipped. Model preparation is not the still-pending setup
-performance benchmark, and missing-model advance/finish gating remains open.
+Practice can be skipped. Practice preparation is separate from the explicit
+model performance check; missing-model advance/finish gating remains open.
 
 ### Practice recovery
 
@@ -219,6 +223,56 @@ physical/manual acceptance.
 
 ## Model setup
 
+### Selected-model performance
+
+Check model performance is an explicit action after reviewing/installing the
+speech model. It uses the packaged eight-second speech fixture, excludes initial
+model preparation from the timed samples, warms once, and reports the median of
+three complete recognitions. Phase messages distinguish hardware inspection,
+model loading, warm-up, timed speech samples, cleanup measurement and reporting.
+Initial loading and optional cleanup preparation can take longer than the samples.
+
+The idle session worker reserves the check before any capture, retry, input test,
+shortcut learning or practice can start. The staged speech configuration is
+copied, forced offline, and passed to the selected recognizer; unchanged language
+pins/general overrides determine the initial displayed model. Bengali/Arabic pins
+show the shared All languages model rather than an unrelated Parakeet selection.
+Changing the displayed choice explicitly stages that model without changing
+saved preferences. The check never opens a microphone, reads a foreground field
+or clipboard, writes History, inserts text or downloads weights.
+
+Enabled installed AI cleanup supplies the existing three exact 60-token samples
+and parameter-based rates. Unavailable rates stay unmeasured; a CPU speech-only
+result can leave the tier pending. The same measured matrix as Settings applies;
+GPU capability is not presented as a measured cleanup rate. No check enables AI,
+changes a saved manual tier or chooses tier defaults. Under Auto, a successful
+setup report supplies the new recommendation. Reports append atomically beside the selected configuration
+under `hardware-benchmarks`, marked `source: onboarding`; Cancel preserves these
+completed explicit measurements separately from staged preferences.
+For a qualified measured tier, Use speech recommendation can explicitly stage
+that tier's speech default; it starts no transfer and leaves cleanup choices intact.
+An unchanged model choice saved elsewhere refreshes the setup baseline for review
+before a new check, preserving the newer routing/preferences on Finish.
+
+Stop check, selection changes, page/window hiding, Cancel, global stop, Settings
+replacement and shutdown cancel the owned generation. Cancellation is checked
+between native operations and before reporting; it does not join a blocked call
+on the GUI thread or release admission before that call returns. Cancelled and
+failed checks preserve previous successful reports. Tagged queued progress and
+completion reject stale/hidden results. Finish waits for observed check retirement.
+Malformed or different-model results cannot appear as the selected measurement.
+
+```powershell
+python -m pytest tests/test_setup_benchmark.py tests/test_hardware_benchmark.py tests/test_setup_models.py -q -rs
+```
+
+The focused tests use public metadata/audio, private profiles and injected devices.
+An explicit `SAYDRAFT_TEST_PARAKEET_V3_MODEL` fixture root also exercises the actual
+pinned recognizer through the worker and queued setup UI. Hardware is injected in
+that smoke, so it is not a native tier qualification or owner accuracy acceptance.
+
+### Capability recommendation and installed files
+
 Check this PC reads CPU, memory and graphics capabilities on a background worker.
 It produces a clearly provisional Lite/Standard/Pro candidate; unavailable CPU
 or memory information stays pending. The check neither runs inference nor
@@ -251,8 +305,8 @@ Bengali and Arabic still share one optional All languages model; selecting a
 model or language performs no transfer. The final Style quick pick page states
 that saving choices opens Home; successful saving does not establish model readiness.
 
-The six-page navigation is connected. Selected model measurements within setup
-and strict advance/finish gating remain in P6.4; the app still refuses actual dictation when
+The six-page navigation and selected-model measurements are connected. Strict
+advance/finish gating remains in P6.4; the app still refuses actual dictation when
 the selected weights are unavailable. Existing engine/cache compatibility is
 preserved while that complete flow is implemented.
 

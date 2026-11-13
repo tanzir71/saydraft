@@ -104,6 +104,6 @@ class OnboardingStylePage(QtWidgets.QWizardPage):
 
     def showEvent(self, event):
         if not self.isComplete():
-            self.status.setText('Practice is stopping. Finish becomes available after its microphone and shortcuts retire.')
+            self.status.setText('Setup work is stopping. Finish becomes available after its microphone, shortcuts and performance check retire.')
         self.refresh_preview()
         super().showEvent(event)

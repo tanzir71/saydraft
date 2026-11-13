@@ -6,6 +6,7 @@ import hashlib
 import math
 import statistics
 import time
+from concurrent.futures import CancelledError
 from pathlib import Path
 from types import SimpleNamespace
 
@@ -44,21 +45,33 @@ def _cleanup_metrics(rows):
 
 
 def run_benchmark(asr, *, directory=None, hardware_probe=probe_hardware,
-                  cleanup_benchmark=None, clock=time.perf_counter):
+                  cleanup_benchmark=None, clock=time.perf_counter, cancelled=lambda: False,
+                  progress=lambda phase: None, persist=True):
     import numpy as np
     import soundfile as sf
 
+    def checkpoint(phase=None):
+        if cancelled():
+            raise CancelledError()
+        if phase is not None:
+            progress(phase)
+            if cancelled():
+                raise CancelledError()
+
+    checkpoint('hardware')
     path = fixture_path()
     audio, rate = sf.read(path, dtype="float32")
     if rate != 16000 or audio.shape != (128000,) or not np.isfinite(audio).all() or not np.any(audio):
         raise ValueError("The benchmark fixture must contain eight seconds of mono 16 kHz speech")
     report = hardware_probe()
+    checkpoint()
     measurement = {"fixture_sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
                    "fixture_seconds": 8, "fixture_kind": "repeated_bundled_hello",
                    "asr_seconds": None, "asr_status": "pending", "cleanup_status": "not_available",
                    "cleanup": [], "llm_08_tps": None, "llm_2_tps": None}
     report["measurements"] = measurement
     try:
+        checkpoint('preparing')
         context = getattr(asr, "set_context", None)
         if context is not None:
             context(SimpleNamespace(app_group="general"))
@@ -67,26 +80,42 @@ def run_benchmark(asr, *, directory=None, hardware_probe=probe_hardware,
         if prepare is not None:
             prepare()
         measurement["prepare_seconds"] = clock() - started
+        checkpoint('warmup')
         if not asr.transcribe(audio).strip():
             raise ValueError("Speech benchmark returned empty output")
+        checkpoint()
         costs = []
-        for _ in range(3):
+        for sample in range(3):
+            checkpoint(f'speech_{sample + 1}')
             started = clock()
             if not asr.transcribe(audio).strip():
                 raise ValueError("Speech benchmark returned empty output")
-            costs.append(clock() - started)
+            elapsed = clock() - started
+            checkpoint()
+            if not math.isfinite(elapsed) or elapsed <= 0:
+                raise ValueError('Speech timings must be finite and positive')
+            costs.append(elapsed)
         measurement.update(asr_seconds=statistics.median(costs), asr_runs=costs, asr_status="ok")
+    except CancelledError:
+        raise
     except FileNotFoundError:
         measurement["asr_status"] = "model_missing"
     except Exception:
         measurement["asr_status"] = "failed"
     measurement["asr_model"] = getattr(asr, "model_id", "unknown")
+    checkpoint()
     if cleanup_benchmark is not None:
         try:
+            checkpoint('cleanup')
             measurement.update(_cleanup_metrics(cleanup_benchmark()))
+            checkpoint()
+        except CancelledError:
+            raise
         except Exception:
             measurement["cleanup_status"] = "failed"
     report["assessment"] = assess_tier(report, **{key: measurement[key] for key in (
         "asr_seconds", "llm_08_tps", "llm_2_tps")})
-    save_report(report, directory)
+    checkpoint('saving')
+    if persist:
+        save_report(report, directory)
     return report  # No transcript, microphone access, history or insertion.

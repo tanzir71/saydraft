@@ -45,6 +45,8 @@ def create_worker_signals(QtCore):
         practice_result = QtCore.Signal(object)
         audio_retention_updated = QtCore.Signal(object)
         hardware_benchmark_finished = QtCore.Signal(object)
+        setup_benchmark_progress = QtCore.Signal(int, str)
+        setup_benchmark_finished = QtCore.Signal(int, object)
         preview_text_changed = QtCore.Signal(int, str)
         preview_unavailable = QtCore.Signal(int)
         dictionary_suggestion = QtCore.Signal(object)
@@ -200,6 +202,12 @@ class WorkerController:
 
     def benchmark_hardware(self):
         return bool(self.core and self.core.benchmark_hardware())
+
+    def start_setup_benchmark(self, config, *, directory=None):
+        return self.core.start_setup_benchmark(config, directory=directory) if self.core else 0
+
+    def cancel_setup_benchmark(self, generation=None):
+        return bool(self.core and self.core.cancel_setup_benchmark(generation))
 
     def is_current_preview(self, generation, *, listening_only=True):
         return bool(self.core and self.core.is_current_preview(generation, listening_only=listening_only))
@@ -606,6 +614,8 @@ class SaydraftApp:
                 config_path=self.config_path,
                 on_config_applied=self._on_onboarding_applied,
                 model_download_callback=self.model_download_callback,
+                model_benchmark_callback=getattr(self.controller, 'start_setup_benchmark', None),
+                model_benchmark_cancel_callback=getattr(self.controller, 'cancel_setup_benchmark', None),
                 hotkey_hint=self._controller_hotkey_hint(),
                 microphone_start_callback=getattr(self.controller, "start_microphone_test", None),
                 microphone_stop_callback=getattr(self.controller, "stop_microphone_test", None),
@@ -617,6 +627,11 @@ class SaydraftApp:
                 practice_close_callback=getattr(self.controller, 'close_practice', None),
             )
             microphone = getattr(self.onboarding_window, "microphone_page", None)
+            models = getattr(self.onboarding_window, 'models_page', None)
+            if models is not None:
+                qt = self.qt_modules or _load_qt_modules()
+                self.signals.setup_benchmark_progress.connect(models.accept_benchmark_progress, qt.QtCore.Qt.QueuedConnection)
+                self.signals.setup_benchmark_finished.connect(models.accept_benchmark_finished, qt.QtCore.Qt.QueuedConnection)
             if microphone is not None:
                 qt = self.qt_modules or _load_qt_modules()
                 self.signals.microphone_test_status.connect(microphone.accept_status, qt.QtCore.Qt.QueuedConnection)

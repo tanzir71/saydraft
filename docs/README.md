@@ -6,7 +6,7 @@ Start with the [project README](../readme.md),
 
 The active roadmap is [WISPR_OFFLINE_PARITY_PLAN.md](../WISPR_OFFLINE_PARITY_PLAN.md).
 Its Loop State distinguishes implementation, acceptance, remaining decisions,
-and dated evidence. Installer/signing, onboarding benchmarks/readiness acceptance,
+and dated evidence. Installer/signing, onboarding readiness/manual acceptance,
 Notes producers, several power features, and native/manual acceptance remain open.
 Use the plan for the complete status; an implemented component is not full
 milestone acceptance.

@@ -3,6 +3,20 @@
 from saydraft.asr.model_ids import DEFAULT_MODEL
 
 
+def setup_model_id(config):
+    """Show the speech model the staged general context will actually load."""
+    from saydraft.asr.selection import configured_model_id
+
+    stt = config['stt']
+    if not stt.get('routing_enabled', False):
+        return configured_model_id(config)
+    from saydraft.asr.router import choose_route
+
+    overrides = {item['app_group']: item['model_id'] for item in stt.get('app_model_overrides', [])}
+    return choose_route(stt.get('pinned_languages', []), english_max=stt.get('english_max', False),
+        app_group='general', overrides=overrides).model_id
+
+
 def capability_recommendation(report):
     report = report if isinstance(report, dict) else {}
     ram = report.get("ram_bytes")

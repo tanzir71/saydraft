@@ -610,6 +610,12 @@ def test_voice_tray_app_shows_onboarding_when_config_is_not_onboarded():
         def close_practice(self, _generation=None):
             return True
 
+        def start_setup_benchmark(self, _config, **_kwargs):
+            return 31
+
+        def cancel_setup_benchmark(self, _generation=None):
+            return True
+
     class FakeTray:
         def __init__(self, *, callbacks, **_kwargs):
             self.callbacks = callbacks
@@ -661,6 +667,9 @@ def test_voice_tray_app_shows_onboarding_when_config_is_not_onboarded():
                 accept_status=lambda *args: events.append(('practice-status', *args)),
                 accept_level=lambda *args: events.append(('practice-level', *args)),
                 accept_result=lambda result: events.append(('practice-result', result)))
+            self.models_page = types.SimpleNamespace(
+                accept_benchmark_progress=lambda *args: events.append(('setup-progress', *args)),
+                accept_benchmark_finished=lambda *args: events.append(('setup-finished', *args)))
             events.append(("onboarding-created", hotkey_hint))
 
         def update_audio_level(self, level):
@@ -699,12 +708,16 @@ def test_voice_tray_app_shows_onboarding_when_config_is_not_onboarded():
     app.signals.practice_status.emit(21, 1, 'recording')
     app.signals.practice_level.emit(21, 1, .1)
     app.signals.practice_result.emit('public result fixture')
+    app.signals.setup_benchmark_progress.emit(31, 'speech_2')
+    app.signals.setup_benchmark_finished.emit(31, {'state': 'cancelled', 'report': None})
     assert app.onboarding_window.options["microphone_start_callback"].__self__ is app.controller
     assert app.onboarding_window.options["microphone_stop_callback"].__self__ is app.controller
     assert app.onboarding_window.options["shortcut_start_callback"].__self__ is app.controller
     assert app.onboarding_window.options["shortcut_cancel_callback"].__self__ is app.controller
     for name in ('open', 'start', 'stop', 'close'):
         assert app.onboarding_window.options[f'practice_{name}_callback'].__self__ is app.controller
+    assert app.onboarding_window.options['model_benchmark_callback'].__self__ is app.controller
+    assert app.onboarding_window.options['model_benchmark_cancel_callback'].__self__ is app.controller
     assert app.onboarding_window.close in app.qt_app.aboutToQuit.connected
     app._show_hub = lambda page: events.append(('hub', page))
     app.onboarding_window.on_config_applied(
@@ -724,6 +737,8 @@ def test_voice_tray_app_shows_onboarding_when_config_is_not_onboarded():
         ('practice-status', 21, 1, 'recording'),
         ('practice-level', 21, 1, .1),
         ('practice-result', 'public result fixture'),
+        ('setup-progress', 31, 'speech_2'),
+        ('setup-finished', 31, {'state': 'cancelled', 'report': None}),
         ("applied", True),
         ("model", "base"),
         ("hotkey", "F8"),

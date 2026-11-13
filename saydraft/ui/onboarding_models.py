@@ -1,19 +1,26 @@
 """First-run model choices, explicit PC checks and asynchronous package verification."""
 
 from concurrent.futures import ThreadPoolExecutor
+import copy
+import math
 
 from PySide6 import QtCore, QtWidgets
 
 from saydraft.models.hardware import probe_hardware
 from saydraft.models.manifest import get_model
-from saydraft.models.setup import capability_recommendation, inspect_speech_package
+from saydraft.models.tiers import tier_defaults
+from saydraft.asr.selection import select_model
+from saydraft.models.setup import capability_recommendation, inspect_speech_package, setup_model_id
 from .model_picker import ModelPicker
 
 
 class OnboardingModelsPage(QtWidgets.QWizardPage):
     checked = QtCore.Signal(object, object)
+    benchmark_settled = QtCore.Signal()
 
-    def __init__(self, config, *, download_callback=None, hardware_probe=None, status_provider=None):
+    def __init__(self, config, *, download_callback=None, hardware_probe=None, status_provider=None,
+                 benchmark_callback=None, benchmark_cancel_callback=None, config_provider=None,
+                 benchmark_directory=None):
         super().__init__()
         self.setTitle("Set up models")
         self.probe = hardware_probe or probe_hardware
@@ -24,6 +31,15 @@ class OnboardingModelsPage(QtWidgets.QWizardPage):
         self._serial = 0
         self._closed = False
         self._candidate = None
+        self.benchmark_callback = benchmark_callback
+        self.benchmark_cancel_callback = benchmark_cancel_callback
+        self._provided_config = config_provider is not None
+        self.config_provider = config_provider or (lambda: copy.deepcopy(config))
+        self.benchmark_directory = benchmark_directory
+        self._benchmark_generation = 0
+        self._benchmark_cancelled = False
+        self._benchmark_model = None
+        self.benchmark_report = None
         self.readiness_state = "unknown"
         body = QtWidgets.QWidget()
         layout = QtWidgets.QVBoxLayout(body)
@@ -48,7 +64,7 @@ class OnboardingModelsPage(QtWidgets.QWizardPage):
         actions.addWidget(self.hardware_button)
         actions.addWidget(self.use_button)
         layout.addLayout(actions)
-        self.recommendation = paragraph("PC capabilities have not been checked.", "PC setup recommendation")
+        self.recommendation = paragraph("Check this PC offers a provisional starting recommendation.", "PC setup recommendation")
         self.details_toggle = QtWidgets.QToolButton()
         self.details_toggle.setText("PC details")
         self.details_toggle.setAccessibleName("PC recommendation details")
@@ -60,19 +76,34 @@ class OnboardingModelsPage(QtWidgets.QWizardPage):
         detail_layout = QtWidgets.QVBoxLayout(self.details)
         detail_layout.setContentsMargins(0, 0, 0, 0)
         self.hardware_details = paragraph("", "PC capability details", detail_layout)
-        paragraph("Capability recommendations are provisional. After installation, measure speed in "
-                  "Hub → Settings → Performance. This check does not change your saved tier or enable AI cleanup.",
+        paragraph("Capability recommendations are provisional. After installation, use Check model performance below. "
+                  "The capability check does not change your saved tier or enable AI cleanup.",
                   container=detail_layout)
         layout.addWidget(self.details)
         self.details.hide()
         self.details_toggle.toggled.connect(self._toggle_details)
-        self.picker = ModelPicker(config, callback=download_callback,
+        self.initial_model_id = setup_model_id(config)
+        picker_config = copy.deepcopy(config)
+        select_model(picker_config, self.initial_model_id, manual=False)
+        self.picker = ModelPicker(picker_config, callback=download_callback,
             success_message="Transfer complete. Installed files are checked separately below.")
         self.picker.combo.setAccessibleName("Setup speech model")
         layout.addWidget(self.picker)
         self.readiness = paragraph("Installed files have not been checked.", "Speech package readiness")
         self.refresh_button = QtWidgets.QPushButton("Check installed files")
         layout.addWidget(self.refresh_button)
+        self.benchmark_button = QtWidgets.QPushButton('Check model performance')
+        self.benchmark_button.setAccessibleName('Check selected model performance')
+        self.stop_benchmark_button = QtWidgets.QPushButton('Stop check')
+        benchmark_actions = QtWidgets.QHBoxLayout()
+        benchmark_actions.addWidget(self.benchmark_button)
+        benchmark_actions.addWidget(self.stop_benchmark_button)
+        layout.addLayout(benchmark_actions)
+        self.benchmark_status = paragraph('After installation, check speed using bundled speech. '
+            'This opens no microphone and downloads nothing.', 'Setup performance status')
+        self.benchmark_details = paragraph('', 'Measured setup performance')
+        self.benchmark_button.clicked.connect(self.start_benchmark)
+        self.stop_benchmark_button.clicked.connect(self.cancel_benchmark)
         paragraph("Bengali and Arabic share the optional All languages model. One download enables both. "
                   "Choosing a language or model starts no transfer.")
         layout.addStretch()
@@ -89,8 +120,129 @@ class OnboardingModelsPage(QtWidgets.QWizardPage):
         self.checked.connect(self._accept_check, QtCore.Qt.QueuedConnection)
         self.destroyed.connect(self._shutdown)
         QtWidgets.QApplication.instance().aboutToQuit.connect(self._shutdown)
+        self._update_actions()
+
+    @property
+    def benchmark_active(self):
+        return bool(self._benchmark_generation)
+
+    def start_benchmark(self):
+        if (self._closed or self.benchmark_active or self.picker.task is not None or
+                self._future is not None or self._pending or not callable(self.benchmark_callback)):
+            return False
+        try:
+            config = copy.deepcopy(self.config_provider())
+            current_model = setup_model_id(config)
+            if current_model != self.picker.model_id and self._provided_config:
+                # Unchanged choices follow newer saved settings. Treat this as
+                # a refreshed baseline, so Finish does not disable their routing.
+                self.initial_model_id = current_model
+                index = self.picker.combo.findData(current_model)
+                if index < 0:
+                    self.picker.combo.addItem(config['stt']['model_size'], current_model)
+                    index = self.picker.combo.count() - 1
+                self.picker.combo.setCurrentIndex(index)
+                self.benchmark_status.setText('Speech settings changed. Review the updated model, then choose Check model performance again.')
+                return False
+            if current_model != self.picker.model_id:
+                select_model(config, self.picker.model_id, manual=True)
+            generation = self.benchmark_callback(config, directory=self.benchmark_directory)
+        except Exception:
+            generation = 0
+        if type(generation) is not int or generation <= 0:
+            self.benchmark_status.setText('Could not start. Finish other app work, then try the check again.')
+            return False
+        self._benchmark_generation = generation
+        self._benchmark_model = self.picker.model_id
+        self._benchmark_cancelled = False
+        self.benchmark_report = None
+        self.benchmark_details.clear()
+        self.benchmark_status.setText('Checking the selected model locally. First model loading can take longer than the timed speech samples.')
+        self._update_actions()
+        self.benchmark_settled.emit()
+        return True
+
+    def cancel_benchmark(self):
+        if not self.benchmark_active:
+            return False
+        self._benchmark_cancelled = True
+        self.benchmark_status.setText('Stopping check. Waiting for the current native operation to finish…')
+        self._update_actions()
+        try:
+            return bool(self.benchmark_cancel_callback and
+                self.benchmark_cancel_callback(self._benchmark_generation))
+        except Exception:
+            return False
+
+    @QtCore.Slot(int, str)
+    def accept_benchmark_progress(self, generation, phase):
+        if (generation != self._benchmark_generation or self._closed or self._benchmark_cancelled
+                or not self.isVisible() or self._benchmark_model != self.picker.model_id):
+            return
+        message = {'hardware': 'Checking CPU, memory and graphics capabilities…',
+            'preparing': 'Loading the selected installed speech model…',
+            'warmup': 'Warming speech recognition with bundled audio…',
+            'cleanup': 'Measuring enabled local AI cleanup; settings stay unchanged…',
+            'saving': 'Finishing the measured performance report…'}
+        if phase.startswith('speech_') and phase[-1:] in ('1', '2', '3'):
+            text = f'Timing speech sample {phase[-1]} of 3 on the bundled eight-second recording…'
+        else:
+            text = message.get(phase)
+        if text:
+            self.benchmark_status.setText(text)
+
+    @QtCore.Slot(int, object)
+    def accept_benchmark_finished(self, generation, result):
+        if generation != self._benchmark_generation:
+            return
+        publish = (not self._closed and not self._benchmark_cancelled and self.isVisible()
+            and self._benchmark_model == self.picker.model_id)
+        self._benchmark_generation = 0
+        self._update_actions()
+        self.benchmark_settled.emit()
+        if not publish:
+            if not self._closed:
+                self.benchmark_status.setText('Check stopped. Choose Check model performance to try again.')
+            return
+        result = result if isinstance(result, dict) else {}
+        if result.get('state') == 'cancelled':
+            self.benchmark_status.setText('Check stopped. Choose Check model performance to try again.')
+            return
+        report = result.get('report')
+        measured = report.get('measurements', {}) if isinstance(report, dict) else {}
+        measured = measured if isinstance(measured, dict) else {}
+        seconds = measured.get('asr_seconds')
+        if (result.get('state') != 'complete' or measured.get('asr_status') != 'ok'
+                or measured.get('asr_model') != self._benchmark_model
+                or type(seconds) not in (int, float) or not math.isfinite(seconds) or seconds <= 0):
+            self.benchmark_status.setText('Install the selected speech model, then check again.'
+                if result.get('state') == 'model_missing' else 'Performance could not be measured. Previous reports are kept; try again.')
+            return
+        self.benchmark_report = report
+        tier = report.get('assessment', {}).get('tier', 'pending')
+        tier = tier if tier in ('lite', 'standard', 'pro') else 'pending'
+        self.benchmark_status.setText('Tier pending: speech measured; more hardware or cleanup measurements are needed.'
+            if tier == 'pending' else f'Measured recommendation: {tier.title()}. Saved manual tier and AI settings stay unchanged.')
+        if tier != 'pending':
+            recommended = tier_defaults(tier, report)['asr_model']
+            self._candidate = {'candidate_tier': tier, 'speech_model': recommended, 'provisional': False}
+            self.recommendation.setText(f'Measured {tier.title()} recommendation · {get_model(recommended)["label"]}. '
+                'Use speech recommendation stages this speech model without downloading or enabling AI cleanup.')
+        rows = [f"Speech: {measured['asr_seconds']:.3f} s median for eight seconds of audio (3 timed samples)."]
+        if measured.get('llm_08_tps') is not None:
+            rows.append(f"0.8B cleanup: {measured['llm_08_tps']:.1f} tokens/s.")
+        if measured.get('llm_2_tps') is not None:
+            rows.append(f"2B cleanup: {measured['llm_2_tps']:.1f} tokens/s.")
+        if measured.get('cleanup_status') != 'ok':
+            rows.append('AI cleanup speed is unmeasured. This check never enables or installs AI cleanup.')
+        rows.append('An explicit successful check keeps its report separately from setup preferences.')
+        self.benchmark_details.setText('\n'.join(rows))
+        self._update_actions()
 
     def _selection_changed(self):
+        self.cancel_benchmark()
+        self.benchmark_report = None
+        self.benchmark_details.clear()
         self.readiness_state = "unknown"
         self.readiness.setText("Installed files have not been checked.")
         self.readiness.show()
@@ -186,7 +338,7 @@ class OnboardingModelsPage(QtWidgets.QWizardPage):
         else:
             model = get_model(self._candidate["speech_model"])
             self.recommendation.setText(f'{tier.title()} candidate · {model["label"]}. '
-                                        "Speech and AI cleanup speed have not been measured.")
+                                        "Speech and AI cleanup are not measured by this capability check.")
         self.use_button.setEnabled(tier != "pending")
 
     def use_recommendation(self):
@@ -201,12 +353,18 @@ class OnboardingModelsPage(QtWidgets.QWizardPage):
     def _update_actions(self):
         busy = {self._active[1]} if self._active is not None else set()
         busy.update(self._pending)
-        self.hardware_button.setEnabled(not self._closed and "hardware" not in busy)
-        self.refresh_button.setEnabled(not self._closed and self.picker.task is None and "installed" not in busy)
-        self.use_button.setEnabled(not self._closed and self.picker.task is None and
+        active = self.benchmark_active
+        self.picker.setEnabled(not active and not self._closed)
+        self.hardware_button.setEnabled(not self._closed and not active and "hardware" not in busy)
+        self.refresh_button.setEnabled(not self._closed and not active and self.picker.task is None and "installed" not in busy)
+        self.use_button.setEnabled(not self._closed and not active and self.picker.task is None and
             self._candidate is not None and self._candidate["candidate_tier"] != "pending")
+        self.benchmark_button.setEnabled(not self._closed and not active and not busy and
+            self.picker.task is None and callable(self.benchmark_callback))
+        self.stop_benchmark_button.setEnabled(not self._closed and active and not self._benchmark_cancelled)
 
     def cancel_checks(self):
+        self.cancel_benchmark()
         if not self._closed and ("hardware" in self._pending or self._active is not None and self._active[1] == "hardware"):
             self.recommendation.setText("PC check cancelled. Choose Check this PC to try again.")
         for kind in self._generations:
