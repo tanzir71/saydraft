@@ -64,6 +64,8 @@ Existing local Whisper directories and HF cache snapshots are read in place. Unp
 
 Optional AI cleanup is disabled by default. Explicit setup offers pinned Qwen3.5 0.8B or 2B Q4_K_M with a local llama.cpp CPU or Vulkan runtime. Recommendations do not enable or download cleanup. Validated output can fall back to deterministic rules. See docs/MODELS.md, docs/ASR_ROUTING.md, and docs/CLEANUP_SETUP.md for requirements, measurements, and limits.
 
+Current cleanup evidence retains ten complete CPU/RTX forced-quality runs at source 4a1e69a. RTX 2B production policy completes 556 golden cases with 269 accepted replies and zero golden regressions; CPU 0.8B stops after a timeout at 186 cases with zero accepted replies. The combined evidence check refuses qualification. Decode samples and rules fallback do not establish ASR accuracy, hardware tiers, release latency or a model default. See docs/CLEANUP_EVIDENCE.md for immutable reports and the retained failure.
+
 Normal post-rules AI cleanup at intensities 1–3 checks content-word identity and order with bounded English grammar exceptions. Unknown substitutions, deletion, or reordering fall back to rules. Polished (intensity 4) allows broader rewording; an internal translation contract has separate similarity rules, but no user-facing Translate feature is implemented. Existing protected-detail checks still apply. This is conservative validation, not proof of semantic equivalence. See docs/VALIDATOR_V2.md and docs/CLEANUP_GATE.md.
 
 ## App behavior

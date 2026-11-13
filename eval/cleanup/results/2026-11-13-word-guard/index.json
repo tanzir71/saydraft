@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "source_commit": "4a1e69a277867edcd7681ee1fa87fb8588a03b34",
+  "selection_performed": false,
+  "scope": "CPU 0.8B and Vulkan 2B forced-quality evidence only",
+  "planned_jobs": 10,
+  "completed_jobs": 10,
+  "golden_cases_per_job": 556,
+  "runtime_adversarial_cases_per_job": 100,
+  "reports": [
+    {
+      "report": "qwen2-vulkan1.json",
+      "report_sha256": "16c064f1b5fe37e1b5fd68e43810536940ff3471667a787cbaed562aba84ef81",
+      "journal_sha256": "c74fbfe91f64833647d130a0a8f80682c82983d0e54509ead928582979e88df7",
+      "candidate": "qwen35-2b-q4-k-m",
+      "backend": "vulkan",
+      "golden_exact": 553,
+      "golden_accepted_exact": 390,
+      "golden_cleanup_calls": 404,
+      "golden_regressions": 3,
+      "median_decode_tokens_per_second": 132.28847857038755,
+      "peak_native_host_working_set_bytes": 1664544768
+    },
+    {
+      "report": "qwen08-cpu.json",
+      "report_sha256": "ffad63db3aef8da342cffb2dbf80dd57289a1a92e5563c271aa72f96ac531bfb",
+      "journal_sha256": "24ec8061046e91cf2d4862d6ec9dfe2895f6efdacf7fd787ba802b7f8120581b",
+      "candidate": "qwen35-08b-q4-k-m",
+      "backend": "cpu",
+      "golden_exact": 555,
+      "golden_accepted_exact": 384,
+      "golden_cleanup_calls": 404,
+      "golden_regressions": 1,
+      "median_decode_tokens_per_second": 25.88511746139827,
+      "peak_native_host_working_set_bytes": 1032421376
+    }
+  ]
+}

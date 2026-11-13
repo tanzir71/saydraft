@@ -1,5 +1,11 @@
 # Local cleanup runtime
 
+The latest CPU production-policy measurement exposed a wall-time overrun:
+one timeout returned rules after about 9.98 seconds despite the configured
+800 ms cap. Its partial report and observed native exit are retained, and P4.1
+has been reopened for diagnosis. Earlier controlled lifecycle probes below do
+not settle that newer result. See [current evidence](CLEANUP_EVIDENCE.md).
+
 The app's sidecar uses the Windows x64 llama.cpp build referenced by
 [stable release v0.9.0](https://github.com/ggml-org/llama.cpp/releases/tag/v0.9.0):
 binary release **b12110**, source commit

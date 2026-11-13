@@ -1,56 +1,61 @@
 # Retained native cleanup evidence
 
-The checker now enforces the current 556-golden/100-adversarial minimum, including
-otherwise self-consistent reports for a reduced corpus. The
-[2026-11-13 baseline matrix](../eval/cleanup/results/2026-11-13-baseline/README.md)
-is pre-word-guard diagnostic evidence. Its accepted French substitution shows
-why finite preservation checks alone cannot establish semantic safety. Fresh
-post-fix forced and production-policy reports remain required; older reports
-must not be relabeled as current acceptance.
-Forced evidence also pins the pipeline that activates post-rules validation;
-a current validator file cannot make an older caller valid evidence.
+The current [forced-quality matrix](../eval/cleanup/results/2026-11-13-word-guard/README.md)
+contains ten complete jobs at immutable source `4a1e69a`: all five candidates on
+CPU and RTX 3060. Each job generated the complete 556-golden/100-adversarial
+corpora, including 100 token-counted adversarial replies, three exact 60-token
+decode samples and independently observed native exits. Original report bytes
+and private journal SHA-256 values are retained. Current guard/prompt source
+fingerprints match these reports; that does not relabel their whole-app commit.
 
-The offline evidence checker compares complete CPU 0.8B and Vulkan 2B policy
-measurements with separately forced native model measurements. It performs no
-downloads or inference. Policy completion cannot substitute for actual accepted
-replies, and 100 low-need adversarial skips cannot substitute for forced generation.
+The separate [production-policy diagnostics](../eval/cleanup/results/2026-11-13-policy/README.md)
+use the actual 800 ms cap and production need/budget gate, with background
+preparation outside case timing:
 
-Checks cover immutable report digests, source commits, pinned candidate identity,
-clean/isolated full corpora, observed native exits, unchanged corpus/prompt hashes,
-at least 92% strict hybrid exact output, zero golden/must-keep regressions, positive
-accepted reply/token evidence, and three finite exact 60-token decoder samples.
-The report separately compares the three-sample median with the 25/40 tok/s tier
-thresholds; interactive prediction continues to use the minimum. Below-threshold
-speed does not turn a quality pass into tier acceptance. Sparse CPU model use
-remains explicit, and tier/performance acceptance stays pending when its target is missed.
+| Recipe | Policy result | Accepted golden replies | Qualification |
+|---|---|---:|---|
+| CPU Qwen3.5 0.8B | Failed after 186/556 golden cases; no adversarial cases | 0 | Incomplete, refused |
+| RTX Qwen3.5 2B | 556/556 golden exact; 100 adversarial low-need skips | 269 | Complete recipe measurement |
 
-Policy reports must match current cleanup/dictation/processor source fingerprints,
-including the shared style policy.
-Forced adversarial reports must match the current preservation guards and prompt
-contract. Source text permits only LF/CRLF variants across checkouts; raw native
+RTX has zero golden regressions and no finite preservation failures. Its live
+three-sample decode median is 134.54 tok/s. CPU's journal calibration median is
+21.00 tok/s; the final failed report has no live calibration. A CPU timeout case
+returns rules output after about 9.98 seconds despite the configured cap, then
+preparation fails. The cause of that wall-time overrun remains open. The failed
+report is retained unchanged, with observed native exit. A complete RTX recipe,
+a partial exact CPU score or the separate forced CPU 25.89 tok/s sample cannot
+qualify the combined pair, hardware tiers or release latency.
+
+## Offline checker
+
+Run `python -m tools.check_cleanup_evidence`. Its defaults now point to the
+current policy pair and the current CPU 0.8B / RTX 2B forced reports. The expected
+result is refusal, `Native measurement failed`, because the CPU report retains
+its error. This is an unresolved measurement outcome, not a passing native gate.
+Custom indexes can be selected with `--policy-index` / `--forced-index`.
+The checker performs no downloads or inference.
+
+Checks enforce immutable report digests, pinned candidate/runtime identity,
+clean isolated full corpora, observed native exits, unchanged source/corpus/prompt
+hashes, at least 92% strict hybrid exact output with zero golden/must-keep
+regressions, real accepted replies with token evidence, and three finite exact
+60-token decoder samples. Forced evidence also pins the pipeline activating
+post-rules validation. Normalized LF/CRLF source text is permitted; raw native
 report bytes remain strictly pinned. Source or corpus changes require fresh
-measurements for the affected evidence. No latency or default-model acceptance
-is inferred from a successful quality check.
+measurements for affected evidence.
 
-Run `python -m tools.check_cleanup_evidence` to assess the retained current
-RPC-window policy reports against the independent forced-model reports. Custom
-indexes can be selected explicitly with `--policy-index` / `--forced-index`.
-The retained 432-case CPU policy report contains zero accepted model replies at
-a 23.44 tok/s median. It proves safe rules fallback and cannot complete a hybrid
-model-quality measurement. The retained RTX report contains 213 accepted replies.
-Both predate the current 556-case corpus, style source and prompt contract and are
-rejected as stale; both target recipes need fresh evidence for a full check.
+The checker separately reports whether median decode reaches 25/40 tok/s;
+interactive prediction uses the minimum sample. Rates do not substitute for
+quality, co-loaded ASR or cold/warm release-to-insertion measurements. Safe rules
+fallback earns no accepted-model credit. Policy adversarial skips cannot replace
+the independent forced adversarial generations. No requirement was relaxed to
+accept the failed CPU run; mandatory native-evidence CI wiring remains pending.
 
-Mandatory CI wiring remains pending a current CPU hybrid measurement with real
-accepted replies. Existing rules/adversarial thresholds remain enforced in CI.
-No below-tier or zero-call result is promoted to make this evidence check pass.
+## Historical evidence
 
-Validation: 1418 tests pass with four optional native skips; rules 432/432,
-authored adversarial checks 100/100, and Ruff/diff checks pass. Fifteen synthetic
-report tests cover positive model evidence, stale source, exact thresholds,
-regressions, incomplete runs, generation credit, immutable bytes, unsafe paths,
-portable line endings and separate rate-target reporting. These fixtures are
-test data, not new native measurements. Running the checker on current retained
-reports at `c240d92` returned the expected refusal: `Rules fallback cannot earn
-accepted model credit`. Subsequent native-startup changes also invalidate those
-older source fingerprints until new measurements are collected.
+The [pre-word-guard baseline](../eval/cleanup/results/2026-11-13-baseline/README.md)
+retains six completed jobs and the accepted French substitution that motivated
+the word-fidelity fix. Older 432-case reports and their failures remain in their
+dated result folders; they cannot qualify the current corpus or source. Finite
+preservation checks and a successful quality gate do not prove semantic safety,
+owner speech accuracy, a model default or full product parity.

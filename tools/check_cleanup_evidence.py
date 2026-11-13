@@ -15,8 +15,8 @@ from saydraft.eval import load_eval_corpus
 from saydraft.models.manifest import safe_member
 from saydraft.models.runtime_ids import runtime_model_id
 
-POLICY_INDEX = ROOT / "eval/cleanup/results/2026-11-12-rpc-policy/index.json"
-FORCED_INDEX = ROOT / "eval/cleanup/results/2026-11-12-isolated/index.json"
+POLICY_INDEX = ROOT / "eval/cleanup/results/2026-11-13-policy/index.json"
+FORCED_INDEX = ROOT / "eval/cleanup/results/2026-11-13-word-guard/index.json"
 REQUIRED = {"saydraft/cleanup/llm/client.py", "saydraft/cleanup/llm/gate.py",
     "saydraft/cleanup/llm/validate.py", "saydraft/dictation/pipeline.py",
     "saydraft/dictation/llm_local.py", "saydraft/core/processing.py", "saydraft/core/preferences.py", "saydraft/eval.py",
@@ -122,7 +122,8 @@ def check(policy_index=POLICY_INDEX, forced_index=FORCED_INDEX, *, root=ROOT):
                     and report.get("max_output_tokens") == 256 and report.get("decoding_temperature") == 0,
                     "Native generation contract changed")
             exits = report.get("native_exit_observed", [])
-            require(exits and all(value is True for value in exits) and not report.get("error_type"), "Native exit/failure evidence missing")
+            require(exits and all(value is True for value in exits), "Native exit evidence missing")
+            require(not report.get("error_type"), "Native measurement failed")
             require(report.get("golden_sha256") == golden_sha and report.get("adversarial_sha256") == adversarial_sha,
                     "Native evidence uses a different corpus")
             check_source(report, root, forced=is_forced)

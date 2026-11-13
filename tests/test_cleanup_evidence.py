@@ -85,6 +85,7 @@ def test_forced_evidence_pins_the_pipeline_that_activates_post_rules_validation(
     (lambda report: report["suites"]["golden"].update(regressions=["fixture"]), "golden regression"),
     (lambda report: report.update(quality_timeout_ms=120000), "budget changed"),
     (lambda report: report.update(native_exit_observed=[False]), "Native exit"),
+    (lambda report: report.update(error_type="RuntimeError"), "Native measurement failed"),
     (lambda report: report["live_decoder_calibration"].update(tokens_per_second=[0, 24, 30]), "Invalid live decoder"),
     (lambda report: report["source_fingerprints"].update({"saydraft/cleanup/llm/client.py": "0" * 64}), "Stale cleanup"),
     (lambda report: report["source_fingerprints"].pop("saydraft/cleanup/styles.py"), "Missing evidence source"),

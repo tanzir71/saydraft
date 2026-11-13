@@ -1,5 +1,11 @@
 # Interactive cleanup gate
 
+Current native verification is incomplete: the RTX 2B policy run completes,
+but a CPU 0.8B timeout case returns rules after about 9.98 seconds despite the
+configured 800 ms cap. The cause remains open; the deadlines below describe the
+implementation contract, not established latency acceptance. See the retained
+[complete and failed measurements](CLEANUP_EVIDENCE.md).
+
 The production pipeline scores the protected original transcript before rules
 remove cues. Backtracking, list cues, filler density at least 15%, more than 25
 words, and Polished intensity each add two points; a non-neutral style adds one.

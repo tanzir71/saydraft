@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "source_commit": "4a1e69a277867edcd7681ee1fa87fb8588a03b34",
+  "selection_performed": false,
+  "scope": "Production-policy diagnostics: complete RTX 2B, failed partial CPU 0.8B; combined qualification refused; no tier, ASR, release-latency or default acceptance",
+  "planned_jobs": 2,
+  "completed_jobs": 1,
+  "incomplete_jobs": 1,
+  "reports": [
+    {
+      "report": "qwen08-cpu.json",
+      "report_sha256": "b8989e1150250cfd14350e5dd1ed7b5e729402681461a863d29ffa2a7f1d87e8",
+      "journal_sha256": "dd98b159fe5139d1044f09edadd0b0fb0a078c25492531c1ac73b015e3154b4f",
+      "candidate": "qwen35-08b-q4-k-m",
+      "backend": "cpu",
+      "policy_measurement_complete": false
+    },
+    {
+      "report": "qwen2-vulkan1.json",
+      "report_sha256": "25e6068fef2887f24cbfa0428ea3e3b44f530c0afcfbe9d0a0ee1e706506ed0d",
+      "journal_sha256": "128e14dec288e2dea1f94505b3b7993e7032009005c94aeb7d2e3ccc3f25ad78",
+      "candidate": "qwen35-2b-q4-k-m",
+      "backend": "vulkan",
+      "policy_measurement_complete": true
+    }
+  ]
+}

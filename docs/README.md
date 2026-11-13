@@ -53,6 +53,7 @@ including the optional public-audio recognizer smoke.
 | [Cleanup runtime](CLEANUP_RUNTIME.md) | Pinned CPU/Vulkan sidecars, requirements, and process lifecycle |
 | [Cleanup gate](CLEANUP_GATE.md) | Need scoring, preparation, deadlines, and rules fallback |
 | [Cleanup validator](VALIDATOR_V2.md) | Protected details, content-word checks, permitted edits, and limits |
+| [Cleanup evidence](CLEANUP_EVIDENCE.md) | Current native comparisons, production-policy results, and retained failures |
 | [Privacy boundary](PRIVACY.md) | Python network policy, explicit downloads, firewall inspection, remaining native enforcement |
 | [Audio retention](AUDIO_RETENTION.md) | Default-off storage, expiry, retry leases, and recovery |
 | [Data migration](DATA_MIGRATION.md) | Compatibility, backups, and preserved legacy data |

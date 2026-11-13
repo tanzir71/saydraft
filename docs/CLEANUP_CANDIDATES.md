@@ -51,8 +51,17 @@ timings are not benchmark results.
 
 Foundation validation: 1278 tests pass, four optional native skips, with real
 local Silero/preview/language-ID fixtures; golden 432/432; adversarial 100/100;
-Ruff/diff pass. Candidate downloads are still in progress; no candidate inference
-or selection is claimed by those regression results.
+Ruff/diff pass. At that foundation checkpoint candidate downloads were still in
+progress; those regression results claimed no candidate inference or selection.
+
+## Current measurements
+
+The complete post-word-guard [ten-job matrix](../eval/cleanup/results/2026-11-13-word-guard/README.md)
+now covers all five candidates on CPU and RTX 3060. A separate
+[production-policy run](../eval/cleanup/results/2026-11-13-policy/README.md)
+completed on RTX; CPU stopped after a timeout with no accepted replies.
+These current records supersede the historical probes below for measurement
+coverage. Combined policy, hardware-tier and release-latency acceptance remain open.
 
 ## Initial 0.8B compatibility probes
 

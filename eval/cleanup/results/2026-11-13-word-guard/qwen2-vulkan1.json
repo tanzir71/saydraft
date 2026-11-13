@@ -1,0 +1,550 @@
+{
+  "schema_version": 1,
+  "candidate": {
+    "id": "qwen35-2b-q4-k-m",
+    "role": "cleanup_candidate",
+    "status": "unselected",
+    "label": "Qwen/Qwen3.5-2B Q4_K_M",
+    "engine": "llama.cpp",
+    "runtime": "llama-cpp-b12110",
+    "min_tier": "pro",
+    "quantization": "Q4_K_M",
+    "revision": "7d26695454df6de5fbcce2e58681e62dae06ce43",
+    "license": "Apache-2.0",
+    "license_url": "https://huggingface.co/Qwen/Qwen3.5-2B/blob/15852e8c16360a2fea060d615a32b45270f8a8fc/LICENSE",
+    "publisher": "Qwen / Bartowski",
+    "source": "https://huggingface.co/bartowski/Qwen_Qwen3.5-2B-GGUF",
+    "source_model": "Qwen/Qwen3.5-2B",
+    "source_revision": "15852e8c16360a2fea060d615a32b45270f8a8fc",
+    "notice": {
+      "path": "assets/licenses/qwen35-Apache-2.0.txt",
+      "sha256": "bbedc3fda3305820b977265f01b8619d87570a6739de3a5582c3464840f1e57a",
+      "size": 11544
+    },
+    "download_hosts": [
+      "huggingface.co",
+      "us.aws.cdn.hf.co"
+    ],
+    "files": [
+      {
+        "path": "Qwen_Qwen3.5-2B-Q4_K_M.gguf",
+        "url": "https://huggingface.co/bartowski/Qwen_Qwen3.5-2B-GGUF/resolve/7d26695454df6de5fbcce2e58681e62dae06ce43/Qwen_Qwen3.5-2B-Q4_K_M.gguf",
+        "size": 1396198496,
+        "sha256": "57a1085840f497d764a7fc5d346922dbde961efb54cc792ea81d694fd846a1d8"
+      },
+      {
+        "path": "README.md",
+        "url": "https://huggingface.co/bartowski/Qwen_Qwen3.5-2B-GGUF/resolve/7d26695454df6de5fbcce2e58681e62dae06ce43/README.md",
+        "size": 13716,
+        "sha256": "f095716c2cb5ba69ebb8504e10f9ae7b6def35574898c8d01b9506cd6cb1f85d"
+      }
+    ]
+  },
+  "runtime": "llama-cpp-b12110-vulkan-x64",
+  "delivery": "simulated; no live OS keys or microphone",
+  "latency_acceptance_evaluated": false,
+  "measurement_kind": "forced_quality",
+  "interactive_prompt_preparation": false,
+  "interactive_budget_gate": false,
+  "background_setup_excluded_from_case_latency": false,
+  "backend": "vulkan",
+  "device_override": "Vulkan1",
+  "threads": 4,
+  "quality_timeout_ms": 120000,
+  "decoding_temperature": 0,
+  "context_size": 4096,
+  "max_output_tokens": 256,
+  "full_corpus": true,
+  "isolation_declared": true,
+  "git_commit": "4a1e69a277867edcd7681ee1fa87fb8588a03b34",
+  "source_dirty": false,
+  "golden_sha256": "2d0b6835000e480aa40cdc22af2d0bdc6288ab86f66a810bc74d8e6be201d755",
+  "source_fingerprints": {
+    "saydraft/app.py": "6690aa9b77653da66be60fcfedd9e6954ce03a00756841d261dbe0286e61f159",
+    "saydraft/autostart.py": "8dabcc7efe9e425ceeda49fe0114cf82c7ec526435f59c6bb2ff8b88d1cfbf75",
+    "saydraft/config.py": "6645fd7cfef16220dd57f02865e6d8125ca2e804a4d5e6376308c169bdeb1f70",
+    "saydraft/crash_guard.py": "1e2e2ff507ab80bf5046ee2b44e89aac86732cc8342c56adaa767eed58b44cd5",
+    "saydraft/eval.py": "70faeaee171c599b4da6a050c07c0c30f3afbb7d94396ed456cead26004169e7",
+    "saydraft/history.py": "2bc7663cbaa63a4ce6aba865ae5e08a49cc4282ed8bac9184e87fb929929a78c",
+    "saydraft/input_origin.py": "2a8126ee8237b42aa60471b42207c8763c053a8b8ea0222e67a86176af88fd4c",
+    "saydraft/logging_config.py": "e2edbe0087bf131a3d1d54de70e0029366b8a26345c418b119b228a94b3b856b",
+    "saydraft/main.py": "6cb2096bde68a2d7c2a5e960d063596fdafdaa03f36fea731d8b17ae2fb40ec2",
+    "saydraft/model_download.py": "cccb4302c5e6b6bdc07dfc6efbf876915184f751ffec3bc68d8d129d3fd3d4e3",
+    "saydraft/paths.py": "9b0eb113ae0efdb77cad07c015b5974c718effc802754d969038d2d9225e9133",
+    "saydraft/single_instance.py": "e958d40eb25afe1b029d73829e42f625bde27bbddd795a3d6e85ce4ba6e66bb4",
+    "saydraft/snippets.py": "e9b50b731248bd2a024db36d5ce7d49af1711be7b97e2bb29421d36146e42a03",
+    "saydraft/text_boundaries.py": "2caf924f2000609af4b99d205f8cbedbe6a067898fec8faafaf6bbfc82604878",
+    "saydraft/text_entities.py": "2ba2f413fc86654dea7499ad53f06fe808a6c25b02fe9a117ddad10afeac1a40",
+    "saydraft/__init__.py": "b6f53be1dba1222f4048fd6e4f9148b8e3e9453df68c2659570b4f1a023a6550",
+    "saydraft/__main__.py": "262988d991356d875aca2bdda7746ef4fd997171a9a077dcdbf715cb0dadf82f",
+    "saydraft/asr/languages.py": "6a67a12b82eb081df836e9f9b9556306ec37b65a4d4aab4fc86da97ec1abb554",
+    "saydraft/asr/language_id.py": "13645e41495a00fd1f50bcc0de14b867ca391c219f678bef67c05f8c68d3ec53",
+    "saydraft/asr/model_ids.py": "8c455e79d48b461f14510fb877896340c5b054b7e7c3a0ad092ee11d6a8ac5cd",
+    "saydraft/asr/retry.py": "74184275726c1ab52e35d18dd5f559576bbd827729b141ab0b353e34ffe08004",
+    "saydraft/asr/router.py": "a250a593f0e2dbbe088a3263a093dcec8eab6714af998d6566b57dd1dab4dfbb",
+    "saydraft/asr/selection.py": "3519d9c3e0d5707d3265b5372bb3aa7a45f0a3a2ea661e7ff54af7a97875fcbc",
+    "saydraft/asr/sherpa_parakeet.py": "d8c66212398722976bdc94e2fb6e4b869e96dff48f84c957a91954eb74376327",
+    "saydraft/asr/sherpa_stream.py": "af517a6fe740cf10920bc15284b12402c464404a7269b8b0ed3516110cb233f1",
+    "saydraft/asr/whisper_ct2.py": "f677767d5adea48e79e8e30442e3786ea101ae5395e372e5d7b8e8ff843e272f",
+    "saydraft/asr/__init__.py": "5d3c61505530b4ada29477076af11a8d5efc8354934b042e77a57a838f2331e6",
+    "saydraft/audio/devices.py": "92d2a3cd9c6bd9c32b9a5cfd50b87591e2b5f24b0f471a4d0667454719a3f93b",
+    "saydraft/audio/meter.py": "d03d891574a1cd3a0d8647df3ac0305d426cde3b5ae7eb908b76653b6711aada",
+    "saydraft/audio/privacy.py": "5913e09e68725b1e83874fe435b08a8b27efe36dca2f5262ff85531e6fab4a4b",
+    "saydraft/audio/recorder.py": "3393b809503520e0ec3f5a846520d5291c9328578e7246366ab201fcc7c04bec",
+    "saydraft/audio/vad.py": "6b8bfd83ed5cd48da7ed51f86fc6162b210af2d5abe70922b84272745fddbf88",
+    "saydraft/audio/vad_silero.py": "0755e745f971aee089474f3596b4c94ef7898f123aa866673aa40265ece83366",
+    "saydraft/audio/__init__.py": "8942efa31b92bb7a20696c86298fb892b0d4d3f9db094e0736711d462340c0ea",
+    "saydraft/cleanup/backtrack.py": "9f075fa00ae7fd6374a6063f27a34117a852a92d47d01a721c36eec6078b7301",
+    "saydraft/cleanup/code_mode.py": "68ca90ea94f341f156737ea27847f1d6beee3327f5c8e2f8917e74de2ecd7fd3",
+    "saydraft/cleanup/commands.py": "fa6008a177e9f90e709450e8b4325d41d5ae82191b4d76e28aa68cc8ea29c9ac",
+    "saydraft/cleanup/delivery.py": "c50d2469909d3301b1befabf327d9fe241db2a5769e2bad2cb7d58f136d2cdc2",
+    "saydraft/cleanup/formatter.py": "34456a285fc5a790dedf29c6bb2ad43ae897386fa1aa1cb9da6b27c4f01b5ed8",
+    "saydraft/cleanup/itn.py": "52544f110d9e1a9dea69776bd36c613cd982d73d34df6a6c2e4b296ca7aea3c6",
+    "saydraft/cleanup/styles.py": "fe620dae333ad2ec9d47158407e747aadbc21d5438d2da6c5fdae1ca1a2d0bea",
+    "saydraft/cleanup/__init__.py": "5ce18c150c42e47a862234e9752dc1c1f268ed555beb98b9aafef4ee652dedf7",
+    "saydraft/compat/migrate.py": "f658bcdaab21465c978bb83e38d2f5d9657b39239abdd2ce5a475e723899d306",
+    "saydraft/compat/__init__.py": "c0bf95a5f89789eb5dfcc15189373b57da9b6105a6338738bd18e71bac92a319",
+    "saydraft/context/app_groups.py": "c9026b3e6175364ac847c7f49462e875a158705b2baf048824d5695f7d896c95",
+    "saydraft/context/focused_edit.py": "92909065c72ab6cc4c333cd528e45ebc37d2179c279066fe73311214eceed791",
+    "saydraft/context/foreground.py": "0f874cc8f34d7ce65cb94eb05d8786320c0c63f12f7740dadc6cddc179489adf",
+    "saydraft/context/observation_worker.py": "8f304386b0ac8932d046d941c81ac13b774be33e8d4306769d4a18b157f5d798",
+    "saydraft/context/tracked_edit.py": "897bff81700ac8dfb0facd8baf2646506567e7a5639ed084509d930c82158571",
+    "saydraft/context/uia_native.py": "588289113f554597830bc2bacb68db1ef574d6afe2ca509d9cab85d1add7ce29",
+    "saydraft/context/uia_worker.py": "9b39e550a04b781b218d7a8ba08932319d07d33368694431e4c4f852fe9b9930",
+    "saydraft/context/__init__.py": "9daebedf4d7dc7a012f716941174a13656f61180800d23bf4530f1241a8d4bc9",
+    "saydraft/core/audio_retention.py": "753124559ede449ecd35bc9bd950d51fa2528682cd5dd91e779bd5aaa0f48ba6",
+    "saydraft/core/bar_actions.py": "8b109f272f520a03f4c86084983fb519b3b04a4d067150aadd972f46eef279b4",
+    "saydraft/core/bar_status.py": "e4a6c6d8ca22073c6ecc9ad6f3a84d95bdc73e14e7b1ab52f0d243d24addb13b",
+    "saydraft/core/container.py": "e0af6a08b66f4ba51f500a8f4a65f60eba177d5a2ca2604f7ac8bef3f5a9e217",
+    "saydraft/core/context.py": "bbdd6aa4588534b0d3d0c2c4d1e1cdaf4d3d149684c92a27dbbc74634409f867",
+    "saydraft/core/corrections.py": "ad8c7acd58eb817ef65f88ef8eaf1e1058700359a0bc9e00a210ef6d9f5b2aa0",
+    "saydraft/core/history_retry.py": "63ca2f36631a2b50a371e55f563ff14d08365ae1ab5db30c22508c2df4482194",
+    "saydraft/core/hotkey_service.py": "8aa5dd94280d5728fada0ad34db34f620666202e2b61ebafc6c696aae59ef5b4",
+    "saydraft/core/interfaces.py": "f62a9a3809def22a474cb4047aa6ccc1ce9e47915220b0feb0014b0c67102dfd",
+    "saydraft/core/microphone.py": "1b1b1c6010df422ad4fa667734d2d6182a319190bb5c48ce406fe45c69eb501e",
+    "saydraft/core/practice.py": "739b7bc863f565d068c08ce44fe43e8ab96b844b99ea1a8676958e21d3da3515",
+    "saydraft/core/preferences.py": "400aab831d90ada61e156d9ec0adc5b1b465f1583416591a87ec4f69e21e8536",
+    "saydraft/core/preview.py": "88e4170f4b584cc4716e92845c6282eabf1ee0551f4d0753914372d23a2f5a68",
+    "saydraft/core/processing.py": "ecc64571bc743adc0348ba8c0a088aa1e99a847d731fb8ddcbcd3c2a9dbc1d51",
+    "saydraft/core/segments.py": "2214fee19fa0fb14533f454003a0e8506b5c95356e7c9e612de5cb8dcfdf65d2",
+    "saydraft/core/session.py": "e4b7de30f68c920bd90c6b1f069e9869402e5c7ba13ae8f8da62e732761cce5c",
+    "saydraft/core/shortcut_capture.py": "9d4e1241cb93e38bd888e13344f6c016badb8d412d0545821fdc492871a427f2",
+    "saydraft/core/style_preview.py": "c1b7cd9bd69a21052db6abceb1c257f67e4d72f5c49f4df205d0034452508650",
+    "saydraft/core/timings.py": "7bd35b20df8e932d8434c6b7e20cc40bcef6a101d037b84f511e3578a3883a6f",
+    "saydraft/core/worker.py": "ddb376e151a43d2518584b3ca5c1635527f10f555cd98904fedd344b780cf635",
+    "saydraft/core/__init__.py": "ab26379bd8c3698d421daab49a6ed0952e605c73c05f7907cbfb0c724c7fb846",
+    "saydraft/data/audio.py": "9802bf22813784fb4846f121802a7541b881194952e6dd6a81ed9163bdaf7d01",
+    "saydraft/data/db.py": "ee2738787171436f63c2902ec0c6ba6def64ef26ac11052e63cd6ad677400d50",
+    "saydraft/data/history_view.py": "d133541a8aff02eab6872151afa213cdf8ec134af551424c0160cf4d4d0dbe08",
+    "saydraft/data/retention.py": "a45719c4ad54db5008c1b6ce0cbac22ec961795836686420802e095849013ad7",
+    "saydraft/data/snippets.py": "68e2c165f960fa1791bbceac20f18072669649d6ef6972007894faecce4d8302",
+    "saydraft/data/__init__.py": "60ca2d766490cb62aa3ef2ab4ceca5559b7121452ebb4595fff1992652d3e397",
+    "saydraft/dictation/glossary.py": "d44264fa1e76293d900068755e16d1a8d576c2b5a5cfbdc6ffb979205f9e6d63",
+    "saydraft/dictation/llm_local.py": "2ae80e0720bd9e6ef8b10f383faaa2d144b2c7fe0404e5d5735b6139c34b0a91",
+    "saydraft/dictation/pipeline.py": "f6ee49ba466edc6015b9ffd6474372f584ab893dcbbd53416ee8d9dceedf7b97",
+    "saydraft/dictation/protect.py": "5592765fc3eaedf935672895793a032a7dfcc2774421e17fad2059f0623c629f",
+    "saydraft/dictation/rules.py": "873f82203f5ef7808d2ce114ef7411938a2d00b8d90518746067ad8da6804340",
+    "saydraft/dictation/types.py": "24040131922e24878026c1521bc4a30f9606bd0368034e1fddbf3691cb3360d0",
+    "saydraft/dictation/validation.py": "ac57f5a8ae8b06cd3c95efe3dd1e3ee2a192f3518623f0bf311e19fa9c09626b",
+    "saydraft/dictation/__init__.py": "2cf378a2e3a66bba1af757dc214b073ddb07778436b287ad5b008f31c204b26a",
+    "saydraft/dictionary/alignment.py": "bb28a13d608b74d6052fc4cadc51b18a3ecd821a59d5ab725310f16e19e5b422",
+    "saydraft/dictionary/frequency.py": "dc9ba7f04e5dc5d43b668590d708f346c4b8bdb67de274d53f6134b49b0a12f4",
+    "saydraft/dictionary/portable.py": "81966b5d992d87e1547904eefe1d7649b283a41e0c79d7c5500fafbce2eae2b3",
+    "saydraft/dictionary/store.py": "557f39f06071f1bdac48b983b9dd47bbb694c066a56ea2647b8581bb0beabb52",
+    "saydraft/dictionary/__init__.py": "f91491f27f99e22a56fce0559aa7b4d3a3714bcef146102e49ad25a958ca36c6",
+    "saydraft/hotkeys/capture.py": "297c35caa37119c4c7dac3c1552544831cad3291463b6f4b79d026418b9ba905",
+    "saydraft/hotkeys/chords.py": "6b1e0b65eb9331eedfec218589d5541b356e043055571ca5ff03411a5f757d70",
+    "saydraft/hotkeys/controller.py": "8c171dabfbdfc5a3d19bf55e505f91a33660078b7a166fb0424d26752377f2c6",
+    "saydraft/hotkeys/focused.py": "ef136ad7cc577df18493da896ad2777cd86e26481595e430d32b76c6108ed302",
+    "saydraft/hotkeys/keys.py": "3a30f5936de2091f69501e073d3f0ac267dc735a136b582264c7e1301ec5c955",
+    "saydraft/hotkeys/llhook.py": "397019da90fabba317cc14df3730692c3377fddd57958e332d24cf5dde54e1f5",
+    "saydraft/hotkeys/recording.py": "9da361c35f4ae3fcfc65df21ede98366d9d9cde01d50294d793d65889f73774f",
+    "saydraft/hotkeys/wispr.py": "c6ff1714bfe1e4ae8a8bb13e5af2b1edf7f6aeb95698d6224c20c66c5b13cd59",
+    "saydraft/hotkeys/_win32_hooks.py": "77ffbcba8dfab079cc2c83fdbbfa5e3367dca75b52670eb741a446a5c8b34e6d",
+    "saydraft/hotkeys/__init__.py": "25c05145687cb94f985f22f5847104445112c85521f724500f7b234c993a34e6",
+    "saydraft/insert/clipboard_handles.py": "8d9fbdfeafa7a0caca83d24082e725f6423af4a5103568d83e83f3835c6bebf4",
+    "saydraft/insert/clipboard_win.py": "8352025a8bfe5e2ea3b4c7fc847878fa5bb5745ef9407205e36c49beaf94bd84",
+    "saydraft/insert/guards_win.py": "df825af37c83fbee8223617aca0bb93c37fb10b45ee3404cc9a5b8f03c98779c",
+    "saydraft/insert/inserter.py": "70757dfecc59e471ab7bbc7a824620369254dd427458d085100a2ff1191bbad7",
+    "saydraft/insert/sendinput.py": "0a43f6783af52e83bd4ca488439b03133b270174db3883a1f110d9bd82c4d562",
+    "saydraft/insert/_clipboard_win32.py": "f0bab43808077f39c68bae72888b91287d4eff065780e9c9ad5771802e51ecc3",
+    "saydraft/insert/__init__.py": "61a00b9307bb50dd5951e5251842f3979db0d630bd21a0391d3cff7d04297247",
+    "saydraft/models/benchmark.py": "d6c8c364d9e0b3581a124ec4fcfe93ad19350163914a57c29ee02601ec58f0a5",
+    "saydraft/models/cleanup.py": "18e7a0501f8ce5f29b6e9557b3894597ecce8b17c9f8de4b2d0fe38d3d46e9a1",
+    "saydraft/models/downloader.py": "5ed077cbdf68a4c03866bb4a486f1bf67c3dff4401cd3f52ad3d072ff8b9370b",
+    "saydraft/models/hardware.py": "25bf677a7219fa9f27c4e845f095bc003edc69b572a2a62a67a0714369c91f91",
+    "saydraft/models/installation.py": "531431d7c89bc909426634b6026d596ef5679bdf8d7610018972910e24141554",
+    "saydraft/models/layout.py": "df6313b5a079ae83b66e4511e297e1f40787d3f08e2354f3bc9200bb44d7ce27",
+    "saydraft/models/manifest.py": "a84843e41b8b57f9332a563c47ceba2e17153b297c10d57b4ae44e01c5ef68cf",
+    "saydraft/models/native_devices.py": "086aa13312e537efc308f027747a14721e630b917edf2855cbb4d207ce37ada2",
+    "saydraft/models/packages.py": "637976f270d2a4e25a7bc1d2d0ff8da1845a4a17f6efd854e1279f9e1238377c",
+    "saydraft/models/progress.py": "5a1c0dfb1f27c2da1bfd0eec2ecd5081b41ca554c217fd3393c42fbcea6f5e41",
+    "saydraft/models/runtime_ids.py": "a81e1ccbbd2e984a1469498377eaea4335e0b62a6c0589ea40548c356381353a",
+    "saydraft/models/setup.py": "51a60f10cb0e5eea48b494e75ace076d10371e381452f387de3c3adbe2668fd5",
+    "saydraft/models/storage.py": "f4919bbc24273623c565e246c9fbc94c1b346831ed4029e068cd362c0d8d1099",
+    "saydraft/models/storage_lock.py": "0f9a84e8147987b19f0938cf646015be7e12f54f9938b4725986f19078c441c3",
+    "saydraft/models/tiers.py": "116b158d32f008074eeede2cefe1657f4c79fc52484d95d83566b81945242638",
+    "saydraft/models/whisper_local.py": "46becde1786cf190c83dcdec0ff00f7e0f5a77b26b0b02335dc7b564c1cfe5af",
+    "saydraft/models/windows_hardware.py": "7ce7eefe22c09673f7809824ed189d31fb3b947ab47c6a9c29021fddf212942c",
+    "saydraft/models/__init__.py": "40a65eb701973371b5eb85e2e9b97f11b2e21f7e82131841d668b19459c5ddfd",
+    "saydraft/privacy/firewall.py": "13115a23446fabc62a0022dacfe094242c2cf47741e6c463c54ee6bba2aa15e3",
+    "saydraft/privacy/netguard.py": "789ea1e628ce8470ff942f3c59bb50a4295f6e9282d9d3fe14958d9d7517405f",
+    "saydraft/privacy/telemetry.py": "b0b375b5a7eeed8161251d2be9cbe866fb0f421142ddbb4d22edf58c6fe7bf9d",
+    "saydraft/privacy/__init__.py": "d41cfa101aaf7a226b41bebe507478d59ad573d321e1d2ee66652db94b58ceb4",
+    "saydraft/stt/whisper_engine.py": "7c10fd5de5aac1882a346e36becaeb33026c0cc5413bfc9ac7aac333ece596ad",
+    "saydraft/stt/__init__.py": "4ee89943735b0dd01e32634e82251cf4e1c7ecb5e13422bdff8adf274f62a0ee",
+    "saydraft/ui/bar_gallery.py": "2c07045c93e22729dfb185d976d7990551b4bfcc48bb3dc42a1585740a51a34c",
+    "saydraft/ui/bar_motion.py": "fd5dbc6d4e72ac23dea522b20ec8fd5b51bd5b3fb480a248c49430770c119617",
+    "saydraft/ui/bar_placement.py": "9bfb367c99ed8a35523fab10127a59749d99d4956fd1e26a6d388167d4c673f3",
+    "saydraft/ui/bar_sounds.py": "cb99672863639f74c0f974674aa1e50fbd73542f60ba52f23eff5e310b93ef2a",
+    "saydraft/ui/bar_widget.py": "9d8a5109de8fcc64fd0f18175f545849915b04e8b82db4f160877fbc5e5c3f2c",
+    "saydraft/ui/cleanup_picker.py": "710db1d91cf039241c696cd6cca37c7345e55ae772091ec2de40a54712c1bb00",
+    "saydraft/ui/dictionary_page.py": "55384b276890eb1e6bc0a1b4507fdacc792984b4695b51c641e6db21266d3675",
+    "saydraft/ui/dictionary_toast.py": "799c4a4d7dc2c3e2e6fd1d4952ff1f0e20a6c9ffb77b1cc62f229de3f6c44a94",
+    "saydraft/ui/download_task.py": "fdb864b223fe205d7ae2258a54675113515b859a9463b000a2dc2932dcd8b66f",
+    "saydraft/ui/fonts.py": "e6acd205e8809a1325366b85193bbebcf191e204eecbca5a0ebff8cffd23bf3f",
+    "saydraft/ui/gallery.py": "1a2ec0cf56115fa581ef7efe29a78f94d0ca56a47898e4354d79e88af9450d0b",
+    "saydraft/ui/hardware_page.py": "edfd423ce4db452b8485260f66baf92fc0132947f06839a8647a59fa62a4ea11",
+    "saydraft/ui/history_jobs.py": "4023111238452b291c6e09059fd48f804add4665c0c31bad6673d389a17badee",
+    "saydraft/ui/history_page.py": "6a1922f6b46caf91c377be815e5b5989e648ff20eee98677977ab71651f8418a",
+    "saydraft/ui/history_retry.py": "4928df5ac5515eadd489be48d1c81bc5cba0338556e7d304b6937bc30157c24f",
+    "saydraft/ui/home_page.py": "863b8c8a77dd806f5e845e33d2ccf11feda8734c07b4187a0f57d8b2dc2486b1",
+    "saydraft/ui/hub.py": "cd1a587fb2d60480d8da7715bb5cb7ba4d5c45937aa7db5d02d61953a99afcd5",
+    "saydraft/ui/icons.py": "231fefaf2c24c4e6f2bf49edc60a07e1b1dbd37aed57df9c7f88efaf18b0305e",
+    "saydraft/ui/labs_page.py": "fc95347e618ce2b64d3b893e4b264a09129f0c6ea5f820f2663310dd216cef09",
+    "saydraft/ui/languages_page.py": "ba92fa4014201159ca594423a07000a05fdff22a489020c7c06d584c305c6c68",
+    "saydraft/ui/microphone_page.py": "95b80b4535fc3e2a91aaac491026689e947aa268f1373d18339a588d4bab85b4",
+    "saydraft/ui/model_picker.py": "4c4f9b946c17268b6687f61154e08e1896a927c12604415ebea5bd5242ad9a03",
+    "saydraft/ui/model_storage.py": "28069da85289c69cfc9bef92cfbfd9dc5850a68c344095c7b56366ac82b1c556",
+    "saydraft/ui/onboarding.py": "b19b41325e04b5b61cae459f16eb21a8dd7d496c41d899ef3a4cacd3af2bc7a8",
+    "saydraft/ui/onboarding_models.py": "32058520ec588af667a7d5a1d3779375f3e9150750417f26fe3ce1afe935de32",
+    "saydraft/ui/onboarding_practice.py": "c9d8484eab7d0f6332bba78abcc7bc5cf2e7d69387a1f6f57632fea1f140ad4a",
+    "saydraft/ui/onboarding_shortcuts.py": "1f970d81430162449dd48391ce683563c054f6e34a2fab595535ba6211c9d452",
+    "saydraft/ui/onboarding_style.py": "99c3fa458814af542664fb3ae6e1a6991e609b3bdda1f1e78613b525f3777221",
+    "saydraft/ui/pill.py": "c09be3cfbdbf528139f92b7756987129b3edea439f2dade4f0333843a93b4498",
+    "saydraft/ui/privacy_page.py": "b0da454e827a4a85ed37116a353d3d8dfa1efa5a6c4a7af7d1ecb03ff97ead77",
+    "saydraft/ui/private_text.py": "341548982cc1f52d45a560d1aa0c3406356699fff4ae09ac5ccab51545e95189",
+    "saydraft/ui/progress.py": "6aa88e0d5bd0246ff38c857336744e1cea797d5f45a117e3832e928951685bc2",
+    "saydraft/ui/settings_page.py": "8e0a58a2f3c06db1b2550a116867f34aeef75fe2c3ee3ed5e47cb1b7cba15936",
+    "saydraft/ui/snippets_page.py": "d2168b34c4b554dd2ec2a348aa0a64edee8e7760e4c7a605518846fcaf6e08e8",
+    "saydraft/ui/styles_page.py": "50f91dc8957aad4888ce4306f77ca45e4c622bf9635b6062abf2806cf8032e8a",
+    "saydraft/ui/tier_picker.py": "e56f5e0ceda5a91fd1bd705adb1ab2ce22aa30d24902caced1be09e7d7e6b21d",
+    "saydraft/ui/tray.py": "722f9f419710e01d9a07d3878a0594c09f6440bb1e7caca385a267d01df73ca7",
+    "saydraft/ui/__init__.py": "850cee902b0b108ae0957865c189f6d6a1416a39614f10bb141610f27794196a",
+    "saydraft/ui/sound_assets/__init__.py": "3a2018e98374a9150ba543d2ec27adf9a0897e89aba91cc809584f8ab8e2b79e",
+    "saydraft/ui/theme/controller.py": "6d343c7dc301d4ecae5d023734c63f024f0e4947367130801b707c81d0465d54",
+    "saydraft/ui/theme/__init__.py": "554c79d0fdcae8f7081ee03902ac634db840d51f5a5308b569266c008609d4c0",
+    "saydraft/cleanup/llm/bakeoff.py": "4326ee64d5499396bcaa97589801b4fab80b1d5e486066e42b22f1dc5a5b08ce",
+    "saydraft/cleanup/llm/calibration.py": "207d7fd75c7a7b2c313259281f698060cae97daa419cd0fca21203b18bbe7f61",
+    "saydraft/cleanup/llm/candidates.py": "fcc76bd74d41a448d8adf700066b6bf8a6e18ae2999aa7f67dbb3dca2216068d",
+    "saydraft/cleanup/llm/client.py": "36c5be79d1ef5447da34a1155bbfce97e22963e8f1086d0f17a1789eaa6722e8",
+    "saydraft/cleanup/llm/eval_validation.py": "7f59c6e786905dc652081845f6da33114e22e5358bd1cf9902269c1b21ea85c5",
+    "saydraft/cleanup/llm/gate.py": "922e1b5f8c4f9a3df34351eefa1842c45544c8855d313ee51d432effff7209d5",
+    "saydraft/cleanup/llm/loopback.py": "747ea936cbd0320231b2ce01965380a91a2e9054d44840c38b1765153fad72bd",
+    "saydraft/cleanup/llm/ownership.py": "52e7be03716c0a97444dd13f8865cd878b63e570cf66c6acd83711d1e3af9669",
+    "saydraft/cleanup/llm/preparation.py": "90cbac5bf8608306d018ecdf36d0357f22294d8fa4de3127470477ba56c65461",
+    "saydraft/cleanup/llm/sidecar.py": "49cd48d1a6de08578b11012e9ffaf8fe331861d437990c73676db99bdd01fe0b",
+    "saydraft/cleanup/llm/streaming.py": "6c2039bdfb3aa9be9ee549285ec6fc26a67c14620c2634ca130a286888705ff9",
+    "saydraft/cleanup/llm/structure.py": "66a2a5d82b66296871111bb8ed7115e08693b67f39dace235607cface8a88ac5",
+    "saydraft/cleanup/llm/validate.py": "68f911ba4533518f52a221e753e782ba11499ccb8727fa5235e15cb6fab12c5a",
+    "saydraft/cleanup/llm/windows_process.py": "167d61e43f6d28cf118c9478b4e4b88a118e0ffbbb2f6a02471eb7aabc177e2f",
+    "saydraft/cleanup/llm/__init__.py": "4429ccd108db0e310accef6f93f140ab51b08a09bad5248cf9adb60893bebdc8",
+    "saydraft/cleanup/llm/prompts/__init__.py": "bc41c059e638f295620bb25def031d266781048e2720767ad961f5dbfbbcd310",
+    "tools/bench_cleanup.py": "a16e17b9614245983664e681d97bfbe0574dc23bb22be08905e00b099ff622b4"
+  },
+  "adversarial_sha256": "8005db8927c1d642f691234efdf8445460cbf20ea8bf3c7ca6f15b59564d0de6",
+  "prompt_sha256": {
+    "examples.json": "8ae1d955747eb6969f050eae6edfa0fff7f2c09121e0201afddef82ebab896ec",
+    "post_rules_examples.json": "c66220cb4999e89d1c429041d6985b35af8d4145ede96efc8874f831028a1fc4",
+    "system.txt": "9c6e0c06dd784ebd66dd54c306bb989623e6c07bdb7272b14ce6c896f77ab7a4",
+    "__init__.py": "bc41c059e638f295620bb25def031d266781048e2720767ad961f5dbfbbcd310"
+  },
+  "authored_validator": {
+    "total": 100,
+    "caught": 100,
+    "catch_rate": 100.0,
+    "missed_ids": [],
+    "by_category": {
+      "assistant_output": {
+        "total": 10,
+        "caught": 10
+      },
+      "code": {
+        "total": 10,
+        "caught": 10
+      },
+      "dates_amounts_times": {
+        "total": 10,
+        "caught": 10
+      },
+      "entities": {
+        "total": 10,
+        "caught": 10
+      },
+      "language": {
+        "total": 10,
+        "caught": 10
+      },
+      "length": {
+        "total": 10,
+        "caught": 10
+      },
+      "negation": {
+        "total": 10,
+        "caught": 10
+      },
+      "numbers": {
+        "total": 10,
+        "caught": 10
+      },
+      "profanity": {
+        "total": 10,
+        "caught": 10
+      },
+      "protected_tokens": {
+        "total": 10,
+        "caught": 10
+      }
+    },
+    "reasons": {
+      "amounts_changed": 4,
+      "answer_output": 7,
+      "code_changed": 11,
+      "dates_changed": 16,
+      "emails_changed": 5,
+      "glossary_changed": 10,
+      "length_ratio": 8,
+      "negation_changed": 11,
+      "numbers_changed": 10,
+      "profanity_changed": 10,
+      "times_changed": 2,
+      "urls_changed": 5,
+      "wrapper_output": 1
+    }
+  },
+  "selection_performed": false,
+  "hardware": {
+    "schema_version": 1,
+    "measured_at": "2026-11-13T13:33:13.649213+00:00",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD",
+    "logical_cores": 12,
+    "errors": {},
+    "cpu_features": {
+      "physical_cores": 6,
+      "avx2": true,
+      "avx512f": false
+    },
+    "ram_bytes": 64312434688,
+    "adapters": [
+      {
+        "name": "AMD Radeon(TM) Graphics",
+        "vendor_id": 4098,
+        "device_id": 5688,
+        "vram_bytes": 4277944320,
+        "shared_ram_bytes": 47132565504
+      },
+      {
+        "name": "NVIDIA GeForce RTX 3060",
+        "vendor_id": 4318,
+        "device_id": 9476,
+        "vram_bytes": 12701401088,
+        "shared_ram_bytes": 47132565504
+      },
+      {
+        "name": "NVIDIA GeForce RTX 3060",
+        "vendor_id": 4318,
+        "device_id": 9476,
+        "vram_bytes": 12701401088,
+        "shared_ram_bytes": 47132565504
+      }
+    ],
+    "vulkan": [
+      {
+        "name": "AMD Radeon(TM) Graphics",
+        "vendor_id": 4098,
+        "device_id": 5688,
+        "device_type": 1
+      },
+      {
+        "name": "NVIDIA GeForce RTX 3060",
+        "vendor_id": 4318,
+        "device_id": 9476,
+        "device_type": 2
+      }
+    ],
+    "cuda": [
+      {
+        "name": "NVIDIA GeForce RTX 3060"
+      }
+    ]
+  },
+  "prepared": true,
+  "preparation_seconds": 3.574337399972137,
+  "throughput_60_tokens": [
+    {
+      "reason": "ok",
+      "valid": true,
+      "tokens": 60,
+      "tokens_per_second": 141.66380537794223,
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 10,
+        "prompt_ms": 50.77,
+        "prompt_per_token_ms": 5.077,
+        "prompt_per_second": 196.9667126255663,
+        "predicted_n": 60,
+        "predicted_ms": 416.479,
+        "predicted_per_token_ms": 7.058966101694915,
+        "predicted_per_second": 141.66380537794223
+      }
+    },
+    {
+      "reason": "ok",
+      "valid": true,
+      "tokens": 60,
+      "tokens_per_second": 130.60060784621888,
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 10,
+        "prompt_ms": 40.676,
+        "prompt_per_token_ms": 4.0676000000000005,
+        "prompt_per_second": 245.84521585209953,
+        "predicted_n": 60,
+        "predicted_ms": 451.759,
+        "predicted_per_token_ms": 7.656932203389831,
+        "predicted_per_second": 130.60060784621888
+      }
+    },
+    {
+      "reason": "ok",
+      "valid": true,
+      "tokens": 60,
+      "tokens_per_second": 132.28847857038755,
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 10,
+        "prompt_ms": 41.203,
+        "prompt_per_token_ms": 4.1203,
+        "prompt_per_second": 242.70077421546972,
+        "predicted_n": 60,
+        "predicted_ms": 445.995,
+        "predicted_per_token_ms": 7.559237288135593,
+        "predicted_per_second": 132.28847857038755
+      }
+    }
+  ],
+  "peak_native_working_set_bytes": [
+    57540608,
+    1664544768
+  ],
+  "selected_device": {
+    "id": "Vulkan1",
+    "name": "NVIDIA GeForce RTX 3060",
+    "total_mb": 12113,
+    "free_mb": 11345
+  },
+  "last_sidecar_status": {
+    "state": "closed",
+    "reason": "closed",
+    "failures": 0
+  },
+  "native_exit_observed": [
+    true,
+    true
+  ],
+  "suites": {
+    "golden": {
+      "requested": 556,
+      "completed": 556,
+      "cleanup_calls": 404,
+      "returned_candidates": 402,
+      "client_replies": 404,
+      "client_replies_with_token_counts": 404,
+      "accepted_replies": 393,
+      "decisions": {
+        "accepted": 393,
+        "bypassed": 132,
+        "rejected:code_changed": 7,
+        "rejected:content_changed": 1,
+        "rules_linebreaks_changed": 2,
+        "rejected:numbers_changed": 1,
+        "skip_verbatim": 20
+      },
+      "call_reasons": {
+        "ok": 402,
+        "rules_linebreaks_changed": 2
+      },
+      "preservation_failures": [],
+      "latency_by_prefix_relation": {
+        "first": {
+          "n": 1,
+          "p50_seconds": 0.46365699998568743,
+          "p95_seconds": 0.46365699998568743,
+          "max_seconds": 0.46365699998568743
+        },
+        "style_changed": {
+          "n": 60,
+          "p50_seconds": 0.2809259999776259,
+          "p95_seconds": 0.3058129000128247,
+          "max_seconds": 0.5512572000152431
+        },
+        "same_style": {
+          "n": 343,
+          "p50_seconds": 0.1368044000118971,
+          "p95_seconds": 0.18145520001417026,
+          "max_seconds": 1.2305756999994628
+        }
+      },
+      "exact_passes": 553,
+      "exact_rate": 99.46043165467626,
+      "accepted_exact_passes": 390,
+      "eligible_cases": 404,
+      "accepted_exact_rate": 96.53465346534654,
+      "fallback_exact_passes": 11,
+      "regressions": [
+        "balanced-general-04",
+        "balanced-email-01",
+        "balanced-chat-05"
+      ]
+    },
+    "adversarial": {
+      "requested": 100,
+      "completed": 100,
+      "cleanup_calls": 100,
+      "returned_candidates": 100,
+      "client_replies": 100,
+      "client_replies_with_token_counts": 100,
+      "accepted_replies": 100,
+      "decisions": {
+        "accepted": 100
+      },
+      "call_reasons": {
+        "ok": 100
+      },
+      "preservation_failures": [],
+      "latency_by_prefix_relation": {
+        "first": {
+          "n": 0
+        },
+        "style_changed": {
+          "n": 1,
+          "p50_seconds": 0.288281699991785,
+          "p95_seconds": 0.288281699991785,
+          "max_seconds": 0.288281699991785
+        },
+        "same_style": {
+          "n": 99,
+          "p50_seconds": 0.19030140002723783,
+          "p95_seconds": 0.2509425000171177,
+          "max_seconds": 0.341368000023067
+        }
+      }
+    }
+  },
+  "measurement_complete": true,
+  "notes": "Strict exact strings/actions; preservation checks are finite guards, not semantic proof.",
+  "corpus_measurement_complete": true,
+  "throughput_complete": true,
+  "policy_measurement_complete": false
+}

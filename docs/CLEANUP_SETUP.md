@@ -38,15 +38,19 @@ Standard still requires ASR ≤1.2 s and 0.8B ≥25 tokens/s, and low RAM/slow A
 keeps Lite. The co-loaded development CPU measured 21.2 tokens/s and remains
 Lite; no CPU Standard latency acceptance is claimed.
 
-Selection follows the five-artifact bake-off in [Models](MODELS.md): 0.8B scores
-431/432 strict golden cases and 2B scores 429/432, both with zero finite native
-preservation-guard failures across 100 adversarial inputs. Pro chooses the smallest model in the spec's
-2B–4B range: its 302 accepted exact cases beat 0.8B's 297 in the common forced
-comparison, while 4B/Gemma artifacts show no quality benefit on this corpus.
-The gated RTX recipe subsequently scores 432/432 with 213 accepted replies.
-These are corpus/artifact results, not owner accuracy or broad power-feature
-acceptance. Subsequent runtime changes still require current-source policy
-evidence before the mandatory native CI gate can be enabled.
+The catalog choices remain conditional. The current five-artifact comparison in
+[Models](MODELS.md) scores 0.8B at 555/556 strict golden cases and 2B at 553/556
+on both CPU and RTX. These totals include rules bypass/fallback. Pro offers the
+smallest candidate in the spec's 2B–4B range; 2B uses less host memory and decodes
+faster than Gemma E2B on this machine. The smaller 0.8B has the higher strict
+golden total, so these results do not establish superior 2B quality.
+
+The current RTX 2B production-policy run scores 556/556 with 269 accepted model
+replies. CPU 0.8B stopped after 186 cases following a timeout, with zero accepted
+replies; it cannot qualify the combined CPU/RTX recommendation. Both the complete
+and failed reports remain [retained evidence](CLEANUP_EVIDENCE.md). Hardware-tier,
+co-loaded ASR and release-latency acceptance remain open. The mandatory native
+evidence CI gate stays pending; its requirements have not been relaxed.
 
 `cleanup_bundle(model_id, backend)` provides both licensed components and exact
 transfer sizes, including the runtime archive rather than its unpacked size.

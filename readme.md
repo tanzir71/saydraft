@@ -41,6 +41,11 @@ qualification are tracked separately:
 See the [documentation index](docs/README.md) for individual features and the
 [parity plan](WISPR_OFFLINE_PARITY_PLAN.md) for the complete acceptance status.
 
+The latest [cleanup measurements](docs/CLEANUP_EVIDENCE.md) retain all ten
+CPU/RTX model comparisons, a complete RTX policy run, and a failed partial CPU
+policy run. The combined qualification remains open; benchmark completion alone
+does not establish app latency or a model default.
+
 ## What works today
 
 - **Local dictation:** Parakeet or Whisper recognition, hold-to-talk and
