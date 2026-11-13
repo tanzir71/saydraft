@@ -3,6 +3,8 @@
 from PySide6 import QtCore, QtWidgets
 
 from .home_page import HomePage
+from saydraft.data.notes import NoteStore
+from .notes_page import NotesPage
 from .history_page import HistoryPage
 from .settings_page import SettingsPage
 from .icons import line_icon
@@ -68,14 +70,8 @@ class HubWindow(QtWidgets.QWidget):
                     self.page_widgets[name] = page
                     break
         self.settings_page.sync_sections()
-        notes = QtWidgets.QWidget()
-        note_layout = QtWidgets.QVBoxLayout(notes)
-        title = QtWidgets.QLabel("Notes")
-        title.setProperty("role", "display")
-        note_layout.addWidget(title)
-        note_layout.addWidget(QtWidgets.QLabel("No notes saved yet."))
-        note_layout.addStretch()
-        self.page_widgets.update(Notes=notes, Settings=self.settings_page)
+        self.notes_page = NotesPage(NoteStore(database) if database is not None else None)
+        self.page_widgets.update(Notes=self.notes_page, Settings=self.settings_page)
         for name in _ICONS:
             self.pages.addWidget(self.page_widgets[name])
         self.footer = QtWidgets.QWidget()
@@ -117,6 +113,8 @@ class HubWindow(QtWidgets.QWidget):
             self.home_page.refresh()
         elif name == "History":
             self.history_page.refresh()
+        elif name == "Notes":
+            self.notes_page.refresh()
         elif name == "Settings":
             self.settings_page.refresh_privacy()
 

@@ -19,6 +19,8 @@ CONFIG_SCHEMA: dict[str, Any] = {
         "speech_mouse": str,
         "hands_free": str,
         "paste_last": str,
+        "scratchpad": str,
+        "view_diff": str,
         "save": str,
         "cancel": str,
         "tap_lock_ms": int,
@@ -95,6 +97,8 @@ _DEFAULT_CONFIG: dict[str, Any] = {
         "speech_mouse": "xbutton1",
         "hands_free": "ctrl+win+space",
         "paste_last": "shift+alt+z",
+        "scratchpad": "win+alt+s",
+        "view_diff": "ctrl+win+d",
         "save": "f10",
         "cancel": "esc",
         "tap_lock_ms": 300,
@@ -244,6 +248,19 @@ def sanitize_config(config: dict[str, Any] | None) -> dict[str, Any]:
         # Old profiles keep their key order and never acquire mouse interception.
         defaults["hotkeys"].update(speech="f9", speech_alternative="ctrl+win", speech_mouse="")
     cfg = _sanitize_mapping(source, CONFIG_SCHEMA, defaults)
+    if isinstance(hotkeys, dict) and hotkeys:
+        # Newly introduced actions must not take over an owner's custom binding.
+        from .hotkeys.recording import validate_hotkeys
+        candidate = dict(cfg['hotkeys'])
+        missing = [name for name in ('scratchpad', 'view_diff') if name not in hotkeys]
+        for name in missing:
+            candidate[name] = ''
+        for name in missing:
+            proposed = {**candidate, name: defaults['hotkeys'][name]}
+            if validate_hotkeys(proposed):
+                cfg['hotkeys'][name] = ''
+            else:
+                candidate = proposed
     if cfg["app"]["tier"] not in ("auto", "lite", "standard", "pro"):
         cfg["app"]["tier"] = "auto"
     from .audio.devices import InputSelection
@@ -317,6 +334,10 @@ def migrate_settings_txt(
         default_value = _DEFAULT_CONFIG[section_name][field_name]
         section[field_name] = _coerce_legacy_value(values[legacy_key], default_value)
 
+    for name in ('scratchpad', 'view_diff'):
+        # Legacy text files have no way to explicitly configure these actions.
+        if name not in base_config.get('hotkeys', {}) or base_config['hotkeys'][name] == _DEFAULT_CONFIG['hotkeys'][name]:
+            cfg['hotkeys'].pop(name, None)
     return sanitize_config(cfg)
 
 

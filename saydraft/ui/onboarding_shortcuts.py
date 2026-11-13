@@ -13,7 +13,8 @@ from saydraft.hotkeys.wispr import shortcut_warning, wispr_running
 _PRESET = {"speech": "ctrl+win", "hands_free": "ctrl+win+space", "paste_last": "shift+alt+z"}
 _NAMES = {"speech": "Hold to dictate", "speech_alternative": "Alternate dictation",
           "speech_mouse": "Mouse dictation", "hands_free": "Hands-free",
-          "paste_last": "Paste last", "save": "History capture", "cancel": "Cancel"}
+          "paste_last": "Paste last", "scratchpad": "Scratchpad", "view_diff": "View last diff",
+          "save": "History capture", "cancel": "Cancel"}
 
 
 class OnboardingShortcutsPage(QtWidgets.QWizardPage):

@@ -1,10 +1,18 @@
-# Local database v2
+# Local database v3
 
 Startup migrates the Saydraft history copy in place using an additive transaction.
 Before changing an existing schema, SQLite's backup API writes
 `history.db.bak-<UTC timestamp>-<unique suffix>`, including committed WAL data.
 Backups are retained. Newer, unsupported schema versions are refused without
 modification. Failed migrations roll back their schema and data changes.
+
+Schema v3 adds `notes` and `note_state`, with an index for recent notes. Note
+writes and deletes require the expected revision; conflicts preserve the stored
+row and unsaved draft. Unknown Notes schemas are refused before mutation.
+Migration takes its SQLite writer reservation before inspecting the schema, so
+competing initializers read the committed version in order. Backup uses a
+separate read connection while that reservation prevents another writer from
+changing the pre-migration snapshot. See [Scratchpad and Notes](NOTES.md).
 
 The original history columns and unknown owner columns/tables remain intact.
 New columns record app identity/group, style/intensity, language, ASR/LLM choices,

@@ -249,6 +249,10 @@ class SettingsPage(QtWidgets.QWidget):
         self.paste_last_hotkey_edit = QtWidgets.QLineEdit()
         self.paste_last_hotkey_edit.setPlaceholderText("shift+alt+z; blank disables")
         self.paste_last_hotkey_edit.setToolTip("Paste the latest saved transcript into the current field after releasing the shortcut.")
+        self.scratchpad_hotkey_edit = QtWidgets.QLineEdit()
+        self.scratchpad_hotkey_edit.setPlaceholderText('win+alt+s; blank disables')
+        self.view_diff_hotkey_edit = QtWidgets.QLineEdit()
+        self.view_diff_hotkey_edit.setPlaceholderText('ctrl+win+d; blank disables')
         self.save_hotkey_edit = QtWidgets.QLineEdit()
         self.cancel_hotkey_edit = QtWidgets.QLineEdit()
         self.tap_lock_spin = QtWidgets.QSpinBox()
@@ -262,11 +266,14 @@ class SettingsPage(QtWidgets.QWidget):
         form.addRow("Mouse recording shortcut", self.mouse_hotkey_edit)
         form.addRow("Hands-free shortcut", self.hands_free_hotkey_edit)
         form.addRow("Paste last transcript", self.paste_last_hotkey_edit)
+        form.addRow('Open Scratchpad', self.scratchpad_hotkey_edit)
+        form.addRow('View last diff', self.view_diff_hotkey_edit)
         self.shortcut_warning_label = QtWidgets.QLabel()
         self.shortcut_warning_label.setWordWrap(True)
         form.addRow(self.shortcut_warning_label)
         for edit in (self.speech_hotkey_edit, self.alternative_hotkey_edit, self.mouse_hotkey_edit,
-                     self.hands_free_hotkey_edit, self.paste_last_hotkey_edit, self.save_hotkey_edit, self.cancel_hotkey_edit):
+                     self.hands_free_hotkey_edit, self.paste_last_hotkey_edit, self.scratchpad_hotkey_edit,
+                     self.view_diff_hotkey_edit, self.save_hotkey_edit, self.cancel_hotkey_edit):
             edit.textChanged.connect(lambda text: self._show_shortcut_warning())
         form.addRow("Save hotkey", self.save_hotkey_edit)
         form.addRow("Cancel hotkey", self.cancel_hotkey_edit)
@@ -480,6 +487,8 @@ class SettingsPage(QtWidgets.QWidget):
         self.mouse_hotkey_edit.setText(cfg["hotkeys"]["speech_mouse"])
         self.hands_free_hotkey_edit.setText(cfg["hotkeys"]["hands_free"])
         self.paste_last_hotkey_edit.setText(cfg["hotkeys"]["paste_last"])
+        self.scratchpad_hotkey_edit.setText(cfg['hotkeys']['scratchpad'])
+        self.view_diff_hotkey_edit.setText(cfg['hotkeys']['view_diff'])
         self.save_hotkey_edit.setText(cfg["hotkeys"]["save"])
         self.cancel_hotkey_edit.setText(cfg["hotkeys"]["cancel"])
         self.tap_lock_spin.setValue(int(cfg["hotkeys"]["tap_lock_ms"]))
@@ -587,6 +596,7 @@ class SettingsPage(QtWidgets.QWidget):
                   "speech_mouse": self.mouse_hotkey_edit.text(), "save": self.save_hotkey_edit.text(),
                   "hands_free": self.hands_free_hotkey_edit.text(),
                   "paste_last": self.paste_last_hotkey_edit.text(),
+                  'scratchpad': self.scratchpad_hotkey_edit.text(), 'view_diff': self.view_diff_hotkey_edit.text(),
                   "cancel": self.cancel_hotkey_edit.text()}
         warning = shortcut_warning(values, detector=lambda: getattr(self, "_wispr_running", None))
         self.shortcut_warning_label.setText(warning)
@@ -602,6 +612,8 @@ class SettingsPage(QtWidgets.QWidget):
         cfg["hotkeys"]["speech_mouse"] = self.mouse_hotkey_edit.text().strip()
         cfg["hotkeys"]["hands_free"] = self.hands_free_hotkey_edit.text().strip()
         cfg["hotkeys"]["paste_last"] = self.paste_last_hotkey_edit.text().strip()
+        cfg['hotkeys']['scratchpad'] = self.scratchpad_hotkey_edit.text().strip()
+        cfg['hotkeys']['view_diff'] = self.view_diff_hotkey_edit.text().strip()
         cfg["hotkeys"]["save"] = self.save_hotkey_edit.text().strip()
         cfg["hotkeys"]["cancel"] = self.cancel_hotkey_edit.text().strip()
         cfg["hotkeys"]["tap_lock_ms"] = int(self.tap_lock_spin.value())

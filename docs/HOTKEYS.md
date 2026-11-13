@@ -1,5 +1,13 @@
 # Native Windows hotkeys
 
+**Win+Alt+S** opens Scratchpad and **Ctrl+Win+D** opens the latest global History
+diff. Both are rebindable or explicitly disabled in Settings. Native actions
+fire once on physical release, after prefix recording cancellation where needed;
+reset/superseded transitions cannot open a tool. GUI delivery uses a revocable
+request ticket, so a queued action cannot reopen a window after stop/restart.
+Upgrades preserve custom shortcuts and disable a conflicting new default.
+Physical Windows/Start-menu acceptance remains open. See [Notes](NOTES.md).
+
 First-run setup now has explicit focused shortcut learning, a staged
 Wispr-compatible preset, manual entry and the shared native conflict validator.
 Its temporary capture hook reserves the idle worker and publishes a chord only

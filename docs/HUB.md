@@ -30,7 +30,9 @@ shortcuts retain their widgets. Original vector icons avoid missing symbol
 glyphs and follow theme changes. Six model-label encoding artifacts are fixed;
 artifact URLs, hashes, versions, licenses and all other catalog data are unchanged.
 
-Notes currently has an empty state pending the Scratchpad and Notetaker producers.
+Notes now has background search, plain-text detail, New note, and Open in
+Scratchpad actions. Scratchpad autosaves locally with revision conflict recovery;
+see [Scratchpad and Notes](NOTES.md). Notetaker remains a future producer.
 The full remaining §8.3 features listed below are still outstanding; the shell
 and structured editors are not full P6.3 acceptance.
 
@@ -356,9 +358,9 @@ correctly rejected oversized bodies. Logs remain in permanent QA storage; the
 intermittent timeout's cause is unresolved. No loopback code or test deadline
 was changed for this History revision.
 
-Full §8.3 still requires Notes producers and the
+Full §8.3 still requires the Notetaker producer and the
 packaged firewall installation/native coverage requirement shared with P8.6. The later
-onboarding, Scratchpad/Notetaker and complete gallery/
+onboarding acceptance, physical Scratchpad shortcuts, Notetaker and complete gallery/
 accessibility milestones retain their original scope.
 
 Models now includes an Auto/Lite/Standard/Pro preference, separately preserved

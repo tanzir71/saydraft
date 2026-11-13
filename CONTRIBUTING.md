@@ -153,6 +153,21 @@ They also verify cached-tokenizer reuse and missing-tokenizer rejection while
 HTTP requests and account-token lookup are forbidden. Preserve any failed native
 probe reports; an isolated success does not erase a broader failure.
 
+### Scratchpad and Notes checks
+
+Use the offscreen/offline environment above and disposable profile databases:
+
+```powershell
+.venv\Scripts\python -m pytest tests/test_notes.py tests/test_note_draft.py tests/test_scratchpad.py tests/test_notes_shortcuts.py tests/test_notes_shell.py tests/test_last_diff.py tests/test_data_migrations.py tests/test_config.py tests/test_hub.py tests/test_qt_app_shell.py -q -rs
+```
+
+These exercise real local SQLite saves, migration backups, stale revisions,
+delayed writes, queued Qt acknowledgements, recoverable errors, synthetic native
+actions, Notes search/reopen, last-diff selection, and flushing the latest draft
+before Quit. They use fake clipboards and owned offscreen windows. Physical
+Win/Alt/Ctrl key and Start-menu acceptance is a separate manual session. See the
+[Notes guide](docs/NOTES.md).
+
 ### Reports and licensing
 
 Link to dated measurements rather than

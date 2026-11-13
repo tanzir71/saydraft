@@ -4,7 +4,7 @@ from contextlib import closing
 
 import pytest
 
-from saydraft.data.db import migrate_database
+from saydraft.data.db import SCHEMA_VERSION, migrate_database
 from saydraft.history import DictationHistoryStore, HistoryEntry
 
 V1_SQL = """CREATE TABLE dictations (
@@ -45,7 +45,7 @@ def test_additive_migration_preserves_every_history_value_and_unknown_owner_data
     assert report.backup_path.name.startswith("history.db.bak-")
     assert read(report.backup_path, "SELECT * FROM dictations ORDER BY id") == before
     assert read(report.backup_path, "PRAGMA user_version") == [(version,)]
-    assert read(path, "PRAGMA user_version") == [(2,)]
+    assert read(path, "PRAGMA user_version") == [(SCHEMA_VERSION,)]
     assert read(path, "SELECT sum(dictations), sum(words), sum(audio_seconds) FROM stats_daily") == [(2, 5, 7.0)]
 
 

@@ -207,6 +207,15 @@ class HistoryPage(QtWidgets.QWidget):
         self._clear_for_read()
         self.search_timer.start()
 
+    def show_last_diff(self):
+        """Select the latest global entry, independent of the current search/page."""
+        self._retry_follow_source = False
+        self.search_edit.blockSignals(True)
+        self.search_edit.clear()
+        self.search_edit.blockSignals(False)
+        self.diff_toggle.setChecked(True)
+        self._load_page(fresh=True, offset=0, selected_id=None)
+
     @property
     def loading(self):
         return self._loading or self._detail_loading or self.search_timer.isActive()

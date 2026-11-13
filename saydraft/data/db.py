@@ -1,4 +1,4 @@
-"""SQLite v2: additive migration, a consistent backup, and copy-only imports."""
+"""Additive SQLite migrations, consistent backups and copy-only imports."""
 
 from __future__ import annotations
 
@@ -8,12 +8,13 @@ import logging
 import sqlite3
 import uuid
 from collections import defaultdict
+from contextlib import closing
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 
 logger = logging.getLogger(__name__)
-SCHEMA_VERSION = 2
+SCHEMA_VERSION = 3
 HISTORY_METADATA = {
     "app_exe": "TEXT", "app_group": "TEXT", "style": "TEXT", "intensity": "INTEGER",
     "language": "TEXT", "asr_model": "TEXT", "llm_model": "TEXT", "llm_decision": "TEXT",
@@ -27,6 +28,12 @@ _BASE_HISTORY = """CREATE TABLE IF NOT EXISTS dictations (
     mode TEXT NOT NULL, profile TEXT NOT NULL, duration_seconds REAL, model TEXT NOT NULL
 )"""
 _TABLES = {
+    "notes": """CREATE TABLE IF NOT EXISTS notes (
+        id TEXT PRIMARY KEY, kind TEXT NOT NULL, title TEXT NOT NULL, body TEXT NOT NULL,
+        search_text TEXT NOT NULL, created_at TEXT NOT NULL, updated_at TEXT NOT NULL,
+        revision INTEGER NOT NULL CHECK(revision > 0))""",
+    "note_state": """CREATE TABLE IF NOT EXISTS note_state (
+        name TEXT PRIMARY KEY, note_id TEXT NOT NULL)""",
     "dictionary": """CREATE TABLE IF NOT EXISTS dictionary (
         id INTEGER PRIMARY KEY, term TEXT NOT NULL, normalized TEXT NOT NULL,
         kind TEXT NOT NULL, replacement TEXT, source TEXT NOT NULL DEFAULT 'manual',
@@ -58,16 +65,16 @@ class MigrationReport:
     imported: dict[str, int]
 
 
-def _backup(connection, path: Path) -> Path:
+def _backup(path: Path) -> Path:
     stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     target = path.with_name(f"{path.name}.bak-{stamp}-{uuid.uuid4().hex[:8]}")
     with target.open("xb"):
         pass
-    backup = sqlite3.connect(target)
-    try:
-        connection.backup(backup)
-    finally:
-        backup.close()
+    with closing(sqlite3.connect(target)) as backup, closing(sqlite3.connect(path, timeout=10)) as source:
+        # The migration connection already owns the writer reservation. A
+        # separate reader can copy its pre-change snapshot without waiting on
+        # that connection's active write transaction.
+        source.backup(backup)
     return target
 
 
@@ -76,17 +83,28 @@ def migrate_database(path: str | Path, *, import_paths: dict[str, Path] | None =
     path.parent.mkdir(parents=True, exist_ok=True)
     connection = sqlite3.connect(path, timeout=10)
     try:
+        # Serialize competing initializers before inspecting schema metadata.
+        connection.execute('BEGIN IMMEDIATE')
         version = connection.execute("PRAGMA user_version").fetchone()[0]
         if version > SCHEMA_VERSION:
             raise ValueError("This history database requires a newer version of Saydraft")
         tables = {row[0] for row in connection.execute("SELECT name FROM sqlite_master WHERE type='table'")}
         columns = {row[1] for row in connection.execute("PRAGMA table_info(dictations)")}
         indexes = {row[0] for row in connection.execute("SELECT name FROM sqlite_master WHERE type='index'")}
+        for table, required in (("notes", {"id", "kind", "title", "body", "search_text", "created_at", "updated_at", "revision"}),
+                                ("note_state", {"name", "note_id"})):
+            if table in tables:
+                info = {row[1]: row for row in connection.execute(f'PRAGMA table_info("{table}")')}
+                primary = 'id' if table == 'notes' else 'name'
+                if (not required.issubset(info) or {name for name, row in info.items() if row[5]} != {primary}
+                        or any(not info[name][3] for name in required - {primary})
+                        or any(info[name][2].upper() != ('INTEGER' if name == 'revision' else 'TEXT') for name in required)):
+                    raise ValueError("Unrecognized Notes schema; existing data has been preserved")
         needs_schema = (version < SCHEMA_VERSION or not set(HISTORY_METADATA).issubset(columns)
-                        or not set(_TABLES).issubset(tables) or "idx_dictations_audio_path" not in indexes)
-        backup_path = _backup(connection, path) if needs_schema and tables else None
+                        or not set(_TABLES).issubset(tables) or "idx_dictations_audio_path" not in indexes
+                        or "idx_notes_updated" not in indexes)
+        backup_path = _backup(path) if needs_schema and tables else None
         with connection:
-            connection.execute("BEGIN IMMEDIATE")
             connection.execute(_BASE_HISTORY)
             for name, declaration in HISTORY_METADATA.items():
                 if name not in columns:
@@ -94,6 +112,7 @@ def migrate_database(path: str | Path, *, import_paths: dict[str, Path] | None =
             for statement in _TABLES.values():
                 connection.execute(statement)
             connection.execute("CREATE INDEX IF NOT EXISTS idx_dictations_audio_path ON dictations(audio_path) WHERE audio_path IS NOT NULL")
+            connection.execute("CREATE INDEX IF NOT EXISTS idx_notes_updated ON notes(updated_at DESC, id DESC)")
             connection.execute("UPDATE dictations SET asr_model = model WHERE asr_model IS NULL")
             if "stats_daily" not in tables:
                 _backfill_stats(connection)

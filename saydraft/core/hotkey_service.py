@@ -5,6 +5,7 @@ from __future__ import annotations
 import logging
 import threading
 import weakref
+from dataclasses import dataclass
 
 from saydraft.hotkeys import HotkeyConfig, HotkeyController
 from saydraft.hotkeys.wispr import shortcut_warning
@@ -12,15 +13,22 @@ from saydraft.hotkeys.wispr import shortcut_warning
 logger = logging.getLogger(__name__)
 
 
+@dataclass(frozen=True)
+class UtilityShortcutRequest:
+    action: str
+    ticket: object
+
+
 class HotkeyService:
     def __init__(self, config, *, start, stop, cancel, save, notify, keyboard_module=None,
                  stop_timed=None, native_factory=None, stop_session=None, timer_factory=threading.Timer, paste=None,
-                 start_guarded=None):
+                 start_guarded=None, ui_request=None):
         self.config = config
         self.start_recording = start
         self.start_guarded = start_guarded
         self._requests_cancelled = threading.Event()
         self._start_guard = None
+        self.ui_request, self._ui_ticket = ui_request, object()
         self.stop_recording = stop
         self.cancel_recording = cancel
         self.save = save
@@ -47,7 +55,8 @@ class HotkeyService:
                                     else self.stop_recording()),
                                 on_record_cancel=self.cancel_recording, on_save=self._save_if_allowed,
                                 on_backend_failure=self._native_failed, native_factory=self.native_factory,
-                                timer_factory=self.timer_factory, on_paste=self._paste_if_allowed if self.paste is not None else None)
+                                timer_factory=self.timer_factory, on_paste=self._paste_if_allowed if self.paste is not None else None,
+                                on_utility=self._request_ui if self.ui_request is not None else None)
 
     def _allowed(self, guard=None):
         return not self._requests_cancelled.is_set() and (guard is None or bool(guard()))
@@ -70,6 +79,23 @@ class HotkeyService:
     def revoke_requests(self):
         """Immediate admission gate; native teardown may finish in the background."""
         self._requests_cancelled.set()
+        with self._lock:
+            self._ui_ticket = object()
+
+    def _request_ui(self, action):
+        with self._lock:
+            if not self.enabled or not self._allowed(self._start_guard) or action not in ('scratchpad', 'view_diff'):
+                return False
+            request = UtilityShortcutRequest(action, self._ui_ticket)
+        if self.ui_request is not None:
+            self.ui_request(request)
+            return True
+        return False
+
+    def is_current_ui_request(self, request):
+        with self._lock:
+            return (isinstance(request, UtilityShortcutRequest) and request.ticket is self._ui_ticket
+                and request.action in ('scratchpad', 'view_diff') and self.enabled and self._allowed(self._start_guard))
 
     def _native_failed(self, reason):
         self._failure_reason = reason  # Notification/recovery waits for the completion thread.
@@ -81,6 +107,7 @@ class HotkeyService:
             if valid is not None and not valid():
                 return
             self._requests_cancelled.clear()
+            self._ui_ticket = object()
             self._start_guard = valid
             try:
                 self._controller.start(self.keyboard)

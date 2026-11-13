@@ -28,13 +28,13 @@ The existing `tools/build.ps1` is a legacy helper awaiting that work, not the
 supported installation path.
 
 Core dictation and the Hub are available from source. Owner accuracy acceptance
-is deferred, and Notes is currently a placeholder. Implementation and remaining
+is deferred. Implementation and remaining
 qualification are tracked separately:
 
 | Available from source | Still in progress |
 |---|---|
 | Local dictation, rules cleanup, optional local AI cleanup | Current-model quality and release latency qualification |
-| Hub, History, Dictionary, Snippets, per-app Style | Notes, Scratchpad, Command, Translate, Ask, Notetaker |
+| Hub, History, Dictionary, Snippets, Style, Scratchpad and Notes | Command, Translate, Ask, Notetaker |
 | Six-page setup, verified downloads, model performance check | Fresh-profile and physical Windows acceptance |
 | Public website and setup guide | Packaged installer, signing, automatic updates |
 
@@ -52,6 +52,9 @@ See the [documentation index](docs/README.md) for individual features and the
   describe the allowed edits and the broader Polished setting.
 - **One Hub:** Home statistics and recent dictations; searchable History with
   raw/cleaned changes, Markdown/CSV export, and retry when audio was retained.
+- **Scratchpad and Notes:** a floating plain-text draft with local autosave,
+  searchable notes, and revision conflict recovery. A shortcut also opens the
+  last dictation's changes. See the [Notes guide](docs/NOTES.md).
 - **Personal vocabulary:** searchable Dictionary terms, protected terms, and
   replacement pairs; Snippets with date/clipboard variables and import/export.
 - **Guided first launch:** microphone selection and a level-only test, focused
@@ -168,6 +171,8 @@ change them in **Hub → Settings → Shortcuts**.
 | XButton1 | Configurable mouse hold-to-talk shortcut |
 | Ctrl + Win + Space | Toggle hands-free dictation |
 | Shift + Alt + Z | Paste the last dictation |
+| Win + Alt + S | Open Scratchpad |
+| Ctrl + Win + D | View the last dictation's changes |
 | F10 | Capture to History without foreground insertion |
 | Esc | Cancel the current recording |
 
@@ -187,7 +192,7 @@ release work. See [the privacy boundary](docs/PRIVACY.md).
 | Data | Default location |
 |---|---|
 | Configuration | `%LOCALAPPDATA%\Saydraft\config.json` |
-| History | `%LOCALAPPDATA%\Saydraft\history.db` |
+| History and Notes | `%LOCALAPPDATA%\Saydraft\history.db` |
 | Logs | `%LOCALAPPDATA%\Saydraft\logs\saydraft.log` |
 | Audio, only when retention is enabled | `%LOCALAPPDATA%\Saydraft\audio` |
 | New model installations | `%LOCALAPPDATA%\Saydraft\models\<id>\<version>` |

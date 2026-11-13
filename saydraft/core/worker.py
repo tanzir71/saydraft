@@ -87,7 +87,8 @@ class SessionWorker:
                                      keyboard_module=keyboard_module,
                                      stop_session=lambda result: self.stop_recording(
                                          released_at=result.stopped_at, session_id=result.session_id),
-                                     timer_factory=timer_factory, paste=self.paste_last)
+                                     timer_factory=timer_factory, paste=self.paste_last,
+                                     ui_request=lambda request: self.emit('utility_requested', request))
         self._prepare_context()
         self._warm_cleanup()
         self._start_audio_retention()

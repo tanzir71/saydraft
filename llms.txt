@@ -73,7 +73,7 @@ Normal post-rules AI cleanup at intensities 1–3 checks content-word identity a
 3. History stores raw and cleaned text before attempted delivery into the original target. Focus changes, protected fields, and elevated targets can prevent delivery; saved text remains reviewable in History.
 4. Shift+Alt+Z pastes the last dictation. F10 captures to History without foreground insertion. Fresh profiles warn at 19 minutes and cap recordings at 20; saved custom bindings/limits remain unchanged.
 
-One Hub contains Home statistics/recent dictations, global History search/changes/export/retry, Dictionary, Snippets, Style, Notes, and Settings. Notes is currently a placeholder. Command, Translate, Ask, Scratchpad, and Notetaker remain roadmap work.
+One Hub contains Home statistics/recent dictations, global History search/changes/export/retry, Dictionary, Snippets, Style, Notes, and Settings. Win+Alt+S opens a floating plain-text Scratchpad with local autosave; Hub Notes supports search and reopening notes. Ctrl+Win+D opens the latest global History diff. Both actions can be rebound/disabled; queued requests are revoked on stop/restart. Saving/new/open/close/Quit wait for current edits, and revision conflicts retain unsaved text with save-as-new recovery. Notes share schema v3 history.db without adding dictation entries or Home statistics. See docs/NOTES.md. Physical Windows shortcut acceptance remains open; Command, Translate, Ask, and Notetaker remain roadmap work.
 
 ## Privacy and evidence
 

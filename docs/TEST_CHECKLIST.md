@@ -21,6 +21,9 @@ Require zero failures, all 556 current rules cases, and all 100 authored
 adversarial cases. Record the commit, test count, and every skip with each run;
 optional model/native skips require their separate fixtures and acceptance.
 CI prepares its pinned VAD fixture explicitly. Other real-model measurements
+are separate. Its disposable checkout uses
+`python -m pytest tests -q -rs --basetemp=build/pytest` so owned-window native
+reports can be retained after the test step. Other measurements
 are described in [evaluation](EVALUATION.md), [models](MODELS.md), and
 [cleanup evidence](CLEANUP_EVIDENCE.md); these gates do not establish owner ASR
 accuracy, end-to-end latency, or manual Windows acceptance.
@@ -29,6 +32,19 @@ For the connected setup flow and its optional bundled-audio Parakeet smoke, use
 the [focused first-run commands](../CONTRIBUTING.md#first-run-setup-checks).
 They exercise synthetic hooks/input and queued UI with a private configuration;
 the real recognizer case needs an explicit, already installed fixture root.
+
+Scratchpad/Notes, revision conflicts, migration backups, queued-save ordering,
+last-diff selection and Quit flushing have their own
+[focused checks](../CONTRIBUTING.md#scratchpad-and-notes-checks). They use
+synthetic hooks, fake clipboards and owned offscreen windows. Physical P6.5
+shortcut and Start-menu acceptance remains manual.
+
+Owned-window UIA probes prepare only their own invisible fixture providers
+before testing context/observation reads. Setup has a separate two-second bound;
+each timeout and attempt is retained in `provider_setup`. Production connection
+and transaction timeouts remain 100 ms. CI retains the three JSON probe reports
+as `owned-window-native-diagnostics`, including on failure. This preparation
+does not establish cold-provider or foreground-app latency acceptance.
 
 ## Manual App Matrix
 

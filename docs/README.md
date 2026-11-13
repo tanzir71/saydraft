@@ -7,7 +7,7 @@ Start with the [project README](../readme.md),
 The active roadmap is [WISPR_OFFLINE_PARITY_PLAN.md](../WISPR_OFFLINE_PARITY_PLAN.md).
 Its Loop State distinguishes implementation, acceptance, remaining decisions,
 and dated evidence. Installer/signing, onboarding permission/manual acceptance,
-Notes producers, several power features, and native/manual acceptance remain open.
+Notetaker, several power features, and native/manual acceptance remain open.
 Use the plan for the complete status; an implemented component is not full
 milestone acceptance.
 
@@ -39,6 +39,7 @@ including the optional public-audio recognizer smoke.
 | [Snippets](SNIPPETS.md) | Triggers, variables, import/export, and SQLite adoption |
 | [Dictionary learning](DICTIONARY_LEARNING.md) | Vocabulary, correction learning, and Undo |
 | [Delivery](DELIVERY.md) | Focus checks, protected/elevated targets, and insertion fallbacks |
+| [Scratchpad and Notes](NOTES.md) | Local autosave, search/reopen, conflict recovery, and the last-diff shortcut |
 
 ## Models, privacy, and data
 

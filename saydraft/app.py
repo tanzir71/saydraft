@@ -54,6 +54,7 @@ def create_worker_signals(QtCore):
         style_preview_finished = QtCore.Signal(object)
         bar_updated = QtCore.Signal(object)
         listening_changed = QtCore.Signal(bool)
+        utility_requested = QtCore.Signal(object)
 
     return SaydraftWorkerSignals()
 
@@ -167,6 +168,9 @@ class WorkerController:
     def history_store(self):
         return self.core.services.history if self.core else None
 
+    def is_current_ui_request(self, request):
+        return bool(self.core and self.core.hotkeys.is_current_ui_request(request))
+
     def retry_history_audio(self, row, options=None):
         return bool(self.core and (self.core.retry_history(row) if options is None else self.core.retry_history(row, options)))
 
@@ -267,6 +271,7 @@ class SaydraftApp:
         settings_window_factory: Callable[..., object] | None = None,
         history_window_factory: Callable[..., object] | None = None,
         hub_window_factory: Callable[..., object] | None = None,
+        scratchpad_window_factory: Callable[..., object] | None = None,
         onboarding_window_factory: Callable[..., object] | None = None,
         config_loader: Callable[..., dict] | None = None,
         config_path=None,
@@ -282,6 +287,7 @@ class SaydraftApp:
         self.settings_window_factory = settings_window_factory or SettingsPage
         self.history_window_factory = history_window_factory or HistoryPage
         self.hub_window_factory = hub_window_factory or HubWindow
+        self.scratchpad_window_factory = scratchpad_window_factory
         self.onboarding_window_factory = onboarding_window_factory or OnboardingWizard
         self.config_loader = config_loader or load_config
         self.config_path = config_path
@@ -297,6 +303,7 @@ class SaydraftApp:
         self.settings_window = None
         self.history_window = None
         self.hub_window = None
+        self.scratchpad_window = None
         self.onboarding_window = None
         self.config = None
         self.crash_guard = None
@@ -328,7 +335,7 @@ class SaydraftApp:
                 stop_listening=self._stop_listening,
                 show_history=self._show_history,
                 show_settings=self._show_settings,
-                quit_app=getattr(application, "quit", lambda: None),
+                quit_app=self._request_quit,
             ),
             model_label=self._controller_model_label(),
         )
@@ -375,8 +382,10 @@ class SaydraftApp:
         self.signals.history_updated.connect(self._refresh_history)
         if hasattr(qt_modules.QtCore, "Qt"):
             self.signals.dictionary_changed.connect(self._refresh_dictionary, qt_modules.QtCore.Qt.QueuedConnection)
+            self.signals.utility_requested.connect(self._utility_requested, qt_modules.QtCore.Qt.QueuedConnection)
         else:
             self.signals.dictionary_changed.connect(self._refresh_dictionary)
+            self.signals.utility_requested.connect(self._utility_requested)
         self.signals.history_retry_finished.connect(self._finish_history_retry)
         self.signals.hardware_benchmark_finished.connect(self._finish_hardware_benchmark)
         self.signals.preview_text_changed.connect(self._show_preview)
@@ -507,6 +516,46 @@ class SaydraftApp:
     def _show_history(self) -> None:
         self._show_hub("History")
 
+    def _utility_requested(self, request):
+        current = getattr(self.controller, 'is_current_ui_request', None)
+        if current is None or not current(request):
+            return
+        if request.action == 'scratchpad':
+            self._show_scratchpad()
+        elif request.action == 'view_diff':
+            self._show_hub('History')
+            self.history_window.show_last_diff()
+
+    def _ensure_scratchpad(self):
+        self._ensure_hub()
+        if self.scratchpad_window is None:
+            from .ui.scratchpad import ScratchpadWindow
+            store = self.hub_window.notes_page.store
+            if store is None:
+                self.signals.notification_requested.emit('Notes storage is unavailable. Reopen Saydraft and try again.')
+                return False
+            self.scratchpad_window = (self.scratchpad_window_factory or ScratchpadWindow)(
+                store, clipboard=getattr(self.history_window, 'clipboard', None))
+            self.scratchpad_window.saved.connect(self.hub_window.notes_page.refresh)
+            self.scratchpad_window.notes_requested.connect(lambda: self._show_hub('Notes'))
+            self.qt_app.aboutToQuit.connect(self.scratchpad_window.shutdown)
+        return True
+
+    def _show_scratchpad(self, identifier=None):
+        if self._ensure_scratchpad():
+            self.scratchpad_window.present(identifier)
+
+    def _new_scratchpad(self):
+        if self._ensure_scratchpad():
+            self.scratchpad_window.present(new=True)
+
+    def _request_quit(self):
+        quit_app = getattr(self.qt_app, 'quit', lambda: None)
+        if self.scratchpad_window is not None:
+            return self.scratchpad_window.flush_then(quit_app)
+        quit_app()
+        return True
+
     def _refresh_history(self, row_id):
         if self.hub_window is not None:
             self.hub_window.refresh()
@@ -573,6 +622,10 @@ class SaydraftApp:
                 shortcut=self._controller_hotkey_hint, model=self._controller_model_label, tier=self._hub_tier)
             self.settings_window = self.hub_window.settings_page
             self.history_window = self.hub_window.history_page
+            notes = getattr(self.hub_window, 'notes_page', None)
+            if notes is not None:
+                notes.open_requested.connect(self._show_scratchpad)
+                notes.new_requested.connect(self._new_scratchpad)
             microphone = getattr(self.settings_window,"microphone_page",None)
             if microphone is not None:
                 for name, slot in (("microphone_test_status",microphone.accept_status),

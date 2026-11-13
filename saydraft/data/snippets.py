@@ -54,7 +54,7 @@ class SnippetStore:
         with self.connect() as connection:
             if not connection.execute("SELECT 1 FROM legacy_imports WHERE source_path=?", (CANONICAL_SOURCE,)).fetchone():
                 # Preserve the pre-adoption database, including old copied rows.
-                _backup(connection, self.path)
+                _backup(self.path)
                 connection.execute("BEGIN IMMEDIATE")
                 if connection.execute("SELECT 1 FROM legacy_imports WHERE source_path=?", (CANONICAL_SOURCE,)).fetchone():
                     return  # Another adopter committed while the backup was made.

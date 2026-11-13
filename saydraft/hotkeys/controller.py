@@ -28,6 +28,8 @@ class HotkeyConfig:
     mouse_record_hotkey: str | None = None
     hands_free_hotkey: str | None = None
     paste_last_hotkey: str | None = None
+    scratchpad_hotkey: str | None = None
+    view_diff_hotkey: str | None = None
 
     @classmethod
     def from_app_config(cls, config: dict[str, Any]) -> "HotkeyConfig":
@@ -43,6 +45,8 @@ class HotkeyConfig:
             mouse_record_hotkey=str(hotkeys.get("speech_mouse", "")),
             hands_free_hotkey=str(hotkeys.get("hands_free", "")),
             paste_last_hotkey=str(hotkeys.get("paste_last", "")),
+            scratchpad_hotkey=str(hotkeys.get("scratchpad", "")),
+            view_diff_hotkey=str(hotkeys.get("view_diff", "")),
         )
 
 
@@ -75,10 +79,12 @@ class HotkeyController:
         timer_factory=threading.Timer,
         on_paste=None,
         on_record_start_guarded=None,
+        on_utility=None,
     ):
         self.config = config or HotkeyConfig()
         self.on_record_start = on_record_start
         self.on_record_start_guarded = on_record_start_guarded
+        self.on_utility = on_utility
         self.on_record_stop = on_record_stop
         self.on_record_cancel = on_record_cancel
         self.clock = clock
@@ -188,7 +194,10 @@ class HotkeyController:
                 press=self._on_record_press, release=self._on_record_release, cancel=self._on_cancel_press,
                 save=self.on_save, failure=self._native_failed, factory=self._native_factory,
                 hands_free_key=self.config.hands_free_hotkey, toggle=self._on_hands_free_press,
-                paste_key=self.config.paste_last_hotkey, paste=self.on_paste)
+                paste_key=self.config.paste_last_hotkey, paste=self.on_paste,
+                utility_keys={name: key for name, key in (
+                    ('scratchpad', self.config.scratchpad_hotkey), ('view_diff', self.config.view_diff_hotkey))
+                    if key and self.on_utility is not None}, utility=self.on_utility)
             self._listening = True
         try:
             self._native.start()
@@ -232,6 +241,12 @@ class HotkeyController:
                 self._handles.append(self._keyboard.add_hotkey(
                     self.config.paste_last_hotkey, self.on_paste, trigger_on_release=True,
                     suppress=self.config.suppress, timeout=self.config.timeout))
+            if self.on_utility is not None:
+                for name, key in (('scratchpad', self.config.scratchpad_hotkey), ('view_diff', self.config.view_diff_hotkey)):
+                    if key:
+                        self._handles.append(self._keyboard.add_hotkey(key,
+                            lambda name=name: self.on_utility(name), trigger_on_release=True,
+                            suppress=self.config.suppress, timeout=self.config.timeout))
             if self.config.cancel_hotkey:
                 self._handles.append(
                     self._keyboard.add_hotkey(

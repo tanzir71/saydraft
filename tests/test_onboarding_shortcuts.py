@@ -233,6 +233,7 @@ def test_other_app_check_is_explicit_off_thread_and_advisory(subject):
 def test_checked_advisory_tracks_the_staged_chord_without_another_process_scan(subject):
     s = subject
     s.page.original["hands_free"] = "f7"
+    s.page.original['view_diff'] = ''  # Isolate the primary chord in this advisory test.
     assert s.page.check_other_apps()
     settle(lambda: s.page._probe_future is None)
     assert "Wispr Flow is running" in s.page.other_warning.text()
