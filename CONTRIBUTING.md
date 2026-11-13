@@ -81,6 +81,13 @@ original reports. Forced-generation quality, production-policy acceptance,
 decoder throughput, and release-to-insertion latency are separate measurements;
 rules fallback or a raw token rate cannot establish all four.
 
+Use [the cold/warm matrix](docs/LATENCY_MATRIX.md) for the written 3/10/30/90-second
+release-latency contract: `python -m tools.bench matrix --help`. It starts a fresh
+process per cold/warm pair, checks History before simulated paste and retains
+failed/partial evidence. Full recipes need twenty samples in each of eight cells,
+a pinned VAD bundle, declared isolation and clean unchanged source. The legacy
+`tools.bench --audio ...` command remains a scoped Whisper/rules smoke.
+
 ## Website and visual tokens
 
 The public Astro site lives in `site/` and is published at

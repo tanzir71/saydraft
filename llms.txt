@@ -89,5 +89,7 @@ The combined native soak at 2d96f62 completes 200 consecutive cycles with measur
 
 CONTRIBUTING.md includes focused setup checks and the optional SAYDRAFT_TEST_PARAKEET_V3_MODEL fixture root for a real-recognizer smoke using tests/fixtures/hello.wav. Synthetic hooks/input and private profiles keep this separate from owner microphone, clipboard, desktop and physical shortcut acceptance. The archived docs/history/CODEX_HANDOFF_v1.md describes earlier VoiceTray milestones; its defaults and loop instructions are superseded by the current root plan and source.
 
+tools.bench matrix implements the written 3/10/30/90-second cold/warm release-latency measurement with fresh processes, real-time public-fixture capture, the actual worker, SQLite-before-Inserter memory paste and observed native exits. Full runs require twenty samples in every cell, pinned VAD, isolation and clean unchanged source. Completion, latency, actual model use and decoder rates remain separate gates; debug runs cannot qualify. Full native matrix qualification remains pending. See docs/LATENCY_MATRIX.md; the historical warm 3/8/20-second probe retains its original scope.
+
 Built by Tanzir Rahman: https://tanziro.com
 Support: https://buymeacoffee.com/tanzir

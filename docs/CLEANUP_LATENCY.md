@@ -1,5 +1,9 @@
 # Release-to-delivery fixture replay
 
+For the written §11 3/10/30/90-second cold/warm matrix, use
+[`tools.bench matrix`](LATENCY_MATRIX.md). This page retains the earlier warm
+3/8/20-second probe and its historical evidence.
+
 `tools.probe_cleanup_latency` measures release through native Parakeet/language
 identification, production cleanup, SQLite History and checked stub insertion.
 It uses the bundled eight-second public fixture, replayed at 3/8/20 seconds,

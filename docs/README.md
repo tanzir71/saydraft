@@ -67,6 +67,7 @@ including the optional public-audio recognizer smoke.
 - [Evaluation](EVALUATION.md): cleanup harness, exact outputs, and action cases.
 - [Cleanup evidence](CLEANUP_EVIDENCE.md): source/corpus fingerprints and native evidence.
 - [Baseline](BASELINE.md): local latency/memory measurements and their limits.
+- [Cold/warm latency matrix](LATENCY_MATRIX.md): exact 3/10/30/90-second worker replays for each tier recipe.
 - [Hardware](HARDWARE.md): measurements and tier recommendations.
 - [Core refactor](CORE_REFACTOR.md): application boundaries and injected ports.
 - [Theme](THEME.md) and [fonts](FONTS.md): shared tokens, Qt rendering, and bundled typefaces.

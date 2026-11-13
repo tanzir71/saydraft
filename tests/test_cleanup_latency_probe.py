@@ -56,3 +56,14 @@ def test_streaming_feed_preserves_every_sample_and_real_audio_cadence():
 def test_streaming_feed_refuses_a_missing_background_callback():
     with pytest.raises(RuntimeError, match="callback unavailable"):
         probe.feed_capture(SimpleNamespace(audio=np.ones(1600), sample_rate=16000, chunk_callback=None))
+
+
+def test_matrix_feed_delivers_frames_only_after_their_samples_have_elapsed():
+    now, chunks = [10.0], []
+    capture = SimpleNamespace(audio=np.arange(3300, dtype=np.float32), sample_rate=16000,
+        chunk_callback=lambda chunk: chunks.append((now[0], chunk.copy())))
+    probe.feed_capture(capture, clock=lambda: now[0], sleep=lambda seconds: now.__setitem__(0, now[0] + seconds),
+                       deliver_after_frame=True)
+    np.testing.assert_array_equal(np.concatenate([chunk for _, chunk in chunks]), capture.audio)
+    assert [stamp for stamp, _ in chunks] == pytest.approx([10.1, 10.2, 10 + 3300 / 16000])
+    assert now[0] == pytest.approx(chunks[-1][0])

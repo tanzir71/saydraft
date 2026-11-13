@@ -34,6 +34,12 @@ paste checks, restored memory clipboard and observed sidecar exits in one runner
 Only a clean, isolated full run can earn its native regression gate. This scope
 uses synthetic capture/input and does not exercise the owner's clipboard.
 
+The [cold/warm latency matrix](LATENCY_MATRIX.md) uses `tools.bench matrix`
+for 3/10/30/90-second public-fixture replays with twenty independent process-cold
+and twenty warm samples per duration. Keep recipes serial and inspect completion,
+latency, actual model use and decoder gates separately. Debug/partial/dirty-source
+runs cannot qualify, and physical input/owner accuracy remain separate.
+
 For the connected setup flow and its optional bundled-audio Parakeet smoke, use
 the [focused first-run commands](../CONTRIBUTING.md#first-run-setup-checks).
 They exercise synthetic hooks/input and queued UI with a private configuration;

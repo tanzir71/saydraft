@@ -62,16 +62,19 @@ def wait_for(predicate, seconds=120):
         time.sleep(.002)
 
 
-def feed_capture(capture, *, clock=time.monotonic, sleep=time.sleep):
+def feed_capture(capture, *, clock=time.monotonic, sleep=time.sleep, deliver_after_frame=False):
     started = clock()
     for offset in range(0, len(capture.audio), 1600):
         chunk = capture.audio[offset:offset + 1600]
         if capture.chunk_callback is None:
             raise RuntimeError("Background replay callback unavailable")
-        capture.chunk_callback(chunk)
+        if not deliver_after_frame:
+            capture.chunk_callback(chunk)  # Preserve the historical warm probe's start-of-frame cadence.
         due = started + (offset + len(chunk)) / capture.sample_rate
         while (remaining := due - clock()) > 0:
             sleep(min(.01, remaining))
+        if deliver_after_frame:
+            capture.chunk_callback(chunk)
 
 
 def main(argv=None):

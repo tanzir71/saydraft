@@ -13,6 +13,7 @@ import math
 import os
 import platform
 import statistics
+import sys
 import tempfile
 import time
 from datetime import datetime, timezone
@@ -152,11 +153,16 @@ def to_markdown(report: dict) -> str:
                   "No models are downloaded, no foreground windows or user history are modified,",
                   "and reports contain no transcript text.", "",
                   "Reproduce: `python -m tools.bench --audio tests/fixtures/hello.wav --iterations 20`.",
-                  "Run separate processes with 3/10/30/90-second owner fixtures for full latency evidence.", ""])
+                  "Use `python -m tools.bench matrix --help` for the 3/10/30/90-second cold/warm fixture matrix.", ""])
     return "\n".join(lines)
 
 
 def main(argv: list[str] | None = None) -> int:
+    argv = list(sys.argv[1:] if argv is None else argv)
+    if argv[:1] == ["matrix"]:
+        from tools.latency_matrix import main as matrix_main
+
+        return matrix_main(argv[1:])
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--audio", type=Path, help="16 kHz WAV; omit for synthetic text only")
     parser.add_argument("--model", default="base", help="cached Whisper model ID or local path")
