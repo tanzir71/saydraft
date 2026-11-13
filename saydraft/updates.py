@@ -136,10 +136,17 @@ class UpdateController:
         with self._lock:
             return not self._closed and event.generation == self._generation and event.result is self._result
 
-    def _publish(self, result):
+    def _replace(self, result):
         self._result = result
+        return UpdateEvent(self._generation, result)
+
+    def _emit(self, event):
+        # Never call Qt or other observers while holding the service lock.
+        # Receivers also check is_current when consuming a queued event.
+        if not self.is_current(event):
+            return
         try:
-            self.callback(UpdateEvent(self._generation, result))
+            self.callback(event)
         except RuntimeError:  # A closed Qt receiver must not keep a request alive.
             pass
 
@@ -151,7 +158,8 @@ class UpdateController:
             self._enabled = enabled
             self._generation += 1
             self._pending = enabled and self._active is not None
-            self._publish(UpdateResult('checking' if enabled else 'disabled'))
+            event = self._replace(UpdateResult('checking' if enabled else 'disabled'))
+        self._emit(event)
         if enabled:
             self.check()
         return True
@@ -163,14 +171,14 @@ class UpdateController:
             self._generation += 1
             token = self._generation
             self._active, self._pending = token, False
-            self._publish(UpdateResult('checking'))
-            try:
-                thread = self.thread_factory(target=lambda: self._run(token), name='Saydraft-update-check', daemon=True)
-                thread.start()
-            except Exception:
-                self._active = None
-                self._publish(UpdateResult('unavailable'))
-                return False
+            event = self._replace(UpdateResult('checking'))
+        self._emit(event)
+        try:
+            thread = self.thread_factory(target=lambda: self._run(token), name='Saydraft-update-check', daemon=True)
+            thread.start()
+        except Exception:
+            self._finish(token, UpdateResult('unavailable'))
+            return False
         return True
 
     def _cancelled(self, token):
@@ -184,12 +192,18 @@ class UpdateController:
                 result = UpdateResult('unavailable')
         except Exception:
             result = UpdateResult('unavailable')
+        self._finish(token, result)
+
+    def _finish(self, token, result):
         with self._lock:
+            if self._active != token:
+                return
             self._active = None
-            if not self._cancelled(token):
-                self._publish(result)
+            event = self._replace(result) if not self._cancelled(token) else None
             again = self._pending and self._enabled and not self._closed
             self._pending = False
+        if event is not None:
+            self._emit(event)
         if again:
             self.check()
 

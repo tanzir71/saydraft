@@ -1,5 +1,6 @@
 import json
 import socket
+import threading
 from urllib.error import HTTPError
 
 import pytest
@@ -221,3 +222,18 @@ def test_shutdown_suppresses_result_without_joining_a_request():
     count = len(events)
     PendingThread.calls[0].target()
     assert len(events) == count and not service.enabled and not service.configure(True)
+
+
+def test_update_observer_cannot_deadlock_another_thread_reading_saved_policy():
+    observed = []
+
+    def callback(_event):
+        reader = threading.Thread(target=lambda: observed.append(service.enabled), daemon=True)
+        reader.start()
+        reader.join(timeout=1)
+        assert not reader.is_alive(), 'Update callback held the policy lock'
+
+    service = UpdateController(callback, thread_factory=PendingThread)
+    service.configure(True)
+    service.configure(False)
+    assert observed == [True, True, False]
