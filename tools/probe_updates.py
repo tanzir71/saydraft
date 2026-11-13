@@ -23,6 +23,7 @@ def main(argv=None):
             retired = False
         complete = retired and result.state in (('available', 'current', 'no_release') if args.enabled else ('disabled',))
         print(json.dumps({'complete': complete, 'opt_in': args.enabled, 'state': result.state,
+                          'http_status': result.http_status, 'failure_reason': result.failure_reason,
                           'api_scope_retired': retired, 'installer_downloaded': False,
                           'browser_opened': False, 'desktop_app_started': False}))
         return 0 if complete else 1

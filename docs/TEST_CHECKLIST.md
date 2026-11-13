@@ -20,6 +20,12 @@ $env:DO_NOT_TRACK = '1'
 Require zero failures, all 556 current rules cases, and all 100 authored
 adversarial cases. Record the commit, test count, and every skip with each run;
 optional model/native skips require their separate fixtures and acceptance.
+The separate public-metadata CI job runs `python -m tools.probe_updates` to
+verify the default-off path, then `python -m tools.probe_updates --enabled`
+for an explicit real GitHub metadata request. Both checks require the scoped
+API permission to be retired; neither downloads an installer or opens a browser.
+See [optional app updates](UPDATES.md). The online job is separate so a temporary
+GitHub failure can be retried without rerunning the offline regression suite.
 CI prepares its pinned VAD fixture explicitly. Other real-model measurements
 are separate. Its disposable checkout uses
 `python -m pytest tests -q -rs --basetemp=build/pytest` so owned-window native

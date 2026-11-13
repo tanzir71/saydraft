@@ -5,7 +5,7 @@ from __future__ import annotations
 import json
 import re
 import threading
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from urllib.error import HTTPError, URLError
 from urllib.request import HTTPRedirectHandler, ProxyHandler, Request, build_opener
 
@@ -28,8 +28,14 @@ def version_parts(value):
 class UpdateResult:
     state: str = 'disabled'
     version: str | None = None
+    http_status: int | None = field(default=None, compare=False)
+    failure_reason: str | None = field(default=None, compare=False)
 
     def __post_init__(self):
+        if self.http_status is not None and (type(self.http_status) is not int or not 100 <= self.http_status <= 599):
+            raise ValueError('Invalid update HTTP status')
+        if self.failure_reason not in (None, 'http', 'network', 'metadata'):
+            raise ValueError('Unknown update failure category')
         if self.state not in ('disabled', 'checking', 'available', 'current', 'no_release', 'unavailable'):
             raise ValueError('Unknown update state')
         if self.state == 'available':
@@ -52,6 +58,7 @@ def check_updates(*, enabled=False, current_version=__version__, opener=None, ca
     # offline policy unless the saved opt-in is an actual boolean True.
     if enabled is not True or cancelled():
         return UpdateResult()
+    status = None
     try:
         installed = version_parts(current_version)
         request = Request(LATEST_RELEASE, headers={
@@ -63,6 +70,7 @@ def check_updates(*, enabled=False, current_version=__version__, opener=None, ca
             if cancelled():
                 return UpdateResult()
             with transport.open(request, timeout=SOCKET_TIMEOUT) as response:
+                status = getattr(response, 'status', 200)
                 if cancelled():
                     return UpdateResult()
                 content = response.read(MAX_RESPONSE_BYTES + 1)
@@ -76,7 +84,7 @@ def check_updates(*, enabled=False, current_version=__version__, opener=None, ca
         if type(payload.get('draft')) is not bool or type(payload.get('prerelease')) is not bool:
             raise ValueError('Release publication flags are missing or invalid')
         if payload['draft'] or payload['prerelease']:
-            return UpdateResult('no_release')
+            return UpdateResult('no_release', http_status=status)
         if not isinstance(payload.get('published_at'), str) or not payload['published_at'].strip():
             raise ValueError('Release publication timestamp is missing')
         tag = payload.get('tag_name')
@@ -86,13 +94,15 @@ def check_updates(*, enabled=False, current_version=__version__, opener=None, ca
         latest = version_parts(version)
         if payload.get('html_url') != RELEASE_PAGE + tag:
             raise ValueError('Release page does not belong to this repository')
-        return UpdateResult('available', version) if latest > installed else UpdateResult('current')
+        return UpdateResult('available', version, http_status=status) if latest > installed else UpdateResult('current', http_status=status)
     except HTTPError as error:
         state = 'no_release' if error.code == 404 else 'unavailable'
         error.close()
-        return UpdateResult(state)
-    except (OSError, ValueError, TypeError, RecursionError):
-        return UpdateResult('unavailable')
+        return UpdateResult(state, http_status=error.code, failure_reason='http')
+    except OSError:
+        return UpdateResult('unavailable', http_status=status, failure_reason='network')
+    except (ValueError, TypeError, RecursionError):
+        return UpdateResult('unavailable', http_status=status, failure_reason='metadata')
 
 
 def updates_enabled(config):

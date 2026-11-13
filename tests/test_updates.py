@@ -93,7 +93,8 @@ def test_drafts_prereleases_and_incomplete_publication_metadata_are_not_updates(
 @pytest.mark.parametrize('payload', [b'not JSON', b'[]', b'{}', b'\xff', b'x' * (MAX_RESPONSE_BYTES + 1),
     json.dumps(release(html_url='https://evil.example/installer.exe')).encode(),
     json.dumps(release(tag_name='v0.2.0-beta.1')).encode(),
-    json.dumps(release(tag_name='v0.2.0/../../escape')).encode()])
+    json.dumps(release(tag_name='v0.2.0/../../escape')).encode()],
+    ids=['not-json', 'array', 'missing', 'invalid-utf8', 'oversized', 'foreign-url', 'prerelease-tag', 'escaped-tag'])
 def test_invalid_or_oversized_metadata_cannot_supply_a_release_link(payload):
     result = check_updates(enabled=True, opener=Transport(payload))
     assert result.state in ('unavailable', 'no_release') and result.url is None
@@ -105,7 +106,21 @@ def test_http_errors_are_visible_without_interrupting_dictation(code, state):
         def open(self, *_args, **_kwargs):
             raise HTTPError(LATEST_RELEASE, code, 'fixture', {}, None)
 
-    assert check_updates(enabled=True, opener=ErrorTransport()) == UpdateResult(state)
+    result = check_updates(enabled=True, opener=ErrorTransport())
+    assert result == UpdateResult(state)
+    assert result.http_status == code and result.failure_reason == 'http'
+
+
+def test_diagnostics_distinguish_network_failure_from_invalid_metadata_without_error_body():
+    class TimeoutTransport:
+        def open(self, *_args, **_kwargs):
+            raise TimeoutError('Fixture error body must not be retained')
+
+    network = check_updates(enabled=True, opener=TimeoutTransport())
+    malformed = check_updates(enabled=True, opener=Transport(b'not JSON'))
+    assert network.failure_reason == 'network' and network.http_status is None
+    assert malformed.failure_reason == 'metadata' and malformed.http_status == 200
+    assert 'Fixture' not in repr(network)
 
 
 def test_redirect_is_rejected_before_any_second_request():
