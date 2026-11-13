@@ -6,7 +6,7 @@ import pytest
 
 from saydraft.config import load_config
 from saydraft.history import HistoryEntry
-from tests.test_history_window import FakeClipboard, build_history
+from tests.test_history_window import FakeClipboard, build_history, settle_history
 from tests.test_settings_window import FakeAutoStartManager, qt_modules, write_config
 
 
@@ -112,6 +112,7 @@ def test_home_uses_current_shortcut_models_and_exactly_last_five_entries(subject
     target = hub.home_page.recent.item(2)
     hub.history_page.search_edit.setText("older")
     hub.home_page.recent.itemActivated.emit(target)
+    settle_history(hub.history_page)
     assert hub.pages.currentWidget() is hub.history_view
     assert hub.history_page.current_row().id == target.data(subject.qt.QtCore.Qt.UserRole)
     assert not hub.history_page.search_edit.text()
@@ -177,6 +178,9 @@ def test_hub_close_pauses_all_download_owners_without_discarding_pages(subject, 
     hub.close()
     assert paused == ["model_picker", "labs_page", "cleanup_picker", "vad"]
     assert hub.page_widgets["Dictionary"] is page
+    hub.show_page("History")
+    settle_history(hub.history_page)
+    assert not hub.history_page.jobs.closed and hub.history_page.current_row() is not None
 
 
 def test_real_app_routes_history_settings_and_home_to_the_same_owned_hub(subject):
@@ -243,6 +247,10 @@ def test_hub_keeps_its_minimum_size_with_larger_text_and_all_controls_reachable(
             hub.show_page(name)
             application.processEvents()
             assert hub.size() == qt.QtCore.QSize(880, 600)
+        hub.show_page("History")
+        settle_history(hub.history_page)
+        application.processEvents()
+        assert hub.history_view.horizontalScrollBar().maximum() == 0
         hub.show_page("Dictionary")
         application.processEvents()
         dictionary_scroll = hub.page_widgets["Dictionary"]

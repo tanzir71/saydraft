@@ -76,15 +76,15 @@ def _fenced(text):
     return f"{fence}text\n{text}" + ("" if text.endswith("\n") else "\n") + f"{fence}\n"
 
 
-def export_history(rows, format):
+def iter_history_export(rows, format):
     """Serialize the supplied rows only. Export never reads audio or clipboard."""
     if format == "md":
-        pieces = ["# Saydraft history\n"]
+        yield "# Saydraft history\n"
         for row in rows:
-            pieces += [f"\n## Dictation #{row.id}\n\n", _fenced(f"Recorded: {row.created_at}\nApp: {row.app_name or 'Unknown'}"),
+            yield "".join([f"\n## Dictation #{row.id}\n\n", _fenced(f"Recorded: {row.created_at}\nApp: {row.app_name or 'Unknown'}"),
                        "\n### Cleaned\n\n", _fenced(row.cleaned_text), "\n### Raw\n\n", _fenced(row.raw_text),
-                       "\n### Details\n\n", _fenced(result_details(row))]
-        return "".join(pieces)
+                       "\n### Details\n\n", _fenced(result_details(row))])
+        return
     if format != "csv":
         raise ValueError("Choose Markdown or CSV")
     output = io.StringIO(newline="")
@@ -92,7 +92,10 @@ def export_history(rows, format):
     columns = ("id", "created_at", "app_name", "cleaned_text", "raw_text", "mode", "profile", "duration_seconds",
                "asr_model", "llm_model", "llm_decision", "language", "style", "intensity", "timings_json")
     writer.writerow(columns)
+    yield output.getvalue()
     for row in rows:
+        output.seek(0)
+        output.truncate(0)
         values = []
         for name in columns:
             value = getattr(row, name)
@@ -104,22 +107,46 @@ def export_history(rows, format):
                 value = "'" + value
             values.append(value)
         writer.writerow(values)
-    return output.getvalue()
+        yield output.getvalue()
 
 
-def save_history_export(path, rows, format):
+def export_history(rows, format):
+    return "".join(iter_history_export(rows, format))
+
+
+class HistoryExportCancelled(Exception):
+    pass
+
+
+def save_history_export(path, rows, format, *, cancelled=lambda: False):
     """Replace an explicitly selected destination only after a complete write."""
-    text = export_history(rows, format)
+    if format not in ("md", "csv"):
+        raise ValueError("Choose Markdown or CSV")
     destination = Path(path)
     temporary = None
+    count = 0
+    def check():
+        if cancelled():
+            raise HistoryExportCancelled()
+    def counted():
+        nonlocal count
+        for row in rows:
+            check()
+            count += 1
+            yield row
     try:
+        check()
         with tempfile.NamedTemporaryFile(mode="w", encoding="utf-8", newline="", dir=destination.parent,
                 prefix=f".{destination.name}.", suffix=".tmp", delete=False) as stream:
             temporary = Path(stream.name)
-            stream.write(text)
+            for text in iter_history_export(counted(), format):
+                check()
+                stream.write(text)
             stream.flush()
             os.fsync(stream.fileno())
+        check()
         os.replace(temporary, destination)
+        return count
     finally:
         if temporary is not None:
             temporary.unlink(missing_ok=True)

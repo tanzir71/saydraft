@@ -12,9 +12,10 @@ from typing import Any
 from PySide6 import QtCore, QtGui, QtWidgets
 
 from saydraft.dictation.glossary import learn_word
-from saydraft.history import DictationHistoryStore, HistoryRow
-from saydraft.data.history_view import result_details, save_history_export, timestamp_label, transcript_diff
+from saydraft.history import DictationHistoryStore, HistoryRow, HistorySummary
+from saydraft.data.history_view import result_details, timestamp_label, transcript_diff
 from .private_text import PrivatePlainTextEdit
+from .history_jobs import HistoryJobs
 
 
 def add_word_to_dictionary_action(
@@ -54,14 +55,20 @@ class HistoryPage(QtWidgets.QWidget):
         self.retry_callback = retry_callback
         self._retry_source_id = None
         self.glossary_path = Path(glossary_path)
-        self.limit = int(limit)
+        self.limit = max(1, min(200, int(limit)))
+        self._page = self._snapshot = self._detail = None
+        self._loading, self._detail_loading, self._exporting = False, False, False
+        self._generation = self._export_generation = 0
         self.diff_colors = json.loads(files("saydraft.ui.theme").joinpath("metadata.json").read_text("utf-8"))["history"]
-        self.rows: list[HistoryRow] = []
-        self.filtered_rows: list[HistoryRow] = []
+        self.rows: list[HistorySummary] = []
+        self.filtered_rows: list[HistorySummary] = []
 
         self.setAccessibleName("Saydraft History")
         self.search_edit = QtWidgets.QLineEdit(self)
-        self.search_edit.setPlaceholderText("Search history")
+        self.search_edit.setPlaceholderText("Search all History")
+        self.search_edit.setAccessibleName("Search all History")
+        self.search_edit.setToolTip("Search saved text, apps, languages, styles and models.")
+        self.search_edit.setMaxLength(512)
         self.list_widget = QtWidgets.QListWidget(self)
         self.list_widget.setWordWrap(True)
         self.list_widget.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
@@ -80,17 +87,35 @@ class HistoryPage(QtWidgets.QWidget):
         self.why_editor.setReadOnly(True)
         self.why_editor.setMaximumHeight(140)
         self.why_editor.hide()
-        self.export_button = QtWidgets.QPushButton("Export filtered history…", self)
-        self.export_button.setToolTip("Export the currently loaded, filtered entries as Markdown or CSV.")
+        self.export_button = QtWidgets.QPushButton("Export…", self)
+        self.export_button.setToolTip("Export all results matching this search as Markdown or CSV.")
+        self.cancel_export_button = QtWidgets.QPushButton("Cancel export", self)
+        self.cancel_export_button.hide()
+        self.newer_button, self.older_button, self.latest_button = [QtWidgets.QPushButton(text, self)
+            for text in ("Newer", "Older", "Refresh")]
+        self.page_label = QtWidgets.QLabel("", self)
+        self.page_label.setWordWrap(True)
+        self.page_label.setTextFormat(QtCore.Qt.PlainText)
         self.copy_button = QtWidgets.QPushButton("Copy", self)
         self.restore_clipboard_button = QtWidgets.QPushButton("Restore clipboard", self)
         self.restore_clipboard_button.setVisible(hasattr(self.clipboard, "recover"))
         self.reinsert_button = QtWidgets.QPushButton("Re-insert", self)
-        self.add_dictionary_button = QtWidgets.QPushButton("Add Selection to Dictionary", self)
-        self.retry_button = QtWidgets.QPushButton("Retry with All languages", self)
-        self.retry_button.setToolTip("Recognize saved audio locally and save a new History entry for review.")
+        self.add_dictionary_button = QtWidgets.QPushButton("Add word", self)
+        self.add_dictionary_button.setAccessibleName("Add selected text to Dictionary")
+        self.retry_button = QtWidgets.QPushButton("Retry audio", self)
+        self.retry_button.setToolTip("Use All languages to recognize saved audio locally and save a new History entry for review.")
         self.retry_button.setEnabled(False)
         self.status_label = QtWidgets.QLabel("", self)
+        self.status_label.setTextFormat(QtCore.Qt.PlainText)
+        self.status_label.setWordWrap(True)
+        self.status_label.setSizePolicy(QtWidgets.QSizePolicy.Ignored, QtWidgets.QSizePolicy.Preferred)
+        self.search_timer = QtCore.QTimer(self)
+        self.search_timer.setSingleShot(True)
+        self.search_timer.setInterval(180)
+        self.search_timer.timeout.connect(lambda: self._load_page())
+        self.jobs = HistoryJobs(self.store, self)
+        self.jobs.ready.connect(self._accept_read, QtCore.Qt.QueuedConnection)
+        self.jobs.exported.connect(self._accept_export, QtCore.Qt.QueuedConnection)
 
         self._build_layout()
         self._connect_signals()
@@ -101,6 +126,7 @@ class HistoryPage(QtWidgets.QWidget):
         toolbar = QtWidgets.QHBoxLayout()
         toolbar.addWidget(self.search_edit, 1)
         toolbar.addWidget(self.export_button)
+        toolbar.addWidget(self.cancel_export_button)
         root.addLayout(toolbar)
 
         body = QtWidgets.QSplitter(QtCore.Qt.Horizontal, self)
@@ -108,6 +134,12 @@ class HistoryPage(QtWidgets.QWidget):
         left_layout = QtWidgets.QVBoxLayout(left)
         left_layout.setContentsMargins(0, 0, 0, 0)
         left_layout.addWidget(self.list_widget)
+        paging = QtWidgets.QHBoxLayout()
+        paging.addWidget(self.newer_button)
+        paging.addWidget(self.older_button)
+        left_layout.addLayout(paging)
+        left_layout.addWidget(self.page_label)
+        left_layout.addWidget(self.latest_button)
 
         right = QtWidgets.QWidget()
         right_layout = QtWidgets.QVBoxLayout(right)
@@ -138,7 +170,11 @@ class HistoryPage(QtWidgets.QWidget):
 
     def _connect_signals(self) -> None:
         self.search_edit.textChanged.connect(lambda _text: self.apply_filter())
-        self.list_widget.currentRowChanged.connect(lambda _row: self.update_detail())
+        self.list_widget.currentRowChanged.connect(self._selection_changed)
+        self.newer_button.clicked.connect(lambda: self._turn_page(-1))
+        self.older_button.clicked.connect(lambda: self._turn_page(1))
+        self.latest_button.clicked.connect(lambda: self._load_page(fresh=True))
+        self.cancel_export_button.clicked.connect(self._cancel_export)
         self.raw_toggle.toggled.connect(lambda checked: self._set_text_view("raw", checked))
         self.diff_toggle.toggled.connect(lambda checked: self._set_text_view("diff", checked))
         self.why_button.toggled.connect(self.why_editor.setVisible)
@@ -151,39 +187,102 @@ class HistoryPage(QtWidgets.QWidget):
 
     def refresh(self) -> None:
         self.restore_clipboard_button.setEnabled(getattr(self.clipboard, "pending", None) is not None)
-        selected = self.current_row()
-        self.rows = self.store.list_recent(limit=self.limit)
-        self.apply_filter()
-        if selected is not None:
-            self._select_id(selected.id)
+        selected = self._selected_id()
+        self._load_page(fresh=True, selected_id=selected, offset=self._page.offset if self._page else 0)
 
     def apply_filter(self) -> None:
-        query = self.search_edit.text().strip().lower()
-        if query:
-            self.filtered_rows = [row for row in self.rows if self._row_matches(row, query)]
-        else:
-            self.filtered_rows = list(self.rows)
-        self.export_button.setEnabled(bool(self.filtered_rows))
+        self._generation += 1
+        self.jobs.cancel_read()
+        self._clear_for_read()
+        self.search_timer.start()
 
+    @property
+    def loading(self):
+        return self._loading or self._detail_loading or self.search_timer.isActive()
+
+    def _clear_for_read(self):
+        self._loading, self._detail_loading, self._detail = True, False, None
+        self.rows = self.filtered_rows = []
+        self.list_widget.clear()
+        self.page_label.setText("Loading History…")
+        self.newer_button.setEnabled(False)
+        self.older_button.setEnabled(False)
+        self.export_button.setEnabled(False)
+        self.update_detail()
+
+    def _load_page(self, *, fresh=False, offset=0, selected_id=None):
+        self.search_timer.stop()
+        self._generation += 1
+        self._clear_for_read()
+        if fresh:
+            self._snapshot = None
+        if not self.jobs.page(self._generation, fresh=fresh, query=self.search_edit.text(),
+                offset=offset, limit=self.limit, selected_id=selected_id):
+            self._accept_read(self._generation, None)
+
+    def _turn_page(self, direction):
+        if self.loading or self._page is None:
+            return False
+        self._load_page(offset=max(0, self._page.offset + direction * self.limit))
+        return True
+
+    @QtCore.Slot(int, object)
+    def _accept_read(self, generation, payload):
+        if generation != self._generation or self.jobs.closed:
+            return
+        page_failed = self._loading
+        self._loading = self._detail_loading = False
+        if payload is None:
+            self._detail = None
+            if page_failed:
+                self._page = self._snapshot = None
+                self.rows = self.filtered_rows = []
+                self.list_widget.clear()
+                self.export_button.setEnabled(False)
+                self.newer_button.setEnabled(False)
+                self.older_button.setEnabled(False)
+                self.page_label.setText("History unavailable")
+            self.status_label.setText("Could not read History. Try Refresh." if page_failed else "Could not load this entry. Try Refresh.")
+            self.update_detail()
+            return
+        kind, result, view = payload
+        if kind == "detail":
+            self._detail = result
+            self.update_detail()
+            return
+        self._page, self._snapshot, self._detail = result, view, result.selected
+        self.rows = self.filtered_rows = list(result.rows)
         self.list_widget.blockSignals(True)
         self.list_widget.clear()
         for row in self.filtered_rows:
             self.list_widget.addItem(self._item_text(row))
+        if result.selected is not None:
+            self.list_widget.setCurrentRow(next(i for i, row in enumerate(self.rows) if row.id == result.selected.id))
         self.list_widget.blockSignals(False)
+        self.newer_button.setEnabled(result.offset > 0)
+        self.older_button.setEnabled(result.offset + len(result.rows) < result.total)
+        self.page_label.setText(f"{result.offset + 1}–{result.offset + len(result.rows)} of {result.total}" if result.rows else
+            "No matching entries" if result.query else "No dictations yet")
+        self.export_button.setEnabled(bool(result.total) and not self._exporting)
+        self.update_detail()
 
-        if self.filtered_rows:
-            self.list_widget.setCurrentRow(0)
-        else:
-            self.detail_editor.clear()
-            self.metadata_label.setText("")
-            self.why_editor.clear()
-            self.retry_button.setEnabled(False)
+    def _selected_id(self):
+        index = self.list_widget.currentRow()
+        return self.rows[index].id if 0 <= index < len(self.rows) else None
+
+    def _selection_changed(self, _index):
+        row_id = self._selected_id()
+        if row_id is None or self._loading or self._snapshot is None:
+            self.update_detail()
+            return
+        self._generation += 1
+        self._detail, self._detail_loading = None, True
+        self.update_detail()
+        if not self.jobs.detail(self._generation, self._snapshot, row_id):
+            self._accept_read(self._generation, None)
 
     def current_row(self) -> HistoryRow | None:
-        index = self.list_widget.currentRow()
-        if 0 <= index < len(self.filtered_rows):
-            return self.filtered_rows[index]
-        return None
+        return self._detail if not self.loading and self._detail is not None and self._detail.id == self._selected_id() else None
 
     def current_text(self) -> str:
         row = self.current_row()
@@ -193,6 +292,8 @@ class HistoryPage(QtWidgets.QWidget):
 
     def update_detail(self) -> None:
         row = self.current_row()
+        for button in (self.copy_button, self.reinsert_button, self.add_dictionary_button):
+            button.setEnabled(row is not None)
         if row is None:
             self.detail_editor.clear()
             self.metadata_label.setText("")
@@ -204,7 +305,8 @@ class HistoryPage(QtWidgets.QWidget):
 
         self.why_editor.setPlainText(result_details(row))
         self.copy_button.setText("Copy raw" if self.raw_toggle.isChecked() else "Copy cleaned")
-        self.reinsert_button.setText("Paste raw again" if self.raw_toggle.isChecked() else "Paste cleaned again")
+        self.reinsert_button.setText("Paste raw" if self.raw_toggle.isChecked() else "Paste cleaned")
+        self.reinsert_button.setAccessibleName("Paste raw again" if self.raw_toggle.isChecked() else "Paste cleaned again")
         if self.diff_toggle.isChecked():
             self._show_diff(row)
         else:
@@ -254,6 +356,11 @@ class HistoryPage(QtWidgets.QWidget):
         self.detail_editor.setTextCursor(cursor)
 
     def choose_export(self):
+        if self._loading or self.search_timer.isActive() or self._page is None or self._snapshot is None or self._exporting:
+            return False
+        # A nested native dialog can dispatch background refresh signals. Keep
+        # the exact filter/view the user chose to export when opening it.
+        page, view = self._page, self._snapshot
         dialog = QtWidgets.QFileDialog(self, "Export filtered history")
         dialog.setAcceptMode(QtWidgets.QFileDialog.AcceptSave)
         dialog.setFileMode(QtWidgets.QFileDialog.AnyFile)
@@ -273,16 +380,43 @@ class HistoryPage(QtWidgets.QWidget):
                 format = destination.suffix.lower()[1:]
         finally:
             dialog.deleteLater()
-        return self.export_to(destination, format=format)
+        return self._start_export(destination, format=format, page=page, view=view)
 
     def export_to(self, path, *, format):
-        try:
-            save_history_export(path, self.filtered_rows, format)
-        except (OSError, ValueError):
-            self.status_label.setText("Could not export History. Choose a writable location and try again.")
+        if self._loading or self.search_timer.isActive() or self._snapshot is None or self._page is None:
+            self.status_label.setText("Wait for History to finish loading before exporting.")
             return False
-        self.status_label.setText(f"Exported {len(self.filtered_rows)} entries")
+        return self._start_export(path, format=format, page=self._page, view=self._snapshot)
+
+    def _start_export(self, path, *, format, page, view):
+        if format not in ("md", "csv") or self._exporting:
+            return False
+        self._export_generation += 1
+        if not self.jobs.export(self._export_generation, view, path, query=page.query,
+                ceiling_id=page.ceiling_id, format=format):
+            return False
+        self._exporting = True
+        self.export_button.setEnabled(False)
+        self.cancel_export_button.setEnabled(True)
+        self.cancel_export_button.show()
+        self.status_label.setText("Exporting all matching entries…")
         return True
+
+    def _cancel_export(self):
+        self.jobs.cancel_export()
+        self.cancel_export_button.setEnabled(False)
+        self.status_label.setText("Cancelling export…")
+
+    @QtCore.Slot(int, object)
+    def _accept_export(self, generation, outcome):
+        if generation != self._export_generation or self.jobs.closed:
+            return
+        self._exporting = False
+        self.cancel_export_button.hide()
+        self.export_button.setEnabled(not self._loading and self._page is not None and bool(self._page.total))
+        status, count = outcome
+        self.status_label.setText(f"Exported {count} entries" if status == "success" else "Export cancelled" if status == "cancelled"
+            else "Could not export History. Choose another writable file and try again.")
 
     def _retry_origin(self, row):
         try:
@@ -299,8 +433,12 @@ class HistoryPage(QtWidgets.QWidget):
     def _select_id(self, row_id):
         for index, row in enumerate(self.filtered_rows):
             if row.id == row_id:
-                self.list_widget.setCurrentRow(index)
+                if self.list_widget.currentRow() != index:
+                    self.list_widget.setCurrentRow(index)
+                elif self._detail is None or self._detail.id != row_id:
+                    self._selection_changed(index)
                 return
+        self._load_page(fresh=self._page is None or row_id > self._page.ceiling_id, selected_id=row_id)
 
     def retry_current_audio(self):
         row = self.current_row()
@@ -377,24 +515,10 @@ class HistoryPage(QtWidgets.QWidget):
             self.status_label.setText("Select text first")
         return learned
 
-    def _row_matches(self, row: HistoryRow, query: str) -> bool:
-        haystack = " ".join(
-            str(value or "")
-            for value in (
-                row.app_name,
-                row.raw_text,
-                row.cleaned_text,
-                row.mode,
-                row.profile,
-                row.model,
-            )
-        ).lower()
-        return query in haystack
-
-    def _item_text(self, row: HistoryRow) -> str:
-        preview = " ".join(row.cleaned_text.split())
-        if not preview and row.audio_path:
-            preview = "Recording saved for recognition retry"
+    def _item_text(self, row: HistorySummary) -> str:
+        preview = " ".join(row.preview.split())
+        if not preview:
+            preview = "Saved text" if row.has_text else "Recording saved for recognition retry" if row.has_audio else "No cleaned text"
         if len(preview) > 80:
             preview = preview[:77] + "..."
         app = row.app_name or "Unknown"
@@ -404,3 +528,9 @@ class HistoryPage(QtWidgets.QWidget):
         if row.duration_seconds is None:
             return ""
         return f"{row.duration_seconds:.1f}s"
+
+    def closeEvent(self, event):
+        self.search_timer.stop()
+        self.jobs.close()
+        self._snapshot = None
+        super().closeEvent(event)

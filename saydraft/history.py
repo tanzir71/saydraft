@@ -5,6 +5,11 @@ from __future__ import annotations
 import os
 import sqlite3
 import json
+import unicodedata
+import tempfile
+import time
+import weakref
+import logging
 from contextlib import contextmanager
 from collections.abc import Iterator
 from dataclasses import dataclass
@@ -13,8 +18,51 @@ from pathlib import Path
 
 from .data.db import HISTORY_METADATA, migrate_database
 
+logger = logging.getLogger(__name__)
+
 _HISTORY_FIELDS = ("app_name", "raw_text", "cleaned_text", "mode", "profile", "duration_seconds", "model")
 _ALL_FIELDS = (*_HISTORY_FIELDS, *HISTORY_METADATA)
+_SEARCH_FIELDS = ("app_name", "app_exe", "app_group", "mode", "profile", "style", "language", "model",
+                  "asr_model", "llm_model", "llm_decision", "created_at", "raw_text", "cleaned_text")
+
+
+@dataclass(frozen=True)
+class HistorySummary:
+    id: int
+    created_at: str
+    app_name: str | None
+    preview: str
+    has_text: bool
+    has_audio: bool
+
+
+@dataclass(frozen=True)
+class HistoryPageResult:
+    query: str
+    ceiling_id: int
+    offset: int
+    total: int
+    rows: tuple[HistorySummary, ...]
+    selected: HistoryRow | None
+
+
+def _query_text(value):
+    if not isinstance(value, str) or len(value) > 512:
+        raise ValueError("History search is limited to 512 characters")
+    return unicodedata.normalize("NFC", value.strip().casefold())
+
+
+def _search_setup(connection, query, cancelled):
+    def matches(*values):
+        for value in values:
+            if cancelled():
+                raise sqlite3.OperationalError("History query cancelled")
+            if isinstance(value, str) and query in unicodedata.normalize("NFC", value.casefold()):
+                return 1
+        return 0
+    connection.create_function("saydraft_history_match", len(_SEARCH_FIELDS), matches)
+    connection.set_progress_handler(lambda: int(cancelled()), 500)
+    return " AND saydraft_history_match(" + ",".join(_SEARCH_FIELDS) + ")" if query else ""
 
 
 @dataclass(frozen=True)
@@ -141,6 +189,84 @@ class DictationHistoryStore:
                     return text  # Preserve exact stored whitespace, punctuation and casing.
         return None
 
+    def snapshot(self, *, cancelled=lambda: False):
+        """Copy in small online-backup steps; release source locks between steps."""
+        descriptor, name = tempfile.mkstemp(prefix=".saydraft-history-", suffix=".sqlite", dir=self.db_path.parent)
+        os.close(descriptor)
+        path = Path(name)
+        try:
+            def progress(status, remaining, total):
+                if cancelled():
+                    raise InterruptedError("History snapshot cancelled")
+                if remaining:
+                    time.sleep(.001)  # Give live dictation writers a turn between backup steps.
+            with self._connect(timeout=.25) as source:
+                destination = sqlite3.connect(path)
+                try:
+                    source.backup(destination, pages=128, progress=progress, sleep=.01)
+                    destination.execute("PRAGMA journal_mode=DELETE")  # Private, single-writer copy only.
+                finally:
+                    destination.close()
+            if cancelled():
+                raise InterruptedError("History snapshot cancelled")
+            return HistorySnapshot(path)
+        except BaseException:
+            path.unlink(missing_ok=True)
+            raise
+
+    def search_page(self, *, query="", ceiling_id=None, offset=0, limit=200, selected_id=None, cancelled=lambda: False):
+        """Read a stable ID range with bounded previews and one complete selection."""
+        query = _query_text(query)
+        if type(limit) is not int or not 1 <= limit <= 200 or type(offset) is not int or offset < 0:
+            raise ValueError("Invalid History page range")
+        if ceiling_id is not None and (type(ceiling_id) is not int or ceiling_id < 0):
+            raise ValueError("Invalid History snapshot")
+        with self._connect(timeout=.25) as connection:
+            connection.execute("BEGIN")
+            where = _search_setup(connection, query, cancelled)
+            ceiling_id = ceiling_id if ceiling_id is not None else connection.execute("SELECT coalesce(max(id),0) FROM dictations").fetchone()[0]
+            total = connection.execute("SELECT count(*) FROM dictations WHERE id<=?" + where, (ceiling_id,)).fetchone()[0]
+            if selected_id is not None:
+                match = connection.execute("SELECT id FROM dictations WHERE id=? AND id<=?" + where,
+                    (selected_id, ceiling_id)).fetchone()
+                if match:
+                    position = connection.execute("SELECT count(*) FROM dictations WHERE id>? AND id<=?" + where,
+                        (selected_id, ceiling_id)).fetchone()[0]
+                    offset = position // limit * limit
+            offset = min(offset, (max(total - 1, 0) // limit) * limit)
+            records = connection.execute("""SELECT id,created_at,app_name,substr(cleaned_text,1,512),
+                substr(cleaned_text,1,1)<>'',audio_path IS NOT NULL AND audio_path<>''
+                FROM dictations WHERE id<=?""" + where + " ORDER BY id DESC LIMIT ? OFFSET ?",
+                (ceiling_id, limit, offset)).fetchall()
+            rows = tuple(HistorySummary(*row) for row in records)
+            chosen = selected_id if any(row.id == selected_id for row in rows) else rows[0].id if rows else None
+            selected = self._read_row(connection, chosen) if chosen is not None else None
+            return HistoryPageResult(query, ceiling_id, offset, total, rows, selected)
+
+    @staticmethod
+    def _read_row(connection, row_id):
+        row = connection.execute(f"SELECT id,created_at,{','.join(_ALL_FIELDS)} FROM dictations WHERE id=?", (row_id,)).fetchone()
+        return HistoryRow(*row) if row is not None else None
+
+    def get_row(self, row_id, *, cancelled=lambda: False):
+        with self._connect(timeout=.25) as connection:
+            connection.set_progress_handler(lambda: int(cancelled()), 500)
+            return self._read_row(connection, row_id)
+
+    def iter_filtered(self, *, query="", ceiling_id=None, cancelled=lambda: False):
+        """Stream one read transaction; never collect the complete export in RAM."""
+        query = _query_text(query)
+        with self._connect(timeout=.25) as connection:
+            connection.execute("BEGIN")
+            where = _search_setup(connection, query, cancelled)
+            ceiling_id = ceiling_id if ceiling_id is not None else connection.execute("SELECT coalesce(max(id),0) FROM dictations").fetchone()[0]
+            cursor = connection.execute(f"SELECT id,created_at,{','.join(_ALL_FIELDS)} FROM dictations WHERE id<=?" + where
+                + " ORDER BY id DESC", (ceiling_id,))
+            for row in cursor:
+                if cancelled():
+                    raise sqlite3.OperationalError("History query cancelled")
+                yield HistoryRow(*row)
+
     def weekly_stats(self, *, today=None) -> WeeklyStats:
         """Local Monday–Sunday aggregates, without loading any transcript text."""
         today = today or date.today()
@@ -170,8 +296,8 @@ class DictationHistoryStore:
                          (delta, existing[0]))
 
     @contextmanager
-    def _connect(self) -> Iterator[sqlite3.Connection]:
-        connection = sqlite3.connect(self.db_path)
+    def _connect(self, *, timeout=5) -> Iterator[sqlite3.Connection]:
+        connection = sqlite3.connect(self.db_path, timeout=timeout)
         try:
             with connection:
                 yield connection
@@ -184,3 +310,31 @@ def _default_local_appdata() -> Path:
     if configured:
         return Path(configured)
     return Path.home() / "AppData" / "Local"
+
+
+def _remove_snapshot(path):
+    try:
+        path.unlink(missing_ok=True)
+    except OSError:
+        logger.warning("History temporary copy cleanup unavailable")
+
+
+class HistorySnapshot:
+    """Read-only private copy, retained while a page or export references it."""
+    def __init__(self, path):
+        self.db_path = Path(path)
+        self._cleanup = weakref.finalize(self, _remove_snapshot, self.db_path)
+
+    @contextmanager
+    def _connect(self, *, timeout=.25):
+        connection = sqlite3.connect(self.db_path.resolve().as_uri() + "?mode=ro", uri=True, timeout=timeout)
+        try:
+            with connection:
+                yield connection
+        finally:
+            connection.close()
+
+    search_page = DictationHistoryStore.search_page
+    get_row = DictationHistoryStore.get_row
+    iter_filtered = DictationHistoryStore.iter_filtered
+    _read_row = staticmethod(DictationHistoryStore._read_row)

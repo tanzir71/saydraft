@@ -1,6 +1,7 @@
 import json
 import os
 import types
+import time
 
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
@@ -14,6 +15,17 @@ def qt_modules():
     if app is None:
         app = QtWidgets.QApplication([])
     return types.SimpleNamespace(QtCore=QtCore, QtGui=QtGui, QtWidgets=QtWidgets)
+
+
+def settle_history(window, *, timeout=8):
+    application = qt_modules().QtWidgets.QApplication.instance()
+    deadline = time.monotonic() + timeout
+    while time.monotonic() < deadline:
+        application.processEvents()
+        if not window.loading and not window._exporting and not window.jobs.export_busy:
+            return
+        time.sleep(.003)
+    raise AssertionError("Owned History work did not finish")
 
 
 class FakeClipboard:
@@ -77,6 +89,7 @@ def test_history_window_loads_reverse_chron_and_toggles_raw_clean(tmp_path):
 
     store = build_history(tmp_path)
     window = HistoryPage(qt_modules=qt_modules(), store=store, glossary_path=tmp_path / "glossary.json")
+    settle_history(window)
 
     assert window.list_widget.count() == 2
     assert "Newer clean" in window.list_widget.item(0).text()
@@ -97,6 +110,7 @@ def test_history_window_search_filters_rows(tmp_path):
     window = HistoryPage(qt_modules=qt_modules(), store=store, glossary_path=tmp_path / "glossary.json")
 
     window.search_edit.setText("older")
+    settle_history(window)
 
     assert window.list_widget.count() == 1
     assert "Older clean" in window.list_widget.item(0).text()
@@ -111,10 +125,13 @@ def test_history_retry_requires_saved_audio_and_selects_new_result_for_review(tm
     calls = []
     window = HistoryPage(qt_modules=qt_modules(), store=store,
                            retry_callback=lambda row: calls.append(row.id) or True)
+    settle_history(window)
     assert not window.retry_button.isEnabled()
     source = store.append(HistoryEntry("Notepad", "", "", "raw", "notes", 1, "primary", audio_path="local.wav"))
     window.refresh()
+    settle_history(window)
     window._select_id(source)
+    settle_history(window)
     assert window.retry_button.isEnabled()
     assert "Recording saved" in window.list_widget.currentItem().text()
     assert window.retry_current_audio()
@@ -123,6 +140,7 @@ def test_history_retry_requires_saved_audio_and_selects_new_result_for_review(tm
                                       "whisper-large-v3-turbo", audio_path="local.wav", edits_json=json.dumps([
                                           {"type": "asr_retry", "source_history_id": source}])))
     window.finish_retry(result)
+    settle_history(window)
     assert window.current_row().id == result
     assert window.detail_editor.toPlainText() == "Recovered."
     assert f"Retry of #{source}" in window.metadata_label.text()
@@ -133,6 +151,7 @@ def test_history_window_rejected_reinsertion_does_not_claim_it_was_queued(tmp_pa
     from saydraft.ui.history_page import HistoryPage
     qt_modules()
     window = HistoryPage(store=build_history(tmp_path), reinsert_callback=lambda *args: False)
+    settle_history(window)
     try:
         assert not window.reinsert_current_text()
         assert "busy" in window.status_label.text() and "Queued" not in window.status_label.text()
@@ -154,6 +173,7 @@ def test_history_window_copy_reinsert_and_add_dictionary_actions(tmp_path):
         reinsert_callback=lambda text, row: reinserts.append((text, row.id)),
         glossary_path=glossary_path,
     )
+    settle_history(window)
 
     window.copy_current_text()
     window.reinsert_current_text()

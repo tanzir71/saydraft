@@ -5,7 +5,7 @@ from pathlib import Path
 import pytest
 
 from saydraft.history import HistoryEntry
-from tests.test_history_window import FakeClipboard, build_history, qt_modules
+from tests.test_history_window import FakeClipboard, build_history, qt_modules, settle_history
 
 
 @pytest.fixture
@@ -19,6 +19,7 @@ def subject(tmp_path):
         timings_json='{"stt":0.2,"rules":0.001}'))
     clipboard, inserted = FakeClipboard(), []
     window = HistoryPage(store=store, clipboard=clipboard, reinsert_callback=lambda text, row: inserted.append(text))
+    settle_history(window)
     try:
         yield window, qt, clipboard, inserted
     finally:
@@ -75,6 +76,7 @@ def test_result_details_and_empty_filter_never_leave_stale_text(subject):
     text = window.why_editor.toPlainText()
     assert "Qwen" in text and "rules_budget" in text and "0.001" in text
     window.search_edit.setText("there are no matching records")
+    settle_history(window)
     assert not window.export_button.isEnabled()
     assert not window.detail_editor.toPlainText() and not window.why_editor.toPlainText()
 
@@ -83,9 +85,11 @@ def test_result_details_and_empty_filter_never_leave_stale_text(subject):
 def test_export_uses_only_filtered_rows_and_ignores_the_raw_diff_view(subject, tmp_path, format):
     window, _, _, _ = subject
     window.search_edit.setText("older")
+    settle_history(window)
     window.diff_toggle.setChecked(True)
     path = tmp_path / ("export." + format)
     assert window.export_to(path, format=format)
+    settle_history(window)
     text = path.read_text("utf-8")
     assert "Older clean." in text and "um older raw" in text
     assert "Newer clean" not in text and "keep café" not in text
@@ -99,7 +103,8 @@ def test_export_dialog_cancel_is_a_noop_and_missing_directory_is_visible(subject
     monkeypatch.setattr(qt.QtWidgets.QFileDialog, "exec", lambda dialog: qt.QtWidgets.QDialog.Rejected)
     previous = window.status_label.text()
     assert not window.choose_export() and window.status_label.text() == previous
-    assert not window.export_to(tmp_path / "missing" / "history.md", format="md")
+    assert window.export_to(tmp_path / "missing" / "history.md", format="md")
+    settle_history(window)
     assert "Could not export" in window.status_label.text()
 
 
@@ -120,6 +125,7 @@ def test_export_dialog_appends_the_selected_format_suffix(subject, tmp_path, mon
 
     monkeypatch.setattr(qt.QtWidgets.QFileDialog, "exec", choose)
     assert window.choose_export()
+    settle_history(window)
     assert path.with_suffix(".csv").is_file() and not path.exists()
 
 
@@ -133,6 +139,7 @@ def test_explicit_csv_filename_is_respected_even_with_the_markdown_filter(subjec
 
     monkeypatch.setattr(qt.QtWidgets.QFileDialog, "exec", choose)
     assert window.choose_export()
+    settle_history(window)
     parsed = list(csv.DictReader(io.StringIO(path.read_text("utf-8"))))
     assert len(parsed) == len(window.filtered_rows)
 
@@ -145,4 +152,24 @@ def test_export_never_appends_a_suffix_after_the_dialog_confirms_a_target(subjec
     monkeypatch.setattr(qt.QtWidgets.QFileDialog, "exec", lambda dialog: qt.QtWidgets.QDialog.Accepted)
     monkeypatch.setattr(qt.QtWidgets.QFileDialog, "selectedFiles", lambda dialog: [str(selected)])
     assert window.choose_export()
+    settle_history(window)
     assert selected.is_file() and sibling.read_text("utf-8") == "existing sibling"
+
+
+def test_export_dialog_keeps_its_original_query_when_background_work_changes_the_display(subject, tmp_path, monkeypatch):
+    window, qt, _, _ = subject
+    window.search_edit.setText("older")
+    settle_history(window)
+    target = tmp_path / "frozen.csv"
+    def choose(dialog):
+        window.search_edit.setText("newer")
+        settle_history(window)
+        dialog.selectFile(str(target))
+        return qt.QtWidgets.QDialog.Accepted
+    monkeypatch.setattr(qt.QtWidgets.QFileDialog, "exec", choose)
+    assert window.choose_export()
+    settle_history(window)
+    with target.open(encoding="utf-8", newline="") as stream:
+        rows = list(csv.DictReader(stream))
+    assert len(rows) == 1 and rows[0]["cleaned_text"] == "Older clean."
+    assert window.current_row().cleaned_text == "Newer clean Qwen Turbo."
