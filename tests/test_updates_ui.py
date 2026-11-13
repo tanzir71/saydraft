@@ -130,3 +130,31 @@ def test_app_starts_saved_checks_and_shuts_the_service_down_without_owner_adapte
     app.qt_app.aboutToQuit.emit()
     assert calls == [False, True, 'closed']
     assert '0.2.0' in app.signals.notification_requested.emitted[-1][0]
+
+
+def test_destroying_owned_update_controls_retires_the_request(monkeypatch):
+    qt = qt_modules()
+    entered, release = threading.Event(), threading.Event()
+    created = []
+
+    def checker(**options):
+        entered.set()
+        assert release.wait(3)
+        return UpdateResult('available', '0.2.0')
+
+    def presenter(**kwargs):
+        value = UpdatePresenter(checker=checker, **kwargs)
+        created.append(value)
+        return value
+
+    monkeypatch.setattr('saydraft.ui.updates.UpdatePresenter', presenter)
+    config = default_config()
+    config['updates']['enabled'] = True
+    card = UpdatesCard(config)
+    try:
+        assert entered.wait(1) and created[0].controller.enabled
+        card.deleteLater()
+        qt.QtCore.QCoreApplication.sendPostedEvents(None, qt.QtCore.QEvent.DeferredDelete)
+        assert not created[0].controller.enabled
+    finally:
+        release.set()

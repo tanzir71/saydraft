@@ -108,6 +108,7 @@ class UpdatesCard(QtWidgets.QWidget):
         self.check_button.clicked.connect(self.check)
         self.release_button.clicked.connect(self.open_release)
         if self._owns_presenter:
+            self.destroyed.connect(self.presenter.close)
             self.presenter.configure(self._saved)
         self.refresh()
 

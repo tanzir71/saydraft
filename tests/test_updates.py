@@ -82,11 +82,11 @@ def test_versions_are_compared_numerically_instead_of_lexically():
                          opener=Transport(json.dumps(release('0.10.0')).encode())).state == 'available'
 
 
-@pytest.mark.parametrize('change', [{'draft': True}, {'prerelease': True}, {'published_at': None},
-                                  {'draft': None}, {'prerelease': None}])
-def test_drafts_prereleases_and_incomplete_publication_metadata_are_not_updates(change):
+@pytest.mark.parametrize('change,state', [({'draft': True}, 'no_release'), ({'prerelease': True}, 'no_release'),
+    ({'published_at': None}, 'unavailable'), ({'draft': None}, 'unavailable'), ({'prerelease': None}, 'unavailable')])
+def test_drafts_prereleases_and_incomplete_publication_metadata_are_not_updates(change, state):
     result = check_updates(enabled=True, opener=Transport(json.dumps(release(**change)).encode()))
-    assert result == UpdateResult('no_release') and result.url is None
+    assert result == UpdateResult(state) and result.url is None
 
 
 @pytest.mark.parametrize('payload', [b'not JSON', b'[]', b'{}', b'\xff', b'x' * (MAX_RESPONSE_BYTES + 1),

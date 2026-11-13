@@ -73,8 +73,12 @@ def check_updates(*, enabled=False, current_version=__version__, opener=None, ca
         payload = json.loads(content.decode('utf-8'))
         if not isinstance(payload, dict):
             raise ValueError('Release response is not an object')
-        if payload.get('draft') is not False or payload.get('prerelease') is not False or not payload.get('published_at'):
+        if type(payload.get('draft')) is not bool or type(payload.get('prerelease')) is not bool:
+            raise ValueError('Release publication flags are missing or invalid')
+        if payload['draft'] or payload['prerelease']:
             return UpdateResult('no_release')
+        if not isinstance(payload.get('published_at'), str) or not payload['published_at'].strip():
+            raise ValueError('Release publication timestamp is missing')
         tag = payload.get('tag_name')
         if not isinstance(tag, str) or not tag.startswith('v'):
             raise ValueError('Release tag is invalid')
