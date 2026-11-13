@@ -104,14 +104,16 @@ guard or fixture review proves semantic safety. The unchanged
 [pre-guard baseline](../eval/cleanup/results/2026-11-13-baseline/README.md)
 records the original substitution and the then-incomplete CPU coverage.
 
-The separate [production-policy diagnostics](../eval/cleanup/results/2026-11-13-policy/README.md)
-use the actual 800 ms cap with background preparation outside case timing.
-RTX 2B completes 556/556 golden cases with 269 accepted replies and no golden
-regressions. CPU 0.8B stops after 186 golden cases following a timeout, with
-zero accepted replies and no adversarial cases completed. Its journal calibration
-median is 21.00 tok/s, below the 25 tok/s target; the forced 25.89 sample cannot
-replace it. The [evidence checker](CLEANUP_EVIDENCE.md) refuses the combined pair.
-Current-source policy qualification, co-loaded ASR, hardware tiers and cold/warm
+The [post-deadline policy replays](../eval/cleanup/results/2026-11-13-deadline-policy/README.md)
+at `1486b09` use the actual 800 ms cap with background preparation outside case
+timing. Both complete 556/556 golden cases and 100 low-need adversarial skips,
+with zero golden regressions or timeouts. RTX 2B has 269 accepted replies and a
+114.80 tok/s decode median. CPU 0.8B keeps rules throughout at 20.74 tok/s, below
+the 25 tok/s target; its forced 25.89 sample cannot replace that live calibration.
+The [evidence checker](CLEANUP_EVIDENCE.md) refuses the combined pair because
+rules fallback earns no accepted-model credit. The earlier
+[failed CPU replay](../eval/cleanup/results/2026-11-13-policy/README.md) remains
+unchanged. CPU hybrid qualification, co-loaded ASR, hardware tiers and cold/warm
 release latency remain open. Historical results below retain their original scope.
 
 ### Cleanup baseline measurements (2026-11-12; incomplete matrix)

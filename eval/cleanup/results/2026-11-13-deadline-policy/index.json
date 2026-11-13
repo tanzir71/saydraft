@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "source_commit": "1486b091f6a0af6bffbb306a615b05eae82c0d1d",
+  "selection_performed": false,
+  "scope": "Complete CPU/RTX production-policy replays after deadline-path change; CPU rules-only earns no hybrid credit; no tier/ASR/release-latency/default acceptance",
+  "planned_jobs": 2,
+  "completed_jobs": 2,
+  "reports": [
+    {
+      "report": "qwen08-cpu.json",
+      "report_sha256": "dbdfba5854d1d59b7aa307d9b95a7f06b6eccfda534d93bfaf4d9e9e9c48f377",
+      "journal_sha256": "7ee1189c2ec11c45124e23fe07ba1fb10cc147a10b06edfe46c23bba141e6209",
+      "candidate": "qwen35-08b-q4-k-m",
+      "backend": "cpu",
+      "policy_measurement_complete": true,
+      "golden_exact": 556,
+      "golden_accepted_replies": 0,
+      "decoder_median_tps": 20.73911389851051,
+      "maximum_timed_case_seconds": 0.05362039996543899
+    },
+    {
+      "report": "qwen2-vulkan1.json",
+      "report_sha256": "78002c69439617a51276f69b0737d821faa9824783612310bb1a07e743b22715",
+      "journal_sha256": "4e1c96d0bafe48c2093d9328cfd9fef6807dc1614dc1e8cde4590329f8069a1b",
+      "candidate": "qwen35-2b-q4-k-m",
+      "backend": "vulkan",
+      "policy_measurement_complete": true,
+      "golden_exact": 556,
+      "golden_accepted_replies": 269,
+      "decoder_median_tps": 114.796935894667,
+      "maximum_timed_case_seconds": 0.31561369996052235
+    }
+  ],
+  "fault_probes": [
+    {
+      "report": "faults-initial.json",
+      "report_sha256": "e8fb7c9b94f9a833760ed4fa3293dddfaaa04ca1dd81908fe65efc39601f271e",
+      "command_exit": 1,
+      "scope": "80 ms timeout verified; uncached mid-generation fixture failed before observing a token"
+    },
+    {
+      "report": "faults-cached.json",
+      "report_sha256": "8d1cb619306770e1ed83ba766fe6bd297d24b2efa61ba6a184ac385206268d8c",
+      "command_exit": 0,
+      "scope": "Exact public input primed outside timing; kill after observed generation; no partial output"
+    }
+  ],
+  "idle_reload": {
+    "report": "idle-reload.json",
+    "report_sha256": "66245938e1531068b904d20debc40512e6c1725385a33c983e278512af1812ec",
+    "command_exit": 0,
+    "scope": "Owned native CPU: 250 ms probe idle interval, production default remains 900 s; activity refresh, observed exit before fresh-generation/fresh-credential reload"
+  },
+  "app_soak": {
+    "report": "app-soak-100.json",
+    "report_sha256": "cc278731c7e44991735538e293e0b7d5718b0d183c4629b73cc26caa1365fabe",
+    "source_receipt": "app-soak-source.json",
+    "source_receipt_sha256": "e19b146ddef45b3a5a99c97a9bc770b39f4c6eeb8b93244dcd6b37b71c16bcd6",
+    "command_exit": 0,
+    "scope": "100 synthetic app cycles, native developer-only fixture, stub insertion/private History; all 66 native exits observed; does not establish the separate 200-cycle RSS/clipboard gate"
+  }
+}

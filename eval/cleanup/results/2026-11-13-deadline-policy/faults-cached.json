@@ -1,0 +1,28 @@
+{
+  "source": "1486b091f6a0af6bffbb306a615b05eae82c0d1d",
+  "script_sha256": "74b9392551e2d469ca939035d0ab8edd704d1f0c04372ac8c280d879fff5f4e1",
+  "microphone_used": false,
+  "os_input_used": false,
+  "clipboard_used": false,
+  "quality_or_asr_latency_claim": false,
+  "faults": [
+    {
+      "kind": "mid_generation_kill",
+      "exact_public_input_cached_before_timing": true,
+      "warm_reason": "ok",
+      "seconds": 0.1013136999681592,
+      "kill_to_fallback_seconds": 0.009572400012984872,
+      "reason": "unavailable",
+      "output_published": false,
+      "enabled": true,
+      "generated_content_observed": true,
+      "complete_stream_seen_before_kill": false,
+      "peak_native_host_working_set_bytes": [
+        1031831552
+      ],
+      "native_exit_observed": [
+        true
+      ]
+    }
+  ]
+}

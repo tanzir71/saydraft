@@ -15,7 +15,7 @@ from saydraft.eval import load_eval_corpus
 from saydraft.models.manifest import safe_member
 from saydraft.models.runtime_ids import runtime_model_id
 
-POLICY_INDEX = ROOT / "eval/cleanup/results/2026-11-13-policy/index.json"
+POLICY_INDEX = ROOT / "eval/cleanup/results/2026-11-13-deadline-policy/index.json"
 FORCED_INDEX = ROOT / "eval/cleanup/results/2026-11-13-word-guard/index.json"
 REQUIRED = {"saydraft/cleanup/llm/client.py", "saydraft/cleanup/llm/gate.py",
     "saydraft/cleanup/llm/validate.py", "saydraft/dictation/pipeline.py",

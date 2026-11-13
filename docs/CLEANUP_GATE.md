@@ -1,15 +1,15 @@
 # Interactive cleanup gate
 
-Current native verification is incomplete: the RTX 2B policy run completes,
-but a CPU 0.8B timeout case returns rules after about 9.98 seconds despite the
-configured 800 ms cap. The cause remains open; the deadlines below describe the
-implementation contract, not established latency acceptance. See the retained
-[complete and failed measurements](CLEANUP_EVIDENCE.md).
+Current native policy replays complete on CPU and RTX with no timeouts after
+the deadline-path change. CPU keeps rules throughout at a 20.74 tok/s median;
+RTX accepts 269 golden replies. The combined hybrid check remains refused
+because CPU fallback earns no model credit. The original 9.98-second CPU failure
+remains in the [retained measurements](CLEANUP_EVIDENCE.md).
 
 The transport now enforces the remaining budget on each socket read/write,
 including trickled headers and chunk framing, without starting a watchdog thread
-per request. Idle checks rearm only when needed. Native replay of this changed
-source is still required before resolving the observed overrun.
+per request. Idle checks rearm only when needed. The complete source-specific
+replays and owned fault checks do not establish ASR or release-latency acceptance.
 
 The production pipeline scores the protected original transcript before rules
 remove cues. Backtracking, list cues, filler density at least 15%, more than 25

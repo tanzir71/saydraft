@@ -42,9 +42,10 @@ See the [documentation index](docs/README.md) for individual features and the
 [parity plan](WISPR_OFFLINE_PARITY_PLAN.md) for the complete acceptance status.
 
 The latest [cleanup measurements](docs/CLEANUP_EVIDENCE.md) retain all ten
-CPU/RTX model comparisons, a complete RTX policy run, and a failed partial CPU
-policy run. The combined qualification remains open; benchmark completion alone
-does not establish app latency or a model default.
+CPU/RTX model comparisons, complete policy replays, and the earlier CPU failure.
+The CPU policy replay keeps rules throughout, so combined hybrid qualification
+remains open. Benchmark completion alone does not establish app latency or a
+model default.
 
 ## What works today
 

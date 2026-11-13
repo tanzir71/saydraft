@@ -1,16 +1,21 @@
 # Local cleanup runtime
 
-The latest CPU production-policy measurement exposed a wall-time overrun:
-one timeout returned rules after about 9.98 seconds despite the configured
-800 ms cap. Its partial report and observed native exit are retained, and P4.1
-has been reopened for diagnosis. Earlier controlled lifecycle probes below do
-not settle that newer result. See [current evidence](CLEANUP_EVIDENCE.md).
+The retained `4a1e69a` CPU policy failure exposed a 9.98-second wall-time overrun
+despite the configured 800 ms cap. After the deadline-path change, both native
+policy replays complete at `1486b09` with no timeouts: the slowest CPU/RTX cases
+are 53.6/315.6 ms, excluding background preparation and ASR. CPU keeps rules
+throughout and earns no hybrid credit. See [current evidence](CLEANUP_EVIDENCE.md).
 
 The transport now charges every socket read/write to the absolute deadline,
 including trickled headers and chunk framing, without per-request watchdog
 threads. Repeated calls refresh the idle timestamp without replacing the idle
-timer. Fresh native policy measurements are required for this changed source;
-the retained `4a1e69a` policy reports predate it.
+timer. Owned native fault checks return fallback control in 85.3 ms for an 80 ms
+deadline and 9.6 ms after killing actual generation in a cached-input request,
+without partial output. The first uncached interruption fixture timed out before
+observing generation and remains retained as a failed probe. Native idle/activity/
+reload checks pass, as do 100 synthetic app cycles with all 66 sidecars exiting.
+The separate 200-cycle RSS/clipboard gate and broad release-latency acceptance
+remain open. The developer idle interval does not change production's 900 s.
 
 The app's sidecar uses the Windows x64 llama.cpp build referenced by
 [stable release v0.9.0](https://github.com/ggml-org/llama.cpp/releases/tag/v0.9.0):

@@ -1,0 +1,717 @@
+{
+  "offline": true,
+  "microphone_used": false,
+  "os_insertion_used": false,
+  "quality_claim": false,
+  "cycles": [
+    {
+      "cycle": 0,
+      "termination_after_tokenization": false,
+      "decision": "incomplete",
+      "release_seconds": 0.9066300999838859,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 1,
+      "termination_after_tokenization": true,
+      "decision": "unavailable",
+      "release_seconds": 0.2163249999866821,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 2,
+      "termination_after_tokenization": false,
+      "decision": "incomplete",
+      "release_seconds": 0.8901277999975719,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 3,
+      "termination_after_tokenization": true,
+      "decision": "unavailable",
+      "release_seconds": 0.21586529997875914,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 4,
+      "termination_after_tokenization": false,
+      "decision": "incomplete",
+      "release_seconds": 0.8886878999765031,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 5,
+      "termination_after_tokenization": true,
+      "decision": "unavailable",
+      "release_seconds": 0.19859529996756464,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 6,
+      "termination_after_tokenization": false,
+      "decision": "incomplete",
+      "release_seconds": 0.9131590000470169,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 7,
+      "termination_after_tokenization": true,
+      "decision": "unavailable",
+      "release_seconds": 0.22425319999456406,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 8,
+      "termination_after_tokenization": false,
+      "decision": "incomplete",
+      "release_seconds": 0.9490407999837771,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 9,
+      "termination_after_tokenization": true,
+      "decision": "unavailable",
+      "release_seconds": 0.21549630002118647,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 10,
+      "termination_after_tokenization": false,
+      "decision": "incomplete",
+      "release_seconds": 0.9688360000145622,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 11,
+      "termination_after_tokenization": true,
+      "decision": "unavailable",
+      "release_seconds": 0.22351860004710034,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 12,
+      "termination_after_tokenization": false,
+      "decision": "timeout",
+      "release_seconds": 1.0541762999491766,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 13,
+      "termination_after_tokenization": true,
+      "decision": "unavailable",
+      "release_seconds": 0.23667790001491085,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 14,
+      "termination_after_tokenization": false,
+      "decision": "timeout",
+      "release_seconds": 1.019512799975928,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 15,
+      "termination_after_tokenization": true,
+      "decision": "unavailable",
+      "release_seconds": 0.21577269997214898,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 16,
+      "termination_after_tokenization": false,
+      "decision": "timeout",
+      "release_seconds": 1.0250255999853835,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 17,
+      "termination_after_tokenization": true,
+      "decision": "unavailable",
+      "release_seconds": 0.2207860000198707,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 18,
+      "termination_after_tokenization": false,
+      "decision": "incomplete",
+      "release_seconds": 0.9622525000013411,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 19,
+      "termination_after_tokenization": true,
+      "decision": "unavailable",
+      "release_seconds": 0.23122519999742508,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 20,
+      "termination_after_tokenization": false,
+      "decision": "incomplete",
+      "release_seconds": 0.9696716000325978,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 21,
+      "termination_after_tokenization": true,
+      "decision": "unavailable",
+      "release_seconds": 0.22484360000817105,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 22,
+      "termination_after_tokenization": false,
+      "decision": "incomplete",
+      "release_seconds": 0.9291162000154145,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 23,
+      "termination_after_tokenization": true,
+      "decision": "unavailable",
+      "release_seconds": 0.24010590004036203,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 24,
+      "termination_after_tokenization": false,
+      "decision": "incomplete",
+      "release_seconds": 1.0129419000004418,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 25,
+      "termination_after_tokenization": true,
+      "decision": "unavailable",
+      "release_seconds": 0.25809179997304454,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 26,
+      "termination_after_tokenization": false,
+      "decision": "timeout",
+      "release_seconds": 1.0506622000248171,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 27,
+      "termination_after_tokenization": true,
+      "decision": "unavailable",
+      "release_seconds": 0.2400017000036314,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 28,
+      "termination_after_tokenization": false,
+      "decision": "timeout",
+      "release_seconds": 1.0364239999908023,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 29,
+      "termination_after_tokenization": true,
+      "decision": "unavailable",
+      "release_seconds": 0.24137719999998808,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 30,
+      "termination_after_tokenization": false,
+      "decision": "timeout",
+      "release_seconds": 1.0587321000057273,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 31,
+      "termination_after_tokenization": true,
+      "decision": "unavailable",
+      "release_seconds": 0.28009590000147,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 32,
+      "termination_after_tokenization": false,
+      "decision": "timeout",
+      "release_seconds": 1.030422699986957,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 33,
+      "termination_after_tokenization": true,
+      "decision": "unavailable",
+      "release_seconds": 0.24588900001253933,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 34,
+      "termination_after_tokenization": false,
+      "decision": "timeout",
+      "release_seconds": 1.1343022999935783,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 35,
+      "termination_after_tokenization": true,
+      "decision": "unavailable",
+      "release_seconds": 0.24132840003585443,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 36,
+      "termination_after_tokenization": false,
+      "decision": "timeout",
+      "release_seconds": 1.0327390999882482,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 37,
+      "termination_after_tokenization": true,
+      "decision": "unavailable",
+      "release_seconds": 0.2384526999667287,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 38,
+      "termination_after_tokenization": false,
+      "decision": "incomplete",
+      "release_seconds": 0.9439080999582075,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 39,
+      "termination_after_tokenization": true,
+      "decision": "unavailable",
+      "release_seconds": 0.23140369995962828,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 40,
+      "termination_after_tokenization": false,
+      "decision": "incomplete",
+      "release_seconds": 0.8873585999826901,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 41,
+      "termination_after_tokenization": true,
+      "decision": "unavailable",
+      "release_seconds": 0.219445499998983,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 42,
+      "termination_after_tokenization": false,
+      "decision": "incomplete",
+      "release_seconds": 0.9757914000074379,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 43,
+      "termination_after_tokenization": true,
+      "decision": "unavailable",
+      "release_seconds": 0.2250349000096321,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 44,
+      "termination_after_tokenization": false,
+      "decision": "incomplete",
+      "release_seconds": 1.0131463999859989,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 45,
+      "termination_after_tokenization": true,
+      "decision": "unavailable",
+      "release_seconds": 0.21606309997150674,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 46,
+      "termination_after_tokenization": false,
+      "decision": "incomplete",
+      "release_seconds": 0.9978888999903575,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 47,
+      "termination_after_tokenization": true,
+      "decision": "unavailable",
+      "release_seconds": 0.24590699997497723,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 48,
+      "termination_after_tokenization": false,
+      "decision": "incomplete",
+      "release_seconds": 0.996576500008814,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 49,
+      "termination_after_tokenization": true,
+      "decision": "unavailable",
+      "release_seconds": 0.23270819999743253,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 50,
+      "termination_after_tokenization": false,
+      "decision": "incomplete",
+      "release_seconds": 0.9288447999861091,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 51,
+      "termination_after_tokenization": true,
+      "decision": "unavailable",
+      "release_seconds": 0.24043429997982457,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 52,
+      "termination_after_tokenization": false,
+      "decision": "incomplete",
+      "release_seconds": 1.0007321000448428,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 53,
+      "termination_after_tokenization": true,
+      "decision": "unavailable",
+      "release_seconds": 0.23161040002014488,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 54,
+      "termination_after_tokenization": false,
+      "decision": "timeout",
+      "release_seconds": 1.0187706000288017,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 55,
+      "termination_after_tokenization": true,
+      "decision": "unavailable",
+      "release_seconds": 0.24449490004917607,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 56,
+      "termination_after_tokenization": false,
+      "decision": "incomplete",
+      "release_seconds": 1.003995900042355,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 57,
+      "termination_after_tokenization": true,
+      "decision": "unavailable",
+      "release_seconds": 0.23258520005038008,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 58,
+      "termination_after_tokenization": false,
+      "decision": "incomplete",
+      "release_seconds": 0.963597199996002,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 59,
+      "termination_after_tokenization": true,
+      "decision": "unavailable",
+      "release_seconds": 0.2399064000346698,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 60,
+      "termination_after_tokenization": false,
+      "decision": "incomplete",
+      "release_seconds": 0.9527861000387929,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 61,
+      "termination_after_tokenization": true,
+      "decision": "unavailable",
+      "release_seconds": 0.24955529998987913,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 62,
+      "termination_after_tokenization": false,
+      "decision": "incomplete",
+      "release_seconds": 0.9176806000177749,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 63,
+      "termination_after_tokenization": true,
+      "decision": "unavailable",
+      "release_seconds": 0.25500449998071417,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 64,
+      "termination_after_tokenization": false,
+      "decision": "incomplete",
+      "release_seconds": 0.9952135000494309,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 65,
+      "termination_after_tokenization": true,
+      "decision": "unavailable",
+      "release_seconds": 0.22701060003601015,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 66,
+      "termination_after_tokenization": false,
+      "decision": "incomplete",
+      "release_seconds": 0.9658792999689467,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 67,
+      "termination_after_tokenization": true,
+      "decision": "unavailable",
+      "release_seconds": 0.22726700000930578,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 68,
+      "termination_after_tokenization": false,
+      "decision": "incomplete",
+      "release_seconds": 0.9872032999992371,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 69,
+      "termination_after_tokenization": true,
+      "decision": "unavailable",
+      "release_seconds": 0.23799239995423704,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 70,
+      "termination_after_tokenization": false,
+      "decision": "timeout",
+      "release_seconds": 1.0283919000066817,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 71,
+      "termination_after_tokenization": true,
+      "decision": "unavailable",
+      "release_seconds": 0.2639735999982804,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 72,
+      "termination_after_tokenization": false,
+      "decision": "timeout",
+      "release_seconds": 1.0340963999624364,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 73,
+      "termination_after_tokenization": true,
+      "decision": "unavailable",
+      "release_seconds": 0.2473613999900408,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 74,
+      "termination_after_tokenization": false,
+      "decision": "incomplete",
+      "release_seconds": 0.9538197999936529,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 75,
+      "termination_after_tokenization": true,
+      "decision": "unavailable",
+      "release_seconds": 0.2394336000434123,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 76,
+      "termination_after_tokenization": false,
+      "decision": "incomplete",
+      "release_seconds": 0.9995737999561243,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 77,
+      "termination_after_tokenization": true,
+      "decision": "unavailable",
+      "release_seconds": 0.2500350000336766,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 78,
+      "termination_after_tokenization": false,
+      "decision": "incomplete",
+      "release_seconds": 0.9735037999926135,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 79,
+      "termination_after_tokenization": true,
+      "decision": "unavailable",
+      "release_seconds": 0.23264399997424334,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 80,
+      "termination_after_tokenization": false,
+      "decision": "incomplete",
+      "release_seconds": 0.9583656000322662,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 81,
+      "termination_after_tokenization": true,
+      "decision": "unavailable",
+      "release_seconds": 0.24799879995407537,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 82,
+      "termination_after_tokenization": false,
+      "decision": "incomplete",
+      "release_seconds": 1.0258484999649227,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 83,
+      "termination_after_tokenization": true,
+      "decision": "unavailable",
+      "release_seconds": 0.23175450001144782,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 84,
+      "termination_after_tokenization": false,
+      "decision": "incomplete",
+      "release_seconds": 1.0094203000189736,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 85,
+      "termination_after_tokenization": true,
+      "decision": "unavailable",
+      "release_seconds": 0.28200440004002303,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 86,
+      "termination_after_tokenization": false,
+      "decision": "incomplete",
+      "release_seconds": 0.9799993000342511,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 87,
+      "termination_after_tokenization": true,
+      "decision": "unavailable",
+      "release_seconds": 0.22520099999383092,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 88,
+      "termination_after_tokenization": false,
+      "decision": "timeout",
+      "release_seconds": 1.0276975000160746,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 89,
+      "termination_after_tokenization": true,
+      "decision": "unavailable",
+      "release_seconds": 0.2684123999788426,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 90,
+      "termination_after_tokenization": false,
+      "decision": "incomplete",
+      "release_seconds": 0.9655378000461496,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 91,
+      "termination_after_tokenization": true,
+      "decision": "unavailable",
+      "release_seconds": 0.22366200003307313,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 92,
+      "termination_after_tokenization": false,
+      "decision": "timeout",
+      "release_seconds": 1.0304354000254534,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 93,
+      "termination_after_tokenization": true,
+      "decision": "unavailable",
+      "release_seconds": 0.21225740003865212,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 94,
+      "termination_after_tokenization": false,
+      "decision": "timeout",
+      "release_seconds": 1.0403296999866143,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 95,
+      "termination_after_tokenization": true,
+      "decision": "unavailable",
+      "release_seconds": 0.22085350000998005,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 96,
+      "termination_after_tokenization": false,
+      "decision": "timeout",
+      "release_seconds": 1.118540399998892,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 97,
+      "termination_after_tokenization": true,
+      "decision": "unavailable",
+      "release_seconds": 0.2187197000021115,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 98,
+      "termination_after_tokenization": false,
+      "decision": "incomplete",
+      "release_seconds": 0.9669525999925099,
+      "rules_preserved": true
+    },
+    {
+      "cycle": 99,
+      "termination_after_tokenization": true,
+      "decision": "unavailable",
+      "release_seconds": 0.29476229997817427,
+      "rules_preserved": true
+    }
+  ],
+  "history_rows": 100,
+  "stub_insertions": 100,
+  "processes_started": 66,
+  "model_sha256": "6151b1929d7f5aa3385d9ddef3393e55587c0a55de661562322bc51dfda93a04",
+  "fixture_context_override": true,
+  "normal_length_limited_streams_checked": 34,
+  "deadline_fallbacks": 16,
+  "all_processes_exited_after_shutdown": true,
+  "passed": true
+}

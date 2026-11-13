@@ -1,0 +1,28 @@
+{
+  "source": "1486b091f6a0af6bffbb306a615b05eae82c0d1d",
+  "script_sha256": "9d1232ccc73cb3c46b60bed217a06e0f1f90d7f1caecc76b02b7de9966e1d965",
+  "probe_idle_seconds": 0.25,
+  "production_idle_seconds": 900,
+  "microphone_used": false,
+  "os_input_used": false,
+  "clipboard_used": false,
+  "quality_or_asr_latency_claim": false,
+  "requests": 20,
+  "passed": true,
+  "phase": "complete",
+  "first_idle_wait_seconds": 0.26362159999553114,
+  "old_exit_observed_before_reload": true,
+  "fresh_generation": true,
+  "fresh_credentials": true,
+  "active_seconds": 0.6946636000066064,
+  "second_idle_wait_seconds": 0.23572759999660775,
+  "timer_starts": 5,
+  "peak_native_host_working_set_bytes": [
+    902184960,
+    902778880
+  ],
+  "native_exit_observed": [
+    true,
+    true
+  ]
+}

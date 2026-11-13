@@ -46,11 +46,12 @@ faster than Gemma E2B on this machine. The smaller 0.8B has the higher strict
 golden total, so these results do not establish superior 2B quality.
 
 The current RTX 2B production-policy run scores 556/556 with 269 accepted model
-replies. CPU 0.8B stopped after 186 cases following a timeout, with zero accepted
-replies; it cannot qualify the combined CPU/RTX recommendation. Both the complete
-and failed reports remain [retained evidence](CLEANUP_EVIDENCE.md). Hardware-tier,
-co-loaded ASR and release-latency acceptance remain open. The mandatory native
-evidence CI gate stays pending; its requirements have not been relaxed.
+replies. CPU 0.8B also completes 556/556 but keeps rules throughout at a 20.74
+tok/s calibration median; it cannot earn hybrid credit or the 25 tok/s Standard
+tier. The earlier failed CPU run remains [retained evidence](CLEANUP_EVIDENCE.md).
+Hardware-tier, co-loaded ASR and release-latency acceptance remain open. The
+mandatory native evidence CI gate stays pending; its requirements have not been
+relaxed to accept a rules-only result.
 
 `cleanup_bundle(model_id, backend)` provides both licensed components and exact
 transfer sizes, including the runtime archive rather than its unpacked size.

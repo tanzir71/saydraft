@@ -58,8 +58,9 @@ progress; those regression results claimed no candidate inference or selection.
 
 The complete post-word-guard [ten-job matrix](../eval/cleanup/results/2026-11-13-word-guard/README.md)
 now covers all five candidates on CPU and RTX 3060. A separate
-[production-policy run](../eval/cleanup/results/2026-11-13-policy/README.md)
-completed on RTX; CPU stopped after a timeout with no accepted replies.
+[production-policy replay](../eval/cleanup/results/2026-11-13-deadline-policy/README.md)
+now completes on CPU and RTX after the deadline-path change. CPU keeps rules
+throughout and earns no hybrid credit; the earlier failed CPU report is retained.
 These current records supersede the historical probes below for measurement
 coverage. Combined policy, hardware-tier and release-latency acceptance remain open.
 
