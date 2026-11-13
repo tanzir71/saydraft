@@ -60,7 +60,8 @@ def recording_bindings(keys, *, cancel_key, save_key, paste_key="", suppress=Tru
 
 class RecordingHooks:
     def __init__(self, keys, *, cancel_key, save_key, suppress, press, release, cancel, save, failure, factory=None,
-                 hands_free_key=None, toggle=None, paste_key=None, paste=None, utility_keys=None, utility=None):
+                 hands_free_key=None, toggle=None, paste_key=None, paste=None, utility_keys=None, utility=None,
+                 cancel_prefix=None):
         if factory is None:
             from .llhook import LowLevelHooks
             factory = LowLevelHooks
@@ -74,6 +75,7 @@ class RecordingHooks:
         self.toggle = toggle
         self.paste = paste
         self.utility_keys, self.utility = utility_keys or {}, utility
+        self.cancel_prefix = cancel_prefix or cancel
         self.owner = factory(bindings, on_action=self._action, on_failure=failure)
 
     def _action(self, transition, when):
@@ -87,7 +89,7 @@ class RecordingHooks:
             elif transition.reason != "superseded":
                 self.release(key, when)
             elif transition.superseded_by in self.utility_keys:
-                self.cancel(when)  # Retire a recording prefix before opening a Hub tool.
+                self.cancel_prefix(when)
         elif transition.name in self.utility_keys:
             if transition.phase == 'release' and transition.reason == 'physical' and self.utility is not None:
                 self.utility(transition.name)

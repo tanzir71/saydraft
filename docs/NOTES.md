@@ -43,8 +43,10 @@ or microphone and does not inspect another app.
 **Ctrl + Win + D** opens Hub → History, clears its search, and selects the latest
 global dictation with **Show changes** selected. This compares the saved raw and
 cleaned text. An empty History shows its empty state. It creates no dictation
-or insertion. If the chord extends the Ctrl+Win recording prefix, that prefix
+or insertion. If the chord starts a new Ctrl+Win recording prefix, that prefix
 is cancelled before the action opens; releasing remaining keys cannot submit it.
+An existing hands-free recording keeps running and can still finish normally.
+A refused new start never cancels unrelated processing or setup work.
 
 Both actions can be rebound or disabled in Settings → Shortcuts. They share
 native conflict/prefix validation. An upgrade preserves existing custom

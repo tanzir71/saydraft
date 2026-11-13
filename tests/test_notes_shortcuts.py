@@ -62,6 +62,53 @@ def test_scratchpad_chord_uses_no_recording_callback_and_reset_cannot_open_it():
         assert controller.stop()
 
 
+def test_diff_preserves_existing_hands_free_session_and_it_can_still_finish():
+    create, owners = factory()
+    starts, stops, cancels, actions = [], [], [], []
+    controller = HotkeyController(HotkeyConfig.from_app_config(default_config()),
+        on_record_start=lambda: starts.append(True), on_record_stop=stops.append,
+        on_record_cancel=lambda: cancels.append(True), on_utility=actions.append, native_factory=create)
+    controller.start()
+    try:
+        owner = owners[-1]
+        owner.action(Transition('hands_free', 'press'), 0)
+        assert controller.is_locked and starts == [True]
+        for index, key in enumerate(('left_ctrl', 'left_win', 'd')):
+            feed(owner, key, True, 1 + index / 10)
+        for index, key in enumerate(('d', 'left_win', 'left_ctrl')):
+            feed(owner, key, False, 2 + index / 10)
+        assert controller.is_locked and controller.is_recording
+        assert actions == ['view_diff'] and not stops and not cancels
+        feed(owner, 'left_ctrl', True, 3)
+        feed(owner, 'left_win', True, 3.1)
+        feed(owner, 'left_win', False, 4)
+        feed(owner, 'left_ctrl', False, 4.1)
+        assert not controller.is_recording and len(stops) == 1 and stops[0].locked
+        assert starts == [True] and not cancels
+    finally:
+        assert controller.stop()
+
+
+def test_diff_after_refused_recording_start_does_not_cancel_an_unrelated_busy_job():
+    create, owners = factory()
+    actions = []
+    def forbidden(*args):
+        raise AssertionError('A refused prefix does not own a recording to cancel')
+    controller = HotkeyController(HotkeyConfig.from_app_config(default_config()),
+        on_record_start=lambda: False, on_record_stop=forbidden,
+        on_record_cancel=forbidden, on_utility=actions.append, native_factory=create)
+    controller.start()
+    try:
+        owner = owners[-1]
+        for index, key in enumerate(('left_ctrl', 'left_win', 'd')):
+            feed(owner, key, True, index / 10)
+        for index, key in enumerate(('d', 'left_win', 'left_ctrl')):
+            feed(owner, key, False, 1 + index / 10)
+        assert actions == ['view_diff'] and not controller.is_recording
+    finally:
+        assert controller.stop()
+
+
 def test_queued_gui_request_is_revoked_across_stop_restart_and_reconfiguration():
     create, owners = factory()
     requests = []

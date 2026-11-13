@@ -2,8 +2,9 @@
 
 **Win+Alt+S** opens Scratchpad and **Ctrl+Win+D** opens the latest global History
 diff. Both are rebindable or explicitly disabled in Settings. Native actions
-fire once on physical release, after prefix recording cancellation where needed;
-reset/superseded transitions cannot open a tool. GUI delivery uses a revocable
+fire once on physical release, after cancelling a newly started recording prefix where needed;
+an existing hands-free session or a busy job that refused the prefix is preserved.
+Reset/superseded transitions cannot open a tool. GUI delivery uses a revocable
 request ticket, so a queued action cannot reopen a window after stop/restart.
 Upgrades preserve custom shortcuts and disable a conflicting new default.
 Physical Windows/Start-menu acceptance remains open. See [Notes](NOTES.md).

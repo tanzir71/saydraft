@@ -197,7 +197,8 @@ class HotkeyController:
                 paste_key=self.config.paste_last_hotkey, paste=self.on_paste,
                 utility_keys={name: key for name, key in (
                     ('scratchpad', self.config.scratchpad_hotkey), ('view_diff', self.config.view_diff_hotkey))
-                    if key and self.on_utility is not None}, utility=self.on_utility)
+                    if key and self.on_utility is not None}, utility=self.on_utility,
+                cancel_prefix=self._on_utility_prefix)
             self._listening = True
         try:
             self._native.start()
@@ -472,6 +473,17 @@ class HotkeyController:
 
         if session is not None:
             self.on_record_stop(session)
+
+    def _on_utility_prefix(self, when=None):
+        with self._lock:
+            if self._locked:
+                # This session predates the tool chord. Clear only the held
+                # gesture so releasing Ctrl/Win cannot finish or cancel it.
+                self._pressed_hotkey = self._pressed_at = None
+                return
+            if not self.is_recording:
+                return  # A failed new start does not own another busy job.
+        self._on_cancel_press(when)
 
     def _on_cancel_press(self, when=None) -> None:
         session: RecordingSession | None = None
