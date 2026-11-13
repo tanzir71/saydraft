@@ -180,6 +180,9 @@ def test_debug_completion_keeps_full_matrix_and_target_false(tmp_path, monkeypat
 ])
 def test_full_measurement_separates_latency_model_use_decoder_and_source_integrity(
         tmp_path, monkeypatch, change, latency_ok, recipe_ok):
+    # CI keeps pytest's basetemp inside its checkout. These synthetic reports
+    # belong outside the synthetic immutable source, regardless of that layout.
+    monkeypatch.setattr(matrix, "ROOT", tmp_path / "immutable-source")
     source = {"source_dirty": False, "git_commit": "source", "source_fingerprints": {"worker.py": "before"}}
     reads = 0
 
@@ -211,3 +214,14 @@ def test_full_measurement_separates_latency_model_use_decoder_and_source_integri
     assert report["complete"] and len(report["cases"]) == 160
     assert report["latency_target_met"] is latency_ok
     assert report["tier_recipe_target_met"] is recipe_ok
+
+
+def test_full_run_refuses_artifacts_inside_source_checkout(tmp_path, monkeypatch):
+    monkeypatch.setattr(matrix, "ROOT", tmp_path)
+    monkeypatch.setattr(matrix, "source_receipt", lambda: {"source_dirty": False})
+    monkeypatch.setattr(matrix, "os", SimpleNamespace(name="nt"))
+    output = tmp_path / "new"
+    with pytest.raises(SystemExit) as caught:
+        matrix.main(["--tier", "lite", "--parakeet-dir", str(tmp_path), "--lid-dir", str(tmp_path),
+                     "--vad-dir", str(tmp_path), "--isolated", "--output", str(output)])
+    assert caught.value.code == 2 and not output.exists()
