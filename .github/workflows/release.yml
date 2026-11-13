@@ -47,6 +47,7 @@ jobs:
         run: |
           ./tools/build.ps1 -Python "$env:pythonLocation\python.exe" -OutputRoot $env:SAYDRAFT_PACKAGE_ROOT
           ./tools/check_installer.ps1 -BuildRoot $env:SAYDRAFT_PACKAGE_ROOT
+          ./tools/check_firewall.ps1 -BuildRoot $env:SAYDRAFT_PACKAGE_ROOT
       - name: Validate delivered hashes and write draft notes
         shell: pwsh
         run: |
