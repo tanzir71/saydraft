@@ -198,6 +198,11 @@ class WorkerController:
             else:
                 self.core.configure(config)
 
+    def remove_stored_model(self, entry):
+        if self.core is None:
+            raise ValueError("Start the app before removing model files.")
+        return self.core.remove_stored_model(entry)
+
     def poll_corrections(self):
         if self.core is not None:
             self.core.poll_corrections()
@@ -511,11 +516,12 @@ class SaydraftApp:
     def _hub_tier(self):
         from pathlib import Path
         from .models.hardware import latest_report
+        from .models.tiers import effective_tier
 
         report = latest_report(Path(self.config_path).parent / "hardware-benchmarks" if self.config_path else None)
-        assessment = report.get("assessment") if isinstance(report, dict) else None
-        tier = assessment.get("tier") if isinstance(assessment, dict) else None
-        return tier if tier in ("lite", "standard", "pro") else "pending"
+        settings = getattr(self, "settings_window", None)
+        config = settings.config if settings is not None and hasattr(settings, "config") else self._load_app_config()
+        return effective_tier(config, report)
 
     def _ensure_hub(self):
         if self.hub_window is None:
@@ -527,7 +533,8 @@ class SaydraftApp:
                     style_glossary_provider=getattr(self.controller, "style_glossary", None),
                     microphone_start_callback=getattr(self.controller,"start_microphone_test",None),
                     microphone_stop_callback=getattr(self.controller,"stop_microphone_test",None),
-                    audio_cleanup_callback=getattr(self.controller,"cleanup_audio",None)),
+                    audio_cleanup_callback=getattr(self.controller,"cleanup_audio",None),
+                    model_remove_callback=getattr(self.controller,"remove_stored_model",None)),
                 history_options=dict(qt_modules=self.qt_modules, store=self._controller_history_store(),
                     clipboard=self.controller.clipboard() if hasattr(self.controller, "clipboard") else None,
                     reinsert_callback=self._reinsert_history_text, retry_callback=self._retry_history_audio,

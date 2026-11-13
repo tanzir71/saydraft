@@ -25,7 +25,7 @@ class LabsPage(QtWidgets.QWidget):
         storage = (model["archive"]["size"] + sum(f["size"] for f in model["files"]) + 64 * 1024**2) / 1e9
         self.description = QtWidgets.QLabel(
             "English live preview (experimental) shows partial words above the Bar. "
-            "Requires a Pro performance recommendation. Default recognition still produces the final text.")
+            "Requires the Pro tier. Default recognition still produces the final text.")
         self.description.setWordWrap(True)
         self.license = QtWidgets.QLabel(
             f'{escape(model["publisher"])} · {size:.1f} MB download · allow {storage:.2f} GB free space<br>'
@@ -65,7 +65,7 @@ class LabsPage(QtWidgets.QWidget):
         self.config = config
         reason = preview_eligibility(config, self.report_loader() if report is None else report)
         self.allowed = reason is None
-        self.eligibility.setText({"needs_pro": "Check performance on the Performance tab; a Pro recommendation is required.",
+        self.eligibility.setText({"needs_pro": "Check performance on the Performance tab or select Pro in Models; the Pro tier is required.",
             "english_only": "Choose Auto or English on the Languages tab. Preview stops if other speech is detected.",
             None: "English preview is available. Enabling it starts no download."}[reason])
         self.live.setEnabled(self.allowed)

@@ -156,3 +156,9 @@ fresh after ASR loading. Neither check is general release latency acceptance.
 Both restore the static prefix and independently observe all native exits.
 Original report bytes and digests are retained under
 `eval/hardware/results/2026-11-12-cleanup-performance/`.
+
+Settings → Models now supports a saved Auto/Lite/Standard/Pro override. Auto uses
+these measured reports; a manual choice never rewrites their recommendation or
+proves speed acceptance. The Home chip and feature gates use the selected tier.
+Use tier defaults stages speech/cleanup choices before Save and starts no
+downloads. See `docs/MODEL_STORAGE.md` for the choice matrix and storage controls.

@@ -57,6 +57,7 @@ class SessionWorker:
         from .history_retry import RetryCleanup
         self._retry_cleanup = RetryCleanup()
         self._benchmarking = False
+        self._model_storage_busy = False
         self.audio_retention = None
         self._retention_generation = 0
         from .microphone import MicrophoneTest
@@ -246,7 +247,35 @@ class SessionWorker:
 
     @property
     def busy(self):
-        return self._capturing_context or self._inflight > 0 or self.session.active or self.microphone_test.active
+        return (self._capturing_context or self._inflight > 0 or self.session.active
+                or self.microphone_test.active or self._model_storage_busy)
+
+    def remove_stored_model(self, entry):
+        """The storage UI calls this off-thread after confirmation; reserve the idle app."""
+        from saydraft.models.storage import protected_paths, remove_model
+        if not self._lock.acquire(blocking=False):
+            raise ValueError("The app is busy. Finish the current work before removing model files.")
+        try:
+            if self.busy or self._closing:
+                raise ValueError("The app is busy. Finish the current work before removing model files.")
+            services = self.services
+            active = set()
+            for engine in (services.asr, services.retry_asr):
+                if engine is not None:
+                    active.update(getattr(engine, "_engines", {}))
+            if services.preview is not None:
+                from saydraft.asr.model_ids import PREVIEW_MODEL
+                active.add(PREVIEW_MODEL)
+            protected = protected_paths(services.config, active)
+            self._model_storage_busy = True
+        finally:
+            self._lock.release()
+        try:
+            return remove_model(entry, protected=protected)
+        finally:
+            with self._lock:
+                self._model_storage_busy = False
+            self._microphone_finished()  # Apply any Settings deferred while storage was busy.
 
     def _schedule_microphone(self, action, *args):
         with self._lock:

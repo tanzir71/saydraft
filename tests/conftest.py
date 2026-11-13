@@ -9,3 +9,6 @@ def isolate_optional_vad_models(monkeypatch):
     monkeypatch.setattr("saydraft.audio.vad_silero.default_model_path", lambda: None)
     monkeypatch.setattr("saydraft.asr.language_id.default_model_directory", lambda: None)
     monkeypatch.setattr("saydraft.asr.sherpa_stream.default_model_directory", lambda: None)
+    # Hub/download lifecycle tests may inspect storage. Only tests supplying
+    # explicit fixture roots should see any model files on the owner's PC.
+    monkeypatch.setattr("saydraft.models.storage.storage_roots", lambda: ())

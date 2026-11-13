@@ -4,6 +4,7 @@ import threading
 
 from .manifest import get_model, load_manifest
 from .runtime_ids import runtime_model_id
+from .storage_lock import storage_lock
 
 _install_lock = threading.Lock()
 
@@ -20,12 +21,13 @@ def transfer_bytes(model):
         file["size"] for file in model["files"] if "url" in file)
 
 
-def recommend_cleanup(report):
+def recommend_cleanup(report, config=None):
     """A recommendation never enables cleanup or starts a download."""
-    tier = (report or {}).get("assessment", {}).get("tier", "pending")
+    from .tiers import effective_tier
+    tier = effective_tier(config or {}, report)
     model_id = load_manifest()["cleanup_defaults"].get(tier)
     return {"tier": tier, "model_id": model_id,
-            "backend": "vulkan" if model_id and report.get("vulkan") else "cpu"}
+            "backend": "vulkan" if model_id and (report or {}).get("vulkan") else "cpu"}
 
 
 def download_cleanup_model(model_id, backend, progress_callback=None, *, models_dir=None, pause_event=None):
@@ -47,7 +49,7 @@ def download_cleanup_model(model_id, backend, progress_callback=None, *, models_
     def progress(completed, size, value):
         if progress_callback:
             progress_callback(int((completed + size * value / 100) / total * 100))
-    with _install_lock:
+    with storage_lock, _install_lock:
         _check_pause(pause_event)
         check_bundle_space([(model, stage if not installation_ready(model, target, check_hashes=True) else target),
                             (runtime, runtime_target)])

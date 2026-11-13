@@ -16,6 +16,7 @@ from .downloader import (
     download_model, installation_ready, verify_file,
 )
 from .manifest import validate_archive_model
+from .storage_lock import storage_lock
 
 _install_lock = threading.Lock()
 
@@ -94,7 +95,7 @@ def install_archive(model, target, *, cache_dir=None, bundled_root=None,
     archive_file["accept"] = "application/octet-stream"
     cache_model = {"revision": model["revision"], "download_hosts": model["download_hosts"], "files": [archive_file]}
     cache = Path(cache_dir) if cache_dir is not None else parent / "_packages" / model["id"]
-    with _install_lock:
+    with storage_lock, _install_lock:
         _check_pause(pause_event)
         if installation_ready(model, target, check_hashes=True):
             if progress_callback:

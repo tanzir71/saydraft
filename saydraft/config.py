@@ -24,6 +24,7 @@ CONFIG_SCHEMA: dict[str, Any] = {
         "tap_lock_ms": int,
     },
     "app": {
+        "tier": str,
         "start_with_windows": bool,
         "auto_start_listening": bool,
         "show_bar": bool,
@@ -99,6 +100,7 @@ _DEFAULT_CONFIG: dict[str, Any] = {
         "tap_lock_ms": 300,
     },
     "app": {
+        "tier": "auto",
         "start_with_windows": False,
         "auto_start_listening": True,
         "show_bar": True,
@@ -242,6 +244,8 @@ def sanitize_config(config: dict[str, Any] | None) -> dict[str, Any]:
         # Old profiles keep their key order and never acquire mouse interception.
         defaults["hotkeys"].update(speech="f9", speech_alternative="ctrl+win", speech_mouse="")
     cfg = _sanitize_mapping(source, CONFIG_SCHEMA, defaults)
+    if cfg["app"]["tier"] not in ("auto", "lite", "standard", "pro"):
+        cfg["app"]["tier"] = "auto"
     from .audio.devices import InputSelection
     try:
         selected = InputSelection.from_config(cfg)

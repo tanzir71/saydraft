@@ -16,12 +16,15 @@ from .progress import ThemedProgressBar
 
 class CleanupPicker(QtWidgets.QWidget):
     ready = QtCore.Signal(str, str)
+    finished = QtCore.Signal()
 
     def __init__(self, config, *, callback=None, runtime_callback=None, report=None, parent=None):
         super().__init__(parent)
         self.callback, self.task = callback or download_cleanup_model, None
         self.runtime_callback = runtime_callback or download_cleanup_runtime
         self.combo = QtWidgets.QComboBox()
+        self.combo.setSizePolicy(QtWidgets.QSizePolicy.Ignored, QtWidgets.QSizePolicy.Fixed)
+        self.combo.setMinimumContentsLength(20)
         self.combo.setAccessibleName("AI cleanup model")
         self.combo.addItem("Custom GGUF path", None)
         for model in load_manifest()["models"]:
@@ -32,8 +35,9 @@ class CleanupPicker(QtWidgets.QWidget):
         self.backend.addItem("CPU", "cpu")
         self.backend.addItem("GPU (Vulkan)", "vulkan")
         llm = config["llm"]
-        suggested = recommend_cleanup(report)
-        fresh = not llm["enabled"] and llm["model_path"] == default_config()["llm"]["model_path"]
+        suggested = recommend_cleanup(report, config)
+        fresh = (not llm["enabled"] and llm["model_path"] == default_config()["llm"]["model_path"]
+                 and config.get("app", {}).get("tier", "auto") == "auto")
         if fresh and suggested["model_id"]:
             self.combo.setCurrentIndex(self.combo.findData(suggested["model_id"]))
         backend = suggested["backend"] if fresh and suggested["model_id"] else llm.get("backend", "cpu")
@@ -68,14 +72,15 @@ class CleanupPicker(QtWidgets.QWidget):
         self.backend.currentIndexChanged.connect(self.update_details)
         self.download_button.clicked.connect(self.start_download)
         self.pause_button.clicked.connect(self.pause)
-        self.refresh_recommendation(report)
+        self.refresh_recommendation(report, config)
         self.update_details()
 
-    def refresh_recommendation(self, report):
-        suggestion = recommend_cleanup(report)
+    def refresh_recommendation(self, report, config=None):
+        suggestion = recommend_cleanup(report, config)
         if suggestion["model_id"]:
             model = get_model(suggestion["model_id"])
-            self.recommendation.setText(f"Performance recommendation: {suggestion['tier'].title()} · {model['label']}. "
+            prefix = "Tier defaults" if (config or {}).get("app", {}).get("tier", "auto") != "auto" else "Performance recommendation"
+            self.recommendation.setText(f"{prefix}: {suggestion['tier'].title()} · {model['label']}. "
                                         "Download or verify the package, then enable AI cleanup and Apply Settings.")
         else:
             self.recommendation.setText("Rules-only recommendation." if suggestion["tier"] == "lite" else
@@ -84,7 +89,9 @@ class CleanupPicker(QtWidgets.QWidget):
     def update_details(self):
         model_id = self.combo.currentData()
         self.download_button.setEnabled(self.task is None)
-        self.download_button.setText("Download / Resume AI cleanup" if model_id else "Download / Resume processor files")
+        self.download_button.setText("Download / Resume")
+        self.download_button.setAccessibleName("Download or resume AI cleanup model and processor files" if model_id else
+                                              "Download or resume processor files for a custom GGUF")
         package = (cleanup_bundle(model_id, self.backend.currentData()) if model_id else
                    [get_model(runtime_model_id(self.backend.currentData()))])
         size = sum(transfer_bytes(model) for model in package) / 1e6
@@ -146,6 +153,7 @@ class CleanupPicker(QtWidgets.QWidget):
         self.backend.setEnabled(True)
         self.pause_button.setEnabled(False)
         self.update_details()
+        self.finished.emit()
 
     def pause(self):
         if self.task is not None:

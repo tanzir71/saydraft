@@ -8,6 +8,7 @@ from typing import Any
 
 from .models.downloader import check_bundle_space, download_model, installation_ready
 from .models.manifest import get_model, model_bundle
+from .models.storage_lock import storage_lock
 
 ProgressCallback = Callable[[int], None]
 
@@ -54,18 +55,19 @@ def download_asr_model(model_id: str, progress_callback=None, *, models_dir=None
         raise ValueError("Choose a speech recognition model")
     package = model_bundle(model_id)
     targets = [(item, default_models_dir(models_dir) / model_relative_dir(item)) for item in package]
-    check_bundle_space(targets)
-    total = sum(file["size"] for item in package for file in item["files"])
-    completed = 0
-    for item, target in targets:
-        size = sum(file["size"] for file in item["files"])
+    with storage_lock:
+        check_bundle_space(targets)
+        total = sum(file["size"] for item in package for file in item["files"])
+        completed = 0
+        for item, target in targets:
+            size = sum(file["size"] for file in item["files"])
 
-        def progress(value):
-            if progress_callback:
-                progress_callback(int((completed + size * value / 100) / total * 100))
+            def progress(value):
+                if progress_callback:
+                    progress_callback(int((completed + size * value / 100) / total * 100))
 
-        download_model(item, target, progress_callback=progress, pause_event=pause_event)
-        completed += size
+            download_model(item, target, progress_callback=progress, pause_event=pause_event)
+            completed += size
     return targets[0][1]
 
 

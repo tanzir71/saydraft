@@ -41,3 +41,10 @@ Use the packaged app or `run_app.bat`, complete onboarding if prompted, and keep
 - Confirm late test levels/timers after stopping do not revive the meter, and input discovery remains responsive at larger text/200% scaling.
 - Start with no microphone available and confirm the tray tooltip shows "No microphone" and the pill shows the error state.
 - Kill and relaunch Saydraft, then confirm no duplicate tray icons remain and the single-instance notification appears on a second launch.
+
+- In Models, choose Auto and each manual tier; Save/restart and confirm the Home chip and Labs use the selected tier while the original performance report stays unchanged.
+- Confirm tier selection preserves custom model settings; Use tier defaults stages choices without downloads, preserves Bengali/Arabic pins, and requires shared Save.
+- Refresh storage and confirm logical sizes, retained cache/unknown bytes, excluded links and drive free space are labeled accurately.
+- Using only disposable fixture models, cancel Remove and confirm no file changes; then confirm removal names the exact version/path/size and preserves unrelated files and other versions.
+- Confirm configured/cached models, active app work, downloads, stale snapshots and changed checksums refuse removal; a file-lock failure reports partial progress without a valid completion receipt.
+- At both themes/200% scaling, review long removal paths with keyboard/scrolling; Remove and Cancel remain reachable and Cancel is the initial default. Native owner model removal remains unrun.

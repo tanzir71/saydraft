@@ -356,7 +356,17 @@ correctly rejected oversized bodies. Logs remain in permanent QA storage; the
 intermittent timeout's cause is unresolved. No loopback code or test deadline
 was changed for this History revision.
 
-Full §8.3 still requires Notes producers, complete model/disk controls and the
+Full §8.3 still requires Notes producers, the uniform versioned model layout and the
 packaged firewall installation/native coverage requirement shared with P8.6. The later
 onboarding, Scratchpad/Notetaker and complete gallery/
 accessibility milestones retain their original scope.
+
+Models now includes an Auto/Lite/Standard/Pro preference, separately preserved
+performance evidence and an explicit tier-defaults action that stages choices
+before Save. Background inventory shows installed/partial/retained packages,
+logical disk usage, other retained bytes and drive free space. Confirmed manual
+removal verifies declared payloads, protects configured/cached models and busy
+work, and preserves unknown files, portable copies and other versions. The
+confirmation details scroll/wrap at 200% density and default to Cancel.
+See `docs/MODEL_STORAGE.md` for the exact scope, lifecycle and remaining layout
+migration/native acceptance.

@@ -14,6 +14,7 @@ from urllib.parse import urlsplit
 from urllib.request import HTTPRedirectHandler, ProxyHandler, Request, build_opener
 
 from saydraft.privacy.netguard import NetworkGuard
+from .storage_lock import storage_lock
 
 _lock = threading.Lock()
 
@@ -185,7 +186,7 @@ def download_model(model: dict, target: Path, *, progress_callback=None, opener=
     completed = 0
     open_url = opener or build_opener(ProxyHandler({}), _PinnedRedirects(model["download_hosts"])).open
     NetworkGuard.install()
-    with _lock, NetworkGuard.allow_downloads(model["download_hosts"]):
+    with storage_lock, _lock, NetworkGuard.allow_downloads(model["download_hosts"]):
         _check_pause(pause_event)
         target.mkdir(parents=True, exist_ok=True)
         _check_space(model, target)

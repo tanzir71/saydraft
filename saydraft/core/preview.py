@@ -11,6 +11,7 @@ from dataclasses import dataclass
 import numpy as np
 
 from saydraft.asr.model_ids import PREVIEW_MODEL
+from saydraft.models.tiers import effective_tier
 from saydraft.stt.whisper_engine import _to_mono_float32
 
 logger = logging.getLogger(__name__)
@@ -19,8 +20,7 @@ _STOP = object()
 
 def preview_eligibility(config, report):
     """A pure policy shared by Settings and the service constructor."""
-    assessment = report.get("assessment") if isinstance(report, dict) else None
-    if not isinstance(assessment, dict) or assessment.get("tier") != "pro":
+    if effective_tier(config, report) != "pro":
         return "needs_pro"
     stt = config.get("stt", {})
     if stt.get("routing_enabled", False):

@@ -21,6 +21,7 @@ from saydraft.asr.selection import select_model
 from saydraft.ui.download_task import DownloadTask, call_download
 from saydraft.ui.model_picker import ModelPicker
 from saydraft.ui.cleanup_picker import CleanupPicker
+from saydraft.ui.tier_picker import TierPicker
 from saydraft.ui.languages_page import LanguagesPage
 from saydraft.ui.hardware_page import HardwarePage
 from saydraft.ui.labs_page import LabsPage
@@ -90,6 +91,8 @@ class SettingsPage(QtWidgets.QWidget):
         microphone_devices_provider=None,
         audio_cleanup_callback=None,
         firewall_status_provider=None,
+        model_remove_callback=None,
+        model_inventory_provider=None,
     ):
         super().__init__()
         self.qt = qt_modules
@@ -107,6 +110,7 @@ class SettingsPage(QtWidgets.QWidget):
         self.microphone_start_callback, self.microphone_stop_callback = microphone_start_callback, microphone_stop_callback
         self.microphone_devices_provider = microphone_devices_provider
         self.audio_cleanup_callback,self.firewall_status_provider = audio_cleanup_callback,firewall_status_provider
+        self.model_remove_callback, self.model_inventory_provider = model_remove_callback, model_inventory_provider
         self._vad_download_task = None
         self.config = load_config(config_path=self.config_path)
         self.snippets_path = Path(snippets_path) if snippets_path is not None else resolve_project_path("snippets.txt")
@@ -144,6 +148,10 @@ class SettingsPage(QtWidgets.QWidget):
         self.model_combo.currentIndexChanged.connect(self._use_manual_model)
         self.model_combo.activated.connect(self._use_manual_model)
         self.model_picker.busy_changed.connect(lambda busy: self.languages_page.setEnabled(not busy))
+        self.model_picker.busy_changed.connect(lambda busy: self.model_storage.refresh() if not busy else None)
+        self.cleanup_picker.finished.connect(self.model_storage.refresh)
+        self.tier_picker.changed.connect(self.refresh_labs)
+        self.tier_picker.defaults_requested.connect(self._stage_tier_defaults)
         self._sync_language_model()
         self.tabs.currentChanged.connect(lambda index: self.refresh_labs())
         self.tabs.currentChanged.connect(lambda index: self._refresh_shortcut_warning() if self.tabs.tabText(index) == "Shortcuts" else None)
@@ -383,7 +391,10 @@ class SettingsPage(QtWidgets.QWidget):
         content = QtWidgets.QWidget()
         page.setWidget(content)
         layout = QtWidgets.QVBoxLayout(content)
-        form = QtWidgets.QFormLayout()
+        layout.setSizeConstraint(QtWidgets.QLayout.SetMinAndMaxSize)
+        report = latest_report(self.config_path.parent / "hardware-benchmarks" if self.config_path else None)
+        self.tier_picker = TierPicker(self.config, report)
+        self.tier_combo = self.tier_picker.combo
         self.model_picker = ModelPicker(self.config, callback=self.model_download_callback)
         self.model_combo = self.model_picker.combo
         self.device_combo = QtWidgets.QComboBox()
@@ -397,24 +408,33 @@ class SettingsPage(QtWidgets.QWidget):
         self.download_button = self.model_picker.download_button
         self.cleanup_picker = CleanupPicker(self.config, callback=self.cleanup_download_callback,
             runtime_callback=self.cleanup_runtime_download_callback,
-            report=latest_report(self.config_path.parent / "hardware-benchmarks" if self.config_path else None))
+            report=report)
         self.cleanup_picker.ready.connect(self._cleanup_model_ready)
-        self.vad_download_button = QtWidgets.QPushButton("Download speech detection (2.3 MB)")
+        self.vad_download_button = QtWidgets.QPushButton("Download / Resume")
+        self.vad_download_button.setAccessibleName("Download or resume speech detection, 2.3 megabytes")
         self.vad_download_button.clicked.connect(self.download_vad_model)
-        self.vad_license = QtWidgets.QLabel('Silero Team · <a href="https://github.com/snakers4/silero-vad/blob/v5.0/LICENSE">MIT license</a>')
+        self.vad_license = QtWidgets.QLabel('Silero Team · 2.3 MB · <a href="https://github.com/snakers4/silero-vad/blob/v5.0/LICENSE">MIT license</a>')
+        self.vad_license.setWordWrap(True)
         self.vad_license.setOpenExternalLinks(True)
         self.vad_license.setAccessibleName("Silero speech detection model license: MIT")
 
-        form.addRow("Speech model", self.model_picker)
-        form.addRow("Device", self.device_combo)
-        form.addRow("Compute type", self.compute_combo)
-        form.addRow("Use local model files only", self.local_files_checkbox)
-        form.addRow("Enable local LLM cleanup", self.llm_enabled_checkbox)
-        form.addRow("AI cleanup setup", self.cleanup_picker)
-        form.addRow("GGUF model path", self.llm_path_edit)
-        form.addRow("Speech detection", self.vad_download_button)
-        form.addRow("Model license", self.vad_license)
-        layout.addLayout(form)
+        self.local_files_checkbox.setText("Use local model files only")
+        self.llm_enabled_checkbox.setText("Enable local AI cleanup")
+        for title, widget in (("Performance tier", self.tier_picker), ("Speech model", self.model_picker),
+                ("Speech device", self.device_combo), ("Compute type", self.compute_combo),
+                (None, self.local_files_checkbox), (None, self.llm_enabled_checkbox),
+                ("AI cleanup setup", self.cleanup_picker), ("GGUF model path", self.llm_path_edit),
+                ("Speech detection", self.vad_download_button), (None, self.vad_license)):
+            if title:
+                label = QtWidgets.QLabel(title)
+                label.setBuddy(widget)
+                layout.addWidget(label)
+            layout.addWidget(widget)
+        from saydraft.ui.model_storage import ModelStorage
+        options = {"inventory_provider": self.model_inventory_provider} if self.model_inventory_provider else {}
+        self.model_storage = ModelStorage(config_provider=lambda: self.config,
+                                         remove_callback=self.model_remove_callback, **options)
+        layout.addWidget(self.model_storage)
         return page
 
     def _about_tab(self):
@@ -458,6 +478,7 @@ class SettingsPage(QtWidgets.QWidget):
         self.vad_download_button.setEnabled(True)
         self.model_picker.setEnabled(True)
         self._vad_download_task = None
+        self.model_storage.refresh()
 
     def _load_values(self) -> None:
         cfg = self.config
@@ -559,6 +580,7 @@ class SettingsPage(QtWidgets.QWidget):
         self._write_json(self.app_profiles_path, profiles)
         self.autostart_manager.set_enabled(saved["app"]["start_with_windows"])
         self.config = saved
+        self.model_storage.selection_changed()
         self.privacy_page.policy_saved()
         if self.on_config_applied is not None:
             self.on_config_applied(saved)
@@ -581,6 +603,7 @@ class SettingsPage(QtWidgets.QWidget):
 
     def _collect_config(self) -> dict[str, Any]:
         cfg = json.loads(json.dumps(self.config))
+        cfg["app"]["tier"] = self.tier_combo.currentData()
         cfg["recording"].update(input_device=self.microphone_page.selection.name,
             input_hostapi=self.microphone_page.selection.hostapi)
         cfg["hotkeys"]["speech"] = self.speech_hotkey_edit.text().strip()
@@ -627,10 +650,41 @@ class SettingsPage(QtWidgets.QWidget):
 
     def refresh_labs(self, report=None):
         cfg = json.loads(json.dumps(self.config))
+        cfg["app"]["tier"] = self.tier_combo.currentData()
         self.languages_page.apply_to(cfg)
         self.labs_page.update_eligibility(cfg, report)
-        self.cleanup_picker.refresh_recommendation(report if report is not None else latest_report(
-            self.config_path.parent / "hardware-benchmarks" if self.config_path else None))
+        report = report if report is not None else latest_report(
+            self.config_path.parent / "hardware-benchmarks" if self.config_path else None)
+        self.tier_picker.update_report(report)
+        self.cleanup_picker.refresh_recommendation(report, cfg)
+
+    def _stage_tier_defaults(self):
+        from saydraft.model_download import default_models_dir, find_installed_model, model_relative_dir
+        from saydraft.models.manifest import get_model
+        from saydraft.models.tiers import tier_defaults
+
+        if any(task is not None for task in (self.model_picker.task, self.cleanup_picker.task, self._vad_download_task)):
+            self.status_label.setText("Finish or pause model downloads before using tier defaults.")
+            return
+        tier = self.tier_picker.selected_tier()
+        choices = tier_defaults(tier, self.tier_picker.report)
+        self.model_combo.setCurrentIndex(self.model_combo.findData(choices["asr_model"]))
+        self.languages_page.routing.setChecked(tier != "lite")
+        self._sync_language_model()
+        self.device_combo.setCurrentText("cpu")
+        self.compute_combo.setCurrentText("int8")
+        self.local_files_checkbox.setChecked(True)
+        self.llm_enabled_checkbox.setChecked(choices["cleanup_model"] is not None)
+        self.cleanup_picker.combo.setCurrentIndex(max(0, self.cleanup_picker.combo.findData(choices["cleanup_model"])))
+        self.cleanup_picker.backend.setCurrentIndex(self.cleanup_picker.backend.findData(choices["backend"]))
+        if choices["cleanup_model"]:
+            model = get_model(choices["cleanup_model"])
+            folder = find_installed_model(model["id"]) or default_models_dir() / model_relative_dir(model)
+            path = folder / next(
+                file["path"] for file in model["files"] if file["path"].endswith(".gguf"))
+            self.llm_path_edit.setText(str(path))
+        self.status_label.setText(f"{tier.title()} defaults staged. Review Models and Languages, then Save. "
+                                  "Use Download / Resume for any missing packages.")
 
     def _sync_language_model(self):
         if not self.languages_page.routing.isChecked() or self.model_picker.task is not None:

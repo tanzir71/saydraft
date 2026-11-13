@@ -19,6 +19,8 @@ class ModelPicker(QtWidgets.QWidget):
         self.callback = callback or download_asr_model
         self.task = None
         self.combo = QtWidgets.QComboBox()
+        self.combo.setSizePolicy(QtWidgets.QSizePolicy.Ignored, QtWidgets.QSizePolicy.Fixed)
+        self.combo.setMinimumContentsLength(20)
         models = [model for model in load_manifest()["models"] if model.get("role", "asr") == "asr"]
         models.sort(key=lambda model: (model["engine"] != "parakeet", model["id"].replace("-v3-", "-v1-")))
         for model in models:
