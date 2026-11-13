@@ -6,6 +6,11 @@ configured 800 ms cap. The cause remains open; the deadlines below describe the
 implementation contract, not established latency acceptance. See the retained
 [complete and failed measurements](CLEANUP_EVIDENCE.md).
 
+The transport now enforces the remaining budget on each socket read/write,
+including trickled headers and chunk framing, without starting a watchdog thread
+per request. Idle checks rearm only when needed. Native replay of this changed
+source is still required before resolving the observed overrun.
+
 The production pipeline scores the protected original transcript before rules
 remove cues. Backtracking, list cues, filler density at least 15%, more than 25
 words, and Polished intensity each add two points; a non-neutral style adds one.

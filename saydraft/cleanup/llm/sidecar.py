@@ -302,13 +302,21 @@ class SidecarManager:
 
     def _touch_locked(self, epoch):
         self._last_used = self._clock()
-        self._cancel("_idle_timer")
+        if self._idle_timer is None:
+            self._arm_idle_locked(epoch, self.config.idle_seconds)
 
+    def _arm_idle_locked(self, epoch, seconds):
         def idle():
             with self._lock:
-                if epoch != self._epoch or self._state != "ready" or self._requesting.locked():
+                if self._idle_timer is not timer:
                     return
-                if self._clock() - self._last_used < self.config.idle_seconds:
+                self._idle_timer = None
+                if epoch != self._epoch or self._state != "ready":
+                    return
+                remaining = self.config.idle_seconds - (self._clock() - self._last_used)
+                if self._requesting.locked() or remaining > 0:
+                    self._arm_idle_locked(epoch, self.config.idle_seconds
+                                          if self._requesting.locked() else remaining)
                     return
                 try:
                     self._retire_locked()
@@ -318,7 +326,14 @@ class SidecarManager:
                 self._client = None
                 self._state, self._reason = "idle", "idle_unloaded"
 
-        self._idle_timer = self._schedule(self.config.idle_seconds, idle)
+        timer = self._timer(seconds, idle)
+        timer.daemon = True
+        self._idle_timer = timer
+        try:
+            timer.start()
+        except Exception:
+            self._idle_timer = None
+            raise
 
     def request_json(self, path, payload, *, timeout):
         return self.run(lambda client, deadline: client.request_json(path, payload=payload, deadline=deadline), timeout=timeout)
@@ -335,7 +350,6 @@ class SidecarManager:
                     self.warm()  # Loads installed files in the background; never downloads.
                     return SidecarReply(None, "not_ready")
                 epoch, client = self._epoch, self._client
-                self._cancel("_idle_timer")
             deadline = self._clock() + timeout
             try:
                 value = operation(client, deadline)

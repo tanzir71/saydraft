@@ -26,6 +26,12 @@ report is retained unchanged, with observed native exit. A complete RTX recipe,
 a partial exact CPU score or the separate forced CPU 25.89 tok/s sample cannot
 qualify the combined pair, hardware tiers or release latency.
 
+Subsequent transport changes apply the deadline to each socket read/write and
+remove per-request watchdog/idle-timer churn. The retained `4a1e69a` policy
+reports predate that change; fresh policy measurements remain required. The
+forced reports still match unchanged preservation guards and prompts. Earlier
+failed reports are not overwritten or reclassified as successes.
+
 ## Offline checker
 
 Run `python -m tools.check_cleanup_evidence`. Its defaults now point to the

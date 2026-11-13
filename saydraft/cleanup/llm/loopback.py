@@ -3,13 +3,14 @@
 from __future__ import annotations
 
 import http.client
+import io
 import json
 import math
 import re
 import socket
-import threading
 import time
 from contextlib import contextmanager
+from functools import partial
 
 MAX_JSON_BYTES = 1024 * 1024
 _GET = frozenset(("/health", "/v1/models"))
@@ -22,6 +23,73 @@ class LocalHTTPError(RuntimeError):
 
 def _reject_constant(value):
     raise ValueError("Nonfinite JSON values are not supported")
+
+
+def _remaining(deadline, clock):
+    seconds = deadline - clock()
+    if not math.isfinite(seconds) or seconds <= 0:
+        raise TimeoutError("Local request deadline expired")
+    return seconds
+
+
+class _DeadlineReader(io.RawIOBase):
+    """Charge every underlying header/body read to the same deadline."""
+
+    def __init__(self, raw, sock, deadline, clock):
+        self._raw, self._sock, self._deadline, self._clock = raw, sock, deadline, clock
+
+    def readable(self):
+        return True
+
+    def readinto(self, buffer):
+        self._sock.settimeout(_remaining(self._deadline, self._clock))
+        count = self._raw.readinto(buffer)
+        _remaining(self._deadline, self._clock)
+        return count
+
+    def close(self):
+        if not self.closed:
+            try:
+                self._raw.close()
+            finally:
+                super().close()
+
+
+class _DeadlineResponse(http.client.HTTPResponse):
+    def __init__(self, sock, *, deadline, clock, **kwargs):
+        super().__init__(sock, **kwargs)
+        # Keep SocketIO's reference counting: Connection: close can release the
+        # connection while this file still owns its response socket.
+        raw = self.fp.detach()
+        self.fp = io.BufferedReader(_DeadlineReader(raw, sock, deadline, clock))
+
+
+class _DeadlineConnection(http.client.HTTPConnection):
+    def __init__(self, port, deadline, clock):
+        super().__init__("127.0.0.1", port, timeout=_remaining(deadline, clock))
+        self._deadline, self._clock = deadline, clock
+        self.response_class = partial(_DeadlineResponse, deadline=deadline, clock=clock)
+
+    def connect(self):
+        # Literal IPv4 needs neither DNS nor a proxy. Recompute the budget after
+        # request preparation instead of carrying an earlier socket timeout.
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        try:
+            sock.settimeout(_remaining(self._deadline, self._clock))
+            sock.connect(("127.0.0.1", self.port))
+            sock.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
+            _remaining(self._deadline, self._clock)
+        except BaseException:
+            sock.close()
+            raise
+        self.sock = sock
+
+    def send(self, data):
+        if self.sock is None:
+            self.connect()
+        self.sock.settimeout(_remaining(self._deadline, self._clock))
+        super().send(data)
+        _remaining(self._deadline, self._clock)
 
 
 class LoopbackClient:
@@ -38,38 +106,19 @@ class LoopbackClient:
             raise ValueError("Unsupported local response type")
         if path not in (_GET if payload is None else _POST):
             raise ValueError("Unsupported local server endpoint")
-        remaining = deadline - self._clock()
-        if not math.isfinite(remaining) or remaining <= 0:
-            raise TimeoutError("Local request deadline expired")
+        _remaining(deadline, self._clock)
         body = None if payload is None else json.dumps(payload, ensure_ascii=False, allow_nan=False).encode("utf-8")
         if body is not None and len(body) > MAX_JSON_BYTES:
             raise ValueError("Local request exceeds its size limit")
-        connection = http.client.HTTPConnection("127.0.0.1", self._port, timeout=remaining)
-        expired = threading.Event()
-        abort_socket = response = None
-
-        def expire():
-            expired.set()
-            if abort_socket is not None:
-                try:
-                    abort_socket.shutdown(socket.SHUT_RDWR)
-                except OSError:
-                    pass
-
-        timer = threading.Timer(remaining, expire)
-        timer.daemon = True
-        timer.start()
+        connection = _DeadlineConnection(self._port, deadline, self._clock)
+        response = None
         try:
             connection.connect()
-            # Keep a duplicate for deadline shutdown even when HTTPConnection
-            # relinquishes its socket to a Connection: close response body.
-            abort_socket = connection.sock.dup()
-            if expired.is_set() or self._clock() >= deadline:
-                raise TimeoutError("Local request deadline expired")
             connection.request("GET" if payload is None else "POST", path, body=body, headers={
                 "Authorization": f"Bearer {self._key}", "Content-Type": "application/json; charset=utf-8",
                 "Accept": content_type, "Connection": "close"})
             response = connection.getresponse()
+            _remaining(deadline, self._clock)
             if response.status != 200:
                 raise LocalHTTPError(f"Local server returned HTTP {response.status}")
             actual_type = response.getheader("Content-Type", "").split(";", 1)[0].strip().lower()
@@ -82,11 +131,9 @@ class LoopbackClient:
             def chunks():
                 size = 0
                 while True:
-                    if expired.is_set() or self._clock() >= deadline:
-                        raise TimeoutError("Local request deadline expired")
+                    _remaining(deadline, self._clock)
                     chunk = response.read1(min(64 * 1024, MAX_JSON_BYTES + 1 - size))
-                    if expired.is_set() or self._clock() >= deadline:
-                        raise TimeoutError("Local request deadline expired")
+                    _remaining(deadline, self._clock)
                     if not chunk:
                         return
                     size += len(chunk)
@@ -95,19 +142,15 @@ class LoopbackClient:
                     yield chunk
 
             yield chunks()
-            if expired.is_set() or self._clock() >= deadline:
-                raise TimeoutError("Local request deadline expired")
+            _remaining(deadline, self._clock)
         except (OSError, http.client.HTTPException) as error:
-            if expired.is_set() or self._clock() >= deadline or isinstance(error, TimeoutError):
+            if self._clock() >= deadline or isinstance(error, TimeoutError):
                 raise TimeoutError("Local request deadline expired") from None
             raise LocalHTTPError("Local server connection failed") from None
         finally:
-            timer.cancel()
             if response is not None:
                 response.close()
             connection.close()
-            if abort_socket is not None:
-                abort_socket.close()
 
     def request_json(self, path, *, payload=None, deadline):
         with self.response_bytes(path, payload=payload, deadline=deadline) as chunks:

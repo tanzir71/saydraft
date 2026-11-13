@@ -146,6 +146,57 @@ def test_idle_unloads_without_restart_and_stale_timer_cannot_stop_recent_use(rig
     assert rig.manager.prepare() and len(rig.processes) == 2
 
 
+def test_repeated_requests_refresh_idle_time_without_starting_more_timers(rig):
+    assert rig.manager.prepare()
+    timer = rig.timers[-1]
+    count = len(rig.timers)
+    for _ in range(100):
+        rig.clock.advance(.01)
+        assert rig.manager.request_json("/completion", {}, timeout=1).reason == "ok"
+    assert len(rig.timers) == count and not timer.cancelled
+    rig.clock.advance(4.1)
+    timer.callback()
+    assert rig.manager.ready and len(rig.timers) == count+1
+    assert rig.timers[-1].delay == pytest.approx(.9)
+    # A fired/cancelled callback cannot replace or disarm its successor.
+    successor = rig.timers[-1]
+    timer.callback()
+    assert rig.timers[-1] is successor and not successor.cancelled
+    rig.clock.advance(1)
+    successor.callback()
+    assert rig.manager.status["reason"] == "idle_unloaded"
+
+
+def test_idle_check_during_active_request_rearms_until_the_next_quiet_period(rig):
+    assert rig.manager.prepare()
+    entered, release = threading.Event(), threading.Event()
+    replies = []
+
+    def request(**_kwargs):
+        entered.set()
+        assert release.wait(2)
+        return {"content": "fixture"}
+
+    rig.mode.request = request
+    worker = threading.Thread(target=lambda: replies.append(rig.manager.request_json("/completion", {}, timeout=20)))
+    worker.start()
+    try:
+        assert entered.wait(2)
+        rig.clock.advance(6)
+        rig.timers[-1].callback()
+        assert rig.manager.ready and not rig.processes[0].closed
+    finally:
+        release.set()
+        worker.join(2)
+    assert not worker.is_alive() and replies[0].reason == "ok"
+    rig.clock.advance(4)
+    rig.timers[-1].callback()
+    assert rig.manager.ready
+    rig.clock.advance(1.1)
+    rig.timers[-1].callback()
+    assert rig.manager.status["reason"] == "idle_unloaded"
+
+
 def test_health_failure_backoff_is_bounded_and_never_downloads(rig):
     rig.mode.healthy = False
     for _ in range(4):

@@ -1,4 +1,5 @@
 import json
+import socket
 import threading
 import time
 from contextlib import contextmanager
@@ -51,13 +52,18 @@ def local_server(mode="normal"):
                     response = b"x" * (MAX_JSON_BYTES + 64 * 1024)
                 self.send_response(status)
                 self.send_header("Content-Type", "text/html" if mode == "html" else "application/json; charset=utf-8")
-                if mode != "large_body":
+                if mode in ("chunked", "dribble_chunked"):
+                    self.send_header("Transfer-Encoding", "chunked")
+                elif mode != "large_body":
                     self.send_header("Content-Length", str(MAX_JSON_BYTES + 1 if mode == "large_header" else len(response)))
                 self.send_header("Connection", "close")
                 if mode == "redirect":
                     self.send_header("Location", "https://example.com/")
                 self.end_headers()
-                if mode == "dribble":
+                if mode in ("chunked", "dribble_chunked"):
+                    parts = [response[i:i+7] for i in range(0, len(response), 7)]
+                    response = b"".join(f"{len(part):x}\r\n".encode()+part+b"\r\n" for part in parts)+b"0\r\n\r\n"
+                if mode in ("dribble", "dribble_chunked"):
                     for byte in response:
                         self.wfile.write(bytes([byte]))
                         self.wfile.flush()
@@ -92,6 +98,37 @@ def test_authenticated_utf8_loopback_works_under_network_guard_and_ignores_proxy
     assert len(received) == 2 and all(row[1] == f"Bearer {KEY}" for row in received)
 
 
+@pytest.mark.parametrize("mode", ["normal", "chunked"])
+def test_requests_need_no_watchdog_threads_or_name_resolution(monkeypatch, mode):
+    with local_server(mode) as (port, received):
+        def unexpected(*_args, **_kwargs):
+            raise AssertionError("A fixed-loopback request must not start a timer or resolve a name")
+
+        monkeypatch.setattr(threading, "Timer", unexpected)
+        monkeypatch.setattr(socket, "getaddrinfo", unexpected)
+        client = LoopbackClient(port, KEY)
+        for _ in range(3):
+            assert client.request_json("/health", deadline=time.monotonic() + 2)["value"] == "বাংলা العربية"
+    assert len(received) == 3
+
+
+def test_request_preparation_cannot_start_a_connection_after_its_deadline(monkeypatch):
+    now = [0.0]
+    encode = json.dumps
+
+    def preparation(*args, **kwargs):
+        body = encode(*args, **kwargs)
+        now[0] = 2.0
+        return body
+
+    with local_server() as (port, received):
+        client = LoopbackClient(port, KEY, clock=lambda: now[0])
+        monkeypatch.setattr(json, "dumps", preparation)
+        with pytest.raises(TimeoutError):
+            client.request_json("/completion", payload={"text": "fixture"}, deadline=1.0)
+    assert not received
+
+
 @pytest.mark.parametrize("mode", ["error", "redirect", "invalid", "array", "html", "large_header", "large_body"])
 def test_invalid_status_json_or_oversized_response_fails_without_body_or_secret_exposure(mode):
     with local_server(mode) as (port, received):
@@ -101,7 +138,7 @@ def test_invalid_status_json_or_oversized_response_fails_without_body_or_secret_
     assert KEY not in str(caught.value) and "private response content" not in str(caught.value)
 
 
-@pytest.mark.parametrize("mode", ["dribble", "slow_header"])
+@pytest.mark.parametrize("mode", ["dribble", "slow_header", "dribble_chunked"])
 def test_absolute_deadline_interrupts_trickled_body_and_headers(mode):
     with local_server(mode) as (port, received):
         started = time.monotonic()

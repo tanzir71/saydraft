@@ -6,6 +6,12 @@ one timeout returned rules after about 9.98 seconds despite the configured
 has been reopened for diagnosis. Earlier controlled lifecycle probes below do
 not settle that newer result. See [current evidence](CLEANUP_EVIDENCE.md).
 
+The transport now charges every socket read/write to the absolute deadline,
+including trickled headers and chunk framing, without per-request watchdog
+threads. Repeated calls refresh the idle timestamp without replacing the idle
+timer. Fresh native policy measurements are required for this changed source;
+the retained `4a1e69a` policy reports predate it.
+
 The app's sidecar uses the Windows x64 llama.cpp build referenced by
 [stable release v0.9.0](https://github.com/ggml-org/llama.cpp/releases/tag/v0.9.0):
 binary release **b12110**, source commit
@@ -79,13 +85,15 @@ proxy environment variables are ignored. Request/response bodies are capped at
 metadata, never prompts, response bodies or keys. It works under NetworkGuard
 without opening a download scope.
 
-An absolute deadline watchdog shuts down a duplicate of the connected socket.
-This interrupts trickled headers and bodies even when ordinary per-read socket
-timeouts would keep resetting, including Connection: close responses whose body
-outlives HTTPConnection's socket reference. Local server tests cover Unicode,
+Each underlying socket read/write recomputes the remaining absolute budget.
+This bounds trickled headers, bodies and chunk framing without per-request
+watchdog threads or duplicated sockets. Fixed IPv4 connection bypasses DNS;
+SocketIO ownership preserves Connection: close response bodies after the
+HTTPConnection releases its reference. Local server tests cover Unicode,
 authentication failure, redirects, invalid/nonfinite JSON, wrong content types,
-declared/streamed size overflow and slow headers/bodies. No app requests start
-from transport construction or imports.
+declared/streamed size overflow, slow headers/bodies/chunks and preparation that
+exhausts the budget before connecting. No app requests start from transport
+construction or imports.
 
 A real pinned CPU server also passes this path under NetworkGuard, inside the
 owned hidden process wrapper: health becomes ready, `/v1/models` reports the
