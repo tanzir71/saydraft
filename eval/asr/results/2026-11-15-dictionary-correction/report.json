@@ -1,0 +1,221 @@
+{
+  "complete": true,
+  "expected_cases": 384,
+  "completed_cases": 384,
+  "arms": {
+    "parakeet_greedy": {
+      "cases": 48,
+      "terms": {
+        "expected": 43,
+        "matched": 15,
+        "false_positives": 0
+      },
+      "scores": {
+        "word_errors": 276,
+        "reference_words": 1099,
+        "character_errors": 1113,
+        "reference_characters": 5317
+      },
+      "protected_errors": {
+        "numbers": 26,
+        "acronyms": 5
+      },
+      "term_recall": 0.3488372093023256,
+      "edits": 0
+    },
+    "whisper_baseline": {
+      "cases": 48,
+      "terms": {
+        "expected": 43,
+        "matched": 22,
+        "false_positives": 0
+      },
+      "scores": {
+        "word_errors": 90,
+        "reference_words": 1099,
+        "character_errors": 204,
+        "reference_characters": 5317
+      },
+      "protected_errors": {
+        "numbers": 21,
+        "acronyms": 4
+      },
+      "term_recall": 0.5116279069767442,
+      "edits": 0
+    },
+    "parakeet_greedy__phonetic": {
+      "cases": 48,
+      "terms": {
+        "expected": 43,
+        "matched": 20,
+        "false_positives": 0
+      },
+      "scores": {
+        "word_errors": 271,
+        "reference_words": 1099,
+        "character_errors": 1108,
+        "reference_characters": 5317
+      },
+      "protected_errors": {
+        "numbers": 26,
+        "acronyms": 5
+      },
+      "term_recall": 0.46511627906976744,
+      "edits": 5
+    },
+    "parakeet_greedy__context_transfer": {
+      "cases": 48,
+      "terms": {
+        "expected": 43,
+        "matched": 16,
+        "false_positives": 0
+      },
+      "scores": {
+        "word_errors": 275,
+        "reference_words": 1099,
+        "character_errors": 1112,
+        "reference_characters": 5317
+      },
+      "protected_errors": {
+        "numbers": 26,
+        "acronyms": 5
+      },
+      "term_recall": 0.37209302325581395,
+      "edits": 1
+    },
+    "parakeet_greedy__context_then_phonetic": {
+      "cases": 48,
+      "terms": {
+        "expected": 43,
+        "matched": 20,
+        "false_positives": 0
+      },
+      "scores": {
+        "word_errors": 271,
+        "reference_words": 1099,
+        "character_errors": 1108,
+        "reference_characters": 5317
+      },
+      "protected_errors": {
+        "numbers": 26,
+        "acronyms": 5
+      },
+      "term_recall": 0.46511627906976744,
+      "edits": 5
+    },
+    "whisper_baseline__phonetic": {
+      "cases": 48,
+      "terms": {
+        "expected": 43,
+        "matched": 26,
+        "false_positives": 0
+      },
+      "scores": {
+        "word_errors": 86,
+        "reference_words": 1099,
+        "character_errors": 198,
+        "reference_characters": 5317
+      },
+      "protected_errors": {
+        "numbers": 21,
+        "acronyms": 4
+      },
+      "term_recall": 0.6046511627906976,
+      "edits": 4
+    },
+    "whisper_baseline__context_transfer": {
+      "cases": 48,
+      "terms": {
+        "expected": 43,
+        "matched": 24,
+        "false_positives": 0
+      },
+      "scores": {
+        "word_errors": 88,
+        "reference_words": 1099,
+        "character_errors": 201,
+        "reference_characters": 5317
+      },
+      "protected_errors": {
+        "numbers": 21,
+        "acronyms": 4
+      },
+      "term_recall": 0.5581395348837209,
+      "edits": 2
+    },
+    "whisper_baseline__context_then_phonetic": {
+      "cases": 48,
+      "terms": {
+        "expected": 43,
+        "matched": 26,
+        "false_positives": 0
+      },
+      "scores": {
+        "word_errors": 86,
+        "reference_words": 1099,
+        "character_errors": 198,
+        "reference_characters": 5317
+      },
+      "protected_errors": {
+        "numbers": 21,
+        "acronyms": 4
+      },
+      "term_recall": 0.6046511627906976,
+      "edits": 4
+    }
+  },
+  "comparisons": {
+    "parakeet_greedy__phonetic": {
+      "baseline": "parakeet_greedy",
+      "relative_term_recall_gain": 0.33333333333333326,
+      "regressions": [],
+      "development_gate_passed": true
+    },
+    "parakeet_greedy__context_transfer": {
+      "baseline": "parakeet_greedy",
+      "relative_term_recall_gain": 0.06666666666666665,
+      "regressions": [],
+      "development_gate_passed": false
+    },
+    "parakeet_greedy__context_then_phonetic": {
+      "baseline": "parakeet_greedy",
+      "relative_term_recall_gain": 0.33333333333333326,
+      "regressions": [],
+      "development_gate_passed": true
+    },
+    "whisper_baseline__phonetic": {
+      "baseline": "whisper_baseline",
+      "relative_term_recall_gain": 0.18181818181818166,
+      "regressions": [],
+      "development_gate_passed": false
+    },
+    "whisper_baseline__context_transfer": {
+      "baseline": "whisper_baseline",
+      "relative_term_recall_gain": 0.09090909090909083,
+      "regressions": [],
+      "development_gate_passed": false
+    },
+    "whisper_baseline__context_then_phonetic": {
+      "baseline": "whisper_baseline",
+      "relative_term_recall_gain": 0.18181818181818166,
+      "regressions": [],
+      "development_gate_passed": false
+    }
+  },
+  "chosen_for_confirmation": "parakeet_greedy__context_then_phonetic",
+  "development_gate_passed": true,
+  "confirmation_inferred": false,
+  "ship_or_owner_acceptance": false,
+  "source": "604b5556c423c3edf2ed9961365e6f9c3316167c",
+  "source_clean": true,
+  "plan_sha256": "b882668eda335fc21dd6e06b1d031aba7c3b1ba91a9d6661b60a723225134030",
+  "plan_unchanged": true,
+  "inputs_unchanged": true,
+  "package_unchanged": true,
+  "seconds": 3.589710500004003,
+  "python_network_guard": true,
+  "native_firewall_verified": false,
+  "audio_decoded": false,
+  "offsets_relative_to_stage_input": true,
+  "scope": "previously_observed_public_English_development_not_holdout_or_owner_accuracy"
+}

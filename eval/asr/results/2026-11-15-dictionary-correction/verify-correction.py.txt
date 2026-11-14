@@ -1,0 +1,155 @@
+"""Verify raw correction scores/edits independently of app and ASR imports."""
+import argparse
+from collections import Counter
+import gzip
+import hashlib
+import json
+from pathlib import Path
+import runpy
+import subprocess
+import sys
+import unicodedata
+
+
+def sha(data):
+    return hashlib.sha256(data).hexdigest()
+
+
+def dl(a, b):
+    infinity = len(a) + len(b)
+    table = {(i, -1): infinity for i in range(-1, len(a) + 1)}
+    table.update({(-1, j): infinity for j in range(-1, len(b) + 1)})
+    table.update({(i, 0): i for i in range(len(a) + 1)})
+    table.update({(0, j): j for j in range(len(b) + 1)})
+    table[-1, -1] = infinity
+    seen = {}
+    for i, x in enumerate(a, 1):
+        last_match = 0
+        for j, y in enumerate(b, 1):
+            k, position = seen.get(y, 0), last_match
+            if x == y:
+                last_match = j
+            table[i, j] = min(table[i-1, j] + 1, table[i, j-1] + 1,
+                              table[i-1, j-1] + (x != y),
+                              table[k-1, position-1] + (i-k-1) + 1 + (j-position-1))
+        seen[x] = i
+    return table[len(a), len(b)]
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--repo', type=Path, required=True)
+    parser.add_argument('--output', type=Path, required=True)
+    parser.add_argument('--plan', type=Path, required=True)
+    parser.add_argument('--input-root', type=Path)
+    parser.add_argument('--dependency-root', type=Path)
+    args = parser.parse_args()
+    plan_bytes = args.plan.read_bytes()
+    plan = json.loads(plan_bytes)
+    original = args.input_root or Path(plan['input_evidence'])
+    subprocess.run([sys.executable, str(original / 'verify-names.py.txt'), '--repo', str(args.repo)], check=True, stdout=subprocess.DEVNULL)
+    helpers = runpy.run_path(str(original / 'verify-names.py.txt'))
+    normal, scores, terms, protected = (helpers[key] for key in ('normal', 'scores', 'terms', 'protected'))
+    assert plan['protocol'] == 'dictionary_correction_40_v1' and len(set(plan['terms'])) == 40 and len(set(plan['ids'])) == 48
+    assert plan['scope'].startswith('previously_observed_public_English') and not plan['confirmation_inferred']
+    assert plan['gate'] == {'relative_term_recall_gain_min': .30, 'no_added_term_false_positives': True,
+                           'no_added_per_clip_word_or_character_errors': True,
+                           'no_added_per_clip_number_or_acronym_surface_errors': True, 'all_frozen_cases_complete': True}
+    assert all(sha((original / name).read_bytes()) == value for name, value in plan['inputs'].items())
+    report = json.loads((args.output / 'report.json').read_bytes())
+    assert report['plan_sha256'] == sha(plan_bytes) and (args.output / 'plan.json').read_bytes() == plan_bytes
+    assert all(report[key] for key in ('source_clean', 'plan_unchanged', 'inputs_unchanged', 'package_unchanged', 'complete', 'python_network_guard'))
+    assert not any(report[key] for key in ('audio_decoded', 'native_firewall_verified', 'confirmation_inferred', 'ship_or_owner_acceptance'))
+    for name, value in plan['algorithm_source_lf_sha256'].items():
+        blob = subprocess.check_output(['git', 'show', f"{report['source']}:{name}"], cwd=args.repo)
+        assert sha(blob.replace(b'\r\n', b'\n')) == value
+    blob = subprocess.check_output(['git', 'show', f"{report['source']}:eval/asr/results/2026-11-15-dictionary-correction/plan.json"], cwd=args.repo)
+    assert blob == plan_bytes  # The whole protocol was committed before processing.
+    packed = subprocess.check_output(['git', 'show', f"{report['source']}:{plan['frequency']['file']}"], cwd=args.repo)
+    assert sha(packed) == plan['frequency']['sha256']
+    common = frozenset(gzip.decompress(packed).decode('utf-8').splitlines())
+    assert len(common) == plan['frequency']['words']
+    encoder = None
+    if args.dependency_root:
+        package = args.dependency_root / 'metaphone'
+        actual = {p.relative_to(package).as_posix(): sha(p.read_bytes()) for p in package.rglob('*.py')}
+        assert actual == plan['package']['python_files'] and plan['package']['version'] == '0.6'
+        sys.path.insert(0, str(args.dependency_root))
+        from metaphone import doublemetaphone
+        encoder = doublemetaphone
+    def codes(text):
+        word = ''.join(c for c in unicodedata.normalize('NFKD', text).casefold() if c.isascii() and c.isalpha())
+        return {value for value in encoder(word) if len(value) >= 2}
+    inputs = [json.loads(line) for line in (original / 'cases.jsonl').read_text(encoding='utf-8').splitlines()]
+    source = {(row['arm'], row['id']): row for row in inputs}
+    rows = [json.loads(line) for line in (args.output / 'cases.jsonl').read_text(encoding='utf-8').splitlines()]
+    assert len(rows) == report['expected_cases'] == report['completed_cases'] == 384
+    glossary = {normal(term) for term in plan['terms']}
+    per_arm, results = {}, {}
+    for arm in plan['arms']:
+        selected = [row for row in rows if row['arm'] == arm]
+        assert [row['id'] for row in selected] == plan['ids']
+        totals, errors, protections, edits_count = Counter(), Counter(), Counter(), 0
+        for row in selected:
+            base = arm.split('__')[0]
+            old = source[base, row['id']]
+            assert row['error'] is None and all(old[k] == row[k] for k in ('id', 'reference', 'audio_sha256', 'source_filename', 'role'))
+            assert row['raw'] == old['text']
+            text = row['raw']
+            for stage in row['stages']:
+                assert stage['raw'] == text
+                previous = -1
+                for edit in stage['edits']:
+                    assert previous <= edit['start'] < edit['end'] <= len(text)
+                    assert text[edit['start']:edit['end']] == edit['before'] and edit['term'] in plan['terms']
+                    assert normal(edit['after']) == normal(edit['term'])
+                    assert normal(edit['before']) not in common
+                    value = dl(normal(edit['before']), normal(edit['after']))
+                    assert value == edit['distance'] and 1 <= value <= (2 if min(len(normal(edit['before'])), len(normal(edit['after']))) >= 6 else 1)
+                    if encoder:
+                        matching = [term for term in plan['terms'] if codes(edit['before']) & codes(term)]
+                        assert matching == [edit['term']]
+                    if edit['evidence'] == 'phonetic_context':
+                        hinted = source[plan['hint_providers'][base], row['id']]['text']
+                        assert normal(edit['term']) in normal(hinted).split()
+                    previous = edit['end']
+                for edit in reversed(stage['edits']):
+                    text = text[:edit['start']] + edit['after'] + text[edit['end']:]
+                assert text == stage['text']
+                edits_count += len(stage['edits'])
+            assert row['text'] == text
+            totals.update(terms(row['reference'], text, glossary))
+            errors.update(scores(row['reference'], text))
+            protections.update(protected(row['reference'], text, glossary))
+        actual = {'cases': 48, 'terms': dict(totals), 'scores': dict(errors), 'protected_errors': dict(protections),
+                  'term_recall': totals['matched'] / totals['expected'], 'edits': edits_count}
+        assert report['arms'][arm] == actual
+        results[arm], per_arm[arm] = actual, selected
+    passing = []
+    for arm in plan['arms'][2:]:
+        base = arm.split('__')[0]
+        regressions = []
+        for old, new in zip(per_arm[base], per_arm[arm], strict=True):
+            before, after = scores(old['reference'], old['text']), scores(new['reference'], new['text'])
+            old_surface, new_surface = protected(old['reference'], old['text'], glossary), protected(new['reference'], new['text'], glossary)
+            failed = [k for k in ('word_errors', 'character_errors') if after[k] > before[k]]
+            failed += [k for k in old_surface if new_surface[k] > old_surface[k]]
+            if terms(new['reference'], new['text'], glossary)['false_positives'] > terms(old['reference'], old['text'], glossary)['false_positives']:
+                failed.append('term_false_positives')
+            if failed:
+                regressions.append({'id': old['id'], 'role': old['role'], 'metrics': failed})
+        gain = results[arm]['term_recall'] / results[base]['term_recall'] - 1
+        accepted = gain >= .30 and not regressions and results[arm]['terms']['false_positives'] <= results[base]['terms']['false_positives']
+        assert report['comparisons'][arm] == {'baseline': base, 'relative_term_recall_gain': gain,
+                                             'regressions': regressions, 'development_gate_passed': accepted}
+        if accepted:
+            passing.append(arm)
+    chosen = sorted(passing, key=lambda arm: (-results[arm]['term_recall'], arm))[0] if passing else None
+    assert report['chosen_for_confirmation'] == chosen and report['development_gate_passed'] == bool(passing)
+    print(json.dumps({'verified': True, 'cases': len(rows), 'passing': passing, 'chosen': chosen,
+                      'edits_replayed': True, 'source_and_inputs_verified': True,
+                      'phonetics_verified': bool(encoder), 'confirmation_inferred': False, 'owner_accuracy_accepted': False}))
+
+
+if __name__ == '__main__':
+    main()

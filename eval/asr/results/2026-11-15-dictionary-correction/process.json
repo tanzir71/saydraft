@@ -1,0 +1,23 @@
+{
+  "source": "604b5556c423c3edf2ed9961365e6f9c3316167c",
+  "source_clean": true,
+  "source_files": {
+    "saydraft/asr/biasing.py": {
+      "raw_sha256": "ecde7835dae06b20d52c30df5d607cd76b6fdb93b3737babbd4bbe2f4d7c61fc",
+      "lf_sha256": "ecde7835dae06b20d52c30df5d607cd76b6fdb93b3737babbd4bbe2f4d7c61fc"
+    },
+    "tools/dictionary_correction.py": {
+      "raw_sha256": "19034313456cb864aa13cdf1f32e251c039c9222271b93b1a7851b7a7cacb71a",
+      "lf_sha256": "19034313456cb864aa13cdf1f32e251c039c9222271b93b1a7851b7a7cacb71a"
+    }
+  },
+  "plan_sha256": "b882668eda335fc21dd6e06b1d031aba7c3b1ba91a9d6661b60a723225134030",
+  "plan_unchanged": true,
+  "child_exit_code": 0,
+  "child_exit_observed": true,
+  "timed_out": false,
+  "seconds": 5.061577320098877,
+  "hotword_encoding_error": false,
+  "owner_audio_or_input_used": false,
+  "source_unchanged": true
+}

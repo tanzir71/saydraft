@@ -1,5 +1,23 @@
 # Frozen dictionary correction development protocol
 
+Development source `604b5556c423c3edf2ed9961365e6f9c3316167c` completes all 384
+text-processing records, exit 0 after 5.06 seconds, with unchanged source/plan/
+inputs/package hashes. Phonetic correction raises Parakeet matches **15→20/43**
+(33.33% relative) with five edits, no false positives and no per-clip regressions.
+The combined path produces the same scores. Both pass the frozen development
+gate; transfer alone gains 6.67%, while Whisper variants gain at most 18.18%.
+The independent scorer replays every edit and verifies metrics, common-word
+filter, true Damerau distance, pinned phonetic codes, source and input hashes.
+The expanded local suite passes **300 tests**. No production path is activated.
+
+`confirmation-plan.json` freezes a separate 48-recording test before decoding:
+the original second recordings, unchanged dictionary/correction/package/wordlist,
+Parakeet greedy plus the same beam/hotword provider, and both development-passing
+variants. It requires the same ≥30%/no-regression gates and retains every case.
+Equal accuracy favors the phonetic-only path because it needs no extra ASR pass.
+These are separate audio files with shared prompts and unverified speaker
+independence, not new text or owner acceptance.
+
 This is a separate experiment on the **already observed** 40-name English
 development set. The earlier five native arms and failed per-clip gates remain
 unchanged. This experiment does not claim new or unseen speech. No reserved
