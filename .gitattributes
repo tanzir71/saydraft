@@ -70,3 +70,5 @@ eval/asr/results/2026-11-14-large-v3-development/model/source/** -text -whitespa
 eval/meetings/results/** -text -whitespace
 # Frozen dictionary plans, public TSV references and exact native source bytes.
 eval/asr/results/2026-11-14-dictionary-biasing/** -text -whitespace
+# Preserve the before-inference name seed, public dev references and raw outputs.
+eval/asr/results/2026-11-14-dictionary-names/** -text -whitespace
