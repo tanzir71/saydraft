@@ -22,6 +22,13 @@ class CommandEditResult:
     confirmation_reason: str = ""
 
 
+@dataclass(frozen=True)
+class CommandRecoveryRequest:
+    generation: int
+    ticket: object
+    result: CommandEditResult
+
+
 class CommandEditProcessor:
     def __init__(self, *, editor, selections, history, inserter, recover, clock=time.perf_counter):
         self.editor, self.selections, self.history = editor, selections, history

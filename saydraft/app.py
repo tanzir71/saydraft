@@ -55,6 +55,7 @@ def create_worker_signals(QtCore):
         bar_updated = QtCore.Signal(object)
         listening_changed = QtCore.Signal(bool)
         utility_requested = QtCore.Signal(object)
+        command_recovery_requested = QtCore.Signal(object)
 
     return SaydraftWorkerSignals()
 
@@ -171,6 +172,9 @@ class WorkerController:
     def is_current_ui_request(self, request):
         return bool(self.core and self.core.hotkeys.is_current_ui_request(request))
 
+    def is_current_command_request(self, request):
+        return bool(self.core and self.core.is_current_command_request(request))
+
     def retry_history_audio(self, row, options=None):
         return bool(self.core and (self.core.retry_history(row) if options is None else self.core.retry_history(row, options)))
 
@@ -279,6 +283,7 @@ class SaydraftApp:
         crash_guard_installer: Callable[..., object] | None = None,
         sound_bank_factory: Callable[..., object] | None = None,
         update_presenter_factory=None,
+        command_recovery_factory=None,
     ):
         self.argv = list(sys.argv if argv is None else argv)
         self.qt_modules = qt_modules
@@ -296,6 +301,8 @@ class SaydraftApp:
         self.crash_guard_installer = crash_guard_installer or install_crash_guard
         self.sound_bank_factory = sound_bank_factory
         self.update_presenter_factory = update_presenter_factory
+        self.command_recovery_factory = command_recovery_factory
+        self.command_recovery = None
         self.update_presenter = None
         self.bar_sounds = None
         self.qt_app = None
@@ -386,9 +393,11 @@ class SaydraftApp:
         if hasattr(qt_modules.QtCore, "Qt"):
             self.signals.dictionary_changed.connect(self._refresh_dictionary, qt_modules.QtCore.Qt.QueuedConnection)
             self.signals.utility_requested.connect(self._utility_requested, qt_modules.QtCore.Qt.QueuedConnection)
+            self.signals.command_recovery_requested.connect(self._command_recovery_requested, qt_modules.QtCore.Qt.QueuedConnection)
         else:
             self.signals.dictionary_changed.connect(self._refresh_dictionary)
             self.signals.utility_requested.connect(self._utility_requested)
+            self.signals.command_recovery_requested.connect(self._command_recovery_requested)
         self.signals.history_retry_finished.connect(self._finish_history_retry)
         self.signals.hardware_benchmark_finished.connect(self._finish_hardware_benchmark)
         self.signals.preview_text_changed.connect(self._show_preview)
@@ -557,6 +566,29 @@ class SaydraftApp:
             self._show_hub('History')
             self.history_window.show_last_diff()
 
+    def _command_recovery_requested(self, request):
+        current = getattr(self.controller, 'is_current_command_request', None)
+        if current is None or not current(request):
+            return
+        if self.command_recovery is None:
+            from .ui.command_recovery import CommandRecoveryWindows
+            try:
+                self._ensure_hub()
+                store = self.hub_window.notes_page.store
+            except Exception:
+                store = None  # Copy recovery remains available when Notes cannot open.
+            def refresh():
+                if self.hub_window is not None:
+                    self.hub_window.notes_page.refresh()
+            self.command_recovery = (self.command_recovery_factory or CommandRecoveryWindows)(
+                store, clipboard=getattr(self.history_window, 'clipboard', None), saved=refresh,
+                notes=lambda: self._show_hub('Notes'))
+            self.qt_app.aboutToQuit.connect(self.command_recovery.shutdown)
+        # Notes/Hub construction can process Qt events. Retired requests must
+        # not steal focus from a newer capture after that work.
+        if current(request):
+            self.command_recovery.present(request.result, valid=lambda: current(request))
+
     def _ensure_scratchpad(self):
         self._ensure_hub()
         if self.scratchpad_window is None:
@@ -582,10 +614,14 @@ class SaydraftApp:
 
     def _request_quit(self):
         quit_app = getattr(self.qt_app, 'quit', lambda: None)
-        if self.scratchpad_window is not None:
-            return self.scratchpad_window.flush_then(quit_app)
-        quit_app()
-        return True
+        def flush_primary():
+            if self.scratchpad_window is not None:
+                return self.scratchpad_window.flush_then(quit_app)
+            quit_app()
+            return True
+        if self.command_recovery is not None:
+            return self.command_recovery.flush_then(flush_primary)
+        return flush_primary()
 
     def _refresh_history(self, row_id):
         if self.hub_window is not None:

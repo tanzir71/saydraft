@@ -2,9 +2,9 @@
 
 P7.1 remains in progress. The selected-target boundary, explicit local edit
 client/validator and guarded processing boundary, including bounded post-write
-confirmation, are implemented. The shortcut/Labs
-admission, clipboard-copy fallback, instruction recording and standalone Copy
-recovery UI still need connecting. No Command Mode control is advertised as
+confirmation, and independent Copy recovery windows are implemented. The shortcut/Labs
+and model admission, clipboard-copy fallback and instruction recording still need
+connecting to those boundaries. No Command Mode control is advertised as
 available in the app.
 
 ## Local edit and delivery boundaries
@@ -63,9 +63,23 @@ atomic lock against concurrent application changes.
 
 An unconfirmed paste may already have written text. Recovery must say to check
 the original field before copying/pasting again; there is no automatic retry.
-Failed delivery passes a standalone recovery result to the caller. The remaining
-UI adapter must show a separate Copy surface and preserve the current dirty or
-conflicted Scratchpad draft. Command results remain searchable in History but
+Failed delivery passes a standalone recovery result to the caller. The app's
+queued Qt bridge accepts generation/ticket-tagged recovery requests. Each accepted
+request opens an independent editable Scratchpad with Copy and the existing
+revision-aware autosave/retry flow. Its note store always uses `activate=False`:
+the active note pointer and any dirty or conflicted main Scratchpad stay intact.
+Multiple results retain separate drafts, and Copy writes only after a click.
+Missing or failed Notes storage keeps the result window and Copy available.
+
+Admission is rechecked after Hub setup, during recovery-window construction and
+before presentation. GUI checks use text-free generation/ticket metadata and do
+not wait for the session mutex. Cancellation/new capture retires queued requests.
+Closing waits for its own save; app Quit flushes all recovery windows before the
+main Scratchpad, while storage/conflict errors keep the unsaved draft open.
+The held-recording producer is still pending, so these windows are not yet
+reachable through a functioning Command Mode shortcut.
+
+Command results remain searchable in History but
 do not count as dictated words, speaking time or dictations; Paste last transcript
 continues to use a dictation row.
 

@@ -52,6 +52,7 @@ class SessionWorker:
         self._preview = None
         self._preview_language_blocked = False
         self._record_request_current = None
+        self._command_recovery_ticket = object()
         self.last_failed_audio = None
         self.last_result = None
         self._retrying_history = False
@@ -378,6 +379,22 @@ class SessionWorker:
         except Exception:
             logger.debug("UI receiver unavailable for %s", name, exc_info=True)
 
+    def is_current_command_request(self, request):
+        from .command_edit import CommandRecoveryRequest
+        # GUI admission uses immutable tickets and text-free atomic metadata;
+        # it must not wait behind Settings, model work or a clipboard operation.
+        return (isinstance(request, CommandRecoveryRequest) and type(request.generation) is int
+            and 0 < request.generation == self.session.session_id and request.ticket is self._command_recovery_ticket
+            and self.session.state in (State.CLEANING, State.INSERTING, State.DONE, State.NOT_INSERTED, State.ERROR)
+            and not self._closing and not self._capturing_context and not self._cancel_request.is_set()
+            and request.ticket is self._command_recovery_ticket and request.generation == self.session.session_id)
+
+    def _recover_command_result(self, generation, result):
+        from .command_edit import CommandRecoveryRequest
+        request = CommandRecoveryRequest(generation, self._command_recovery_ticket, result)
+        if self.is_current_command_request(request):
+            self.emit('command_recovery_requested', request)
+
     def _schedule(self, seconds, callback):
         timer = self.timer_factory(seconds, callback)
         timer.daemon = True
@@ -422,6 +439,7 @@ class SessionWorker:
                     self.emit("notification_requested", "Performance check is in progress. Dictation will be ready when it finishes.")
                 return False
             self._cancel_request.clear()
+            self._command_recovery_ticket = object()
             self._capturing_context = True
             services = self.services
             bar_generation = self.bar_status.begin()
@@ -612,6 +630,7 @@ class SessionWorker:
     def cancel(self):
         # Observed by delivery even while native clipboard rendering is in progress.
         self._cancel_request.set()
+        self._command_recovery_ticket = object()
         self._history_retry_cancel.set()
         self.cancel_setup_benchmark()
         self.microphone_test.stop()
