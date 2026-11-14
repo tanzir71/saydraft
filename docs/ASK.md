@@ -91,6 +91,16 @@ downgrade states, complete/recoverable answers and small-window feedback. Rules
 ports and owned SQLite, without owner microphone, foreground reads or OS input.
 Fresh full CI/package verification of this integration follows.
 
+The first clean native run at `891bc7c` completes all nine cases with unchanged
+source/pins and both native exits observed, but passes only **8/9** meaning
+anchors. Its Bengali answer changes Saturday to Friday. This is a genuine
+factual error that structural validation accepts, retained in the
+[native diagnostic](../eval/ask/results/2026-11-14-selection/README.md). The prompt
+now explicitly asks direct factual answers to copy names, dates, numbers and
+short answer phrases from the source; a separately frozen follow-up set and
+unchanged original cases still need inference. No accuracy improvement is
+claimed yet. The answer window explicitly asks users to review generated text.
+
 Still required:
 
 - Run `python -m tools.probe_ask --models-dir <explicit-installed-cache>

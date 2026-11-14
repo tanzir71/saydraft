@@ -12,9 +12,9 @@ class AskAnswerWindow(ScratchpadWindow):
     def __init__(self, store, result, *, clipboard=None):
         if type(result) is not AskResult or not _valid_text(result.text, MAX_ANSWER_UNITS):
             raise ValueError('Ask recovery requires a complete bounded answer')
-        description = ('Your local answer is ready to copy. It saves as a separate note on this PC.'
+        description = ('Review your local answer before using it. It saves as a separate note on this PC.'
             if result.history_id is not None else
-            'Your local answer is ready to copy. History could not save it. This window keeps a separate note.')
+            'Review your local answer before using it. History could not save it. This window keeps a separate note.')
         super().__init__(_RecoveryStore(store), clipboard=clipboard, heading='Ask answer', description=description)
         self.result = result
         self.setAttribute(QtCore.Qt.WA_DeleteOnClose)

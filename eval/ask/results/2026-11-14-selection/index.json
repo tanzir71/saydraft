@@ -1,0 +1,40 @@
+{
+  "files": [
+    {
+      "file": "diagnostic-891bc7c-report.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\ask-native-891bc7c-20261114\\native-r1\\report.json",
+      "sha256": "958d47dd009b327d9e12454f4b7db63601cf554293ab34b6e5c84bbda9990bcf"
+    },
+    {
+      "file": "diagnostic-891bc7c-cases.jsonl",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\ask-native-891bc7c-20261114\\native-r1\\cases.jsonl",
+      "sha256": "91738d55c313e11e090569ab6a04759cea0d02bcffb890dda60aa4798297438a"
+    },
+    {
+      "file": "diagnostic-891bc7c-process.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\ask-native-891bc7c-20261114\\process.json",
+      "sha256": "376f34ea99bf9efcfbe9639b27765fea2d132e69a5f4b222ae2881b33b5eb323"
+    },
+    {
+      "file": "diagnostic-891bc7c-stdout.log",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\ask-native-891bc7c-20261114\\stdout.log",
+      "sha256": "4a9fb1841881ece273a92052fe78619c9d80b197c1bc72f3bdbd1ec04c3c066b"
+    },
+    {
+      "file": "diagnostic-891bc7c-stderr.log",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\ask-native-891bc7c-20261114\\stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "development-cases.jsonl",
+      "original": "C:\\Users\\tanzir\\Desktop\\voice_tray\\tests\\ask_cases.jsonl",
+      "sha256": "e3471d61a92b83345676a358a41244388eb45c072b96ddd69a7bb7fea9e9e412"
+    },
+    {
+      "file": "frozen-followup-cases.jsonl",
+      "original": "C:\\Users\\tanzir\\Desktop\\voice_tray\\tests\\ask_holdout_cases.jsonl",
+      "sha256": "e669afd51b997589f4e0e5adb3829cb9220917ffb7cff0be1eabb0e3ffbb5d6a"
+    }
+  ],
+  "scope": "Native authored-text Ask diagnostic. Baseline8/9; Bengali source fact changed. No acceptance inferred."
+}

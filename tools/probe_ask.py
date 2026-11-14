@@ -35,14 +35,17 @@ def main(argv=None):
     parser.add_argument('--models-dir', type=Path, required=True)
     parser.add_argument('--backend', choices=('cpu', 'vulkan'), default='vulkan')
     parser.add_argument('--device')
+    parser.add_argument('--holdout', action='store_true', help='Use the separately frozen factual-question follow-up set')
     parser.add_argument('--output', type=Path, required=True)
     args = parser.parse_args(argv)
     args.output.mkdir(parents=True, exist_ok=False)
-    paths = [*(ROOT / 'saydraft').rglob('*.py'), ROOT / 'saydraft/models/manifest.json', Path(__file__).resolve(), CASES]
+    case_path = ROOT / 'tests/ask_holdout_cases.jsonl' if args.holdout else CASES
+    paths = [*(ROOT / 'saydraft').rglob('*.py'), ROOT / 'saydraft/models/manifest.json', Path(__file__).resolve(), case_path]
     fingerprints = {p.relative_to(ROOT).as_posix(): digest(p) for p in paths}
     report = {'source': subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip(),
         'source_dirty': bool(subprocess.check_output(['git', 'status', '--porcelain'], cwd=ROOT).strip()),
         'source_fingerprints': fingerprints, 'verified': {}, 'backend': args.backend, 'rows': [],
+        'case_set': case_path.name,
         'scope': 'authored selected text -> actual exclusive model session -> AskProcessor -> owned SQLite History; '
                  'no UIA, browser, GUI, audio, clipboard, hooks or OS input; no broad factuality or latency qualification'}
     meter, cleaner, session, watchdog = NativeMeter(), None, None, None
@@ -59,7 +62,7 @@ def main(argv=None):
     def factory(config):
         return SidecarManager(config, resolver=resolve, process_factory=meter.spawn,
             device_selector=lambda *a, **kw: select_device(*a, **{**kw, 'requested': args.device}, process_factory=meter.spawn))
-    cases = [json.loads(line) for line in CASES.read_text(encoding='utf-8').splitlines() if line.strip()]
+    cases = [json.loads(line) for line in case_path.read_text(encoding='utf-8').splitlines() if line.strip()]
     history = DictationHistoryStore(args.output / 'public-history.db')
     presentations = []
     def present(result):

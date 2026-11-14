@@ -27,7 +27,8 @@ def test_labs_shows_size_and_license_and_toggles_never_download():
     page.live.setChecked(True)
     page.streaming.setChecked(True)
     page.apply_to(config)
-    assert config["labs"] == {"live_preview": True, "use_streaming_result": True, "command_mode": False, "translate_mode": False} and not calls
+    assert config["labs"] == {"live_preview": True, "use_streaming_result": True, "command_mode": False,
+                              "translate_mode": False, "ask_mode": False} and not calls
     config["stt"]["pinned_languages"] = ["bn"]
     page.update_eligibility(config)
     assert not page.live.isEnabled() and not page.live.isChecked() and not page.download.isEnabled()

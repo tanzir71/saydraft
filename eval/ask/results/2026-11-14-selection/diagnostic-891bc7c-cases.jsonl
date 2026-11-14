@@ -1,0 +1,9 @@
+{"id": "question-day", "action": "question", "text": "According to the text, the library opens on Saturday at 10:00 and is closed on Sunday.", "reason": "ok", "history_id": 1, "anchors_pass": true, "seconds": 1.310126900000796}
+{"id": "summarize-limits", "action": "summarize", "text": "The prototype battery lasted eight hours in indoor tests, but outdoor testing has not yet occurred.", "reason": "ok", "history_id": 2, "anchors_pass": true, "seconds": 0.9752140000000509}
+{"id": "explain-order", "action": "explain", "text": "Sequentially means that tasks are executed one after another, where each task must finish completely before the next one begins.", "reason": "ok", "history_id": 3, "anchors_pass": true, "seconds": 1.0387225000004037}
+{"id": "rewrite-condition", "action": "rewrite", "text": "The launch could happen on Tuesday if testing succeeds, but it has not yet been approved.", "reason": "ok", "history_id": 4, "anchors_pass": true, "seconds": 0.907570599999417}
+{"id": "question-spanish", "action": "question", "text": "El museo cierra el viernes.", "reason": "ok", "history_id": 5, "anchors_pass": true, "seconds": 0.6457510999998703}
+{"id": "question-arabic", "action": "question", "text": "يفتح المتحف يوم السبت.", "reason": "ok", "history_id": 6, "anchors_pass": true, "seconds": 0.6735052000003634}
+{"id": "question-bengali", "action": "question", "text": "গ্রন্থাগার শুক্রবার থেকে শুক্রবার পর্যন্ত খোলে।", "reason": "ok", "history_id": 7, "anchors_pass": false, "seconds": 0.9666661999999633}
+{"id": "source-instruction-is-data", "action": "question", "text": "The library opens on Saturday.", "reason": "ok", "history_id": 8, "anchors_pass": true, "seconds": 0.7263492000001861}
+{"id": "unknown-address", "action": "question", "text": "The selected text does not provide the library's street address. It only states that the library opens on Saturday at 10:00.", "reason": "ok", "history_id": 9, "anchors_pass": true, "seconds": 1.0894491999997626}
