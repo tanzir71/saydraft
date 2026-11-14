@@ -1,0 +1,77 @@
+{
+  "schema": 1,
+  "source": "c9380aedd46f3000d675055618dced7226de7c2e",
+  "scope": "compiled synthetic chords -> actual session worker -> scripted instruction ASR/edit -> actual SQLite and UIA target -> bounded own-EDIT message and confirmation; memory clipboard only",
+  "local_native_cases": 18,
+  "new_worker_cases": 5,
+  "microphone_or_real_asr": false,
+  "native_llm_in_this_probe": false,
+  "owner_desktop_accessed": false,
+  "physical_hooks_or_paste_accepted": false,
+  "full_command_mode_accepted": false,
+  "ui_images": 12,
+  "scales": [
+    1,
+    2
+  ],
+  "themes": [
+    "light",
+    "dark"
+  ],
+  "files_sha256": {
+    "ci-native.json": "90c4a95c3bd98b4a96d000db12ff4ef01df80e9aeff470016e2634a6c8bc37a1",
+    "ci-run.json": "0bae6cf9d7af28346cfd17c5ba0cb019bb3c788de3ecd61f10701103d3ac5744",
+    "diagnostic-earlier-four-case.json": "3962660336111b1040ada63b5dc3794ca38227246562cae0b21500efb1e4eb75",
+    "local-native.json": "8960bfcf8beb3b2ac84e0c92051e376cb89bc8d70b0257e6efb7696462622319",
+    "package-run.json": "7a52bea139835a16aef21403591263f2393a7bf174a8cb869fa2bf0096fc410b",
+    "render.py.txt": "cd1da920686983449adee4e82a18682469e5f6872b71650dad8078e97bbdacb3",
+    "ui-1x.json": "c98bfa16a672af6a027a370aa59b8d18133a68d97097ee38342850f307b90ab1",
+    "ui-2x.json": "92d1abec40fdc5f71eeaaa091e4f4e94e1b9a1edfea4653ccc24d1a7e6c8ddb1",
+    "ui-1x/dark-instruction-recovery.png": "7c0462885920444c664674d20fd76b7a2e7562378a1ea2be496309458478c9ad",
+    "ui-1x/dark-labs-pro.png": "8775f66f8ed7cc7e12fac93504835cde7af715f2618c472a01262134d16f9839",
+    "ui-1x/dark-labs-standard.png": "56b65f7d80895c7000d02403179d7da6a5cfe233c53f5f7a3ec15c0ea09244e9",
+    "ui-1x/light-instruction-recovery.png": "e0f4aa46c54b67e24886816fafd7ee002783bcf277ed59cc833d96ff87d915a7",
+    "ui-1x/light-labs-pro.png": "cf35adffce5b260cf61a2d37994ecdae55cf9f4c012a208d76f26c094b5f21e3",
+    "ui-1x/light-labs-standard.png": "b66e628c16e4fc56e21f55f081d1bc41ed279be304ed2a496baa1a7faf7b1275",
+    "ui-2x/dark-instruction-recovery.png": "95e5027b174da0b3d64aa9e6d579895fadd691c5b780179889ce1490ef9ca3ba",
+    "ui-2x/dark-labs-pro.png": "6fb0bb7826ad9fa47094d28efa5ed5ceba07f6ad0a1cdee0dd9c5cb57d77694c",
+    "ui-2x/dark-labs-standard.png": "85aa72ade532ae3b5cb70a3af4bd5d02dea84aa67dc1d2dab1126d5f8c62279f",
+    "ui-2x/light-instruction-recovery.png": "40ac06ab651713c4261a23244adebf9348f5189bf3add99a05bc2643669d47f6",
+    "ui-2x/light-labs-pro.png": "92e0f2c98d78eb4a5823463449e90a665787fcb5939ccd87265f9bef116d8728",
+    "ui-2x/light-labs-standard.png": "9bca4f1e39ed4baa26fac92a9bf789996d06e0addbdcc0ea7623a85d02394d66"
+  },
+  "verification": {
+    "focused_tests": 296,
+    "rules": "556/556",
+    "normal_cleanup_adversarial": "100/100",
+    "ci_run": 43547092418,
+    "package_run": 43547092497,
+    "conclusion": "success",
+    "passed": 3538,
+    "skipped": 12,
+    "seconds": 441.95
+  },
+  "diagnostics": "Earlier successful dirty native diagnostic had four worker cases, before the native read-only Copy case was added. It is retained but does not establish clean-source acceptance. UI diagnostics exposed default blue links on dark; final links use the active foreground palette.",
+  "ci_artifact": {
+    "id": 14094224906,
+    "name": "owned-window-native-diagnostics",
+    "zip_sha256": "d6257ec9d40a24fe464502875ae7f255963fa054e9eb3fef3f169fdf7aedf2d8",
+    "report_aliases": [
+      "test_held_command_worker_uses_0/own-command/report.json",
+      "test_held_command_worker_uses_current/own-command/report.json"
+    ],
+    "unique_worker_measurements": 1
+  },
+  "private_logs": {
+    "ci": {
+      "file": "ci.log",
+      "sha256": "e6a262f2fc9a6ebef7155030054e58804454fca9cede017940d538a0f704bbac",
+      "size": 69560
+    },
+    "package": {
+      "file": "package.log",
+      "sha256": "50261b1c3fbe5d3fdb8218eaa5414679ba80407c80036eecc6fee960bfc12985",
+      "size": 96641
+    }
+  }
+}

@@ -40,3 +40,4 @@ eval/context/results/**/*.json -text whitespace=blank-at-eol,blank-at-eof,space-
 eval/context/results/**/*.txt -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 eval/commands/results/**/*.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 eval/commands/results/**/*.jsonl -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+eval/commands/results/**/*.txt -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol

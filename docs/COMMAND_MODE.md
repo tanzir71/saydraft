@@ -288,6 +288,16 @@ retains that proof, both native diagnostics and the initial four-failure CI.
 That checkpoint did not cover held recording. The current route is described
 above; clipboard capture and full packaged Command acceptance remain open.
 
+The connected held-recording and Labs setup at clean `c9380ae` pass **3,538 tests /
+12 skips**, rules 556/556, normal cleanup adversarial checks 100/100, both auxiliary
+CI jobs and the unsigned package workflow. Local and CI owned-window probes each
+complete 18 cases, including five actual worker scenarios with scripted audio and
+models. Twelve clean offscreen renders cover setup/gating/instruction recovery in
+both themes at 1x/2x. Raw reports, images, exact scope and the earlier dirty
+diagnostic are in the [held-recording record](../eval/commands/results/2026-11-14-held-recording/README.md).
+This proves the connected readable-UIA flow under controlled ports, without
+physical microphone/hooks/clipboard/paste or full frozen Command acceptance.
+
 ```powershell
 python -m pytest tests/test_selection.py tests/test_selection_worker.py tests/test_selection_patterns.py -q
 python -m tools.probe_selection --output D:\QA\OwnSelection-New

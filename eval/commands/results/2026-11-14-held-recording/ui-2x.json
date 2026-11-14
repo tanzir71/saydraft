@@ -1,0 +1,168 @@
+{
+  "scope": "owned offscreen Command setup and instruction recovery; no devices, clipboard or foreground",
+  "scale": 2,
+  "platform": "offscreen",
+  "files": [
+    {
+      "path": "light-labs-pro.png",
+      "sha256": "92e0f2c98d78eb4a5823463449e90a665787fcb5939ccd87265f9bef116d8728",
+      "width": 1320,
+      "height": 1200,
+      "labels": [
+        {
+          "text": "Select text and hold Ctrl+Win+Alt. Wait for the Command label, then speak a short editing instruction. Release to edit; Esc cancels. Read-only selections produce an edit to copy. This Pro feature uses a separate local editing model. Dictation cleanup can stay off.",
+          "height": 87,
+          "required": 84
+        },
+        {
+          "text": "Pro tier available. Download or verify the model, enable Command and Save Settings.",
+          "height": 86,
+          "required": 42
+        },
+        {
+          "text": "3,037.7 MB total download · Qwen3.5 4B model and processor files<br>Qwen / Bartowski · <a style=\"color:#141414\" href=\"https://huggingface.co/Qwen/Qwen3.5-4B/blob/851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a/LICENSE\">Apache-2.0 license</a> · <a style=\"color:#141414\" href=\"https://huggingface.co/bartowski/Qwen_Qwen3.5-4B-GGUF\">Source and credits</a><br>The ggml authors; LLVM OpenMP contributors · <a style=\"color:#141414\" href=\"https://github.com/ggml-org/llama.cpp/blob/cd959bae99ff4bed22bef2604f45241c09bbb8c8/LICENSE\">MIT + LLVM OpenMP license notice</a> · <a style=\"color:#141414\" href=\"https://github.com/ggml-org/llama.cpp/releases/tag/b12110\">Source and credits</a>",
+          "height": 87,
+          "required": 84
+        },
+        {
+          "text": "Review the size and licenses before downloading. Existing verified files are reused. Enabling Command never starts a download.",
+          "height": 86,
+          "required": 42
+        }
+      ]
+    },
+    {
+      "path": "light-labs-standard.png",
+      "sha256": "9bca4f1e39ed4baa26fac92a9bf789996d06e0addbdcc0ea7623a85d02394d66",
+      "width": 1320,
+      "height": 1222,
+      "labels": [
+        {
+          "text": "Select text and hold Ctrl+Win+Alt. Wait for the Command label, then speak a short editing instruction. Release to edit; Esc cancels. Read-only selections produce an edit to copy. This Pro feature uses a separate local editing model. Dictation cleanup can stay off.",
+          "height": 89,
+          "required": 84
+        },
+        {
+          "text": "Needs Pro tier: Command uses a larger local editing model. Check performance or select Pro in Models before using it.",
+          "height": 90,
+          "required": 42
+        },
+        {
+          "text": "3,037.7 MB total download · Qwen3.5 4B model and processor files<br>Qwen / Bartowski · <a style=\"color:#141414\" href=\"https://huggingface.co/Qwen/Qwen3.5-4B/blob/851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a/LICENSE\">Apache-2.0 license</a> · <a style=\"color:#141414\" href=\"https://huggingface.co/bartowski/Qwen_Qwen3.5-4B-GGUF\">Source and credits</a><br>The ggml authors; LLVM OpenMP contributors · <a style=\"color:#141414\" href=\"https://github.com/ggml-org/llama.cpp/blob/cd959bae99ff4bed22bef2604f45241c09bbb8c8/LICENSE\">MIT + LLVM OpenMP license notice</a> · <a style=\"color:#141414\" href=\"https://github.com/ggml-org/llama.cpp/releases/tag/b12110\">Source and credits</a>",
+          "height": 89,
+          "required": 84
+        },
+        {
+          "text": "Review the size and licenses before downloading. Existing verified files are reused. Enabling Command never starts a download.",
+          "height": 89,
+          "required": 42
+        }
+      ]
+    },
+    {
+      "path": "light-instruction-recovery.png",
+      "sha256": "40ac06ab651713c4261a23244adebf9348f5189bf3add99a05bc2643669d47f6",
+      "width": 1280,
+      "height": 1040,
+      "labels": [
+        {
+          "text": "Command instruction",
+          "height": 45,
+          "required": 45
+        },
+        {
+          "text": "Editing did not finish and your instruction could not be saved to History. These are your recognized instruction words, available to copy and save as a separate note.",
+          "height": 63,
+          "required": 63
+        },
+        {
+          "text": "Saved on this PC",
+          "height": 21,
+          "required": 21
+        }
+      ]
+    },
+    {
+      "path": "dark-labs-pro.png",
+      "sha256": "6fb0bb7826ad9fa47094d28efa5ed5ceba07f6ad0a1cdee0dd9c5cb57d77694c",
+      "width": 1320,
+      "height": 1200,
+      "labels": [
+        {
+          "text": "Select text and hold Ctrl+Win+Alt. Wait for the Command label, then speak a short editing instruction. Release to edit; Esc cancels. Read-only selections produce an edit to copy. This Pro feature uses a separate local editing model. Dictation cleanup can stay off.",
+          "height": 87,
+          "required": 84
+        },
+        {
+          "text": "Pro tier available. Download or verify the model, enable Command and Save Settings.",
+          "height": 86,
+          "required": 42
+        },
+        {
+          "text": "3,037.7 MB total download · Qwen3.5 4B model and processor files<br>Qwen / Bartowski · <a style=\"color:#f5f2e9\" href=\"https://huggingface.co/Qwen/Qwen3.5-4B/blob/851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a/LICENSE\">Apache-2.0 license</a> · <a style=\"color:#f5f2e9\" href=\"https://huggingface.co/bartowski/Qwen_Qwen3.5-4B-GGUF\">Source and credits</a><br>The ggml authors; LLVM OpenMP contributors · <a style=\"color:#f5f2e9\" href=\"https://github.com/ggml-org/llama.cpp/blob/cd959bae99ff4bed22bef2604f45241c09bbb8c8/LICENSE\">MIT + LLVM OpenMP license notice</a> · <a style=\"color:#f5f2e9\" href=\"https://github.com/ggml-org/llama.cpp/releases/tag/b12110\">Source and credits</a>",
+          "height": 87,
+          "required": 84
+        },
+        {
+          "text": "Review the size and licenses before downloading. Existing verified files are reused. Enabling Command never starts a download.",
+          "height": 86,
+          "required": 42
+        }
+      ]
+    },
+    {
+      "path": "dark-labs-standard.png",
+      "sha256": "85aa72ade532ae3b5cb70a3af4bd5d02dea84aa67dc1d2dab1126d5f8c62279f",
+      "width": 1320,
+      "height": 1222,
+      "labels": [
+        {
+          "text": "Select text and hold Ctrl+Win+Alt. Wait for the Command label, then speak a short editing instruction. Release to edit; Esc cancels. Read-only selections produce an edit to copy. This Pro feature uses a separate local editing model. Dictation cleanup can stay off.",
+          "height": 89,
+          "required": 84
+        },
+        {
+          "text": "Needs Pro tier: Command uses a larger local editing model. Check performance or select Pro in Models before using it.",
+          "height": 90,
+          "required": 42
+        },
+        {
+          "text": "3,037.7 MB total download · Qwen3.5 4B model and processor files<br>Qwen / Bartowski · <a style=\"color:#f5f2e9\" href=\"https://huggingface.co/Qwen/Qwen3.5-4B/blob/851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a/LICENSE\">Apache-2.0 license</a> · <a style=\"color:#f5f2e9\" href=\"https://huggingface.co/bartowski/Qwen_Qwen3.5-4B-GGUF\">Source and credits</a><br>The ggml authors; LLVM OpenMP contributors · <a style=\"color:#f5f2e9\" href=\"https://github.com/ggml-org/llama.cpp/blob/cd959bae99ff4bed22bef2604f45241c09bbb8c8/LICENSE\">MIT + LLVM OpenMP license notice</a> · <a style=\"color:#f5f2e9\" href=\"https://github.com/ggml-org/llama.cpp/releases/tag/b12110\">Source and credits</a>",
+          "height": 89,
+          "required": 84
+        },
+        {
+          "text": "Review the size and licenses before downloading. Existing verified files are reused. Enabling Command never starts a download.",
+          "height": 89,
+          "required": 42
+        }
+      ]
+    },
+    {
+      "path": "dark-instruction-recovery.png",
+      "sha256": "95e5027b174da0b3d64aa9e6d579895fadd691c5b780179889ce1490ef9ca3ba",
+      "width": 1280,
+      "height": 1040,
+      "labels": [
+        {
+          "text": "Command instruction",
+          "height": 45,
+          "required": 45
+        },
+        {
+          "text": "Editing did not finish and your instruction could not be saved to History. These are your recognized instruction words, available to copy and save as a separate note.",
+          "height": 63,
+          "required": 63
+        },
+        {
+          "text": "Saved on this PC",
+          "height": 21,
+          "required": 21
+        }
+      ]
+    }
+  ],
+  "git_commit": "c9380aedd46f3000d675055618dced7226de7c2e",
+  "source_dirty": false,
+  "renderer_sha256": "cd1da920686983449adee4e82a18682469e5f6872b71650dad8078e97bbdacb3"
+}

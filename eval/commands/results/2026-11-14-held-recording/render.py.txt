@@ -1,0 +1,76 @@
+import argparse,hashlib,json,os,subprocess,sys,time
+from pathlib import Path
+p=argparse.ArgumentParser()
+p.add_argument('--output',type=Path,required=True)
+p.add_argument('--scale',type=int,choices=(1,2),required=True)
+a=p.parse_args()
+os.environ['QT_QPA_PLATFORM']='offscreen'
+os.environ['QT_STYLE_OVERRIDE']='Fusion'
+os.environ['QT_SCALE_FACTOR']=str(a.scale)
+root=Path.cwd();sys.path.insert(0,str(root))
+from saydraft.privacy.netguard import NetworkGuard
+NetworkGuard.install()
+from PySide6 import QtCore,QtGui,QtWidgets
+from saydraft.config import default_config
+from saydraft.ui.fonts import install_bundled_fonts
+from saydraft.ui.theme import install_theme
+from saydraft.ui.command_setup import CommandSetup
+from saydraft.ui.command_recovery import CommandRecoveryWindows
+from saydraft.core.command_edit import CommandEditResult
+from saydraft.data.notes import NoteStore
+app=QtWidgets.QApplication([]);app.setQuitOnLastWindowClosed(False)
+assert app.platformName()=='offscreen'
+assert len(install_bundled_fonts(app))==8
+theme=install_theme(app,mode='light')
+a.output.mkdir(parents=True,exist_ok=False)
+report={'scope':'owned offscreen Command setup and instruction recovery; no devices, clipboard or foreground',
+        'scale':a.scale,'platform':app.platformName(),'files':[]}
+class Clipboard:
+    def __init__(self):self.copies=[]
+    def setText(self,value):self.copies.append(value)
+clipboard=Clipboard()
+def save(widget,name):
+    app.processEvents()
+    labels=[]
+    for label in widget.findChildren(QtWidgets.QLabel):
+        if label.isHidden():continue
+        required=label.heightForWidth(label.width()) if label.wordWrap() else label.sizeHint().height()
+        assert label.height()>=required,(label.text(),label.height(),required)
+        labels.append({'text':label.text(),'height':label.height(),'required':required})
+    out=a.output/(name+'.png');pix=widget.grab();assert pix.save(str(out))
+    report['files'].append({'path':out.name,'sha256':hashlib.sha256(out.read_bytes()).hexdigest(),
+        'width':pix.width(),'height':pix.height(),'labels':labels})
+try:
+    for mode in ('light','dark'):
+        theme.set_mode(mode)
+        for tier in ('pro','standard'):
+            config=default_config();config['app']['tier']=tier
+            page=CommandSetup(config,callback=lambda *a,**kw: (_ for _ in ()).throw(AssertionError('No transfer')))
+            page.setFixedWidth(660)
+            height=page.heightForWidth(660)
+            page.resize(660,max(height,page.sizeHint().height(),600))
+            page.show();app.processEvents()
+            assert not page.enabled_check.isChecked()
+            assert page.enabled_check.isEnabled()==(tier=='pro')
+            save(page,mode+'-labs-'+tier)
+            page.hide();page.deleteLater();app.sendPostedEvents(None,QtCore.QEvent.DeferredDelete)
+        group=CommandRecoveryWindows(NoteStore(a.output/(mode+'-notes.db')),clipboard=clipboard)
+        text='Make the message shorter.\nবাংলা العربية <b>literal instruction</b>'
+        window=group.present(CommandEditResult(text,'instruction_history_unavailable'))
+        until=time.monotonic()+4
+        while window.draft.snapshot().saving and time.monotonic()<until:
+            app.processEvents();time.sleep(.005)
+        assert not window.draft.snapshot().saving and window.copy_button.isEnabled() and not clipboard.copies
+        assert window.editor.toPlainText()==text
+        save(window,mode+'-instruction-recovery')
+        window.shutdown();window.draft.executor.shutdown(wait=True)
+        window.hide();window.deleteLater();app.sendPostedEvents(None,QtCore.QEvent.DeferredDelete)
+        assert not group.windows
+    assert 'sounddevice' not in sys.modules
+    report['git_commit']=subprocess.check_output(['git','rev-parse','HEAD'],cwd=root,text=True).strip()
+    report['source_dirty']=bool(subprocess.check_output(['git','status','--porcelain'],cwd=root).strip())
+    report['renderer_sha256']=hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
+    (a.output/'report.json').write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf-8')
+    print(json.dumps({'rendered':len(report['files']),'scale':a.scale,'labels_fit':True}))
+finally:
+    NetworkGuard.uninstall()

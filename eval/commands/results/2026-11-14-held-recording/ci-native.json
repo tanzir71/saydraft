@@ -1,0 +1,203 @@
+{
+  "probe_complete": true,
+  "git_commit": "c9380aedd46f3000d675055618dced7226de7c2e",
+  "source_dirty": false,
+  "input_injected": false,
+  "owner_clipboard_accessed": false,
+  "active_application_read": false,
+  "microphone_used": false,
+  "scope": "invisible own EDIT, actual native ranges and bounded owner; fixture substitutes own focus; physical focus/insertion unmeasured",
+  "cases": [
+    {
+      "case": "long_selection",
+      "status": "ready",
+      "selected_units": 1408,
+      "exact": true
+    },
+    {
+      "case": "same_text_new_range",
+      "reason": "selection_changed"
+    },
+    {
+      "case": "changed_text",
+      "reason": "selection_changed"
+    },
+    {
+      "case": "replacement_span",
+      "replacement_units": 11,
+      "reason": "",
+      "own_field_units": 30,
+      "own_field_exact": true
+    },
+    {
+      "case": "replacement_span",
+      "replacement_units": 9000,
+      "reason": "",
+      "own_field_units": 9019,
+      "own_field_exact": true
+    },
+    {
+      "case": "matching_text_elsewhere_unconfirmed",
+      "reason": "insertion_unconfirmed"
+    },
+    {
+      "case": "truncated_write_unconfirmed",
+      "reason": "insertion_unconfirmed",
+      "own_field_units": 40,
+      "fixture_text_limit": 40,
+      "replacement_units": 100
+    },
+    {
+      "case": "password_before_confirmation",
+      "reason": "password_field",
+      "no_post_write_text_read": true
+    },
+    {
+      "case": "command_processor_native_target",
+      "fixture_direct_message_write": true,
+      "ready_contract": true,
+      "reason": "ok",
+      "confirmation_reason": "",
+      "durable_before_input": true,
+      "memory_clipboard_restored": true,
+      "recovery_results": 0,
+      "model_stub": true,
+      "audio_or_os_input": false
+    },
+    {
+      "case": "command_processor_native_target",
+      "fixture_direct_message_write": false,
+      "ready_contract": true,
+      "reason": "insertion_unconfirmed",
+      "confirmation_reason": "insertion_unconfirmed",
+      "durable_before_input": true,
+      "memory_clipboard_restored": true,
+      "recovery_results": 1,
+      "model_stub": true,
+      "audio_or_os_input": false
+    },
+    {
+      "case": "read_only",
+      "reason": "read_only"
+    },
+    {
+      "case": "password",
+      "status": "password_field",
+      "no_text_read": true
+    },
+    {
+      "case": "cancel",
+      "reason": "selection_expired"
+    },
+    {
+      "case": "held_command_worker",
+      "mode": "prefix_replace",
+      "outcome": "ok",
+      "capture_starts": 2,
+      "capture_stops": 2,
+      "fixture_direct_message_writes": 1,
+      "paste_attempts": 1,
+      "recovery_requests": 0,
+      "memory_clipboard_restored": true,
+      "own_field_exact": true,
+      "history_rows": 1,
+      "all_editors_retired": true,
+      "history_before_input": true,
+      "ordinary_processor_called": false,
+      "prefix_retired_before_command_owner": true,
+      "scripted_asr_and_model": true,
+      "serial_closed": true
+    },
+    {
+      "case": "held_command_worker",
+      "mode": "ignored_paste",
+      "outcome": "insertion_unconfirmed",
+      "capture_starts": 1,
+      "capture_stops": 1,
+      "fixture_direct_message_writes": 0,
+      "paste_attempts": 1,
+      "recovery_requests": 1,
+      "memory_clipboard_restored": true,
+      "own_field_exact": true,
+      "history_rows": 1,
+      "all_editors_retired": true,
+      "history_before_input": true,
+      "ordinary_processor_called": false,
+      "prefix_retired_before_command_owner": true,
+      "scripted_asr_and_model": true,
+      "serial_closed": true
+    },
+    {
+      "case": "held_command_worker",
+      "mode": "read_only_copy",
+      "outcome": "read_only",
+      "capture_starts": 1,
+      "capture_stops": 1,
+      "fixture_direct_message_writes": 0,
+      "paste_attempts": 0,
+      "recovery_requests": 1,
+      "memory_clipboard_restored": true,
+      "own_field_exact": true,
+      "history_rows": 1,
+      "all_editors_retired": true,
+      "history_before_input": false,
+      "ordinary_processor_called": false,
+      "prefix_retired_before_command_owner": true,
+      "scripted_asr_and_model": true,
+      "serial_closed": true
+    },
+    {
+      "case": "held_command_worker",
+      "mode": "failed_edit",
+      "outcome": "unavailable",
+      "capture_starts": 1,
+      "capture_stops": 1,
+      "fixture_direct_message_writes": 0,
+      "paste_attempts": 0,
+      "recovery_requests": 0,
+      "memory_clipboard_restored": true,
+      "own_field_exact": true,
+      "history_rows": 1,
+      "all_editors_retired": true,
+      "history_before_input": false,
+      "ordinary_processor_called": false,
+      "prefix_retired_before_command_owner": true,
+      "scripted_asr_and_model": true,
+      "serial_closed": true
+    },
+    {
+      "case": "held_command_worker",
+      "mode": "release_during_prepare",
+      "outcome": "released_before_capture",
+      "capture_starts": 0,
+      "capture_stops": 0,
+      "fixture_direct_message_writes": 0,
+      "paste_attempts": 0,
+      "recovery_requests": 0,
+      "memory_clipboard_restored": true,
+      "own_field_exact": true,
+      "history_rows": 0,
+      "all_editors_retired": true,
+      "history_before_input": false,
+      "ordinary_processor_called": false,
+      "prefix_retired_before_command_owner": true,
+      "scripted_asr_and_model": true,
+      "serial_closed": true
+    }
+  ],
+  "reads": 62,
+  "confirmation_reads": 12,
+  "provider_setup": [
+    {
+      "attempts": 1,
+      "timeouts": 0,
+      "ready": true,
+      "seconds": 0.010329500000011649
+    }
+  ],
+  "command_scope": "compiled synthetic chords -> actual session worker -> scripted instruction ASR/edit -> actual SQLite and UIA target -> bounded own-EDIT message and confirmation; memory clipboard only",
+  "asr_performed": false,
+  "native_edit_model_used": false,
+  "mta_closed": true,
+  "own_windows_closed": true
+}
