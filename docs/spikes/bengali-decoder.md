@@ -1,7 +1,7 @@
 # Bengali decoder diagnostic · 14 November 2026
 
-The full twenty-language public comparison is still running. Its first twenty
-Bengali cases expose substantial errors and truncated output. A separate
+The full twenty-language [public baseline](../../eval/asr/results/2026-11-14-public-read/README.md)
+is complete. Its twenty Bengali cases expose substantial errors and truncated output. A separate
 development diagnostic replays the first three already-observed clips with the
 same clean `1b7e7ea` source, pinned turbo files, CPU int8 and runtime environment.
 It opens no audio device. The [raw evidence](../../eval/asr/results/2026-11-14-bengali-decoder/index.json)
@@ -37,8 +37,45 @@ no reference, scoring normalization, decoder limit or production setting was
 changed to improve a number. These timings are not latency qualification under
 the concurrent public evaluation load.
 
-Next work should compare a bounded external segmentation strategy or a quality
-model candidate on a frozen development split, then confirm on untouched clips
-and other dense-script languages. Preserve all words and report incomplete
-recognition; do not strip replacement characters or missing-tail evidence to
-hide a decoder failure. Full language accuracy and owner acceptance remain open.
+## External segmentation follow-up
+
+A second frozen development probe uses the first three already-observed clips
+each for Bengali, Tamil and Telugu. It chooses quieter boundaries between
+three and six seconds, favors a quiet boundary near five seconds, and keeps
+every input sample exactly once. Unlike the internal-window experiment, it
+retains normal 30-second feature padding, the existing decoder limits and
+production generation options. Independent verification recomputes every
+boundary against actual audio, original reference scores and source/model hashes;
+the child exits zero. The [complete raw record](../../eval/asr/results/2026-11-14-external-boundaries/README.md)
+retains the plan, scripts, output and failed candidate.
+
+| Development language (3 clips) | Baseline WER | Candidate WER | Baseline CER | Candidate CER |
+| --- | ---: | ---: | ---: | ---: |
+| Bengali | 84.13% | 90.48% | 39.30% | 35.78% |
+| Tamil | 75.68% | 105.41% | 46.03% | 71.85% |
+| Telugu | 70.21% | 85.11% | 18.66% | 39.44% |
+
+**Reject this candidate too.** Word errors increase from 114 to 136 and character
+errors from 326 to 451 across the nine development cases. Bengali's lower CER
+does not justify the word-error increase or Tamil/Telugu regressions. These are
+development counts, not a global cross-language accuracy score. No production
+decoder, segmentation policy or model default changes follow.
+
+Sixty new confirmation clips have separately verified audio/reference/TSV hashes
+and IDs disjoint from the observed baseline: twenty each for Bengali, Tamil and
+Telugu. They have no model inference at this snapshot. Preserve them for a
+candidate that passes development, and record consumption before later tuning.
+A whole-clip full large-v3 model comparison is frozen to the same nine observed
+development clips; its explicit QA-only cache download is in progress. Its
+accuracy is unmeasured and it is not registered in the app. Pinned source cards
+retain differing conversion/upstream license metadata for review before any
+distribution decision.
+
+The related [upstream report](https://github.com/OpenNMT/CTranslate2/issues/2074)
+describes the 224-token limit for a no-timestamp path. These probes retain the
+default timestamp path, so that report alone does not establish the cause of
+every observed error or justify bypassing native context limits.
+
+Preserve all words and report incomplete recognition; do not strip replacement
+characters or missing-tail evidence. Full language accuracy and owner acceptance
+remain open.

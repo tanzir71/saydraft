@@ -1,0 +1,89 @@
+"""Explicit public corpus acquisition only; no inference or audio devices."""
+import hashlib
+import json
+import os
+import subprocess
+import sys
+import time
+import traceback
+from pathlib import Path
+
+base = Path(__file__).resolve().parent
+source = base / 'worktrees/asr-languages-1b7e7ea-20261114'
+runtime = base / 'latency-runtime-874a9c4-20261114/venv/Scripts/python.exe'
+root = base / 'dense-script-confirmation-corpus-20261114-r1'
+sys.path.insert(0, str(source))
+sha = lambda path: hashlib.sha256(Path(path).read_bytes()).hexdigest()
+read = lambda path: json.loads(Path(path).read_text(encoding='utf-8'))
+
+def save(path, value):
+    stage = path.with_suffix('.tmp')
+    stage.write_text(json.dumps(value, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+    stage.replace(path)
+
+def run():
+    from tools.fetch_asr_corpus import fetch_language
+    from tools.asr_accuracy import load_corpora, _source
+    assert not _source()['dirty'] and _source()['commit'] == '1b7e7eaf493e082692343244d6f1aed3e9907d68'
+    root.mkdir(exist_ok=False)
+    prior = read(base / 'asr-public-fleurs-20261114/verified-corpus-index.json')
+    paths = {row['language']: row['path'] for row in prior['corpora']}
+    state = {'scope': 'Pinned public FLEURS first40 per bn/ta/te; first20 reproduce observed baseline, next20 frozen for untouched confirmation. No inference.',
+             'source': _source(), 'script_sha256': sha(__file__), 'pid': os.getpid(), 'complete': False,
+             'selection': 'Archive-order first40 unique eligible IDs; exact prefix20 must match baseline audio/IDs. Holdout is suffix20, disjoint from every observed clip in that language.',
+             'languages': [], 'errors': []}
+    save(root / 'state.json', state)
+    for language in ('bn', 'ta', 'te'):
+        folder = root / f'{language}-40-r1'
+        try:
+            state['active'] = language
+            save(root / 'state.json', state)
+            receipt = fetch_language(language, folder, samples=40)
+            new, _ = load_corpora([folder / 'corpus.json'])
+            old, _ = load_corpora([paths[language]])
+            assert [(row['id'], row['sha256']) for row in new[:20]] == [(row['id'], row['sha256']) for row in old]
+            old_ids = {row['id'] for row in old}
+            holdout = new[20:]
+            assert len(holdout) == 20 and not old_ids.intersection(row['id'] for row in holdout)
+            item = {'language': language, 'corpus': str(folder / 'corpus.json'), 'corpus_sha256': sha(folder / 'corpus.json'),
+                    'metadata_sha256': receipt['metadata_sha256'], 'observed_prefix_matches_baseline': True,
+                    'excluded_observed_ids': [row['id'] for row in old], 'heldout_ids': [row['id'] for row in holdout],
+                    'heldout_audio_sha256': {str(row['id']): row['sha256'] for row in holdout},
+                    'heldout_audio_seconds': sum(row['num_samples'] / 16000 for row in holdout),
+                    'inference_run': False}
+            state['languages'].append(item)
+            print(json.dumps({'language': language, 'complete': True, 'acquired': 40, 'new_heldout': 20}), flush=True)
+        except BaseException as error:
+            state['errors'].append({'language': language, 'error_type': type(error).__name__, 'partial_retained': str(folder)})
+            traceback.print_exc()
+        state.pop('active', None)
+        save(root / 'state.json', state)
+    state['complete'] = len(state['languages']) == 3 and not state['errors'] and _source() == state['source']
+    state['ended_epoch'] = time.time()
+    save(root / 'state.json', state)
+    raise SystemExit(0 if state['complete'] else 1)
+
+def observe():
+    folder = base / 'dense-script-confirmation-corpus-observer-20261114-r1'
+    folder.mkdir(exist_ok=False)
+    args = [str(runtime), str(Path(__file__).resolve()), '--run']
+    state = {'observer_pid': os.getpid(), 'args': args, 'native_exit_observed': False, 'started_epoch': time.time()}
+    env = os.environ.copy()
+    env.update(PYTHONUTF8='1', PYTHONDONTWRITEBYTECODE='1', DO_NOT_TRACK='1')
+    with (folder / 'stdout.txt').open('x', encoding='utf-8') as stdout, (folder / 'stderr.txt').open('x', encoding='utf-8') as stderr:
+        child = subprocess.Popen(args, cwd=source, env=env, stdout=stdout, stderr=stderr, creationflags=subprocess.CREATE_NO_WINDOW)
+        state['native_pid'] = child.pid
+        save(folder / 'process.json', state)
+        state['returncode'] = child.wait()
+    state.update(native_exit_observed=True, ended_epoch=time.time(), stdout_sha256=sha(folder / 'stdout.txt'), stderr_sha256=sha(folder / 'stderr.txt'))
+    if (root / 'state.json').exists():
+        state['state_sha256'] = sha(root / 'state.json')
+    save(folder / 'process.json', state)
+    raise SystemExit(state['returncode'])
+
+if sys.argv[1:] == ['--run']:
+    run()
+elif sys.argv[1:] == ['--observe']:
+    observe()
+else:
+    raise SystemExit('Choose --run or --observe')

@@ -1,0 +1,82 @@
+"""Replay the nine retained development scores and sample-range bookkeeping.
+
+No models/audio/network/app imports. Original-machine verification additionally
+rechecked the actual audio/TSV/model/source bytes and recomputed every boundary.
+"""
+import hashlib
+import json
+import unicodedata
+from collections import Counter
+from pathlib import Path
+
+root = Path(__file__).resolve().parent
+read = lambda path: json.loads(path.read_text(encoding='utf-8'))
+sha = lambda path: hashlib.sha256(path.read_bytes()).hexdigest()
+for item in read(root / 'index.json')['files']:
+    path = (root / item['file']).resolve()
+    assert path.is_relative_to(root) and sha(path) == item['sha256'], item['file']
+
+def normalize(value):
+    value = unicodedata.normalize('NFKC', value).casefold()
+    return ' '.join(''.join(' ' if unicodedata.category(char)[0] in 'PS' else char for char in value).split())
+
+def distance(left, right):
+    previous = list(range(len(left) + 1))
+    for j, actual in enumerate(right, 1):
+        current = [j]
+        for i, expected in enumerate(left, 1):
+            current.append(min(previous[i] + 1, current[i - 1] + 1, previous[i - 1] + int(expected != actual)))
+        previous = current
+    return previous[-1]
+
+def score(reference, hypothesis):
+    left, right = normalize(reference), normalize(hypothesis)
+    return {'word_errors': distance(left.split(), right.split()), 'reference_words': len(left.split()),
+            'character_errors': distance(left.replace(' ', ''), right.replace(' ', '')),
+            'reference_characters': len(left.replace(' ', ''))}
+
+report, plan, process, receipt = (read(root / name) for name in (
+    'report.json', 'frozen-plan.json', 'process.json', 'independent-verification.json'))
+assert report['complete'] and process['native_exit_observed'] and process['returncode'] == 0
+assert report['plan_sha256'] == sha(root / 'frozen-plan.json') == process['plan_sha256']
+assert report['script_sha256'] == plan['script_sha256'] == sha(root / 'probe.py.txt')
+assert report['journal_sha256'] == process['cases.jsonl_sha256'] == sha(root / 'cases.jsonl')
+assert process['report.json_sha256'] == sha(root / 'report.json')
+assert all(process[name + '_sha256'] == sha(root / (name + '.txt')) for name in ('stdout', 'stderr'))
+rows = [json.loads(line) for line in (root / 'cases.jsonl').read_text(encoding='utf-8').splitlines()]
+assert rows == report['cases'] and len(rows) == 9
+assert [(row['language'], row['id']) for row in rows] == [(row['language'], row['id']) for row in plan['clips']]
+summary = {}
+for row in rows:
+    assert row['scores'] == score(row['reference'], row['text'])
+    assert row['baseline_scores'] == score(row['reference'], row['baseline_text'])
+    parts = row['parts']
+    assert parts[0]['start'] == 0 and parts[-1]['end'] == row['audio_samples']
+    assert sum(part['end'] - part['start'] for part in parts) == row['audio_samples']
+    assert all(0 < part['end'] - part['start'] <= 96000 for part in parts)
+    assert all(left['end'] == right['start'] for left, right in zip(parts, parts[1:]))
+    group = summary.setdefault(row['language'], {'samples': 0, 'baseline': Counter(), 'candidate': Counter()})
+    group['samples'] += 1
+    group['baseline'].update(row['baseline_scores'])
+    group['candidate'].update(row['scores'])
+for group in summary.values():
+    assert group['samples'] == 3
+    for stage in ('baseline', 'candidate'):
+        group[stage] = dict(group[stage])
+        group[stage]['wer'] = group[stage]['word_errors'] / group[stage]['reference_words']
+        group[stage]['cer'] = group[stage]['character_errors'] / group[stage]['reference_characters']
+assert summary == receipt['summary']
+assert receipt['aggregate_development_counts'] == {
+    'baseline_word_errors': 114, 'candidate_word_errors': 136,
+    'baseline_character_errors': 326, 'candidate_character_errors': 451}
+holdout = read(root / 'holdout/state.json')
+assert holdout['complete'] and len(holdout['languages']) == 3 and not holdout['errors']
+for item in holdout['languages']:
+    assert not item['inference_run'] and len(item['heldout_ids']) == 20
+    assert not set(item['heldout_ids']) & set(item['excluded_observed_ids'])
+    corpus = read(root / f"holdout/{item['language']}-corpus.json")
+    assert sha(root / f"holdout/{item['language']}-corpus.json") == item['corpus_sha256']
+    assert [row['id'] for row in corpus['clips'][:20]] == item['excluded_observed_ids']
+    assert [row['id'] for row in corpus['clips'][20:]] == item['heldout_ids']
+print(json.dumps({'passed': True, 'development_cases': 9, 'decision': 'reject candidate',
+                  'new_confirmation_clips': 60, 'confirmation_inference_run': False}))

@@ -1,0 +1,114 @@
+{
+  "scope": "Development only; no latency or broad quality acceptance.",
+  "decision": "Reject. Combined word and character error counts worsen; Tamil regressions are substantial. No production segmentation/default change and no holdout inference.",
+  "files": [
+    {
+      "file": "report.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\external-whisper-boundaries-1b7e7ea-20261114-r1\\native-r1\\report.json",
+      "sha256": "c20a617c8c170078a8cbd53e0e174c32a9647784b02bf0cae9ffbb5062c8adfd"
+    },
+    {
+      "file": "cases.jsonl",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\external-whisper-boundaries-1b7e7ea-20261114-r1\\native-r1\\cases.jsonl",
+      "sha256": "1b9b22ab34c85971fe362b346c836ce50bcd76bcc8c7732c9f68c4ca357ca367"
+    },
+    {
+      "file": "frozen-plan.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\external-whisper-boundaries-1b7e7ea-20261114-r1\\frozen-plan.json",
+      "sha256": "d7ade0877824bedfc1fb9b66133fdf57c9a69cd584551c86b99178ee63dc47fe"
+    },
+    {
+      "file": "independent-verification.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\external-whisper-boundaries-1b7e7ea-20261114-r1\\independent-verification.json",
+      "sha256": "5bb2df0dc6b6ac0b80533e035803e419bc3b584bb59a0a4668a68569a61e4400"
+    },
+    {
+      "file": "process.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\external-whisper-boundaries-1b7e7ea-20261114-r1\\observer-r1\\process.json",
+      "sha256": "88d556a02f24d73fa33be3fa16c9bd2f1dea90cd4fa1b59495b220c1709634e6"
+    },
+    {
+      "file": "stdout.txt",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\external-whisper-boundaries-1b7e7ea-20261114-r1\\observer-r1\\stdout.txt",
+      "sha256": "833186eaad1ec756635c28fba5f7be5b6ec34f446d944a2f37239413de63bbe6"
+    },
+    {
+      "file": "stderr.txt",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\external-whisper-boundaries-1b7e7ea-20261114-r1\\observer-r1\\stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "probe.py.txt",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\probe_external_whisper_boundaries_20261114.py",
+      "sha256": "46205dbdd1560332fe2b4c366550c58c5cae8fbcfe7e703d8d1af81cea54bb06"
+    },
+    {
+      "file": "verify-original-machine.py.txt",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\verify_external_boundaries_20261114.py",
+      "sha256": "22a7e7d7549e431c30bee5b9768c8ed23112ba89b460dfd4cd590979e97d37e4"
+    },
+    {
+      "file": "26dd660-ci-failure.txt",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\run-43585895788-failed.log",
+      "sha256": "22944f8fd823c4de0b811b74693169504e1e9ef2c4cf9ece78c950b29b7bcc6f"
+    },
+    {
+      "file": "26dd660-ci.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\run-43585895788.json",
+      "sha256": "7957b9b91c7870c6a017ce01d12e3c29b9b22edfc34cfc7dadfe3462c8c772b4"
+    },
+    {
+      "file": "holdout/state.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dense-script-confirmation-corpus-20261114-r1\\state.json",
+      "sha256": "2e963592ac19809f6c33f6d901960ac0aced21745b6acc75f180c790d6d48da4"
+    },
+    {
+      "file": "holdout/independent-verification.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dense-script-confirmation-corpus-20261114-r1\\independent-verification.json",
+      "sha256": "8333d6fe59510fecb545461e04c7827d659b9e905d42c17a03e2972fbf6edd91"
+    },
+    {
+      "file": "holdout/acquisition.py.txt",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\prepare_dense_script_holdout_20261114.py",
+      "sha256": "95df9d9d3cd09af2a2866785087f5fa20d56e2cef796f27d7ba6085be25414a9"
+    },
+    {
+      "file": "holdout/process.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dense-script-confirmation-corpus-observer-20261114-r1\\process.json",
+      "sha256": "0fae377a74ffb76885983e91f4f18230863d61132beb395f6748d7fb04a3dc6c"
+    },
+    {
+      "file": "holdout/stdout.txt",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dense-script-confirmation-corpus-observer-20261114-r1\\stdout.txt",
+      "sha256": "86e4ec51929ec7200d6cc2f2c52d8f3db1993a91f61856db6193aed1a4e3fa8c"
+    },
+    {
+      "file": "holdout/stderr.txt",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dense-script-confirmation-corpus-observer-20261114-r1\\stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "holdout/bn-corpus.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dense-script-confirmation-corpus-20261114-r1\\bn-40-r1\\corpus.json",
+      "sha256": "16807b9c65d772af4773147c17968cf37669441e123310a5f1bd6dde90143977"
+    },
+    {
+      "file": "holdout/ta-corpus.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dense-script-confirmation-corpus-20261114-r1\\ta-40-r1\\corpus.json",
+      "sha256": "fe1606b3f3b5c46796c7806b6d5c2df9af1cf3e6f7b1202922d9870fa1ef4af0"
+    },
+    {
+      "file": "holdout/te-corpus.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dense-script-confirmation-corpus-20261114-r1\\te-40-r1\\corpus.json",
+      "sha256": "6aaf468dfcda5ffd725b940a2213bcafa0aa01c11ec150592953181faeb32b19"
+    },
+    {
+      "file": "README.md",
+      "sha256": "143258834e589fc495bd217b87a3d896e891733ce90dc70a5733d063386d876c"
+    },
+    {
+      "file": "verify-scores.py.txt",
+      "sha256": "6845622d485bba49a793e0341041c7b9735a1feb00dbf8d59246cd76434277ba"
+    }
+  ]
+}

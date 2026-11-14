@@ -9,7 +9,11 @@ language-quality acceptance and evidence-backed improvements remain open.
 Bengali, Tamil and Telugu show substantial recognition errors. A separate three-clip
 [Bengali decoder diagnostic](spikes/bengali-decoder.md) confirms native output
 capping and rejects an internal 8-second-window candidate because character
-errors worsen. This development finding is not broad language acceptance.
+errors worsen. A second [nine-clip external-segmentation experiment](../eval/asr/results/2026-11-14-external-boundaries/README.md)
+also regresses and is rejected. Sixty new disjoint confirmation clips are
+verified and remain uninferred; a larger-model comparison is frozen to observed
+development clips while its explicit QA cache is prepared. These development
+findings are not broad language acceptance.
 Owner-recording acceptance remains deferred. The isolated Pro latency run has
 finished and its [failed median gate is retained](LATENCY_MATRIX.md).
 

@@ -1,0 +1,140 @@
+windows	Unit and offline tests	﻿2026-11-14T10:35:22.6733105Z ##[group]Run python -m pytest tests -q -rs -o faulthandler_timeout=120 --durations=12 --basetemp=build/pytest
+windows	Unit and offline tests	2026-11-14T10:35:22.6734045Z ^[[36;1mpython -m pytest tests -q -rs -o faulthandler_timeout=120 --durations=12 --basetemp=build/pytest^[[0m
+windows	Unit and offline tests	2026-11-14T10:35:22.6813612Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+windows	Unit and offline tests	2026-11-14T10:35:22.6814136Z env:
+windows	Unit and offline tests	2026-11-14T10:35:22.6814459Z   QT_QPA_PLATFORM: offscreen
+windows	Unit and offline tests	2026-11-14T10:35:22.6814796Z   HF_HUB_OFFLINE: 1
+windows	Unit and offline tests	2026-11-14T10:35:22.6815293Z   HF_HUB_DISABLE_TELEMETRY: 1
+windows	Unit and offline tests	2026-11-14T10:35:22.6815621Z   DO_NOT_TRACK: 1
+windows	Unit and offline tests	2026-11-14T10:35:22.6816036Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.13.17\x64
+windows	Unit and offline tests	2026-11-14T10:35:22.6816594Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.13.17\x64/lib/pkgconfig
+windows	Unit and offline tests	2026-11-14T10:35:22.6817115Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+windows	Unit and offline tests	2026-11-14T10:35:22.6817660Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+windows	Unit and offline tests	2026-11-14T10:35:22.6818141Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+windows	Unit and offline tests	2026-11-14T10:35:22.6819002Z   SAYDRAFT_TEST_SILERO_MODEL: D:\a\saydraft\saydraft\build\test-models\silero-vad-v5\5cd2ba54db059f961e7545d4f211b44f005a6dfb\silero_vad.onnx
+windows	Unit and offline tests	2026-11-14T10:35:22.6819647Z ##[endgroup]
+windows	Unit and offline tests	2026-11-14T10:35:31.7660633Z ........................................................................ [  1%]
+windows	Unit and offline tests	2026-11-14T10:35:32.2000841Z ........................................................................ [  3%]
+windows	Unit and offline tests	2026-11-14T10:35:32.5654468Z ........................................................................ [  5%]
+windows	Unit and offline tests	2026-11-14T10:35:32.9037795Z ........................................................................ [  6%]
+windows	Unit and offline tests	2026-11-14T10:35:33.2917564Z ........................................s............................... [  8%]
+windows	Unit and offline tests	2026-11-14T10:35:33.4014066Z ........................................................................ [ 10%]
+windows	Unit and offline tests	2026-11-14T10:35:38.5279850Z ........................................................................ [ 12%]
+windows	Unit and offline tests	2026-11-14T10:35:39.8510438Z ........................................................................ [ 13%]
+windows	Unit and offline tests	2026-11-14T10:35:40.0406113Z ........................................................................ [ 15%]
+windows	Unit and offline tests	2026-11-14T10:35:42.5016479Z ........................................................................ [ 17%]
+windows	Unit and offline tests	2026-11-14T10:35:43.5682257Z ........................................................................ [ 18%]
+windows	Unit and offline tests	2026-11-14T10:35:43.7487172Z ........................................................................ [ 20%]
+windows	Unit and offline tests	2026-11-14T10:35:44.0659412Z ........................................................................ [ 22%]
+windows	Unit and offline tests	2026-11-14T10:35:44.1490236Z ........................................................................ [ 24%]
+windows	Unit and offline tests	2026-11-14T10:35:44.3928330Z ........................................................................ [ 25%]
+windows	Unit and offline tests	2026-11-14T10:35:45.0202264Z ........................................................................ [ 27%]
+windows	Unit and offline tests	2026-11-14T10:35:52.6642999Z ........................................................................ [ 29%]
+windows	Unit and offline tests	2026-11-14T10:35:52.9710719Z ........................................................................ [ 30%]
+windows	Unit and offline tests	2026-11-14T10:35:53.2115839Z ........................................................................ [ 32%]
+windows	Unit and offline tests	2026-11-14T10:35:57.4832758Z ........................................................................ [ 34%]
+windows	Unit and offline tests	2026-11-14T10:36:01.0545228Z ........................................................................ [ 36%]
+windows	Unit and offline tests	2026-11-14T10:36:01.8343632Z ........................................................................ [ 37%]
+windows	Unit and offline tests	2026-11-14T10:36:02.3181330Z ........................................................................ [ 39%]
+windows	Unit and offline tests	2026-11-14T10:36:05.1362525Z ........................................................................ [ 41%]
+windows	Unit and offline tests	2026-11-14T10:36:08.3323075Z ........................................................................ [ 43%]
+windows	Unit and offline tests	2026-11-14T10:36:09.0506581Z ........................................................................ [ 44%]
+windows	Unit and offline tests	2026-11-14T10:36:13.7954834Z ........................................................................ [ 46%]
+windows	Unit and offline tests	2026-11-14T10:36:13.8892655Z ........................................................................ [ 48%]
+windows	Unit and offline tests	2026-11-14T10:36:14.7168872Z ........................................................................ [ 49%]
+windows	Unit and offline tests	2026-11-14T10:36:16.3115957Z ........................................................................ [ 51%]
+windows	Unit and offline tests	2026-11-14T10:36:16.6647950Z ........................................................................ [ 53%]
+windows	Unit and offline tests	2026-11-14T10:36:17.7901467Z ........................................................................ [ 55%]
+windows	Unit and offline tests	2026-11-14T10:36:22.3198511Z ........................................................................ [ 56%]
+windows	Unit and offline tests	2026-11-14T10:36:22.3929874Z ........................................................................ [ 58%]
+windows	Unit and offline tests	2026-11-14T10:36:22.4753628Z ........................................................................ [ 60%]
+windows	Unit and offline tests	2026-11-14T10:36:23.7304713Z ........................................................................ [ 61%]
+windows	Unit and offline tests	2026-11-14T10:36:28.7018611Z ........................................................................ [ 63%]
+windows	Unit and offline tests	2026-11-14T10:36:40.3601332Z ..........................................................s............. [ 65%]
+windows	Unit and offline tests	2026-11-14T10:36:45.9775332Z ......s................................................................. [ 67%]
+windows	Unit and offline tests	2026-11-14T10:36:46.2920480Z ............ss.......................................................... [ 68%]
+windows	Unit and offline tests	2026-11-14T10:36:46.9620598Z ........................................................................ [ 70%]
+windows	Unit and offline tests	2026-11-14T10:36:47.3913318Z ........................................................................ [ 72%]
+windows	Unit and offline tests	2026-11-14T10:36:47.8045727Z ...............................................F........................ [ 73%]
+windows	Unit and offline tests	2026-11-14T10:36:59.4481239Z ........................................................................ [ 75%]
+windows	Unit and offline tests	2026-11-14T10:36:59.5297515Z ........................................................................ [ 77%]
+windows	Unit and offline tests	2026-11-14T10:36:59.8640775Z ........................................................................ [ 79%]
+windows	Unit and offline tests	2026-11-14T10:36:59.9780549Z ........................................................................ [ 80%]
+windows	Unit and offline tests	2026-11-14T10:37:04.8576787Z ........................................................................ [ 82%]
+windows	Unit and offline tests	2026-11-14T10:37:06.7162137Z ..........s............................................................. [ 84%]
+windows	Unit and offline tests	2026-11-14T10:37:09.2755879Z ........................................................................ [ 86%]
+windows	Unit and offline tests	2026-11-14T10:37:10.3285407Z ........................................................................ [ 87%]
+windows	Unit and offline tests	2026-11-14T10:37:11.1969379Z .......................................s................................ [ 89%]
+windows	Unit and offline tests	2026-11-14T10:45:40.9342523Z ........................................................................ [ 91%]
+windows	Unit and offline tests	2026-11-14T10:45:46.5412857Z ........................................................................ [ 92%]
+windows	Unit and offline tests	2026-11-14T10:45:50.1081783Z ........................................................................ [ 94%]
+windows	Unit and offline tests	2026-11-14T10:45:50.5827794Z ........................................................................ [ 96%]
+windows	Unit and offline tests	2026-11-14T10:45:51.0057522Z ........................................................................ [ 98%]
+windows	Unit and offline tests	2026-11-14T10:45:51.2809631Z ............................................s..................sss.....s [ 99%]
+windows	Unit and offline tests	2026-11-14T10:45:51.5308260Z ........                                                                 [100%]
+windows	Unit and offline tests	2026-11-14T10:45:51.5309120Z ================================== FAILURES ===================================
+windows	Unit and offline tests	2026-11-14T10:45:51.5309919Z _______ test_removed_stt_engines_are_not_referenced_in_runtime_sources ________
+windows	Unit and offline tests	2026-11-14T10:45:51.5310316Z 
+windows	Unit and offline tests	2026-11-14T10:45:51.5310688Z     def test_removed_stt_engines_are_not_referenced_in_runtime_sources():
+windows	Unit and offline tests	2026-11-14T10:45:51.5313393Z         root = Path(__file__).resolve().parents[1]
+windows	Unit and offline tests	2026-11-14T10:45:51.5316312Z         forbidden_terms = (
+windows	Unit and offline tests	2026-11-14T10:45:51.5316689Z             "vo" "sk",
+windows	Unit and offline tests	2026-11-14T10:45:51.5316978Z             "recognize_" "google",
+windows	Unit and offline tests	2026-11-14T10:45:51.5317348Z             "speech_" "recognition",
+windows	Unit and offline tests	2026-11-14T10:45:51.5317866Z             "speech" "recognition",
+windows	Unit and offline tests	2026-11-14T10:45:51.5318296Z             "py" "audio",
+windows	Unit and offline tests	2026-11-14T10:45:51.5318712Z         )
+windows	Unit and offline tests	2026-11-14T10:45:51.5319355Z         text_suffixes = {".bat", ".ini", ".py", ".txt"}
+windows	Unit and offline tests	2026-11-14T10:45:51.5326046Z         ignored_parts = {".git", ".pytest_cache", "__pycache__", ".venv", "venv", "build", "dist", "node_modules"}
+windows	Unit and offline tests	2026-11-14T10:45:51.5327475Z     
+windows	Unit and offline tests	2026-11-14T10:45:51.5331454Z         hits = []
+windows	Unit and offline tests	2026-11-14T10:45:51.5334881Z         for directory, children, files in os.walk(root):
+windows	Unit and offline tests	2026-11-14T10:45:51.5343044Z             children[:] = [name for name in children if name not in ignored_parts
+windows	Unit and offline tests	2026-11-14T10:45:51.5346383Z                            and not (Path(directory) == root and name == "models")]
+windows	Unit and offline tests	2026-11-14T10:45:51.5348691Z             for filename in files:
+windows	Unit and offline tests	2026-11-14T10:45:51.5349520Z                 path = Path(directory) / filename
+windows	Unit and offline tests	2026-11-14T10:45:51.5350016Z                 if path.suffix.lower() not in text_suffixes:
+windows	Unit and offline tests	2026-11-14T10:45:51.5352195Z                     continue
+windows	Unit and offline tests	2026-11-14T10:45:51.5352809Z                 text = path.read_text(encoding="utf-8", errors="ignore").lower()
+windows	Unit and offline tests	2026-11-14T10:45:51.5353307Z                 for term in forbidden_terms:
+windows	Unit and offline tests	2026-11-14T10:45:51.5353709Z                     if term in text:
+windows	Unit and offline tests	2026-11-14T10:45:51.5354093Z                         hits.append(str(path.relative_to(root)))
+windows	Unit and offline tests	2026-11-14T10:45:51.5354473Z                         break
+windows	Unit and offline tests	2026-11-14T10:45:51.5354833Z     
+windows	Unit and offline tests	2026-11-14T10:45:51.5355090Z >       assert hits == []
+windows	Unit and offline tests	2026-11-14T10:45:51.5355513Z E       AssertionError: assert ['eval\\asr\\...uracy.py.txt'] == []
+windows	Unit and offline tests	2026-11-14T10:45:51.5355918Z E         
+windows	Unit and offline tests	2026-11-14T10:45:51.5356457Z E         Left contains one more item: 'eval\\asr\\results\\2026-11-14-public-read\\source-asr-accuracy.py.txt'
+windows	Unit and offline tests	2026-11-14T10:45:51.5357278Z E         
+windows	Unit and offline tests	2026-11-14T10:45:51.5357636Z E         Full diff:
+windows	Unit and offline tests	2026-11-14T10:45:51.5358017Z E         - []
+windows	Unit and offline tests	2026-11-14T10:45:51.5358296Z E         + [
+windows	Unit and offline tests	2026-11-14T10:45:51.5358707Z E         +     'eval\\asr\\results\\2026-11-14-public-read\\source-asr-accuracy.py.txt',
+windows	Unit and offline tests	2026-11-14T10:45:51.5359152Z E         + ]
+windows	Unit and offline tests	2026-11-14T10:45:51.5359327Z 
+windows	Unit and offline tests	2026-11-14T10:45:51.5359514Z tests\test_removed_legacy_stt.py:31: AssertionError
+windows	Unit and offline tests	2026-11-14T10:45:51.5359975Z ============================ slowest 12 durations =============================
+windows	Unit and offline tests	2026-11-14T10:45:51.5360754Z 86.89s call     tests/test_theme.py::test_unknown_platform_and_minimum_font_restore_without_overriding_larger_text
+windows	Unit and offline tests	2026-11-14T10:45:51.5361848Z 80.98s call     tests/test_theme.py::test_close_cancels_pending_work_and_preserves_newer_app_styles
+windows	Unit and offline tests	2026-11-14T10:45:51.5362538Z 62.36s call     tests/test_theme.py::test_platform_changes_coalesce_and_high_contrast_wins
+windows	Unit and offline tests	2026-11-14T10:45:51.5363128Z 11.63s call     tests/test_theme.py::test_start_failure_rolls_back_font_and_styles
+windows	Unit and offline tests	2026-11-14T10:45:51.5363801Z 11.02s call     tests/test_theme.py::test_progress_text_contrasts_with_both_fill_and_track[False-False-10-light]
+windows	Unit and offline tests	2026-11-14T10:45:51.5364569Z 8.41s call     tests/test_theme.py::test_minimum_settings_size_keeps_controls_readable_and_reachable[16-light]
+windows	Unit and offline tests	2026-11-14T10:45:51.5365318Z 8.41s call     tests/test_theme.py::test_minimum_settings_size_keeps_controls_readable_and_reachable[22-light]
+windows	Unit and offline tests	2026-11-14T10:45:51.5366127Z 7.73s call     tests/test_theme.py::test_progress_text_contrasts_with_both_fill_and_track[False-False-90-light]
+windows	Unit and offline tests	2026-11-14T10:45:51.5366907Z 7.51s call     tests/test_theme.py::test_progress_text_contrasts_with_both_fill_and_track[True-False-10-light]
+windows	Unit and offline tests	2026-11-14T10:45:51.5367670Z 7.46s call     tests/test_theme.py::test_progress_text_contrasts_with_both_fill_and_track[False-False-90-dark]
+windows	Unit and offline tests	2026-11-14T10:45:51.5368667Z 7.37s call     tests/test_theme.py::test_progress_text_contrasts_with_both_fill_and_track[False-False-50-dark]
+windows	Unit and offline tests	2026-11-14T10:45:51.5369706Z 7.19s call     tests/test_theme.py::test_minimum_settings_size_keeps_controls_readable_and_reachable[22-dark]
+windows	Unit and offline tests	2026-11-14T10:45:51.5370339Z =========================== short test summary info ===========================
+windows	Unit and offline tests	2026-11-14T10:45:51.5370938Z SKIPPED [1] tests\test_audio_language_id.py:70: set the explicit verified helper directory for native smoke
+windows	Unit and offline tests	2026-11-14T10:45:51.5371864Z SKIPPED [1] tests\test_onboarding_practice.py:281: set the explicit verified Parakeet v3 directory for the bundled-audio practice smoke
+windows	Unit and offline tests	2026-11-14T10:45:51.5373160Z SKIPPED [1] tests\test_whisper_local.py:225: provide the explicit verified Whisper turbo fixture root for native cache checks
+windows	Unit and offline tests	2026-11-14T10:45:51.5373958Z SKIPPED [2] tests\test_parakeet.py:75: set the explicit verified model directory to run the native smoke
+windows	Unit and offline tests	2026-11-14T10:45:51.5374736Z SKIPPED [1] tests\test_setup_benchmark.py:369: set the explicit verified Parakeet v3 fixture root for the setup performance smoke
+windows	Unit and offline tests	2026-11-14T10:45:51.5375547Z SKIPPED [1] tests\test_streaming_runtime.py:212: provide the explicit verified preview installation
+windows	Unit and offline tests	2026-11-14T10:45:51.5376286Z SKIPPED [1] tests\test_whisper_engine.py:196: Set SAYDRAFT_RUN_WHISPER_INTEGRATION=1 to run faster-whisper model test
+windows	Unit and offline tests	2026-11-14T10:45:51.5377074Z SKIPPED [3] tests\test_whisper_local.py:269: provide the explicit verified Whisper turbo fixture root for native cache checks
+windows	Unit and offline tests	2026-11-14T10:45:51.5377897Z SKIPPED [1] tests\test_whisper_turbo.py:77: provide the explicitly downloaded pinned Whisper turbo model
+windows	Unit and offline tests	2026-11-14T10:45:51.5378448Z 1 failed, 4171 passed, 12 skipped in 626.73s (0:10:26)
+windows	Unit and offline tests	2026-11-14T10:45:53.0263140Z ##[error]Process completed with exit code 1.

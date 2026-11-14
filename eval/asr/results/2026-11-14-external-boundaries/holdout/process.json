@@ -1,0 +1,16 @@
+{
+  "observer_pid": 22056,
+  "args": [
+    "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\latency-runtime-874a9c4-20261114\\venv\\Scripts\\python.exe",
+    "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\prepare_dense_script_holdout_20261114.py",
+    "--run"
+  ],
+  "native_exit_observed": true,
+  "started_epoch": 1794652781.9166028,
+  "native_pid": 37804,
+  "returncode": 0,
+  "ended_epoch": 1794652816.2802405,
+  "stdout_sha256": "86e4ec51929ec7200d6cc2f2c52d8f3db1993a91f61856db6193aed1a4e3fa8c",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "state_sha256": "2e963592ac19809f6c33f6d901960ac0aced21745b6acc75f180c790d6d48da4"
+}

@@ -59,3 +59,5 @@ eval/asr/results/**/*.json -text whitespace=blank-at-eol,blank-at-eof,space-befo
 eval/asr/results/**/*.jsonl -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 eval/asr/results/**/*.txt -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 eval/asr/results/**/*.md -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+# Preserve indentation on blank lines in retained CI console output.
+eval/asr/results/**/*-ci-failure.txt -text -whitespace

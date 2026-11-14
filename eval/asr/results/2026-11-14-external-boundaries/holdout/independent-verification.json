@@ -1,0 +1,10 @@
+{
+  "passed": true,
+  "acquired_clips": 120,
+  "new_holdout_clips": 60,
+  "baseline_prefix_clips": 60,
+  "new_holdout_inference_run": false,
+  "source_corpus_tsv_reference_audio_hashes_verified": true,
+  "child_exit_observed": true,
+  "state_sha256": "2e963592ac19809f6c33f6d901960ac0aced21745b6acc75f180c790d6d48da4"
+}

@@ -1,0 +1,19 @@
+{
+  "observer_pid": 35892,
+  "args": [
+    "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\latency-runtime-874a9c4-20261114\\venv\\Scripts\\python.exe",
+    "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\probe_external_whisper_boundaries_20261114.py",
+    "--run"
+  ],
+  "started_epoch": 1794652673.9779313,
+  "native_exit_observed": true,
+  "native_pid": 28492,
+  "returncode": 0,
+  "ended_epoch": 1794653111.28223,
+  "stdout_sha256": "833186eaad1ec756635c28fba5f7be5b6ec34f446d944a2f37239413de63bbe6",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "report.json_sha256": "c20a617c8c170078a8cbd53e0e174c32a9647784b02bf0cae9ffbb5062c8adfd",
+  "cases.jsonl_sha256": "1b9b22ab34c85971fe362b346c836ce50bcd76bcc8c7732c9f68c4ca357ca367",
+  "plan_sha256": "d7ade0877824bedfc1fb9b66133fdf57c9a69cd584551c86b99178ee63dc47fe",
+  "script_sha256": "46205dbdd1560332fe2b4c366550c58c5cae8fbcfe7e703d8d1af81cea54bb06"
+}

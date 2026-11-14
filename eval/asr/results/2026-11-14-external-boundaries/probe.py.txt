@@ -1,0 +1,213 @@
+"""Development-only decoder comparison. No hardware audio, input or downloads."""
+import argparse
+import hashlib
+import json
+import os
+import subprocess
+import sys
+import time
+import traceback
+from pathlib import Path
+
+BASE = Path(__file__).resolve().parent
+SOURCE = BASE / 'worktrees/asr-languages-1b7e7ea-20261114'
+ROOT = BASE / 'external-whisper-boundaries-1b7e7ea-20261114-r1'
+PLAN = ROOT / 'frozen-plan.json'
+RUNTIME = BASE / 'latency-runtime-874a9c4-20261114/venv/Scripts/python.exe'
+sys.path.insert(0, str(SOURCE))
+
+def sha(path):
+    return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+
+def read(path):
+    return json.loads(Path(path).read_text(encoding='utf-8'))
+
+def save(path, value):
+    staging = path.with_suffix('.tmp')
+    staging.write_text(json.dumps(value, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+    staging.replace(path)
+
+def freeze():
+    from tools.asr_accuracy import load_corpora, _source
+    ROOT.mkdir(exist_ok=False)
+    source = _source()
+    assert not source['dirty'] and source['commit'] == '1b7e7eaf493e082692343244d6f1aed3e9907d68'
+    index = read(BASE / 'asr-public-fleurs-20261114/verified-corpus-index.json')
+    corpus_paths = {row['language']: row['path'] for row in index['corpora']}
+    rows = []
+    for language in ('bn', 'ta', 'te'):
+        clips, receipts = load_corpora([corpus_paths[language]])
+        baseline = BASE / f'asr-accuracy-1b7e7ea-shards-20261114-r2/{language}/native-r1/cases.jsonl'
+        old = [json.loads(line) for line in baseline.read_text(encoding='utf-8').splitlines()]
+        for clip in clips[:3]:
+            match = [row for row in old if row['id'] == clip['id'] and row['model'] == 'whisper-large-v3-turbo']
+            assert len(match) == 1 and match[0]['reference'] == clip['reference']
+            rows.append({'language': language, 'id': clip['id'], 'corpus': receipts[0],
+                         'audio_sha256': clip['sha256'], 'baseline_journal': str(baseline),
+                         'baseline_journal_sha256': sha(baseline)})
+    save(PLAN, {'scope': 'Frozen development comparison using first3 already-observed clips per bn/ta/te; not untouched or acceptance.',
+                'source': source, 'script_sha256': sha(__file__), 'selection_before_inference': True,
+                'policy': {'sample_rate': 16000, 'minimum_seconds': 3, 'target_seconds': 5,
+                           'maximum_seconds': 6, 'window_ms': 30, 'hop_ms': 10,
+                           'quiet_rms': 0.01, 'overlap_samples': 0, 'drop_samples': 0,
+                           'selection': 'Quiet boundary closest to5s within3..6s; otherwise minimum RMS then proximity to5s; final <=6s retained.',
+                           'feature_padding': 'Unchanged faster-whisper defaults; no chunk_length override',
+                           'native_context': 'Unchanged448 maximum; no token overrides',
+                           'generation': 'Production engine kwargs; fixed language; beam5, noVAD/no previous-text conditioning'},
+                'clips': rows})
+    print(json.dumps({'frozen': True, 'plan_sha256': sha(PLAN), 'clips': len(rows)}), flush=True)
+
+def boundaries(audio, policy):
+    import numpy as np
+    rate = policy['sample_rate']
+    minimum, target, maximum = (int(policy[key] * rate) for key in ('minimum_seconds', 'target_seconds', 'maximum_seconds'))
+    window = int(policy['window_ms'] * rate / 1000)
+    hop = int(policy['hop_ms'] * rate / 1000)
+    chunks, start = [], 0
+    while len(audio) - start > maximum:
+        candidates = []
+        for offset in range(minimum, maximum + 1, hop):
+            point = start + offset
+            sample = audio[point - window // 2:point + window // 2]
+            rms = float(np.sqrt(np.mean(np.square(sample, dtype=np.float64))))
+            candidates.append((offset, rms))
+        quiet = [value for value in candidates if value[1] <= policy['quiet_rms']]
+        offset, rms = min(quiet, key=lambda value: (abs(value[0] - target), value[1])) if quiet else min(candidates, key=lambda value: (value[1], abs(value[0] - target)))
+        chunks.append({'start': start, 'end': start + offset, 'boundary_rms': rms, 'quiet_boundary': bool(quiet)})
+        start += offset
+    chunks.append({'start': start, 'end': len(audio), 'boundary_rms': None, 'quiet_boundary': None})
+    assert chunks[0]['start'] == 0 and chunks[-1]['end'] == len(audio)
+    assert all(0 < row['end'] - row['start'] <= maximum for row in chunks)
+    assert all(left['end'] == right['start'] for left, right in zip(chunks, chunks[1:]))
+    assert sum(row['end'] - row['start'] for row in chunks) == len(audio)
+    assert np.array_equal(np.concatenate([audio[row['start']:row['end']] for row in chunks]), audio)
+    return chunks
+
+def run():
+    import numpy as np
+    import soundfile as sf
+    from tools.asr_accuracy import load_corpora, _source, _engine
+    from tools.bench_models import score
+    from tools.latency_environment import runtime_environment
+    from saydraft.models.downloader import installation_ready
+    from saydraft.models.manifest import get_model
+    from saydraft.cleanup.formatter import join_transcripts
+    from saydraft.privacy.netguard import NetworkGuard
+    plan, plan_sha = read(PLAN), sha(PLAN)
+    assert sha(__file__) == plan['script_sha256'] and _source() == plan['source']
+    output = ROOT / 'native-r1'
+    output.mkdir(exist_ok=False)
+    report = {'scope': plan['scope'], 'plan_sha256': plan_sha, 'script_sha256': sha(__file__),
+              'source': _source(), 'runtime_environment': runtime_environment(),
+              'pid': os.getpid(), 'complete': False, 'cases': [], 'network': 'PythonGuard/local-only; OS firewall unmeasured',
+              'owner_accuracy_accepted': False, 'latency_qualified': False}
+    path = output / 'report.json'
+    model_id = 'whisper-large-v3-turbo'
+    directory = BASE / 'turbo-models/whisper/large-v3-turbo'
+    manifest = get_model(model_id)
+    save(path, report)
+    NetworkGuard.install()
+    try:
+        assert installation_ready(manifest, directory, check_hashes=True)
+        report['model'] = {'id': model_id, 'revision': manifest['revision'], 'verified_before': True}
+        paths = list(dict.fromkeys(row['corpus']['path'] for row in plan['clips']))
+        clips, receipts = load_corpora(paths)
+        lookup = {(row['language'], row['id']): row for row in clips}
+        report['corpora'] = receipts
+        # Validate every selection/baseline receipt before preparing the model.
+        for selected in plan['clips']:
+            assert sha(selected['baseline_journal']) == selected['baseline_journal_sha256']
+            assert selected['audio_sha256'] == lookup[selected['language'], selected['id']]['sha256']
+        engine = _engine(model_id, directory)
+        engine.prepare()
+        model, calls = engine._model, []
+        native = model.model
+        class Proxy:
+            def __getattr__(self, name):
+                return getattr(native, name)
+            def generate(self, *args, **kwargs):
+                result = native.generate(*args, **kwargs)
+                calls.append({'max_length': kwargs.get('max_length'), 'prompt_tokens': len(args[1][0]),
+                              'generated_tokens': [len(item.sequences_ids[0]) for item in result]})
+                return result
+        model.model = Proxy()
+        assert model.max_length == 448 and model.feature_extractor.chunk_length == 30
+        report['model_max_length'] = model.max_length
+        report['feature_chunk_length'] = model.feature_extractor.chunk_length
+        save(path, report)
+        with (output / 'cases.jsonl').open('x', encoding='utf-8') as journal:
+            for selected in plan['clips']:
+                clip = lookup[selected['language'], selected['id']]
+                audio, rate = sf.read(clip['audio_path'], dtype='float32')
+                assert rate == 16000 and audio.ndim == 1 and np.isfinite(audio).all()
+                engine.set_language(clip['language'])
+                parts, texts = boundaries(audio, plan['policy']), []
+                started = time.perf_counter()
+                for part in parts:
+                    calls.clear()
+                    text = engine.transcribe(audio[part['start']:part['end']])
+                    part.update(text=text, decode_calls=list(calls))
+                    texts.append(text)
+                text = join_transcripts(texts)
+                old = [json.loads(line) for line in Path(selected['baseline_journal']).read_text(encoding='utf-8').splitlines()]
+                baseline = next(row for row in old if row['id'] == clip['id'] and row['model'] == model_id)
+                row = {'language': clip['language'], 'id': clip['id'], 'audio_sha256': clip['sha256'],
+                       'reference': clip['reference'], 'audio_samples': len(audio), 'parts': parts,
+                       'text': text, 'scores': score(clip['reference'], text),
+                       'baseline_text': baseline['asr_text'], 'baseline_scores': baseline['asr_scores'],
+                       'seconds': time.perf_counter() - started}
+                report['cases'].append(row)
+                journal.write(json.dumps(row, ensure_ascii=False) + '\n')
+                journal.flush()
+                save(path, report)
+                print(json.dumps({'language': row['language'], 'id': row['id'], 'parts': len(parts),
+                                  'scores': row['scores'], 'baseline_scores': row['baseline_scores']}), flush=True)
+        report['source_unchanged'] = _source() == report['source']
+        report['runtime_environment_unchanged'] = runtime_environment() == report['runtime_environment']
+        report['pins_unchanged'] = installation_ready(manifest, directory, check_hashes=True)
+        report['plan_unchanged'] = sha(PLAN) == plan_sha
+        report['script_unchanged'] = sha(__file__) == report['script_sha256']
+        report['complete'] = len(report['cases']) == 9 and all(report[key] for key in (
+            'source_unchanged', 'runtime_environment_unchanged', 'pins_unchanged', 'plan_unchanged', 'script_unchanged'))
+        report['journal_sha256'] = sha(output / 'cases.jsonl')
+    except BaseException as error:
+        report['error_type'] = type(error).__name__
+        traceback.print_exc()
+    finally:
+        NetworkGuard.uninstall()
+        save(path, report)
+    raise SystemExit(0 if report['complete'] else 1)
+
+def observe():
+    output = ROOT / 'observer-r1'
+    output.mkdir(exist_ok=False)
+    env = os.environ.copy()
+    env.update(PYTHONUTF8='1', HF_HUB_OFFLINE='1', HF_HUB_DISABLE_TELEMETRY='1', DO_NOT_TRACK='1', PYTHONDONTWRITEBYTECODE='1')
+    args = [str(RUNTIME), str(Path(__file__).resolve()), '--run']
+    state = {'observer_pid': os.getpid(), 'args': args, 'started_epoch': time.time(), 'native_exit_observed': False}
+    with (output / 'stdout.txt').open('x', encoding='utf-8') as stdout, (output / 'stderr.txt').open('x', encoding='utf-8') as stderr:
+        child = subprocess.Popen(args, cwd=SOURCE, env=env, stdout=stdout, stderr=stderr, creationflags=subprocess.CREATE_NO_WINDOW)
+        state['native_pid'] = child.pid
+        save(output / 'process.json', state)
+        state['returncode'] = child.wait()
+    state.update(native_exit_observed=True, ended_epoch=time.time(), stdout_sha256=sha(output / 'stdout.txt'), stderr_sha256=sha(output / 'stderr.txt'))
+    for name in ('report.json', 'cases.jsonl'):
+        path = ROOT / 'native-r1' / name
+        if path.exists():
+            state[name + '_sha256'] = sha(path)
+    state['plan_sha256'], state['script_sha256'] = sha(PLAN), sha(__file__)
+    save(output / 'process.json', state)
+    raise SystemExit(state['returncode'])
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('mode', choices=('--freeze', '--run', '--observe'))
+    # Explicit fixed modes; no shell interpolation or arbitrary model/input paths.
+    if sys.argv[1:] == ['--freeze']:
+        freeze()
+    elif sys.argv[1:] == ['--run']:
+        run()
+    elif sys.argv[1:] == ['--observe']:
+        observe()
+    else:
+        parser.error('Choose one explicit mode')
