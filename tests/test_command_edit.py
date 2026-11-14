@@ -279,12 +279,15 @@ def test_history_failure_recovers_valid_output_without_paste(tmp_path):
     assert not f.clipboard.ops and not f.keyboard.ops
 
 
-@pytest.mark.parametrize('reason', ['read_only', 'password_field', 'selection_expired'])
-def test_initial_target_failure_never_calls_editor_or_changes_storage(tmp_path, reason):
+@pytest.mark.parametrize('reason', ['password_field', 'selection_expired'])
+def test_initial_target_failure_retains_instruction_without_document_text_or_input(tmp_path, reason):
     f = setup_processor(tmp_path, verify=lambda: reason)
     f.editor.edit_selection = lambda *args, **kwargs: pytest.fail('Must not generate')
     assert f.run().reason == reason
-    assert not f.history.list_recent() and not f.recovered and not f.clipboard.ops
+    row = f.history.list_recent()[0]
+    assert row.raw_text == 'Make shorter.' and row.cleaned_text == '' and row.mode == 'command'
+    assert row.llm_decision == 'edit_failed:' + reason
+    assert not f.recovered and not f.clipboard.ops
 
 
 def test_command_delivery_refuses_typing_profile_and_clipboard_failure(tmp_path):

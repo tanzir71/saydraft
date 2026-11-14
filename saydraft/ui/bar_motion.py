@@ -43,6 +43,10 @@ def shimmer_opacity(index: int, seconds: float) -> float:
 
 def insertion_message(reason: str, *, saved: bool, paste_hint: str) -> tuple[str, str]:
     """Public delivery copy. A failed History write must never claim 'Saved'."""
+    if reason == 'command_failed':
+        return 'Command could not finish', 'Instruction saved · open History to copy' if saved else 'Use the instruction recovery window'
+    if reason == 'command_recovery':
+        return 'Edit ready to copy', 'Saved · use the Command recovery window' if saved else 'Use the Command recovery window'
     title = {
         "focus_changed": "Focus changed", "password_field": "Password field",
         "target_elevated": "Admin window", "field_unavailable": "Field unavailable",

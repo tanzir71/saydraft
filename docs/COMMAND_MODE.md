@@ -1,11 +1,46 @@
 # Command Mode implementation
 
-P7.1 remains in progress. The selected-target boundary, explicit local edit
-client/validator and guarded processing boundary, including bounded post-write
-confirmation, and independent Copy recovery windows are implemented. The shortcut/Labs
-admission wiring, clipboard-copy fallback and instruction recording still need
-connecting to those boundaries. No Command Mode control is advertised as
-available in the app.
+P7.1 remains in progress. The experimental held-recording route now connects
+Labs/Pro/model admission, instruction ASR, selected-text generation, History,
+guarded paste/confirmation and independent Copy recovery. It currently requires
+a safely readable selection. The Ctrl+C capture fallback and full
+physical/frozen Command acceptance remain open; the checkbox stays off by default.
+
+## Using the experimental selection path
+
+1. Use the Pro tier, selected in Models or supported by the saved performance check.
+2. In Settings → Labs, review Command's model/runtime sizes, licenses and credits.
+   Choose Download / Resume, then enable experimental Command Mode and Save.
+   Downloading does not enable it or change ordinary cleanup/speech settings.
+3. Select text, hold **Ctrl+Win+Alt**, and wait for the Command label before
+   speaking a short editing instruction. The distinct tick plays when sounds are
+   enabled. Release to edit. Esc cancels.
+
+Standard shows **Needs Pro tier** before Command target/model/microphone work.
+Password/changed or unreadable selections refuse before Command audio. Known
+read-only selections can produce a validated edit for Copy without input.
+An earlier legitimate Ctrl+Win dictation prefix can already have started normal
+capture. The Command route cancels/discards that prefix and waits for its serial
+arm/finalizer to finish before a new instruction capture. It does not relabel the
+prefix as Command. A pre-existing hands-free session is preserved.
+
+The original selection is captured before deferred start, then verified again
+after model preparation. A pending start has an explicit generation acknowledgement:
+release before acknowledgement invalidates that request and never calls
+`stop(None)` on another recording. Release during model/speech preparation cannot
+open a late microphone. New starts, Settings, storage work and other capture tools
+respect the reservation; Settings can finish after an already listening Command.
+
+Instructions bypass ordinary dictation cleanup, snippets, live-preview selection,
+correction learning and voice Enter. Recognized instructions that fail generation
+or validation remain in History, without newly reading/storing document text.
+If History fails, an explicitly labelled **Command instruction** recovery window
+keeps the heard words. Valid generated edits retain instruction provenance in
+History's result details and Markdown/CSV exports. Command audio retention follows
+the saved preference, but its audio cannot be retried through the dictation route.
+History offers Copy for Command entries, without a quick paste that bypasses the
+original selection guard. Paste last transcript and dictation statistics remain
+limited to dictation rows.
 
 ## Command model ownership
 
@@ -23,7 +58,9 @@ weights/card/license and runtime cache. Missing files return no configuration;
 only the separate explicit setup function downloads the displayed licensed
 package, with the existing pause/resume, staging and disk checks. There is no
 automatic download on opt-in, capture, language selection or inference.
-The model setup button and shortcut admission are not connected yet.
+The Labs setup group provides explicit download/pause/resume controls and an
+independent processor preference. Its license links follow the active foreground
+palette in both themes. Saving preview controls preserves the Command preference.
 
 `LocalLLMCleaner.command_session()` reserves one revocable editor independently
 of the ordinary cleanup enable setting. It closes/detaches the old preparation
@@ -126,8 +163,11 @@ before presentation. GUI checks use text-free generation/ticket metadata and do
 not wait for the session mutex. Cancellation/new capture retires queued requests.
 Closing waits for its own save; app Quit flushes all recovery windows before the
 main Scratchpad, while storage/conflict errors keep the unsaved draft open.
-The held-recording producer is still pending, so these windows are not yet
-reachable through a functioning Command Mode shortcut.
+The held-recording producer queues these recovery requests after a failed or
+unconfirmed delivery. Model/target/microphone work and clipboard/UIA calls never
+hold the worker mutex across GUI/native message handling. History admission uses
+a separate short serialized write boundary; cancellation before that admission
+drops work, and a row already committed is preserved.
 
 Command results remain searchable in History but
 do not count as dictated words, speaking time or dictations; Paste last transcript
@@ -184,7 +224,7 @@ fresh password state, both range endpoints and exact selected text. Identical
 text selected at a different position is rejected. Known read-only selections can
 be read for an answer, while write verification refuses them. Unknown editability
 is not a promise that paste will succeed; only the post-write confirmation can
-observe success. Held recording and hotkey integration remain pending.
+observe success. Clipboard capture and physical input acceptance remain open.
 
 Requests share the existing one-request owner and at-most-500-ms capture budget.
 Cancellation wakes the caller and revokes late results without joining a blocked
@@ -245,7 +285,8 @@ six observed owned exits and four authored edit examples. Its model/session
 scope is unchanged by the later Labs-save correction. The
 [ownership record](../eval/commands/results/2026-11-14-model-ownership/README.md)
 retains that proof, both native diagnostics and the initial four-failure CI.
-Full shortcut/recording/copy-fallback and packaged Command acceptance remain open.
+That checkpoint did not cover held recording. The current route is described
+above; clipboard capture and full packaged Command acceptance remain open.
 
 ```powershell
 python -m pytest tests/test_selection.py tests/test_selection_worker.py tests/test_selection_patterns.py -q

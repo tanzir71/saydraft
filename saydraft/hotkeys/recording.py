@@ -3,7 +3,7 @@
 from .chords import Binding, Chord, conflicts
 
 
-def validate_hotkeys(hotkeys):
+def validate_hotkeys(hotkeys, *, command_key=''):
     """Validate saved or staged preferences with the native binding compiler."""
     keys = {name: hotkeys[name] for name in ("speech", "speech_alternative", "speech_mouse", "hands_free")
             if hotkeys.get(name, "").strip()}
@@ -12,13 +12,13 @@ def validate_hotkeys(hotkeys):
     try:
         recording_bindings(keys, cancel_key=hotkeys.get("cancel", ""), save_key=hotkeys.get("save", ""),
                            paste_key=hotkeys.get("paste_last", ""), utility_keys={
-                               name: hotkeys.get(name, '') for name in ('scratchpad', 'view_diff')})
+                               name: hotkeys.get(name, '') for name in ('scratchpad', 'view_diff')}, command_key=command_key)
     except ValueError as exc:
         return [str(exc)]
     return []
 
 
-def recording_bindings(keys, *, cancel_key, save_key, paste_key="", suppress=True, utility_keys=None):
+def recording_bindings(keys, *, cancel_key, save_key, paste_key="", suppress=True, utility_keys=None, command_key=""):
     """Compile and validate exactly the bindings installed by the app, without hooks."""
     def binding(name, key, **options):
         try:
@@ -37,8 +37,13 @@ def recording_bindings(keys, *, cancel_key, save_key, paste_key="", suppress=Tru
                         or any(command.chord.held(state) for state in previous.chord.possibilities())):
                     raise ValueError(f"Shortcut prefix conflict: {previous.name} and {name}")
             bindings.append(command)
-    for name, key in (utility_keys or {}).items():
-        if name not in ('scratchpad', 'view_diff'):
+    actions = dict(utility_keys or {})
+    if any(name not in ('scratchpad', 'view_diff') for name in actions):
+        raise ValueError('Unknown utility shortcut')
+    if command_key:
+        actions['command'] = command_key
+    for name, key in actions.items():
+        if name not in ('scratchpad', 'view_diff', 'command'):
             raise ValueError('Unknown utility shortcut')
         if not key:
             continue
@@ -61,7 +66,7 @@ def recording_bindings(keys, *, cancel_key, save_key, paste_key="", suppress=Tru
 class RecordingHooks:
     def __init__(self, keys, *, cancel_key, save_key, suppress, press, release, cancel, save, failure, factory=None,
                  hands_free_key=None, toggle=None, paste_key=None, paste=None, utility_keys=None, utility=None,
-                 cancel_prefix=None):
+                 cancel_prefix=None, command_key=None, command_press=None, command_release=None):
         if factory is None:
             from .llhook import LowLevelHooks
             factory = LowLevelHooks
@@ -70,16 +75,23 @@ class RecordingHooks:
             self.keys["hands_free"] = hands_free_key
         bindings = recording_bindings(self.keys, cancel_key=cancel_key,
             save_key=save_key if save is not None else "", paste_key=paste_key if paste is not None else "",
-            suppress=suppress, utility_keys=utility_keys)
+            suppress=suppress, utility_keys=utility_keys,
+            command_key=command_key if command_press is not None else '')
         self.press, self.release, self.cancel, self.save = press, release, cancel, save
         self.toggle = toggle
         self.paste = paste
         self.utility_keys, self.utility = utility_keys or {}, utility
         self.cancel_prefix = cancel_prefix or cancel
+        self.command_key, self.command_press, self.command_release = command_key, command_press, command_release
         self.owner = factory(bindings, on_action=self._action, on_failure=failure)
 
     def _action(self, transition, when):
-        if transition.name == "hands_free":
+        if transition.name == 'command':
+            if transition.phase == 'press' and self.command_press is not None:
+                self.command_press(self.command_key, when)
+            elif transition.phase == 'release' and self.command_release is not None:
+                self.command_release(self.command_key, when, reason=transition.reason)
+        elif transition.name == "hands_free":
             if transition.phase == "press" and self.toggle is not None:
                 self.toggle(when)
         elif transition.name in self.keys:

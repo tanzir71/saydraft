@@ -73,3 +73,21 @@ def test_native_selection_uses_only_own_ranges_and_rejects_changed_read_only_or_
         "long_selection", "same_text_new_range", "changed_text", "replacement_span", "replacement_span",
         "matching_text_elsewhere_unconfirmed", "truncated_write_unconfirmed", "password_before_confirmation",
         "command_processor_native_target", "command_processor_native_target", "read_only", "password", "cancel"]
+
+
+@pytest.mark.skipif(sys.platform != "win32", reason="Windows UI Automation required")
+def test_held_command_worker_uses_owned_native_ranges_without_owner_audio_clipboard_or_keys(tmp_path):
+    output = tmp_path / 'own-command'
+    completed = subprocess.run([sys.executable, '-m', 'tools.probe_command_recording', '--output', str(output)],
+                               capture_output=True, timeout=60)
+    report = json.loads((output / 'report.json').read_text(encoding='utf-8'))
+    assert completed.returncode == 0, report
+    assert report['probe_complete'] and report['mta_closed'] and report['own_windows_closed']
+    assert not any(report[key] for key in ('active_application_read', 'input_injected', 'owner_clipboard_accessed',
+                                         'microphone_used', 'asr_performed', 'native_edit_model_used'))
+    cases = [case for case in report['cases'] if case['case'] == 'held_command_worker']
+    assert [case['mode'] for case in cases] == ['prefix_replace', 'ignored_paste', 'read_only_copy', 'failed_edit', 'release_during_prepare']
+    assert [case['outcome'] for case in cases] == ['ok', 'insertion_unconfirmed', 'read_only', 'unavailable', 'released_before_capture']
+    assert [case['capture_starts'] for case in cases] == [2, 1, 1, 1, 0]
+    assert all(case['serial_closed'] and case['own_field_exact'] and case['all_editors_retired']
+               and case['memory_clipboard_restored'] for case in cases)

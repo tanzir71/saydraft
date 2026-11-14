@@ -50,6 +50,18 @@ def test_results_autosave_as_independent_plain_text_notes_and_copy_only_on_click
     assert f.clipboard.texts == [text] and f.saves
 
 
+def test_failed_instruction_recovery_is_explicitly_labelled_and_retains_full_plain_words(recovery):
+    f = recovery
+    text = 'Make it shorter. বাংলা العربية <b>literal</b>'
+    window = f.group.present(CommandEditResult(text, 'instruction_history_unavailable'))
+    settle(f.qt, lambda: not window.draft.snapshot().dirty and not window.draft.snapshot().saving)
+    assert window.windowTitle() == 'Command instruction — Saydraft'
+    assert 'recognized instruction' in window.description.text() and window.editor.toPlainText() == text
+    assert not f.clipboard.texts
+    window.copy_button.click()
+    assert f.clipboard.texts == [text] and f.store.get(window.draft.snapshot().identifier).body == text
+
+
 @pytest.mark.parametrize('conflicted', [False, True])
 def test_a_dirty_or_conflicted_primary_scratchpad_is_never_replaced_or_activated(recovery, conflicted):
     from saydraft.ui.scratchpad import ScratchpadWindow

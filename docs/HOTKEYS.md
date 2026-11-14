@@ -1,5 +1,15 @@
 # Native Windows hotkeys
 
+Experimental **Ctrl+Win+Alt** is installed when Command Mode is enabled in Labs.
+It is a held gesture with Pro/model admission, separate instruction capture and
+Esc cancellation. It never acquires double-tap/hands-free behavior. A legitimate
+Ctrl+Win PTT prefix is cancelled/discarded before Command starts; a pre-existing
+hands-free session stays owned by that session. Pending starts acknowledge a
+generation before arming, so quick release cannot stop a later session. The
+compiled matcher/controller and owned native field fixtures are covered;
+physical shortcut/paste acceptance and clipboard capture fallback remain open.
+See [Command Mode](COMMAND_MODE.md).
+
 **Win+Alt+S** opens Scratchpad and **Ctrl+Win+D** opens the latest global History
 diff. Both are rebindable or explicitly disabled in Settings. Native actions
 fire once on physical release, after cancelling a newly started recording prefix where needed;

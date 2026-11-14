@@ -55,6 +55,49 @@ def test_diff_formats_plain_text_but_copy_and_paste_use_the_cleaned_result(subje
     assert window.metadata_label.textFormat() == qt.QtCore.Qt.PlainText
 
 
+def test_failed_command_instruction_is_visible_and_copyable_without_dictation_retry_or_reinsert(subject):
+    window, qt, clipboard, inserted = subject
+    text = 'Make this shorter. العربية বাংলা <b>literal</b>'
+    identifier = window.store.append(HistoryEntry('Public editor', text, '', 'command', 'command', 1,
+        'fixture-asr', llm_model='fixture-edit', llm_decision='edit_failed:unavailable',
+        edits_json='[{"type":"command_instruction","reason":"unavailable"}]', audio_path='public-fixture.wav'))
+    window.refresh()
+    settle_history(window)
+    window._select_id(identifier)
+    settle_history(window)
+    assert window.current_row().id == identifier and window.detail_editor.toPlainText() == text
+    assert window.copy_button.text() == 'Copy instruction' and 'Recognized instruction' in window.why_editor.toPlainText()
+    assert not window.reinsert_button.isEnabled() and not window.retry_button.isEnabled()
+    assert not window.choose_retry() and not window.retry_current_audio() and not window.reinsert_current_text()
+    assert not inserted and window.copy_current_text() and clipboard.texts == [text]
+    normal_id = window.store.append(HistoryEntry('Public editor', 'normal words', 'Normal words.', 'balanced', 'notes', 1, 'fixture-asr'))
+    window.refresh()
+    settle_history(window)
+    window._select_id(normal_id)
+    settle_history(window)
+    assert window.raw_toggle.isEnabled() and window.diff_toggle.isEnabled() and window.reinsert_button.isEnabled()
+
+
+def test_successful_command_provenance_is_visible_and_survives_both_export_formats(subject):
+    from saydraft.data.history_view import export_history
+    window, qt, clipboard, inserted = subject
+    instruction = 'Make it shorter.'
+    identifier = window.store.append(HistoryEntry('Public editor', 'I wanted to say the file arrived.', 'The file arrived.',
+        'command', 'command', 1, 'fixture-asr', llm_model='fixture-edit', llm_decision='edit_validated',
+        edits_json='[{"type":"command_edit","instruction":"Make it shorter."}]'))
+    window.refresh()
+    settle_history(window)
+    window._select_id(identifier)
+    settle_history(window)
+    row = window.current_row()
+    assert instruction in window.why_editor.toPlainText() and 'Edit model: fixture-edit' in window.why_editor.toPlainText()
+    assert instruction in export_history([row], 'md')
+    exported = list(csv.DictReader(io.StringIO(export_history([row], 'csv'))))
+    assert instruction in exported[0]['edits_json']
+    assert window.copy_current_text() and clipboard.texts == [row.cleaned_text]
+    assert not window.reinsert_current_text() and not inserted
+
+
 def test_diff_selection_mime_keeps_windows_clipboard_privacy_markers(subject):
     from saydraft.insert._clipboard_win32 import PRIVACY_FORMATS
 

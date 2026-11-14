@@ -30,6 +30,7 @@ class HotkeyConfig:
     paste_last_hotkey: str | None = None
     scratchpad_hotkey: str | None = None
     view_diff_hotkey: str | None = None
+    command_hotkey: str | None = None
 
     @classmethod
     def from_app_config(cls, config: dict[str, Any]) -> "HotkeyConfig":
@@ -47,6 +48,7 @@ class HotkeyConfig:
             paste_last_hotkey=str(hotkeys.get("paste_last", "")),
             scratchpad_hotkey=str(hotkeys.get("scratchpad", "")),
             view_diff_hotkey=str(hotkeys.get("view_diff", "")),
+            command_hotkey='ctrl+win+alt' if config.get('labs', {}).get('command_mode') is True else None,
         )
 
 
@@ -56,6 +58,7 @@ class RecordingSession:
     stopped_at: float
     locked: bool
     session_id: int | None = None
+    kind: str = 'dictation'
 
     @property
     def duration_seconds(self) -> float:
@@ -80,11 +83,15 @@ class HotkeyController:
         on_paste=None,
         on_record_start_guarded=None,
         on_utility=None,
+        on_command_start_guarded=None,
     ):
+        if on_command_start_guarded is not None and on_record_cancel is None:
+            raise ValueError('Command recording requires an explicit cancellation callback')
         self.config = config or HotkeyConfig()
         self.on_record_start = on_record_start
         self.on_record_start_guarded = on_record_start_guarded
         self.on_utility = on_utility
+        self.on_command_start_guarded = on_command_start_guarded
         self.on_record_stop = on_record_stop
         self.on_record_cancel = on_record_cancel
         self.clock = clock
@@ -104,6 +111,8 @@ class HotkeyController:
         self._second_tap = False
         self._request = 0
         self._session_id = None
+        self._kind = 'dictation'
+        self._listening_epoch = 0
         self.on_paste = on_paste
 
     @property
@@ -198,8 +207,12 @@ class HotkeyController:
                 utility_keys={name: key for name, key in (
                     ('scratchpad', self.config.scratchpad_hotkey), ('view_diff', self.config.view_diff_hotkey))
                     if key and self.on_utility is not None}, utility=self.on_utility,
-                cancel_prefix=self._on_utility_prefix)
+                cancel_prefix=self._on_utility_prefix,
+                command_key=self.config.command_hotkey,
+                command_press=self._on_command_press if self.on_command_start_guarded is not None else None,
+                command_release=self._on_command_release)
             self._listening = True
+            self._listening_epoch += 1
         try:
             self._native.start()
         except Exception:
@@ -238,6 +251,13 @@ class HotkeyController:
                 self._handles.append(self._keyboard.add_hotkey(
                     self.config.hands_free_hotkey, self._on_hands_free_press,
                     suppress=self.config.suppress, timeout=self.config.timeout))
+            if self.config.command_hotkey and self.on_command_start_guarded is not None:
+                key = self.config.command_hotkey
+                self._handles.append(self._keyboard.add_hotkey(key,
+                    lambda key=key: self._on_command_press(key), suppress=self.config.suppress, timeout=self.config.timeout))
+                self._handles.append(self._keyboard.add_hotkey(key,
+                    lambda key=key: self._on_command_release(key), trigger_on_release=True,
+                    suppress=self.config.suppress, timeout=self.config.timeout))
             if self.config.paste_last_hotkey and self.on_paste is not None:
                 self._handles.append(self._keyboard.add_hotkey(
                     self.config.paste_last_hotkey, self.on_paste, trigger_on_release=True,
@@ -258,6 +278,7 @@ class HotkeyController:
                     )
                 )
             self._listening = True
+            self._listening_epoch += 1
 
     def stop(self) -> bool:
         with self._lock:
@@ -266,6 +287,7 @@ class HotkeyController:
             self._handles.clear()
             self._keyboard = None
             self._listening = False
+            self._listening_epoch += 1
             self._reset_recording_locked()
             native = self._native
 
@@ -290,7 +312,8 @@ class HotkeyController:
                 session = self._finish_recording_locked(self.clock(), locked=self._locked)
 
         if session is not None:
-            self.on_record_stop(session)
+            if session.kind != 'command' or session.session_id is not None:
+                self.on_record_stop(session)
         return session
 
     def discard_active_recording(self) -> None:
@@ -309,6 +332,7 @@ class HotkeyController:
         self._pressed_hotkey = self._pressed_at = self._recording_started_at = None
         self._locked = self._second_tap = False
         self._session_id = None
+        self._kind = 'dictation'
 
     def _start_capture(self, request, valid=None):
         def current():
@@ -357,6 +381,8 @@ class HotkeyController:
         expired = None
         with self._lock:
             if not self._listening:
+                return
+            if self.is_recording and self._kind == 'command':
                 return
             now = self.clock() if when is None else when
             if self._locked:
@@ -412,6 +438,8 @@ class HotkeyController:
         valid = None
         with self._lock:
             if not self._listening:
+                return
+            if self.is_recording and self._kind == 'command':
                 return
             if expected is not None:
                 native, request, stop, valid = expected
@@ -474,6 +502,62 @@ class HotkeyController:
         if session is not None:
             self.on_record_stop(session)
 
+    def _on_command_press(self, hotkey, when=None):
+        with self._lock:
+            if not self._listening or self.on_command_start_guarded is None:
+                return
+            if self._locked:
+                self._pressed_hotkey = self._pressed_at = None
+                return  # A pre-existing hands-free recording keeps its owner.
+            if self.is_recording and self._kind == 'command':
+                return
+            prefix = self._session_id if self.is_recording else None
+            cancel_prefix = self.is_recording
+            epoch = self._listening_epoch
+            if cancel_prefix:
+                self._reset_recording_locked()
+        # Retire the legitimate normal PTT prefix before creating a new gesture.
+        # The worker's cancellation can also reset this controller's old state.
+        if cancel_prefix and self.on_record_cancel is not None:
+            self.on_record_cancel()
+        with self._lock:
+            if not self._listening or epoch != self._listening_epoch or self.is_recording:
+                return
+            self._request += 1
+            request = self._request
+            now = self.clock() if when is None else when
+            self._kind = 'command'
+            self._pressed_hotkey, self._pressed_at, self._recording_started_at = hotkey, now, now
+
+        def current():
+            return (self._listening and request == self._request and self.is_recording
+                    and self._kind == 'command' and request == self._request)
+
+        def accepted(generation):
+            with self._lock:
+                if type(generation) is not int or generation <= 0 or not current():
+                    return False
+                self._session_id = generation
+                return True
+
+        result = self.on_command_start_guarded(current, accepted, prefix_session_id=prefix)
+        with self._lock:
+            if result is False and request == self._request:
+                self._reset_recording_locked()
+
+    def _on_command_release(self, hotkey, when=None, *, reason='physical'):
+        with self._lock:
+            if self._kind != 'command' or self._pressed_hotkey != hotkey or not self.is_recording:
+                return
+            session = self._finish_recording_locked(self.clock() if when is None else when, locked=False)
+        if reason != 'physical':
+            if self.on_record_cancel is not None:
+                self.on_record_cancel()
+        elif session.session_id is not None:
+            self.on_record_stop(session)
+        # With no acknowledgement, request invalidation alone retires the pending
+        # start. Never call stop(None), which could stop a newer worker session.
+
     def _on_utility_prefix(self, when=None):
         with self._lock:
             if self._locked:
@@ -504,6 +588,7 @@ class HotkeyController:
             stopped_at=stopped_at,
             locked=locked,
             session_id=self._session_id,
+            kind=self._kind,
         )
         self._reset_recording_locked()
         return session

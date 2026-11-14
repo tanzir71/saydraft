@@ -5,6 +5,14 @@ import pytest
 from saydraft.ui.bar_motion import RmsEnvelope, insertion_message, shimmer_opacity
 
 
+@pytest.mark.parametrize('reason', ['command_failed', 'command_recovery'])
+@pytest.mark.parametrize('saved', [False, True])
+def test_command_warnings_do_not_offer_the_dictation_only_paste_last_shortcut(reason, saved):
+    title, detail = insertion_message(reason, saved=saved, paste_hint='Shift+Alt+Z')
+    assert 'Shift+Alt+Z' not in detail
+    assert ('History' in detail or 'recovery' in detail) and title
+
+
 def test_envelope_reaches_63_percent_in_thirty_ms_and_decays_in_120_ms():
     envelope = RmsEnvelope(10.)
     envelope.sample(.125, 10.)

@@ -54,9 +54,9 @@ def resolve_project_path(value: str | os.PathLike[str], *, base: Path | None = N
     return base / path if base is not None else resolve_data_path(path)
 
 
-def find_hotkey_conflicts(hotkeys: dict[str, str]) -> list[str]:
+def find_hotkey_conflicts(hotkeys: dict[str, str], *, command_mode=False) -> list[str]:
     from saydraft.hotkeys.recording import validate_hotkeys
-    return validate_hotkeys(hotkeys)
+    return validate_hotkeys(hotkeys, command_key='ctrl+win+alt' if command_mode else '')
 
 
 class SettingsPage(QtWidgets.QWidget):
@@ -184,6 +184,7 @@ class SettingsPage(QtWidgets.QWidget):
         self._add_tab(self.hardware_page, "Performance")
         self.labs_page = LabsPage(self.config, callback=self.preview_download_callback,
             report_loader=lambda: latest_report(self.config_path.parent / "hardware-benchmarks" if self.config_path else None))
+        self.labs_page.command.finished.connect(self.model_storage.refresh)
         self._add_tab(self.labs_page, "Labs")
         self.microphone_page = self._microphone_tab()
         self._add_tab(self.microphone_page, "Microphone")
@@ -543,7 +544,7 @@ class SettingsPage(QtWidgets.QWidget):
         try:
             cfg = self._collect_config()
             self._refresh_shortcut_warning()
-            conflicts = find_hotkey_conflicts(cfg["hotkeys"])
+            conflicts = find_hotkey_conflicts(cfg["hotkeys"], command_mode=cfg.get('labs', {}).get('command_mode', False))
             if conflicts:
                 self.status_label.setText("Hotkey conflict: " + "; ".join(conflicts))
                 return False
@@ -674,7 +675,8 @@ class SettingsPage(QtWidgets.QWidget):
         from saydraft.models.manifest import get_model
         from saydraft.models.tiers import tier_defaults
 
-        if any(task is not None for task in (self.model_picker.task, self.cleanup_picker.task, self._vad_download_task)):
+        if any(task is not None for task in (self.model_picker.task, self.cleanup_picker.task, self._vad_download_task,
+                                            self.labs_page.task, self.labs_page.command.task)):
             self.status_label.setText("Finish or pause model downloads before using tier defaults.")
             return
         tier = self.tier_picker.selected_tier()

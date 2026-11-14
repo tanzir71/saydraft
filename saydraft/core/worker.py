@@ -55,6 +55,7 @@ class SessionWorker:
         self._command_recovery_ticket = object()
         self.last_failed_audio = None
         self.last_result = None
+        self.last_command_result = None
         self._retrying_history = False
         self._history_retry_cancel = threading.Event()
         from .history_retry import RetryCleanup
@@ -79,6 +80,8 @@ class SessionWorker:
         self.corrections = CorrectionController(executor=self.executor,
             current=lambda generation: generation == self.session.session_id and not self._closing
                 and not self._cancel_request.is_set(), emit=self.emit, known_terms=self._dictionary_terms)
+        from .command_recording import CommandRecording
+        self.command = CommandRecording(self)
         self.hotkeys = HotkeyService(services.config, start=lambda: self.start_recording(_return_generation=True),
                                      start_guarded=lambda current: self.start_recording(
                                          _return_generation=True, request_current=current),
@@ -86,10 +89,10 @@ class SessionWorker:
                                      cancel=self.cancel, save=self.record_note,
                                      notify=lambda message: self.emit("notification_requested", message),
                                      keyboard_module=keyboard_module,
-                                     stop_session=lambda result: self.stop_recording(
-                                         released_at=result.stopped_at, session_id=result.session_id),
+                                     stop_session=self._stop_hotkey_session,
                                      timer_factory=timer_factory, paste=self.paste_last,
-                                     ui_request=lambda request: self.emit('utility_requested', request))
+                                     ui_request=lambda request: self.emit('utility_requested', request),
+                                     command_start=self.command.start)
         self._prepare_context()
         self._warm_cleanup()
         self._start_audio_retention()
@@ -262,7 +265,8 @@ class SessionWorker:
     @property
     def busy(self):
         return (self._capturing_context or self._inflight > 0 or self.session.active
-                or self.microphone_test.active or self.shortcut_capture.active or self.practice.active or self._model_storage_busy)
+                or self.command.busy or self.microphone_test.active or self.shortcut_capture.active
+                or self.practice.active or self._model_storage_busy)
 
     def remove_stored_model(self, entry):
         """The storage UI calls this off-thread after confirmation; reserve the idle app."""
@@ -581,6 +585,11 @@ class SessionWorker:
                 if self.hotkeys._controller.force_stop() is None:
                     self.stop_recording()
 
+    def _stop_hotkey_session(self, result):
+        if result.kind == 'command' and result.session_id is None:
+            return
+        self.stop_recording(released_at=result.stopped_at, session_id=result.session_id)
+
     def stop_recording(self, *, released_at=None, session_id=None):
         if self._closing:
             return
@@ -614,8 +623,9 @@ class SessionWorker:
             if event.state == State.CANCELLED:
                 self.bar_status.cancel()
             else:
-                self.bar_status.session(event.session_id, BarPhase.PROCESSING)
-            if event.previous != State.ARMING and event.state != State.CANCELLED:
+                self.bar_status.session(event.session_id, BarPhase.PROCESSING,
+                                        reason='command' if self.command.owns(event.session_id) else '')
+            if event.previous != State.ARMING and event.state != State.CANCELLED and not self.command.owns(event.session_id):
                 released = (min(event.timestamp, released_at) if type(released_at) in (int, float)
                             and math.isfinite(released_at) else event.timestamp)
                 self._context = replace(self._context,
@@ -631,6 +641,10 @@ class SessionWorker:
         # Observed by delivery even while native clipboard rendering is in progress.
         self._cancel_request.set()
         self._command_recovery_ticket = object()
+        command_active = self.command.busy
+        self.command.cancel()
+        if command_active:
+            self.hotkeys._controller.discard_active_recording()
         self._history_retry_cancel.set()
         self.cancel_setup_benchmark()
         self.microphone_test.stop()
@@ -672,6 +686,9 @@ class SessionWorker:
             return result
 
     def _finalize(self, generation, duration, discard):
+        if self.command.owns(generation):
+            self.command.finalize(generation, duration, discard)
+            return
         completed_text = ""
         failed = False
         bar_outcome = False
@@ -823,7 +840,7 @@ class SessionWorker:
         if not self._lock.acquire(blocking=False):
             return False
         try:
-            if (self.busy or self._closing or not row.audio_path or
+            if (self.busy or self._closing or getattr(row, 'mode', '') == 'command' or not row.audio_path or
                     self.services.audio_store is None or self.services.retry_asr is None):
                 return False
             self._retrying_history = True

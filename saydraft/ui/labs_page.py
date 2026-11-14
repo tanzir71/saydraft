@@ -11,6 +11,7 @@ from saydraft.models.hardware import latest_report
 from saydraft.models.manifest import get_model
 from .download_task import DownloadTask, call_download
 from .progress import ThemedProgressBar
+from .command_setup import CommandSetup
 
 
 class LabsPage(QtWidgets.QWidget):
@@ -58,6 +59,8 @@ class LabsPage(QtWidgets.QWidget):
         layout.addLayout(buttons)
         layout.addWidget(self.progress)
         layout.addWidget(self.status)
+        self.command = CommandSetup(config, report=self.report_loader())
+        layout.addWidget(self.command)
         layout.addStretch()
         self.update_eligibility(config)
 
@@ -74,6 +77,7 @@ class LabsPage(QtWidgets.QWidget):
         self._toggle()
         self.download.setEnabled(self.allowed and self.task is None)
         self.pause_button.setEnabled(self.task is not None)
+        self.command.update_eligibility(config, self.report_loader() if report is None else report)
 
     def _toggle(self):
         enabled = self.live.isChecked() and self.live.isEnabled()
@@ -85,6 +89,7 @@ class LabsPage(QtWidgets.QWidget):
         self.update_eligibility(config)
         config.setdefault("labs", {}).update(live_preview=self.live.isChecked(),
                                              use_streaming_result=self.streaming.isChecked())
+        self.command.apply_to(config)
 
     def start_download(self):
         self.update_eligibility(self.config)
@@ -116,6 +121,7 @@ class LabsPage(QtWidgets.QWidget):
         self.update_eligibility(self.config)
 
     def pause(self):
+        self.command.pause()
         if self.task is not None:
             self.task.pause()
             self.pause_button.setEnabled(False)

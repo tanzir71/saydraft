@@ -486,8 +486,10 @@ class SaydraftApp:
             self.pill.show_not_inserted(update.reason, saved=update.saved)
         elif update.phase == BarPhase.ERROR:
             message = {"microphone_unavailable": "No microphone", "model_unavailable": "Speech model unavailable",
-                "processing_failed": "Could not complete dictation"}.get(update.reason, "Dictation unavailable")
-            self.pill.show_error(message, fix_page="microphone" if update.reason == "microphone_unavailable" else "models")
+                "processing_failed": "Could not complete dictation", 'command_model_unavailable': 'Command model unavailable',
+                'command_failed': 'Command could not finish'}.get(update.reason, "Dictation unavailable")
+            self.pill.show_error(message, fix_page="microphone" if update.reason == "microphone_unavailable" else
+                                 'labs' if update.reason == 'command_model_unavailable' else "models")
         elif update.phase in (BarPhase.INSERTED, BarPhase.IDLE):
             self.pill.finish_success()
         if self.bar_sounds is not None:
@@ -511,7 +513,7 @@ class SaydraftApp:
         self._show_settings()
         tabs = getattr(self.settings_window, "tabs", None)
         if tabs is not None:
-            label = "Microphone" if page == "microphone" else "Models"
+            label = "Microphone" if page == "microphone" else 'Labs' if page == 'labs' else "Models"
             for index in range(tabs.count()):
                 if tabs.tabText(index) == label:
                     tabs.setCurrentIndex(index)

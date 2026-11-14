@@ -5,12 +5,15 @@ This boundary never sends the spoken instruction through dictation cleanup.
 """
 
 import json
+import logging
 import time
 from dataclasses import dataclass, replace
 
 from saydraft.cleanup.llm.edit import validate_edit_output
 from saydraft.history import HistoryEntry
 from saydraft.insert.inserter import InsertionResult
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass(frozen=True)
@@ -34,18 +37,45 @@ class CommandEditProcessor:
         self.editor, self.selections, self.history = editor, selections, history
         self.inserter, self.recover, self.clock = inserter, recover, clock
 
-    def process(self, captured, instruction, *, run_current, current, asr_model="", language="auto"):
-        """`run_current(action)` executes atomically with session cancellation.
+    def process(self, captured, instruction, *, run_current, current, asr_model="", language="auto",
+                persist_current=None, duration_seconds=None, audio_path=None, timings=None):
+        """Admission is rechecked at each boundary and by the delivery guards.
 
-        It returns None without running the action when the session is retired.
+        `persist_current` admits a durable write under the caller's session mutex.
+        `run_current` must not hold a GUI/session mutex across clipboard or UIA I/O.
+        Both return None without starting the action when the session is retired.
         Recovery gets a standalone result; it must never replace a live NoteDraft.
         Every exit releases this lease only, including editor/history failures.
         """
-        def guard():
+        persist_current = persist_current or run_current
+        stages = dict(timings or {})
+
+        def failed(reason):
+            if not current():
+                return CommandEditResult(None, 'cancelled')
+            if type(instruction) is not str or not instruction.strip():
+                return CommandEditResult(None, reason)
+            # A failed edit retains the recognized instruction, not an
+            # unvalidated replacement or newly read document/password contents.
+            entry = HistoryEntry(captured.target.app_title, instruction, '', 'command', 'command',
+                duration_seconds, asr_model, app_exe=captured.target.app_exe,
+                app_group=captured.target.app_group, language=language, asr_model=asr_model,
+                llm_model=self.editor.model_id, llm_decision='edit_failed:' + reason,
+                timings_json=json.dumps(stages), audio_path=audio_path,
+                edits_json=json.dumps([{'type': 'command_instruction', 'reason': reason}], ensure_ascii=False))
+            try:
+                identifier = persist_current(lambda: self.history.append(entry))
+            except Exception:
+                if current():
+                    run_current(lambda: self.recover(CommandEditResult(instruction, 'instruction_history_unavailable')))
+                return CommandEditResult(None, reason if current() else 'cancelled')
+            return CommandEditResult(None, reason, identifier) if identifier is not None and current() else CommandEditResult(None, 'cancelled')
+
+        def guard(*, for_write=True):
             if not current():
                 return "cancelled"
             try:
-                reason = self.selections.verify_selection(captured, for_write=True)
+                reason = self.selections.verify_selection(captured, for_write=for_write)
             except Exception:
                 reason = "field_unavailable"
             return reason if current() else "cancelled"
@@ -54,33 +84,34 @@ class CommandEditProcessor:
             if not current():
                 return CommandEditResult(None, "cancelled")
             if captured.selection.status != "ready":
-                return CommandEditResult(None, captured.selection.status)
-            # Read-only/changed/sensitive selections need no model work.
-            if reason := guard():
-                return CommandEditResult(None, reason)
+                return failed(captured.selection.status)
+            # Read-only text can still produce a rewrite for Copy. Changed or
+            # sensitive selections must not be sent to the model.
+            if reason := guard(for_write=False):
+                return failed(reason)
             started = self.clock()
             try:
                 reply = self.editor.edit_selection(captured.selection.text, instruction, cancelled=lambda: not current())
             except Exception:
-                return CommandEditResult(None, "unavailable" if current() else "cancelled")
+                return failed("unavailable")
             seconds = self.clock() - started
+            stages['llm'] = seconds
             if not current():
                 return CommandEditResult(None, "cancelled")
             if reply.reason != "ok" or reply.text is None:
-                return CommandEditResult(None, reply.reason)
+                return failed(reply.reason)
             checked = validate_edit_output(captured.selection.text, instruction, reply.text)
             if not checked.ok:
-                return CommandEditResult(None, checked.reason)
-            stages = {"llm": seconds}
+                return failed(checked.reason)
             target = captured.target
             entry = HistoryEntry(target.app_title, captured.selection.text, reply.text, "command", "command",
-                None, asr_model, app_exe=target.app_exe, app_group=target.app_group, language=language,
+                duration_seconds, asr_model, app_exe=target.app_exe, app_group=target.app_group, language=language,
                 asr_model=asr_model, llm_model=self.editor.model_id, llm_decision="edit_validated",
-                timings_json=json.dumps(stages), edits_json=json.dumps([{
+                timings_json=json.dumps(stages), audio_path=audio_path, edits_json=json.dumps([{
                     "type": "command_edit", "instruction": instruction, "validator": "edit-v1",
                     "input_tokens": reply.input_tokens, "output_limit": reply.output_limit}], ensure_ascii=False))
             try:
-                identifier = run_current(lambda: self.history.append(entry))
+                identifier = persist_current(lambda: self.history.append(entry))
             except Exception:
                 result = CommandEditResult(reply.text, "history_unavailable")
                 if current():
@@ -120,4 +151,7 @@ class CommandEditProcessor:
                 run_current(lambda: self.recover(result))
             return result
         finally:
-            self.selections.cancel_selection(captured)
+            try:
+                self.selections.cancel_selection(captured)
+            except Exception:
+                logger.warning('Command selection retirement unavailable')

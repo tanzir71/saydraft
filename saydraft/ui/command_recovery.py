@@ -24,13 +24,16 @@ class _RecoveryStore:
 
 
 def _description(result):
+    if result.reason == 'instruction_history_unavailable':
+        return ('Editing did not finish and your instruction could not be saved to History. '
+                'These are your recognized instruction words, available to copy and save as a separate note.')
     if result.reason == 'insertion_unconfirmed':
         return ('Paste was sent, but the change could not be confirmed. '
                 'Check the original field before copying and pasting again. This edit saves as a separate note.')
     if result.reason == 'history_unavailable':
         return ('Your edit could not be saved to History. It is here to copy, '
                 'and will try saving as a separate note on this PC.')
-    return ('Your edit could not be placed in the selected field. Copy it when you are ready. '
+    return ('Your edit is ready to copy. Check the original field before pasting again. '
             'This edit saves as a separate note on this PC.')
 
 
@@ -39,16 +42,21 @@ class CommandRecoveryWindow(ScratchpadWindow):
         if not isinstance(result, CommandEditResult) or type(result.text) is not str or not result.text.strip():
             raise ValueError('Recovery requires a complete edit')
         try:
-            valid = len(result.text) <= MAX_REPLACEMENT_UNITS and len(result.text.encode('utf-16-le')) // 2 <= MAX_REPLACEMENT_UNITS
+            if result.reason == 'instruction_history_unavailable':
+                from saydraft.data.notes import MAX_NOTE_BYTES
+                valid = len(result.text.encode('utf-8')) <= MAX_NOTE_BYTES
+            else:
+                valid = len(result.text) <= MAX_REPLACEMENT_UNITS and len(result.text.encode('utf-16-le')) // 2 <= MAX_REPLACEMENT_UNITS
         except UnicodeError:
             valid = False
         if not valid:
             raise ValueError('Recovery edit exceeds its text limit')
-        super().__init__(_RecoveryStore(store), clipboard=clipboard, heading='Command edit', description=_description(result))
+        heading = 'Command instruction' if result.reason == 'instruction_history_unavailable' else 'Command edit'
+        super().__init__(_RecoveryStore(store), clipboard=clipboard, heading=heading, description=_description(result))
         self.result = result
         self.setAttribute(QtCore.Qt.WA_DeleteOnClose)
         self.new_button.hide()
-        self.editor.setAccessibleName('Command edit text')
+        self.editor.setAccessibleName(heading + ' text')
         self.draft.new()
         self._render(self.draft.snapshot())
         self.editor.setPlainText(result.text)

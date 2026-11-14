@@ -57,11 +57,27 @@ def transcript_diff(raw, cleaned):
 
 
 def result_details(row):
-    lines = [f"Speech model: {row.asr_model or row.model or 'Unknown'}",
+    if row.mode == 'command':
+        lines = ['Task: Command instruction' if not row.cleaned_text else 'Task: Command edit',
+                 f"Speech model: {row.asr_model or row.model or 'Unknown'}",
+                 f"Edit model: {row.llm_model or 'None'}", f"Edit outcome: {row.llm_decision or 'Not recorded'}",
+                 f"Language: {row.language or 'Not recorded'}"]
+        try:
+            edits = json.loads(row.edits_json)
+        except (TypeError, ValueError):
+            edits = []
+        for item in edits if isinstance(edits, list) else []:
+            if isinstance(item, dict) and item.get('type') == 'command_edit' and type(item.get('instruction')) is str:
+                lines.extend(['', 'Instruction:', item['instruction']])
+                break
+        if not row.cleaned_text and row.raw_text:
+            lines.extend(['', 'Recognized instruction:', row.raw_text])
+    else:
+        lines = [f"Speech model: {row.asr_model or row.model or 'Unknown'}",
              f"Cleanup model: {row.llm_model or 'None'}",
              f"Cleanup decision: {row.llm_decision or 'Not recorded'}",
              f"Language: {row.language or 'Not recorded'}", f"Cleanup mode: {row.mode}",
-             f"Style: {row.style or row.profile} · intensity: {row.intensity or 'Not recorded'}"]
+                 f"Style: {row.style or row.profile} · intensity: {row.intensity or 'Not recorded'}"]
     try:
         timings = json.loads(row.timings_json)
     except (TypeError, ValueError):
@@ -90,7 +106,7 @@ def iter_history_export(rows, format):
     output = io.StringIO(newline="")
     writer = csv.writer(output, lineterminator="\r\n")
     columns = ("id", "created_at", "app_name", "cleaned_text", "raw_text", "mode", "profile", "duration_seconds",
-               "asr_model", "llm_model", "llm_decision", "language", "style", "intensity", "timings_json")
+               "asr_model", "llm_model", "llm_decision", "language", "style", "intensity", "timings_json", "edits_json")
     writer.writerow(columns)
     yield output.getvalue()
     for row in rows:

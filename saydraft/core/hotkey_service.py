@@ -22,10 +22,11 @@ class UtilityShortcutRequest:
 class HotkeyService:
     def __init__(self, config, *, start, stop, cancel, save, notify, keyboard_module=None,
                  stop_timed=None, native_factory=None, stop_session=None, timer_factory=threading.Timer, paste=None,
-                 start_guarded=None, ui_request=None):
+                 start_guarded=None, ui_request=None, command_start=None):
         self.config = config
         self.start_recording = start
         self.start_guarded = start_guarded
+        self.command_start = command_start
         self._requests_cancelled = threading.Event()
         self._start_guard = None
         self.ui_request, self._ui_ticket = ui_request, object()
@@ -56,7 +57,8 @@ class HotkeyService:
                                 on_record_cancel=self.cancel_recording, on_save=self._save_if_allowed,
                                 on_backend_failure=self._native_failed, native_factory=self.native_factory,
                                 timer_factory=self.timer_factory, on_paste=self._paste_if_allowed if self.paste is not None else None,
-                                on_utility=self._request_ui if self.ui_request is not None else None)
+                                on_utility=self._request_ui if self.ui_request is not None else None,
+                                on_command_start_guarded=self._command_start if self.command_start is not None else None)
 
     def _allowed(self, guard=None):
         return not self._requests_cancelled.is_set() and (guard is None or bool(guard()))
@@ -67,6 +69,11 @@ class HotkeyService:
     def _guarded_start(self, current):
         guard = self._start_guard
         return self.start_guarded(lambda: self._allowed(guard) and current())
+
+    def _command_start(self, current, accepted, *, prefix_session_id=None):
+        guard = self._start_guard
+        return self.command_start(lambda: self._allowed(guard) and current(), accepted,
+                                  prefix_session_id=prefix_session_id)
 
     def _save_if_allowed(self):
         if self._allowed(self._start_guard):

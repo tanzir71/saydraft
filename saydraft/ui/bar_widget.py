@@ -363,7 +363,8 @@ class SaydraftPill(QtWidgets.QWidget):
         self._transition(PillState.ERROR)
         self.fix_page = fix_page or ("microphone" if "microphone" in str(message).lower() else "models")
         self.status_label.setText(str(message).replace("\n", " ")[:160])
-        self.elapsed_label.setText("Open Microphone settings" if self.fix_page == "microphone" else "Open Models settings")
+        self.elapsed_label.setText("Open Microphone settings" if self.fix_page == "microphone" else
+                                  'Open Labs settings' if self.fix_page == 'labs' else "Open Models settings")
         self._message_layout()
 
     def _message_layout(self):

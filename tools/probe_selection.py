@@ -23,7 +23,7 @@ from saydraft.history import DictationHistoryStore
 from saydraft.insert.inserter import Inserter
 
 
-def probe(report, *, output):
+def probe(report, *, output, exercise=None):
     api = NativeClipboardApi()  # Uses only window allocation; never opens the clipboard.
     user = api.user
     wait_messages = message_waiter(user)
@@ -243,6 +243,10 @@ def probe(report, *, output):
         reason = call(lambda: context.verify_selection(captured))
         report["cases"].append({"case": "cancel", "reason": reason})
         assert reason == "selection_expired"
+        if exercise is not None:
+            exercise(SimpleNamespace(context=context, call=call, pump_until=pump_until, set_text=set_text,
+                                     replace_text=replace_text, field_text=field_text, output=output,
+                                     set_read_only=lambda value: user.SendMessageW(child, 0x00CF, int(value), 0)), report)
     finally:
         if context is not None:
             context.close()
@@ -256,7 +260,7 @@ def probe(report, *, output):
         report["own_windows_closed"] = True
 
 
-def main(argv=None):
+def main(argv=None, *, exercise=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args(argv)
@@ -267,7 +271,7 @@ def main(argv=None):
         "input_injected": False, "owner_clipboard_accessed": False, "active_application_read": False,
         "microphone_used": False, "scope": "invisible own EDIT, actual native ranges and bounded owner; fixture substitutes own focus; physical focus/insertion unmeasured"}
     try:
-        probe(report, output=args.output)
+        probe(report, output=args.output, exercise=exercise)
         report["probe_complete"] = True
     except Exception as error:
         report["error_type"] = type(error).__name__
