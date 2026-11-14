@@ -134,6 +134,11 @@ class WindowsClipboard:
                     raise ClipboardUnavailable("Clipboard has no text")
                 return api.unicode_text(handle)
 
+    def capture_selection(self, **request):
+        """Explicit guarded Ctrl+C transaction; no native input is installed by default."""
+        from .selection_copy import capture_selection
+        return capture_selection(self, **request)
+
     @contextmanager
     def _ui_lock(self):
         if not self._lock.acquire(blocking=False):

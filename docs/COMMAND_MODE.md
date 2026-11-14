@@ -6,6 +6,11 @@ guarded paste/confirmation and independent Copy recovery. It currently requires
 a safely readable selection. The Ctrl+C capture fallback and full
 physical/frozen Command acceptance remain open; the checkbox stays off by default.
 
+The [clipboard transaction foundation](COMMAND_CLIPBOARD.md) now provides an
+explicit guarded one-copy/snapshot/restore boundary with shared recovery. It is
+not wired into this experimental route yet; unsupported UIA fields still refuse
+before Command audio. No new clipboard capture occurs in the running app.
+
 ## Using the experimental selection path
 
 1. Use the Pro tier, selected in Models or supported by the saved performance check.

@@ -21,6 +21,7 @@ class NativeClipboardApi(ClipboardHandles):
             ("GetClipboardData", [wt.UINT], wt.HANDLE),
             ("SetClipboardData", [wt.UINT, wt.HANDLE], wt.HANDLE),
             ("GetClipboardSequenceNumber", [], wt.DWORD), ("GetClipboardOwner", [], wt.HWND),
+            ("GetWindowThreadProcessId", [wt.HWND, ct.POINTER(wt.DWORD)], wt.DWORD),
             ("RegisterClipboardFormatW", [wt.LPCWSTR], wt.UINT),
             ("DestroyWindow", [wt.HWND], wt.BOOL),
             ("CreateWindowExW", [wt.DWORD, wt.LPCWSTR, wt.LPCWSTR, wt.DWORD, ct.c_int, ct.c_int,
@@ -88,3 +89,9 @@ class NativeClipboardApi(ClipboardHandles):
 
     def owner(self):
         return self.user.GetClipboardOwner()
+
+    def window_pid(self, hwnd):
+        pid = wt.DWORD()
+        if not hwnd or not self.user.GetWindowThreadProcessId(hwnd, ct.byref(pid)) or not pid.value:
+            raise OSError("Clipboard owner process is unavailable")
+        return pid.value

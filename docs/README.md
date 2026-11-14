@@ -39,7 +39,8 @@ including the optional public-audio recognizer smoke.
 | [Snippets](SNIPPETS.md) | Triggers, variables, import/export, and SQLite adoption |
 | [Dictionary learning](DICTIONARY_LEARNING.md) | Vocabulary, correction learning, and Undo |
 | [Delivery](DELIVERY.md) | Focus checks, protected/elevated targets, and insertion fallbacks |
-| [Command Mode work](COMMAND_MODE.md) | Selection leases, local edits, confirmed replacement and isolated recovery; remaining P7.1 integration |
+| [Command Mode work](COMMAND_MODE.md) | Experimental held instructions, Labs setup, guarded local edits and Copy recovery; remaining P7.1 acceptance |
+| [Command clipboard boundary](COMMAND_CLIPBOARD.md) | Explicit copy/snapshot/restore foundation, Windows limits and remaining producer wiring |
 | [Scratchpad and Notes](NOTES.md) | Local autosave, search/reopen, conflict recovery, and the last-diff shortcut |
 
 ## Models, privacy, and data

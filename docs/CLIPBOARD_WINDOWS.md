@@ -142,6 +142,10 @@ then require complete original restoration and retirement of owned handles.
 
 ## Native transaction probe
 
+The separate [Command copy boundary](COMMAND_CLIPBOARD.md) adds an explicit
+complete-snapshot Ctrl+C capture primitive and private-surface WM_COPY probe.
+It is not connected to Command yet and does not change the ordinary paste route.
+
 `tools.probe_native_clipboard` runs ten real Windows clipboard transactions with
 RTF, a DIB image and Unicode text. The normal processing pipeline persists each
 public fixture in SQLite before a checked clipboard-reading delivery stub. It
