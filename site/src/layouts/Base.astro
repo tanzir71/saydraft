@@ -24,7 +24,8 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <meta name="twitter:card" content="summary" />
     {noindex ? <meta name="robots" content="noindex,follow" /> : null}
     <link rel="canonical" href={canonical} />
-    <link rel="icon" href={`${base}favicon.svg`} type="image/svg+xml" />
+    <link rel="sitemap" type="application/xml" href={`${base}sitemap.xml`} />
+    <link rel="icon" href={`${base}favicon.svg?v=2`} type="image/svg+xml" />
     {[bodyFace, displayFace, italicFace].map((href) => <link rel="preload" as="font" type="font/woff2" href={href} crossorigin="anonymous" />)}
     <title>{title}</title>
   </head>
@@ -35,7 +36,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <footer class="container site-footer">
       <a class="footer-mark" href={base}>Saydraft<span aria-hidden="true">✳</span></a>
       <p class="muted">Your words. Your machine.</p>
-      <div class="footer-links"><a href={`${base}docs/getting-started/`}>Getting started</a><a href={`${base}privacy/`}>Privacy</a><a href={`${base}credits/`}>Credits</a><a href="https://github.com/tanzir71/saydraft/blob/main/LICENSE">MIT license ↗</a></div>
+      <div class="footer-links"><a href={`${base}docs/getting-started/`}>Getting started</a><a href={`${base}languages/`}>Languages</a><a href={`${base}privacy/`}>Privacy</a><a href={`${base}credits/`}>Credits</a><a href="https://github.com/tanzir71/saydraft/blob/main/LICENSE">MIT license ↗</a></div>
       <div class="footer-bottom"><small>Free, open-source dictation for Windows.</small><nav aria-label="Creator links"><a href="https://tanziro.com" target="_blank" rel="noopener">Built by tanziro.com</a><a href="https://buymeacoffee.com/tanzir" target="_blank" rel="noopener">Support Saydraft ↗</a></nav></div>
     </footer>
   </body>

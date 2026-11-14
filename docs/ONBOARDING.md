@@ -357,7 +357,9 @@ Transfer completion and the subsequent package check have distinct UI messages.
 Changing models clears the previous download's completion and file details.
 License links follow the current text palette, remain underlined and keyboard
 accessible, and update during theme changes without clearing active progress.
-Bengali and Arabic still share one optional All languages model; selecting a
+Thai, Chinese, Korean, Bengali and Arabic share one optional All languages model;
+Portuguese, including Brazilian Portuguese, is also covered by the default model.
+After setup, choose language pins in Hub → Settings → Languages. Selecting a
 model or language performs no transfer. The final Style quick pick page states
 that saving choices opens Home after the separate fresh readiness check succeeds.
 

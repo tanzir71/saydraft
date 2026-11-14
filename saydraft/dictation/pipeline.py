@@ -120,7 +120,7 @@ class DictationPipeline:
             if candidate:
                 validation = validate_llm_output(rule_clean, candidate, mode=context.mode,
                     glossary=(*self.glossary.user_terms, *self.glossary.protected_terms),
-                    intensity=style_for(context).intensity, post_rules=True)
+                    intensity=style_for(context).intensity, post_rules=True, language=context.language)
                 if validation.ok:
                     llm_ok_text = candidate
                     self.last_llm_decision = "accepted"

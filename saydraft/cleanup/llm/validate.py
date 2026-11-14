@@ -14,6 +14,7 @@ from difflib import SequenceMatcher
 
 from saydraft.text_boundaries import whole_word_match
 from saydraft.text_entities import BARE_DOMAIN_PATTERN, EMAIL
+from saydraft.cleanup.language import english_rules_allowed
 TOKENS = re.compile(r"__(?:GLOSSARY|SPAN)_\d+__|⟦T\d+⟧")
 CODE = re.compile(r"```[\s\S]*?```|`[^`]*`|\"[^\"\n]*\"|“[^”\n]*”")
 URLS = re.compile(r"https?://[^\s<>\"'\])]+|" + BARE_DOMAIN_PATTERN, re.IGNORECASE)
@@ -151,8 +152,30 @@ def _post_rules_words(text):
     return words
 
 
+def _native_word_units(text):
+    """Allow native punctuation boundaries while preserving spaced loanwords.
+
+    These scripts do not generally delimit every word with spaces. English
+    words inside them still retain their boundaries and exact NFC spelling.
+    """
+    units = []
+    for word in extract_words(text):
+        current = ''
+        for char in word:
+            if ud.name(char, '').startswith(('CJK', 'HIRAGANA', 'KATAKANA', 'THAI', 'LAO', 'MYANMAR', 'KHMER')):
+                if current:
+                    units.append(current)
+                    current = ''
+                units.append(char)
+            else:
+                current += char
+        if current:
+            units.append(current)
+    return units
+
+
 def validate_llm_output(rule_text, llm_text, mode="balanced", *, glossary=(), intensity=None, translate=False,
-                        post_rules=False):
+                        post_rules=False, language="auto"):
     if not isinstance(rule_text, str) or not isinstance(llm_text, str) or not llm_text.strip():
         return ValidationResult(False, "empty")
     if type(post_rules) is not bool:
@@ -190,8 +213,11 @@ def validate_llm_output(rule_text, llm_text, mode="balanced", *, glossary=(), in
             candidate_count = sum(whole_word_match(b, match) for match in pattern.finditer(b))
             if source_count != candidate_count:
                 return ValidationResult(False, "glossary_changed")
-    tokens_a = [word.casefold() for word in extract_words(a)]
-    tokens_b = [word.casefold() for word in extract_words(b)]
+    native_post_rules = post_rules and not english_rules_allowed(language)
+    units_a = _native_word_units(a) if native_post_rules else extract_words(a)
+    units_b = _native_word_units(b) if native_post_rules else extract_words(b)
+    tokens_a = [word.casefold() for word in units_a]
+    tokens_b = [word.casefold() for word in units_b]
     words_a, words_b = Counter(tokens_a), Counter(tokens_b)
     for terms, reason in ((NUMBER_WORDS, "number_words_changed"), (DATE_WORDS, "dates_changed"),
                           (AMOUNT_WORDS, "amounts_changed")):
@@ -213,7 +239,8 @@ def validate_llm_output(rule_text, llm_text, mode="balanced", *, glossary=(), in
         return ValidationResult(False, "language_changed")
     lower = {1: 0.8, 2: 0.7, 3: 0.6, 4: 0.5}[level]
     upper = {1: 1.15, 2: 1.2, 3: 1.3, 4: 1.3}[level]
-    if not lower <= len(b) / len(a) <= upper:
+    max_length = max(len(a) * upper, len(a) + 2) if post_rules and not english_rules_allowed(language) else len(a) * upper
+    if len(b) / len(a) < lower or len(b) > max_length:
         return ValidationResult(False, "length_ratio")
     if not translate:
         coverage, precision = _coverage(words_a, words_b)
@@ -224,9 +251,15 @@ def validate_llm_output(rule_text, llm_text, mode="balanced", *, glossary=(), in
         coverage, precision = _coverage(content_a, content_b)
         if content_a and (coverage < (0.65 if level == 4 else 0.75) or precision < 0.85):
             return ValidationResult(False, "answer_or_content_changed")
-        similarity = SequenceMatcher(None, a.casefold(), b.casefold()).ratio()
+        similarity = (SequenceMatcher(None, units_a, units_b).ratio() if native_post_rules else
+                      SequenceMatcher(None, a.casefold(), b.casefold()).ratio())
         if similarity < (0.65 if level == 4 else 0.75):
             return ValidationResult(False, "too_different")
-        if post_rules and level < 4 and _post_rules_words(a) != _post_rules_words(b):
-            return ValidationResult(False, "post_rules_words_changed")
+        if post_rules and (level < 4 or not english_rules_allowed(language)):
+            # English agreement/article exceptions are not valid evidence of
+            # an equivalent edit in Portuguese, German or another language.
+            same = (_post_rules_words(a) == _post_rules_words(b) if english_rules_allowed(language)
+                    else units_a == units_b)
+            if not same:
+                return ValidationResult(False, "post_rules_words_changed")
     return ValidationResult(True, "ok")

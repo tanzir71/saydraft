@@ -293,7 +293,9 @@ class PracticeController:
                 self.emit('practice_status', lease.generation, record.generation, 'no_text')
                 return
             context = select_context(lease.config, [], 'Saydraft practice', app_group=lease.group)
-            language = getattr(lease.asr, 'last_language', None) or lease.config['stt'].get('language', 'auto')
+            from saydraft.cleanup.language import transcript_language
+            language = transcript_language(getattr(lease.asr, 'last_language', None),
+                lease.config['stt'].get('language', 'auto'))
             context = replace(context, cleanup_deadline=self.clock() + 2,
                 language=language)
             cleaner = self.cleaner()

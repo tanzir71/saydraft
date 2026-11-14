@@ -1,8 +1,10 @@
 # Verify offline operation
 
 Install the recommended speech package through setup while connected. Finish the
-explicit download and verification before disconnecting. Optional Bengali and
-Arabic use the same All languages model; install it once if needed.
+explicit download and verification before disconnecting. Thai, Chinese, Korean,
+Bengali and Arabic use the same optional All languages model; install it once if
+needed. Portuguese, including Brazil, is also covered by the default model.
+See [language choices](LANGUAGES.md).
 
 Turn Wi-Fi off or disconnect the network cable, then open Saydraft and dictate
 into a disposable text field. Check that the local History row and pasted text

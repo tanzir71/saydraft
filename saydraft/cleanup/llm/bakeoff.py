@@ -57,7 +57,7 @@ class ObservedCleaner:
         started = self.clock()
         candidate, reason = operation()
         validation = validate_llm_output(text, candidate, mode=context.mode,
-            intensity=context.intensity, glossary=glossary) if candidate else None
+            intensity=context.intensity, glossary=glossary, language=context.language) if candidate else None
         self.calls.append({"reason": reason, "seconds": self.clock() - started,
             "returned_candidate": bool(candidate and candidate.strip()), "source_sha256": digest(text),
             "candidate_sha256": digest(candidate) if candidate else None,
@@ -95,7 +95,7 @@ def measure_cases(golden, adversarial, pipeline, observer, *, ready=lambda: True
             action_same = actual.insertion.enter_sent == rules.insertion.enter_sent
             bypass = case.mode == "raw" or case.profile == "code/comments" or case.app_group == "code"
             check = None if same or bypass else validate_llm_output(rules.cleaned_text, actual.cleaned_text,
-                mode=case.mode, intensity=case.intensity, glossary=terms)
+                mode=case.mode, intensity=case.intensity, glossary=terms, language=case.language)
             preserved = action_same and (same if bypass else same or check.ok)
             from saydraft.cleanup.styles import style_for
             from saydraft.dictation.types import DictationContext

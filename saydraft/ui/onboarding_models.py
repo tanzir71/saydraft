@@ -109,8 +109,10 @@ class OnboardingModelsPage(QtWidgets.QWizardPage):
         self.benchmark_details = paragraph('', 'Measured setup performance')
         self.benchmark_button.clicked.connect(self.start_benchmark)
         self.stop_benchmark_button.clicked.connect(self.cancel_benchmark)
-        paragraph("Bengali and Arabic share the optional All languages model. One download enables both. "
-                  "Choosing a language or model starts no transfer.")
+        paragraph("Thai, Chinese, Korean, Japanese, Hindi, Urdu, Indonesian, Malay, Bengali and Arabic share the optional All languages model. "
+                  "Portuguese, including Brazilian Portuguese, is also covered by the default model. "
+                  "Choosing a language or model starts no transfer. After setup, choose your language "
+                  "in Hub → Settings → Languages.")
         layout.addStretch()
         self.scroll = QtWidgets.QScrollArea()
         self.scroll.setWidgetResizable(True)

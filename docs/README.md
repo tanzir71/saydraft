@@ -49,6 +49,8 @@ including the optional public-audio recognizer smoke.
 | Guide | Contents |
 |---|---|
 | [Models](MODELS.md) | Pinned speech/cleanup choices, bundle sizes, licenses, and dated measurements |
+| [Speech languages](LANGUAGES.md) | Thai, Chinese, Korean, Brazilian Portuguese and other language choices, model coverage and setup |
+| [Speech accuracy work](ASR_ACCURACY.md) | Public-reference evaluation scope, language-level metrics, cleanup regressions and current evidence gaps |
 | [ASR routing](ASR_ROUTING.md) | Language pins, shared optional All languages model, retry limits |
 | [Model storage](MODEL_STORAGE.md) | Tiers, staged defaults, inventory, protected models, confirmed removal |
 | [Model packages](MODEL_PACKAGES.md) | Verified archive handling and installation |

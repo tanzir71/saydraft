@@ -1,6 +1,7 @@
 import json
 import os
 import types
+import pytest
 
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
@@ -210,17 +211,36 @@ def test_all_languages_model_and_arabic_setting_persist(tmp_path):
     assert saved["stt"]["language"] == "ar"
 
 
-def test_bengali_pin_selects_shared_optional_model_without_downloading(tmp_path):
+@pytest.mark.parametrize("language", ["bn", "th", "zh", "ko", "ja", "id", "ms", "hi", "ur", "vi", "tl", "ta", "te", "fa"])
+def test_multilingual_pin_selects_shared_optional_model_without_downloading(tmp_path, language):
     window, config_path, _autostart = make_window(tmp_path)
     calls = []
     window.model_picker.callback = lambda *args, **kwargs: calls.append(True)
-    window.language_combo.setCurrentIndex(window.language_combo.findData("bn"))
+    window.language_combo.setCurrentIndex(window.language_combo.findData(language))
     assert window.model_picker.model_id == "whisper-large-v3-turbo"
     assert window.languages_page.routing.isChecked()
     assert not calls
     assert window.apply_changes()
     saved = json.loads(config_path.read_text(encoding="utf-8"))
-    assert saved["stt"]["pinned_languages"] == ["bn"]
+    assert saved["stt"]["pinned_languages"] == [language]
+    assert saved["stt"]["language"] == language
+    assert saved["stt"]["routing_enabled"] is True
+    assert not calls
+
+
+def test_brazilian_portuguese_keeps_portuguese_code_and_default_model(tmp_path):
+    window, config_path, _autostart = make_window(tmp_path)
+    calls = []
+    window.model_picker.callback = lambda *args, **kwargs: calls.append(True)
+    index = window.language_combo.findData("pt")
+    assert "Brazilian Portuguese" in window.language_combo.itemText(index)
+    window.language_combo.setCurrentIndex(index)
+    assert window.model_picker.model_id == "parakeet-tdt-0-6b-v3-int8"
+    assert not calls
+    assert window.apply_changes()
+    saved = json.loads(config_path.read_text(encoding="utf-8"))
+    assert saved["stt"]["pinned_languages"] == ["pt"]
+    assert saved["stt"]["language"] == "pt"
     assert saved["stt"]["routing_enabled"] is True
     assert not calls
 

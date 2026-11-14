@@ -1,0 +1,42 @@
+---
+import Base from '../../layouts/Base.astro';
+import StructuredData from '../../components/StructuredData.astro';
+import { languages } from '../../data/languages';
+import '../../styles/prose.css';
+import '../../styles/languages.css';
+export function getStaticPaths() {
+  return languages.map((language) => ({ params: { language: language.slug }, props: { language } }));
+}
+const { language } = Astro.props;
+const base = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/`;
+const url = new URL(`${base}languages/${language.slug}/`, Astro.site).href;
+---
+<Base title={language.title} description={language.description}>
+  <main id="main" class="document container">
+    <nav class="language-breadcrumb" aria-label="Breadcrumb"><a href={base}>Saydraft</a><span aria-hidden="true">/</span><a href={`${base}languages/`}>Languages</a><span aria-hidden="true">/</span><span>{language.name}</span></nav>
+    <p class="eyebrow">Free, open-source dictation</p>
+    <h1>{language.name}<br /><em>voice typing for Windows.</em></h1>
+    <p class="language-native" data-language-native lang={language.code === 'pt' ? 'pt-BR' : language.code} dir={language.direction}>{language.nativeName}</p>
+    <p>{language.intro}</p>
+    <p>{language.detail}</p>
+    <p class="notice">{language.model === 'all' ? 'Requires the shared All languages speech model (Whisper large-v3-turbo, approximately 1,621.7 MB). Download once in setup or Models, then reuse it offline.' : `${language.code === 'pt' ? 'Portuguese, including Brazil,' : language.name} is included in Parakeet v3, the default speech model. All languages is also compatible. No separate language pack is required.`}</p>
+    <h2>How to set up {language.name} dictation</h2>
+    <ol><li>Follow the <a href={`${base}download/`}>current download and source setup instructions</a>. Saydraft is a development preview for Windows 10 and 11.</li><li>In Hub → Settings → Models, review the required model’s size and license. Choose Download / Resume if it is missing; Pause is available.</li><li>Open Languages, enable automatic model choice, and select {language.code === 'pt' ? 'Portuguese (including Brazilian Portuguese)' : language.name}. Save your settings. A single language pin uses code <code>{language.code}</code>.</li><li>Put the cursor in an editable app field, hold Ctrl + Win, speak, then release. Review the transcript before sending it.</li></ol>
+    <p>Language selection starts no transfer. If automatic routing is off, the model selected on Models remains in use; select a compatible model there. For more detail, see the <a href={`${base}docs/getting-started/`}>setup guide</a>.</p>
+    <h2>Use your voice in everyday Windows apps</h2>
+    <p>{language.use}</p>
+    <p>Speech recognition and text cleanup run locally. There is no account or cloud transcription fallback. With compatible models installed, you can dictate without an internet connection. Optional AI cleanup has its own model requirements; rules-only cleanup needs no text model.</p>
+    <h2>{language.question}</h2>
+    <p>{language.answer}</p>
+    <h2>What does language support mean here?</h2>
+    <p>This page describes speech-model coverage and app configuration. It does not claim a measured accuracy score for {language.name}. Accent, microphone, background noise and mixed speech affect results. The language choice does not translate the app interface or add Translate-mode output targets.</p>
+    <p><a href={`${base}download/`}>Get Saydraft for Windows</a> · <a href={`${base}privacy/`}>See how dictation stays local</a></p>
+    <aside class="related-languages" aria-label="Other dictation languages"><h2>More languages, the same app.</h2><ul>{languages.filter((other) => other.slug !== language.slug).map((other) => <li><a href={`${base}languages/${other.slug}/`}>{other.name} voice typing</a></li>)}<li><a href={`${base}languages/`}>All language and model guidance</a></li></ul></aside>
+  </main>
+  <StructuredData data={{ '@type': 'WebPage', name: language.title, description: language.description, url, inLanguage: 'en', about: { '@type': 'SoftwareApplication', name: 'Saydraft', operatingSystem: 'Windows 10, Windows 11', applicationCategory: 'UtilitiesApplication', featureList: `Offline ${language.name} speech recognition` } }} />
+  <StructuredData data={{ '@type': 'BreadcrumbList', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Saydraft', item: new URL(base, Astro.site).href },
+    { '@type': 'ListItem', position: 2, name: 'Languages', item: new URL(`${base}languages/`, Astro.site).href },
+    { '@type': 'ListItem', position: 3, name: language.name, item: url },
+  ] }} />
+</Base>

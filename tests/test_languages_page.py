@@ -1,4 +1,5 @@
 from PySide6 import QtWidgets
+import pytest
 
 from saydraft.config import default_config
 from saydraft.ui.languages_page import LanguagesPage
@@ -43,3 +44,29 @@ def test_manual_model_mode_and_english_max_are_explicit():
     page.apply_to(cfg)
     assert cfg["stt"]["routing_enabled"] is False
     assert not page.english_max.isEnabled()
+
+
+@pytest.mark.parametrize("code,label", [
+    ("th", "Thai"), ("zh", "Chinese (Mandarin)"), ("ko", "Korean"),
+    ("pt", "Portuguese (including Brazilian Portuguese)"),
+    ("es", "Spanish"), ("id", "Indonesian"), ("ms", "Malay"), ("ja", "Japanese"),
+    ("hi", "Hindi"), ("ur", "Urdu"),
+    ("vi", "Vietnamese"), ("tl", "Filipino / Tagalog"), ("ta", "Tamil"),
+    ("te", "Telugu"), ("fa", "Persian (Farsi)"), ("fr", "French"), ("de", "German"),
+])
+def test_requested_languages_are_discoverable_and_save_engine_codes(code, label):
+    app, page = make_page()
+    combo = page.combos[0]
+    assert combo.itemText(combo.findData(code)) == f"{label} ({code})"
+    set_pin(combo, code)
+    cfg = default_config()
+    page.apply_to(cfg)
+    assert cfg["stt"]["pinned_languages"] == [code]
+    assert cfg["stt"]["language"] == code
+    if code in ("pt", "es", "fr", "de"):
+        assert "Parakeet v3" in page.note.text()
+    else:
+        assert "optional shared All languages" in page.note.text()
+    restored = LanguagesPage(cfg)
+    assert restored.combos[0].currentData() == code
+    assert restored.pins() == (code,)

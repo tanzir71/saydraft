@@ -1,4 +1,4 @@
-# Saydraft
+# Saydraft: free offline dictation for Windows
 
 **Speak messy. Paste polished.**
 
@@ -6,10 +6,16 @@
 [![Site checks](https://github.com/tanzir71/saydraft/actions/workflows/site.yml/badge.svg)](https://github.com/tanzir71/saydraft/actions/workflows/site.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-Saydraft is an open-source Windows tray app for local voice dictation. Hold a
+Saydraft is a free, open-source offline dictation app for Windows. Hold a
 shortcut, speak, and release to transcribe, clean up, and insert text into the
 focused app. Speech recognition, cleanup, and History run on your computer;
 dictation has no cloud fallback or subscription.
+
+Dictate in **Thai, Chinese (Mandarin), Korean, Japanese, Hindi, Urdu, Indonesian,
+Malay, Spanish and Brazilian Portuguese**, alongside Bengali and Arabic. Highlighted
+choices also include **Vietnamese, Filipino / Tagalog, Tamil, Telugu, Persian, French
+and German** with compatible local speech models. See the
+[language guide](docs/LANGUAGES.md) for coverage and setup.
 
 [Website](https://tanzir71.github.io/saydraft/) ·
 [Getting started](https://tanzir71.github.io/saydraft/docs/getting-started/) ·
@@ -195,13 +201,17 @@ by itself; you need an installed compatible model before dictating.
 |---|---:|---|
 | Default: Parakeet v3 int8 + language detector | 773.4 MB | Recognition in 25 European languages |
 | Parakeet v2 int8, English max | 661.3 MB | English recognition |
-| All languages · Whisper large-v3-turbo | 1,621.7 MB | Multilingual recognition, including Bengali and Arabic |
+| All languages · Whisper large-v3-turbo | 1,621.7 MB | Thai, Chinese, Korean, Bengali, Arabic and other supported languages |
 | Whisper base / small / medium | Shown in setup | Alternative multilingual models |
 
-Bengali and Arabic share the optional **All languages** model. Download it
-once for both; there are no separate language packs or language-specific
-download buttons. Installed models can be selected through language pins and
-automatic routing; [routing details](docs/ASR_ROUTING.md) explain its limits.
+Thai, Chinese, Korean, Bengali and Arabic share the optional **All languages**
+model. Download it once; there are no separate language packs or language-specific
+download buttons. Portuguese, including Brazilian Portuguese, is also covered by
+the default Parakeet v3 model. Choose **Portuguese (including Brazilian Portuguese)**
+in Languages; both engines use `pt`, without a separate Brazil-only decoder setting.
+Installed models can be selected through language pins and automatic routing;
+[language coverage](docs/LANGUAGES.md) and [routing details](docs/ASR_ROUTING.md)
+explain setup and its limits. Language coverage is not an accent-specific accuracy claim.
 
 Optional AI cleanup is disabled by default. Explicit setup offers pinned
 Qwen3.5 0.8B or 2B Q4_K_M weights with a local llama.cpp CPU or Vulkan runtime.

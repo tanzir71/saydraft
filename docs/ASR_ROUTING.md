@@ -6,12 +6,18 @@ inside Parakeet's 25-language set select v3. Any other combination selects the
 shared optional Whisper turbo model. A single Whisper language pin is passed to
 the decoder; multiple pins leave its language detection enabled.
 
-Selecting languages never downloads models. Bengali and Arabic share the same
+Selecting languages never downloads models. Thai, Chinese, Korean, Bengali and Arabic share the same
 All languages download, initiated on the Models tab. A missing selected model
 produces a Settings error before the microphone opens. Choosing a model manually
 turns automatic routing off. Existing profiles retain their manual model choice
 until routing is explicitly enabled. Setup preserves the fresh-profile default
 unless a different model is selected.
+
+Portuguese, including Brazilian Portuguese, uses `pt` and routes to Parakeet v3
+when pinned alone. It is also supported by All languages; combining Portuguese
+with an outside-Parakeet language selects that shared model. The app lists Brazil
+explicitly without inventing a region-specific decoder code or model. See the
+[language reference](LANGUAGES.md) for Chinese variants and coverage limits.
 
 Per-app-group model overrides are supported in config JSON, for example:
 
@@ -55,10 +61,21 @@ the helper retain transcript checks until setup is completed.
 
 The helper loads before microphone capture. It inspects the first eight seconds,
 downmixes stereo, and skips clips shorter than one second, silence and invalid
-samples. It returns a language code without a confidence score. Pins and per-app
-overrides skip this classifier. Its elapsed time counts toward the retry budget
+samples. It returns a language code without a confidence score. Single-language pins and per-app
+overrides skip this classifier. Multiple pins inside Parakeet's set can use it
+to identify the language for cleanup, while retaining their explicit route and
+never enabling automatic model fallback. Its elapsed time counts toward the retry budget
 and is recorded as `lid`; failed detection preserves the primary result. The
 native compute binding releases the GIL while inference runs.
+
+The language-accuracy follow-up also keeps per-segment language evidence when
+joining background results. Known mixed speech uses `mul`; unavailable evidence
+uses `und` unless a single explicit language preference supplies a hint. This
+avoids applying English filler/grammar rules to unknown or mixed-language words.
+English preview cannot replace a primary mixed/unknown transcript. CJK/Thai
+chunk joins avoid forced spaces while retaining existing English/number sentence
+boundaries. These changes pass controlled routing/worker/preview/practice checks;
+see [accuracy work](ASR_ACCURACY.md).
 
 Language detection can be wrong, particularly for short or mixed speech, and
 does not make Parakeet recognize unsupported languages. Pin Bengali/Arabic (or

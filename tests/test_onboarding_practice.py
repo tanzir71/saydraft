@@ -273,7 +273,8 @@ def test_synthetic_native_shortcut_runs_real_practice_cleanup_through_queued_ui(
     from saydraft.privacy.netguard import NetworkGuard
 
     audio = np.ones(16000, dtype=np.float32)
-    engine = SimpleNamespace(prepare=lambda: None, transcribe=lambda audio: 'um hello world', model_id='public-fixture')
+    engine = SimpleNamespace(prepare=lambda: None, transcribe=lambda audio: 'um hello world',
+                             model_id='public-fixture', last_language='en')
     if engine_kind == 'parakeet':
         directory = os.environ.get('SAYDRAFT_TEST_PARAKEET_V3_MODEL')
         if not directory:

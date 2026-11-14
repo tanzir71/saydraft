@@ -26,10 +26,14 @@ The owner confirmed the written setup flow: show the recommendation, size and
 license, then start a one-click user-initiated download with progress and
 pause/resume. Later launches reuse installed models.
 
-Bengali and Arabic share the optional multilingual Whisper model. There are no
+Thai, Chinese, Korean, Bengali and Arabic share the optional multilingual Whisper model. There are no
 separate language packs or language-specific download buttons. One All languages
-download enables both; selecting a language starts no transfer. Fresh-profile
+download serves those languages; selecting a language starts no transfer. Fresh-profile
 setup keeps Parakeet as its default.
+
+Portuguese, including Brazilian Portuguese, is covered by Parakeet v3 and Whisper
+under `pt`, without a separate Brazil model. See [speech languages](LANGUAGES.md)
+for the app's choices, native codes and accuracy limits.
 
 | Model | Download | Languages | License |
 |---|---:|---|---|

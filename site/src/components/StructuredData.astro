@@ -1,0 +1,6 @@
+---
+interface Props { data: Record<string, unknown>; }
+const { data } = Astro.props;
+const serialized = JSON.stringify({ '@context': 'https://schema.org', ...data }).replace(/</g, '\\u003c');
+---
+<script is:inline type="application/ld+json" set:html={serialized} />

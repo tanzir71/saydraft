@@ -1,0 +1,31 @@
+---
+import Base from '../../layouts/Base.astro';
+import StructuredData from '../../components/StructuredData.astro';
+import { languages } from '../../data/languages';
+import '../../styles/prose.css';
+import '../../styles/languages.css';
+const base = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/`;
+---
+<Base title="Offline Voice Typing Languages for Windows | Saydraft" description="Explore offline voice typing languages for Windows: Asian, European and Latin American language choices, local model setup and free, open-source Saydraft.">
+  <main id="main" class="document container">
+    <p class="eyebrow">Speech recognition languages</p>
+    <h1>Offline voice typing.<br /><em>In your language.</em></h1>
+    <p>Saydraft supports multilingual dictation on Windows through local speech models. Thai, Chinese, Korean, Japanese, Hindi, Urdu, Indonesian, Malay, Spanish, Brazilian Portuguese, Bengali and Arabic are among the available language choices. Models have different coverage; choose the one that fits the languages you speak.</p>
+    <div class="language-grid">
+      {languages.map((language) => <article><h2><a href={`${base}languages/${language.slug}/`}>{language.name} voice typing <span aria-hidden="true">↗</span></a></h2><p>{language.model === 'all' ? 'Use the shared All languages model.' : `${language.name} is covered by the default model and All languages.`}</p></article>)}
+    </div>
+    <h2>One model can cover many languages</h2>
+    <p>The optional <strong>All languages</strong> model is Whisper large-v3-turbo. A single approximately 1,621.7 MB installation covers Thai, Mandarin Chinese, Korean, Bengali, Arabic and other supported Whisper languages, including Japanese, Hindi, Urdu, Vietnamese, Filipino / Tagalog, Tamil, Telugu, Persian, Indonesian and Malay. There are no separate language packs.</p>
+    <p>The default <strong>Parakeet v3</strong> model covers 25 European languages, including Spanish, French, German and Portuguese. Brazilian Portuguese uses the Portuguese choice, code <code>pt</code>; there is no separate Brazil-only decoder setting.</p>
+    <h2>Choose your language before you dictate</h2>
+    <ol><li>In Hub → Settings → Models, review and explicitly download a compatible speech model.</li><li>In Languages, enable automatic model choice, then pin one to three languages. One Whisper pin supplies a language hint; multiple pins leave model language detection enabled.</li><li>Save your settings, open an editable field and use your dictation shortcut. Later launches reuse the installed models offline.</li></ol>
+    <p>Selecting a language starts no download. If you keep manual model selection enabled, choose a compatible model yourself. For direct languages outside Parakeet’s set, pin the language with automatic routing or manually choose All languages.</p>
+    <h2>Dictation and translation are separate</h2>
+    <p>These are speech recognition choices: speak a language and receive its transcript. They are not translated app menus or additional Translate-mode output targets. Recognition quality varies with accent, audio and model; language coverage is not an accuracy guarantee. Review your text, especially names and mixed-language speech.</p>
+    <p><a href={`${base}download/`}>Get Saydraft and review setup</a> · <a href={`${base}docs/getting-started/`}>Follow the first-use guide</a> · <a href="https://github.com/tanzir71/saydraft/blob/main/docs/LANGUAGES.md">Read the language and model reference ↗</a></p>
+  </main>
+  <StructuredData data={{ '@type': 'BreadcrumbList', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Saydraft', item: new URL(base, Astro.site).href },
+    { '@type': 'ListItem', position: 2, name: 'Languages', item: new URL(`${base}languages/`, Astro.site).href },
+  ] }} />
+</Base>

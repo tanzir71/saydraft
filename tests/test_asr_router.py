@@ -17,6 +17,14 @@ from saydraft.models.manifest import get_model
     ("el", DEFAULT_MODEL, None), ("mt", DEFAULT_MODEL, None),
     ("ar", ALL_LANGUAGES, "ar"), ("bn", ALL_LANGUAGES, "bn"),
     ("zh", ALL_LANGUAGES, "zh"), ("ja", ALL_LANGUAGES, "ja"),
+    ("th", ALL_LANGUAGES, "th"), ("ko", ALL_LANGUAGES, "ko"),
+    ("pt", DEFAULT_MODEL, None),
+    ("es", DEFAULT_MODEL, None), ("id", ALL_LANGUAGES, "id"),
+    ("ms", ALL_LANGUAGES, "ms"),
+    ("hi", ALL_LANGUAGES, "hi"), ("ur", ALL_LANGUAGES, "ur"),
+    ("vi", ALL_LANGUAGES, "vi"), ("tl", ALL_LANGUAGES, "tl"),
+    ("ta", ALL_LANGUAGES, "ta"), ("te", ALL_LANGUAGES, "te"), ("fa", ALL_LANGUAGES, "fa"),
+    ("de", DEFAULT_MODEL, None),
 ])
 def test_single_pin_selects_supported_engine_and_language(language, model_id, hint):
     route = choose_route([language])
@@ -26,7 +34,7 @@ def test_single_pin_selects_supported_engine_and_language(language, model_id, hi
 def test_language_registry_matches_pinned_parakeet_artifact_and_fallback_vocabulary():
     assert PARAKEET_LANGUAGES == set(get_model(DEFAULT_MODEL)["languages"])
     assert PARAKEET_LANGUAGES <= WHISPER_LANGUAGES
-    assert {"bn", "ar", "zh", "yue"} <= WHISPER_LANGUAGES
+    assert {"bn", "ar", "zh", "yue", "th", "ko", "pt"} <= WHISPER_LANGUAGES
 
 
 def test_auto_english_max_and_mixed_pins_follow_the_router_matrix():
@@ -36,6 +44,27 @@ def test_auto_english_max_and_mixed_pins_follow_the_router_matrix():
     assert choose_route(["en", "bn", "ar"]).model_id == ALL_LANGUAGES
     assert choose_route(["en", "bn", "ar"]).language is None
     assert normalize_pins(["EN", "fr", "en"]) == ("en", "fr")
+
+
+def test_requested_asian_languages_share_one_installed_engine_when_pins_change():
+    router, _primary, multilingual, calls = make_router()
+    router._language_identifier = SimpleNamespace()  # Explicit pins skip LID.
+    for language in ("th", "zh", "ko", "ja", "hi", "ur", "id", "ms", "vi", "tl", "ta", "te", "fa"):
+        router.config["stt"]["pinned_languages"] = [language]
+        router.set_context(SimpleNamespace(app_group="general"))
+        router.prepare()
+        assert router.transcribe(np.ones(16000, dtype=np.float32))
+        assert router.model_id == ALL_LANGUAGES
+        assert multilingual.language_hints[-1] == language
+    assert len(calls) == 1
+
+
+def test_portuguese_and_mixed_asian_pins_use_native_language_codes():
+    assert choose_route(["pt"]).model_id == DEFAULT_MODEL
+    route = choose_route(["pt"], app_group="general", overrides={"general": ALL_LANGUAGES})
+    assert route.language == "pt"  # No pt-BR or ambiguous br decoder token.
+    route = choose_route(["th", "ko", "pt"])
+    assert route.model_id == ALL_LANGUAGES and route.language is None
 
 
 @pytest.mark.parametrize("pins", [["xx"], ["en", "fr", "de", "ar"]])
@@ -207,3 +236,16 @@ def test_pinned_language_skips_audio_classifier_and_automatic_retry():
     router.prepare()
     assert router.transcribe(np.ones(16000)) == "available words"
     assert router.last_fallback.reason == "explicit_route" and router.last_lid_language is None
+
+
+def test_multiple_parakeet_pins_identify_cleanup_language_without_model_fallback():
+    router, primary, _multilingual, _calls = make_router()
+    router.config['stt']['pinned_languages'] = ['en', 'pt']
+    primary.last_language = None
+    prepared = []
+    router._language_identifier = SimpleNamespace(prepare=lambda: prepared.append(True), identify=lambda audio: 'pt')
+    router.set_context(SimpleNamespace(app_group='general'))
+    router.prepare()
+    assert router.transcribe(np.ones(16000)) == 'available words'
+    assert prepared == [True] and router.last_language == 'pt'
+    assert router.last_fallback.reason == 'explicit_route' and not router.retry_recommended

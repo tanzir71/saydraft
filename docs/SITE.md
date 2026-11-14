@@ -1,17 +1,34 @@
 # Saydraft website
 
-The first Astro homepage and four supporting pages are implemented in `site/`.
+The Astro site in `site/` now builds twenty-three static pages, including seventeen
+language guides and their overview.
 This is an early P9 foundation, brought forward at the owner's request. The
 approved §9 tokens are shared through `design/tokens.json`; the dependency-free
 generator emits CSS and light/dark Qt QSS. Qt installation and the initial gallery
 are described in `docs/THEME.md`. P9's complete library, comparisons, MDX docs, demo port, schema,
 launch assets and final acceptance remain open.
 
-The current pages are Home, Download, Getting started, Privacy and Credits. The
+The original pages are Home, Download, Getting started, Privacy and Credits. The
 download page discloses development status and provides actual source commands;
 there are no invented installers, checksums, package-manager commands or releases.
 The source instructions use the same `python -m saydraft` entrypoint as the
 repository README and contributor guide.
+
+The owner-requested language expansion adds a language overview and seventeen language-specific
+guides for the requested and explicitly approved additions (see LANGUAGES.md). Home links to
+all seventeen; navigation and the footer link to the overview. Each guide explains
+its actual language code, compatible shared model, explicit setup and language
+limits. Portuguese uses `pt`, including Brazil; no Brazil-only model or measured
+accent accuracy is claimed. Existing Bengali/Arabic support remains documented.
+These are English speech-recognition guides, not translated app UI or new
+Translate-mode output targets.
+
+The eighteen new pages render as static HTML with unique titles/descriptions/H1s,
+canonical URLs, breadcrumbs and WebPage structured data on individual guides.
+Home includes SoftwareApplication metadata describing the same model coverage.
+`sitemap.xml` enumerates all twenty-three public HTML pages; the shared head links to it.
+No search-ranking claim, fabricated release, review rating or alternate-language
+page is added. Additional technical SEO and original P9 acceptance remain open.
 The getting-started page follows the current setup order: microphone, model
 recommendation and explicit download, shortcut, owned practice, and Style/Home. It distinguishes
 provisional PC checks from explicit selected-model performance checks, explains
@@ -29,6 +46,14 @@ with their own internal content padding. The footer uses the owner's INTRX patte
 linking to `https://buymeacoffee.com/tanzir`. Both are ordinary links; no external
 widget, image, script or tracking request is introduced. Browser checks cover
 the panel gutters/content inset and both footer destinations at all three widths.
+
+The owner rejected the slanted favicon S. Its replacement uses an upright,
+geometric outlined S with horizontal terminals, the existing paper/ink palette
+and a smaller signal dot. It is a font-independent SVG; the shared icon URL has
+a version query so browsers can refresh the earlier mark after deployment.
+The SVG is visually inspected at 16/24/32/48/64 pixels; a browser request also
+confirms the delivered favicon bytes match the source. The three updated Home
+baselines and representative language-page captures are reviewed.
 
 Button variants now retain their own foreground colors inside document pages;
 the prose link rule can no longer produce dark text on a dark CTA. Focus rings
@@ -115,3 +140,21 @@ browsers, builds and reports live on D because C has limited free space.
 Framework references: [Astro React](https://docs.astro.build/en/guides/integrations-guide/react/),
 [GitHub Pages deployment](https://docs.astro.build/en/guides/deploy/github/),
 [Storybook React/Vite](https://storybook.js.org/docs/get-started/frameworks/react-vite).
+
+## Language and favicon verification, 14 November 2026
+
+The twenty-three-page build has zero Astro errors, warnings or hints. Storybook
+builds and all 21 browser checks pass at 390/768/1440, with additional navigation
+checks at 820/900/1024. The checks cover every guide’s title, description, H1,
+canonical/native name, model requirements, structured data, internal links,
+JavaScript-disabled reading and all 23 sitemap URLs. Static serving uses the valid
+`text/xml` media type for the sitemap; the assertion accepts either XML media type.
+Home retains its local-only request and gzip JavaScript guards.
+
+All nine Lighthouse runs on Home/Download/Privacy score 100 for performance,
+accessibility and SEO, with zero CLS and a maximum 960 ms LCP. These are local
+mobile simulations, not search-ranking or device-wide guarantees. The browser
+cache was explicitly selected on D: after an initial missing-runtime diagnostic;
+the diagnostic and MIME assertion failure are retained separately in QA.
+Native ASR accuracy, the full original P9 library/content and public CI/deployment
+verification remain distinct.

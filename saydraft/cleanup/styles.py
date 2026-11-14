@@ -1,6 +1,7 @@
 """Shared style selection and deterministic cleanup levels for live/preview paths."""
 
 from dataclasses import dataclass
+from .language import english_rules_allowed
 
 TONES = frozenset({"formal", "casual", "very_casual"})
 GROUP_DEFAULTS = {"messages": "casual", "work_chat": "casual", "email": "formal",
@@ -58,15 +59,16 @@ def rule_options(context):
     from saydraft.dictation.rules import RuleOptions
     style = style_for(context)
     level = style.intensity
+    english = english_rules_allowed(context.language)
     structured = context.profile in ("notes", "email") or (
         context.tone is not None and context.app_group in ("docs", "email"))
     return RuleOptions(
-        remove_fillers=level >= 2, aggressive_fillers=level == 4,
-        remove_repetitions=level >= 3, handle_self_corrections=level == 4,
-        normalize_punctuation=level >= 1,
-        normalize_capitalization=level >= 2 and style.tone != "very_casual",
-        normalize_whitespace=True, enable_list_formatting=level >= 2 and structured,
-        convert_spoken_punctuation=level == 4,
-        convert_spoken_newlines=level >= 2 and structured,
-        final_period=False, normalize_itn=level >= 2, intensity=level,
+        remove_fillers=english and level >= 2, aggressive_fillers=english and level == 4,
+        remove_repetitions=english and level >= 3, handle_self_corrections=english and level == 4,
+        normalize_punctuation=english and level >= 1,
+        normalize_capitalization=english and level >= 2 and style.tone != "very_casual",
+        normalize_whitespace=True, enable_list_formatting=english and level >= 2 and structured,
+        convert_spoken_punctuation=english and level == 4,
+        convert_spoken_newlines=english and level >= 2 and structured,
+        final_period=False, normalize_itn=english and level >= 2, intensity=level,
         number_style="compact" if context.profile == "notes" else "prose")

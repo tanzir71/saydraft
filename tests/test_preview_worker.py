@@ -47,6 +47,7 @@ class Stream:
 
 def fixture(*, use_streaming=False, create=None, background=False):
     worker, clock, executor, events, signals, keyboard = make_worker(recorder=ChunkRecorder())
+    worker.services.asr.last_language = 'en'
     streams = []
 
     def factory(callback):
@@ -58,6 +59,18 @@ def fixture(*, use_streaming=False, create=None, background=False):
     worker.services.config["labs"].update(live_preview=True, use_streaming_result=use_streaming)
     worker.services.preview = SimpleNamespace(create_session=create or factory)
     return worker, clock, events, signals, streams
+
+
+def test_unknown_primary_language_cannot_be_replaced_by_english_preview():
+    worker, clock, events, signals, streams = fixture(use_streaming=True)
+    worker.services.asr.last_language = None
+    worker.start_recording()
+    assert streams[0].decoded.wait(1)
+    clock.now = 1
+    worker.stop_recording()
+    assert events[0][1].raw_text == 'raw transcript'
+    assert events[0][1].language == 'und'
+    assert streams[0].finished == 1  # Preview completes, but cannot replace the unknown primary.
 
 
 @pytest.mark.parametrize("streaming", [False, True])

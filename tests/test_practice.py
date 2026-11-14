@@ -25,7 +25,7 @@ def subject():
     config = default_config()
     pipeline = DictationPipeline(DictationConfig())
     asr = SimpleNamespace(prepare=lambda: prepared.append(True),
-        transcribe=lambda audio: 'um hello world', model_id='public-practice-model')
+        transcribe=lambda audio: 'um hello world', model_id='public-practice-model', last_language='en')
 
     class Owner:
         def __init__(self, bindings, **kwargs):
@@ -111,6 +111,21 @@ def test_practice_prepares_only_installed_asr_and_records_only_after_explicit_st
     result = next(event[1] for event in s.events if event[0] == 'practice_result')
     assert isinstance(result, PracticeResult) and result.group == 'messages'
     assert result.raw == 'um hello world' and 'um' not in result.text.casefold()
+    assert s.recorders[0].stopped and s.practice.active
+    assert s.config == before
+
+
+def test_practice_preserves_words_when_speech_language_is_unknown(subject):
+    s = subject
+    before = copy.deepcopy(s.config)
+    s.asr.last_language = None
+    generation = ready(s)
+    capture = s.practice.start_recording(generation)
+    s.main.drain()
+    assert s.practice.stop_recording(generation, capture)
+    s.main.drain()
+    result = next(event[1] for event in s.events if event[0] == 'practice_result')
+    assert result.raw == result.text == 'um hello world'
     assert s.recorders[0].stopped and s.practice.active
     assert s.config == before
 

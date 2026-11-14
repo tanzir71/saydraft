@@ -2,7 +2,7 @@
 
 from PySide6 import QtCore, QtWidgets
 
-from saydraft.asr.languages import WHISPER_LANGUAGES, normalize_pins
+from saydraft.asr.languages import LANGUAGE_LABELS, WHISPER_LANGUAGES, normalize_pins
 from saydraft.asr.router import ALL_LANGUAGES, choose_route
 
 
@@ -25,6 +25,7 @@ class LanguagesPage(QtWidgets.QWidget):
             name = QtCore.QLocale.languageToString(locale.language())
             if locale.language() == QtCore.QLocale.C:
                 name = code
+            name = LANGUAGE_LABELS.get(code, name)
             choices.append((name, code))
         for name, code in sorted(choices):
             for combo in self.combos:
@@ -62,16 +63,26 @@ class LanguagesPage(QtWidgets.QWidget):
         self.english_max.setEnabled(self.routing.isChecked())
         if not self.routing.isChecked():
             self.note.setText("The model selected on the Models tab is used. Language pins supply a "
-                              "single-language hint to Whisper when one language is selected.")
+                              "single-language hint to Whisper when one language is selected. "
+                              "Choose a compatible model on Models, or enable automatic model choice here. "
+                              "Language selection starts no download.")
         elif route.model_id == ALL_LANGUAGES:
             self.note.setText("These languages use the optional shared All languages model. "
-                              "Download it once on the Models tab to enable Bengali, Arabic and other supported languages. "
+                              "Download it once on the Models tab; switching between supported languages "
+                              "reuses the same model files. There are no separate language packs. "
                               "Language selection starts no download.")
         elif route.reason == "english_max":
             self.note.setText("English max uses Parakeet v2. Download it on the Models tab if needed.")
+        elif route.reason == "pinned_supported":
+            note = "These languages use Parakeet v3. Language selection starts no download."
+            if 'pt' in self.pins():
+                note += " Portuguese includes Brazilian Portuguese under the shared pt code; there is no separate Brazil model."
+            self.note.setText(note)
         else:
             self.note.setText("Auto starts with Parakeet v3. Pin one to three languages to guide model choice. "
-                              "Bengali and Arabic use an optional shared multilingual model.")
+                              "Languages outside its set, including Thai, Chinese, Bengali and Arabic, "
+                              "use the optional shared All languages model. Spanish, French, German and "
+                              "Portuguese are included in Parakeet v3.")
 
     def _changed(self):
         self._update_note()

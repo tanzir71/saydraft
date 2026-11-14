@@ -11,7 +11,7 @@
 .links a:hover, .mobile a:hover { text-decoration: underline; }
 .download { display: inline-flex; gap: 26px; align-items: center; padding: 13px 21px; background: var(--color-ink); color: var(--color-paper); border-radius: var(--radius-pill); font-size: 13px; text-decoration: none; }
 .mobile { display: none; }
-@media (max-width: 800px) {
+@media (max-width: 900px) {
   .header { padding-top: 16px; }
   .nav { gap: 12px; padding-left: 18px; }
   .wordmark { font-size: 31px; }

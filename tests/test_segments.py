@@ -56,6 +56,22 @@ def test_silence_does_not_load_or_call_recognition_engine():
     assert engine.audio == []
 
 
+def test_background_result_keeps_languages_and_joins_chinese_without_extra_space():
+    class Multilingual:
+        def __init__(self):
+            self.index, self.last_language = 0, None
+        def transcribe(self, _audio):
+            text, self.last_language = [('你好', 'zh'), ('世界', 'zh'), ('Quero um livro.', 'pt')][self.index]
+            self.index += 1
+            return text
+    transcriber = SegmentTranscriber(Multilingual(), detector=detector, maximum_seconds=1.02)
+    transcriber.start()
+    transcriber.feed(np.full(round(3.06 * 16000), 0.1, dtype=np.float32))
+    result = transcriber.finish()
+    assert result.text == '你好世界 Quero um livro.'
+    assert result.languages == ('zh', 'zh', 'pt')
+
+
 def test_continuous_speech_stays_intact_in_one_segment():
     engine = Engine()
     transcriber = SegmentTranscriber(engine, detector=detector)

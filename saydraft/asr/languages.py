@@ -13,6 +13,29 @@ PARAKEET_LANGUAGES = frozenset("""
 bg hr cs da nl en et fi fr de el hu it lv lt mt pl pt ro sk sl es sv ru uk
 """.split())
 
+# Display names clarify coverage without inventing regional decoder codes.
+# Both pinned engines use `pt` for Portuguese; `br` means Breton in Whisper.
+LANGUAGE_LABELS = {
+    "zh": "Chinese (Mandarin)",
+    "yue": "Chinese (Cantonese)",
+    "ko": "Korean",
+    "th": "Thai",
+    "pt": "Portuguese (including Brazilian Portuguese)",
+    "es": "Spanish",
+    "id": "Indonesian",
+    "ms": "Malay",
+    "ja": "Japanese",
+    "hi": "Hindi",
+    "ur": "Urdu",
+    "vi": "Vietnamese",
+    "tl": "Filipino / Tagalog",
+    "ta": "Tamil",
+    "te": "Telugu",
+    "fa": "Persian (Farsi)",
+    "fr": "French",
+    "de": "German",
+}
+
 
 def normalize_pins(values):
     pins = tuple(dict.fromkeys(str(value).strip().lower() for value in values if value))

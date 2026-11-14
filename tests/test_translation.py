@@ -11,6 +11,12 @@ from saydraft.models.command import command_choice, translation_choice
 from saydraft.translation import instruction, sanitize_targets, translate, validate_translation
 
 
+@pytest.mark.parametrize('source_language', ['und', 'mul'])
+def test_unknown_source_language_does_not_assert_a_different_target_language(source_language):
+    assert validate_translation('The file is ready.', 'en', 'The file is ready.',
+                                source_language=source_language).ok
+
+
 def test_targets_are_explicit_group_preferences_and_upgrade_default_off(tmp_path):
     cfg = default_config()
     assert not cfg['labs']['translate_mode'] and not cfg['translation']['targets']

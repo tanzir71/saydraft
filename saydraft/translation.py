@@ -56,7 +56,7 @@ def validate_translation(source, target, candidate, *, source_language='auto'):
         script = 'ARABIC' if target == 'ar' else 'LATIN'
         if not any(script in unicodedata.name(c, '') for c in letters):
             return ValidationResult(False, 'target_script_missing')
-    if source_language not in ('auto', '', None, target) and source.strip() == candidate.strip() and letters:
+    if source_language not in ('auto', 'und', 'mul', '', None, target) and source.strip() == candidate.strip() and letters:
         return ValidationResult(False, 'not_translated')
     return checked
 

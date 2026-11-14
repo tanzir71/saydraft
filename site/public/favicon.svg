@@ -1,1 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="16" fill="#F5F2E9"/><path d="M44 18c-4-5-19-5-22 3-5 13 25 8 20 22-3 8-18 10-24 2" fill="none" stroke="#141414" stroke-width="6" stroke-linecap="round"/><circle cx="49" cy="13" r="5" fill="#FF5B3A"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <title>Saydraft</title>
+  <rect width="64" height="64" rx="16" fill="#F5F2E9"/>
+  <path d="M43 20H28C23 20 20 23 20 27s3 7 8 7h8c5 0 8 3 8 7s-3 7-8 7H21" fill="none" stroke="#141414" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="49" cy="12" r="4.5" fill="#FF5B3A"/>
+</svg>

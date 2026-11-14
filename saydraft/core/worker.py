@@ -771,9 +771,13 @@ class SessionWorker:
             preview_wait = time.perf_counter()
             preview = self._close_preview(discard=not self._english_preview())
             preview_wait = time.perf_counter() - preview_wait
-            choice = choose_preview_result(raw, self._model_id(),
-                getattr(self.services.asr, "last_language", None) or
-                self.services.config["stt"].get("language", "auto"), preview, use_streaming=use_streaming)
+            from saydraft.cleanup.language import transcript_language
+            background_used = background is not None and (not background.failed or source_incomplete)
+            language = transcript_language(getattr(self.services.asr, 'last_language', None),
+                self.services.config['stt'].get('language', 'auto'),
+                segments=getattr(background, 'languages', ()) if background_used else ())
+            choice = choose_preview_result(raw, self._model_id(), language, preview,
+                                           use_streaming=use_streaming and language == 'en')
             raw = choice.text
             if asr_error is not None and not raw:
                 raise asr_error
@@ -962,9 +966,11 @@ class SessionWorker:
                 return
             target = TargetContext(app_title=row.app_name, app_exe=row.app_exe or "",
                                    app_group=row.app_group or "general")
+            from saydraft.cleanup.language import transcript_language
+            language = transcript_language(getattr(asr, 'last_language', None), row.language)
             context = DictationContext(row.mode, row.profile, row.app_name,
                 app_group=target.app_group, tone=row.style, intensity=row.intensity,
-                language=getattr(asr, "last_language", None) or "auto")
+                language=language)
             processor = self._retry_cleanup.processor(self.services.processor, context,
                 options.cleanup if options is not None else "current", cancelled=cancelled)
             notes = {"type": "asr_retry", "source_history_id": row.id}
@@ -973,7 +979,7 @@ class SessionWorker:
             result = processor.process(
                 raw, target=target, context=context,
                 model=asr.model_id, duration_seconds=len(audio) / rate,
-                language=getattr(asr, "last_language", None) or "auto",
+                language=language,
                 insert_text=False, audio_path=row.audio_path,
                 timings=dict(getattr(asr, "last_timings", {})),
                 edits=[notes], cancelled=cancelled)

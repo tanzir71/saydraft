@@ -18,6 +18,7 @@ import numpy as np
 
 from saydraft.audio.vad import SilenceTrimConfig
 from saydraft.audio.vad_silero import FallbackFrameDetector
+from saydraft.cleanup.formatter import join_transcripts
 from .interfaces import AsrEngine
 
 logger = logging.getLogger(__name__)
@@ -32,6 +33,7 @@ class SegmentResult:
     samples: int
     tail_seconds: float
     background_asr_seconds: float
+    languages: tuple[str, ...] = ()
 
 
 class SegmentTranscriber:
@@ -66,6 +68,7 @@ class SegmentTranscriber:
         self._speech_seen = False
         self._pending = np.empty(0, dtype=np.float32)
         self._texts = []
+        self._languages = []
         self._failed = False
         self._samples = 0
         self._asr_seconds = 0.0
@@ -109,9 +112,10 @@ class SegmentTranscriber:
         self._parts.clear()
         self._pending = np.empty(0, dtype=np.float32)
         self._result = SegmentResult(
-            text="" if discard else " ".join(text for text in self._texts if text),
+            text="" if discard else join_transcripts(self._texts),
             segments=len(self._texts), failed=self._failed, samples=self._samples,
             tail_seconds=self.clock() - started, background_asr_seconds=self._asr_seconds,
+            languages=() if discard else tuple(self._languages),
         )
         return self._result
 
@@ -157,6 +161,8 @@ class SegmentTranscriber:
             try:
                 text = self.asr.transcribe(audio).strip()
                 self._texts.append(text)
+                if text:
+                    self._languages.append(getattr(self.asr, 'last_language', None) or '')
                 if not text:
                     self._failed = True
             except Exception:

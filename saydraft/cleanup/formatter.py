@@ -10,6 +10,7 @@ from typing import TYPE_CHECKING
 
 from saydraft.text_entities import ABBREVIATION
 from .styles import style_for
+from .language import english_rules_allowed
 
 if TYPE_CHECKING:
     from saydraft.dictation.types import DictationContext
@@ -79,6 +80,26 @@ def _gap(left, right):
         _wordish(b) or b in "([{'‘“\"¿¡" or unicodedata.category(b) in ("Sc", "So"))
 
 
+def join_transcripts(parts):
+    """Join completed recognition chunks without forcing spaces into CJK/Thai."""
+    def script(char):
+        name = unicodedata.name(char, '').split(' ', 1)[0]
+        if name in ('CJK', 'HIRAGANA', 'KATAKANA'):
+            return 'cjk'
+        return name if name in ('THAI', 'LAO', 'MYANMAR', 'KHMER') else ''
+    result = ''
+    for part in parts:
+        if part:
+            gap = bool(result)
+            if result:
+                left, right = script(result[-1]), script(part[0])
+                if (result[-1].isspace() or part[0].isspace() or left and left == right
+                        or result[-1] in '。！？、，' and right == 'cjk'):
+                    gap = False
+            result += (' ' if gap else '') + part
+    return result
+
+
 def _sentence_start(before, text):
     if text.lstrip(" \t").startswith(("\n", "\r")) or before.rstrip(" \t").endswith(("\n", "\r")):
         return True
@@ -103,7 +124,8 @@ def caret_layout(text: str, context: DictationContext, *, glossary: Glossary | N
     left_fragment = bool(selection and before and _wordish(before[-1]) and _wordish(selection[0]))
     right_fragment = bool(selection and after and _wordish(selection[-1]) and _wordish(after[0]))
     first = _FIRST_WORD.match(text)
-    if before_ok and first and not context.literal_prefix and style_for(context).tone != "very_casual":
+    if (before_ok and first and not context.literal_prefix and style_for(context).tone != "very_casual"
+            and context.language not in ('und', 'mul')):
         from saydraft.dictation.glossary import protect_terms
         from saydraft.dictation.protect import protect_spans
         view = protect_terms(text, glossary)[0] if glossary is not None else text
@@ -123,7 +145,8 @@ def caret_layout(text: str, context: DictationContext, *, glossary: Glossary | N
                     initial = "İ" if original == "i" and context.language in ("tr", "az") else original.upper()
                 elif context.source_initial_lower:
                     initial = context.source_initial_lower
-                elif not (left_fragment or right_fragment) and word.casefold().replace("’", "'") in _LOWER_STARTERS:
+                elif (english_rules_allowed(context.language) and not (left_fragment or right_fragment)
+                        and word.casefold().replace("’", "'") in _LOWER_STARTERS):
                     initial = initial.lower()
             if len(initial) == 1:
                 text = text[:first.start(1)] + initial + text[first.start(1) + 1:]
@@ -140,7 +163,8 @@ def caret_layout(text: str, context: DictationContext, *, glossary: Glossary | N
 def final_punctuation(text: str, context: DictationContext, *,
                       drop_message_period: bool = True, glossary: Glossary | None = None) -> str:
     """Remove only a single sentence's external period; preserve protected data."""
-    if not text or context.mode == "raw" or context.profile == "code/comments" or context.app_group == "code":
+    if (not text or context.mode == "raw" or context.profile == "code/comments" or context.app_group == "code"
+            or not english_rules_allowed(context.language)):
         return text
     body = text.rstrip()
     suffix = text[len(body):]

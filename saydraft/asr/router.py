@@ -138,8 +138,13 @@ class AsrRouter:
         prepare = getattr(engine, "prepare", None)
         if prepare is not None:
             prepare()
-        if self._route.reason == "auto":
+        if self._needs_language_id():
             self._language_identifier.prepare()
+
+    def _needs_language_id(self):
+        return self._route.reason == "auto" or (
+            self._route.reason == "pinned_supported"
+            and len(normalize_pins(self.config['stt'].get('pinned_languages', ()))) > 1)
 
     @property
     def local_model_fingerprint(self):
@@ -176,11 +181,15 @@ class AsrRouter:
         duration = len(np.asarray(audio)) / 16000
         self.model_id = self._route.model_id
         self.last_language = getattr(engine, "last_language", None) or self._route.language
+        if self.last_language is None and self._route.reason == 'pinned_supported':
+            pins = normalize_pins(self.config['stt'].get('pinned_languages', ()))
+            if len(pins) == 1:
+                self.last_language = pins[0]
         self.last_timings = dict(getattr(engine, "last_timings", {}))
         elapsed = self._clock() - started
         self._observed[self._route.model_id] = (duration, elapsed)
         self.last_lid_language = None
-        if self._route.reason == "auto" and self.last_language is None:
+        if self._needs_language_id() and self.last_language is None:
             lid_started = self._clock()
             self.last_lid_language = self._language_identifier.identify(audio)
             self.last_language = self.last_lid_language
