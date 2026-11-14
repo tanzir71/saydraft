@@ -1,0 +1,46 @@
+{
+  "package": {
+    "run": 43548756197,
+    "job": 132306073540,
+    "source": "48e6dc5bb5607b85ff3934ffc4b4c4ae0b6a9eca",
+    "log_sha256": "ab4ccf00b81c1e8c60a5905c875c374e55858e802dfb0d43478086396cdc2a77",
+    "receipt_artifact": 14095567474,
+    "receipt_zip_sha256": "49e40a05ca8e195b628a41960f14c45b52d67b33f7380f0fc0a41990337ec918"
+  },
+  "source": "48e6dc5bb5607b85ff3934ffc4b4c4ae0b6a9eca",
+  "ci": {
+    "run": 43548756248,
+    "job": 132306073809,
+    "log_sha256": "97e5dbaf8818ed79600da686013277dc63d6fe2b68600465c8e2316217d616b6"
+  },
+  "native_artifact": {
+    "id": 14095662779,
+    "zip_sha256": "280a61ea6f527e1a112b76b6bd53fed0b57efe7c7566bcedb0a4b4160e2a365f",
+    "aliases": [
+      "test_native_selection_copy_res0/own-selection-copy/report.json",
+      "test_native_selection_copy_rescurrent/own-selection-copy/report.json"
+    ],
+    "unique_measurements": 1
+  },
+  "verification": {
+    "ci_conclusion": "success",
+    "package_conclusion": "success",
+    "focused_passed": 165,
+    "rules": "556/556",
+    "normal_cleanup_adversarial": "100/100",
+    "collected_frozen_module": "saydraft.insert.selection_copy",
+    "physical_ctrl_c_accepted": false,
+    "app_fallback_connected": false,
+    "full_command_mode_accepted": false,
+    "passed": 3610,
+    "skipped": 12,
+    "seconds": 459.92
+  },
+  "files_sha256": {
+    "ci-native.json": "436fa0523436665297fd3e414c8a1ae9f6e62fc9f08babeac54178b3f61f305c",
+    "ci-run.json": "4af871196a265ab8f0674e016999871fda35e793795b846554599660de5de266",
+    "package-analysis.toc.txt": "318e3a0a4213ecff641b4c1ead3eacf8d2bdf21ebb94cdd5f72aae12686af28f",
+    "package-bundle.json": "8a4180bb21051ccecb12fa5684c64835ade8b0294204850974322dfbccc1d85f",
+    "package-run.json": "021d2f7d206dc7742f5947970120a12a7e717e7c32ef80c5f8acf25e1a67d328"
+  }
+}

@@ -10,6 +10,10 @@ The [clipboard transaction foundation](COMMAND_CLIPBOARD.md) now provides an
 explicit guarded one-copy/snapshot/restore boundary with shared recovery. It is
 not wired into this experimental route yet; unsupported UIA fields still refuse
 before Command audio. No new clipboard capture occurs in the running app.
+Clean `48e6dc5` passes 3,610 tests / 12 skips and package checks; its private-station
+owned-EDIT probe captures three complete selections and restores all 11 formats.
+The [component record](../eval/commands/results/2026-11-14-selection-copy/README.md)
+keeps that scope separate from physical Ctrl+C and fallback producer acceptance.
 
 ## Using the experimental selection path
 

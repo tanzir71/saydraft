@@ -66,6 +66,13 @@ unrendered/opaque/oversized snapshots, target/owner/sequence races, delayed
 rendering, cancellation, partial input and shared recovery. The final focused set
 passes 165 tests, including the unchanged clipboard/insertion regressions.
 
+Clean `48e6dc5` passes full CI with **3,610 tests / 12 skips**, both normal cleanup
+gates, auxiliary jobs and the unsigned package workflow. Its CI native probe
+captures all three authored selections and exactly restores all 11 original
+formats, with private surfaces/resources retired. The frozen analysis includes
+the new module. Raw reports, package inspection and scope are in the
+[dated evidence](../eval/commands/results/2026-11-14-selection-copy/README.md).
+
 `tools.probe_selection_copy` requires a new invisible window station/desktop. It
 has no owner-clipboard mode. An invisible owned EDIT receives WM_COPY for three
 authored selections (plain, Bengali/Arabic/emoji and the 8,192-unit bound). The

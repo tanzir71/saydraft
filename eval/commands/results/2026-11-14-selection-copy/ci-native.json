@@ -1,0 +1,47 @@
+{
+  "probe_complete": true,
+  "owner_clipboard_accessed": false,
+  "input_injected": false,
+  "microphone_used": false,
+  "scope": "native clipboard and owned invisible EDIT WM_COPY; no physical Ctrl+C or UIA/worker integration",
+  "git_commit": "48e6dc5bb5607b85ff3934ffc4b4c4ae0b6a9eca",
+  "source_dirty": false,
+  "isolated_window_station": true,
+  "stage": "pre_input_refusal",
+  "original_public_formats": 11,
+  "cases": [
+    {
+      "case": "plain",
+      "reason": "ok",
+      "selection_units": 20,
+      "text_exact": true,
+      "restore_status": "restored",
+      "all_formats_exact": true,
+      "pending": false
+    },
+    {
+      "case": "unicode",
+      "reason": "ok",
+      "selection_units": 16,
+      "text_exact": true,
+      "restore_status": "restored",
+      "all_formats_exact": true,
+      "pending": false
+    },
+    {
+      "case": "limit",
+      "reason": "ok",
+      "selection_units": 8192,
+      "text_exact": true,
+      "restore_status": "restored",
+      "all_formats_exact": true,
+      "pending": false
+    }
+  ],
+  "pre_input_refusal": true,
+  "clipboard_recovery_retired": true,
+  "owned_edit_closed": true,
+  "private_desktop_closed": true,
+  "private_station_closed": true,
+  "original_surface_restored": true
+}
