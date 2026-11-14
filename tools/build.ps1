@@ -86,8 +86,9 @@ try {
     Invoke-Checked -Executable $Python -Arguments @('-m', 'venv', $VenvRoot) -Stage 'Fresh environment creation'
     $VenvPython = Join-Path $VenvRoot 'Scripts\python.exe'
     Invoke-Checked -Executable $VenvPython -Arguments @('-c', 'import sys,site; assert sys.prefix != sys.base_prefix and not site.ENABLE_USER_SITE') -Stage 'Environment isolation check'
+    # These pinned dependencies are pure Python and published without wheels.
     Invoke-Checked -Executable $VenvPython -Arguments @('-m', 'pip', '--isolated', 'install',
-        '--disable-pip-version-check', '--only-binary=:all:', '--no-binary=pyperclip',
+        '--disable-pip-version-check', '--only-binary=:all:', '--no-binary=pyperclip,metaphone',
         '--cache-dir', $CacheRoot,
         '-r', (Join-Path $ProjectRoot 'requirements.txt')) -Stage 'Runtime requirements installation'
     & $VenvPython -m pip freeze --all | Set-Content -LiteralPath (Join-Path $RunRoot 'audit\requirements-frozen.txt') -Encoding utf8

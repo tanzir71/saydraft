@@ -19,8 +19,10 @@ the source checkout. It installs only `requirements.txt`, uses the canonical
 `Saydraft.spec`, verifies the frozen runtime, audits the actual module graph and
 files, and compiles an unsigned per-user Inno Setup installer. Pytest is a
 development dependency; PyInstaller remains the pinned build dependency.
-Dependencies use published wheels, with a source-distribution exception for the
-pinned pure-Python pyperclip package, which has no wheel at that version.
+Dependencies use published wheels, with source-distribution exceptions for the
+pinned pure-Python pyperclip and Metaphone packages, which have no wheel at those
+versions. The dictionary evaluation also retains the exact Metaphone source
+SHA-256 and verifies installed Python files against that source distribution.
 
 The clean `94e4cce` build and installer lifecycle pass, with a 103,968,660-byte
 (104.0 MB) installer and no forbidden pyarrow/aiohttp modules. The
