@@ -40,7 +40,7 @@
 .section-heading h2 { margin-block: 26px; }
 .section-heading > .muted { font-size: 14px; }
 .edit-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 48px; }
-.tools-section { padding-top: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 11%; }
+.tools-section { padding-top: 0; }
 .tools-section h2 { margin-top: 28px; }
 .feature-list article { display: flex; align-items: baseline; gap: 22px; padding-block: 28px; border-bottom: 1px solid var(--color-hairline); }
 .feature-list article:first-child { padding-top: 0; }

@@ -1,0 +1,5 @@
+.keys { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 4px; font: 11px/1.4 var(--font-mono); color: inherit; }
+.key { display: inline-flex; align-items: center; gap: 4px; }
+.key kbd { display: inline-block; font: inherit; padding: 10px 8px; background: var(--color-paper-raised); color: var(--color-ink); border-radius: 6px; }
+.keys[data-key-surface='paper'] kbd { background: var(--color-paper); }
+:global([data-sheet='night']) .key kbd, :global([data-sheet='deep']) .key kbd { background: var(--color-paper); }

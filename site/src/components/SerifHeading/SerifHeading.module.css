@@ -1,0 +1,5 @@
+.heading { font-family: var(--font-display); font-weight: 400; overflow-wrap: break-word; }
+.xl { font-size: var(--type-display-xl-size); line-height: var(--type-display-xl-leading); letter-spacing: var(--type-display-xl-tracking); }
+.large { font-size: var(--type-display-l-size); line-height: var(--type-display-l-leading); letter-spacing: var(--type-display-l-tracking); }
+.medium { font-size: var(--type-display-m-size); line-height: var(--type-display-m-leading); letter-spacing: var(--type-display-m-tracking); }
+.heading em { font-weight: inherit; }

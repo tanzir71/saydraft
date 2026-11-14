@@ -11,10 +11,11 @@
     "tokens": "node ../tools/generate_tokens.mjs",
     "tokens:check": "node ../tools/generate_tokens.mjs --check",
     "content:check": "node tools/check-content-dates.mjs",
-    "content:test": "node --test tools/content-verification.test.mjs tools/releases.test.mjs",
+    "content:test": "node --test tools/content-verification.test.mjs tools/releases.test.mjs tools/html-validation.test.mjs",
     "build": "npm run tokens:check && npm run content:check && astro check && astro build",
     "preview": "astro preview --host 127.0.0.1",
     "test": "playwright test",
+    "test:components": "playwright test -c playwright.components.config.ts",
     "storybook": "storybook dev -p 6006 --host 127.0.0.1 --disable-telemetry",
     "storybook:build": "storybook build --disable-telemetry",
     "lighthouse": "lhci autorun"

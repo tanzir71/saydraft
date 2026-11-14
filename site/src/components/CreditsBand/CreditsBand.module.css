@@ -1,0 +1,7 @@
+.band { text-align: center; padding-block: 53px 45px; }
+.band p { font-size: 10px; color: var(--color-on-dark-muted); }
+.models { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 24px; margin: 34px 0 26px; }
+.models span { font: 400 21px/1.3 var(--font-body); letter-spacing: -.04em; }
+.band a { font: 11px/1.3 var(--font-mono); color: var(--color-on-dark-muted); }
+@media (max-width: 950px) { .models { justify-content: center; gap: 22px 32px; } .models span { font-size: 18px; } }
+@media (max-width: 700px) { .band { padding-block: 38px; } .models { gap: 20px 25px; margin-block: 26px; } .models span { font-size: 17px; } .band p { font-size: 8px; } }

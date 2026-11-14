@@ -1,0 +1,10 @@
+.comparison { min-width: 0; }
+.scroll { overflow-x: auto; border-radius: var(--radius-card); }
+.comparison table { border-collapse: collapse; width: 100%; text-align: left; }
+.comparison caption { text-align: left; font: 32px/1.15 var(--font-display); padding-block: 0 24px; }
+.comparison th, .comparison td { vertical-align: top; padding: 20px; min-width: 170px; border-bottom: 1px solid var(--color-hairline); }
+.comparison th { font-size: 14px; font-weight: 500; }
+.comparison thead { background: var(--color-paper-raised); color: var(--color-ink); }
+.comparison td p { font-size: 14px; line-height: 1.6; margin-bottom: 12px; }
+.comparison td a, .comparison time, .note { font-size: 11px; line-height: 1.6; }
+.note { margin-top: 16px; }

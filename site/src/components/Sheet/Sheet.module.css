@@ -1,0 +1,9 @@
+.sheet { position: relative; margin-inline: var(--space-gutter); padding-block: clamp(40px, 7vw, 90px); }
+.night { background: var(--color-night); color: var(--color-on-dark); }
+.deep { background: var(--color-deep); color: var(--color-on-dark); }
+.paper { background: var(--color-paper); color: var(--color-ink); }
+.raised { background: var(--color-paper-raised); color: var(--color-ink); }
+.all { border-radius: var(--radius-sheet); }
+.top { border-radius: var(--radius-sheet) var(--radius-sheet) 0 0; }
+.bottom { border-radius: 0 0 var(--radius-sheet) var(--radius-sheet); }
+.overlap { margin-top: calc(-1 * clamp(20px, 3vw, 40px)); }

@@ -1,0 +1,4 @@
+.facts { display: grid; gap: 28px; margin: 0; }
+.facts dt { display: flex; gap: 12px; font-size: 18px; line-height: 1.4; }
+.facts dd { margin: 10px 0 0 30px; font-size: 14px; line-height: 1.65; max-width: 45ch; }
+.facts dt span { flex: 0 0 18px; }

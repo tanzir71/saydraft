@@ -316,6 +316,8 @@ Compatible legacy model installations remain readable in place. See
 For development setup and checks, read [CONTRIBUTING.md](CONTRIBUTING.md).
 [Documentation](docs/README.md) links to implementation notes, evaluation
 methods, Windows acceptance checks, and the website workflow.
+The [website component guide](docs/SITE_COMPONENTS.md) covers the 23 reusable
+components, 71 Storybook states and responsive visual checks.
 Report reproducible problems in [GitHub Issues](https://github.com/tanzir71/saydraft/issues)
 with redacted logs and your source version; keep private recordings and transcripts out
 of public reports.

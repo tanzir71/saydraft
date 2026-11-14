@@ -1,9 +1,12 @@
+const port = Number(process.env.SAYDRAFT_LIGHTHOUSE_PORT ?? 4174);
+if (!Number.isInteger(port) || port < 1024 || port > 65535) throw new Error('Invalid local Lighthouse port');
+const origin = `http://127.0.0.1:${port}`;
 module.exports = {
   ci: {
     collect: {
-      startServerCommand: 'npm run preview -- --port 4174',
-      startServerReadyPattern: 'localhost|127.0.0.1',
-      url: ['http://127.0.0.1:4174/saydraft/', 'http://127.0.0.1:4174/saydraft/download/', 'http://127.0.0.1:4174/saydraft/privacy/', 'http://127.0.0.1:4174/saydraft/wispr-flow-alternative/', 'http://127.0.0.1:4174/saydraft/offline-dictation-windows/'],
+      startServerCommand: `npm run preview -- --port ${port}`,
+      startServerReadyPattern: 'ready in',
+      url: ['/', '/download/', '/privacy/', '/wispr-flow-alternative/', '/offline-dictation-windows/'].map((path) => `${origin}/saydraft${path}`),
       numberOfRuns: 3,
       settings: { chromeFlags: '--headless --no-sandbox --disable-gpu' },
     },

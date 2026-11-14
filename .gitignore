@@ -27,6 +27,8 @@ site/.astro/
 site/storybook-static/
 site/playwright-report/
 site/test-results/
+site/component-results/
+site/component-report/
 site/.lighthouseci/
 site/debug-storybook.log
 

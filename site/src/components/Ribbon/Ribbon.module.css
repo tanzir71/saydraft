@@ -1,0 +1,6 @@
+.ribbon { display: block; width: 100%; overflow: visible; }
+.ribbon text { font: italic 31px var(--font-display); fill: currentColor; }
+.still { display: none; }
+@media (prefers-reduced-motion: reduce) { .moving { display: none; } .still { display: block; } }
+:global([data-motion='reduced']) .moving { display: none; }
+:global([data-motion='reduced']) .still { display: block; }

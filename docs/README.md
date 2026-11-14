@@ -91,6 +91,7 @@ preserved. Decoder defaults and broader/owner accuracy acceptance stay unchanged
 - [Core refactor](CORE_REFACTOR.md): application boundaries and injected ports.
 - [Theme](THEME.md) and [fonts](FONTS.md): shared tokens, Qt rendering, and bundled typefaces.
 - [Website](SITE.md): Astro, Storybook, Playwright, Lighthouse, and GitHub Pages.
+- [Website components](SITE_COMPONENTS.md): complete token-based library, static interactions, Storybook states and three-width visual checks.
 - [Launch drafts](launch/README.md): factual source-preview listings, Product Hunt,
   Show HN, Reddit and awesome-list copy for the owner to review and post.
 

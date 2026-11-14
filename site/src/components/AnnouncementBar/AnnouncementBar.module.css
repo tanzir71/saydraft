@@ -1,0 +1,3 @@
+.bar { background: var(--color-deep); color: var(--color-on-dark); padding: 14px var(--space-gutter); text-align: center; font-size: 13px; line-height: 1.5; }
+.bar a { text-decoration: none; }
+.bar a:hover { text-decoration: underline; }

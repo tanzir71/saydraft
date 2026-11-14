@@ -5,8 +5,10 @@ language guides, their overview and eight dated content pages.
 This is an early P9 foundation, brought forward at the owner's request. The
 approved §9 tokens are shared through `design/tokens.json`; the dependency-free
 generator emits CSS and light/dark Qt QSS. Qt installation and the initial gallery
-are described in `docs/THEME.md`. P9's complete library, remaining MDX docs, demo port, schema,
-launch assets and final acceptance remain open.
+are described in `docs/THEME.md`. The full component library is implemented;
+remaining MDX docs, demo port, schema, launch assets and final P9 acceptance
+remain open. See [the component library](SITE_COMPONENTS.md) for its 23 components,
+71 Storybook states, three-width baselines and static page integrations.
 
 The original pages are Home, Download, Getting started, Privacy and Credits. The
 download page discloses development status and provides actual source commands;
@@ -92,9 +94,10 @@ $env:CHROME_PATH = node --input-type=module -e "import {chromium} from '@playwri
 `npm run dev` and `npm run preview` bind to loopback. The Pages base path is
 `/saydraft/`; preview the site under that path. Fontsource WOFF/WOFF2 assets are
 bundled, never fetched from a font service. Full original OFL notices are served
-from `public/licenses/`. Each of the five initial components has Storybook states,
-with paper/night/deep decorators and reduced-motion controls. This initial set is
-not the completed §9.4 library.
+from `public/licenses/`. All 23 specified components now have 71 Storybook states,
+with paper/night/deep decorators and reduced-motion controls. The separate
+`npm run test:components` command verifies every state against committed visual
+baselines at all three widths and checks contrast and interactive behavior.
 
 Playwright tests cover 390/768/1440 widths, committed Windows visual baselines,
 native navigation, FAQ, the reduced-motion example, JavaScript-disabled reading,

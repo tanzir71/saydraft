@@ -1,0 +1,11 @@
+import type { Meta, StoryObj } from '@storybook/react-vite';
+import { Sheet } from './Sheet';
+import { SerifHeading } from '../SerifHeading/SerifHeading';
+export default { title: 'Foundations/Sheet', component: Sheet, parameters: { fullBleed: true }, args: { 'aria-label': 'Example sheet', children: <SerifHeading>Space for <em>your thoughts.</em></SerifHeading> } } satisfies Meta<typeof Sheet>;
+type Story = StoryObj<typeof Sheet>;
+export const Paper: Story = {};
+export const Night: Story = { args: { variant: 'night' } };
+export const Deep: Story = { args: { variant: 'deep' } };
+export const Raised: Story = { args: { variant: 'raised' } };
+export const Stacked: Story = { render: () => <><Sheet variant="night" edge="top" aria-label="First sheet">Built in the open.</Sheet><Sheet variant="deep" edge="bottom" aria-label="Second sheet">Ready for your words.</Sheet></> };
+export const Overlap: Story = { render: () => <><Sheet variant="night" aria-label="First sheet">Your voice.</Sheet><Sheet variant="raised" overlap aria-label="Overlapping sheet">Your machine.</Sheet></> };

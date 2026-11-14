@@ -1,0 +1,17 @@
+.switcher { min-width: 0; border: 0; border-radius: var(--radius-card); padding: 28px; margin: 0; background: var(--color-paper-raised); color: var(--color-ink); }
+.switcher legend { float: left; width: 100%; font: 12px/1.4 var(--font-mono); margin-bottom: 20px; }
+.options { clear: both; display: flex; flex-wrap: wrap; gap: 8px; }
+.options label { position: relative; cursor: pointer; }
+.options input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+.options span { display: inline-block; border-radius: var(--radius-pill); padding: 10px 14px; font-size: 13px; }
+.options input:checked + span { background: var(--color-ink); color: var(--color-paper); }
+.options input:focus-visible + span { outline: 2px solid var(--color-ink); outline-offset: 3px; }
+.output { display: none; font: 30px/1.25 var(--font-display); margin-block: 24px; overflow-wrap: anywhere; }
+.output[data-tone='formal'] { display: block; }
+@supports selector(:has(input:checked)) {
+  .output[data-tone] { display: none; }
+  .switcher:has(input[value='formal']:checked) .output[data-tone='formal'],
+  .switcher:has(input[value='casual']:checked) .output[data-tone='casual'],
+  .switcher:has(input[value='very-casual']:checked) .output[data-tone='very-casual'] { display: block; }
+}
+.note { font-size: 11px; color: var(--color-ink-muted); }

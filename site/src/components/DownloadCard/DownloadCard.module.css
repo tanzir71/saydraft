@@ -1,0 +1,8 @@
+.card { border-radius: var(--radius-card); background: var(--color-paper-raised); color: var(--color-ink); padding: clamp(24px, 4vw, 48px); min-width: 0; }
+.card h2 { font: 40px/1.1 var(--font-display); margin: 0 0 24px; }
+.card > p { font-size: 14px; line-height: 1.65; margin-bottom: 24px; }
+.card .version { font: 12px/1.6 var(--font-mono); }
+.checksum { margin-top: 26px; }
+.checksum summary { font-size: 13px; padding-block: 12px; }
+.checksum code { display: block; overflow-wrap: anywhere; font: 12px/1.8 var(--font-mono); margin-block: 12px; }
+.checksum p { font-size: 12px; }

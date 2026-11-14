@@ -5,6 +5,7 @@ import Base from '../layouts/Base.astro';
 import StructuredData from '../components/StructuredData.astro';
 import { Button } from '../components/Button/Button';
 import { FAQ } from '../components/FAQ/FAQ';
+import { TableOfContents } from '../components/DocLayout/TableOfContents';
 import { guideRoutes } from '../data/guides';
 import '../styles/prose.css';
 import '../styles/guides.css';
@@ -18,7 +19,9 @@ export async function getStaticPaths() {
 }
 interface Props { entry: CollectionEntry<'compare'> | CollectionEntry<'guides'>; }
 const { entry } = Astro.props;
-const { Content } = await render(entry);
+const { Content, headings } = await render(entry);
+const contents = headings.filter(({ depth }) => depth === 2 || depth === 3)
+  .map(({ slug, text, depth }) => ({ id: slug, text, depth: depth === 3 ? 3 as const : 2 as const }));
 const { title, description, heading, eyebrow, verified, sources, faqs } = entry.data;
 const base = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/`;
 const url = new URL(`${base}${entry.id}/`, Astro.site).href;
@@ -29,6 +32,7 @@ const url = new URL(`${base}${entry.id}/`, Astro.site).href;
     <p class="eyebrow">{eyebrow}</p>
     <h1>{heading}</h1>
     <p class="guide-verified">Facts checked <time datetime={verified}>{verified}</time>. Product plans and features can change.</p>
+    <TableOfContents headings={contents} />
     <article class="guide-copy"><Content /></article>
     {faqs.length > 0 && <section class="guide-faq" aria-labelledby="guide-questions"><h2 id="guide-questions">A few useful answers.</h2><FAQ questions={faqs.map(({ q, a }) => ({ question: q, answer: a }))} /></section>}
     <section class="guide-sources" aria-labelledby="guide-sources"><h2 id="guide-sources">Sources and further reading</h2><ul>{sources.map((source) => <li><a href={source.url}>{source.label} ↗</a></li>)}</ul></section>

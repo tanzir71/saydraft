@@ -5,13 +5,14 @@ import { join } from 'node:path';
 import { HtmlValidate } from 'html-validate';
 import { publicPages } from '../src/data/languages';
 import { guideRoutes } from '../src/data/guides';
+import { siteOrigin } from '../test-ports';
 
 test('home is local, responsive, and light on JavaScript', async ({ page, request }, testInfo) => {
   const external: string[] = [];
   const errors: string[] = [];
   page.on('pageerror', (error) => errors.push(error.message));
   await page.route('**/*', (route) => {
-    if (new URL(route.request().url()).host !== '127.0.0.1:4173') { external.push(route.request().url()); return route.abort(); }
+    if (new URL(route.request().url()).origin !== siteOrigin) { external.push(route.request().url()); return route.abort(); }
     return route.continue();
   });
   await page.goto('./');
@@ -73,7 +74,7 @@ test('all public pages have working local links and unique metadata', async ({ p
     descriptions.add(await page.locator('meta[name="description"]').getAttribute('content') ?? '');
     expect(await page.locator('link[rel="canonical"]').getAttribute('href')).toBe(`https://tanzir71.github.io/saydraft/${path}`);
     const links = await page.locator('a[href]').evaluateAll((nodes) => [...new Set(nodes.map((node) => (node as HTMLAnchorElement).href))]);
-    for (const href of links.filter((link) => new URL(link).host === '127.0.0.1:4173')) {
+    for (const href of links.filter((link) => new URL(link).origin === siteOrigin)) {
       expect((await request.get(href)).ok(), href).toBe(true);
     }
   }
@@ -93,7 +94,7 @@ test('guide keyboard navigation exposes the skip link and reaches main content',
 test('dated guides have visible sources, linked schemas and local-only page loads', async ({ page, request }) => {
   const external: string[] = [];
   await page.route('**/*', (route) => {
-    if (new URL(route.request().url()).host !== '127.0.0.1:4173') {
+    if (new URL(route.request().url()).origin !== siteOrigin) {
       external.push(route.request().url());
       return route.abort();
     }
@@ -198,16 +199,56 @@ test('language guides are linked, indexable and accurately describe shared model
 });
 
 test('content and native questions work with JavaScript disabled', async ({ browser }) => {
-  const context = await browser.newContext({ javaScriptEnabled: false });
+  const context = await browser.newContext({ javaScriptEnabled: false, viewport: test.info().project.use.viewport });
   const page = await context.newPage();
-  await page.goto('http://127.0.0.1:4173/saydraft/');
+  await page.goto(`${siteOrigin}/saydraft/`);
   await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
   await page.locator('summary').filter({ hasText: 'Is it free?' }).click();
   await expect(page.getByText('Saydraft is free and open source under the MIT license.', { exact: false })).toBeVisible();
+  await page.getByRole('radio', { name: 'Casual', exact: true }).check();
+  await expect(page.getByText('Can you send the notes when you get a chance?', { exact: true })).toBeVisible();
   await page.locator('.language-section').getByRole('link', { name: 'Thai voice typing' }).click();
   await expect(page.getByRole('heading', { level: 1 })).toContainText('Thai');
   await expect(page.locator('.notice')).toContainText('All languages');
+  await page.goto(`${siteOrigin}/saydraft/download/`);
+  await expect(page.locator('pre code')).toContainText('python -m saydraft');
+  const manualCopy = page.locator('figure noscript');
+  expect(await manualCopy.textContent()).toBe('Select the command text to copy it.');
+  await expect(manualCopy).toBeVisible();
+  await page.goto(`${siteOrigin}/saydraft/offline-dictation-windows/`);
+  const contents = page.getByRole('navigation', { name: 'On this page' });
+  const target = await contents.getByRole('link').first().getAttribute('href');
+  await contents.getByRole('link').first().click();
+  expect(new URL(page.url()).hash).toBe(target);
+  await expect(page.locator(target!)).toBeInViewport();
   await context.close();
+});
+
+test('source command copy and guide contents work in the static site', async ({ page }) => {
+  await page.addInitScript(() => {
+    const writes: string[] = [];
+    Object.assign(window, { __sourceCommandCopies: writes });
+    Object.defineProperty(navigator, 'clipboard', { configurable: true, value: {
+      writeText: async (text: string) => { writes.push(text); },
+      readText: () => { throw new Error('Clipboard reads are barred'); },
+    } });
+  });
+  await page.goto('./download/');
+  await page.getByRole('button', { name: 'Copy command', exact: true }).click();
+  await expect(page.getByRole('status')).toHaveText('Copied.');
+  const code = await page.locator('pre code').innerText();
+  expect(await page.evaluate(() => (window as unknown as { __sourceCommandCopies: string[] }).__sourceCommandCopies)).toEqual([code]);
+  await expect(page.getByRole('link', { name: 'Download for Windows', exact: true })).toHaveCount(0);
+  await expect(page.getByText('Storybook fixture only.', { exact: false })).toHaveCount(0);
+  await expect(page.locator('body')).not.toContainText('winget install --id Tanzir.Saydraft');
+  await page.goto('./offline-dictation-windows/');
+  const contents = page.getByRole('navigation', { name: 'On this page' });
+  const links = contents.getByRole('link');
+  expect(await links.count()).toBeGreaterThan(2);
+  const target = await links.first().getAttribute('href');
+  await links.first().click();
+  expect(new URL(page.url()).hash).toBe(target);
+  await expect(page.locator(target!)).toBeInViewport();
 });
 
 test('built HTML follows the document contract', async () => {

@@ -1,0 +1,10 @@
+import type { Meta, StoryObj } from '@storybook/react-vite';
+import { FeatureRow } from './FeatureRow';
+import { StyleSwitcher } from '../StyleSwitcher/StyleSwitcher';
+import { sentences } from '../storyFixtures';
+export default { title: 'Product/FeatureRow', component: FeatureRow, args: { title: <>A tone for <em>every place.</em></>, description: 'Choose a tone and cleanup intensity for each app group.', visual: <StyleSwitcher sentences={sentences} />, href: '/saydraft/docs/getting-started/' } } satisfies Meta<typeof FeatureRow>;
+type Story = StoryObj<typeof FeatureRow>;
+export const VisualLeft: Story = {};
+export const VisualRight: Story = { args: { reverse: true } };
+export const Highlighted: Story = { args: { highlighted: true, visual: <div style={{ padding: 32 }}><p>One thought.</p><p>Your tone.</p></div> } };
+export const ReducedMotion: Story = { globals: { motion: 'reduced' } };

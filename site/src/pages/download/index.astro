@@ -1,6 +1,8 @@
 ---
 import Base from '../../layouts/Base.astro';
 import { Button } from '../../components/Button/Button';
+import { CodeBlock } from '../../components/DocLayout/CodeBlock';
+import { DownloadCard } from '../../components/DownloadCard/DownloadCard';
 import '../../styles/prose.css';
 const base = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/`;
 const commands = 'git clone https://github.com/tanzir71/saydraft.git\ncd saydraft\npy -3.13 -m venv .venv\n.venv\\Scripts\\python -m pip install -r requirements.txt\n.venv\\Scripts\\python -m saydraft';
@@ -8,9 +10,9 @@ const commands = 'git clone https://github.com/tanzir71/saydraft.git\ncd saydraf
 <Base title="Get Saydraft for Windows — Download and setup" description="Get started with Saydraft offline dictation on Windows 10 and 11. Check the current build status, run from source, and set up local speech models.">
   <main id="main" class="document container"><p class="eyebrow">A home for your next thought</p><h1>Make it<br /><em>your own.</em></h1>
     <p class="notice">Saydraft is in development. A signed installer and package-manager releases are being prepared. You can run the current code from source today.</p>
-    <h2>Run from source</h2><p>You’ll need Windows 10 or 11, 64-bit Python 3.13, Git, a microphone, and disk space for your selected models. In PowerShell:</p><pre><code>{commands}</code></pre>
+    <h2>Run from source</h2><p>You’ll need Windows 10 or 11, 64-bit Python 3.13, Git, a microphone, and disk space for your selected models. In PowerShell:</p><CodeBlock code={commands} />
     <h2>Set up once. Then go offline.</h2><p>Review the recommended model, size, and license, then start its download in setup. Progress and pause/resume are available. Later launches reuse your installed files.</p><p>Thai, Chinese, Korean, Japanese, Hindi, Urdu, Indonesian, Malay, Bengali and Arabic use the optional shared All languages model. Download it once; there are no separate language packs. Portuguese, including Brazilian Portuguese, is also covered by the default model. See <a href={`${base}languages/`}>language support and model choices</a>.</p>
     <Button href={`${base}docs/getting-started/`}>Read the setup guide</Button>
-    <h2>Looking for a packaged build?</h2><p>Check <a href="https://github.com/tanzir71/saydraft/releases">GitHub Releases</a> for published artifacts. Installer checksums, signing details, and winget/Scoop commands will appear here when those releases are available.</p>
+    <DownloadCard title="Looking for a packaged build?" /><p>Check <a href="https://github.com/tanzir71/saydraft/releases">GitHub Releases</a> for published artifacts. Installer checksums, signing details, and winget/Scoop commands will appear here when those releases are available.</p>
   </main>
 </Base>

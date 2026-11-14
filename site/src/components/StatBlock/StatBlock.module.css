@@ -1,0 +1,5 @@
+.stat { margin: 0; max-width: 40ch; }
+.value { font: 400 var(--type-display-l-size)/1 var(--font-display); letter-spacing: -.03em; overflow-wrap: anywhere; }
+.label { font-size: 19px; margin-block: 18px 10px; }
+.stat figcaption > p:not(.label) { font-size: 13px; line-height: 1.6; }
+.stat figcaption > p + p { margin-top: 10px; }

@@ -5,3 +5,4 @@
 .faq summary span { font: 26px/1 var(--font-display); }
 .faq details[open] summary span { transform: rotate(45deg); }
 .faq p { max-width: 65ch; padding: 0 36px 25px 0; font-size: 15px; line-height: 1.7; color: var(--color-ink-muted); }
+:global([data-sheet='night']) .faq p, :global([data-sheet='deep']) .faq p { color: var(--color-on-dark-muted); }
