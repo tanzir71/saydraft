@@ -54,11 +54,15 @@ the site's pinned Chromium installation, then runs
 `node tools/probe_ask_browser.mjs "$env:pythonLocation/python.exe" "$env:RUNNER_TEMP/saydraft-ask-browser"`.
 Both the driver and Python child refuse owner/self-hosted environments. A fresh
 headed browser displays only an owned local article; real foreground/UIA reads
-feed the actual Ask review, worker, History and independent Notes with a scripted
-model and memory Copy. The artifact retains native metadata, bounded selection
-hashes, browser/child exits, unchanged DOM/selection checks and screenshots.
-Actual local-model smoke evidence is separate in [Ask](ASK.md); this job alone
-does not establish model quality, physical input or frozen-app acceptance.
+feed the actual Ask review, worker, History and independent Notes. The job now
+explicitly prepares the pinned 4B model and CPU runtime in a separate fresh
+runner cache, then requires real-model mode through `SAYDRAFT_ASK_NATIVE_MODELS`
+and `SAYDRAFT_ASK_REQUIRE_NATIVE=1`. Model files are outside the uploaded evidence.
+The artifact retains native metadata, bounded selection hashes, actual-model
+answer/anchors/pins, browser/child/sidecar exits, unchanged DOM/selection checks
+and themed screenshots. Scripted mode remains an explicit diagnostic only.
+The first combined actual-model run is pending; [Ask](ASK.md) distinguishes its
+scope from broad quality, physical input and frozen-app acceptance.
 
 The [soak guide](SOAK.md) describes `tools/soak.py --cycles 200 --json` and its
 explicit native-cleanup recipe. Native runs join measured RSS, History-before-

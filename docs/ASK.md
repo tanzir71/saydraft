@@ -150,9 +150,19 @@ rows and provenance. Both original failures remain in the
 [browser record](../eval/ask/results/2026-11-14-browser/README.md). Its initial Qt
 captures omitted bundled-font setup and show missing glyphs; the harness now
 loads the same verified fonts and light theme as the app before rendering.
-The themed rerun and final global checks follow.
-It complements the actual-model smoke above; it does not combine a native model
-with a browser or qualify physical hooks, microphone input or a frozen app.
+The themed `82bf569` rerun passes full CI and the browser workflow, with all
+eight bundled faces loaded; both review/answer screenshots were inspected and
+are legible. The browser CI harness now also has a real-model mode: an explicit
+setup step prepares the pinned 4B model and CPU runtime in a separate runner
+cache, outside the uploaded evidence directory. Runtime uses verified local
+files only, observes native sidecar exits and post-run hashes, and checks actual
+answer anchors, History and Notes. The CI job requires this mode and cannot
+silently substitute the scripted model. Its first real-model run is pending.
+The 51 focused controller/flow/request checks pass locally, including cache-path
+admission and wrong-day/time/negation refusals in the authored smoke checker.
+The earlier browser results complement the separate actual-model smoke above.
+The new combined run remains unverified until its remote results are inspected;
+it does not qualify physical hooks, microphone input, broad quality or a frozen app.
 
 The driver uses Playwright's documented [owned server process and close APIs](https://playwright.dev/docs/api/class-browserserver).
 The native reader obtains a selected range through Microsoft's

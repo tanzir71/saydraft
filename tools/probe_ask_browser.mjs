@@ -22,6 +22,14 @@ try {
   assert.equal(path.dirname(output).toLowerCase(), temp.toLowerCase(), 'Choose a direct fresh child of RUNNER_TEMP');
   await mkdir(output); // Existing evidence is never overwritten.
   assert.equal((await realpath(output)).toLowerCase(), output.toLowerCase());
+  let modelsDir;
+  if (process.env.SAYDRAFT_ASK_NATIVE_MODELS) {
+    modelsDir = path.resolve(process.env.SAYDRAFT_ASK_NATIVE_MODELS);
+    assert.equal((await realpath(modelsDir)).toLowerCase(), modelsDir.toLowerCase());
+    assert.equal(path.dirname(modelsDir).toLowerCase(), temp.toLowerCase());
+    assert.notEqual(modelsDir.toLowerCase(), output.toLowerCase(), 'Model cache must stay outside uploaded evidence');
+  }
+  assert.ok(process.env.SAYDRAFT_ASK_REQUIRE_NATIVE !== '1' || modelsDir, 'Native model cache is required for this CI job');
   const { chromium } = require('@playwright/test');
   const token = randomUUID();
   const title = `Saydraft read-only Ask ${token}`;
@@ -33,7 +41,9 @@ try {
   await writeFile(fixture, html, { encoding: 'utf8', flag: 'wx' });
   const url = pathToFileURL(fixture).href;
   report = { scope: 'Disposable headed Chromium article -> real native foreground/UIA -> actual Ask worker/review/History/answer Notes; '
-    + 'scripted model and memory Copy; no audio, hooks, OS typing, source edits or owner desktop; not actual-model/browser combined acceptance',
+    + (modelsDir ? 'actual pinned CPU editing model' : 'scripted model')
+    + ' and memory Copy; no audio, hooks, OS typing, source edits or owner desktop; not physical/frozen or broad quality acceptance',
+    mode: modelsDir ? 'native_model' : 'scripted_model',
     title, source_sha256: sha(source), fixture_sha256: sha(html), requests: [], complete: false };
   server = await chromium.launchServer({ headless: false, args: ['--force-renderer-accessibility',
     '--no-first-run', '--no-default-browser-check', '--disable-background-networking'] });
@@ -65,7 +75,8 @@ try {
   assert.equal(before.editable, false);
   report.before = before;
   const request = path.join(output, 'request.json');
-  await writeFile(request, JSON.stringify({ title, browser_pid: browserProcess.pid, source }, null, 2), { flag: 'wx' });
+  await writeFile(request, JSON.stringify({ title, browser_pid: browserProcess.pid, source,
+    ...(modelsDir ? { models_dir: modelsDir } : {}) }, null, 2), { flag: 'wx' });
   const child = spawn(path.resolve(process.argv[2]), ['-u', '-m', 'tools.probe_ask_browser', '--request', request],
     { cwd: root, windowsHide: true, env: { ...process.env, QT_QPA_PLATFORM: 'offscreen', PYTHONUTF8: '1',
       PYTHONDONTWRITEBYTECODE: '1', LOCALAPPDATA: path.join(output, 'profile') }, stdio: ['ignore', 'pipe', 'pipe'] });
@@ -89,6 +100,14 @@ try {
   assert.ok(report.requests.every(request => request.allowed), 'Unexpected page request refused');
   report.native = JSON.parse(await readFile(path.join(output, 'native-report.json'), 'utf8'));
   assert.equal(report.native.complete, true);
+  assert.equal(report.native.mode, report.mode);
+  if (modelsDir) {
+    const manifest = JSON.parse(await readFile(path.join(root, 'saydraft/models/manifest.json'), 'utf8'));
+    assert.equal(report.native.native_model_used, true);
+    assert.equal(report.native.pins_unchanged, true);
+    assert.equal(report.native.model_calls[0].model_id, manifest.command_model);
+    assert.equal(report.native.answer_anchors_pass, true);
+  }
   report.complete = true;
 } catch (error) {
   if (report) report.error = { name: error.name, message: error.message };

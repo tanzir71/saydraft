@@ -72,13 +72,14 @@ jobs:
 
   readonly-browser-ask-smoke:
     runs-on: windows-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     env:
       QT_QPA_PLATFORM: offscreen
       HF_HUB_OFFLINE: '1'
       HF_HUB_DISABLE_TELEMETRY: '1'
       DO_NOT_TRACK: '1'
       ASTRO_TELEMETRY_DISABLED: '1'
+      SAYDRAFT_ASK_REQUIRE_NATIVE: '1'
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-python@v7
@@ -103,6 +104,14 @@ jobs:
           $browserInstallExit = $LASTEXITCODE
           Pop-Location
           exit $browserInstallExit
+      - name: Explicitly prepare verified CPU editing model outside uploaded evidence
+        shell: pwsh
+        run: |
+          $askNativeCache = Join-Path $env:RUNNER_TEMP 'saydraft-ask-native-models'
+          $env:SAYDRAFT_ASK_NATIVE_MODELS = $askNativeCache
+          python -c 'import os,sys,json; from pathlib import Path; assert sys.platform == "win32" and os.environ.get("GITHUB_ACTIONS") == "true" and os.environ.get("RUNNER_ENVIRONMENT") == "github-hosted"; root=Path(os.environ["SAYDRAFT_ASK_NATIVE_MODELS"]); assert root.parent.resolve() == Path(os.environ["RUNNER_TEMP"]).resolve() and not root.exists(); from saydraft.models.command import command_bundle,download_command_model; print(json.dumps({"explicit_developer_setup":True,"models":[{"id":m["id"],"license":m["license"]} for m in command_bundle("cpu")]})); download_command_model("cpu",models_dir=root)'
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          "SAYDRAFT_ASK_NATIVE_MODELS=$askNativeCache" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
       - name: Verify native read-only article through Ask and independent Notes
         shell: pwsh
         run: node tools/probe_ask_browser.mjs "$env:pythonLocation/python.exe" "$env:RUNNER_TEMP/saydraft-ask-browser"
