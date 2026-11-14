@@ -1,0 +1,706 @@
+{
+  "schema": 1,
+  "application_source": "05535251b4518a3e5a1c5e8daf82d42af3b339c5",
+  "scopes": [
+    "native authored-text generation",
+    "controlled worker with fake recording/ASR and memory delivery",
+    "owned offscreen UI"
+  ],
+  "owner_desktop_accessed": false,
+  "physical_workflow_accepted": false,
+  "native_passed": 10,
+  "ui_images": 28,
+  "controlled_passed": 274,
+  "files": [
+    {
+      "path": "native-diagnostic-r1-report.json",
+      "sha256": "a74209026445ec329530597bc2fb2bba19daccf1aeda9cb510003c5afd112259",
+      "bytes": 29406,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-native-diagnostic-r1\\report.json",
+      "scope": "Native authored-text generation only; no speech/desktop"
+    },
+    {
+      "path": "native-diagnostic-r1-cases.jsonl",
+      "sha256": "7b92f0ba83e69033a8868eed7ab6d23a6647decbf1e41ad3ab38e3837d8d29eb",
+      "bytes": 2273,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-native-diagnostic-r1\\cases.jsonl",
+      "scope": "Native authored-text generation only; no speech/desktop"
+    },
+    {
+      "path": "native-diagnostic-r2-report.json",
+      "sha256": "d77435e3ff6a6898b418f5a2b271db433c31999bf3bffbc9f3fbd048db637098",
+      "bytes": 29864,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-native-diagnostic-r2\\report.json",
+      "scope": "Native authored-text generation only; no speech/desktop"
+    },
+    {
+      "path": "native-diagnostic-r2-cases.jsonl",
+      "sha256": "07de11e0a535481135a9ecc00fc91451e463990b000dc8c6f7998ad9197a0eb6",
+      "bytes": 2513,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-native-diagnostic-r2\\cases.jsonl",
+      "scope": "Native authored-text generation only; no speech/desktop"
+    },
+    {
+      "path": "native-diagnostic-r3-report.json",
+      "sha256": "b0011e2066a1f1b37b244bf1b9d9ff5da5230280d76b74bef73380c218a7171b",
+      "bytes": 29894,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-native-diagnostic-r3\\report.json",
+      "scope": "Native authored-text generation only; no speech/desktop"
+    },
+    {
+      "path": "native-diagnostic-r3-cases.jsonl",
+      "sha256": "29c7b11ee8055855e7b2478f58616157ef8b6ab092b7da8fcd7510ac9c5b6c4a",
+      "bytes": 2542,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-native-diagnostic-r3\\cases.jsonl",
+      "scope": "Native authored-text generation only; no speech/desktop"
+    },
+    {
+      "path": "native-c52883a-report.json",
+      "sha256": "20efff4b39427ae202e2d64afa88b7a510c2e30f1f74d2f5bdd2b7cc701baea6",
+      "bytes": 29894,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-native-c52883a\\report.json",
+      "scope": "Native authored-text generation only; no speech/desktop"
+    },
+    {
+      "path": "native-c52883a-cases.jsonl",
+      "sha256": "d4ba2910ecb4dbc322012f44c77c360e123354ba114e19902d4e482241df9865",
+      "bytes": 2541,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-native-c52883a\\cases.jsonl",
+      "scope": "Native authored-text generation only; no speech/desktop"
+    },
+    {
+      "path": "initial-cases.jsonl",
+      "sha256": "85b0312a1a4cdaa0cc1161dd820a15c8bf8f17e8b131ac848959627efa48d106",
+      "bytes": 1721,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-native-diagnostic-r1\\initial-cases.jsonl",
+      "scope": "Original diagnostic R1 reference, before YES/SÍ correction"
+    },
+    {
+      "path": "accepted-cases.jsonl",
+      "sha256": "4d9e7f21876c03550aec0ade5b837434402022de5bc41d75d9f45fa9bf7c5b4d",
+      "bytes": 2129,
+      "source": "tests\\translation_cases.jsonl",
+      "scope": "Ten authored text smoke references used by accepted clean run"
+    },
+    {
+      "path": "controlled-tests.txt",
+      "sha256": "cb5f04777e351b5c52a4890e29b46292a42141dcdb604c4106d4c40c28b56675",
+      "bytes": 265,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-controlled-c52883a.txt",
+      "scope": "210 controlled worker/UI/policy regressions; memory ports and offscreen Qt"
+    },
+    {
+      "path": "render.py.txt",
+      "sha256": "99a454700c76cc71c24fcfceaf6a1fa38b02f9bc0022902695a6ca785551b57f",
+      "bytes": 5146,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\render_translation.py",
+      "scope": "Exact owned offscreen renderer; never owner computer use"
+    },
+    {
+      "path": "ui-1x.json",
+      "sha256": "308a933fe709a92bf11692c14cec50b9fbab754276c122c0e782a917e1764f11",
+      "bytes": 21134,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-ui-c52883a-1x\\report.json",
+      "scope": "Clean-source offscreen UI report"
+    },
+    {
+      "path": "ui-1x/dark-labs-pro-off.png",
+      "sha256": "824c5fff5b5792b6638c05b883ee981c4525b91649cff66e71d3427ac0e9ee7b",
+      "bytes": 95767,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-ui-c52883a-1x\\dark-labs-pro-off.png",
+      "scope": "Owned offscreen widget capture"
+    },
+    {
+      "path": "ui-1x/dark-labs-pro-translate.png",
+      "sha256": "2f2fa1ab51240bdee44f0133821a369d2fc9f6edd8b87b7f1971f4d72010ab2d",
+      "bytes": 95841,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-ui-c52883a-1x\\dark-labs-pro-translate.png",
+      "scope": "Owned offscreen widget capture"
+    },
+    {
+      "path": "ui-1x/dark-labs-standard-off.png",
+      "sha256": "5e76969a64b0ed81f9ebf16d5f9ef9bc2a5c37af54c80008f92443359cbf1072",
+      "bytes": 96363,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-ui-c52883a-1x\\dark-labs-standard-off.png",
+      "scope": "Owned offscreen widget capture"
+    },
+    {
+      "path": "ui-1x/dark-style-targets.png",
+      "sha256": "9f35ddb99d67658ebd3678ee5812b44e33a6de802800f7f2fc3a340abc174933",
+      "bytes": 82395,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-ui-c52883a-1x\\dark-style-targets.png",
+      "scope": "Owned offscreen widget capture"
+    },
+    {
+      "path": "ui-1x/dark-translation.png",
+      "sha256": "b61ef3e435ba5442e8e7d33723a838e58f7342145b5b0603678de150586b1bf7",
+      "bytes": 23243,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-ui-c52883a-1x\\dark-translation.png",
+      "scope": "Owned offscreen widget capture"
+    },
+    {
+      "path": "ui-1x/dark-translation_raw.png",
+      "sha256": "1697f40c28ad0d7084997d86b64d034968e50d778f773254bd7b4b2e7385f6b1",
+      "bytes": 28009,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-ui-c52883a-1x\\dark-translation_raw.png",
+      "scope": "Owned offscreen widget capture"
+    },
+    {
+      "path": "ui-1x/light-labs-pro-off.png",
+      "sha256": "025a6114a0dd7b32744bfd0992f34d3ba78a5704309a5a05a6367572b218c7b1",
+      "bytes": 94659,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-ui-c52883a-1x\\light-labs-pro-off.png",
+      "scope": "Owned offscreen widget capture"
+    },
+    {
+      "path": "ui-1x/light-labs-pro-translate.png",
+      "sha256": "5e21cf4b3fadb5a7cc0c9e220217d3f0c6d0f3d0f49ee5993a9a3aa28893660e",
+      "bytes": 94764,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-ui-c52883a-1x\\light-labs-pro-translate.png",
+      "scope": "Owned offscreen widget capture"
+    },
+    {
+      "path": "ui-1x/light-labs-standard-off.png",
+      "sha256": "e45c3440e749eb590bffc4f0ace8b8ebf9f94a62d0e5fdd20745ed71f4e1bd38",
+      "bytes": 95361,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-ui-c52883a-1x\\light-labs-standard-off.png",
+      "scope": "Owned offscreen widget capture"
+    },
+    {
+      "path": "ui-1x/light-style-targets.png",
+      "sha256": "9fcf2d1feeece78582c54b6fe4a7ffe6fe57c398b67dbda99fb5302f0d25adf5",
+      "bytes": 81517,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-ui-c52883a-1x\\light-style-targets.png",
+      "scope": "Owned offscreen widget capture"
+    },
+    {
+      "path": "ui-1x/light-translation.png",
+      "sha256": "11123d04cdc58140cf4e96e4927deb6a78de036ed847ff43321b4ec131760958",
+      "bytes": 23205,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-ui-c52883a-1x\\light-translation.png",
+      "scope": "Owned offscreen widget capture"
+    },
+    {
+      "path": "ui-1x/light-translation_raw.png",
+      "sha256": "fcff53a52d78af565b87d57270dc4a0e3cbd2bbe19339f6f2551a4ff6fcf88fa",
+      "bytes": 27990,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-ui-c52883a-1x\\light-translation_raw.png",
+      "scope": "Owned offscreen widget capture"
+    },
+    {
+      "path": "ui-2x.json",
+      "sha256": "c5c62dc9c06a544831b3812f2e5112b5e63e9d24d4e0cea33ce71636e715bef2",
+      "bytes": 21156,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-ui-c52883a-2x\\report.json",
+      "scope": "Clean-source offscreen UI report"
+    },
+    {
+      "path": "ui-2x/dark-labs-pro-off.png",
+      "sha256": "d20d239c24ff652f1f20e85d91f3b31062109c7cfbda5f2036ca4d1338a56265",
+      "bytes": 235009,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-ui-c52883a-2x\\dark-labs-pro-off.png",
+      "scope": "Owned offscreen widget capture"
+    },
+    {
+      "path": "ui-2x/dark-labs-pro-translate.png",
+      "sha256": "bf518d116c8da329662e26564b1a71956b4267493dc265bf060242c899ccdfe6",
+      "bytes": 235020,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-ui-c52883a-2x\\dark-labs-pro-translate.png",
+      "scope": "Owned offscreen widget capture"
+    },
+    {
+      "path": "ui-2x/dark-labs-standard-off.png",
+      "sha256": "3849b05d177eb1224d848b93eb72c34402ec39334bf63834e40a58862ce9544b",
+      "bytes": 235802,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-ui-c52883a-2x\\dark-labs-standard-off.png",
+      "scope": "Owned offscreen widget capture"
+    },
+    {
+      "path": "ui-2x/dark-style-targets.png",
+      "sha256": "12eaf329740810fb61ba536f89d7f38928f251d2783c622ecc52b79c2002494a",
+      "bytes": 203014,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-ui-c52883a-2x\\dark-style-targets.png",
+      "scope": "Owned offscreen widget capture"
+    },
+    {
+      "path": "ui-2x/dark-translation.png",
+      "sha256": "7abe42adfc88cedcc883e92fc378d1b0898e3d8284d7aa9cbdf6fd97d7169434",
+      "bytes": 58284,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-ui-c52883a-2x\\dark-translation.png",
+      "scope": "Owned offscreen widget capture"
+    },
+    {
+      "path": "ui-2x/dark-translation_raw.png",
+      "sha256": "b3cbc5351410608ecc1a754d84b7e4f52608eb66be828fcf9a25a1fefb1532af",
+      "bytes": 69755,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-ui-c52883a-2x\\dark-translation_raw.png",
+      "scope": "Owned offscreen widget capture"
+    },
+    {
+      "path": "ui-2x/light-labs-pro-off.png",
+      "sha256": "bd1680243e76ae2b31ee99fdb9c3d965599000c5f6cb1c2035516f5608eadfe3",
+      "bytes": 232248,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-ui-c52883a-2x\\light-labs-pro-off.png",
+      "scope": "Owned offscreen widget capture"
+    },
+    {
+      "path": "ui-2x/light-labs-pro-translate.png",
+      "sha256": "960e664aa3530fb8b3b8634b4d2fd2f868e1aedc5f58f54b2c892883b45338a8",
+      "bytes": 232315,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-ui-c52883a-2x\\light-labs-pro-translate.png",
+      "scope": "Owned offscreen widget capture"
+    },
+    {
+      "path": "ui-2x/light-labs-standard-off.png",
+      "sha256": "17c6c4f485f30d7320d31bda95b574c2f7069ea03a6a7f058c0cf6b940916125",
+      "bytes": 233291,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-ui-c52883a-2x\\light-labs-standard-off.png",
+      "scope": "Owned offscreen widget capture"
+    },
+    {
+      "path": "ui-2x/light-style-targets.png",
+      "sha256": "7a75e607b8fce5e99aef563f5fb28506eaba2ab63b970a39c62df63875d9479b",
+      "bytes": 200215,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-ui-c52883a-2x\\light-style-targets.png",
+      "scope": "Owned offscreen widget capture"
+    },
+    {
+      "path": "ui-2x/light-translation.png",
+      "sha256": "315978ee4f6ad51d1a1282946774e79573f1c074219e8fee64da10679a8eb7c8",
+      "bytes": 57423,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-ui-c52883a-2x\\light-translation.png",
+      "scope": "Owned offscreen widget capture"
+    },
+    {
+      "path": "ui-2x/light-translation_raw.png",
+      "sha256": "f60db42972885ae53c2566fa351af1e2cbf309444866975f65685be3c5643706",
+      "bytes": 69058,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-ui-c52883a-2x\\light-translation_raw.png",
+      "scope": "Owned offscreen widget capture"
+    },
+    {
+      "path": "native-0553525-report.json",
+      "sha256": "263aa28cad263c3fd341f4d146fd5945f316136fd2be76b9413f5f3a842c0f57",
+      "bytes": 29894,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-native-0553525\\report.json",
+      "scope": "Accepted clean-source native authored-text translation; no audio/desktop"
+    },
+    {
+      "path": "native-0553525-cases.jsonl",
+      "sha256": "59e21556e06de536065e2533ce0be96700e570be905c9bcfff3d8181abb7b8cc",
+      "bytes": 2541,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-native-0553525\\cases.jsonl",
+      "scope": "Accepted clean-source native authored-text translation; no audio/desktop"
+    },
+    {
+      "path": "controlled-0553525.txt",
+      "sha256": "eb5400a4f74b918933f8365a243c9208e8b64cb1ee60793dd04c1815d68b319e",
+      "bytes": 1341,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-controlled-0553525.txt",
+      "scope": "274 final controlled regressions, including downgrade revocation and theme/gallery reconciliation"
+    },
+    {
+      "path": "render-revocation.py.txt",
+      "sha256": "5b51ccf71ad6b28cd709ef582b38d260b348fd61eb5bd6528933947dcb3877a6",
+      "bytes": 5387,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\render_translation_revocation.py",
+      "scope": "Exact final offscreen renderer including saved Standard opt-ins"
+    },
+    {
+      "path": "ui-final-1x.json",
+      "sha256": "6cca39dad7e6c56ac63bba7c393a00275e9e7893653a0c8bd824af8d018855d7",
+      "bytes": 26463,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-ui-0553525-1x\\report.json",
+      "scope": "Accepted clean-source final offscreen UI report"
+    },
+    {
+      "path": "ui-final-1x/dark-labs-pro-off.png",
+      "sha256": "824c5fff5b5792b6638c05b883ee981c4525b91649cff66e71d3427ac0e9ee7b",
+      "bytes": 95767,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-ui-0553525-1x\\dark-labs-pro-off.png",
+      "scope": "Accepted final owned widget capture"
+    },
+    {
+      "path": "ui-final-1x/dark-labs-pro-translate.png",
+      "sha256": "2f2fa1ab51240bdee44f0133821a369d2fc9f6edd8b87b7f1971f4d72010ab2d",
+      "bytes": 95841,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-ui-0553525-1x\\dark-labs-pro-translate.png",
+      "scope": "Accepted final owned widget capture"
+    },
+    {
+      "path": "ui-final-1x/dark-labs-standard-off.png",
+      "sha256": "56341debb9c19a3f43868397348bda62ecca17d4c8325f5fb6649b2ac83a5d6a",
+      "bytes": 98459,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-ui-0553525-1x\\dark-labs-standard-off.png",
+      "scope": "Accepted final owned widget capture"
+    },
+    {
+      "path": "ui-final-1x/dark-labs-standard-translate.png",
+      "sha256": "677206873c91631d5397a1dab6f1f2bcc98db6e7d693654c759f0f5a81c69f20",
+      "bytes": 98474,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-ui-0553525-1x\\dark-labs-standard-translate.png",
+      "scope": "Accepted final owned widget capture"
+    },
+    {
+      "path": "ui-final-1x/dark-style-targets.png",
+      "sha256": "9f35ddb99d67658ebd3678ee5812b44e33a6de802800f7f2fc3a340abc174933",
+      "bytes": 82395,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-ui-0553525-1x\\dark-style-targets.png",
+      "scope": "Accepted final owned widget capture"
+    },
+    {
+      "path": "ui-final-1x/dark-translation.png",
+      "sha256": "b61ef3e435ba5442e8e7d33723a838e58f7342145b5b0603678de150586b1bf7",
+      "bytes": 23243,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-ui-0553525-1x\\dark-translation.png",
+      "scope": "Accepted final owned widget capture"
+    },
+    {
+      "path": "ui-final-1x/dark-translation_raw.png",
+      "sha256": "1697f40c28ad0d7084997d86b64d034968e50d778f773254bd7b4b2e7385f6b1",
+      "bytes": 28009,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-ui-0553525-1x\\dark-translation_raw.png",
+      "scope": "Accepted final owned widget capture"
+    },
+    {
+      "path": "ui-final-1x/light-labs-pro-off.png",
+      "sha256": "025a6114a0dd7b32744bfd0992f34d3ba78a5704309a5a05a6367572b218c7b1",
+      "bytes": 94659,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-ui-0553525-1x\\light-labs-pro-off.png",
+      "scope": "Accepted final owned widget capture"
+    },
+    {
+      "path": "ui-final-1x/light-labs-pro-translate.png",
+      "sha256": "5e21cf4b3fadb5a7cc0c9e220217d3f0c6d0f3d0f49ee5993a9a3aa28893660e",
+      "bytes": 94764,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-ui-0553525-1x\\light-labs-pro-translate.png",
+      "scope": "Accepted final owned widget capture"
+    },
+    {
+      "path": "ui-final-1x/light-labs-standard-off.png",
+      "sha256": "d39ab1bc1485f3ac9c1b75e06062369c3254d0b7420afd6c0ed6287028959ca5",
+      "bytes": 97417,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-ui-0553525-1x\\light-labs-standard-off.png",
+      "scope": "Accepted final owned widget capture"
+    },
+    {
+      "path": "ui-final-1x/light-labs-standard-translate.png",
+      "sha256": "15ef6636a0c433780b2c03601019c9e389cb2157824e87f4af2dba6f616c3862",
+      "bytes": 97283,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-ui-0553525-1x\\light-labs-standard-translate.png",
+      "scope": "Accepted final owned widget capture"
+    },
+    {
+      "path": "ui-final-1x/light-style-targets.png",
+      "sha256": "9fcf2d1feeece78582c54b6fe4a7ffe6fe57c398b67dbda99fb5302f0d25adf5",
+      "bytes": 81517,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-ui-0553525-1x\\light-style-targets.png",
+      "scope": "Accepted final owned widget capture"
+    },
+    {
+      "path": "ui-final-1x/light-translation.png",
+      "sha256": "11123d04cdc58140cf4e96e4927deb6a78de036ed847ff43321b4ec131760958",
+      "bytes": 23205,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-ui-0553525-1x\\light-translation.png",
+      "scope": "Accepted final owned widget capture"
+    },
+    {
+      "path": "ui-final-1x/light-translation_raw.png",
+      "sha256": "fcff53a52d78af565b87d57270dc4a0e3cbd2bbe19339f6f2551a4ff6fcf88fa",
+      "bytes": 27990,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-ui-0553525-1x\\light-translation_raw.png",
+      "scope": "Accepted final owned widget capture"
+    },
+    {
+      "path": "ui-final-2x.json",
+      "sha256": "49e23926218353ecae83c864a379ae1799a70dc3f64f8a7df0a36f0057e066de",
+      "bytes": 26489,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-ui-0553525-2x\\report.json",
+      "scope": "Accepted clean-source final offscreen UI report"
+    },
+    {
+      "path": "ui-final-2x/dark-labs-pro-off.png",
+      "sha256": "d20d239c24ff652f1f20e85d91f3b31062109c7cfbda5f2036ca4d1338a56265",
+      "bytes": 235009,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-ui-0553525-2x\\dark-labs-pro-off.png",
+      "scope": "Accepted final owned widget capture"
+    },
+    {
+      "path": "ui-final-2x/dark-labs-pro-translate.png",
+      "sha256": "bf518d116c8da329662e26564b1a71956b4267493dc265bf060242c899ccdfe6",
+      "bytes": 235020,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-ui-0553525-2x\\dark-labs-pro-translate.png",
+      "scope": "Accepted final owned widget capture"
+    },
+    {
+      "path": "ui-final-2x/dark-labs-standard-off.png",
+      "sha256": "b32b8a0a60c4ba4a8860bbbf6384fb9bf73bf52551cfaf621be401691bd9b210",
+      "bytes": 240838,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-ui-0553525-2x\\dark-labs-standard-off.png",
+      "scope": "Accepted final owned widget capture"
+    },
+    {
+      "path": "ui-final-2x/dark-labs-standard-translate.png",
+      "sha256": "69c7c74b78b81ef3ca2ee8052f88b6ac15c239723b6bd7b297cbb2d5aaf10d6a",
+      "bytes": 240925,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-ui-0553525-2x\\dark-labs-standard-translate.png",
+      "scope": "Accepted final owned widget capture"
+    },
+    {
+      "path": "ui-final-2x/dark-style-targets.png",
+      "sha256": "12eaf329740810fb61ba536f89d7f38928f251d2783c622ecc52b79c2002494a",
+      "bytes": 203014,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-ui-0553525-2x\\dark-style-targets.png",
+      "scope": "Accepted final owned widget capture"
+    },
+    {
+      "path": "ui-final-2x/dark-translation.png",
+      "sha256": "f366f2f79e9678c6bf3372be4d77de2bcd4322d4c470b957a51a036d5d7bd7e8",
+      "bytes": 58093,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-ui-0553525-2x\\dark-translation.png",
+      "scope": "Accepted final owned widget capture"
+    },
+    {
+      "path": "ui-final-2x/dark-translation_raw.png",
+      "sha256": "b3cbc5351410608ecc1a754d84b7e4f52608eb66be828fcf9a25a1fefb1532af",
+      "bytes": 69755,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-ui-0553525-2x\\dark-translation_raw.png",
+      "scope": "Accepted final owned widget capture"
+    },
+    {
+      "path": "ui-final-2x/light-labs-pro-off.png",
+      "sha256": "bd1680243e76ae2b31ee99fdb9c3d965599000c5f6cb1c2035516f5608eadfe3",
+      "bytes": 232248,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-ui-0553525-2x\\light-labs-pro-off.png",
+      "scope": "Accepted final owned widget capture"
+    },
+    {
+      "path": "ui-final-2x/light-labs-pro-translate.png",
+      "sha256": "960e664aa3530fb8b3b8634b4d2fd2f868e1aedc5f58f54b2c892883b45338a8",
+      "bytes": 232315,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-ui-0553525-2x\\light-labs-pro-translate.png",
+      "scope": "Accepted final owned widget capture"
+    },
+    {
+      "path": "ui-final-2x/light-labs-standard-off.png",
+      "sha256": "98d1a315cc0e34fa84a873f701f592a83b30b1be17624bba977ffcf714989b10",
+      "bytes": 238130,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-ui-0553525-2x\\light-labs-standard-off.png",
+      "scope": "Accepted final owned widget capture"
+    },
+    {
+      "path": "ui-final-2x/light-labs-standard-translate.png",
+      "sha256": "6e9760447ad22737d94e4f7c92d476aa7e9e55b1c603643af036db3c1b1fba86",
+      "bytes": 237832,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-ui-0553525-2x\\light-labs-standard-translate.png",
+      "scope": "Accepted final owned widget capture"
+    },
+    {
+      "path": "ui-final-2x/light-style-targets.png",
+      "sha256": "7a75e607b8fce5e99aef563f5fb28506eaba2ab63b970a39c62df63875d9479b",
+      "bytes": 200215,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-ui-0553525-2x\\light-style-targets.png",
+      "scope": "Accepted final owned widget capture"
+    },
+    {
+      "path": "ui-final-2x/light-translation.png",
+      "sha256": "315978ee4f6ad51d1a1282946774e79573f1c074219e8fee64da10679a8eb7c8",
+      "bytes": 57423,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-ui-0553525-2x\\light-translation.png",
+      "scope": "Accepted final owned widget capture"
+    },
+    {
+      "path": "ui-final-2x/light-translation_raw.png",
+      "sha256": "f60db42972885ae53c2566fa351af1e2cbf309444866975f65685be3c5643706",
+      "bytes": 69058,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-ui-0553525-2x\\light-translation_raw.png",
+      "scope": "Accepted final owned widget capture"
+    },
+    {
+      "path": "earlier-ci-stalled.json",
+      "sha256": "595bcdb0ebde01547f8beccb546f272674b44970a1cab39fbd779bc3f343ebae",
+      "bytes": 6041,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-earlier-ci-stalled.json",
+      "scope": "Unmodified terminal workflow/job/step metadata"
+    },
+    {
+      "path": "earlier-ci-superseded.json",
+      "sha256": "28d039e52f4fa9f5a190ffad225410a9c84c6c6beafa35746c61788717ebe69d",
+      "bytes": 6041,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-earlier-ci-superseded.json",
+      "scope": "Unmodified terminal workflow/job/step metadata"
+    },
+    {
+      "path": "earlier-ci-checklist-failure.json",
+      "sha256": "a034e7852cde5d353860b0a8bade0e6da0a84d71a222cd5ade0fe0af961bbd91",
+      "bytes": 6035,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-earlier-ci-checklist-failure.json",
+      "scope": "Unmodified terminal workflow/job/step metadata"
+    },
+    {
+      "path": "earlier-ci-checklist-superseded.json",
+      "sha256": "aa26b858fa150cde8861c05b13fe37a3bdc3bff4d0b6dd7776617e71fa59da3c",
+      "bytes": 6041,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-earlier-ci-checklist-superseded.json",
+      "scope": "Unmodified terminal workflow/job/step metadata"
+    },
+    {
+      "path": "earlier-ci-stalled.log",
+      "sha256": "6c12251928419e06c2f0c7cf24c0415da2ea4163b304711c137ec60188db7731",
+      "bytes": 106665,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-ci-stalled-c52883a.log",
+      "scope": "Earlier diagnostics/reconciliation; not full-suite acceptance"
+    },
+    {
+      "path": "earlier-ci-checklist-failure.log",
+      "sha256": "cd36aa0d2bffc22b0635f16dec21b752980e6ad01180c53206ba3c558baf3a22",
+      "bytes": 150686,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-ci-failed-69aa875.log",
+      "scope": "Earlier diagnostics/reconciliation; not full-suite acceptance"
+    },
+    {
+      "path": "reconciled-tests.txt",
+      "sha256": "f17efad40878dcc56e44f7da9f1bd7f0b28bd8e641735a299a13b3af942d0bf8",
+      "bytes": 1137,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-expectations-r1.txt",
+      "scope": "Earlier diagnostics/reconciliation; not full-suite acceptance"
+    },
+    {
+      "path": "accepted-0553525-cases.jsonl",
+      "sha256": "b0d12ea7f90e47b7bb7c48a510a52f1a18504a800d96f6f71a517b928e763554",
+      "bytes": 2139,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translate-final-qa\\tests\\translation_cases.jsonl",
+      "scope": "Byte-exact accepted corpus from the measured clean Windows checkout"
+    },
+    {
+      "path": "ci-workflow.json",
+      "sha256": "78962eb056b0a5a5c547e2daf604e20e3d413417b91c2ce9e58da2a01d7c28a0",
+      "bytes": 6035,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-ci-workflow.json",
+      "scope": "Unmodified terminal workflow/job/step metadata"
+    },
+    {
+      "path": "ci-workflow.log",
+      "sha256": "e01d166cb9421177635617fdba0348add322d329349950a9f99b6f20a4efb431",
+      "bytes": 153621,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-ci-accepted.log",
+      "scope": "Unmodified complete accepted workflow log"
+    },
+    {
+      "path": "package-workflow.json",
+      "sha256": "3a7759f21edef3c464c6cc83d6c80db8bea3286812a49814d54715920ea1e01f",
+      "bytes": 2551,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-package-workflow.json",
+      "scope": "Unmodified terminal workflow/job/step metadata"
+    },
+    {
+      "path": "package-workflow.log",
+      "sha256": "c025ddf249b627f5f48e6acd32634f474e180ec354a80c22c99bf79d3f9efc5c",
+      "bytes": 96634,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-package-accepted.log",
+      "scope": "Unmodified complete accepted workflow log"
+    },
+    {
+      "path": "package-bundle.json",
+      "sha256": "c0a35b28c1c67a8344243422f179559d4a804f5752fc9d4ef1a06877b36caeb7",
+      "bytes": 212822,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-package-0553525\\audit\\bundle.json",
+      "scope": "Unchanged accepted disposable package receipt"
+    },
+    {
+      "path": "package-installer-smoke.json",
+      "sha256": "35e4202aba06aa66f31cc7331e82faf53b8448be56fdddc2ca2b89c0f40b7f21",
+      "bytes": 351,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-package-0553525\\audit\\installer-smoke.json",
+      "scope": "Unchanged accepted disposable package receipt"
+    },
+    {
+      "path": "package-preflight.json",
+      "sha256": "9218835607072ede696b39b465d87b854af7d7b919e5cf72ac4951d5846b5332",
+      "bytes": 212457,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-package-0553525\\audit\\preflight.json",
+      "scope": "Unchanged accepted disposable package receipt"
+    },
+    {
+      "path": "package-runtime.json",
+      "sha256": "a714ed91e6d2b3d5e914446fcf8f9bd1b61cbb6cffff0ebd8466e6cc14005ec2",
+      "bytes": 696,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-package-0553525\\audit\\runtime.json",
+      "scope": "Unchanged accepted disposable package receipt"
+    },
+    {
+      "path": "package-installed-runtime.json",
+      "sha256": "a714ed91e6d2b3d5e914446fcf8f9bd1b61cbb6cffff0ebd8466e6cc14005ec2",
+      "bytes": 696,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-package-0553525\\audit\\installed-runtime.json",
+      "scope": "Unchanged accepted disposable package receipt"
+    },
+    {
+      "path": "package-firewall-helper.json",
+      "sha256": "8da30870add3d5063d91852cecddc19b7e541d75ada8f10b5274fe16f30af34b",
+      "bytes": 689,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-package-0553525\\audit\\firewall-helper.json",
+      "scope": "Unchanged accepted disposable package receipt"
+    },
+    {
+      "path": "package-firewall-before.json",
+      "sha256": "6efecf72806373b9fe4dcbc8f859736061abaa7ee299345f3825b3cf94ba293b",
+      "bytes": 506,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-package-0553525\\audit\\firewall-before.json",
+      "scope": "Unchanged accepted disposable package receipt"
+    },
+    {
+      "path": "package-firewall-blocked.json",
+      "sha256": "6a93c222e4766dcae8a0e2f3292f6b74631a7e0b813463f480bff2c79b5d1520",
+      "bytes": 607,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-package-0553525\\audit\\firewall-blocked.json",
+      "scope": "Unchanged accepted disposable package receipt"
+    },
+    {
+      "path": "package-firewall-runtime.json",
+      "sha256": "a714ed91e6d2b3d5e914446fcf8f9bd1b61cbb6cffff0ebd8466e6cc14005ec2",
+      "bytes": 696,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-package-0553525\\audit\\firewall-runtime.json",
+      "scope": "Unchanged accepted disposable package receipt"
+    },
+    {
+      "path": "package-firewall-after.json",
+      "sha256": "6efecf72806373b9fe4dcbc8f859736061abaa7ee299345f3825b3cf94ba293b",
+      "bytes": 506,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-package-0553525\\audit\\firewall-after.json",
+      "scope": "Unchanged accepted disposable package receipt"
+    },
+    {
+      "path": "package-analysis.toc",
+      "sha256": "3669b903a1408d1af68139f148dc89c3dff0abdcfc5c21f9c645701bca882d42",
+      "bytes": 466792,
+      "source": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\translation-package-0553525\\work\\Saydraft\\Analysis-00.toc",
+      "scope": "Original PyInstaller analysis; module collection only"
+    }
+  ],
+  "earlier_application_source": "c52883a7626038d128af094b69066b23e6983eb6",
+  "earlier_ui_images": 24,
+  "accepted_cases_file": "accepted-0553525-cases.jsonl",
+  "ci": {
+    "run_id": 43558299515,
+    "conclusion": "success",
+    "source": "3e514444304dcb1ae94fb03db1a338b49f2371cc"
+  },
+  "package": {
+    "run_id": 43558065969,
+    "conclusion": "success",
+    "source": "05535251b4518a3e5a1c5e8daf82d42af3b339c5"
+  },
+  "verification": {
+    "passed": 3710,
+    "skipped": 12,
+    "seconds": 376.06,
+    "controlled_passed": 274,
+    "ui_images": 28,
+    "native_text_passed": 10,
+    "rules": "556/556",
+    "normal_cleanup_adversarial": "100/100",
+    "p7_2_smoke_accepted": true,
+    "physical_workflow_accepted": false
+  }
+}

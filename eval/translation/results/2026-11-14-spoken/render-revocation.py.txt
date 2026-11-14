@@ -1,0 +1,81 @@
+import argparse,hashlib,json,os,subprocess,sys,time
+from pathlib import Path
+p=argparse.ArgumentParser()
+p.add_argument('--output',type=Path,required=True)
+p.add_argument('--scale',type=int,choices=(1,2),required=True)
+a=p.parse_args()
+os.environ.update(QT_QPA_PLATFORM='offscreen',QT_STYLE_OVERRIDE='Fusion',QT_SCALE_FACTOR=str(a.scale),
+                  LOCALAPPDATA=str(a.output/'private-profile'))
+root=Path.cwd();sys.path.insert(0,str(root))
+from saydraft.privacy.netguard import NetworkGuard
+NetworkGuard.install()
+from PySide6 import QtCore,QtWidgets
+from saydraft.config import default_config
+from saydraft.ui.fonts import install_bundled_fonts
+from saydraft.ui.theme import install_theme
+from saydraft.ui.command_setup import CommandSetup
+from saydraft.ui.command_recovery import CommandRecoveryWindows
+from saydraft.ui.styles_page import StylesPage
+from saydraft.dictation.glossary import Glossary
+from saydraft.core.command_edit import CommandEditResult
+from saydraft.data.notes import NoteStore
+app=QtWidgets.QApplication([]);app.setQuitOnLastWindowClosed(False)
+assert app.platformName()=='offscreen' and len(install_bundled_fonts(app))==8
+theme=install_theme(app,mode='light');a.output.mkdir(parents=True,exist_ok=False)
+report={'scope':'owned offscreen Translate setup, Style targets and independent recovery; no devices, desktop, clipboard or input',
+        'scale':a.scale,'platform':app.platformName(),'files':[]}
+class Clipboard:
+    copies=[]
+    def setText(self,value):self.copies.append(value)
+clipboard=Clipboard()
+def save(widget,name):
+    app.processEvents();labels=[]
+    for check in widget.findChildren(QtWidgets.QCheckBox):
+        if not check.isHidden():assert check.width()>=check.sizeHint().width(),check.text()
+    for label in widget.findChildren(QtWidgets.QLabel):
+        if label.isHidden():continue
+        required=label.heightForWidth(label.width()) if label.wordWrap() else label.sizeHint().height()
+        assert label.height()>=required,(label.text(),label.height(),required)
+        labels.append({'text':label.text(),'height':label.height(),'required':required})
+    out=a.output/(name+'.png');pix=widget.grab();assert pix.save(str(out))
+    report['files'].append({'path':out.name,'sha256':hashlib.sha256(out.read_bytes()).hexdigest(),
+        'width':pix.width(),'height':pix.height(),'labels':labels})
+def retire(page):
+    page.hide();page.deleteLater();app.sendPostedEvents(None,QtCore.QEvent.DeferredDelete)
+try:
+    for mode in ('light','dark'):
+        theme.set_mode(mode)
+        for tier,enabled in [('pro',False),('pro',True),('standard',False),('standard',True)]:
+            cfg=default_config();cfg['app']['tier']=tier;cfg['labs']['translate_mode']=enabled
+            if tier=='standard' and enabled:
+                cfg['labs']['command_mode']=True;cfg['command']['clipboard_fallback']=True
+            page=CommandSetup(cfg,callback=lambda *a,**kw: (_ for _ in ()).throw(AssertionError('No transfer')))
+            page.setFixedWidth(660);page.resize(660,max(page.heightForWidth(660),page.sizeHint().height(),600))
+            page.show();app.processEvents()
+            assert page.translate_check.isChecked()==enabled and page.translate_check.isEnabled()==(tier=='pro' or enabled)
+            if tier=='standard':assert not page.download_button.isEnabled()
+            save(page,mode+'-labs-'+tier+('-translate' if enabled else '-off'));retire(page)
+        cfg=default_config();cfg['translation']['targets']={'email':'ar','messages':'es'}
+        page=StylesPage(cfg,config_provider=lambda:cfg,glossary_provider=lambda:Glossary())
+        page.resize(850,1000);page.show();app.processEvents()
+        page.translation_group.setCurrentIndex(page.translation_group.findData('email'))
+        assert page.translation_language.currentData()=='ar' and not cfg['labs']['translate_mode']
+        save(page,mode+'-style-targets');retire(page)
+        group=CommandRecoveryWindows(NoteStore(a.output/(mode+'-notes.db')),clipboard=clipboard)
+        for kind,text in [('translation','الملف جاهز.\nThe literal code is `YES`.'),
+                          ('translation_raw','The file is ready.\nবাংলা العربية <b>literal source</b>')]:
+            window=group.present(CommandEditResult(text,'translation_failed' if kind.endswith('raw') else 'focus_changed',task=kind))
+            until=time.monotonic()+4
+            while window.draft.snapshot().saving and time.monotonic()<until:
+                app.processEvents();time.sleep(.005)
+            assert not window.draft.snapshot().saving and window.copy_button.isEnabled() and not clipboard.copies
+            assert window.editor.toPlainText()==text
+            save(window,mode+'-'+kind);window.shutdown();window.draft.executor.shutdown(wait=True);retire(window)
+        assert not group.windows
+    assert 'sounddevice' not in sys.modules
+    report['git_commit']=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip()
+    report['source_dirty']=bool(subprocess.check_output(['git','status','--porcelain']).strip())
+    report['renderer_sha256']=hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
+    (a.output/'report.json').write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf-8')
+    print(json.dumps({'rendered':len(report['files']),'scale':a.scale,'labels_fit':True}))
+finally:NetworkGuard.uninstall()

@@ -16,6 +16,10 @@ as adapter compatibility names; their values are embedded pages.
 
 Dictionary, Snippets and Style are hosted in rail pages.
 One shared Save action applies staged values across those pages and Settings.
+Style also stages per-group spoken output languages for experimental
+[Translate](TRANSLATE.md). Its independent Pro/Labs toggle and shared editing-model
+download live in Settings → Labs. History identifies translated and failed-source
+rows separately; ordinary audio retry is disabled for both.
 Settings sections use a named selector, including separate General, Shortcuts
 and Privacy sections. Audio retention lives in Privacy and still defaults off.
 All sections use scroll containers; larger text does not force the Hub beyond

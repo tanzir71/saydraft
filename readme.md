@@ -74,6 +74,8 @@ in Style. Enable it separately in Labs after explicitly installing the shared
 failures preserve recognized speech for Copy without automatically pasting it.
 Raw and Code bypass translation. Native text smoke checks and controlled worker
 tests are distinct from physical Windows and broad quality acceptance.
+See the [retained verification](eval/translation/results/2026-11-14-spoken/README.md)
+for native smoke cases, CI/package results and their scope.
 
 See the [documentation index](docs/README.md) for individual features and the
 [parity plan](WISPR_OFFLINE_PARITY_PLAN.md) for the complete acceptance status.

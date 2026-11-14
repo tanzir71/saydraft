@@ -7,9 +7,9 @@ Labs toggle and the explicitly installed shared editing model. The cleanup
 preview remains separate; Raw and Code bypass spoken translation. See
 [Translate setup and recovery](TRANSLATE.md).
 
-P5.7's engine, reusable Style matrix and live preview are implemented in Settings.
-Hub integration remains pending, so the Hub-specific acceptance stays open.
-No desktop control has resumed.
+The Hub's Style page hosts the reusable matrix and cleanup preview. Its shared
+Save action applies staged choices together with Settings. Native/manual Hub
+acceptance remains tracked separately in the parity plan.
 
 The recording snapshots one tone and intensity after target capture. The same
 policy drives deterministic rules, prompt preparation, the request header,
@@ -25,7 +25,7 @@ does not accidentally freeze every row at its previous level. Editing a row
 selects its preview. Code's prose controls are disabled. Optional app executable,
 site and legacy title inputs simulate captured metadata without reading another
 application. Per-app entries remain editable in the existing Cleanup profile
-editor until the Hub provides their dedicated editor.
+editor.
 
 The parented 180 ms timer renders the actual transcript processor with memory-only
 History and simulated delivery. Snippets, final punctuation and opt-in Enter
@@ -47,8 +47,10 @@ hidden pages and stale requests cannot replace the current output. All 84 matrix
 states match the authored goldens; tests also cover real debounce, app overrides,
 saved inheritance, simulated Enter/snippets, rejected model edits, busy/shutdown,
 unapplied models, active metadata preservation and GUI-thread signal wiring.
-Offscreen English/Bengali/Arabic layouts were inspected using installed Windows
-fonts. P6 theme/font and Hub work remain.
+Earlier offscreen English/Bengali/Arabic matrix layouts were inspected using
+installed Windows fonts. The current app uses its bundled theme/fonts and
+reviewed component-gallery snapshots; full native/manual acceptance remains
+separate.
 
 ## Selection
 

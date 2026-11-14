@@ -1,0 +1,19 @@
+{
+  "complete": true,
+  "frozen": true,
+  "microphone_used": false,
+  "audio_devices_enumerated": false,
+  "owner_clipboard_accessed": false,
+  "input_injected": false,
+  "scope": "packaged public-fixture ASR, rules and temporary History; separate source probe covers full worker/memory insertion",
+  "network": {
+    "reachable": true,
+    "http_status": 404
+  },
+  "download": {
+    "downloaded": true
+  },
+  "asr_nonempty": true,
+  "cleaned_nonempty": true,
+  "history_matches": true
+}

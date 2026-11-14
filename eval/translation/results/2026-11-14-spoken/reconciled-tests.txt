@@ -1,0 +1,12 @@
+........................................................................ [ 75%]
+........................                                                 [100%]
+============================= slowest 8 durations =============================
+3.00s call     tests/test_theme.py::test_unknown_platform_and_minimum_font_restore_without_overriding_larger_text
+2.74s call     tests/test_theme.py::test_platform_changes_coalesce_and_high_contrast_wins
+2.17s call     tests/test_theme.py::test_close_cancels_pending_work_and_preserves_newer_app_styles
+1.35s call     tests/test_gallery.py::test_fresh_gallery_renders_offline_without_clipping_and_matches_snapshots[2]
+1.28s call     tests/test_theme.py::test_minimum_settings_size_keeps_controls_readable_and_reachable[22-light]
+1.28s call     tests/test_gallery.py::test_fresh_gallery_renders_offline_without_clipping_and_matches_snapshots[1]
+1.24s call     tests/test_theme.py::test_minimum_settings_size_keeps_controls_readable_and_reachable[22-dark]
+1.20s call     tests/test_theme.py::test_minimum_settings_size_keeps_controls_readable_and_reachable[16-light]
+96 passed in 48.23s

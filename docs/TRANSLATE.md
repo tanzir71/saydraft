@@ -21,14 +21,18 @@ the selected document text. This experimental Pro feature is off by default.
 
 Selecting a target or enabling Labs downloads nothing. Missing model files refuse
 before microphone capture and direct you back to Labs. Later launches reuse the
-installed files. The shared ASR All languages model is separately needed to
-recognize Arabic or Bengali; it is not a language pack for the translation model.
+installed files. Recognizing Arabic or Bengali speech needs a compatible
+multilingual speech model, such as the shared ASR All languages option. It is
+separate from the translation model; choosing Arabic output for English speech
+does not require downloading another speech model.
 See [models and languages](MODELS.md) and [ASR routing](ASR_ROUTING.md).
 
 Raw mode, Code profiles and the Code app group bypass translation. Other groups
 without a target keep ordinary dictation. A recording snapshots its group,
 target, services and settings; saving a change does not retarget an active task.
 Normal cleanup model choices and default shortcuts stay as configured.
+After downgrading tiers, saved Labs opt-ins can still be turned off and saved.
+Unchecked features cannot be enabled again without Pro; downloads remain gated.
 
 ## Results and recovery
 

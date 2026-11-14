@@ -30,8 +30,11 @@ Notes share `%LOCALAPPDATA%\Saydraft\history.db` with History in additive schema
 v3 tables. They have their own identifiers and optimistic revisions. Saving a
 note creates no dictation entry and changes no Home dictation statistics.
 Migration preserves existing data and retains a pre-change backup; see
-[database behavior](DATABASE.md). The stored kind also reserves Command, Ask,
-and meeting notes for their future producers; those modes remain planned.
+[database behavior](DATABASE.md). Experimental Command and
+[Translate](TRANSLATE.md) recovery windows save separate ordinary Scratchpad
+notes without replacing the active draft or copying automatically. The stored
+kind also reserves Command, Ask and meeting notes for dedicated producers;
+Ask and Notetaker remain planned.
 
 Copy uses Saydraft's existing Windows clipboard privacy handling. Text selection
 and dragging use the same private plain-text MIME policy as History. Note text

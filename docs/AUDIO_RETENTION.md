@@ -1,5 +1,9 @@
 # Saved-recording retention
 
+[Translate](TRANSLATE.md) follows this same retention preference. Translation and
+failed-source History rows keep their task/target metadata, but ordinary audio
+retry is disabled because it does not translate. Start a new Translate dictation.
+
 Settings → Privacy keeps recording retention off by default. Existing opt-in
 profiles migrate to Keep forever. `recording.audio_retention_days` is zero for
 forever, or 1–3650 for a time limit; `recording.retain_audio` still controls new

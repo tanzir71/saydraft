@@ -1,0 +1,502 @@
+{
+  "scope": "owned offscreen Translate setup, Style targets and independent recovery; no devices, desktop, clipboard or input",
+  "scale": 1,
+  "platform": "offscreen",
+  "files": [
+    {
+      "path": "light-labs-pro-off.png",
+      "sha256": "025a6114a0dd7b32744bfd0992f34d3ba78a5704309a5a05a6367572b218c7b1",
+      "width": 660,
+      "height": 756,
+      "labels": [
+        {
+          "text": "Select text and hold Ctrl+Win+Alt. Wait for the Command label, then speak a short editing instruction. Release to edit; Esc cancels. Read-only selections produce an edit to copy. This Pro feature uses a separate local editing model. Dictation cleanup can stay off.",
+          "height": 84,
+          "required": 84
+        },
+        {
+          "text": "Pro tier available. Download or verify the model, enable Command or Translate and Save Settings.",
+          "height": 42,
+          "required": 42
+        },
+        {
+          "text": "For unsupported selections, fallback uses ordinary Ctrl+C after you release the shortcut. Windows clipboard history and sync settings apply. If the original selection cannot be verified for replacement, the edit opens in a separate window with Copy.",
+          "height": 84,
+          "required": 84
+        },
+        {
+          "text": "Choose the output language per app group in Style, then use your normal dictation shortcut. Wait for the Translate label before speaking. Translate shares this local editing model and processor. On failure, recognized words stay in History and a Copy window; untranslated words are not pasted automatically.",
+          "height": 84,
+          "required": 84
+        },
+        {
+          "text": "3,037.7 MB total download · Qwen3.5 4B model and processor files<br>Qwen / Bartowski · <a style=\"color:#141414\" href=\"https://huggingface.co/Qwen/Qwen3.5-4B/blob/851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a/LICENSE\">Apache-2.0 license</a> · <a style=\"color:#141414\" href=\"https://huggingface.co/bartowski/Qwen_Qwen3.5-4B-GGUF\">Source and credits</a><br>The ggml authors; LLVM OpenMP contributors · <a style=\"color:#141414\" href=\"https://github.com/ggml-org/llama.cpp/blob/cd959bae99ff4bed22bef2604f45241c09bbb8c8/LICENSE\">MIT + LLVM OpenMP license notice</a> · <a style=\"color:#141414\" href=\"https://github.com/ggml-org/llama.cpp/releases/tag/b12110\">Source and credits</a>",
+          "height": 84,
+          "required": 84
+        },
+        {
+          "text": "Review the size and licenses before downloading. Existing verified files are reused. Enabling Command or Translate never starts a download.",
+          "height": 42,
+          "required": 42
+        }
+      ]
+    },
+    {
+      "path": "light-labs-pro-translate.png",
+      "sha256": "5e21cf4b3fadb5a7cc0c9e220217d3f0c6d0f3d0f49ee5993a9a3aa28893660e",
+      "width": 660,
+      "height": 756,
+      "labels": [
+        {
+          "text": "Select text and hold Ctrl+Win+Alt. Wait for the Command label, then speak a short editing instruction. Release to edit; Esc cancels. Read-only selections produce an edit to copy. This Pro feature uses a separate local editing model. Dictation cleanup can stay off.",
+          "height": 84,
+          "required": 84
+        },
+        {
+          "text": "Pro tier available. Download or verify the model, enable Command or Translate and Save Settings.",
+          "height": 42,
+          "required": 42
+        },
+        {
+          "text": "For unsupported selections, fallback uses ordinary Ctrl+C after you release the shortcut. Windows clipboard history and sync settings apply. If the original selection cannot be verified for replacement, the edit opens in a separate window with Copy.",
+          "height": 84,
+          "required": 84
+        },
+        {
+          "text": "Choose the output language per app group in Style, then use your normal dictation shortcut. Wait for the Translate label before speaking. Translate shares this local editing model and processor. On failure, recognized words stay in History and a Copy window; untranslated words are not pasted automatically.",
+          "height": 84,
+          "required": 84
+        },
+        {
+          "text": "3,037.7 MB total download · Qwen3.5 4B model and processor files<br>Qwen / Bartowski · <a style=\"color:#141414\" href=\"https://huggingface.co/Qwen/Qwen3.5-4B/blob/851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a/LICENSE\">Apache-2.0 license</a> · <a style=\"color:#141414\" href=\"https://huggingface.co/bartowski/Qwen_Qwen3.5-4B-GGUF\">Source and credits</a><br>The ggml authors; LLVM OpenMP contributors · <a style=\"color:#141414\" href=\"https://github.com/ggml-org/llama.cpp/blob/cd959bae99ff4bed22bef2604f45241c09bbb8c8/LICENSE\">MIT + LLVM OpenMP license notice</a> · <a style=\"color:#141414\" href=\"https://github.com/ggml-org/llama.cpp/releases/tag/b12110\">Source and credits</a>",
+          "height": 84,
+          "required": 84
+        },
+        {
+          "text": "Review the size and licenses before downloading. Existing verified files are reused. Enabling Command or Translate never starts a download.",
+          "height": 42,
+          "required": 42
+        }
+      ]
+    },
+    {
+      "path": "light-labs-standard-off.png",
+      "sha256": "d39ab1bc1485f3ac9c1b75e06062369c3254d0b7420afd6c0ed6287028959ca5",
+      "width": 660,
+      "height": 777,
+      "labels": [
+        {
+          "text": "Select text and hold Ctrl+Win+Alt. Wait for the Command label, then speak a short editing instruction. Release to edit; Esc cancels. Read-only selections produce an edit to copy. This Pro feature uses a separate local editing model. Dictation cleanup can stay off.",
+          "height": 84,
+          "required": 84
+        },
+        {
+          "text": "Needs Pro tier: Command and Translate use a larger local editing model. Check performance or select Pro in Models before using it. Existing opt-ins can be turned off here.",
+          "height": 63,
+          "required": 63
+        },
+        {
+          "text": "For unsupported selections, fallback uses ordinary Ctrl+C after you release the shortcut. Windows clipboard history and sync settings apply. If the original selection cannot be verified for replacement, the edit opens in a separate window with Copy.",
+          "height": 84,
+          "required": 84
+        },
+        {
+          "text": "Choose the output language per app group in Style, then use your normal dictation shortcut. Wait for the Translate label before speaking. Translate shares this local editing model and processor. On failure, recognized words stay in History and a Copy window; untranslated words are not pasted automatically.",
+          "height": 84,
+          "required": 84
+        },
+        {
+          "text": "3,037.7 MB total download · Qwen3.5 4B model and processor files<br>Qwen / Bartowski · <a style=\"color:#141414\" href=\"https://huggingface.co/Qwen/Qwen3.5-4B/blob/851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a/LICENSE\">Apache-2.0 license</a> · <a style=\"color:#141414\" href=\"https://huggingface.co/bartowski/Qwen_Qwen3.5-4B-GGUF\">Source and credits</a><br>The ggml authors; LLVM OpenMP contributors · <a style=\"color:#141414\" href=\"https://github.com/ggml-org/llama.cpp/blob/cd959bae99ff4bed22bef2604f45241c09bbb8c8/LICENSE\">MIT + LLVM OpenMP license notice</a> · <a style=\"color:#141414\" href=\"https://github.com/ggml-org/llama.cpp/releases/tag/b12110\">Source and credits</a>",
+          "height": 84,
+          "required": 84
+        },
+        {
+          "text": "Review the size and licenses before downloading. Existing verified files are reused. Enabling Command or Translate never starts a download.",
+          "height": 42,
+          "required": 42
+        }
+      ]
+    },
+    {
+      "path": "light-labs-standard-translate.png",
+      "sha256": "15ef6636a0c433780b2c03601019c9e389cb2157824e87f4af2dba6f616c3862",
+      "width": 660,
+      "height": 777,
+      "labels": [
+        {
+          "text": "Select text and hold Ctrl+Win+Alt. Wait for the Command label, then speak a short editing instruction. Release to edit; Esc cancels. Read-only selections produce an edit to copy. This Pro feature uses a separate local editing model. Dictation cleanup can stay off.",
+          "height": 84,
+          "required": 84
+        },
+        {
+          "text": "Needs Pro tier: Command and Translate use a larger local editing model. Check performance or select Pro in Models before using it. Existing opt-ins can be turned off here.",
+          "height": 63,
+          "required": 63
+        },
+        {
+          "text": "For unsupported selections, fallback uses ordinary Ctrl+C after you release the shortcut. Windows clipboard history and sync settings apply. If the original selection cannot be verified for replacement, the edit opens in a separate window with Copy.",
+          "height": 84,
+          "required": 84
+        },
+        {
+          "text": "Choose the output language per app group in Style, then use your normal dictation shortcut. Wait for the Translate label before speaking. Translate shares this local editing model and processor. On failure, recognized words stay in History and a Copy window; untranslated words are not pasted automatically.",
+          "height": 84,
+          "required": 84
+        },
+        {
+          "text": "3,037.7 MB total download · Qwen3.5 4B model and processor files<br>Qwen / Bartowski · <a style=\"color:#141414\" href=\"https://huggingface.co/Qwen/Qwen3.5-4B/blob/851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a/LICENSE\">Apache-2.0 license</a> · <a style=\"color:#141414\" href=\"https://huggingface.co/bartowski/Qwen_Qwen3.5-4B-GGUF\">Source and credits</a><br>The ggml authors; LLVM OpenMP contributors · <a style=\"color:#141414\" href=\"https://github.com/ggml-org/llama.cpp/blob/cd959bae99ff4bed22bef2604f45241c09bbb8c8/LICENSE\">MIT + LLVM OpenMP license notice</a> · <a style=\"color:#141414\" href=\"https://github.com/ggml-org/llama.cpp/releases/tag/b12110\">Source and credits</a>",
+          "height": 84,
+          "required": 84
+        },
+        {
+          "text": "Review the size and licenses before downloading. Existing verified files are reused. Enabling Command or Translate never starts a download.",
+          "height": 42,
+          "required": 42
+        }
+      ]
+    },
+    {
+      "path": "light-style-targets.png",
+      "sha256": "9fcf2d1feeece78582c54b6fe4a7ffe6fe57c398b67dbda99fb5302f0d25adf5",
+      "width": 850,
+      "height": 1000,
+      "labels": [
+        {
+          "text": "Choose a style for each app group. Default follows your cleanup settings; app overrides take priority.",
+          "height": 21,
+          "required": 21
+        },
+        {
+          "text": "App group",
+          "height": 36,
+          "required": 21
+        },
+        {
+          "text": "Spoken output",
+          "height": 36,
+          "required": 21
+        },
+        {
+          "text": "Enable Translate in Settings → Labs after reviewing its local model. These saved targets use your normal dictation shortcut and require Pro. Raw and Code bypass translation. The cleanup preview below is separate from spoken translation.",
+          "height": 63,
+          "required": 63
+        },
+        {
+          "text": "Preview group",
+          "height": 41,
+          "required": 21
+        },
+        {
+          "text": "Before cleanup",
+          "height": 21,
+          "required": 21
+        },
+        {
+          "text": "Preview",
+          "height": 21,
+          "required": 21
+        },
+        {
+          "text": "Updating preview…",
+          "height": 21,
+          "required": 21
+        }
+      ]
+    },
+    {
+      "path": "light-translation.png",
+      "sha256": "11123d04cdc58140cf4e96e4927deb6a78de036ed847ff43321b4ec131760958",
+      "width": 640,
+      "height": 520,
+      "labels": [
+        {
+          "text": "Translation",
+          "height": 45,
+          "required": 45
+        },
+        {
+          "text": "Your translation is ready to copy. Check the original field before pasting again. This saves as a separate note on this PC.",
+          "height": 42,
+          "required": 42
+        },
+        {
+          "text": "Saved on this PC",
+          "height": 21,
+          "required": 21
+        }
+      ]
+    },
+    {
+      "path": "light-translation_raw.png",
+      "sha256": "fcff53a52d78af565b87d57270dc4a0e3cbd2bbe19339f6f2551a4ff6fcf88fa",
+      "width": 640,
+      "height": 520,
+      "labels": [
+        {
+          "text": "Recognized speech",
+          "height": 45,
+          "required": 45
+        },
+        {
+          "text": "These are your recognized speech words, available to copy and save as a separate note. No untranslated text was pasted automatically.",
+          "height": 42,
+          "required": 42
+        },
+        {
+          "text": "Saved on this PC",
+          "height": 21,
+          "required": 21
+        }
+      ]
+    },
+    {
+      "path": "dark-labs-pro-off.png",
+      "sha256": "824c5fff5b5792b6638c05b883ee981c4525b91649cff66e71d3427ac0e9ee7b",
+      "width": 660,
+      "height": 756,
+      "labels": [
+        {
+          "text": "Select text and hold Ctrl+Win+Alt. Wait for the Command label, then speak a short editing instruction. Release to edit; Esc cancels. Read-only selections produce an edit to copy. This Pro feature uses a separate local editing model. Dictation cleanup can stay off.",
+          "height": 84,
+          "required": 84
+        },
+        {
+          "text": "Pro tier available. Download or verify the model, enable Command or Translate and Save Settings.",
+          "height": 42,
+          "required": 42
+        },
+        {
+          "text": "For unsupported selections, fallback uses ordinary Ctrl+C after you release the shortcut. Windows clipboard history and sync settings apply. If the original selection cannot be verified for replacement, the edit opens in a separate window with Copy.",
+          "height": 84,
+          "required": 84
+        },
+        {
+          "text": "Choose the output language per app group in Style, then use your normal dictation shortcut. Wait for the Translate label before speaking. Translate shares this local editing model and processor. On failure, recognized words stay in History and a Copy window; untranslated words are not pasted automatically.",
+          "height": 84,
+          "required": 84
+        },
+        {
+          "text": "3,037.7 MB total download · Qwen3.5 4B model and processor files<br>Qwen / Bartowski · <a style=\"color:#f5f2e9\" href=\"https://huggingface.co/Qwen/Qwen3.5-4B/blob/851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a/LICENSE\">Apache-2.0 license</a> · <a style=\"color:#f5f2e9\" href=\"https://huggingface.co/bartowski/Qwen_Qwen3.5-4B-GGUF\">Source and credits</a><br>The ggml authors; LLVM OpenMP contributors · <a style=\"color:#f5f2e9\" href=\"https://github.com/ggml-org/llama.cpp/blob/cd959bae99ff4bed22bef2604f45241c09bbb8c8/LICENSE\">MIT + LLVM OpenMP license notice</a> · <a style=\"color:#f5f2e9\" href=\"https://github.com/ggml-org/llama.cpp/releases/tag/b12110\">Source and credits</a>",
+          "height": 84,
+          "required": 84
+        },
+        {
+          "text": "Review the size and licenses before downloading. Existing verified files are reused. Enabling Command or Translate never starts a download.",
+          "height": 42,
+          "required": 42
+        }
+      ]
+    },
+    {
+      "path": "dark-labs-pro-translate.png",
+      "sha256": "2f2fa1ab51240bdee44f0133821a369d2fc9f6edd8b87b7f1971f4d72010ab2d",
+      "width": 660,
+      "height": 756,
+      "labels": [
+        {
+          "text": "Select text and hold Ctrl+Win+Alt. Wait for the Command label, then speak a short editing instruction. Release to edit; Esc cancels. Read-only selections produce an edit to copy. This Pro feature uses a separate local editing model. Dictation cleanup can stay off.",
+          "height": 84,
+          "required": 84
+        },
+        {
+          "text": "Pro tier available. Download or verify the model, enable Command or Translate and Save Settings.",
+          "height": 42,
+          "required": 42
+        },
+        {
+          "text": "For unsupported selections, fallback uses ordinary Ctrl+C after you release the shortcut. Windows clipboard history and sync settings apply. If the original selection cannot be verified for replacement, the edit opens in a separate window with Copy.",
+          "height": 84,
+          "required": 84
+        },
+        {
+          "text": "Choose the output language per app group in Style, then use your normal dictation shortcut. Wait for the Translate label before speaking. Translate shares this local editing model and processor. On failure, recognized words stay in History and a Copy window; untranslated words are not pasted automatically.",
+          "height": 84,
+          "required": 84
+        },
+        {
+          "text": "3,037.7 MB total download · Qwen3.5 4B model and processor files<br>Qwen / Bartowski · <a style=\"color:#f5f2e9\" href=\"https://huggingface.co/Qwen/Qwen3.5-4B/blob/851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a/LICENSE\">Apache-2.0 license</a> · <a style=\"color:#f5f2e9\" href=\"https://huggingface.co/bartowski/Qwen_Qwen3.5-4B-GGUF\">Source and credits</a><br>The ggml authors; LLVM OpenMP contributors · <a style=\"color:#f5f2e9\" href=\"https://github.com/ggml-org/llama.cpp/blob/cd959bae99ff4bed22bef2604f45241c09bbb8c8/LICENSE\">MIT + LLVM OpenMP license notice</a> · <a style=\"color:#f5f2e9\" href=\"https://github.com/ggml-org/llama.cpp/releases/tag/b12110\">Source and credits</a>",
+          "height": 84,
+          "required": 84
+        },
+        {
+          "text": "Review the size and licenses before downloading. Existing verified files are reused. Enabling Command or Translate never starts a download.",
+          "height": 42,
+          "required": 42
+        }
+      ]
+    },
+    {
+      "path": "dark-labs-standard-off.png",
+      "sha256": "56341debb9c19a3f43868397348bda62ecca17d4c8325f5fb6649b2ac83a5d6a",
+      "width": 660,
+      "height": 777,
+      "labels": [
+        {
+          "text": "Select text and hold Ctrl+Win+Alt. Wait for the Command label, then speak a short editing instruction. Release to edit; Esc cancels. Read-only selections produce an edit to copy. This Pro feature uses a separate local editing model. Dictation cleanup can stay off.",
+          "height": 84,
+          "required": 84
+        },
+        {
+          "text": "Needs Pro tier: Command and Translate use a larger local editing model. Check performance or select Pro in Models before using it. Existing opt-ins can be turned off here.",
+          "height": 63,
+          "required": 63
+        },
+        {
+          "text": "For unsupported selections, fallback uses ordinary Ctrl+C after you release the shortcut. Windows clipboard history and sync settings apply. If the original selection cannot be verified for replacement, the edit opens in a separate window with Copy.",
+          "height": 84,
+          "required": 84
+        },
+        {
+          "text": "Choose the output language per app group in Style, then use your normal dictation shortcut. Wait for the Translate label before speaking. Translate shares this local editing model and processor. On failure, recognized words stay in History and a Copy window; untranslated words are not pasted automatically.",
+          "height": 84,
+          "required": 84
+        },
+        {
+          "text": "3,037.7 MB total download · Qwen3.5 4B model and processor files<br>Qwen / Bartowski · <a style=\"color:#f5f2e9\" href=\"https://huggingface.co/Qwen/Qwen3.5-4B/blob/851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a/LICENSE\">Apache-2.0 license</a> · <a style=\"color:#f5f2e9\" href=\"https://huggingface.co/bartowski/Qwen_Qwen3.5-4B-GGUF\">Source and credits</a><br>The ggml authors; LLVM OpenMP contributors · <a style=\"color:#f5f2e9\" href=\"https://github.com/ggml-org/llama.cpp/blob/cd959bae99ff4bed22bef2604f45241c09bbb8c8/LICENSE\">MIT + LLVM OpenMP license notice</a> · <a style=\"color:#f5f2e9\" href=\"https://github.com/ggml-org/llama.cpp/releases/tag/b12110\">Source and credits</a>",
+          "height": 84,
+          "required": 84
+        },
+        {
+          "text": "Review the size and licenses before downloading. Existing verified files are reused. Enabling Command or Translate never starts a download.",
+          "height": 42,
+          "required": 42
+        }
+      ]
+    },
+    {
+      "path": "dark-labs-standard-translate.png",
+      "sha256": "677206873c91631d5397a1dab6f1f2bcc98db6e7d693654c759f0f5a81c69f20",
+      "width": 660,
+      "height": 777,
+      "labels": [
+        {
+          "text": "Select text and hold Ctrl+Win+Alt. Wait for the Command label, then speak a short editing instruction. Release to edit; Esc cancels. Read-only selections produce an edit to copy. This Pro feature uses a separate local editing model. Dictation cleanup can stay off.",
+          "height": 84,
+          "required": 84
+        },
+        {
+          "text": "Needs Pro tier: Command and Translate use a larger local editing model. Check performance or select Pro in Models before using it. Existing opt-ins can be turned off here.",
+          "height": 63,
+          "required": 63
+        },
+        {
+          "text": "For unsupported selections, fallback uses ordinary Ctrl+C after you release the shortcut. Windows clipboard history and sync settings apply. If the original selection cannot be verified for replacement, the edit opens in a separate window with Copy.",
+          "height": 84,
+          "required": 84
+        },
+        {
+          "text": "Choose the output language per app group in Style, then use your normal dictation shortcut. Wait for the Translate label before speaking. Translate shares this local editing model and processor. On failure, recognized words stay in History and a Copy window; untranslated words are not pasted automatically.",
+          "height": 84,
+          "required": 84
+        },
+        {
+          "text": "3,037.7 MB total download · Qwen3.5 4B model and processor files<br>Qwen / Bartowski · <a style=\"color:#f5f2e9\" href=\"https://huggingface.co/Qwen/Qwen3.5-4B/blob/851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a/LICENSE\">Apache-2.0 license</a> · <a style=\"color:#f5f2e9\" href=\"https://huggingface.co/bartowski/Qwen_Qwen3.5-4B-GGUF\">Source and credits</a><br>The ggml authors; LLVM OpenMP contributors · <a style=\"color:#f5f2e9\" href=\"https://github.com/ggml-org/llama.cpp/blob/cd959bae99ff4bed22bef2604f45241c09bbb8c8/LICENSE\">MIT + LLVM OpenMP license notice</a> · <a style=\"color:#f5f2e9\" href=\"https://github.com/ggml-org/llama.cpp/releases/tag/b12110\">Source and credits</a>",
+          "height": 84,
+          "required": 84
+        },
+        {
+          "text": "Review the size and licenses before downloading. Existing verified files are reused. Enabling Command or Translate never starts a download.",
+          "height": 42,
+          "required": 42
+        }
+      ]
+    },
+    {
+      "path": "dark-style-targets.png",
+      "sha256": "9f35ddb99d67658ebd3678ee5812b44e33a6de802800f7f2fc3a340abc174933",
+      "width": 850,
+      "height": 1000,
+      "labels": [
+        {
+          "text": "Choose a style for each app group. Default follows your cleanup settings; app overrides take priority.",
+          "height": 21,
+          "required": 21
+        },
+        {
+          "text": "App group",
+          "height": 36,
+          "required": 21
+        },
+        {
+          "text": "Spoken output",
+          "height": 36,
+          "required": 21
+        },
+        {
+          "text": "Enable Translate in Settings → Labs after reviewing its local model. These saved targets use your normal dictation shortcut and require Pro. Raw and Code bypass translation. The cleanup preview below is separate from spoken translation.",
+          "height": 63,
+          "required": 63
+        },
+        {
+          "text": "Preview group",
+          "height": 41,
+          "required": 21
+        },
+        {
+          "text": "Before cleanup",
+          "height": 21,
+          "required": 21
+        },
+        {
+          "text": "Preview",
+          "height": 21,
+          "required": 21
+        },
+        {
+          "text": "Updating preview…",
+          "height": 21,
+          "required": 21
+        }
+      ]
+    },
+    {
+      "path": "dark-translation.png",
+      "sha256": "b61ef3e435ba5442e8e7d33723a838e58f7342145b5b0603678de150586b1bf7",
+      "width": 640,
+      "height": 520,
+      "labels": [
+        {
+          "text": "Translation",
+          "height": 45,
+          "required": 45
+        },
+        {
+          "text": "Your translation is ready to copy. Check the original field before pasting again. This saves as a separate note on this PC.",
+          "height": 42,
+          "required": 42
+        },
+        {
+          "text": "Saved on this PC",
+          "height": 21,
+          "required": 21
+        }
+      ]
+    },
+    {
+      "path": "dark-translation_raw.png",
+      "sha256": "1697f40c28ad0d7084997d86b64d034968e50d778f773254bd7b4b2e7385f6b1",
+      "width": 640,
+      "height": 520,
+      "labels": [
+        {
+          "text": "Recognized speech",
+          "height": 45,
+          "required": 45
+        },
+        {
+          "text": "These are your recognized speech words, available to copy and save as a separate note. No untranslated text was pasted automatically.",
+          "height": 42,
+          "required": 42
+        },
+        {
+          "text": "Saved on this PC",
+          "height": 21,
+          "required": 21
+        }
+      ]
+    }
+  ],
+  "git_commit": "05535251b4518a3e5a1c5e8daf82d42af3b339c5",
+  "source_dirty": false,
+  "renderer_sha256": "5b51ccf71ad6b28cd709ef582b38d260b348fd61eb5bd6528933947dcb3877a6"
+}
