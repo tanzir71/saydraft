@@ -154,16 +154,15 @@ def validate_edit_output(selection, instruction, candidate):
     if currencies(selection) != currencies(candidate):
         return ValidationResult(False, "currency_changed")
     if not _TRANSLATE.search(instruction):
-        # Ambiguous English May/march require a date expression or date cue.
-        # In "may be useful" and "march forward" they are not calendar facts.
-        for terms, reason in ((NUMBER_WORDS, "number_words_changed"), (DATE_WORDS - {'may', 'march'}, "dates_changed")):
+        # Ignore May only in a clear auxiliary phrase ("may be/have").
+        # Other uses remain conservative, including "next May" and "March".
+        for terms, reason in ((NUMBER_WORDS, "number_words_changed"), (DATE_WORDS, "dates_changed")):
             def words(text):
+                if terms is DATE_WORDS:
+                    text = re.sub(r'\bmay(?=\s+(?:not\s+)?(?:be|have)\b)', '', text, flags=re.IGNORECASE)
                 return Counter(word for word in map(str.casefold, extract_words(text)) if word in terms)
             if words(selection) != words(candidate):
                 return ValidationResult(False, reason)
-        ambiguous_month = re.compile(r'\b(?:in|during|by|until|since|before|after|from)\s+(may|march)\b', re.IGNORECASE)
-        if Counter(ambiguous_month.findall(selection.casefold())) != Counter(ambiguous_month.findall(candidate.casefold())):
-            return ValidationResult(False, "dates_changed")
         for pattern, reason in ((AMOUNTS, "amounts_changed"), (DATES, "dates_changed"), (TIMES, "times_changed")):
             def values(text):
                 return Counter(re.sub(r"\s+", " ", match[0]).casefold() for match in pattern.finditer(text))

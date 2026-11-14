@@ -22,7 +22,8 @@ finish, exactly one `replacement` string, and no tools, duplicate/extra fields,
 invalid controls or new response wrappers. The independent edit validator allows
 rewriting, while preserving numeric values, currencies, URLs, emails, code
 literals and placeholders. Ordinary edits also retain negation and explicit
-date/time/number-word facts. An explicit English translation instruction permits
+date/time/number-word facts. The ambiguous word “May” is ignored only in clear
+auxiliary phrases such as “may be”; calendar uses remain protected. An explicit English translation instruction permits
 language and word changes. Conservative checks can reject legitimate edits;
 they do not prove factual or semantic equivalence. The normal cleanup validator
 and its word-preservation rules are unchanged.
@@ -52,6 +53,13 @@ validation. Hand-authored references alone are not native-model acceptance.
 retaining output, token counts, timings, source/runtime hashes and observed native
 exit. The probe uses no audio, hooks, clipboard, foreground or OS text input.
 It does not establish full Command Mode or owner-data acceptance.
+
+At clean `7265787`, actual Qwen3.5 4B output passes all 30 authored checks;
+the 2B comparison passes 29 and retains qualitative meaning failures despite
+mechanical acceptance. Both use the same final prompt and unchanged corpus.
+The earlier failures, all outputs, native exit receipts, pinned hashes and review
+limits are retained in the [native edit record](../eval/commands/results/2026-11-14-native-edits/README.md).
+This does not change the app's model default or make Command Mode available.
 
 The transport follows the pinned llama.cpp
 [b12110 server contract](https://github.com/ggml-org/llama.cpp/blob/b12110/tools/server/README.md)

@@ -70,6 +70,9 @@ def test_edit_validator_distinguishes_modal_may_and_negative_unable_from_changed
     assert validate_edit_output("I can't attend.", 'Make more formal.', 'I am unable to attend.').ok
     assert validate_edit_output('I can attend.', 'Make more formal.', 'I am unable to attend.').reason == 'negation_changed'
     assert validate_edit_output('Release in May.', 'Make shorter.', 'Release in June.').reason == 'dates_changed'
+    assert validate_edit_output('Release next May.', 'Make shorter.', 'Release next June.').reason == 'dates_changed'
+    assert validate_edit_output('Start March.', 'Make shorter.', 'Start April.').reason == 'dates_changed'
+    assert validate_edit_output('May', 'Make shorter.', 'June').reason == 'dates_changed'
 
 
 def test_thirty_authored_cases_have_valid_references_for_all_four_instruction_families():
