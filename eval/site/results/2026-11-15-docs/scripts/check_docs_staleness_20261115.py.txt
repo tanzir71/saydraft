@@ -1,0 +1,28 @@
+"""Exercise actual build refusal on nested docs and a migrated resource; restore exact bytes."""
+from pathlib import Path
+import hashlib
+import json
+import subprocess
+
+qa = Path(__file__).resolve().parent
+repo = qa / 'worktrees/site-docs-parity-20261115'
+run = qa / 'site-docs-parity-20261115-r1'
+records = []
+for name, label in (('site/src/content/docs/privacy/verify-offline.mdx', 'nested-doc'),
+                    ('site/src/content/pages/privacy.mdx', 'migrated-resource')):
+    path = repo / name
+    original = path.read_bytes()
+    assert b'verified: "2026-11-14"' in original
+    try:
+        path.write_bytes(original.replace(b'verified: "2026-11-14"', b'verified: "2000-01-01"', 1))
+        with (run / f'stale-{label}-r2.txt').open('wb') as log:
+            result = subprocess.run(['npm.cmd', 'run', 'build'], cwd=repo / 'site', stdout=log, stderr=subprocess.STDOUT)
+        output = (run / f'stale-{label}-r2.txt').read_text(encoding='utf-8')
+        assert result.returncode != 0 and path.name in output and 'valid past/current UTC date within 120 days' in output, output
+    finally:
+        path.write_bytes(original)
+    assert path.read_bytes() == original
+    records.append({'path': name, 'injected_date': '2000-01-01', 'build_exit': result.returncode, 'restored_exact_bytes': True,
+                    'sha256': hashlib.sha256(original).hexdigest()})
+(run / 'stale-build-receipt.json').write_text(json.dumps(records, indent=2) + '\n')
+print(json.dumps(records))

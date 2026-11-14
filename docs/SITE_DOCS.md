@@ -74,3 +74,16 @@ the probe restores exact source bytes afterward.
 All five GitHub workflows remain manual-only. Local results and direct source
 pushes do not imply a new hosting deployment, public release, signed installer,
 owner accuracy acceptance or completion of the full implementation plan.
+
+The [15 November qualification](../eval/site/results/2026-11-15-docs/) accepts
+P9.4 at source `5848e53`: all 42 site, 234 component and ten Node checks pass,
+with zero diagnostics across 82 checked files, 43 built pages and a successful
+Storybook build. All 21 Lighthouse runs score 100 for performance, accessibility
+and SEO, with maximum LCP 960 ms and zero CLS. Actual output hashes match the
+tested site. Both real stale-date builds fail and restore exact original bytes.
+
+The fresh clean-source portable has 1,384 files. Its complete frozen checks and
+bundle audit pass, including the corrected bundled notices. The retained verifier
+checks all 362 source witnesses and 82 evidence records, and can additionally
+verify every actual static/Storybook file, bundle file and ZIP entry. The unsigned
+portable qualification does not accept the unbuilt installer or release gates.

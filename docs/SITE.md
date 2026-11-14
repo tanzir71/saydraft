@@ -250,3 +250,22 @@ credit, unchanged language-link order and committed favicon bytes.
 4,178 tests / 12 explicit skips, rules 556/556, adversarial 100/100 and the native
 read-only browser/actual-model Ask check. The earlier lockfile failure remains
 documented above. This verifies this content delivery, not completion of P9.
+
+## Documentation completion, 15 November 2026
+
+The remaining P9.4 docs and resource migrations are complete: eleven docs routes
+including the index, nested Verify offline, and dated Download/Privacy/Credits
+bring the site to 22 MDX pages and 43 public HTML pages. Shared model tables use
+the app's pinned catalog. The source README now also presents its nineteen
+highlighted languages alphabetically. [SITE_DOCS.md](SITE_DOCS.md) describes the
+routes, native navigation, explicit setup, privacy and measured-accuracy limits.
+
+Source `5848e53` passes 42 site, 234 component and ten Node checks; all existing
+visual baselines pass ordinary comparisons. Build/type diagnostics and Storybook
+pass. All 21 Lighthouse runs over seven URLs score 100/100/100, with maximum
+LCP960ms and zero CLS. Real stale nested-doc/resource builds are refused and
+restored exactly. The [retained qualification](../eval/site/results/2026-11-15-docs/)
+also verifies the fresh notice-only portable build and its actual ZIP. This
+accepts P9.4's content/build scope. Other P9 milestones, hosted publication,
+broader owner accuracy and full-plan acceptance remain open. No workflow or
+hosting deployment was invoked for this checkpoint.

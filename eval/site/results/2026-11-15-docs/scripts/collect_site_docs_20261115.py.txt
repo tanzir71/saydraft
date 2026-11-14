@@ -1,0 +1,155 @@
+"""Retain local P9.4 and notice-only portable qualification against clean committed source."""
+from collections import Counter
+from datetime import datetime
+import hashlib
+import json
+from pathlib import Path
+import shutil
+import subprocess
+import zipfile
+
+qa = Path(__file__).resolve().parent
+repo = qa / 'worktrees/site-docs-parity-20261115'
+run = qa / 'site-docs-parity-20261115-r1'
+site = repo / 'site'
+build = qa / 'site-docs-package-20261115-r1'
+target = repo / 'eval/site/results/2026-11-15-docs'
+sha = lambda data: hashlib.sha256(data).hexdigest()
+load = lambda path: json.loads(path.read_bytes())
+assert not subprocess.check_output(['git', 'status', '--porcelain'], cwd=repo)
+source = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=repo, text=True).strip()
+reports = {name: load(run / file) for name, file in [('site', 'site-tests-final.json'), ('components', 'components-r1.json')]}
+for name, count in [('site', 42), ('components', 234)]:
+    assert reports[name]['stats']['expected'] == count
+    assert not any(reports[name]['stats'][key] for key in ('unexpected', 'skipped', 'flaky'))
+starts = {name: datetime.fromisoformat(report['stats']['startTime'].replace('Z', '+00:00')).timestamp() for name, report in reports.items()}
+target.mkdir(parents=True, exist_ok=False)
+for folder in ['raw', 'lighthouse', 'package', 'screenshots', 'scripts']: (target / folder).mkdir()
+for path in run.iterdir():
+    if path.is_file() and path.suffix in ('.txt', '.json'): shutil.copyfile(path, target / 'raw' / path.name)
+shutil.copytree(run / 'failures-r1', target / 'raw/failures-r1')
+for path in (site / '.lighthouseci').glob('*.json'): shutil.copyfile(path, target / 'lighthouse' / path.name)
+for project in ['mobile', 'tablet', 'desktop']:
+    captures = site / f'test-results/docs-all-documentation-and-13cf9-eadable-dated-and-navigable-{project}'
+    for name in ['docs', 'docs-models', 'docs-privacy-verify-offline', 'download', 'credits']:
+        shutil.copyfile(captures / f'{name}.png', target / f'screenshots/{name}-{project}.png')
+shutil.copyfile(site / 'storybook-static/index.json', target / 'storybook-index.json')
+for path in (build / 'audit').iterdir():
+    if path.is_file(): shutil.copyfile(path, target / 'package' / path.name)
+bundle = load(build / 'audit/bundle.json')
+runtime = load(build / 'audit/runtime.json')
+assert bundle['git_commit'] == source and not bundle['source_dirty']
+assert runtime['complete'] and all(runtime['checks'].values())
+assert not bundle['packaging_gate'] and not bundle['installer_size_gate']
+notice_name = '_internal/THIRD_PARTY_NOTICES.md'
+notice = (build / 'dist/Saydraft' / notice_name).read_bytes()
+assert notice == (repo / 'THIRD_PARTY_NOTICES.md').read_bytes()
+assert sha(notice) == bundle['file_sha256'][notice_name]
+zip_name, artifact = next(iter(bundle['artifacts'].items()))
+zip_path = build / 'artifacts' / zip_name
+assert zip_path.stat().st_size == artifact['bytes'] and sha(zip_path.read_bytes()) == artifact['sha256']
+with zipfile.ZipFile(zip_path) as archive:
+    candidates = [name for name in archive.namelist() if name.endswith('/' + notice_name) or name == notice_name]
+    assert len(candidates) == 1 and archive.read(candidates[0]) == notice
+(target / 'package/notice-receipt.json').write_text(json.dumps({'source': source, 'notice_sha256': sha(notice),
+    'source_bundle_zip_exact_match': True, 'zip_name': zip_name, 'artifact': artifact}, indent=2) + '\n')
+paths = subprocess.check_output(['git', 'ls-files', '-z', '--', 'site', 'design/tokens.json', 'tools/generate_tokens.mjs',
+    'THIRD_PARTY_NOTICES.md', 'saydraft/models/manifest.json'], cwd=repo).decode().split('\0')
+witness = {}
+for name in filter(None, paths):
+    path = repo / name
+    binary = path.suffix.lower() in ('.png', '.jpg', '.jpeg', '.woff', '.woff2', '.ico', '.gz')
+    data = path.read_bytes()
+    assert path.stat().st_mtime < starts['site'], name
+    component_scope = name.startswith(('site/src/components/', 'site/src/styles/', 'site/.storybook/', 'site/component-tests/')) or name in (
+        'site/src/data/languages.ts', 'site/src/data/guides.ts', 'site/src/data/documentation.ts',
+        'site/playwright.components.config.ts', 'site/test-ports.ts', 'site/tools/serve-storybook.mjs',
+        'site/package.json', 'site/package-lock.json', 'design/tokens.json', 'tools/generate_tokens.mjs')
+    if component_scope: assert path.stat().st_mtime < starts['components'], name
+    witness[name] = {'sha256': sha(data if binary else data.replace(b'\r\n', b'\n')), 'binary': binary,
+                     'modified_before_site_run': True, 'component_scope': component_scope,
+                     'modified_before_component_run': True if component_scope else None}
+(target / 'source-witness.json').write_text(json.dumps({'source': source, 'test_starts': starts, 'files': witness}, indent=2) + '\n')
+outputs = {label: {p.relative_to(directory).as_posix(): sha(p.read_bytes()) for p in sorted(directory.rglob('*')) if p.is_file()}
+           for label, directory in [('site', site / 'dist'), ('storybook', site / 'storybook-static')]}
+assert outputs['site'] == load(run / 'lighthouse-dist-files.json')
+(target / 'outputs.json').write_text(json.dumps(outputs, indent=2) + '\n')
+runs = []
+for path in sorted((target / 'lighthouse').glob('lhr-*.json')):
+    report = load(path)
+    assert not report.get('runtimeError')
+    scores = {name: report['categories'][name]['score'] for name in ['performance', 'accessibility', 'seo']}
+    lcp = report['audits']['largest-contentful-paint']['numericValue']
+    cls = report['audits']['cumulative-layout-shift']['numericValue']
+    assert scores['performance'] >= .95 and scores['accessibility'] == scores['seo'] == 1 and lcp <= 2000 and cls < .05
+    runs.append({'file': path.name, 'sha256': sha(path.read_bytes()), 'url': report['finalUrl'], **scores, 'lcp_ms': lcp, 'cls': cls})
+urls = Counter(row['url'] for row in runs)
+assert len(urls) == 7 and set(urls.values()) == {3}
+(target / 'lighthouse-summary.json').write_text(json.dumps({'runs': runs}, indent=2) + '\n')
+receipt = {'source': source, 'base': '22e705f7d56e6c0a69ed9f7001d923e1d004285f', 'pages': 43, 'dated_mdx': 22,
+    'site_checks': 42, 'component_checks': 234, 'node_contracts': 10, 'stories': 71, 'component_snapshots': 213,
+    'lighthouse_runs': len(runs), 'lighthouse_urls': len(urls), 'min_performance': min(row['performance'] for row in runs),
+    'min_accessibility': min(row['accessibility'] for row in runs), 'min_seo': min(row['seo'] for row in runs),
+    'max_lcp_ms': max(row['lcp_ms'] for row in runs), 'max_cls': max(row['cls'] for row in runs),
+    'observed_terminal_exits': {'site': 0, 'components': 0, 'build': 0, 'storybook': 0, 'contracts': 0, 'lighthouse': 0, 'portable_build': 0},
+    'p9_4_accepted': True, 'full_goal_complete': False, 'owner_accuracy_accepted': False,
+    'owner_desktop_audio_input_used': False, 'owner_clipboard_used': False, 'actions_dispatched': False,
+    'pull_requests_created': False, 'hosting_deployed': False, 'installer_qualified': False,
+    'runtime_code_changed': False, 'bundled_notice_changed': True, 'portable_matches_latest_app': True,
+    'reserved_bn_ta_te_recordings_uninferred': 60}
+(target / 'receipt.json').write_text(json.dumps(receipt, indent=2) + '\n')
+for name in ['collect_site_docs_20261115.py', 'check_docs_staleness_20261115.py']:
+    shutil.copyfile(qa / name, target / 'scripts' / (name + '.txt'))
+shutil.copyfile(qa / 'verify_site_docs_20261115.py', target / 'verify.py.txt')
+(target / 'README.md').write_text(f'''# Dated website documentation qualification
+
+P9.4 is accepted against source `{source}`. All specified content now uses dated
+MDX: five comparisons, offline pillar, developer guide, changelog, eleven docs
+including their index, Download, Privacy and Credits (22 MDX / 43 public pages).
+Current source facts and model transfer sizes are documented in docs/SITE_DOCS.md.
+
+Final local checks: 42 site cases, 234 component cases, ten Node contracts, clean
+Astro diagnostics/build and Storybook build. There are no final skips, flakes or
+retries. All 213 component and three Home baselines pass ordinary comparisons.
+The site checks cover metadata/H1 uniqueness, HTML, complete sitemap and local
+links, nested keyboard navigation, all docs without JavaScript, source-copy via
+memory only, language/model tables, five original OFL notices and local-only
+assets at 390/768/1440. Fifteen representative docs/resource captures are kept;
+phone and desktop layouts were visually reviewed. Existing baselines stay intact.
+
+Twenty-one Lighthouse runs across seven URLs pass unchanged budgets: minimum
+performance {receipt['min_performance'] * 100:g}, accessibility/SEO100, maximum
+LCP{receipt['max_lcp_ms']:g}ms and CLS{receipt['max_cls']:g}. Actual output hashes
+are retained. These simulated local results do not guarantee every device.
+Real builds reject a stale nested doc and migrated Privacy resource, with exact
+bytes restored. The first stale probe incorrectly expected the injected date in
+the error message; the real build already refused it. Its log is preserved.
+The first browser run found numeric-starting Getting started heading IDs plus
+an ambiguous development-status locator and an arbitrary FAQ body-length check.
+Heading labels and test targeting were corrected; full subsequent runs pass.
+Original failures and final reports are retained without replacement.
+
+A clean-source unsigned portable build qualifies the corrected bundled 4B-model
+role notice. Its runtime verifies resources/native dependencies without capture,
+device enumeration, clipboard, foreground or input. The source, bundle and ZIP
+notice bytes match exactly; the artifact size/hash and complete bundle inventory
+are retained. The app/runtime/model pins are unchanged. No installer was built:
+packaging/signing/installer acceptance remains false. No ASR inference was added.
+
+Run the standard-library verifier on this recorded source (later changes require
+their own qualification):
+
+```powershell
+python eval/site/results/2026-11-15-docs/verify.py.txt --repo .
+```
+
+Add `--site-root` for actual static/Storybook outputs and `--build-root` for the
+actual portable bundle/ZIP. The verifier starts no app, browser or device service.
+This is a local source checkpoint: no PR, Actions dispatch, hosting deployment,
+release or owner accuracy acceptance. All 60 reserved BN/TA/TE recordings remain
+uninferred. The original full implementation goal and remaining P9/owner gates
+stay open.
+''', encoding='utf-8')
+records = {p.relative_to(target).as_posix(): sha(p.read_bytes()) for p in sorted(target.rglob('*')) if p.is_file()}
+(target / 'files.json').write_text(json.dumps(records, indent=2) + '\n')
+print(json.dumps({'source': source, 'records': len(records), 'source_files': len(witness), **receipt}))

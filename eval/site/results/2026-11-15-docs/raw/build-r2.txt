@@ -1,0 +1,86 @@
+
+> saydraft-site@0.1.0 build
+> npm run tokens:check && npm run content:check && astro check && astro build
+
+
+> saydraft-site@0.1.0 tokens:check
+> node ../tools/generate_tokens.mjs --check
+
+12 shared token outputs verified.
+
+> saydraft-site@0.1.0 content:check
+> node tools/check-content-dates.mjs
+
+Verified dates are current for 22 content pages.
+04:25:22 [content] Syncing content
+04:25:22 [content] Synced content
+04:25:22 [types] Generated 670ms
+04:25:22 [check] Getting diagnostics for Astro files in D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-docs-parity-20261115\site...
+Result (82 files): 
+- 0 errors
+- 0 warnings
+- 0 hints
+
+04:25:29 [content] Syncing content
+04:25:29 [content] Synced content
+04:25:29 [types] Generated 616ms
+04:25:29 [build] output: "static"
+04:25:29 [build] mode: "static"
+04:25:29 [build] directory: D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-docs-parity-20261115\site\dist\
+04:25:29 [build] Collecting build info...
+04:25:29 [build] ✓ Completed in 670ms.
+04:25:29 [build] Building static entrypoints...
+04:25:29 [vite] ✓ built in 455ms
+04:25:29 [vite] ✓ built in 101ms
+04:25:29 [build] Rearranging server assets...
+
+ generating static routes 
+04:25:29   ├─ /languages/arabic/index.html (+21ms) 
+04:25:29   ├─ /languages/bengali/index.html (+5ms) 
+04:25:29   ├─ /languages/brazilian-portuguese/index.html (+4ms) 
+04:25:29   ├─ /languages/chinese/index.html (+36ms) 
+04:25:29   ├─ /languages/filipino-tagalog/index.html (+4ms) 
+04:25:30   ├─ /languages/french/index.html (+3ms) 
+04:25:30   ├─ /languages/german/index.html (+3ms) 
+04:25:30   ├─ /languages/hindi/index.html (+2ms) 
+04:25:30   ├─ /languages/indonesian/index.html (+3ms) 
+04:25:30   ├─ /languages/japanese/index.html (+3ms) 
+04:25:30   ├─ /languages/korean/index.html (+3ms) 
+04:25:30   ├─ /languages/malay/index.html (+2ms) 
+04:25:30   ├─ /languages/persian/index.html (+2ms) 
+04:25:30   ├─ /languages/spanish/index.html (+2ms) 
+04:25:30   ├─ /languages/tamil/index.html (+2ms) 
+04:25:30   ├─ /languages/telugu/index.html (+2ms) 
+04:25:30   ├─ /languages/thai/index.html (+2ms) 
+04:25:30   ├─ /languages/urdu/index.html (+2ms) 
+04:25:30   ├─ /languages/vietnamese/index.html (+2ms) 
+04:25:30   ├─ /languages/index.html (+3ms) 
+04:25:30   ├─ /sitemap.xml (+2ms) 
+04:25:30   ├─ /index.html (+10ms) 
+04:25:30   ├─ /dragon-alternative/index.html (+9ms) 
+04:25:30   ├─ /superwhisper-alternative-windows/index.html (+5ms) 
+04:25:30   ├─ /typeless-alternative/index.html (+6ms) 
+04:25:30   ├─ /windows-voice-typing-alternative/index.html (+5ms) 
+04:25:30   ├─ /wispr-flow-alternative/index.html (+6ms) 
+04:25:30   ├─ /changelog/index.html (+581ms) 
+04:25:30   ├─ /dictation-for-developers/index.html (+7ms) 
+04:25:30   ├─ /offline-dictation-windows/index.html (+6ms) 
+04:25:30   ├─ /docs/command-mode/index.html (+6ms) 
+04:25:30   ├─ /docs/dictionary/index.html (+5ms) 
+04:25:30   ├─ /docs/faq/index.html (+4ms) 
+04:25:30   ├─ /docs/getting-started/index.html (+5ms) 
+04:25:30   ├─ /docs/index.html (+7ms) 
+04:25:30   ├─ /docs/languages/index.html (+6ms) 
+04:25:30   ├─ /docs/models/index.html (+7ms) 
+04:25:30   ├─ /docs/privacy/verify-offline/index.html (+5ms) 
+04:25:30   ├─ /docs/shortcuts/index.html (+5ms) 
+04:25:30   ├─ /docs/styles/index.html (+5ms) 
+04:25:30   ├─ /docs/troubleshooting/index.html (+5ms) 
+04:25:30   ├─ /credits/index.html (+5ms) 
+04:25:30   ├─ /download/index.html (+7ms) 
+04:25:30   ├─ /privacy/index.html (+5ms) 
+04:25:30 ✓ Completed in 859ms.
+
+04:25:30 [build] ✓ Completed in 1.61s.
+04:25:30 [build] 43 page(s) built in 2.30s
+04:25:30 [build] Complete!

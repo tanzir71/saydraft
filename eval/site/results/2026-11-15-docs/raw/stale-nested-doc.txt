@@ -1,0 +1,24 @@
+
+> saydraft-site@0.1.0 build
+> npm run tokens:check && npm run content:check && astro check && astro build
+
+
+> saydraft-site@0.1.0 tokens:check
+> node ../tools/generate_tokens.mjs --check
+
+12 shared token outputs verified.
+
+> saydraft-site@0.1.0 content:check
+> node tools/check-content-dates.mjs
+
+file:///D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-docs-parity-20261115/site/tools/check-content-dates.mjs:17
+        throw new Error(`${path}: verified must be a valid past/current UTC date within ${MAX_VERIFIED_AGE_DAYS} days; recheck sources before changing it.`);
+              ^
+
+Error: D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-docs-parity-20261115\site\src\content\docs\privacy\verify-offline.mdx: verified must be a valid past/current UTC date within 120 days; recheck sources before changing it.
+    at checkContentDates (file:///D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-docs-parity-20261115/site/tools/check-content-dates.mjs:17:15)
+    at async checkContentDates (file:///D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-docs-parity-20261115/site/tools/check-content-dates.mjs:10:38)
+    at async checkContentDates (file:///D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-docs-parity-20261115/site/tools/check-content-dates.mjs:10:38)
+    at async file:///D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-docs-parity-20261115/site/tools/check-content-dates.mjs:26:17
+
+Node.js v24.22.2
