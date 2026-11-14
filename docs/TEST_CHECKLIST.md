@@ -27,6 +27,13 @@ $env:DO_NOT_TRACK = '1'
 Require zero failures, all 556 current rules cases, and all 100 authored
 adversarial cases. Record the commit, test count, and every skip with each run;
 optional model/native skips require their separate fixtures and acceptance.
+Before model preparation and the full suite, CI runs its catalog, installation
+and checklist contracts with
+`python -m pytest tests/test_versioned_models.py tests/test_meeting_models.py tests/test_model_packages.py tests/test_verified_downloader.py tests/test_manual_checklist.py -q --basetemp="${{ runner.temp }}/saydraft-pytest-catalog"`.
+GitHub Actions expands `runner.temp` to its existing temporary root; local runs
+should supply an explicit temporary path whose parent already exists. The full
+suite still includes these tests. Keep this checklist synchronized with workflow
+commands; the early gate checks that contract too.
 The separate public-metadata CI job runs `python -m tools.probe_updates` to
 verify the default-off path, then `python -m tools.probe_updates --enabled`
 for an explicit real GitHub metadata request. Both checks require the scoped
