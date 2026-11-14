@@ -43,7 +43,7 @@ block removes only that owned rule. The receipts distinguish this source/runtime
 smoke from frozen-app, cleanup-sidecar, physical input and owner-accuracy gates.
 CI prepares its pinned VAD fixture explicitly. Other real-model measurements
 are separate. Its disposable checkout uses
-`python -m pytest tests -q -rs --basetemp=build/pytest` so owned-window native
+`python -m pytest tests -q -rs -o faulthandler_timeout=120 --durations=12 --basetemp=build/pytest` so owned-window native
 reports can be retained after the test step. Other measurements
 are described in [evaluation](EVALUATION.md), [models](MODELS.md), and
 [cleanup evidence](CLEANUP_EVIDENCE.md); these gates do not establish owner ASR
