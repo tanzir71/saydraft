@@ -201,7 +201,7 @@ class SelectionTracker:
                 # A copied string has no anchored original range. Metadata can
                 # authorize reading/generation, never an automatic write.
                 return "copy_only" if for_write else ""
-            if not reason and for_write and self._read_only(element) is True:
+            if not reason and for_write and (lease.snapshot.read_only is True or self._read_only(element) is True):
                 reason = "read_only"
             if not reason:
                 fresh = self.reader.selection_range(element, current)

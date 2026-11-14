@@ -170,6 +170,16 @@ def test_read_only_selection_can_be_read_but_not_authorize_a_write():
     assert tracker.verify(snapshot) == "read_only" and tracker.expires_at is None
 
 
+def test_read_only_lease_cannot_be_upgraded_or_forged_into_a_replacement():
+    reader = SelectionReader()
+    reader.read_only = True
+    tracker = SelectionTracker(reader)
+    snapshot = tracker.begin(123, 42)
+    reader.read_only = False
+    assert tracker.verify(replace(snapshot, read_only=False)) == 'read_only'
+    assert tracker.expires_at is None
+
+
 @pytest.mark.parametrize("change,reason", [("password_value", "password_field"), ("focused", "focus_changed"),
     ("runtime", "focus_changed"), ("pid", "focus_changed"), ("read_only", "read_only")])
 def test_fresh_field_identity_and_sensitive_state_are_required_before_a_write(change, reason):

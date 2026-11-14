@@ -70,6 +70,24 @@ def run(path):
         return window
     def factory():
         native = NativeUIAReader()
+        client = native.client
+        report['document_ancestors'] = []
+        class Walker:
+            def __init__(self, walker):
+                self.walker = walker
+            def GetParentElementBuildCache(self, element, cache):
+                parent = self.walker.GetParentElementBuildCache(element, cache)
+                if parent and len(report['document_ancestors']) < 32:
+                    report['document_ancestors'].append({'type': native.control_type(parent),
+                        'password': native.password(parent), 'native_handle': native.field_handle(parent)})
+                return parent
+        class Client:
+            @property
+            def RawViewWalker(self):
+                return Walker(client.RawViewWalker)
+            def __getattr__(self, name):
+                return getattr(client, name)
+        native.client = Client()  # Delegates unchanged calls, retaining cached ancestry metadata only.
         original = native.selection_text
         def read(*args):
             report['native_reads'] += 1
