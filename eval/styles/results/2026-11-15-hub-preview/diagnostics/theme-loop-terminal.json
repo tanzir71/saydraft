@@ -1,0 +1,6 @@
+{
+  "reason": "Sustained CPU loop at app.processEvents in theme-close test, confirmed by two stack inspections; terminated only this owned test process",
+  "owned_command_verified": true,
+  "passed_claimed": false,
+  "process_id": 38452
+}

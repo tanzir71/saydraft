@@ -1,0 +1,37 @@
+F....................................................................... [ 83%]
+..............                                                           [100%]
+================================== FAILURES ===================================
+___ test_real_hub_all_84_styles_match_authored_goldens_and_delivery_engine ____
+
+subject = namespace(hub=<saydraft.ui.hub.HubWindow(0x1380a3c3c40) at 0x000001380B5B2EC0>, qt=namespace(QtCore=<module 'PySide6.Q...ydraft-Codex-QA-20261112-01a1cbc7/style-preview-parity-20261115-r1/pytest-focused-r2/test_real_hub_all_84_styles_ma0'))
+
+    def test_real_hub_all_84_styles_match_authored_goldens_and_delivery_engine(subject):
+        from saydraft.eval import load_eval_corpus
+        hub = subject.hub
+        page = hub.settings_page.styles_page
+        hub.show_page('Style')
+        assert hub.pages.currentWidget() is page and page.window() is hub
+        select(page.language, 'en')
+        expected = {(c.app_group, c.tone, c.intensity): c.expected
+            for c in load_eval_corpus() if c.id.startswith('style-v1-')}
+        assert len(expected) == 84
+        original = subject.config.read_bytes()
+        for group in GROUP_LABELS:
+            select(page.group, group)
+            for tone in ('formal', 'casual', 'very_casual'):
+                select(page.tones[group], tone)
+                for level in range(1, 5):
+                    select(page.levels[group], level)
+                    page.refresh()
+                    request = page._request()
+>                   assert page.after.toPlainText() == engine_preview(request) == expected[group, tone, level]
+E                   AssertionError: assert 'um like hello hello world.' == 'um like hello hello world'
+E                     
+E                     - um like hello hello world
+E                     + um like hello hello world.
+E                     ?                          +
+
+tests\test_hub_style_preview.py:72: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_hub_style_preview.py::test_real_hub_all_84_styles_match_authored_goldens_and_delivery_engine
+1 failed, 85 passed, 2 deselected in 64.03s (0:01:04)

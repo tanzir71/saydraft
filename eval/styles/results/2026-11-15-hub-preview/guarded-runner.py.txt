@@ -1,0 +1,45 @@
+"""Offscreen tests with owner audio/profile/entry-point imports barred."""
+import atexit
+import importlib.abc
+import json
+import os
+from pathlib import Path
+import sys
+import types
+
+qa = Path(__file__).resolve().parent
+repo = qa / 'worktrees/style-preview-parity-20261115'
+os.environ['QT_QPA_PLATFORM'] = 'offscreen'
+os.environ['PYTHONIOENCODING'] = 'utf-8'
+os.environ['TEMP'] = os.environ['TMP'] = str(qa / 'style-preview-parity-20261115-r1/tmp')
+Path(os.environ['TEMP']).mkdir(parents=True, exist_ok=True)
+class Guard(importlib.abc.MetaPathFinder):
+    def find_spec(self, fullname, path=None, target=None):
+        if fullname.split('.')[0] in ('soundcard', 'sounddevice') or fullname in (
+                'saydraft.app', 'saydraft.compat.migrate', 'saydraft.logging_config', 'saydraft.single_instance'):
+            raise AssertionError('Owner desktop/audio/profile services are barred')
+sys.meta_path.insert(0, Guard())
+sys.path.insert(0, str(repo))
+sys.path.insert(0, str(qa / 'dictionary-correction-20261115-r1/dependencies'))
+profile = types.ModuleType('saydraft.compat.migrate')
+profile.LEGACY_NAME = 'VoiceTray'
+profile.profile_root = lambda: qa / 'style-preview-parity-20261115-r1/profile'
+sys.modules[profile.__name__] = profile
+guard_path = Path(sys.argv.pop(1))
+atexit.register(lambda: guard_path.write_text(json.dumps({
+    'real_audio_sdk_imported': any(name in sys.modules for name in ('soundcard', 'sounddevice')),
+    'owner_profile_module_used': False, 'platform': os.environ['QT_QPA_PLATFORM'],
+    'application_entrypoint_imported': 'saydraft.app' in sys.modules,
+}) + '\n', encoding='utf-8'))
+if sys.argv[1] in ('--script', '--module'):
+    import runpy
+    mode = sys.argv.pop(1)
+    script = sys.argv.pop(1)
+    sys.argv[0] = script
+    if mode == '--script':
+        runpy.run_path(script, run_name='__main__')
+    else:
+        runpy.run_module(script, run_name='__main__', alter_sys=True)
+else:
+    import pytest
+    raise SystemExit(pytest.main(sys.argv[1:]))

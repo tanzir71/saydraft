@@ -1,0 +1,976 @@
+FFFFFFFFFFFFFFFFFFFFF..F...FF..............F...................          [100%]
+================================== FAILURES ===================================
+___ test_real_hub_all_84_styles_match_authored_goldens_and_delivery_engine ____
+
+subject = namespace(hub=<saydraft.ui.hub.HubWindow(0x163f0e46280) at 0x00000163F2143640>, qt=namespace(QtCore=<module 'PySide6.Q...ydraft-Codex-QA-20261112-01a1cbc7/style-preview-parity-20261115-r1/pytest-focused-r1/test_real_hub_all_84_styles_ma0'))
+
+    def test_real_hub_all_84_styles_match_authored_goldens_and_delivery_engine(subject):
+        from saydraft.eval import load_eval_corpus
+        hub = subject.hub
+        page = hub.settings_page.styles_page
+        hub.show_page('Style')
+        assert hub.pages.currentWidget() is page and page.window() is hub
+        select(page.language, 'en')
+        expected = {(c.app_group, c.tone, c.intensity): c.expected
+            for c in load_eval_corpus() if c.id.startswith('style-v1-')}
+        assert len(expected) == 84
+        original = subject.config.read_bytes()
+        for group in GROUP_LABELS:
+            select(page.group, group)
+            for tone in ('formal', 'casual', 'very_casual'):
+                select(page.tones[group], tone)
+                for level in range(1, 5):
+                    select(page.levels[group], level)
+                    page.refresh()
+                    request = page._request()
+>                   assert page.after.toPlainText() == engine_preview(request) == expected[group, tone, level]
+E                   AssertionError: assert 'um like hello hello world.' == 'um like hello hello world'
+E                     
+E                     - um like hello hello world
+E                     + um like hello hello world.
+E                     ?                          +
+
+tests\test_hub_style_preview.py:65: AssertionError
+_ test_requested_language_previews_match_engine_without_speech_or_config_changes[en-ask Krezle about 14 files.] _
+
+subject = namespace(hub=<saydraft.ui.hub.HubWindow(0x163f15ddbb0) at 0x00000163F21495C0>, qt=namespace(QtCore=<module 'PySide6.Q...ydraft-Codex-QA-20261112-01a1cbc7/style-preview-parity-20261115-r1/pytest-focused-r1/test_requested_language_previe0'))
+code = 'en', text = 'ask Krezle about 14 files.'
+
+    @pytest.mark.parametrize('code,text', [
+        ('en', 'ask Krezle about 14 files.'), ('ar', '\u0623\u0631\u0633\u0644 14 \u0645\u0644\u0641\u064b\u0627 \u0625\u0644\u0649 \u0645\u0631\u064a\u0645.'),
+        ('bn', '\u09b0\u09b9\u09bf\u09ae\u0995\u09c7 14\u099f\u09bf \u09ab\u09be\u0987\u09b2 \u09aa\u09be\u09a0\u09be\u09a8\u0964'), ('pt', 'Envie 14 arquivos para Maria.'),
+        ('zh', '\u8bf7\u628a14\u4e2a\u6587\u4ef6\u53d1\u7ed9\u5c0f\u660e\u3002'), ('tl', 'Ipadala ang 14 na file kay Maria.'),
+        ('fr', 'Envoyez 14 fichiers � Marie.'), ('de', 'Senden Sie 14 Dateien an Maria.'),
+        ('hi', '\u092e\u0930\u093f\u092f\u092e \u0915\u094b 14 \u092b\u093c\u093e\u0907\u0932\u0947\u0902 \u092d\u0947\u091c\u0947\u0902\u0964'), ('id', 'Kirim 14 berkas kepada Maria.'),
+        ('ja', '\u30de\u30ea\u30a2\u306b14\u500b\u306e\u30d5\u30a1\u30a4\u30eb\u3092\u9001\u3063\u3066\u304f\u3060\u3055\u3044\u3002'), ('ko', '\ub9c8\ub9ac\uc544\uc5d0\uac8c \ud30c\uc77c 14\uac1c\ub97c \ubcf4\ub0b4 \uc8fc\uc138\uc694.'),
+        ('ms', 'Hantar 14 fail kepada Maria.'), ('fa', '14 \u067e\u0631\u0648\u0646\u062f\u0647 \u0631\u0627 \u0628\u0631\u0627\u06cc \u0645\u0631\u06cc\u0645 \u0628\u0641\u0631\u0633\u062a\u06cc\u062f.'),
+        ('es', 'Env\xeda 14 archivos a Mar\xeda.'), ('ta', '\u0bae\u0bb0\u0bbf\u0baf\u0bbe\u0bb5\u0bc1\u0b95\u0bcd\u0b95\u0bc1 14 \u0b95\u0bcb\u0baa\u0bcd\u0baa\u0bc1\u0b95\u0bb3\u0bc8 \u0b85\u0ba9\u0bc1\u0baa\u0bcd\u0baa\u0bb5\u0bc1\u0bae\u0bcd.'),
+        ('te', '\u0c2e\u0c30\u0c3f\u0c2f\u0c3e\u0c15\u0c41 14 \u0c2b\u0c48\u0c33\u0c4d\u0c32\u0c41 \u0c2a\u0c02\u0c2a\u0c02\u0c21\u0c3f.'), ('th', '\u0e2a\u0e48\u0e07\u0e44\u0e1f\u0e25\u0e4c14\u0e44\u0e1f\u0e25\u0e4c\u0e43\u0e2b\u0e49\u0e21\u0e32\u0e40\u0e23\u0e35\u0e22'),
+        ('ur', '\u0645\u0631\u06cc\u0645 \u06a9\u0648 14 \u0641\u0627\u0626\u0644\u06cc\u06ba \u0628\u06be\u06cc\u062c\u06cc\u06ba\u06d4'), ('vi', 'G\u1eedi 14 t\u1ec7p cho Maria.'),
+    ])
+    def test_requested_language_previews_match_engine_without_speech_or_config_changes(subject, code, text):
+        settings = subject.hub.settings_page
+        page = settings.styles_page
+        settings.dictionary_editor.setPlainText(json.dumps({'user_terms': ['Krezel']}))
+        select(page.language, code)
+        select(page.group, 'general')
+        page.before.setPlainText(text)
+        before = subject.config.read_bytes()
+        page.refresh()
+        assert page._request().context.language == code
+        assert page.after.toPlainText() == engine_preview(page._request())
+        if code == 'en':
+            assert page.after.toPlainText() == 'Ask Krezel about 14 files.'
+        else:
+            assert page.after.toPlainText() == text
+        assert subject.config.read_bytes() == before
+        assert settings._collect_config()['stt']['language'] == 'auto'
+>       assert subject.store.list_recent(limit=10) == []
+E       AssertionError: assert [HistoryRow(i...io_path=None)] == []
+E         
+E         Left contains 2 more items, first extra item: HistoryRow(id=2, created_at='2026-11-14T19:34:29.569Z', app_name='Code', raw_text='newer raw Qwen Turbo', cleaned_text...nguage=None, asr_model='small', llm_model=None, llm_decision=None, timings_json='{}', edits_json='[]', audio_path=None)
+E         Use -v to get more diff
+
+tests\test_hub_style_preview.py:99: AssertionError
+_ test_requested_language_previews_match_engine_without_speech_or_config_changes[ar-\u0623\u0631\u0633\u0644 14 \u0645\u0644\u0641\u064b\u0627 \u0625\u0644\u0649 \u0645\u0631\u064a\u0645.] _
+
+subject = namespace(hub=<saydraft.ui.hub.HubWindow(0x163f15da910) at 0x00000163F1FD1080>, qt=namespace(QtCore=<module 'PySide6.Q...ydraft-Codex-QA-20261112-01a1cbc7/style-preview-parity-20261115-r1/pytest-focused-r1/test_requested_language_previe1'))
+code = 'ar', text = '\u0623\u0631\u0633\u0644 14 \u0645\u0644\u0641\u064b\u0627 \u0625\u0644\u0649 \u0645\u0631\u064a\u0645.'
+
+    @pytest.mark.parametrize('code,text', [
+        ('en', 'ask Krezle about 14 files.'), ('ar', '\u0623\u0631\u0633\u0644 14 \u0645\u0644\u0641\u064b\u0627 \u0625\u0644\u0649 \u0645\u0631\u064a\u0645.'),
+        ('bn', '\u09b0\u09b9\u09bf\u09ae\u0995\u09c7 14\u099f\u09bf \u09ab\u09be\u0987\u09b2 \u09aa\u09be\u09a0\u09be\u09a8\u0964'), ('pt', 'Envie 14 arquivos para Maria.'),
+        ('zh', '\u8bf7\u628a14\u4e2a\u6587\u4ef6\u53d1\u7ed9\u5c0f\u660e\u3002'), ('tl', 'Ipadala ang 14 na file kay Maria.'),
+        ('fr', 'Envoyez 14 fichiers � Marie.'), ('de', 'Senden Sie 14 Dateien an Maria.'),
+        ('hi', '\u092e\u0930\u093f\u092f\u092e \u0915\u094b 14 \u092b\u093c\u093e\u0907\u0932\u0947\u0902 \u092d\u0947\u091c\u0947\u0902\u0964'), ('id', 'Kirim 14 berkas kepada Maria.'),
+        ('ja', '\u30de\u30ea\u30a2\u306b14\u500b\u306e\u30d5\u30a1\u30a4\u30eb\u3092\u9001\u3063\u3066\u304f\u3060\u3055\u3044\u3002'), ('ko', '\ub9c8\ub9ac\uc544\uc5d0\uac8c \ud30c\uc77c 14\uac1c\ub97c \ubcf4\ub0b4 \uc8fc\uc138\uc694.'),
+        ('ms', 'Hantar 14 fail kepada Maria.'), ('fa', '14 \u067e\u0631\u0648\u0646\u062f\u0647 \u0631\u0627 \u0628\u0631\u0627\u06cc \u0645\u0631\u06cc\u0645 \u0628\u0641\u0631\u0633\u062a\u06cc\u062f.'),
+        ('es', 'Env\xeda 14 archivos a Mar\xeda.'), ('ta', '\u0bae\u0bb0\u0bbf\u0baf\u0bbe\u0bb5\u0bc1\u0b95\u0bcd\u0b95\u0bc1 14 \u0b95\u0bcb\u0baa\u0bcd\u0baa\u0bc1\u0b95\u0bb3\u0bc8 \u0b85\u0ba9\u0bc1\u0baa\u0bcd\u0baa\u0bb5\u0bc1\u0bae\u0bcd.'),
+        ('te', '\u0c2e\u0c30\u0c3f\u0c2f\u0c3e\u0c15\u0c41 14 \u0c2b\u0c48\u0c33\u0c4d\u0c32\u0c41 \u0c2a\u0c02\u0c2a\u0c02\u0c21\u0c3f.'), ('th', '\u0e2a\u0e48\u0e07\u0e44\u0e1f\u0e25\u0e4c14\u0e44\u0e1f\u0e25\u0e4c\u0e43\u0e2b\u0e49\u0e21\u0e32\u0e40\u0e23\u0e35\u0e22'),
+        ('ur', '\u0645\u0631\u06cc\u0645 \u06a9\u0648 14 \u0641\u0627\u0626\u0644\u06cc\u06ba \u0628\u06be\u06cc\u062c\u06cc\u06ba\u06d4'), ('vi', 'G\u1eedi 14 t\u1ec7p cho Maria.'),
+    ])
+    def test_requested_language_previews_match_engine_without_speech_or_config_changes(subject, code, text):
+        settings = subject.hub.settings_page
+        page = settings.styles_page
+        settings.dictionary_editor.setPlainText(json.dumps({'user_terms': ['Krezel']}))
+        select(page.language, code)
+        select(page.group, 'general')
+        page.before.setPlainText(text)
+        before = subject.config.read_bytes()
+        page.refresh()
+        assert page._request().context.language == code
+        assert page.after.toPlainText() == engine_preview(page._request())
+        if code == 'en':
+            assert page.after.toPlainText() == 'Ask Krezel about 14 files.'
+        else:
+            assert page.after.toPlainText() == text
+        assert subject.config.read_bytes() == before
+        assert settings._collect_config()['stt']['language'] == 'auto'
+>       assert subject.store.list_recent(limit=10) == []
+E       AssertionError: assert [HistoryRow(i...io_path=None)] == []
+E         
+E         Left contains 2 more items, first extra item: HistoryRow(id=2, created_at='2026-11-14T19:34:30.749Z', app_name='Code', raw_text='newer raw Qwen Turbo', cleaned_text...nguage=None, asr_model='small', llm_model=None, llm_decision=None, timings_json='{}', edits_json='[]', audio_path=None)
+E         Use -v to get more diff
+
+tests\test_hub_style_preview.py:99: AssertionError
+_ test_requested_language_previews_match_engine_without_speech_or_config_changes[bn-\u09b0\u09b9\u09bf\u09ae\u0995\u09c7 14\u099f\u09bf \u09ab\u09be\u0987\u09b2 \u09aa\u09be\u09a0\u09be\u09a8\u0964] _
+
+subject = namespace(hub=<saydraft.ui.hub.HubWindow(0x163f17fcc90) at 0x00000163F1DE4940>, qt=namespace(QtCore=<module 'PySide6.Q...ydraft-Codex-QA-20261112-01a1cbc7/style-preview-parity-20261115-r1/pytest-focused-r1/test_requested_language_previe2'))
+code = 'bn', text = '\u09b0\u09b9\u09bf\u09ae\u0995\u09c7 14\u099f\u09bf \u09ab\u09be\u0987\u09b2 \u09aa\u09be\u09a0\u09be\u09a8\u0964'
+
+    @pytest.mark.parametrize('code,text', [
+        ('en', 'ask Krezle about 14 files.'), ('ar', '\u0623\u0631\u0633\u0644 14 \u0645\u0644\u0641\u064b\u0627 \u0625\u0644\u0649 \u0645\u0631\u064a\u0645.'),
+        ('bn', '\u09b0\u09b9\u09bf\u09ae\u0995\u09c7 14\u099f\u09bf \u09ab\u09be\u0987\u09b2 \u09aa\u09be\u09a0\u09be\u09a8\u0964'), ('pt', 'Envie 14 arquivos para Maria.'),
+        ('zh', '\u8bf7\u628a14\u4e2a\u6587\u4ef6\u53d1\u7ed9\u5c0f\u660e\u3002'), ('tl', 'Ipadala ang 14 na file kay Maria.'),
+        ('fr', 'Envoyez 14 fichiers � Marie.'), ('de', 'Senden Sie 14 Dateien an Maria.'),
+        ('hi', '\u092e\u0930\u093f\u092f\u092e \u0915\u094b 14 \u092b\u093c\u093e\u0907\u0932\u0947\u0902 \u092d\u0947\u091c\u0947\u0902\u0964'), ('id', 'Kirim 14 berkas kepada Maria.'),
+        ('ja', '\u30de\u30ea\u30a2\u306b14\u500b\u306e\u30d5\u30a1\u30a4\u30eb\u3092\u9001\u3063\u3066\u304f\u3060\u3055\u3044\u3002'), ('ko', '\ub9c8\ub9ac\uc544\uc5d0\uac8c \ud30c\uc77c 14\uac1c\ub97c \ubcf4\ub0b4 \uc8fc\uc138\uc694.'),
+        ('ms', 'Hantar 14 fail kepada Maria.'), ('fa', '14 \u067e\u0631\u0648\u0646\u062f\u0647 \u0631\u0627 \u0628\u0631\u0627\u06cc \u0645\u0631\u06cc\u0645 \u0628\u0641\u0631\u0633\u062a\u06cc\u062f.'),
+        ('es', 'Env\xeda 14 archivos a Mar\xeda.'), ('ta', '\u0bae\u0bb0\u0bbf\u0baf\u0bbe\u0bb5\u0bc1\u0b95\u0bcd\u0b95\u0bc1 14 \u0b95\u0bcb\u0baa\u0bcd\u0baa\u0bc1\u0b95\u0bb3\u0bc8 \u0b85\u0ba9\u0bc1\u0baa\u0bcd\u0baa\u0bb5\u0bc1\u0bae\u0bcd.'),
+        ('te', '\u0c2e\u0c30\u0c3f\u0c2f\u0c3e\u0c15\u0c41 14 \u0c2b\u0c48\u0c33\u0c4d\u0c32\u0c41 \u0c2a\u0c02\u0c2a\u0c02\u0c21\u0c3f.'), ('th', '\u0e2a\u0e48\u0e07\u0e44\u0e1f\u0e25\u0e4c14\u0e44\u0e1f\u0e25\u0e4c\u0e43\u0e2b\u0e49\u0e21\u0e32\u0e40\u0e23\u0e35\u0e22'),
+        ('ur', '\u0645\u0631\u06cc\u0645 \u06a9\u0648 14 \u0641\u0627\u0626\u0644\u06cc\u06ba \u0628\u06be\u06cc\u062c\u06cc\u06ba\u06d4'), ('vi', 'G\u1eedi 14 t\u1ec7p cho Maria.'),
+    ])
+    def test_requested_language_previews_match_engine_without_speech_or_config_changes(subject, code, text):
+        settings = subject.hub.settings_page
+        page = settings.styles_page
+        settings.dictionary_editor.setPlainText(json.dumps({'user_terms': ['Krezel']}))
+        select(page.language, code)
+        select(page.group, 'general')
+        page.before.setPlainText(text)
+        before = subject.config.read_bytes()
+        page.refresh()
+        assert page._request().context.language == code
+        assert page.after.toPlainText() == engine_preview(page._request())
+        if code == 'en':
+            assert page.after.toPlainText() == 'Ask Krezel about 14 files.'
+        else:
+            assert page.after.toPlainText() == text
+        assert subject.config.read_bytes() == before
+        assert settings._collect_config()['stt']['language'] == 'auto'
+>       assert subject.store.list_recent(limit=10) == []
+E       AssertionError: assert [HistoryRow(i...io_path=None)] == []
+E         
+E         Left contains 2 more items, first extra item: HistoryRow(id=2, created_at='2026-11-14T19:34:31.997Z', app_name='Code', raw_text='newer raw Qwen Turbo', cleaned_text...nguage=None, asr_model='small', llm_model=None, llm_decision=None, timings_json='{}', edits_json='[]', audio_path=None)
+E         Use -v to get more diff
+
+tests\test_hub_style_preview.py:99: AssertionError
+_ test_requested_language_previews_match_engine_without_speech_or_config_changes[pt-Envie 14 arquivos para Maria.] _
+
+subject = namespace(hub=<saydraft.ui.hub.HubWindow(0x163f17fcc90) at 0x00000163F1FF8D80>, qt=namespace(QtCore=<module 'PySide6.Q...ydraft-Codex-QA-20261112-01a1cbc7/style-preview-parity-20261115-r1/pytest-focused-r1/test_requested_language_previe3'))
+code = 'pt', text = 'Envie 14 arquivos para Maria.'
+
+    @pytest.mark.parametrize('code,text', [
+        ('en', 'ask Krezle about 14 files.'), ('ar', '\u0623\u0631\u0633\u0644 14 \u0645\u0644\u0641\u064b\u0627 \u0625\u0644\u0649 \u0645\u0631\u064a\u0645.'),
+        ('bn', '\u09b0\u09b9\u09bf\u09ae\u0995\u09c7 14\u099f\u09bf \u09ab\u09be\u0987\u09b2 \u09aa\u09be\u09a0\u09be\u09a8\u0964'), ('pt', 'Envie 14 arquivos para Maria.'),
+        ('zh', '\u8bf7\u628a14\u4e2a\u6587\u4ef6\u53d1\u7ed9\u5c0f\u660e\u3002'), ('tl', 'Ipadala ang 14 na file kay Maria.'),
+        ('fr', 'Envoyez 14 fichiers � Marie.'), ('de', 'Senden Sie 14 Dateien an Maria.'),
+        ('hi', '\u092e\u0930\u093f\u092f\u092e \u0915\u094b 14 \u092b\u093c\u093e\u0907\u0932\u0947\u0902 \u092d\u0947\u091c\u0947\u0902\u0964'), ('id', 'Kirim 14 berkas kepada Maria.'),
+        ('ja', '\u30de\u30ea\u30a2\u306b14\u500b\u306e\u30d5\u30a1\u30a4\u30eb\u3092\u9001\u3063\u3066\u304f\u3060\u3055\u3044\u3002'), ('ko', '\ub9c8\ub9ac\uc544\uc5d0\uac8c \ud30c\uc77c 14\uac1c\ub97c \ubcf4\ub0b4 \uc8fc\uc138\uc694.'),
+        ('ms', 'Hantar 14 fail kepada Maria.'), ('fa', '14 \u067e\u0631\u0648\u0646\u062f\u0647 \u0631\u0627 \u0628\u0631\u0627\u06cc \u0645\u0631\u06cc\u0645 \u0628\u0641\u0631\u0633\u062a\u06cc\u062f.'),
+        ('es', 'Env\xeda 14 archivos a Mar\xeda.'), ('ta', '\u0bae\u0bb0\u0bbf\u0baf\u0bbe\u0bb5\u0bc1\u0b95\u0bcd\u0b95\u0bc1 14 \u0b95\u0bcb\u0baa\u0bcd\u0baa\u0bc1\u0b95\u0bb3\u0bc8 \u0b85\u0ba9\u0bc1\u0baa\u0bcd\u0baa\u0bb5\u0bc1\u0bae\u0bcd.'),
+        ('te', '\u0c2e\u0c30\u0c3f\u0c2f\u0c3e\u0c15\u0c41 14 \u0c2b\u0c48\u0c33\u0c4d\u0c32\u0c41 \u0c2a\u0c02\u0c2a\u0c02\u0c21\u0c3f.'), ('th', '\u0e2a\u0e48\u0e07\u0e44\u0e1f\u0e25\u0e4c14\u0e44\u0e1f\u0e25\u0e4c\u0e43\u0e2b\u0e49\u0e21\u0e32\u0e40\u0e23\u0e35\u0e22'),
+        ('ur', '\u0645\u0631\u06cc\u0645 \u06a9\u0648 14 \u0641\u0627\u0626\u0644\u06cc\u06ba \u0628\u06be\u06cc\u062c\u06cc\u06ba\u06d4'), ('vi', 'G\u1eedi 14 t\u1ec7p cho Maria.'),
+    ])
+    def test_requested_language_previews_match_engine_without_speech_or_config_changes(subject, code, text):
+        settings = subject.hub.settings_page
+        page = settings.styles_page
+        settings.dictionary_editor.setPlainText(json.dumps({'user_terms': ['Krezel']}))
+        select(page.language, code)
+        select(page.group, 'general')
+        page.before.setPlainText(text)
+        before = subject.config.read_bytes()
+        page.refresh()
+        assert page._request().context.language == code
+        assert page.after.toPlainText() == engine_preview(page._request())
+        if code == 'en':
+            assert page.after.toPlainText() == 'Ask Krezel about 14 files.'
+        else:
+            assert page.after.toPlainText() == text
+        assert subject.config.read_bytes() == before
+        assert settings._collect_config()['stt']['language'] == 'auto'
+>       assert subject.store.list_recent(limit=10) == []
+E       AssertionError: assert [HistoryRow(i...io_path=None)] == []
+E         
+E         Left contains 2 more items, first extra item: HistoryRow(id=2, created_at='2026-11-14T19:34:33.215Z', app_name='Code', raw_text='newer raw Qwen Turbo', cleaned_text...nguage=None, asr_model='small', llm_model=None, llm_decision=None, timings_json='{}', edits_json='[]', audio_path=None)
+E         Use -v to get more diff
+
+tests\test_hub_style_preview.py:99: AssertionError
+_ test_requested_language_previews_match_engine_without_speech_or_config_changes[zh-\u8bf7\u628a14\u4e2a\u6587\u4ef6\u53d1\u7ed9\u5c0f\u660e\u3002] _
+
+subject = namespace(hub=<saydraft.ui.hub.HubWindow(0x163f17fdf20) at 0x00000163F3A0CF00>, qt=namespace(QtCore=<module 'PySide6.Q...ydraft-Codex-QA-20261112-01a1cbc7/style-preview-parity-20261115-r1/pytest-focused-r1/test_requested_language_previe4'))
+code = 'zh', text = '\u8bf7\u628a14\u4e2a\u6587\u4ef6\u53d1\u7ed9\u5c0f\u660e\u3002'
+
+    @pytest.mark.parametrize('code,text', [
+        ('en', 'ask Krezle about 14 files.'), ('ar', '\u0623\u0631\u0633\u0644 14 \u0645\u0644\u0641\u064b\u0627 \u0625\u0644\u0649 \u0645\u0631\u064a\u0645.'),
+        ('bn', '\u09b0\u09b9\u09bf\u09ae\u0995\u09c7 14\u099f\u09bf \u09ab\u09be\u0987\u09b2 \u09aa\u09be\u09a0\u09be\u09a8\u0964'), ('pt', 'Envie 14 arquivos para Maria.'),
+        ('zh', '\u8bf7\u628a14\u4e2a\u6587\u4ef6\u53d1\u7ed9\u5c0f\u660e\u3002'), ('tl', 'Ipadala ang 14 na file kay Maria.'),
+        ('fr', 'Envoyez 14 fichiers � Marie.'), ('de', 'Senden Sie 14 Dateien an Maria.'),
+        ('hi', '\u092e\u0930\u093f\u092f\u092e \u0915\u094b 14 \u092b\u093c\u093e\u0907\u0932\u0947\u0902 \u092d\u0947\u091c\u0947\u0902\u0964'), ('id', 'Kirim 14 berkas kepada Maria.'),
+        ('ja', '\u30de\u30ea\u30a2\u306b14\u500b\u306e\u30d5\u30a1\u30a4\u30eb\u3092\u9001\u3063\u3066\u304f\u3060\u3055\u3044\u3002'), ('ko', '\ub9c8\ub9ac\uc544\uc5d0\uac8c \ud30c\uc77c 14\uac1c\ub97c \ubcf4\ub0b4 \uc8fc\uc138\uc694.'),
+        ('ms', 'Hantar 14 fail kepada Maria.'), ('fa', '14 \u067e\u0631\u0648\u0646\u062f\u0647 \u0631\u0627 \u0628\u0631\u0627\u06cc \u0645\u0631\u06cc\u0645 \u0628\u0641\u0631\u0633\u062a\u06cc\u062f.'),
+        ('es', 'Env\xeda 14 archivos a Mar\xeda.'), ('ta', '\u0bae\u0bb0\u0bbf\u0baf\u0bbe\u0bb5\u0bc1\u0b95\u0bcd\u0b95\u0bc1 14 \u0b95\u0bcb\u0baa\u0bcd\u0baa\u0bc1\u0b95\u0bb3\u0bc8 \u0b85\u0ba9\u0bc1\u0baa\u0bcd\u0baa\u0bb5\u0bc1\u0bae\u0bcd.'),
+        ('te', '\u0c2e\u0c30\u0c3f\u0c2f\u0c3e\u0c15\u0c41 14 \u0c2b\u0c48\u0c33\u0c4d\u0c32\u0c41 \u0c2a\u0c02\u0c2a\u0c02\u0c21\u0c3f.'), ('th', '\u0e2a\u0e48\u0e07\u0e44\u0e1f\u0e25\u0e4c14\u0e44\u0e1f\u0e25\u0e4c\u0e43\u0e2b\u0e49\u0e21\u0e32\u0e40\u0e23\u0e35\u0e22'),
+        ('ur', '\u0645\u0631\u06cc\u0645 \u06a9\u0648 14 \u0641\u0627\u0626\u0644\u06cc\u06ba \u0628\u06be\u06cc\u062c\u06cc\u06ba\u06d4'), ('vi', 'G\u1eedi 14 t\u1ec7p cho Maria.'),
+    ])
+    def test_requested_language_previews_match_engine_without_speech_or_config_changes(subject, code, text):
+        settings = subject.hub.settings_page
+        page = settings.styles_page
+        settings.dictionary_editor.setPlainText(json.dumps({'user_terms': ['Krezel']}))
+        select(page.language, code)
+        select(page.group, 'general')
+        page.before.setPlainText(text)
+        before = subject.config.read_bytes()
+        page.refresh()
+        assert page._request().context.language == code
+        assert page.after.toPlainText() == engine_preview(page._request())
+        if code == 'en':
+            assert page.after.toPlainText() == 'Ask Krezel about 14 files.'
+        else:
+            assert page.after.toPlainText() == text
+        assert subject.config.read_bytes() == before
+        assert settings._collect_config()['stt']['language'] == 'auto'
+>       assert subject.store.list_recent(limit=10) == []
+E       AssertionError: assert [HistoryRow(i...io_path=None)] == []
+E         
+E         Left contains 2 more items, first extra item: HistoryRow(id=2, created_at='2026-11-14T19:34:34.403Z', app_name='Code', raw_text='newer raw Qwen Turbo', cleaned_text...nguage=None, asr_model='small', llm_model=None, llm_decision=None, timings_json='{}', edits_json='[]', audio_path=None)
+E         Use -v to get more diff
+
+tests\test_hub_style_preview.py:99: AssertionError
+_ test_requested_language_previews_match_engine_without_speech_or_config_changes[tl-Ipadala ang 14 na file kay Maria.] _
+
+subject = namespace(hub=<saydraft.ui.hub.HubWindow(0x163f15da760) at 0x00000163F20782C0>, qt=namespace(QtCore=<module 'PySide6.Q...ydraft-Codex-QA-20261112-01a1cbc7/style-preview-parity-20261115-r1/pytest-focused-r1/test_requested_language_previe5'))
+code = 'tl', text = 'Ipadala ang 14 na file kay Maria.'
+
+    @pytest.mark.parametrize('code,text', [
+        ('en', 'ask Krezle about 14 files.'), ('ar', '\u0623\u0631\u0633\u0644 14 \u0645\u0644\u0641\u064b\u0627 \u0625\u0644\u0649 \u0645\u0631\u064a\u0645.'),
+        ('bn', '\u09b0\u09b9\u09bf\u09ae\u0995\u09c7 14\u099f\u09bf \u09ab\u09be\u0987\u09b2 \u09aa\u09be\u09a0\u09be\u09a8\u0964'), ('pt', 'Envie 14 arquivos para Maria.'),
+        ('zh', '\u8bf7\u628a14\u4e2a\u6587\u4ef6\u53d1\u7ed9\u5c0f\u660e\u3002'), ('tl', 'Ipadala ang 14 na file kay Maria.'),
+        ('fr', 'Envoyez 14 fichiers � Marie.'), ('de', 'Senden Sie 14 Dateien an Maria.'),
+        ('hi', '\u092e\u0930\u093f\u092f\u092e \u0915\u094b 14 \u092b\u093c\u093e\u0907\u0932\u0947\u0902 \u092d\u0947\u091c\u0947\u0902\u0964'), ('id', 'Kirim 14 berkas kepada Maria.'),
+        ('ja', '\u30de\u30ea\u30a2\u306b14\u500b\u306e\u30d5\u30a1\u30a4\u30eb\u3092\u9001\u3063\u3066\u304f\u3060\u3055\u3044\u3002'), ('ko', '\ub9c8\ub9ac\uc544\uc5d0\uac8c \ud30c\uc77c 14\uac1c\ub97c \ubcf4\ub0b4 \uc8fc\uc138\uc694.'),
+        ('ms', 'Hantar 14 fail kepada Maria.'), ('fa', '14 \u067e\u0631\u0648\u0646\u062f\u0647 \u0631\u0627 \u0628\u0631\u0627\u06cc \u0645\u0631\u06cc\u0645 \u0628\u0641\u0631\u0633\u062a\u06cc\u062f.'),
+        ('es', 'Env\xeda 14 archivos a Mar\xeda.'), ('ta', '\u0bae\u0bb0\u0bbf\u0baf\u0bbe\u0bb5\u0bc1\u0b95\u0bcd\u0b95\u0bc1 14 \u0b95\u0bcb\u0baa\u0bcd\u0baa\u0bc1\u0b95\u0bb3\u0bc8 \u0b85\u0ba9\u0bc1\u0baa\u0bcd\u0baa\u0bb5\u0bc1\u0bae\u0bcd.'),
+        ('te', '\u0c2e\u0c30\u0c3f\u0c2f\u0c3e\u0c15\u0c41 14 \u0c2b\u0c48\u0c33\u0c4d\u0c32\u0c41 \u0c2a\u0c02\u0c2a\u0c02\u0c21\u0c3f.'), ('th', '\u0e2a\u0e48\u0e07\u0e44\u0e1f\u0e25\u0e4c14\u0e44\u0e1f\u0e25\u0e4c\u0e43\u0e2b\u0e49\u0e21\u0e32\u0e40\u0e23\u0e35\u0e22'),
+        ('ur', '\u0645\u0631\u06cc\u0645 \u06a9\u0648 14 \u0641\u0627\u0626\u0644\u06cc\u06ba \u0628\u06be\u06cc\u062c\u06cc\u06ba\u06d4'), ('vi', 'G\u1eedi 14 t\u1ec7p cho Maria.'),
+    ])
+    def test_requested_language_previews_match_engine_without_speech_or_config_changes(subject, code, text):
+        settings = subject.hub.settings_page
+        page = settings.styles_page
+        settings.dictionary_editor.setPlainText(json.dumps({'user_terms': ['Krezel']}))
+        select(page.language, code)
+        select(page.group, 'general')
+        page.before.setPlainText(text)
+        before = subject.config.read_bytes()
+        page.refresh()
+        assert page._request().context.language == code
+        assert page.after.toPlainText() == engine_preview(page._request())
+        if code == 'en':
+            assert page.after.toPlainText() == 'Ask Krezel about 14 files.'
+        else:
+            assert page.after.toPlainText() == text
+        assert subject.config.read_bytes() == before
+        assert settings._collect_config()['stt']['language'] == 'auto'
+>       assert subject.store.list_recent(limit=10) == []
+E       AssertionError: assert [HistoryRow(i...io_path=None)] == []
+E         
+E         Left contains 2 more items, first extra item: HistoryRow(id=2, created_at='2026-11-14T19:34:35.633Z', app_name='Code', raw_text='newer raw Qwen Turbo', cleaned_text...nguage=None, asr_model='small', llm_model=None, llm_decision=None, timings_json='{}', edits_json='[]', audio_path=None)
+E         Use -v to get more diff
+
+tests\test_hub_style_preview.py:99: AssertionError
+_ test_requested_language_previews_match_engine_without_speech_or_config_changes[fr-Envoyez 14 fichiers \xe0 Marie.] _
+
+subject = namespace(hub=<saydraft.ui.hub.HubWindow(0x163f191a570) at 0x00000163F3078240>, qt=namespace(QtCore=<module 'PySide6.Q...ydraft-Codex-QA-20261112-01a1cbc7/style-preview-parity-20261115-r1/pytest-focused-r1/test_requested_language_previe6'))
+code = 'fr', text = 'Envoyez 14 fichiers � Marie.'
+
+    @pytest.mark.parametrize('code,text', [
+        ('en', 'ask Krezle about 14 files.'), ('ar', '\u0623\u0631\u0633\u0644 14 \u0645\u0644\u0641\u064b\u0627 \u0625\u0644\u0649 \u0645\u0631\u064a\u0645.'),
+        ('bn', '\u09b0\u09b9\u09bf\u09ae\u0995\u09c7 14\u099f\u09bf \u09ab\u09be\u0987\u09b2 \u09aa\u09be\u09a0\u09be\u09a8\u0964'), ('pt', 'Envie 14 arquivos para Maria.'),
+        ('zh', '\u8bf7\u628a14\u4e2a\u6587\u4ef6\u53d1\u7ed9\u5c0f\u660e\u3002'), ('tl', 'Ipadala ang 14 na file kay Maria.'),
+        ('fr', 'Envoyez 14 fichiers � Marie.'), ('de', 'Senden Sie 14 Dateien an Maria.'),
+        ('hi', '\u092e\u0930\u093f\u092f\u092e \u0915\u094b 14 \u092b\u093c\u093e\u0907\u0932\u0947\u0902 \u092d\u0947\u091c\u0947\u0902\u0964'), ('id', 'Kirim 14 berkas kepada Maria.'),
+        ('ja', '\u30de\u30ea\u30a2\u306b14\u500b\u306e\u30d5\u30a1\u30a4\u30eb\u3092\u9001\u3063\u3066\u304f\u3060\u3055\u3044\u3002'), ('ko', '\ub9c8\ub9ac\uc544\uc5d0\uac8c \ud30c\uc77c 14\uac1c\ub97c \ubcf4\ub0b4 \uc8fc\uc138\uc694.'),
+        ('ms', 'Hantar 14 fail kepada Maria.'), ('fa', '14 \u067e\u0631\u0648\u0646\u062f\u0647 \u0631\u0627 \u0628\u0631\u0627\u06cc \u0645\u0631\u06cc\u0645 \u0628\u0641\u0631\u0633\u062a\u06cc\u062f.'),
+        ('es', 'Env\xeda 14 archivos a Mar\xeda.'), ('ta', '\u0bae\u0bb0\u0bbf\u0baf\u0bbe\u0bb5\u0bc1\u0b95\u0bcd\u0b95\u0bc1 14 \u0b95\u0bcb\u0baa\u0bcd\u0baa\u0bc1\u0b95\u0bb3\u0bc8 \u0b85\u0ba9\u0bc1\u0baa\u0bcd\u0baa\u0bb5\u0bc1\u0bae\u0bcd.'),
+        ('te', '\u0c2e\u0c30\u0c3f\u0c2f\u0c3e\u0c15\u0c41 14 \u0c2b\u0c48\u0c33\u0c4d\u0c32\u0c41 \u0c2a\u0c02\u0c2a\u0c02\u0c21\u0c3f.'), ('th', '\u0e2a\u0e48\u0e07\u0e44\u0e1f\u0e25\u0e4c14\u0e44\u0e1f\u0e25\u0e4c\u0e43\u0e2b\u0e49\u0e21\u0e32\u0e40\u0e23\u0e35\u0e22'),
+        ('ur', '\u0645\u0631\u06cc\u0645 \u06a9\u0648 14 \u0641\u0627\u0626\u0644\u06cc\u06ba \u0628\u06be\u06cc\u062c\u06cc\u06ba\u06d4'), ('vi', 'G\u1eedi 14 t\u1ec7p cho Maria.'),
+    ])
+    def test_requested_language_previews_match_engine_without_speech_or_config_changes(subject, code, text):
+        settings = subject.hub.settings_page
+        page = settings.styles_page
+        settings.dictionary_editor.setPlainText(json.dumps({'user_terms': ['Krezel']}))
+        select(page.language, code)
+        select(page.group, 'general')
+        page.before.setPlainText(text)
+        before = subject.config.read_bytes()
+        page.refresh()
+        assert page._request().context.language == code
+        assert page.after.toPlainText() == engine_preview(page._request())
+        if code == 'en':
+            assert page.after.toPlainText() == 'Ask Krezel about 14 files.'
+        else:
+            assert page.after.toPlainText() == text
+        assert subject.config.read_bytes() == before
+        assert settings._collect_config()['stt']['language'] == 'auto'
+>       assert subject.store.list_recent(limit=10) == []
+E       AssertionError: assert [HistoryRow(i...io_path=None)] == []
+E         
+E         Left contains 2 more items, first extra item: HistoryRow(id=2, created_at='2026-11-14T19:34:36.930Z', app_name='Code', raw_text='newer raw Qwen Turbo', cleaned_text...nguage=None, asr_model='small', llm_model=None, llm_decision=None, timings_json='{}', edits_json='[]', audio_path=None)
+E         Use -v to get more diff
+
+tests\test_hub_style_preview.py:99: AssertionError
+_ test_requested_language_previews_match_engine_without_speech_or_config_changes[de-Senden Sie 14 Dateien an Maria.] _
+
+subject = namespace(hub=<saydraft.ui.hub.HubWindow(0x163f0e451a0) at 0x00000163F30C39C0>, qt=namespace(QtCore=<module 'PySide6.Q...ydraft-Codex-QA-20261112-01a1cbc7/style-preview-parity-20261115-r1/pytest-focused-r1/test_requested_language_previe7'))
+code = 'de', text = 'Senden Sie 14 Dateien an Maria.'
+
+    @pytest.mark.parametrize('code,text', [
+        ('en', 'ask Krezle about 14 files.'), ('ar', '\u0623\u0631\u0633\u0644 14 \u0645\u0644\u0641\u064b\u0627 \u0625\u0644\u0649 \u0645\u0631\u064a\u0645.'),
+        ('bn', '\u09b0\u09b9\u09bf\u09ae\u0995\u09c7 14\u099f\u09bf \u09ab\u09be\u0987\u09b2 \u09aa\u09be\u09a0\u09be\u09a8\u0964'), ('pt', 'Envie 14 arquivos para Maria.'),
+        ('zh', '\u8bf7\u628a14\u4e2a\u6587\u4ef6\u53d1\u7ed9\u5c0f\u660e\u3002'), ('tl', 'Ipadala ang 14 na file kay Maria.'),
+        ('fr', 'Envoyez 14 fichiers � Marie.'), ('de', 'Senden Sie 14 Dateien an Maria.'),
+        ('hi', '\u092e\u0930\u093f\u092f\u092e \u0915\u094b 14 \u092b\u093c\u093e\u0907\u0932\u0947\u0902 \u092d\u0947\u091c\u0947\u0902\u0964'), ('id', 'Kirim 14 berkas kepada Maria.'),
+        ('ja', '\u30de\u30ea\u30a2\u306b14\u500b\u306e\u30d5\u30a1\u30a4\u30eb\u3092\u9001\u3063\u3066\u304f\u3060\u3055\u3044\u3002'), ('ko', '\ub9c8\ub9ac\uc544\uc5d0\uac8c \ud30c\uc77c 14\uac1c\ub97c \ubcf4\ub0b4 \uc8fc\uc138\uc694.'),
+        ('ms', 'Hantar 14 fail kepada Maria.'), ('fa', '14 \u067e\u0631\u0648\u0646\u062f\u0647 \u0631\u0627 \u0628\u0631\u0627\u06cc \u0645\u0631\u06cc\u0645 \u0628\u0641\u0631\u0633\u062a\u06cc\u062f.'),
+        ('es', 'Env\xeda 14 archivos a Mar\xeda.'), ('ta', '\u0bae\u0bb0\u0bbf\u0baf\u0bbe\u0bb5\u0bc1\u0b95\u0bcd\u0b95\u0bc1 14 \u0b95\u0bcb\u0baa\u0bcd\u0baa\u0bc1\u0b95\u0bb3\u0bc8 \u0b85\u0ba9\u0bc1\u0baa\u0bcd\u0baa\u0bb5\u0bc1\u0bae\u0bcd.'),
+        ('te', '\u0c2e\u0c30\u0c3f\u0c2f\u0c3e\u0c15\u0c41 14 \u0c2b\u0c48\u0c33\u0c4d\u0c32\u0c41 \u0c2a\u0c02\u0c2a\u0c02\u0c21\u0c3f.'), ('th', '\u0e2a\u0e48\u0e07\u0e44\u0e1f\u0e25\u0e4c14\u0e44\u0e1f\u0e25\u0e4c\u0e43\u0e2b\u0e49\u0e21\u0e32\u0e40\u0e23\u0e35\u0e22'),
+        ('ur', '\u0645\u0631\u06cc\u0645 \u06a9\u0648 14 \u0641\u0627\u0626\u0644\u06cc\u06ba \u0628\u06be\u06cc\u062c\u06cc\u06ba\u06d4'), ('vi', 'G\u1eedi 14 t\u1ec7p cho Maria.'),
+    ])
+    def test_requested_language_previews_match_engine_without_speech_or_config_changes(subject, code, text):
+        settings = subject.hub.settings_page
+        page = settings.styles_page
+        settings.dictionary_editor.setPlainText(json.dumps({'user_terms': ['Krezel']}))
+        select(page.language, code)
+        select(page.group, 'general')
+        page.before.setPlainText(text)
+        before = subject.config.read_bytes()
+        page.refresh()
+        assert page._request().context.language == code
+        assert page.after.toPlainText() == engine_preview(page._request())
+        if code == 'en':
+            assert page.after.toPlainText() == 'Ask Krezel about 14 files.'
+        else:
+            assert page.after.toPlainText() == text
+        assert subject.config.read_bytes() == before
+        assert settings._collect_config()['stt']['language'] == 'auto'
+>       assert subject.store.list_recent(limit=10) == []
+E       AssertionError: assert [HistoryRow(i...io_path=None)] == []
+E         
+E         Left contains 2 more items, first extra item: HistoryRow(id=2, created_at='2026-11-14T19:34:38.191Z', app_name='Code', raw_text='newer raw Qwen Turbo', cleaned_text...nguage=None, asr_model='small', llm_model=None, llm_decision=None, timings_json='{}', edits_json='[]', audio_path=None)
+E         Use -v to get more diff
+
+tests\test_hub_style_preview.py:99: AssertionError
+_ test_requested_language_previews_match_engine_without_speech_or_config_changes[hi-\u092e\u0930\u093f\u092f\u092e \u0915\u094b 14 \u092b\u093c\u093e\u0907\u0932\u0947\u0902 \u092d\u0947\u091c\u0947\u0902\u0964] _
+
+subject = namespace(hub=<saydraft.ui.hub.HubWindow(0x163f1370910) at 0x00000163F3046080>, qt=namespace(QtCore=<module 'PySide6.Q...ydraft-Codex-QA-20261112-01a1cbc7/style-preview-parity-20261115-r1/pytest-focused-r1/test_requested_language_previe8'))
+code = 'hi', text = '\u092e\u0930\u093f\u092f\u092e \u0915\u094b 14 \u092b\u093c\u093e\u0907\u0932\u0947\u0902 \u092d\u0947\u091c\u0947\u0902\u0964'
+
+    @pytest.mark.parametrize('code,text', [
+        ('en', 'ask Krezle about 14 files.'), ('ar', '\u0623\u0631\u0633\u0644 14 \u0645\u0644\u0641\u064b\u0627 \u0625\u0644\u0649 \u0645\u0631\u064a\u0645.'),
+        ('bn', '\u09b0\u09b9\u09bf\u09ae\u0995\u09c7 14\u099f\u09bf \u09ab\u09be\u0987\u09b2 \u09aa\u09be\u09a0\u09be\u09a8\u0964'), ('pt', 'Envie 14 arquivos para Maria.'),
+        ('zh', '\u8bf7\u628a14\u4e2a\u6587\u4ef6\u53d1\u7ed9\u5c0f\u660e\u3002'), ('tl', 'Ipadala ang 14 na file kay Maria.'),
+        ('fr', 'Envoyez 14 fichiers � Marie.'), ('de', 'Senden Sie 14 Dateien an Maria.'),
+        ('hi', '\u092e\u0930\u093f\u092f\u092e \u0915\u094b 14 \u092b\u093c\u093e\u0907\u0932\u0947\u0902 \u092d\u0947\u091c\u0947\u0902\u0964'), ('id', 'Kirim 14 berkas kepada Maria.'),
+        ('ja', '\u30de\u30ea\u30a2\u306b14\u500b\u306e\u30d5\u30a1\u30a4\u30eb\u3092\u9001\u3063\u3066\u304f\u3060\u3055\u3044\u3002'), ('ko', '\ub9c8\ub9ac\uc544\uc5d0\uac8c \ud30c\uc77c 14\uac1c\ub97c \ubcf4\ub0b4 \uc8fc\uc138\uc694.'),
+        ('ms', 'Hantar 14 fail kepada Maria.'), ('fa', '14 \u067e\u0631\u0648\u0646\u062f\u0647 \u0631\u0627 \u0628\u0631\u0627\u06cc \u0645\u0631\u06cc\u0645 \u0628\u0641\u0631\u0633\u062a\u06cc\u062f.'),
+        ('es', 'Env\xeda 14 archivos a Mar\xeda.'), ('ta', '\u0bae\u0bb0\u0bbf\u0baf\u0bbe\u0bb5\u0bc1\u0b95\u0bcd\u0b95\u0bc1 14 \u0b95\u0bcb\u0baa\u0bcd\u0baa\u0bc1\u0b95\u0bb3\u0bc8 \u0b85\u0ba9\u0bc1\u0baa\u0bcd\u0baa\u0bb5\u0bc1\u0bae\u0bcd.'),
+        ('te', '\u0c2e\u0c30\u0c3f\u0c2f\u0c3e\u0c15\u0c41 14 \u0c2b\u0c48\u0c33\u0c4d\u0c32\u0c41 \u0c2a\u0c02\u0c2a\u0c02\u0c21\u0c3f.'), ('th', '\u0e2a\u0e48\u0e07\u0e44\u0e1f\u0e25\u0e4c14\u0e44\u0e1f\u0e25\u0e4c\u0e43\u0e2b\u0e49\u0e21\u0e32\u0e40\u0e23\u0e35\u0e22'),
+        ('ur', '\u0645\u0631\u06cc\u0645 \u06a9\u0648 14 \u0641\u0627\u0626\u0644\u06cc\u06ba \u0628\u06be\u06cc\u062c\u06cc\u06ba\u06d4'), ('vi', 'G\u1eedi 14 t\u1ec7p cho Maria.'),
+    ])
+    def test_requested_language_previews_match_engine_without_speech_or_config_changes(subject, code, text):
+        settings = subject.hub.settings_page
+        page = settings.styles_page
+        settings.dictionary_editor.setPlainText(json.dumps({'user_terms': ['Krezel']}))
+        select(page.language, code)
+        select(page.group, 'general')
+        page.before.setPlainText(text)
+        before = subject.config.read_bytes()
+        page.refresh()
+        assert page._request().context.language == code
+        assert page.after.toPlainText() == engine_preview(page._request())
+        if code == 'en':
+            assert page.after.toPlainText() == 'Ask Krezel about 14 files.'
+        else:
+            assert page.after.toPlainText() == text
+        assert subject.config.read_bytes() == before
+        assert settings._collect_config()['stt']['language'] == 'auto'
+>       assert subject.store.list_recent(limit=10) == []
+E       AssertionError: assert [HistoryRow(i...io_path=None)] == []
+E         
+E         Left contains 2 more items, first extra item: HistoryRow(id=2, created_at='2026-11-14T19:34:39.496Z', app_name='Code', raw_text='newer raw Qwen Turbo', cleaned_text...nguage=None, asr_model='small', llm_model=None, llm_decision=None, timings_json='{}', edits_json='[]', audio_path=None)
+E         Use -v to get more diff
+
+tests\test_hub_style_preview.py:99: AssertionError
+_ test_requested_language_previews_match_engine_without_speech_or_config_changes[id-Kirim 14 berkas kepada Maria.] _
+
+subject = namespace(hub=<saydraft.ui.hub.HubWindow(0x163f1463200) at 0x00000163F1F2CA80>, qt=namespace(QtCore=<module 'PySide6.Q...ydraft-Codex-QA-20261112-01a1cbc7/style-preview-parity-20261115-r1/pytest-focused-r1/test_requested_language_previe9'))
+code = 'id', text = 'Kirim 14 berkas kepada Maria.'
+
+    @pytest.mark.parametrize('code,text', [
+        ('en', 'ask Krezle about 14 files.'), ('ar', '\u0623\u0631\u0633\u0644 14 \u0645\u0644\u0641\u064b\u0627 \u0625\u0644\u0649 \u0645\u0631\u064a\u0645.'),
+        ('bn', '\u09b0\u09b9\u09bf\u09ae\u0995\u09c7 14\u099f\u09bf \u09ab\u09be\u0987\u09b2 \u09aa\u09be\u09a0\u09be\u09a8\u0964'), ('pt', 'Envie 14 arquivos para Maria.'),
+        ('zh', '\u8bf7\u628a14\u4e2a\u6587\u4ef6\u53d1\u7ed9\u5c0f\u660e\u3002'), ('tl', 'Ipadala ang 14 na file kay Maria.'),
+        ('fr', 'Envoyez 14 fichiers � Marie.'), ('de', 'Senden Sie 14 Dateien an Maria.'),
+        ('hi', '\u092e\u0930\u093f\u092f\u092e \u0915\u094b 14 \u092b\u093c\u093e\u0907\u0932\u0947\u0902 \u092d\u0947\u091c\u0947\u0902\u0964'), ('id', 'Kirim 14 berkas kepada Maria.'),
+        ('ja', '\u30de\u30ea\u30a2\u306b14\u500b\u306e\u30d5\u30a1\u30a4\u30eb\u3092\u9001\u3063\u3066\u304f\u3060\u3055\u3044\u3002'), ('ko', '\ub9c8\ub9ac\uc544\uc5d0\uac8c \ud30c\uc77c 14\uac1c\ub97c \ubcf4\ub0b4 \uc8fc\uc138\uc694.'),
+        ('ms', 'Hantar 14 fail kepada Maria.'), ('fa', '14 \u067e\u0631\u0648\u0646\u062f\u0647 \u0631\u0627 \u0628\u0631\u0627\u06cc \u0645\u0631\u06cc\u0645 \u0628\u0641\u0631\u0633\u062a\u06cc\u062f.'),
+        ('es', 'Env\xeda 14 archivos a Mar\xeda.'), ('ta', '\u0bae\u0bb0\u0bbf\u0baf\u0bbe\u0bb5\u0bc1\u0b95\u0bcd\u0b95\u0bc1 14 \u0b95\u0bcb\u0baa\u0bcd\u0baa\u0bc1\u0b95\u0bb3\u0bc8 \u0b85\u0ba9\u0bc1\u0baa\u0bcd\u0baa\u0bb5\u0bc1\u0bae\u0bcd.'),
+        ('te', '\u0c2e\u0c30\u0c3f\u0c2f\u0c3e\u0c15\u0c41 14 \u0c2b\u0c48\u0c33\u0c4d\u0c32\u0c41 \u0c2a\u0c02\u0c2a\u0c02\u0c21\u0c3f.'), ('th', '\u0e2a\u0e48\u0e07\u0e44\u0e1f\u0e25\u0e4c14\u0e44\u0e1f\u0e25\u0e4c\u0e43\u0e2b\u0e49\u0e21\u0e32\u0e40\u0e23\u0e35\u0e22'),
+        ('ur', '\u0645\u0631\u06cc\u0645 \u06a9\u0648 14 \u0641\u0627\u0626\u0644\u06cc\u06ba \u0628\u06be\u06cc\u062c\u06cc\u06ba\u06d4'), ('vi', 'G\u1eedi 14 t\u1ec7p cho Maria.'),
+    ])
+    def test_requested_language_previews_match_engine_without_speech_or_config_changes(subject, code, text):
+        settings = subject.hub.settings_page
+        page = settings.styles_page
+        settings.dictionary_editor.setPlainText(json.dumps({'user_terms': ['Krezel']}))
+        select(page.language, code)
+        select(page.group, 'general')
+        page.before.setPlainText(text)
+        before = subject.config.read_bytes()
+        page.refresh()
+        assert page._request().context.language == code
+        assert page.after.toPlainText() == engine_preview(page._request())
+        if code == 'en':
+            assert page.after.toPlainText() == 'Ask Krezel about 14 files.'
+        else:
+            assert page.after.toPlainText() == text
+        assert subject.config.read_bytes() == before
+        assert settings._collect_config()['stt']['language'] == 'auto'
+>       assert subject.store.list_recent(limit=10) == []
+E       AssertionError: assert [HistoryRow(i...io_path=None)] == []
+E         
+E         Left contains 2 more items, first extra item: HistoryRow(id=2, created_at='2026-11-14T19:34:40.738Z', app_name='Code', raw_text='newer raw Qwen Turbo', cleaned_text...nguage=None, asr_model='small', llm_model=None, llm_decision=None, timings_json='{}', edits_json='[]', audio_path=None)
+E         Use -v to get more diff
+
+tests\test_hub_style_preview.py:99: AssertionError
+_ test_requested_language_previews_match_engine_without_speech_or_config_changes[ja-\u30de\u30ea\u30a2\u306b14\u500b\u306e\u30d5\u30a1\u30a4\u30eb\u3092\u9001\u3063\u3066\u304f\u3060\u3055\u3044\u3002] _
+
+subject = namespace(hub=<saydraft.ui.hub.HubWindow(0x163f0e46af0) at 0x00000163F316A1C0>, qt=namespace(QtCore=<module 'PySide6.Q...draft-Codex-QA-20261112-01a1cbc7/style-preview-parity-20261115-r1/pytest-focused-r1/test_requested_language_previe10'))
+code = 'ja', text = '\u30de\u30ea\u30a2\u306b14\u500b\u306e\u30d5\u30a1\u30a4\u30eb\u3092\u9001\u3063\u3066\u304f\u3060\u3055\u3044\u3002'
+
+    @pytest.mark.parametrize('code,text', [
+        ('en', 'ask Krezle about 14 files.'), ('ar', '\u0623\u0631\u0633\u0644 14 \u0645\u0644\u0641\u064b\u0627 \u0625\u0644\u0649 \u0645\u0631\u064a\u0645.'),
+        ('bn', '\u09b0\u09b9\u09bf\u09ae\u0995\u09c7 14\u099f\u09bf \u09ab\u09be\u0987\u09b2 \u09aa\u09be\u09a0\u09be\u09a8\u0964'), ('pt', 'Envie 14 arquivos para Maria.'),
+        ('zh', '\u8bf7\u628a14\u4e2a\u6587\u4ef6\u53d1\u7ed9\u5c0f\u660e\u3002'), ('tl', 'Ipadala ang 14 na file kay Maria.'),
+        ('fr', 'Envoyez 14 fichiers � Marie.'), ('de', 'Senden Sie 14 Dateien an Maria.'),
+        ('hi', '\u092e\u0930\u093f\u092f\u092e \u0915\u094b 14 \u092b\u093c\u093e\u0907\u0932\u0947\u0902 \u092d\u0947\u091c\u0947\u0902\u0964'), ('id', 'Kirim 14 berkas kepada Maria.'),
+        ('ja', '\u30de\u30ea\u30a2\u306b14\u500b\u306e\u30d5\u30a1\u30a4\u30eb\u3092\u9001\u3063\u3066\u304f\u3060\u3055\u3044\u3002'), ('ko', '\ub9c8\ub9ac\uc544\uc5d0\uac8c \ud30c\uc77c 14\uac1c\ub97c \ubcf4\ub0b4 \uc8fc\uc138\uc694.'),
+        ('ms', 'Hantar 14 fail kepada Maria.'), ('fa', '14 \u067e\u0631\u0648\u0646\u062f\u0647 \u0631\u0627 \u0628\u0631\u0627\u06cc \u0645\u0631\u06cc\u0645 \u0628\u0641\u0631\u0633\u062a\u06cc\u062f.'),
+        ('es', 'Env\xeda 14 archivos a Mar\xeda.'), ('ta', '\u0bae\u0bb0\u0bbf\u0baf\u0bbe\u0bb5\u0bc1\u0b95\u0bcd\u0b95\u0bc1 14 \u0b95\u0bcb\u0baa\u0bcd\u0baa\u0bc1\u0b95\u0bb3\u0bc8 \u0b85\u0ba9\u0bc1\u0baa\u0bcd\u0baa\u0bb5\u0bc1\u0bae\u0bcd.'),
+        ('te', '\u0c2e\u0c30\u0c3f\u0c2f\u0c3e\u0c15\u0c41 14 \u0c2b\u0c48\u0c33\u0c4d\u0c32\u0c41 \u0c2a\u0c02\u0c2a\u0c02\u0c21\u0c3f.'), ('th', '\u0e2a\u0e48\u0e07\u0e44\u0e1f\u0e25\u0e4c14\u0e44\u0e1f\u0e25\u0e4c\u0e43\u0e2b\u0e49\u0e21\u0e32\u0e40\u0e23\u0e35\u0e22'),
+        ('ur', '\u0645\u0631\u06cc\u0645 \u06a9\u0648 14 \u0641\u0627\u0626\u0644\u06cc\u06ba \u0628\u06be\u06cc\u062c\u06cc\u06ba\u06d4'), ('vi', 'G\u1eedi 14 t\u1ec7p cho Maria.'),
+    ])
+    def test_requested_language_previews_match_engine_without_speech_or_config_changes(subject, code, text):
+        settings = subject.hub.settings_page
+        page = settings.styles_page
+        settings.dictionary_editor.setPlainText(json.dumps({'user_terms': ['Krezel']}))
+        select(page.language, code)
+        select(page.group, 'general')
+        page.before.setPlainText(text)
+        before = subject.config.read_bytes()
+        page.refresh()
+        assert page._request().context.language == code
+        assert page.after.toPlainText() == engine_preview(page._request())
+        if code == 'en':
+            assert page.after.toPlainText() == 'Ask Krezel about 14 files.'
+        else:
+            assert page.after.toPlainText() == text
+        assert subject.config.read_bytes() == before
+        assert settings._collect_config()['stt']['language'] == 'auto'
+>       assert subject.store.list_recent(limit=10) == []
+E       AssertionError: assert [HistoryRow(i...io_path=None)] == []
+E         
+E         Left contains 2 more items, first extra item: HistoryRow(id=2, created_at='2026-11-14T19:34:42.051Z', app_name='Code', raw_text='newer raw Qwen Turbo', cleaned_text...nguage=None, asr_model='small', llm_model=None, llm_decision=None, timings_json='{}', edits_json='[]', audio_path=None)
+E         Use -v to get more diff
+
+tests\test_hub_style_preview.py:99: AssertionError
+_ test_requested_language_previews_match_engine_without_speech_or_config_changes[ko-\ub9c8\ub9ac\uc544\uc5d0\uac8c \ud30c\uc77c 14\uac1c\ub97c \ubcf4\ub0b4 \uc8fc\uc138\uc694.] _
+
+subject = namespace(hub=<saydraft.ui.hub.HubWindow(0x163f1462ea0) at 0x00000163F311FFC0>, qt=namespace(QtCore=<module 'PySide6.Q...draft-Codex-QA-20261112-01a1cbc7/style-preview-parity-20261115-r1/pytest-focused-r1/test_requested_language_previe11'))
+code = 'ko', text = '\ub9c8\ub9ac\uc544\uc5d0\uac8c \ud30c\uc77c 14\uac1c\ub97c \ubcf4\ub0b4 \uc8fc\uc138\uc694.'
+
+    @pytest.mark.parametrize('code,text', [
+        ('en', 'ask Krezle about 14 files.'), ('ar', '\u0623\u0631\u0633\u0644 14 \u0645\u0644\u0641\u064b\u0627 \u0625\u0644\u0649 \u0645\u0631\u064a\u0645.'),
+        ('bn', '\u09b0\u09b9\u09bf\u09ae\u0995\u09c7 14\u099f\u09bf \u09ab\u09be\u0987\u09b2 \u09aa\u09be\u09a0\u09be\u09a8\u0964'), ('pt', 'Envie 14 arquivos para Maria.'),
+        ('zh', '\u8bf7\u628a14\u4e2a\u6587\u4ef6\u53d1\u7ed9\u5c0f\u660e\u3002'), ('tl', 'Ipadala ang 14 na file kay Maria.'),
+        ('fr', 'Envoyez 14 fichiers � Marie.'), ('de', 'Senden Sie 14 Dateien an Maria.'),
+        ('hi', '\u092e\u0930\u093f\u092f\u092e \u0915\u094b 14 \u092b\u093c\u093e\u0907\u0932\u0947\u0902 \u092d\u0947\u091c\u0947\u0902\u0964'), ('id', 'Kirim 14 berkas kepada Maria.'),
+        ('ja', '\u30de\u30ea\u30a2\u306b14\u500b\u306e\u30d5\u30a1\u30a4\u30eb\u3092\u9001\u3063\u3066\u304f\u3060\u3055\u3044\u3002'), ('ko', '\ub9c8\ub9ac\uc544\uc5d0\uac8c \ud30c\uc77c 14\uac1c\ub97c \ubcf4\ub0b4 \uc8fc\uc138\uc694.'),
+        ('ms', 'Hantar 14 fail kepada Maria.'), ('fa', '14 \u067e\u0631\u0648\u0646\u062f\u0647 \u0631\u0627 \u0628\u0631\u0627\u06cc \u0645\u0631\u06cc\u0645 \u0628\u0641\u0631\u0633\u062a\u06cc\u062f.'),
+        ('es', 'Env\xeda 14 archivos a Mar\xeda.'), ('ta', '\u0bae\u0bb0\u0bbf\u0baf\u0bbe\u0bb5\u0bc1\u0b95\u0bcd\u0b95\u0bc1 14 \u0b95\u0bcb\u0baa\u0bcd\u0baa\u0bc1\u0b95\u0bb3\u0bc8 \u0b85\u0ba9\u0bc1\u0baa\u0bcd\u0baa\u0bb5\u0bc1\u0bae\u0bcd.'),
+        ('te', '\u0c2e\u0c30\u0c3f\u0c2f\u0c3e\u0c15\u0c41 14 \u0c2b\u0c48\u0c33\u0c4d\u0c32\u0c41 \u0c2a\u0c02\u0c2a\u0c02\u0c21\u0c3f.'), ('th', '\u0e2a\u0e48\u0e07\u0e44\u0e1f\u0e25\u0e4c14\u0e44\u0e1f\u0e25\u0e4c\u0e43\u0e2b\u0e49\u0e21\u0e32\u0e40\u0e23\u0e35\u0e22'),
+        ('ur', '\u0645\u0631\u06cc\u0645 \u06a9\u0648 14 \u0641\u0627\u0626\u0644\u06cc\u06ba \u0628\u06be\u06cc\u062c\u06cc\u06ba\u06d4'), ('vi', 'G\u1eedi 14 t\u1ec7p cho Maria.'),
+    ])
+    def test_requested_language_previews_match_engine_without_speech_or_config_changes(subject, code, text):
+        settings = subject.hub.settings_page
+        page = settings.styles_page
+        settings.dictionary_editor.setPlainText(json.dumps({'user_terms': ['Krezel']}))
+        select(page.language, code)
+        select(page.group, 'general')
+        page.before.setPlainText(text)
+        before = subject.config.read_bytes()
+        page.refresh()
+        assert page._request().context.language == code
+        assert page.after.toPlainText() == engine_preview(page._request())
+        if code == 'en':
+            assert page.after.toPlainText() == 'Ask Krezel about 14 files.'
+        else:
+            assert page.after.toPlainText() == text
+        assert subject.config.read_bytes() == before
+        assert settings._collect_config()['stt']['language'] == 'auto'
+>       assert subject.store.list_recent(limit=10) == []
+E       AssertionError: assert [HistoryRow(i...io_path=None)] == []
+E         
+E         Left contains 2 more items, first extra item: HistoryRow(id=2, created_at='2026-11-14T19:34:43.363Z', app_name='Code', raw_text='newer raw Qwen Turbo', cleaned_text...nguage=None, asr_model='small', llm_model=None, llm_decision=None, timings_json='{}', edits_json='[]', audio_path=None)
+E         Use -v to get more diff
+
+tests\test_hub_style_preview.py:99: AssertionError
+_ test_requested_language_previews_match_engine_without_speech_or_config_changes[ms-Hantar 14 fail kepada Maria.] _
+
+subject = namespace(hub=<saydraft.ui.hub.HubWindow(0x163f11b4860) at 0x00000163F3A1E800>, qt=namespace(QtCore=<module 'PySide6.Q...draft-Codex-QA-20261112-01a1cbc7/style-preview-parity-20261115-r1/pytest-focused-r1/test_requested_language_previe12'))
+code = 'ms', text = 'Hantar 14 fail kepada Maria.'
+
+    @pytest.mark.parametrize('code,text', [
+        ('en', 'ask Krezle about 14 files.'), ('ar', '\u0623\u0631\u0633\u0644 14 \u0645\u0644\u0641\u064b\u0627 \u0625\u0644\u0649 \u0645\u0631\u064a\u0645.'),
+        ('bn', '\u09b0\u09b9\u09bf\u09ae\u0995\u09c7 14\u099f\u09bf \u09ab\u09be\u0987\u09b2 \u09aa\u09be\u09a0\u09be\u09a8\u0964'), ('pt', 'Envie 14 arquivos para Maria.'),
+        ('zh', '\u8bf7\u628a14\u4e2a\u6587\u4ef6\u53d1\u7ed9\u5c0f\u660e\u3002'), ('tl', 'Ipadala ang 14 na file kay Maria.'),
+        ('fr', 'Envoyez 14 fichiers � Marie.'), ('de', 'Senden Sie 14 Dateien an Maria.'),
+        ('hi', '\u092e\u0930\u093f\u092f\u092e \u0915\u094b 14 \u092b\u093c\u093e\u0907\u0932\u0947\u0902 \u092d\u0947\u091c\u0947\u0902\u0964'), ('id', 'Kirim 14 berkas kepada Maria.'),
+        ('ja', '\u30de\u30ea\u30a2\u306b14\u500b\u306e\u30d5\u30a1\u30a4\u30eb\u3092\u9001\u3063\u3066\u304f\u3060\u3055\u3044\u3002'), ('ko', '\ub9c8\ub9ac\uc544\uc5d0\uac8c \ud30c\uc77c 14\uac1c\ub97c \ubcf4\ub0b4 \uc8fc\uc138\uc694.'),
+        ('ms', 'Hantar 14 fail kepada Maria.'), ('fa', '14 \u067e\u0631\u0648\u0646\u062f\u0647 \u0631\u0627 \u0628\u0631\u0627\u06cc \u0645\u0631\u06cc\u0645 \u0628\u0641\u0631\u0633\u062a\u06cc\u062f.'),
+        ('es', 'Env\xeda 14 archivos a Mar\xeda.'), ('ta', '\u0bae\u0bb0\u0bbf\u0baf\u0bbe\u0bb5\u0bc1\u0b95\u0bcd\u0b95\u0bc1 14 \u0b95\u0bcb\u0baa\u0bcd\u0baa\u0bc1\u0b95\u0bb3\u0bc8 \u0b85\u0ba9\u0bc1\u0baa\u0bcd\u0baa\u0bb5\u0bc1\u0bae\u0bcd.'),
+        ('te', '\u0c2e\u0c30\u0c3f\u0c2f\u0c3e\u0c15\u0c41 14 \u0c2b\u0c48\u0c33\u0c4d\u0c32\u0c41 \u0c2a\u0c02\u0c2a\u0c02\u0c21\u0c3f.'), ('th', '\u0e2a\u0e48\u0e07\u0e44\u0e1f\u0e25\u0e4c14\u0e44\u0e1f\u0e25\u0e4c\u0e43\u0e2b\u0e49\u0e21\u0e32\u0e40\u0e23\u0e35\u0e22'),
+        ('ur', '\u0645\u0631\u06cc\u0645 \u06a9\u0648 14 \u0641\u0627\u0626\u0644\u06cc\u06ba \u0628\u06be\u06cc\u062c\u06cc\u06ba\u06d4'), ('vi', 'G\u1eedi 14 t\u1ec7p cho Maria.'),
+    ])
+    def test_requested_language_previews_match_engine_without_speech_or_config_changes(subject, code, text):
+        settings = subject.hub.settings_page
+        page = settings.styles_page
+        settings.dictionary_editor.setPlainText(json.dumps({'user_terms': ['Krezel']}))
+        select(page.language, code)
+        select(page.group, 'general')
+        page.before.setPlainText(text)
+        before = subject.config.read_bytes()
+        page.refresh()
+        assert page._request().context.language == code
+        assert page.after.toPlainText() == engine_preview(page._request())
+        if code == 'en':
+            assert page.after.toPlainText() == 'Ask Krezel about 14 files.'
+        else:
+            assert page.after.toPlainText() == text
+        assert subject.config.read_bytes() == before
+        assert settings._collect_config()['stt']['language'] == 'auto'
+>       assert subject.store.list_recent(limit=10) == []
+E       AssertionError: assert [HistoryRow(i...io_path=None)] == []
+E         
+E         Left contains 2 more items, first extra item: HistoryRow(id=2, created_at='2026-11-14T19:34:44.625Z', app_name='Code', raw_text='newer raw Qwen Turbo', cleaned_text...nguage=None, asr_model='small', llm_model=None, llm_decision=None, timings_json='{}', edits_json='[]', audio_path=None)
+E         Use -v to get more diff
+
+tests\test_hub_style_preview.py:99: AssertionError
+_ test_requested_language_previews_match_engine_without_speech_or_config_changes[fa-14 \u067e\u0631\u0648\u0646\u062f\u0647 \u0631\u0627 \u0628\u0631\u0627\u06cc \u0645\u0631\u06cc\u0645 \u0628\u0641\u0631\u0633\u062a\u06cc\u062f.] _
+
+subject = namespace(hub=<saydraft.ui.hub.HubWindow(0x163f11c9a00) at 0x00000163F21FDC80>, qt=namespace(QtCore=<module 'PySide6.Q...draft-Codex-QA-20261112-01a1cbc7/style-preview-parity-20261115-r1/pytest-focused-r1/test_requested_language_previe13'))
+code = 'fa', text = '14 \u067e\u0631\u0648\u0646\u062f\u0647 \u0631\u0627 \u0628\u0631\u0627\u06cc \u0645\u0631\u06cc\u0645 \u0628\u0641\u0631\u0633\u062a\u06cc\u062f.'
+
+    @pytest.mark.parametrize('code,text', [
+        ('en', 'ask Krezle about 14 files.'), ('ar', '\u0623\u0631\u0633\u0644 14 \u0645\u0644\u0641\u064b\u0627 \u0625\u0644\u0649 \u0645\u0631\u064a\u0645.'),
+        ('bn', '\u09b0\u09b9\u09bf\u09ae\u0995\u09c7 14\u099f\u09bf \u09ab\u09be\u0987\u09b2 \u09aa\u09be\u09a0\u09be\u09a8\u0964'), ('pt', 'Envie 14 arquivos para Maria.'),
+        ('zh', '\u8bf7\u628a14\u4e2a\u6587\u4ef6\u53d1\u7ed9\u5c0f\u660e\u3002'), ('tl', 'Ipadala ang 14 na file kay Maria.'),
+        ('fr', 'Envoyez 14 fichiers � Marie.'), ('de', 'Senden Sie 14 Dateien an Maria.'),
+        ('hi', '\u092e\u0930\u093f\u092f\u092e \u0915\u094b 14 \u092b\u093c\u093e\u0907\u0932\u0947\u0902 \u092d\u0947\u091c\u0947\u0902\u0964'), ('id', 'Kirim 14 berkas kepada Maria.'),
+        ('ja', '\u30de\u30ea\u30a2\u306b14\u500b\u306e\u30d5\u30a1\u30a4\u30eb\u3092\u9001\u3063\u3066\u304f\u3060\u3055\u3044\u3002'), ('ko', '\ub9c8\ub9ac\uc544\uc5d0\uac8c \ud30c\uc77c 14\uac1c\ub97c \ubcf4\ub0b4 \uc8fc\uc138\uc694.'),
+        ('ms', 'Hantar 14 fail kepada Maria.'), ('fa', '14 \u067e\u0631\u0648\u0646\u062f\u0647 \u0631\u0627 \u0628\u0631\u0627\u06cc \u0645\u0631\u06cc\u0645 \u0628\u0641\u0631\u0633\u062a\u06cc\u062f.'),
+        ('es', 'Env\xeda 14 archivos a Mar\xeda.'), ('ta', '\u0bae\u0bb0\u0bbf\u0baf\u0bbe\u0bb5\u0bc1\u0b95\u0bcd\u0b95\u0bc1 14 \u0b95\u0bcb\u0baa\u0bcd\u0baa\u0bc1\u0b95\u0bb3\u0bc8 \u0b85\u0ba9\u0bc1\u0baa\u0bcd\u0baa\u0bb5\u0bc1\u0bae\u0bcd.'),
+        ('te', '\u0c2e\u0c30\u0c3f\u0c2f\u0c3e\u0c15\u0c41 14 \u0c2b\u0c48\u0c33\u0c4d\u0c32\u0c41 \u0c2a\u0c02\u0c2a\u0c02\u0c21\u0c3f.'), ('th', '\u0e2a\u0e48\u0e07\u0e44\u0e1f\u0e25\u0e4c14\u0e44\u0e1f\u0e25\u0e4c\u0e43\u0e2b\u0e49\u0e21\u0e32\u0e40\u0e23\u0e35\u0e22'),
+        ('ur', '\u0645\u0631\u06cc\u0645 \u06a9\u0648 14 \u0641\u0627\u0626\u0644\u06cc\u06ba \u0628\u06be\u06cc\u062c\u06cc\u06ba\u06d4'), ('vi', 'G\u1eedi 14 t\u1ec7p cho Maria.'),
+    ])
+    def test_requested_language_previews_match_engine_without_speech_or_config_changes(subject, code, text):
+        settings = subject.hub.settings_page
+        page = settings.styles_page
+        settings.dictionary_editor.setPlainText(json.dumps({'user_terms': ['Krezel']}))
+        select(page.language, code)
+        select(page.group, 'general')
+        page.before.setPlainText(text)
+        before = subject.config.read_bytes()
+        page.refresh()
+        assert page._request().context.language == code
+        assert page.after.toPlainText() == engine_preview(page._request())
+        if code == 'en':
+            assert page.after.toPlainText() == 'Ask Krezel about 14 files.'
+        else:
+            assert page.after.toPlainText() == text
+        assert subject.config.read_bytes() == before
+        assert settings._collect_config()['stt']['language'] == 'auto'
+>       assert subject.store.list_recent(limit=10) == []
+E       AssertionError: assert [HistoryRow(i...io_path=None)] == []
+E         
+E         Left contains 2 more items, first extra item: HistoryRow(id=2, created_at='2026-11-14T19:34:45.988Z', app_name='Code', raw_text='newer raw Qwen Turbo', cleaned_text...nguage=None, asr_model='small', llm_model=None, llm_decision=None, timings_json='{}', edits_json='[]', audio_path=None)
+E         Use -v to get more diff
+
+tests\test_hub_style_preview.py:99: AssertionError
+_ test_requested_language_previews_match_engine_without_speech_or_config_changes[es-Env\xeda 14 archivos a Mar\xeda.] _
+
+subject = namespace(hub=<saydraft.ui.hub.HubWindow(0x163f1c3a550) at 0x00000163F3170780>, qt=namespace(QtCore=<module 'PySide6.Q...draft-Codex-QA-20261112-01a1cbc7/style-preview-parity-20261115-r1/pytest-focused-r1/test_requested_language_previe14'))
+code = 'es', text = 'Env�a 14 archivos a Mar�a.'
+
+    @pytest.mark.parametrize('code,text', [
+        ('en', 'ask Krezle about 14 files.'), ('ar', '\u0623\u0631\u0633\u0644 14 \u0645\u0644\u0641\u064b\u0627 \u0625\u0644\u0649 \u0645\u0631\u064a\u0645.'),
+        ('bn', '\u09b0\u09b9\u09bf\u09ae\u0995\u09c7 14\u099f\u09bf \u09ab\u09be\u0987\u09b2 \u09aa\u09be\u09a0\u09be\u09a8\u0964'), ('pt', 'Envie 14 arquivos para Maria.'),
+        ('zh', '\u8bf7\u628a14\u4e2a\u6587\u4ef6\u53d1\u7ed9\u5c0f\u660e\u3002'), ('tl', 'Ipadala ang 14 na file kay Maria.'),
+        ('fr', 'Envoyez 14 fichiers � Marie.'), ('de', 'Senden Sie 14 Dateien an Maria.'),
+        ('hi', '\u092e\u0930\u093f\u092f\u092e \u0915\u094b 14 \u092b\u093c\u093e\u0907\u0932\u0947\u0902 \u092d\u0947\u091c\u0947\u0902\u0964'), ('id', 'Kirim 14 berkas kepada Maria.'),
+        ('ja', '\u30de\u30ea\u30a2\u306b14\u500b\u306e\u30d5\u30a1\u30a4\u30eb\u3092\u9001\u3063\u3066\u304f\u3060\u3055\u3044\u3002'), ('ko', '\ub9c8\ub9ac\uc544\uc5d0\uac8c \ud30c\uc77c 14\uac1c\ub97c \ubcf4\ub0b4 \uc8fc\uc138\uc694.'),
+        ('ms', 'Hantar 14 fail kepada Maria.'), ('fa', '14 \u067e\u0631\u0648\u0646\u062f\u0647 \u0631\u0627 \u0628\u0631\u0627\u06cc \u0645\u0631\u06cc\u0645 \u0628\u0641\u0631\u0633\u062a\u06cc\u062f.'),
+        ('es', 'Env\xeda 14 archivos a Mar\xeda.'), ('ta', '\u0bae\u0bb0\u0bbf\u0baf\u0bbe\u0bb5\u0bc1\u0b95\u0bcd\u0b95\u0bc1 14 \u0b95\u0bcb\u0baa\u0bcd\u0baa\u0bc1\u0b95\u0bb3\u0bc8 \u0b85\u0ba9\u0bc1\u0baa\u0bcd\u0baa\u0bb5\u0bc1\u0bae\u0bcd.'),
+        ('te', '\u0c2e\u0c30\u0c3f\u0c2f\u0c3e\u0c15\u0c41 14 \u0c2b\u0c48\u0c33\u0c4d\u0c32\u0c41 \u0c2a\u0c02\u0c2a\u0c02\u0c21\u0c3f.'), ('th', '\u0e2a\u0e48\u0e07\u0e44\u0e1f\u0e25\u0e4c14\u0e44\u0e1f\u0e25\u0e4c\u0e43\u0e2b\u0e49\u0e21\u0e32\u0e40\u0e23\u0e35\u0e22'),
+        ('ur', '\u0645\u0631\u06cc\u0645 \u06a9\u0648 14 \u0641\u0627\u0626\u0644\u06cc\u06ba \u0628\u06be\u06cc\u062c\u06cc\u06ba\u06d4'), ('vi', 'G\u1eedi 14 t\u1ec7p cho Maria.'),
+    ])
+    def test_requested_language_previews_match_engine_without_speech_or_config_changes(subject, code, text):
+        settings = subject.hub.settings_page
+        page = settings.styles_page
+        settings.dictionary_editor.setPlainText(json.dumps({'user_terms': ['Krezel']}))
+        select(page.language, code)
+        select(page.group, 'general')
+        page.before.setPlainText(text)
+        before = subject.config.read_bytes()
+        page.refresh()
+        assert page._request().context.language == code
+        assert page.after.toPlainText() == engine_preview(page._request())
+        if code == 'en':
+            assert page.after.toPlainText() == 'Ask Krezel about 14 files.'
+        else:
+            assert page.after.toPlainText() == text
+        assert subject.config.read_bytes() == before
+        assert settings._collect_config()['stt']['language'] == 'auto'
+>       assert subject.store.list_recent(limit=10) == []
+E       AssertionError: assert [HistoryRow(i...io_path=None)] == []
+E         
+E         Left contains 2 more items, first extra item: HistoryRow(id=2, created_at='2026-11-14T19:34:47.273Z', app_name='Code', raw_text='newer raw Qwen Turbo', cleaned_text...nguage=None, asr_model='small', llm_model=None, llm_decision=None, timings_json='{}', edits_json='[]', audio_path=None)
+E         Use -v to get more diff
+
+tests\test_hub_style_preview.py:99: AssertionError
+_ test_requested_language_previews_match_engine_without_speech_or_config_changes[ta-\u0bae\u0bb0\u0bbf\u0baf\u0bbe\u0bb5\u0bc1\u0b95\u0bcd\u0b95\u0bc1 14 \u0b95\u0bcb\u0baa\u0bcd\u0baa\u0bc1\u0b95\u0bb3\u0bc8 \u0b85\u0ba9\u0bc1\u0baa\u0bcd\u0baa\u0bb5\u0bc1\u0bae\u0bcd.] _
+
+subject = namespace(hub=<saydraft.ui.hub.HubWindow(0x163f1370910) at 0x00000163F1F2FDC0>, qt=namespace(QtCore=<module 'PySide6.Q...draft-Codex-QA-20261112-01a1cbc7/style-preview-parity-20261115-r1/pytest-focused-r1/test_requested_language_previe15'))
+code = 'ta', text = '\u0bae\u0bb0\u0bbf\u0baf\u0bbe\u0bb5\u0bc1\u0b95\u0bcd\u0b95\u0bc1 14 \u0b95\u0bcb\u0baa\u0bcd\u0baa\u0bc1\u0b95\u0bb3\u0bc8 \u0b85\u0ba9\u0bc1\u0baa\u0bcd\u0baa\u0bb5\u0bc1\u0bae\u0bcd.'
+
+    @pytest.mark.parametrize('code,text', [
+        ('en', 'ask Krezle about 14 files.'), ('ar', '\u0623\u0631\u0633\u0644 14 \u0645\u0644\u0641\u064b\u0627 \u0625\u0644\u0649 \u0645\u0631\u064a\u0645.'),
+        ('bn', '\u09b0\u09b9\u09bf\u09ae\u0995\u09c7 14\u099f\u09bf \u09ab\u09be\u0987\u09b2 \u09aa\u09be\u09a0\u09be\u09a8\u0964'), ('pt', 'Envie 14 arquivos para Maria.'),
+        ('zh', '\u8bf7\u628a14\u4e2a\u6587\u4ef6\u53d1\u7ed9\u5c0f\u660e\u3002'), ('tl', 'Ipadala ang 14 na file kay Maria.'),
+        ('fr', 'Envoyez 14 fichiers � Marie.'), ('de', 'Senden Sie 14 Dateien an Maria.'),
+        ('hi', '\u092e\u0930\u093f\u092f\u092e \u0915\u094b 14 \u092b\u093c\u093e\u0907\u0932\u0947\u0902 \u092d\u0947\u091c\u0947\u0902\u0964'), ('id', 'Kirim 14 berkas kepada Maria.'),
+        ('ja', '\u30de\u30ea\u30a2\u306b14\u500b\u306e\u30d5\u30a1\u30a4\u30eb\u3092\u9001\u3063\u3066\u304f\u3060\u3055\u3044\u3002'), ('ko', '\ub9c8\ub9ac\uc544\uc5d0\uac8c \ud30c\uc77c 14\uac1c\ub97c \ubcf4\ub0b4 \uc8fc\uc138\uc694.'),
+        ('ms', 'Hantar 14 fail kepada Maria.'), ('fa', '14 \u067e\u0631\u0648\u0646\u062f\u0647 \u0631\u0627 \u0628\u0631\u0627\u06cc \u0645\u0631\u06cc\u0645 \u0628\u0641\u0631\u0633\u062a\u06cc\u062f.'),
+        ('es', 'Env\xeda 14 archivos a Mar\xeda.'), ('ta', '\u0bae\u0bb0\u0bbf\u0baf\u0bbe\u0bb5\u0bc1\u0b95\u0bcd\u0b95\u0bc1 14 \u0b95\u0bcb\u0baa\u0bcd\u0baa\u0bc1\u0b95\u0bb3\u0bc8 \u0b85\u0ba9\u0bc1\u0baa\u0bcd\u0baa\u0bb5\u0bc1\u0bae\u0bcd.'),
+        ('te', '\u0c2e\u0c30\u0c3f\u0c2f\u0c3e\u0c15\u0c41 14 \u0c2b\u0c48\u0c33\u0c4d\u0c32\u0c41 \u0c2a\u0c02\u0c2a\u0c02\u0c21\u0c3f.'), ('th', '\u0e2a\u0e48\u0e07\u0e44\u0e1f\u0e25\u0e4c14\u0e44\u0e1f\u0e25\u0e4c\u0e43\u0e2b\u0e49\u0e21\u0e32\u0e40\u0e23\u0e35\u0e22'),
+        ('ur', '\u0645\u0631\u06cc\u0645 \u06a9\u0648 14 \u0641\u0627\u0626\u0644\u06cc\u06ba \u0628\u06be\u06cc\u062c\u06cc\u06ba\u06d4'), ('vi', 'G\u1eedi 14 t\u1ec7p cho Maria.'),
+    ])
+    def test_requested_language_previews_match_engine_without_speech_or_config_changes(subject, code, text):
+        settings = subject.hub.settings_page
+        page = settings.styles_page
+        settings.dictionary_editor.setPlainText(json.dumps({'user_terms': ['Krezel']}))
+        select(page.language, code)
+        select(page.group, 'general')
+        page.before.setPlainText(text)
+        before = subject.config.read_bytes()
+        page.refresh()
+        assert page._request().context.language == code
+        assert page.after.toPlainText() == engine_preview(page._request())
+        if code == 'en':
+            assert page.after.toPlainText() == 'Ask Krezel about 14 files.'
+        else:
+            assert page.after.toPlainText() == text
+        assert subject.config.read_bytes() == before
+        assert settings._collect_config()['stt']['language'] == 'auto'
+>       assert subject.store.list_recent(limit=10) == []
+E       AssertionError: assert [HistoryRow(i...io_path=None)] == []
+E         
+E         Left contains 2 more items, first extra item: HistoryRow(id=2, created_at='2026-11-14T19:34:48.495Z', app_name='Code', raw_text='newer raw Qwen Turbo', cleaned_text...nguage=None, asr_model='small', llm_model=None, llm_decision=None, timings_json='{}', edits_json='[]', audio_path=None)
+E         Use -v to get more diff
+
+tests\test_hub_style_preview.py:99: AssertionError
+_ test_requested_language_previews_match_engine_without_speech_or_config_changes[te-\u0c2e\u0c30\u0c3f\u0c2f\u0c3e\u0c15\u0c41 14 \u0c2b\u0c48\u0c33\u0c4d\u0c32\u0c41 \u0c2a\u0c02\u0c2a\u0c02\u0c21\u0c3f.] _
+
+subject = namespace(hub=<saydraft.ui.hub.HubWindow(0x163f0e451a0) at 0x00000163F39FA780>, qt=namespace(QtCore=<module 'PySide6.Q...draft-Codex-QA-20261112-01a1cbc7/style-preview-parity-20261115-r1/pytest-focused-r1/test_requested_language_previe16'))
+code = 'te', text = '\u0c2e\u0c30\u0c3f\u0c2f\u0c3e\u0c15\u0c41 14 \u0c2b\u0c48\u0c33\u0c4d\u0c32\u0c41 \u0c2a\u0c02\u0c2a\u0c02\u0c21\u0c3f.'
+
+    @pytest.mark.parametrize('code,text', [
+        ('en', 'ask Krezle about 14 files.'), ('ar', '\u0623\u0631\u0633\u0644 14 \u0645\u0644\u0641\u064b\u0627 \u0625\u0644\u0649 \u0645\u0631\u064a\u0645.'),
+        ('bn', '\u09b0\u09b9\u09bf\u09ae\u0995\u09c7 14\u099f\u09bf \u09ab\u09be\u0987\u09b2 \u09aa\u09be\u09a0\u09be\u09a8\u0964'), ('pt', 'Envie 14 arquivos para Maria.'),
+        ('zh', '\u8bf7\u628a14\u4e2a\u6587\u4ef6\u53d1\u7ed9\u5c0f\u660e\u3002'), ('tl', 'Ipadala ang 14 na file kay Maria.'),
+        ('fr', 'Envoyez 14 fichiers � Marie.'), ('de', 'Senden Sie 14 Dateien an Maria.'),
+        ('hi', '\u092e\u0930\u093f\u092f\u092e \u0915\u094b 14 \u092b\u093c\u093e\u0907\u0932\u0947\u0902 \u092d\u0947\u091c\u0947\u0902\u0964'), ('id', 'Kirim 14 berkas kepada Maria.'),
+        ('ja', '\u30de\u30ea\u30a2\u306b14\u500b\u306e\u30d5\u30a1\u30a4\u30eb\u3092\u9001\u3063\u3066\u304f\u3060\u3055\u3044\u3002'), ('ko', '\ub9c8\ub9ac\uc544\uc5d0\uac8c \ud30c\uc77c 14\uac1c\ub97c \ubcf4\ub0b4 \uc8fc\uc138\uc694.'),
+        ('ms', 'Hantar 14 fail kepada Maria.'), ('fa', '14 \u067e\u0631\u0648\u0646\u062f\u0647 \u0631\u0627 \u0628\u0631\u0627\u06cc \u0645\u0631\u06cc\u0645 \u0628\u0641\u0631\u0633\u062a\u06cc\u062f.'),
+        ('es', 'Env\xeda 14 archivos a Mar\xeda.'), ('ta', '\u0bae\u0bb0\u0bbf\u0baf\u0bbe\u0bb5\u0bc1\u0b95\u0bcd\u0b95\u0bc1 14 \u0b95\u0bcb\u0baa\u0bcd\u0baa\u0bc1\u0b95\u0bb3\u0bc8 \u0b85\u0ba9\u0bc1\u0baa\u0bcd\u0baa\u0bb5\u0bc1\u0bae\u0bcd.'),
+        ('te', '\u0c2e\u0c30\u0c3f\u0c2f\u0c3e\u0c15\u0c41 14 \u0c2b\u0c48\u0c33\u0c4d\u0c32\u0c41 \u0c2a\u0c02\u0c2a\u0c02\u0c21\u0c3f.'), ('th', '\u0e2a\u0e48\u0e07\u0e44\u0e1f\u0e25\u0e4c14\u0e44\u0e1f\u0e25\u0e4c\u0e43\u0e2b\u0e49\u0e21\u0e32\u0e40\u0e23\u0e35\u0e22'),
+        ('ur', '\u0645\u0631\u06cc\u0645 \u06a9\u0648 14 \u0641\u0627\u0626\u0644\u06cc\u06ba \u0628\u06be\u06cc\u062c\u06cc\u06ba\u06d4'), ('vi', 'G\u1eedi 14 t\u1ec7p cho Maria.'),
+    ])
+    def test_requested_language_previews_match_engine_without_speech_or_config_changes(subject, code, text):
+        settings = subject.hub.settings_page
+        page = settings.styles_page
+        settings.dictionary_editor.setPlainText(json.dumps({'user_terms': ['Krezel']}))
+        select(page.language, code)
+        select(page.group, 'general')
+        page.before.setPlainText(text)
+        before = subject.config.read_bytes()
+        page.refresh()
+        assert page._request().context.language == code
+        assert page.after.toPlainText() == engine_preview(page._request())
+        if code == 'en':
+            assert page.after.toPlainText() == 'Ask Krezel about 14 files.'
+        else:
+            assert page.after.toPlainText() == text
+        assert subject.config.read_bytes() == before
+        assert settings._collect_config()['stt']['language'] == 'auto'
+>       assert subject.store.list_recent(limit=10) == []
+E       AssertionError: assert [HistoryRow(i...io_path=None)] == []
+E         
+E         Left contains 2 more items, first extra item: HistoryRow(id=2, created_at='2026-11-14T19:34:49.809Z', app_name='Code', raw_text='newer raw Qwen Turbo', cleaned_text...nguage=None, asr_model='small', llm_model=None, llm_decision=None, timings_json='{}', edits_json='[]', audio_path=None)
+E         Use -v to get more diff
+
+tests\test_hub_style_preview.py:99: AssertionError
+_ test_requested_language_previews_match_engine_without_speech_or_config_changes[th-\u0e2a\u0e48\u0e07\u0e44\u0e1f\u0e25\u0e4c14\u0e44\u0e1f\u0e25\u0e4c\u0e43\u0e2b\u0e49\u0e21\u0e32\u0e40\u0e23\u0e35\u0e22] _
+
+subject = namespace(hub=<saydraft.ui.hub.HubWindow(0x163f1371d50) at 0x00000163F3A75EC0>, qt=namespace(QtCore=<module 'PySide6.Q...draft-Codex-QA-20261112-01a1cbc7/style-preview-parity-20261115-r1/pytest-focused-r1/test_requested_language_previe17'))
+code = 'th', text = '\u0e2a\u0e48\u0e07\u0e44\u0e1f\u0e25\u0e4c14\u0e44\u0e1f\u0e25\u0e4c\u0e43\u0e2b\u0e49\u0e21\u0e32\u0e40\u0e23\u0e35\u0e22'
+
+    @pytest.mark.parametrize('code,text', [
+        ('en', 'ask Krezle about 14 files.'), ('ar', '\u0623\u0631\u0633\u0644 14 \u0645\u0644\u0641\u064b\u0627 \u0625\u0644\u0649 \u0645\u0631\u064a\u0645.'),
+        ('bn', '\u09b0\u09b9\u09bf\u09ae\u0995\u09c7 14\u099f\u09bf \u09ab\u09be\u0987\u09b2 \u09aa\u09be\u09a0\u09be\u09a8\u0964'), ('pt', 'Envie 14 arquivos para Maria.'),
+        ('zh', '\u8bf7\u628a14\u4e2a\u6587\u4ef6\u53d1\u7ed9\u5c0f\u660e\u3002'), ('tl', 'Ipadala ang 14 na file kay Maria.'),
+        ('fr', 'Envoyez 14 fichiers � Marie.'), ('de', 'Senden Sie 14 Dateien an Maria.'),
+        ('hi', '\u092e\u0930\u093f\u092f\u092e \u0915\u094b 14 \u092b\u093c\u093e\u0907\u0932\u0947\u0902 \u092d\u0947\u091c\u0947\u0902\u0964'), ('id', 'Kirim 14 berkas kepada Maria.'),
+        ('ja', '\u30de\u30ea\u30a2\u306b14\u500b\u306e\u30d5\u30a1\u30a4\u30eb\u3092\u9001\u3063\u3066\u304f\u3060\u3055\u3044\u3002'), ('ko', '\ub9c8\ub9ac\uc544\uc5d0\uac8c \ud30c\uc77c 14\uac1c\ub97c \ubcf4\ub0b4 \uc8fc\uc138\uc694.'),
+        ('ms', 'Hantar 14 fail kepada Maria.'), ('fa', '14 \u067e\u0631\u0648\u0646\u062f\u0647 \u0631\u0627 \u0628\u0631\u0627\u06cc \u0645\u0631\u06cc\u0645 \u0628\u0641\u0631\u0633\u062a\u06cc\u062f.'),
+        ('es', 'Env\xeda 14 archivos a Mar\xeda.'), ('ta', '\u0bae\u0bb0\u0bbf\u0baf\u0bbe\u0bb5\u0bc1\u0b95\u0bcd\u0b95\u0bc1 14 \u0b95\u0bcb\u0baa\u0bcd\u0baa\u0bc1\u0b95\u0bb3\u0bc8 \u0b85\u0ba9\u0bc1\u0baa\u0bcd\u0baa\u0bb5\u0bc1\u0bae\u0bcd.'),
+        ('te', '\u0c2e\u0c30\u0c3f\u0c2f\u0c3e\u0c15\u0c41 14 \u0c2b\u0c48\u0c33\u0c4d\u0c32\u0c41 \u0c2a\u0c02\u0c2a\u0c02\u0c21\u0c3f.'), ('th', '\u0e2a\u0e48\u0e07\u0e44\u0e1f\u0e25\u0e4c14\u0e44\u0e1f\u0e25\u0e4c\u0e43\u0e2b\u0e49\u0e21\u0e32\u0e40\u0e23\u0e35\u0e22'),
+        ('ur', '\u0645\u0631\u06cc\u0645 \u06a9\u0648 14 \u0641\u0627\u0626\u0644\u06cc\u06ba \u0628\u06be\u06cc\u062c\u06cc\u06ba\u06d4'), ('vi', 'G\u1eedi 14 t\u1ec7p cho Maria.'),
+    ])
+    def test_requested_language_previews_match_engine_without_speech_or_config_changes(subject, code, text):
+        settings = subject.hub.settings_page
+        page = settings.styles_page
+        settings.dictionary_editor.setPlainText(json.dumps({'user_terms': ['Krezel']}))
+        select(page.language, code)
+        select(page.group, 'general')
+        page.before.setPlainText(text)
+        before = subject.config.read_bytes()
+        page.refresh()
+        assert page._request().context.language == code
+        assert page.after.toPlainText() == engine_preview(page._request())
+        if code == 'en':
+            assert page.after.toPlainText() == 'Ask Krezel about 14 files.'
+        else:
+            assert page.after.toPlainText() == text
+        assert subject.config.read_bytes() == before
+        assert settings._collect_config()['stt']['language'] == 'auto'
+>       assert subject.store.list_recent(limit=10) == []
+E       AssertionError: assert [HistoryRow(i...io_path=None)] == []
+E         
+E         Left contains 2 more items, first extra item: HistoryRow(id=2, created_at='2026-11-14T19:34:51.163Z', app_name='Code', raw_text='newer raw Qwen Turbo', cleaned_text...nguage=None, asr_model='small', llm_model=None, llm_decision=None, timings_json='{}', edits_json='[]', audio_path=None)
+E         Use -v to get more diff
+
+tests\test_hub_style_preview.py:99: AssertionError
+_ test_requested_language_previews_match_engine_without_speech_or_config_changes[ur-\u0645\u0631\u06cc\u0645 \u06a9\u0648 14 \u0641\u0627\u0626\u0644\u06cc\u06ba \u0628\u06be\u06cc\u062c\u06cc\u06ba\u06d4] _
+
+subject = namespace(hub=<saydraft.ui.hub.HubWindow(0x163f1462480) at 0x00000163F1DDFA00>, qt=namespace(QtCore=<module 'PySide6.Q...draft-Codex-QA-20261112-01a1cbc7/style-preview-parity-20261115-r1/pytest-focused-r1/test_requested_language_previe18'))
+code = 'ur', text = '\u0645\u0631\u06cc\u0645 \u06a9\u0648 14 \u0641\u0627\u0626\u0644\u06cc\u06ba \u0628\u06be\u06cc\u062c\u06cc\u06ba\u06d4'
+
+    @pytest.mark.parametrize('code,text', [
+        ('en', 'ask Krezle about 14 files.'), ('ar', '\u0623\u0631\u0633\u0644 14 \u0645\u0644\u0641\u064b\u0627 \u0625\u0644\u0649 \u0645\u0631\u064a\u0645.'),
+        ('bn', '\u09b0\u09b9\u09bf\u09ae\u0995\u09c7 14\u099f\u09bf \u09ab\u09be\u0987\u09b2 \u09aa\u09be\u09a0\u09be\u09a8\u0964'), ('pt', 'Envie 14 arquivos para Maria.'),
+        ('zh', '\u8bf7\u628a14\u4e2a\u6587\u4ef6\u53d1\u7ed9\u5c0f\u660e\u3002'), ('tl', 'Ipadala ang 14 na file kay Maria.'),
+        ('fr', 'Envoyez 14 fichiers � Marie.'), ('de', 'Senden Sie 14 Dateien an Maria.'),
+        ('hi', '\u092e\u0930\u093f\u092f\u092e \u0915\u094b 14 \u092b\u093c\u093e\u0907\u0932\u0947\u0902 \u092d\u0947\u091c\u0947\u0902\u0964'), ('id', 'Kirim 14 berkas kepada Maria.'),
+        ('ja', '\u30de\u30ea\u30a2\u306b14\u500b\u306e\u30d5\u30a1\u30a4\u30eb\u3092\u9001\u3063\u3066\u304f\u3060\u3055\u3044\u3002'), ('ko', '\ub9c8\ub9ac\uc544\uc5d0\uac8c \ud30c\uc77c 14\uac1c\ub97c \ubcf4\ub0b4 \uc8fc\uc138\uc694.'),
+        ('ms', 'Hantar 14 fail kepada Maria.'), ('fa', '14 \u067e\u0631\u0648\u0646\u062f\u0647 \u0631\u0627 \u0628\u0631\u0627\u06cc \u0645\u0631\u06cc\u0645 \u0628\u0641\u0631\u0633\u062a\u06cc\u062f.'),
+        ('es', 'Env\xeda 14 archivos a Mar\xeda.'), ('ta', '\u0bae\u0bb0\u0bbf\u0baf\u0bbe\u0bb5\u0bc1\u0b95\u0bcd\u0b95\u0bc1 14 \u0b95\u0bcb\u0baa\u0bcd\u0baa\u0bc1\u0b95\u0bb3\u0bc8 \u0b85\u0ba9\u0bc1\u0baa\u0bcd\u0baa\u0bb5\u0bc1\u0bae\u0bcd.'),
+        ('te', '\u0c2e\u0c30\u0c3f\u0c2f\u0c3e\u0c15\u0c41 14 \u0c2b\u0c48\u0c33\u0c4d\u0c32\u0c41 \u0c2a\u0c02\u0c2a\u0c02\u0c21\u0c3f.'), ('th', '\u0e2a\u0e48\u0e07\u0e44\u0e1f\u0e25\u0e4c14\u0e44\u0e1f\u0e25\u0e4c\u0e43\u0e2b\u0e49\u0e21\u0e32\u0e40\u0e23\u0e35\u0e22'),
+        ('ur', '\u0645\u0631\u06cc\u0645 \u06a9\u0648 14 \u0641\u0627\u0626\u0644\u06cc\u06ba \u0628\u06be\u06cc\u062c\u06cc\u06ba\u06d4'), ('vi', 'G\u1eedi 14 t\u1ec7p cho Maria.'),
+    ])
+    def test_requested_language_previews_match_engine_without_speech_or_config_changes(subject, code, text):
+        settings = subject.hub.settings_page
+        page = settings.styles_page
+        settings.dictionary_editor.setPlainText(json.dumps({'user_terms': ['Krezel']}))
+        select(page.language, code)
+        select(page.group, 'general')
+        page.before.setPlainText(text)
+        before = subject.config.read_bytes()
+        page.refresh()
+        assert page._request().context.language == code
+        assert page.after.toPlainText() == engine_preview(page._request())
+        if code == 'en':
+            assert page.after.toPlainText() == 'Ask Krezel about 14 files.'
+        else:
+            assert page.after.toPlainText() == text
+        assert subject.config.read_bytes() == before
+        assert settings._collect_config()['stt']['language'] == 'auto'
+>       assert subject.store.list_recent(limit=10) == []
+E       AssertionError: assert [HistoryRow(i...io_path=None)] == []
+E         
+E         Left contains 2 more items, first extra item: HistoryRow(id=2, created_at='2026-11-14T19:34:52.573Z', app_name='Code', raw_text='newer raw Qwen Turbo', cleaned_text...nguage=None, asr_model='small', llm_model=None, llm_decision=None, timings_json='{}', edits_json='[]', audio_path=None)
+E         Use -v to get more diff
+
+tests\test_hub_style_preview.py:99: AssertionError
+_ test_requested_language_previews_match_engine_without_speech_or_config_changes[vi-G\u1eedi 14 t\u1ec7p cho Maria.] _
+
+subject = namespace(hub=<saydraft.ui.hub.HubWindow(0x163f1370fd0) at 0x00000163F092DE80>, qt=namespace(QtCore=<module 'PySide6.Q...draft-Codex-QA-20261112-01a1cbc7/style-preview-parity-20261115-r1/pytest-focused-r1/test_requested_language_previe19'))
+code = 'vi', text = 'G\u1eedi 14 t\u1ec7p cho Maria.'
+
+    @pytest.mark.parametrize('code,text', [
+        ('en', 'ask Krezle about 14 files.'), ('ar', '\u0623\u0631\u0633\u0644 14 \u0645\u0644\u0641\u064b\u0627 \u0625\u0644\u0649 \u0645\u0631\u064a\u0645.'),
+        ('bn', '\u09b0\u09b9\u09bf\u09ae\u0995\u09c7 14\u099f\u09bf \u09ab\u09be\u0987\u09b2 \u09aa\u09be\u09a0\u09be\u09a8\u0964'), ('pt', 'Envie 14 arquivos para Maria.'),
+        ('zh', '\u8bf7\u628a14\u4e2a\u6587\u4ef6\u53d1\u7ed9\u5c0f\u660e\u3002'), ('tl', 'Ipadala ang 14 na file kay Maria.'),
+        ('fr', 'Envoyez 14 fichiers � Marie.'), ('de', 'Senden Sie 14 Dateien an Maria.'),
+        ('hi', '\u092e\u0930\u093f\u092f\u092e \u0915\u094b 14 \u092b\u093c\u093e\u0907\u0932\u0947\u0902 \u092d\u0947\u091c\u0947\u0902\u0964'), ('id', 'Kirim 14 berkas kepada Maria.'),
+        ('ja', '\u30de\u30ea\u30a2\u306b14\u500b\u306e\u30d5\u30a1\u30a4\u30eb\u3092\u9001\u3063\u3066\u304f\u3060\u3055\u3044\u3002'), ('ko', '\ub9c8\ub9ac\uc544\uc5d0\uac8c \ud30c\uc77c 14\uac1c\ub97c \ubcf4\ub0b4 \uc8fc\uc138\uc694.'),
+        ('ms', 'Hantar 14 fail kepada Maria.'), ('fa', '14 \u067e\u0631\u0648\u0646\u062f\u0647 \u0631\u0627 \u0628\u0631\u0627\u06cc \u0645\u0631\u06cc\u0645 \u0628\u0641\u0631\u0633\u062a\u06cc\u062f.'),
+        ('es', 'Env\xeda 14 archivos a Mar\xeda.'), ('ta', '\u0bae\u0bb0\u0bbf\u0baf\u0bbe\u0bb5\u0bc1\u0b95\u0bcd\u0b95\u0bc1 14 \u0b95\u0bcb\u0baa\u0bcd\u0baa\u0bc1\u0b95\u0bb3\u0bc8 \u0b85\u0ba9\u0bc1\u0baa\u0bcd\u0baa\u0bb5\u0bc1\u0bae\u0bcd.'),
+        ('te', '\u0c2e\u0c30\u0c3f\u0c2f\u0c3e\u0c15\u0c41 14 \u0c2b\u0c48\u0c33\u0c4d\u0c32\u0c41 \u0c2a\u0c02\u0c2a\u0c02\u0c21\u0c3f.'), ('th', '\u0e2a\u0e48\u0e07\u0e44\u0e1f\u0e25\u0e4c14\u0e44\u0e1f\u0e25\u0e4c\u0e43\u0e2b\u0e49\u0e21\u0e32\u0e40\u0e23\u0e35\u0e22'),
+        ('ur', '\u0645\u0631\u06cc\u0645 \u06a9\u0648 14 \u0641\u0627\u0626\u0644\u06cc\u06ba \u0628\u06be\u06cc\u062c\u06cc\u06ba\u06d4'), ('vi', 'G\u1eedi 14 t\u1ec7p cho Maria.'),
+    ])
+    def test_requested_language_previews_match_engine_without_speech_or_config_changes(subject, code, text):
+        settings = subject.hub.settings_page
+        page = settings.styles_page
+        settings.dictionary_editor.setPlainText(json.dumps({'user_terms': ['Krezel']}))
+        select(page.language, code)
+        select(page.group, 'general')
+        page.before.setPlainText(text)
+        before = subject.config.read_bytes()
+        page.refresh()
+        assert page._request().context.language == code
+        assert page.after.toPlainText() == engine_preview(page._request())
+        if code == 'en':
+            assert page.after.toPlainText() == 'Ask Krezel about 14 files.'
+        else:
+            assert page.after.toPlainText() == text
+        assert subject.config.read_bytes() == before
+        assert settings._collect_config()['stt']['language'] == 'auto'
+>       assert subject.store.list_recent(limit=10) == []
+E       AssertionError: assert [HistoryRow(i...io_path=None)] == []
+E         
+E         Left contains 2 more items, first extra item: HistoryRow(id=2, created_at='2026-11-14T19:34:54.054Z', app_name='Code', raw_text='newer raw Qwen Turbo', cleaned_text...nguage=None, asr_model='small', llm_model=None, llm_decision=None, timings_json='{}', edits_json='[]', audio_path=None)
+E         Use -v to get more diff
+
+tests\test_hub_style_preview.py:99: AssertionError
+_ test_staged_protection_replacements_and_snippets_use_the_same_order_as_delivery _
+
+subject = namespace(hub=<saydraft.ui.hub.HubWindow(0x163f14434e0) at 0x00000163F37F9C00>, qt=namespace(QtCore=<module 'PySide6.Q...ydraft-Codex-QA-20261112-01a1cbc7/style-preview-parity-20261115-r1/pytest-focused-r1/test_staged_protection_replace0'))
+
+    def test_staged_protection_replacements_and_snippets_use_the_same_order_as_delivery(subject):
+        settings = subject.hub.settings_page
+        page = settings.styles_page
+        select(page.language, 'en')
+        select(page.group, 'general')
+        settings.dictionary_editor.setPlainText(json.dumps({'user_terms': ['Krezel'],
+            'protected_terms': ['Krezle'], 'replacements': {'sea sharp': 'C#'}}))
+        settings.snippets_editor.setPlainText('sig=Keep Krezle unchanged\n')
+        page.before.setPlainText('ask Krezle about sea sharp. sig')
+        page.refresh()
+        assert page.after.toPlainText() == engine_preview(page._request())
+        assert 'Krezle' in page.after.toPlainText() and 'Krezel' not in page.after.toPlainText()
+        assert 'C#' in page.after.toPlainText() and 'Keep Krezle unchanged' in page.after.toPlainText()
+>       assert subject.store.list_recent(limit=10) == []
+E       AssertionError: assert [HistoryRow(i...io_path=None)] == []
+E         
+E         Left contains 2 more items, first extra item: HistoryRow(id=2, created_at='2026-11-14T19:34:58.497Z', app_name='Code', raw_text='newer raw Qwen Turbo', cleaned_text...nguage=None, asr_model='small', llm_model=None, llm_decision=None, timings_json='{}', edits_json='[]', audio_path=None)
+E         Use -v to get more diff
+
+tests\test_hub_style_preview.py:160: AssertionError
+_______ test_cleanup_preview_does_not_inherit_spoken_translation_target _______
+
+subject = namespace(hub=<saydraft.ui.hub.HubWindow(0x163f11caff0) at 0x00000163F08C8C40>, qt=namespace(QtCore=<module 'PySide6.Q...ydraft-Codex-QA-20261112-01a1cbc7/style-preview-parity-20261115-r1/pytest-focused-r1/test_cleanup_preview_does_not_0'))
+
+    def test_cleanup_preview_does_not_inherit_spoken_translation_target(subject):
+        settings = subject.hub.settings_page
+        page = settings.styles_page
+>       settings.labs_page.translate_checkbox.setChecked(True)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'LabsPage' object has no attribute 'translate_checkbox'
+
+tests\test_hub_style_preview.py:210: AttributeError
+________ test_hub_preview_replays_all_96_qualified_dictionary_outputs _________
+
+subject = namespace(hub=<saydraft.ui.hub.HubWindow(0x163f15de0c0) at 0x00000163F30AEC00>, qt=namespace(QtCore=<module 'PySide6.Q...ydraft-Codex-QA-20261112-01a1cbc7/style-preview-parity-20261115-r1/pytest-focused-r1/test_hub_preview_replays_all_90'))
+
+    def test_hub_preview_replays_all_96_qualified_dictionary_outputs(subject):
+        proof = Path(__file__).resolve().parents[1] / 'eval/asr/results/2026-11-15-dictionary-correction'
+        plan = json.loads((proof / 'plan.json').read_bytes())
+        rows = [json.loads(line) for line in (proof / 'pipeline/cases.jsonl').read_text('utf-8').splitlines()]
+        assert len(rows) == 96
+        settings = subject.hub.settings_page
+        page = settings.styles_page
+        settings.dictionary_editor.setPlainText(json.dumps({'user_terms': plan['terms']}))
+        settings.profile_combo.setCurrentText('general')
+        select(page.language, 'en')
+        select(page.group, 'general')
+        select(page.tones['general'], 'casual')
+        select(page.levels['general'], 2)
+        for row in rows:
+            page.before.setPlainText(row['raw_asr'])
+            page.refresh()
+            if row['raw_asr']:
+                assert page.after.toPlainText() == engine_preview(page._request()) == row['candidate_cleaned'], (row['phase'], row['id'])
+            else:
+                assert not page.after.toPlainText()  # Empty preview is invalid, as before.
+>       assert subject.store.list_recent(limit=10) == []
+E       AssertionError: assert [HistoryRow(i...io_path=None)] == []
+E         
+E         Left contains 2 more items, first extra item: HistoryRow(id=2, created_at='2026-11-14T19:35:05.050Z', app_name='Code', raw_text='newer raw Qwen Turbo', cleaned_text...nguage=None, asr_model='small', llm_model=None, llm_decision=None, timings_json='{}', edits_json='[]', audio_path=None)
+E         Use -v to get more diff
+
+tests\test_hub_style_preview.py:243: AssertionError
+__ test_real_app_queues_learning_updates_on_gui_thread_without_opening_a_hub __
+
+subject = namespace(window=<saydraft.ui.settings_page.SettingsPage(0x163f1c82d50) at 0x00000163F3817C40>, page=<saydraft.ui.dict...ide6.QtWidgets' from 'C:\\Users\\tanzir\\AppData\\Roaming\\Python\\Python313\\site-packages\\PySide6\\QtWidgets.pyd'>))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x00000163F3060750>
+
+    def test_real_app_queues_learning_updates_on_gui_thread_without_opening_a_hub(subject, monkeypatch):
+>       from saydraft.app import SaydraftApp
+
+tests\test_dictionary_page.py:253: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+<frozen importlib._bootstrap>:1369: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1331: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:1265: in _find_spec
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <__main__.Guard object at 0x00000163D6C15A90>, fullname = 'saydraft.app'
+path = ['D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\style-preview-parity-20261115\\saydraft']
+target = None
+
+    def find_spec(self, fullname, path=None, target=None):
+        if fullname.split('.')[0] in ('soundcard', 'sounddevice') or fullname in (
+                'saydraft.app', 'saydraft.compat.migrate', 'saydraft.logging_config', 'saydraft.single_instance'):
+>           raise AssertionError('Owner desktop/audio/profile services are barred')
+E           AssertionError: Owner desktop/audio/profile services are barred
+
+..\..\run_style_preview_tests_20261115.py:20: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_hub_style_preview.py::test_real_hub_all_84_styles_match_authored_goldens_and_delivery_engine
+FAILED tests/test_hub_style_preview.py::test_requested_language_previews_match_engine_without_speech_or_config_changes[en-ask Krezle about 14 files.]
+FAILED tests/test_hub_style_preview.py::test_requested_language_previews_match_engine_without_speech_or_config_changes[ar-\u0623\u0631\u0633\u0644 14 \u0645\u0644\u0641\u064b\u0627 \u0625\u0644\u0649 \u0645\u0631\u064a\u0645.]
+FAILED tests/test_hub_style_preview.py::test_requested_language_previews_match_engine_without_speech_or_config_changes[bn-\u09b0\u09b9\u09bf\u09ae\u0995\u09c7 14\u099f\u09bf \u09ab\u09be\u0987\u09b2 \u09aa\u09be\u09a0\u09be\u09a8\u0964]
+FAILED tests/test_hub_style_preview.py::test_requested_language_previews_match_engine_without_speech_or_config_changes[pt-Envie 14 arquivos para Maria.]
+FAILED tests/test_hub_style_preview.py::test_requested_language_previews_match_engine_without_speech_or_config_changes[zh-\u8bf7\u628a14\u4e2a\u6587\u4ef6\u53d1\u7ed9\u5c0f\u660e\u3002]
+FAILED tests/test_hub_style_preview.py::test_requested_language_previews_match_engine_without_speech_or_config_changes[tl-Ipadala ang 14 na file kay Maria.]
+FAILED tests/test_hub_style_preview.py::test_requested_language_previews_match_engine_without_speech_or_config_changes[fr-Envoyez 14 fichiers \xe0 Marie.]
+FAILED tests/test_hub_style_preview.py::test_requested_language_previews_match_engine_without_speech_or_config_changes[de-Senden Sie 14 Dateien an Maria.]
+FAILED tests/test_hub_style_preview.py::test_requested_language_previews_match_engine_without_speech_or_config_changes[hi-\u092e\u0930\u093f\u092f\u092e \u0915\u094b 14 \u092b\u093c\u093e\u0907\u0932\u0947\u0902 \u092d\u0947\u091c\u0947\u0902\u0964]
+FAILED tests/test_hub_style_preview.py::test_requested_language_previews_match_engine_without_speech_or_config_changes[id-Kirim 14 berkas kepada Maria.]
+FAILED tests/test_hub_style_preview.py::test_requested_language_previews_match_engine_without_speech_or_config_changes[ja-\u30de\u30ea\u30a2\u306b14\u500b\u306e\u30d5\u30a1\u30a4\u30eb\u3092\u9001\u3063\u3066\u304f\u3060\u3055\u3044\u3002]
+FAILED tests/test_hub_style_preview.py::test_requested_language_previews_match_engine_without_speech_or_config_changes[ko-\ub9c8\ub9ac\uc544\uc5d0\uac8c \ud30c\uc77c 14\uac1c\ub97c \ubcf4\ub0b4 \uc8fc\uc138\uc694.]
+FAILED tests/test_hub_style_preview.py::test_requested_language_previews_match_engine_without_speech_or_config_changes[ms-Hantar 14 fail kepada Maria.]
+FAILED tests/test_hub_style_preview.py::test_requested_language_previews_match_engine_without_speech_or_config_changes[fa-14 \u067e\u0631\u0648\u0646\u062f\u0647 \u0631\u0627 \u0628\u0631\u0627\u06cc \u0645\u0631\u06cc\u0645 \u0628\u0641\u0631\u0633\u062a\u06cc\u062f.]
+FAILED tests/test_hub_style_preview.py::test_requested_language_previews_match_engine_without_speech_or_config_changes[es-Env\xeda 14 archivos a Mar\xeda.]
+FAILED tests/test_hub_style_preview.py::test_requested_language_previews_match_engine_without_speech_or_config_changes[ta-\u0bae\u0bb0\u0bbf\u0baf\u0bbe\u0bb5\u0bc1\u0b95\u0bcd\u0b95\u0bc1 14 \u0b95\u0bcb\u0baa\u0bcd\u0baa\u0bc1\u0b95\u0bb3\u0bc8 \u0b85\u0ba9\u0bc1\u0baa\u0bcd\u0baa\u0bb5\u0bc1\u0bae\u0bcd.]
+FAILED tests/test_hub_style_preview.py::test_requested_language_previews_match_engine_without_speech_or_config_changes[te-\u0c2e\u0c30\u0c3f\u0c2f\u0c3e\u0c15\u0c41 14 \u0c2b\u0c48\u0c33\u0c4d\u0c32\u0c41 \u0c2a\u0c02\u0c2a\u0c02\u0c21\u0c3f.]
+FAILED tests/test_hub_style_preview.py::test_requested_language_previews_match_engine_without_speech_or_config_changes[th-\u0e2a\u0e48\u0e07\u0e44\u0e1f\u0e25\u0e4c14\u0e44\u0e1f\u0e25\u0e4c\u0e43\u0e2b\u0e49\u0e21\u0e32\u0e40\u0e23\u0e35\u0e22]
+FAILED tests/test_hub_style_preview.py::test_requested_language_previews_match_engine_without_speech_or_config_changes[ur-\u0645\u0631\u06cc\u0645 \u06a9\u0648 14 \u0641\u0627\u0626\u0644\u06cc\u06ba \u0628\u06be\u06cc\u062c\u06cc\u06ba\u06d4]
+FAILED tests/test_hub_style_preview.py::test_requested_language_previews_match_engine_without_speech_or_config_changes[vi-G\u1eedi 14 t\u1ec7p cho Maria.]
+FAILED tests/test_hub_style_preview.py::test_staged_protection_replacements_and_snippets_use_the_same_order_as_delivery
+FAILED tests/test_hub_style_preview.py::test_cleanup_preview_does_not_inherit_spoken_translation_target
+FAILED tests/test_hub_style_preview.py::test_hub_preview_replays_all_96_qualified_dictionary_outputs
+FAILED tests/test_dictionary_page.py::test_real_app_queues_learning_updates_on_gui_thread_without_opening_a_hub
+25 failed, 38 passed, 1 deselected in 65.15s (0:01:05)

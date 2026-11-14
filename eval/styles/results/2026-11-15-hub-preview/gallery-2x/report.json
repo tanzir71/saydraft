@@ -1,0 +1,105 @@
+{
+  "platform": "offscreen",
+  "scale": 2,
+  "network_guard_enabled": true,
+  "active_application_read": false,
+  "owner_clipboard_accessed": false,
+  "themes": [
+    {
+      "name": "light",
+      "files": [
+        "light-controls.png",
+        "light-style.png"
+      ],
+      "image_width": 2000,
+      "image_height": 1480,
+      "body_pixels": 16,
+      "style_rows": [
+        {
+          "row": 0,
+          "height": 41,
+          "required": 39
+        },
+        {
+          "row": 1,
+          "height": 41,
+          "required": 39
+        },
+        {
+          "row": 2,
+          "height": 41,
+          "required": 39
+        },
+        {
+          "row": 3,
+          "height": 41,
+          "required": 39
+        },
+        {
+          "row": 4,
+          "height": 41,
+          "required": 39
+        },
+        {
+          "row": 5,
+          "height": 41,
+          "required": 39
+        },
+        {
+          "row": 6,
+          "height": 41,
+          "required": 39
+        }
+      ]
+    },
+    {
+      "name": "dark",
+      "files": [
+        "dark-controls.png",
+        "dark-style.png"
+      ],
+      "image_width": 2000,
+      "image_height": 1480,
+      "body_pixels": 16,
+      "style_rows": [
+        {
+          "row": 0,
+          "height": 41,
+          "required": 39
+        },
+        {
+          "row": 1,
+          "height": 41,
+          "required": 39
+        },
+        {
+          "row": 2,
+          "height": 41,
+          "required": 39
+        },
+        {
+          "row": 3,
+          "height": 41,
+          "required": 39
+        },
+        {
+          "row": 4,
+          "height": 41,
+          "required": 39
+        },
+        {
+          "row": 5,
+          "height": 41,
+          "required": 39
+        },
+        {
+          "row": 6,
+          "height": 41,
+          "required": 39
+        }
+      ]
+    }
+  ],
+  "git_commit": "875716bef32c05c885489701d09f596fb9a8e417",
+  "source_dirty": true
+}

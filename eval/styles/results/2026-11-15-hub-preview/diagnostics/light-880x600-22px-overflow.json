@@ -1,0 +1,68 @@
+[
+  {
+    "class": "QComboBox",
+    "name": "Messages intensity",
+    "minimum_width": 259,
+    "width": 237
+  },
+  {
+    "class": "QComboBox",
+    "name": "Work chat intensity",
+    "minimum_width": 259,
+    "width": 237
+  },
+  {
+    "class": "QComboBox",
+    "name": "Email intensity",
+    "minimum_width": 259,
+    "width": 237
+  },
+  {
+    "class": "QComboBox",
+    "name": "Docs & notes intensity",
+    "minimum_width": 259,
+    "width": 237
+  },
+  {
+    "class": "QComboBox",
+    "name": "Code intensity",
+    "minimum_width": 259,
+    "width": 237
+  },
+  {
+    "class": "QComboBox",
+    "name": "AI chat intensity",
+    "minimum_width": 259,
+    "width": 237
+  },
+  {
+    "class": "QComboBox",
+    "name": "Other intensity",
+    "minimum_width": 259,
+    "width": 237
+  },
+  {
+    "class": "QGroupBox",
+    "name": "",
+    "minimum_width": 520,
+    "width": 716
+  },
+  {
+    "class": "QComboBox",
+    "name": "Spoken translation output language",
+    "minimum_width": 313,
+    "width": 509
+  },
+  {
+    "class": "QPushButton",
+    "name": "",
+    "minimum_width": 267,
+    "width": 267
+  },
+  {
+    "class": "QComboBox",
+    "name": "Preview transcript language",
+    "minimum_width": 529,
+    "width": 529
+  }
+]

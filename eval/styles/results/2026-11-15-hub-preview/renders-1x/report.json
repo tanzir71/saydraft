@@ -1,0 +1,483 @@
+{
+  "source": "05324798ecbdfcd740ca06452788185310d9c23b",
+  "source_dirty": true,
+  "platform": "offscreen",
+  "scale": 1,
+  "network_guard": true,
+  "real_audio_or_input_used": false,
+  "owner_clipboard_accessed": false,
+  "renders": [
+    {
+      "name": "light-880x600-16px",
+      "width": 880,
+      "height": 600,
+      "body_pixels": 16,
+      "rows": [
+        {
+          "row": 0,
+          "actual": 41,
+          "required": 39
+        },
+        {
+          "row": 1,
+          "actual": 41,
+          "required": 39
+        },
+        {
+          "row": 2,
+          "actual": 41,
+          "required": 39
+        },
+        {
+          "row": 3,
+          "actual": 41,
+          "required": 39
+        },
+        {
+          "row": 4,
+          "actual": 41,
+          "required": 39
+        },
+        {
+          "row": 5,
+          "actual": 41,
+          "required": 39
+        },
+        {
+          "row": 6,
+          "actual": 41,
+          "required": 39
+        }
+      ],
+      "files": [
+        {
+          "path": "light-880x600-16px-matrix.png",
+          "bytes": 64367,
+          "sha256": "14608030248672e2401c17bb2548112cdf976e964fcb6011514902b458aab36d"
+        },
+        {
+          "path": "light-880x600-16px-preview.png",
+          "bytes": 58845,
+          "sha256": "822a2ca93fffade7865a54ca125d79f3b0ce1cfc694594e83c9b9a1455d27f6a"
+        }
+      ],
+      "preview_language": "en",
+      "preview_text": "Ask Krezel about 14 files.",
+      "pending_form_unmodified": true
+    },
+    {
+      "name": "light-1080x720-16px",
+      "width": 1080,
+      "height": 720,
+      "body_pixels": 16,
+      "rows": [
+        {
+          "row": 0,
+          "actual": 41,
+          "required": 39
+        },
+        {
+          "row": 1,
+          "actual": 41,
+          "required": 39
+        },
+        {
+          "row": 2,
+          "actual": 41,
+          "required": 39
+        },
+        {
+          "row": 3,
+          "actual": 41,
+          "required": 39
+        },
+        {
+          "row": 4,
+          "actual": 41,
+          "required": 39
+        },
+        {
+          "row": 5,
+          "actual": 41,
+          "required": 39
+        },
+        {
+          "row": 6,
+          "actual": 41,
+          "required": 39
+        }
+      ],
+      "files": [
+        {
+          "path": "light-1080x720-16px-matrix.png",
+          "bytes": 83623,
+          "sha256": "603f9ed7d86318a6019e748beaff9af36570b8defdf927301d8cbc40a75e4986"
+        },
+        {
+          "path": "light-1080x720-16px-preview.png",
+          "bytes": 69332,
+          "sha256": "fe53e0e9d4177259684862cf41970f6c0841e8b70a47b5110dec7aa854b1fae2"
+        }
+      ],
+      "preview_language": "en",
+      "preview_text": "Ask Krezel about 14 files.",
+      "pending_form_unmodified": true
+    },
+    {
+      "name": "light-880x600-22px",
+      "width": 880,
+      "height": 600,
+      "body_pixels": 22,
+      "rows": [
+        {
+          "row": 0,
+          "actual": 48,
+          "required": 46
+        },
+        {
+          "row": 1,
+          "actual": 48,
+          "required": 46
+        },
+        {
+          "row": 2,
+          "actual": 48,
+          "required": 46
+        },
+        {
+          "row": 3,
+          "actual": 48,
+          "required": 46
+        },
+        {
+          "row": 4,
+          "actual": 48,
+          "required": 46
+        },
+        {
+          "row": 5,
+          "actual": 48,
+          "required": 46
+        },
+        {
+          "row": 6,
+          "actual": 48,
+          "required": 46
+        }
+      ],
+      "files": [
+        {
+          "path": "light-880x600-22px-matrix.png",
+          "bytes": 81841,
+          "sha256": "4095e38f1caee0e35807c670e170cdd6e86f5d86d128fb1df8db5e220005ab5c"
+        },
+        {
+          "path": "light-880x600-22px-preview.png",
+          "bytes": 61434,
+          "sha256": "e4a291cdf8ec8e97bee2581e8cc34b7e7fee60c17bf28f0af8018afced62e55d"
+        }
+      ],
+      "preview_language": "en",
+      "preview_text": "Ask Krezel about 14 files.",
+      "pending_form_unmodified": true
+    },
+    {
+      "name": "light-1080x720-22px",
+      "width": 1080,
+      "height": 720,
+      "body_pixels": 22,
+      "rows": [
+        {
+          "row": 0,
+          "actual": 48,
+          "required": 46
+        },
+        {
+          "row": 1,
+          "actual": 48,
+          "required": 46
+        },
+        {
+          "row": 2,
+          "actual": 48,
+          "required": 46
+        },
+        {
+          "row": 3,
+          "actual": 48,
+          "required": 46
+        },
+        {
+          "row": 4,
+          "actual": 48,
+          "required": 46
+        },
+        {
+          "row": 5,
+          "actual": 48,
+          "required": 46
+        },
+        {
+          "row": 6,
+          "actual": 48,
+          "required": 46
+        }
+      ],
+      "files": [
+        {
+          "path": "light-1080x720-22px-matrix.png",
+          "bytes": 91949,
+          "sha256": "205bdd9940404af10b5756b22a6eda9d76ca4c78ab66ce1fc9bacf2682ac0b49"
+        },
+        {
+          "path": "light-1080x720-22px-preview.png",
+          "bytes": 84738,
+          "sha256": "398c17ae5486f0fae990b1e62710736dce0c8468ba14a61bc7c63d9b7675277d"
+        }
+      ],
+      "preview_language": "en",
+      "preview_text": "Ask Krezel about 14 files.",
+      "pending_form_unmodified": true
+    },
+    {
+      "name": "dark-880x600-16px",
+      "width": 880,
+      "height": 600,
+      "body_pixels": 16,
+      "rows": [
+        {
+          "row": 0,
+          "actual": 41,
+          "required": 39
+        },
+        {
+          "row": 1,
+          "actual": 41,
+          "required": 39
+        },
+        {
+          "row": 2,
+          "actual": 41,
+          "required": 39
+        },
+        {
+          "row": 3,
+          "actual": 41,
+          "required": 39
+        },
+        {
+          "row": 4,
+          "actual": 41,
+          "required": 39
+        },
+        {
+          "row": 5,
+          "actual": 41,
+          "required": 39
+        },
+        {
+          "row": 6,
+          "actual": 41,
+          "required": 39
+        }
+      ],
+      "files": [
+        {
+          "path": "dark-880x600-16px-matrix.png",
+          "bytes": 65191,
+          "sha256": "c0cb9012f3c569d5728672c4a12b104c480ea178a5539a6c77a8db46cf756f16"
+        },
+        {
+          "path": "dark-880x600-16px-preview.png",
+          "bytes": 59756,
+          "sha256": "c2ad25c6642d92043c3bbc7802b4af85ef8345394b5c66716ccff3dd844e769f"
+        }
+      ],
+      "preview_language": "en",
+      "preview_text": "Ask Krezel about 14 files.",
+      "pending_form_unmodified": true
+    },
+    {
+      "name": "dark-1080x720-16px",
+      "width": 1080,
+      "height": 720,
+      "body_pixels": 16,
+      "rows": [
+        {
+          "row": 0,
+          "actual": 41,
+          "required": 39
+        },
+        {
+          "row": 1,
+          "actual": 41,
+          "required": 39
+        },
+        {
+          "row": 2,
+          "actual": 41,
+          "required": 39
+        },
+        {
+          "row": 3,
+          "actual": 41,
+          "required": 39
+        },
+        {
+          "row": 4,
+          "actual": 41,
+          "required": 39
+        },
+        {
+          "row": 5,
+          "actual": 41,
+          "required": 39
+        },
+        {
+          "row": 6,
+          "actual": 41,
+          "required": 39
+        }
+      ],
+      "files": [
+        {
+          "path": "dark-1080x720-16px-matrix.png",
+          "bytes": 84238,
+          "sha256": "8f0ab16301f1d7f96778a14b7ea95963a18fca6638dea833b6c5ae4076e83a0b"
+        },
+        {
+          "path": "dark-1080x720-16px-preview.png",
+          "bytes": 69829,
+          "sha256": "9eb9f08353d919ba5d6295a639e211dabbc3e88069ff3195cdffc29adec5968b"
+        }
+      ],
+      "preview_language": "en",
+      "preview_text": "Ask Krezel about 14 files.",
+      "pending_form_unmodified": true
+    },
+    {
+      "name": "dark-880x600-22px",
+      "width": 880,
+      "height": 600,
+      "body_pixels": 22,
+      "rows": [
+        {
+          "row": 0,
+          "actual": 48,
+          "required": 46
+        },
+        {
+          "row": 1,
+          "actual": 48,
+          "required": 46
+        },
+        {
+          "row": 2,
+          "actual": 48,
+          "required": 46
+        },
+        {
+          "row": 3,
+          "actual": 48,
+          "required": 46
+        },
+        {
+          "row": 4,
+          "actual": 48,
+          "required": 46
+        },
+        {
+          "row": 5,
+          "actual": 48,
+          "required": 46
+        },
+        {
+          "row": 6,
+          "actual": 48,
+          "required": 46
+        }
+      ],
+      "files": [
+        {
+          "path": "dark-880x600-22px-matrix.png",
+          "bytes": 82510,
+          "sha256": "30d6e5304b0b782c6140f446e0b0045075bf104288f8e4968510e94fd511631f"
+        },
+        {
+          "path": "dark-880x600-22px-preview.png",
+          "bytes": 61993,
+          "sha256": "85ffbdef41b07984982fea55eb4c901bc477b5c67bafb918a3f440a5f6b87123"
+        }
+      ],
+      "preview_language": "en",
+      "preview_text": "Ask Krezel about 14 files.",
+      "pending_form_unmodified": true
+    },
+    {
+      "name": "dark-1080x720-22px",
+      "width": 1080,
+      "height": 720,
+      "body_pixels": 22,
+      "rows": [
+        {
+          "row": 0,
+          "actual": 48,
+          "required": 46
+        },
+        {
+          "row": 1,
+          "actual": 48,
+          "required": 46
+        },
+        {
+          "row": 2,
+          "actual": 48,
+          "required": 46
+        },
+        {
+          "row": 3,
+          "actual": 48,
+          "required": 46
+        },
+        {
+          "row": 4,
+          "actual": 48,
+          "required": 46
+        },
+        {
+          "row": 5,
+          "actual": 48,
+          "required": 46
+        },
+        {
+          "row": 6,
+          "actual": 48,
+          "required": 46
+        }
+      ],
+      "files": [
+        {
+          "path": "dark-1080x720-22px-matrix.png",
+          "bytes": 92557,
+          "sha256": "ef0511404cca3786638db9031ca4c3041cc9f09b7e890c43a985b114763fc205"
+        },
+        {
+          "path": "dark-1080x720-22px-preview.png",
+          "bytes": 85423,
+          "sha256": "e1642cd38146ced80eafb209905c22d5a10deaecf0ceac7384dc6eb8267de8ed"
+        }
+      ],
+      "preview_language": "en",
+      "preview_text": "Ask Krezel about 14 files.",
+      "pending_form_unmodified": true
+    }
+  ],
+  "source_files": {
+    "saydraft/core/style_preview.py": "9fbe95e61fd2b9c13472a30d656b0bad1feccd0c544916c6473acb9739abba7a",
+    "saydraft/dictation/glossary.py": "8ce19eaff4cbef3f2ca12d9664b788f2219182078e5797352ed7e7c72a897665",
+    "saydraft/ui/dictionary_page.py": "5a0068f60d1d5d620f276e16b7c954acdce9fb776172b745c533ed4f540ad8ca",
+    "saydraft/ui/languages_page.py": "fe4448011849a2fe561ea59050694bf4907b16cf5200fb55d56a34d5cf174b06",
+    "saydraft/ui/settings_page.py": "7877d042506a4405e28e55fb6ba9ec17c74e827eb1ad63d3986ec34d59b74cf1",
+    "saydraft/ui/styles_page.py": "5fb42336613c8779310df691eac817a717fa33117aaad05269ffe0eb6433d515"
+  }
+}

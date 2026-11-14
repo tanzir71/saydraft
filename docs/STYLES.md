@@ -71,6 +71,15 @@ separate.
 
 ## Selection
 
+The [15 November Hub qualification](../eval/styles/results/2026-11-15-hub-preview/)
+retains 283 passing local checks (three app-entry tests excluded under the desktop
+restriction), all 84 authored combinations, 20 language text samples and 96
+qualified dictionary replays. Thirty-two light/dark Hub renders cover both window
+sizes, 16/22 px text and 1×/2× density; the actual processor and existing History
+are checked independently of the previews. Its portable verifier checks all 79
+raw files, tested source bytes, JUnit cases and image dimensions. This is preview
+parity evidence, not speech-recognition accuracy or a native-model tone bake-off.
+
 The groups are Messages, Work chat, Email, Docs & notes, Code, AI chat and Other
 (`messages`, `work_chat`, `email`, `docs`, `code`, `ai_chat`, `general`). Defaults
 are Casual, except Formal for Email and Docs & notes. Global legacy Email/Chat

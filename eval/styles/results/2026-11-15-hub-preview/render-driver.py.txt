@@ -1,0 +1,126 @@
+"""Render only owned offscreen Hub fixtures with all real desktop ports absent."""
+import hashlib
+import json
+import os
+from pathlib import Path
+import subprocess
+import sys
+from types import SimpleNamespace as NS
+
+output, scale = Path(sys.argv[1]), int(sys.argv[2])
+assert scale in (1, 2)
+os.environ['QT_QPA_PLATFORM'] = 'offscreen'
+os.environ['QT_SCALE_FACTOR'] = str(scale)
+os.environ['QT_STYLE_OVERRIDE'] = 'Fusion'
+output.mkdir(exist_ok=False)
+source_paths = ('saydraft/core/style_preview.py', 'saydraft/dictation/glossary.py',
+    'saydraft/ui/dictionary_page.py', 'saydraft/ui/languages_page.py',
+    'saydraft/ui/settings_page.py', 'saydraft/ui/styles_page.py')
+source_files = {name: hashlib.sha256(Path(name).read_bytes().replace(b'\r\n', b'\n')).hexdigest()
+    for name in source_paths}
+from PySide6 import QtCore, QtGui, QtWidgets
+from saydraft.config import default_config, save_config
+from saydraft.history import DictationHistoryStore
+from saydraft.privacy.netguard import NetworkGuard
+from saydraft.ui.fonts import install_bundled_fonts
+from saydraft.ui.theme import install_theme
+import saydraft.models.storage
+import saydraft.ui.onboarding_models
+
+saydraft.models.storage.storage_roots = lambda: ()
+saydraft.ui.onboarding_models.inspect_speech_package = lambda _model_id: {'state': 'missing', 'missing': []}
+NetworkGuard.install()
+from saydraft.ui.hub import HubWindow
+app = QtWidgets.QApplication([])
+assert app.platformName() == 'offscreen'
+assert len(install_bundled_fonts(app)) == 8
+controller = install_theme(app, mode='light')
+original_font = QtGui.QFont(app.font())
+
+class ForbiddenClipboard:
+    def setText(self, *args):
+        raise AssertionError('No owner clipboard is available')
+
+reports = []
+for theme in ('light', 'dark'):
+    controller.set_mode(theme)
+    for font_size in (16, 22):
+        font = QtGui.QFont(original_font)
+        font.setPixelSize(font_size)
+        app.setFont(font)
+        for width, height in ((880, 600), (1080, 720)):
+            name = f'{theme}-{width}x{height}-{font_size}px'
+            profile = output / name
+            profile.mkdir()
+            config = default_config()
+            config['stt']['language'] = 'auto'
+            config['dictation']['glossary_path'] = str(profile / 'glossary.json')
+            config['dictation']['app_profiles_path'] = str(profile / 'app_profiles.json')
+            config['dictation']['profile'] = 'general'
+            save_config(config, profile / 'config.json')
+            (profile / 'glossary.json').write_text('{}\n', encoding='utf-8')
+            (profile / 'app_profiles.json').write_text('[]\n', encoding='utf-8')
+            (profile / 'snippets.txt').write_text('', encoding='utf-8')
+            store = DictationHistoryStore(profile / 'history.db')
+            hub = HubWindow(settings_options=dict(config_path=profile / 'config.json',
+                snippets_path=profile / 'snippets.txt',
+                autostart_manager=NS(is_enabled=lambda: False, set_enabled=lambda value: None)),
+                history_options=dict(store=store, clipboard=ForbiddenClipboard(), glossary_path=profile / 'glossary.json'))
+            hub.resize(width, height)
+            settings = hub.settings_page
+            settings.dictionary_page.term_edit.setText('Krezel')
+            page = settings.styles_page
+            page.language.setCurrentIndex(page.language.findData('en'))
+            page.group.setCurrentIndex(page.group.findData('general'))
+            page.before.setPlainText('um ask Krezle about 14 files.')
+            hub.show_page('Style')
+            hub.show()
+            app.processEvents()
+            page.refresh()
+            assert page.after.toPlainText() == 'Ask Krezel about 14 files.'
+            assert page.window() is hub and store.list_recent() == []
+            assert (profile / 'glossary.json').read_text('utf-8') == '{}\n'
+            if page.horizontalScrollBar().maximum():
+                hub.grab().save(str(output / f'{name}-overflow.png'))
+                diagnostic = [{'class': type(widget).__name__, 'name': widget.accessibleName(),
+                    'minimum_width': widget.minimumSizeHint().width(), 'width': widget.width()}
+                    for widget in page.widget().findChildren(QtWidgets.QWidget)
+                    if widget.minimumSizeHint().width() > 250]
+                (output / f'{name}-overflow.json').write_text(json.dumps(diagnostic, indent=2), encoding='utf-8')
+            assert page.horizontalScrollBar().maximum() == 0, name
+            row_heights = []
+            for row, group in enumerate(page.tones):
+                required = max(page.tones[group].sizeHint().height(), page.levels[group].sizeHint().height())
+                assert page.matrix.rowHeight(row) >= required, (name, row)
+                row_heights.append({'row': row, 'actual': page.matrix.rowHeight(row), 'required': required})
+            # Both the matrix and lower preview controls must be reachable by scrolling.
+            files = []
+            for position, widget in (('matrix', page.matrix), ('preview', page.status)):
+                page.ensureWidgetVisible(widget)
+                app.processEvents()
+                shot = hub.grab()
+                assert (shot.width(), shot.height()) == (width * scale, height * scale)
+                file = output / f'{name}-{position}.png'
+                assert shot.save(str(file))
+                files.append({'path': file.name, 'bytes': file.stat().st_size,
+                    'sha256': hashlib.sha256(file.read_bytes()).hexdigest()})
+            preview_center = page.status.mapTo(page.viewport(), page.status.rect().center())
+            assert page.viewport().rect().contains(preview_center), name
+            reports.append({'name': name, 'width': width, 'height': height,
+                'body_pixels': QtGui.QFontInfo(hub.font()).pixelSize(),
+                'rows': row_heights, 'files': files, 'preview_language': page.language.currentData(),
+                'preview_text': page.after.toPlainText(), 'pending_form_unmodified': settings.dictionary_page.term_edit.text() == 'Krezel'})
+            hub.close()
+            hub.deleteLater()
+            app.sendPostedEvents(None, QtCore.QEvent.DeferredDelete)
+            app.processEvents()
+controller.close()
+report = {'source': subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip(),
+    'source_dirty': bool(subprocess.check_output(['git', 'status', '--porcelain'], text=True).strip()),
+    'platform': app.platformName(), 'scale': scale, 'network_guard': NetworkGuard.is_installed(),
+    'real_audio_or_input_used': False, 'owner_clipboard_accessed': False, 'renders': reports}
+assert source_files == {name: hashlib.sha256(Path(name).read_bytes().replace(b'\r\n', b'\n')).hexdigest()
+    for name in source_paths}
+report['source_files'] = source_files
+(output / 'report.json').write_text(json.dumps(report, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+print(json.dumps({'renders': len(reports) * 2, 'scale': scale, 'passed': True}))

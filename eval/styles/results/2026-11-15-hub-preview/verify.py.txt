@@ -1,0 +1,77 @@
+"""Verify retained UI evidence using only the standard library and Git."""
+import argparse
+import hashlib
+import json
+from pathlib import Path, PurePosixPath
+import struct
+import subprocess
+import xml.etree.ElementTree as ET
+
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--repo', type=Path, required=True)
+args = parser.parse_args()
+repo = args.repo.resolve()
+root = Path(__file__).resolve().parent
+receipt = json.loads((root / 'receipt.json').read_bytes())
+manifest = json.loads((root / 'files.json').read_bytes())
+for name, expected in manifest.items():
+    relative = PurePosixPath(name)
+    path = (root / relative).resolve()
+    assert not relative.is_absolute() and '..' not in relative.parts and path.is_relative_to(root)
+    assert hashlib.sha256(path.read_bytes()).hexdigest() == expected, name
+
+source = receipt['app_source']
+witness = json.loads((root / 'final-test-source.json').read_bytes())
+assert witness['source_unchanged_since_launch']
+for name, record in witness['files'].items():
+    blob = subprocess.check_output(['git', 'show', f'{source}:{name}'], cwd=repo)
+    expected = record['normalized_sha256']
+    assert record['modified_before_run_started']
+    assert hashlib.sha256(blob.replace(b'\r\n', b'\n')).hexdigest() == expected, name
+    assert hashlib.sha256((repo / name).read_bytes().replace(b'\r\n', b'\n')).hexdigest() == expected, name
+
+xml = ET.fromstring((root / 'final-tests.xml').read_bytes())
+tests = list(xml.iter('testcase'))
+assert len(tests) == receipt['passed_tests'] and len(tests) > 200
+assert not list(xml.iter('failure')) and not list(xml.iter('error')) and not list(xml.iter('skipped'))
+names = [case.attrib['name'] for case in tests]
+for required in ('test_real_hub_all_84_styles_match_authored_goldens_and_delivery_engine',
+        'test_hub_preview_replays_all_96_qualified_dictionary_outputs',
+        'test_pending_dictionary_form_is_previewed_without_staging_claims_or_writing',
+        'test_stale_ai_result_cannot_replace_new_dictionary_or_language_preview',
+        'test_close_cancels_pending_work_and_preserves_newer_app_styles'):
+    assert required in names, required
+assert sum(name.startswith('test_requested_language_previews_match_engine_') for name in names) == 20
+guard = json.loads((root / 'final-tests-guard.json').read_bytes())
+assert guard['platform'] == 'offscreen' and not guard['real_audio_sdk_imported']
+assert not guard['owner_profile_module_used'] and not guard['application_entrypoint_imported']
+assert receipt['test_exit_observed'] and receipt['test_exit'] == 0
+
+render_count = 0
+for scale in (1, 2):
+    directory = root / f'renders-{scale}x'
+    report = json.loads((directory / 'report.json').read_bytes())
+    assert report['scale'] == scale and report['platform'] == 'offscreen' and report['network_guard']
+    assert not report['real_audio_or_input_used'] and not report['owner_clipboard_accessed']
+    assert len(report['renders']) == 8
+    for name, expected in report['source_files'].items():
+        assert witness['files'][name]['normalized_sha256'] == expected
+    for row in report['renders']:
+        assert row['preview_language'] == 'en' and row['pending_form_unmodified']
+        assert row['preview_text'] == 'Ask Krezel about 14 files.'
+        assert row['body_pixels'] in (16, 22)
+        assert all(entry['actual'] >= entry['required'] for entry in row['rows'])
+        for file in row['files']:
+            data = (directory / file['path']).read_bytes()
+            assert data[:8] == b'\x89PNG\r\n\x1a\n'
+            assert struct.unpack('>II', data[16:24]) == (row['width'] * scale, row['height'] * scale)
+            assert len(data) == file['bytes'] and hashlib.sha256(data).hexdigest() == file['sha256']
+            render_count += 1
+assert render_count == 32
+assert '556/556 passed' in (root / 'rules.txt').read_text('utf-8-sig')
+adversarial = json.loads((root / 'adversarial.txt').read_text('utf-8-sig'))
+assert adversarial['total'] == adversarial['caught'] == 100
+assert not receipt['owner_accuracy_accepted'] and not receipt['full_goal_complete']
+print(json.dumps({'verified': True, 'raw_files': len(manifest), 'tests': len(tests),
+    'style_combinations': 84, 'language_samples': 20, 'dictionary_replays': 96,
+    'renders': render_count, 'owner_accuracy_accepted': False, 'full_goal_complete': False}))

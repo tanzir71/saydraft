@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "D:\Saydraft-Codex-QA-20261112-01a1cbc7\run_style_preview_tests_20261115.py", line 39, in <module>
+    runpy.run_path(script, run_name='__main__')
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 294, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "D:/Saydraft-Codex-QA-20261112-01a1cbc7/render_style_preview_20261115.py", line 10, in <module>
+    output, scale = Path(sys.argv[1]), int(sys.argv[2])
+                                       ~~~^^^^^^^^^^^^^
+ValueError: invalid literal for int() with base 10: 'D:/Saydraft-Codex-QA-20261112-01a1cbc7/style-preview-parity-20261115-r1/renders-r1-1x'

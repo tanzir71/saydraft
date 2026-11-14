@@ -74,3 +74,5 @@ eval/asr/results/2026-11-14-dictionary-biasing/** -text -whitespace
 eval/asr/results/2026-11-14-dictionary-names/** -text -whitespace
 # Freeze correction protocols, third-party notices and raw development evidence.
 eval/asr/results/2026-11-15-dictionary-correction/** -text -whitespace
+# Preserve original UI qualification logs, source witnesses and image receipts.
+eval/styles/results/2026-11-15-hub-preview/** -text -whitespace

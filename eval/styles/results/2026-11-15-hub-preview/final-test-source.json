@@ -1,0 +1,48 @@
+{
+  "observed_at_utc": "2026-11-14T19:46:44.266826+00:00",
+  "test_process_id": 39596,
+  "test_start_epoch": 1794685493.819018,
+  "files": {
+    "saydraft/core/style_preview.py": {
+      "sha256": "780d44bfd0db66255e17695d380eef6dce32f036ee8c365cde3f3f0f5620f4c3",
+      "normalized_sha256": "9fbe95e61fd2b9c13472a30d656b0bad1feccd0c544916c6473acb9739abba7a",
+      "modified_before_run_started": true
+    },
+    "saydraft/dictation/glossary.py": {
+      "sha256": "f014eef7b420c4bb41cf3f03797d93b05b39b197d406c93ba268b53580da7316",
+      "normalized_sha256": "8ce19eaff4cbef3f2ca12d9664b788f2219182078e5797352ed7e7c72a897665",
+      "modified_before_run_started": true
+    },
+    "saydraft/ui/dictionary_page.py": {
+      "sha256": "7a67bfe6edbc15d754bde67faa9bb16be0f53c6d2215e3292bf6ca22a9cb3533",
+      "normalized_sha256": "5a0068f60d1d5d620f276e16b7c954acdce9fb776172b745c533ed4f540ad8ca",
+      "modified_before_run_started": true
+    },
+    "saydraft/ui/languages_page.py": {
+      "sha256": "7611c414266a07f8d0995f5a78a5bad5aee1575df30643d543f085785f4ec80f",
+      "normalized_sha256": "fe4448011849a2fe561ea59050694bf4907b16cf5200fb55d56a34d5cf174b06",
+      "modified_before_run_started": true
+    },
+    "saydraft/ui/settings_page.py": {
+      "sha256": "37d7c311a6aba0d0b809352fc360a591474112cd9a76b32f9961d168e6114564",
+      "normalized_sha256": "7877d042506a4405e28e55fb6ba9ec17c74e827eb1ad63d3986ec34d59b74cf1",
+      "modified_before_run_started": true
+    },
+    "saydraft/ui/styles_page.py": {
+      "sha256": "30f13f9c73452b97c473a4f8cadbb4bec27a364de9d764d0bc3762cd7d800a9d",
+      "normalized_sha256": "5fb42336613c8779310df691eac817a717fa33117aaad05269ffe0eb6433d515",
+      "modified_before_run_started": true
+    },
+    "tests/test_dictionary_page.py": {
+      "sha256": "8ca3a06984f005aaf87c450acaab969a1117704687f970c504d95e79a05fcad9",
+      "normalized_sha256": "8175d8b058d7da81aee872ac3295b5aa59f6e86cefb2f5d0077a2a259e45b9d4",
+      "modified_before_run_started": true
+    },
+    "tests/test_hub_style_preview.py": {
+      "sha256": "5f62693e57b865461b9899808aedc8a5c808b4b65cb8e8bd7df1d4dd1a88aef8",
+      "normalized_sha256": "5f62693e57b865461b9899808aedc8a5c808b4b65cb8e8bd7df1d4dd1a88aef8",
+      "modified_before_run_started": true
+    }
+  },
+  "source_unchanged_since_launch": true
+}
