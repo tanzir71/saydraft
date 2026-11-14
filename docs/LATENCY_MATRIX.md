@@ -1,5 +1,11 @@
 # Cold and warm release latency
 
+The [complete Pro baseline from 14 November](../eval/latency/results/2026-11-14-pro/README.md)
+retains all 160 cases and verified source/runtime/model/native-exit receipts at
+`8b705cc`. It misses the 1.2 s ten-second medians (cold 1.2675 s, warm 1.2127 s),
+so P4.6 remains open. All p95 cells meet 2 s and decoder-rate checks pass; neither
+result overrides the failed median gate. Standard still needs measurement.
+
 `python -m tools.bench matrix` measures the §11 matrix: 3/10/30/90-second clips,
 twenty independent cold samples and twenty warm samples per duration, separately
 for Lite, Standard and Pro recipes. The bundled public eight-second recording is

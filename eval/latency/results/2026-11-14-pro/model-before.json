@@ -1,0 +1,74 @@
+{
+  "source": "8b705cc294fc5e372082ebf2e82829591e9b81fc",
+  "verified_before": true,
+  "verified_after": false,
+  "models": {
+    "parakeet-tdt-0-6b-v3-int8": {
+      "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\parakeet-models\\asr\\parakeet-tdt-0-6b-v3-int8",
+      "files": {
+        "encoder.int8.onnx": "1afbe69c1ffdabee94755f42e4daf1d93549131a3da11356bda84fcef0f2c479",
+        "decoder.int8.onnx": "0222a86147299d4dee90edf95b6d13827edb42ad8b7c9cf0b2582f030937c0b5",
+        "joiner.int8.onnx": "cbd02f3696e9944970111fb439d9c3fd365a80374565f13f2b9c7007d253fc98",
+        "tokens.txt": "d58544679ea4bc6ac563d1f545eb7d474bd6cfa467f0a6e2c1dc1c7d37e3c35d",
+        "README.md": "701a3375e3fe77308d280c673d34146162d2f1602b44f97d99086e3f537a1119"
+      }
+    },
+    "whisper-tiny-lid-int8": {
+      "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\whisper-lid",
+      "files": {
+        "tiny-encoder.int8.onnx": "d24fb083ae3b1041fc24e97971d60e280c9342201fbb67b0ab428a8b4a51a434",
+        "tiny-decoder.int8.onnx": "d2fece8dd42771f1df975c6c0445770d0c292bf7547c2cae04a6c0cc57540925"
+      }
+    },
+    "silero-vad-v5": {
+      "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\latency-model-inputs\\silero-vad-v5",
+      "files": {
+        "silero_vad.onnx": "6b99cbfd39246b6706f98ec13c7c50c6b299181f2474fa05cbc8046acc274396",
+        "LICENSE": "2e63e9a38b6e8fc0c7bc37ce174caca1862870856c6daf5697cfb785e925520b"
+      }
+    },
+    "llama-cpp-b12110-vulkan-x64": {
+      "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\command-session-app-cache-20261114-01\\llama-cpp-b12110-vulkan-x64\\github-release-asset-709511274",
+      "files": {
+        "LICENSE-LLVM-OpenMP": "fdad1758a9e1f9d5a81e18879b3406772115edc92c24bfa36b70c654f325e8e4",
+        "ggml-base.dll": "3a0399fa51102a86824255beda9d021ea7e8cd2bd8ca448a43a9a80aa4829290",
+        "ggml-cpu-alderlake.dll": "1de7a0d14d70bd741f2e4cdfa959176fee26680d6fbc78c717c0bd19e20b6233",
+        "ggml-cpu-cannonlake.dll": "1451909b84c223739247088a0e03db0f89bcd83461f2af43f53d794727afddcd",
+        "ggml-cpu-cascadelake.dll": "74d79278bd20143d3e7deeb2b5c033555f9d621016a7152b5190a2fcbf30265c",
+        "ggml-cpu-cooperlake.dll": "737f0e96f23ca7d66c8dc55eace36ebbfd47770a9a228c804ffff5bf66f933a8",
+        "ggml-cpu-haswell.dll": "85d9ffd6f84fd0ec01586420b935ac4d5a5c9a1ab76b533eb3ddc060c1fe2869",
+        "ggml-cpu-icelake.dll": "41ca727e74b171983ea9afe0250553706c09225c10a8c6ad72a619f9189279a8",
+        "ggml-cpu-ivybridge.dll": "39752b7667cb34b3bbd06178fac83803f6089771d43873a9c81015d2a98c280b",
+        "ggml-cpu-piledriver.dll": "65bef2ae4f69256d9aff053a6fff1abdbd33acdbc51ede863d8bc5bd43c53ee8",
+        "ggml-cpu-sandybridge.dll": "5359624dee5670cb299c08f4a49347f7a6f4d0df35ed4c0a91164e4d771b3e23",
+        "ggml-cpu-sapphirerapids.dll": "a7a395d0e49f182240c9a2ed1d623398911506bdae418baf161354541aa06a89",
+        "ggml-cpu-skylakex.dll": "6bd53dc5731c5b9e4d3fbf98a9dc5b3ce76d357be9a579bc6c8cedac035462e8",
+        "ggml-cpu-sse42.dll": "1e1700e6b6eef26b6abb0bc68669b6ee9fdad2b8d00058e491cb5160eb54afc2",
+        "ggml-cpu-x64.dll": "81877c8787f9d5680b990f4cf5f8b89ba5b02ee5064b36abfd53d9d2ffb50916",
+        "ggml-cpu-zen4.dll": "b5c1eec79e83878303acfa774f1275d9e025493b2c23f2a01af09fe985cdc21a",
+        "ggml-vulkan.dll": "e863e7556e10eeea6888894755552a917ab919004882bdf89d2d684d2b54fc8c",
+        "ggml.dll": "06dfdff8b7b834c757ec5b5411abfc0f732604fb595eaaffbdc6da563523e8a1",
+        "libomp.dll": "a12116ba72d1d6820407cf30be23da04ce79d6bb8a71a5ee71759c5a1faa6f1c",
+        "llama-common.dll": "0898e517843e4478b5178621dc878552b4d40a4d47d7b6f1775e7897f4e2344e",
+        "llama-server-impl.dll": "c5d306bdcad1c4011f18a1c01ae2fcdca48a197af0d421c2931ace2cfb487fc6",
+        "llama-server.exe": "00d50686815af38249d0218c91558fbd0e9093ac8c074bac86196907f4305e31",
+        "llama.dll": "211b91d86e67c49f12eb97992b45ae4c2fc797d6edab48637835a877c808890e",
+        "mtmd.dll": "74a3cace50f6c545cc66e4dc05e2aecf465f146ea1b4000376cd9834598a3e14",
+        "LICENSE-llama-cpp.txt": "94f29bbed6a22c35b992c5c6ebf0e7c92f13b836b90f36f461c9cf2f0f1d010d"
+      }
+    },
+    "qwen35-2b-q4-k-m": {
+      "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\cleanup-candidates\\qwen35-2b-q4-k-m\\7d26695454df6de5fbcce2e58681e62dae06ce43",
+      "files": {
+        "Qwen_Qwen3.5-2B-Q4_K_M.gguf": "57a1085840f497d764a7fc5d346922dbde961efb54cc792ea81d694fd846a1d8",
+        "README.md": "f095716c2cb5ba69ebb8504e10f9ae7b6def35574898c8d01b9506cd6cb1f85d"
+      },
+      "notice": {
+        "path": "assets/licenses/qwen35-Apache-2.0.txt",
+        "sha256": "bbedc3fda3305820b977265f01b8619d87570a6739de3a5582c3464840f1e57a",
+        "size": 11544
+      }
+    }
+  },
+  "scope": "explicit public model caches only; no downloads, device enumeration, owner desktop, microphone or input"
+}

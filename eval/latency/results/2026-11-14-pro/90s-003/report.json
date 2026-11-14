@@ -1,0 +1,277 @@
+{
+  "schema": 1,
+  "git_commit": "8b705cc294fc5e372082ebf2e82829591e9b81fc",
+  "audio_seconds": 90,
+  "repeat": 3,
+  "tier": "pro",
+  "asr_model": "parakeet-tdt-0-6b-v3-int8",
+  "runtime_environment": {
+    "python": "3.13.17",
+    "implementation": "cpython",
+    "cache_tag": "cpython-313",
+    "architecture": "AMD64",
+    "interpreter_sha256": "4e67d9e9a3673aa7b6219f1280d5ec3f1b6c0d5bd98ea8688c72d0cb7582d664",
+    "packages": {
+      "numpy": "2.5.4",
+      "soundfile": "0.14.0",
+      "webrtcvad-wheels": "2.0.14",
+      "faster-whisper": "1.2.1",
+      "ctranslate2": "4.9.0",
+      "sherpa-onnx": "1.13.4",
+      "sherpa-onnx-core": "1.13.4",
+      "onnxruntime": "1.32.0"
+    }
+  },
+  "cases": [
+    {
+      "phase": "cold",
+      "audio_seconds": 90,
+      "repeat": 3,
+      "fed_samples": 1440000,
+      "arming_seconds": 5.162158699997235,
+      "capture_seconds": 90.00032799999462,
+      "asr_load_seconds": 3.9672143000061624,
+      "release_to_paste_seconds": 0.8422462000162341,
+      "release_to_settled_seconds": 1.094011600012891,
+      "history_before_paste": true,
+      "clipboard_restored": true,
+      "no_early_delivery": true,
+      "release_deadline_present": true,
+      "decision": "skip_budget",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 90.00242039997829,
+        "vad": 0.0,
+        "stt": 0.5345166000188328,
+        "lid": 0.0,
+        "background_stt": 10.864093900134321,
+        "rules": 0.008258199959527701,
+        "llm": 0.011915399983990937,
+        "insert": 0.3015843000030145
+      },
+      "language_identifier_ready": true,
+      "cleanup_at_capture": {
+        "sidecar": {
+          "state": "ready",
+          "reason": "ready",
+          "failures": 0
+        },
+        "preparation": {
+          "state": "warming",
+          "reason": "prompt_warming",
+          "prompt_seconds": null
+        },
+        "decoder": {
+          "generation": 1,
+          "tokens_per_sample": 60,
+          "sample_count": 3,
+          "tokens_per_second": [
+            132.34189069457062,
+            131.3402268401545,
+            108.27178052025508
+          ],
+          "median_tps": 131.3402268401545,
+          "conservative_tps": 108.27178052025508
+        }
+      },
+      "cleanup_at_release": {
+        "sidecar": {
+          "state": "ready",
+          "reason": "ready",
+          "failures": 0
+        },
+        "preparation": {
+          "state": "prepared",
+          "reason": "prepared",
+          "prompt_seconds": 0.47394890000578016
+        },
+        "decoder": {
+          "generation": 1,
+          "tokens_per_sample": 60,
+          "sample_count": 3,
+          "tokens_per_second": [
+            132.34189069457062,
+            131.3402268401545,
+            108.27178052025508
+          ],
+          "median_tps": 131.3402268401545,
+          "conservative_tps": 108.27178052025508
+        },
+        "observed_after_release_seconds": 0.0012073999969288707
+      },
+      "cleanup_after_delivery": {
+        "sidecar": {
+          "state": "ready",
+          "reason": "ready",
+          "failures": 0
+        },
+        "preparation": {
+          "state": "prepared",
+          "reason": "prepared",
+          "prompt_seconds": 0.47394890000578016
+        },
+        "decoder": {
+          "generation": 1,
+          "tokens_per_sample": 60,
+          "sample_count": 3,
+          "tokens_per_second": [
+            132.34189069457062,
+            131.3402268401545,
+            108.27178052025508
+          ],
+          "median_tps": 131.3402268401545,
+          "conservative_tps": 108.27178052025508
+        }
+      },
+      "cleanup_gate": {
+        "reason": "skip_budget",
+        "need_score": 5,
+        "need_reasons": [
+          "long",
+          "style",
+          "polished"
+        ],
+        "remaining_ms": 743.9229000592604,
+        "predicted_ms": 4968.977118644068,
+        "source_tokens": 170,
+        "pending_tokens": 216,
+        "outcome": "skip_budget"
+      }
+    },
+    {
+      "phase": "warm",
+      "audio_seconds": 90,
+      "repeat": 3,
+      "fed_samples": 1440000,
+      "arming_seconds": 0.11238800000865012,
+      "capture_seconds": 90.00023290002719,
+      "asr_load_seconds": 3.9672143000061624,
+      "release_to_paste_seconds": 0.7737853999715298,
+      "release_to_settled_seconds": 1.0354656999697909,
+      "history_before_paste": true,
+      "clipboard_restored": true,
+      "no_early_delivery": true,
+      "release_deadline_present": true,
+      "decision": "skip_budget",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 90.00246789999073,
+        "vad": 0.0,
+        "stt": 0.48843790002865717,
+        "lid": 0.0,
+        "background_stt": 9.902455599978566,
+        "rules": 0.0051071000052616,
+        "llm": 0.010583800030872226,
+        "insert": 0.30179590004263446
+      },
+      "language_identifier_ready": true,
+      "cleanup_at_capture": {
+        "sidecar": {
+          "state": "ready",
+          "reason": "ready",
+          "failures": 0
+        },
+        "preparation": {
+          "state": "prepared",
+          "reason": "prepared",
+          "prompt_seconds": 0.47394890000578016
+        },
+        "decoder": {
+          "generation": 1,
+          "tokens_per_sample": 60,
+          "sample_count": 3,
+          "tokens_per_second": [
+            132.34189069457062,
+            131.3402268401545,
+            108.27178052025508
+          ],
+          "median_tps": 131.3402268401545,
+          "conservative_tps": 108.27178052025508
+        }
+      },
+      "cleanup_at_release": {
+        "sidecar": {
+          "state": "ready",
+          "reason": "ready",
+          "failures": 0
+        },
+        "preparation": {
+          "state": "prepared",
+          "reason": "prepared",
+          "prompt_seconds": 0.47394890000578016
+        },
+        "decoder": {
+          "generation": 1,
+          "tokens_per_sample": 60,
+          "sample_count": 3,
+          "tokens_per_second": [
+            132.34189069457062,
+            131.3402268401545,
+            108.27178052025508
+          ],
+          "median_tps": 131.3402268401545,
+          "conservative_tps": 108.27178052025508
+        },
+        "observed_after_release_seconds": 0.0012858000118285418
+      },
+      "cleanup_after_delivery": {
+        "sidecar": {
+          "state": "ready",
+          "reason": "ready",
+          "failures": 0
+        },
+        "preparation": {
+          "state": "prepared",
+          "reason": "prepared",
+          "prompt_seconds": 0.47394890000578016
+        },
+        "decoder": {
+          "generation": 1,
+          "tokens_per_sample": 60,
+          "sample_count": 3,
+          "tokens_per_second": [
+            132.34189069457062,
+            131.3402268401545,
+            108.27178052025508
+          ],
+          "median_tps": 131.3402268401545,
+          "conservative_tps": 108.27178052025508
+        }
+      },
+      "cleanup_gate": {
+        "reason": "skip_budget",
+        "need_score": 5,
+        "need_reasons": [
+          "long",
+          "style",
+          "polished"
+        ],
+        "remaining_ms": 744.0732999821194,
+        "predicted_ms": 4968.977118644068,
+        "source_tokens": 170,
+        "pending_tokens": 216,
+        "outcome": "skip_budget"
+      }
+    }
+  ],
+  "native_exits": [
+    true,
+    true
+  ],
+  "complete": true,
+  "vad": "pinned Silero in private QA profile; production fallback remains enabled",
+  "source_fixture_sha256": "cc6d363cc90b6c99427041ba6366e334131b05101a142761ae84b2a8b5e2c5ab",
+  "replay_samples_sha256": "1e876dbed4e0913ae9015e34d8a290d6159e57387434e9c4efc6c8f246e83087",
+  "service_setup_seconds": 1.3035990999778733,
+  "selected_device": {
+    "id": "Vulkan1",
+    "name": "NVIDIA GeForce RTX 3060",
+    "total_mb": 12113,
+    "free_mb": 11345
+  },
+  "native_peak_rss_bytes": [
+    57253888,
+    1663438848
+  ],
+  "elapsed_seconds": 189.02722279995214
+}

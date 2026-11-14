@@ -1,0 +1,35 @@
+{
+  "git_commit": "8b705cc294fc5e372082ebf2e82829591e9b81fc",
+  "audio_seconds": 10,
+  "repeat": 1,
+  "runtime_environment": {
+    "python": "3.13.17",
+    "implementation": "cpython",
+    "cache_tag": "cpython-313",
+    "architecture": "AMD64",
+    "interpreter_sha256": "4e67d9e9a3673aa7b6219f1280d5ec3f1b6c0d5bd98ea8688c72d0cb7582d664",
+    "packages": {
+      "numpy": "2.5.4",
+      "soundfile": "0.14.0",
+      "webrtcvad-wheels": "2.0.14",
+      "faster-whisper": "1.2.1",
+      "ctranslate2": "4.9.0",
+      "sherpa-onnx": "1.13.4",
+      "sherpa-onnx-core": "1.13.4",
+      "onnxruntime": "1.32.0"
+    }
+  },
+  "tier": "pro",
+  "asr_model": "parakeet-tdt-0-6b-v3-int8",
+  "candidate": "qwen35-2b-q4-k-m",
+  "backend": "vulkan",
+  "decode_target_tps": 40,
+  "device": "Vulkan1",
+  "output": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\latency-pro-8b705cc-clean-full-20261114\\10s-001",
+  "parakeet_dir": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\parakeet-models\\asr\\parakeet-tdt-0-6b-v3-int8",
+  "lid_dir": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\whisper-lid",
+  "whisper_dir": null,
+  "models_dir": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\cleanup-candidates",
+  "runtime_dir": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\command-session-app-cache-20261114-01\\llama-cpp-b12110-vulkan-x64\\github-release-asset-709511274",
+  "vad_dir": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\latency-model-inputs\\silero-vad-v5"
+}
