@@ -8,7 +8,7 @@ from tests.test_processing import make_processor
 from tests.test_session_worker import make_worker
 
 
-def release_worker(*, queue_delay=0, recorder_delay=0, asr_delay=0):
+def release_worker(*, queue_delay=0, recorder_delay=0, asr_delay=0, language='en'):
     pipeline, model, local, client, clock, timeouts, _ = prepared_pipeline()
     processor = make_processor(cleaner=pipeline)
     worker, _unused_clock, executor, events, signals, _ = make_worker(queued=True, processor=processor)
@@ -29,6 +29,7 @@ def release_worker(*, queue_delay=0, recorder_delay=0, asr_delay=0):
 
     worker.services.recorder.stop = stop
     worker.services.asr.transcribe = transcribe
+    worker.services.asr.last_language = language
     assert worker.start_recording()
     executor.drain()
     assert worker._context.cleanup_deadline is None  # Listening has no running release budget.
@@ -39,6 +40,18 @@ def release_worker(*, queue_delay=0, recorder_delay=0, asr_delay=0):
     clock.now += queue_delay
     executor.drain()
     return worker, local, model, timeouts, events, signals, clock, executor
+
+
+@pytest.mark.parametrize('language', [None, 'mul'])
+@pytest.mark.parametrize('expired', [False, True])
+def test_unknown_or_mixed_speech_keeps_words_with_the_same_release_guards(language, expired):
+    worker, local, _model, _timeouts, events, *_ = release_worker(
+        language=language, queue_delay=2.1 if expired else 0)
+    assert worker.last_result.cleaned_text == 'um hello'
+    assert [event[0] for event in events] == ['history', 'insert']
+    assert events[0][1].language == ('und' if language is None else 'mul')
+    assert events[0][1].llm_decision == ('skip_budget' if expired else 'rejected:content_changed')
+    assert local.last_gate_info['reason'] == ('skip_budget' if expired else 'call')
 
 
 @pytest.mark.parametrize("delays,timeout", [

@@ -183,7 +183,7 @@ def run(corpora, directories, output, *, recipe='compare'):
         'source': source, 'runtime_environment': environment, 'recipe': recipe, 'corpora': corpora_receipt,
         'models': {model: {'revision': get_model(model)['revision'], 'verified_before': True}
                    for model in sorted(requested_models)},
-        'scope': 'small_public_read_speech_recognition_and_rules_only', 'offline': True,
+        'scope': 'small_public_read_asr_and_rules_only', 'offline': True,
         'network_enforcement': 'Python network guard; native models configured local-only; OS firewall not measured here.',
         'audio_inputs': 'explicit_hashed_public_files_no_microphone', 'silence_trim': False,
         'ai_cleanup_measured': False, 'owner_accuracy_accepted': False,

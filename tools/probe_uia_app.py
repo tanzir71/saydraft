@@ -102,7 +102,7 @@ def replay(parent, child, output, password, row):
                             focus_provider=context.focus)
         processor = TranscriptProcessor(cleaner=cleaner, formatter=formatter, history=history, inserter=inserter)
         recorder = NS(sample_rate=16000, start=lambda: None, stop=lambda: np.ones(16000, dtype=np.float32))
-        asr = NS(model_id="authored-transcript-stub", transcribe=lambda audio: raw, last_timings={})
+        asr = NS(model_id="authored-transcript-stub", transcribe=lambda audio: raw, last_timings={}, last_language='en')
         services = Services(default_config(), recorder, asr, cleaner, formatter, inserter, context, history, processor, [])
         def emit(name, *args):
             if name == "recording_started":
