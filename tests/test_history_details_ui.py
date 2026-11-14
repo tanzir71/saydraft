@@ -8,6 +8,33 @@ from saydraft.history import HistoryEntry
 from tests.test_history_window import FakeClipboard, build_history, qt_modules, settle_history
 
 
+def test_ask_question_and_answer_are_plain_copy_only_text_without_dictation_actions(subject):
+    from saydraft.data.history_view import export_history
+    window, _, clipboard, inserted = subject
+    question, answer = 'Explain this selected text.', 'Public answer العربية বাংলা <b>literal</b>'
+    identifier = window.store.append(HistoryEntry('Public article', question, answer, 'ask', 'ask', None,
+        '', llm_model='fixture-ask', llm_decision='ask_answered', audio_path='must-not-read.wav',
+        edits_json='[{"type":"ask","action":"explain","source_sha256":"public-hash","source_utf16_units":42}]'))
+    window.diff_toggle.setChecked(True)
+    window.refresh()
+    settle_history(window)
+    window._select_id(identifier)
+    settle_history(window)
+    assert window.detail_editor.toPlainText() == answer
+    assert window.raw_toggle.text() == 'Show question' and window.copy_button.text() == 'Copy answer'
+    assert not window.retry_button.isEnabled() and not window.reinsert_button.isEnabled() and not window.diff_toggle.isEnabled()
+    assert not window.choose_retry() and not window.retry_current_audio() and not window.reinsert_current_text()
+    assert not inserted and window.copy_current_text() and clipboard.texts[-1] == answer
+    assert 'Ask about selected text' in window.why_editor.toPlainText()
+    assert 'public-hash' in window.why_editor.toPlainText()
+    window.raw_toggle.setChecked(True)
+    assert window.detail_editor.toPlainText() == question and window.copy_button.text() == 'Copy question'
+    assert window.copy_current_text() and clipboard.texts[-1] == question
+    exported = export_history([window.current_row()], 'md')
+    assert '## Ask #' in exported and '### Answer' in exported and '### Question' in exported
+    assert answer in exported and question in exported
+
+
 @pytest.mark.parametrize('mode', ['translate', 'translation_failed'])
 def test_spoken_translation_history_keeps_copy_labels_and_blocks_ordinary_audio_retry(subject, mode):
     window, qt, clipboard, inserted = subject

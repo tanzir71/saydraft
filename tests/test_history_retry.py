@@ -75,6 +75,13 @@ def subject(tmp_path, *, enabled=False, queued=True):
         ai=ai, owned=owned, calls=calls, inserts=inserts, pipeline=pipeline, notifications=notifications)
 
 
+def test_ask_row_cannot_be_reinterpreted_as_recorded_speech_even_with_an_audio_reference(tmp_path):
+    s = subject(tmp_path)
+    row = replace(s.row, mode='ask', raw_text='A typed question.', cleaned_text='An answer.')
+    assert not s.worker.retry_history(row)
+    assert not s.calls and not s.inserts
+
+
 @pytest.mark.parametrize("enabled,choice,used", [(False,"current",False),(True,"current",True),
     (True,"off",False),(False,"off",False),(False,"on",True),(True,"on",True)])
 def test_retry_model_and_cleanup_choices_preserve_original_audio_settings_and_counts(tmp_path, enabled, choice, used):

@@ -907,7 +907,7 @@ class SessionWorker:
         if not self._lock.acquire(blocking=False):
             return False
         try:
-            if (self.busy or self._closing or getattr(row, 'mode', '') in ('command', 'translate', 'translation_failed') or not row.audio_path or
+            if (self.busy or self._closing or getattr(row, 'mode', '') in ('command', 'ask', 'translate', 'translation_failed') or not row.audio_path or
                     self.services.audio_store is None or self.services.retry_asr is None):
                 return False
             self._retrying_history = True

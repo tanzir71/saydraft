@@ -160,14 +160,15 @@ class DictationHistoryStore:
                 f"INSERT INTO dictations ({', '.join(_ALL_FIELDS)}) VALUES ({', '.join('?' for _ in _ALL_FIELDS)})",
                 tuple(values[name] for name in _ALL_FIELDS),
             )
-            counted = not retry and entry.mode != "command"
+            counted = not retry and entry.mode not in ('command', 'ask')
             conn.execute("""INSERT INTO stats_daily(day, dictations, words, audio_seconds, processing_seconds)
                 SELECT date(created_at, 'localtime'), ?, ?, ?, ? FROM dictations WHERE id=?
                 ON CONFLICT(day) DO UPDATE SET dictations=dictations+excluded.dictations,
                 words=words+excluded.words, audio_seconds=audio_seconds+excluded.audio_seconds,
                 processing_seconds=processing_seconds+excluded.processing_seconds""",
                 (int(counted), len(entry.cleaned_text.split()) if counted else 0,
-                 float(entry.duration_seconds or 0) if counted else 0, processing_seconds, cursor.lastrowid))
+                 float(entry.duration_seconds or 0) if counted else 0,
+                 0 if entry.mode == 'ask' else processing_seconds, cursor.lastrowid))
             return int(cursor.lastrowid)
 
     def list_recent(self, *, limit: int = 100) -> list[HistoryRow]:
@@ -198,7 +199,7 @@ class DictationHistoryStore:
     def last_transcript(self) -> str | None:
         """Read the latest nonblank saved result without loading raw text or full rows."""
         with self._connect() as conn:
-            for (text,) in conn.execute("SELECT cleaned_text FROM dictations WHERE mode NOT IN ('command', 'translation_failed') ORDER BY id DESC"):
+            for (text,) in conn.execute("SELECT cleaned_text FROM dictations WHERE mode NOT IN ('command', 'ask', 'translation_failed') ORDER BY id DESC"):
                 if isinstance(text, str) and text.strip():
                     return text  # Preserve exact stored whitespace, punctuation and casing.
         return None
@@ -291,7 +292,7 @@ class DictationHistoryStore:
                 coalesce(sum(audio_seconds),0) FROM stats_daily WHERE day>=? AND day<=?""",
                 (start.isoformat(), end.isoformat())).fetchone()
             unknown = conn.execute("""SELECT count(*) FROM dictations
-                WHERE mode != 'command' AND (duration_seconds IS NULL OR duration_seconds<=0)
+                WHERE mode NOT IN ('command', 'ask') AND (duration_seconds IS NULL OR duration_seconds<=0)
                 AND date(created_at,'localtime')>=? AND date(created_at,'localtime')<=?""",
                 (start.isoformat(), end.isoformat())).fetchone()[0]
         return WeeklyStats(start, end, int(row[0]), int(row[1]), float(row[2]), not unknown)

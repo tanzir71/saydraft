@@ -57,7 +57,20 @@ def transcript_diff(raw, cleaned):
 
 
 def result_details(row):
-    if row.mode in ('translate', 'translation_failed'):
+    if row.mode == 'ask':
+        lines = ['Task: Ask about selected text', f"Answer model: {row.llm_model or 'None'}",
+                 f"Answer decision: {row.llm_decision or 'Not recorded'}"]
+        try:
+            edits = json.loads(row.edits_json)
+        except (TypeError, ValueError):
+            edits = []
+        for item in edits if isinstance(edits, list) else []:
+            if isinstance(item, dict) and item.get('type') == 'ask':
+                lines.extend([f"Action: {item.get('action', 'question')}",
+                              f"Reviewed selection SHA-256: {item.get('source_sha256', 'Not recorded')}",
+                              f"Reviewed selection UTF-16 units: {item.get('source_utf16_units', 'Not recorded')}"])
+                break
+    elif row.mode in ('translate', 'translation_failed'):
         lines = ['Task: Spoken translation', f"Speech model: {row.asr_model or row.model or 'Unknown'}",
                  f"Translation model: {row.llm_model or 'None'}", f"Outcome: {row.llm_decision or 'Not recorded'}",
                  f"Source language: {row.language or 'Not recorded'}"]
@@ -111,8 +124,9 @@ def iter_history_export(rows, format):
     if format == "md":
         yield "# Saydraft history\n"
         for row in rows:
-            yield "".join([f"\n## Dictation #{row.id}\n\n", _fenced(f"Recorded: {row.created_at}\nApp: {row.app_name or 'Unknown'}"),
-                       "\n### Cleaned\n\n", _fenced(row.cleaned_text), "\n### Raw\n\n", _fenced(row.raw_text),
+            task, output, original = ('Ask', 'Answer', 'Question') if row.mode == 'ask' else ('Dictation', 'Cleaned', 'Raw')
+            yield "".join([f"\n## {task} #{row.id}\n\n", _fenced(f"Recorded: {row.created_at}\nApp: {row.app_name or 'Unknown'}"),
+                       f"\n### {output}\n\n", _fenced(row.cleaned_text), f"\n### {original}\n\n", _fenced(row.raw_text),
                        "\n### Details\n\n", _fenced(result_details(row))])
         return
     if format != "csv":

@@ -89,6 +89,30 @@ class CommandModelSession:
                 return EditReply(None, "cancelled")
             return EditReply(None, "unavailable")
 
+    def ask_about(self, source, question, *, action='question', cancelled=lambda: False, timeout=45):
+        from saydraft.cleanup.llm.ask import AskClient, AskReply
+        def retired():
+            return cancelled() or not self._current()
+        if retired():
+            self.close()
+            return AskReply(None, 'cancelled')
+        try:
+            manager = self._get_manager()
+            if manager is None or retired():
+                return AskReply(None, 'cancelled')
+            reply = AskClient(manager, clock=self._clock).ask(source, question, action=action,
+                timeout=timeout, cancelled=retired)
+            if retired() or reply.reason == 'cancelled':
+                self.close()
+                return AskReply(None, 'cancelled')
+            return reply
+        except Exception:
+            logger.warning('Local selected-text answer unavailable')
+            if retired():
+                self.close()
+                return AskReply(None, 'cancelled')
+            return AskReply(None, 'unavailable')
+
     def close(self):
         self._closed.set()
         with self._lock:
