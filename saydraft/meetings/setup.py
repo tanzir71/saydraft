@@ -63,6 +63,11 @@ def meeting_setup_plan(config, report=None):
     for identifier in (*speech_models(config), 'silero-vad-v5'):
         for model in model_bundle(identifier):
             models.setdefault(model['id'], model)
+    recording = config.get('recording', {})
+    if recording.get('whisper_mode') is True and recording.get('whisper_enhancement', True) is True:
+        from saydraft.audio.gtcrn import MODEL_ID
+        model = get_model(MODEL_ID)
+        models.setdefault(MODEL_ID, model)
     for model in (*speaker_bundle(), *command_bundle(choice.backend)):
         models.setdefault(model['id'], model)
     return MeetingSetupPlan(tuple(models), tuple(model_version(model) for model in models.values()),

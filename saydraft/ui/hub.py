@@ -78,6 +78,9 @@ class HubWindow(QtWidgets.QWidget):
         for name in _ICONS:
             self.pages.addWidget(self.page_widgets[name])
         self.footer = QtWidgets.QWidget()
+        footer_policy = self.footer.sizePolicy()
+        footer_policy.setHeightForWidth(True)
+        self.footer.setSizePolicy(footer_policy)
         footer = QtWidgets.QHBoxLayout(self.footer)
         footer.setContentsMargins(0, 0, 0, 0)
         footer.addWidget(self.settings_page.status_label, 1)

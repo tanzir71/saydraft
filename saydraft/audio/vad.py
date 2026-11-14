@@ -24,6 +24,7 @@ class SilenceTrimConfig:
     aggressiveness: int = 2
     energy_threshold: float = 0.003
     enabled: bool = True
+    silero_threshold: float = 0.5
 
 
 class SpeechFrameDetector:
@@ -86,6 +87,8 @@ def _validate_config(config: SilenceTrimConfig) -> None:
         raise ValueError("aggressiveness must be between 0 and 3")
     if config.energy_threshold < 0:
         raise ValueError("energy_threshold must be non-negative")
+    if not math.isfinite(config.silero_threshold) or not 0 < config.silero_threshold < 1:
+        raise ValueError("silero_threshold must be finite and between 0 and 1")
 
 
 def _iter_frames(waveform: np.ndarray, frame_samples: int):

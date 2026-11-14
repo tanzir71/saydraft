@@ -102,6 +102,11 @@ class AsrRouter:
         self.models_used = []
         self._language_identifier = language_identifier or AudioLanguageIdentifier()
         self.last_lid_language = None
+        self._audio_frontend_seconds = 0.0
+
+    def set_audio_frontend_seconds(self, seconds):
+        # Enhancement is outside the router but still spends its fallback budget.
+        self._audio_frontend_seconds = max(0.0, float(seconds))
 
     def _choose(self, app_group="general"):
         stt = self.config["stt"]
@@ -201,7 +206,7 @@ class AsrRouter:
         decision = choose_fallback(
             self._route, text, getattr(engine, "last_audio_seconds", duration),
             language=self.last_language or self.last_lid_language, installed=self._installed(ALL_LANGUAGES),
-            predicted_seconds=predicted, elapsed_seconds=elapsed,
+            predicted_seconds=predicted, elapsed_seconds=elapsed + self._audio_frontend_seconds,
             budget_seconds=self.config["stt"].get("fallback_budget_ms", 800) / 1000)
         self.last_fallback = decision
         self.retry_recommended |= decision.retry_available
@@ -243,4 +248,4 @@ def _engine_for_route(config, route):
     configured["stt"]["language"] = route.language or "auto"
     configured["stt"]["local_files_only"] = True
     select_model(configured, route.model_id)
-    return create_asr(configured)
+    return create_asr(configured, preprocess=False)

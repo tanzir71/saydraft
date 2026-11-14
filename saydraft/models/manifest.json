@@ -1044,6 +1044,49 @@
           "bundled_source": "assets/licenses/3dspeaker-eres2net-base/NOTICE.txt"
         }
       ]
+    },
+    {
+      "id": "gtcrn-speech-enhancement",
+      "revision": "github-release-asset-236067657",
+      "version": "github-release-asset-236067657",
+      "role": "speech_enhancement",
+      "engine": "sherpa_gtcrn",
+      "label": "Quiet speech enhancement \u00b7 GTCRN",
+      "publisher": "Rong Xiaobin; ONNX conversion by sherpa-onnx",
+      "license": "MIT",
+      "license_url": "https://github.com/Xiaobin-Rong/gtcrn/blob/502ebfab64da7c4a9af78dcb9c6ceef1ebb01c73/LICENSE",
+      "source": "https://github.com/Xiaobin-Rong/gtcrn",
+      "source_revision": "502ebfab64da7c4a9af78dcb9c6ceef1ebb01c73",
+      "download_hosts": [
+        "api.github.com",
+        "release-assets.githubusercontent.com"
+      ],
+      "asset": {
+        "id": 236067657,
+        "repository": "k2-fsa/sherpa-onnx"
+      },
+      "experimental": true,
+      "files": [
+        {
+          "path": "gtcrn_simple.onnx",
+          "size": 535638,
+          "sha256": "e77603ac0c23dac3227dd2d7135b3a585cbee2679048aecfa886657d3ae1b534",
+          "url": "https://api.github.com/repos/k2-fsa/sherpa-onnx/releases/assets/236067657",
+          "accept": "application/octet-stream"
+        },
+        {
+          "path": "LICENSE",
+          "size": 1069,
+          "sha256": "c467165e5860b4a7494ef4a6e2788e4115d95b5b8989bb5f86287089adddf794",
+          "bundled_source": "assets/licenses/gtcrn/LICENSE"
+        },
+        {
+          "path": "MODEL_CARD.md",
+          "size": 4419,
+          "sha256": "7f890b7a9b1d7b49613733878e104233a3a3019854b3105007be69db37e33413",
+          "bundled_source": "assets/licenses/gtcrn/MODEL_CARD.md"
+        }
+      ]
     }
   ],
   "cleanup_defaults": {

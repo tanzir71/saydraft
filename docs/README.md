@@ -36,6 +36,7 @@ including the optional public-audio recognizer smoke.
 | [First-run setup](ONBOARDING.md) | Six-page walkthrough, microphone test, model setup, shortcut learning, owned practice, Style quick pick, and remaining acceptance |
 | [Recording limits](RECORDING_LIMITS.md) | 19-minute warning, 20-minute default cap, saved overrides |
 | [Styles](STYLES.md) | Per-app tone/intensity, staged Dictionary previews, and preview language |
+| [Whisper mode](WHISPER_MODE.md) | Experimental quiet-speech gain, AGC, optional local enhancement, and remaining accuracy acceptance |
 | [Snippets](SNIPPETS.md) | Triggers, variables, import/export, and SQLite adoption |
 | [Dictionary learning](DICTIONARY_LEARNING.md) | Vocabulary, correction learning, and Undo |
 | [Delivery](DELIVERY.md) | Focus checks, protected/elevated targets, and insertion fallbacks |

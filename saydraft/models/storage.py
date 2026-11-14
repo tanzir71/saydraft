@@ -277,6 +277,10 @@ def protected_paths(config, active_models=()):
     from .runtime_ids import runtime_model_id
 
     identifiers = set(active_models) | {configured_model_id(config), "silero-vad-v5"}
+    recording = config.get('recording', {})
+    if recording.get('whisper_mode') is True and recording.get('whisper_enhancement', True) is True:
+        from saydraft.audio.gtcrn import MODEL_ID
+        identifiers.add(MODEL_ID)
     stt = config.get("stt", {})
     if stt.get("routing_enabled"):
         identifiers.update((LANGUAGE_ID_MODEL, choose_route(stt.get("pinned_languages", ()),

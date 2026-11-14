@@ -16,7 +16,7 @@ class MicrophonePage(QtWidgets.QWidget):
     privacy_ready = QtCore.Signal(int, object)
 
     def __init__(self, config, *, start_callback=None, stop_callback=None, devices_provider=None,
-                 privacy_provider=None, apply_label="Save", show_title=True, parent=None):
+                 privacy_provider=None, apply_label="Save", show_title=True, parent=None, whisper_mode=False):
         super().__init__(parent)
         self.apply_label = apply_label
         self.start_callback, self.stop_callback = start_callback, stop_callback
@@ -73,6 +73,10 @@ class MicrophonePage(QtWidgets.QWidget):
         self.privacy_button.clicked.connect(lambda: QtGui.QDesktopServices.openUrl(QtCore.QUrl("ms-settings:privacy-microphone")))
         layout.addWidget(self.sound_button)
         layout.addWidget(self.privacy_button)
+        if whisper_mode:
+            from .whisper_mode import WhisperModeControls
+            self.whisper_controls = WhisperModeControls(config, parent=self)
+            layout.addWidget(self.whisper_controls)
         layout.addStretch()
         self.device_combo.currentIndexChanged.connect(self._selection_changed)
         self.refresh_button.clicked.connect(self.refresh_devices)
@@ -284,6 +288,8 @@ class MicrophonePage(QtWidgets.QWidget):
     @QtCore.Slot()
     def _shutdown(self):
         if not self._closed:
+            if hasattr(self, 'whisper_controls'):
+                self.whisper_controls.pause()
             self.stop_test()
             self._closed = True
             self._cancel_privacy()

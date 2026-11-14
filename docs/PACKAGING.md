@@ -92,6 +92,14 @@ recognition, hooks, foreground reads or clipboard access. It does not prove the
 native firewall boundary. Sounddevice is checked without importing it, because
 that import initializes PortAudio.
 
+The optional `--verify-package NEW_REPORT.json --enhancement-smoke VERIFIED_GTCRN_DIRECTORY`
+also runs the pinned local enhancement model on a generated 16,001-sample signal.
+It verifies finite, exact-length output under the Python NetworkGuard, without
+downloading or using audio devices, recognition, clipboard or input hooks. The
+directory must already contain the complete verified model installation. This
+diagnostic and `--firewall-smoke` are mutually exclusive. It does not establish
+whispered-speech accuracy, release latency or connected application acceptance.
+
 The separate disposable-runner firewall step invokes the actual bundled helper
 to create/remove its path-specific rule, reject ownership conflicts and narrowed
 rules, and preserve an unrelated witness. Its explicit

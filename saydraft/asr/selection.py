@@ -22,15 +22,20 @@ def select_model(config, model_id, *, manual=True):
         stt["model_id"] = model_id
 
 
-def create_asr(config):
+def create_asr(config, *, preprocess=True):
     if config["stt"].get("routing_enabled", False):
         from .router import AsrRouter
 
-        return AsrRouter(config)
-    if config["stt"].get("engine", "whisper") == "parakeet":
+        engine = AsrRouter(config)
+    elif config["stt"].get("engine", "whisper") == "parakeet":
         from .sherpa_parakeet import ParakeetConfig, ParakeetEngine
 
-        return ParakeetEngine(ParakeetConfig.from_app_config(config))
-    from .whisper_ct2 import WhisperCT2Engine, WhisperEngineConfig
+        engine = ParakeetEngine(ParakeetConfig.from_app_config(config))
+    else:
+        from .whisper_ct2 import WhisperCT2Engine, WhisperEngineConfig
+        engine = WhisperCT2Engine(WhisperEngineConfig.from_app_config(config))
 
-    return WhisperCT2Engine(WhisperEngineConfig.from_app_config(config))
+    if preprocess:
+        from .quiet import with_quiet_speech
+        return with_quiet_speech(engine, config)
+    return engine

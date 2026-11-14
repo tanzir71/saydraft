@@ -20,7 +20,7 @@ def default_model_path() -> Path | None:
     return directory / "silero_vad.onnx" if directory is not None else None
 
 
-def _create_detector(model_path: Path):
+def _create_detector(model_path: Path, *, threshold=0.5):
     import sherpa_onnx
     from saydraft.privacy.telemetry import disable_sherpa_telemetry
 
@@ -29,7 +29,7 @@ def _create_detector(model_path: Path):
     config = sherpa_onnx.VadModelConfig()
     config.silero_vad.model = str(model_path)
     config.silero_vad.window_size = 512
-    config.silero_vad.threshold = 0.5
+    config.silero_vad.threshold = threshold
     config.silero_vad.min_silence_duration = 0.1
     config.silero_vad.min_speech_duration = 0.1
     config.sample_rate = 16000
@@ -41,11 +41,13 @@ def _create_detector(model_path: Path):
 class SileroVad:
     window_samples = 512
 
-    def __init__(self, model_path: str | Path, *, detector_factory=_create_detector):
+    def __init__(self, model_path: str | Path, *, detector_factory=None, threshold=0.5):
         path = Path(model_path)
         if not path.is_file():
             raise FileNotFoundError("Download the Silero speech detection model in Settings first")
-        self.detector = detector_factory(path)
+        if not np.isfinite(threshold) or not 0 < threshold < 1:
+            raise ValueError("Speech detection threshold must be between 0 and 1")
+        self.detector = detector_factory(path) if detector_factory is not None else _create_detector(path, threshold=threshold)
         self._pending = np.empty(0, dtype=np.float32)
         self._speech = False
 
@@ -91,12 +93,12 @@ class SileroVad:
         return waveform[start:end]
 
 
-def optional_silero(model_path: str | Path | None = None) -> SileroVad | None:
+def optional_silero(model_path: str | Path | None = None, *, threshold=0.5) -> SileroVad | None:
     path = Path(model_path) if model_path is not None else default_model_path()
     if path is None:
         return None
     try:
-        return SileroVad(path)
+        return SileroVad(path) if threshold == 0.5 else SileroVad(path, threshold=threshold)
     except Exception:
         logger.warning("Silero speech detection unavailable; using WebRTC")
         logger.debug("Silero initialization detail", exc_info=True)
@@ -105,7 +107,7 @@ def optional_silero(model_path: str | Path | None = None) -> SileroVad | None:
 
 class FallbackFrameDetector:
     def __init__(self, config: SilenceTrimConfig):
-        self.primary = optional_silero()
+        self.primary = optional_silero() if config.silero_threshold == 0.5 else optional_silero(threshold=config.silero_threshold)
         self.fallback = SpeechFrameDetector(config)
 
     def __call__(self, frame):

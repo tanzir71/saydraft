@@ -11,6 +11,7 @@ assets/licenses/packaged/** -text -whitespace
 # Meeting model notices are hash-pinned copies, including the original model card.
 assets/licenses/3dspeaker-eres2net-base/** -text
 assets/licenses/3dspeaker-eres2net-base/MODEL_CARD.md -whitespace
+assets/licenses/gtcrn/** -text -whitespace
 
 # Derived frequency data and its provenance retain their pinned bytes.
 assets/dictionary/frequency/*.gz binary

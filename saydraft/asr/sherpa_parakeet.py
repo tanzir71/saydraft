@@ -30,14 +30,15 @@ class ParakeetConfig:
     silence_padding_ms: int = 120
     vad_aggressiveness: int = 2
     vad_energy_threshold: float = 0.003
+    silero_threshold: float = 0.5
 
     @classmethod
     def from_app_config(cls, config):
+        from saydraft.audio.quiet import vad_settings
         stt = config.get("stt", {})
         return cls(model_id=stt.get("model_id", DEFAULT_MODEL),
                    threads=max(1, min(4, os.cpu_count() or 1)),
-                   **{key: stt.get(key, getattr(cls, key)) for key in (
-                       "silence_trim", "silence_padding_ms", "vad_aggressiveness", "vad_energy_threshold")})
+                   **vad_settings(config))
 
 
 def _create_recognizer(directory, threads):
@@ -83,7 +84,7 @@ class ParakeetEngine:
                 raise FileNotFoundError("Download or resume the selected Parakeet model in Settings → Models")
             recognizer = self._factory(directory, self.config.threads)
             if self.config.silence_trim:
-                self._vad = optional_silero()
+                self._vad = optional_silero() if self.config.silero_threshold == 0.5 else optional_silero(threshold=self.config.silero_threshold)
             self._recognizer = recognizer
             self.load_seconds = time.perf_counter() - started
             logger.info("ASR loaded: model=%s provider=cpu threads=%d seconds=%.3f",

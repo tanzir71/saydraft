@@ -97,6 +97,18 @@ def download_silero_vad_model(progress_callback: ProgressCallback | None = None,
         return install_files(model, target, progress_callback=progress_callback, pause_event=pause_event)
 
 
+def download_speech_enhancement(progress_callback=None, *, models_dir=None, pause_event=None,
+                                file_progress_callback=None):
+    """Explicit reviewed Whisper-mode setup; inference never downloads files."""
+    from .audio.gtcrn import MODEL_ID
+    model = get_model(MODEL_ID)
+    with storage_lock:
+        _check_pause(pause_event)
+        target = installation_target(default_models_dir(models_dir), model)
+        return install_files(model, target, progress_callback=progress_callback,
+            pause_event=pause_event, file_progress_callback=file_progress_callback)
+
+
 def download_preview_model(progress_callback=None, *, models_dir=None, pause_event=None):
     """Explicit Labs download only; capture/recognition never installs preview weights."""
     from .asr.model_ids import PREVIEW_MODEL

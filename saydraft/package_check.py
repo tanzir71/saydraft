@@ -44,6 +44,16 @@ def verify_runtime():
         if spelling.text != 'Ask Krezel.' or len(spelling.edits) != 1:
             raise ValueError('Bundled dictionary correction runtime is unavailable')
         result['checks']['dictionary_correction'] = True
+        import numpy as np
+        from .audio.quiet import QuietSpeechSettings, gain_and_agc
+        from .audio.gtcrn import MODEL_ID
+        from .models.manifest import get_model
+        sample = np.array([0.01, -0.01], dtype=np.float32)
+        boosted = gain_and_agc(sample, QuietSpeechSettings(True, 6, False, False))
+        if (not np.allclose(boosted, sample * 10 ** (6 / 20))
+                or get_model(MODEL_ID)['files'][0]['size'] != 535638):
+            raise ValueError('Bundled quiet-speech resources are unavailable')
+        result['checks']['quiet_speech'] = True
         from .third_party import verify_notices
 
         result['third_party_notices'] = verify_notices(root / 'third_party_licenses')
@@ -103,7 +113,11 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('report', type=Path, help='new metadata report filename')
     parser.add_argument('--firewall-smoke', type=Path, help='disposable CI only: pinned local Whisper base fixture')
+    parser.add_argument('--enhancement-smoke', type=Path,
+        help='explicit verified GTCRN directory; generated signals only, no capture')
     args = parser.parse_args(argv)
+    if args.enhancement_smoke and args.firewall_smoke:
+        parser.error('Choose one explicit smoke mode')
     if args.report.exists():
         parser.error('report exists; choose a fresh filename')
     if args.firewall_smoke:
@@ -111,6 +125,28 @@ def main(argv=None):
         result = frozen_smoke(args.firewall_smoke, args.report.parent)
     else:
         result = verify_runtime()
+    if args.enhancement_smoke:
+        from .privacy.netguard import NetworkGuard
+        NetworkGuard.install()
+        try:
+            import numpy as np
+            from .audio.gtcrn import GtcrnDenoiser
+            from .audio.quiet import QuietSpeechSettings, QuietSpeechProcessor
+            processor = QuietSpeechProcessor(QuietSpeechSettings(True, 12, True, True),
+                denoiser_factory=lambda: GtcrnDenoiser(args.enhancement_smoke))
+            waveform = (np.sin(np.arange(16001, dtype=np.float32) * 0.1) * 0.002).astype(np.float32)
+            output = processor.process(waveform)
+            if output.shape != waveform.shape or not np.isfinite(output).all():
+                raise ValueError('Frozen enhancement did not retain complete audio')
+            processor.close()
+            result['checks']['quiet_speech_native'] = True
+            result['enhancement_performed'] = True
+        except Exception as error:
+            result['checks']['quiet_speech_native'] = False
+            result['complete'] = False
+            result['error_type'] = type(error).__name__
+        finally:
+            NetworkGuard.uninstall()
     with args.report.open('x', encoding='utf-8') as stream:
         json.dump(result, stream, indent=2, allow_nan=False)
     return 0 if result['complete'] else 1

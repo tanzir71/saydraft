@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import copy
 import json
+import math
 import os
 import re
 from pathlib import Path
@@ -47,6 +48,10 @@ CONFIG_SCHEMA: dict[str, Any] = {
         "audio_retention_days": int,
         "max_seconds": int,
         "warning_seconds": int,
+        "whisper_mode": bool,
+        "whisper_gain_db": float,
+        "whisper_agc": bool,
+        "whisper_enhancement": bool,
     },
     "dictation": {
         "mode": str,
@@ -129,6 +134,10 @@ _DEFAULT_CONFIG: dict[str, Any] = {
         "audio_retention_days": 0,
         "max_seconds": 1200,
         "warning_seconds": 1140,
+        "whisper_mode": False,
+        "whisper_gain_db": 12.0,
+        "whisper_agc": True,
+        "whisper_enhancement": True,
     },
     "dictation": {
         "mode": "balanced",
@@ -277,6 +286,8 @@ def sanitize_config(config: dict[str, Any] | None) -> dict[str, Any]:
     except ValueError:
         selected = InputSelection()
     cfg["recording"].update(input_device=selected.name, input_hostapi=selected.hostapi)
+    gain = cfg["recording"]["whisper_gain_db"]
+    cfg["recording"]["whisper_gain_db"] = max(0.0, min(24.0, gain)) if math.isfinite(gain) else 12.0
     days = cfg["recording"]["audio_retention_days"]
     if type(days) is not int or not 0<=days<=3650:
         cfg["recording"]["audio_retention_days"] = 0

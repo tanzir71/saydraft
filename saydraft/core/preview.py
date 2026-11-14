@@ -31,6 +31,13 @@ def preview_eligibility(config, report):
     return None
 
 
+def streaming_result_enabled(config):
+    # Raw streaming partials remain useful, but cannot replace the enhanced
+    # primary result while quiet-speech processing is explicitly enabled.
+    return (config.get('labs', {}).get('use_streaming_result') is True
+        and config.get('recording', {}).get('whisper_mode') is not True)
+
+
 @dataclass(frozen=True)
 class SpeechChoice:
     text: str

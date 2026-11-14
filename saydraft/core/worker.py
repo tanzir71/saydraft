@@ -339,7 +339,9 @@ class SessionWorker:
         return self.shortcut_capture.cancel(generation)
 
     def _practice_asr(self, config):
-        if config['stt'] == self.services.config['stt']:
+        from saydraft.audio.quiet import QuietSpeechSettings
+        if (config['stt'] == self.services.config['stt'] and
+                QuietSpeechSettings.from_config(config) == QuietSpeechSettings.from_config(self.services.config)):
             return self.services.asr
         from saydraft.asr.selection import create_asr
         return create_asr(config)
@@ -551,11 +553,13 @@ class SessionWorker:
             self._preview_language_blocked = False
             if (hasattr(recorder, "chunk_callback")
                     and self.services.config["stt"].get("background_transcription", True)):
-                stt = self.services.config["stt"]
+                from saydraft.audio.quiet import vad_settings
+                vad = vad_settings(self.services.config)
                 self._background = SegmentTranscriber(
                     self.services.asr, sample_rate=recorder.sample_rate,
-                    energy_threshold=stt.get("vad_energy_threshold", 0.003),
-                    aggressiveness=stt.get("vad_aggressiveness", 2))
+                    energy_threshold=vad['vad_energy_threshold'],
+                    aggressiveness=vad['vad_aggressiveness'],
+                    silero_threshold=vad['silero_threshold'])
                 self._background.start()
             self._start_preview(generation)
             if hasattr(recorder, "chunk_callback"):
@@ -745,7 +749,8 @@ class SessionWorker:
         translating = self.translation.owns(generation)
         try:
             audio = self.services.recorder.stop()
-            use_streaming = not translating and self.services.config.get("labs", {}).get("use_streaming_result", False)
+            from .preview import streaming_result_enabled
+            use_streaming = not translating and streaming_result_enabled(self.services.config)
             if self._preview is not None:
                 self._preview.request_finish(discard=discard, flush=use_streaming)
             if not discard:
@@ -807,6 +812,7 @@ class SessionWorker:
             if background is not None:
                 timings["background_stt"] = background.background_asr_seconds
                 if not background.failed:
+                    timings["audio"] = 0.0  # Included in measured tail wall time.
                     timings["vad"] = 0.0
                     timings["lid"] = 0.0  # Tail wall time already includes these stages.
                     timings["stt"] = background.tail_seconds

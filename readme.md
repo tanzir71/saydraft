@@ -139,6 +139,9 @@ the earlier warm fixture results retain their original scope.
 - **Explicit model setup:** provisional PC recommendations, disclosed
   sizes/licenses, resumable downloads with per-file verification progress,
   tier overrides, and model storage controls.
+- **Whisper mode · experimental:** optional gain, AGC, local speech enhancement
+  and more sensitive speech detection for quiet speech. Its whispered-speech
+  accuracy target remains unverified. See [setup and scope](docs/WHISPER_MODE.md).
 - **Local data controls:** no telemetry, audio retention off by default,
   optional retention limits, a read-only firewall-rule check, and explicit
   firewall controls for packaged installations.

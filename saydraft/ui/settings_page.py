@@ -122,7 +122,11 @@ class SettingsPage(QtWidgets.QWidget):
         self.status_label = QtWidgets.QLabel("", self)
         self.status_label.setTextFormat(QtCore.Qt.PlainText)
         self.status_label.setWordWrap(True)
-        self.status_label.setSizePolicy(QtWidgets.QSizePolicy.Ignored, QtWidgets.QSizePolicy.Preferred)
+        status_policy = self.status_label.sizePolicy()
+        status_policy.setHorizontalPolicy(QtWidgets.QSizePolicy.Ignored)
+        status_policy.setVerticalPolicy(QtWidgets.QSizePolicy.Preferred)
+        status_policy.setHeightForWidth(True)
+        self.status_label.setSizePolicy(status_policy)
         self.apply_button = QtWidgets.QPushButton("Apply", self)
         self.close_button = QtWidgets.QPushButton("Close", self)
         self.apply_button.clicked.connect(self.apply_changes)
@@ -148,6 +152,8 @@ class SettingsPage(QtWidgets.QWidget):
         self.cleanup_picker.finished.connect(self.model_storage.refresh)
         self.tier_picker.changed.connect(self.refresh_labs)
         self.tier_picker.defaults_requested.connect(self._stage_tier_defaults)
+        self.microphone_page.whisper_controls.finished.connect(self.model_storage.refresh)
+        self.microphone_page.whisper_controls.enabled.toggled.connect(lambda _enabled: self.refresh_labs())
         self._sync_language_model()
         self.tabs.currentChanged.connect(lambda index: self.refresh_labs())
         self.tabs.currentChanged.connect(lambda index: self._refresh_shortcut_warning() if self.tabs.tabText(index) == "Shortcuts" else None)
@@ -300,7 +306,8 @@ class SettingsPage(QtWidgets.QWidget):
     def _microphone_tab(self):
         from .microphone_page import MicrophonePage
         return MicrophonePage(self.config,start_callback=self.microphone_start_callback,
-            stop_callback=self.microphone_stop_callback,devices_provider=self.microphone_devices_provider)
+            stop_callback=self.microphone_stop_callback,devices_provider=self.microphone_devices_provider,
+            whisper_mode=True)
 
     def _privacy_tab(self):
         from .privacy_page import PrivacyPage
@@ -556,6 +563,7 @@ class SettingsPage(QtWidgets.QWidget):
         self.microphone_page.stop_test()
         try:
             cfg = self._collect_config()
+            self.microphone_page.whisper_controls.validate()
             self._refresh_shortcut_warning()
             conflicts = find_hotkey_conflicts(cfg["hotkeys"], command_mode=cfg.get('labs', {}).get('command_mode', False),
                                              ask_mode=cfg.get('labs', {}).get('ask_mode') is True)
@@ -630,6 +638,7 @@ class SettingsPage(QtWidgets.QWidget):
         cfg["app"]["tier"] = self.tier_combo.currentData()
         cfg["recording"].update(input_device=self.microphone_page.selection.name,
             input_hostapi=self.microphone_page.selection.hostapi)
+        self.microphone_page.whisper_controls.apply_to(cfg)
         cfg["hotkeys"]["speech"] = self.speech_hotkey_edit.text().strip()
         cfg["hotkeys"]["speech_alternative"] = self.alternative_hotkey_edit.text().strip()
         cfg["hotkeys"]["speech_mouse"] = self.mouse_hotkey_edit.text().strip()
@@ -680,6 +689,7 @@ class SettingsPage(QtWidgets.QWidget):
         cfg = json.loads(json.dumps(self.config))
         cfg["app"]["tier"] = self.tier_combo.currentData()
         self.languages_page.apply_to(cfg)
+        self.microphone_page.whisper_controls.apply_to(cfg)
         self.labs_page.update_eligibility(cfg, report)
         report = report if report is not None else latest_report(
             self.config_path.parent / "hardware-benchmarks" if self.config_path else None)
@@ -692,7 +702,8 @@ class SettingsPage(QtWidgets.QWidget):
         from saydraft.models.tiers import tier_defaults
 
         if any(task is not None for task in (self.model_picker.task, self.cleanup_picker.task, self._vad_download_task,
-                                            self.labs_page.task, self.labs_page.command.task)):
+                                            self.labs_page.task, self.labs_page.command.task,
+                                            self.microphone_page.whisper_controls.task)):
             self.status_label.setText("Finish or pause model downloads before using tier defaults.")
             return
         tier = self.tier_picker.selected_tier()
@@ -735,6 +746,7 @@ class SettingsPage(QtWidgets.QWidget):
             self.model_picker.start_download()
 
     def pause_downloads(self):
+        self.microphone_page.whisper_controls.pause()
         self.model_picker.pause()
         self.labs_page.pause()
         self.cleanup_picker.pause()

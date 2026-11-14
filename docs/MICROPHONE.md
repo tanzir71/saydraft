@@ -61,8 +61,11 @@ Closing a page cancels queued discovery and suppresses results after destruction
 No provider exception text is shown or logged by these controls. Device names
 are local configuration metadata, not dictated content.
 
-Whisper-mode gain/AGC/enhancement and its owner whispered-clip accuracy gate remain
-P7.4. The read-only first-run permission diagnostic is implemented; real privacy
+[Whisper-mode gain/AGC/enhancement](WHISPER_MODE.md) is now available as an
+experimental, default-off group on this page. It has staged gain/AGC/enhancement
+choices and explicit licensed model setup; the input test still measures the raw
+signal. Its owner whispered-clip accuracy gate remains open under P7.4.
+The read-only first-run permission diagnostic is implemented; real privacy
 toggle changes and live microphone/desktop acceptance remain manual work under
 P6.4 and P2.2.
 

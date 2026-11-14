@@ -35,22 +35,19 @@ class WhisperEngineConfig:
     silence_padding_ms: int = 120
     vad_aggressiveness: int = 2
     vad_energy_threshold: float = 0.003
+    silero_threshold: float = 0.5
 
     @classmethod
     def from_app_config(cls, config: dict[str, Any]) -> "WhisperEngineConfig":
         stt = config.get("stt", {}) if isinstance(config, dict) else {}
+        from saydraft.audio.quiet import vad_settings
         return cls(
             model_size=str(stt.get("model_size", cls.model_size)),
             language=str(stt.get("language", cls.language)),
             device=str(stt.get("device", cls.device)),
             compute_type=str(stt.get("compute_type", cls.compute_type)),
             local_files_only=bool(stt.get("local_files_only", cls.local_files_only)),
-            silence_trim=bool(stt.get("silence_trim", cls.silence_trim)),
-            silence_padding_ms=int(stt.get("silence_padding_ms", cls.silence_padding_ms)),
-            vad_aggressiveness=int(stt.get("vad_aggressiveness", cls.vad_aggressiveness)),
-            vad_energy_threshold=float(
-                stt.get("vad_energy_threshold", cls.vad_energy_threshold)
-            ),
+            **vad_settings(config if isinstance(config, dict) else {}),
         )
 
 
@@ -153,7 +150,7 @@ class WhisperEngine:
         if not self.config.silence_trim:
             return waveform
         if not self._vad_checked:
-            self._silero_vad = optional_silero()
+            self._silero_vad = optional_silero() if self.config.silero_threshold == 0.5 else optional_silero(threshold=self.config.silero_threshold)
             self._vad_checked = True
         return trim_with_fallback(
             waveform,

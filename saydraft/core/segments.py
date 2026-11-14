@@ -39,7 +39,7 @@ class SegmentResult:
 class SegmentTranscriber:
     def __init__(self, asr: AsrEngine, *, sample_rate=16_000, silence_seconds=0.6,
                  minimum_seconds=0.5, maximum_seconds=25, detector=None, clock=time.perf_counter,
-                 energy_threshold=0.003, aggressiveness=2):
+                 energy_threshold=0.003, aggressiveness=2, silero_threshold=0.5):
         if sample_rate != 16_000:
             raise ValueError("background transcription requires mono 16 kHz input")
         if not all(math.isfinite(value) and value > 0 for value in (
@@ -55,7 +55,8 @@ class SegmentTranscriber:
         # Round down to whole VAD frames: the default is 24.99 s, never over 25 s.
         self.maximum_samples = int(maximum_seconds * sample_rate // self.frame_samples) * self.frame_samples
         self.detector = detector or FallbackFrameDetector(SilenceTrimConfig(
-            sample_rate=sample_rate, energy_threshold=energy_threshold, aggressiveness=aggressiveness))
+            sample_rate=sample_rate, energy_threshold=energy_threshold, aggressiveness=aggressiveness,
+            silero_threshold=silero_threshold))
         self.clock = clock
         self._queue = queue.SimpleQueue()
         self._lock = threading.Lock()

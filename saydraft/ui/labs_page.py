@@ -95,7 +95,12 @@ class LabsPage(QtWidgets.QWidget):
 
     def _toggle(self):
         enabled = self.live.isChecked() and self.live.isEnabled()
-        self.streaming.setEnabled(enabled)
+        quiet = self.config.get('recording', {}).get('whisper_mode') is True
+        self.streaming.setEnabled(enabled and not quiet)
+        self.streaming.setText('Use streaming result (off in Whisper mode)' if quiet else 'Use streaming result')
+        self.streaming.setToolTip('Whisper mode uses the enhanced primary result. Live partials still show the original signal; '
+            'this saved preference becomes available when Whisper mode is off.' if quiet else
+            'Uses a complete streaming result after release. Default-ASR words remain in History metadata.')
         if not enabled:
             self.streaming.setChecked(False)
 

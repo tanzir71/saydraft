@@ -21,7 +21,8 @@ def test_saved_custom_recording_limits_survive_the_twenty_minute_default(tmp_pat
         expected = {"max_seconds": maximum, "warning_seconds": warning, "retain_audio": False}
         path.write_text(json.dumps({"recording": expected}), encoding="utf-8")
         config = load_config(config_path=path, settings_path=tmp_path / "absent-settings.txt")
-        upgraded = {**expected, "input_device": "", "input_hostapi": "", "audio_retention_days": 0}
+        upgraded = {**expected, "input_device": "", "input_hostapi": "", "audio_retention_days": 0,
+            "whisper_mode": False, "whisper_gain_db": 12.0, "whisper_agc": True, "whisper_enhancement": True}
         assert config["recording"] == upgraded
         assert load_config(config_path=path)["recording"] == upgraded
 

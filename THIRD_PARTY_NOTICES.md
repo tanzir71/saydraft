@@ -1,7 +1,7 @@
 # Third-party notices
 
 Saydraft's own code is covered by [MIT](LICENSE). Dependencies and model weights
-keep their own licenses. This inventory was last updated on 2026-11-14; release
+keep their own licenses. This inventory was last updated on 2026-11-15; release
 packaging must retain each distributed dependency's complete copyright and
 license files, including transitive dependencies and native libraries.
 
@@ -26,6 +26,7 @@ ordinary startup does not restrict replacing dynamically linked libraries.
 | soundfile / libsndfile | BSD-3-Clause / LGPL-2.1-or-later | [Source and notices](https://github.com/bastibe/python-soundfile) |
 | webrtcvad-wheels | MIT; WebRTC components retain their BSD notices | [License](https://github.com/daanzu/py-webrtcvad-wheels/blob/master/LICENSE) |
 | pyperclip | BSD-3-Clause | [License](https://github.com/asweigart/pyperclip/blob/master/LICENSE.txt) |
+| Metaphone 0.6 | BSD-3-Clause | [Pinned distribution](https://pypi.org/project/Metaphone/0.6/); complete license retained from the actual package |
 | keyboard (historical; no longer required or imported) | MIT | [Historical license](https://github.com/boppreh/keyboard/blob/master/LICENSE.txt) |
 | PyInstaller (build tool) | GPL-2.0-or-later with bootloader exception | [License and exception](https://pyinstaller.org/en/stable/license.html) |
 | Python runtime | PSF and included dependency terms | [License](https://docs.python.org/3.13/license.html) |
@@ -83,6 +84,7 @@ conversion or quantization must credit the original model and describe changes.
 
 | Model family | License / status | Attribution and source |
 |---|---|---|
+| GTCRN quiet-speech enhancement | MIT; optional experimental model | [Rong Xiaobin's project at the pinned revision](https://github.com/Xiaobin-Rong/gtcrn/tree/502ebfab64da7c4a9af78dcb9c6ceef1ebb01c73); ONNX conversion by sherpa-onnx, immutable asset 236067657. Complete unchanged [license](assets/licenses/gtcrn/LICENSE) and [model card](assets/licenses/gtcrn/MODEL_CARD.md) are bundled and retained with installation. |
 | Whisper, including large-v3-turbo | MIT | [OpenAI Whisper](https://github.com/openai/whisper/blob/main/LICENSE); [SYSTRAN conversions](https://huggingface.co/Systran); [Mobius Labs / Dropbox turbo conversion](https://huggingface.co/dropbox-dash/faster-whisper-large-v3-turbo), stored FP16 and loaded with int8 CPU compute. Saydraft retains the converted artifacts unchanged. |
 | Whisper tiny language detector | MIT | Original weights by [OpenAI](https://github.com/openai/whisper/blob/main/LICENSE), exported to ONNX and quantized to int8 by sherpa-onnx. [Converted artifacts](https://huggingface.co/csukuangfj/sherpa-onnx-whisper-tiny), revision `65176e2deb88badc814a94058666cadccc29b61c`. Saydraft retains the artifacts unchanged; both files are downloaded as a disclosed dependency of the default setup package. |
 | Silero VAD v5 | MIT; downloaded with its full license | [Silero Team model and license](https://github.com/snakers4/silero-vad/tree/v5.0) |
