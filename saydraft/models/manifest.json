@@ -958,6 +958,7 @@
     {
       "id": "pyannote-segmentation-3-0",
       "revision": "9403a6902bb58e3d5ae8c7e77c3422de279db2e0",
+      "version": "9403a6902bb58e3d5ae8c7e77c3422de279db2e0",
       "role": "meeting_segmentation",
       "engine": "sherpa_pyannote",
       "label": "Meeting speakers \u00b7 pyannote segmentation 3.0",
@@ -999,6 +1000,7 @@
     {
       "id": "3dspeaker-eres2net-base",
       "revision": "github-release-asset-198893098",
+      "version": "github-release-asset-198893098",
       "role": "meeting_embedding",
       "engine": "sherpa_3dspeaker",
       "label": "Meeting speakers \u00b7 3D-Speaker ERes2Net-Base",

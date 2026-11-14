@@ -16,6 +16,7 @@ def test_speaker_bundle_is_separate_from_speech_models_and_retains_both_licenses
     segmentation, embedding = speaker_bundle()
     assert [segmentation['id'], embedding['id']] == [SEGMENTATION_MODEL, EMBEDDING_MODEL]
     assert segmentation['license'] == 'MIT' and embedding['license'] == 'Apache-2.0'
+    assert all(model['version'] == model['revision'] for model in speaker_bundle())
     assert all(model['role'].startswith('meeting_') and model['experimental'] for model in speaker_bundle())
     assert segmentation['files'][0]['sha256'] == '220ad67ca923bef2fa91f2390c786097bf305bceb5e261d4af67b38e938e1079'
     assert embedding['files'][0]['sha256'] == '1a331345f04805badbb495c775a6ddffcdd1a732567d5ec8b3d5749e3c7a5e4b'
