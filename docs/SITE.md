@@ -225,6 +225,12 @@ These are simulated local measurements. The final guide and footer captures are
 reviewed; refreshed Home baselines include the intended footer links. The initial
 missing-browser-cache invocation is retained separately from the corrected run.
 
+The first remote run at `8b0ba2b` stopped at `npm ci`: local npm11.6.2 had removed
+four optional WASI peer entries required by CI's npm11.19.1. The original pinned
+entries were restored without changing their versions or integrity hashes. A
+fresh install with the exact CI npm version succeeds. The same lock mismatch
+stopped the unrelated browser-Ask job before any model or browser inference.
+
 This completes these eight pages and their content pipeline. P9.4 remains open
 for the remaining documentation/content migrations; the full component library,
 home design, technical SEO and original P9 acceptance are still separate.
