@@ -168,3 +168,13 @@ def test_non_loopback_endpoints_and_invalid_configuration_cannot_connect():
         LoopbackClient(True, KEY)
     with pytest.raises(ValueError):
         LoopbackClient(1, KEY + "\r\nBad: header")
+
+
+def test_edit_template_endpoint_uses_authenticated_bounded_post_only():
+    payload = {'messages': [{'role': 'user', 'content': 'Public fixture'}]}
+    with local_server() as (port, received):
+        client = LoopbackClient(port, KEY)
+        assert client.request_json('/apply-template', payload=payload, deadline=time.monotonic()+2)['echo'] == payload
+        with pytest.raises(ValueError, match='endpoint'):
+            client.request_json('/apply-template', deadline=time.monotonic()+2)
+    assert len(received) == 1 and received[0][1] == f'Bearer {KEY}'

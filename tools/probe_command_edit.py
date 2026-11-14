@@ -67,6 +67,7 @@ def main(argv=None):
                 started = time.perf_counter()
                 reply = client.edit(case['selection'], case['instruction'])
                 row = {'id': case['id'], 'kind': case['kind'], 'reason': reply.reason, 'text': reply.text,
+                       'stream_complete': reply.stream_complete,
                        'input_tokens': reply.input_tokens, 'output_limit': reply.output_limit,
                        'seconds': time.perf_counter() - started,
                        'case_check': check_case(case, reply.text) if reply.text is not None else 'no_candidate'}
@@ -88,9 +89,10 @@ def main(argv=None):
         report['model_unchanged'] = digest(args.model) == report['model_sha256']
         report['runtime_unchanged'] = all(digest(args.runtime_dir / name) == value
                                           for name, value in report['runtime_sha256'].items())
-        report['complete'] = (len(report['rows']) == len(cases) and bool(report['native_exit_observed'])
+        report['attempts_complete'] = (len(report['rows']) == len(cases) and bool(report['native_exit_observed'])
             and all(report['native_exit_observed']) and not report.get('error_type')
             and report['source_unchanged'] and report['model_unchanged'] and report['runtime_unchanged'])
+        report['complete'] = report['attempts_complete'] and all(row['stream_complete'] for row in report['rows'])
         report['passed'] = sum(row['reason'] == 'ok' and row['case_check'] == 'ok' for row in report['rows'])
         (args.output / 'report.json').write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding='utf-8')
         print(json.dumps({'complete': report['complete'], 'passed': report['passed'], 'cases': len(cases)}), flush=True)

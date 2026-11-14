@@ -14,7 +14,7 @@ from functools import partial
 
 MAX_JSON_BYTES = 1024 * 1024
 _GET = frozenset(("/health", "/v1/models"))
-_POST = frozenset(("/completion", "/v1/chat/completions", "/tokenize"))
+_POST = frozenset(("/completion", "/v1/chat/completions", "/tokenize", "/apply-template"))
 
 
 class LocalHTTPError(RuntimeError):

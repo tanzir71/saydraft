@@ -67,6 +67,7 @@ class EditReply:
     reason: str
     input_tokens: int = 0
     output_limit: int = 0
+    stream_complete: bool = False
 
 
 def build_edit_messages(selection, instruction):
@@ -222,6 +223,7 @@ class EditClient:
             return EditReply(None, value["rejected"], **counts)
         if not value.get("done") or value.get("finish_reason") != "stop":
             return EditReply(None, "incomplete", **counts)
+        counts["stream_complete"] = True
         if value.get("tool_calls"):
             return EditReply(None, "tool_output", **counts)
         candidate = _replacement(value.get("text"))

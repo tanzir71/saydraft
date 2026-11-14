@@ -102,7 +102,7 @@ def test_full_local_request_counts_chat_and_reserves_output_before_generation():
     model, invalidations = Model(), []
     reply = client(model, invalidate=lambda: invalidations.append(True)).edit(
         'I wanted to say the file arrived.', 'Make shorter.')
-    assert reply == EditReply('The file arrived.', 'ok', 200, 768)
+    assert reply == EditReply('The file arrived.', 'ok', 200, 768, True)
     assert [path for path, _ in model.calls] == ['/apply-template', '/tokenize', '/v1/chat/completions']
     assert invalidations == [True, True] and model.closed
     payload = model.calls[-1][1]['payload']
