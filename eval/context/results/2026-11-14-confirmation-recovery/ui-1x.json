@@ -1,0 +1,113 @@
+{
+  "scope": "owned offscreen recovery UI only, no recording/target/clipboard/device integration",
+  "scale": 1,
+  "platform": "offscreen",
+  "owner_clipboard_accessed": false,
+  "active_application_read": false,
+  "microphone_used": false,
+  "files": [
+    {
+      "path": "light-unconfirmed.png",
+      "sha256": "942f0ecf5db9ff1d8d55f10ca0076245d89e42d6e34f6776a520d99548d0fb13",
+      "width": 640,
+      "height": 520,
+      "labels": [
+        {
+          "text": "Command edit",
+          "height": 45,
+          "required": 45
+        },
+        {
+          "text": "Paste was sent, but the change could not be confirmed. Check the original field before copying and pasting again. This edit saves as a separate note.",
+          "height": 42,
+          "required": 42
+        },
+        {
+          "text": "Saved on this PC",
+          "height": 21,
+          "required": 21
+        }
+      ],
+      "copy_enabled": true,
+      "note_state": null
+    },
+    {
+      "path": "light-storage-error.png",
+      "sha256": "0f9fff069c7eb5661b65c9da5bba77e65d9f592bf36be5253aa35396c4e186d7",
+      "width": 640,
+      "height": 520,
+      "labels": [
+        {
+          "text": "Command edit",
+          "height": 45,
+          "required": 45
+        },
+        {
+          "text": "Your edit could not be saved to History. It is here to copy, and will try saving as a separate note on this PC.",
+          "height": 42,
+          "required": 42
+        },
+        {
+          "text": "Could not save. Your unsaved text is still here. Try again.",
+          "height": 21,
+          "required": 21
+        }
+      ],
+      "copy_enabled": true,
+      "note_state": "storage"
+    },
+    {
+      "path": "dark-unconfirmed.png",
+      "sha256": "c4bef0805349b655d5b5c14170a966b4a552e2e0cb649de2c40f507da7d482f0",
+      "width": 640,
+      "height": 520,
+      "labels": [
+        {
+          "text": "Command edit",
+          "height": 45,
+          "required": 45
+        },
+        {
+          "text": "Paste was sent, but the change could not be confirmed. Check the original field before copying and pasting again. This edit saves as a separate note.",
+          "height": 42,
+          "required": 42
+        },
+        {
+          "text": "Saved on this PC",
+          "height": 21,
+          "required": 21
+        }
+      ],
+      "copy_enabled": true,
+      "note_state": null
+    },
+    {
+      "path": "dark-storage-error.png",
+      "sha256": "2b02e2251b0fb75b8be1feb6b5667ddbb580f78f50f3d4d14f52526dca0b148b",
+      "width": 640,
+      "height": 520,
+      "labels": [
+        {
+          "text": "Command edit",
+          "height": 45,
+          "required": 45
+        },
+        {
+          "text": "Your edit could not be saved to History. It is here to copy, and will try saving as a separate note on this PC.",
+          "height": 42,
+          "required": 42
+        },
+        {
+          "text": "Could not save. Your unsaved text is still here. Try again.",
+          "height": 21,
+          "required": 21
+        }
+      ],
+      "copy_enabled": true,
+      "note_state": "storage"
+    }
+  ],
+  "git_commit": "5d5bbf2716eba45b533ac62e39e915374eb6b436",
+  "source_dirty": false,
+  "renderer_sha256": "ba29f5e5797470c6c21947747151c7d53519b2387f373ceea890f82f187ff8d7"
+}

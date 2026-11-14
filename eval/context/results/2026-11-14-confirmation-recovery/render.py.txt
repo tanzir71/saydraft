@@ -1,0 +1,77 @@
+import argparse
+import hashlib
+import json
+import os
+from pathlib import Path
+import subprocess
+import sys
+import time
+
+p=argparse.ArgumentParser()
+p.add_argument('--output',type=Path,required=True)
+p.add_argument('--scale',type=int,choices=(1,2),required=True)
+args=p.parse_args()
+os.environ['QT_QPA_PLATFORM']='offscreen'
+os.environ['QT_STYLE_OVERRIDE']='Fusion'
+os.environ['QT_SCALE_FACTOR']=str(args.scale)
+root=Path.cwd()  # Run from the repository root.
+sys.path.insert(0,str(root))
+from saydraft.privacy.netguard import NetworkGuard
+NetworkGuard.install()
+from PySide6 import QtCore,QtGui,QtWidgets
+from saydraft.ui.fonts import install_bundled_fonts
+from saydraft.ui.theme import install_theme
+from saydraft.ui.command_recovery import CommandRecoveryWindows
+from saydraft.core.command_edit import CommandEditResult
+from saydraft.data.notes import NoteStore
+
+args.output.mkdir(parents=True,exist_ok=False)
+app=QtWidgets.QApplication([])
+app.setQuitOnLastWindowClosed(False)
+assert app.platformName()=='offscreen'
+assert len(install_bundled_fonts(app))==8
+theme=install_theme(app,mode='light')
+report={'scope':'owned offscreen recovery UI only, no recording/target/clipboard/device integration',
+        'scale':args.scale,'platform':app.platformName(),'owner_clipboard_accessed':False,
+        'active_application_read':False,'microphone_used':False,'files':[]}
+class Clipboard:
+    def __init__(self):self.copies=[]
+    def setText(self,text):self.copies.append(text)
+clipboard=Clipboard()
+text='The report is ready.\n\n- Review the draft\n- Send it tomorrow\n\nবাংলা • العربية'
+try:
+    for mode in ('light','dark'):
+        theme.set_mode(mode)
+        for state in ('unconfirmed','storage-error'):
+            store=NoteStore(args.output/f'{mode}-notes.db') if state=='unconfirmed' else None
+            group=CommandRecoveryWindows(store,clipboard=clipboard)
+            result=CommandEditResult(text,'insertion_unconfirmed' if state=='unconfirmed' else 'history_unavailable')
+            window=group.present(result)
+            until=time.monotonic()+4
+            while window.draft.snapshot().saving and time.monotonic()<until:
+                app.processEvents();time.sleep(.005)
+            app.processEvents()
+            assert not window.draft.snapshot().saving and window.copy_button.isEnabled()
+            assert window.editor.toPlainText()==text and not clipboard.copies
+            labels=[]
+            for label in window.findChildren(QtWidgets.QLabel):
+                required=label.heightForWidth(label.width()) if label.wordWrap() else label.sizeHint().height()
+                assert label.height()>=required,(label.text(),label.height(),required)
+                labels.append({'text':label.text(),'height':label.height(),'required':required})
+            path=args.output/f'{mode}-{state}.png'
+            shot=window.grab();assert shot.save(str(path))
+            report['files'].append({'path':path.name,'sha256':hashlib.sha256(path.read_bytes()).hexdigest(),
+                'width':shot.width(),'height':shot.height(),'labels':labels,
+                'copy_enabled':window.copy_button.isEnabled(),'note_state':window.draft.snapshot().error})
+            window.shutdown();window.draft.executor.shutdown(wait=True)
+            window.hide();window.deleteLater();app.sendPostedEvents(None,QtCore.QEvent.DeferredDelete)
+            assert not group.windows
+    assert 'sounddevice' not in sys.modules
+    report['git_commit']=subprocess.check_output(['git','rev-parse','HEAD'],cwd=root,text=True).strip()
+    report['source_dirty']=bool(subprocess.check_output(['git','status','--porcelain'],cwd=root).strip())
+    report['renderer_sha256']=hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
+    (args.output/'report.json').write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf-8')
+    print(json.dumps({'rendered':len(report['files']),'scale':args.scale,'labels_fit':True}))
+finally:
+    theme.close()
+    NetworkGuard.uninstall()

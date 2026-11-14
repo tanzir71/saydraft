@@ -134,7 +134,7 @@ fresh password state, both range endpoints and exact selected text. Identical
 text selected at a different position is rejected. Known read-only selections can
 be read for an answer, while write verification refuses them. Unknown editability
 is not a promise that paste will succeed; only the post-write confirmation can
-observe success. Full hotkey and recovery UI integration remains pending.
+observe success. Held recording and hotkey integration remain pending.
 
 Requests share the existing one-request owner and at-most-500-ms capture budget.
 Cancellation wakes the caller and revokes late results without joining a blocked
@@ -180,6 +180,13 @@ rules 556/556, authored adversarial 100/100 and frozen package/regression checks
 The same own-invisible-window probe passes locally and on CI. Unchanged reports,
 workflow metadata, hashes and scope limits are in the
 [dated record](../eval/context/results/2026-11-14-selection/README.md).
+
+The combined confirmation/recovery code at clean `5d5bbf2` passes 3,438 tests /
+12 skips, both normal cleanup gates and the package workflow. The expanded native
+probe passes all 13 cases locally and on CI; eight clean offscreen recovery
+renders cover both themes at 1x/2x. Reports, images, the earlier fixture/inventory
+failures and exact scope limits are in the
+[confirmation/recovery record](../eval/context/results/2026-11-14-confirmation-recovery/README.md).
 
 ```powershell
 python -m pytest tests/test_selection.py tests/test_selection_worker.py tests/test_selection_patterns.py -q

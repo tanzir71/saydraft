@@ -1,0 +1,73 @@
+{
+  "schema": 1,
+  "recorded_at": "2026-11-14T01:15:29.133977+00:00",
+  "source": "5d5bbf2716eba45b533ac62e39e915374eb6b436",
+  "scope": "Post-write selection/processor boundary and isolated recovery UI only. No full held-command pipeline, real speech/edit generation or native clipboard/keyboard integration in these probes.",
+  "local_native_cases": 13,
+  "ui_images": 8,
+  "scales": [
+    1,
+    2
+  ],
+  "themes": [
+    "light",
+    "dark"
+  ],
+  "files_sha256": {
+    "local-native.json": "2460ee4a84c842a837bec8b03d7cbf6b43f8e137f5509ef78e004ead59e342aa",
+    "diagnostic-first-limited-fixture.json": "f322d68a3215c66b8d7e2816089ef431f4508c42fcfde51ddb1204e34d209207",
+    "render.py.txt": "ba29f5e5797470c6c21947747151c7d53519b2387f373ceea890f82f187ff8d7",
+    "ui-1x.json": "782eeeceba166408eb3cd6508b1833b3dca46819d8810559467ebae186f8a83f",
+    "ui-1x/light-unconfirmed.png": "942f0ecf5db9ff1d8d55f10ca0076245d89e42d6e34f6776a520d99548d0fb13",
+    "ui-1x/light-storage-error.png": "0f9fff069c7eb5661b65c9da5bba77e65d9f592bf36be5253aa35396c4e186d7",
+    "ui-1x/dark-unconfirmed.png": "c4bef0805349b655d5b5c14170a966b4a552e2e0cb649de2c40f507da7d482f0",
+    "ui-1x/dark-storage-error.png": "2b02e2251b0fb75b8be1feb6b5667ddbb580f78f50f3d4d14f52526dca0b148b",
+    "ui-2x.json": "9d038f40fe33a7553b54b452f6bca44365a193ae17981a055655d96967ff0b8b",
+    "ui-2x/light-unconfirmed.png": "9bb9a5b26d800aaaa5cb9ee798d4fadc793b5d1d526347108061efc67e6bb5a1",
+    "ui-2x/light-storage-error.png": "3853f67ae9611a0d79f7d6309c4213373667112f46ea83bf5ed8371b0aed55fb",
+    "ui-2x/dark-unconfirmed.png": "07ad963c6ee43f01ce6935c999084a6bfb9524289076d2ab64ddebbecebf7fae",
+    "ui-2x/dark-storage-error.png": "aa04f69c87d7478f7f33e62ca745d444974e799890e7e7db8ff06cf8572e3210",
+    "ci-run.json": "98c4047fdd162d84fc32aa1c7a28355c1f5c8ae05275d7b300354e8ca9ac850d",
+    "failed-inventory-ci-run.json": "cc3219c22dcc6523a005fa6095e7c755525ccc5519aac772b9fd611ed6376aa4",
+    "artifact.json": "6f3aa3de17de647af8a07159ec7a71ed6c6801f2c63cad5ec267434e9ac69527",
+    "ci-native.json": "7e813624cea69532f8cfc4c0c6740054735c1de765b2ab903825e43fe0966a88",
+    "package-run.json": "04b5269c7193a4a0bf294d2ccfd3e587cb3bdd0f95328ffee3f2abacf5424b7a"
+  },
+  "diagnostic": "First dirty fixture had no auto-vertical-scroll; its 9,000-unit write did not equal expected own-field text and was refused. Fixture style corrected without relaxing confirmation; final probe deliberately truncates a separate write at 40 units and refuses it.",
+  "legacy_ci_failure": {
+    "run": 43536539204,
+    "job": 132266823091,
+    "source": "6131267be58a4366ec665e66ca028010ab79332d",
+    "reason": "Native probe completed all 13 cases; old wrapper inventory still expected six. Unit outcome: 1 failed, 3,420 passed, 12 skips. Wrapper inventory corrected at 1018d1e; no failed record treated as full CI acceptance."
+  },
+  "verification": {
+    "ci_run": 43538889488,
+    "windows_job": 132274508133,
+    "passed": 3438,
+    "skipped": 12,
+    "seconds": 258.17,
+    "rules": "556/556",
+    "normal_cleanup_adversarial": "100/100",
+    "package_run": 43538889589,
+    "package_status": "completed",
+    "package_conclusion": "success",
+    "full_command_mode_accepted": false
+  },
+  "artifact": {
+    "id": 14091665007,
+    "size_in_bytes": 9014,
+    "sha256": "fc919e227077d6715a231b982ec7f55507e485b181821528ce2c5507168a5579",
+    "alias_entries": [
+      "test_native_selection_uses_onl0/own-selection/report.json",
+      "test_native_selection_uses_onlcurrent/own-selection/report.json"
+    ],
+    "aliases_identical": true,
+    "measurements": 1
+  },
+  "private_logs_sha256": {
+    "windows.log": "c49ff6bd39cc9eab8ac72068d56b8e57f067edc99995da44d5037012c328e57e",
+    "failed-inventory-windows.log": "1614668a86e13ebcaddcf91699cbb503d54628eb393c81e96bf976c2abbe63cd",
+    "package.log": "faa3f704cb3df1f6f6ea2de5bb98d17920167a4639cb574120649d1f1ad41f02"
+  },
+  "updated_at": "2026-11-14T01:17:35.162783+00:00"
+}

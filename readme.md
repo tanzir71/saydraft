@@ -52,7 +52,7 @@ qualification are tracked separately:
 | Six-page setup, verified downloads, model performance check | Fresh-profile and physical Windows acceptance |
 | Public website, setup guide, verified unsigned builds and opt-in update notices | Signing and release publication |
 
-Command Mode's selection guard, local edit client, confirmed delivery and separate
+Command Mode's selection guard, local edit client, replacement checks and separate
 Copy recovery windows are implemented. Recording, Labs/model admission and the
 clipboard-copy fallback remain in progress;
 see the [implementation status](docs/COMMAND_MODE.md).
