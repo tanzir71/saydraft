@@ -33,8 +33,11 @@ Migration preserves existing data and retains a pre-change backup; see
 [database behavior](DATABASE.md). Experimental Command and
 [Translate](TRANSLATE.md) recovery windows save separate ordinary Scratchpad
 notes without replacing the active draft or copying automatically. The stored
-kind also reserves Command, Ask and meeting notes for dedicated producers;
-Ask and Notetaker remain planned.
+kind also reserves Command, Ask and meeting notes for dedicated producers.
+[Ask](ASK.md) now saves independent answer notes; the primary Scratchpad stays
+unchanged. Notetaker remains in development, with its
+[capture foundation](spikes/meeting-capture.md) implemented separately from the
+remaining meeting workflow and acceptance.
 
 Copy uses Saydraft's existing Windows clipboard privacy handling. Text selection
 and dragging use the same private plain-text MIME policy as History. Note text

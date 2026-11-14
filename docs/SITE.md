@@ -234,3 +234,12 @@ stopped the unrelated browser-Ask job before any model or browser inference.
 This completes these eight pages and their content pipeline. P9.4 remains open
 for the remaining documentation/content migrations; the full component library,
 home design, technical SEO and original P9 acceptance are still separate.
+
+At `767212a`, [Site checks](https://github.com/tanzir71/saydraft/actions/runs/43593166115)
+and [Pages](https://github.com/tanzir71/saydraft/actions/runs/43593579997) pass.
+Direct HTTP verifies all 33 routes, exact sitemap, matching metadata/H1s, creator
+credit, unchanged language-link order and committed favicon bytes.
+[Full app CI](https://github.com/tanzir71/saydraft/actions/runs/43593166124) also passes:
+4,178 tests / 12 explicit skips, rules 556/556, adversarial 100/100 and the native
+read-only browser/actual-model Ask check. The earlier lockfile failure remains
+documented above. This verifies this content delivery, not completion of P9.

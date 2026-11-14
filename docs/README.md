@@ -42,7 +42,7 @@ including the optional public-audio recognizer smoke.
 | [Command Mode work](COMMAND_MODE.md) | Experimental held instructions, Labs setup, guarded local edits and Copy recovery; remaining P7.1 acceptance |
 | [Command clipboard boundary](COMMAND_CLIPBOARD.md) | Optional held copy capture, original-field metadata leases, clipboard restoration and Windows limits |
 | [Translate while speaking](TRANSLATE.md) | Pro/Labs setup, per-group spoken output language, shared model, guarded delivery and source recovery |
-| [Ask about selected text](ASK.md) | Default-off Pro/Labs selection review, local answers, History and separate Scratchpads; native acceptance remains open |
+| [Ask about selected text](ASK.md) | Default-off Pro/Labs selection review, local answers, History and separate Notes; native read-only browser verified, with packaged/physical and broader answer quality acceptance open |
 | [Scratchpad and Notes](NOTES.md) | Local autosave, search/reopen, conflict recovery, and the last-diff shortcut |
 
 ## Models, privacy, and data
@@ -71,6 +71,7 @@ including the optional public-audio recognizer smoke.
 ## Development and verification
 
 - [Test checklist](TEST_CHECKLIST.md): automated gates and manual Windows acceptance.
+- [Meeting capture foundation](spikes/meeting-capture.md): backend choice, explicit capture readers and resampling; the Notetaker app flow and 30-minute acceptance remain open.
 - [Soak checks](SOAK.md): combined RSS, History, memory-clipboard and owned native cleanup cycles.
 - [Evaluation](EVALUATION.md): cleanup harness, exact outputs, and action cases.
 - [Cleanup evidence](CLEANUP_EVIDENCE.md): source/corpus fingerprints and native evidence.

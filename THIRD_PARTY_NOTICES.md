@@ -21,6 +21,7 @@ ordinary startup does not restrict replacing dynamically linked libraries.
 | sherpa-onnx | Apache-2.0 | [License](https://github.com/k2-fsa/sherpa-onnx/blob/master/LICENSE) |
 | ONNX Runtime | MIT | [License](https://github.com/microsoft/onnxruntime/blob/main/LICENSE) |
 | sounddevice / PortAudio | MIT | [Licenses](https://python-sounddevice.readthedocs.io/en/latest/about.html) |
+| SoundCard 0.4.6 (meeting desktop capture) | BSD-3-Clause | [Source and license](https://github.com/bastibe/SoundCard), pinned PyPI wheel; capture is explicit and the Notetaker app flow remains in development |
 | NumPy | BSD-3-Clause; bundled native components retain additional notices | [License](https://github.com/numpy/numpy/blob/main/LICENSE.txt) |
 | soundfile / libsndfile | BSD-3-Clause / LGPL-2.1-or-later | [Source and notices](https://github.com/bastibe/python-soundfile) |
 | webrtcvad-wheels | MIT; WebRTC components retain their BSD notices | [License](https://github.com/daanzu/py-webrtcvad-wheels/blob/master/LICENSE) |
