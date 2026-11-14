@@ -18,6 +18,9 @@ def main() -> int:
     from .privacy.telemetry import configure_process_privacy
 
     configure_process_privacy()
+    if sys.argv[1:2] == ['--meeting-capture']:
+        from .meetings.child import helper_main
+        return helper_main(sys.argv[2:])
     if sys.platform == "win32":
         import ctypes
 

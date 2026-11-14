@@ -75,6 +75,9 @@ class Native:
         assert numframes == 4800
         return self.frames
 
+    def flush(self):
+        return np.empty((0, 2), dtype=np.float32)
+
 
 class Endpoint:
     def __init__(self, identity='render-id', *, loopback=True, channels=2):
@@ -142,6 +145,25 @@ def test_desktop_discontinuity_finishes_the_native_read_then_reports_a_gap():
         with DesktopReader(consent=True, backend=Backend(device), com_context=nullcontext) as reader:
             reader.read()
     assert completed == [True] and device.native.closed
+
+
+def test_desktop_finish_keeps_already_read_sdk_frames_and_filter_lookahead():
+    device = Endpoint()
+    tail = np.ones((6, 2), dtype=np.float32) * .5
+    device.native.flush = lambda: tail
+    reader = DesktopReader(consent=True, backend=Backend(device), com_context=nullcontext)
+    with pytest.raises(RuntimeError, match='after its capture context'):
+        reader.finish_audio()
+    with reader:
+        first = reader.read()
+    tail[:] = 0  # Neither native buffer may be retained by reference.
+    result = np.concatenate((first, reader.finish_audio()))
+    expected = DesktopResampler().push(np.concatenate((np.full(4800, .25, dtype=np.float32),
+        np.full(6, .5, dtype=np.float32))), final=True)
+    np.testing.assert_array_equal(result, expected)
+    assert len(result) == 1602 and device.native.closed
+    with pytest.raises(RuntimeError, match='once after'):
+        reader.finish_audio()
 
 
 def test_default_or_false_consent_never_discovers_opens_or_imports_a_backend(monkeypatch):

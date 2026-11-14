@@ -53,6 +53,12 @@ def verify_runtime():
         if importlib.util.find_spec('sounddevice') is None or not any(root.rglob('*portaudio*.dll')):
             raise ValueError('Capture runtime missing')
         result['checks']['native_imports'] = True
+        # SoundCard's CFFI declarations are read at import. Verify the frozen
+        # module and header without initializing COM or querying audio endpoints.
+        if (importlib.util.find_spec('soundcard') is None
+                or not (root / 'soundcard/mediafoundation.py.h').is_file()):
+            raise ValueError('Meeting capture CFFI resources missing')
+        result['checks']['meeting_capture_resources'] = True
         from .stt.whisper_engine import WhisperEngineConfig
 
         if WhisperEngineConfig().vad_filter:

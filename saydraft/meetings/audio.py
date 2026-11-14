@@ -21,6 +21,10 @@ NATIVE_RATE = 48_000
 BLOCK_FRAMES = 4_800
 
 
+class AudioGapError(OSError):
+    """Native capture reported missing frames; retain an incomplete recording."""
+
+
 def mono_float(samples, *, frames=None):
     value = np.asarray(samples)
     if (value.dtype.kind != 'f' or value.ndim not in (1, 2)
@@ -39,7 +43,7 @@ class DesktopResampler:
 
     Keeps 1 ms of lookahead and a bounded tail between calls. Integer sample
     phase survives arbitrary native block boundaries; flush pads only the end.
-    Low-pass filtering precedes decimation, avoiding interpolation's aliasing.
+    Low-pass filtering precedes decimation to reduce aliasing into speech.
     """
 
     def __init__(self):
@@ -115,7 +119,8 @@ class DesktopReader:
         self.consent, self.endpoint_id = consent, endpoint_id
         self.backend, self.com_context = backend, com_context
         self._stack = self._stream = self._thread = None
-        self._used = False
+        self._used = self._opened = self._closed = self._finished = False
+        self._native_tail = np.empty(0, dtype=np.float32)
         self.resampler = DesktopResampler()
 
     def __enter__(self):
@@ -145,6 +150,7 @@ class DesktopReader:
             self._stream = stack.enter_context(device.recorder(samplerate=NATIVE_RATE,
                 channels=None, blocksize=BLOCK_FRAMES * 2))
             self._stack, self._thread = stack, threading.get_ident()
+            self._opened = True
             return self
         except BaseException:
             stack.close()
@@ -160,7 +166,7 @@ class DesktopReader:
             warnings.simplefilter('always', RuntimeWarning)
             data = self._stream.record(numframes=BLOCK_FRAMES)
         if any(issubclass(issue.category, RuntimeWarning) for issue in issues):
-            raise OSError('Desktop meeting audio reported a gap or capture problem')
+            raise AudioGapError('Desktop meeting audio reported a gap or capture problem')
         for issue in issues:
             warnings.warn_explicit(issue.message, issue.category, issue.filename, issue.lineno)
         native = mono_float(data, frames=BLOCK_FRAMES)
@@ -172,9 +178,29 @@ class DesktopReader:
 
     def __exit__(self, *exc):
         self._check()
-        stack, self._stack = self._stack, None
+        stack, stream = self._stack, self._stream
+        self._stack = None
         self._stream = None
-        return stack.__exit__(*exc)
+        self._closed = True
+        try:
+            if exc[0] is None:
+                # SoundCard has already read these native frames while filling
+                # its last exact-size block. Its pinned flush is memory-only.
+                self._native_tail = mono_float(stream.flush())
+        except BaseException:
+            stack.__exit__(*sys.exc_info())
+            raise
+        else:
+            stack.__exit__(*exc)
+            return False  # A backend cannot suppress an incomplete recording.
+
+    def finish_audio(self):
+        """Drain already-read SDK frames and filter lookahead after context exit."""
+        if not self._opened or not self._closed or self._finished:
+            raise RuntimeError('Meeting audio can finish once after its capture context exits')
+        self._finished = True
+        native, self._native_tail = self._native_tail, np.empty(0, dtype=np.float32)
+        return self.resampler.push(native, final=True)
 
 
 class MicrophoneReader:
@@ -209,7 +235,7 @@ class MicrophoneReader:
             raise RuntimeError('Meeting microphone belongs to its active capture thread')
         data, overflowed = self._stream.read(1600)
         if overflowed:
-            raise OSError('Meeting microphone overflowed; recording contains a gap')
+            raise AudioGapError('Meeting microphone overflowed; recording contains a gap')
         return mono_float(data, frames=1600)
 
     def __exit__(self, *exc):

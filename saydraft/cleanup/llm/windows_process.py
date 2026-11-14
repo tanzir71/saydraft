@@ -2,7 +2,8 @@
 
 Windows 10 JOB_LIST closes the create-then-assign orphan window. HANDLE_LIST
 inherits only NUL for inference I/O. Short metadata probes may opt into a bounded
-output pipe; neither mode inherits the job handle or unrelated app handles.
+output pipe. Explicit streaming consumers receive small chunks without retained
+output; their stderr stays NUL. No mode inherits the job or unrelated handles.
 """
 
 from __future__ import annotations
@@ -47,6 +48,11 @@ class _JobLimits(c.Structure):
         (name, c.c_size_t) for name in ("process_memory", "job_memory", "peak_process_memory", "peak_job_memory")]
 
 
+class _Accounting(c.Structure):
+    _fields_ = [(name, c.c_int64) for name in ('user', 'kernel', 'period_user', 'period_kernel')] + [
+        (name, w.DWORD) for name in ('page_faults', 'total_processes', 'active_processes', 'terminated_processes')]
+
+
 def _kernel():
     if os.name != "nt":
         raise OSError("Local sidecar process ownership requires Windows 10 or newer")
@@ -67,6 +73,7 @@ def _kernel():
                                      c.c_void_p, w.LPCWSTR, c.POINTER(_StartupEx), c.POINTER(_ProcessInfo)]),
         "WaitForSingleObject": (w.DWORD, [w.HANDLE, w.DWORD]),
         "GetExitCodeProcess": (w.BOOL, [w.HANDLE, c.POINTER(w.DWORD)]),
+        "QueryInformationJobObject": (w.BOOL, [w.HANDLE, c.c_int, c.c_void_p, w.DWORD, c.POINTER(w.DWORD)]),
         "CloseHandle": (w.BOOL, [w.HANDLE]),
     }
     for name, (result, arguments) in signatures.items():
@@ -92,7 +99,7 @@ def _environment(values):
 
 
 class WindowsJobProcess:
-    def __init__(self, argv, *, env, cwd=None, capture_output=False, max_output_bytes=65536):
+    def __init__(self, argv, *, env, cwd=None, capture_output=False, max_output_bytes=65536, on_output=None):
         self._lock = threading.RLock()
         self._job = self._process = None
         self._reader = self._read_handle = None
@@ -100,7 +107,11 @@ class WindowsJobProcess:
         self._output, self._output_error, self._output_done = bytearray(), None, threading.Event()
         if type(capture_output) is not bool or type(max_output_bytes) is not int or not 1 <= max_output_bytes <= 1024**2:
             raise ValueError("Native output capture requires a bounded byte limit")
+        if on_output is not None and (not callable(on_output) or capture_output):
+            raise ValueError('Streaming output needs a callable consumer and cannot retain metadata output')
         self._capture, self._output_limit = capture_output, max_output_bytes
+        self._on_output = on_output
+        has_output = capture_output or on_output is not None
         self._api = _kernel()
         if not argv or any(not isinstance(value, str) or "\0" in value for value in argv):
             raise ValueError("Process arguments must be nonempty strings without NUL")
@@ -121,7 +132,7 @@ class WindowsJobProcess:
             null = self._api.CreateFileW("NUL", 0xC0000000, 3, c.byref(security), 3, 0x80, None)
             if null in (None, c.c_void_p(-1).value):
                 raise c.WinError(c.get_last_error())
-            if capture_output:
+            if has_output:
                 read, write = w.HANDLE(), w.HANDLE()
                 _check(self._api.CreatePipe(c.byref(read), c.byref(write), c.byref(security), 0))
                 self._read_handle, write_pipe = read.value, write.value
@@ -133,7 +144,7 @@ class WindowsJobProcess:
             buffer = c.create_string_buffer(size.value)
             _check(self._api.InitializeProcThreadAttributeList(buffer, 2, 0, c.byref(size)))
             attributes = c.cast(buffer, c.c_void_p)
-            handles = (w.HANDLE * (2 if capture_output else 1))(*([null, write_pipe] if capture_output else [null]))
+            handles = (w.HANDLE * (2 if has_output else 1))(*([null, write_pipe] if has_output else [null]))
             jobs = (w.HANDLE * 1)(self._job)
             for attribute, values in ((0x20002, handles), (0x2000D, jobs)):
                 _check(self._api.UpdateProcThreadAttribute(attributes, 0, attribute, c.byref(values),
@@ -144,13 +155,15 @@ class WindowsJobProcess:
             startup.startup.stdin = startup.startup.stdout = startup.startup.stderr = null
             if capture_output:
                 startup.startup.stdout = startup.startup.stderr = write_pipe
+            elif on_output is not None:
+                startup.startup.stdout = write_pipe  # Binary transport never mixes in stderr.
             startup.attributes = attributes
             command = c.create_unicode_buffer(subprocess.list2cmdline(argv))
             _check(self._api.CreateProcessW(str(executable), command, None, None, True,
                 0x08000000 | 0x00080000 | 0x00000400, environment, str(working), c.byref(startup), c.byref(info)))
             self._process, self.pid = info.process, int(info.pid)
-            if capture_output:
-                reader = threading.Thread(target=self._read_output, name="Saydraft-native-metadata", daemon=True)
+            if has_output:
+                reader = threading.Thread(target=self._read_output, name="Saydraft-native-output", daemon=True)
                 reader.start()
                 self._reader = reader
                 self._read_ready.set()  # Transfer read-handle ownership only after thread startup succeeds.
@@ -181,16 +194,25 @@ class WindowsJobProcess:
             while self._api.ReadFile(handle, buffer, len(buffer), c.byref(count), None):
                 if not count.value:
                     break
-                if len(self._output) + count.value > self._output_limit:
+                if self._on_output is not None:
+                    # Consumers must be bounded and nonblocking, raising on
+                    # backpressure. This adapter retains no recording buffer.
+                    self._on_output(buffer.raw[:count.value])
+                elif len(self._output) + count.value > self._output_limit:
                     self._output_error = "Native metadata output exceeded its bound"
                     self.terminate()
                     return
-                self._output.extend(buffer.raw[:count.value])
+                else:
+                    self._output.extend(buffer.raw[:count.value])
             else:
                 if c.get_last_error() != 109:  # ERROR_BROKEN_PIPE is normal EOF.
                     self._output_error = "Native metadata pipe failed"
+                    if self._on_output is not None:
+                        self.terminate()
         except Exception:
-            self._output_error = "Native metadata capture failed"
+            self._output_error = "Native output stream failed" if self._on_output is not None else "Native metadata capture failed"
+            if self._on_output is not None:
+                self.terminate()
         finally:
             self._api.CloseHandle(handle)
             self._read_handle = None
@@ -199,13 +221,23 @@ class WindowsJobProcess:
     def read_output(self, timeout=1):
         if not self._capture:
             raise RuntimeError("Native output capture is disabled")
+        self.finish_output(timeout)
+        return bytes(self._output)
+
+    def finish_output(self, timeout=1):
+        """Observe drained EOF, including consumer failure, outside the GUI thread."""
+        if not self._capture and self._on_output is None:
+            raise RuntimeError('Native output capture is disabled')
         if not math.isfinite(timeout) or timeout < 0:
             raise ValueError("Output wait must be finite and nonnegative")
         if not self._output_done.wait(timeout):
             raise TimeoutError("Native metadata output did not finish")
         if self._output_error:
             raise OSError(self._output_error)
-        return bytes(self._output)
+
+    @property
+    def output_finished(self):
+        return self._output_done.is_set()
 
     def _wait(self, milliseconds):
         if self._process is None:
@@ -222,6 +254,28 @@ class WindowsJobProcess:
     def poll(self):
         with self._lock:
             return self._wait(0)
+
+    def poll_tree(self):
+        """Return the main exit code only after every owned descendant exits."""
+        with self._lock:
+            if self._job is None:
+                raise RuntimeError('Process job handle is closed')
+            info = _Accounting()
+            _check(self._api.QueryInformationJobObject(self._job, 1, c.byref(info), c.sizeof(info), None))
+            return self._wait(0) if info.active_processes == 0 else None
+
+    def wait_tree(self, timeout=1):
+        if not math.isfinite(timeout) or not 0 <= timeout < 0xFFFFFFFE / 1000:
+            raise ValueError('Wait timeout must be finite and nonnegative')
+        deadline = time.monotonic() + timeout
+        while True:
+            code = self.poll_tree()
+            if code is not None:
+                return code
+            remaining = deadline - time.monotonic()
+            if remaining <= 0:
+                raise TimeoutError('Owned process tree has not exited')
+            time.sleep(min(.01, remaining))
 
     def wait(self, timeout=1):
         if not math.isfinite(timeout) or not 0 <= timeout < 0xFFFFFFFE / 1000:
@@ -257,7 +311,7 @@ class WindowsJobProcess:
             if owns_read_handle and self._read_handle is not None:
                 self._api.CloseHandle(self._read_handle)
                 self._read_handle = None
-        if self._reader is not None:
+        if self._reader is not None and self._reader is not threading.current_thread():
             self._reader.join(1)
 
     def __enter__(self):

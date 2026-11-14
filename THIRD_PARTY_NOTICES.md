@@ -1,7 +1,7 @@
 # Third-party notices
 
 Saydraft's own code is covered by [MIT](LICENSE). Dependencies and model weights
-keep their own licenses. This inventory was checked on 2026-11-12; release
+keep their own licenses. This inventory was last updated on 2026-11-14; release
 packaging must retain each distributed dependency's complete copyright and
 license files, including transitive dependencies and native libraries.
 

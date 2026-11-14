@@ -36,7 +36,7 @@ notes without replacing the active draft or copying automatically. The stored
 kind also reserves Command, Ask and meeting notes for dedicated producers.
 [Ask](ASK.md) now saves independent answer notes; the primary Scratchpad stays
 unchanged. Notetaker remains in development, with its
-[capture foundation](spikes/meeting-capture.md) implemented separately from the
+[isolated capture worker](spikes/meeting-capture.md) implemented separately from the
 remaining meeting workflow and acceptance.
 
 Copy uses Saydraft's existing Windows clipboard privacy handling. Text selection
