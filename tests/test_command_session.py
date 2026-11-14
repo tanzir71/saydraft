@@ -153,6 +153,24 @@ def test_close_during_stream_drops_complete_late_output(tmp_path):
     assert len(f.managers[0].model.calls) == 1 and f.managers[0].status['state'] == 'closed'
 
 
+@pytest.mark.parametrize('when', ['before', 'during'])
+def test_edit_cancellation_retires_temporary_owner_without_requiring_a_later_caller_close(tmp_path, when):
+    f = fixture(tmp_path)
+    session = f.cleaner.command_session(f.config, 'fixture')
+    assert session.prepare() == 'ready'
+    cancelled = [when == 'before']
+    f.managers[0].model.on_request = lambda: cancelled.__setitem__(0, True)
+    reply = session.edit_selection('I wanted to say the file arrived.', 'Make shorter.',
+                                   cancelled=lambda: cancelled[0])
+    assert reply.reason == 'cancelled' and reply.text is None
+    assert f.cleaner._command is None and f.managers[0].status['state'] == 'closed'
+    assert len(f.managers[0].model.calls) == (0 if when == 'before' else 1)
+    assert f.cleaner.warm()
+    session.close()
+    assert f.managers[-1].status['state'] == 'ready'
+    f.cleaner.close()
+
+
 def test_factory_exception_releases_reserved_task_without_enabling_cleanup(tmp_path):
     f = fixture(tmp_path, enabled=False)
     def broken(config):

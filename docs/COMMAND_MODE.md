@@ -37,6 +37,14 @@ constructs a fresh manager and prepares a fresh prefix. Repeated old-session
 closure cannot retire a successor. Synthetic tests cover both switch directions,
 pending process exit, concurrent closure and cancelled/late results.
 
+The clean native owner-switch probe at `be9cde4` completes original cleanup
+preparation, Command 4B editing and fresh cleanup preparation, with all six owned
+native process exits observed and four authored edit examples passing. It waits
+for owned Command exit before the final prefix check; ordinary app cleanup can
+use rules during asynchronous retirement/warmup. This proves neither product
+latency nor the held recording flow. Unchanged reports and both earlier failed
+diagnostics are in the [ownership record](../eval/commands/results/2026-11-14-model-ownership/README.md).
+
 The native owner-switch probe uses an explicit private cache and authored text:
 
 ```powershell

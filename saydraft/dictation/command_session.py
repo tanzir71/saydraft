@@ -70,6 +70,7 @@ class CommandModelSession:
         def retired():
             return cancelled() or not self._current()
         if retired():
+            self.close()
             return EditReply(None, "cancelled")
         try:
             manager = self._get_manager()
@@ -77,10 +78,16 @@ class CommandModelSession:
                 return EditReply(None, "cancelled")
             reply = EditClient(manager, clock=self._clock).edit(
                 selection, instruction, timeout=timeout, cancelled=retired)
-            return EditReply(None, "cancelled") if retired() else reply
+            if retired() or reply.reason == "cancelled":
+                self.close()
+                return EditReply(None, "cancelled")
+            return reply
         except Exception:
             logger.warning("Command edit unavailable; no replacement delivered")
-            return EditReply(None, "cancelled" if retired() else "unavailable")
+            if retired():
+                self.close()
+                return EditReply(None, "cancelled")
+            return EditReply(None, "unavailable")
 
     def close(self):
         self._closed.set()

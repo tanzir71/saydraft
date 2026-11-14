@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "source": "be9cde444dbf12708a6e820459185724a10c562b",
+  "product_source": "77c160af38ab0b23001712b0f53842b1fa780946",
+  "product_unchanged_since": "77c160a",
+  "scope": "native model-owner boundary, authored text only; no speech or desktop integration",
+  "native_process_exits": 6,
+  "native_edit_examples": 4,
+  "full_command_mode_accepted": false,
+  "files_sha256": {
+    "diagnostic-original-handle.json": "d09929e07e3370b462e69ea1c283772e1d3e8416f5d614e8aa421bf947b8c1d5",
+    "diagnostic-immediate-prefix.json": "2c5caa22adce8eb049083cabe3372eae3824ec3c8db1f26bb8e02d2f94db55d5",
+    "native-switch.json": "184d6cc42fe7e4b6438e64a43e824fd5be89a60ed0f4a0629ae067561df2e884"
+  },
+  "diagnostics": [
+    "R1 observer attempted polling a retired original wrapper handle; no edit inference. Observer now uses separately retained native handles.",
+    "R2 completed four edits and observed all four owned exits, but immediate post-close cleanup preparation returned false. R3 explicitly observes Command exit within a bounded five-second probe barrier before fresh preparation. No app wait or product timing acceptance is inferred."
+  ],
+  "verification": {
+    "focused_tests": 225,
+    "probe_observer_tests": 5,
+    "ci_pending": 43541433255,
+    "package_pending": 43541252024
+  }
+}
