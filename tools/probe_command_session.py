@@ -138,6 +138,16 @@ def main(argv=None):
         session.close()
         report['command_closed'] = command_manager.status['state'] == 'closed'
         report['cleanup_lazy_after_command'] = cleaner._client is cleaner._preparation is None
+        # close() deliberately does not wait on the GUI. An immediate normal
+        # preparation may use rules while the shared slot is still retiring.
+        # This explicit probe observes owned exits before testing fresh-prefix
+        # preparation; this wait is not a product timing or readiness claim.
+        deadline = time.monotonic() + 5
+        while not prior_exits_observed(meter) and time.monotonic() < deadline:
+            time.sleep(.01)
+        report['command_exit_barrier'] = prior_exits_observed(meter)
+        if not report['command_exit_barrier']:
+            raise RuntimeError('Command exit was not observed within the probe budget')
         if stage('prepare_fresh_cleanup', lambda: cleaner.prepare_for_review(context)) is not True:
             raise RuntimeError('Fresh cleanup prefix did not prepare')
         report['fresh_cleanup_owner'] = cleaner._manager is not original and cleaner._manager is not command_manager
@@ -161,7 +171,8 @@ def main(argv=None):
         report['passed'] = sum(row['reason'] == row['case_check'] == 'ok' for row in report['rows'])
         checks = ('old_cleanup_closed', 'old_preparation_closed', 'normal_warm_refused', 'normal_clean_refused',
                   'command_closed', 'cleanup_lazy_after_command', 'fresh_cleanup_owner', 'fresh_cleanup_prefix',
-                  'old_session_cannot_close_successor', 'overlap_refused', 'source_unchanged', 'pins_unchanged')
+                  'old_session_cannot_close_successor', 'overlap_refused', 'source_unchanged', 'pins_unchanged',
+                  'command_exit_barrier')
         report['complete'] = (not report.get('error_type') and all(report.get(key) for key in checks)
             and len(report['rows']) == report['passed'] == 4 and len(processes) >= 3
             and all(report['native_exit_observed']) and len(report['native_exit_observed']) == len(processes))
