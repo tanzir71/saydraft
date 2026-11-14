@@ -1,0 +1,43 @@
+"""Exercise real Astro builds with rejected and accepted public ownership-token formats, then restore defaults."""
+import hashlib
+import json
+import os
+from pathlib import Path
+import subprocess
+
+qa = Path(__file__).resolve().parent
+site = qa / 'worktrees/site-seo-20261115/site'
+run = qa / 'site-seo-20261115-r1'
+environment = os.environ.copy()
+environment.update(TEMP=str(run), TMP=str(run), ASTRO_TELEMETRY_DISABLED='1')
+environment.pop('GOOGLE_SITE_VERIFICATION', None)
+environment.pop('BING_SITE_VERIFICATION', None)
+
+def build(name, extra):
+    with (run / name).open('wb') as log:
+        return subprocess.run(['npm.cmd', 'run', 'build'], cwd=site, env={**environment, **extra}, stdout=log, stderr=subprocess.STDOUT).returncode
+
+negative = build('verification-invalid-build.txt', {'GOOGLE_SITE_VERIFICATION': '<meta content="not-a-token">'})
+assert negative != 0
+assert 'Invalid google site verification token' in (run / 'verification-invalid-build.txt').read_text(encoding='utf-8')
+google = 'test_public-token_123'
+bing = '0123456789ABCDEF0123456789ABCDEF'
+assert build('verification-valid-build.txt', {'GOOGLE_SITE_VERIFICATION': google, 'BING_SITE_VERIFICATION': bing}) == 0
+records = {}
+for path in sorted((site / 'dist').rglob('*.html')):
+    data = path.read_bytes()
+    text = data.decode('utf-8')
+    assert text.count(f'name="google-site-verification" content="{google}"') == 1
+    assert text.count(f'name="msvalidate.01" content="{bing}"') == 1
+    records[path.relative_to(site / 'dist').as_posix()] = hashlib.sha256(data).hexdigest()
+assert len(records) == 44
+receipt = {'invalid_build_exit': negative, 'valid_build_exit': 0, 'pages': records,
+           'synthetic_public_format_tokens_only': True, 'owner_account_verified': False}
+assert build('build-final.txt', {}) == 0
+for path in (site / 'dist').rglob('*.html'):
+    data = path.read_text(encoding='utf-8')
+    assert 'name="google-site-verification"' not in data and 'name="msvalidate.01"' not in data
+receipt['final_default_build_exit'] = 0
+receipt['tokens_absent_from_final_output'] = True
+(run / 'verification-env-receipt.json').write_text(json.dumps(receipt, indent=2) + '\n')
+print(json.dumps({'invalid_build_exit': negative, 'accepted_token_pages': len(records), 'final_default_build_exit': 0, 'owner_account_verified': False}))

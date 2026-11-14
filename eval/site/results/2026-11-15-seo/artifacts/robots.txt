@@ -1,0 +1,5 @@
+# Crawlers use the host-root /robots.txt. A project-path copy is informational.
+User-agent: *
+Allow: /saydraft/
+
+Sitemap: https://tanzir71.github.io/saydraft/sitemap-index.xml

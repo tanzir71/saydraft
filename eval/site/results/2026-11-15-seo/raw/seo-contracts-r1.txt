@@ -1,0 +1,22 @@
+✔ social image paths stay within the configured base and distinguish nested pages (1.2621ms)
+✔ verification tags accept real token formats and reject pasted HTML or malformed values (0.3186ms)
+✔ readable exports preserve code, table links and collapsed FAQ answers without script or navigation (7.611ms)
+✖ social cards render long page titles with local fonts, intact gutters and no text overlap (109.307ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 3
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 384.9947
+
+✖ failing tests:
+
+test at site\tools\seo.test.mjs:37:1
+✖ social cards render long page titles with local fonts, intact gutters and no text overlap (109.307ms)
+  Error: Social card text overlaps
+      at renderSocialCard (file:///D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-seo-20261115/site/tools/og.mjs:50:152)
+      at async TestContext.<anonymous> (file:///D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-seo-20261115/site/tools/seo.test.mjs:38:27)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)

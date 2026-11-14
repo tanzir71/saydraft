@@ -1,0 +1,17 @@
+{
+  "ci.yml": {
+    "workflow_dispatch": ""
+  },
+  "package.yml": {
+    "workflow_dispatch": ""
+  },
+  "pages.yml": {
+    "workflow_dispatch": ""
+  },
+  "release.yml": {
+    "workflow_dispatch": ""
+  },
+  "site.yml": {
+    "workflow_dispatch": ""
+  }
+}

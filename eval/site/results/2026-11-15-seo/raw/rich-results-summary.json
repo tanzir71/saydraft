@@ -1,0 +1,29 @@
+[
+  {
+    "page": "home",
+    "input_file": "index.html",
+    "input_sha256": "4349663086464e9ec2bd659b4e3b8128ec9ae275e4f42f36f30aad0eddb81f09",
+    "result_url": "https://search.google.com/test/rich-results?hl=en",
+    "terminal_message": "r Google-supported structured data\nREAD THE DOCS\n\ue5c8\nSomething went wrong\nLog in and try again\nDismiss",
+    "external_pass_verified": false,
+    "input_still_matches_final_output": true
+  },
+  {
+    "page": "download",
+    "input_file": "download/index.html",
+    "input_sha256": "2f2770dcc65d219b7fa3792d1586f4971c716974382e006c3e6df97194d11a77",
+    "result_url": "https://search.google.com/test/rich-results?hl=en",
+    "terminal_message": "r Google-supported structured data\nREAD THE DOCS\n\ue5c8\nSomething went wrong\nLog in and try again\nDismiss",
+    "external_pass_verified": false,
+    "input_still_matches_final_output": true
+  },
+  {
+    "page": "offline",
+    "input_file": "offline-dictation-windows/index.html",
+    "input_sha256": "3f9d9adac9b14f6d80c7cbfabe7fd042cdc98b9a4ca0245157bc9e4f0d80799d",
+    "result_url": "https://search.google.com/test/rich-results?hl=en",
+    "terminal_message": "r Google-supported structured data\nREAD THE DOCS\n\ue5c8\nSomething went wrong\nLog in and try again\nDismiss",
+    "external_pass_verified": false,
+    "input_still_matches_final_output": true
+  }
+]

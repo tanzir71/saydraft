@@ -1,0 +1,56 @@
+
+> saydraft-site@0.1.0 build
+> npm run tokens:check && npm run content:check && astro check && astro build
+
+
+> saydraft-site@0.1.0 tokens:check
+> node ../tools/generate_tokens.mjs --check
+
+12 shared token outputs verified.
+
+> saydraft-site@0.1.0 content:check
+> node tools/check-content-dates.mjs
+
+Verified dates are current for 22 content pages.
+05:10:07 [content] Syncing content
+05:10:07 [content] Synced content
+05:10:07 [types] Generated 527ms
+05:10:07 [check] Getting diagnostics for Astro files in D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-seo-20261115\site...
+Result (91 files): 
+- 0 errors
+- 0 warnings
+- 0 hints
+
+05:10:15 [content] Syncing content
+05:10:15 [content] Synced content
+05:10:15 [types] Generated 925ms
+05:10:15 [build] output: "static"
+05:10:15 [build] mode: "static"
+05:10:15 [build] directory: D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-seo-20261115\site\dist\
+05:10:15 [build] Collecting build info...
+05:10:15 [build] ✓ Completed in 974ms.
+05:10:15 [build] Building static entrypoints...
+05:10:16 [vite] ✓ built in 629ms
+05:10:16 [vite] ✓ built in 118ms
+05:10:16 [build] Rearranging server assets...
+
+ generating static routes 
+05:10:16   ├─ /404.html05:10:16 [ERROR] Error: Invalid google site verification token
+    at verificationToken (file:///D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-seo-20261115/site/dist/.prerender/chunks/Base_CFQ839Q1.mjs:320:124)
+    at file:///D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-seo-20261115/site/dist/.prerender/chunks/Base_CFQ839Q1.mjs:330:17
+    at AstroComponentInstance.Base [as factory] (file:///D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-seo-20261115/site/dist/.prerender/chunks/Base_CFQ839Q1.mjs:17:10)
+    at AstroComponentInstance.init (file:///D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-seo-20261115/site/dist/.prerender/chunks/jsx-runtime_BhnMXxuD.mjs:1412:27)
+    at renderStreaming (file:///D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-seo-20261115/site/dist/.prerender/chunks/jsx-runtime_BhnMXxuD.mjs:1648:29)
+    at renderStreamToString (file:///D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-seo-20261115/site/dist/.prerender/chunks/jsx-runtime_BhnMXxuD.mjs:1702:8)
+    at async renderToString (file:///D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-seo-20261115/site/dist/.prerender/chunks/jsx-runtime_BhnMXxuD.mjs:1862:9)
+    at async renderPage (file:///D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-seo-20261115/site/dist/.prerender/chunks/jsx-runtime_BhnMXxuD.mjs:2364:10)
+    at async handlePages (file:///D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-seo-20261115/site/dist/.prerender/prerender-entry.CQu_oVz-.mjs:3319:16)
+    at async callMiddleware (file:///D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-seo-20261115/site/dist/.prerender/prerender-entry.CQu_oVz-.mjs:4198:9)
+05:10:16 [ERROR] [build] Caught error rendering /404: Error: Invalid google site verification token
+Invalid google site verification token
+  Stack trace:
+    at verificationToken (file:///D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-seo-20261115/site/dist/.prerender/chunks/Base_CFQ839Q1.mjs:320:124)
+    at AstroComponentInstance.Base [as factory] (file:///D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-seo-20261115/site/dist/.prerender/chunks/Base_CFQ839Q1.mjs:17:10)
+    at renderStreaming (file:///D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-seo-20261115/site/dist/.prerender/chunks/jsx-runtime_BhnMXxuD.mjs:1648:29)
+    at async renderToString (file:///D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-seo-20261115/site/dist/.prerender/chunks/jsx-runtime_BhnMXxuD.mjs:1862:9)
+    at async handlePages (file:///D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-seo-20261115/site/dist/.prerender/prerender-entry.CQu_oVz-.mjs:3319:16)

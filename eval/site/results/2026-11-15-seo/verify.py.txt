@@ -1,0 +1,115 @@
+"""Verify local SEO implementation evidence without conflating it with external acceptance."""
+import argparse
+from collections import Counter
+import hashlib
+import json
+from pathlib import Path, PurePosixPath
+import struct
+import subprocess
+import xml.etree.ElementTree as ET
+
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--repo', type=Path, required=True)
+parser.add_argument('--site-root', type=Path)
+args = parser.parse_args()
+repo = args.repo.resolve()
+root = Path(__file__).resolve().parent
+read = lambda name: json.loads((root / name).read_bytes())
+sha = lambda data: hashlib.sha256(data).hexdigest()
+receipt = read('receipt.json'); records = read('files.json')
+for name, digest in records.items():
+    relative = PurePosixPath(name); path = (root / relative).resolve()
+    assert not relative.is_absolute() and '..' not in relative.parts and path.is_relative_to(root)
+    assert sha(path.read_bytes()) == digest, name
+source = receipt['source']; witness = read('source-witness.json')
+assert source == witness['source']
+queries = ''.join(f'{source}:{name}\n' for name in witness['files']).encode()
+objects = subprocess.check_output(['git', 'cat-file', '--batch'], cwd=repo, input=queries)
+offset = 0
+for name, row in witness['files'].items():
+    end = objects.index(b'\n', offset); header = objects[offset:end].split()
+    assert header[1] == b'blob', name
+    size = int(header[2]); data = objects[end+1:end+1+size]; offset = end+2+size
+    normalize = lambda data: data if row['binary'] else data.replace(b'\r\n', b'\n')
+    assert sha(normalize(data)) == row['sha256'] and sha(normalize((repo / name).read_bytes())) == row['sha256'], name
+    if row['site_input']: assert row['modified_before_site_run']
+    if row['component_input']: assert row['modified_before_component_run']
+for name, count in [('site-tests-r1', 54), ('components-r1', 234)]:
+    data = read('raw/' + name + '.json')
+    assert data['stats']['expected'] == count and len(data['config']['projects']) == 3
+    assert not any(data['stats'][key] for key in ['unexpected', 'skipped', 'flaky'])
+assert len([name for name in witness['files'] if name.startswith('site/component-tests/') and name.endswith('.png')]) == 213
+assert len([row for row in read('storybook-index.json')['entries'].values() if row['type'] == 'story']) == 71
+build = (root / 'raw/build-final.txt').read_text(encoding='utf-8')
+assert all(text in build for text in ['44 page(s) built', 'Result (91 files)', '0 errors', '0 warnings', '0 hints'])
+assert 'Storybook build completed successfully' in (root / 'raw/storybook-r1.txt').read_text(encoding='utf-8')
+contracts = (root / 'raw/contracts-r1.txt').read_text(encoding='utf-8')
+assert all(text in contracts for text in ['tests 14', 'pass 14', 'fail 0'])
+env = read('raw/verification-env-receipt.json')
+assert env['invalid_build_exit'] != 0 and env['valid_build_exit'] == env['final_default_build_exit'] == 0
+assert len(env['pages']) == 44 and env['synthetic_public_format_tokens_only'] and env['tokens_absent_from_final_output']
+assert not env['owner_account_verified']
+assert 'Invalid google site verification token' in (root / 'raw/verification-invalid-build.txt').read_text(encoding='utf-8')
+outputs = read('outputs.json')
+assert outputs['site'] == read('raw/lighthouse-dist-files.json') and len(outputs['site']) == 164
+manifest = read('artifacts/seo-manifest.json')
+assert len(manifest['pages']) == 44
+indexable = [row for row in manifest['pages'] if not row['noindex']]
+assert len(indexable) == 43 and len({row['canonical'] for row in indexable}) == 43
+for row in manifest['pages']:
+    data = (root / 'artifacts' / row['image']).read_bytes()
+    assert sha(data) == row['imageSha256'] == outputs['site'][row['image']]
+    assert data[:8] == b'\x89PNG\r\n\x1a\n' and struct.unpack('>II', data[16:24]) == (1200, 630)
+    assert len(row['layout']) == 4
+    for box in row['layout']:
+        assert box['left'] >= 28 and box['top'] >= 28 and box['left']+box['width'] <= 1172 and box['top']+box['height'] <= 602
+    if row['markdown']:
+        text = (root / 'artifacts' / row['markdown']).read_text(encoding='utf-8')
+        assert f"Canonical: {row['canonical']}\n" in text
+social = (root / 'artifacts' / manifest['githubSocial']['image']).read_bytes()
+assert sha(social) == manifest['githubSocial']['sha256'] and struct.unpack('>II', social[16:24]) == (1280, 640)
+assert len(list((root / 'artifacts/og').glob('*.png'))) == 45
+assert len(list((root / 'artifacts/content').glob('*.md'))) == 43
+locations = lambda name: [node.text for node in ET.fromstring((root / 'artifacts' / name).read_bytes()).iter() if node.tag.endswith('}loc')]
+expected = sorted(row['canonical'] for row in indexable)
+assert sorted(locations('sitemap.xml')) == sorted(locations('sitemap-0.xml')) == expected
+assert locations('sitemap-index.xml') == ['https://tanzir71.github.io/saydraft/sitemap-0.xml']
+payload = read('artifacts/indexnow.json')
+assert sorted(payload['urlList']) == expected and payload['host'] == 'tanzir71.github.io'
+assert payload['keyLocation'] == f"https://tanzir71.github.io/saydraft/{payload['key']}.txt"
+assert (repo / 'site/public' / (payload['key']+'.txt')).read_text().strip() == payload['key']
+rrt = read('raw/rich-results-summary.json')
+assert len(rrt) == 3
+for row in rrt:
+    assert not row['external_pass_verified'] and row['input_still_matches_final_output']
+    assert 'Log in and try again' in row['terminal_message']
+    assert sha((root / f"artifacts/rich-results-input-{row['page']}.html").read_bytes()) == row['input_sha256'] == outputs['site'][row['input_file']]
+urls = Counter()
+for row in read('lighthouse-summary.json')['runs']:
+    data = (root / 'lighthouse' / row['file']).read_bytes(); report = json.loads(data)
+    assert sha(data) == row['sha256'] and not report.get('runtimeError') and report['finalUrl'] == row['url']
+    assert report['categories']['performance']['score'] >= .95
+    assert report['categories']['accessibility']['score'] == report['categories']['seo']['score'] == 1
+    assert report['audits']['largest-contentful-paint']['numericValue'] <= 2000 and report['audits']['cumulative-layout-shift']['numericValue'] < .05
+    urls[row['url']] += 1
+assert len(urls) == 7 and set(urls.values()) == {3}
+triggers = read('raw/workflow-trigger-receipt.json')
+assert len(triggers) == 5 and all(list(value) == ['workflow_dispatch'] for value in triggers.values())
+assert not subprocess.check_output(['git', 'diff', '--name-only', receipt['base'], source, '--',
+    'saydraft', 'assets', 'requirements.txt', 'Saydraft.spec', 'installer', 'tools/build.ps1', 'tools/package_audit.py', 'THIRD_PARTY_NOTICES.md'], cwd=repo)
+assert receipt['implementation_locally_qualified'] and not receipt['p9_5_accepted'] and not receipt['full_goal_complete']
+for key in ['rich_results_external_pass', 'owner_webmaster_accounts_verified', 'effective_host_root_robots_verified',
+    'hosting_deployed', 'actions_dispatched', 'pull_requests_created', 'release_changed', 'app_runtime_changed',
+    'owner_desktop_audio_input_used', 'owner_clipboard_used', 'owner_accuracy_accepted']:
+    assert receipt[key] is False, key
+assert receipt['indexnow_submissions_sent'] == 0 and receipt['reserved_bn_ta_te_recordings_uninferred'] == 60
+assert all(value == 0 for value in receipt['observed_terminal_exits'].values())
+if args.site_root:
+    for label, name in [('site', 'dist'), ('storybook', 'storybook-static')]:
+        folder = args.site_root / name
+        actual = {path.relative_to(folder).as_posix(): sha(path.read_bytes()) for path in folder.rglob('*') if path.is_file()}
+        assert actual == outputs[label], label
+print(json.dumps({'verified': True, 'source': source, 'records': len(records), 'source_files': len(witness['files']),
+    'site_checks': 54, 'component_checks': 234, 'node_contracts': 14, 'indexable_pages': 43, 'html_pages': 44,
+    'social_images': 45, 'readable_pages': 43, 'lighthouse_runs': 21, 'actual_outputs_verified': bool(args.site_root),
+    'p9_5_accepted': False, 'rich_results_external_pass': False, 'full_goal_complete': False}))

@@ -1,0 +1,41 @@
+import { createRequire } from 'node:module';
+import { createHash } from 'node:crypto';
+import { readFile, writeFile } from 'node:fs/promises';
+const require = createRequire('D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-seo-20261115/site/package.json');
+const { chromium } = require('@playwright/test');
+const root = 'D:/Saydraft-Codex-QA-20261112-01a1cbc7/site-seo-20261115-r1';
+const dist = 'D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-seo-20261115/site/dist';
+const browser = await chromium.launch({ headless: true });
+const records = [];
+try {
+  const context = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
+  for (const [name, file] of [['home', 'index.html'], ['download', 'download/index.html'], ['offline', 'offline-dictation-windows/index.html']]) {
+    const html = await readFile(`${dist}/${file}`, 'utf8');
+    await writeFile(`${root}/rich-results-input-${name}.html`, html);
+    const page = await context.newPage();
+    await page.goto('https://search.google.com/test/rich-results?hl=en', { waitUntil: 'domcontentloaded', timeout: 30000 });
+    await page.getByRole('tab', { name: /code/i }).click();
+    const editor = page.locator('textarea:visible');
+    await editor.fill(html);
+    const submit = page.getByRole('button', { name: /^test code$/i });
+    await submit.click();
+    const terminal = /(?:valid|invalid) items? detected|No items detected|could not be tested|couldn't be tested|Something went wrong|error occurred|not a robot|unusual traffic/i;
+    for (let poll = 0; ; poll++) {
+      const body = await page.locator('body').innerText();
+      if (terminal.test(body)) break;
+      await writeFile(`${root}/rich-results-${name}-progress.txt`, body);
+      console.log(JSON.stringify({ name, poll, url: page.url(), state: body.slice(0, 250) }));
+      await page.waitForFunction((pattern) => new RegExp(pattern, 'i').test(document.body.innerText), terminal.source, { timeout: 30000 }).catch(() => {});
+    }
+    const body = await page.locator('body').innerText();
+    await writeFile(`${root}/rich-results-${name}.txt`, body);
+    await writeFile(`${root}/rich-results-${name}.html`, await page.content());
+    await page.screenshot({ path: `${root}/rich-results-${name}.png`, fullPage: true });
+    const record = { name, file, inputSha256: createHash('sha256').update(html).digest('hex'), resultUrl: page.url(), body, checked: new Date().toISOString() };
+    records.push(record);
+    await writeFile(`${root}/rich-results-receipt.json`, JSON.stringify(records, null, 2) + '\n');
+    console.log(JSON.stringify(record));
+    await page.close();
+    if (/not a robot|unusual traffic/i.test(body)) break;
+  }
+} finally { await browser.close(); }

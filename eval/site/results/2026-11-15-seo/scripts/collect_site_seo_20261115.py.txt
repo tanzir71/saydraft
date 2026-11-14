@@ -1,0 +1,139 @@
+"""Retain local technical SEO implementation evidence, including unverified external gates."""
+from collections import Counter
+from datetime import datetime
+import hashlib
+import json
+from pathlib import Path
+import shutil
+import subprocess
+
+qa = Path(__file__).resolve().parent
+repo = qa / 'worktrees/site-seo-20261115'
+site = repo / 'site'
+run = qa / 'site-seo-20261115-r1'
+target = repo / 'eval/site/results/2026-11-15-seo'
+load = lambda path: json.loads(path.read_bytes())
+sha = lambda data: hashlib.sha256(data).hexdigest()
+assert not subprocess.check_output(['git', 'status', '--porcelain'], cwd=repo)
+source = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=repo, text=True).strip()
+target.mkdir(parents=True, exist_ok=False)
+for name in ['raw', 'lighthouse', 'artifacts', 'screenshots', 'scripts']: (target / name).mkdir()
+for path in run.iterdir():
+    if path.is_file() and path.suffix in ['.json', '.txt'] and not path.name.startswith('rich-results-'):
+        shutil.copyfile(path, target / 'raw' / path.name)
+for name in ['rich-results-summary.json', 'rich-results-tool-inventory.json', 'rich-results-code-inventory.json']:
+    shutil.copyfile(run / name, target / 'raw' / name)
+for path in (site / '.lighthouseci').glob('*.json'): shutil.copyfile(path, target / 'lighthouse' / path.name)
+for name in ['og-contact-sheet', 'og-before-box-sizing', 'og-padding-r2', 'rich-results-home', 'rich-results-download', 'rich-results-offline']:
+    shutil.copyfile(run / f'{name}.png', target / f'screenshots/{name}.png')
+for project in ['mobile', 'tablet', 'desktop']:
+    path = next((site / 'test-results').glob(f'seo-custom-404-*-{project}/404.png'))
+    shutil.copyfile(path, target / f'screenshots/404-{project}.png')
+for folder in ['og', 'content']: shutil.copytree(site / 'dist' / folder, target / 'artifacts' / folder)
+for name in ['seo-manifest.json', 'sitemap-index.xml', 'sitemap-0.xml', 'sitemap.xml', 'robots.txt', 'llms.txt', 'llms-full.txt', 'indexnow.json']:
+    shutil.copyfile(site / 'dist' / name, target / 'artifacts' / name)
+for name in ['home', 'download', 'offline']:
+    shutil.copyfile(run / f'rich-results-input-{name}.html', target / f'artifacts/rich-results-input-{name}.html')
+shutil.copyfile(site / 'storybook-static/index.json', target / 'storybook-index.json')
+reports = {name: load(run / file) for name, file in [('site', 'site-tests-r1.json'), ('components', 'components-r1.json')]}
+for name, count in [('site', 54), ('components', 234)]:
+    assert reports[name]['stats']['expected'] == count
+    assert not any(reports[name]['stats'][key] for key in ['unexpected', 'skipped', 'flaky'])
+starts = {name: datetime.fromisoformat(report['stats']['startTime'].replace('Z', '+00:00')).timestamp() for name, report in reports.items()}
+paths = subprocess.check_output(['git', 'ls-files', '-z', '--', 'site', 'design/tokens.json', 'tools/generate_tokens.mjs',
+    'saydraft/__init__.py', 'THIRD_PARTY_NOTICES.md', '.github/workflows/pages.yml', 'readme.md'], cwd=repo).decode().split('\0')
+witness = {}
+for name in filter(None, paths):
+    path = repo / name
+    binary = path.suffix.lower() in ['.png', '.woff', '.woff2', '.jpg', '.ico', '.gz']
+    data = path.read_bytes()
+    input_scope = name.startswith('site/') or name in ['design/tokens.json', 'tools/generate_tokens.mjs', 'saydraft/__init__.py']
+    if input_scope: assert path.stat().st_mtime < starts['site'], name
+    component_scope = name.startswith(('site/src/components/', 'site/src/styles/', 'site/component-tests/', 'site/.storybook/')) or name in ['site/package.json', 'site/package-lock.json', 'site/test-ports.ts', 'site/playwright.components.config.ts']
+    if component_scope: assert path.stat().st_mtime < starts['components'], name
+    witness[name] = {'binary': binary, 'sha256': sha(data if binary else data.replace(b'\r\n', b'\n')),
+        'site_input': input_scope, 'modified_before_site_run': True if input_scope else None,
+        'component_input': component_scope, 'modified_before_component_run': True if component_scope else None}
+(target / 'source-witness.json').write_text(json.dumps({'source': source, 'test_starts': starts, 'files': witness}, indent=2) + '\n')
+outputs = {label: {path.relative_to(folder).as_posix(): sha(path.read_bytes()) for path in sorted(folder.rglob('*')) if path.is_file()}
+           for label, folder in [('site', site / 'dist'), ('storybook', site / 'storybook-static')]}
+assert outputs['site'] == load(run / 'lighthouse-dist-files.json')
+(target / 'outputs.json').write_text(json.dumps(outputs, indent=2) + '\n')
+runs = []
+for path in sorted((target / 'lighthouse').glob('lhr-*.json')):
+    report = load(path)
+    scores = {name: report['categories'][name]['score'] for name in ['performance', 'accessibility', 'seo']}
+    lcp = report['audits']['largest-contentful-paint']['numericValue']; cls = report['audits']['cumulative-layout-shift']['numericValue']
+    assert not report.get('runtimeError') and scores['performance'] >= .95 and scores['accessibility'] == scores['seo'] == 1 and lcp <= 2000 and cls < .05
+    runs.append({'file': path.name, 'sha256': sha(path.read_bytes()), 'url': report['finalUrl'], **scores, 'lcp_ms': lcp, 'cls': cls})
+urls = Counter(row['url'] for row in runs)
+assert len(urls) == 7 and set(urls.values()) == {3}
+(target / 'lighthouse-summary.json').write_text(json.dumps({'runs': runs}, indent=2) + '\n')
+receipt = {'source': source, 'base': '541c10381cb60bbebee9005119999119ad54448b', 'indexable_pages': 43, 'html_pages': 44,
+    'page_og_images': 44, 'github_social_images': 1, 'readable_pages': 43, 'site_checks': 54, 'component_checks': 234,
+    'node_contracts': 14, 'component_snapshots': 213, 'home_snapshots': 3, 'lighthouse_runs': 21,
+    'min_performance': min(row['performance'] for row in runs), 'min_accessibility': min(row['accessibility'] for row in runs),
+    'min_seo': min(row['seo'] for row in runs), 'max_lcp_ms': max(row['lcp_ms'] for row in runs), 'max_cls': max(row['cls'] for row in runs),
+    'observed_terminal_exits': {'site': 0, 'components': 0, 'contracts': 0, 'build': 0, 'storybook': 0, 'lighthouse': 0, 'verification_env_probe': 0},
+    'implementation_locally_qualified': True, 'p9_5_accepted': False, 'rich_results_external_pass': False,
+    'rich_results_code_attempts': 3, 'owner_webmaster_accounts_verified': False, 'effective_host_root_robots_verified': False,
+    'indexnow_submissions_sent': 0, 'hosting_deployed': False, 'actions_dispatched': False, 'pull_requests_created': False,
+    'release_changed': False, 'app_runtime_changed': False, 'owner_desktop_audio_input_used': False,
+    'owner_clipboard_used': False, 'owner_accuracy_accepted': False, 'reserved_bn_ta_te_recordings_uninferred': 60,
+    'portable_matches_latest_app': True, 'portable_source': '5848e53e2473154813da67bac55c022864cc8323', 'full_goal_complete': False}
+(target / 'receipt.json').write_text(json.dumps(receipt, indent=2) + '\n')
+for name in ['collect_site_seo_20261115.py', 'check_seo_verification_env_20261115.py', 'probe_public_releases_seo_20261115.mjs', 'check_rich_results_seo_20261115.mjs']:
+    shutil.copyfile(qa / name, target / 'scripts' / (name + '.txt'))
+shutil.copyfile(qa / 'verify_site_seo_20261115.py', target / 'verify.py.txt')
+(target / 'README.md').write_text(f'''# Local technical SEO implementation qualification
+
+Source `{source}` generates 43 indexable pages and a noindex custom404, 44 page
+PNGs plus the GitHub social PNG, exact sitemap index/child/compatible URL lists,
+43 clean Markdown pages, llms index/full, ownership-tag hooks and an unsubmitted
+IndexNow payload. The build validates the social text bounds and actual FAQ data.
+All45 social cards were reviewed together; representative full-size cards and
+the custom404 were inspected. Original clipped-gutter and layout-marker probe
+failures remain retained. Current source fixes them without loosening the guards.
+
+Final local results:54site/234component/14Node checks pass, with no flakes, skips
+or retries;91checkedfiles have0errors/warnings/hints. Build/Storybook pass, and
+all213component/threeHome baselines pass ordinary comparisons. A malformed-token
+build is refused; valid synthetic formats produce tags on all44pages; the final
+default build contains no ownership tokens. These tests do not verify accounts.
+All21Lighthouse runs across7URLs pass unchanged budgets: minperformance
+{receipt['min_performance']*100:g}, accessibility/SEO100, maxLCP{receipt['max_lcp_ms']:g}ms,
+CLS{receipt['max_cls']:g}. The164final site files exactly match the tested bytes.
+
+**P9.5 remains unchecked.** Three actual Google Rich Results code submissions
+return Something went wrong / Log in and try again. Their exact public HTML
+inputs, SHA witnesses, terminal summaries and screenshots are retained; raw
+service HTML/session material stays outside Git on D. Google also retired FAQ
+rich results on7May2026; SoftwareApplication rich results require a genuine
+review/rating. None is invented. A current binary URL is not substituted with
+the older unsigned public verification pre-release. Its unauthenticated API
+observation is retained, and stale availability text was corrected. No release
+state is changed. docs/SITE_SEO.md links to the current primary sources.
+
+Google/Bing account verification, host-root robots policy, live publication and
+the original external gate remain unproven. A project-path robots copy cannot
+establish host-root policy. IndexNow notifications require the deployed key;
+none were sent. All5workflows remain manual-only; the Pages diff only maps the
+two optional public ownership variables. No PR/Actions/hosting/release operation,
+owner devices/clipboard/input, app/runtime change or accuracy inference occurred.
+The preceding5848portable still matches desktop inputs. All60reservedBN/TA/TE
+recordings and the full original implementation goal remain untouched/open.
+
+Run the standard-library verifier on the recorded source, or on this evidence
+commit while the attested source files remain unchanged:
+
+```powershell
+python eval/site/results/2026-11-15-seo/verify.py.txt --repo .
+```
+
+Add `--site-root` with the actual D worktree/site path to verify every static and
+Storybook output, including all OG images. This verifier launches no browser,
+application or device service. Later source changes require their own evidence.
+''', encoding='utf-8')
+records = {path.relative_to(target).as_posix(): sha(path.read_bytes()) for path in sorted(target.rglob('*')) if path.is_file()}
+(target / 'files.json').write_text(json.dumps(records, indent=2) + '\n')
+print(json.dumps({'source': source, 'records': len(records), 'source_files': len(witness), **receipt}))

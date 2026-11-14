@@ -1,0 +1,3154 @@
+# Saydraft
+
+> Free, open-source offline dictation for Windows. Speech recognition and cleanup run locally with compatible models installed.
+
+Development preview available from source; no public signed installer is advertised. Model installation is an explicit reviewed action. Speech-language coverage is not a measured accuracy guarantee; the public baseline exposes substantial Bengali, Tamil and Telugu errors. Optional AI and experimental editing require their separate setup.
+
+# Saydraft Changelog and Release Status
+
+Canonical: https://tanzir71.github.io/saydraft/changelog/
+
+Read Saydraft's published release history and current build status. Release notes are fetched from GitHub during the website build.
+
+Facts checked: 2026-11-14
+
+This page shows the latest public GitHub Releases as checked during the website build. Preview releases are labelled. Draft builds stay private and are excluded from the list; source commits are not presented as published app releases.
+
+ 
+
+## Saydraft 0.1.0 (unsigned draft)
+
+2026-11-14 · Preview release
+
+Saydraft 0.1.0 — unsigned verification draft Source commit: `7a9486a2cf106e87386585eaf5dd7438e6048245`. Windows x64 per-user installer: 104.0 MB. The portable ZIP and SHA256SUMS are attached. The clean build passed frozen resource/notice verification and the disposable install/uninstall lifecycle. Default uninstall keeps user data; autostart is opt-in. Model weights are downloaded separately after setup shows their sizes and licenses. Bengali and Arabic share the optional All languages model. This draft is unsigned. Signing, corresponding-source delivery for publication, owner accuracy and physical Windows acceptance remain separate release checks.
+
+[Read the complete release notes on GitHub ↗](https://github.com/tanzir71/saydraft/releases/tag/v0.1.0-dry-run.20261114)
+
+ 
+
+## Running the development source
+
+ 
+
+The repository can move ahead of packaged releases. Review the [current setup status](https://tanzir71.github.io/saydraft/download/) and follow the [getting-started guide](https://tanzir71.github.io/saydraft/docs/getting-started/) when running from source. Signed-release, physical workflow and broad accuracy qualification remain separate from a successful automated build.
+
+## Sources and further reading
+
+- [Published Saydraft releases ↗](https://github.com/tanzir71/saydraft/releases)
+
+- [Source history ↗](https://github.com/tanzir71/saydraft/commits/main/)
+
+
+---
+
+# Saydraft Credits — Models, Libraries and Font Licenses
+
+Canonical: https://tanzir71.github.io/saydraft/credits/
+
+Credits for NVIDIA Parakeet, Whisper, Qwen, local runtimes, adapted dictionary data and the complete OFL notices for Saydraft's self-hosted fonts.
+
+Facts checked: 2026-11-14
+
+Saydraft’s application code is [MIT licensed](https://github.com/tanzir71/saydraft/blob/main/LICENSE). Models, fonts, adapted data and libraries retain their own terms. The complete [third-party notices](https://github.com/tanzir71/saydraft/blob/main/THIRD_PARTY_NOTICES.md) record versions, source links, transformations and full notices.
+
+ 
+
+## Speech and editing models
+
+ 
+
+- NVIDIA Parakeet TDT 0.6B v3 and v2: original weights by NVIDIA under [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/). The sherpa-onnx project exported ONNX and quantized the catalog versions to int8. Saydraft retains those converted files without further changes. Original cards: [v3](https://huggingface.co/nvidia/parakeet-tdt-0.6b-v3) and [v2](https://huggingface.co/nvidia/parakeet-tdt-0.6b-v2).
+ 
+- Whisper: original OpenAI models under MIT. SYSTRAN supplies the base/small/medium CTranslate2 conversions; Mobius Labs / Dropbox supplies the [large-v3-turbo conversion](https://huggingface.co/dropbox-dash/faster-whisper-large-v3-turbo). sherpa-onnx supplies the ONNX/int8 tiny language-detector conversion.
+ 
+- Qwen3.5: original weights by Qwen, with Bartowski GGUF quantizations, under Apache-2.0. Optional cleanup and experimental editing are separate tasks.
+ 
+- Nemotron streaming preview: NVIDIA’s optional English preview model uses the NVIDIA Open Model License. Its complete agreement and required attribution remain separate from MIT and are shown for its Labs setup.
+ 
+- GTCRN: Rong Xiaobin’s MIT model, converted to ONNX by sherpa-onnx, is an optional experimental quiet-speech dependency.
+ 
+- Silero VAD: the Silero Team’s MIT speech-detection model. Experimental meeting speakers use CNRS / pyannote segmentation under MIT and Alibaba / ModelScope 3D-Speaker ERes2Net-Base under Apache-2.0, with sherpa conversion attribution retained.
+
+ 
+
+See [model choices](https://tanzir71.github.io/saydraft/docs/models/) for roles and download sizes. Being present in the catalog does not enable a model or establish its accuracy. Developer evaluation candidates are not recommendations.
+
+ 
+
+## Local software foundations
+
+ 
+
+The app builds on Python, Qt / PySide6, NumPy, soundfile / libsndfile, PyAV / FFmpeg, sounddevice / PortAudio, SoundCard, CTranslate2, faster-whisper, sherpa-onnx, ONNX Runtime, WebRTC VAD, comtypes and Metaphone. Optional local cleanup uses llama.cpp / ggml and its separately retained runtime notices.
+
+ 
+
+These dependencies have individual terms, including LGPL, BSD, MIT and Apache licenses. The package’s collected component/version/source/hash inventory and complete notices accompany its actual frozen module graph. Refer to the full notices rather than treating this short credit list as a replacement.
+
+ 
+
+## Dictionary data and recordings
+
+ 
+
+Bundled common-word membership sets adapt wordfreq 3.1.1, copyright 2022 Robyn Speer, under [CC-BY-SA-4.0](https://creativecommons.org/licenses/by-sa/4.0/). Source credits include freely available SUBTLEX data by Marc Brysbaert et al., Google Books Ngrams, Leeds, Wikipedia, ParaCrawl and OpenSubtitles. The [dataset notice and changes](https://github.com/tanzir71/saydraft/blob/main/assets/dictionary/frequency/wordfreq-NOTICE.md) and [provenance manifest](https://github.com/tanzir71/saydraft/blob/main/assets/dictionary/frequency/manifest.json) retain the complete credits. These adapted data are separate from the app’s MIT code.
+
+ 
+
+Public evaluation recordings retain their own licenses and contributor credits in the repository’s fixture and evaluation records. This site uses a silent, canned visual example rather than recording your voice.
+
+ 
+
+## The type on this page
+
+ 
+
+Geist and Geist Mono are from the Geist Project Authors, Instrument Serif from its Project Authors, and the Bengali/Arabic fallbacks from the Noto Project Authors. All use SIL Open Font License 1.1. The site self-hosts pinned Fontsource WOFF/WOFF2 files and their unchanged complete notices:
+
+ 
+
+- [Geist — full original license](https://tanzir71.github.io/saydraft/licenses/geist-OFL.txt)
+ 
+- [Geist Mono — full original license](https://tanzir71.github.io/saydraft/licenses/geist-mono-OFL.txt)
+ 
+- [Instrument Serif — full original license](https://tanzir71.github.io/saydraft/licenses/instrument-serif-OFL.txt)
+ 
+- [Noto Sans Bengali — full original license](https://tanzir71.github.io/saydraft/licenses/noto-sans-bengali-OFL.txt)
+ 
+- [Noto Sans Arabic — full original license](https://tanzir71.github.io/saydraft/licenses/noto-sans-arabic-OFL.txt)
+
+ 
+
+## The website
+
+ 
+
+Created by [Tanzir Rahman](https://tanziro.com/). Built with Astro and React, with Storybook for component states. Its inline SVG and text illustrations are original. No competitor logos, stock photos or unverified endorsements are used. Creator and support links appear in the footer.
+
+## A few useful answers.
+
+### Does the app's MIT license cover every model?
+
+No. Saydraft's own code is MIT licensed. Models, libraries, fonts and adapted data retain their separate licenses and attribution requirements, shown in setup and the full third-party notices.
+
+### Does this website load fonts from a CDN?
+
+No. Its pinned Fontsource webfonts and complete original OFL notices are self-hosted. Ordinary credit links request no external assets unless you follow them.
+
+## Sources and further reading
+
+- [Complete third-party notices and provenance ↗](https://github.com/tanzir71/saydraft/blob/main/THIRD_PARTY_NOTICES.md)
+
+- [Pinned model catalog and original cards ↗](https://github.com/tanzir71/saydraft/blob/main/saydraft/models/manifest.json)
+
+- [Adapted frequency data notice ↗](https://github.com/tanzir71/saydraft/blob/main/assets/dictionary/frequency/wordfreq-NOTICE.md)
+
+
+---
+
+# Voice Coding and Dictation for Developers | Saydraft
+
+Canonical: https://tanzir71.github.io/saydraft/dictation-for-developers/
+
+Use local Windows dictation for coding prompts, notes and commit messages. Learn Saydraft's Code mode, dictionary, shortcuts and review limits.
+
+Facts checked: 2026-11-14
+
+Voice typing is useful for the prose around development: a prompt for a coding assistant, a bug report, a design note or a commit-message draft. Saydraft runs speech models locally on Windows and lets you review the resulting text.
+
+ 
+
+Use it in a supported editable field in VS Code, Cursor, a browser or another editor. There is no dedicated Cursor, Claude Code or Codex integration. Test the actual field and privilege level you use before relying on automatic delivery.
+
+ 
+
+## Choose processing that fits the text
+
+ 
+
+Use Code mode when prose rewriting could damage literal material. Raw mode is another option for retaining recognized wording. Neither mode turns the speech recognizer into a syntax-aware programming tool: identifiers, paths, symbols and shell commands still need review.
+
+ 
+
+For a natural-language issue or email, a Style can choose a different tone and cleanup intensity. Keep technical terms in the dictionary, and use snippets for known text you deliberately want to insert.
+
+ 
+
+## A practical first workflow
+
+ 
+
+- Complete [local model setup](https://tanzir71.github.io/saydraft/docs/getting-started/).
+ 
+- Start in a scratch document, then try your real editor’s input field.
+ 
+- Dictate a short plain-language prompt and check names, negation and numbers.
+ 
+- Copy the reviewed result when a field cannot support safe automatic insertion.
+
+ 
+
+Avoid treating spoken terminal text as permission to execute it. Review an instruction before pressing Enter yourself. Optional spoken-Enter behavior is separate and off by default.
+
+ 
+
+## Experimental editing tools
+
+ 
+
+Pro/Labs Command Mode can edit selected text with a separately installed local model. Ask can explain selected text in a separate answer note. These features have bounded selection and output checks, but those checks do not prove that every answer or edit preserves meaning.
+
+ 
+
+Saydraft is currently available from source. Physical and packaged workflow qualification, broad language accuracy and release latency remain in progress. The [offline guide](https://tanzir71.github.io/saydraft/offline-dictation-windows/) explains model and privacy trade-offs before you choose a daily workflow.
+
+## A few useful answers.
+
+### Can I use Saydraft with VS Code, Cursor or a coding assistant?
+
+Saydraft can deliver text to supported editable Windows fields. Try the exact editor or terminal field you use; it has no dedicated integration with those products, and field or privilege restrictions can require Copy recovery.
+
+### Will Code mode turn speech into correct program syntax?
+
+Code mode avoids ordinary prose cleanup. It is not a programming-language parser and cannot guarantee correct identifiers, punctuation, commands or generated code. Review the result before running it.
+
+## Sources and further reading
+
+- [Saydraft styles and Code mode ↗](https://github.com/tanzir71/saydraft/blob/main/docs/STYLES.md)
+
+- [Source setup and current qualification ↗](https://github.com/tanzir71/saydraft)
+
+- [Experimental Command Mode ↗](https://github.com/tanzir71/saydraft/blob/main/docs/COMMAND_MODE.md)
+
+
+---
+
+# Saydraft Command Mode — Edit Selected Text Locally
+
+Canonical: https://tanzir71.github.io/saydraft/docs/command-mode/
+
+Set up experimental Saydraft Command Mode, hold a shortcut to edit selected text, cancel with Escape and recover validated results with Copy.
+
+Facts checked: 2026-11-14
+
+Command Mode is experimental and off by default. Full physical shortcut and packaged interaction acceptance remain in progress.
+
+ 
+
+## Review the local editing setup
+
+ 
+
+Use the Pro hardware/performance profile. In Settings → Labs → Command and Translate, review the editing model/runtime, sizes, sources and licenses. Choose Download / Resume editing model, then enable Command Mode and Save.
+
+ 
+
+Downloading starts no recording and does not enable the feature. The editing model is separate from ordinary speech and cleanup settings. Standard shows Needs Pro tier before Command target/model/microphone work.
+
+ 
+
+## Select, hold and instruct
+
+ 
+
+- Select the complete text you want to edit.
+ 
+- Hold Ctrl + Win + Alt and wait for the Command label before speaking.
+ 
+- Say a short instruction such as “make this shorter”, “make this more formal” or “turn this into bullets”.
+ 
+- Release the shortcut to edit. Escape cancels.
+
+ 
+
+The model works locally on the reviewed selection and instruction. A validated complete result can replace the original selection after target checks. It can still be imperfect; review wording and meaning before using it elsewhere.
+
+ 
+
+## When the app cannot expose a selection
+
+ 
+
+Allow clipboard-copy fallback is a separate, default-off Labs setting. Enable and save it only if you want that route. Keep your text selected, record the instruction and release all shortcut modifiers. The fallback uses ordinary Ctrl+C in the original known-safe field and restores the current clipboard.
+
+ 
+
+Windows and target-app clipboard history or sync can retain that copy. Restoring the current clipboard cannot retract those entries. Read [the clipboard privacy boundary](https://tanzir71.github.io/saydraft/privacy/) before enabling fallback.
+
+ 
+
+## Copy and recovery
+
+ 
+
+When the original selection cannot be verified for replacement, a validated result is offered for Copy. A changed, unknown or password field can refuse the operation. History records the instruction and available result locally; an unsuccessful generation or validation can preserve the heard instruction for review. Command rows do not use ordinary dictation paste-last or audio retry.
+
+ 
+
+## Related local features
+
+ 
+
+Translate while speaking uses an independent Labs choice and Style output target. Ask about a selection produces a separate local answer rather than replacing source text. The shared editing download does not enable either feature. See [Style and spoken translation](https://tanzir71.github.io/saydraft/docs/styles/) and the [Ask implementation guide](https://github.com/tanzir71/saydraft/blob/main/docs/ASK.md).
+
+## A few useful answers.
+
+### Does downloading the editing model enable Command Mode?
+
+No. Downloading, enabling Command Mode and enabling its clipboard fallback are separate actions. Command is off by default and also requires the Pro profile.
+
+### Why did I get Copy instead of automatic replacement?
+
+The app offers a validated result for Copy when it cannot verify the original selection for replacement. Changed or protected targets can prevent delivery.
+
+## Sources and further reading
+
+- [Command setup, editing and current qualification ↗](https://github.com/tanzir71/saydraft/blob/main/docs/COMMAND_MODE.md)
+
+- [Separate clipboard-copy fallback and its boundaries ↗](https://github.com/tanzir71/saydraft/blob/main/docs/COMMAND_CLIPBOARD.md)
+
+
+---
+
+# Saydraft Dictionary — Names, Replacements and Learning
+
+Canonical: https://tanzir71.github.io/saydraft/docs/dictionary/
+
+Add names and protected terms to Saydraft, use explicit replacements, preview edits, and choose optional local correction suggestions and Undo.
+
+Facts checked: 2026-11-14
+
+## Add the spelling you want
+
+ 
+
+Open Hub → Dictionary to add people, places and specialist terms. Protected terms help retain exact wording through cleanup. Use an explicit replacement pair when a particular recognized phrase should become another phrase, rather than expecting a fuzzy match to infer your intention.
+
+ 
+
+Dictionary, replacement and protected-term edits are staged until Save. The [Style preview](https://tanzir71.github.io/saydraft/docs/styles/) includes those pending edits without writing them to disk. Fix an invalid draft before saving.
+
+ 
+
+## Understand spelling correction
+
+ 
+
+Normal resolved English dictation can use conservative phonetic and spelling evidence to correct close matches to dictionary names, without another ASR pass. Ambiguous targets, common words, numbers, code, identifiers and protected/literal text decline fuzzy changes. Explicit replacement pairs take priority.
+
+ 
+
+Raw, Verbatim-ish, Code, translation, unknown or other languages and mixed scripts do not receive these English phonetic guesses. Longer unsupported entries retain their exact protection rather than being silently shortened. History retains the original recognized text alongside the processed result.
+
+ 
+
+The public evaluation covers a limited English name set; it does not establish general or owner accuracy. See the linked investigation for its method and limits.
+
+ 
+
+## Choose correction suggestions
+
+ 
+
+Suggest words from corrections is experimental and off by default. When enabled, local observation of the original editable field can identify a narrow word correction after a dictation. The suggestion offers Add or Dismiss. It does not enable a cloud learning service.
+
+ 
+
+Auto-add to dictionary is a separate, default-off choice available with suggestions. It saves eligible additions automatically and offers Undo after a successful save. Keep Auto-add off if you prefer to approve suggestions yourself. Native/manual behavior is still being qualified.
+
+ 
+
+## Undo and conflicting edits
+
+ 
+
+Undo belongs to that saved addition. It preserves unrelated dictionary changes and can decline when a newer/manual change has claimed the same term. It does not undo the words you edited in another app.
+
+ 
+
+An edited stale dictionary draft is refused before shared settings are saved. Keep your draft, then use Reload Dictionary to review the latest saved version before trying again. Invalid data are not replaced with an empty dictionary.
+
+ 
+
+## Keep the privacy boundary clear
+
+ 
+
+Suggestions involve optional local field observation. Audio retention and Command Mode’s clipboard fallback are separate settings. Read [privacy](https://tanzir71.github.io/saydraft/privacy/) for those boundaries, and use [troubleshooting](https://tanzir71.github.io/saydraft/docs/troubleshooting/) if saving or recognition behaves unexpectedly.
+
+## A few useful answers.
+
+### Does the dictionary guarantee correct recognition?
+
+No. It can protect terms and support conservative spelling correction, but it does not retrain the speech model or establish accuracy for every word or language. Review the result.
+
+### Will learning add words without asking?
+
+Correction suggestions are off by default. Auto-add is a separate default-off choice; with it off, use Add or Dismiss for a suggestion. A successfully saved addition can offer Undo.
+
+## Sources and further reading
+
+- [Dictionary storage, suggestions and Undo ↗](https://github.com/tanzir71/saydraft/blob/main/docs/DICTIONARY_LEARNING.md)
+
+- [Qualified correction scope and measured limits ↗](https://github.com/tanzir71/saydraft/blob/main/docs/spikes/biasing.md)
+
+
+---
+
+# Saydraft FAQ — Offline Dictation Questions Answered
+
+Canonical: https://tanzir71.github.io/saydraft/docs/faq/
+
+Answers about offline Windows dictation, local models, Spanish and Asian languages, privacy, cleanup, History and Saydraft's experimental tools.
+
+Facts checked: 2026-11-14
+
+## Start with a setup that fits
+
+ 
+
+Use [Getting started](https://tanzir71.github.io/saydraft/docs/getting-started/) for the first run, then review [models](https://tanzir71.github.io/saydraft/docs/models/) and [language compatibility](https://tanzir71.github.io/saydraft/docs/languages/). Saydraft’s current app target is Windows 10 and 11, and it remains in development.
+
+ 
+
+## Find more detail
+
+ 
+
+For saved data, network exceptions and clipboard boundaries, read [Privacy](https://tanzir71.github.io/saydraft/privacy/). For input or delivery issues, use [Troubleshooting](https://tanzir71.github.io/saydraft/docs/troubleshooting/). The questions below summarize those guides; the linked source records contain the implementation and measured limits.
+
+## A few useful answers.
+
+### Is Saydraft free?
+
+Yes. Saydraft's own code is free and open source under MIT. Models, fonts, libraries and adapted data retain their separate licenses.
+
+### Do I need an account or subscription?
+
+No. The app uses local models without an account. Lite, Standard and Pro describe local hardware/performance profiles, not paid plans.
+
+### Can I dictate without internet?
+
+Yes, with compatible models installed first. Download setup is explicit and optional update checks are off by default. Missing model files are not fetched during recognition.
+
+### Are Spanish and Brazilian Portuguese included?
+
+Both are covered by Parakeet v3 and the shared All languages model. Portuguese uses pt, including Brazil; this is coverage rather than a claim of verified accuracy for every accent.
+
+### What about Arabic, Bengali, Chinese, Japanese, Korean and Thai?
+
+They use the optional shared All languages model. Filipino/Tagalog, Hindi, Indonesian, Malay, Persian, Tamil, Telugu, Urdu and Vietnamese also use that shared route. There are no per-language packs.
+
+### Will it get every word right?
+
+No. Accuracy varies by language, model, accent and recording conditions. The public baseline exposes substantial Bengali, Tamil and Telugu errors. Review names, numbers and technical terms before using a draft.
+
+### Do I need an AI cleanup model?
+
+No. Deterministic cleanup rules work without a text model. Optional local AI needs its own model/runtime and can retain the rules result when unready, out of budget or rejected.
+
+### Is Whisper mode a different speech model?
+
+No. The experimental Microphone setting boosts quiet speech with gain, AGC and optional local enhancement. It works before the selected recognizer; its whispered-speech accuracy target remains unmeasured.
+
+### Are recordings kept?
+
+Audio retention is off by default. History stores recognized and processed text locally; choosing to retain audio is separate. Practice in setup stays in memory and creates no History entry.
+
+### Does the website listen to me?
+
+No. Its examples are canned visual simulations with no microphone access, tracking analytics or third-party font requests.
+
+## Sources and further reading
+
+- [Current feature and release status ↗](https://github.com/tanzir71/saydraft/blob/main/readme.md)
+
+- [Speech language coverage and accuracy limits ↗](https://github.com/tanzir71/saydraft/blob/main/docs/LANGUAGES.md)
+
+- [Privacy and explicit network actions ↗](https://github.com/tanzir71/saydraft/blob/main/docs/PRIVACY.md)
+
+
+---
+
+# Getting Started with Saydraft — Offline Dictation Setup
+
+Canonical: https://tanzir71.github.io/saydraft/docs/getting-started/
+
+Set up local speech models, choose your microphone, try a first dictation and learn Saydraft's Windows shortcuts with a step-by-step walkthrough.
+
+Facts checked: 2026-11-14
+
+## Step 1. Get the app
+
+ 
+
+Use the current [source instructions](https://tanzir71.github.io/saydraft/download/) on Windows 10 or 11. A signed installer and package-manager release are still being prepared. First-run setup guides you through the choices below.
+
+ 
+
+## Step 2. Choose your microphone
+
+ 
+
+On Microphone, keep Default Windows input or choose Refresh inputs to find a named device. Test input runs a ten-second, level-only check without transcription or saved audio. Check microphone privacy reads Windows permission status without opening an input. If access is blocked or unknown, follow the microphone-privacy link to review desktop-app access in Windows settings.
+
+ 
+
+## Step 3. Review and install local models
+
+ 
+
+Check this PC gives a provisional capability recommendation. Use speech recommendation selects the suggested speech model; it does not benchmark it, enable AI cleanup or download anything.
+
+ 
+
+Review the download size and licenses, then choose Download / Resume. Progress shows transfers and checksum verification; Pause is available. Installed packages are checked in the background and reused on later launches.
+
+ 
+
+After installation, Check model performance measures the selected speech model with bundled audio, without a microphone or download. Preparation is separate from three timed samples. Stop check waits for native work to finish. Unavailable AI cleanup speed stays unmeasured, and a fast sample is not an everyday latency guarantee. See [model choices](https://tanzir71.github.io/saydraft/docs/models/).
+
+ 
+
+For Arabic, Bengali, Chinese, Hindi, Indonesian, Japanese, Korean, Malay, Thai or Urdu, add the optional shared All languages model. One download serves those languages; selecting a language starts no transfer. Portuguese, including Brazil, is also covered by the default model. See [language setup](https://tanzir71.github.io/saydraft/docs/languages/).
+
+ 
+
+Next requires the selected model to be ready. Catalog packages must pass their file checks. An existing local Whisper directory can instead pass an explicit offline performance check while its files remain unchanged. Finish checks the current model again before saving. Cancelling setup preserves saved preferences; downloaded files remain separate.
+
+ 
+
+## Step 4. Choose a shortcut and practice
+
+ 
+
+Existing custom bindings are preserved. A fresh profile uses Ctrl + Win to dictate, with F9 as the alternate and Ctrl + Win + Space for hands-free. Learn shortcut listens while setup stays focused, for up to ten seconds; Escape cancels. Manual entry and conflict checks are also available.
+
+ 
+
+Try it has chat and email fields inside setup. Preparing an installed model opens no microphone. Hold your shortcut or choose Record, then release or choose Stop and preview. Each practice recording is limited to one minute. Review raw words, cleaned text and edit chips. Practice audio stays in memory, creates no History entry and uses no external paste or clipboard. You can continue without recording.
+
+ 
+
+If a stop or Settings change ends practice, choose Prepare practice explicitly when ready. If setup cannot confirm a stop, cancel and restart Saydraft as prompted.
+
+ 
+
+## Step 5. Make it sound like you
+
+ 
+
+Style quick pick offers Casual or Formal for Messages and Email. Its rules preview uses your last practice transcript or a labelled example. Finish saves changed choices and opens Home after practice stops; existing cleanup intensity and AI settings stay unchanged.
+
+ 
+
+Later, use Hub → Style for app-group tones and intensity, Dictionary for names, and Snippets for frequently used text. AI cleanup is optional; rules work without a text model.
+
+ 
+
+## Step 6. Try it offline
+
+ 
+
+With compatible speech files installed, open an ordinary text editor and put the cursor in an editable field. Hold your shortcut, speak, then release. Disconnect Wi-Fi and try another sentence. Shift + Alt + Z pastes the last saved dictation. Review [offline verification](https://tanzir71.github.io/saydraft/docs/privacy/verify-offline/) for what the check proves and its boundaries.
+
+ 
+
+## If something feels wrong
+
+ 
+
+Check that the model is installed and the microphone meter responds. Start in a non-elevated text editor; password and protected fields are excluded. History keeps a saved transcript when an app cannot accept insertion. Continue with [troubleshooting](https://tanzir71.github.io/saydraft/docs/troubleshooting/) and keep private audio or text out of public issue reports.
+
+## A few useful answers.
+
+### Can I continue setup without recording?
+
+Yes. The practice recording is optional. Installed speech files must still be ready, and Finish rechecks the current model before saving.
+
+### Does the practice draft paste into another app?
+
+No. Practice uses chat and email fields inside setup, keeps its audio in memory and creates no History entry or external clipboard/paste action.
+
+## Sources and further reading
+
+- [First-run setup, readiness and practice behavior ↗](https://github.com/tanzir71/saydraft/blob/main/docs/ONBOARDING.md)
+
+- [Microphone selection and permission checks ↗](https://github.com/tanzir71/saydraft/blob/main/docs/MICROPHONE.md)
+
+
+---
+
+# Saydraft Documentation — Offline Voice Typing on Windows
+
+Canonical: https://tanzir71.github.io/saydraft/docs/
+
+Set up Saydraft, learn Windows dictation shortcuts, choose local speech models, adjust styles and dictionary, and verify offline behavior.
+
+Facts checked: 2026-11-14
+
+Saydraft turns speech into a local draft on Windows. Start with a compatible installed model, then choose the shortcuts and cleanup that fit your work. The app is in development; review its results before using them elsewhere.
+
+ 
+
+## Set up and start speaking
+
+ 
+
+- [Getting started](https://tanzir71.github.io/saydraft/docs/getting-started/) — microphone, model review, explicit downloads and an owned practice field.
+ 
+- [Shortcuts](https://tanzir71.github.io/saydraft/docs/shortcuts/) — hold to speak, hands-free, cancellation and paste-last.
+ 
+- [Local models](https://tanzir71.github.io/saydraft/docs/models/) — speech versus cleanup, sizes, licenses and offline reuse.
+ 
+- [Languages](https://tanzir71.github.io/saydraft/docs/languages/) — compatible shared models, language pins and the difference between coverage and accuracy.
+
+ 
+
+## Make it fit your writing
+
+ 
+
+- [Styles and cleanup](https://tanzir71.github.io/saydraft/docs/styles/) — tones per app group, intensity, rules and optional AI.
+ 
+- [Dictionary](https://tanzir71.github.io/saydraft/docs/dictionary/) — names, protected terms, replacements and optional correction suggestions.
+ 
+- [Command Mode](https://tanzir71.github.io/saydraft/docs/command-mode/) — experimental selected-text editing and Copy recovery.
+
+ 
+
+## Understand privacy and recover
+
+ 
+
+- [Privacy](https://tanzir71.github.io/saydraft/privacy/) — local History, recordings, explicit network actions and clipboard boundaries.
+ 
+- [Verify offline](https://tanzir71.github.io/saydraft/docs/privacy/verify-offline/) — practical checks and optional packaged Firewall controls.
+ 
+- [Troubleshooting](https://tanzir71.github.io/saydraft/docs/troubleshooting/) — input, model, recognition and delivery problems.
+ 
+- [FAQ](https://tanzir71.github.io/saydraft/docs/faq/) — common questions in one place.
+
+ 
+
+For releases, start with [Download and setup](https://tanzir71.github.io/saydraft/download/) and the [published-release changelog](https://tanzir71.github.io/saydraft/changelog/).
+
+## A few useful answers.
+
+### Where should I start?
+
+Follow Getting started to review the current source build, select an input, explicitly install compatible speech models and try a short practice draft.
+
+### Are the Pro features a paid plan?
+
+No. Saydraft is free and open source. Lite, Standard and Pro describe local hardware/performance profiles; experimental editing still needs its compatible local model.
+
+## Sources and further reading
+
+- [Application guides and current implementation status ↗](https://github.com/tanzir71/saydraft/blob/main/docs/README.md)
+
+
+---
+
+# Saydraft Languages — Offline Speech Models and Pins
+
+Canonical: https://tanzir71.github.io/saydraft/docs/languages/
+
+Choose Saydraft speech languages for Arabic, Bengali, Chinese, Hindi, Japanese, Korean, Thai, Spanish, Brazilian Portuguese and more, with shared models.
+
+Facts checked: 2026-11-14
+
+## Choose a model that covers your language
+
+ 
+
+Parakeet v3 covers 25 European languages. The optional shared All languages package uses Whisper turbo for additional supported speech languages. These choices describe recognition coverage, not translated app UI or a guarantee for every accent, dialect or mixed-language passage.
+
+ 
+
+The nineteen linked language guides are listed alphabetically by English display name. Settings includes the model’s other available language choices as well.
+
+ 
+
+| Language guide | Code | Compatible setup |
+| --- | --- | --- |
+| [Arabic](https://tanzir71.github.io/saydraft/languages/arabic/) | `ar` | All languages |
+| [Bengali](https://tanzir71.github.io/saydraft/languages/bengali/) | `bn` | All languages |
+| [Brazilian Portuguese](https://tanzir71.github.io/saydraft/languages/brazilian-portuguese/) | `pt` | Parakeet v3 or All languages |
+| [Chinese (Mandarin)](https://tanzir71.github.io/saydraft/languages/chinese/) | `zh` | All languages |
+| [Filipino / Tagalog](https://tanzir71.github.io/saydraft/languages/filipino-tagalog/) | `tl` | All languages |
+| [French](https://tanzir71.github.io/saydraft/languages/french/) | `fr` | Parakeet v3 or All languages |
+| [German](https://tanzir71.github.io/saydraft/languages/german/) | `de` | Parakeet v3 or All languages |
+| [Hindi](https://tanzir71.github.io/saydraft/languages/hindi/) | `hi` | All languages |
+| [Indonesian](https://tanzir71.github.io/saydraft/languages/indonesian/) | `id` | All languages |
+| [Japanese](https://tanzir71.github.io/saydraft/languages/japanese/) | `ja` | All languages |
+| [Korean](https://tanzir71.github.io/saydraft/languages/korean/) | `ko` | All languages |
+| [Malay](https://tanzir71.github.io/saydraft/languages/malay/) | `ms` | All languages |
+| [Persian (Farsi)](https://tanzir71.github.io/saydraft/languages/persian/) | `fa` | All languages |
+| [Spanish](https://tanzir71.github.io/saydraft/languages/spanish/) | `es` | Parakeet v3 or All languages |
+| [Tamil](https://tanzir71.github.io/saydraft/languages/tamil/) | `ta` | All languages |
+| [Telugu](https://tanzir71.github.io/saydraft/languages/telugu/) | `te` | All languages |
+| [Thai](https://tanzir71.github.io/saydraft/languages/thai/) | `th` | All languages |
+| [Urdu](https://tanzir71.github.io/saydraft/languages/urdu/) | `ur` | All languages |
+| [Vietnamese](https://tanzir71.github.io/saydraft/languages/vietnamese/) | `vi` | All languages |
+
+ 
+
+## Auto or one to three pins
+
+ 
+
+In Settings → Languages, use Auto or pin up to three languages. Enable automatic model choice to route those pins to a compatible installed model, or explicitly select a compatible model yourself. The controls do not start a download.
+
+ 
+
+A single Whisper pin supplies its decoder language; multiple pins leave language detection enabled. Parakeet does not accept that same explicit decoder hint. Automatic model routing and language detection can be imperfect, especially for short, quiet or mixed-language speech. Review your results and language choice.
+
+ 
+
+## One shared multilingual download
+
+ 
+
+Arabic, Bengali, Chinese, Filipino / Tagalog, Hindi, Indonesian, Japanese, Korean, Malay, Persian, Tamil, Telugu, Thai, Urdu and Vietnamese use the shared All languages route. French, German, Portuguese and Spanish are also in Parakeet v3’s coverage. Installing another language choice reuses the model’s weights; there are no per-language download buttons.
+
+ 
+
+See [model sizes and explicit setup](https://tanzir71.github.io/saydraft/docs/models/).
+
+ 
+
+## Portuguese and Chinese details
+
+ 
+
+Portuguese uses pt, including Brazil. The current automatic route is based on coverage, not a verified preference for every Brazilian accent. NVIDIA notes European Portuguese training in its original model card. Compare representative speech before choosing a model for your workflow.
+
+ 
+
+Mandarin Chinese uses zh. Cantonese, yue, is a separate menu choice using the multilingual weights. The app does not expose a Simplified/Traditional conversion setting or establish coverage of every Chinese dialect.
+
+ 
+
+## Coverage and measured accuracy
+
+ 
+
+The public 20-language evaluation reveals substantial errors in Bengali, Tamil and Telugu. Larger decoder candidates have not established a general improvement. Broad owner accuracy remains deferred. Review names, numbers and technical terms before sending a draft; text cleanup does not prove that recognition was correct.
+
+ 
+
+Dictation language, the Style preview language and experimental Translate output targets are separate choices. Current spoken Translate targets are English, Spanish and Arabic. See [styles and translation](https://tanzir71.github.io/saydraft/docs/styles/).
+
+## A few useful answers.
+
+### Does each language need a separate pack?
+
+No. Multiple language choices reuse the same installed model. The optional All languages package is shared; choosing or pinning another language never starts a download.
+
+### Is Brazilian Portuguese a separate model or decoder?
+
+No. Portuguese uses pt in Parakeet and Whisper, including Brazilian Portuguese. There is no Brazil-only pt-BR decoder here; br means Breton. Accent-specific accuracy still needs evaluation.
+
+## Sources and further reading
+
+- [App language codes, routing and limits ↗](https://github.com/tanzir71/saydraft/blob/main/docs/LANGUAGES.md)
+
+- [Measured multilingual accuracy scope ↗](https://github.com/tanzir71/saydraft/blob/main/docs/ASR_ACCURACY.md)
+
+
+---
+
+# Saydraft Local Models — Parakeet, Whisper and Cleanup
+
+Canonical: https://tanzir71.github.io/saydraft/docs/models/
+
+Compare Saydraft's local speech and cleanup models, pinned download sizes, licenses, explicit setup, cached reuse and optional quiet-speech enhancement.
+
+Facts checked: 2026-11-14
+
+## Speech and cleanup are separate stages
+
+ 
+
+The speech model turns audio into words. Deterministic rules can format those words; an optional text model can make further edits within its time and preservation checks. Choosing an AI cleanup model does not replace the speech model, and better prose does not prove better recognition.
+
+ 
+
+## Pick a compatible speech model
+
+ 
+
+Fresh profiles recommend Parakeet v3 int8, with its disclosed tiny Whisper language detector. It recognizes 25 European languages, including English, French, German, Spanish and Portuguese. English max uses Parakeet v2.
+
+ 
+
+All languages uses the shared Whisper large-v3-turbo model for the other supported language choices. Whisper base, small and medium are alternative local options. Use [language pins and model compatibility](https://tanzir71.github.io/saydraft/docs/languages/) to choose a route for the words you actually dictate.
+
+ 
+
+| Speech model or package | Transfer | License |
+| --- | --- | --- |
+| [Default: Parakeet v3 + language detector](https://huggingface.co/csukuangfj/sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8) | 773.4 MB | CC-BY-4.0 + MIT |
+| [English max: Parakeet v2](https://huggingface.co/csukuangfj/sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8) | 661.3 MB | CC-BY-4.0 |
+| [Whisper base](https://huggingface.co/Systran/faster-whisper-base) | 147.9 MB | MIT |
+| [Whisper small](https://huggingface.co/Systran/faster-whisper-small) | 486.2 MB | MIT |
+| [Whisper medium](https://huggingface.co/Systran/faster-whisper-medium) | 1530.6 MB | MIT |
+| [All languages: Whisper turbo](https://huggingface.co/dropbox-dash/faster-whisper-large-v3-turbo) | 1621.7 MB | MIT |
+| [Optional Silero speech detection](https://github.com/snakers4/silero-vad/tree/v5.0) | 2.3 MB | MIT |
+| [Optional GTCRN quiet-speech enhancement](https://github.com/Xiaobin-Rong/gtcrn) | 0.54 MB | MIT |
+
+ 
+
+Sizes are calculated from the pinned catalog at build time, with dependency deduplication and bundled notices excluded from network transfer. MB means 1,000,000 bytes. Existing verified files and resumable partials can reduce the remaining transfer. Installed disk use and temporary space are separate.
+
+ 
+
+## Install explicitly, then reuse offline
+
+ 
+
+Setup shows the recommendation, complete package size, source and license before Download / Resume. Pause is available. Downloaded files are verified before they are ready, and later launches reuse the installed models offline. Choosing a language, enabling a feature or starting recognition does not fetch missing files.
+
+ 
+
+Settings → Models provides installation/storage status and selected-model performance checks. Existing local Whisper paths have a compatibility route; a successful local load is distinct from catalog checksum verification.
+
+ 
+
+## Optional AI cleanup and editing
+
+ 
+
+Rules-only cleanup needs no text model. Optional Qwen cleanup weights and a compatible llama.cpp CPU or Vulkan runtime add separate transfers. Command, Translate and Ask share an experimental editing setup with a 4B model; downloading it does not enable any of those features or change ordinary speech settings.
+
+ 
+
+| Optional model/runtime | Transfer | License |
+| --- | --- | --- |
+| [Qwen3.5 0.8B cleanup](https://huggingface.co/bartowski/Qwen_Qwen3.5-0.8B-GGUF) | 579.6 MB | Apache-2.0 |
+| [Qwen3.5 2B cleanup](https://huggingface.co/bartowski/Qwen_Qwen3.5-2B-GGUF) | 1396.2 MB | Apache-2.0 |
+| [Qwen3.5 4B experimental editing](https://huggingface.co/bartowski/Qwen_Qwen3.5-4B-GGUF) | 3013.0 MB | Apache-2.0 |
+| [llama.cpp CPU runtime](https://github.com/ggml-org/llama.cpp/releases/tag/b12110) | 46.9 MB | MIT + LLVM OpenMP license notice |
+| [llama.cpp Vulkan runtime](https://github.com/ggml-org/llama.cpp/releases/tag/b12110) | 88.9 MB | MIT + LLVM OpenMP license notice |
+
+ 
+
+Runtime choice and model preparation affect latency and memory. A capability recommendation is provisional; an installed-model check is a measurement of that test workload, not a promise for every recording. Quality and release-latency qualification remain separate.
+
+ 
+
+## Quiet speech and live preview
+
+ 
+
+Settings → Microphone has an experimental, default-off Whisper mode for quiet speech: gain, AGC, a more sensitive speech-detection profile and optional local GTCRN enhancement. Its name does not select the Whisper ASR model. GTCRN setup is an explicit reviewed download; gain/AGC can be used without enhancement. The owner whispered-speech accuracy target is still unmeasured.
+
+ 
+
+Live preview is another separate Labs model/setup choice. Its current model is English-specific. In quiet-speech mode, live partials keep their original signal while enhanced primary recognition supplies final text.
+
+ 
+
+See [styles](https://tanzir71.github.io/saydraft/docs/styles/) for cleanup control and [credits](https://tanzir71.github.io/saydraft/credits/) for the full attribution boundaries.
+
+## A few useful answers.
+
+### Is a larger download always better?
+
+No. Compatibility, accuracy and speed depend on the language, recording and hardware. The larger decoder candidates have not established a universal improvement, and measured release-latency work remains open.
+
+### Are Lite, Standard and Pro subscriptions?
+
+No. They are local hardware/performance profiles in the free, open-source app. Experimental editing needs Pro and its explicitly installed model/runtime.
+
+## Sources and further reading
+
+- [Current model choices and setup behavior ↗](https://github.com/tanzir71/saydraft/blob/main/docs/MODELS.md)
+
+- [Pinned artifact catalog ↗](https://github.com/tanzir71/saydraft/blob/main/saydraft/models/manifest.json)
+
+- [Hardware/performance checks ↗](https://github.com/tanzir71/saydraft/blob/main/docs/HARDWARE.md)
+
+
+---
+
+# Verify Saydraft Offline — Network and Firewall Checks
+
+Canonical: https://tanzir71.github.io/saydraft/docs/privacy/verify-offline/
+
+Check local Saydraft dictation without internet, understand its Python network guard, and review optional packaged Windows Firewall controls and limits.
+
+Facts checked: 2026-11-14
+
+## Prepare while connected
+
+ 
+
+Finish the explicit download and verification of your selected speech models. Install cleanup or experimental feature dependencies too if you plan to use them offline. Review [model requirements](https://tanzir71.github.io/saydraft/docs/models/) and keep optional update checking off if you do not want release requests.
+
+ 
+
+## Try an ordinary offline draft
+
+ 
+
+- Disconnect Wi-Fi or the network cable.
+ 
+- Open Saydraft and an ordinary editable text field.
+ 
+- Dictate a short sentence and review both the local History entry and delivery.
+ 
+- Repeat with optional cleanup only if its model/runtime is already installed.
+
+ 
+
+This manual check uses your microphone and chosen field only when you run it. Reconnecting should not be needed to reuse complete compatible local files. Missing files require a separate explicit setup action when connected.
+
+ 
+
+## Inspect connections
+
+ 
+
+Windows Resource Monitor can show process connections while you dictate. A local cleanup server may appear as a loopback connection. Read the [privacy page](https://tanzir71.github.io/saydraft/privacy/) for explicit downloads, saved opt-in release checks, retained audio and clipboard boundaries.
+
+ 
+
+The Python network guard restricts Python sockets and scoped download/update exceptions. It does not prove that every native library or separate process is blocked. Observing no traffic in a short session also does not prove every path.
+
+ 
+
+## Optional packaged Firewall controls
+
+ 
+
+For a local packaged installation, Settings → Privacy offers Block Saydraft from the internet. Review the executable path and download restriction, then approve the separate Windows administrator prompt if you choose to proceed. The operation takes effect separately from Settings Save. Cancelling leaves the rule unchanged. These controls are unavailable for a source Python process or a linked/remote installation.
+
+ 
+
+Check firewall rules inspects matching enabled rules. A count is evidence of those rules, not proof that Firewall profiles are enabled or organizational policy applies them. Review effective policy in Windows Defender Firewall with Advanced Security. Keep organizational rules intact.
+
+ 
+
+## Recheck downloads, cleanup and the path
+
+ 
+
+A matching effective block should stop an explicit missing-model download with guidance to remove Saydraft’s block rule and resume. Installed speech files remain available. After Remove Saydraft’s block rule and Windows approval, retry the download explicitly; other connectivity or policy can still prevent it.
+
+ 
+
+The rule covers native stacks within that `Saydraft.exe`, not separate helpers such as the cleanup sidecar. All-address rules can affect loopback on some policies, so check installed cleanup before relying on it. Moving a portable app changes the path covered by the rule. Review/remove its rule before moving or uninstalling; uninstall does not silently elevate to change OS policy.
+
+ 
+
+The linked implementation record documents a narrow packaged speech/download test. It is separate from broad owner accuracy, physical dictation and complete cleanup-helper coverage.
+
+## A few useful answers.
+
+### Will a Firewall block stop setup downloads?
+
+Yes, a matching effective block can prevent model downloads and update checks. Installed files remain local. Remove Saydraft's own block rule with Windows approval before explicitly resuming a download.
+
+### Does Saydraft's rule cover every helper process?
+
+No. The rule is tied to the packaged Saydraft.exe path. Separate executables such as the cleanup sidecar require their own effective-policy consideration. Moving the portable app changes the covered path.
+
+## Sources and further reading
+
+- [Offline verification, packaged rules and native scope ↗](https://github.com/tanzir71/saydraft/blob/main/docs/VERIFY_OFFLINE.md)
+
+- [Python networking and explicit exceptions ↗](https://github.com/tanzir71/saydraft/blob/main/docs/PRIVACY.md)
+
+
+---
+
+# Saydraft Windows Shortcuts — Dictation and Hands-Free
+
+Canonical: https://tanzir71.github.io/saydraft/docs/shortcuts/
+
+Learn Saydraft's hold-to-talk, hands-free, cancel, paste-last, Scratchpad and History shortcuts, with custom bindings and conflict checks.
+
+Facts checked: 2026-11-14
+
+## Everyday defaults
+
+ 
+
+| Keys | Action |
+| --- | --- |
+| Ctrl + Win | Hold to speak; release to finish |
+| F9 | Alternate hold-to-speak shortcut |
+| Ctrl + Win + Space | Toggle hands-free recording |
+| Escape | Cancel the current recording or pending action |
+| Shift + Alt + Z | Paste the last saved dictation |
+| Win + Alt + S | Open Scratchpad |
+| Ctrl + Win + D | Open the latest History diff |
+
+ 
+
+The native app is still in development, including physical Windows shortcut acceptance. Start in an ordinary editable text field and review the result.
+
+ 
+
+## Hold, toggle or double-tap
+
+ 
+
+For a short draft, hold the dictation shortcut and release when finished. For hands-free use, toggle with Ctrl + Win + Space, then use the same toggle to stop. Double-tapping the same hold shortcut can also lock recording; its interval can be changed or disabled in Settings. A single short tap does not lock recording.
+
+ 
+
+The default recording cap is twenty minutes, with a warning at nineteen minutes. Saved custom limits remain respected. Escape cancels; a very short accidental recording can be discarded rather than inserted.
+
+ 
+
+## Change a binding
+
+ 
+
+Use Settings → General, or the Shortcut page during first-run setup. Learn shortcut captures keys only while setup stays focused and times out after ten seconds. Escape cancels learning. You can also enter a supported chord manually and check for conflicts before saving.
+
+ 
+
+The app checks conflicts among its own shortcuts. The Wispr Flow advisory is separate and does not inventory every application’s shortcuts. Windows or an elevated app may reserve a combination; choose another binding if needed.
+
+ 
+
+## Editing shortcuts are separate
+
+ 
+
+Experimental Command Mode uses Ctrl + Win + Alt when enabled in Labs with the Pro profile and editing model. Hold it for an instruction and wait for the Command label before speaking. It does not use hands-free or double-tap behavior. See [Command Mode](https://tanzir71.github.io/saydraft/docs/command-mode/).
+
+ 
+
+Paste-last is for saved dictations. It does not replay a selected-text Command or Ask result into a new field. Use the appropriate result’s explicit Copy action.
+
+ 
+
+## If the destination changed
+
+ 
+
+Delivery checks the target again. A changed, protected or elevated field may prevent insertion; use History to recover the saved words. Troubleshoot with [delivery and shortcut checks](https://tanzir71.github.io/saydraft/docs/troubleshooting/) rather than repeatedly triggering a recording in an unknown field.
+
+## A few useful answers.
+
+### Will an upgrade overwrite my custom shortcut?
+
+Existing custom bindings are preserved. Settings provides conflict checks and explicit disable/reset choices; a conflicting new default is not silently forced onto an existing profile.
+
+### Does paste-last run recognition again?
+
+No. Shift + Alt + Z replays the last saved dictation through the guarded delivery path, without a new recording or cleanup request.
+
+## Sources and further reading
+
+- [Native shortcuts and current Windows acceptance scope ↗](https://github.com/tanzir71/saydraft/blob/main/docs/HOTKEYS.md)
+
+- [Recording cap and warning behavior ↗](https://github.com/tanzir71/saydraft/blob/main/docs/RECORDING_LIMITS.md)
+
+
+---
+
+# Saydraft Styles — Tone and Local Dictation Cleanup
+
+Canonical: https://tanzir71.github.io/saydraft/docs/styles/
+
+Choose Formal, Casual or Very casual tone per app, adjust cleanup intensity, preview dictionary edits and understand rules versus optional local AI.
+
+Facts checked: 2026-11-14
+
+## Choose tone for the place you write
+
+ 
+
+Hub → Style has seven app groups, three tones and four cleanup levels. Choose Formal, Casual or Very casual for a group, then save your staged changes. Per-app profiles can override the group’s choices. Code keeps its literal-oriented path instead of applying prose tone.
+
+ 
+
+A recording keeps the style captured when it starts. Changing preferences while it runs does not change that recording’s style.
+
+ 
+
+## Choose how much to tidy
+
+ 
+
+| Level | What it does |
+| --- | --- |
+| 1 · Verbatim-ish | Preserve words, repetitions and spoken numbers; normalize spacing |
+| 2 · Light | Remove hesitation fillers, normalize casing/numbers and allow supported list layout |
+| 3 · Balanced | Also remove accidental repetition |
+| 4 · Polished | Also handle stronger filler removal, explicit self-corrections and spoken punctuation |
+
+ 
+
+Level one skips the prose model. At the other levels, optional AI remains subject to its preparation, time budget and preservation checks. Raw and Code have their own bypasses. A style choice does not make an unavailable AI model load or download.
+
+ 
+
+## Preview before saving
+
+ 
+
+Type a sample in the Style preview. The rules preview uses the same transcript processor as normal dictation, including staged Dictionary terms, replacements and supported snippets. Pending forms are previewed without saving them or creating persistent History. Invalid drafts show their error rather than an old result. The preview accepts up to 4,096 characters without silently truncating.
+
+ 
+
+Preview language is independent of speech-model selection. Choose a language to simulate resolved recognition; use [Languages](https://tanzir71.github.io/saydraft/docs/languages/) for the real speech pins and model requirements.
+
+ 
+
+## Rules and optional local AI
+
+ 
+
+Rules work without a text model. Preview with current AI uses an already installed, prepared cleaner and its normal budget. Busy, warming, unavailable or rejected AI keeps a labelled rules result. Apply model-setting changes before trying the current-AI preview.
+
+ 
+
+Cleanup can still be imperfect. It does not establish that the recognizer heard every name, number or word correctly. Compare raw and cleaned text in History, and keep [names and specialist terms](https://tanzir71.github.io/saydraft/docs/dictionary/) in your dictionary where useful.
+
+ 
+
+## Translation is an independent choice
+
+ 
+
+Translate while speaking is a separate Pro/Labs feature with an explicitly installed editing model and an output target per supported non-code app group. Current targets are English, Spanish and Arabic, or Keep recognized language. The text-cleanup preview does not run spoken translation. Raw and Code bypass it.
+
+## A few useful answers.
+
+### Does changing preview language change speech recognition?
+
+No. Preview language simulates the recognizer's resolved language for text cleanup. It does not change speech-language pins, download a model or translate the sample.
+
+### Does a rejected AI edit lose my transcript?
+
+The cleanup path retains its rules result when the model is unavailable, out of budget or rejected by preservation checks. Review the raw and cleaned words in History.
+
+## Sources and further reading
+
+- [Shared styles engine and Hub preview ↗](https://github.com/tanzir71/saydraft/blob/main/docs/STYLES.md)
+
+- [Cleanup preservation checks ↗](https://github.com/tanzir71/saydraft/blob/main/docs/VALIDATOR_V2.md)
+
+
+---
+
+# Saydraft Troubleshooting — Input, Models and Delivery
+
+Canonical: https://tanzir71.github.io/saydraft/docs/troubleshooting/
+
+Troubleshoot Saydraft microphone input, interrupted model downloads, wrong language, slow cleanup, shortcut conflicts and text delivery on Windows.
+
+Facts checked: 2026-11-14
+
+## The microphone meter does not respond
+
+ 
+
+Open Microphone in setup or Settings. Check the selected device, use Refresh inputs if it changed, and run the level-only Test input. Check microphone privacy reads Windows permission state without recording; follow its Windows settings link if desktop-app microphone access is blocked or unknown.
+
+ 
+
+Start with a short practice sentence. Source setup and physical Windows behavior remain in development. The [setup guide](https://tanzir71.github.io/saydraft/docs/getting-started/) describes practice and its stop/recovery choices.
+
+ 
+
+## A download stopped or files are not ready
+
+ 
+
+Use the same model’s Download / Resume action. Setup checks pinned files before marking the package ready; partial transfers can resume, and complete verified files are reused. Check available disk space and the network message.
+
+ 
+
+If you enabled a packaged Firewall block, review [its download restriction](https://tanzir71.github.io/saydraft/docs/privacy/verify-offline/) and explicitly remove Saydraft’s own rule before resuming. Keep unrelated and organizational rules intact. Recognition and language selection do not fetch missing weights in the background.
+
+ 
+
+## The words or language are wrong
+
+ 
+
+Compare raw and cleaned text in History: raw text shows recognized words; cleaned text shows what formatting or cleanup changed. Check the recording conditions, selected speech model and [language pins](https://tanzir71.github.io/saydraft/docs/languages/).
+
+ 
+
+Use a compatible model for your language. The shared All languages route is needed for Arabic, Bengali, Chinese, Japanese, Korean, Thai and other supported languages outside Parakeet’s set. Dictionaries can help within their supported scope, but neither a larger model nor cleanup guarantees correct recognition. Review [names and replacements](https://tanzir71.github.io/saydraft/docs/dictionary/).
+
+ 
+
+## Recognition or cleanup feels slow
+
+ 
+
+Check model performance with the installed model and bundled audio. A provisional PC recommendation is separate from a timed model check. First preparation, hardware, recording length and model size affect delay; broader release-latency qualification remains open.
+
+ 
+
+Rules-only cleanup works without a text model. Optional AI that is unavailable, unprepared, out of budget or rejected by preservation checks can keep the rules result. Review [styles and cleanup](https://tanzir71.github.io/saydraft/docs/styles/) before treating that fallback as a failure.
+
+ 
+
+## The shortcut or paste did not work
+
+ 
+
+Review [shortcut bindings and conflicts](https://tanzir71.github.io/saydraft/docs/shortcuts/). Start in an ordinary, non-elevated editable text field. Password, protected, changed and some elevated targets can prevent delivery. A saved result remains in History; use its explicit recovery actions rather than forcing a changed field.
+
+ 
+
+A recognition retry requires the row’s retained audio. Without it, recover the saved text or make a new recording. Experimental Command results have their own Copy path and do not use ordinary dictation paste-last.
+
+ 
+
+## Report a reproducible problem
+
+ 
+
+Include your source/version, Windows version, selected model, language choice, and the smallest steps that reproduce the issue in [GitHub Issues](https://github.com/tanzir71/saydraft/issues). Use redacted logs and examples. Keep private recordings, transcripts, passwords and document text out of public reports.
+
+## A few useful answers.
+
+### The model is missing. Should I keep recording?
+
+Finish the explicit model setup and verification first. Recognition never downloads missing weights automatically, and a changed or incomplete installation can refuse preparation.
+
+### Can I retry recognition from a History row?
+
+A History recognition retry needs retained audio. Audio retention is off by default. Without the row's audio, recover its saved text or make a new recording.
+
+## Sources and further reading
+
+- [Current troubleshooting and supported source launch ↗](https://github.com/tanzir71/saydraft/blob/main/readme.md)
+
+- [Microphone and permission behavior ↗](https://github.com/tanzir71/saydraft/blob/main/docs/MICROPHONE.md)
+
+- [Delivery, protected fields and recovery ↗](https://github.com/tanzir71/saydraft/blob/main/docs/DELIVERY.md)
+
+
+---
+
+# Get Saydraft for Windows — Download and Setup
+
+Canonical: https://tanzir71.github.io/saydraft/download/
+
+Run Saydraft offline dictation on Windows 10 or 11. Check development status, source instructions, local model sizes and setup requirements.
+
+Facts checked: 2026-11-14
+
+Saydraft is in development. A signed installer and package-manager releases are being prepared. You can run the current code from source today.
+
+ 
+
+## Run from source
+
+ 
+
+You’ll need Windows 10 or 11, 64-bit Python 3.13, Git, a microphone and disk space for your selected models. In PowerShell:
+
+ PowerShell
+
+```
+git clone https://github.com/tanzir71/saydraft.git
+cd saydraft
+py -3.13 -m venv .venv
+.venv\Scripts\python -m pip install -r requirements.txt
+.venv\Scripts\python -m saydraft
+```
+
+ 
+
+## Set up once. Then go offline.
+
+ 
+
+Review the recommended model, size and license, then start its download in setup. Progress and pause/resume are available. Later launches reuse your installed files. The [setup walkthrough](https://tanzir71.github.io/saydraft/docs/getting-started/) covers microphone selection, models, shortcuts and a first practice draft.
+
+ 
+
+Arabic, Bengali, Chinese, Hindi, Indonesian, Japanese, Korean, Malay, Thai and Urdu use the optional shared All languages model. Download it once; there are no separate language packs. Portuguese, including Brazilian Portuguese, is also covered by the default model. Review [language and model choices](https://tanzir71.github.io/saydraft/docs/languages/) before choosing a package.
+
+ 
+
+## Speech model downloads
+
+ 
+
+These transfer sizes come from the pinned app catalog at build time. MB means 1,000,000 bytes. Verified cache entries can reduce what you download; disk use also includes installed files, temporary transfers and optional retained audio.
+
+ 
+
+| Model or package | Transfer | License |
+| --- | --- | --- |
+| [Default: Parakeet v3 + language detector](https://huggingface.co/csukuangfj/sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8) | 773.4 MB | CC-BY-4.0 + MIT |
+| [English max: Parakeet v2](https://huggingface.co/csukuangfj/sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8) | 661.3 MB | CC-BY-4.0 |
+| [Whisper base](https://huggingface.co/Systran/faster-whisper-base) | 147.9 MB | MIT |
+| [Whisper small](https://huggingface.co/Systran/faster-whisper-small) | 486.2 MB | MIT |
+| [Whisper medium](https://huggingface.co/Systran/faster-whisper-medium) | 1530.6 MB | MIT |
+| [All languages: Whisper turbo](https://huggingface.co/dropbox-dash/faster-whisper-large-v3-turbo) | 1621.7 MB | MIT |
+| [Optional Silero speech detection](https://github.com/snakers4/silero-vad/tree/v5.0) | 2.3 MB | MIT |
+| [Optional GTCRN quiet-speech enhancement](https://github.com/Xiaobin-Rong/gtcrn) | 0.54 MB | MIT |
+
+ 
+
+The default package includes its language detector. Optional AI cleanup, live preview and editing features have separate model/runtime requirements. See [local models](https://tanzir71.github.io/saydraft/docs/models/) for those choices and their limits. Selecting a language never starts a transfer.
+
+ 
+
+## Looking for a packaged build?
+
+ 
+
+## Saydraft for Windows
+
+A packaged release is being prepared. Run the current code from source and review setup first.
+
+[View the source](https://github.com/tanzir71/saydraft)
+
+ 
+
+Check [GitHub Releases](https://github.com/tanzir71/saydraft/releases) for published artifacts. The older unsigned verification pre-release at `v0.1.0-dry-run.20261114` predates this source; its package is not current-source qualification. Current installer checksums, signing details and winget/Scoop commands will appear here when the corresponding releases are available.
+
+## A few useful answers.
+
+### Is a signed Windows installer available here?
+
+Saydraft is in development. Use the current source instructions and check GitHub Releases for published artifacts. This page does not advertise an unpublished installer or package-manager command.
+
+### Will models download automatically?
+
+No. Setup shows the recommendation, size and license before you choose Download / Resume. You can pause; later launches reuse verified installed files.
+
+## Sources and further reading
+
+- [Current setup and release status ↗](https://github.com/tanzir71/saydraft/blob/main/readme.md)
+
+- [Pinned model files, sizes and licenses ↗](https://github.com/tanzir71/saydraft/blob/main/saydraft/models/manifest.json)
+
+
+---
+
+# Free Dragon Alternative for Windows | Saydraft
+
+Canonical: https://tanzir71.github.io/saydraft/dragon-alternative/
+
+Explore Saydraft as a free, open-source Dragon alternative for Windows writing. Compare local recognition, scope, licensing and setup requirements.
+
+Facts checked: 2026-11-14
+
+Saydraft is a free, MIT-licensed project for local Windows dictation. Consider it for drafting messages, notes and documents when you want inspectable source and local models. A stable public release and broader workflow qualification are still pending.
+
+ 
+
+Dragon Professional v16 is a commercial Windows application with a broader established dictation and command workflow. Its [data sheet](https://dragon.nuance.com/shared/data-sheets/ds-dragon-professional-v16-en-us.pdf) describes local desktop recognition and internet requirements for download and automatic activation. Keep it separate from Dragon Professional Anywhere, which is a different product.
+
+ 
+
+## Compare the scope
+
+ 
+
+| Choice | Saydraft | Dragon Professional v16 |
+| --- | --- | --- |
+| Recognition | [Local speech models](https://github.com/tanzir71/saydraft/blob/main/docs/MODELS.md) | [Desktop recognition](https://dragon.nuance.com/shared/data-sheets/ds-dragon-professional-v16-en-us.pdf) |
+| License | [MIT-licensed app source](https://github.com/tanzir71/saydraft/blob/main/LICENSE) | [Commercial licensed software](https://dragon.nuance.com/en-us/dragon-professional) |
+| Main focus | [Writing and local text workflows](https://github.com/tanzir71/saydraft) | [Professional dictation and commands](https://dragon.nuance.com/en-us/dragon-professional) |
+| Cost | [Free source](https://github.com/tanzir71/saydraft) | [Contact the vendor for current pricing](https://dragon.nuance.com/en-us/dragon-professional) |
+
+ 
+
+The current official Dragon page directs buyers to sales. Confirm current pricing and the license plan that fits your workflow with the vendor.
+
+ 
+
+## Evaluate with your own documents
+
+ 
+
+If your workflow depends on application control, specialist vocabulary or an accessibility command system, test those requirements explicitly before changing tools. Saydraft has not completed broad physical or accessibility acceptance. Dictation can reduce the amount of keyboard input needed for a writing task.
+
+ 
+
+Start with [setup](https://tanzir71.github.io/saydraft/docs/getting-started/) and the [offline dictation guide](https://tanzir71.github.io/saydraft/offline-dictation-windows/). Compare representative names, numbers and long passages rather than assuming that one model’s result predicts another’s.
+
+ 
+
+Not affiliated with Dragon or Nuance. Information checked on the date above.
+
+## A few useful answers.
+
+### Is Dragon Professional a cloud-only product?
+
+Dragon Professional v16 for Windows has local desktop recognition. Its data sheet specifies internet for download and automatic activation. Dragon Professional Anywhere is a separate cloud product.
+
+### Does Saydraft replace Dragon's full command system?
+
+Saydraft focuses on voice typing, formatting and experimental text editing. It does not claim equivalent application control, specialist workflows or accessibility qualification.
+
+## Sources and further reading
+
+- [Dragon Professional for Windows ↗](https://dragon.nuance.com/en-us/dragon-professional)
+
+- [Dragon Professional v16 data sheet ↗](https://dragon.nuance.com/shared/data-sheets/ds-dragon-professional-v16-en-us.pdf)
+
+- [Dragon Professional and Professional Anywhere comparison ↗](https://dragon.nuance.com/shared/data-sheets/fm-dragon-professional-v16-and-dragon-professional-anywhere-comparison-en-us.pdf)
+
+- [Saydraft implementation status ↗](https://github.com/tanzir71/saydraft)
+
+
+---
+
+# Saydraft — Free offline dictation for Windows
+
+Canonical: https://tanzir71.github.io/saydraft/
+
+Free offline dictation for Windows. Voice typing in Thai, Chinese, Korean, Japanese, Spanish, Portuguese, Indonesian and Malay. Open source and local.
+
+Offline dictation for Windows
+
+ A little less typing.
+A little more you.
+
+# Speak messy. Paste polished.
+
+Let your thoughts out.
+We’ll help you find the words.
+Free voice typing. All on your PC.
+
+[Get Saydraft for Windows](https://tanzir71.github.io/saydraft/download/)Windows 10 & 11 · No account needed
+
+Ready when you are
+
+Your words, a little clearer
+
+Let’s meet at 3.
+Just a quick coffee?
+
+Backtrack: 2 → 3
+
+Illustrative simulation · no microphone
+
+Built on open models. Built in the open.
+
+NVIDIA ParakeetWhisperQwenllama.cppsherpa-onnx
+
+[Meet the building blocks](https://tanzir71.github.io/saydraft/credits/)
+
+Less friction. More flow.
+
+## For the way you actually think.
+
+Half a thought. A change of plan. That word you always stumble over.
+
+You don’t have to speak in perfect sentences to put something good on the page.
+
+[Find your flow](https://tanzir71.github.io/saydraft/docs/getting-started/)
+
+A small edit. A clearer thought.
+
+## Say it your way. Leave the tidying to us.
+
+Illustrative cleanup examples. Your words stay yours.
+
+### Change your mind.
+
+Let’s meet at two… actually, make that three.
+
+Let’s meet at 3.
+
+Backtrack: 2 → 3
+
+### Find your rhythm.
+
+Um, I think, uh, this could work.
+
+I think this could work.
+
+Removed hesitation
+
+### Make a little space.
+
+First item, send the notes. Second item, book the room.
+
+• Send the notes • Book the room
+
+Made a list
+
+Built around how you write
+
+## Your voice. Your kind of words.
+
+One thought, three tones
+
+FormalCasualVery casual
+
+Could you send the notes when you have a moment?
+
+Can you send the notes when you get a chance?
+
+send the notes when you get a sec
+
+Illustrative tones · your words stay yours
+
+### A tone for every place.
+
+A thoughtful email. A quick reply. Set tone and cleanup intensity for the apps you use.
+
+02
+
+### The names that matter.
+
+Add people, places, and specialist terms to your dictionary. Keep the details familiar.
+
+03
+
+### Say a little. Write a lot.
+
+Turn your everyday phrases into snippets. A short cue can become your full sign-off.
+
+04
+
+### More than one language.
+
+Dictate in Thai, Chinese, Korean, Brazilian Portuguese, Bengali, Arabic and more with compatible local speech models.
+
+A familiar language. A local model.
+
+## Your words. Across languages.
+
+Offline voice typing for Bengali, Arabic, Thai, Mandarin Chinese, Korean, Japanese, Hindi, Urdu, Indonesian, Malay, Spanish, Brazilian Portuguese and more. Choose a compatible speech model once, then dictate on your PC.
+
+- [Arabic voice typing](https://tanzir71.github.io/saydraft/languages/arabic/)
+
+- [Bengali voice typing](https://tanzir71.github.io/saydraft/languages/bengali/)
+
+- [Brazilian Portuguese voice typing](https://tanzir71.github.io/saydraft/languages/brazilian-portuguese/)
+
+- [Chinese (Mandarin) voice typing](https://tanzir71.github.io/saydraft/languages/chinese/)
+
+- [Filipino / Tagalog voice typing](https://tanzir71.github.io/saydraft/languages/filipino-tagalog/)
+
+- [French voice typing](https://tanzir71.github.io/saydraft/languages/french/)
+
+- [German voice typing](https://tanzir71.github.io/saydraft/languages/german/)
+
+- [Hindi voice typing](https://tanzir71.github.io/saydraft/languages/hindi/)
+
+- [Indonesian voice typing](https://tanzir71.github.io/saydraft/languages/indonesian/)
+
+- [Japanese voice typing](https://tanzir71.github.io/saydraft/languages/japanese/)
+
+- [Korean voice typing](https://tanzir71.github.io/saydraft/languages/korean/)
+
+- [Malay voice typing](https://tanzir71.github.io/saydraft/languages/malay/)
+
+- [Persian (Farsi) voice typing](https://tanzir71.github.io/saydraft/languages/persian/)
+
+- [Spanish voice typing](https://tanzir71.github.io/saydraft/languages/spanish/)
+
+- [Tamil voice typing](https://tanzir71.github.io/saydraft/languages/tamil/)
+
+- [Telugu voice typing](https://tanzir71.github.io/saydraft/languages/telugu/)
+
+- [Thai voice typing](https://tanzir71.github.io/saydraft/languages/thai/)
+
+- [Urdu voice typing](https://tanzir71.github.io/saydraft/languages/urdu/)
+
+- [Vietnamese voice typing](https://tanzir71.github.io/saydraft/languages/vietnamese/)
+
+[Explore speech languages and model setup](https://tanzir71.github.io/saydraft/languages/)
+
+Right at your fingertips
+
+## A familiar little shortcut.
+
+CtrlWinHold to speak
+
+CtrlWinSpaceGo hands-free
+
+ShiftAltZPaste your last words
+
+A private train of thought
+
+## Your voice. Your machine. Nobody else’s business.
+
+Speech and cleanup run on your PC.
+No account. No cloud transcription.
+No tracking, in the app or on this site.
+
+[See how it stays local](https://tanzir71.github.io/saydraft/privacy/)
+
+A few good questions
+
+## Glad you asked.
+
+### Does my voice leave my PC?
+
+Speech recognition and text cleanup run locally. Saydraft has no cloud transcription, telemetry, or account. Model downloads happen only when you start them during setup. Optional update checks are off by default and request public release information from GitHub without your audio or text.
+
+### Do I need the internet to get started?
+
+Yes, once: choose the recommended models, review their sizes and licenses, and start the setup download. You can pause and resume. Later launches reuse the installed models offline.
+
+### Which languages can I dictate in?
+
+Thai, Mandarin Chinese, Korean, Japanese, Hindi, Urdu, Vietnamese, Filipino / Tagalog, Tamil, Telugu, Persian, Indonesian, Malay, Bengali and Arabic use the optional shared All languages model. Spanish, French, German and Portuguese, including Brazilian Portuguese, are covered by the default Parakeet v3 model and All languages. There are no separate language packs. Choosing a language starts no download.
+
+### Do I need a powerful graphics card?
+
+Speech recognition can run on the CPU. Hardware and model choice affect speed; optional AI cleanup requires more resources. The performance check helps choose a suitable setup, including rules-only cleanup.
+
+### Where can I use it?
+
+Saydraft inserts text at the cursor in editable Windows apps. Password fields are excluded. Some protected or elevated apps need extra care; start with an ordinary text editor.
+
+### Can I change how my words are cleaned up?
+
+Choose a tone and cleanup intensity for each app group, add names to your dictionary, and create spoken snippets. Raw mode preserves your transcript without prose cleanup.
+
+### Is it free?
+
+Saydraft is free and open source under the MIT license. Speech and cleanup models have their own licenses, shown before download and listed in the project credits.
+
+### Is this page listening to me?
+
+No. The example is a canned simulation. This website does not request microphone access, upload audio, or use tracking analytics.
+
+Make room for your next thought
+
+## Less keyboard. More possibility.
+
+[Get Saydraft for Windows](https://tanzir71.github.io/saydraft/download/)
+
+Free. Open source. Yours to make your own.
+
+
+---
+
+# Arabic Voice Typing for Windows, Offline | Saydraft
+
+Canonical: https://tanzir71.github.io/saydraft/languages/arabic/
+
+Dictate Arabic offline on Windows with Saydraft. Free, open-source Arabic voice typing through a shared local multilingual speech model.
+
+Free, open-source dictation
+
+# Arabic voice typing for Windows.
+
+العربية
+
+Turn spoken Arabic into text on your Windows PC while keeping speech recognition local. Saydraft uses the installed All languages model for Arabic dictation, with no cloud transcription account.
+
+Choose Arabic, language code ar, in Languages. Pin Arabic alone for a direct recognition hint, or pin it alongside English or another language for model language detection. The current choice does not expose a separate decoder for every Arabic dialect.
+
+Requires the shared All languages speech model (Whisper large-v3-turbo, approximately 1,621.7 MB). Download once in setup or Models, then reuse it offline.
+
+## How to set up Arabic dictation
+
+- Follow the [current download and source setup instructions](https://tanzir71.github.io/saydraft/download/). Saydraft is a development preview for Windows 10 and 11.
+
+- In Hub → Settings → Models, review the required model’s size and license. Choose Download / Resume if it is missing; Pause is available.
+
+- Open Languages, enable automatic model choice, and select Arabic. Save your settings. A single language pin uses code `ar`.
+
+- Put the cursor in an editable app field, hold Ctrl + Win, speak, then release. Review the transcript before sending it.
+
+Language selection starts no transfer. If automatic routing is off, the model selected on Models remains in use; select a compatible model there. For more detail, see the [setup guide](https://tanzir71.github.io/saydraft/docs/getting-started/).
+
+## Use your voice in everyday Windows apps
+
+Draft Arabic messages, notes and documents in an editable app that supports right-to-left text. Review spelling, names, numbers, punctuation and mixed Arabic/Latin text before sending. Dialect and recording conditions affect recognition; Raw mode keeps the recognized wording without prose cleanup.
+
+Speech recognition and text cleanup run locally. There is no account or cloud transcription fallback. With compatible models installed, you can dictate without an internet connection. Optional AI cleanup has its own model requirements; rules-only cleanup needs no text model.
+
+## Is Arabic dictation the same as translating into Arabic?
+
+Arabic dictation transcribes Arabic speech using All languages. The separate experimental Pro/Labs Translate mode can produce Arabic from recognized speech using its explicitly installed local editing model. You do not need Translate mode or a separate Arabic language pack to dictate Arabic.
+
+## What does language support mean here?
+
+This page describes speech-model coverage and app configuration. It does not claim a measured accuracy score for Arabic. Accent, microphone, background noise and mixed speech affect results. The language choice does not translate the app interface or add Translate-mode output targets.
+
+[Get Saydraft for Windows](https://tanzir71.github.io/saydraft/download/) · [See how dictation stays local](https://tanzir71.github.io/saydraft/privacy/)
+
+
+---
+
+# Bengali Voice Typing for Windows, Offline | Saydraft
+
+Canonical: https://tanzir71.github.io/saydraft/languages/bengali/
+
+Type Bangla with your voice on Windows. Saydraft offers free, open-source offline Bengali speech recognition through a shared local model.
+
+Free, open-source dictation
+
+# Bengali voice typing for Windows.
+
+বাংলা
+
+Write in Bengali, also called Bangla, with your voice on Windows. Saydraft recognizes Bengali speech locally using the shared All languages model, without a cloud transcription account.
+
+Choose Bengali, language code bn, in Languages. Pin Bengali alone for a direct recognition hint, or combine it with English or another language when you switch between them. Bengali is already supported by the shared multilingual model; there is no separate Bangla language pack.
+
+Requires the shared All languages speech model (Whisper large-v3-turbo, approximately 1,621.7 MB). Download once in setup or Models, then reuse it offline.
+
+## How to set up Bengali dictation
+
+- Follow the [current download and source setup instructions](https://tanzir71.github.io/saydraft/download/). Saydraft is a development preview for Windows 10 and 11.
+
+- In Hub → Settings → Models, review the required model’s size and license. Choose Download / Resume if it is missing; Pause is available.
+
+- Open Languages, enable automatic model choice, and select Bengali. Save your settings. A single language pin uses code `bn`.
+
+- Put the cursor in an editable app field, hold Ctrl + Win, speak, then release. Review the transcript before sending it.
+
+Language selection starts no transfer. If automatic routing is off, the model selected on Models remains in use; select a compatible model there. For more detail, see the [setup guide](https://tanzir71.github.io/saydraft/docs/getting-started/).
+
+## Use your voice in everyday Windows apps
+
+Draft Bengali messages, emails and notes in an editable Windows app. Review spelling, conjuncts, names, numbers and English loanwords before sending. Raw mode retains the recognized wording without prose cleanup. The language choice does not add a Romanized-Bangla conversion setting.
+
+Speech recognition and text cleanup run locally. There is no account or cloud transcription fallback. With compatible models installed, you can dictate without an internet connection. Optional AI cleanup has its own model requirements; rules-only cleanup needs no text model.
+
+## Do I need a separate Bengali model or keyboard?
+
+Install the shared All languages model once through Download / Resume. It covers Bengali alongside Arabic and other supported languages. A Bengali keyboard can help with manual corrections, but dictation delivers Unicode text and does not depend on choosing that keyboard layout. Selecting Bengali starts no download.
+
+## What does language support mean here?
+
+This page describes speech-model coverage and app configuration. It does not claim a measured accuracy score for Bengali. Accent, microphone, background noise and mixed speech affect results. The language choice does not translate the app interface or add Translate-mode output targets.
+
+[Get Saydraft for Windows](https://tanzir71.github.io/saydraft/download/) · [See how dictation stays local](https://tanzir71.github.io/saydraft/privacy/)
+
+
+---
+
+# Brazilian Portuguese Voice Typing for Windows | Saydraft
+
+Canonical: https://tanzir71.github.io/saydraft/languages/brazilian-portuguese/
+
+Offline Brazilian Portuguese voice typing on Windows. Saydraft is free and open source, with local Portuguese speech recognition and no account.
+
+Free, open-source dictation
+
+# Brazilian Portuguese voice typing for Windows.
+
+Português do Brasil
+
+Write in Portuguese with your voice, including Portuguese spoken in Brazil. Saydraft provides local speech recognition for Windows without an account or cloud transcription.
+
+In Languages, choose Portuguese (including Brazilian Portuguese). The speech engines use the shared Portuguese code pt. There is no Brazil-only model or pt-BR decoder setting. Do not choose br for Brazil: in Whisper, br is the code for Breton.
+
+Portuguese, including Brazil, is included in Parakeet v3, the default speech model. All languages is also compatible. No separate language pack is required.
+
+## How to set up Brazilian Portuguese dictation
+
+- Follow the [current download and source setup instructions](https://tanzir71.github.io/saydraft/download/). Saydraft is a development preview for Windows 10 and 11.
+
+- In Hub → Settings → Models, review the required model’s size and license. Choose Download / Resume if it is missing; Pause is available.
+
+- Open Languages, enable automatic model choice, and select Portuguese (including Brazilian Portuguese). Save your settings. A single language pin uses code `pt`.
+
+- Put the cursor in an editable app field, hold Ctrl + Win, speak, then release. Review the transcript before sending it.
+
+Language selection starts no transfer. If automatic routing is off, the model selected on Models remains in use; select a compatible model there. For more detail, see the [setup guide](https://tanzir71.github.io/saydraft/docs/getting-started/).
+
+## Use your voice in everyday Windows apps
+
+Portuguese is included in the default Parakeet v3 model’s language set. You can also use Portuguese with All languages. If you pin Portuguese alongside Thai, Chinese or Korean, automatic routing uses that shared multilingual model for the combination.
+
+Speech recognition and text cleanup run locally. There is no account or cloud transcription fallback. With compatible models installed, you can dictate without an internet connection. Optional AI cleanup has its own model requirements; rules-only cleanup needs no text model.
+
+## Is there a separate Brazilian Portuguese language pack?
+
+No. Choose Portuguese in Languages and use an installed compatible speech model. Both the default model and All languages cover Portuguese. NVIDIA notes that Parakeet’s training uses European Portuguese, so a separate Brazilian reference evaluation is needed before recommending it over Whisper for Brazil. Saydraft does not claim a separate Brazilian-accent accuracy score or convert European Portuguese wording into Brazilian Portuguese.
+
+## What does language support mean here?
+
+This page describes speech-model coverage and app configuration. It does not claim a measured accuracy score for Brazilian Portuguese. Accent, microphone, background noise and mixed speech affect results. The language choice does not translate the app interface or add Translate-mode output targets.
+
+[Get Saydraft for Windows](https://tanzir71.github.io/saydraft/download/) · [See how dictation stays local](https://tanzir71.github.io/saydraft/privacy/)
+
+
+---
+
+# Chinese Voice Typing for Windows, Offline | Saydraft
+
+Canonical: https://tanzir71.github.io/saydraft/languages/chinese/
+
+Dictate Mandarin Chinese on Windows with Saydraft. Free, open-source offline voice typing using a shared multilingual speech model.
+
+Free, open-source dictation
+
+# Chinese (Mandarin) voice typing for Windows.
+
+中文（普通话）
+
+Turn spoken Mandarin Chinese into text without a cloud transcription service. Saydraft runs its multilingual speech model on your own Windows PC.
+
+Choose Chinese (Mandarin), language code zh. Cantonese is listed separately as Chinese (Cantonese), code yue. Both use the shared All languages model, but they are separate language choices; a Mandarin pin is not a promise of recognition for every Chinese dialect.
+
+Requires the shared All languages speech model (Whisper large-v3-turbo, approximately 1,621.7 MB). Download once in setup or Models, then reuse it offline.
+
+## How to set up Chinese (Mandarin) dictation
+
+- Follow the [current download and source setup instructions](https://tanzir71.github.io/saydraft/download/). Saydraft is a development preview for Windows 10 and 11.
+
+- In Hub → Settings → Models, review the required model’s size and license. Choose Download / Resume if it is missing; Pause is available.
+
+- Open Languages, enable automatic model choice, and select Chinese (Mandarin). Save your settings. A single language pin uses code `zh`.
+
+- Put the cursor in an editable app field, hold Ctrl + Win, speak, then release. Review the transcript before sending it.
+
+Language selection starts no transfer. If automatic routing is off, the model selected on Models remains in use; select a compatible model there. For more detail, see the [setup guide](https://tanzir71.github.io/saydraft/docs/getting-started/).
+
+## Use your voice in everyday Windows apps
+
+Draft a Chinese message, collect thoughts in a note or dictate into an editable document. The current language choice supplies a recognition hint. It does not offer a Simplified/Traditional conversion setting, so review the characters and punctuation before sending.
+
+Speech recognition and text cleanup run locally. There is no account or cloud transcription fallback. With compatible models installed, you can dictate without an internet connection. Optional AI cleanup has its own model requirements; rules-only cleanup needs no text model.
+
+## Can I choose Simplified or Traditional Chinese output?
+
+Saydraft currently exposes the model’s language choice, rather than a separate Chinese script converter. Its Chinese setting uses zh. If your document requires a particular script, review and convert the result with a tool you trust.
+
+## What does language support mean here?
+
+This page describes speech-model coverage and app configuration. It does not claim a measured accuracy score for Chinese (Mandarin). Accent, microphone, background noise and mixed speech affect results. The language choice does not translate the app interface or add Translate-mode output targets.
+
+[Get Saydraft for Windows](https://tanzir71.github.io/saydraft/download/) · [See how dictation stays local](https://tanzir71.github.io/saydraft/privacy/)
+
+
+---
+
+# Filipino & Tagalog Voice Typing for Windows | Saydraft
+
+Canonical: https://tanzir71.github.io/saydraft/languages/filipino-tagalog/
+
+Offline Filipino and Tagalog voice typing on Windows. Saydraft is free and open source, with recognition through a shared local speech model.
+
+Free, open-source dictation
+
+# Filipino / Tagalog voice typing for Windows.
+
+Filipino / Tagalog
+
+Dictate Tagalog and Filipino text on your Windows PC using local speech recognition. Saydraft exposes the shared multilingual model’s Tagalog language choice.
+
+Select Filipino / Tagalog, code tl, in Languages. The decoder uses its Tagalog code; there is no separate fil decoder or a different language pack for Filipino. This choice does not imply recognition for every language spoken in the Philippines.
+
+Requires the shared All languages speech model (Whisper large-v3-turbo, approximately 1,621.7 MB). Download once in setup or Models, then reuse it offline.
+
+## How to set up Filipino / Tagalog dictation
+
+- Follow the [current download and source setup instructions](https://tanzir71.github.io/saydraft/download/). Saydraft is a development preview for Windows 10 and 11.
+
+- In Hub → Settings → Models, review the required model’s size and license. Choose Download / Resume if it is missing; Pause is available.
+
+- Open Languages, enable automatic model choice, and select Filipino / Tagalog. Save your settings. A single language pin uses code `tl`.
+
+- Put the cursor in an editable app field, hold Ctrl + Win, speak, then release. Review the transcript before sending it.
+
+Language selection starts no transfer. If automatic routing is off, the model selected on Models remains in use; select a compatible model there. For more detail, see the [setup guide](https://tanzir71.github.io/saydraft/docs/getting-started/).
+
+## Use your voice in everyday Windows apps
+
+Draft a message, an email or a note in an editable Windows app. Review English loanwords, names and mixed-language speech. Pin Filipino / Tagalog alone for a direct language hint or add English when you switch between languages.
+
+Speech recognition and text cleanup run locally. There is no account or cloud transcription fallback. With compatible models installed, you can dictate without an internet connection. Optional AI cleanup has its own model requirements; rules-only cleanup needs no text model.
+
+## Does this include every Philippine language?
+
+No. This page describes the model’s tl, or Tagalog, choice and its use for Filipino dictation. Cebuano, Ilocano and other Philippine languages are not separate decoder choices in the current speech catalog. They are not covered by this page’s support claim.
+
+## What does language support mean here?
+
+This page describes speech-model coverage and app configuration. It does not claim a measured accuracy score for Filipino / Tagalog. Accent, microphone, background noise and mixed speech affect results. The language choice does not translate the app interface or add Translate-mode output targets.
+
+[Get Saydraft for Windows](https://tanzir71.github.io/saydraft/download/) · [See how dictation stays local](https://tanzir71.github.io/saydraft/privacy/)
+
+
+---
+
+# French Voice Typing for Windows, Offline | Saydraft
+
+Canonical: https://tanzir71.github.io/saydraft/languages/french/
+
+Free, open-source French voice typing on Windows. Dictate offline with Saydraft using local speech recognition in the default model.
+
+Free, open-source dictation
+
+# French voice typing for Windows.
+
+Français
+
+Write French messages, notes and emails with your voice on Windows. Saydraft includes French in the default Parakeet v3 speech model, with recognition running on your PC.
+
+Choose French, language code fr, in Languages. French alone routes to Parakeet v3 with automatic model choice enabled. All languages also supports French and is used when your pins include a language outside Parakeet’s set.
+
+French is included in Parakeet v3, the default speech model. All languages is also compatible. No separate language pack is required.
+
+## How to set up French dictation
+
+- Follow the [current download and source setup instructions](https://tanzir71.github.io/saydraft/download/). Saydraft is a development preview for Windows 10 and 11.
+
+- In Hub → Settings → Models, review the required model’s size and license. Choose Download / Resume if it is missing; Pause is available.
+
+- Open Languages, enable automatic model choice, and select French. Save your settings. A single language pin uses code `fr`.
+
+- Put the cursor in an editable app field, hold Ctrl + Win, speak, then release. Review the transcript before sending it.
+
+Language selection starts no transfer. If automatic routing is off, the model selected on Models remains in use; select a compatible model there. For more detail, see the [setup guide](https://tanzir71.github.io/saydraft/docs/getting-started/).
+
+## Use your voice in everyday Windows apps
+
+Dictate a French draft in an editable app field, then review accents, apostrophes, names and punctuation. There is one shared French language choice rather than a separate decoder for every country or regional accent.
+
+Speech recognition and text cleanup run locally. There is no account or cloud transcription fallback. With compatible models installed, you can dictate without an internet connection. Optional AI cleanup has its own model requirements; rules-only cleanup needs no text model.
+
+## Do I need All languages for French alone?
+
+No. French is already included in the default Parakeet v3 model. You can use All languages if it is installed, especially for workflows combining French with languages such as Vietnamese or Tamil. Selecting French does not start a download.
+
+## What does language support mean here?
+
+This page describes speech-model coverage and app configuration. It does not claim a measured accuracy score for French. Accent, microphone, background noise and mixed speech affect results. The language choice does not translate the app interface or add Translate-mode output targets.
+
+[Get Saydraft for Windows](https://tanzir71.github.io/saydraft/download/) · [See how dictation stays local](https://tanzir71.github.io/saydraft/privacy/)
+
+
+---
+
+# German Voice Typing for Windows, Offline | Saydraft
+
+Canonical: https://tanzir71.github.io/saydraft/languages/german/
+
+Offline German voice typing for Windows. Saydraft is free and open source, with local speech recognition in its default model.
+
+Free, open-source dictation
+
+# German voice typing for Windows.
+
+Deutsch
+
+Dictate German text on your Windows PC with local speech recognition. German is included in Saydraft’s default Parakeet v3 model and is also available in All languages.
+
+Choose German, language code de, in Languages. A German-only pin uses the default model when automatic model choice is enabled. A combination with a language outside that model’s set uses the shared multilingual model instead.
+
+German is included in Parakeet v3, the default speech model. All languages is also compatible. No separate language pack is required.
+
+## How to set up German dictation
+
+- Follow the [current download and source setup instructions](https://tanzir71.github.io/saydraft/download/). Saydraft is a development preview for Windows 10 and 11.
+
+- In Hub → Settings → Models, review the required model’s size and license. Choose Download / Resume if it is missing; Pause is available.
+
+- Open Languages, enable automatic model choice, and select German. Save your settings. A single language pin uses code `de`.
+
+- Put the cursor in an editable app field, hold Ctrl + Win, speak, then release. Review the transcript before sending it.
+
+Language selection starts no transfer. If automatic routing is off, the model selected on Models remains in use; select a compatible model there. For more detail, see the [setup guide](https://tanzir71.github.io/saydraft/docs/getting-started/).
+
+## Use your voice in everyday Windows apps
+
+Draft German messages, notes and documents in an editable Windows app. Review compound words, noun capitalization, umlauts, names and numbers before sending. The app does not expose a separate decoder setting for every German dialect.
+
+Speech recognition and text cleanup run locally. There is no account or cloud transcription fallback. With compatible models installed, you can dictate without an internet connection. Optional AI cleanup has its own model requirements; rules-only cleanup needs no text model.
+
+## Can German recognition work without the multilingual download?
+
+Yes. An installed Parakeet v3 model covers German. The optional All languages model is needed for other language combinations, not for German alone. Both models run locally after explicit setup; neither selection starts a download by itself.
+
+## What does language support mean here?
+
+This page describes speech-model coverage and app configuration. It does not claim a measured accuracy score for German. Accent, microphone, background noise and mixed speech affect results. The language choice does not translate the app interface or add Translate-mode output targets.
+
+[Get Saydraft for Windows](https://tanzir71.github.io/saydraft/download/) · [See how dictation stays local](https://tanzir71.github.io/saydraft/privacy/)
+
+
+---
+
+# Hindi Voice Typing for Windows, Offline | Saydraft
+
+Canonical: https://tanzir71.github.io/saydraft/languages/hindi/
+
+Free, open-source Hindi voice typing on Windows. Dictate offline with Saydraft using a shared local multilingual speech model.
+
+Free, open-source dictation
+
+# Hindi voice typing for Windows.
+
+हिन्दी / हिंदी
+
+Turn spoken Hindi into text on your Windows PC. Saydraft uses the installed All languages model for local Hindi speech recognition, with no cloud transcription account.
+
+Select Hindi, language code hi, in Languages. Hindi and Urdu are separate recognition choices, even though their model files are shared. Pin Hindi alone to give the decoder a direct language hint, or pin it with English for a multilingual workflow.
+
+Requires the shared All languages speech model (Whisper large-v3-turbo, approximately 1,621.7 MB). Download once in setup or Models, then reuse it offline.
+
+## How to set up Hindi dictation
+
+- Follow the [current download and source setup instructions](https://tanzir71.github.io/saydraft/download/). Saydraft is a development preview for Windows 10 and 11.
+
+- In Hub → Settings → Models, review the required model’s size and license. Choose Download / Resume if it is missing; Pause is available.
+
+- Open Languages, enable automatic model choice, and select Hindi. Save your settings. A single language pin uses code `hi`.
+
+- Put the cursor in an editable app field, hold Ctrl + Win, speak, then release. Review the transcript before sending it.
+
+Language selection starts no transfer. If automatic routing is off, the model selected on Models remains in use; select a compatible model there. For more detail, see the [setup guide](https://tanzir71.github.io/saydraft/docs/getting-started/).
+
+## Use your voice in everyday Windows apps
+
+Draft Hindi messages, notes and documents in an editable app field. Review Devanagari spelling, names and English loanwords before sending. The current language choice does not provide a separate Romanized-Hindi output or transliteration setting.
+
+Speech recognition and text cleanup run locally. There is no account or cloud transcription fallback. With compatible models installed, you can dictate without an internet connection. Optional AI cleanup has its own model requirements; rules-only cleanup needs no text model.
+
+## Can I dictate Hindi and English with one model?
+
+Yes. All languages supports both. You can pin Hindi and English together, which leaves language detection enabled in that model. Short clips and code-switching can affect recognition; a single Hindi pin is useful when you know the language you will speak.
+
+## What does language support mean here?
+
+This page describes speech-model coverage and app configuration. It does not claim a measured accuracy score for Hindi. Accent, microphone, background noise and mixed speech affect results. The language choice does not translate the app interface or add Translate-mode output targets.
+
+[Get Saydraft for Windows](https://tanzir71.github.io/saydraft/download/) · [See how dictation stays local](https://tanzir71.github.io/saydraft/privacy/)
+
+
+---
+
+# Offline Voice Typing Languages for Windows | Saydraft
+
+Canonical: https://tanzir71.github.io/saydraft/languages/
+
+Explore offline voice typing in Bengali, Arabic, Thai, Chinese, Korean and more on Windows. Review shared models and set up free, open-source Saydraft.
+
+Speech recognition languages
+
+# Offline voice typing. In your language.
+
+Saydraft supports multilingual dictation on Windows through local speech models. Thai, Chinese, Korean, Japanese, Hindi, Urdu, Indonesian, Malay, Spanish, Brazilian Portuguese, Bengali and Arabic are among the available language choices. Models have different coverage; choose the one that fits the languages you speak.
+
+## [Arabic voice typing](https://tanzir71.github.io/saydraft/languages/arabic/)
+
+Use the shared All languages model.
+
+## [Bengali voice typing](https://tanzir71.github.io/saydraft/languages/bengali/)
+
+Use the shared All languages model.
+
+## [Brazilian Portuguese voice typing](https://tanzir71.github.io/saydraft/languages/brazilian-portuguese/)
+
+Brazilian Portuguese is covered by the default model and All languages.
+
+## [Chinese (Mandarin) voice typing](https://tanzir71.github.io/saydraft/languages/chinese/)
+
+Use the shared All languages model.
+
+## [Filipino / Tagalog voice typing](https://tanzir71.github.io/saydraft/languages/filipino-tagalog/)
+
+Use the shared All languages model.
+
+## [French voice typing](https://tanzir71.github.io/saydraft/languages/french/)
+
+French is covered by the default model and All languages.
+
+## [German voice typing](https://tanzir71.github.io/saydraft/languages/german/)
+
+German is covered by the default model and All languages.
+
+## [Hindi voice typing](https://tanzir71.github.io/saydraft/languages/hindi/)
+
+Use the shared All languages model.
+
+## [Indonesian voice typing](https://tanzir71.github.io/saydraft/languages/indonesian/)
+
+Use the shared All languages model.
+
+## [Japanese voice typing](https://tanzir71.github.io/saydraft/languages/japanese/)
+
+Use the shared All languages model.
+
+## [Korean voice typing](https://tanzir71.github.io/saydraft/languages/korean/)
+
+Use the shared All languages model.
+
+## [Malay voice typing](https://tanzir71.github.io/saydraft/languages/malay/)
+
+Use the shared All languages model.
+
+## [Persian (Farsi) voice typing](https://tanzir71.github.io/saydraft/languages/persian/)
+
+Use the shared All languages model.
+
+## [Spanish voice typing](https://tanzir71.github.io/saydraft/languages/spanish/)
+
+Spanish is covered by the default model and All languages.
+
+## [Tamil voice typing](https://tanzir71.github.io/saydraft/languages/tamil/)
+
+Use the shared All languages model.
+
+## [Telugu voice typing](https://tanzir71.github.io/saydraft/languages/telugu/)
+
+Use the shared All languages model.
+
+## [Thai voice typing](https://tanzir71.github.io/saydraft/languages/thai/)
+
+Use the shared All languages model.
+
+## [Urdu voice typing](https://tanzir71.github.io/saydraft/languages/urdu/)
+
+Use the shared All languages model.
+
+## [Vietnamese voice typing](https://tanzir71.github.io/saydraft/languages/vietnamese/)
+
+Use the shared All languages model.
+
+## One model can cover many languages
+
+The optional All languages model is Whisper large-v3-turbo. A single approximately 1,621.7 MB installation covers Thai, Mandarin Chinese, Korean, Bengali, Arabic and other supported Whisper languages, including Japanese, Hindi, Urdu, Vietnamese, Filipino / Tagalog, Tamil, Telugu, Persian, Indonesian and Malay. There are no separate language packs.
+
+The default Parakeet v3 model covers 25 European languages, including Spanish, French, German and Portuguese. Brazilian Portuguese uses the Portuguese choice, code `pt`; there is no separate Brazil-only decoder setting.
+
+## Choose your language before you dictate
+
+- In Hub → Settings → Models, review and explicitly download a compatible speech model.
+
+- In Languages, enable automatic model choice, then pin one to three languages. One Whisper pin supplies a language hint; multiple pins leave model language detection enabled.
+
+- Save your settings, open an editable field and use your dictation shortcut. Later launches reuse the installed models offline.
+
+Selecting a language starts no download. If you keep manual model selection enabled, choose a compatible model yourself. For direct languages outside Parakeet’s set, pin the language with automatic routing or manually choose All languages.
+
+## Dictation and translation are separate
+
+These are speech recognition choices: speak a language and receive its transcript. They are not translated app menus or additional Translate-mode output targets. Recognition quality varies with accent, audio and model; language coverage is not an accuracy guarantee. Review your text, especially names and mixed-language speech.
+
+[Get Saydraft and review setup](https://tanzir71.github.io/saydraft/download/) · [Follow the first-use guide](https://tanzir71.github.io/saydraft/docs/getting-started/) · [Read the language and model reference ↗](https://github.com/tanzir71/saydraft/blob/main/docs/LANGUAGES.md)
+
+
+---
+
+# Indonesian Voice Typing for Windows, Offline | Saydraft
+
+Canonical: https://tanzir71.github.io/saydraft/languages/indonesian/
+
+Write Bahasa Indonesia with your voice on Windows. Saydraft offers free, open-source offline Indonesian dictation with a local multilingual model.
+
+Free, open-source dictation
+
+# Indonesian voice typing for Windows.
+
+Bahasa Indonesia
+
+Write in Bahasa Indonesia with your voice, without a cloud transcription service. Saydraft runs Indonesian speech recognition locally on Windows through its shared All languages model.
+
+Choose Indonesian, language code id. Indonesian and Malay are separate choices: id selects Indonesian, while ms selects Malay. Both reuse the same installed model, so switching between them requires no separate language-pack download.
+
+Requires the shared All languages speech model (Whisper large-v3-turbo, approximately 1,621.7 MB). Download once in setup or Models, then reuse it offline.
+
+## How to set up Indonesian dictation
+
+- Follow the [current download and source setup instructions](https://tanzir71.github.io/saydraft/download/). Saydraft is a development preview for Windows 10 and 11.
+
+- In Hub → Settings → Models, review the required model’s size and license. Choose Download / Resume if it is missing; Pause is available.
+
+- Open Languages, enable automatic model choice, and select Indonesian. Save your settings. A single language pin uses code `id`.
+
+- Put the cursor in an editable app field, hold Ctrl + Win, speak, then release. Review the transcript before sending it.
+
+Language selection starts no transfer. If automatic routing is off, the model selected on Models remains in use; select a compatible model there. For more detail, see the [setup guide](https://tanzir71.github.io/saydraft/docs/getting-started/).
+
+## Use your voice in everyday Windows apps
+
+Use Indonesian dictation for messages, work notes or an email draft in an editable Windows app. Review names, colloquial expressions and repeated words in context. Pin Indonesian alone to provide a direct language hint, or pin it with another language when you switch between them.
+
+Speech recognition and text cleanup run locally. There is no account or cloud transcription fallback. With compatible models installed, you can dictate without an internet connection. Optional AI cleanup has its own model requirements; rules-only cleanup needs no text model.
+
+## Can I use Indonesian and Malay on the same installation?
+
+Yes. Both languages use All languages. Pin up to three languages; with more than one pinned, the model detects the language rather than receiving a single-language hint. Closely related languages and short clips can be confused, so a single pin is useful when you know which language you will speak.
+
+## What does language support mean here?
+
+This page describes speech-model coverage and app configuration. It does not claim a measured accuracy score for Indonesian. Accent, microphone, background noise and mixed speech affect results. The language choice does not translate the app interface or add Translate-mode output targets.
+
+[Get Saydraft for Windows](https://tanzir71.github.io/saydraft/download/) · [See how dictation stays local](https://tanzir71.github.io/saydraft/privacy/)
+
+
+---
+
+# Japanese Voice Typing for Windows, Offline | Saydraft
+
+Canonical: https://tanzir71.github.io/saydraft/languages/japanese/
+
+Dictate Japanese on Windows with local speech recognition. Saydraft is free, open-source offline voice typing through a shared multilingual model.
+
+Free, open-source dictation
+
+# Japanese voice typing for Windows.
+
+日本語
+
+Use your voice to draft Japanese messages, notes and documents on Windows. Saydraft recognizes speech locally with the shared All languages model after an explicit installation.
+
+Choose Japanese, code ja, in Languages for direct recognition. Japanese is separate from the Chinese and Korean choices even though all three share the same multilingual model files. Pin Japanese alongside English if you use both in your workflow.
+
+Requires the shared All languages speech model (Whisper large-v3-turbo, approximately 1,621.7 MB). Download once in setup or Models, then reuse it offline.
+
+## How to set up Japanese dictation
+
+- Follow the [current download and source setup instructions](https://tanzir71.github.io/saydraft/download/). Saydraft is a development preview for Windows 10 and 11.
+
+- In Hub → Settings → Models, review the required model’s size and license. Choose Download / Resume if it is missing; Pause is available.
+
+- Open Languages, enable automatic model choice, and select Japanese. Save your settings. A single language pin uses code `ja`.
+
+- Put the cursor in an editable app field, hold Ctrl + Win, speak, then release. Review the transcript before sending it.
+
+Language selection starts no transfer. If automatic routing is off, the model selected on Models remains in use; select a compatible model there. For more detail, see the [setup guide](https://tanzir71.github.io/saydraft/docs/getting-started/).
+
+## Use your voice in everyday Windows apps
+
+Review the model’s kanji, kana, names and punctuation before sending a Japanese draft. Recognition depends on the recording and speaker. The app does not provide a separate kanji-reading or script-conversion preference. Raw mode keeps the recognized wording without prose cleanup.
+
+Speech recognition and text cleanup run locally. There is no account or cloud transcription fallback. With compatible models installed, you can dictate without an internet connection. Optional AI cleanup has its own model requirements; rules-only cleanup needs no text model.
+
+## Do I need a separate Japanese model or IME?
+
+There is no separate Japanese model download. The installed All languages model produces Unicode text that Saydraft delivers into an editable field. A Japanese IME can help with manual corrections, but it does not choose the speech recognition language.
+
+## What does language support mean here?
+
+This page describes speech-model coverage and app configuration. It does not claim a measured accuracy score for Japanese. Accent, microphone, background noise and mixed speech affect results. The language choice does not translate the app interface or add Translate-mode output targets.
+
+[Get Saydraft for Windows](https://tanzir71.github.io/saydraft/download/) · [See how dictation stays local](https://tanzir71.github.io/saydraft/privacy/)
+
+
+---
+
+# Korean Voice Typing for Windows, Offline | Saydraft
+
+Canonical: https://tanzir71.github.io/saydraft/languages/korean/
+
+Write Korean with your voice on Windows. Saydraft is free, open-source offline dictation with local multilingual speech recognition.
+
+Free, open-source dictation
+
+# Korean voice typing for Windows.
+
+한국어
+
+Dictate Korean notes, messages and document drafts on Windows. With the shared All languages model installed, speech recognition stays on your PC.
+
+Pin Korean, language code ko, for direct multilingual recognition. Pinning Korean together with English uses the same model with language detection, rather than downloading a second model for English.
+
+Requires the shared All languages speech model (Whisper large-v3-turbo, approximately 1,621.7 MB). Download once in setup or Models, then reuse it offline.
+
+## How to set up Korean dictation
+
+- Follow the [current download and source setup instructions](https://tanzir71.github.io/saydraft/download/). Saydraft is a development preview for Windows 10 and 11.
+
+- In Hub → Settings → Models, review the required model’s size and license. Choose Download / Resume if it is missing; Pause is available.
+
+- Open Languages, enable automatic model choice, and select Korean. Save your settings. A single language pin uses code `ko`.
+
+- Put the cursor in an editable app field, hold Ctrl + Win, speak, then release. Review the transcript before sending it.
+
+Language selection starts no transfer. If automatic routing is off, the model selected on Models remains in use; select a compatible model there. For more detail, see the [setup guide](https://tanzir71.github.io/saydraft/docs/getting-started/).
+
+## Use your voice in everyday Windows apps
+
+Use Korean voice typing in a chat field, an email draft or your text editor. Review Hangul spacing, names and formal endings in the transcript. The dictionary lets you add names and specialist terms; Raw mode is available when you want to keep the recognized wording.
+
+Speech recognition and text cleanup run locally. There is no account or cloud transcription fallback. With compatible models installed, you can dictate without an internet connection. Optional AI cleanup has its own model requirements; rules-only cleanup needs no text model.
+
+## Can I dictate Korean and English in the same workflow?
+
+You can pin up to three languages. With Korean and English pinned, the router chooses All languages and lets that model detect the language. Recognition of short or mixed speech can vary, so review names and English terms in the result.
+
+## What does language support mean here?
+
+This page describes speech-model coverage and app configuration. It does not claim a measured accuracy score for Korean. Accent, microphone, background noise and mixed speech affect results. The language choice does not translate the app interface or add Translate-mode output targets.
+
+[Get Saydraft for Windows](https://tanzir71.github.io/saydraft/download/) · [See how dictation stays local](https://tanzir71.github.io/saydraft/privacy/)
+
+
+---
+
+# Malay Voice Typing for Windows, Offline | Saydraft
+
+Canonical: https://tanzir71.github.io/saydraft/languages/malay/
+
+Offline Bahasa Melayu voice typing for Windows. Saydraft is free and open source, with Malay speech recognition through a shared local model.
+
+Free, open-source dictation
+
+# Malay voice typing for Windows.
+
+Bahasa Melayu
+
+Dictate in Bahasa Melayu on Windows using a speech model that runs on your PC. Install Saydraft’s shared All languages model once, then reuse it for offline Malay voice typing.
+
+Choose Malay, language code ms, in Languages. Indonesian is a separate id choice. The language hint helps select Malay recognition; it does not provide a separate model for every regional variety or a Rumi/Jawi script-conversion control.
+
+Requires the shared All languages speech model (Whisper large-v3-turbo, approximately 1,621.7 MB). Download once in setup or Models, then reuse it offline.
+
+## How to set up Malay dictation
+
+- Follow the [current download and source setup instructions](https://tanzir71.github.io/saydraft/download/). Saydraft is a development preview for Windows 10 and 11.
+
+- In Hub → Settings → Models, review the required model’s size and license. Choose Download / Resume if it is missing; Pause is available.
+
+- Open Languages, enable automatic model choice, and select Malay. Save your settings. A single language pin uses code `ms`.
+
+- Put the cursor in an editable app field, hold Ctrl + Win, speak, then release. Review the transcript before sending it.
+
+Language selection starts no transfer. If automatic routing is off, the model selected on Models remains in use; select a compatible model there. For more detail, see the [setup guide](https://tanzir71.github.io/saydraft/docs/getting-started/).
+
+## Use your voice in everyday Windows apps
+
+Draft Malay messages, meeting notes or documents in an editable app field. Check names, regional expressions and loanwords before sending. Raw mode retains recognized wording. If you dictate English too, you can pin both languages and keep using the same installed multilingual model.
+
+Speech recognition and text cleanup run locally. There is no account or cloud transcription fallback. With compatible models installed, you can dictate without an internet connection. Optional AI cleanup has its own model requirements; rules-only cleanup needs no text model.
+
+## Does Malay need its own download?
+
+No. Malay shares All languages with Indonesian, Thai, Chinese, Korean, Japanese, Bengali and Arabic. Install that model through the explicit Download / Resume action. Selecting Malay or changing a language pin does not start a transfer.
+
+## What does language support mean here?
+
+This page describes speech-model coverage and app configuration. It does not claim a measured accuracy score for Malay. Accent, microphone, background noise and mixed speech affect results. The language choice does not translate the app interface or add Translate-mode output targets.
+
+[Get Saydraft for Windows](https://tanzir71.github.io/saydraft/download/) · [See how dictation stays local](https://tanzir71.github.io/saydraft/privacy/)
+
+
+---
+
+# Persian & Farsi Voice Typing for Windows | Saydraft
+
+Canonical: https://tanzir71.github.io/saydraft/languages/persian/
+
+Offline Persian and Farsi voice typing on Windows. Saydraft is free and open source, with a shared local multilingual speech model.
+
+Free, open-source dictation
+
+# Persian (Farsi) voice typing for Windows.
+
+فارسی
+
+Dictate Persian, also known as Farsi, on Windows without a cloud transcription service. Saydraft recognizes speech locally through the All languages model.
+
+Choose Persian (Farsi), language code fa, in Languages. Persian is distinct from Arabic and Urdu in the menu. Those languages share model files, but selecting one is not a substitute for selecting the language you speak.
+
+Requires the shared All languages speech model (Whisper large-v3-turbo, approximately 1,621.7 MB). Download once in setup or Models, then reuse it offline.
+
+## How to set up Persian (Farsi) dictation
+
+- Follow the [current download and source setup instructions](https://tanzir71.github.io/saydraft/download/). Saydraft is a development preview for Windows 10 and 11.
+
+- In Hub → Settings → Models, review the required model’s size and license. Choose Download / Resume if it is missing; Pause is available.
+
+- Open Languages, enable automatic model choice, and select Persian (Farsi). Save your settings. A single language pin uses code `fa`.
+
+- Put the cursor in an editable app field, hold Ctrl + Win, speak, then release. Review the transcript before sending it.
+
+Language selection starts no transfer. If automatic routing is off, the model selected on Models remains in use; select a compatible model there. For more detail, see the [setup guide](https://tanzir71.github.io/saydraft/docs/getting-started/).
+
+## Use your voice in everyday Windows apps
+
+Draft Persian text in an editable Windows field with right-to-left text support. Review spelling, names, punctuation and joining behavior in the destination app. There is no separate Romanized-Persian transliteration preference in the current app.
+
+Speech recognition and text cleanup run locally. There is no account or cloud transcription fallback. With compatible models installed, you can dictate without an internet connection. Optional AI cleanup has its own model requirements; rules-only cleanup needs no text model.
+
+## Does Persian share the Arabic model?
+
+Persian and Arabic both use the shared All languages model, with separate fa and ar language choices. One installation serves both. Choose Persian alone for a direct hint, or pin more than one language when you switch between them.
+
+## What does language support mean here?
+
+This page describes speech-model coverage and app configuration. It does not claim a measured accuracy score for Persian (Farsi). Accent, microphone, background noise and mixed speech affect results. The language choice does not translate the app interface or add Translate-mode output targets.
+
+[Get Saydraft for Windows](https://tanzir71.github.io/saydraft/download/) · [See how dictation stays local](https://tanzir71.github.io/saydraft/privacy/)
+
+
+---
+
+# Spanish Voice Typing for Windows, Offline | Saydraft
+
+Canonical: https://tanzir71.github.io/saydraft/languages/spanish/
+
+Free, open-source Spanish voice typing for Windows. Dictate offline with Saydraft using local speech recognition in the default model.
+
+Free, open-source dictation
+
+# Spanish voice typing for Windows.
+
+Español
+
+Dictate Spanish messages, emails and notes on your own Windows PC. Spanish speech recognition is included in Saydraft’s default Parakeet v3 model and is also available through All languages.
+
+Choose Spanish, language code es, in Languages. A Spanish-only pin uses Parakeet v3 when automatic model choice is enabled. Combining Spanish with a language outside that model’s set, such as Japanese or Indonesian, selects the shared All languages model instead.
+
+Spanish is included in Parakeet v3, the default speech model. All languages is also compatible. No separate language pack is required.
+
+## How to set up Spanish dictation
+
+- Follow the [current download and source setup instructions](https://tanzir71.github.io/saydraft/download/). Saydraft is a development preview for Windows 10 and 11.
+
+- In Hub → Settings → Models, review the required model’s size and license. Choose Download / Resume if it is missing; Pause is available.
+
+- Open Languages, enable automatic model choice, and select Spanish. Save your settings. A single language pin uses code `es`.
+
+- Put the cursor in an editable app field, hold Ctrl + Win, speak, then release. Review the transcript before sending it.
+
+Language selection starts no transfer. If automatic routing is off, the model selected on Models remains in use; select a compatible model there. For more detail, see the [setup guide](https://tanzir71.github.io/saydraft/docs/getting-started/).
+
+## Use your voice in everyday Windows apps
+
+Draft in Spanish in an editable chat field, document or text editor. Review accents, names, numbers and punctuation in the result. Spanish uses a shared language choice; the app does not expose a separate decoder setting for every country or guarantee equal accuracy across regional accents.
+
+Speech recognition and text cleanup run locally. There is no account or cloud transcription fallback. With compatible models installed, you can dictate without an internet connection. Optional AI cleanup has its own model requirements; rules-only cleanup needs no text model.
+
+## Is Spanish dictation the same as translating into Spanish?
+
+No. Spanish dictation transcribes Spanish speech. The separate experimental Pro/Labs Translate mode can translate recognized speech into Spanish using an explicitly installed local editing model and a saved output target. You do not need Translate mode to dictate in Spanish.
+
+## What does language support mean here?
+
+This page describes speech-model coverage and app configuration. It does not claim a measured accuracy score for Spanish. Accent, microphone, background noise and mixed speech affect results. The language choice does not translate the app interface or add Translate-mode output targets.
+
+[Get Saydraft for Windows](https://tanzir71.github.io/saydraft/download/) · [See how dictation stays local](https://tanzir71.github.io/saydraft/privacy/)
+
+
+---
+
+# Tamil Voice Typing for Windows, Offline | Saydraft
+
+Canonical: https://tanzir71.github.io/saydraft/languages/tamil/
+
+Dictate Tamil offline on Windows with Saydraft. Free, open-source voice typing with a shared local multilingual speech recognition model.
+
+Free, open-source dictation
+
+# Tamil voice typing for Windows.
+
+தமிழ்
+
+Write Tamil messages, notes and drafts with your voice on Windows. Saydraft runs recognition locally using the installed All languages model.
+
+Choose Tamil, language code ta, in Languages. Tamil is a separate choice from Telugu and Hindi, even though their speech model files are shared. A single Tamil pin supplies the decoder with that language hint.
+
+Requires the shared All languages speech model (Whisper large-v3-turbo, approximately 1,621.7 MB). Download once in setup or Models, then reuse it offline.
+
+## How to set up Tamil dictation
+
+- Follow the [current download and source setup instructions](https://tanzir71.github.io/saydraft/download/). Saydraft is a development preview for Windows 10 and 11.
+
+- In Hub → Settings → Models, review the required model’s size and license. Choose Download / Resume if it is missing; Pause is available.
+
+- Open Languages, enable automatic model choice, and select Tamil. Save your settings. A single language pin uses code `ta`.
+
+- Put the cursor in an editable app field, hold Ctrl + Win, speak, then release. Review the transcript before sending it.
+
+Language selection starts no transfer. If automatic routing is off, the model selected on Models remains in use; select a compatible model there. For more detail, see the [setup guide](https://tanzir71.github.io/saydraft/docs/getting-started/).
+
+## Use your voice in everyday Windows apps
+
+Dictate into an editable app field, then review Tamil spelling, vowel signs and proper names. Use a destination font that supports Tamil. The language menu selects recognition, rather than a separate Romanized-Tamil or regional script-conversion setting.
+
+Speech recognition and text cleanup run locally. There is no account or cloud transcription fallback. With compatible models installed, you can dictate without an internet connection. Optional AI cleanup has its own model requirements; rules-only cleanup needs no text model.
+
+## Can I use Tamil without downloading a separate model?
+
+Yes, if All languages is already installed. The same model also serves the other supported multilingual choices. Selecting Tamil reuses those files and starts no transfer. If it is missing, use the explicit Download / Resume action in Models.
+
+## What does language support mean here?
+
+This page describes speech-model coverage and app configuration. It does not claim a measured accuracy score for Tamil. Accent, microphone, background noise and mixed speech affect results. The language choice does not translate the app interface or add Translate-mode output targets.
+
+[Get Saydraft for Windows](https://tanzir71.github.io/saydraft/download/) · [See how dictation stays local](https://tanzir71.github.io/saydraft/privacy/)
+
+
+---
+
+# Telugu Voice Typing for Windows, Offline | Saydraft
+
+Canonical: https://tanzir71.github.io/saydraft/languages/telugu/
+
+Free, open-source Telugu voice typing for Windows. Saydraft transcribes speech offline using a shared local multilingual model.
+
+Free, open-source dictation
+
+# Telugu voice typing for Windows.
+
+తెలుగు
+
+Use your voice to write Telugu on your own Windows PC. Saydraft provides local Telugu speech recognition through its installed All languages model.
+
+Select Telugu, language code te, in Languages. Telugu and Tamil are separate recognition choices with shared model weights. Pin Telugu alone when you know which language you will speak, or choose up to three pins for a multilingual workflow.
+
+Requires the shared All languages speech model (Whisper large-v3-turbo, approximately 1,621.7 MB). Download once in setup or Models, then reuse it offline.
+
+## How to set up Telugu dictation
+
+- Follow the [current download and source setup instructions](https://tanzir71.github.io/saydraft/download/). Saydraft is a development preview for Windows 10 and 11.
+
+- In Hub → Settings → Models, review the required model’s size and license. Choose Download / Resume if it is missing; Pause is available.
+
+- Open Languages, enable automatic model choice, and select Telugu. Save your settings. A single language pin uses code `te`.
+
+- Put the cursor in an editable app field, hold Ctrl + Win, speak, then release. Review the transcript before sending it.
+
+Language selection starts no transfer. If automatic routing is off, the model selected on Models remains in use; select a compatible model there. For more detail, see the [setup guide](https://tanzir71.github.io/saydraft/docs/getting-started/).
+
+## Use your voice in everyday Windows apps
+
+Draft Telugu notes, messages and documents in an editable Windows app. Review vowel signs, names, numbers and English terms in the output. Recognition quality can vary with accent and audio; the language choice is not an accuracy score.
+
+Speech recognition and text cleanup run locally. There is no account or cloud transcription fallback. With compatible models installed, you can dictate without an internet connection. Optional AI cleanup has its own model requirements; rules-only cleanup needs no text model.
+
+## Can I dictate Telugu and English with the same installation?
+
+Yes. Both are supported by All languages. With Telugu and English pinned together, the model detects the language instead of receiving one fixed hint. Review mixed-language output, especially short phrases and names.
+
+## What does language support mean here?
+
+This page describes speech-model coverage and app configuration. It does not claim a measured accuracy score for Telugu. Accent, microphone, background noise and mixed speech affect results. The language choice does not translate the app interface or add Translate-mode output targets.
+
+[Get Saydraft for Windows](https://tanzir71.github.io/saydraft/download/) · [See how dictation stays local](https://tanzir71.github.io/saydraft/privacy/)
+
+
+---
+
+# Thai Voice Typing for Windows, Offline | Saydraft
+
+Canonical: https://tanzir71.github.io/saydraft/languages/thai/
+
+Type Thai with your voice on Windows. Saydraft offers free, open-source offline speech to text through its shared multilingual model.
+
+Free, open-source dictation
+
+# Thai voice typing for Windows.
+
+ภาษาไทย
+
+Write Thai messages, notes and drafts with your voice. Saydraft turns speech into text locally on your Windows PC once the shared All languages model is installed.
+
+Thai uses language code th. Pin Thai to route directly to the multilingual model instead of starting with the default European-language model. You can also pin Thai alongside English or another language when you switch between them.
+
+Requires the shared All languages speech model (Whisper large-v3-turbo, approximately 1,621.7 MB). Download once in setup or Models, then reuse it offline.
+
+## How to set up Thai dictation
+
+- Follow the [current download and source setup instructions](https://tanzir71.github.io/saydraft/download/). Saydraft is a development preview for Windows 10 and 11.
+
+- In Hub → Settings → Models, review the required model’s size and license. Choose Download / Resume if it is missing; Pause is available.
+
+- Open Languages, enable automatic model choice, and select Thai. Save your settings. A single language pin uses code `th`.
+
+- Put the cursor in an editable app field, hold Ctrl + Win, speak, then release. Review the transcript before sending it.
+
+Language selection starts no transfer. If automatic routing is off, the model selected on Models remains in use; select a compatible model there. For more detail, see the [setup guide](https://tanzir71.github.io/saydraft/docs/getting-started/).
+
+## Use your voice in everyday Windows apps
+
+Use Thai dictation for a message, an email draft or a note in an editable Windows app. Thai word boundaries and spacing differ from English, so review the resulting text in context. Raw mode keeps the recognized words without prose cleanup.
+
+Speech recognition and text cleanup run locally. There is no account or cloud transcription fallback. With compatible models installed, you can dictate without an internet connection. Optional AI cleanup has its own model requirements; rules-only cleanup needs no text model.
+
+## Do I need a Thai keyboard to dictate?
+
+Saydraft delivers recognized Unicode text into an editable field at the cursor. A Thai keyboard layout is useful for manual corrections, but it does not select the speech model. Choose Thai in the app’s language settings.
+
+## What does language support mean here?
+
+This page describes speech-model coverage and app configuration. It does not claim a measured accuracy score for Thai. Accent, microphone, background noise and mixed speech affect results. The language choice does not translate the app interface or add Translate-mode output targets.
+
+[Get Saydraft for Windows](https://tanzir71.github.io/saydraft/download/) · [See how dictation stays local](https://tanzir71.github.io/saydraft/privacy/)
+
+
+---
+
+# Urdu Voice Typing for Windows, Offline | Saydraft
+
+Canonical: https://tanzir71.github.io/saydraft/languages/urdu/
+
+Dictate Urdu offline on Windows with Saydraft. Free, open-source voice typing through a shared local multilingual speech recognition model.
+
+Free, open-source dictation
+
+# Urdu voice typing for Windows.
+
+اردو
+
+Write Urdu with your voice on Windows while keeping speech recognition on your own PC. Saydraft uses its installed All languages model for Urdu dictation.
+
+Choose Urdu, language code ur, in Languages. Urdu is separate from Hindi and Arabic in the language menu. All three reuse the same multilingual model; choosing Urdu supplies a recognition hint when it is the only pinned language.
+
+Requires the shared All languages speech model (Whisper large-v3-turbo, approximately 1,621.7 MB). Download once in setup or Models, then reuse it offline.
+
+## How to set up Urdu dictation
+
+- Follow the [current download and source setup instructions](https://tanzir71.github.io/saydraft/download/). Saydraft is a development preview for Windows 10 and 11.
+
+- In Hub → Settings → Models, review the required model’s size and license. Choose Download / Resume if it is missing; Pause is available.
+
+- Open Languages, enable automatic model choice, and select Urdu. Save your settings. A single language pin uses code `ur`.
+
+- Put the cursor in an editable app field, hold Ctrl + Win, speak, then release. Review the transcript before sending it.
+
+Language selection starts no transfer. If automatic routing is off, the model selected on Models remains in use; select a compatible model there. For more detail, see the [setup guide](https://tanzir71.github.io/saydraft/docs/getting-started/).
+
+## Use your voice in everyday Windows apps
+
+Dictate Urdu messages, notes or document drafts into an editable Windows field. Use a destination app with right-to-left text support and review spelling, punctuation and names. Saydraft does not currently offer a Roman Urdu transliteration preference.
+
+Speech recognition and text cleanup run locally. There is no account or cloud transcription fallback. With compatible models installed, you can dictate without an internet connection. Optional AI cleanup has its own model requirements; rules-only cleanup needs no text model.
+
+## Does Urdu require its own download or a separate Arabic model?
+
+No. Urdu and Arabic share All languages along with Hindi, Bengali and other supported speech languages. Install that model once through Download / Resume, then choose Urdu in Languages. The model is reused offline; changing the language choice starts no transfer.
+
+## What does language support mean here?
+
+This page describes speech-model coverage and app configuration. It does not claim a measured accuracy score for Urdu. Accent, microphone, background noise and mixed speech affect results. The language choice does not translate the app interface or add Translate-mode output targets.
+
+[Get Saydraft for Windows](https://tanzir71.github.io/saydraft/download/) · [See how dictation stays local](https://tanzir71.github.io/saydraft/privacy/)
+
+
+---
+
+# Vietnamese Voice Typing for Windows, Offline | Saydraft
+
+Canonical: https://tanzir71.github.io/saydraft/languages/vietnamese/
+
+Free, open-source Vietnamese voice typing on Windows. Dictate offline with Saydraft and its shared local multilingual speech model.
+
+Free, open-source dictation
+
+# Vietnamese voice typing for Windows.
+
+Tiếng Việt
+
+Draft Vietnamese text with your voice on Windows while keeping speech recognition local. Saydraft uses the installed All languages model for Vietnamese dictation.
+
+Choose Vietnamese, language code vi, in Languages. A single pin supplies a Vietnamese hint to the model. You can pin it with English or another supported language; multiple pins let the same model detect the language.
+
+Requires the shared All languages speech model (Whisper large-v3-turbo, approximately 1,621.7 MB). Download once in setup or Models, then reuse it offline.
+
+## How to set up Vietnamese dictation
+
+- Follow the [current download and source setup instructions](https://tanzir71.github.io/saydraft/download/). Saydraft is a development preview for Windows 10 and 11.
+
+- In Hub → Settings → Models, review the required model’s size and license. Choose Download / Resume if it is missing; Pause is available.
+
+- Open Languages, enable automatic model choice, and select Vietnamese. Save your settings. A single language pin uses code `vi`.
+
+- Put the cursor in an editable app field, hold Ctrl + Win, speak, then release. Review the transcript before sending it.
+
+Language selection starts no transfer. If automatic routing is off, the model selected on Models remains in use; select a compatible model there. For more detail, see the [setup guide](https://tanzir71.github.io/saydraft/docs/getting-started/).
+
+## Use your voice in everyday Windows apps
+
+Use Vietnamese dictation for a message, a note or a document draft. Tone marks and vowel marks can change meaning, so review spelling, names and numbers in the result. The app does not offer a separate model setting for each regional accent.
+
+Speech recognition and text cleanup run locally. There is no account or cloud transcription fallback. With compatible models installed, you can dictate without an internet connection. Optional AI cleanup has its own model requirements; rules-only cleanup needs no text model.
+
+## Are Vietnamese tone marks preserved?
+
+The model produces Unicode text, including Vietnamese diacritics, rather than plain ASCII transliteration. Correct tone marks still depend on recognition quality. Review the output before sending, especially names and words that differ only by a tone mark.
+
+## What does language support mean here?
+
+This page describes speech-model coverage and app configuration. It does not claim a measured accuracy score for Vietnamese. Accent, microphone, background noise and mixed speech affect results. The language choice does not translate the app interface or add Translate-mode output targets.
+
+[Get Saydraft for Windows](https://tanzir71.github.io/saydraft/download/) · [See how dictation stays local](https://tanzir71.github.io/saydraft/privacy/)
+
+
+---
+
+# Offline Dictation for Windows: A Practical Guide | Saydraft
+
+Canonical: https://tanzir71.github.io/saydraft/offline-dictation-windows/
+
+Learn how offline dictation works on Windows: speech models, hardware, languages, local cleanup and privacy. A practical free, open-source setup guide.
+
+Facts checked: 2026-11-14
+
+Offline dictation turns microphone audio into text with a model stored on your computer. An optional second model can tidy the wording. Recognition and optional cleanup run on your PC and need memory, processor time, storage and careful review.
+
+ 
+
+Saydraft is a free, open-source Windows project built around this workflow. It is available from source while signed-release and broader acceptance work continue.
+
+ 
+
+## What runs on your PC
+
+ 
+
+Speech recognition produces the transcript. Deterministic rules can format it; optional local AI cleanup can make further edits when its quality and time guards allow. These are separate stages. Improving prose after recognition does not establish that the original names, numbers or words were heard correctly.
+
+ 
+
+Raw and Code modes reduce prose processing. Keep them available for material where literal wording matters.
+
+ 
+
+## Choose a compatible language model
+
+ 
+
+The default Parakeet v3 choice covers 25 European languages. The optional shared All languages model is Whisper large-v3-turbo and covers the other supported Whisper language choices. Thai, Chinese, Korean, Japanese, Hindi, Urdu, Bengali and Arabic use that shared multilingual route.
+
+ 
+
+With automatic model choice enabled, pin one to three languages. A single Whisper pin supplies its decoder language; multiple pins leave model language detection enabled. Parakeet does not accept that explicit decoder hint. Review the [language and model guide](https://tanzir71.github.io/saydraft/languages/); coverage does not guarantee accuracy for every accent, dialect or mixed-language passage.
+
+ 
+
+## Plan for storage and hardware
+
+ 
+
+The default speech bundle is approximately 773.4 MB including its language detector. All languages is approximately 1,621.7 MB. Optional editing models add their own downloads and memory needs. Setup shows the files, sizes and licenses before you explicitly choose Download / Resume.
+
+ 
+
+Use the application’s model performance check to measure an installed model with bundled audio. It makes a provisional capability recommendation rather than a guarantee of everyday speed. Larger models and longer passages can add delay; broad release-latency qualification remains in progress.
+
+ 
+
+## Check privacy as a workflow
+
+ 
+
+Installed speech and cleanup run locally. Model downloads and optional update checks are separate network actions. History is local, audio retention is off by default, and your PC still controls who can access saved data.
+
+ 
+
+Finish setup, disconnect your network and try a plain text editor. Read the [privacy page](https://tanzir71.github.io/saydraft/privacy/) and the linked verification guide for details of the network guard and optional Windows Firewall controls. The website itself has no microphone access or tracking analytics.
+
+ 
+
+## Test the words you actually use
+
+ 
+
+Try quiet speech, proper names, numbers and a longer paragraph. Review all results before sending them elsewhere. The public 20-language baseline exposes substantial Bengali, Tamil and Telugu errors, and broad owner accuracy remains deferred. Experimental decoder candidates are kept out when they regress.
+
+ 
+
+Start with the [setup guide](https://tanzir71.github.io/saydraft/docs/getting-started/). For editor and terminal workflows, continue with [dictation for developers](https://tanzir71.github.io/saydraft/dictation-for-developers/).
+
+## A few useful answers.
+
+### Does offline dictation need internet during use?
+
+Installed local models can recognize speech without internet. Saydraft's setup downloads are explicit, and optional GitHub update checks are off by default. Finish model setup before disconnecting.
+
+### Does every language need its own download?
+
+No. The shared multilingual speech model covers many language choices. Selecting or pinning a language does not start a download.
+
+### Will a larger model always be more accurate?
+
+No. Recognition varies by language, recording conditions and model. Compare measured results and your own representative speech; larger downloads alone do not establish better accuracy or speed.
+
+## Sources and further reading
+
+- [Saydraft models and measurement scope ↗](https://github.com/tanzir71/saydraft/blob/main/docs/MODELS.md)
+
+- [Multilingual accuracy findings ↗](https://github.com/tanzir71/saydraft/blob/main/docs/ASR_ACCURACY.md)
+
+- [Offline verification and its limits ↗](https://github.com/tanzir71/saydraft/blob/main/docs/VERIFY_OFFLINE.md)
+
+
+---
+
+# Saydraft Privacy — What Stays on Your PC
+
+Canonical: https://tanzir71.github.io/saydraft/privacy/
+
+How Saydraft handles local speech, explicit downloads, optional update checks, History, audio retention and a website without tracking analytics.
+
+Facts checked: 2026-11-14
+
+## Speech and cleanup stay local
+
+ 
+
+The app runs speech recognition and optional AI cleanup on your PC. There is no cloud transcription or account, and no telemetry or crash uploads. The Python network guard blocks external connections except for scoped explicit model downloads and saved opt-in update checks. The cleanup server uses loopback on your own machine.
+
+ 
+
+Python policy does not control every native library or separate executable. The [offline verification guide](https://tanzir71.github.io/saydraft/docs/privacy/verify-offline/) explains optional packaged Windows Firewall controls and their limits.
+
+ 
+
+## Downloads are explicit
+
+ 
+
+Models and runtimes download only when you start their setup action. Sizes, sources and licenses are shown first; pinned files are checked with SHA-256. Installed models are reused offline. Choosing a language or enabling a Labs option does not start a download.
+
+ 
+
+## Update checks are your choice
+
+ 
+
+Update checking is off by default. Enable it in Settings → Privacy to request public GitHub release information at startup and every 24 hours while the app runs, or choose Check now. The request includes the app version, without your audio, transcripts, field text, clipboard contents, History or device data.
+
+ 
+
+You download and install updates yourself. Saydraft does not fetch installers or replace itself. Turn the setting off and save to stop future checks. A release page opens only after your action.
+
+ 
+
+## History, recordings and correction learning
+
+ 
+
+Dictations are saved locally in History before delivery. Review, export or delete entries there. Audio retention is off by default and is a separate choice. Local storage is still subject to your Windows account, backups and other software on the PC; “local” does not mean other software cannot access it.
+
+ 
+
+Dictionary correction suggestions and Auto-add are separate, default-off choices. Learning can inspect the original editable field for a correction after a dictation. See [Dictionary](https://tanzir71.github.io/saydraft/docs/dictionary/) before enabling it. Password fields are excluded.
+
+ 
+
+## Clipboard and selected text
+
+ 
+
+Normal delivery and explicit Copy use the Windows clipboard boundary. Command Mode can additionally use a separate, default-off Ctrl+C fallback for selections that an app cannot expose through accessibility APIs. Windows and target-app clipboard history/sync settings apply; restoring the current clipboard does not remove copies already retained or synced by those systems.
+
+ 
+
+Command and Ask operate only when explicitly enabled and invoked. Review [selection editing](https://tanzir71.github.io/saydraft/docs/command-mode/) for the difference between replacement and a result offered for Copy.
+
+ 
+
+## This website
+
+ 
+
+This site has no tracking analytics, advertising or microphone access. Fonts and scripts are self-hosted, and examples are canned simulations. Following an external link takes you to another service. GitHub Pages hosts the site and may process request information under [GitHub’s privacy statement](https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement).
+
+## A few useful answers.
+
+### Does Saydraft upload recordings or transcripts?
+
+Speech recognition and optional cleanup run locally. Saydraft has no cloud transcription, telemetry or crash uploads. Explicit downloads and saved opt-in release checks are separate network actions.
+
+### Does restoring the clipboard remove Windows clipboard history?
+
+No. Windows and target-app clipboard history or sync settings can apply, especially to Command Mode's separate optional Ctrl+C fallback. Restoring the current clipboard cannot retract those entries.
+
+## Sources and further reading
+
+- [Application networking and clipboard boundaries ↗](https://github.com/tanzir71/saydraft/blob/main/docs/PRIVACY.md)
+
+- [Optional update checks ↗](https://github.com/tanzir71/saydraft/blob/main/docs/UPDATES.md)
+
+- [Windows Firewall verification and limits ↗](https://github.com/tanzir71/saydraft/blob/main/docs/VERIFY_OFFLINE.md)
+
+- [GitHub's privacy statement ↗](https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement)
+
+
+---
+
+# Superwhisper Alternative for Windows | Saydraft
+
+Canonical: https://tanzir71.github.io/saydraft/superwhisper-alternative-windows/
+
+Compare Saydraft and Superwhisper for Windows voice typing. Review offline model choices, open-source licensing, paid plans and current setup status.
+
+Facts checked: 2026-11-14
+
+Superwhisper is already available on Windows. It also supports macOS and now has an official Linux release. Choosing Saydraft is a decision about licensing, model workflow and project maturity, rather than access to a Windows app.
+
+ 
+
+Both projects can use local speech models. Superwhisper also provides cloud choices, so its network behavior depends on the selected model and processing mode. Its [introduction](https://superwhisper.com/docs/get-started/introduction) explains the distinction, including supported local AI processing.
+
+ 
+
+## Compare what you would install
+
+ 
+
+| Choice | Saydraft | Superwhisper |
+| --- | --- | --- |
+| Local speech | [Installed Parakeet/Whisper models](https://github.com/tanzir71/saydraft/blob/main/docs/MODELS.md) | [Local voice models](https://superwhisper.com/docs/get-started/introduction) |
+| App license | [MIT-licensed source](https://github.com/tanzir71/saydraft/blob/main/LICENSE) | [Commercial application terms](https://superwhisper.com/terms) |
+| Desktop availability | [Windows development project](https://github.com/tanzir71/saydraft) | [Windows and macOS](https://superwhisper.com/download), [Linux](https://superwhisper.com/linux) |
+| Cost | [Free](https://github.com/tanzir71/saydraft) | [Free local dictation; paid Pro options](https://superwhisper.com/docs/billing/plans) |
+
+ 
+
+Superwhisper’s website lists Pro at US$8.49 monthly, US$84.99 yearly or US$249.99 once. Store prices and current terms can differ; use the vendor’s plan page when making a purchase decision. Saydraft’s source has no subscription or paid unlock.
+
+ 
+
+## Choosing a workflow
+
+ 
+
+Try the same representative phrases in the models you plan to use. A local model can trade memory, speed and recognition quality differently from another local model. Neither shared use of Whisper nor a larger file establishes equal accuracy or performance.
+
+ 
+
+Saydraft’s [offline guide](https://tanzir71.github.io/saydraft/offline-dictation-windows/) explains explicit setup, hardware and privacy limits. Its public accuracy record includes substantial errors in some languages; broader acceptance is ongoing. Current source builds and experimental features need review before reliance in an everyday workflow.
+
+ 
+
+Not affiliated with Superwhisper. Information checked on the date above.
+
+## A few useful answers.
+
+### Is Superwhisper available on Windows?
+
+Yes. Superwhisper currently offers Windows and macOS downloads, and also has a Linux product and release. Saydraft is a separate Windows project.
+
+### Are both applications capable of offline transcription?
+
+Both offer local speech recognition. Superwhisper also offers cloud models; its offline AI processing depends on the selected local model and mode. Saydraft runs installed speech and optional editing models locally.
+
+## Sources and further reading
+
+- [Superwhisper downloads ↗](https://superwhisper.com/download)
+
+- [Superwhisper local and cloud modes ↗](https://superwhisper.com/docs/get-started/introduction)
+
+- [Superwhisper plans ↗](https://superwhisper.com/docs/billing/plans)
+
+- [Superwhisper application terms ↗](https://superwhisper.com/terms)
+
+- [Superwhisper Linux release ↗](https://github.com/superultrainc/superwhisper-linux-releases/releases/tag/v1.3.1)
+
+- [Saydraft source and status ↗](https://github.com/tanzir71/saydraft)
+
+
+---
+
+# Typeless Alternative for Windows, Offline | Saydraft
+
+Canonical: https://tanzir71.github.io/saydraft/typeless-alternative/
+
+Explore a free, open-source Typeless alternative for Windows. Compare local dictation, cloud processing, pricing and experimental editing features.
+
+Facts checked: 2026-11-14
+
+Saydraft is a free, MIT-licensed Windows project for voice typing with local models. It is worth evaluating when offline use and inspectable application source matter to your workflow. A stable public release is still pending; current users run it from source.
+
+ 
+
+Typeless currently offers desktop apps for macOS, Windows and Linux. Its [data controls](https://www.typeless.com/data-controls) describe processing on cloud servers. This comparison concerns where dictation runs, rather than a claim that one app recognizes speech more accurately.
+
+ 
+
+## Compare the essentials
+
+ 
+
+| Choice | Saydraft | Typeless |
+| --- | --- | --- |
+| Recognition | [Local speech models](https://github.com/tanzir71/saydraft/blob/main/docs/MODELS.md) | [Cloud processing](https://www.typeless.com/data-controls) |
+| Desktop platform | [Windows](https://github.com/tanzir71/saydraft) | [macOS, Windows and Linux](https://www.typeless.com/) |
+| Software source | [MIT-licensed application](https://github.com/tanzir71/saydraft/blob/main/LICENSE) | [Commercial application terms](https://www.typeless.com/terms) |
+| Pricing | [No subscription](https://github.com/tanzir71/saydraft) | [Free allowance; paid Pro and Enterprise](https://www.typeless.com/pricing) |
+
+ 
+
+Typeless lists Pro at US$30 per member monthly, or US$12 per member per month when billed yearly. Its free plan includes a weekly word allowance. Verify current limits and billing terms with the vendor before choosing a plan.
+
+ 
+
+## Dictation, cleanup and local editing
+
+ 
+
+Saydraft combines recognized speech with deterministic formatting and optional local AI cleanup. Raw and Code modes are available when you want less prose editing. Names, numbers and meaningful wording still need review.
+
+ 
+
+Experimental Translate and Ask use an explicitly installed local editing model. Ask opens an answer in a separate note; it does not browse the web. Translate currently has a narrower tested target set than ordinary multilingual dictation. These features are not a promise of identical Typeless behavior or equivalent quality in every language.
+
+ 
+
+Start with [setup](https://tanzir71.github.io/saydraft/docs/getting-started/), then check [language and model coverage](https://tanzir71.github.io/saydraft/languages/). Existing models are reused offline, and choosing a language starts no download.
+
+ 
+
+Not affiliated with Typeless. Information checked on the date above.
+
+## A few useful answers.
+
+### Does Typeless offer offline dictation?
+
+Typeless documents an internet requirement for its cloud transcription and contextual processing. Saydraft uses installed local speech and editing models.
+
+### Does Saydraft include translation and questions about text?
+
+Experimental Pro/Labs Translate and Ask features are implemented with a separately installed shared local editing model. They require review, and broader quality and physical workflow acceptance remain open.
+
+## Sources and further reading
+
+- [Typeless platforms and product ↗](https://www.typeless.com/)
+
+- [Typeless data controls ↗](https://www.typeless.com/data-controls)
+
+- [Typeless pricing ↗](https://www.typeless.com/pricing)
+
+- [Typeless application terms ↗](https://www.typeless.com/terms)
+
+- [Saydraft source and status ↗](https://github.com/tanzir71/saydraft)
+
+
+---
+
+# Windows Voice Typing Alternative, Offline | Saydraft
+
+Canonical: https://tanzir71.github.io/saydraft/windows-voice-typing-alternative/
+
+Compare Win+H voice typing with Saydraft's local Windows dictation. Understand internet requirements, Voice Access and explicit model setup.
+
+Facts checked: 2026-11-14
+
+Win+H opens Windows voice typing. Microsoft documents an internet requirement for that feature and says it uses online speech recognition. Saydraft provides a separate route: install local speech models, then dictate on your PC while offline.
+
+ 
+
+## Keep Windows features distinct
+
+ 
+
+Windows voice typing and Windows Voice Access are different products. Microsoft documents [Voice Access](https://support.microsoft.com/en-us/accessibility/windows/voice-access/set-up-voice-access) as an accessibility feature that can use offline recognition after setup. Windows editions, languages, hardware and newer Copilot+ features can affect the options available on a particular PC.
+
+ 
+
+Saydraft is primarily a writing tool. It does not promise full system navigation, mouse control or an equivalent accessibility command set.
+
+ 
+
+| Choice | Saydraft | Standard Windows voice typing |
+| --- | --- | --- |
+| Recognition | [Installed local models](https://github.com/tanzir71/saydraft/blob/main/docs/MODELS.md) | [Online speech recognition](https://support.microsoft.com/en-us/accessibility/windows/use-voice-typing-to-talk-instead-of-type-on-your-pc) |
+| Getting started | [Source setup and model download](https://github.com/tanzir71/saydraft) | [Win+H in a text field](https://support.microsoft.com/en-us/accessibility/windows/use-voice-typing-to-talk-instead-of-type-on-your-pc) |
+| Cost and license | [Free, MIT-licensed app](https://github.com/tanzir71/saydraft/blob/main/LICENSE) | [Included with licensed Windows](https://support.microsoft.com/en-us/accessibility/windows/use-voice-typing-to-talk-instead-of-type-on-your-pc) |
+
+ 
+
+## Try a local writing workflow
+
+ 
+
+Follow [the setup guide](https://tanzir71.github.io/saydraft/docs/getting-started/), choose an editable field and start with short passages. Review names, numbers and punctuation. Saydraft keeps local History, offers configurable shortcuts and can apply optional on-device cleanup; release qualification remains in progress.
+
+ 
+
+Read the [privacy explanation](https://tanzir71.github.io/saydraft/privacy/) before using any dictation tool with sensitive text. Local processing does not replace your PC’s access controls or careful transcript review.
+
+ 
+
+Not affiliated with Microsoft. Information checked on the date above.
+
+## A few useful answers.
+
+### Does standard Win+H voice typing need internet?
+
+Microsoft documents an internet requirement for standard Windows voice typing, which uses online speech recognition. Voice Access is a separate Windows feature with offline speech recognition after setup.
+
+### Is Saydraft a replacement for Windows Voice Access?
+
+Saydraft focuses on dictation and text editing. It does not provide the complete Windows navigation and accessibility command system offered by Voice Access.
+
+## Sources and further reading
+
+- [Microsoft: use voice typing ↗](https://support.microsoft.com/en-us/accessibility/windows/use-voice-typing-to-talk-instead-of-type-on-your-pc)
+
+- [Microsoft: set up Voice Access ↗](https://support.microsoft.com/en-us/accessibility/windows/voice-access/set-up-voice-access)
+
+- [Saydraft privacy and offline verification ↗](https://github.com/tanzir71/saydraft/blob/main/docs/VERIFY_OFFLINE.md)
+
+
+---
+
+# Wispr Flow Alternative for Windows, Offline | Saydraft
+
+Canonical: https://tanzir71.github.io/saydraft/wispr-flow-alternative/
+
+Compare Saydraft with Wispr Flow for Windows dictation: local models, cloud processing, pricing and setup. Free, open-source voice typing.
+
+Facts checked: 2026-11-14
+
+If you want voice typing that continues after you disconnect, Saydraft offers a local route on Windows. Speech models and optional text cleanup run on your PC. The project is free and MIT licensed, with its current implementation available from source.
+
+ 
+
+Wispr Flow is a commercial dictation service for Windows and macOS. Its [documentation](https://docs.wisprflow.ai/articles/2772472373-what-is-flow) describes cloud transcription. Local transcript history and privacy preferences do not make that transcription an offline service.
+
+ 
+
+## Compare the trade-offs
+
+ 
+
+| Choice | Saydraft | Wispr Flow |
+| --- | --- | --- |
+| Speech processing | [Installed local models](https://github.com/tanzir71/saydraft/blob/main/docs/MODELS.md) | [Cloud transcription](https://docs.wisprflow.ai/articles/2772472373-what-is-flow) |
+| Desktop platform | [Windows](https://github.com/tanzir71/saydraft) | [Windows and macOS](https://wisprflow.ai/pricing) |
+| Cost | [Free, MIT licensed source](https://github.com/tanzir71/saydraft/blob/main/LICENSE) | [Free allowance; paid Pro](https://wisprflow.ai/pricing) |
+| Current availability | [Development source; release qualification continues](https://github.com/tanzir71/saydraft) | [Commercial product](https://wisprflow.ai/pricing) |
+
+ 
+
+Wispr currently lists Pro at US$15 per user monthly, or US$144 per user annually. Its free plan has a weekly word allowance; check the pricing page for the current limit and billing terms. Saydraft has no subscription. Its Pro setting describes a local capability tier, rather than a paid plan.
+
+ 
+
+## Moving a writing workflow
+
+ 
+
+- Follow the [setup guide](https://tanzir71.github.io/saydraft/docs/getting-started/) and explicitly install a compatible speech model.
+ 
+- Start with a plain text editor. Hold Ctrl+Win, speak a short passage, then release. Shortcuts can be changed in Settings.
+ 
+- Pin the [languages you use](https://tanzir71.github.io/saydraft/languages/), add names to your dictionary and review the transcript before sending it elsewhere.
+
+ 
+
+These are familiar push-to-talk gestures; they do not import Wispr’s settings, account or vocabulary. Avoid running overlapping shortcuts in two dictation apps at once. Recognition and cleanup differ, so compare the output on your own words rather than assuming equal accuracy.
+
+ 
+
+Not affiliated with Wispr Flow. Information checked on the date above.
+
+## A few useful answers.
+
+### Does Wispr Flow work without internet?
+
+Wispr documents cloud transcription and an internet requirement. Saydraft processes speech with installed local models, which can be reused offline.
+
+### Is Saydraft ready to replace my current dictation app?
+
+Saydraft is in development and available from source. Try it with your own vocabulary and apps first; broad accuracy, physical workflow and signed-release acceptance remain in progress.
+
+## Sources and further reading
+
+- [Wispr Flow product documentation ↗](https://docs.wisprflow.ai/articles/2772472373-what-is-flow)
+
+- [Wispr Flow pricing ↗](https://wisprflow.ai/pricing)
+
+- [Saydraft source and implementation status ↗](https://github.com/tanzir71/saydraft)

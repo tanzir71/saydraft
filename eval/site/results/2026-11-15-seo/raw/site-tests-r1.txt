@@ -1,0 +1,83 @@
+
+> saydraft-site@0.1.0 test
+> playwright test --reporter=list,json
+
+[WebServer] (node:12420) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 54 tests using 3 workers
+
+(node:9280) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:40052) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:16632) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok  3 [mobile] › tests\docs.spec.ts:43:1 › main navigation and documentation contents reach nested offline guidance (2.5s)
+  ok  1 [mobile] › tests\docs.spec.ts:59:1 › model guidance discloses complete default and optional transfers (3.2s)
+  ok  4 [mobile] › tests\docs.spec.ts:82:1 › documentation, model tables and original font notices work without JavaScript (2.7s)
+  ok  2 [mobile] › tests\docs.spec.ts:6:1 › all documentation and resources are readable, dated and navigable (6.6s)
+  ok  6 [mobile] › tests\seo.spec.ts:42:1 › application and FAQ data agree with current source and visible content (1.7s)
+  ok  7 [mobile] › tests\seo.spec.ts:68:1 › sitemap, readable exports and IndexNow payload cover the exact indexable pages (827ms)
+  ok  8 [mobile] › tests\seo.spec.ts:97:1 › custom 404 is useful without JavaScript and stays outside indexing (2.3s)
+  ok  9 [mobile] › tests\site.spec.ts:10:1 › home is local, responsive, and light on JavaScript (2.5s)
+  ok 10 [mobile] › tests\site.spec.ts:51:1 › native navigation, questions, and reduced-motion simulation work (799ms)
+  ok 12 [mobile] › tests\site.spec.ts:90:1 › guide keyboard navigation exposes the skip link and reaches main content (628ms)
+  ok 13 [mobile] › tests\site.spec.ts:99:1 › dated guides have visible sources, linked schemas and local-only page loads (4.6s)
+  ok  5 [mobile] › tests\seo.spec.ts:8:1 › every indexable page has a distinct working social image and complete metadata (11.9s)
+  ok 15 [mobile] › tests\site.spec.ts:206:1 › content and native questions work with JavaScript disabled (1.2s)
+  ok 16 [mobile] › tests\site.spec.ts:232:1 › source command copy and guide contents work in the static site (756ms)
+  ok 17 [mobile] › tests\site.spec.ts:259:1 › built HTML follows the document contract (1.6s)
+  ok 18 [mobile] › tests\site.spec.ts:270:1 › navigation fits between tablet and desktop widths (1.1s)
+(node:12904) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 14 [mobile] › tests\site.spec.ts:144:1 › language guides are linked, indexable and accurately describe shared models (9.9s)
+  ok 11 [mobile] › tests\site.spec.ts:66:1 › all public pages have working local links and unique metadata (16.3s)
+(node:29000) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 19 [tablet] › tests\docs.spec.ts:6:1 › all documentation and resources are readable, dated and navigable (6.2s)
+(node:30120) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 20 [tablet] › tests\docs.spec.ts:43:1 › main navigation and documentation contents reach nested offline guidance (2.3s)
+  ok 22 [tablet] › tests\docs.spec.ts:59:1 › model guidance discloses complete default and optional transfers (2.1s)
+  ok 21 [tablet] › tests\docs.spec.ts:82:1 › documentation, model tables and original font notices work without JavaScript (3.6s)
+  ok 25 [tablet] › tests\seo.spec.ts:68:1 › sitemap, readable exports and IndexNow payload cover the exact indexable pages (2.8s)
+  ok 24 [tablet] › tests\seo.spec.ts:42:1 › application and FAQ data agree with current source and visible content (3.2s)
+  ok 26 [tablet] › tests\seo.spec.ts:97:1 › custom 404 is useful without JavaScript and stays outside indexing (1.1s)
+  ok 28 [tablet] › tests\site.spec.ts:51:1 › native navigation, questions, and reduced-motion simulation work (862ms)
+  ok 27 [tablet] › tests\site.spec.ts:10:1 › home is local, responsive, and light on JavaScript (2.1s)
+  ok 30 [tablet] › tests\site.spec.ts:90:1 › guide keyboard navigation exposes the skip link and reaches main content (1.1s)
+  ok 23 [tablet] › tests\seo.spec.ts:8:1 › every indexable page has a distinct working social image and complete metadata (11.4s)
+  ok 31 [tablet] › tests\site.spec.ts:99:1 › dated guides have visible sources, linked schemas and local-only page loads (5.8s)
+  ok 33 [tablet] › tests\site.spec.ts:206:1 › content and native questions work with JavaScript disabled (1.4s)
+  ok 34 [tablet] › tests\site.spec.ts:232:1 › source command copy and guide contents work in the static site (933ms)
+  ok 35 [tablet] › tests\site.spec.ts:259:1 › built HTML follows the document contract (1.9s)
+  ok 36 [tablet] › tests\site.spec.ts:270:1 › navigation fits between tablet and desktop widths (1.2s)
+(node:46004) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 32 [tablet] › tests\site.spec.ts:144:1 › language guides are linked, indexable and accurately describe shared models (10.5s)
+  ok 29 [tablet] › tests\site.spec.ts:66:1 › all public pages have working local links and unique metadata (17.6s)
+(node:34752) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:40936) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 37 [desktop] › tests\docs.spec.ts:6:1 › all documentation and resources are readable, dated and navigable (7.4s)
+  ok 38 [desktop] › tests\docs.spec.ts:43:1 › main navigation and documentation contents reach nested offline guidance (2.0s)
+  ok 39 [desktop] › tests\docs.spec.ts:59:1 › model guidance discloses complete default and optional transfers (2.5s)
+  ok 40 [desktop] › tests\docs.spec.ts:82:1 › documentation, model tables and original font notices work without JavaScript (3.7s)
+  ok 42 [desktop] › tests\seo.spec.ts:42:1 › application and FAQ data agree with current source and visible content (2.6s)
+  ok 43 [desktop] › tests\seo.spec.ts:68:1 › sitemap, readable exports and IndexNow payload cover the exact indexable pages (1.1s)
+  ok 44 [desktop] › tests\seo.spec.ts:97:1 › custom 404 is useful without JavaScript and stays outside indexing (1.4s)
+  ok 46 [desktop] › tests\site.spec.ts:51:1 › native navigation, questions, and reduced-motion simulation work (1.2s)
+  ok 45 [desktop] › tests\site.spec.ts:10:1 › home is local, responsive, and light on JavaScript (3.3s)
+  ok 48 [desktop] › tests\site.spec.ts:90:1 › guide keyboard navigation exposes the skip link and reaches main content (681ms)
+  ok 41 [desktop] › tests\seo.spec.ts:8:1 › every indexable page has a distinct working social image and complete metadata (15.7s)
+  ok 49 [desktop] › tests\site.spec.ts:99:1 › dated guides have visible sources, linked schemas and local-only page loads (7.2s)
+  ok 51 [desktop] › tests\site.spec.ts:206:1 › content and native questions work with JavaScript disabled (1.7s)
+  ok 52 [desktop] › tests\site.spec.ts:232:1 › source command copy and guide contents work in the static site (934ms)
+  ok 53 [desktop] › tests\site.spec.ts:259:1 › built HTML follows the document contract (1.8s)
+  ok 54 [desktop] › tests\site.spec.ts:270:1 › navigation fits between tablet and desktop widths (1.1s)
+  ok 47 [desktop] › tests\site.spec.ts:66:1 › all public pages have working local links and unique metadata (19.5s)
+  ok 50 [desktop] › tests\site.spec.ts:144:1 › language guides are linked, indexable and accurately describe shared models (10.6s)
+
+  54 passed (1.5m)

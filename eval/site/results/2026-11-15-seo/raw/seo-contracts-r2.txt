@@ -1,0 +1,12 @@
+✔ social image paths stay within the configured base and distinguish nested pages (1.0848ms)
+✔ verification tags accept real token formats and reject pasted HTML or malformed values (0.2811ms)
+✔ readable exports preserve code, table links and collapsed FAQ answers without script or navigation (7.8219ms)
+✔ social cards render long page titles with local fonts, intact gutters and no text overlap (191.5495ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 473.1893

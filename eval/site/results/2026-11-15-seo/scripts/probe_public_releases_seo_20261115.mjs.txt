@@ -1,0 +1,7 @@
+import { writeFile } from 'node:fs/promises';
+const url = 'https://api.github.com/repos/tanzir71/saydraft/releases?per_page=20';
+const response = await fetch(url, { headers: { Accept: 'application/vnd.github+json', 'User-Agent': 'Saydraft-local-public-SEO-check' }, signal: AbortSignal.timeout(15000) });
+if (!response.ok) throw new Error(`Public release metadata HTTP ${response.status}`);
+const data = await response.json();
+await writeFile('D:/Saydraft-Codex-QA-20261112-01a1cbc7/site-seo-20261115-r1/public-releases.json', JSON.stringify({ url, status: response.status, checked: new Date().toISOString(), authenticated: false, releases: data }, null, 2) + '\n');
+console.log(JSON.stringify(data.map(({ tag_name, draft, prerelease, published_at, target_commitish, assets }) => ({ tag: tag_name, draft, prerelease, published_at, target_commitish, assets: assets.length }))));

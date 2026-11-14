@@ -110,3 +110,14 @@ No app runtime, model pins, desktop/audio/input, owner clipboard, reserved
 accuracy recordings, release or PR is involved. All five workflows remain
 manual-only. Hosted publication, genuine review/rating evidence, account/root-host
 setup and the original Rich Results acceptance remain separate outstanding work.
+
+The [15 November evidence](../eval/site/results/2026-11-15-seo/) qualifies the
+implementation at `88bf345`: 54 site checks, 234 component checks, fourteen Node
+contracts, clean 91-file type diagnostics and successful static/Storybook builds.
+All 21 Lighthouse runs score 100 for performance, accessibility and SEO, with
+maximum LCP 960 ms and zero CLS. The 164 static output files match the tested
+bytes. All 45 generated previews and 43 readable exports are retained alongside
+the original failures, Google login-status screenshots and token-build receipts.
+The verifier checks 375 source files and 165 evidence records, and can compare
+every actual static/Storybook output file. These are local implementation checks;
+they do not accept P9.5's outstanding external conditions.

@@ -271,3 +271,23 @@ also verifies the fresh notice-only portable build and its actual ZIP. This
 accepts P9.4's content/build scope. Other P9 milestones, hosted publication,
 broader owner accuracy and full-plan acceptance remain open. No workflow or
 hosting deployment was invoked for this checkpoint.
+
+## Technical SEO checkpoint, 15 November 2026
+
+The build now includes per-page OG/Twitter cards, a custom noindex 404, generated
+sitemap index, readable agent exports, optional ownership tags and an unsubmitted
+IndexNow payload. The [SEO guide](SITE_SEO.md) explains these artifacts and the
+current Google eligibility, account and host-root limitations. All 54 site,
+234 component and fourteen Node checks pass, with clean builds/type diagnostics
+and all 21 Lighthouse runs at 100/100/100, maximum LCP960ms and zero CLS. The
+[qualification](../eval/site/results/2026-11-15-seo/) retains tested output hashes,
+all generated previews, original failures and the three Google login refusals.
+P9.5 remains unchecked; no external pass or hosting deployment is claimed.
+
+The unauthenticated GitHub release API now lists the older unsigned
+`v0.1.0-dry-run.20261114` as a public pre-release, published 14 November at
+17:05:32 UTC, with four assets and source `7a9486a`. Earlier draft/no-public-release
+statements above describe earlier records and are not current availability.
+README/Download text now names that pre-release and its older source. This
+checkpoint changes no release state and does not promote it as current-source
+binary qualification.

@@ -83,3 +83,5 @@ eval/styles/results/2026-11-15-hub-preview/** -text -whitespace
 eval/site/results/2026-11-15-components/** -text -whitespace
 # Preserve original documentation, browser, Lighthouse and portable receipts.
 eval/site/results/2026-11-15-docs/** -text -whitespace
+# Preserve SEO assets, service-status receipts and original local QA bytes.
+eval/site/results/2026-11-15-seo/** -text -whitespace
