@@ -1,12 +1,20 @@
 # Native command-edit generation, 14 November 2026
 
-At clean `4c3aa08`, the cached Qwen3.5 **4B Q4_K_M** model passes all **30/30**
+At clean `f990074`, the cached Qwen3.5 **4B Q4_K_M** model passes all **30/30**
 authored cases through the real pinned llama.cpp **b12110 Vulkan** sidecar. The
 same source and corpus with **2B Q4_K_M** passes **29/30** anchor checks. The
 4B outputs were also reviewed for the requested transformation and retained
 facts/actions. This establishes a narrow generation regression check. **P7.1 is
 still open:** Labs/Pro admission, hold recording, copy fallback, native replacement
 confirmation and standalone Scratchpad Copy recovery are not connected.
+
+Exact source `f990074` passes [CI](https://github.com/tanzir71/saydraft/actions/runs/43533777895)
+with **3,393 tests / 12 skips** in 384.45 seconds, rules **556/556** and normal
+cleanup adversarial checks **100/100**. Firewall and update jobs pass. The
+[package workflow](https://github.com/tanzir71/saydraft/actions/runs/43533777986)
+also passes its frozen build, notices/resources audit, install/uninstall and
+existing frozen regressions. It does not test an available packaged Command Mode.
+Unchanged workflow payloads and private log hashes accompany the native records.
 
 | Record | Source | Model | Completed streams | Authored checks |
 |---|---|---|---:|---:|
@@ -19,6 +27,9 @@ confirmation and standalone Scratchpad Copy recovery are not connected.
 | [Same final prompt comparison](07-ordinal-2b/report.json) | `7265787` | 2B | 30/30 | 29/30 |
 | [Final date guard](08-final-date-4b/report.json) | `4c3aa08` | 4B | 30/30 | 30/30 |
 | [Same final source comparison](09-final-date-2b/report.json) | `4c3aa08` | 2B | 30/30 | 29/30 |
+| [Separate untrusted-document set](10-role-data-4b/report.json) | `f990074` | 4B | 6/6 | 6/6 |
+| [Role-escaped main set](11-role-escaped-main-4b/report.json) | `f990074` | 4B | 30/30 | 30/30 |
+| [Same final source comparison](12-role-escaped-main-2b/report.json) | `f990074` | 2B | 30/30 | 29/30 |
 
 The first attempt reached no inference: `/apply-template` was missing from the
 loopback endpoint allowlist. Its legacy `complete: true` means all requests were
@@ -29,7 +40,7 @@ for generation completeness. No failed row or run was removed.
 The 4B comparison initially refused a valid bullet conversion that removed the
 leading ordinal “First.” The final prompt demonstrates preserving the ordinal;
 the number-preservation validator was not relaxed. The evaluation corpus and its
-anchors remain byte-identical across all nine runs. Prompt refinement used this
+anchors remain byte-identical across all eleven main-set runs. Prompt refinement used this
 authored set; these are not blind or unseen-data measurements.
 
 The final 2B `formal-05` output uses “inquire with Maya,” which misses the narrow
@@ -51,11 +62,20 @@ requests and generation; they are **not** release-to-paste or tier acceptance.
 The final date guard keeps ambiguous calendar literals such as “next May” and
 “March” protected, ignoring May only in clear auxiliary phrases such as “may be.”
 The final source reruns produce byte-identical text, decisions and case checks
-to their corresponding `7265787` model runs; timing samples are separate.
+to their corresponding `7265787` model runs; timing samples are separate. Escaping
+literal role delimiters also leaves the main-set output identities unchanged.
 
-The [index](index.json) hashes all 18 unchanged report/journal payloads. An
-independent audit confirms every journal equals its report, all 270 attempts are
-retained, all 240 completed generations have native exit receipts, every weight
+The separate six-case set checks that questions are not answered and document
+imperatives, native role tags, XML and nested JSON remain literal data. All six
+complete and pass their authored checks on 4B. The native role/XML delimiters are
+JSON-escaped before template rendering and restored as document text in the
+response. The question case remains unchanged; this demonstrates no answer was
+substituted, not a successful tone change. Six authored cases do not establish
+general prompt-injection resistance, and this set has not been measured on 2B.
+
+The [index](index.json) hashes all 24 unchanged native report/journal payloads. An
+independent audit confirms every journal equals its report, all 336 attempts are
+retained, all 306 completed generations have native exit receipts, every weight
 hash matches the pinned candidate catalog, and source/model/runtime hashes did
 not change during each run. The latest source fingerprints were independently
 rechecked. The 4B weights/card/license and runtime received full pinned hash

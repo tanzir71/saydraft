@@ -59,12 +59,17 @@ retaining output, token counts, timings, source/runtime hashes and observed nati
 exit. The probe uses no audio, hooks, clipboard, foreground or OS text input.
 It does not establish full Command Mode or owner-data acceptance.
 
-At clean `4c3aa08`, actual Qwen3.5 4B output passes all 30 authored checks;
+At clean `f990074`, actual Qwen3.5 4B output passes all 30 authored checks;
 the 2B comparison passes 29 and retains qualitative meaning failures despite
 mechanical acceptance. Both use the same final prompt and unchanged corpus.
 The earlier failures, all outputs, native exit receipts, pinned hashes and review
 limits are retained in the [native edit record](../eval/commands/results/2026-11-14-native-edits/README.md).
-This does not change the app's model default or make Command Mode available.
+The separate six-case untrusted-document set also passes on 4B; that narrow
+measurement is not general injection-resistance acceptance. This does not change
+the app's model default or make Command Mode available.
+The same code source passes 3,393 tests / 12 skips, both normal cleanup gates and
+the package/regression workflow. These results cover the implemented boundaries;
+they do not accept the remaining full app integration.
 
 The transport follows the pinned llama.cpp
 [b12110 server contract](https://github.com/ggml-org/llama.cpp/blob/b12110/tools/server/README.md)
