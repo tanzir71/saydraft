@@ -954,6 +954,94 @@
       "languages": [
         "multilingual"
       ]
+    },
+    {
+      "id": "pyannote-segmentation-3-0",
+      "revision": "9403a6902bb58e3d5ae8c7e77c3422de279db2e0",
+      "role": "meeting_segmentation",
+      "engine": "sherpa_pyannote",
+      "label": "Meeting speakers \u00b7 pyannote segmentation 3.0",
+      "publisher": "CNRS / pyannote; ONNX conversion by sherpa-onnx",
+      "license": "MIT",
+      "license_url": "https://huggingface.co/csukuangfj/sherpa-onnx-pyannote-segmentation-3-0/blob/9403a6902bb58e3d5ae8c7e77c3422de279db2e0/LICENSE",
+      "source": "https://huggingface.co/csukuangfj/sherpa-onnx-pyannote-segmentation-3-0",
+      "download_hosts": [
+        "huggingface.co",
+        "cdn-lfs.huggingface.co",
+        "cdn-lfs-us-1.hf.co",
+        "cas-bridge.xethub.hf.co"
+      ],
+      "requires": [
+        "3dspeaker-eres2net-base"
+      ],
+      "experimental": true,
+      "files": [
+        {
+          "path": "model.onnx",
+          "size": 5992913,
+          "sha256": "220ad67ca923bef2fa91f2390c786097bf305bceb5e261d4af67b38e938e1079",
+          "url": "https://huggingface.co/csukuangfj/sherpa-onnx-pyannote-segmentation-3-0/resolve/9403a6902bb58e3d5ae8c7e77c3422de279db2e0/model.onnx"
+        },
+        {
+          "path": "LICENSE",
+          "size": 1061,
+          "sha256": "14d7016ad68e7394d6e6b78d96cc2ae431c905287b89674cfdf021e79e62b8ba",
+          "url": "https://huggingface.co/csukuangfj/sherpa-onnx-pyannote-segmentation-3-0/resolve/9403a6902bb58e3d5ae8c7e77c3422de279db2e0/LICENSE"
+        },
+        {
+          "path": "README.md",
+          "size": 115,
+          "sha256": "0380ed76a50efcc421dc62f251ed06e8349688466beac3177bee6e00dc336bfc",
+          "url": "https://huggingface.co/csukuangfj/sherpa-onnx-pyannote-segmentation-3-0/resolve/9403a6902bb58e3d5ae8c7e77c3422de279db2e0/README.md"
+        }
+      ]
+    },
+    {
+      "id": "3dspeaker-eres2net-base",
+      "revision": "github-release-asset-198893098",
+      "role": "meeting_embedding",
+      "engine": "sherpa_3dspeaker",
+      "label": "Meeting speakers \u00b7 3D-Speaker ERes2Net-Base",
+      "publisher": "Alibaba / ModelScope iic; ONNX conversion by sherpa-onnx",
+      "license": "Apache-2.0",
+      "license_url": "https://github.com/modelscope/3D-Speaker/blob/065629c313eaf1a01c65c640c46d77e61e9607b4/LICENSE",
+      "source": "https://modelscope.cn/models/iic/speech_eres2net_base_sv_zh-cn_3dspeaker_16k",
+      "download_hosts": [
+        "api.github.com",
+        "release-assets.githubusercontent.com"
+      ],
+      "asset": {
+        "id": 198893098,
+        "repository": "k2-fsa/sherpa-onnx"
+      },
+      "experimental": true,
+      "files": [
+        {
+          "path": "embedding.onnx",
+          "size": 39593761,
+          "sha256": "1a331345f04805badbb495c775a6ddffcdd1a732567d5ec8b3d5749e3c7a5e4b",
+          "url": "https://api.github.com/repos/k2-fsa/sherpa-onnx/releases/assets/198893098",
+          "accept": "application/octet-stream"
+        },
+        {
+          "path": "LICENSE",
+          "size": 11357,
+          "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+          "bundled_source": "assets/licenses/3dspeaker-eres2net-base/LICENSE"
+        },
+        {
+          "path": "MODEL_CARD.md",
+          "size": 6021,
+          "sha256": "05efb9d9b31433be92260e3811c929b4d5980dd18889220b37dbcd5b973ff6f8",
+          "bundled_source": "assets/licenses/3dspeaker-eres2net-base/MODEL_CARD.md"
+        },
+        {
+          "path": "NOTICE.txt",
+          "size": 705,
+          "sha256": "f90b20b579da96ff096d31712e31c646f7d2f5fa22e19197f28b42e3c7ed0e49",
+          "bundled_source": "assets/licenses/3dspeaker-eres2net-base/NOTICE.txt"
+        }
+      ]
     }
   ],
   "cleanup_defaults": {

@@ -1,7 +1,8 @@
 # Meeting capture foundation · 14 November 2026
 
-P7.5 remains open. The capture readers, resampler and isolated streaming worker
-are implemented. The Notetaker app flow, VAD/ASR/diarization, local summary, Notes
+P7.5 remains open. The capture readers, resampler, isolated streaming worker and
+verified speaker-model adapter are implemented. The Notetaker app flow, VAD/ASR,
+meeting timeline and diarization integration, local summary, Notes
 delivery and 30-minute offline meeting acceptance still need integration and
 verification. Capture is not exposed as a recording action in the app.
 
@@ -73,7 +74,8 @@ tests import sounddevice before mocking its stream calls, so further checks of
 that suite belong on the disposable CI runner while the owner desktop is stopped.
 The preceding foundation commit `962059b` passed the full disposable Windows CI
 (4,214 tests, 12 skips, rules 556/556 and adversarial 100/100) and package build.
-The connected worker and its new frozen resource check need their own CI result.
+The connected worker's package build also passes at `3aa3e84`, including the
+SoundCard CFFI resource check; its full CI result is still pending here.
 
 ## Isolated capture ownership
 
@@ -110,6 +112,47 @@ failure, owner loss, descendant exit and stop-event collision handling. These
 prove process and transport behavior; they do not qualify real WASAPI hardware,
 speech recognition or meeting performance.
 
+## Local speaker models
+
+`saydraft.meetings.models` supplies a worker-only explicit setup action for the
+following two experimental models. Neither is a speech-language pack or part of
+the default dictation download. The Notetaker setup interface remains to be
+connected. Cached verified files are reused, transfers can pause/resume, notices
+remain beside the weights and inference never downloads. Network transfer is
+45,587,850 bytes before any already-cached files are deducted.
+
+| Model | Immutable source | License |
+| --- | --- | --- |
+| pyannote segmentation 3.0, full precision | [sherpa conversion](https://huggingface.co/csukuangfj/sherpa-onnx-pyannote-segmentation-3-0/tree/9403a6902bb58e3d5ae8c7e77c3422de279db2e0), model SHA-256 `220ad67ca923bef2fa91f2390c786097bf305bceb5e261d4af67b38e938e1079` | MIT, CNRS; full notice downloaded with the model |
+| 3D-Speaker ERes2Net-Base | [official sherpa asset 198893098](https://api.github.com/repos/k2-fsa/sherpa-onnx/releases/assets/198893098), model SHA-256 `1a331345f04805badbb495c775a6ddffcdd1a732567d5ec8b3d5749e3c7a5e4b` | Apache-2.0; publisher's v1.0.1 model card, full license and conversion attribution are retained under `assets/licenses/3dspeaker-eres2net-base/` |
+
+The [pinned official example](https://github.com/k2-fsa/sherpa-onnx/blob/v1.13.4/python-api-examples/offline-speaker-diarization.py)
+defines the CPU configuration used by `SpeakerDiarizer`. Both installations are
+fully hashed before native construction. It returns bounded, checked speaker
+turns, retaining overlaps. A whole timeline must be analyzed together to keep
+cluster IDs consistent; cluster numbers do not identify or name people. The
+embedding publisher describes Chinese training audio, so this does not establish
+speaker accuracy across languages. Automatic cluster count uses the upstream
+threshold 0.5 and remains unqualified on meeting recordings.
+
+The pinned native progress callback does not interrupt processing. Cancellation
+before loading prevents execution; cancellation during processing discards the
+result after native return. Analysis must stay off the GUI thread. The future
+app controller must retain its processing state until that return rather than
+claiming immediate cancellation.
+
+All 41 new speaker-model/adapter cases and 50 existing downloader/catalog cases
+pass with owner audio/profile imports barred. Production setup from an
+independently hashed staging cache makes zero requests. A guarded real-native
+smoke on two CC-BY-4.0 English FLEURS clips, separated by one second of silence,
+processes 23.02 seconds into three turns/two acoustic clusters in 5.57 seconds.
+It verifies Python NetworkGuard and unchanged source/model hashes. This is a
+small execution smoke, without speaker-reference annotations, DER scoring,
+native firewall evidence or meeting acceptance. The reproducible tool is
+`python -m tools.probe_meeting_speakers --models <explicit-local-model-root>
+--audio <mono-16k-wav> --output <new-report.json>`; repeat `--audio` for multiple
+clips. It never captures audio, scans a profile or downloads weights.
+
 ## Remaining integration and acceptance
 
 Connect the owned worker to the app and display a persistent Recording meeting capsule before starting
@@ -117,10 +160,10 @@ capture and until native capture actually stops. Never auto-start or join a call
 as a bot. Preserve separate microphone/desktop track provenance, gaps and the
 final resampling tail; explain the use of headphones to reduce acoustic echo.
 Honor retention-off behavior rather than silently archiving meeting audio.
-Verify the new helper and SoundCard resources in the frozen package build.
+Qualify the complete connected Notetaker workflow in the frozen package build.
 
-Add chunked VAD and local recognition, speaker segmentation/embedding with
-verified artifact licenses and hashes, and a Pro local summary with title,
+Add chunked VAD and local recognition, connect the verified speaker adapter to
+the two-track meeting timeline, and add a Pro local summary with title,
 topics, decisions and next steps with owners. Save the Markdown as a separate
 meeting note without replacing the active Scratchpad. Verify cancellation,
 backpressure, model failures, incomplete capture, crash recovery and note-save

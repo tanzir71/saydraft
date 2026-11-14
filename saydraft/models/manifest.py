@@ -100,10 +100,13 @@ def load_manifest(path: Path | None = None) -> dict:
             raise ValueError("model IDs must be unique safe directory names")
         seen.add(model["id"])
         model_version(model)
+        if "asset" in model and "archive" in model:
+            raise ValueError("A raw asset cannot also be an archive")
         if "archive" in model:
             validate_archive_model(model)
             continue
-        if not model.get("license") or not re.fullmatch(r"[a-f0-9]{40}", model["revision"]):
+        asset_url = validate_raw_asset_model(model) if "asset" in model else None
+        if not model.get("license") or (asset_url is None and not re.fullmatch(r"[a-f0-9]{40}", model["revision"])):
             raise ValueError("models require an exact revision and license")
         paths = set()
         for file in model["files"]:
@@ -115,7 +118,7 @@ def load_manifest(path: Path | None = None) -> dict:
                 url = urlsplit(file["url"])
                 if (url.scheme != "https" or url.hostname not in model["download_hosts"]
                         or url.username or url.password or url.port not in (None, 443)
-                        or f"/{model['revision']}/" not in url.path):
+                        or (file["url"] != asset_url if asset_url else f"/{model['revision']}/" not in url.path)):
                     raise ValueError("model URLs must be pinned HTTPS URLs on declared hosts")
             if (file["path"].casefold() in paths or not safe_filename(file["path"])
                     or not re.fullmatch(r"[a-f0-9]{64}", file["sha256"]) or file["size"] <= 0):
@@ -153,6 +156,24 @@ def load_manifest(path: Path | None = None) -> dict:
             or not supports_task(by_id.get(data["command_model"], {}), "command")):
         raise ValueError("Command Mode requires a catalogued command model")
     return data
+
+
+def validate_raw_asset_model(model):
+    """Pin one unarchived upstream payload by asset ID, size and content hash."""
+    asset = model.get("asset")
+    if (type(asset) is not dict or set(asset) != {"id", "repository"}
+            or type(asset["id"]) is not int or asset["id"] <= 0
+            or type(asset["repository"]) is not str
+            or not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_.-]*/[A-Za-z0-9][A-Za-z0-9_.-]*", asset["repository"])
+            or model.get("revision") != f"github-release-asset-{asset['id']}"
+            or set(model.get("download_hosts", [])) != {"api.github.com", "release-assets.githubusercontent.com"}):
+        raise ValueError("Raw models require an immutable GitHub asset ID and exact download hosts")
+    expected = f"https://api.github.com/repos/{asset['repository']}/releases/assets/{asset['id']}"
+    remote = [file for file in model.get("files", []) if "bundled_source" not in file]
+    if (len(remote) != 1 or remote[0].get("url") != expected
+            or remote[0].get("accept") != "application/octet-stream"):
+        raise ValueError("Raw assets require one exact binary API payload; notices must be bundled")
+    return expected
 
 
 def supports_task(model, task):

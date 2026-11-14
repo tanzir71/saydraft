@@ -1,0 +1,10 @@
+3D-Speaker ERes2Net-Base model, Apache-2.0.
+Publisher: Alibaba/ModelScope iic.
+Source: https://modelscope.cn/models/iic/speech_eres2net_base_sv_zh-cn_3dspeaker_16k
+Model card retained from revision v1.0.1.
+ONNX conversion: sherpa-onnx, Xiaomi Corporation; Fangjun Kuang.
+Export source: https://github.com/k2-fsa/sherpa-onnx/blob/v1.13.4/scripts/3dspeaker/export-onnx.py
+Converted artifact: https://api.github.com/repos/k2-fsa/sherpa-onnx/releases/assets/198893098
+Artifact SHA-256: 1a331345f04805badbb495c775a6ddffcdd1a732567d5ec8b3d5749e3c7a5e4b
+This is the upstream ONNX artifact; Saydraft does not modify its weights.
+Trained on Chinese 3D-Speaker audio; other-language speaker quality is unqualified.
