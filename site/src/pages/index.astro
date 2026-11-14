@@ -7,7 +7,7 @@ import { FAQ } from '../components/FAQ/FAQ';
 import '../styles/home.css';
 const base = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/`;
 const questions = [
-  { question: 'Does my voice leave my PC?', answer: 'Speech recognition and text cleanup run locally. Saydraft has no cloud transcription, telemetry, or account. Model downloads happen only when you start them during setup.' },
+  { question: 'Does my voice leave my PC?', answer: 'Speech recognition and text cleanup run locally. Saydraft has no cloud transcription, telemetry, or account. Model downloads happen only when you start them during setup. Optional update checks are off by default and request public release information from GitHub without your audio or text.' },
   { question: 'Do I need the internet to get started?', answer: 'Yes, once: choose the recommended models, review their sizes and licenses, and start the setup download. You can pause and resume. Later launches reuse the installed models offline.' },
   { question: 'Can I dictate in Bengali or Arabic?', answer: 'Yes, through the optional shared All languages model. Install that model once for both languages. Choosing a language never starts a download by itself.' },
   { question: 'Do I need a powerful graphics card?', answer: 'Speech recognition can run on the CPU. Hardware and model choice affect speed; optional AI cleanup requires more resources. The performance check helps choose a suitable setup, including rules-only cleanup.' },
