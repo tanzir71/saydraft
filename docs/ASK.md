@@ -112,6 +112,24 @@ Still required:
   desktop, with no writes to the source and with queued cancellation guards.
 - Complete physical/packaged workflow acceptance when separately permitted.
 
+The `readonly-browser-ask-smoke` CI job now prepares a fresh headed Chromium
+using the site's pinned Playwright dependency. The driver and Python probe
+refuse owner machines and self-hosted runners before desktop APIs are loaded.
+They use one local authored read-only article, check the browser PID/title before
+native foreground capture, retain real UIA metadata and selection hashes, and
+drive the actual Ask worker, Qt review, History and independent Notes with a
+scripted answer and memory Copy. The driver checks unchanged article HTML and
+selection, refuses unexpected page requests, closes its own browser and retains
+the native report, exit receipts and screenshots. Its first remote run is pending.
+It complements the actual-model smoke above; it does not combine a native model
+with a browser or qualify physical hooks, microphone input or a frozen app.
+
+The driver uses Playwright's documented [owned server process and close APIs](https://playwright.dev/docs/api/class-browserserver).
+The native reader obtains a selected range through Microsoft's
+[Text control pattern](https://learn.microsoft.com/en-us/windows/win32/winauto/uiauto-implementingtextandtextrange),
+without substituting DOM text for a UIA read. Ten environment/request policy
+checks pass locally, and both actual entry points refuse the owner environment.
+
 To reproduce the model smoke, use `python -m tools.probe_ask --models-dir
 <explicit-installed-cache> --device Vulkan1 --output <new-evidence-directory>`.
 Add `--holdout` for the frozen development follow-up, using another new directory.

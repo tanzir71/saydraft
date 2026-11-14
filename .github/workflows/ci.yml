@@ -70,6 +70,50 @@ jobs:
       - name: Explicit opt-in public update metadata smoke
         run: python -m tools.probe_updates --enabled
 
+  readonly-browser-ask-smoke:
+    runs-on: windows-latest
+    timeout-minutes: 15
+    env:
+      QT_QPA_PLATFORM: offscreen
+      HF_HUB_OFFLINE: '1'
+      HF_HUB_DISABLE_TELEMETRY: '1'
+      DO_NOT_TRACK: '1'
+      ASTRO_TELEMETRY_DISABLED: '1'
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.13'
+          cache: pip
+          cache-dependency-path: requirements*.txt
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24.22.2'
+          cache: npm
+          cache-dependency-path: site/package-lock.json
+      - name: Install controlled UI and pinned browser dependencies
+        shell: pwsh
+        run: |
+          python -m pip install -r requirements-dev.txt
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          npm ci --prefix site
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          Push-Location site
+          npx playwright install chromium --no-shell
+          $browserInstallExit = $LASTEXITCODE
+          Pop-Location
+          exit $browserInstallExit
+      - name: Verify native read-only article through Ask and independent Notes
+        shell: pwsh
+        run: node tools/probe_ask_browser.mjs "$env:pythonLocation/python.exe" "$env:RUNNER_TEMP/saydraft-ask-browser"
+      - name: Retain owned browser and native UIA evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: readonly-browser-ask-evidence
+          if-no-files-found: warn
+          path: ${{ runner.temp }}/saydraft-ask-browser
+
   firewall-owned-rule-smoke:
     runs-on: windows-latest
     timeout-minutes: 20
