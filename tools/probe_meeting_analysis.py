@@ -24,7 +24,6 @@ import uuid
 import soundfile as sf
 
 from saydraft.asr.sherpa_parakeet import ParakeetConfig, ParakeetEngine
-from saydraft.audio.vad_silero import SileroVad
 from saydraft.cleanup.llm.loopback import LoopbackClient
 from saydraft.cleanup.llm.sidecar import SidecarConfig, SidecarManager
 from saydraft.cleanup.llm.windows_process import WindowsJobProcess
@@ -36,6 +35,7 @@ from saydraft.meetings.protocol import AudioChunk, CaptureEnd, CaptureEvent, Tra
 from saydraft.meetings.summary import SummaryClient
 from saydraft.meetings.timeline import MeetingAudioBuffer
 from saydraft.meetings.transcription import MeetingTranscriber
+from saydraft.meetings.vad import MeetingSileroVad
 from saydraft.models.downloader import installation_ready
 from saydraft.models.layout import require_local_paths
 from saydraft.models.manifest import get_model
@@ -170,7 +170,7 @@ def run_probe(args):
         transcriber = MeetingTranscriber(
             ParakeetEngine(ParakeetConfig(silence_trim=False), model_dir=paths[MODEL_IDS[0]]),
             SpeakerDiarizer(resolver=lambda name, **_kwargs: paths.get(name)),
-            detector_factory=lambda: SileroVad(paths['silero-vad-v5'] / 'silero_vad.onnx'))
+            detector_factory=lambda: MeetingSileroVad(paths['silero-vad-v5'] / 'silero_vad.onnx'))
         transcript = transcriber.transcribe(audio)
         report['transcribe_seconds'] = time.perf_counter() - started
         report['transcript'] = asdict(transcript)
@@ -185,7 +185,7 @@ def run_probe(args):
         if not manager.prepare():
             raise RuntimeError('Verified local summary runtime could not prepare: ' + str(manager.status))
         started = time.perf_counter()
-        reply = SummaryClient(manager).summarize(transcript, timeout=120)
+        reply = SummaryClient(manager).summarize(transcript)
         report['summary_seconds'] = time.perf_counter() - started
         report['summary'] = asdict(reply)
         store = NoteStore(args.output / 'public-notes.db')

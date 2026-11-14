@@ -32,6 +32,14 @@ late results; failed ranges retain the other recognized text and mark the
 transcript incomplete. Script text, model ID and language provenance are kept.
 These are implementation guarantees; ASR and speaker accuracy need evaluation.
 
+The first actual-model file-fixture run at `8b84a94` exposed clipped words from
+using delayed Silero streaming flags as onset timestamps. Meeting VAD now uses
+the detector's retrospective segment start/end bounds, merges overlapping
+padding and caps native speech segments at 20 seconds inside its 30-second
+buffer. The WebRTC fallback keeps its frame-based path. The regression checks
+verify that native range inputs reach recognition without dropping onsets or
+duplicating overlapping padding. Native word-preservation confirmation follows.
+
 ## Local summary and independent Notes
 
 `SummaryClient` uses the existing owned local model server. It measures the full
@@ -47,6 +55,14 @@ inputs. Named owners must occur in their evidence; anonymous Speaker N owners
 must match the cited acoustic cluster. Unassigned owners stay null. These checks
 verify provenance and response structure, not the semantic truth of a paraphrase
 or the correctness of an inferred first-person commitment.
+
+The same development run exceeded its 120-second CPU summary request deadline.
+Its transcript-only Note was saved, its active fixture Scratchpad stayed unchanged
+and the owned model process exit was observed. Meeting summaries now default to
+a 300-second per-request and 900-second total budget (configurable within bounded
+limits). Compact JSON reduces formatting overhead. Cancellation and deadline
+failure still discard incomplete summary output while retaining the transcript.
+These budgets do not qualify dictation or Pro latency targets.
 
 `MeetingNoteDraft` renders bounded Markdown with evidence, timed speaker/track
 transcripts, recognition provenance and visible incomplete sections. A failed

@@ -11,11 +11,10 @@ import unicodedata
 
 import numpy as np
 
-from saydraft.audio.vad import SilenceTrimConfig
-from saydraft.audio.vad_silero import FallbackFrameDetector
 from .audio import SAMPLE_RATE
 from .diarization import DiarizationCancelled
 from .timeline import MeetingAudio
+from .vad import meeting_detector
 
 _FRAME = 480
 _PADDING = 1920
@@ -65,6 +64,15 @@ def _check(cancelled):
 
 
 def _speech_regions(waveform, detector, cancelled):
+    if hasattr(detector, 'speech_ranges'):
+        previous_end = 0
+        for start, end in detector.speech_ranges(waveform, check=lambda: _check(cancelled)):
+            if (type(start) is not int or type(end) is not int
+                    or not previous_end <= start < end <= len(waveform)):
+                raise ValueError('Invalid meeting speech bounds')
+            yield start, end, ()
+            previous_end = end
+        return
     start, last_speech, quiet_start, pauses = None, 0, None, []
     for offset in range(0, len(waveform), _FRAME):
         _check(cancelled)
@@ -124,7 +132,7 @@ def _text(value):
 class MeetingTranscriber:
     def __init__(self, asr, diarizer, *, detector_factory=None):
         self.asr, self.diarizer = asr, diarizer
-        self.detector_factory = detector_factory or (lambda: FallbackFrameDetector(SilenceTrimConfig()))
+        self.detector_factory = detector_factory or meeting_detector
 
     def transcribe(self, audio, *, cancelled=lambda: False, on_progress=None):
         if type(audio) is not MeetingAudio or not callable(cancelled):

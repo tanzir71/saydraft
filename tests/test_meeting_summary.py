@@ -204,7 +204,7 @@ def test_summary_evidence_and_text_preserve_non_latin_scripts(text):
     assert reply.reason == 'ok' and reply.summary.topics[0].summary == text
 
 
-@pytest.mark.parametrize('options', [{'timeout': 0}, {'timeout': float('nan')}, {'timeout': 121},
+@pytest.mark.parametrize('options', [{'timeout': 0}, {'timeout': float('nan')}, {'timeout': 601},
     {'total_seconds': 0}, {'total_seconds': 3601}])
 def test_invalid_deadlines_are_rejected_before_model_operations(options):
     model = Model()

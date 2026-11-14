@@ -31,7 +31,7 @@ _SYSTEM = (
     'from that speaker. Never infer someone\'s real name from their voice. '
     'Use empty arrays when the source contains no decisions or next steps. '
     'For merge input, combine the supplied summaries without adding facts and retain their evidence quotes. '
-    'Write in the predominant transcript language. Keep the response concise.'
+    'Write in the predominant transcript language. Keep the response concise and use compact JSON without indentation.'
 )
 
 
@@ -213,9 +213,9 @@ class SummaryClient:
             return None, 'unsupported_summary'
         return summary, 'ok'
 
-    def summarize(self, transcript, *, timeout=90, total_seconds=600, cancelled=lambda: False):
+    def summarize(self, transcript, *, timeout=300, total_seconds=900, cancelled=lambda: False):
         if (type(transcript) is not MeetingTranscript or not callable(cancelled)
-                or type(timeout) not in (int, float) or not math.isfinite(timeout) or not 0 < timeout <= 120
+                or type(timeout) not in (int, float) or not math.isfinite(timeout) or not 0 < timeout <= 600
                 or type(total_seconds) not in (int, float) or not math.isfinite(total_seconds)
                 or not 0 < total_seconds <= 3600):
             raise ValueError('Invalid meeting summary request')
