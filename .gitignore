@@ -36,6 +36,7 @@ site/debug-storybook.log
 .env.*
 !.env.example
 *.log
+!eval/translation/results/**/*.log
 *.sqlite*
 *.db
 *.db-*

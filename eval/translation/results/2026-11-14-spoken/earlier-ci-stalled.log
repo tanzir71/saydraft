@@ -1,0 +1,791 @@
+windows	Set up job	﻿2026-11-14T04:19:51.9010824Z Current runner version: '2.338.2'
+windows	Set up job	2026-11-14T04:19:51.9071667Z ##[group]Runner Image Provisioner
+windows	Set up job	2026-11-14T04:19:51.9072868Z Hosted Compute Agent
+windows	Set up job	2026-11-14T04:19:51.9073590Z Version: 20261103.629
+windows	Set up job	2026-11-14T04:19:51.9074365Z Commit: 15dbd9ccb5dbf34fae002b6ed1a2670f52df37bc
+windows	Set up job	2026-11-14T04:19:51.9075111Z Build Date: 2026-11-03T17:26:59Z
+windows	Set up job	2026-11-14T04:19:51.9075744Z Worker ID: {31f11ae5-4e64-4895-a1f7-968a0fe80171}
+windows	Set up job	2026-11-14T04:19:51.9076410Z Region: eastus3
+windows	Set up job	2026-11-14T04:19:51.9076934Z Cloud: Azure
+windows	Set up job	2026-11-14T04:19:51.9077422Z ##[endgroup]
+windows	Set up job	2026-11-14T04:19:51.9078867Z ##[group]Operating System
+windows	Set up job	2026-11-14T04:19:51.9079563Z Microsoft Windows Server 2025
+windows	Set up job	2026-11-14T04:19:51.9080139Z 10.0.26100
+windows	Set up job	2026-11-14T04:19:51.9080635Z Datacenter
+windows	Set up job	2026-11-14T04:19:51.9081144Z ##[endgroup]
+windows	Set up job	2026-11-14T04:19:51.9081644Z ##[group]Runner Image
+windows	Set up job	2026-11-14T04:19:51.9082248Z Image: windows-2025-vs2026
+windows	Set up job	2026-11-14T04:19:51.9082801Z Version: 20261103.298.1
+windows	Set up job	2026-11-14T04:19:51.9083894Z Included Software: https://github.com/actions/runner-images/blob/win25-vs2026/20261103.298/images/windows/Windows2025-VS2026-Readme.md
+windows	Set up job	2026-11-14T04:19:51.9086635Z Image Release: https://github.com/actions/runner-images/releases/tag/win25-vs2026%2F20261103.298
+windows	Set up job	2026-11-14T04:19:51.9087588Z ##[endgroup]
+windows	Set up job	2026-11-14T04:19:51.9088659Z ##[group]GITHUB_TOKEN Permissions
+windows	Set up job	2026-11-14T04:19:51.9090686Z Contents: read
+windows	Set up job	2026-11-14T04:19:51.9091269Z Metadata: read
+windows	Set up job	2026-11-14T04:19:51.9091782Z ##[endgroup]
+windows	Set up job	2026-11-14T04:19:51.9093951Z Secret source: Actions
+windows	Set up job	2026-11-14T04:19:51.9094795Z Cache mode: write
+windows	Set up job	2026-11-14T04:19:51.9095450Z Prepare workflow directory
+windows	Set up job	2026-11-14T04:19:51.9509431Z Prepare all required actions
+windows	Set up job	2026-11-14T04:19:51.9558995Z Getting action download info
+windows	Set up job	2026-11-14T04:19:52.1421737Z Download action repository 'actions/checkout@v7' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+windows	Set up job	2026-11-14T04:19:52.2421101Z Download action repository 'actions/setup-python@v7' (SHA:6d4fd22b20465ccc0f7354476588e8df7c9ca0e0)
+windows	Set up job	2026-11-14T04:19:52.5845354Z Download action repository 'actions/upload-artifact@v7' (SHA:cf430e030ddbb5b0abf93d22962f4752f3646cd9)
+windows	Set up job	2026-11-14T04:19:52.7921388Z Complete job name: windows
+windows	Run actions/checkout@v7	﻿2026-11-14T04:19:52.9475775Z ##[group]Run actions/checkout@v7
+windows	Run actions/checkout@v7	2026-11-14T04:19:52.9477859Z with:
+windows	Run actions/checkout@v7	2026-11-14T04:19:52.9478809Z   repository: tanzir71/saydraft
+windows	Run actions/checkout@v7	2026-11-14T04:19:52.9486551Z   token: ***
+windows	Run actions/checkout@v7	2026-11-14T04:19:52.9487842Z   ssh-strict: true
+windows	Run actions/checkout@v7	2026-11-14T04:19:52.9489185Z   ssh-user: git
+windows	Run actions/checkout@v7	2026-11-14T04:19:52.9490187Z   persist-credentials: true
+windows	Run actions/checkout@v7	2026-11-14T04:19:52.9491265Z   clean: true
+windows	Run actions/checkout@v7	2026-11-14T04:19:52.9492288Z   sparse-checkout-cone-mode: true
+windows	Run actions/checkout@v7	2026-11-14T04:19:52.9493455Z   fetch-depth: 1
+windows	Run actions/checkout@v7	2026-11-14T04:19:52.9494447Z   fetch-tags: false
+windows	Run actions/checkout@v7	2026-11-14T04:19:52.9495420Z   show-progress: true
+windows	Run actions/checkout@v7	2026-11-14T04:19:52.9496449Z   lfs: false
+windows	Run actions/checkout@v7	2026-11-14T04:19:52.9497323Z   submodules: false
+windows	Run actions/checkout@v7	2026-11-14T04:19:52.9498326Z   set-safe-directory: true
+windows	Run actions/checkout@v7	2026-11-14T04:19:52.9499744Z   allow-unsafe-pr-checkout: false
+windows	Run actions/checkout@v7	2026-11-14T04:19:52.9501240Z env:
+windows	Run actions/checkout@v7	2026-11-14T04:19:52.9502248Z   QT_QPA_PLATFORM: offscreen
+windows	Run actions/checkout@v7	2026-11-14T04:19:52.9503289Z   HF_HUB_OFFLINE: 1
+windows	Run actions/checkout@v7	2026-11-14T04:19:52.9504316Z   HF_HUB_DISABLE_TELEMETRY: 1
+windows	Run actions/checkout@v7	2026-11-14T04:19:52.9505359Z   DO_NOT_TRACK: 1
+windows	Run actions/checkout@v7	2026-11-14T04:19:52.9506329Z ##[endgroup]
+windows	Run actions/checkout@v7	2026-11-14T04:19:53.1051688Z Syncing repository: tanzir71/saydraft
+windows	Run actions/checkout@v7	2026-11-14T04:19:53.1054093Z ##[group]Getting Git version info
+windows	Run actions/checkout@v7	2026-11-14T04:19:53.1055024Z Working directory is 'D:\a\saydraft\saydraft'
+windows	Run actions/checkout@v7	2026-11-14T04:19:53.1731775Z [command]"C:\Program Files\Git\bin\git.exe" version
+windows	Run actions/checkout@v7	2026-11-14T04:19:53.4417877Z git version 2.56.0.windows.4
+windows	Run actions/checkout@v7	2026-11-14T04:19:53.4465850Z ##[endgroup]
+windows	Run actions/checkout@v7	2026-11-14T04:19:53.4482170Z Temporarily overriding HOME='D:\a\_temp\16b51aa5-8ed3-471b-8f85-0ef359cc751a' before making global git config changes
+windows	Run actions/checkout@v7	2026-11-14T04:19:53.4484799Z Adding repository directory to the temporary git global config as a safe directory
+windows	Run actions/checkout@v7	2026-11-14T04:19:53.4491372Z [command]"C:\Program Files\Git\bin\git.exe" config --global --add safe.directory D:\a\saydraft\saydraft
+windows	Run actions/checkout@v7	2026-11-14T04:19:53.5131798Z Deleting the contents of 'D:\a\saydraft\saydraft'
+windows	Run actions/checkout@v7	2026-11-14T04:19:53.5137245Z ##[group]Determining repository object format
+windows	Run actions/checkout@v7	2026-11-14T04:19:53.5140322Z ##[endgroup]
+windows	Run actions/checkout@v7	2026-11-14T04:19:53.5141599Z ##[group]Initializing the repository
+windows	Run actions/checkout@v7	2026-11-14T04:19:53.5150024Z [command]"C:\Program Files\Git\bin\git.exe" init D:\a\saydraft\saydraft
+windows	Run actions/checkout@v7	2026-11-14T04:19:53.5849651Z Initialized empty Git repository in D:/a/saydraft/saydraft/.git/
+windows	Run actions/checkout@v7	2026-11-14T04:19:53.5901414Z [command]"C:\Program Files\Git\bin\git.exe" remote add origin https://github.com/tanzir71/saydraft
+windows	Run actions/checkout@v7	2026-11-14T04:19:53.6583612Z ##[endgroup]
+windows	Run actions/checkout@v7	2026-11-14T04:19:53.6585174Z ##[group]Disabling automatic garbage collection
+windows	Run actions/checkout@v7	2026-11-14T04:19:53.6594651Z [command]"C:\Program Files\Git\bin\git.exe" config --local gc.auto 0
+windows	Run actions/checkout@v7	2026-11-14T04:19:53.6980140Z ##[endgroup]
+windows	Run actions/checkout@v7	2026-11-14T04:19:53.6981948Z ##[group]Setting up auth
+windows	Run actions/checkout@v7	2026-11-14T04:19:53.6983292Z Removing SSH command configuration
+windows	Run actions/checkout@v7	2026-11-14T04:19:53.6993390Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+windows	Run actions/checkout@v7	2026-11-14T04:19:53.7383873Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+windows	Run actions/checkout@v7	2026-11-14T04:19:55.0427723Z Removing HTTP extra header
+windows	Run actions/checkout@v7	2026-11-14T04:19:55.0438331Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+windows	Run actions/checkout@v7	2026-11-14T04:19:55.0824147Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+windows	Run actions/checkout@v7	2026-11-14T04:19:55.6476625Z Removing includeIf entries pointing to credentials config files
+windows	Run actions/checkout@v7	2026-11-14T04:19:55.6491611Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp ^includeIf\.gitdir:
+windows	Run actions/checkout@v7	2026-11-14T04:19:55.6920381Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "git config --local --show-origin --name-only --get-regexp remote.origin.url"
+windows	Run actions/checkout@v7	2026-11-14T04:19:56.2522677Z [command]"C:\Program Files\Git\bin\git.exe" config --file D:\a\_temp\git-credentials-fd441860-fb36-4a94-81b0-d5432bb66b66.config http.https://github.com/.extraheader "AUTHORIZATION: basic ***"
+windows	Run actions/checkout@v7	2026-11-14T04:19:56.2934925Z [command]"C:\Program Files\Git\bin\git.exe" config --local includeIf.gitdir:D:/a/saydraft/saydraft/.git.path D:\a\_temp\git-credentials-fd441860-fb36-4a94-81b0-d5432bb66b66.config
+windows	Run actions/checkout@v7	2026-11-14T04:19:56.3325376Z [command]"C:\Program Files\Git\bin\git.exe" config --local includeIf.gitdir:D:/a/saydraft/saydraft/.git/worktrees/*.path D:\a\_temp\git-credentials-fd441860-fb36-4a94-81b0-d5432bb66b66.config
+windows	Run actions/checkout@v7	2026-11-14T04:19:56.3775170Z [command]"C:\Program Files\Git\bin\git.exe" config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-fd441860-fb36-4a94-81b0-d5432bb66b66.config
+windows	Run actions/checkout@v7	2026-11-14T04:19:56.4176299Z [command]"C:\Program Files\Git\bin\git.exe" config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-fd441860-fb36-4a94-81b0-d5432bb66b66.config
+windows	Run actions/checkout@v7	2026-11-14T04:19:56.4579855Z ##[endgroup]
+windows	Run actions/checkout@v7	2026-11-14T04:19:56.4580871Z ##[group]Fetching the repository
+windows	Run actions/checkout@v7	2026-11-14T04:19:56.4594135Z [command]"C:\Program Files\Git\bin\git.exe" -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +c52883a7626038d128af094b69066b23e6983eb6:refs/remotes/origin/main
+windows	Run actions/checkout@v7	2026-11-14T04:19:58.0776270Z From https://github.com/tanzir71/saydraft
+windows	Run actions/checkout@v7	2026-11-14T04:19:58.0777228Z  * [new ref]         c52883a7626038d128af094b69066b23e6983eb6 -> origin/main
+windows	Run actions/checkout@v7	2026-11-14T04:19:58.0831944Z [command]"C:\Program Files\Git\bin\git.exe" branch --list --remote origin/main
+windows	Run actions/checkout@v7	2026-11-14T04:19:58.1283409Z   origin/main
+windows	Run actions/checkout@v7	2026-11-14T04:19:58.1341226Z [command]"C:\Program Files\Git\bin\git.exe" rev-parse refs/remotes/origin/main
+windows	Run actions/checkout@v7	2026-11-14T04:19:58.1756778Z c52883a7626038d128af094b69066b23e6983eb6
+windows	Run actions/checkout@v7	2026-11-14T04:19:58.1796767Z ##[endgroup]
+windows	Run actions/checkout@v7	2026-11-14T04:19:58.1797786Z ##[group]Determining the checkout info
+windows	Run actions/checkout@v7	2026-11-14T04:19:58.1798701Z ##[endgroup]
+windows	Run actions/checkout@v7	2026-11-14T04:19:58.1808330Z [command]"C:\Program Files\Git\bin\git.exe" sparse-checkout disable
+windows	Run actions/checkout@v7	2026-11-14T04:19:58.2281067Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset-all extensions.worktreeConfig
+windows	Run actions/checkout@v7	2026-11-14T04:19:58.2668624Z ##[group]Checking out the ref
+windows	Run actions/checkout@v7	2026-11-14T04:19:58.2677482Z [command]"C:\Program Files\Git\bin\git.exe" checkout --progress --force -B main refs/remotes/origin/main
+windows	Run actions/checkout@v7	2026-11-14T04:19:58.7799133Z Switched to a new branch 'main'
+windows	Run actions/checkout@v7	2026-11-14T04:19:58.7884519Z branch 'main' set up to track 'origin/main'.
+windows	Run actions/checkout@v7	2026-11-14T04:19:58.7956299Z ##[endgroup]
+windows	Run actions/checkout@v7	2026-11-14T04:19:58.8472404Z [command]"C:\Program Files\Git\bin\git.exe" log -1 --format=%H
+windows	Run actions/checkout@v7	2026-11-14T04:19:58.8832495Z c52883a7626038d128af094b69066b23e6983eb6
+windows	Run actions/setup-python@v7	﻿2026-11-14T04:19:58.9319601Z ##[group]Run actions/setup-python@v7
+windows	Run actions/setup-python@v7	2026-11-14T04:19:58.9320089Z with:
+windows	Run actions/setup-python@v7	2026-11-14T04:19:58.9320383Z   python-version: 3.13
+windows	Run actions/setup-python@v7	2026-11-14T04:19:58.9320705Z   cache: pip
+windows	Run actions/setup-python@v7	2026-11-14T04:19:58.9321141Z   cache-dependency-path: requirements.txt
+windows	Run actions/setup-python@v7	requirements-dev.txt
+windows	Run actions/setup-python@v7	
+windows	Run actions/setup-python@v7	2026-11-14T04:19:58.9321562Z   check-latest: false
+windows	Run actions/setup-python@v7	2026-11-14T04:19:58.9323808Z   token: ***
+windows	Run actions/setup-python@v7	2026-11-14T04:19:58.9324204Z   mirror: https://raw.githubusercontent.com/actions/python-versions/main
+windows	Run actions/setup-python@v7	2026-11-14T04:19:58.9324665Z   update-environment: true
+windows	Run actions/setup-python@v7	2026-11-14T04:19:58.9325037Z   allow-prereleases: false
+windows	Run actions/setup-python@v7	2026-11-14T04:19:58.9325330Z   freethreaded: false
+windows	Run actions/setup-python@v7	2026-11-14T04:19:58.9325659Z env:
+windows	Run actions/setup-python@v7	2026-11-14T04:19:58.9325936Z   QT_QPA_PLATFORM: offscreen
+windows	Run actions/setup-python@v7	2026-11-14T04:19:58.9326249Z   HF_HUB_OFFLINE: 1
+windows	Run actions/setup-python@v7	2026-11-14T04:19:58.9326543Z   HF_HUB_DISABLE_TELEMETRY: 1
+windows	Run actions/setup-python@v7	2026-11-14T04:19:58.9326841Z   DO_NOT_TRACK: 1
+windows	Run actions/setup-python@v7	2026-11-14T04:19:58.9327134Z ##[endgroup]
+windows	Run actions/setup-python@v7	2026-11-14T04:19:59.0834805Z ##[group]Installed versions
+windows	Run actions/setup-python@v7	2026-11-14T04:19:59.1128453Z Successfully set up CPython (3.13.17)
+windows	Run actions/setup-python@v7	2026-11-14T04:19:59.1129757Z ##[endgroup]
+windows	Run actions/setup-python@v7	2026-11-14T04:20:01.1174489Z Cache hit for: setup-python-Windows-x64-python-3.13.17-pip-4c2b008d8eaddc00dbc459f1b0a2984ce73a67e8137f0fa8d2a18fb63e35d616
+windows	Run actions/setup-python@v7	2026-11-14T04:20:02.2313474Z Received 130023424 of 389558209 (33.4%), 123.6 MBs/sec
+windows	Run actions/setup-python@v7	2026-11-14T04:20:03.2772949Z Received 134217728 of 389558209 (34.5%), 62.4 MBs/sec
+windows	Run actions/setup-python@v7	2026-11-14T04:20:04.4900735Z Received 268435456 of 389558209 (68.9%), 78.4 MBs/sec
+windows	Run actions/setup-python@v7	2026-11-14T04:20:05.4711381Z Received 389558209 of 389558209 (100.0%), 87.5 MBs/sec
+windows	Run actions/setup-python@v7	2026-11-14T04:20:05.4715829Z Cache Size: ~372 MB (389558209 B)
+windows	Run actions/setup-python@v7	2026-11-14T04:20:05.4823138Z [command]"C:\Program Files\Git\usr\bin\tar.exe" -xf D:/a/_temp/1d2d4c50-2566-4af1-beb4-be59c13d6b60/cache.tzst -P -C D:/a/saydraft/saydraft --force-local --use-compress-program "zstd -d"
+windows	Run actions/setup-python@v7	2026-11-14T04:20:06.5328017Z Cache restored successfully
+windows	Run actions/setup-python@v7	2026-11-14T04:20:06.5632157Z Cache restored from key: setup-python-Windows-x64-python-3.13.17-pip-4c2b008d8eaddc00dbc459f1b0a2984ce73a67e8137f0fa8d2a18fb63e35d616
+windows	Install development dependencies	﻿2026-11-14T04:20:06.6049122Z ##[group]Run python -m pip install -r requirements-dev.txt
+windows	Install development dependencies	2026-11-14T04:20:06.6049825Z ^[[36;1mpython -m pip install -r requirements-dev.txt^[[0m
+windows	Install development dependencies	2026-11-14T04:20:06.6354320Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+windows	Install development dependencies	2026-11-14T04:20:06.6354920Z env:
+windows	Install development dependencies	2026-11-14T04:20:06.6355309Z   QT_QPA_PLATFORM: offscreen
+windows	Install development dependencies	2026-11-14T04:20:06.6355660Z   HF_HUB_OFFLINE: 1
+windows	Install development dependencies	2026-11-14T04:20:06.6355999Z   HF_HUB_DISABLE_TELEMETRY: 1
+windows	Install development dependencies	2026-11-14T04:20:06.6356345Z   DO_NOT_TRACK: 1
+windows	Install development dependencies	2026-11-14T04:20:06.6356834Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.13.17\x64
+windows	Install development dependencies	2026-11-14T04:20:06.6357410Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.13.17\x64/lib/pkgconfig
+windows	Install development dependencies	2026-11-14T04:20:06.6357976Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+windows	Install development dependencies	2026-11-14T04:20:06.6358533Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+windows	Install development dependencies	2026-11-14T04:20:06.6359271Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+windows	Install development dependencies	2026-11-14T04:20:06.6359649Z ##[endgroup]
+windows	Install development dependencies	2026-11-14T04:20:09.1636800Z Collecting PySide6==6.11.1 (from -r D:\a\saydraft\saydraft\requirements.txt (line 1))
+windows	Install development dependencies	2026-11-14T04:20:09.1664415Z   Using cached pyside6-6.11.1-cp310-abi3-win_amd64.whl.metadata (5.5 kB)
+windows	Install development dependencies	2026-11-14T04:20:09.2074652Z Collecting sounddevice==0.5.2 (from -r D:\a\saydraft\saydraft\requirements.txt (line 2))
+windows	Install development dependencies	2026-11-14T04:20:09.2096468Z   Using cached sounddevice-0.5.2-py3-none-win_amd64.whl.metadata (1.6 kB)
+windows	Install development dependencies	2026-11-14T04:20:09.3950374Z Collecting numpy>=1.26 (from -r D:\a\saydraft\saydraft\requirements.txt (line 3))
+windows	Install development dependencies	2026-11-14T04:20:09.3979542Z   Using cached numpy-2.5.4-cp313-cp313-win_amd64.whl.metadata (6.6 kB)
+windows	Install development dependencies	2026-11-14T04:20:09.4293336Z Collecting faster-whisper==1.2.1 (from -r D:\a\saydraft\saydraft\requirements.txt (line 4))
+windows	Install development dependencies	2026-11-14T04:20:09.4318032Z   Using cached faster_whisper-1.2.1-py3-none-any.whl.metadata (16 kB)
+windows	Install development dependencies	2026-11-14T04:20:09.5313686Z Collecting sherpa-onnx==1.13.4 (from -r D:\a\saydraft\saydraft\requirements.txt (line 5))
+windows	Install development dependencies	2026-11-14T04:20:09.5337050Z   Using cached sherpa_onnx-1.13.4-cp313-cp313-win_amd64.whl.metadata (50 kB)
+windows	Install development dependencies	2026-11-14T04:20:09.5712308Z Collecting soundfile>=0.12.1 (from -r D:\a\saydraft\saydraft\requirements.txt (line 6))
+windows	Install development dependencies	2026-11-14T04:20:09.5732669Z   Using cached soundfile-0.14.0-py2.py3-none-win_amd64.whl.metadata (18 kB)
+windows	Install development dependencies	2026-11-14T04:20:09.6288438Z Collecting webrtcvad-wheels==2.0.14 (from -r D:\a\saydraft\saydraft\requirements.txt (line 7))
+windows	Install development dependencies	2026-11-14T04:20:09.6312529Z   Using cached webrtcvad_wheels-2.0.14-cp313-cp313-win_amd64.whl.metadata (5.6 kB)
+windows	Install development dependencies	2026-11-14T04:20:09.6633152Z Collecting pyperclip==1.9.0 (from -r D:\a\saydraft\saydraft\requirements.txt (line 8))
+windows	Install development dependencies	2026-11-14T04:20:09.6634795Z   Using cached pyperclip-1.9.0-py3-none-any.whl
+windows	Install development dependencies	2026-11-14T04:20:09.7239877Z Collecting comtypes==1.4.16 (from -r D:\a\saydraft\saydraft\requirements.txt (line 9))
+windows	Install development dependencies	2026-11-14T04:20:09.7261091Z   Using cached comtypes-1.4.16-py3-none-any.whl.metadata (7.8 kB)
+windows	Install development dependencies	2026-11-14T04:20:09.7830557Z Collecting pyinstaller==6.22.3 (from -r D:\a\saydraft\saydraft\requirements.txt (line 10))
+windows	Install development dependencies	2026-11-14T04:20:09.7852343Z   Using cached pyinstaller-6.22.3-py3-none-win_amd64.whl.metadata (8.5 kB)
+windows	Install development dependencies	2026-11-14T04:20:09.8278253Z Collecting pytest==8.3.2 (from -r requirements-dev.txt (line 2))
+windows	Install development dependencies	2026-11-14T04:20:09.8893986Z   Using cached pytest-8.3.2-py3-none-any.whl.metadata (7.5 kB)
+windows	Install development dependencies	2026-11-14T04:20:10.1827715Z Collecting ruff==0.15.16 (from -r requirements-dev.txt (line 3))
+windows	Install development dependencies	2026-11-14T04:20:10.1850668Z   Using cached ruff-0.15.16-py3-none-win_amd64.whl.metadata (27 kB)
+windows	Install development dependencies	2026-11-14T04:20:10.2738356Z Collecting msgpack==1.1.1 (from -r requirements-dev.txt (line 4))
+windows	Install development dependencies	2026-11-14T04:20:10.2764881Z   Using cached msgpack-1.1.1-cp313-cp313-win_amd64.whl.metadata (8.6 kB)
+windows	Install development dependencies	2026-11-14T04:20:10.3196475Z Collecting shiboken6==6.11.1 (from PySide6==6.11.1->-r D:\a\saydraft\saydraft\requirements.txt (line 1))
+windows	Install development dependencies	2026-11-14T04:20:10.3219217Z   Using cached shiboken6-6.11.1-cp310-abi3-win_amd64.whl.metadata (2.5 kB)
+windows	Install development dependencies	2026-11-14T04:20:10.3602588Z Collecting PySide6_Essentials==6.11.1 (from PySide6==6.11.1->-r D:\a\saydraft\saydraft\requirements.txt (line 1))
+windows	Install development dependencies	2026-11-14T04:20:10.3626627Z   Using cached pyside6_essentials-6.11.1-cp310-abi3-win_amd64.whl.metadata (3.8 kB)
+windows	Install development dependencies	2026-11-14T04:20:10.3995235Z Collecting PySide6_Addons==6.11.1 (from PySide6==6.11.1->-r D:\a\saydraft\saydraft\requirements.txt (line 1))
+windows	Install development dependencies	2026-11-14T04:20:10.4016931Z   Using cached pyside6_addons-6.11.1-cp310-abi3-win_amd64.whl.metadata (4.2 kB)
+windows	Install development dependencies	2026-11-14T04:20:10.5072124Z Collecting CFFI>=1.0 (from sounddevice==0.5.2->-r D:\a\saydraft\saydraft\requirements.txt (line 2))
+windows	Install development dependencies	2026-11-14T04:20:10.5115777Z   Using cached cffi-2.1.1-cp313-cp313-win_amd64.whl.metadata (2.6 kB)
+windows	Install development dependencies	2026-11-14T04:20:10.6065612Z Collecting ctranslate2<5,>=4.0 (from faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 4))
+windows	Install development dependencies	2026-11-14T04:20:10.6089856Z   Using cached ctranslate2-4.9.0-cp313-cp313-win_amd64.whl.metadata (11 kB)
+windows	Install development dependencies	2026-11-14T04:20:10.6677688Z Collecting huggingface-hub>=0.21 (from faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 4))
+windows	Install development dependencies	2026-11-14T04:20:10.6701361Z   Using cached huggingface_hub-2.4.0-py3-none-any.whl.metadata (16 kB)
+windows	Install development dependencies	2026-11-14T04:20:10.8120715Z Collecting tokenizers<1,>=0.13 (from faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 4))
+windows	Install development dependencies	2026-11-14T04:20:10.8144388Z   Using cached tokenizers-0.23.3-cp310-abi3-win_amd64.whl.metadata (10 kB)
+windows	Install development dependencies	2026-11-14T04:20:10.8921161Z Collecting onnxruntime<2,>=1.14 (from faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 4))
+windows	Install development dependencies	2026-11-14T04:20:10.8944419Z   Using cached onnxruntime-1.32.0-cp313-cp313-win_amd64.whl.metadata (6.1 kB)
+windows	Install development dependencies	2026-11-14T04:20:10.9541229Z Collecting av>=11 (from faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 4))
+windows	Install development dependencies	2026-11-14T04:20:10.9563890Z   Using cached av-19.0.2-cp312-abi3-win_amd64.whl.metadata (5.1 kB)
+windows	Install development dependencies	2026-11-14T04:20:11.0032137Z Collecting tqdm (from faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 4))
+windows	Install development dependencies	2026-11-14T04:20:11.0054610Z   Using cached tqdm-4.70.1-py3-none-any.whl.metadata (57 kB)
+windows	Install development dependencies	2026-11-14T04:20:11.0800501Z Collecting sherpa-onnx-core==1.13.4 (from sherpa-onnx==1.13.4->-r D:\a\saydraft\saydraft\requirements.txt (line 5))
+windows	Install development dependencies	2026-11-14T04:20:11.0823684Z   Using cached sherpa_onnx_core-1.13.4-py3-none-win_amd64.whl.metadata (532 bytes)
+windows	Install development dependencies	2026-11-14T04:20:11.1159075Z Collecting altgraph (from pyinstaller==6.22.3->-r D:\a\saydraft\saydraft\requirements.txt (line 10))
+windows	Install development dependencies	2026-11-14T04:20:11.1180952Z   Using cached altgraph-0.17.5-py2.py3-none-any.whl.metadata (7.5 kB)
+windows	Install development dependencies	2026-11-14T04:20:11.1521265Z Collecting packaging>=22.0 (from pyinstaller==6.22.3->-r D:\a\saydraft\saydraft\requirements.txt (line 10))
+windows	Install development dependencies	2026-11-14T04:20:11.1542308Z   Using cached packaging-26.3-py3-none-any.whl.metadata (3.5 kB)
+windows	Install development dependencies	2026-11-14T04:20:11.1857534Z Collecting pefile>=2022.5.30 (from pyinstaller==6.22.3->-r D:\a\saydraft\saydraft\requirements.txt (line 10))
+windows	Install development dependencies	2026-11-14T04:20:11.1881905Z   Using cached pefile-2024.8.26-py3-none-any.whl.metadata (1.4 kB)
+windows	Install development dependencies	2026-11-14T04:20:11.3215011Z Collecting pyinstaller-hooks-contrib>=2026.7 (from pyinstaller==6.22.3->-r D:\a\saydraft\saydraft\requirements.txt (line 10))
+windows	Install development dependencies	2026-11-14T04:20:11.3238231Z   Using cached pyinstaller_hooks_contrib-2026.10-py3-none-any.whl.metadata (16 kB)
+windows	Install development dependencies	2026-11-14T04:20:11.3553924Z Collecting pywin32-ctypes>=0.2.1 (from pyinstaller==6.22.3->-r D:\a\saydraft\saydraft\requirements.txt (line 10))
+windows	Install development dependencies	2026-11-14T04:20:11.3575186Z   Using cached pywin32_ctypes-0.2.3-py3-none-any.whl.metadata (3.9 kB)
+windows	Install development dependencies	2026-11-14T04:20:11.4414558Z Collecting setuptools>=42.0.0 (from pyinstaller==6.22.3->-r D:\a\saydraft\saydraft\requirements.txt (line 10))
+windows	Install development dependencies	2026-11-14T04:20:11.4437185Z   Using cached setuptools-84.2.1-py3-none-any.whl.metadata (6.6 kB)
+windows	Install development dependencies	2026-11-14T04:20:11.4767163Z Collecting iniconfig (from pytest==8.3.2->-r requirements-dev.txt (line 2))
+windows	Install development dependencies	2026-11-14T04:20:11.4787698Z   Using cached iniconfig-2.3.1-py3-none-any.whl.metadata (2.8 kB)
+windows	Install development dependencies	2026-11-14T04:20:11.5091048Z Collecting pluggy<2,>=1.5 (from pytest==8.3.2->-r requirements-dev.txt (line 2))
+windows	Install development dependencies	2026-11-14T04:20:11.5114598Z   Using cached pluggy-1.7.0-py3-none-any.whl.metadata (5.0 kB)
+windows	Install development dependencies	2026-11-14T04:20:11.5440086Z Collecting colorama (from pytest==8.3.2->-r requirements-dev.txt (line 2))
+windows	Install development dependencies	2026-11-14T04:20:11.5474031Z   Using cached colorama-0.4.6-py2.py3-none-any.whl.metadata (17 kB)
+windows	Install development dependencies	2026-11-14T04:20:11.6035542Z Collecting pyyaml<7,>=5.3 (from ctranslate2<5,>=4.0->faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 4))
+windows	Install development dependencies	2026-11-14T04:20:11.6058030Z   Using cached pyyaml-6.0.3-cp313-cp313-win_amd64.whl.metadata (2.4 kB)
+windows	Install development dependencies	2026-11-14T04:20:11.6393714Z Collecting flatbuffers (from onnxruntime<2,>=1.14->faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 4))
+windows	Install development dependencies	2026-11-14T04:20:11.6416601Z   Using cached flatbuffers-25.12.19-py2.py3-none-any.whl.metadata (1.0 kB)
+windows	Install development dependencies	2026-11-14T04:20:11.7795329Z Collecting protobuf>=4.25.8 (from onnxruntime<2,>=1.14->faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 4))
+windows	Install development dependencies	2026-11-14T04:20:11.7818552Z   Using cached protobuf-7.36.2-cp310-abi3-win_amd64.whl.metadata (595 bytes)
+windows	Install development dependencies	2026-11-14T04:20:11.8245477Z Collecting click<9.0.0,>=8.4.2 (from huggingface-hub>=0.21->faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 4))
+windows	Install development dependencies	2026-11-14T04:20:11.8267296Z   Using cached click-8.5.1-py3-none-any.whl.metadata (2.6 kB)
+windows	Install development dependencies	2026-11-14T04:20:11.8664798Z Collecting filelock>=3.10.0 (from huggingface-hub>=0.21->faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 4))
+windows	Install development dependencies	2026-11-14T04:20:11.8687205Z   Using cached filelock-4.2.10-py3-none-any.whl.metadata (2.3 kB)
+windows	Install development dependencies	2026-11-14T04:20:11.9040308Z Collecting fsspec>=2023.5.0 (from huggingface-hub>=0.21->faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 4))
+windows	Install development dependencies	2026-11-14T04:20:11.9062186Z   Using cached fsspec-2026.9.0-py3-none-any.whl.metadata (10 kB)
+windows	Install development dependencies	2026-11-14T04:20:11.9731041Z Collecting hf-xet<2.0.0,>=1.6.0 (from huggingface-hub>=0.21->faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 4))
+windows	Install development dependencies	2026-11-14T04:20:11.9754579Z   Using cached hf_xet-1.8.0-cp38-abi3-win_amd64.whl.metadata (4.9 kB)
+windows	Install development dependencies	2026-11-14T04:20:12.0079419Z Collecting httpx2<3,>=2.0.0 (from huggingface-hub>=0.21->faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 4))
+windows	Install development dependencies	2026-11-14T04:20:12.0101156Z   Using cached httpx2-2.16.0-py3-none-any.whl.metadata (10 kB)
+windows	Install development dependencies	2026-11-14T04:20:12.0496387Z Collecting typing-extensions>=4.1.0 (from huggingface-hub>=0.21->faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 4))
+windows	Install development dependencies	2026-11-14T04:20:12.0517899Z   Using cached typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+windows	Install development dependencies	2026-11-14T04:20:12.0872430Z Collecting anyio>=4.10 (from httpx2<3,>=2.0.0->huggingface-hub>=0.21->faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 4))
+windows	Install development dependencies	2026-11-14T04:20:12.0893244Z   Using cached anyio-4.16.0-py3-none-any.whl.metadata (4.7 kB)
+windows	Install development dependencies	2026-11-14T04:20:12.1205901Z Collecting httpcore2==2.16.0 (from httpx2<3,>=2.0.0->huggingface-hub>=0.21->faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 4))
+windows	Install development dependencies	2026-11-14T04:20:12.1226000Z   Using cached httpcore2-2.16.0-py3-none-any.whl.metadata (27 kB)
+windows	Install development dependencies	2026-11-14T04:20:12.1550568Z Collecting idna>=3.18 (from httpx2<3,>=2.0.0->huggingface-hub>=0.21->faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 4))
+windows	Install development dependencies	2026-11-14T04:20:12.1571058Z   Using cached idna-3.20-py3-none-any.whl.metadata (7.2 kB)
+windows	Install development dependencies	2026-11-14T04:20:12.1891020Z Collecting truststore>=0.10 (from httpx2<3,>=2.0.0->huggingface-hub>=0.21->faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 4))
+windows	Install development dependencies	2026-11-14T04:20:12.1911561Z   Using cached truststore-0.10.5-py3-none-any.whl.metadata (4.5 kB)
+windows	Install development dependencies	2026-11-14T04:20:12.2348059Z Collecting h11>=0.16 (from httpcore2==2.16.0->httpx2<3,>=2.0.0->huggingface-hub>=0.21->faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 4))
+windows	Install development dependencies	2026-11-14T04:20:12.2368171Z   Using cached h11-0.16.0-py3-none-any.whl.metadata (8.3 kB)
+windows	Install development dependencies	2026-11-14T04:20:12.2707547Z Collecting pycparser (from CFFI>=1.0->sounddevice==0.5.2->-r D:\a\saydraft\saydraft\requirements.txt (line 2))
+windows	Install development dependencies	2026-11-14T04:20:12.2727475Z   Using cached pycparser-3.12-py3-none-any.whl.metadata (9.7 kB)
+windows	Install development dependencies	2026-11-14T04:20:12.2856370Z Using cached pyside6-6.11.1-cp310-abi3-win_amd64.whl (578 kB)
+windows	Install development dependencies	2026-11-14T04:20:12.2894512Z Using cached sounddevice-0.5.2-py3-none-win_amd64.whl (363 kB)
+windows	Install development dependencies	2026-11-14T04:20:12.2915474Z Using cached faster_whisper-1.2.1-py3-none-any.whl (1.1 MB)
+windows	Install development dependencies	2026-11-14T04:20:12.2939715Z Using cached sherpa_onnx-1.13.4-cp313-cp313-win_amd64.whl (2.2 MB)
+windows	Install development dependencies	2026-11-14T04:20:12.2970622Z Using cached webrtcvad_wheels-2.0.14-cp313-cp313-win_amd64.whl (19 kB)
+windows	Install development dependencies	2026-11-14T04:20:12.2987613Z Using cached comtypes-1.4.16-py3-none-any.whl (296 kB)
+windows	Install development dependencies	2026-11-14T04:20:12.3007607Z Using cached pyinstaller-6.22.3-py3-none-win_amd64.whl (1.5 MB)
+windows	Install development dependencies	2026-11-14T04:20:12.3033001Z Using cached pytest-8.3.2-py3-none-any.whl (341 kB)
+windows	Install development dependencies	2026-11-14T04:20:12.3052956Z Using cached ruff-0.15.16-py3-none-win_amd64.whl (11.8 MB)
+windows	Install development dependencies	2026-11-14T04:20:12.3143956Z Using cached msgpack-1.1.1-cp313-cp313-win_amd64.whl (72 kB)
+windows	Install development dependencies	2026-11-14T04:20:12.3161769Z Using cached pyside6_addons-6.11.1-cp310-abi3-win_amd64.whl (168.8 MB)
+windows	Install development dependencies	2026-11-14T04:20:12.4072537Z Using cached pyside6_essentials-6.11.1-cp310-abi3-win_amd64.whl (77.5 MB)
+windows	Install development dependencies	2026-11-14T04:20:12.4529723Z Using cached sherpa_onnx_core-1.13.4-py3-none-win_amd64.whl (16.5 MB)
+windows	Install development dependencies	2026-11-14T04:20:12.4643673Z Using cached shiboken6-6.11.1-cp310-abi3-win_amd64.whl (1.2 MB)
+windows	Install development dependencies	2026-11-14T04:20:12.4686945Z Using cached ctranslate2-4.9.0-cp313-cp313-win_amd64.whl (20.4 MB)
+windows	Install development dependencies	2026-11-14T04:20:12.4823694Z Using cached onnxruntime-1.32.0-cp313-cp313-win_amd64.whl (16.7 MB)
+windows	Install development dependencies	2026-11-14T04:20:12.4933504Z Using cached pluggy-1.7.0-py3-none-any.whl (27 kB)
+windows	Install development dependencies	2026-11-14T04:20:12.4952133Z Using cached pyyaml-6.0.3-cp313-cp313-win_amd64.whl (154 kB)
+windows	Install development dependencies	2026-11-14T04:20:12.4970109Z Using cached tokenizers-0.23.3-cp310-abi3-win_amd64.whl (2.9 MB)
+windows	Install development dependencies	2026-11-14T04:20:12.5003233Z Using cached huggingface_hub-2.4.0-py3-none-any.whl (857 kB)
+windows	Install development dependencies	2026-11-14T04:20:12.5026035Z Using cached click-8.5.1-py3-none-any.whl (126 kB)
+windows	Install development dependencies	2026-11-14T04:20:12.5044040Z Using cached hf_xet-1.8.0-cp38-abi3-win_amd64.whl (3.9 MB)
+windows	Install development dependencies	2026-11-14T04:20:12.5082165Z Using cached httpx2-2.16.0-py3-none-any.whl (97 kB)
+windows	Install development dependencies	2026-11-14T04:20:12.5115170Z Using cached httpcore2-2.16.0-py3-none-any.whl (85 kB)
+windows	Install development dependencies	2026-11-14T04:20:12.5133292Z Using cached numpy-2.5.4-cp313-cp313-win_amd64.whl (12.6 MB)
+windows	Install development dependencies	2026-11-14T04:20:12.5220218Z Using cached soundfile-0.14.0-py2.py3-none-win_amd64.whl (1.0 MB)
+windows	Install development dependencies	2026-11-14T04:20:12.5244261Z Using cached anyio-4.16.0-py3-none-any.whl (134 kB)
+windows	Install development dependencies	2026-11-14T04:20:12.5261929Z Using cached av-19.0.2-cp312-abi3-win_amd64.whl (28.2 MB)
+windows	Install development dependencies	2026-11-14T04:20:12.5430294Z Using cached cffi-2.1.1-cp313-cp313-win_amd64.whl (185 kB)
+windows	Install development dependencies	2026-11-14T04:20:12.5448569Z Using cached filelock-4.2.10-py3-none-any.whl (218 kB)
+windows	Install development dependencies	2026-11-14T04:20:12.5467404Z Using cached fsspec-2026.9.0-py3-none-any.whl (221 kB)
+windows	Install development dependencies	2026-11-14T04:20:12.5485930Z Using cached h11-0.16.0-py3-none-any.whl (37 kB)
+windows	Install development dependencies	2026-11-14T04:20:12.5503040Z Using cached idna-3.20-py3-none-any.whl (69 kB)
+windows	Install development dependencies	2026-11-14T04:20:12.5520865Z Using cached packaging-26.3-py3-none-any.whl (129 kB)
+windows	Install development dependencies	2026-11-14T04:20:12.5538080Z Using cached pefile-2024.8.26-py3-none-any.whl (74 kB)
+windows	Install development dependencies	2026-11-14T04:20:12.5556101Z Using cached protobuf-7.36.2-cp310-abi3-win_amd64.whl (456 kB)
+windows	Install development dependencies	2026-11-14T04:20:12.5576806Z Using cached pyinstaller_hooks_contrib-2026.10-py3-none-any.whl (463 kB)
+windows	Install development dependencies	2026-11-14T04:20:12.5597052Z Using cached pywin32_ctypes-0.2.3-py3-none-any.whl (30 kB)
+windows	Install development dependencies	2026-11-14T04:20:12.5613640Z Using cached setuptools-84.2.1-py3-none-any.whl (876 kB)
+windows	Install development dependencies	2026-11-14T04:20:12.5636047Z Using cached tqdm-4.70.1-py3-none-any.whl (80 kB)
+windows	Install development dependencies	2026-11-14T04:20:12.5653761Z Using cached truststore-0.10.5-py3-none-any.whl (19 kB)
+windows	Install development dependencies	2026-11-14T04:20:12.5670414Z Using cached typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+windows	Install development dependencies	2026-11-14T04:20:12.5687710Z Using cached altgraph-0.17.5-py2.py3-none-any.whl (21 kB)
+windows	Install development dependencies	2026-11-14T04:20:12.5721012Z Using cached colorama-0.4.6-py2.py3-none-any.whl (25 kB)
+windows	Install development dependencies	2026-11-14T04:20:12.5738607Z Using cached flatbuffers-25.12.19-py2.py3-none-any.whl (26 kB)
+windows	Install development dependencies	2026-11-14T04:20:12.5755528Z Using cached iniconfig-2.3.1-py3-none-any.whl (7.6 kB)
+windows	Install development dependencies	2026-11-14T04:20:12.5797609Z Using cached pycparser-3.12-py3-none-any.whl (62 kB)
+windows	Install development dependencies	2026-11-14T04:20:13.9863905Z Installing collected packages: webrtcvad-wheels, sherpa-onnx-core, pyperclip, flatbuffers, altgraph, typing-extensions, truststore, shiboken6, sherpa-onnx, setuptools, ruff, pyyaml, pywin32-ctypes, pycparser, protobuf, pluggy, pefile, packaging, numpy, msgpack, iniconfig, idna, hf-xet, h11, fsspec, filelock, comtypes, colorama, click, av, tqdm, pytest, PySide6_Essentials, pyinstaller-hooks-contrib, onnxruntime, httpcore2, ctranslate2, CFFI, anyio, soundfile, sounddevice, PySide6_Addons, pyinstaller, httpx2, PySide6, huggingface-hub, tokenizers, faster-whisper
+windows	Install development dependencies	2026-11-14T04:20:38.6312554Z 
+windows	Install development dependencies	2026-11-14T04:20:38.6360457Z Successfully installed CFFI-2.1.1 PySide6-6.11.1 PySide6_Addons-6.11.1 PySide6_Essentials-6.11.1 altgraph-0.17.5 anyio-4.16.0 av-19.0.2 click-8.5.1 colorama-0.4.6 comtypes-1.4.16 ctranslate2-4.9.0 faster-whisper-1.2.1 filelock-4.2.10 flatbuffers-25.12.19 fsspec-2026.9.0 h11-0.16.0 hf-xet-1.8.0 httpcore2-2.16.0 httpx2-2.16.0 huggingface-hub-2.4.0 idna-3.20 iniconfig-2.3.1 msgpack-1.1.1 numpy-2.5.4 onnxruntime-1.32.0 packaging-26.3 pefile-2024.8.26 pluggy-1.7.0 protobuf-7.36.2 pycparser-3.12 pyinstaller-6.22.3 pyinstaller-hooks-contrib-2026.10 pyperclip-1.9.0 pytest-8.3.2 pywin32-ctypes-0.2.3 pyyaml-6.0.3 ruff-0.15.16 setuptools-84.2.1 sherpa-onnx-1.13.4 sherpa-onnx-core-1.13.4 shiboken6-6.11.1 sounddevice-0.5.2 soundfile-0.14.0 tokenizers-0.23.3 tqdm-4.70.1 truststore-0.10.5 typing-extensions-4.16.0 webrtcvad-wheels-2.0.14
+windows	Lint	﻿2026-11-14T04:20:38.9817048Z ##[group]Run python -m ruff check .
+windows	Lint	2026-11-14T04:20:38.9817671Z ^[[36;1mpython -m ruff check .^[[0m
+windows	Lint	2026-11-14T04:20:38.9893546Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+windows	Lint	2026-11-14T04:20:38.9894073Z env:
+windows	Lint	2026-11-14T04:20:38.9894433Z   QT_QPA_PLATFORM: offscreen
+windows	Lint	2026-11-14T04:20:38.9894792Z   HF_HUB_OFFLINE: 1
+windows	Lint	2026-11-14T04:20:38.9895168Z   HF_HUB_DISABLE_TELEMETRY: 1
+windows	Lint	2026-11-14T04:20:38.9895528Z   DO_NOT_TRACK: 1
+windows	Lint	2026-11-14T04:20:38.9895932Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.13.17\x64
+windows	Lint	2026-11-14T04:20:38.9896509Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.13.17\x64/lib/pkgconfig
+windows	Lint	2026-11-14T04:20:38.9897111Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+windows	Lint	2026-11-14T04:20:38.9897650Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+windows	Lint	2026-11-14T04:20:38.9898168Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+windows	Lint	2026-11-14T04:20:38.9898645Z ##[endgroup]
+windows	Lint	2026-11-14T04:20:39.4510974Z All checks passed!
+windows	Fetch pinned VAD fixture for native offline smoke	﻿2026-11-14T04:20:39.5981786Z ##[group]Run $vadFixture = python -c "from saydraft.model_download import download_silero_vad_model; print((download_silero_vad_model(models_dir='build/test-models') / 'silero_vad.onnx').resolve())"
+windows	Fetch pinned VAD fixture for native offline smoke	2026-11-14T04:20:39.5983457Z ^[[36;1m$vadFixture = python -c "from saydraft.model_download import download_silero_vad_model; print((download_silero_vad_model(models_dir='build/test-models') / 'silero_vad.onnx').resolve())"^[[0m
+windows	Fetch pinned VAD fixture for native offline smoke	2026-11-14T04:20:39.5984444Z ^[[36;1mif ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }^[[0m
+windows	Fetch pinned VAD fixture for native offline smoke	2026-11-14T04:20:39.5985057Z ^[[36;1m"SAYDRAFT_TEST_SILERO_MODEL=$vadFixture" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append^[[0m
+windows	Fetch pinned VAD fixture for native offline smoke	2026-11-14T04:20:39.6060150Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+windows	Fetch pinned VAD fixture for native offline smoke	2026-11-14T04:20:39.6060636Z env:
+windows	Fetch pinned VAD fixture for native offline smoke	2026-11-14T04:20:39.6060981Z   QT_QPA_PLATFORM: offscreen
+windows	Fetch pinned VAD fixture for native offline smoke	2026-11-14T04:20:39.6061356Z   HF_HUB_OFFLINE: 1
+windows	Fetch pinned VAD fixture for native offline smoke	2026-11-14T04:20:39.6061737Z   HF_HUB_DISABLE_TELEMETRY: 1
+windows	Fetch pinned VAD fixture for native offline smoke	2026-11-14T04:20:39.6062551Z   DO_NOT_TRACK: 1
+windows	Fetch pinned VAD fixture for native offline smoke	2026-11-14T04:20:39.6063293Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.13.17\x64
+windows	Fetch pinned VAD fixture for native offline smoke	2026-11-14T04:20:39.6064169Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.13.17\x64/lib/pkgconfig
+windows	Fetch pinned VAD fixture for native offline smoke	2026-11-14T04:20:39.6065067Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+windows	Fetch pinned VAD fixture for native offline smoke	2026-11-14T04:20:39.6065745Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+windows	Fetch pinned VAD fixture for native offline smoke	2026-11-14T04:20:39.6066361Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+windows	Fetch pinned VAD fixture for native offline smoke	2026-11-14T04:20:39.6066926Z ##[endgroup]
+windows	Unit and offline tests	﻿2026-11-14T04:20:40.5860629Z ##[group]Run python -m pytest tests -q -rs --basetemp=build/pytest
+windows	Unit and offline tests	2026-11-14T04:20:40.5861364Z ^[[36;1mpython -m pytest tests -q -rs --basetemp=build/pytest^[[0m
+windows	Unit and offline tests	2026-11-14T04:20:40.5928717Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+windows	Unit and offline tests	2026-11-14T04:20:40.5929251Z env:
+windows	Unit and offline tests	2026-11-14T04:20:40.5929593Z   QT_QPA_PLATFORM: offscreen
+windows	Unit and offline tests	2026-11-14T04:20:40.5930047Z   HF_HUB_OFFLINE: 1
+windows	Unit and offline tests	2026-11-14T04:20:40.5930370Z   HF_HUB_DISABLE_TELEMETRY: 1
+windows	Unit and offline tests	2026-11-14T04:20:40.5930756Z   DO_NOT_TRACK: 1
+windows	Unit and offline tests	2026-11-14T04:20:40.5931393Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.13.17\x64
+windows	Unit and offline tests	2026-11-14T04:20:40.5932111Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.13.17\x64/lib/pkgconfig
+windows	Unit and offline tests	2026-11-14T04:20:40.5932663Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+windows	Unit and offline tests	2026-11-14T04:20:40.5933155Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+windows	Unit and offline tests	2026-11-14T04:20:40.5933748Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+windows	Unit and offline tests	2026-11-14T04:20:40.5934660Z   SAYDRAFT_TEST_SILERO_MODEL: D:\a\saydraft\saydraft\build\test-models\silero-vad-v5\5cd2ba54db059f961e7545d4f211b44f005a6dfb\silero_vad.onnx
+windows	Unit and offline tests	2026-11-14T04:20:40.5935341Z ##[endgroup]
+windows	Unit and offline tests	2026-11-14T04:20:49.0884640Z ........................................................................ [  1%]
+windows	Unit and offline tests	2026-11-14T04:20:49.1847555Z ........................................................................ [  3%]
+windows	Unit and offline tests	2026-11-14T04:20:49.9017691Z .........s.............................................................. [  5%]
+windows	Unit and offline tests	2026-11-14T04:20:53.1365159Z ........................................................................ [  7%]
+windows	Unit and offline tests	2026-11-14T04:20:55.1031595Z ........................................................................ [  9%]
+windows	Unit and offline tests	2026-11-14T04:20:56.4257785Z ........................................................................ [ 11%]
+windows	Unit and offline tests	2026-11-14T04:20:56.7509354Z ........................................................F............... [ 13%]
+windows	Unit and offline tests	2026-11-14T04:20:59.9568620Z ........................................................................ [ 15%]
+windows	Unit and offline tests	2026-11-14T04:21:00.2242040Z ........................................................................ [ 17%]
+windows	Unit and offline tests	2026-11-14T04:21:00.5519385Z ........................................................................ [ 19%]
+windows	Unit and offline tests	2026-11-14T04:21:00.6349315Z ........................................................................ [ 21%]
+windows	Unit and offline tests	2026-11-14T04:21:00.8598944Z ........................................................................ [ 23%]
+windows	Unit and offline tests	2026-11-14T04:21:01.1235726Z ........................................................................ [ 25%]
+windows	Unit and offline tests	2026-11-14T04:21:08.4821354Z ........................................................................ [ 27%]
+windows	Unit and offline tests	2026-11-14T04:21:09.2965646Z ........................................................................ [ 29%]
+windows	Unit and offline tests	2026-11-14T04:21:09.6826278Z ........................................................................ [ 30%]
+windows	Unit and offline tests	2026-11-14T04:21:09.7945013Z ........................................................................ [ 32%]
+windows	Unit and offline tests	2026-11-14T04:21:17.5878146Z ........................................................................ [ 34%]
+windows	Unit and offline tests	2026-11-14T04:21:18.5063431Z ........................................................................ [ 36%]
+windows	Unit and offline tests	2026-11-14T04:21:18.6511515Z ........................................................................ [ 38%]
+windows	Unit and offline tests	2026-11-14T04:27:49.1723951Z ...............................................................F........ [ 40%]
+windows	Unit and offline tests	2026-11-14T04:27:51.6799571Z ........................................................................ [ 42%]
+windows	Unit and offline tests	2026-11-14T04:27:52.8610070Z ........................................................................ [ 44%]
+windows	Unit and offline tests	2026-11-14T04:27:53.7490775Z ........................................................................ [ 46%]
+windows	Unit and offline tests	2026-11-14T04:27:57.8697392Z ........................................................................ [ 48%]
+windows	Unit and offline tests	2026-11-14T04:27:58.0654410Z ........................................................................ [ 50%]
+windows	Unit and offline tests	2026-11-14T04:28:00.0633552Z ........................................................................ [ 52%]
+windows	Unit and offline tests	2026-11-14T04:28:00.3960477Z ........................................................................ [ 54%]
+windows	Unit and offline tests	2026-11-14T04:28:01.3803527Z ........................................................................ [ 56%]
+windows	Unit and offline tests	2026-11-14T04:28:05.8912256Z ........................................................................ [ 58%]
+windows	Unit and offline tests	2026-11-14T04:28:08.7185832Z ........................................................................ [ 59%]
+windows	Unit and offline tests	2026-11-14T04:28:14.6628535Z ........................................................................ [ 61%]
+windows	Unit and offline tests	2026-11-14T04:28:28.3931894Z .......s...................s............................................ [ 63%]
+windows	Unit and offline tests	2026-11-14T04:28:28.6899790Z .............................ss......................................... [ 65%]
+windows	Unit and offline tests	2026-11-14T04:28:28.9446169Z ........................................................................ [ 67%]
+windows	Unit and offline tests	2026-11-14T04:28:29.8174914Z F....................................................................... [ 69%]
+windows	Unit and offline tests	2026-11-14T04:28:30.1947719Z ........................................................................ [ 71%]
+windows	Unit and offline tests	2026-11-14T04:28:42.2291550Z ........................................................................ [ 73%]
+windows	Unit and offline tests	2026-11-14T04:28:42.2978483Z ........................................................................ [ 75%]
+windows	Unit and offline tests	2026-11-14T04:28:42.5978644Z ........................................................................ [ 77%]
+windows	Unit and offline tests	2026-11-14T04:28:42.7024807Z ........................................................................ [ 79%]
+windows	Unit and offline tests	2026-11-14T04:28:46.3231744Z .....................................................s.................. [ 81%]
+windows	Unit and offline tests	2026-11-14T04:28:47.4150293Z ........................................................................ [ 83%]
+windows	Unit and offline tests	2026-11-14T04:28:50.1319281Z ........................................................................ [ 85%]
+windows	Unit and offline tests	2026-11-14T04:28:50.2750470Z ........................................................................ [ 87%]
+windows	Unit and offline tests	2026-11-14T04:32:17.4784297Z Windows fatal exception: access violation
+windows	Unit and offline tests	2026-11-14T04:32:17.4784880Z 
+windows	Unit and offline tests	2026-11-14T04:32:17.4785211Z Thread 0x00002700 (most recent call first):
+windows	Unit and offline tests	2026-11-14T04:32:17.4786347Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\concurrent\futures\thread.py", line 90 in _worker
+windows	Unit and offline tests	2026-11-14T04:32:17.4787494Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 995 in run
+windows	Unit and offline tests	2026-11-14T04:32:17.4788583Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1044 in _bootstrap_inner
+windows	Unit and offline tests	2026-11-14T04:32:17.4789690Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1015 in _bootstrap
+windows	Unit and offline tests	2026-11-14T04:32:17.4790284Z 
+windows	Unit and offline tests	2026-11-14T04:32:17.4790509Z Thread 0x00001850 (most recent call first):
+windows	Unit and offline tests	2026-11-14T04:32:17.4791547Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\concurrent\futures\thread.py", line 90 in _worker
+windows	Unit and offline tests	2026-11-14T04:32:17.4793118Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 995 in run
+windows	Unit and offline tests	2026-11-14T04:32:17.4794179Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1044 in _bootstrap_inner
+windows	Unit and offline tests	2026-11-14T04:32:17.4795248Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1015 in _bootstrap
+windows	Unit and offline tests	2026-11-14T04:32:17.4795821Z 
+windows	Unit and offline tests	2026-11-14T04:32:17.4796151Z Thread 0x000025cc (most recent call first):
+windows	Unit and offline tests	2026-11-14T04:32:17.4797111Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\concurrent\futures\thread.py", line 90 in _worker
+windows	Unit and offline tests	2026-11-14T04:32:17.4798367Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 995 in run
+windows	Unit and offline tests	2026-11-14T04:32:17.4799309Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1044 in _bootstrap_inner
+windows	Unit and offline tests	2026-11-14T04:32:17.4800391Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1015 in _bootstrap
+windows	Unit and offline tests	2026-11-14T04:32:17.4800952Z 
+windows	Unit and offline tests	2026-11-14T04:32:17.4801149Z Thread 0x00000e70 (most recent call first):
+windows	Unit and offline tests	2026-11-14T04:32:17.4804353Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\concurrent\futures\thread.py", line 90 in _worker
+windows	Unit and offline tests	2026-11-14T04:32:17.4805347Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 995 in run
+windows	Unit and offline tests	2026-11-14T04:32:17.4806423Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1044 in _bootstrap_inner
+windows	Unit and offline tests	2026-11-14T04:32:17.4807429Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1015 in _bootstrap
+windows	Unit and offline tests	2026-11-14T04:32:17.4808134Z 
+windows	Unit and offline tests	2026-11-14T04:32:17.4808406Z Thread 0x00001f00 (most recent call first):
+windows	Unit and offline tests	2026-11-14T04:32:17.4809296Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\concurrent\futures\thread.py", line 90 in _worker
+windows	Unit and offline tests	2026-11-14T04:32:17.4810446Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 995 in run
+windows	Unit and offline tests	2026-11-14T04:32:17.4811433Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1044 in _bootstrap_inner
+windows	Unit and offline tests	2026-11-14T04:32:17.4812403Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1015 in _bootstrap
+windows	Unit and offline tests	2026-11-14T04:32:17.4812995Z 
+windows	Unit and offline tests	2026-11-14T04:32:17.4813260Z Thread 0x00000558 (most recent call first):
+windows	Unit and offline tests	2026-11-14T04:32:17.4814075Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\concurrent\futures\thread.py", line 90 in _worker
+windows	Unit and offline tests	2026-11-14T04:32:17.4815080Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 995 in run
+windows	Unit and offline tests	2026-11-14T04:32:17.4816042Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1044 in _bootstrap_inner
+windows	Unit and offline tests	2026-11-14T04:32:17.4817144Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1015 in _bootstrap
+windows	Unit and offline tests	2026-11-14T04:32:17.4817647Z 
+windows	Unit and offline tests	2026-11-14T04:32:17.4817873Z Thread 0x00000d20 (most recent call first):
+windows	Unit and offline tests	2026-11-14T04:32:17.4818735Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\concurrent\futures\thread.py", line 90 in _worker
+windows	Unit and offline tests	2026-11-14T04:32:17.4819827Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 995 in run
+windows	Unit and offline tests	2026-11-14T04:32:17.4820785Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1044 in _bootstrap_inner
+windows	Unit and offline tests	2026-11-14T04:32:17.4821802Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1015 in _bootstrap
+windows	Unit and offline tests	2026-11-14T04:32:17.4822619Z 
+windows	Unit and offline tests	2026-11-14T04:32:17.4822866Z Thread 0x00001824 (most recent call first):
+windows	Unit and offline tests	2026-11-14T04:32:17.4824052Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\concurrent\futures\thread.py", line 90 in _worker
+windows	Unit and offline tests	2026-11-14T04:32:17.4825093Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 995 in run
+windows	Unit and offline tests	2026-11-14T04:32:17.4826061Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1044 in _bootstrap_inner
+windows	Unit and offline tests	2026-11-14T04:32:17.4827179Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1015 in _bootstrap
+windows	Unit and offline tests	2026-11-14T04:32:17.4827696Z 
+windows	Unit and offline tests	2026-11-14T04:32:17.4827915Z Thread 0x000022fc (most recent call first):
+windows	Unit and offline tests	2026-11-14T04:32:17.4828814Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\concurrent\futures\thread.py", line 90 in _worker
+windows	Unit and offline tests	2026-11-14T04:32:17.4829921Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 995 in run
+windows	Unit and offline tests	2026-11-14T04:32:17.4830873Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1044 in _bootstrap_inner
+windows	Unit and offline tests	2026-11-14T04:32:17.4831792Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1015 in _bootstrap
+windows	Unit and offline tests	2026-11-14T04:32:17.4832345Z 
+windows	Unit and offline tests	2026-11-14T04:32:17.4832562Z Thread 0x00001ed8 (most recent call first):
+windows	Unit and offline tests	2026-11-14T04:32:17.4833282Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\concurrent\futures\thread.py", line 90 in _worker
+windows	Unit and offline tests	2026-11-14T04:32:17.4833939Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 995 in run
+windows	Unit and offline tests	2026-11-14T04:32:17.4834591Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1044 in _bootstrap_inner
+windows	Unit and offline tests	2026-11-14T04:32:17.4835651Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1015 in _bootstrap
+windows	Unit and offline tests	2026-11-14T04:32:17.4835992Z 
+windows	Unit and offline tests	2026-11-14T04:32:17.4836178Z Thread 0x00002424 (most recent call first):
+windows	Unit and offline tests	2026-11-14T04:32:17.4836773Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\concurrent\futures\thread.py", line 90 in _worker
+windows	Unit and offline tests	2026-11-14T04:32:17.4837569Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 995 in run
+windows	Unit and offline tests	2026-11-14T04:32:17.4838463Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1044 in _bootstrap_inner
+windows	Unit and offline tests	2026-11-14T04:32:17.4839397Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1015 in _bootstrap
+windows	Unit and offline tests	2026-11-14T04:32:17.4839890Z 
+windows	Unit and offline tests	2026-11-14T04:32:17.4840131Z Thread 0x00000e48 (most recent call first):
+windows	Unit and offline tests	2026-11-14T04:32:17.4840871Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\concurrent\futures\thread.py", line 90 in _worker
+windows	Unit and offline tests	2026-11-14T04:32:17.4841756Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 995 in run
+windows	Unit and offline tests	2026-11-14T04:32:17.4843242Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1044 in _bootstrap_inner
+windows	Unit and offline tests	2026-11-14T04:32:17.4844252Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1015 in _bootstrap
+windows	Unit and offline tests	2026-11-14T04:32:17.4844808Z 
+windows	Unit and offline tests	2026-11-14T04:32:17.4845046Z Thread 0x000007b0 (most recent call first):
+windows	Unit and offline tests	2026-11-14T04:32:17.4845828Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\concurrent\futures\thread.py", line 90 in _worker
+windows	Unit and offline tests	2026-11-14T04:32:17.4846565Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 995 in run
+windows	Unit and offline tests	2026-11-14T04:32:17.4847548Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1044 in _bootstrap_inner
+windows	Unit and offline tests	2026-11-14T04:32:17.4848627Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1015 in _bootstrap
+windows	Unit and offline tests	2026-11-14T04:32:17.4849108Z 
+windows	Unit and offline tests	2026-11-14T04:32:17.4849245Z Thread 0x00001530 (most recent call first):
+windows	Unit and offline tests	2026-11-14T04:32:17.4849835Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\concurrent\futures\thread.py", line 90 in _worker
+windows	Unit and offline tests	2026-11-14T04:32:17.4850980Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 995 in run
+windows	Unit and offline tests	2026-11-14T04:32:17.4851665Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1044 in _bootstrap_inner
+windows	Unit and offline tests	2026-11-14T04:32:17.4852370Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1015 in _bootstrap
+windows	Unit and offline tests	2026-11-14T04:32:17.4852710Z 
+windows	Unit and offline tests	2026-11-14T04:32:17.4852876Z Thread 0x00000d90 (most recent call first):
+windows	Unit and offline tests	2026-11-14T04:32:17.4853430Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\concurrent\futures\thread.py", line 90 in _worker
+windows	Unit and offline tests	2026-11-14T04:32:17.4854086Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 995 in run
+windows	Unit and offline tests	2026-11-14T04:32:17.4854764Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1044 in _bootstrap_inner
+windows	Unit and offline tests	2026-11-14T04:32:17.4855440Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1015 in _bootstrap
+windows	Unit and offline tests	2026-11-14T04:32:17.4855831Z 
+windows	Unit and offline tests	2026-11-14T04:32:17.4855957Z Thread 0x00000a44 (most recent call first):
+windows	Unit and offline tests	2026-11-14T04:32:17.4856557Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\concurrent\futures\thread.py", line 90 in _worker
+windows	Unit and offline tests	2026-11-14T04:32:17.4857217Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 995 in run
+windows	Unit and offline tests	2026-11-14T04:32:17.4857856Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1044 in _bootstrap_inner
+windows	Unit and offline tests	2026-11-14T04:32:17.4858564Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1015 in _bootstrap
+windows	Unit and offline tests	2026-11-14T04:32:17.4858893Z 
+windows	Unit and offline tests	2026-11-14T04:32:17.4859065Z Thread 0x0000206c (most recent call first):
+windows	Unit and offline tests	2026-11-14T04:32:17.4859593Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\concurrent\futures\thread.py", line 90 in _worker
+windows	Unit and offline tests	2026-11-14T04:32:17.4860499Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 995 in run
+windows	Unit and offline tests	2026-11-14T04:32:17.4861179Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1044 in _bootstrap_inner
+windows	Unit and offline tests	2026-11-14T04:32:17.4861867Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1015 in _bootstrap
+windows	Unit and offline tests	2026-11-14T04:32:17.4862240Z 
+windows	Unit and offline tests	2026-11-14T04:32:17.4862739Z Thread 0x00001b84 (most recent call first):
+windows	Unit and offline tests	2026-11-14T04:32:17.4863514Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\concurrent\futures\thread.py", line 90 in _worker
+windows	Unit and offline tests	2026-11-14T04:32:17.4864188Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 995 in run
+windows	Unit and offline tests	2026-11-14T04:32:17.4865055Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1044 in _bootstrap_inner
+windows	Unit and offline tests	2026-11-14T04:32:17.4865728Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1015 in _bootstrap
+windows	Unit and offline tests	2026-11-14T04:32:17.4866098Z 
+windows	Unit and offline tests	2026-11-14T04:32:17.4866267Z Thread 0x000004c8 (most recent call first):
+windows	Unit and offline tests	2026-11-14T04:32:17.4866793Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\concurrent\futures\thread.py", line 90 in _worker
+windows	Unit and offline tests	2026-11-14T04:32:17.4867453Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 995 in run
+windows	Unit and offline tests	2026-11-14T04:32:17.4868115Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1044 in _bootstrap_inner
+windows	Unit and offline tests	2026-11-14T04:32:17.4868795Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1015 in _bootstrap
+windows	Unit and offline tests	2026-11-14T04:32:17.4869165Z 
+windows	Unit and offline tests	2026-11-14T04:32:17.4869286Z Thread 0x000008cc (most recent call first):
+windows	Unit and offline tests	2026-11-14T04:32:17.4869870Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\concurrent\futures\thread.py", line 90 in _worker
+windows	Unit and offline tests	2026-11-14T04:32:17.4870508Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 995 in run
+windows	Unit and offline tests	2026-11-14T04:32:17.4871133Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1044 in _bootstrap_inner
+windows	Unit and offline tests	2026-11-14T04:32:17.4871803Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1015 in _bootstrap
+windows	Unit and offline tests	2026-11-14T04:32:17.4872168Z 
+windows	Unit and offline tests	2026-11-14T04:32:17.4872328Z Thread 0x000023a4 (most recent call first):
+windows	Unit and offline tests	2026-11-14T04:32:17.4872865Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\concurrent\futures\thread.py", line 90 in _worker
+windows	Unit and offline tests	2026-11-14T04:32:17.4873515Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 995 in run
+windows	Unit and offline tests	2026-11-14T04:32:17.4874185Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1044 in _bootstrap_inner
+windows	Unit and offline tests	2026-11-14T04:32:17.4874850Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1015 in _bootstrap
+windows	Unit and offline tests	2026-11-14T04:32:17.4875220Z 
+windows	Unit and offline tests	2026-11-14T04:32:17.4875353Z Thread 0x00001bec (most recent call first):
+windows	Unit and offline tests	2026-11-14T04:32:17.4875939Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\concurrent\futures\thread.py", line 90 in _worker
+windows	Unit and offline tests	2026-11-14T04:32:17.4876593Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 995 in run
+windows	Unit and offline tests	2026-11-14T04:32:17.4877536Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1044 in _bootstrap_inner
+windows	Unit and offline tests	2026-11-14T04:32:17.4878209Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1015 in _bootstrap
+windows	Unit and offline tests	2026-11-14T04:32:17.4878586Z 
+windows	Unit and offline tests	2026-11-14T04:32:17.4878745Z Thread 0x000024c8 (most recent call first):
+windows	Unit and offline tests	2026-11-14T04:32:17.4879304Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\concurrent\futures\thread.py", line 90 in _worker
+windows	Unit and offline tests	2026-11-14T04:32:17.4879949Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 995 in run
+windows	Unit and offline tests	2026-11-14T04:32:17.4881154Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1044 in _bootstrap_inner
+windows	Unit and offline tests	2026-11-14T04:32:17.4882654Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1015 in _bootstrap
+windows	Unit and offline tests	2026-11-14T04:32:17.4884702Z 
+windows	Unit and offline tests	2026-11-14T04:32:17.4884930Z Thread 0x00001e88 (most recent call first):
+windows	Unit and offline tests	2026-11-14T04:32:17.4886088Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\concurrent\futures\thread.py", line 90 in _worker
+windows	Unit and offline tests	2026-11-14T04:32:17.4887289Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 995 in run
+windows	Unit and offline tests	2026-11-14T04:32:17.4888359Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1044 in _bootstrap_inner
+windows	Unit and offline tests	2026-11-14T04:32:17.4889593Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1015 in _bootstrap
+windows	Unit and offline tests	2026-11-14T04:32:17.4890049Z 
+windows	Unit and offline tests	2026-11-14T04:32:17.4890241Z Thread 0x00000a98 (most recent call first):
+windows	Unit and offline tests	2026-11-14T04:32:17.4890821Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\concurrent\futures\thread.py", line 90 in _worker
+windows	Unit and offline tests	2026-11-14T04:32:17.4891480Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 995 in run
+windows	Unit and offline tests	2026-11-14T04:32:17.4892200Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1044 in _bootstrap_inner
+windows	Unit and offline tests	2026-11-14T04:32:17.4892875Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1015 in _bootstrap
+windows	Unit and offline tests	2026-11-14T04:32:17.4893230Z 
+windows	Unit and offline tests	2026-11-14T04:32:17.4893370Z Thread 0x00001674 (most recent call first):
+windows	Unit and offline tests	2026-11-14T04:32:17.4894005Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\concurrent\futures\thread.py", line 90 in _worker
+windows	Unit and offline tests	2026-11-14T04:32:17.4894660Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 995 in run
+windows	Unit and offline tests	2026-11-14T04:32:17.4895342Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1044 in _bootstrap_inner
+windows	Unit and offline tests	2026-11-14T04:32:17.4896005Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1015 in _bootstrap
+windows	Unit and offline tests	2026-11-14T04:32:17.4896363Z 
+windows	Unit and offline tests	2026-11-14T04:32:17.4896553Z Thread 0x00001c68 (most recent call first):
+windows	Unit and offline tests	2026-11-14T04:32:17.4897108Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\concurrent\futures\thread.py", line 90 in _worker
+windows	Unit and offline tests	2026-11-14T04:32:17.4897747Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 995 in run
+windows	Unit and offline tests	2026-11-14T04:32:17.4898453Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1044 in _bootstrap_inner
+windows	Unit and offline tests	2026-11-14T04:32:17.4899108Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1015 in _bootstrap
+windows	Unit and offline tests	2026-11-14T04:32:17.4899476Z 
+windows	Unit and offline tests	2026-11-14T04:32:17.4899618Z Thread 0x00001714 (most recent call first):
+windows	Unit and offline tests	2026-11-14T04:32:17.4900371Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\concurrent\futures\thread.py", line 90 in _worker
+windows	Unit and offline tests	2026-11-14T04:32:17.4901304Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 995 in run
+windows	Unit and offline tests	2026-11-14T04:32:17.4901987Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1044 in _bootstrap_inner
+windows	Unit and offline tests	2026-11-14T04:32:17.4902649Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1015 in _bootstrap
+windows	Unit and offline tests	2026-11-14T04:32:17.4903010Z 
+windows	Unit and offline tests	2026-11-14T04:32:17.4903195Z Thread 0x0000268c (most recent call first):
+windows	Unit and offline tests	2026-11-14T04:32:17.4903740Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\concurrent\futures\thread.py", line 90 in _worker
+windows	Unit and offline tests	2026-11-14T04:32:17.4904407Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 995 in run
+windows	Unit and offline tests	2026-11-14T04:32:17.4905107Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1044 in _bootstrap_inner
+windows	Unit and offline tests	2026-11-14T04:32:17.4905755Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1015 in _bootstrap
+windows	Unit and offline tests	2026-11-14T04:32:17.4906142Z 
+windows	Unit and offline tests	2026-11-14T04:32:17.4906309Z Thread 0x0000277c (most recent call first):
+windows	Unit and offline tests	2026-11-14T04:32:17.4906888Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\concurrent\futures\thread.py", line 90 in _worker
+windows	Unit and offline tests	2026-11-14T04:32:17.4907540Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 995 in run
+windows	Unit and offline tests	2026-11-14T04:32:17.4908359Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1044 in _bootstrap_inner
+windows	Unit and offline tests	2026-11-14T04:32:17.4908998Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1015 in _bootstrap
+windows	Unit and offline tests	2026-11-14T04:32:17.4909388Z 
+windows	Unit and offline tests	2026-11-14T04:32:17.4909557Z Thread 0x00000948 (most recent call first):
+windows	Unit and offline tests	2026-11-14T04:32:17.4910096Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\concurrent\futures\thread.py", line 90 in _worker
+windows	Unit and offline tests	2026-11-14T04:32:17.4910848Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 995 in run
+windows	Unit and offline tests	2026-11-14T04:32:17.4911537Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1044 in _bootstrap_inner
+windows	Unit and offline tests	2026-11-14T04:32:17.4912185Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1015 in _bootstrap
+windows	Unit and offline tests	2026-11-14T04:32:17.4912571Z 
+windows	Unit and offline tests	2026-11-14T04:32:17.4912694Z Thread 0x00002274 (most recent call first):
+windows	Unit and offline tests	2026-11-14T04:32:17.4913254Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\concurrent\futures\thread.py", line 90 in _worker
+windows	Unit and offline tests	2026-11-14T04:32:17.4913935Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 995 in run
+windows	Unit and offline tests	2026-11-14T04:32:17.4914571Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1044 in _bootstrap_inner
+windows	Unit and offline tests	2026-11-14T04:32:17.4915297Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1015 in _bootstrap
+windows	Unit and offline tests	2026-11-14T04:32:17.4915864Z 
+windows	Unit and offline tests	2026-11-14T04:32:17.4916086Z Thread 0x000018ac (most recent call first):
+windows	Unit and offline tests	2026-11-14T04:32:17.4916867Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\concurrent\futures\thread.py", line 90 in _worker
+windows	Unit and offline tests	2026-11-14T04:32:17.4917545Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 995 in run
+windows	Unit and offline tests	2026-11-14T04:32:17.4918224Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1044 in _bootstrap_inner
+windows	Unit and offline tests	2026-11-14T04:32:17.4918882Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1015 in _bootstrap
+windows	Unit and offline tests	2026-11-14T04:32:17.4919256Z 
+windows	Unit and offline tests	2026-11-14T04:32:17.4919385Z Thread 0x00002310 (most recent call first):
+windows	Unit and offline tests	2026-11-14T04:32:17.4919963Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\concurrent\futures\thread.py", line 90 in _worker
+windows	Unit and offline tests	2026-11-14T04:32:17.4920811Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 995 in run
+windows	Unit and offline tests	2026-11-14T04:32:17.4921669Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1044 in _bootstrap_inner
+windows	Unit and offline tests	2026-11-14T04:32:17.4922345Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1015 in _bootstrap
+windows	Unit and offline tests	2026-11-14T04:32:17.4922717Z 
+windows	Unit and offline tests	2026-11-14T04:32:17.4922883Z Thread 0x00002294 (most recent call first):
+windows	Unit and offline tests	2026-11-14T04:32:17.4923440Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\concurrent\futures\thread.py", line 90 in _worker
+windows	Unit and offline tests	2026-11-14T04:32:17.4924205Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 995 in run
+windows	Unit and offline tests	2026-11-14T04:32:17.4924876Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1044 in _bootstrap_inner
+windows	Unit and offline tests	2026-11-14T04:32:17.4925665Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1015 in _bootstrap
+windows	Unit and offline tests	2026-11-14T04:32:17.4926047Z 
+windows	Unit and offline tests	2026-11-14T04:32:17.4926176Z Thread 0x000006dc (most recent call first):
+windows	Unit and offline tests	2026-11-14T04:32:17.4926765Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\concurrent\futures\thread.py", line 90 in _worker
+windows	Unit and offline tests	2026-11-14T04:32:17.4927421Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 995 in run
+windows	Unit and offline tests	2026-11-14T04:32:17.4928036Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1044 in _bootstrap_inner
+windows	Unit and offline tests	2026-11-14T04:32:17.4928713Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1015 in _bootstrap
+windows	Unit and offline tests	2026-11-14T04:32:17.4929083Z 
+windows	Unit and offline tests	2026-11-14T04:32:17.4929404Z Thread 0x00000734 (most recent call first):
+windows	Unit and offline tests	2026-11-14T04:32:17.4929952Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\concurrent\futures\thread.py", line 90 in _worker
+windows	Unit and offline tests	2026-11-14T04:32:17.4930594Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 995 in run
+windows	Unit and offline tests	2026-11-14T04:32:17.4931273Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1044 in _bootstrap_inner
+windows	Unit and offline tests	2026-11-14T04:32:17.4931955Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1015 in _bootstrap
+windows	Unit and offline tests	2026-11-14T04:32:17.4932418Z 
+windows	Unit and offline tests	2026-11-14T04:32:17.4932543Z Thread 0x00002674 (most recent call first):
+windows	Unit and offline tests	2026-11-14T04:32:17.4933115Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\concurrent\futures\thread.py", line 90 in _worker
+windows	Unit and offline tests	2026-11-14T04:32:17.4933763Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 995 in run
+windows	Unit and offline tests	2026-11-14T04:32:17.4934386Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1044 in _bootstrap_inner
+windows	Unit and offline tests	2026-11-14T04:32:17.4935059Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1015 in _bootstrap
+windows	Unit and offline tests	2026-11-14T04:32:17.4935431Z 
+windows	Unit and offline tests	2026-11-14T04:32:17.4935617Z Thread 0x00000974 (most recent call first):
+windows	Unit and offline tests	2026-11-14T04:32:17.4936177Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\concurrent\futures\thread.py", line 90 in _worker
+windows	Unit and offline tests	2026-11-14T04:32:17.4937131Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 995 in run
+windows	Unit and offline tests	2026-11-14T04:32:17.4937915Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1044 in _bootstrap_inner
+windows	Unit and offline tests	2026-11-14T04:32:17.4938573Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1015 in _bootstrap
+windows	Unit and offline tests	2026-11-14T04:32:17.4939100Z 
+windows	Unit and offline tests	2026-11-14T04:32:17.4939319Z Thread 0x00001eec (most recent call first):
+windows	Unit and offline tests	2026-11-14T04:32:17.4940031Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\concurrent\futures\thread.py", line 90 in _worker
+windows	Unit and offline tests	2026-11-14T04:32:17.4940835Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 995 in run
+windows	Unit and offline tests	2026-11-14T04:32:17.4941733Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1044 in _bootstrap_inner
+windows	Unit and offline tests	2026-11-14T04:32:17.4942400Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1015 in _bootstrap
+windows	Unit and offline tests	2026-11-14T04:32:17.4942753Z 
+windows	Unit and offline tests	2026-11-14T04:32:17.4942891Z Thread 0x00001ebc (most recent call first):
+windows	Unit and offline tests	2026-11-14T04:32:17.4943789Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\concurrent\futures\thread.py", line 90 in _worker
+windows	Unit and offline tests	2026-11-14T04:32:17.4944753Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 995 in run
+windows	Unit and offline tests	2026-11-14T04:32:17.4945737Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1044 in _bootstrap_inner
+windows	Unit and offline tests	2026-11-14T04:32:17.4946671Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1015 in _bootstrap
+windows	Unit and offline tests	2026-11-14T04:32:17.4947226Z 
+windows	Unit and offline tests	2026-11-14T04:32:17.4947548Z Thread 0x00000714 (most recent call first):
+windows	Unit and offline tests	2026-11-14T04:32:17.4948347Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\concurrent\futures\thread.py", line 90 in _worker
+windows	Unit and offline tests	2026-11-14T04:32:17.4949325Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 995 in run
+windows	Unit and offline tests	2026-11-14T04:32:17.4950202Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1044 in _bootstrap_inner
+windows	Unit and offline tests	2026-11-14T04:32:17.4951031Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1015 in _bootstrap
+windows	Unit and offline tests	2026-11-14T04:32:17.4951422Z 
+windows	Unit and offline tests	2026-11-14T04:32:17.4951569Z Thread 0x0000091c (most recent call first):
+windows	Unit and offline tests	2026-11-14T04:32:17.4952150Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\concurrent\futures\thread.py", line 90 in _worker
+windows	Unit and offline tests	2026-11-14T04:32:17.4952847Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 995 in run
+windows	Unit and offline tests	2026-11-14T04:32:17.4953538Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1044 in _bootstrap_inner
+windows	Unit and offline tests	2026-11-14T04:32:17.4954417Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1015 in _bootstrap
+windows	Unit and offline tests	2026-11-14T04:32:17.4954782Z 
+windows	Unit and offline tests	2026-11-14T04:32:17.4954968Z Thread 0x00000f24 (most recent call first):
+windows	Unit and offline tests	2026-11-14T04:32:17.4955518Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\concurrent\futures\thread.py", line 90 in _worker
+windows	Unit and offline tests	2026-11-14T04:32:17.4956154Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 995 in run
+windows	Unit and offline tests	2026-11-14T04:32:17.4956967Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1044 in _bootstrap_inner
+windows	Unit and offline tests	2026-11-14T04:32:17.4957623Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1015 in _bootstrap
+windows	Unit and offline tests	2026-11-14T04:32:17.4958017Z 
+windows	Unit and offline tests	2026-11-14T04:32:17.4958144Z Thread 0x0000072c (most recent call first):
+windows	Unit and offline tests	2026-11-14T04:32:17.4958689Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\concurrent\futures\thread.py", line 90 in _worker
+windows	Unit and offline tests	2026-11-14T04:32:17.4959505Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 995 in run
+windows	Unit and offline tests	2026-11-14T04:32:17.4960150Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1044 in _bootstrap_inner
+windows	Unit and offline tests	2026-11-14T04:32:17.4960936Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1015 in _bootstrap
+windows	Unit and offline tests	2026-11-14T04:32:17.4961615Z 
+windows	Unit and offline tests	2026-11-14T04:32:17.4961795Z Thread 0x00002008 (most recent call first):
+windows	Unit and offline tests	2026-11-14T04:32:17.4962345Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\concurrent\futures\thread.py", line 90 in _worker
+windows	Unit and offline tests	2026-11-14T04:32:17.4963001Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 995 in run
+windows	Unit and offline tests	2026-11-14T04:32:17.4963697Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1044 in _bootstrap_inner
+windows	Unit and offline tests	2026-11-14T04:32:17.4964344Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1015 in _bootstrap
+windows	Unit and offline tests	2026-11-14T04:32:17.4964731Z 
+windows	Unit and offline tests	2026-11-14T04:32:17.4964863Z Thread 0x00001c88 (most recent call first):
+windows	Unit and offline tests	2026-11-14T04:32:17.4965425Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\concurrent\futures\thread.py", line 90 in _worker
+windows	Unit and offline tests	2026-11-14T04:32:17.4966093Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 995 in run
+windows	Unit and offline tests	2026-11-14T04:32:17.4966739Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1044 in _bootstrap_inner
+windows	Unit and offline tests	2026-11-14T04:32:17.4967426Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\threading.py", line 1015 in _bootstrap
+windows	Unit and offline tests	2026-11-14T04:32:17.4967812Z 
+windows	Unit and offline tests	2026-11-14T04:32:17.4968005Z Current thread 0x000008e4 (most recent call first):
+windows	Unit and offline tests	2026-11-14T04:32:17.4968495Z   File "D:\a\saydraft\saydraft\saydraft\ui\theme\controller.py", line 111 in refresh
+windows	Unit and offline tests	2026-11-14T04:32:17.4969098Z   File "D:\a\saydraft\saydraft\saydraft\ui\theme\controller.py", line 69 in start
+windows	Unit and offline tests	2026-11-14T04:32:17.4969728Z   File "D:\a\saydraft\saydraft\saydraft\ui\theme\__init__.py", line 14 in install_theme
+windows	Unit and offline tests	2026-11-14T04:32:17.4970299Z   File "D:\a\saydraft\saydraft\tests\test_theme.py", line 36 in install
+windows	Unit and offline tests	2026-11-14T04:32:17.4970933Z   File "D:\a\saydraft\saydraft\tests\test_theme.py", line 159 in test_progress_text_contrasts_with_both_fill_and_track
+windows	Unit and offline tests	2026-11-14T04:32:17.4971711Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\site-packages\_pytest\python.py", line 159 in pytest_pyfunc_call
+windows	Unit and offline tests	2026-11-14T04:32:17.4972583Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\site-packages\pluggy\_execution.py", line 147 in _multicall
+windows	Unit and offline tests	2026-11-14T04:32:17.4973337Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\site-packages\pluggy\_manager.py", line 183 in _hookexec
+windows	Unit and offline tests	2026-11-14T04:32:17.4974081Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\site-packages\pluggy\_caller.py", line 197 in __call__
+windows	Unit and offline tests	2026-11-14T04:32:17.4974858Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\site-packages\_pytest\python.py", line 1627 in runtest
+windows	Unit and offline tests	2026-11-14T04:32:17.4976391Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\site-packages\_pytest\runner.py", line 174 in pytest_runtest_call
+windows	Unit and offline tests	2026-11-14T04:32:17.4977201Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\site-packages\pluggy\_execution.py", line 147 in _multicall
+windows	Unit and offline tests	2026-11-14T04:32:17.4977970Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\site-packages\pluggy\_manager.py", line 183 in _hookexec
+windows	Unit and offline tests	2026-11-14T04:32:17.4979286Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\site-packages\pluggy\_caller.py", line 197 in __call__
+windows	Unit and offline tests	2026-11-14T04:32:17.4980008Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\site-packages\_pytest\runner.py", line 242 in <lambda>
+windows	Unit and offline tests	2026-11-14T04:32:17.4980791Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\site-packages\_pytest\runner.py", line 341 in from_call
+windows	Unit and offline tests	2026-11-14T04:32:17.4982166Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\site-packages\_pytest\runner.py", line 241 in call_and_report
+windows	Unit and offline tests	2026-11-14T04:32:17.4982946Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\site-packages\_pytest\runner.py", line 132 in runtestprotocol
+windows	Unit and offline tests	2026-11-14T04:32:17.4983824Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\site-packages\_pytest\runner.py", line 113 in pytest_runtest_protocol
+windows	Unit and offline tests	2026-11-14T04:32:17.4984618Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\site-packages\pluggy\_execution.py", line 147 in _multicall
+windows	Unit and offline tests	2026-11-14T04:32:17.4985376Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\site-packages\pluggy\_manager.py", line 183 in _hookexec
+windows	Unit and offline tests	2026-11-14T04:32:17.4986109Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\site-packages\pluggy\_caller.py", line 197 in __call__
+windows	Unit and offline tests	2026-11-14T04:32:17.4986885Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\site-packages\_pytest\main.py", line 362 in pytest_runtestloop
+windows	Unit and offline tests	2026-11-14T04:32:17.4987681Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\site-packages\pluggy\_execution.py", line 147 in _multicall
+windows	Unit and offline tests	2026-11-14T04:32:17.4988424Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\site-packages\pluggy\_manager.py", line 183 in _hookexec
+windows	Unit and offline tests	2026-11-14T04:32:17.4989198Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\site-packages\pluggy\_caller.py", line 197 in __call__
+windows	Unit and offline tests	2026-11-14T04:32:17.4989918Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\site-packages\_pytest\main.py", line 337 in _main
+windows	Unit and offline tests	2026-11-14T04:32:17.4990625Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\site-packages\_pytest\main.py", line 283 in wrap_session
+windows	Unit and offline tests	2026-11-14T04:32:17.4991442Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\site-packages\_pytest\main.py", line 330 in pytest_cmdline_main
+windows	Unit and offline tests	2026-11-14T04:32:17.4992190Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\site-packages\pluggy\_execution.py", line 147 in _multicall
+windows	Unit and offline tests	2026-11-14T04:32:17.4993000Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\site-packages\pluggy\_manager.py", line 183 in _hookexec
+windows	Unit and offline tests	2026-11-14T04:32:17.4993987Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\site-packages\pluggy\_caller.py", line 197 in __call__
+windows	Unit and offline tests	2026-11-14T04:32:17.4994856Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\site-packages\_pytest\config\__init__.py", line 175 in main
+windows	Unit and offline tests	2026-11-14T04:32:17.4995738Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\site-packages\_pytest\config\__init__.py", line 201 in console_main
+windows	Unit and offline tests	2026-11-14T04:32:17.4996550Z   File "C:\hostedtoolcache\windows\Python\3.13.17\x64\Lib\site-packages\pytest\__main__.py", line 9 in <module>
+windows	Unit and offline tests	2026-11-14T04:32:17.4997125Z   File "<frozen runpy>", line 88 in _run_code
+windows	Unit and offline tests	2026-11-14T04:32:17.4997544Z   File "<frozen runpy>", line 203 in _run_module_as_main
+windows	Unit and offline tests	2026-11-14T04:32:19.1375547Z ..........s..................................................
+windows	Unit and offline tests	2026-11-14T04:32:19.1589144Z ##[error]The operation was canceled.
+windows	Retain owned-window native diagnostics	﻿2026-11-14T04:32:19.3583798Z ##[group]Run actions/upload-artifact@v7
+windows	Retain owned-window native diagnostics	2026-11-14T04:32:19.3584426Z with:
+windows	Retain owned-window native diagnostics	2026-11-14T04:32:19.3584863Z   name: owned-window-native-diagnostics
+windows	Retain owned-window native diagnostics	2026-11-14T04:32:19.3585478Z   if-no-files-found: ignore
+windows	Retain owned-window native diagnostics	2026-11-14T04:32:19.3587519Z   path: build/pytest/**/own-controls/report.json
+windows	Retain owned-window native diagnostics	build/pytest/**/own-app-context/report.json
+windows	Retain owned-window native diagnostics	build/pytest/**/own-tracked-edit/report.json
+windows	Retain owned-window native diagnostics	build/pytest/**/own-selection/report.json
+windows	Retain owned-window native diagnostics	build/pytest/**/own-command/report.json
+windows	Retain owned-window native diagnostics	build/pytest/**/own-command-copy/report.json
+windows	Retain owned-window native diagnostics	build/pytest/**/own-selection-copy/report.json
+windows	Retain owned-window native diagnostics	
+windows	Retain owned-window native diagnostics	2026-11-14T04:32:19.3589685Z   compression-level: 6
+windows	Retain owned-window native diagnostics	2026-11-14T04:32:19.3590107Z   overwrite: false
+windows	Retain owned-window native diagnostics	2026-11-14T04:32:19.3590524Z   include-hidden-files: false
+windows	Retain owned-window native diagnostics	2026-11-14T04:32:19.3590985Z   archive: true
+windows	Retain owned-window native diagnostics	2026-11-14T04:32:19.3591353Z env:
+windows	Retain owned-window native diagnostics	2026-11-14T04:32:19.3591807Z   QT_QPA_PLATFORM: offscreen
+windows	Retain owned-window native diagnostics	2026-11-14T04:32:19.3592247Z   HF_HUB_OFFLINE: 1
+windows	Retain owned-window native diagnostics	2026-11-14T04:32:19.3592636Z   HF_HUB_DISABLE_TELEMETRY: 1
+windows	Retain owned-window native diagnostics	2026-11-14T04:32:19.3593104Z   DO_NOT_TRACK: 1
+windows	Retain owned-window native diagnostics	2026-11-14T04:32:19.3593749Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.13.17\x64
+windows	Retain owned-window native diagnostics	2026-11-14T04:32:19.3594602Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.13.17\x64/lib/pkgconfig
+windows	Retain owned-window native diagnostics	2026-11-14T04:32:19.3595356Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+windows	Retain owned-window native diagnostics	2026-11-14T04:32:19.3596097Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+windows	Retain owned-window native diagnostics	2026-11-14T04:32:19.3596923Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+windows	Retain owned-window native diagnostics	2026-11-14T04:32:19.3598130Z   SAYDRAFT_TEST_SILERO_MODEL: D:\a\saydraft\saydraft\build\test-models\silero-vad-v5\5cd2ba54db059f961e7545d4f211b44f005a6dfb\silero_vad.onnx
+windows	Retain owned-window native diagnostics	2026-11-14T04:32:19.3599182Z ##[endgroup]
+windows	Retain owned-window native diagnostics	2026-11-14T04:32:21.2978030Z With the provided path, there will be 2 files uploaded
+windows	Retain owned-window native diagnostics	2026-11-14T04:32:21.2983891Z Artifact name is valid!
+windows	Retain owned-window native diagnostics	2026-11-14T04:32:21.2985008Z Root directory input is valid!
+windows	Retain owned-window native diagnostics	2026-11-14T04:32:21.5269371Z Uploading artifact: owned-window-native-diagnostics.zip
+windows	Retain owned-window native diagnostics	2026-11-14T04:32:21.5310475Z Beginning upload of artifact content to blob storage
+windows	Retain owned-window native diagnostics	2026-11-14T04:32:21.6225627Z Uploaded bytes 1386
+windows	Retain owned-window native diagnostics	2026-11-14T04:32:21.6459085Z Finished uploading artifact content to blob storage!
+windows	Retain owned-window native diagnostics	2026-11-14T04:32:21.6460868Z SHA256 digest of uploaded artifact is 2988f5eaaa1ece5a756ca385f9c3a4cae62a81c50847080be0483d1c1cedd938
+windows	Retain owned-window native diagnostics	2026-11-14T04:32:21.6462279Z Finalizing artifact upload
+windows	Retain owned-window native diagnostics	2026-11-14T04:32:22.0654290Z Artifact owned-window-native-diagnostics successfully finalized. Artifact ID 14098433324
+windows	Retain owned-window native diagnostics	2026-11-14T04:32:22.0655920Z Artifact owned-window-native-diagnostics has been successfully uploaded! Final size is 1386 bytes. Artifact ID is 14098433324
+windows	Retain owned-window native diagnostics	2026-11-14T04:32:22.0671535Z Artifact download URL: https://github.com/tanzir71/saydraft/actions/runs/43556098700/artifacts/14098433324
+windows	Post Run actions/checkout@v7	﻿2026-11-14T04:32:22.2724187Z Post job cleanup.
+windows	Post Run actions/checkout@v7	2026-11-14T04:32:22.6288862Z [command]"C:\Program Files\Git\bin\git.exe" version
+windows	Post Run actions/checkout@v7	2026-11-14T04:32:22.6650236Z git version 2.56.0.windows.4
+windows	Post Run actions/checkout@v7	2026-11-14T04:32:22.6716828Z Temporarily overriding HOME='D:\a\_temp\d3a1e0a5-623b-44da-9720-201c6fb90798' before making global git config changes
+windows	Post Run actions/checkout@v7	2026-11-14T04:32:22.6717840Z Adding repository directory to the temporary git global config as a safe directory
+windows	Post Run actions/checkout@v7	2026-11-14T04:32:22.6727263Z [command]"C:\Program Files\Git\bin\git.exe" config --global --add safe.directory D:\a\saydraft\saydraft
+windows	Post Run actions/checkout@v7	2026-11-14T04:32:22.7121964Z Removing SSH command configuration
+windows	Post Run actions/checkout@v7	2026-11-14T04:32:22.7133505Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+windows	Post Run actions/checkout@v7	2026-11-14T04:32:22.7536367Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+windows	Post Run actions/checkout@v7	2026-11-14T04:32:23.3349963Z Removing HTTP extra header
+windows	Post Run actions/checkout@v7	2026-11-14T04:32:23.3361817Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+windows	Post Run actions/checkout@v7	2026-11-14T04:32:23.3750013Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+windows	Post Run actions/checkout@v7	2026-11-14T04:32:23.9259373Z Removing includeIf entries pointing to credentials config files
+windows	Post Run actions/checkout@v7	2026-11-14T04:32:23.9271739Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp ^includeIf\.gitdir:
+windows	Post Run actions/checkout@v7	2026-11-14T04:32:23.9619527Z includeif.gitdir:D:/a/saydraft/saydraft/.git.path
+windows	Post Run actions/checkout@v7	2026-11-14T04:32:23.9620882Z includeif.gitdir:D:/a/saydraft/saydraft/.git/worktrees/*.path
+windows	Post Run actions/checkout@v7	2026-11-14T04:32:23.9621430Z includeif.gitdir:/github/workspace/.git.path
+windows	Post Run actions/checkout@v7	2026-11-14T04:32:23.9621979Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+windows	Post Run actions/checkout@v7	2026-11-14T04:32:23.9667520Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:D:/a/saydraft/saydraft/.git.path
+windows	Post Run actions/checkout@v7	2026-11-14T04:32:24.0009021Z D:\a\_temp\git-credentials-fd441860-fb36-4a94-81b0-d5432bb66b66.config
+windows	Post Run actions/checkout@v7	2026-11-14T04:32:24.0066874Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:D:/a/saydraft/saydraft/.git.path D\:\\a\\_temp\\git\-credentials\-fd441860\-fb36\-4a94\-81b0\-d5432bb66b66\.config
+windows	Post Run actions/checkout@v7	2026-11-14T04:32:24.0466732Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:D:/a/saydraft/saydraft/.git/worktrees/*.path
+windows	Post Run actions/checkout@v7	2026-11-14T04:32:24.0812545Z D:\a\_temp\git-credentials-fd441860-fb36-4a94-81b0-d5432bb66b66.config
+windows	Post Run actions/checkout@v7	2026-11-14T04:32:24.0860902Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:D:/a/saydraft/saydraft/.git/worktrees/*.path D\:\\a\\_temp\\git\-credentials\-fd441860\-fb36\-4a94\-81b0\-d5432bb66b66\.config
+windows	Post Run actions/checkout@v7	2026-11-14T04:32:24.1258997Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:/github/workspace/.git.path
+windows	Post Run actions/checkout@v7	2026-11-14T04:32:24.1625493Z /github/runner_temp/git-credentials-fd441860-fb36-4a94-81b0-d5432bb66b66.config
+windows	Post Run actions/checkout@v7	2026-11-14T04:32:24.1673193Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-fd441860\-fb36\-4a94\-81b0\-d5432bb66b66\.config
+windows	Post Run actions/checkout@v7	2026-11-14T04:32:24.2063168Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+windows	Post Run actions/checkout@v7	2026-11-14T04:32:24.2396092Z /github/runner_temp/git-credentials-fd441860-fb36-4a94-81b0-d5432bb66b66.config
+windows	Post Run actions/checkout@v7	2026-11-14T04:32:24.2442724Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-fd441860\-fb36\-4a94\-81b0\-d5432bb66b66\.config
+windows	Post Run actions/checkout@v7	2026-11-14T04:32:24.2831357Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "git config --local --show-origin --name-only --get-regexp remote.origin.url"
+windows	Post Run actions/checkout@v7	2026-11-14T04:32:24.8434376Z Removing credentials config 'D:\a\_temp\git-credentials-fd441860-fb36-4a94-81b0-d5432bb66b66.config'
+windows	Complete job	﻿2026-11-14T04:32:24.8775073Z Cleaning up orphan processes

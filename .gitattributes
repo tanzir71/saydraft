@@ -46,4 +46,5 @@ eval/translation/results/**/*.json -text whitespace=blank-at-eol,blank-at-eof,sp
 eval/translation/results/**/*.jsonl -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 eval/translation/results/**/*.txt -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 eval/translation/results/**/*.toc -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
-eval/translation/results/**/*.log -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+# Preserve the original console whitespace in retained CI logs.
+eval/translation/results/**/*.log -text -whitespace

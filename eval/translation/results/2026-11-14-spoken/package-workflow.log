@@ -1,0 +1,614 @@
+unsigned-windows	Set up job	﻿2026-11-14T04:43:42.4329799Z Current runner version: '2.338.2'
+unsigned-windows	Set up job	2026-11-14T04:43:42.4374628Z ##[group]Runner Image Provisioner
+unsigned-windows	Set up job	2026-11-14T04:43:42.4375500Z Hosted Compute Agent
+unsigned-windows	Set up job	2026-11-14T04:43:42.4376059Z Version: 20261103.629
+unsigned-windows	Set up job	2026-11-14T04:43:42.4376684Z Commit: 15dbd9ccb5dbf34fae002b6ed1a2670f52df37bc
+unsigned-windows	Set up job	2026-11-14T04:43:42.4377435Z Build Date: 2026-11-03T17:26:59Z
+unsigned-windows	Set up job	2026-11-14T04:43:42.4378085Z Worker ID: {e4914019-3fe8-44c7-bca2-b925ca5cd62f}
+unsigned-windows	Set up job	2026-11-14T04:43:42.4378738Z Region: westus
+unsigned-windows	Set up job	2026-11-14T04:43:42.4379249Z Cloud: Azure
+unsigned-windows	Set up job	2026-11-14T04:43:42.4379749Z ##[endgroup]
+unsigned-windows	Set up job	2026-11-14T04:43:42.4381090Z ##[group]Operating System
+unsigned-windows	Set up job	2026-11-14T04:43:42.4382009Z Microsoft Windows Server 2025
+unsigned-windows	Set up job	2026-11-14T04:43:42.4382766Z 10.0.26100
+unsigned-windows	Set up job	2026-11-14T04:43:42.4383316Z Datacenter
+unsigned-windows	Set up job	2026-11-14T04:43:42.4383837Z ##[endgroup]
+unsigned-windows	Set up job	2026-11-14T04:43:42.4384350Z ##[group]Runner Image
+unsigned-windows	Set up job	2026-11-14T04:43:42.4384915Z Image: windows-2025-vs2026
+unsigned-windows	Set up job	2026-11-14T04:43:42.4385468Z Version: 20261103.298.1
+unsigned-windows	Set up job	2026-11-14T04:43:42.4386584Z Included Software: https://github.com/actions/runner-images/blob/win25-vs2026/20261103.298/images/windows/Windows2025-VS2026-Readme.md
+unsigned-windows	Set up job	2026-11-14T04:43:42.4388557Z Image Release: https://github.com/actions/runner-images/releases/tag/win25-vs2026%2F20261103.298
+unsigned-windows	Set up job	2026-11-14T04:43:42.4389853Z ##[endgroup]
+unsigned-windows	Set up job	2026-11-14T04:43:42.4390962Z ##[group]GITHUB_TOKEN Permissions
+unsigned-windows	Set up job	2026-11-14T04:43:42.4392756Z Contents: read
+unsigned-windows	Set up job	2026-11-14T04:43:42.4393352Z Metadata: read
+unsigned-windows	Set up job	2026-11-14T04:43:42.4393911Z ##[endgroup]
+unsigned-windows	Set up job	2026-11-14T04:43:42.4395909Z Secret source: Actions
+unsigned-windows	Set up job	2026-11-14T04:43:42.4396840Z Cache mode: write
+unsigned-windows	Set up job	2026-11-14T04:43:42.4397593Z Prepare workflow directory
+unsigned-windows	Set up job	2026-11-14T04:43:42.4823394Z Prepare all required actions
+unsigned-windows	Set up job	2026-11-14T04:43:42.4871917Z Getting action download info
+unsigned-windows	Set up job	2026-11-14T04:43:42.8247692Z Download action repository 'actions/checkout@v7' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+unsigned-windows	Set up job	2026-11-14T04:43:42.9540690Z Download action repository 'actions/setup-python@v7' (SHA:6d4fd22b20465ccc0f7354476588e8df7c9ca0e0)
+unsigned-windows	Set up job	2026-11-14T04:43:43.3915566Z Download action repository 'actions/upload-artifact@v7' (SHA:cf430e030ddbb5b0abf93d22962f4752f3646cd9)
+unsigned-windows	Set up job	2026-11-14T04:43:43.6309688Z Complete job name: unsigned-windows
+unsigned-windows	Run actions/checkout@v7	﻿2026-11-14T04:43:43.8030845Z ##[group]Run actions/checkout@v7
+unsigned-windows	Run actions/checkout@v7	2026-11-14T04:43:43.8032316Z with:
+unsigned-windows	Run actions/checkout@v7	2026-11-14T04:43:43.8032844Z   repository: tanzir71/saydraft
+unsigned-windows	Run actions/checkout@v7	2026-11-14T04:43:43.8039833Z   token: ***
+unsigned-windows	Run actions/checkout@v7	2026-11-14T04:43:43.8040325Z   ssh-strict: true
+unsigned-windows	Run actions/checkout@v7	2026-11-14T04:43:43.8040833Z   ssh-user: git
+unsigned-windows	Run actions/checkout@v7	2026-11-14T04:43:43.8041362Z   persist-credentials: true
+unsigned-windows	Run actions/checkout@v7	2026-11-14T04:43:43.8041957Z   clean: true
+unsigned-windows	Run actions/checkout@v7	2026-11-14T04:43:43.8042483Z   sparse-checkout-cone-mode: true
+unsigned-windows	Run actions/checkout@v7	2026-11-14T04:43:43.8043139Z   fetch-depth: 1
+unsigned-windows	Run actions/checkout@v7	2026-11-14T04:43:43.8043643Z   fetch-tags: false
+unsigned-windows	Run actions/checkout@v7	2026-11-14T04:43:43.8044173Z   show-progress: true
+unsigned-windows	Run actions/checkout@v7	2026-11-14T04:43:43.8044704Z   lfs: false
+unsigned-windows	Run actions/checkout@v7	2026-11-14T04:43:43.8045184Z   submodules: false
+unsigned-windows	Run actions/checkout@v7	2026-11-14T04:43:43.8045717Z   set-safe-directory: true
+unsigned-windows	Run actions/checkout@v7	2026-11-14T04:43:43.8046345Z   allow-unsafe-pr-checkout: false
+unsigned-windows	Run actions/checkout@v7	2026-11-14T04:43:43.8047293Z env:
+unsigned-windows	Run actions/checkout@v7	2026-11-14T04:43:43.8047984Z   HF_HUB_OFFLINE: 1
+unsigned-windows	Run actions/checkout@v7	2026-11-14T04:43:43.8048582Z   HF_HUB_DISABLE_TELEMETRY: 1
+unsigned-windows	Run actions/checkout@v7	2026-11-14T04:43:43.8049202Z   DO_NOT_TRACK: 1
+unsigned-windows	Run actions/checkout@v7	2026-11-14T04:43:43.8049713Z   QT_QPA_PLATFORM: offscreen
+unsigned-windows	Run actions/checkout@v7	2026-11-14T04:43:43.8050343Z ##[endgroup]
+unsigned-windows	Run actions/checkout@v7	2026-11-14T04:43:43.9506557Z Syncing repository: tanzir71/saydraft
+unsigned-windows	Run actions/checkout@v7	2026-11-14T04:43:43.9508919Z ##[group]Getting Git version info
+unsigned-windows	Run actions/checkout@v7	2026-11-14T04:43:43.9509752Z Working directory is 'D:\a\saydraft\saydraft'
+unsigned-windows	Run actions/checkout@v7	2026-11-14T04:43:44.0459725Z [command]"C:\Program Files\Git\bin\git.exe" version
+unsigned-windows	Run actions/checkout@v7	2026-11-14T04:43:44.3734840Z git version 2.56.0.windows.4
+unsigned-windows	Run actions/checkout@v7	2026-11-14T04:43:44.3783888Z ##[endgroup]
+unsigned-windows	Run actions/checkout@v7	2026-11-14T04:43:44.3800090Z Temporarily overriding HOME='D:\a\_temp\5bdceb6c-8d41-45da-a502-99593bff2d3f' before making global git config changes
+unsigned-windows	Run actions/checkout@v7	2026-11-14T04:43:44.3802553Z Adding repository directory to the temporary git global config as a safe directory
+unsigned-windows	Run actions/checkout@v7	2026-11-14T04:43:44.3809780Z [command]"C:\Program Files\Git\bin\git.exe" config --global --add safe.directory D:\a\saydraft\saydraft
+unsigned-windows	Run actions/checkout@v7	2026-11-14T04:43:44.4541174Z Deleting the contents of 'D:\a\saydraft\saydraft'
+unsigned-windows	Run actions/checkout@v7	2026-11-14T04:43:44.4547122Z ##[group]Determining repository object format
+unsigned-windows	Run actions/checkout@v7	2026-11-14T04:43:44.4549283Z ##[endgroup]
+unsigned-windows	Run actions/checkout@v7	2026-11-14T04:43:44.4550742Z ##[group]Initializing the repository
+unsigned-windows	Run actions/checkout@v7	2026-11-14T04:43:44.4558617Z [command]"C:\Program Files\Git\bin\git.exe" init D:\a\saydraft\saydraft
+unsigned-windows	Run actions/checkout@v7	2026-11-14T04:43:44.5451288Z Initialized empty Git repository in D:/a/saydraft/saydraft/.git/
+unsigned-windows	Run actions/checkout@v7	2026-11-14T04:43:44.5503835Z [command]"C:\Program Files\Git\bin\git.exe" remote add origin https://github.com/tanzir71/saydraft
+unsigned-windows	Run actions/checkout@v7	2026-11-14T04:43:44.6245597Z ##[endgroup]
+unsigned-windows	Run actions/checkout@v7	2026-11-14T04:43:44.6247454Z ##[group]Disabling automatic garbage collection
+unsigned-windows	Run actions/checkout@v7	2026-11-14T04:43:44.6255005Z [command]"C:\Program Files\Git\bin\git.exe" config --local gc.auto 0
+unsigned-windows	Run actions/checkout@v7	2026-11-14T04:43:44.6626951Z ##[endgroup]
+unsigned-windows	Run actions/checkout@v7	2026-11-14T04:43:44.6628660Z ##[group]Setting up auth
+unsigned-windows	Run actions/checkout@v7	2026-11-14T04:43:44.6629882Z Removing SSH command configuration
+unsigned-windows	Run actions/checkout@v7	2026-11-14T04:43:44.6637745Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+unsigned-windows	Run actions/checkout@v7	2026-11-14T04:43:44.7032901Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+unsigned-windows	Run actions/checkout@v7	2026-11-14T04:43:46.1278177Z Removing HTTP extra header
+unsigned-windows	Run actions/checkout@v7	2026-11-14T04:43:46.1287862Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+unsigned-windows	Run actions/checkout@v7	2026-11-14T04:43:46.1671237Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+unsigned-windows	Run actions/checkout@v7	2026-11-14T04:43:46.7441996Z Removing includeIf entries pointing to credentials config files
+unsigned-windows	Run actions/checkout@v7	2026-11-14T04:43:46.7452947Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp ^includeIf\.gitdir:
+unsigned-windows	Run actions/checkout@v7	2026-11-14T04:43:46.7953893Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "git config --local --show-origin --name-only --get-regexp remote.origin.url"
+unsigned-windows	Run actions/checkout@v7	2026-11-14T04:43:47.3897415Z [command]"C:\Program Files\Git\bin\git.exe" config --file D:\a\_temp\git-credentials-afa56f2e-c581-43fb-972a-19091098af1c.config http.https://github.com/.extraheader "AUTHORIZATION: basic ***"
+unsigned-windows	Run actions/checkout@v7	2026-11-14T04:43:47.4290454Z [command]"C:\Program Files\Git\bin\git.exe" config --local includeIf.gitdir:D:/a/saydraft/saydraft/.git.path D:\a\_temp\git-credentials-afa56f2e-c581-43fb-972a-19091098af1c.config
+unsigned-windows	Run actions/checkout@v7	2026-11-14T04:43:47.4678374Z [command]"C:\Program Files\Git\bin\git.exe" config --local includeIf.gitdir:D:/a/saydraft/saydraft/.git/worktrees/*.path D:\a\_temp\git-credentials-afa56f2e-c581-43fb-972a-19091098af1c.config
+unsigned-windows	Run actions/checkout@v7	2026-11-14T04:43:47.5105410Z [command]"C:\Program Files\Git\bin\git.exe" config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-afa56f2e-c581-43fb-972a-19091098af1c.config
+unsigned-windows	Run actions/checkout@v7	2026-11-14T04:43:47.5501684Z [command]"C:\Program Files\Git\bin\git.exe" config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-afa56f2e-c581-43fb-972a-19091098af1c.config
+unsigned-windows	Run actions/checkout@v7	2026-11-14T04:43:47.5899225Z ##[endgroup]
+unsigned-windows	Run actions/checkout@v7	2026-11-14T04:43:47.5900060Z ##[group]Fetching the repository
+unsigned-windows	Run actions/checkout@v7	2026-11-14T04:43:47.5911917Z [command]"C:\Program Files\Git\bin\git.exe" -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +05535251b4518a3e5a1c5e8daf82d42af3b339c5:refs/remotes/origin/main
+unsigned-windows	Run actions/checkout@v7	2026-11-14T04:43:49.3353115Z From https://github.com/tanzir71/saydraft
+unsigned-windows	Run actions/checkout@v7	2026-11-14T04:43:49.3355160Z  * [new ref]         05535251b4518a3e5a1c5e8daf82d42af3b339c5 -> origin/main
+unsigned-windows	Run actions/checkout@v7	2026-11-14T04:43:49.3402430Z [command]"C:\Program Files\Git\bin\git.exe" branch --list --remote origin/main
+unsigned-windows	Run actions/checkout@v7	2026-11-14T04:43:49.3846429Z   origin/main
+unsigned-windows	Run actions/checkout@v7	2026-11-14T04:43:49.3885665Z [command]"C:\Program Files\Git\bin\git.exe" rev-parse refs/remotes/origin/main
+unsigned-windows	Run actions/checkout@v7	2026-11-14T04:43:49.4303098Z 05535251b4518a3e5a1c5e8daf82d42af3b339c5
+unsigned-windows	Run actions/checkout@v7	2026-11-14T04:43:49.4334638Z ##[endgroup]
+unsigned-windows	Run actions/checkout@v7	2026-11-14T04:43:49.4335193Z ##[group]Determining the checkout info
+unsigned-windows	Run actions/checkout@v7	2026-11-14T04:43:49.4335933Z ##[endgroup]
+unsigned-windows	Run actions/checkout@v7	2026-11-14T04:43:49.4344379Z [command]"C:\Program Files\Git\bin\git.exe" sparse-checkout disable
+unsigned-windows	Run actions/checkout@v7	2026-11-14T04:43:49.4805108Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset-all extensions.worktreeConfig
+unsigned-windows	Run actions/checkout@v7	2026-11-14T04:43:49.5173813Z ##[group]Checking out the ref
+unsigned-windows	Run actions/checkout@v7	2026-11-14T04:43:49.5186238Z [command]"C:\Program Files\Git\bin\git.exe" checkout --progress --force -B main refs/remotes/origin/main
+unsigned-windows	Run actions/checkout@v7	2026-11-14T04:43:50.1749056Z Switched to a new branch 'main'
+unsigned-windows	Run actions/checkout@v7	2026-11-14T04:43:50.1850049Z branch 'main' set up to track 'origin/main'.
+unsigned-windows	Run actions/checkout@v7	2026-11-14T04:43:50.1911244Z ##[endgroup]
+unsigned-windows	Run actions/checkout@v7	2026-11-14T04:43:50.2459492Z [command]"C:\Program Files\Git\bin\git.exe" log -1 --format=%H
+unsigned-windows	Run actions/checkout@v7	2026-11-14T04:43:50.2815964Z 05535251b4518a3e5a1c5e8daf82d42af3b339c5
+unsigned-windows	Run actions/setup-python@v7	﻿2026-11-14T04:43:50.3354140Z ##[group]Run actions/setup-python@v7
+unsigned-windows	Run actions/setup-python@v7	2026-11-14T04:43:50.3354493Z with:
+unsigned-windows	Run actions/setup-python@v7	2026-11-14T04:43:50.3354686Z   python-version: 3.13
+unsigned-windows	Run actions/setup-python@v7	2026-11-14T04:43:50.3354907Z   check-latest: false
+unsigned-windows	Run actions/setup-python@v7	2026-11-14T04:43:50.3357270Z   token: ***
+unsigned-windows	Run actions/setup-python@v7	2026-11-14T04:43:50.3357592Z   mirror: https://raw.githubusercontent.com/actions/python-versions/main
+unsigned-windows	Run actions/setup-python@v7	2026-11-14T04:43:50.3357979Z   update-environment: true
+unsigned-windows	Run actions/setup-python@v7	2026-11-14T04:43:50.3358203Z   allow-prereleases: false
+unsigned-windows	Run actions/setup-python@v7	2026-11-14T04:43:50.3358422Z   freethreaded: false
+unsigned-windows	Run actions/setup-python@v7	2026-11-14T04:43:50.3358622Z env:
+unsigned-windows	Run actions/setup-python@v7	2026-11-14T04:43:50.3358791Z   HF_HUB_OFFLINE: 1
+unsigned-windows	Run actions/setup-python@v7	2026-11-14T04:43:50.3358987Z   HF_HUB_DISABLE_TELEMETRY: 1
+unsigned-windows	Run actions/setup-python@v7	2026-11-14T04:43:50.3359216Z   DO_NOT_TRACK: 1
+unsigned-windows	Run actions/setup-python@v7	2026-11-14T04:43:50.3359428Z   QT_QPA_PLATFORM: offscreen
+unsigned-windows	Run actions/setup-python@v7	2026-11-14T04:43:50.3359651Z ##[endgroup]
+unsigned-windows	Run actions/setup-python@v7	2026-11-14T04:43:50.4831890Z ##[group]Installed versions
+unsigned-windows	Run actions/setup-python@v7	2026-11-14T04:43:50.4997880Z Successfully set up CPython (3.13.17)
+unsigned-windows	Run actions/setup-python@v7	2026-11-14T04:43:50.4999222Z ##[endgroup]
+unsigned-windows	Choose fresh retained build directory	﻿2026-11-14T04:43:50.5295220Z ##[group]Run "SAYDRAFT_PACKAGE_ROOT=$(Join-Path $env:RUNNER_TEMP 'saydraft-package')" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+unsigned-windows	Choose fresh retained build directory	2026-11-14T04:43:50.5296369Z ^[[36;1m"SAYDRAFT_PACKAGE_ROOT=$(Join-Path $env:RUNNER_TEMP 'saydraft-package')" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append^[[0m
+unsigned-windows	Choose fresh retained build directory	2026-11-14T04:43:50.6083310Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+unsigned-windows	Choose fresh retained build directory	2026-11-14T04:43:50.6083898Z env:
+unsigned-windows	Choose fresh retained build directory	2026-11-14T04:43:50.6084178Z   HF_HUB_OFFLINE: 1
+unsigned-windows	Choose fresh retained build directory	2026-11-14T04:43:50.6084502Z   HF_HUB_DISABLE_TELEMETRY: 1
+unsigned-windows	Choose fresh retained build directory	2026-11-14T04:43:50.6084850Z   DO_NOT_TRACK: 1
+unsigned-windows	Choose fresh retained build directory	2026-11-14T04:43:50.6085155Z   QT_QPA_PLATFORM: offscreen
+unsigned-windows	Choose fresh retained build directory	2026-11-14T04:43:50.6085653Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.13.17\x64
+unsigned-windows	Choose fresh retained build directory	2026-11-14T04:43:50.6086438Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.13.17\x64/lib/pkgconfig
+unsigned-windows	Choose fresh retained build directory	2026-11-14T04:43:50.6087228Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+unsigned-windows	Choose fresh retained build directory	2026-11-14T04:43:50.6087865Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+unsigned-windows	Choose fresh retained build directory	2026-11-14T04:43:50.6088584Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+unsigned-windows	Choose fresh retained build directory	2026-11-14T04:43:50.6089092Z ##[endgroup]
+unsigned-windows	Build and audit unsigned application and installer	﻿2026-11-14T04:43:51.1268723Z ##[group]Run ./tools/build.ps1 -Python "$env:pythonLocation\python.exe" -OutputRoot $env:SAYDRAFT_PACKAGE_ROOT
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:43:51.1269591Z ^[[36;1m./tools/build.ps1 -Python "$env:pythonLocation\python.exe" -OutputRoot $env:SAYDRAFT_PACKAGE_ROOT^[[0m
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:43:51.1346673Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:43:51.1347050Z env:
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:43:51.1347233Z   HF_HUB_OFFLINE: 1
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:43:51.1347440Z   HF_HUB_DISABLE_TELEMETRY: 1
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:43:51.1347676Z   DO_NOT_TRACK: 1
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:43:51.1347882Z   QT_QPA_PLATFORM: offscreen
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:43:51.1348208Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.13.17\x64
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:43:51.1348699Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.13.17\x64/lib/pkgconfig
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:43:51.1349353Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:43:51.1349777Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:43:51.1350202Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:43:51.1350618Z   SAYDRAFT_PACKAGE_ROOT: D:\a\_temp\saydraft-package
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:43:51.1350917Z ##[endgroup]
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:43:57.9125119Z Collecting PySide6==6.11.1 (from -r D:\a\saydraft\saydraft\requirements.txt (line 1))
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:43:57.9771232Z   Downloading pyside6-6.11.1-cp310-abi3-win_amd64.whl.metadata (5.5 kB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:43:58.0219761Z Collecting sounddevice==0.5.2 (from -r D:\a\saydraft\saydraft\requirements.txt (line 2))
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:43:58.0362636Z   Downloading sounddevice-0.5.2-py3-none-win_amd64.whl.metadata (1.6 kB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:43:58.3125139Z Collecting numpy>=1.26 (from -r D:\a\saydraft\saydraft\requirements.txt (line 3))
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:43:58.3275047Z   Downloading numpy-2.5.4-cp313-cp313-win_amd64.whl.metadata (6.6 kB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:43:58.3597318Z Collecting faster-whisper==1.2.1 (from -r D:\a\saydraft\saydraft\requirements.txt (line 4))
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:43:58.3723377Z   Downloading faster_whisper-1.2.1-py3-none-any.whl.metadata (16 kB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:43:58.4859989Z Collecting sherpa-onnx==1.13.4 (from -r D:\a\saydraft\saydraft\requirements.txt (line 5))
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:43:58.4995144Z   Downloading sherpa_onnx-1.13.4-cp313-cp313-win_amd64.whl.metadata (50 kB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:43:58.5453127Z Collecting soundfile>=0.12.1 (from -r D:\a\saydraft\saydraft\requirements.txt (line 6))
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:43:58.5595215Z   Downloading soundfile-0.14.0-py2.py3-none-win_amd64.whl.metadata (18 kB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:43:58.6220649Z Collecting webrtcvad-wheels==2.0.14 (from -r D:\a\saydraft\saydraft\requirements.txt (line 7))
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:43:58.6368512Z   Downloading webrtcvad_wheels-2.0.14-cp313-cp313-win_amd64.whl.metadata (5.6 kB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:43:58.6657517Z Collecting pyperclip==1.9.0 (from -r D:\a\saydraft\saydraft\requirements.txt (line 8))
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:43:58.6819054Z   Downloading pyperclip-1.9.0.tar.gz (20 kB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:43:58.7063552Z   Installing build dependencies: started
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:43:59.9907505Z   Installing build dependencies: finished with status 'done'
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:43:59.9919610Z   Getting requirements to build wheel: started
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:00.5362392Z   Getting requirements to build wheel: finished with status 'done'
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:00.5383984Z   Preparing metadata (pyproject.toml): started
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:00.8439620Z   Preparing metadata (pyproject.toml): finished with status 'done'
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:00.8721599Z Collecting comtypes==1.4.16 (from -r D:\a\saydraft\saydraft\requirements.txt (line 9))
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:00.8887312Z   Downloading comtypes-1.4.16-py3-none-any.whl.metadata (7.8 kB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:00.9505278Z Collecting pyinstaller==6.22.3 (from -r D:\a\saydraft\saydraft\requirements.txt (line 10))
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:00.9684525Z   Downloading pyinstaller-6.22.3-py3-none-win_amd64.whl.metadata (8.5 kB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:01.0104119Z Collecting shiboken6==6.11.1 (from PySide6==6.11.1->-r D:\a\saydraft\saydraft\requirements.txt (line 1))
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:01.0272538Z   Downloading shiboken6-6.11.1-cp310-abi3-win_amd64.whl.metadata (2.5 kB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:01.0679663Z Collecting PySide6_Essentials==6.11.1 (from PySide6==6.11.1->-r D:\a\saydraft\saydraft\requirements.txt (line 1))
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:01.0871351Z   Downloading pyside6_essentials-6.11.1-cp310-abi3-win_amd64.whl.metadata (3.8 kB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:01.1333522Z Collecting PySide6_Addons==6.11.1 (from PySide6==6.11.1->-r D:\a\saydraft\saydraft\requirements.txt (line 1))
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:01.1475474Z   Downloading pyside6_addons-6.11.1-cp310-abi3-win_amd64.whl.metadata (4.2 kB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:01.2745133Z Collecting CFFI>=1.0 (from sounddevice==0.5.2->-r D:\a\saydraft\saydraft\requirements.txt (line 2))
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:01.2877660Z   Downloading cffi-2.1.1-cp313-cp313-win_amd64.whl.metadata (2.6 kB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:01.3998799Z Collecting ctranslate2<5,>=4.0 (from faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 4))
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:01.4158744Z   Downloading ctranslate2-4.9.0-cp313-cp313-win_amd64.whl.metadata (11 kB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:01.4781888Z Collecting huggingface-hub>=0.21 (from faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 4))
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:01.4908367Z   Downloading huggingface_hub-2.4.0-py3-none-any.whl.metadata (16 kB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:01.6725383Z Collecting tokenizers<1,>=0.13 (from faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 4))
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:01.6875250Z   Downloading tokenizers-0.23.3-cp310-abi3-win_amd64.whl.metadata (10 kB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:01.7827265Z Collecting onnxruntime<2,>=1.14 (from faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 4))
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:01.8063164Z   Downloading onnxruntime-1.32.0-cp313-cp313-win_amd64.whl.metadata (6.1 kB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:01.8783594Z Collecting av>=11 (from faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 4))
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:01.8945826Z   Downloading av-19.0.2-cp312-abi3-win_amd64.whl.metadata (5.1 kB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:01.9427737Z Collecting tqdm (from faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 4))
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:01.9558791Z   Downloading tqdm-4.70.1-py3-none-any.whl.metadata (57 kB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:02.0094033Z Collecting sherpa-onnx-core==1.13.4 (from sherpa-onnx==1.13.4->-r D:\a\saydraft\saydraft\requirements.txt (line 5))
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:02.0786292Z   Downloading sherpa_onnx_core-1.13.4-py3-none-win_amd64.whl.metadata (532 bytes)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:02.1107912Z Collecting altgraph (from pyinstaller==6.22.3->-r D:\a\saydraft\saydraft\requirements.txt (line 10))
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:02.1309319Z   Downloading altgraph-0.17.5-py2.py3-none-any.whl.metadata (7.5 kB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:02.1643187Z Collecting packaging>=22.0 (from pyinstaller==6.22.3->-r D:\a\saydraft\saydraft\requirements.txt (line 10))
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:02.1766894Z   Downloading packaging-26.3-py3-none-any.whl.metadata (3.5 kB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:02.2072341Z Collecting pefile>=2022.5.30 (from pyinstaller==6.22.3->-r D:\a\saydraft\saydraft\requirements.txt (line 10))
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:02.2214837Z   Downloading pefile-2024.8.26-py3-none-any.whl.metadata (1.4 kB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:02.2582580Z Collecting pyinstaller-hooks-contrib>=2026.7 (from pyinstaller==6.22.3->-r D:\a\saydraft\saydraft\requirements.txt (line 10))
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:02.2706247Z   Downloading pyinstaller_hooks_contrib-2026.10-py3-none-any.whl.metadata (16 kB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:02.3025235Z Collecting pywin32-ctypes>=0.2.1 (from pyinstaller==6.22.3->-r D:\a\saydraft\saydraft\requirements.txt (line 10))
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:02.3157912Z   Downloading pywin32_ctypes-0.2.3-py3-none-any.whl.metadata (3.9 kB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:02.4096940Z Collecting setuptools>=42.0.0 (from pyinstaller==6.22.3->-r D:\a\saydraft\saydraft\requirements.txt (line 10))
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:02.4229784Z   Downloading setuptools-84.2.1-py3-none-any.whl.metadata (6.6 kB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:02.4884045Z Collecting pyyaml<7,>=5.3 (from ctranslate2<5,>=4.0->faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 4))
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:02.5025184Z   Downloading pyyaml-6.0.3-cp313-cp313-win_amd64.whl.metadata (2.4 kB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:02.5336180Z Collecting flatbuffers (from onnxruntime<2,>=1.14->faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 4))
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:02.5471426Z   Downloading flatbuffers-25.12.19-py2.py3-none-any.whl.metadata (1.0 kB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:02.7262953Z Collecting protobuf>=4.25.8 (from onnxruntime<2,>=1.14->faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 4))
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:02.7424270Z   Downloading protobuf-7.36.2-cp310-abi3-win_amd64.whl.metadata (595 bytes)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:02.7839965Z Collecting click<9.0.0,>=8.4.2 (from huggingface-hub>=0.21->faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 4))
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:02.7960870Z   Downloading click-8.5.1-py3-none-any.whl.metadata (2.6 kB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:02.8370974Z Collecting filelock>=3.10.0 (from huggingface-hub>=0.21->faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 4))
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:02.8526258Z   Downloading filelock-4.2.10-py3-none-any.whl.metadata (2.3 kB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:02.8899622Z Collecting fsspec>=2023.5.0 (from huggingface-hub>=0.21->faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 4))
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:02.9025155Z   Downloading fsspec-2026.9.0-py3-none-any.whl.metadata (10 kB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:02.9822029Z Collecting hf-xet<2.0.0,>=1.6.0 (from huggingface-hub>=0.21->faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 4))
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:03.0050712Z   Downloading hf_xet-1.8.0-cp38-abi3-win_amd64.whl.metadata (4.9 kB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:03.0352333Z Collecting httpx2<3,>=2.0.0 (from huggingface-hub>=0.21->faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 4))
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:03.0486670Z   Downloading httpx2-2.16.0-py3-none-any.whl.metadata (10 kB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:03.0877053Z Collecting typing-extensions>=4.1.0 (from huggingface-hub>=0.21->faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 4))
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:03.1032819Z   Downloading typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:03.1403879Z Collecting anyio>=4.10 (from httpx2<3,>=2.0.0->huggingface-hub>=0.21->faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 4))
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:03.1553367Z   Downloading anyio-4.16.0-py3-none-any.whl.metadata (4.7 kB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:03.1847313Z Collecting httpcore2==2.16.0 (from httpx2<3,>=2.0.0->huggingface-hub>=0.21->faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 4))
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:03.1989766Z   Downloading httpcore2-2.16.0-py3-none-any.whl.metadata (27 kB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:03.2334349Z Collecting idna>=3.18 (from httpx2<3,>=2.0.0->huggingface-hub>=0.21->faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 4))
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:03.2475158Z   Downloading idna-3.20-py3-none-any.whl.metadata (7.2 kB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:03.2782031Z Collecting truststore>=0.10 (from httpx2<3,>=2.0.0->huggingface-hub>=0.21->faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 4))
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:03.2945774Z   Downloading truststore-0.10.5-py3-none-any.whl.metadata (4.5 kB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:03.3241464Z Collecting h11>=0.16 (from httpcore2==2.16.0->httpx2<3,>=2.0.0->huggingface-hub>=0.21->faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 4))
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:03.3386683Z   Downloading h11-0.16.0-py3-none-any.whl.metadata (8.3 kB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:03.3719631Z Collecting pycparser (from CFFI>=1.0->sounddevice==0.5.2->-r D:\a\saydraft\saydraft\requirements.txt (line 2))
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:03.3844336Z   Downloading pycparser-3.12-py3-none-any.whl.metadata (9.7 kB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:03.4220842Z Collecting colorama (from tqdm->faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 4))
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:03.4362820Z   Downloading colorama-0.4.6-py2.py3-none-any.whl.metadata (17 kB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:03.4686393Z Downloading pyside6-6.11.1-cp310-abi3-win_amd64.whl (578 kB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:03.5033262Z    ---------------------------------------- 578.4/578.4 kB 25.9 MB/s  0:00:00
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:03.5203440Z Downloading sounddevice-0.5.2-py3-none-win_amd64.whl (363 kB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:03.5466887Z Downloading faster_whisper-1.2.1-py3-none-any.whl (1.1 MB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:03.5698162Z    ---------------------------------------- 1.1/1.1 MB 48.0 MB/s  0:00:00
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:03.6681258Z Downloading sherpa_onnx-1.13.4-cp313-cp313-win_amd64.whl (2.2 MB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:03.8171243Z    ---------------------------------------- 2.2/2.2 MB 14.2 MB/s  0:00:00
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:03.8388794Z Downloading webrtcvad_wheels-2.0.14-cp313-cp313-win_amd64.whl (19 kB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:03.8586477Z Downloading comtypes-1.4.16-py3-none-any.whl (296 kB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:03.8812024Z Downloading pyinstaller-6.22.3-py3-none-win_amd64.whl (1.5 MB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:03.9050009Z    ---------------------------------------- 1.5/1.5 MB 59.1 MB/s  0:00:00
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:03.9183772Z Downloading pyside6_addons-6.11.1-cp310-abi3-win_amd64.whl (168.8 MB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:08.7412823Z    ---------------------------------------- 168.8/168.8 MB 35.0 MB/s  0:00:04
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:08.7823588Z Downloading pyside6_essentials-6.11.1-cp310-abi3-win_amd64.whl (77.5 MB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:10.2185010Z    ---------------------------------------- 77.5/77.5 MB 54.1 MB/s  0:00:01
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:10.2377842Z Downloading sherpa_onnx_core-1.13.4-py3-none-win_amd64.whl (16.5 MB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:10.5189575Z    ---------------------------------------- 16.5/16.5 MB 58.3 MB/s  0:00:00
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:10.5324035Z Downloading shiboken6-6.11.1-cp310-abi3-win_amd64.whl (1.2 MB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:10.5478990Z    ---------------------------------------- 1.2/1.2 MB 78.9 MB/s  0:00:00
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:10.5615584Z Downloading ctranslate2-4.9.0-cp313-cp313-win_amd64.whl (20.4 MB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:10.8254559Z    ---------------------------------------- 20.4/20.4 MB 77.2 MB/s  0:00:00
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:10.8498264Z Downloading onnxruntime-1.32.0-cp313-cp313-win_amd64.whl (16.7 MB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:11.0471161Z    ---------------------------------------- 16.7/16.7 MB 84.6 MB/s  0:00:00
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:11.0607527Z Downloading pyyaml-6.0.3-cp313-cp313-win_amd64.whl (154 kB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:11.0794703Z Downloading tokenizers-0.23.3-cp310-abi3-win_amd64.whl (2.9 MB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:11.1042324Z    ---------------------------------------- 2.9/2.9 MB 119.4 MB/s  0:00:00
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:11.1262831Z Downloading huggingface_hub-2.4.0-py3-none-any.whl (857 kB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:11.1342451Z    ---------------------------------------- 857.0/857.0 kB 125.0 MB/s  0:00:00
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:11.1462640Z Downloading click-8.5.1-py3-none-any.whl (126 kB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:11.1661414Z Downloading hf_xet-1.8.0-cp38-abi3-win_amd64.whl (3.9 MB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:11.2247987Z    ---------------------------------------- 3.9/3.9 MB 65.5 MB/s  0:00:00
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:11.2369420Z Downloading httpx2-2.16.0-py3-none-any.whl (97 kB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:11.2544023Z Downloading httpcore2-2.16.0-py3-none-any.whl (85 kB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:11.2739463Z Downloading numpy-2.5.4-cp313-cp313-win_amd64.whl (12.6 MB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:11.3822990Z    ---------------------------------------- 12.6/12.6 MB 116.6 MB/s  0:00:00
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:11.4096851Z Downloading soundfile-0.14.0-py2.py3-none-win_amd64.whl (1.0 MB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:11.4175739Z    ---------------------------------------- 1.0/1.0 MB 152.0 MB/s  0:00:00
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:11.4315939Z Downloading anyio-4.16.0-py3-none-any.whl (134 kB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:11.4740652Z Downloading av-19.0.2-cp312-abi3-win_amd64.whl (28.2 MB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:12.6819998Z    ---------------------------------------- 28.2/28.2 MB 23.2 MB/s  0:00:01
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:12.6949971Z Downloading cffi-2.1.1-cp313-cp313-win_amd64.whl (185 kB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:12.7125665Z Downloading filelock-4.2.10-py3-none-any.whl (218 kB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:12.7289568Z Downloading fsspec-2026.9.0-py3-none-any.whl (221 kB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:12.7691172Z Downloading h11-0.16.0-py3-none-any.whl (37 kB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:12.7848597Z Downloading idna-3.20-py3-none-any.whl (69 kB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:12.8015736Z Downloading packaging-26.3-py3-none-any.whl (129 kB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:12.8187516Z Downloading pefile-2024.8.26-py3-none-any.whl (74 kB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:12.8345109Z Downloading protobuf-7.36.2-cp310-abi3-win_amd64.whl (456 kB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:12.8534433Z Downloading pyinstaller_hooks_contrib-2026.10-py3-none-any.whl (463 kB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:12.8709078Z Downloading pywin32_ctypes-0.2.3-py3-none-any.whl (30 kB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:12.8864047Z Downloading setuptools-84.2.1-py3-none-any.whl (876 kB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:12.8943578Z    ---------------------------------------- 876.3/876.3 kB 125.8 MB/s  0:00:00
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:12.9070287Z Downloading tqdm-4.70.1-py3-none-any.whl (80 kB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:12.9229475Z Downloading truststore-0.10.5-py3-none-any.whl (19 kB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:12.9383015Z Downloading typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:12.9555715Z Downloading altgraph-0.17.5-py2.py3-none-any.whl (21 kB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:12.9704034Z Downloading colorama-0.4.6-py2.py3-none-any.whl (25 kB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:12.9863889Z Downloading flatbuffers-25.12.19-py2.py3-none-any.whl (26 kB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:13.0010945Z Downloading pycparser-3.12-py3-none-any.whl (62 kB)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:13.5430312Z Building wheels for collected packages: pyperclip
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:13.5450197Z   Building wheel for pyperclip (pyproject.toml): started
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:13.9041602Z   Building wheel for pyperclip (pyproject.toml): finished with status 'done'
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:13.9057518Z   Created wheel for pyperclip: filename=pyperclip-1.9.0-py3-none-any.whl size=11117 sha256=c56c85d20bcf40c7e86edd05af77e0b71a3b742e22a8f6914ee19f2303654d76
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:13.9059676Z   Stored in directory: d:\a\_temp\saydraft-package\pip-cache\wheels\9c\79\90\c9e831caaffa2633ad99f1d35c6ea39866b92de62e909e89ef
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:13.9085093Z Successfully built pyperclip
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:14.0330743Z Installing collected packages: webrtcvad-wheels, sherpa-onnx-core, pyperclip, flatbuffers, altgraph, typing-extensions, truststore, shiboken6, sherpa-onnx, setuptools, pyyaml, pywin32-ctypes, pycparser, protobuf, pefile, packaging, numpy, idna, hf-xet, h11, fsspec, filelock, comtypes, colorama, click, av, tqdm, PySide6_Essentials, pyinstaller-hooks-contrib, onnxruntime, httpcore2, ctranslate2, CFFI, anyio, soundfile, sounddevice, PySide6_Addons, pyinstaller, httpx2, PySide6, huggingface-hub, tokenizers, faster-whisper
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:28.2768256Z 
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:28.2815464Z Successfully installed CFFI-2.1.1 PySide6-6.11.1 PySide6_Addons-6.11.1 PySide6_Essentials-6.11.1 altgraph-0.17.5 anyio-4.16.0 av-19.0.2 click-8.5.1 colorama-0.4.6 comtypes-1.4.16 ctranslate2-4.9.0 faster-whisper-1.2.1 filelock-4.2.10 flatbuffers-25.12.19 fsspec-2026.9.0 h11-0.16.0 hf-xet-1.8.0 httpcore2-2.16.0 httpx2-2.16.0 huggingface-hub-2.4.0 idna-3.20 numpy-2.5.4 onnxruntime-1.32.0 packaging-26.3 pefile-2024.8.26 protobuf-7.36.2 pycparser-3.12 pyinstaller-6.22.3 pyinstaller-hooks-contrib-2026.10 pyperclip-1.9.0 pywin32-ctypes-0.2.3 pyyaml-6.0.3 setuptools-84.2.1 sherpa-onnx-1.13.4 sherpa-onnx-core-1.13.4 shiboken6-6.11.1 sounddevice-0.5.2 soundfile-0.14.0 tokenizers-0.23.3 tqdm-4.70.1 truststore-0.10.5 typing-extensions-4.16.0 webrtcvad-wheels-2.0.14
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:29.1976975Z 238 INFO: PyInstaller: 6.22.3, contrib hooks: 2026.10
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:29.1980932Z 238 INFO: Python: 3.13.17
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:29.2234486Z 263 INFO: Platform: Windows-2025Server-10.0.26100-SP0
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:29.2235214Z 264 INFO: Python environment: D:\a\_temp\saydraft-package\venv
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:29.2329974Z 273 INFO: Removing temporary files and cleaning cache in D:\a\_temp\saydraft-package\pyinstaller-cache\pyinstaller
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:30.5042025Z 1544 INFO: Module search paths (PYTHONPATH):
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:30.5042583Z ['D:\\a\\saydraft\\saydraft',
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:30.5042934Z  'D:\\a\\saydraft\\saydraft',
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:30.5044873Z  'C:\\hostedtoolcache\\windows\\Python\\3.13.17\\x64\\python313.zip',
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:30.5045507Z  'C:\\hostedtoolcache\\windows\\Python\\3.13.17\\x64\\DLLs',
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:30.5046116Z  'C:\\hostedtoolcache\\windows\\Python\\3.13.17\\x64\\Lib',
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:30.5046618Z  'C:\\hostedtoolcache\\windows\\Python\\3.13.17\\x64',
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:30.5046951Z  'D:\\a\\_temp\\saydraft-package\\venv',
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:30.5047277Z  'D:\\a\\_temp\\saydraft-package\\venv\\Lib\\site-packages',
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:30.5047607Z  'D:\\a\\saydraft\\saydraft\\installer',
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:30.5047868Z  'D:\\a\\saydraft\\saydraft']
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:30.8137210Z 1854 INFO: Appending 'binaries' from .spec
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:30.8140481Z 1854 INFO: Appending 'datas' from .spec
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:30.8438101Z 1884 INFO: checking Analysis
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:30.8439866Z 1884 INFO: Building Analysis because Analysis-00.toc is non existent
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:30.8440701Z 1884 INFO: Looking for Python shared library...
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:30.8441488Z 1884 INFO: Using Python shared library: C:\hostedtoolcache\windows\Python\3.13.17\x64\python313.dll
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:30.8442432Z 1884 INFO: Running Analysis Analysis-00.toc
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:30.8443103Z 1884 INFO: Target bytecode optimization level: 0
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:30.8443722Z 1884 INFO: Initializing module dependency graph...
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:30.8468523Z 1887 INFO: Initializing module graph hook caches...
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:30.8599137Z 1900 INFO: Analyzing modules for base_library.zip ...
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:31.9261928Z 2966 INFO: Processing standard module hook 'hook-encodings.py' from 'D:\\a\\_temp\\saydraft-package\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:32.6125519Z 3653 INFO: Processing standard module hook 'hook-math.py' from 'D:\\a\\_temp\\saydraft-package\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:34.3759605Z 5416 INFO: Processing standard module hook 'hook-pickle.py' from 'D:\\a\\_temp\\saydraft-package\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:35.5533012Z 6593 INFO: Processing standard module hook 'hook-heapq.py' from 'D:\\a\\_temp\\saydraft-package\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:36.3620569Z 7402 INFO: Caching module dependency graph...
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:36.4048617Z 7445 INFO: Analyzing D:\a\saydraft\saydraft\installer\entry.py
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:36.5142245Z 7554 INFO: Processing standard module hook 'hook-sysconfig.py' from 'D:\\a\\_temp\\saydraft-package\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:36.5194127Z 7559 INFO: Processing standard module hook 'hook-_ctypes.py' from 'D:\\a\\_temp\\saydraft-package\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:36.8337507Z 7874 INFO: Processing standard module hook 'hook-platform.py' from 'D:\\a\\_temp\\saydraft-package\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:36.9300951Z 7970 INFO: Processing pre-safe-import-module hook 'hook-typing_extensions.py' from 'D:\\a\\_temp\\saydraft-package\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:36.9307068Z 7971 INFO: SetuptoolsInfo: initializing cached setuptools info...
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:37.7440428Z 8784 INFO: Processing standard module hook 'hook-multiprocessing.util.py' from 'D:\\a\\_temp\\saydraft-package\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:37.9305794Z 8971 INFO: Processing standard module hook 'hook-xml.py' from 'D:\\a\\_temp\\saydraft-package\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:38.7928100Z 9833 INFO: Processing standard module hook 'hook-anyio.py' from 'D:\\a\\_temp\\saydraft-package\\venv\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\stdhooks'
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:40.4093088Z 11449 INFO: Processing pre-safe-import-module hook 'hook-backports.py' from 'D:\\a\\_temp\\saydraft-package\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:40.4095188Z 11450 INFO: Setuptools: 'backports' appears to be a full setuptools-vendored copy - creating alias to 'setuptools._vendor.backports'!
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:40.4167849Z 11457 INFO: Processing standard module hook 'hook-setuptools.py' from 'D:\\a\\_temp\\saydraft-package\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:40.4315435Z 11472 INFO: Processing pre-safe-import-module hook 'hook-distutils.py' from 'D:\\a\\_temp\\saydraft-package\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:40.4654361Z 11505 INFO: Processing pre-safe-import-module hook 'hook-jaraco.py' from 'D:\\a\\_temp\\saydraft-package\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:40.4656303Z 11506 INFO: Setuptools: 'jaraco' appears to be a full setuptools-vendored copy - creating alias to 'setuptools._vendor.jaraco'!
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:40.4787667Z 11519 INFO: Processing pre-safe-import-module hook 'hook-more_itertools.py' from 'D:\\a\\_temp\\saydraft-package\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:40.4789685Z 11519 INFO: Setuptools: 'more_itertools' appears to be a setuptools-vendored copy - creating alias to 'setuptools._vendor.more_itertools'!
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:40.6490069Z 11689 INFO: Processing standard module hook 'hook-_osx_support.py' from 'D:\\a\\_temp\\saydraft-package\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:40.6668746Z 11707 INFO: Processing pre-safe-import-module hook 'hook-packaging.py' from 'D:\\a\\_temp\\saydraft-package\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:40.9868948Z 12027 INFO: Processing standard module hook 'hook-setuptools._vendor.jaraco.text.py' from 'D:\\a\\_temp\\saydraft-package\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:40.9878901Z 12028 INFO: Processing pre-safe-import-module hook 'hook-importlib_resources.py' from 'D:\\a\\_temp\\saydraft-package\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:41.6508340Z 12691 INFO: Processing pre-safe-import-module hook 'hook-tomli.py' from 'D:\\a\\_temp\\saydraft-package\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:41.6510163Z 12691 INFO: Setuptools: 'tomli' appears to be a setuptools-vendored copy - creating alias to 'setuptools._vendor.tomli'!
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:42.4402944Z 13480 INFO: Processing pre-safe-import-module hook 'hook-wheel.py' from 'D:\\a\\_temp\\saydraft-package\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:42.4404669Z 13481 INFO: Setuptools: 'wheel' appears to be a setuptools-vendored copy - creating alias to 'setuptools._vendor.wheel'!
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:42.9167416Z 13957 INFO: Processing standard module hook 'hook-difflib.py' from 'D:\\a\\_temp\\saydraft-package\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:43.0557710Z 14096 INFO: Processing standard module hook 'hook-webbrowser.py' from 'D:\\a\\_temp\\saydraft-package\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:43.6363775Z 14676 INFO: Processing standard module hook 'hook-sqlite3.py' from 'D:\\a\\_temp\\saydraft-package\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:45.2364231Z 16276 INFO: Processing standard module hook 'hook-numpy.py' from 'D:\\a\\_temp\\saydraft-package\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:48.5345936Z 19575 INFO: Processing standard module hook 'hook-fsspec.py' from 'D:\\a\\_temp\\saydraft-package\\venv\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\stdhooks'
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:49.3538455Z 20394 INFO: Processing standard module hook 'hook-onnxruntime.py' from 'D:\\a\\_temp\\saydraft-package\\venv\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\stdhooks'
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:49.4440301Z 20484 INFO: Processing pre-safe-import-module hook 'hook-tensorflow.py' from 'D:\\a\\_temp\\saydraft-package\\venv\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\pre_safe_import_module'
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:49.7508240Z 20791 INFO: Processing standard module hook 'hook-sounddevice.py' from 'D:\\a\\_temp\\saydraft-package\\venv\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\stdhooks'
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:50.4038251Z 21444 INFO: Processing standard module hook 'hook-PySide6.py' from 'D:\\a\\_temp\\saydraft-package\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:50.5817482Z 21622 INFO: Processing standard module hook 'hook-shiboken6.py' from 'D:\\a\\_temp\\saydraft-package\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:50.8083342Z 21848 INFO: Processing standard module hook 'hook-PySide6.QtNetwork.py' from 'D:\\a\\_temp\\saydraft-package\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:44:55.2680153Z 26308 INFO: Processing standard module hook 'hook-PySide6.QtCore.py' from 'D:\\a\\_temp\\saydraft-package\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:45:00.5628890Z 31603 INFO: Processing standard module hook 'hook-PySide6.QtGui.py' from 'D:\\a\\saydraft\\saydraft\\installer\\hooks'
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:45:25.2594548Z 56299 INFO: Processing standard module hook 'hook-PySide6.QtWidgets.py' from 'D:\\a\\_temp\\saydraft-package\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:45:29.4270271Z 60467 INFO: Processing standard module hook 'hook-webrtcvad.py' from 'D:\\a\\_temp\\saydraft-package\\venv\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\stdhooks'
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:45:29.7035929Z 60744 INFO: Processing standard module hook 'hook-av.py' from 'D:\\a\\_temp\\saydraft-package\\venv\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\stdhooks'
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:45:30.6295258Z 61669 INFO: Processing standard module hook 'hook-PySide6.QtSvg.py' from 'D:\\a\\_temp\\saydraft-package\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:45:31.8892358Z 62929 INFO: Processing standard module hook 'hook-soundfile.py' from 'D:\\a\\_temp\\saydraft-package\\venv\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\stdhooks'
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:45:32.1162698Z 63156 INFO: Processing standard module hook 'hook-comtypes.client.py' from 'D:\\a\\_temp\\saydraft-package\\venv\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\stdhooks'
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:45:32.9211485Z 63961 INFO: Processing standard module hook 'hook-PySide6.QtMultimedia.py' from 'D:\\a\\_temp\\saydraft-package\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:45:35.5396027Z 66580 INFO: Analyzing hidden import 'faster_whisper.assets'
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:45:35.5400855Z 66580 INFO: Analyzing hidden import 'sherpa_onnx.__main__'
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:45:35.5446375Z 66585 INFO: Analyzing hidden import 'sherpa_onnx.cli'
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:45:35.5485912Z 66589 INFO: Processing module hooks (post-graph stage)...
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:45:36.4055136Z 67445 INFO: Processing standard module hook 'hook-PySide6.QtMultimediaWidgets.py' from 'D:\\a\\_temp\\saydraft-package\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:45:37.3947687Z 68435 INFO: Performing binary vs. data reclassification (690 entries)
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:45:37.4784090Z 68518 INFO: Looking for ctypes DLLs
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:45:37.7298567Z 68770 INFO: Analyzing run-time hooks ...
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:45:37.7356590Z 68776 INFO: Including run-time hook 'pyi_rth_inspect.py' from 'D:\\a\\_temp\\saydraft-package\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks'
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:45:37.7390854Z 68779 INFO: Including run-time hook 'pyi_rth_pkgutil.py' from 'D:\\a\\_temp\\saydraft-package\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks'
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:45:37.7413581Z 68781 INFO: Including run-time hook 'pyi_rth_multiprocessing.py' from 'D:\\a\\_temp\\saydraft-package\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks'
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:45:37.7440905Z 68784 INFO: Including run-time hook 'pyi_rth_setuptools.py' from 'D:\\a\\_temp\\saydraft-package\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks'
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:45:37.7455030Z 68786 INFO: Including run-time hook 'pyi_rth_pyside6.py' from 'D:\\a\\_temp\\saydraft-package\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks'
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:45:37.7477805Z 68788 INFO: Processing pre-find-module-path hook 'hook-_pyi_rth_utils.py' from 'D:\\a\\_temp\\saydraft-package\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\pre_find_module_path'
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:45:37.7492315Z 68789 INFO: Processing standard module hook 'hook-_pyi_rth_utils.py' from 'D:\\a\\_temp\\saydraft-package\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:45:37.7858958Z 68826 INFO: Creating base_library.zip...
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:45:37.8109091Z 68851 INFO: Looking for dynamic libraries
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:45:39.3014283Z 70341 INFO: Extra DLL search directories (AddDllDirectory): ['D:\\a\\_temp\\saydraft-package\\venv\\Lib\\site-packages\\shiboken6', 'D:\\a\\_temp\\saydraft-package\\venv\\Lib\\site-packages\\numpy.libs', 'D:\\a\\_temp\\saydraft-package\\venv\\Lib\\site-packages\\ctranslate2', 'D:\\a\\_temp\\saydraft-package\\venv\\Lib\\site-packages\\av.libs']
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:45:39.3016693Z 70341 INFO: Extra DLL search directories (PATH): ['D:\\a\\_temp\\saydraft-package\\venv\\Lib\\site-packages\\PySide6']
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:45:41.8824616Z 72922 INFO: Warnings written to D:\a\_temp\saydraft-package\work\Saydraft\warn-Saydraft.txt
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:45:42.0029156Z 73043 INFO: Graph cross-reference written to D:\a\_temp\saydraft-package\work\Saydraft\xref-Saydraft.html
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:45:43.9290231Z 74969 INFO: checking PYZ
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:45:43.9290954Z 74969 INFO: Building PYZ because PYZ-00.toc is non existent
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:45:43.9291809Z 74969 INFO: Building PYZ (ZlibArchive) D:\a\_temp\saydraft-package\work\Saydraft\PYZ-00.pyz
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:45:45.0661505Z 76106 INFO: Building PYZ (ZlibArchive) D:\a\_temp\saydraft-package\work\Saydraft\PYZ-00.pyz completed successfully.
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:45:45.1014966Z 76142 INFO: checking PKG
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:45:45.1016243Z 76142 INFO: Building PKG because PKG-00.toc is non existent
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:45:45.1017014Z 76142 INFO: Building PKG (CArchive) Saydraft.pkg
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:45:45.1215265Z 76162 INFO: Building PKG (CArchive) Saydraft.pkg completed successfully.
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:45:45.1224410Z 76163 INFO: Bootloader D:\a\_temp\saydraft-package\venv\Lib\site-packages\PyInstaller\bootloader\Windows-64bit-intel\runw.exe
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:45:45.1225749Z 76163 INFO: checking EXE
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:45:45.1226168Z 76163 INFO: Building EXE because EXE-00.toc is non existent
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:45:45.1227258Z 76163 INFO: Building EXE from EXE-00.toc
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:45:45.1228146Z 76163 INFO: Copying bootloader EXE to D:\a\_temp\saydraft-package\work\Saydraft\Saydraft.exe
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:45:45.1252428Z 76165 INFO: Copying icon to EXE
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:45:45.1271525Z 76167 INFO: Copying version information to EXE
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:45:45.1312649Z 76171 INFO: Copying 0 resources to EXE
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:45:45.1313775Z 76171 INFO: Embedding manifest in EXE
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:45:45.1330959Z 76173 INFO: Appending PKG archive to EXE
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:45:45.1391890Z 76179 INFO: Fixing EXE headers
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:45:45.2308293Z 76271 INFO: Building EXE from EXE-00.toc completed successfully.
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:45:45.2447074Z 76285 INFO: checking COLLECT
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:45:45.2447795Z 76285 INFO: Building COLLECT because COLLECT-00.toc is non existent
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:45:45.2450539Z 76285 INFO: Building COLLECT COLLECT-00.toc
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:45:46.2436755Z 77284 INFO: Building COLLECT COLLECT-00.toc completed successfully.
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:45:46.2764484Z 77316 INFO: Build complete! The results are available in: D:\a\_temp\saydraft-package\dist
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:45:49.6799868Z {"preflight_only": true, "files": 1417}
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:45:50.0896823Z 
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:45:50.0896881Z 
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:48:30.6155920Z Preprocessing{"files": 1417, "uncompressed_bytes": 409439485, "installer_size_gate": true, "packaging_gate": true}
+unsigned-windows	Build and audit unsigned application and installer	2026-11-14T04:48:30.6320156Z Built Saydraft 0.1.0. Retained bundle, receipts and artifacts at D:\a\_temp\saydraft-package
+unsigned-windows	Verify disposable per-user install and uninstall	﻿2026-11-14T04:48:30.6810381Z ##[group]Run ./tools/check_installer.ps1 -BuildRoot $env:SAYDRAFT_PACKAGE_ROOT
+unsigned-windows	Verify disposable per-user install and uninstall	2026-11-14T04:48:30.6811086Z ^[[36;1m./tools/check_installer.ps1 -BuildRoot $env:SAYDRAFT_PACKAGE_ROOT^[[0m
+unsigned-windows	Verify disposable per-user install and uninstall	2026-11-14T04:48:30.6884486Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+unsigned-windows	Verify disposable per-user install and uninstall	2026-11-14T04:48:30.6884905Z env:
+unsigned-windows	Verify disposable per-user install and uninstall	2026-11-14T04:48:30.6885142Z   HF_HUB_OFFLINE: 1
+unsigned-windows	Verify disposable per-user install and uninstall	2026-11-14T04:48:30.6885411Z   HF_HUB_DISABLE_TELEMETRY: 1
+unsigned-windows	Verify disposable per-user install and uninstall	2026-11-14T04:48:30.6885701Z   DO_NOT_TRACK: 1
+unsigned-windows	Verify disposable per-user install and uninstall	2026-11-14T04:48:30.6885971Z   QT_QPA_PLATFORM: offscreen
+unsigned-windows	Verify disposable per-user install and uninstall	2026-11-14T04:48:30.6886804Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.13.17\x64
+unsigned-windows	Verify disposable per-user install and uninstall	2026-11-14T04:48:30.6887337Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.13.17\x64/lib/pkgconfig
+unsigned-windows	Verify disposable per-user install and uninstall	2026-11-14T04:48:30.6887861Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+unsigned-windows	Verify disposable per-user install and uninstall	2026-11-14T04:48:30.6888353Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+unsigned-windows	Verify disposable per-user install and uninstall	2026-11-14T04:48:30.6888814Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+unsigned-windows	Verify disposable per-user install and uninstall	2026-11-14T04:48:30.6889491Z   SAYDRAFT_PACKAGE_ROOT: D:\a\_temp\saydraft-package
+unsigned-windows	Verify disposable per-user install and uninstall	2026-11-14T04:48:30.6889780Z ##[endgroup]
+unsigned-windows	Verify frozen firewall helper on disposable runner	﻿2026-11-14T04:48:58.5414301Z ##[group]Run ./tools/check_firewall.ps1 -BuildRoot $env:SAYDRAFT_PACKAGE_ROOT
+unsigned-windows	Verify frozen firewall helper on disposable runner	2026-11-14T04:48:58.5415554Z ^[[36;1m./tools/check_firewall.ps1 -BuildRoot $env:SAYDRAFT_PACKAGE_ROOT^[[0m
+unsigned-windows	Verify frozen firewall helper on disposable runner	2026-11-14T04:48:58.5501328Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+unsigned-windows	Verify frozen firewall helper on disposable runner	2026-11-14T04:48:58.5501735Z env:
+unsigned-windows	Verify frozen firewall helper on disposable runner	2026-11-14T04:48:58.5501983Z   HF_HUB_OFFLINE: 1
+unsigned-windows	Verify frozen firewall helper on disposable runner	2026-11-14T04:48:58.5502254Z   HF_HUB_DISABLE_TELEMETRY: 1
+unsigned-windows	Verify frozen firewall helper on disposable runner	2026-11-14T04:48:58.5502577Z   DO_NOT_TRACK: 1
+unsigned-windows	Verify frozen firewall helper on disposable runner	2026-11-14T04:48:58.5502835Z   QT_QPA_PLATFORM: offscreen
+unsigned-windows	Verify frozen firewall helper on disposable runner	2026-11-14T04:48:58.5503282Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.13.17\x64
+unsigned-windows	Verify frozen firewall helper on disposable runner	2026-11-14T04:48:58.5504021Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.13.17\x64/lib/pkgconfig
+unsigned-windows	Verify frozen firewall helper on disposable runner	2026-11-14T04:48:58.5504537Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+unsigned-windows	Verify frozen firewall helper on disposable runner	2026-11-14T04:48:58.5504991Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+unsigned-windows	Verify frozen firewall helper on disposable runner	2026-11-14T04:48:58.5505654Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+unsigned-windows	Verify frozen firewall helper on disposable runner	2026-11-14T04:48:58.5506189Z   SAYDRAFT_PACKAGE_ROOT: D:\a\_temp\saydraft-package
+unsigned-windows	Verify frozen firewall helper on disposable runner	2026-11-14T04:48:58.5506523Z ##[endgroup]
+unsigned-windows	Retain unsigned binary artifacts	﻿2026-11-14T04:49:42.1798972Z ##[group]Run actions/upload-artifact@v7
+unsigned-windows	Retain unsigned binary artifacts	2026-11-14T04:49:42.1799398Z with:
+unsigned-windows	Retain unsigned binary artifacts	2026-11-14T04:49:42.1799664Z   name: unsigned-windows-package
+unsigned-windows	Retain unsigned binary artifacts	2026-11-14T04:49:42.1799983Z   compression-level: 0
+unsigned-windows	Retain unsigned binary artifacts	2026-11-14T04:49:42.1800257Z   if-no-files-found: warn
+unsigned-windows	Retain unsigned binary artifacts	2026-11-14T04:49:42.1800569Z   path: D:\a\_temp\saydraft-package/artifacts/*
+unsigned-windows	Retain unsigned binary artifacts	
+unsigned-windows	Retain unsigned binary artifacts	2026-11-14T04:49:42.1800913Z   overwrite: false
+unsigned-windows	Retain unsigned binary artifacts	2026-11-14T04:49:42.1801177Z   include-hidden-files: false
+unsigned-windows	Retain unsigned binary artifacts	2026-11-14T04:49:42.1801455Z   archive: true
+unsigned-windows	Retain unsigned binary artifacts	2026-11-14T04:49:42.1801684Z env:
+unsigned-windows	Retain unsigned binary artifacts	2026-11-14T04:49:42.1801935Z   HF_HUB_OFFLINE: 1
+unsigned-windows	Retain unsigned binary artifacts	2026-11-14T04:49:42.1802192Z   HF_HUB_DISABLE_TELEMETRY: 1
+unsigned-windows	Retain unsigned binary artifacts	2026-11-14T04:49:42.1802470Z   DO_NOT_TRACK: 1
+unsigned-windows	Retain unsigned binary artifacts	2026-11-14T04:49:42.1802735Z   QT_QPA_PLATFORM: offscreen
+unsigned-windows	Retain unsigned binary artifacts	2026-11-14T04:49:42.1803103Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.13.17\x64
+unsigned-windows	Retain unsigned binary artifacts	2026-11-14T04:49:42.1803613Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.13.17\x64/lib/pkgconfig
+unsigned-windows	Retain unsigned binary artifacts	2026-11-14T04:49:42.1804133Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+unsigned-windows	Retain unsigned binary artifacts	2026-11-14T04:49:42.1804690Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+unsigned-windows	Retain unsigned binary artifacts	2026-11-14T04:49:42.1805157Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+unsigned-windows	Retain unsigned binary artifacts	2026-11-14T04:49:42.1805585Z   SAYDRAFT_PACKAGE_ROOT: D:\a\_temp\saydraft-package
+unsigned-windows	Retain unsigned binary artifacts	2026-11-14T04:49:42.1805927Z ##[endgroup]
+unsigned-windows	Retain unsigned binary artifacts	2026-11-14T04:49:42.3733901Z With the provided path, there will be 3 files uploaded
+unsigned-windows	Retain unsigned binary artifacts	2026-11-14T04:49:42.3740554Z Artifact name is valid!
+unsigned-windows	Retain unsigned binary artifacts	2026-11-14T04:49:42.3742401Z Root directory input is valid!
+unsigned-windows	Retain unsigned binary artifacts	2026-11-14T04:49:42.7656184Z Uploading artifact: unsigned-windows-package.zip
+unsigned-windows	Retain unsigned binary artifacts	2026-11-14T04:49:42.7703254Z Beginning upload of artifact content to blob storage
+unsigned-windows	Retain unsigned binary artifacts	2026-11-14T04:49:44.0427076Z Uploaded bytes 8388608
+unsigned-windows	Retain unsigned binary artifacts	2026-11-14T04:49:44.0845188Z Uploaded bytes 16777216
+unsigned-windows	Retain unsigned binary artifacts	2026-11-14T04:49:44.1937542Z Uploaded bytes 25165824
+unsigned-windows	Retain unsigned binary artifacts	2026-11-14T04:49:44.2465624Z Uploaded bytes 33554432
+unsigned-windows	Retain unsigned binary artifacts	2026-11-14T04:49:44.3364572Z Uploaded bytes 41943040
+unsigned-windows	Retain unsigned binary artifacts	2026-11-14T04:49:44.3721502Z Uploaded bytes 50331648
+unsigned-windows	Retain unsigned binary artifacts	2026-11-14T04:49:44.5601437Z Uploaded bytes 58720256
+unsigned-windows	Retain unsigned binary artifacts	2026-11-14T04:49:44.6065862Z Uploaded bytes 67108864
+unsigned-windows	Retain unsigned binary artifacts	2026-11-14T04:49:44.6228382Z Uploaded bytes 75497472
+unsigned-windows	Retain unsigned binary artifacts	2026-11-14T04:49:44.6367320Z Uploaded bytes 83886080
+unsigned-windows	Retain unsigned binary artifacts	2026-11-14T04:49:44.9075317Z Uploaded bytes 92274688
+unsigned-windows	Retain unsigned binary artifacts	2026-11-14T04:49:44.9210703Z Uploaded bytes 100663296
+unsigned-windows	Retain unsigned binary artifacts	2026-11-14T04:49:44.9295984Z Uploaded bytes 109051904
+unsigned-windows	Retain unsigned binary artifacts	2026-11-14T04:49:44.9648510Z Uploaded bytes 117440512
+unsigned-windows	Retain unsigned binary artifacts	2026-11-14T04:49:45.2149546Z Uploaded bytes 125829120
+unsigned-windows	Retain unsigned binary artifacts	2026-11-14T04:49:45.2489098Z Uploaded bytes 134217728
+unsigned-windows	Retain unsigned binary artifacts	2026-11-14T04:49:45.2635468Z Uploaded bytes 142606336
+unsigned-windows	Retain unsigned binary artifacts	2026-11-14T04:49:45.2861203Z Uploaded bytes 150994944
+unsigned-windows	Retain unsigned binary artifacts	2026-11-14T04:49:45.4824463Z Uploaded bytes 159383552
+unsigned-windows	Retain unsigned binary artifacts	2026-11-14T04:49:45.5781960Z Uploaded bytes 167772160
+unsigned-windows	Retain unsigned binary artifacts	2026-11-14T04:49:45.5965995Z Uploaded bytes 176160768
+unsigned-windows	Retain unsigned binary artifacts	2026-11-14T04:49:45.6979966Z Uploaded bytes 184549376
+unsigned-windows	Retain unsigned binary artifacts	2026-11-14T04:49:45.7469572Z Uploaded bytes 192937984
+unsigned-windows	Retain unsigned binary artifacts	2026-11-14T04:49:45.8367287Z Uploaded bytes 201326592
+unsigned-windows	Retain unsigned binary artifacts	2026-11-14T04:49:45.8515783Z Uploaded bytes 209715200
+unsigned-windows	Retain unsigned binary artifacts	2026-11-14T04:49:45.9387404Z Uploaded bytes 218103808
+unsigned-windows	Retain unsigned binary artifacts	2026-11-14T04:49:46.0225963Z Uploaded bytes 226492416
+unsigned-windows	Retain unsigned binary artifacts	2026-11-14T04:49:46.1428270Z Uploaded bytes 234881024
+unsigned-windows	Retain unsigned binary artifacts	2026-11-14T04:49:46.1687290Z Uploaded bytes 243269632
+unsigned-windows	Retain unsigned binary artifacts	2026-11-14T04:49:46.1952834Z Uploaded bytes 251658240
+unsigned-windows	Retain unsigned binary artifacts	2026-11-14T04:49:47.7870646Z Uploaded bytes 260046848
+unsigned-windows	Retain unsigned binary artifacts	2026-11-14T04:49:47.9471116Z Uploaded bytes 264282039
+unsigned-windows	Retain unsigned binary artifacts	2026-11-14T04:49:48.0169130Z Finished uploading artifact content to blob storage!
+unsigned-windows	Retain unsigned binary artifacts	2026-11-14T04:49:48.0173840Z SHA256 digest of uploaded artifact is d06d65e3bd49f3366eb9596bda050ca9966374f43ccd821414ce74960df7fe42
+unsigned-windows	Retain unsigned binary artifacts	2026-11-14T04:49:48.0177198Z Finalizing artifact upload
+unsigned-windows	Retain unsigned binary artifacts	2026-11-14T04:49:48.5388890Z Artifact unsigned-windows-package successfully finalized. Artifact ID 14099865575
+unsigned-windows	Retain unsigned binary artifacts	2026-11-14T04:49:48.5389861Z Artifact unsigned-windows-package has been successfully uploaded! Final size is 264282039 bytes. Artifact ID is 14099865575
+unsigned-windows	Retain unsigned binary artifacts	2026-11-14T04:49:48.5399796Z Artifact download URL: https://github.com/tanzir71/saydraft/actions/runs/43558065969/artifacts/14099865575
+unsigned-windows	Retain package verification receipts	﻿2026-11-14T04:49:48.5828120Z ##[group]Run actions/upload-artifact@v7
+unsigned-windows	Retain package verification receipts	2026-11-14T04:49:48.5828480Z with:
+unsigned-windows	Retain package verification receipts	2026-11-14T04:49:48.5828687Z   name: windows-package-receipts
+unsigned-windows	Retain package verification receipts	2026-11-14T04:49:48.5828947Z   if-no-files-found: warn
+unsigned-windows	Retain package verification receipts	2026-11-14T04:49:48.5829619Z   path: D:\a\_temp\saydraft-package/audit/*
+unsigned-windows	Retain package verification receipts	D:\a\_temp\saydraft-package/work/Saydraft/Analysis-00.toc
+unsigned-windows	Retain package verification receipts	D:\a\_temp\saydraft-package/work/Saydraft/warn-Saydraft.txt
+unsigned-windows	Retain package verification receipts	
+unsigned-windows	Retain package verification receipts	2026-11-14T04:49:48.5830311Z   compression-level: 6
+unsigned-windows	Retain package verification receipts	2026-11-14T04:49:48.5830526Z   overwrite: false
+unsigned-windows	Retain package verification receipts	2026-11-14T04:49:48.5830737Z   include-hidden-files: false
+unsigned-windows	Retain package verification receipts	2026-11-14T04:49:48.5830966Z   archive: true
+unsigned-windows	Retain package verification receipts	2026-11-14T04:49:48.5831157Z env:
+unsigned-windows	Retain package verification receipts	2026-11-14T04:49:48.5831320Z   HF_HUB_OFFLINE: 1
+unsigned-windows	Retain package verification receipts	2026-11-14T04:49:48.5831515Z   HF_HUB_DISABLE_TELEMETRY: 1
+unsigned-windows	Retain package verification receipts	2026-11-14T04:49:48.5831736Z   DO_NOT_TRACK: 1
+unsigned-windows	Retain package verification receipts	2026-11-14T04:49:48.5831928Z   QT_QPA_PLATFORM: offscreen
+unsigned-windows	Retain package verification receipts	2026-11-14T04:49:48.5832232Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.13.17\x64
+unsigned-windows	Retain package verification receipts	2026-11-14T04:49:48.5832684Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.13.17\x64/lib/pkgconfig
+unsigned-windows	Retain package verification receipts	2026-11-14T04:49:48.5833189Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+unsigned-windows	Retain package verification receipts	2026-11-14T04:49:48.5833594Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+unsigned-windows	Retain package verification receipts	2026-11-14T04:49:48.5834000Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+unsigned-windows	Retain package verification receipts	2026-11-14T04:49:48.5834375Z   SAYDRAFT_PACKAGE_ROOT: D:\a\_temp\saydraft-package
+unsigned-windows	Retain package verification receipts	2026-11-14T04:49:48.5834658Z ##[endgroup]
+unsigned-windows	Retain package verification receipts	2026-11-14T04:49:48.7636736Z Multiple search paths detected. Calculating the least common ancestor of all paths
+unsigned-windows	Retain package verification receipts	2026-11-14T04:49:48.7640201Z The least common ancestor is D:\a\_temp\saydraft-package. This will be the root directory of the artifact
+unsigned-windows	Retain package verification receipts	2026-11-14T04:49:48.7640860Z With the provided path, there will be 18 files uploaded
+unsigned-windows	Retain package verification receipts	2026-11-14T04:49:48.7645288Z Artifact name is valid!
+unsigned-windows	Retain package verification receipts	2026-11-14T04:49:48.7646705Z Root directory input is valid!
+unsigned-windows	Retain package verification receipts	2026-11-14T04:49:49.1314819Z Uploading artifact: windows-package-receipts.zip
+unsigned-windows	Retain package verification receipts	2026-11-14T04:49:49.1357805Z Beginning upload of artifact content to blob storage
+unsigned-windows	Retain package verification receipts	2026-11-14T04:49:49.7426619Z Uploaded bytes 275033
+unsigned-windows	Retain package verification receipts	2026-11-14T04:49:49.8138084Z Finished uploading artifact content to blob storage!
+unsigned-windows	Retain package verification receipts	2026-11-14T04:49:49.8140579Z SHA256 digest of uploaded artifact is b360c5ed1e38db828ac2eccf1fd31ae166e6f0fa3f15ec4531606a00a07f6c92
+unsigned-windows	Retain package verification receipts	2026-11-14T04:49:49.8141413Z Finalizing artifact upload
+unsigned-windows	Retain package verification receipts	2026-11-14T04:49:50.3390094Z Artifact windows-package-receipts successfully finalized. Artifact ID 14099177138
+unsigned-windows	Retain package verification receipts	2026-11-14T04:49:50.3391216Z Artifact windows-package-receipts has been successfully uploaded! Final size is 275033 bytes. Artifact ID is 14099177138
+unsigned-windows	Retain package verification receipts	2026-11-14T04:49:50.3400150Z Artifact download URL: https://github.com/tanzir71/saydraft/actions/runs/43558065969/artifacts/14099177138
+unsigned-windows	Post Run actions/setup-python@v7	﻿2026-11-14T04:49:50.3764807Z Post job cleanup.
+unsigned-windows	Post Run actions/checkout@v7	﻿2026-11-14T04:49:50.5503075Z Post job cleanup.
+unsigned-windows	Post Run actions/checkout@v7	2026-11-14T04:49:50.7581485Z [command]"C:\Program Files\Git\bin\git.exe" version
+unsigned-windows	Post Run actions/checkout@v7	2026-11-14T04:49:50.7930911Z git version 2.56.0.windows.4
+unsigned-windows	Post Run actions/checkout@v7	2026-11-14T04:49:50.8005745Z Temporarily overriding HOME='D:\a\_temp\a6547f73-6155-44b0-ae19-3b5d143eab5e' before making global git config changes
+unsigned-windows	Post Run actions/checkout@v7	2026-11-14T04:49:50.8006883Z Adding repository directory to the temporary git global config as a safe directory
+unsigned-windows	Post Run actions/checkout@v7	2026-11-14T04:49:50.8016763Z [command]"C:\Program Files\Git\bin\git.exe" config --global --add safe.directory D:\a\saydraft\saydraft
+unsigned-windows	Post Run actions/checkout@v7	2026-11-14T04:49:50.8399935Z Removing SSH command configuration
+unsigned-windows	Post Run actions/checkout@v7	2026-11-14T04:49:50.8411153Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+unsigned-windows	Post Run actions/checkout@v7	2026-11-14T04:49:50.8803708Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+unsigned-windows	Post Run actions/checkout@v7	2026-11-14T04:49:51.4564349Z Removing HTTP extra header
+unsigned-windows	Post Run actions/checkout@v7	2026-11-14T04:49:51.4574980Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+unsigned-windows	Post Run actions/checkout@v7	2026-11-14T04:49:51.4995922Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+unsigned-windows	Post Run actions/checkout@v7	2026-11-14T04:49:52.0755607Z Removing includeIf entries pointing to credentials config files
+unsigned-windows	Post Run actions/checkout@v7	2026-11-14T04:49:52.0767258Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp ^includeIf\.gitdir:
+unsigned-windows	Post Run actions/checkout@v7	2026-11-14T04:49:52.1144368Z includeif.gitdir:D:/a/saydraft/saydraft/.git.path
+unsigned-windows	Post Run actions/checkout@v7	2026-11-14T04:49:52.1145180Z includeif.gitdir:D:/a/saydraft/saydraft/.git/worktrees/*.path
+unsigned-windows	Post Run actions/checkout@v7	2026-11-14T04:49:52.1145787Z includeif.gitdir:/github/workspace/.git.path
+unsigned-windows	Post Run actions/checkout@v7	2026-11-14T04:49:52.1146360Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+unsigned-windows	Post Run actions/checkout@v7	2026-11-14T04:49:52.1199132Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:D:/a/saydraft/saydraft/.git.path
+unsigned-windows	Post Run actions/checkout@v7	2026-11-14T04:49:52.1568101Z D:\a\_temp\git-credentials-afa56f2e-c581-43fb-972a-19091098af1c.config
+unsigned-windows	Post Run actions/checkout@v7	2026-11-14T04:49:52.1617411Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:D:/a/saydraft/saydraft/.git.path D\:\\a\\_temp\\git\-credentials\-afa56f2e\-c581\-43fb\-972a\-19091098af1c\.config
+unsigned-windows	Post Run actions/checkout@v7	2026-11-14T04:49:52.2061974Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:D:/a/saydraft/saydraft/.git/worktrees/*.path
+unsigned-windows	Post Run actions/checkout@v7	2026-11-14T04:49:52.2419364Z D:\a\_temp\git-credentials-afa56f2e-c581-43fb-972a-19091098af1c.config
+unsigned-windows	Post Run actions/checkout@v7	2026-11-14T04:49:52.2473434Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:D:/a/saydraft/saydraft/.git/worktrees/*.path D\:\\a\\_temp\\git\-credentials\-afa56f2e\-c581\-43fb\-972a\-19091098af1c\.config
+unsigned-windows	Post Run actions/checkout@v7	2026-11-14T04:49:52.2888423Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:/github/workspace/.git.path
+unsigned-windows	Post Run actions/checkout@v7	2026-11-14T04:49:52.3226850Z /github/runner_temp/git-credentials-afa56f2e-c581-43fb-972a-19091098af1c.config
+unsigned-windows	Post Run actions/checkout@v7	2026-11-14T04:49:52.3269392Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-afa56f2e\-c581\-43fb\-972a\-19091098af1c\.config
+unsigned-windows	Post Run actions/checkout@v7	2026-11-14T04:49:52.3647357Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+unsigned-windows	Post Run actions/checkout@v7	2026-11-14T04:49:52.3986026Z /github/runner_temp/git-credentials-afa56f2e-c581-43fb-972a-19091098af1c.config
+unsigned-windows	Post Run actions/checkout@v7	2026-11-14T04:49:52.4028729Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-afa56f2e\-c581\-43fb\-972a\-19091098af1c\.config
+unsigned-windows	Post Run actions/checkout@v7	2026-11-14T04:49:52.4410432Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "git config --local --show-origin --name-only --get-regexp remote.origin.url"
+unsigned-windows	Post Run actions/checkout@v7	2026-11-14T04:49:53.0172111Z Removing credentials config 'D:\a\_temp\git-credentials-afa56f2e-c581-43fb-972a-19091098af1c.config'
+unsigned-windows	Complete job	﻿2026-11-14T04:49:53.0371162Z Cleaning up orphan processes
