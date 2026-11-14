@@ -53,8 +53,9 @@ qualification are tracked separately:
 | Public website, setup guide, verified unsigned builds and opt-in update notices | Signing and release publication |
 
 Command Mode's selection guard, local edit client, replacement checks and separate
-Copy recovery windows are implemented. Recording, Labs/model admission and the
-clipboard-copy fallback remain in progress;
+Copy recovery windows are implemented. The experimental model now has separate
+Pro admission and exclusive ownership, preserving cleanup defaults. Recording,
+shortcut/setup wiring and the clipboard-copy fallback remain in progress;
 see the [implementation status](docs/COMMAND_MODE.md).
 
 See the [documentation index](docs/README.md) for individual features and the

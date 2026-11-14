@@ -17,10 +17,12 @@ def test_developer_recipes_stay_pinned_and_only_measured_choices_enter_app_catal
     for model in models:
         assert model["role"] == "cleanup_candidate" and model["status"] == "unselected"
         assert verify_file(ROOT / model["notice"]["path"], model["notice"])
-        if model["id"] in ("qwen35-08b-q4-k-m", "qwen35-2b-q4-k-m"):
+        if model["id"] in ("qwen35-08b-q4-k-m", "qwen35-2b-q4-k-m", "qwen35-4b-q4-k-m"):
             selected = get_model(model["id"])
             assert selected["role"] == "llm" and selected["revision"] == model["revision"]
             assert selected["files"][:2] == model["files"]
+            if model["id"] == "qwen35-4b-q4-k-m":
+                assert selected["tasks"] == ["command"]
         else:
             with pytest.raises(ValueError, match="No pinned download"):
                 get_model(model["id"])

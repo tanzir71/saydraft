@@ -3,13 +3,55 @@
 P7.1 remains in progress. The selected-target boundary, explicit local edit
 client/validator and guarded processing boundary, including bounded post-write
 confirmation, and independent Copy recovery windows are implemented. The shortcut/Labs
-and model admission, clipboard-copy fallback and instruction recording still need
+admission wiring, clipboard-copy fallback and instruction recording still need
 connecting to those boundaries. No Command Mode control is advertised as
 available in the app.
 
+## Command model ownership
+
+The app catalog now pins the measured **Qwen3.5 4B Q4_K_M** weights, card and
+Apache-2.0 notice for the experimental Command task. It is excluded from the
+cleanup picker; ordinary 0.8B/2B defaults remain unchanged. The choice follows
+the narrow 30-case native comparison below, rather than treating 2B's mechanical
+acceptance as proof that it preserves meaning.
+
+`command_choice()` requires the default-off `labs.command_mode` opt-in and Pro
+tier. Other tiers receive `needs_pro` before any installed-file or device access.
+The backend uses an explicit Command preference or the saved hardware report.
+`installed_command_config()` runs on a worker and fully verifies the command
+weights/card/license and runtime cache. Missing files return no configuration;
+only the separate explicit setup function downloads the displayed licensed
+package, with the existing pause/resume, staging and disk checks. There is no
+automatic download on opt-in, capture, language selection or inference.
+The model setup button and shortcut admission are not connected yet.
+
+`LocalLLMCleaner.command_session()` reserves one revocable editor independently
+of the ordinary cleanup enable setting. It closes/detaches the old preparation
+and manager before Command starts. Normal cleanup/warm/review calls are refused
+during that reservation; a late old cleanup reply is discarded even if the
+Command session has already ended. Real managers share the existing process
+slot, so a replacement cannot launch until the prior process's exit is observed.
+Cancellation, startup failure and timeout close the temporary owner. No GUI
+thread joins a starter. Closing restores lazy ordinary cleanup; its next request
+constructs a fresh manager and prepares a fresh prefix. Repeated old-session
+closure cannot retire a successor. Synthetic tests cover both switch directions,
+pending process exit, concurrent closure and cancelled/late results.
+
+The native owner-switch probe uses an explicit private cache and authored text:
+
+```powershell
+python -m tools.probe_command_session --models-dir D:\QA\VerifiedAppCache --output D:\QA\CommandOwner-New
+```
+
+It checks cleanup preparation, exclusive 4B editing and fresh cleanup preparation
+without speech, foreground, clipboard, hooks or OS text input. This is component
+verification, not full Command Mode acceptance.
+
 ## Local edit and delivery boundaries
 
-`LocalLLMCleaner.edit_selection()` reuses the installed, serial sidecar. It has
+The lower `LocalLLMCleaner.edit_selection()` compatibility method reuses the
+ordinary installed, serial sidecar; the Command session exposes the same editor
+contract on its separately admitted model. Editing has
 an explicit 45-second editing deadline, separate from the normal 800-ms cleanup
 budget. Cold/busy/unavailable requests return their state, without substituting
 the spoken instruction. No model download or speech-language setting is changed.

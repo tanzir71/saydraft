@@ -2,7 +2,7 @@
 
 import threading
 
-from .manifest import get_model, load_manifest
+from .manifest import get_model, load_manifest, supports_task
 from .runtime_ids import runtime_model_id
 from .storage_lock import storage_lock
 
@@ -11,7 +11,7 @@ _install_lock = threading.Lock()
 
 def cleanup_bundle(model_id, backend):
     model = get_model(model_id)
-    if model.get("role") != "llm":
+    if not supports_task(model, "cleanup"):
         raise ValueError("Choose a catalogued AI cleanup model")
     return [model, get_model(runtime_model_id(backend))]
 
@@ -31,12 +31,18 @@ def recommend_cleanup(report, config=None):
 
 
 def download_cleanup_model(model_id, backend, progress_callback=None, *, models_dir=None, pause_event=None):
+    return download_llm_bundle(cleanup_bundle(model_id, backend), progress_callback,
+                               models_dir=models_dir, pause_event=pause_event)
+
+
+def download_llm_bundle(package, progress_callback=None, *, models_dir=None, pause_event=None):
+    """Shared explicit installation for task-specific, already checked descriptors."""
     from saydraft.model_download import default_models_dir
     from .downloader import _check_pause, check_bundle_space, installation_ready
     from .installation import installation_target, install_files, transfer_directory
     from .packages import install_archive
 
-    model, runtime = cleanup_bundle(model_id, backend)
+    model, runtime = package
     root = default_models_dir(models_dir)
     total = transfer_bytes(model) + transfer_bytes(runtime)
     def progress(completed, size, value):

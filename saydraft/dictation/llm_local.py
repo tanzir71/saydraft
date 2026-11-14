@@ -49,12 +49,13 @@ class LocalLLMCleaner:
         self.cfg = cfg
         self._manager_factory, self._client_factory = manager_factory, client_factory
         self._manager = self._client = self._preparation = None
-        self._lock = threading.Lock()
+        self._lock = threading.RLock()
+        self._command = None
         self._closed = False
         self._clock, self.last_gate_info = clock, None
 
     def available(self) -> bool:
-        return bool(self.cfg.enabled and self.cfg.model_path and not self._closed)
+        return bool(self.cfg.enabled and self.cfg.model_path and not self._closed and self._command is None)
 
     @property
     def model_id(self):
@@ -70,18 +71,21 @@ class LocalLLMCleaner:
         """Explicit review may wait for preparation; live dictation never waits."""
         if cancelled() or not self.warm_for_context(context):
             return False
-        preparation = self._preparation
+        client, preparation = self._normal_owner()
+        if client is None:
+            return False
         if preparation is None:
-            return not cancelled() and bool(self._manager and self._manager.prepare())
+            ready = not cancelled() and client.manager.prepare()
+            return ready and not cancelled() and self._normal_current(client)
         deadline = time.monotonic() + timeout
-        while not cancelled() and not self._closed:
+        while not cancelled() and self._normal_current(client):
             remaining = deadline - time.monotonic()
             if remaining <= 0:
                 return False
             if preparation.wait(min(.1, remaining)):
                 hints = PromptHints(style=style_for(context).tone, intensity=style_for(context).intensity,
                     post_rules=True, app=context.app_title or "", group=context.app_group)
-                return not cancelled() and preparation.ready(hints)
+                return not cancelled() and self._normal_current(client) and preparation.ready(hints)
         return False
 
     def _get_client(self):
@@ -107,6 +111,47 @@ class LocalLLMCleaner:
                     self._preparation = PromptPreparation(client)
             return self._client
 
+    def _normal_owner(self):
+        with self._lock:
+            return self._get_client(), self._preparation
+
+    def _normal_current(self, client):
+        return not self._closed and self._command is None and self._client is client
+
+    def command_session(self, config, model_id):
+        """Reserve a separate admitted task even when ordinary cleanup is off.
+
+        The caller resolves the pinned command model and owns Labs/Pro admission.
+        Retired cleanup preparation cannot restart or publish a late candidate.
+        Real managers share PROCESS_SLOT, which requires observed old-process exit.
+        """
+        from .command_session import CommandModelSession
+        with self._lock:
+            if self._closed or self._command is not None:
+                return None
+            session = CommandModelSession(self, config, model_id,
+                manager_factory=self._manager_factory, clock=self._clock)
+            self._command = session
+            manager, preparation = self._manager, self._preparation
+            self._manager = self._client = self._preparation = None
+        try:
+            if preparation is not None:
+                preparation.close()
+            if manager is not None:
+                manager.close()
+        except Exception:
+            session.close()
+            return None
+        if not session._current():
+            session.close()
+            return None
+        return session
+
+    def _release_command(self, session):
+        with self._lock:
+            if self._command is session:
+                self._command = None
+
     def warm(self):
         return self._warm(PromptHints(post_rules=True))
 
@@ -120,16 +165,17 @@ class LocalLLMCleaner:
         if cancelled() or self._closed:
             return EditReply(None, "cancelled")
         try:
-            client = self._get_client()
+            client, preparation = self._normal_owner()
             if client is None:
-                return EditReply(None, "disabled")
+                return EditReply(None, "busy" if self._command is not None else "disabled")
             def invalidate():
                 client.invalidate_prefix()
-                if self._preparation is not None:
-                    self._preparation.invalidate()
+                if preparation is not None:
+                    preparation.invalidate()
             reply = EditClient(client.manager, clock=self._clock, invalidate=invalidate).edit(
-                selection, instruction, timeout=timeout, cancelled=lambda: cancelled() or self._closed)
-            return EditReply(None, "cancelled") if cancelled() or self._closed else reply
+                selection, instruction, timeout=timeout,
+                cancelled=lambda: cancelled() or not self._normal_current(client))
+            return EditReply(None, "cancelled") if cancelled() or not self._normal_current(client) else reply
         except Exception:
             logger.warning("Local edit unavailable; no replacement delivered")
             logger.debug("Local edit failure detail", exc_info=True)
@@ -145,9 +191,9 @@ class LocalLLMCleaner:
 
     def _warm(self, hints):
         try:
-            client = self._get_client()
-            return bool(client is not None and (self._preparation.request(hints) if self._preparation is not None
-                                                else client.manager.warm()))
+            client, preparation = self._normal_owner()
+            return bool(client is not None and (preparation.request(hints) if preparation is not None
+                        else client.manager.warm()) and self._normal_current(client))
         except Exception:
             return False
 
@@ -156,6 +202,9 @@ class LocalLLMCleaner:
             self._closed = True
             manager = self._manager
             preparation = self._preparation
+            command = self._command
+        if command is not None:
+            command.close()
         if manager is not None:
             manager.close()
         if preparation is not None:
@@ -163,27 +212,29 @@ class LocalLLMCleaner:
 
     def benchmark(self):
         """Called only by the explicit serial performance check, after ASR."""
-        client = self._get_client()
+        client, preparation = self._normal_owner()
         if client is None:
             return []
-        preparation = self._preparation
         # Startup, decoder calibration and prefix preparation each have a 60 s cap.
         if preparation is not None and not preparation.wait(185):
             raise RuntimeError("Cleanup preparation still running")
-        if self._closed or not client.manager.prepare():
+        if not self._normal_current(client) or not client.manager.prepare():
             raise RuntimeError("Cleanup model unavailable")
         if preparation is not None:
             preparation.invalidate()
         try:
-            return client.benchmark()
+            result = client.benchmark()
+            if not self._normal_current(client):
+                raise RuntimeError("Cleanup instance changed")
+            return result
         finally:
-            if preparation is not None and not self._closed:
+            if preparation is not None and self._normal_current(client):
                 preparation.request(PromptHints(post_rules=True))
 
     def _clean(self, text, hints, glossary=(), *, need=None, deadline=None):
         try:
             if not self.available():
-                return None, "disabled"
+                return None, "busy" if self._command is not None else "disabled"
             timeout = self.cfg.timeout_ms / 1000
             stop_at = None
             if need is not None:
@@ -194,11 +245,11 @@ class LocalLLMCleaner:
                     reason = "skip_low_need" if need.score < 2 else "skip_budget"
                     self._gate_log(decision(need, reason, remaining=timeout))
                     return None, reason
-            client = self._get_client()
+            client, preparation = self._normal_owner()
             if client is None:
                 return None, "disabled"
-            if self._preparation is not None and not self._preparation.ready(hints):
-                requested = self._preparation.request(hints)
+            if preparation is not None and not preparation.ready(hints):
+                requested = preparation.request(hints)
                 if need is not None:
                     self._gate_log(decision(need, "prompt_warming" if requested else "prompt_unprepared", remaining=timeout))
                 return None, "prompt_warming" if requested else "prompt_unprepared"
@@ -208,11 +259,13 @@ class LocalLLMCleaner:
                 info = getattr(reply, "gate", None) or decision(need, reply.reason,
                     remaining=max(0.0, stop_at - self._clock()))
                 self._gate_log({**info, "outcome": reply.reason})
-            if reply.reason == "skip_unprepared_prefix" and self._preparation is not None:
-                self._preparation.invalidate()
-                self._preparation.request(hints)
+            if reply.reason == "skip_unprepared_prefix" and preparation is not None and self._normal_current(client):
+                preparation.invalidate()
+                preparation.request(hints)
             if self._closed:
                 return None, "closed"
+            if not self._normal_current(client):
+                return None, "retired"
             return reply.text, reply.reason
         except Exception:
             return None, "unavailable"

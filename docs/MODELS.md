@@ -64,7 +64,11 @@ the weights' license. See [third-party notices](../THIRD_PARTY_NOTICES.md).
 
 Developer cleanup candidates have a separate [catalog and artifact table](CLEANUP_CANDIDATES.md).
 The two chosen Qwen 0.8B/2B pins now also appear in the app's explicit cleanup
-setup; the larger alternatives remain developer-only. Qwen Q4_K_M weights are
+setup. The measured 4B pin is catalogued separately for experimental Command
+editing; it leaves those cleanup defaults unchanged. Its admission/owner boundary
+is documented in [Command Mode](COMMAND_MODE.md#command-model-ownership); the
+shortcut and setup button are still pending. Gemma remains developer-only.
+Qwen Q4_K_M weights are
 0.58/1.40/3.01 GB; ggml-org Gemma Q4_0 weights are 2.84/4.59 GB, above the earlier
 Gemma estimates. Five-artifact quality and conditional manifest choices are
 recorded below; current-source policy and broad tier latency acceptance remain open.

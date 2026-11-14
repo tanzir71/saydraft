@@ -8,7 +8,7 @@ from PySide6 import QtCore, QtWidgets
 from saydraft.config import default_config
 from saydraft.model_download import download_cleanup_runtime
 from saydraft.models.cleanup import cleanup_bundle, download_cleanup_model, recommend_cleanup, transfer_bytes
-from saydraft.models.manifest import get_model, load_manifest
+from saydraft.models.manifest import get_model, load_manifest, supports_task
 from saydraft.models.runtime_ids import runtime_model_id
 from .download_task import DownloadTask, call_download
 from .progress import ThemedProgressBar
@@ -28,7 +28,7 @@ class CleanupPicker(QtWidgets.QWidget):
         self.combo.setAccessibleName("AI cleanup model")
         self.combo.addItem("Custom GGUF path", None)
         for model in load_manifest()["models"]:
-            if model.get("role") == "llm":
+            if supports_task(model, "cleanup"):
                 self.combo.addItem(model["label"], model["id"])
         self.backend = QtWidgets.QComboBox()
         self.backend.setAccessibleName("AI cleanup processor")

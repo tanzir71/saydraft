@@ -35,7 +35,8 @@ CONFIG_SCHEMA: dict[str, Any] = {
         "notification_duration": int,
         "onboarded": bool,
     },
-    "labs": {"live_preview": bool, "use_streaming_result": bool},
+    "labs": {"live_preview": bool, "use_streaming_result": bool, "command_mode": bool},
+    "command": {"backend": str},
     "updates": {"enabled": bool},
     "recording": {
         "input_device": str,
@@ -114,7 +115,8 @@ _DEFAULT_CONFIG: dict[str, Any] = {
         "notification_duration": 3,
         "onboarded": False,
     },
-    "labs": {"live_preview": False, "use_streaming_result": False},
+    "labs": {"live_preview": False, "use_streaming_result": False, "command_mode": False},
+    "command": {"backend": "auto"},
     "updates": {"enabled": False},
     "recording": {
         "input_device": "",
@@ -300,6 +302,8 @@ def sanitize_config(config: dict[str, Any] | None) -> dict[str, Any]:
     if not cfg["labs"]["live_preview"]:
         cfg["labs"]["use_streaming_result"] = False
     llm = cfg["llm"]
+    if cfg["command"]["backend"] not in ("auto", "cpu", "vulkan"):
+        cfg["command"]["backend"] = "auto"
     if llm["backend"] not in ("cpu", "vulkan"):
         llm["backend"] = "cpu"
     llm["n_ctx"] = max(256, min(65536, llm["n_ctx"]))

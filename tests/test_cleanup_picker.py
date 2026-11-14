@@ -36,6 +36,7 @@ def test_pro_recommendation_is_prefilled_without_transfer_or_config_change():
     picker = CleanupPicker(config, callback=lambda *args: calls.append(args),
         report={"assessment": {"tier": "pro"}, "vulkan": [{"name": "GPU"}]})
     assert picker.combo.currentData() == "qwen35-2b-q4-k-m"
+    assert picker.combo.findData("qwen35-4b-q4-k-m") == -1  # Command-only, not a cleanup promotion.
     assert picker.backend.currentData() == "vulkan" and not calls and config == before
     package = cleanup_bundle(picker.combo.currentData(), "vulkan")
     size = sum(transfer_bytes(model) for model in package) / 1e6

@@ -122,6 +122,11 @@ def load_manifest(path: Path | None = None) -> dict:
                 raise ValueError("model files require unique safe names, sizes and SHA-256 checksums")
             paths.add(file["path"].casefold())
     by_id = {model["id"]: model for model in data["models"]}
+    for model in data["models"]:
+        if "tasks" in model and (model.get("role") != "llm" or not isinstance(model["tasks"], list)
+                or not model["tasks"] or any(task not in ("cleanup", "command") for task in model["tasks"])
+                or len(set(model["tasks"])) != len(model["tasks"])):
+            raise ValueError("LLM tasks must be unique supported task names")
     checked = set()
 
     def check_dependencies(model_id, visiting):
@@ -142,9 +147,17 @@ def load_manifest(path: Path | None = None) -> dict:
     defaults = data.get("cleanup_defaults")
     if defaults is not None and (not isinstance(defaults, dict) or set(defaults) != {"lite", "standard", "pro"}
             or defaults["lite"] is not None or any(not isinstance(defaults[tier], str)
-                or by_id.get(defaults[tier], {}).get("role") != "llm" for tier in ("standard", "pro"))):
+                or not supports_task(by_id.get(defaults[tier], {}), "cleanup") for tier in ("standard", "pro"))):
         raise ValueError("Cleanup defaults require rules-only Lite and catalogued Standard/Pro models")
+    if "command_model" in data and (not isinstance(data["command_model"], str)
+            or not supports_task(by_id.get(data["command_model"], {}), "command")):
+        raise ValueError("Command Mode requires a catalogued command model")
     return data
+
+
+def supports_task(model, task):
+    """Legacy app LLM entries are cleanup choices; command selection is explicit."""
+    return model.get("role") == "llm" and task in model.get("tasks", ["cleanup"])
 
 
 def get_model(model_id: str) -> dict:
