@@ -12,6 +12,12 @@
 .guide-related ul { display: flex; gap: 12px 24px; flex-wrap: wrap; list-style: none; padding-left: 0; }
 .guide-related a { font-size: 13px; }
 .guide-sources li { font-size: 13px; margin-bottom: 10px; }
+.docs-navigation { margin-bottom: 32px; }
+.docs-navigation ul { display: flex; flex-wrap: wrap; gap: 8px 20px; list-style: none; padding: 0; margin: 0; }
+.docs-navigation li { margin: 0; font-size: 13px; line-height: 1.6; }
+.docs-navigation a[aria-current='page'] { font-weight: 600; text-decoration-thickness: 2px; }
+.guide-copy pre { max-width: 100%; }
+.guide-copy h2 { scroll-margin-top: 30px; }
 @media (max-width: 600px) {
   .guide-copy th, .guide-copy td { padding: 12px 7px; font-size: 12px; }
   .guide-next { padding: 24px; }

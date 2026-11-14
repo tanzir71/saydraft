@@ -1,0 +1,52 @@
+---
+title: "Saydraft FAQ — Offline Dictation Questions Answered"
+description: "Answers about offline Windows dictation, local models, Spanish and Asian languages, privacy, cleanup, History and Saydraft's experimental tools."
+heading: "Saydraft questions, answered."
+emphasis: "answered."
+eyebrow: "A few useful answers"
+verified: "2026-11-14"
+sources:
+  - label: "Current feature and release status"
+    url: "https://github.com/tanzir71/saydraft/blob/main/readme.md"
+  - label: "Speech language coverage and accuracy limits"
+    url: "https://github.com/tanzir71/saydraft/blob/main/docs/LANGUAGES.md"
+  - label: "Privacy and explicit network actions"
+    url: "https://github.com/tanzir71/saydraft/blob/main/docs/PRIVACY.md"
+faqs:
+  - q: "Is Saydraft free?"
+    a: "Yes. Saydraft's own code is free and open source under MIT. Models, fonts, libraries and adapted data retain their separate licenses."
+  - q: "Do I need an account or subscription?"
+    a: "No. The app uses local models without an account. Lite, Standard and Pro describe local hardware/performance profiles, not paid plans."
+  - q: "Can I dictate without internet?"
+    a: "Yes, with compatible models installed first. Download setup is explicit and optional update checks are off by default. Missing model files are not fetched during recognition."
+  - q: "Are Spanish and Brazilian Portuguese included?"
+    a: "Both are covered by Parakeet v3 and the shared All languages model. Portuguese uses pt, including Brazil; this is coverage rather than a claim of verified accuracy for every accent."
+  - q: "What about Arabic, Bengali, Chinese, Japanese, Korean and Thai?"
+    a: "They use the optional shared All languages model. Filipino/Tagalog, Hindi, Indonesian, Malay, Persian, Tamil, Telugu, Urdu and Vietnamese also use that shared route. There are no per-language packs."
+  - q: "Will it get every word right?"
+    a: "No. Accuracy varies by language, model, accent and recording conditions. The public baseline exposes substantial Bengali, Tamil and Telugu errors. Review names, numbers and technical terms before using a draft."
+  - q: "Do I need an AI cleanup model?"
+    a: "No. Deterministic cleanup rules work without a text model. Optional local AI needs its own model/runtime and can retain the rules result when unready, out of budget or rejected."
+  - q: "Is Whisper mode a different speech model?"
+    a: "No. The experimental Microphone setting boosts quiet speech with gain, AGC and optional local enhancement. It works before the selected recognizer; its whispered-speech accuracy target remains unmeasured."
+  - q: "Are recordings kept?"
+    a: "Audio retention is off by default. History stores recognized and processed text locally; choosing to retain audio is separate. Practice in setup stays in memory and creates no History entry."
+  - q: "Does the website listen to me?"
+    a: "No. Its examples are canned visual simulations with no microphone access, tracking analytics or third-party font requests."
+---
+import SiteLink from '../../components/SiteLink.astro';
+
+## Start with a setup that fits
+
+Use <SiteLink path="docs/getting-started/">Getting started</SiteLink> for the
+first run, then review <SiteLink path="docs/models/">models</SiteLink> and
+<SiteLink path="docs/languages/">language compatibility</SiteLink>.
+Saydraft's current app target is Windows 10 and 11, and it remains in development.
+
+## Find more detail
+
+For saved data, network exceptions and clipboard boundaries, read
+<SiteLink path="privacy/">Privacy</SiteLink>. For input or delivery issues, use
+<SiteLink path="docs/troubleshooting/">Troubleshooting</SiteLink>.
+The questions below summarize those guides; the linked source records contain
+the implementation and measured limits.

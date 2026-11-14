@@ -60,16 +60,20 @@ test('native navigation, questions, and reduced-motion simulation work', async (
   if (await menu.isVisible()) { await menu.click(); await expect(page.getByRole('link', { name: 'Features', exact: true })).toBeVisible(); }
   await page.getByRole('navigation', { name: 'Main navigation' }).getByRole('link', { name: 'Get Saydraft' }).click();
   await expect(page).toHaveURL(/\/saydraft\/download\/$/);
-  await expect(page.getByText('Saydraft is in development.', { exact: false })).toBeVisible();
+  await expect(page.locator('.notice')).toContainText('Saydraft is in development.');
 });
 
 test('all public pages have working local links and unique metadata', async ({ page, request }) => {
   const pages = publicPages;
   const titles = new Set<string>();
   const descriptions = new Set<string>();
+  const headings = new Set<string>();
   for (const path of pages) {
     await page.goto(`./${path}`);
     await expect(page.getByRole('heading', { level: 1 })).toHaveCount(1);
+    const heading = (await page.getByRole('heading', { level: 1 }).innerText()).trim();
+    expect(heading.length).toBeGreaterThan(0);
+    headings.add(heading);
     titles.add(await page.title());
     descriptions.add(await page.locator('meta[name="description"]').getAttribute('content') ?? '');
     expect(await page.locator('link[rel="canonical"]').getAttribute('href')).toBe(`https://tanzir71.github.io/saydraft/${path}`);
@@ -80,6 +84,7 @@ test('all public pages have working local links and unique metadata', async ({ p
   }
   expect(titles.size).toBe(pages.length);
   expect(descriptions.size).toBe(pages.length);
+  expect(headings.size).toBe(pages.length);
 });
 
 test('guide keyboard navigation exposes the skip link and reaches main content', async ({ page }) => {

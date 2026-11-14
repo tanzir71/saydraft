@@ -120,3 +120,7 @@ is byte-identical to the Lighthouse-tested output. Its standard-library verifier
 checks the committed source and snapshots, raw reports and optional actual build
 directories. This accepts P9.2; the other original website milestones and hosted
 publication remain open.
+
+That qualification is frozen against its recorded source. Run its source verifier
+on that revision; later content changes require their own evidence. The
+[documentation migration](SITE_DOCS.md) describes the next content checkpoint.

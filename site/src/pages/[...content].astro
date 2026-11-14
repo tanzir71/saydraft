@@ -1,0 +1,21 @@
+---
+import { getCollection } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import Content from '../layouts/Content.astro';
+import { contentRoutes } from '../data/guides';
+
+export async function getStaticPaths() {
+  const collections = await Promise.all([getCollection('compare'), getCollection('guides'), getCollection('docs'), getCollection('pages')]);
+  const entries = collections.flat();
+  const routes = new Map(contentRoutes.map((route) => [`${route.collection}/${route.id}`, route]));
+  if (routes.size !== contentRoutes.length || new Set(contentRoutes.map(({ slug }) => slug)).size !== routes.size
+    || entries.length !== routes.size || entries.some((entry) => !routes.has(`${entry.collection}/${entry.id}`))) {
+    throw new Error('Every dated content entry must have one unique public route and sitemap entry');
+  }
+  return entries.map((entry) => ({ params: { content: routes.get(`${entry.collection}/${entry.id}`)!.slug }, props: { entry } }));
+}
+interface Props { entry: CollectionEntry<'compare' | 'guides' | 'docs' | 'pages'>; }
+const { entry } = Astro.props;
+const path = contentRoutes.find((route) => route.collection === entry.collection && route.id === entry.id)!.slug;
+---
+<Content entry={entry} path={path} />

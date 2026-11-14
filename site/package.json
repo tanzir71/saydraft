@@ -11,7 +11,7 @@
     "tokens": "node ../tools/generate_tokens.mjs",
     "tokens:check": "node ../tools/generate_tokens.mjs --check",
     "content:check": "node tools/check-content-dates.mjs",
-    "content:test": "node --test tools/content-verification.test.mjs tools/releases.test.mjs tools/html-validation.test.mjs",
+    "content:test": "node --test tools/content-verification.test.mjs tools/releases.test.mjs tools/html-validation.test.mjs tools/model-downloads.test.mjs",
     "build": "npm run tokens:check && npm run content:check && astro check && astro build",
     "preview": "astro preview --host 127.0.0.1",
     "test": "playwright test",

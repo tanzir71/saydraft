@@ -1,4 +1,4 @@
-import { guideRoutes } from './guides';
+import { contentRoutes } from './guides';
 
 /** Speech coverage, not translated UI locales or language-specific accuracy scores. */
 const languageCatalog = [
@@ -197,7 +197,7 @@ const languageCatalog = [
 export const languages = [...languageCatalog].sort((a, b) => a.name.localeCompare(b.name, 'en'));
 
 export const publicPages = [
-  '', 'download/', 'docs/getting-started/', 'privacy/', 'credits/', 'languages/',
+  '', 'languages/',
   ...languages.map(({ slug }) => `languages/${slug}/`),
-  ...guideRoutes.map(({ slug }) => `${slug}/`),
+  ...contentRoutes.map(({ slug }) => `${slug}/`),
 ];

@@ -1,12 +1,12 @@
 # Saydraft website
 
-The Astro site in `site/` now builds thirty-three static pages, including nineteen
-language guides, their overview and eight dated content pages.
+The Astro site in `site/` now builds forty-three static pages, including nineteen
+language guides, their overview and twenty-two dated MDX content pages.
 This is an early P9 foundation, brought forward at the owner's request. The
 approved §9 tokens are shared through `design/tokens.json`; the dependency-free
 generator emits CSS and light/dark Qt QSS. Qt installation and the initial gallery
 are described in `docs/THEME.md`. The full component library is implemented;
-remaining MDX docs, demo port, schema, launch assets and final P9 acceptance
+remaining demo port, schema, launch assets and final P9 acceptance
 remain open. See [the component library](SITE_COMPONENTS.md) for its 23 components,
 71 Storybook states, three-width baselines and static page integrations.
 
@@ -30,7 +30,7 @@ Translate-mode output targets.
 The twenty language pages render as static HTML with unique titles/descriptions/H1s,
 canonical URLs, breadcrumbs and WebPage structured data on individual guides.
 Home includes SoftwareApplication metadata describing the same model coverage.
-`sitemap.xml` enumerates all thirty-three public HTML pages; the shared head links to it.
+`sitemap.xml` enumerates all forty-three public HTML pages; the shared head links to it.
 No search-ranking claim, fabricated release, review rating or alternate-language
 page is added. Additional technical SEO and original P9 acceptance remain open.
 The getting-started page follows the current setup order: microphone, model
@@ -106,7 +106,8 @@ requests and the 60 KB gzip JavaScript budget. Initial viewport captures are als
 attached to its report. Linux users can run functional checks with a local
 baseline; visual CI runs on Windows to match the committed baseline platform.
 
-Lighthouse uses three mobile runs on Home/Download/Privacy and the Wispr/offline guides with the planned
+Lighthouse uses three mobile runs on Home/Download/Privacy, the Wispr/offline guides,
+Local models and Verify offline with the planned
 performance/accessibility/SEO, LCP and CLS budgets. Reports stay local or in CI
 artifacts; they are never uploaded to a public temporary report service.
 

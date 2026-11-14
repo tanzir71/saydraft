@@ -1,0 +1,1 @@
+export const sourceCommands = 'git clone https://github.com/tanzir71/saydraft.git\ncd saydraft\npy -3.13 -m venv .venv\n.venv\\Scripts\\python -m pip install -r requirements.txt\n.venv\\Scripts\\python -m saydraft';

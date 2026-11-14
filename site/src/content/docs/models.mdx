@@ -1,0 +1,86 @@
+---
+title: "Saydraft Local Models — Parakeet, Whisper and Cleanup"
+description: "Compare Saydraft's local speech and cleanup models, pinned download sizes, licenses, explicit setup, cached reuse and optional quiet-speech enhancement."
+heading: "Choose your local models."
+eyebrow: "A model for the job"
+verified: "2026-11-14"
+sources:
+  - label: "Current model choices and setup behavior"
+    url: "https://github.com/tanzir71/saydraft/blob/main/docs/MODELS.md"
+  - label: "Pinned artifact catalog"
+    url: "https://github.com/tanzir71/saydraft/blob/main/saydraft/models/manifest.json"
+  - label: "Hardware/performance checks"
+    url: "https://github.com/tanzir71/saydraft/blob/main/docs/HARDWARE.md"
+faqs:
+  - q: "Is a larger download always better?"
+    a: "No. Compatibility, accuracy and speed depend on the language, recording and hardware. The larger decoder candidates have not established a universal improvement, and measured release-latency work remains open."
+  - q: "Are Lite, Standard and Pro subscriptions?"
+    a: "No. They are local hardware/performance profiles in the free, open-source app. Experimental editing needs Pro and its explicitly installed model/runtime."
+---
+import SiteLink from '../../components/SiteLink.astro';
+import { speechDownloads, editingDownloads } from '../../data/model-downloads';
+
+## Speech and cleanup are separate stages
+
+The speech model turns audio into words. Deterministic rules can format those
+words; an optional text model can make further edits within its time and
+preservation checks. Choosing an AI cleanup model does not replace the speech
+model, and better prose does not prove better recognition.
+
+## Pick a compatible speech model
+
+Fresh profiles recommend Parakeet v3 int8, with its disclosed tiny Whisper
+language detector. It recognizes 25 European languages, including English,
+French, German, Spanish and Portuguese. English max uses Parakeet v2.
+
+All languages uses the shared Whisper large-v3-turbo model for the other supported
+language choices. Whisper base, small and medium are alternative local options.
+Use <SiteLink path="docs/languages/">language pins and model compatibility</SiteLink>
+to choose a route for the words you actually dictate.
+
+<table data-model-table="speech"><thead><tr><th scope="col">Speech model or package</th><th scope="col">Transfer</th><th scope="col">License</th></tr></thead><tbody>{speechDownloads.map((model) => <tr data-model-id={model.id}><th scope="row"><a href={model.source}>{model.name}</a></th><td>{model.mb} MB</td><td>{model.license}</td></tr>)}</tbody></table>
+
+Sizes are calculated from the pinned catalog at build time, with dependency
+deduplication and bundled notices excluded from network transfer. MB means
+1,000,000 bytes. Existing verified files and resumable partials can reduce the
+remaining transfer. Installed disk use and temporary space are separate.
+
+## Install explicitly, then reuse offline
+
+Setup shows the recommendation, complete package size, source and license before
+**Download / Resume**. Pause is available. Downloaded files are verified before
+they are ready, and later launches reuse the installed models offline. Choosing
+a language, enabling a feature or starting recognition does not fetch missing files.
+
+Settings → Models provides installation/storage status and selected-model
+performance checks. Existing local Whisper paths have a compatibility route;
+a successful local load is distinct from catalog checksum verification.
+
+## Optional AI cleanup and editing
+
+Rules-only cleanup needs no text model. Optional Qwen cleanup weights and a
+compatible llama.cpp CPU or Vulkan runtime add separate transfers. Command,
+Translate and Ask share an experimental editing setup with a 4B model; downloading
+it does not enable any of those features or change ordinary speech settings.
+
+<table data-model-table="editing"><thead><tr><th scope="col">Optional model/runtime</th><th scope="col">Transfer</th><th scope="col">License</th></tr></thead><tbody>{editingDownloads.map((model) => <tr data-model-id={model.id}><th scope="row"><a href={model.source}>{model.name}</a></th><td>{model.mb} MB</td><td>{model.license}</td></tr>)}</tbody></table>
+
+Runtime choice and model preparation affect latency and memory. A capability
+recommendation is provisional; an installed-model check is a measurement of that
+test workload, not a promise for every recording. Quality and release-latency
+qualification remain separate.
+
+## Quiet speech and live preview
+
+Settings → Microphone has an experimental, default-off **Whisper mode** for quiet
+speech: gain, AGC, a more sensitive speech-detection profile and optional local
+GTCRN enhancement. Its name does not select the Whisper ASR model. GTCRN setup
+is an explicit reviewed download; gain/AGC can be used without enhancement.
+The owner whispered-speech accuracy target is still unmeasured.
+
+Live preview is another separate Labs model/setup choice. Its current model is
+English-specific. In quiet-speech mode, live partials keep their original signal
+while enhanced primary recognition supplies final text.
+
+See <SiteLink path="docs/styles/">styles</SiteLink> for cleanup control and
+<SiteLink path="credits/">credits</SiteLink> for the full attribution boundaries.

@@ -9,14 +9,14 @@ shortcut, speak, and release to transcribe, clean up, and insert text into the
 focused app. Speech recognition, cleanup, and History run on your computer;
 dictation has no cloud fallback or subscription.
 
-Dictate in **Thai, Chinese (Mandarin), Korean, Japanese, Hindi, Urdu, Indonesian,
-Malay, Spanish and Brazilian Portuguese**, alongside Bengali and Arabic. Highlighted
-choices also include **Vietnamese, Filipino / Tagalog, Tamil, Telugu, Persian, French
-and German** with compatible local speech models. See the
+Highlighted speech languages, in alphabetical order: **Arabic, Bengali, Chinese
+(Mandarin), Filipino / Tagalog, French, German, Hindi, Indonesian, Japanese,
+Korean, Malay, Persian, Portuguese (including Brazilian Portuguese), Spanish,
+Tamil, Telugu, Thai, Urdu and Vietnamese**, with compatible local models. See the
 [language guide](docs/LANGUAGES.md) for coverage and setup.
 
 [Website](https://tanzir71.github.io/saydraft/) ·
-[Getting started](https://tanzir71.github.io/saydraft/docs/getting-started/) ·
+[User guides](https://tanzir71.github.io/saydraft/docs/) ·
 [Documentation](docs/README.md) · [Contributing](CONTRIBUTING.md)
 
 Explore the [offline dictation guide](https://tanzir71.github.io/saydraft/offline-dictation-windows/),
@@ -318,6 +318,9 @@ For development setup and checks, read [CONTRIBUTING.md](CONTRIBUTING.md).
 methods, Windows acceptance checks, and the website workflow.
 The [website component guide](docs/SITE_COMPONENTS.md) covers the 23 reusable
 components, 71 Storybook states and responsive visual checks.
+The [documentation guide](docs/SITE_DOCS.md) covers the dated user-guide routes,
+shared model-size tables and local content verification. Website changes are
+validated locally and pushed; hosted publication is a separate step.
 Report reproducible problems in [GitHub Issues](https://github.com/tanzir71/saydraft/issues)
 with redacted logs and your source version; keep private recordings and transcripts out
 of public reports.

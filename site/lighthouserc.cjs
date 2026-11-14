@@ -6,7 +6,7 @@ module.exports = {
     collect: {
       startServerCommand: `npm run preview -- --port ${port}`,
       startServerReadyPattern: 'ready in',
-      url: ['/', '/download/', '/privacy/', '/wispr-flow-alternative/', '/offline-dictation-windows/'].map((path) => `${origin}/saydraft${path}`),
+      url: ['/', '/download/', '/privacy/', '/wispr-flow-alternative/', '/offline-dictation-windows/', '/docs/models/', '/docs/privacy/verify-offline/'].map((path) => `${origin}/saydraft${path}`),
       numberOfRuns: 3,
       settings: { chromeFlags: '--headless --no-sandbox --disable-gpu' },
     },
