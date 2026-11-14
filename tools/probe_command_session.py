@@ -33,6 +33,12 @@ def digest(path):
         return hashlib.file_digest(source, 'sha256').hexdigest()
 
 
+def prior_exits_observed(meter):
+    # The owned process wrapper closes its original handle after retirement.
+    # NativeMeter retains separate observation handles until final evidence.
+    return all(meter.kernel.WaitForSingleObject(handle, 0) == 0 for handle in meter.handles)
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--models-dir', type=Path, required=True)
@@ -62,7 +68,7 @@ def main(argv=None):
         return None
 
     def spawn(argv, **kwargs):
-        if any(p.poll() is None for p in processes):
+        if not prior_exits_observed(meter):
             report['overlap_refused'] = False
             raise RuntimeError('Prior owned process exit was not observed')
         process = meter.spawn(argv, **kwargs)
