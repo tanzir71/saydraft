@@ -1,0 +1,2116 @@
+{
+  "source": "6edaad6f470b97e7bfed8248a22df0ec8db97a64",
+  "clean": true,
+  "final_test_start_utc": "2026-11-14T20:35:12.4334144Z",
+  "source_unchanged_since_final_run_started": true,
+  "files": {
+    "saydraft/__init__.py": {
+      "normalized_sha256": "7a099e22041426f1e9046ede4071d24fee7282f2b099561eb2da3d159b2bf19b",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/__main__.py": {
+      "normalized_sha256": "e427b363506fe437433c4137ead0ff0d60929e885bdbd1ed42c3148a51dcee39",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/app.py": {
+      "normalized_sha256": "ede5abccd3ca2a81139aaf8134061ab6da38f6d267e2b1631c76bae4e741a319",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/app_profiles.json": {
+      "normalized_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/asr/__init__.py": {
+      "normalized_sha256": "4ac3fda28c389e0b6e90f1e8c844e11dc7859db6aeb69b70c3e287033d0dac24",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/asr/biasing.py": {
+      "normalized_sha256": "e54e76f0b97c537fb90ce79e244412917a848439122af2818eef59a5b65ef160",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/asr/language_id.py": {
+      "normalized_sha256": "e653deee173721f92992415c9a0b40d4dc730eaa6d5cd6184c618f4d9dfc2a81",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/asr/languages.py": {
+      "normalized_sha256": "900c83ff53706d9b03a62b5be6d594e5542e4a4d13045defbd8bd86a69c25876",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/asr/model_ids.py": {
+      "normalized_sha256": "a76b98256ee84639d7c9644eee4fb4413ec45d60f865fc384272d80aeb6c2d4e",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/asr/quiet.py": {
+      "normalized_sha256": "57b1ddf2da11f60e6e915f2c678f2e30281879437862b21fb477d93c94fad7b9",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/asr/retry.py": {
+      "normalized_sha256": "34468f373e169fefdbdf95d7e4b68661197641d0f110c7d21f2b8854c835b180",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/asr/router.py": {
+      "normalized_sha256": "929b8e282c94671e6664f065b8fd1c09fca1399c9ec4b199351b6908eec9ac0a",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/asr/selection.py": {
+      "normalized_sha256": "f2945661ebd22cda590315adef0e601e8b4fa6c6125ef26ebe72d3b382d1f530",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/asr/sherpa_parakeet.py": {
+      "normalized_sha256": "7857fbdb61d2ee92dc2b1b48abf0df8af56e078e9316817b88e03155d1b5c66b",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/asr/sherpa_stream.py": {
+      "normalized_sha256": "b3db144bcaeba7a4ae59766cbce471f6b58bfcb66702ebb7f9e7ccf449d90729",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/asr/whisper_ct2.py": {
+      "normalized_sha256": "cd14107f7d08c85317ec81c4357ee8608250694af22cd539bff6c894fc33ecdb",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/audio/__init__.py": {
+      "normalized_sha256": "cc21991348d0500889bc163bd7ed75efd3f649a5da70141f14e57bf1276da0ca",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/audio/devices.py": {
+      "normalized_sha256": "c6a7f4d615695f8418c5c159f4cdfd04be1bd8ca9b449d5bf23dc318cbb3fd60",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/audio/gtcrn.py": {
+      "normalized_sha256": "b5ab71f3013a173e9446447407d1ee0a85dcc19d6b8c542dc58a5911d26c7a36",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/audio/meter.py": {
+      "normalized_sha256": "b1e8059ce871ee82c4a8673680401b68675775f7f686c2cab7d0c0c808a5688a",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/audio/privacy.py": {
+      "normalized_sha256": "ba0008aa6178ce388d4b727ec176bcb6d0933cf27bebd4ec3da2787edcc60eca",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/audio/quiet.py": {
+      "normalized_sha256": "67c9a99771d257a3db50921b8c0fcb7ca086995a088960de1e66423ea9d6aa28",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/audio/recorder.py": {
+      "normalized_sha256": "2e938d26962899a55d45426976e0e0bef9c734fd04bda179a42032996cfc88af",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/audio/vad.py": {
+      "normalized_sha256": "a2af9749c3e2d15bddcb974294ef22926eb1b40e1fababefd5976851c4aa12bc",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/audio/vad_silero.py": {
+      "normalized_sha256": "2656b8988865430d1571e53551661837ea8cf1593be2221a1c4ed7b963c92a04",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/autostart.py": {
+      "normalized_sha256": "765f30554db5fb24ed17b1d1aa5820ad3a81f573af771649f0b3ab93c16e7dd1",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/cleanup/__init__.py": {
+      "normalized_sha256": "33f37118fed3fd26e8e241e5ad1482bec582bcaef5a9a53c0e8ea9c06ed0028b",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/cleanup/backtrack.py": {
+      "normalized_sha256": "57848d2a856683e097119caa83b0bdbbfea0881c2d219777c57cd5b8d0e3e87c",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/cleanup/code_mode.py": {
+      "normalized_sha256": "d879e9eb6af5e11bbf2f2d15518b0221c4705fc9434ecc3b7860decc82666bbd",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/cleanup/commands.py": {
+      "normalized_sha256": "7c4a3276897924461adeb94ee80a6ab411bef124dc77df9c9a8df59f3796514a",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/cleanup/delivery.py": {
+      "normalized_sha256": "0398bf92a5124d1743ceef8945e7acac8bb460f41c3e0f986b1e00e5b32a7bf6",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/cleanup/formatter.py": {
+      "normalized_sha256": "e75e09eba9fc79a910c31fbce932a34cc4715c305ee02550bf73c2506320223a",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/cleanup/itn.py": {
+      "normalized_sha256": "736951a46433c1210a4c56c6ab0d0cbaad9f67f78c17d68c241bbb8163a0a257",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/cleanup/language.py": {
+      "normalized_sha256": "3a14d1d51faceff93697b6864e5b67e01f194e452502b265b2c6e8cd3a3520fc",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/cleanup/llm/__init__.py": {
+      "normalized_sha256": "d4ebb5c4ffbfef691d7516ae82c1505920421f44581a5819ee399a0aeab24ed7",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/cleanup/llm/ask.py": {
+      "normalized_sha256": "b5ac7d72ecfaecbaa26fa266127bc0249ece0094cf5d0cf0efec43ee168400a2",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/cleanup/llm/bakeoff.py": {
+      "normalized_sha256": "21e96d62f35c86708130fe53f29e76f1ff523e1b165c765c56485046a27e6f4d",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/cleanup/llm/calibration.py": {
+      "normalized_sha256": "acd89cb4c2c5d2a3488b32e57e39a261d2817b9c24313557fb7bf1effa4acdbd",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/cleanup/llm/candidates.py": {
+      "normalized_sha256": "d4f037545e598d6815c4fc602e70838161b60c437b97b76d0a7207224425af20",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/cleanup/llm/client.py": {
+      "normalized_sha256": "9fe309d20daa78f10ec9ed49498f97cf58b492b74494840e40a52a87a6c1b554",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/cleanup/llm/edit.py": {
+      "normalized_sha256": "b344f068cfa43ceca09df9781ebb3ccfda0287b9cc29e3bf4782def923b57e96",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/cleanup/llm/edit_eval.py": {
+      "normalized_sha256": "6fa7aefbea7e8a3a539f6b80b061038e49f83946d4a6859cec6c2bb33960e529",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/cleanup/llm/eval_validation.py": {
+      "normalized_sha256": "cb779d036b8bbd823ae84a6d5df6dc5ea45927915b819a28d472d1b13612004e",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/cleanup/llm/gate.py": {
+      "normalized_sha256": "6bccb489a02ceb30d9d1fdc1b66f77250425ca1bc2edc4fe63718bb9ebd091bd",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/cleanup/llm/loopback.py": {
+      "normalized_sha256": "23b5669d98be197ab580e929caa5620dc8082242c91bcdf29b2bcac3440f51e3",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/cleanup/llm/ownership.py": {
+      "normalized_sha256": "8441aafa1b7ed30e5f9f2526babd85c818140b19c6ebd8440b3ea1cd54a698df",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/cleanup/llm/preparation.py": {
+      "normalized_sha256": "0e81a53539b3bf8c0ac29411b53695b32dfd34a58cf76cc72c3d6b538f0f863a",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/cleanup/llm/prompts/__init__.py": {
+      "normalized_sha256": "d1f5f775c86c3673518da9fafc7efc79f2e9eeaa422f0f10136a78a394f79771",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/cleanup/llm/prompts/examples.json": {
+      "normalized_sha256": "7b0265f43cc419c092b2991baf4e7bf17b8843c6edd7714c3c83be153c37fcb7",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/cleanup/llm/prompts/post_rules_examples.json": {
+      "normalized_sha256": "61ef009677fea670d3942e5ce4895baf338bf4bacc57811610265c9239721605",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/cleanup/llm/sidecar.py": {
+      "normalized_sha256": "b5d7ac54d57173a98e34797dfc648ce46c112f60d7df93a2c02b6687c523f949",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/cleanup/llm/streaming.py": {
+      "normalized_sha256": "a008b02b992818ec3a898dc8a75f3dea3d8f52dc7906eb2edffbe92e51ef2428",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/cleanup/llm/structure.py": {
+      "normalized_sha256": "208de9b68d2fc4d028e7eae9161a30ba2eab95349a4ae120bf376cbc9768a17f",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/cleanup/llm/validate.py": {
+      "normalized_sha256": "4c5fa8f4e2ea18e3738184dd6fdaa84b4396eb3b0ab8ab614de621f07b0793ba",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/cleanup/llm/windows_process.py": {
+      "normalized_sha256": "d37abc2e9b1bff8075c04f41ccb57862a316fecaf0f481fefea6b3bfaba1cdd1",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/cleanup/styles.py": {
+      "normalized_sha256": "94dcc2d2b20faa4778cecb74456ac405e594177f8e6feca072de0dd8cf076a9d",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/compat/__init__.py": {
+      "normalized_sha256": "2960d45b44a92155505bd90f0fdcadb14df1391e8d715e38fa9678718223eda4",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/compat/migrate.py": {
+      "normalized_sha256": "faf5db8e264fb9040b54315d208b439b0d30cc869cd4e1a20d3f55175c5cac50",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/config.py": {
+      "normalized_sha256": "323d717ecc47a8701a1a66a2a1a984e5a35e18698462e9836b6c893ea6e199a6",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/context/__init__.py": {
+      "normalized_sha256": "40d505f7210697e2be4cae5204ae898292b91275cc136ef196c19321a5b0129d",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/context/app_groups.py": {
+      "normalized_sha256": "e6765c557b8ca9f09eb696950dc35d3b74db95527093e15c2c5127458d0228fb",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/context/focused_edit.py": {
+      "normalized_sha256": "6b6819533ac06c621e523f1b158bbddb8fe5984dac791f23139c88801ac10601",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/context/foreground.py": {
+      "normalized_sha256": "cc89a8faa4e0b901db6721384c656c1d2265a0f703c54e5e904ec37a1cb75cd4",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/context/observation_worker.py": {
+      "normalized_sha256": "1612ece8fdb09f5c768736323133c48658edeadabcdc4428c20f697368d79a84",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/context/selection.py": {
+      "normalized_sha256": "5de541cb00fe571b631bca3860699fad4d5af66ddb91dfc45613b5c23b67abe5",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/context/tracked_edit.py": {
+      "normalized_sha256": "a69b0e59da4194b1a43ddc2ffaa89203ffb0b94c2ed83ef7c68030b31d0e0e35",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/context/uia_native.py": {
+      "normalized_sha256": "d1b22da41fbbb37bbde3dfe2365e19f9cf60ff9352b3aa9a52daca372abee5e5",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/context/uia_worker.py": {
+      "normalized_sha256": "b8918607e0712a01eb81b645b53488cbc61b927740f293851439550466908687",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/core/__init__.py": {
+      "normalized_sha256": "a128b904ce9816e8b92aec746545f4e0f93bfccfcf8889644f7866e44e462309",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/core/ask.py": {
+      "normalized_sha256": "7d5d2b78d79e1039f85d74f5a9fe50dfa877ea953d62b2ae85f8df593019c6f2",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/core/ask_controller.py": {
+      "normalized_sha256": "fb9b6824e0353c4391c6116bc8480cc94c4c32b0d128a6041fb9f93c9919f50d",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/core/audio_retention.py": {
+      "normalized_sha256": "a670c50df750012b9debafd75d6eb4d69c0e96068c8a24dad84e1eeabb0f0019",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/core/bar_actions.py": {
+      "normalized_sha256": "55dfa9c014132c31e6db93327fa71631d737aae1f2215d4fd40126c71fdb5032",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/core/bar_status.py": {
+      "normalized_sha256": "7b723c3c8fe137542073a62d935d89d92cf55221f2eb5712306ba1b545fa8a43",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/core/command_copy.py": {
+      "normalized_sha256": "a7d656a2ccf0c92d723206c6ea2ac1c4484e72fee726dc8a807008a0b3274a22",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/core/command_edit.py": {
+      "normalized_sha256": "fead75061fad4c1cf1b1d59d51c8186039e66d7b0aaf5b94830fc31d9373c7fa",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/core/command_recording.py": {
+      "normalized_sha256": "e1c884df2dc4ea7b24c15da24f721a0fab7122e321aaabcf6d752a62e5414ea3",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/core/container.py": {
+      "normalized_sha256": "597938cdfc91b9835a3a18fa695648119acde3ecec3e4e8b9df15dfabdcc6994",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/core/context.py": {
+      "normalized_sha256": "23c8039c5cc7c3161c47f57dae0c7e25cbc99da501bc71fbc7eaebf2ffc33340",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/core/corrections.py": {
+      "normalized_sha256": "b97fd3707d4bd6799be5838dfad2e663f7b8622a58ffd579710f0bfd88f38469",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/core/history_retry.py": {
+      "normalized_sha256": "7689b8da73df8282874e1db6b991fbffbd5a491bc938c037705e2d99bfb5ae8c",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/core/hotkey_service.py": {
+      "normalized_sha256": "510a99b90d0ee08aa8b0c7c9e1922069dbb31bcabfa21060a996b16293b8bbbc",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/core/interfaces.py": {
+      "normalized_sha256": "15baef1f4e2d56d097ff0dd502d067a5778b09526558014009383b0660960ef5",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/core/meeting_controller.py": {
+      "normalized_sha256": "19cca87f9826f069f8a39472265ed9e260ce4bceffb000b987c0c3dbe9f82c44",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/core/microphone.py": {
+      "normalized_sha256": "327a2574815835916733947627fd5d54b4f33521388a5e9071c8d3a7adeed63c",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/core/note_draft.py": {
+      "normalized_sha256": "82a2582abb14f23e203644633b35e9da1e5a6ed4f7a09e6cdaef470049f639f2",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/core/practice.py": {
+      "normalized_sha256": "3810749dd1c6ef2b39488adb960f4e385910178fe234f131a70aa4728002f3e0",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/core/preferences.py": {
+      "normalized_sha256": "82b2759517885c2f53d009a35a264b865162b5268fdef229ab4ad78c2069ceda",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/core/preview.py": {
+      "normalized_sha256": "1621c5e50c1bd122e79b18a6d38aa27869b3825d0999f425cfe6f33b64594c38",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/core/processing.py": {
+      "normalized_sha256": "0e095a8f7f5584e4df4878a2a39755cc2f908644b306c95f8987603f9566b2e7",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/core/segments.py": {
+      "normalized_sha256": "472b5ed980b772d4153b7548e15f601cdca30f7b4c2cec4be15b226b5fb8a89e",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/core/session.py": {
+      "normalized_sha256": "224d7d40e630d37ba037e7308c5a20b0964b64b93e3d0f4ed68aefca8e7943f7",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/core/shortcut_capture.py": {
+      "normalized_sha256": "d83bfc7f56f579db1c9d7d7a791bfb4655448f69206124fd98169915210f6ed1",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/core/style_preview.py": {
+      "normalized_sha256": "9fbe95e61fd2b9c13472a30d656b0bad1feccd0c544916c6473acb9739abba7a",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/core/timings.py": {
+      "normalized_sha256": "c62ea4b05dc661b577726b036ed23ad34671a986865c34ea29b368468a9da0de",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/core/translation_task.py": {
+      "normalized_sha256": "158d5f42a94d7020e6b668367ae0362a8e21c619f636a5a4fa9cc902008011e5",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/core/worker.py": {
+      "normalized_sha256": "39d0b805e11895c8155e67e2e5dc4d1749e662a158adb7eb62cc73c0a51983fc",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/crash_guard.py": {
+      "normalized_sha256": "7fae218a81358ade18129a6c0ea159f2909e8722b02391f8ca6c4c8d049c1df0",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/data/__init__.py": {
+      "normalized_sha256": "56c5507014f66e56409caada3f496df77b7054e12cea8720705cbe43e3a5a971",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/data/audio.py": {
+      "normalized_sha256": "c738e7a43b37434d595fa62e3951ada91f8ca96c1589eb0efdbe1a994996c460",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/data/db.py": {
+      "normalized_sha256": "491e466392fba45e89a8489194c036a648c8eb9c2785fdd7b58d4a96d83c3411",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/data/history_view.py": {
+      "normalized_sha256": "19c1248bac09bdc438fee73b65e11f766ddd71f3ba300973ef012241a1a21399",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/data/notes.py": {
+      "normalized_sha256": "c592b52ef09e649b585bef197de1fce90cf5c10dc3ecc5f2c00b20a2f5c6e46c",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/data/retention.py": {
+      "normalized_sha256": "953153f8bdd0e906aa021d1596d0871a8cab352b92cb4bec754ad1a399eaade9",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/data/snippets.py": {
+      "normalized_sha256": "c26af86757f69f0512a82932f905a8e600884e674a01ea463ffdb186591455d3",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/dictation/__init__.py": {
+      "normalized_sha256": "8bdb8e1cc2c20f5a4768e207ccf09b9d4326bada5814e1abca18f1f6a6e1eb25",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/dictation/command_session.py": {
+      "normalized_sha256": "ccd914cb533a119ef5fc2c1646ba227ad06137ee0323c54ff6f20604ff92aa13",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/dictation/dictionary_correction.py": {
+      "normalized_sha256": "c54bc762b9be00ed525dabefd670079d0661911694b9801e999de7a9cf5472c9",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/dictation/glossary.py": {
+      "normalized_sha256": "8ce19eaff4cbef3f2ca12d9664b788f2219182078e5797352ed7e7c72a897665",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/dictation/llm_local.py": {
+      "normalized_sha256": "933b5a006235d8274e83653bb22dec2d7c77117eb728689fc0275b8fcac6408a",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/dictation/pipeline.py": {
+      "normalized_sha256": "453031cd188ce8c482870fa3509251badf51447414d005a4c1a144d88f5a0fec",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/dictation/protect.py": {
+      "normalized_sha256": "fa77539020e33b88fe07c053fb80a1684898c3393cbaa53f07f02dccace68951",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/dictation/rules.py": {
+      "normalized_sha256": "d6b7bc4ebfaacd2865a25cda07f8bd4ee756a18e8d6ae1eb5db298aaa852c3d7",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/dictation/types.py": {
+      "normalized_sha256": "cffda2e02eefe1f026414f9c1a8fdd39c6c8ae607f45abccced542ea552f1c6a",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/dictation/validation.py": {
+      "normalized_sha256": "2161c00c4a67d81b1fb18100803767948bd036362da20b1bf45f1abe28bd463b",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/dictionary/__init__.py": {
+      "normalized_sha256": "5838b8735a42cf865e6ba26e3c3ef057c73642e72e1aa0cb71c7f911a4790a0f",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/dictionary/alignment.py": {
+      "normalized_sha256": "eac7c3e7bee896f78a3c9ec7889d65d933c1244217affa4494672ef376d85df4",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/dictionary/frequency.py": {
+      "normalized_sha256": "7d861337cb98f8594cf857e2f9718416d0d00f8cbc15e7579e6b402e05326f2a",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/dictionary/portable.py": {
+      "normalized_sha256": "c2fc2a668f8cd5584dccc4b7bfe89dfda5302d2df8d4fede18c4c470730c2f04",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/dictionary/store.py": {
+      "normalized_sha256": "24dfe95788a4a2e35f621a2ed344a1f1d5c51ea8b2ef644d1202363ab2360bdb",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/eval.py": {
+      "normalized_sha256": "2a2d23320a3cfcf4481efe79be2ed41a34a425cb35120e569a8fa00f1d567ecb",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/glossary.json": {
+      "normalized_sha256": "342ac75d5954592b3d3e424b685e804baf043ed85737accb0d400661e1f45bed",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/history.py": {
+      "normalized_sha256": "09c56d7ebf990fa879f2f8cdd34bed67be2d3092d0fbcc17096a89d50f96300b",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/hotkeys/__init__.py": {
+      "normalized_sha256": "74e53ab4366b4b5bf5c2bdac714b7115945073afe87dad07eb46edad9071e105",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/hotkeys/_win32_hooks.py": {
+      "normalized_sha256": "da457d00ad02954d69a78c23b45cb03fcb0081bf9e726f987d3e23c454df7564",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/hotkeys/capture.py": {
+      "normalized_sha256": "9e4d0edb3ada77d5d39fba97f4b9613add9fd586e9b63da9836452db64ba7c45",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/hotkeys/chords.py": {
+      "normalized_sha256": "7dd637d5dfe1b81f9a48f21c8570d5d92ebfaf40ffbd3fc441cf0abc51e52650",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/hotkeys/controller.py": {
+      "normalized_sha256": "a39b75499ad017c3dc585f69732a997f084aea6328a6267b37a5a93a8b2e572e",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/hotkeys/focused.py": {
+      "normalized_sha256": "71fc7c41f1cbf0961e84cc9bf71672c499991f1ab6f769009bdbd027a5d5b617",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/hotkeys/keys.py": {
+      "normalized_sha256": "a838f58f154cdc554e6c54574eceed5e1bd538cb7184ea2a9b8ba18266b5416b",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/hotkeys/llhook.py": {
+      "normalized_sha256": "df506b011dd57b93f8b003260462d2606644c8746a6241d40fa13edf144788fe",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/hotkeys/recording.py": {
+      "normalized_sha256": "0500cfd626339448f39958d79966c2dc5e551a0422eb0d576e4285e4247a084c",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/hotkeys/wispr.py": {
+      "normalized_sha256": "37124b2f48417e90a6470ebaf963a94a6d8113b364973bde7e30d501177af11a",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/input_origin.py": {
+      "normalized_sha256": "422ddc33304a939019412b3070c1e54639b094acbba3c9a6cd45fb56e6fae443",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/insert/__init__.py": {
+      "normalized_sha256": "2a9b0ad5f516efedb5b83a034a3753b7f4b3568fe291b125fb4d02dfbbb66604",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/insert/_clipboard_win32.py": {
+      "normalized_sha256": "86031558a83cb8b6f527297f8d6ae45106fbe09a078131c4f6ea0c19312f15b4",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/insert/clipboard_handles.py": {
+      "normalized_sha256": "4541ba60c0c1af904bdda539aaa42c60d45b6948687c955a74cf6c63a66c1a36",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/insert/clipboard_win.py": {
+      "normalized_sha256": "ad4b4bc25d9ab099c96fc8a6aaf522d7ea8b017311f8843a3605ac454e0cf9ae",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/insert/guards_win.py": {
+      "normalized_sha256": "a1b90e21bbea6a79382ee3fceb7969d1f0d72e7bee885c997a7dbedf86f2013a",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/insert/inserter.py": {
+      "normalized_sha256": "4215d319711640764bbd4d96dc3ea93a525f53ed8181d0e31788ae0d7b62e052",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/insert/selection_copy.py": {
+      "normalized_sha256": "5efe883b38314f126da850db686356a317d7a51887fa8054d00f546f7c6b7184",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/insert/sendinput.py": {
+      "normalized_sha256": "5b67d022ccee088160db337555642c2571745c56d9b4162f4fa25c1feca0f3bc",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/logging_config.py": {
+      "normalized_sha256": "5ae616ff66653f38da6ea95f002c982835ad5140e2d8618eda748c5fb5db6044",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/main.py": {
+      "normalized_sha256": "54a42c53c757dafcc3f61f4ce54bcb22c8f779115101f884d45dcc3fc6c87624",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/meetings/__init__.py": {
+      "normalized_sha256": "58dbfdbca4325b3407d3407aa1625d4d4347660ac04298bd984bb04f4a40bd9f",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/meetings/asr.py": {
+      "normalized_sha256": "0df64de2405503ecdf9d63ecd1f9acf6ff82a906ec22c697a2c7f2bd9aa40c09",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/meetings/audio.py": {
+      "normalized_sha256": "02cbde9abd86b37ebb5dc00709cee4e5ecdba4e2ec6935ec1cb7d9b350e50185",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/meetings/child.py": {
+      "normalized_sha256": "691e38520d3b65552158531a5e2f76e21141b92cb412af3c9b5941e3c27a68b1",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/meetings/devices.py": {
+      "normalized_sha256": "6d32624c2b4a374a54f53139d110ef5ed6d55c5ae138d502beba0975bbb76299",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/meetings/diarization.py": {
+      "normalized_sha256": "1013b70a880be597f00029782610a6039105d138725852e343b1b3f34ef97f17",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/meetings/limits.py": {
+      "normalized_sha256": "fa6eb9af36a3f3e0dba56227cd1f806a783736148812105caeb5d4f9e202dedc",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/meetings/models.py": {
+      "normalized_sha256": "9e8c2fec1b888f0b11c06c0f0f0693bd8ecc6453686b5d8d5b500648205ffd6c",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/meetings/notes.py": {
+      "normalized_sha256": "466cbd7359c89f39c3c7f97951f0d5b80f2dcd79d11ea0f66df5326a8a2026b7",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/meetings/process.py": {
+      "normalized_sha256": "5432e87b21988f14916d92b9b8e8397aa376d2ca4f9ba00d78bf6523989677e7",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/meetings/processor.py": {
+      "normalized_sha256": "088c6e3eb0922b9dafa2f02e72f42e16317901e99626a53e5c90b5d309e48540",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/meetings/protocol.py": {
+      "normalized_sha256": "c8349073a155327040fdc09ba56d85ff1d17f72d7b5645b6027d7c33d3460741",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/meetings/request.py": {
+      "normalized_sha256": "8b5dfc1c5f4334b5bda4c4fc469118c18afb4458563227a6be235b64c737f8b0",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/meetings/session.py": {
+      "normalized_sha256": "4b13effab10b092cf8507a489e7d79b40584b14844b8f4d7d5a2cf03105413f8",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/meetings/setup.py": {
+      "normalized_sha256": "dc83ccaf8897c8cabb24356b25d7df670b90be89a5656632955978db004bd1a8",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/meetings/stop.py": {
+      "normalized_sha256": "d95134acfb68b067a567d6ca6784cb21f6e54531a9184979e2ee7daaaf0c65dc",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/meetings/summary.py": {
+      "normalized_sha256": "e4797bba508720cde1869525cb1c2978f1573e63c99602950919b6bd00d2eec5",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/meetings/timeline.py": {
+      "normalized_sha256": "a2a953594ac75b7b13fc317ea083a36cf7ef53c96c68979106159ed167140e94",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/meetings/transcription.py": {
+      "normalized_sha256": "fdf58bd708018415038df5d7a84cb87097adde455e9503b8514540ae6c61223f",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/meetings/vad.py": {
+      "normalized_sha256": "78ece21477f6e540a982fd31e7cc2edbf456325b5550eaf3434763e8b2f0933a",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/model_download.py": {
+      "normalized_sha256": "be388981666d7d9f62b0a379a02d8ba14ac4f7c8fd2ed803e6262883e60c94a9",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/models/__init__.py": {
+      "normalized_sha256": "fcfdf1a73e987a997269d2b37c11969938c94a74fe40ee70923d65a8abb1fe29",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/models/benchmark.py": {
+      "normalized_sha256": "bc03ec924da02a5efc84dda98c4b60ba739adefe96dfd645e73cfefbf3136d7c",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/models/cleanup.py": {
+      "normalized_sha256": "521d75a66bb33208c08bc55a95e2dfe0226e77120ed79a571015cddac3021be9",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/models/command.py": {
+      "normalized_sha256": "018eb23e96ac22b8f1c262eaa1bb8a545c4bbaed0cd1e5a9673f3af4cd209f91",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/models/downloader.py": {
+      "normalized_sha256": "c317b9e115fb98d8602edeb8056acfb3b4d60ed75e02eb6c1d92c5dc07280a7e",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/models/errors.py": {
+      "normalized_sha256": "54613e08bc730da41be9d64da5961ed55d70fc84df113e4a2b87a54aaba32bf3",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/models/hardware.py": {
+      "normalized_sha256": "8b8fe4af0349b6ea8569a3b5c4499a912b5890b7ede7b6bf07fab2d4a618d48c",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/models/installation.py": {
+      "normalized_sha256": "1ddf13bdeea5cd4db51e66f562ac8d40cda39cd08bf9940f1334c73140669dce",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/models/layout.py": {
+      "normalized_sha256": "ce36865b0585da5c2176835bf72a4333500291fa3d98d1865e97665594da6b95",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/models/manifest.json": {
+      "normalized_sha256": "f50eceafecbc60d1b0a5f5e573e141d1f4991add087b0d4c438b8811e3932945",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/models/manifest.py": {
+      "normalized_sha256": "61d349f46e1ef59deb5129490b313e8b22afc8d31055490ddbf4e34fb22262a0",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/models/native_devices.py": {
+      "normalized_sha256": "5ab943a9c77fd7b99ebf5fab1444d9d20d2ca44b11dfaf08c242c828eadae7e9",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/models/packages.py": {
+      "normalized_sha256": "c474913f9b3f609752e25a310ceb3102bdea70c8e4a9c216ea15f549764dca0f",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/models/progress.py": {
+      "normalized_sha256": "e8ded1f7985a019bcd9b3f7740e5f26c762c1690659d045782c0db0ce03f252f",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/models/runtime_ids.py": {
+      "normalized_sha256": "3968c81bfdce24d2dab65906e8debb0f0feb5b4ddb925297394a11174de93edb",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/models/setup.py": {
+      "normalized_sha256": "83f0f135d9a82f4e856494092c898b5fbc256a1808b7b4f548899e0409f14661",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/models/storage.py": {
+      "normalized_sha256": "f30cb5f654985468c41c232f31596f730f501b4e048f35fedc009577cb9e157f",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/models/storage_lock.py": {
+      "normalized_sha256": "6c0ba7e18509b7d2a9fcc60381b5c5be3a8119e2d92144d0cbf6f3ec4beb7d6b",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/models/tiers.py": {
+      "normalized_sha256": "1a85b0ddfdf31c2812c186cd266b7da0a8143a2dcc88f43de1dc43a04938ec74",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/models/whisper_local.py": {
+      "normalized_sha256": "324e383da6839c835c48ebc7d05791b8519235ef4625fcbe7c916f3d202fff06",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/models/windows_hardware.py": {
+      "normalized_sha256": "2fa72fcf1c22896e7c0bd25636e5109487dc1d7f12df1d2c8a4661ded2b3490b",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/package_check.py": {
+      "normalized_sha256": "cbb192ae8a6e635041699329d7440c6271941d541f5806b6e6453ace387111e8",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/paths.py": {
+      "normalized_sha256": "3ad51ea4c53a226efe12e5b8482949706ec07f5ea473782c745f50ae5c83888a",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/privacy/__init__.py": {
+      "normalized_sha256": "bcaaaa199ed4cb4b2d30352e1872a20aa9d9d7fcbd2e6bdaeb6eac1614b9b45b",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/privacy/firewall.py": {
+      "normalized_sha256": "5aa496473daf4c3c1123b3a67d13874e9be8851667610c15f55f689d6993915e",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/privacy/firewall_control.py": {
+      "normalized_sha256": "832fa499b7a1eb87b5d13988caf36703112071bf39e3280c8ccc41e566088f56",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/privacy/firewall_verification.py": {
+      "normalized_sha256": "f822a737d050791dccf3fe1a1f8c7409fe2b2f18014cc68106dfec549c0a8eb5",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/privacy/netguard.py": {
+      "normalized_sha256": "463b9e36b97c212c45c2c9f18c63c2b07b2ea104204a7592629641332d97ebe3",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/privacy/telemetry.py": {
+      "normalized_sha256": "bf2b356b2b6cb22202927cc8de23ec24fe8f3a4837bb411d11e11b7efcf50588",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/single_instance.py": {
+      "normalized_sha256": "246835a46d089af4770bfaf659d71a49b08642c3725e3415b9a6f7be572696f3",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/snippets.py": {
+      "normalized_sha256": "f74cde0e97456b95cfd208f27af6088017abd144a0b45e7cc9ea898e21e98a11",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/stt/__init__.py": {
+      "normalized_sha256": "b73ba5b661fe30d71febd02f59aef8bc299af65ec7ee54a55669221885e884d0",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/stt/whisper_engine.py": {
+      "normalized_sha256": "b7b8660763494f6bcac5edc225c03e074e635cd16cc580335a8b1840e33f2df7",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/text_boundaries.py": {
+      "normalized_sha256": "afc2ca92aeac1efac30ba4f5d8788f7d1fe61ffdd9abe8b2deff85462a2889ea",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/text_entities.py": {
+      "normalized_sha256": "9700fa753386879616cf38071feb22b45dd00d0265876e142577cbaa51430b5c",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/third_party.py": {
+      "normalized_sha256": "7ca4adceacc10fba4eff97467591b1870609b3fcb79559a9b22588c1ff4b3eaf",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/translation.py": {
+      "normalized_sha256": "9fc2ab3f41fe0264989a7e74cd6c1cb9ee61817da15c311ddc9bd64717ac3a98",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/ui/__init__.py": {
+      "normalized_sha256": "5a62eb52b03ee7e914c5594de981dfbc93a5103e12e71442b3fab8e243d58b64",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/ui/ask_answer.py": {
+      "normalized_sha256": "0b7e7be205ae6ad8c1cf19432a5b389006c90061c57a2217a05b350c64d084f4",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/ui/ask_window.py": {
+      "normalized_sha256": "6f74c45eb69ff0d31812b1cfdd3a7c1e51a14fbfba487302e167ec6f4d948120",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/ui/bar_gallery.py": {
+      "normalized_sha256": "15c391ed8d7d1cd5546425dff488af89a3aab6db65357b83ed2e1268a719d6d8",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/ui/bar_motion.py": {
+      "normalized_sha256": "e0d48526f426d0d3510d296f30540ff8a3e610f29c0875804acad2f7039bb104",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/ui/bar_placement.py": {
+      "normalized_sha256": "11b62cb998f72a72f68d81870540638e6f6ae9ccbf2b3a34fd3149ebd93a8014",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/ui/bar_sounds.py": {
+      "normalized_sha256": "9bea263a390f8ac6fa19f97884b479dee11f4d1d09f12225d8c91da5af538fcb",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/ui/bar_widget.py": {
+      "normalized_sha256": "9a281d692244566b7fa7c869bd30e87f144600f113334c63e90c05b53017662e",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/ui/cleanup_picker.py": {
+      "normalized_sha256": "4d20c1a7ab04000ef435da3a3cb4c87482ec9f6392028efc12416702ce7d5a22",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/ui/command_recovery.py": {
+      "normalized_sha256": "2e9329f326c35da19d2c80a98700950bbdd21c1302861fb7f241648052325b1f",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/ui/command_setup.py": {
+      "normalized_sha256": "868dc47b5a4e7053d45b563f2404e88a3c79c2ef2ea622a2f5da4c4e91b1ea68",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/ui/dictionary_page.py": {
+      "normalized_sha256": "5a0068f60d1d5d620f276e16b7c954acdce9fb776172b745c533ed4f540ad8ca",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/ui/dictionary_toast.py": {
+      "normalized_sha256": "b27877aec041f4eef5f6914fd38f38c9955529b8a71bae5187da6a3a70c32b10",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/ui/download_task.py": {
+      "normalized_sha256": "0b1f6f9b734acfc3b02af9f4efc5013831b05fcffc4e8c93eba4636bf681f0a9",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/ui/firewall_card.py": {
+      "normalized_sha256": "b99fa0ad3f5382de32df1382d48f10becbe95359fbcb9b6fe61017989c37c852",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/ui/fonts.py": {
+      "normalized_sha256": "de37c44ddff48921e59f545dd042b45fbb82a48a1915345bfb8aafe9d2d0c2e0",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/ui/gallery.py": {
+      "normalized_sha256": "33885abeb648ffe2efbd75d2705dc164ee7bb6e804775f8c41f83dc8324f00ae",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/ui/hardware_page.py": {
+      "normalized_sha256": "1ed505f5dd18dd095d296851ce7aae82aaca5f18632edcba470fc5116035b43b",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/ui/history_jobs.py": {
+      "normalized_sha256": "292caa2cf22b86257b56d00ea78b35c397a4e8298b55d482400ff53d1d009adb",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/ui/history_page.py": {
+      "normalized_sha256": "05b2561adcf24068cce18dc1826027d08b43a2d0bff9e77b92fa5e68e83093f6",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/ui/history_retry.py": {
+      "normalized_sha256": "72aed7fdfe510363501365b748e90f25bfe24c4f283abbfed843023354617aa5",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/ui/home_page.py": {
+      "normalized_sha256": "542095c8d333c14227610a5d0fd5e8bc64bc839207daf249dd4b8ab0348136ca",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/ui/hub.py": {
+      "normalized_sha256": "849fbb715e553e513c89745e164c3197d00948d256baf5fb06a89d3a3cdfbf79",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/ui/icons.py": {
+      "normalized_sha256": "fc8e5cfa1df8e1af4c47241c4e6ae30708fb4ba110fad261a5c077709e8ce75e",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/ui/labs_page.py": {
+      "normalized_sha256": "010d93c8ec4374af5e487886bb7f7326b6b8f77471110ca8bd6ebf20ec0a1dbd",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/ui/languages_page.py": {
+      "normalized_sha256": "fe4448011849a2fe561ea59050694bf4907b16cf5200fb55d56a34d5cf174b06",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/ui/meeting_capsule.py": {
+      "normalized_sha256": "b574e60d41c4452c83bb90a326ccbf5f1b7e63053409cd8f0df13b799c94c452",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/ui/meeting_setup.py": {
+      "normalized_sha256": "c9b35621644184f5e36911eb11dfc459292eb7069ad55704bfef6c44a3471bd5",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/ui/microphone_page.py": {
+      "normalized_sha256": "3e688dd19a8949d3fbf12a7b6e7da68ce68ebf6f34abb8d3295d98392776d44b",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/ui/model_picker.py": {
+      "normalized_sha256": "0278bbb2813a71a788e4fe48bf724d78c32d81a2c736a47ebbcd21621e8a9b4a",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/ui/model_storage.py": {
+      "normalized_sha256": "a33da86afef8aea54b375db4b1f9569ce195e5cbba8211ce209d319b952e8e31",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/ui/notes_page.py": {
+      "normalized_sha256": "4379bcbab99abfa6bd554739ad4db90773916abf4be985d9c8825d9f9fe5369c",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/ui/onboarding.py": {
+      "normalized_sha256": "3ae3d38924192d9952aca93f94bfa3c72b1963946ad288b16f812b5bd4ed72e7",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/ui/onboarding_models.py": {
+      "normalized_sha256": "cbcdf9d9f07c10ff84cfdffcb6115446d3b7b9f5d78b900d4a6fbcd6a6d48376",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/ui/onboarding_practice.py": {
+      "normalized_sha256": "ab84fa6d99b78eb05ef43c2d7f4a117a3d795f9839484502aa0968d9e1e6db49",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/ui/onboarding_shortcuts.py": {
+      "normalized_sha256": "6102a43c153f562f6c3d1b69c91e9a87fc0c46b9c5dbea0251231c8d85abcb85",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/ui/onboarding_style.py": {
+      "normalized_sha256": "d2d8b1c8ed724b75d545eead1af76e4768eb0fff7576814e5700c990d7ab98d4",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/ui/pill.py": {
+      "normalized_sha256": "ce1c880d0af15613c63a0322303bcddb93186698e68692b0e86bb9531dee9cfd",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/ui/privacy_page.py": {
+      "normalized_sha256": "1ac8ab1be4cd2673a726a8b295bada6b9c198b9eb8d639cf46405290090a089a",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/ui/private_text.py": {
+      "normalized_sha256": "ac29493bd1655645b28b30018efd90da0c9c3ae7610a9df06f2803297642aa5b",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/ui/progress.py": {
+      "normalized_sha256": "0e668b006d147bcf1fe4d976af15fd88b38844903b4557137e08784dedb11582",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/ui/scratchpad.py": {
+      "normalized_sha256": "81e18b7ac48207b50d3375c84af622242554f4ea987914178f4cfc7217febb0b",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/ui/settings_page.py": {
+      "normalized_sha256": "1498542da6756ffe4d3fec4eb6c914b48b6d00c273ea9fa305b7c80e5281883c",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/ui/snippets_page.py": {
+      "normalized_sha256": "0b4b3d4a710d8e31a7e8c2c9a1eaf4c562f9bfb51a6fd295a4ba0f444fca3b06",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/ui/sound_assets/__init__.py": {
+      "normalized_sha256": "3ee7d7d2b59d6c86b671b68c487ada664682916d441d6df3cef0872a849b3e52",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/ui/sound_assets/manifest.json": {
+      "normalized_sha256": "e278d59d498d5850a2975e9c58ec3814e5a449a93b31ede7747ebceb703bae2a",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/ui/styles_page.py": {
+      "normalized_sha256": "5fb42336613c8779310df691eac817a717fa33117aaad05269ffe0eb6433d515",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/ui/theme/__init__.py": {
+      "normalized_sha256": "4d890d243004a4d959bc0f27700295aecc34d4e7972038169eb93dcff3217c32",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/ui/theme/controller.py": {
+      "normalized_sha256": "6727782b65e1ad2955c69da4c411757d4b5873ee84f86ff79c940a65acf362ea",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/ui/theme/metadata.json": {
+      "normalized_sha256": "7fc64afcb169d50481a1950fc7c44a21eda21fa587184127184edfc727c267cc",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/ui/tier_picker.py": {
+      "normalized_sha256": "418dfeefeedb4678a24bc6eb4be573ea5af3cb37f8543d524805b6ecfa6ccb50",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/ui/tray.py": {
+      "normalized_sha256": "73a47b422b5a6d16c105111766347774e8892d876f4f9d78203f17a95c90269b",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/ui/updates.py": {
+      "normalized_sha256": "83f950495930c87123fcb224cb0f66ac3c2ed98be736f81b34e998db09bd9666",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/ui/whisper_mode.py": {
+      "normalized_sha256": "00a8fdf67ffdf7a673842041d16786c38b3f7bb1f03f4e97140a188ed09591ab",
+      "modified_before_final_run_started": true
+    },
+    "saydraft/updates.py": {
+      "normalized_sha256": "87ae9dac2011416f5d57acb3a9a137b86302cec157078a9a1e2eac467f767c2c",
+      "modified_before_final_run_started": true
+    },
+    "tests/ask_cases.jsonl": {
+      "normalized_sha256": "e3471d61a92b83345676a358a41244388eb45c072b96ddd69a7bb7fea9e9e412",
+      "modified_before_final_run_started": true
+    },
+    "tests/ask_holdout_cases.jsonl": {
+      "normalized_sha256": "e669afd51b997589f4e0e5adb3829cb9220917ffb7cff0be1eabb0e3ffbb5d6a",
+      "modified_before_final_run_started": true
+    },
+    "tests/cleanup_adversarial.jsonl": {
+      "normalized_sha256": "b2a6146d489f07337b499a0c914ae1b24bad2b06aa2a06bc74c48a3a8b7c8074",
+      "modified_before_final_run_started": true
+    },
+    "tests/command_edit_adversarial.jsonl": {
+      "normalized_sha256": "3f88a501c905e1a0d4771c92fab659c68d7b812edc560a3b5edbe365844e9f2f",
+      "modified_before_final_run_started": true
+    },
+    "tests/command_edits.jsonl": {
+      "normalized_sha256": "96216eadaf8f9b2fb7791a8594398d41bbd940844855e38f0cb20147539ce6c1",
+      "modified_before_final_run_started": true
+    },
+    "tests/conftest.py": {
+      "normalized_sha256": "f4f38cedf091aba44eeb83acad3037268753ae718e5e5a651fd77e310af88203",
+      "modified_before_final_run_started": true
+    },
+    "tests/eval_corpus.jsonl": {
+      "normalized_sha256": "3d1f7ca76c8a44c875c690f052ed0aa1388f1239b34a55643d5c6bdece240fb9",
+      "modified_before_final_run_started": true
+    },
+    "tests/fixtures/fleurs-ar.json": {
+      "normalized_sha256": "1fe81a8287eae3818aaaee9df0ca65565ae9e1268e8fee1f786a27d98f9b2ffb",
+      "modified_before_final_run_started": true
+    },
+    "tests/fixtures/fleurs-bn.json": {
+      "normalized_sha256": "810b0dd898c3981819e95429cae5d3518ee06da545ba43c05927d09111e76750",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_adversarial_validator.py": {
+      "normalized_sha256": "9fc41c4284d55981cd225a93dcb821d28122e213da0b20e967a49a1ca88b3d53",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_ask_answer.py": {
+      "normalized_sha256": "0aba3044c7249df3ee453e29d6ae4f6d418c41fe071772f877d56f61ee2a004c",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_ask_app_flow.py": {
+      "normalized_sha256": "5d024060330113f85c3813a719c7226f18644e60626fb012db2a50e4472f0eee",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_ask_browser_probe.py": {
+      "normalized_sha256": "be71e0f5f83f42956f32b995c69c2b06062be8dccdfee9fad0e218c4065d1ecf",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_ask_capture.py": {
+      "normalized_sha256": "4c02fe7c32cf2e2f60987ccb8da5d42f3d3c0470eaa509ad334f485b502b0c68",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_ask_client.py": {
+      "normalized_sha256": "6f96560bce625ae431bd465d51de3605d9c3eb570b82574e69e2a097b8b98b8c",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_ask_controller.py": {
+      "normalized_sha256": "b74966302cf760ea53eccef4de66d6319089316e6b0d5b026315ac44a8beb9d9",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_ask_processor.py": {
+      "normalized_sha256": "917e835ad7f99bc7f54047855863d84d16411f1dc545b99d551e321ea59c8bda",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_ask_session.py": {
+      "normalized_sha256": "37ff831f7565349e82094f31eca77fefedc42668f897bab1854ee449b781a561",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_ask_shortcuts.py": {
+      "normalized_sha256": "9158ea7679dcf73e96bcfe37cda2651fd7b575e80237c0d9603b13affd220413",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_ask_window.py": {
+      "normalized_sha256": "01968ffa9d0bb90b2c7c766269010ec8533e8722c6f1bf43d3494f5f6d04a6d7",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_asr_accuracy.py": {
+      "normalized_sha256": "9c7d4cb36247d2b04131a187e7b3b60d26089c929e8bcc0072fb46c9b75c0dc9",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_asr_biasing.py": {
+      "normalized_sha256": "4ae39ae2844801bde4d467c217189499668e62f149a63478f931cda24db83bf0",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_asr_corpus_fetch.py": {
+      "normalized_sha256": "45de43e8bf94ebec2bd64d68c3685212e3721353ad7867d02ffde523f8bd0218",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_asr_retry.py": {
+      "normalized_sha256": "dc14b3d75a991151aa6fbecbc44cf8dbb5277eea0adf9df715d9ce68642d7c1b",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_asr_router.py": {
+      "normalized_sha256": "1ba8290e3cf288ecb27c197aa84c03deef059684b826358ef30556ba7085cd4b",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_asr_selection.py": {
+      "normalized_sha256": "e00de160f902b184c96024651a7be1360c4f171640429f9fb1a6e4366e32a421",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_audio_language_id.py": {
+      "normalized_sha256": "33333a5b3fb3aa1b65b2321cd3c70a2cfeba4c28f6225818eda315fc9ba917b2",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_audio_retention.py": {
+      "normalized_sha256": "10b002b2de93d597651b78580f44656ef49789a8b4b0228dcce3973dc60e4844",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_audio_retention_owner.py": {
+      "normalized_sha256": "6f389e6d2eae0b525b6b5e3b77646fb1bbd7041e21e1878a5c442621bc7a60dc",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_audio_store.py": {
+      "normalized_sha256": "9d8d8bd9ffc9de800a7c3cf7189d6a5de56af433b7689efd189d6a7ccbd03622",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_backtrack.py": {
+      "normalized_sha256": "3f79e6567964da548b30e03535acfc79cc0372529500e6c34aa15b368b7093ca",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_bar_actions.py": {
+      "normalized_sha256": "e9739c1baf3cd22da53c3580f69707bcb6531ce31c2c663be072e04be70aba79",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_bar_event_ui.py": {
+      "normalized_sha256": "99922ce5acfa3ed1af46793bf43b8afd3b56e1f5b680e244dd6ec1745fb2ea3e",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_bar_events.py": {
+      "normalized_sha256": "c30ab0c8e41e9e986f4deb49a26edaff619c3e009408a924320a280b04749b0a",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_bar_gallery.py": {
+      "normalized_sha256": "58c5cf63b6c751aea443564c157c7f0876aaf3d9192d7faef99947001f35530b",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_bar_motion.py": {
+      "normalized_sha256": "aab7cddcfa073696b5d169889920351afa27299dd3c8557b169137fd9283e359",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_bar_placement.py": {
+      "normalized_sha256": "48018f6a2891213425b1809e72837e7c121be8d0e9d7ab335fc5a04e88e05e0e",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_bar_sounds.py": {
+      "normalized_sha256": "5fb3cfc0dbd6f7e7a975f6f096849a124b98b04651223274569c3d728ce44648",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_bench.py": {
+      "normalized_sha256": "d56d68112361454ec6c8b66bd213a6961d84d1acf313fcd1c4110e277716579b",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_build_script.py": {
+      "normalized_sha256": "5dc00a0f2a10425277b3ee10a6ad0d27effef26c931c0513bb0879a23640392f",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_caret_formatter.py": {
+      "normalized_sha256": "709105d30dac042d1e9da1686d0c7edb403af6e8a70a397cbe0c9e1f9735285b",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_cleanup_app_adapter.py": {
+      "normalized_sha256": "30ae303ac0310672ddb5b5f19905ce78f80dd8c222c630d1a2b1f3dd15333596",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_cleanup_bakeoff.py": {
+      "normalized_sha256": "ab2c1dd4a22d394d2ec5b50009a01ab432ecd0cb0a1319866172db6072bacf24",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_cleanup_benchmark.py": {
+      "normalized_sha256": "3c85f207902e37356bb66436b2f61835d4f6d7a884e1f409500ed5633158ee10",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_cleanup_calibration.py": {
+      "normalized_sha256": "913408c9843f1664efc23d2917b7f3eaf5d42043d9e2fe3f1aff83fe41b4051a",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_cleanup_candidates.py": {
+      "normalized_sha256": "0f5d5f7cef1aa266e5412bc6c4b5a0b25982b13e4e7419d2b48eb907b2a52807",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_cleanup_catalog.py": {
+      "normalized_sha256": "00ebed1b7655b160c2788a6953b2c5690e99f1b5d7c8875263c9be406d89c15b",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_cleanup_evidence.py": {
+      "normalized_sha256": "d9a8dadb7cd844f623c4fd598eb49116006d8f201052ebe0d4eb622cfa07a4f6",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_cleanup_gate.py": {
+      "normalized_sha256": "8d60800f0372ea3011214350af5d1dc14a1ef59aa7138e97d399525a5f6b14e5",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_cleanup_latency_probe.py": {
+      "normalized_sha256": "e0f22842ac87f42b4e94a390f4e18412a385816845d27582d4a96823f8d67627",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_cleanup_picker.py": {
+      "normalized_sha256": "1708d2ec1e9aa2da81a3601661421b21ed183a294100e28c9be29d748ba9d9a4",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_cleanup_policy_eval.py": {
+      "normalized_sha256": "01599e58b1834743d25e0b42d1301a84250738b6bf9aadd269b7a2f629ceaebf",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_cleanup_preparation.py": {
+      "normalized_sha256": "a7eed488e97899a2b25a9acb90ffd29ad3997d17e09c645704c12db1cf241217",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_cleanup_probe.py": {
+      "normalized_sha256": "d64ac8c030de5c917547adb937506bd541dc4cd3e982f774306cbc07aa4934f8",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_cleanup_prompts.py": {
+      "normalized_sha256": "496380cf7d2ff9f1157abad11848dc17934a6d7dcc715ce5855791baee7479fc",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_cleanup_release_budget.py": {
+      "normalized_sha256": "fe662aefe29487b49507d181d8e3e760238501ce35077c6a029e8df90fcedf40",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_cleanup_rule_contract.py": {
+      "normalized_sha256": "3b7c951e47f16c9d43ad7beb01f33fcd5cfe7ad55917852fb7090ece873c7718",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_cleanup_runtime_packages.py": {
+      "normalized_sha256": "14205c3ee3819a230ce7d4ffb458a46b5c03492c6c73f12ff5240acd650f0112",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_cleanup_streaming.py": {
+      "normalized_sha256": "46f88a83466a0f559288a6efd44c1fee5d299d5c939c0edd944a950a191286d7",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_clipboard_handles.py": {
+      "normalized_sha256": "138a14dff009545b94fd7e3fe05b7f3f35b4e570398db0a95e6ffca75534d083",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_clipboard_transactions.py": {
+      "normalized_sha256": "65eefd36b20dc01679177447a607fa87073845b605f6bc9222e35de90d0236f5",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_clipboard_ui_reentry.py": {
+      "normalized_sha256": "45f1d46f3460500ffc0c1205cd30510ec0d1718ea39edeb5974f3750736d35b9",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_code_mode.py": {
+      "normalized_sha256": "f4309274d73f9766fe1661fcda3c0673d1c62ecf6aa5b9664f6ae19c4511e5aa",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_command_clipboard.py": {
+      "normalized_sha256": "f4708a79337ff2e67086dbb9c1e88a0167e2d646b64b744144b09164066d3a90",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_command_edit.py": {
+      "normalized_sha256": "81f1bb236a51dbd806d581e1f8b34f23068512640ff45b8a7b604fd2aa68bc88",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_command_hotkey.py": {
+      "normalized_sha256": "4c37dd2ff7c8f57e388f4ec657874670851e71e2386fce0d562157db5102b4b9",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_command_model.py": {
+      "normalized_sha256": "760e6f579efb2debc7ffe60cc2767d6b49d10444ce28a3cc5d121901de7e7009",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_command_recording.py": {
+      "normalized_sha256": "4088807664734d66a08f2e6755820162e5abf0c1b37fc5c2a6de2883830b3070",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_command_recovery.py": {
+      "normalized_sha256": "01ffeec1eb547d65a6c83624b09add75d459a56501ffa34bc99e14b356e65b49",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_command_session.py": {
+      "normalized_sha256": "a24c870e792804229ad4fcbbb1789577e09b4d61e66b8b5206dc174c8be014fe",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_command_session_probe.py": {
+      "normalized_sha256": "0e0519dd57846ced6baf2955250091bbe88348abfaec3bc97232b3ecf398a95d",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_command_setup.py": {
+      "normalized_sha256": "78ca4b2129de049d9596ba34c8416e781a9b1006f1485bd9a0bd1e7650913511",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_config.py": {
+      "normalized_sha256": "7b94b985711be72442522657e739161233cb2766689901ab50349bede5cdd4e5",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_context_capture_reentry.py": {
+      "normalized_sha256": "23322f72919628350f24ad096827114871606160565e914d37e695817ac88fa9",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_copy_selection_lease.py": {
+      "normalized_sha256": "c5286ce6a137bb3eb4a0f2ad296c13958268690bb3e1e2a85f13a2130d17e338",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_correction_session.py": {
+      "normalized_sha256": "ad095c57c23cef9b6ca4d5d852c1c42c4dabd2e59dbf2ee2721084e58daa5eb6",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_crash_guard.py": {
+      "normalized_sha256": "cc3796cd2c45f0f5f1aeaa40074e44d5638665debb49b646161725e978a3b0e2",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_data_migrations.py": {
+      "normalized_sha256": "0647aeb410db9b6a4451180a7aa4e6a3ba450ab4b3514b8c9829108b4a2d0127",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_delivery_guard.py": {
+      "normalized_sha256": "8cfa879977c155201e6443a78162fa736a3159815e931ef836cf670ea9cbeae6",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_dictionary_actions.py": {
+      "normalized_sha256": "375f9f54af63caa95e4e620f80088d4b232af05ef3133907d57097cdf4596671",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_dictionary_alignment.py": {
+      "normalized_sha256": "011ae9eddf42bdf029cee6d8acad430926751c5eb578d065122061a1448bb5d3",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_dictionary_biasing.py": {
+      "normalized_sha256": "5c23591f74eca905b9a2bccc21b134278bacb46d52dbd508960efb6f4bb26cab",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_dictionary_confirmation.py": {
+      "normalized_sha256": "31c35c06cb55ec854ff78f3dabbe98d78f07436466a48757fb0bf0a400def08d",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_dictionary_correction.py": {
+      "normalized_sha256": "0f54b72a670a5be473301db65b378455f14cbeb232bb33ae8189ebb671f15df8",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_dictionary_frequency.py": {
+      "normalized_sha256": "cab07e24a89537dd0ef0944476bcf3c50fa933c8a1bd0ee883e0337618237c6d",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_dictionary_names.py": {
+      "normalized_sha256": "eb3ca513f93a305d1809102625f72979f3f9e6f5a30f2f051572ec8481b38d49",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_dictionary_page.py": {
+      "normalized_sha256": "8175d8b058d7da81aee872ac3295b5aa59f6e86cefb2f5d0077a2a259e45b9d4",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_dictionary_pipeline.py": {
+      "normalized_sha256": "8eecc9be001745a52de6440f137a9ac0b5ecda1a11d7fac721e16640272a0a0b",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_dictionary_portable.py": {
+      "normalized_sha256": "1aee3e3ab58c1d1ca9795d4a2a7ab0248cfd191cb7511388fd3a2d14b256dc72",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_dictionary_store.py": {
+      "normalized_sha256": "285ba0a700935f55815e5eb5fe02f5c4073a70fbddcdfee4f023f65c956b0744",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_dictionary_toast.py": {
+      "normalized_sha256": "5d98c22d800b7a1f9ca77860432528a618e3e4d7e620eb9315f24623c8e69c76",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_double_tap.py": {
+      "normalized_sha256": "bccd2b7471b326593458a3a9108185c6732c9f1216476272ff32f8bf3da739f7",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_eval_harness.py": {
+      "normalized_sha256": "1eb0731b45885e97568d9d4a4d3b841fc023b6158b11b1694db0c4faea1af9cd",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_firewall_card.py": {
+      "normalized_sha256": "52827f50b3b95c7c7bc098a86983041eaf5df9bd10cb3a9063fe47573c9879a9",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_firewall_control.py": {
+      "normalized_sha256": "7e66942f96713a3050900f04eec57c06eb5d3438b9258c246e1f22e8e594eb64",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_firewall_probe.py": {
+      "normalized_sha256": "49fc92f196448538dab241a7b515fd5d1daa7d46ebf32550a938dbf6211d992b",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_firewall_status.py": {
+      "normalized_sha256": "21fd6d7ee76f9d8d05b82783c40c15525fc1ec4d388b9c010d39a280a5ca0fc5",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_focused_edit.py": {
+      "normalized_sha256": "931eaab1b8d81486e670926f112bb31204f230b05ae6ea9e76eb161b6c444c16",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_fonts.py": {
+      "normalized_sha256": "e56ecd42eefde344f4b3d3fe789c60e59a91e13118d52a27833bc8b49f988553",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_foreground_context.py": {
+      "normalized_sha256": "8a16260dfff0c3d822a0269bde10c83f7fe37e7d0f59af8b3f9fa11bccbcf7ff",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_gallery.py": {
+      "normalized_sha256": "28c106e5be593fff71270302577b17bca752911de6a7f6863992ce07b51f3413",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_glossary.py": {
+      "normalized_sha256": "04c8c7bd8b0fb8dd6bec8de026834eaf69d67be1b21b5b02c561e6486c15fd22",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_hands_free.py": {
+      "normalized_sha256": "c77d0bd6f4154601f4b06d0cfdbbe83095b159dbf5715d05f531047f10bebe3b",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_hardware.py": {
+      "normalized_sha256": "0fc5b877d99a7a60b39b79967cc88117485ba92cdca69aae00de0f2e5d8a402c",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_hardware_benchmark.py": {
+      "normalized_sha256": "5a0b61e3c203cafb18afddc7bac2c53664bf2f61fef44c78f1ae147a0d500792",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_history.py": {
+      "normalized_sha256": "dc07ff7a026cb091ae879518916a50a35ff3eaf3ebef451b45a301789fd99c8a",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_history_details_ui.py": {
+      "normalized_sha256": "91a45359a9ff72904fb0180afcfa8de8f74c97d33f3f0fbefa2fbee74f682ee8",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_history_paging_ui.py": {
+      "normalized_sha256": "b9b6049042f3d1f4262437176586b03680afeeaa3dffab30ba6a97ce262b9a2b",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_history_queries.py": {
+      "normalized_sha256": "f73340eb5943d33e287b08a070c6d68c52bf93375ac873e159c23b5dd41204ef",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_history_retry.py": {
+      "normalized_sha256": "e7967128925ef9ed92a84df72f962ebede7c706d4fa04690fd49dfb16a3f8578",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_history_retry_ui.py": {
+      "normalized_sha256": "790bc0a926427b3a77a2647cdb6915ba157b1ac414eb9a1e329e53331088cd7e",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_history_view.py": {
+      "normalized_sha256": "ae93d85fe5e29bbb3f7b3ab49c6e3236ceeb5645d69866fdbae373dafda924af",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_history_window.py": {
+      "normalized_sha256": "bb82f235660b07e8b2276f1da929a0eb31d437afca0322e69b9f856eaedeb9f2",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_hotkey_chords.py": {
+      "normalized_sha256": "b0ecd694eae574a4924935b4bf591ceabc13764554a97261d55b9a99aae90436",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_hotkeys.py": {
+      "normalized_sha256": "d8895c36bdc6286a0019f6350f11e9c0f634f5c26b7721b526ccc5d961564ad7",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_hub.py": {
+      "normalized_sha256": "1d32610c68457a25cd344a3bf484194fdca53a2f0d49d0a025ecc6b79f945294",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_hub_style_preview.py": {
+      "normalized_sha256": "5f62693e57b865461b9899808aedc8a5c808b4b65cb8e8bd7df1d4dd1a88aef8",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_inserter.py": {
+      "normalized_sha256": "b570c30f3ad21ec313ab6c5a715a4950fb07af3c9d6a2a8727b3f034140d1314",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_itn.py": {
+      "normalized_sha256": "29336c3e98b175d0b1837f5d33c863ec1952ed33a1b07498dc701cebb430bcdf",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_itn_parser.py": {
+      "normalized_sha256": "0cf9130db796ddd4a817051f8f5e5505699ab6c83453554774f23c96adf3e958",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_languages_page.py": {
+      "normalized_sha256": "2f890736359c2b7447f5536ac0d0cd35620242e49ceccf0270a4f53babc6b292",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_last_diff.py": {
+      "normalized_sha256": "0e119aeab4bfede9b219a9893541d48fd5d09fbfb42c679e15f7659da7b67f2e",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_latency_environment.py": {
+      "normalized_sha256": "304d2fdb50d62270f56aac4702ae89cb9105fa4bbdc88e7249b91b36b2d6b017",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_latency_matrix.py": {
+      "normalized_sha256": "6629b96c87eab40c90b7dcbaafb91cd233e53110089f138a3fc88a2da8869125",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_launch_scripts.py": {
+      "normalized_sha256": "d66db7f565c200bae941ca835b337ae202800fd88689cc18d067fcba8dfc1561",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_llm_local.py": {
+      "normalized_sha256": "ab21d5d68f9f5aa75ec9707965e7806f446c52fce15a41f82954e4db3601f040",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_local_delivery_policy.py": {
+      "normalized_sha256": "2d0d32d0943fe6688a5667c4e3015de6964489a102d33be486ff9520a7ac22eb",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_logging_config.py": {
+      "normalized_sha256": "5bceb4f19a76b3b2c96f7e66cfe1e12fc0723672f6deac5a996734b18f61a8f0",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_manual_checklist.py": {
+      "normalized_sha256": "1ed8d7de679f401ddeb3685016765b9272b2f674e2cb0552f924526c1ead1f2d",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_meeting_app_flow.py": {
+      "normalized_sha256": "3cdc8c0ce5a328a4794193478d5852a84c7cd575f8236e2e0f54fdcc513f1910",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_meeting_asr.py": {
+      "normalized_sha256": "4dedc60d50d558d936f9848d11876127abff6ab9b68c9c9ab751f724a02e4aad",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_meeting_audio.py": {
+      "normalized_sha256": "133731bf24d86190f51664ba4423bb83afa5d1f4a790479d9045be3b80381c85",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_meeting_capsule.py": {
+      "normalized_sha256": "ce414ea212fbd40b9df1fdb0d85801a8a8a68594463836c921f2a6bdfc3a5367",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_meeting_controller.py": {
+      "normalized_sha256": "225a34b8ae8300f75a65385a28abcdc5c83ad6ac55ba601848b30632dff1c375",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_meeting_devices.py": {
+      "normalized_sha256": "93dfd3b5f30427e0c95169b54839c0e6dd29ee3e4a30c2b3cc97608a32df885e",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_meeting_diarization.py": {
+      "normalized_sha256": "e00256e37c0416dbde330a985429eb209b8c9ee7fd50446d1078d9ef5d442ed7",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_meeting_model_session.py": {
+      "normalized_sha256": "d7d73037b29a8264878a69f2348126f5daf59006d19982e8ce04c94817e31726",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_meeting_models.py": {
+      "normalized_sha256": "fb1a77ca8d6dd023fc0976976ca6016d193a05901cdb5f13c94c40f3d6ec1e97",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_meeting_native_worker.py": {
+      "normalized_sha256": "166da1e7a05620810f9766e3eb7e54e3b36b84eda156f6b3c398eb737aeaa4ec",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_meeting_notes.py": {
+      "normalized_sha256": "aa69f68829f45080f1462f1162ed10e67cf289e6fab410b8f0793e65173b8324",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_meeting_process.py": {
+      "normalized_sha256": "c827ec0696bc6c23d551d8566275ce2281d2595c74d2f78de4e389e087174e6a",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_meeting_processor.py": {
+      "normalized_sha256": "91e5b97758cf9a5a36fd5febdf6b1a3a9e1daaabb5a57e28f6423e1e693e0380",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_meeting_protocol.py": {
+      "normalized_sha256": "3486cf3dad12226529c8bf466b5241521accd0fe304be3f548e79133c117fc45",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_meeting_session.py": {
+      "normalized_sha256": "72c981344ba845b51d60a9341b726540504fdf95b38485b585f2f715f983029e",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_meeting_setup.py": {
+      "normalized_sha256": "3bea779fed4cd46198f0673058f92e756901f368190c8ae8e0adec0606330e9a",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_meeting_setup_ui.py": {
+      "normalized_sha256": "cbbd17c905bee220a270a4fe5796585fac95a7e1d4192b4c50283f7773920714",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_meeting_summary.py": {
+      "normalized_sha256": "75088ad902588b3bd6f3e6691c2e154a3b8be2cdd032564d35231ee9817e7369",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_meeting_timeline.py": {
+      "normalized_sha256": "e4fdfb3f95caf839d2d923c6824d72801e14c50d0af3fff2740ccea0b4733907",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_meeting_transcription.py": {
+      "normalized_sha256": "7f62ad136d4f6195811e156f2d9783f76f048548abd5b8f81ae6342314063e07",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_meeting_vad.py": {
+      "normalized_sha256": "740092c3c24ae7678aa3999afc7c4a4de779d5d18aa2781d050d3f604f3d9803",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_meeting_worker.py": {
+      "normalized_sha256": "71c131da55aa3ab8e7c63aa290ec36162fe49751b3dd7345f0594b2e6c999022",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_message_period.py": {
+      "normalized_sha256": "7b0f841d2fc2f35fb284026946e7255cb159983822626acfa83d3083927c8973",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_microphone.py": {
+      "normalized_sha256": "0f7700aa327804cbce19dcaca1571480f42b07c762048730f2447ba8b3d4c92a",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_microphone_privacy.py": {
+      "normalized_sha256": "5929ff6fa2428ba40bd20883c9bce6c460ab81f5121e4b7e6fc626a913a942de",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_microphone_ui.py": {
+      "normalized_sha256": "c96fb58edcc83628d00b5ce33fa2f315a3439f8fbb4c0c3b47a4752e492636dd",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_model_benchmark.py": {
+      "normalized_sha256": "ff57b455e10ce7eafb3fb9bec3098120d421cbdaac3ba2c326b872d4978efa08",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_model_download.py": {
+      "normalized_sha256": "9bb1bb407f68c7d5c9e79b5448ba019f497f5fa2bd11bc8ce600a3d142fc7ef2",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_model_file_progress.py": {
+      "normalized_sha256": "792421b317ce601ff459093c67a99577170a0f799856b51d6dd8b3c19104b7f9",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_model_packages.py": {
+      "normalized_sha256": "119c0d4799860dc416ee3cf426e44b8525f6b773fa435a2e8344125421d49d0a",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_model_picker.py": {
+      "normalized_sha256": "5a7b7564d13ad6b3fdb8163f83ab69c48217eac4d6a5294b9899f654f1b7de49",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_model_storage.py": {
+      "normalized_sha256": "ceb5a3f8b5d23947cee6e29af22c2cc85c4efa902883cf3d51eb927b502714a2",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_model_storage_ui.py": {
+      "normalized_sha256": "7ab47edd2ce1f9dc2854ed9b6ae8d9f595c618a94e24cdeda64be6dc937b8006",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_model_tiers.py": {
+      "normalized_sha256": "f5957293784c99e140a9f4aaffec082d48ddd2c520a959b35b34d1e2531affc7",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_multilingual_cleanup.py": {
+      "normalized_sha256": "6387b5e41e9c9abbec186e602da8167a43db34467bf3b10d100928742de17bb7",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_native_clipboard_app.py": {
+      "normalized_sha256": "d4e45a1d7e8fcc939b1c3f9c9ad58c33a4cdc8e4bffb909f370bca0f7890100d",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_native_clipboard_probe.py": {
+      "normalized_sha256": "99bbb16d3698ee310b4160df0b91feb2d1453fecabffbb317d8c0e069311dfbb",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_native_devices.py": {
+      "normalized_sha256": "f2be048897e028022200e86a1d4fe9fb4f877317aed9ee136bc54623a737a537",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_native_hooks.py": {
+      "normalized_sha256": "edee28afcb446c45786656e3f707c629433684bf716a99a73e35cf5428e05fbb",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_native_output_capture.py": {
+      "normalized_sha256": "2a9debce9ac6355517c2d772a05d8f8d1bd3092586e9114737e1bc913b8d92ce",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_native_recording.py": {
+      "normalized_sha256": "5c22e0ae175aa222f6fbd38d215898b4756789825d5dfe7678b13f6c93ba8b03",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_netguard.py": {
+      "normalized_sha256": "df37ee45525055f0babe6e93466bcd0b1783aab0e6ee2a789db2d45cc95f5c6f",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_note_draft.py": {
+      "normalized_sha256": "b3c1a46f37ae0e230b40b1dcbcdde0444f58fc86b0291f9b213704bd4a33b97d",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_notes.py": {
+      "normalized_sha256": "f526d5ee3d29e26e08ab35849721228276f72fda8877713137cf285cd2245bf3",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_notes_shell.py": {
+      "normalized_sha256": "d286b0ec6f7d5341cfaaa30004f3ea5ebae0df68dd1080b55257965401b9edd9",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_notes_shortcuts.py": {
+      "normalized_sha256": "75ac4453b77b54d60c11b2f0e3b4f4243fd12862de099ffce97e655d04af5d27",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_observation_worker.py": {
+      "normalized_sha256": "2607561108a8eb9e638b71c441df4b8a6cdb33fc446c1dca094c6a4dfad046fd",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_onboarding_practice.py": {
+      "normalized_sha256": "be53c3f466b5dd0fb8fb724ce44c98c9a0b346d7ac85f1b474026656193a6b4c",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_onboarding_readiness.py": {
+      "normalized_sha256": "b848c8f88474fbdf28c9eddd6467b17f9273ecaa6077dc605c800ca70b8b4d0b",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_onboarding_shortcuts.py": {
+      "normalized_sha256": "4b824b8c622443909218f285b7123b4a0bfffcb39c60deb4076dac93178d465f",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_onboarding_window.py": {
+      "normalized_sha256": "065d5db197dc43e90621913b082ed8e1ff617457c5a0f50cd8d9efd236f27014",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_owned_uia_setup.py": {
+      "normalized_sha256": "4bbd4dda253936242406ef3501aeb82d552b8dc67f3b25bb812a2d6e027cbd7b",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_package_notices.py": {
+      "normalized_sha256": "174d9e7bc7c491b05d355b3faf8236c5c5a4cb7f85e6bc0640a6b90c517b342e",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_package_scaffold.py": {
+      "normalized_sha256": "ccb176362839999d48288cf545a8fa11facd25739dcf8d5e01f197098c86ec9c",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_parakeet.py": {
+      "normalized_sha256": "5a9ba34fd6d651137f45b5534e3d0d385719fa43280a31cfc7325eba8bd3254c",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_parakeet_tokenizer_fetch.py": {
+      "normalized_sha256": "7a333a919ee47346d0147e4deb218c42e672a2d40195c168fd92dcf637bc9d23",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_paste_last.py": {
+      "normalized_sha256": "4b843c00de00c9d4fd66bccdd008eeea7da8069ac701ffdba15c75a071a69d19",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_performance_timings.py": {
+      "normalized_sha256": "d22d34008215dd8e0b5c0330e450abf6d50e49360ebd16bb86977d8371c48c7a",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_pill_ui.py": {
+      "normalized_sha256": "c8839b5a013dc19e17206d151a211316099b2d7610c0664fc2c8fc47f84ac420",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_pipeline.py": {
+      "normalized_sha256": "759a4f68247edc096a8fd15f7c3ca1ba6c1f8428e3c913566b5da4edbdda25e3",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_post_rules_words.py": {
+      "normalized_sha256": "f70d8f62d51eb20697ca6c5f507df50e76a3889cda3dd43fc2b0a8b74a6ce861",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_practice.py": {
+      "normalized_sha256": "7f72bdbeb36b1127902d17b4c88ad8a43d87dc582916a8a2a1fdcb7cedea6c11",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_preview_selection.py": {
+      "normalized_sha256": "cd2aee7f7982a1a47aa3bbf2e994794ed49df736b456218182eecc8568e47321",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_preview_ui.py": {
+      "normalized_sha256": "c31476f3c94f5061fcdd97e0911a2bc962508e51cb3990ab631e1cd53453d192",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_preview_worker.py": {
+      "normalized_sha256": "657df7dffb7189c140bea541eb29ffe88a567bb2332f2a9a26989c2b3abb4c04",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_privacy_page.py": {
+      "normalized_sha256": "7caccd093292dc33ab30ede1e0426dd301a52d93ae47cd851536c524cc0c7315",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_processing.py": {
+      "normalized_sha256": "f6adffde6354d08e49e72587291eefeaff8f74c4f5e0d0e39e9464297703f921",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_profile_migration.py": {
+      "normalized_sha256": "a962296eac35322a386c1e9ecd46e7b1040aa66aa835042f00fcdc0fd0377127",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_qt_app_shell.py": {
+      "normalized_sha256": "8c325be38d79482123dfec866ba7657ee4065f1cda9e469de541ce29289db28b",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_quiet_speech.py": {
+      "normalized_sha256": "b019e99963fbcfb780e8f07d1afdc3b6439e117c30fd57cacedbe5fd0f27c461",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_quiet_speech_integration.py": {
+      "normalized_sha256": "a42592d3b5fa063664bca80bc90a0456c57aa1dd5b1d9b291f10e20ee9cd8499",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_qwen_probe.py": {
+      "normalized_sha256": "763842b347b13da69ea35dc51bfc9603046f0a958f5ed97758b16192f911f3e8",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_read_only_document_selection.py": {
+      "normalized_sha256": "7cd1a9147f76d2c10886b623ca2d93b007023c00888c18d2c5206893f010c6c5",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_readme.py": {
+      "normalized_sha256": "6d3fef2e491668acf07b313a47395c2804bba5beaedae1f98ac2b9eedb2a00d9",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_recorder.py": {
+      "normalized_sha256": "f3055b212e1b05103303abb48869a4f4fec9c41d7f96b3e040c7d9da4dab72f4",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_release_manifest.py": {
+      "normalized_sha256": "aea1a83252eae0374ae4ee2cb797e3abd52a07646eafa14db2d4563c568efc10",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_removed_legacy_stt.py": {
+      "normalized_sha256": "e15c53d7de3066e1ab94362b28a507bf6d83c98431e0f5f3760372b94273b6ab",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_removed_legacy_ui_storage.py": {
+      "normalized_sha256": "5a15ccf87dc05d03f50777a2a04dd7884d484b24d8c5c1200957aac398e8d0c3",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_replacement_confirmation.py": {
+      "normalized_sha256": "532f50a988d4c94cf3fd4d70a4964572f0770c6b860a4341488c944d9fa2aa7c",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_rules.py": {
+      "normalized_sha256": "bf8f2404156b27db99342d594f3f8eeefcafb724d4c00784c72cb8128bbca0aa",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_runtime_telemetry.py": {
+      "normalized_sha256": "bcb6d5de8cedaca5e5eb3664300e2c924a85590cc6e675936506f64d6966ca90",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_scratchpad.py": {
+      "normalized_sha256": "5e8959b9973fab55dd70b751218ed69c3c1a6b24e41199a6702e9ddf895ff8de",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_segments.py": {
+      "normalized_sha256": "7c22dc71e703c45fbb8fdb5249d9d6ec85405367e6b6a644fdc963f890a97081",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_selection.py": {
+      "normalized_sha256": "52e3782de703b94c5312c6bc265f2319b6ddd9262ce999f5275c23e362a92463",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_selection_copy.py": {
+      "normalized_sha256": "83825c26817505dfe2f1365908a9c3756a461a18152994621188feda3655e569",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_selection_patterns.py": {
+      "normalized_sha256": "2eca13b94ae1bfef757352489468d9ba0e7ee4d86ff9e08e55d05b5e98e50eaa",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_selection_worker.py": {
+      "normalized_sha256": "76d031fbafa4fb4da3e076d202c06d3b5ba8a465cd742ff47ae21d85ac8fbfe1",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_sendinput.py": {
+      "normalized_sha256": "986e8667bceab9b4e772ac5d4629e19876195248ff34ed147a215d288d613e81",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_services.py": {
+      "normalized_sha256": "13e764daaceab3b552ec4cc7dac9a127ce9cffd4fecedf0f666fe1798170ed7f",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_session.py": {
+      "normalized_sha256": "bea470fb54bfcf32e146947858c644c434cd614f694f0b3fe55bbcc44aa4592d",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_session_worker.py": {
+      "normalized_sha256": "a9402458764d7aca2178560438957bdc5a5392e0a20caaad1e18ff18b967cb5f",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_settings_window.py": {
+      "normalized_sha256": "bf08d8dd5e826a3c2fe78dd59e8ab674ff62f5778aea821c1ac724aeb0911c56",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_setup_benchmark.py": {
+      "normalized_sha256": "a6f4a5b26eec5405a47d8b48898d1d3c6f0f63a6d133cac8044b7fa8ab75136d",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_setup_models.py": {
+      "normalized_sha256": "f206f56ddb21ecb887dab3a26d40e75e0bf3390c1804d02002de1aa77b23310f",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_shortcut_capture.py": {
+      "normalized_sha256": "672fc2bc3d835670572ffe53131fa48a6c80680a0a7d02e4f88da9d17842661a",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_sidecar_devices.py": {
+      "normalized_sha256": "419b9f69ecda88408efbe0d7db02a931481dc3714eacd5a8101f4bf3b7cbfc75",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_sidecar_loopback.py": {
+      "normalized_sha256": "7b00557cadef847b81ed20e72d271167af046f2387e51b88cd910909359944e5",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_sidecar_manager.py": {
+      "normalized_sha256": "e19a087252d4aa05eb155176a959c31df815d2aa3867d928321ca13417261baf",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_sidecar_process.py": {
+      "normalized_sha256": "87bce023b35f907bb91d0bb5b26a8e4698069215ef24e01a1c45dc090b45dd52",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_silero_vad.py": {
+      "normalized_sha256": "c573e6227f535278a2a9adc79316f8c981307766a26333b5fd1868a77ee55beb",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_single_instance.py": {
+      "normalized_sha256": "a70f0edbc5450f6cca1e05b50a51d1e322bf2f3ed19996e3b9a8adc2b929d996",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_snippet_variables.py": {
+      "normalized_sha256": "34c24b1c3f4f71359330837488e98a0fa67e05330360ef692254123b10544fcc",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_snippets_page.py": {
+      "normalized_sha256": "2e0a7f581ed2403a53d8996d994e7ded1c52a915ccfa0e9c434896021a950812",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_snippets_store.py": {
+      "normalized_sha256": "7263817c13a441acd1a871f7f492e8161f37d559c273639b25eff9991897ec3b",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_soak.py": {
+      "normalized_sha256": "15d08661d8d0867bea943dd7278e5785e993de5d2aa3f11ce92838cc4da8e4c9",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_soak_lifecycle.py": {
+      "normalized_sha256": "554494964a9e15050dba698a202262718076f460e55d609944c98fb0d726ad93",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_soak_stream_evidence.py": {
+      "normalized_sha256": "93f89728f4f6d8f329a21298628f1c67efa4fa0060f317b4439a3624ca0f7f42",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_spoken_commands.py": {
+      "normalized_sha256": "52f8cd1c1cd95c0834a4fafca479652c9f5f80c521c984bab0c84ea21e173c9b",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_streaming_probe_package.py": {
+      "normalized_sha256": "15a75ea9692366dc1ab84932933321606f11f9974266fb28c5b3245678e86713",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_streaming_runtime.py": {
+      "normalized_sha256": "02cb03ce56a542b459dd58e456fd462876e23479f4369193b97de651d1bea95e",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_style_preview.py": {
+      "normalized_sha256": "4201a343c854604fece1001284fafe02e9141a6f8f7bd0b22ab7666a598b2a0b",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_styles.py": {
+      "normalized_sha256": "5df304d6d578fd8ed3181e40b82f3f72271d0008110b387f42bffa9dce8f430e",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_styles_page.py": {
+      "normalized_sha256": "4404a4ecd44c04896cd5c63d18e373e378d51cfde7e71b0fd84b5ecfa34350f1",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_theme.py": {
+      "normalized_sha256": "276660ba43f07e4e32b51056daa60dee47993cb19f60a1b7ce5eb4fd70947662",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_tracked_edit.py": {
+      "normalized_sha256": "3cd83673da0a6b40acc1b8061ea1814c121529f27a46b4d359ddb784bb868ae4",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_translation.py": {
+      "normalized_sha256": "96d961d6070517a335edb0bead179cbf24a27668e750052a0221ffe63895dcb5",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_translation_worker.py": {
+      "normalized_sha256": "050a63b84bce9920cc9891bce9aa3066a12b29e4961417441231f697ed5ab22f",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_tray_ui.py": {
+      "normalized_sha256": "a1cc90c8265c1c65f7feb15f63b5dd55ccc7e37f75b571a5447f77a66e36c02e",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_uia_cache.py": {
+      "normalized_sha256": "c51e1d29fbce73a6eda9cac1abae3e7120e98b97c174f616383478198e6bbac5",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_uia_context.py": {
+      "normalized_sha256": "db606c1b0617e1bae4d88bfb80b182617d8f9601aa9240bd0fb8dc2fcce57698",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_uia_delivery.py": {
+      "normalized_sha256": "b8600ab8faddd3a2d42121280388e5b909491b0aa25463ddcd71f6e06a65633c",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_uia_native.py": {
+      "normalized_sha256": "f526cbe36edcabead24701ee7a99fc164b5c7d7ff9accb05e9fc3f5a17109631",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_uia_patterns.py": {
+      "normalized_sha256": "32fe24c42bd2648237fa73191f4ece808c3c26fdea7d8bf84f992d1a8c4ade68",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_uia_worker.py": {
+      "normalized_sha256": "4e1aedb38f1878bcd9bfcfd88885fd97148c8138a50f7dbfddd4b575165611ea",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_updates.py": {
+      "normalized_sha256": "a6394d40f911e1e19598fd27171adef4e598e742cfaa65ff268ea8f2adba0533",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_updates_ui.py": {
+      "normalized_sha256": "3139c9c3ebc577085548300d141cee5b318b6c1ba1b52d67b3a15e47e41d1eed",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_vad.py": {
+      "normalized_sha256": "b2c53280631f4d34544f0f5b21181b099a8f4ff2bc270777398aa119346c14a2",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_vad_download_thread.py": {
+      "normalized_sha256": "4e6cab3d8a7466d772f98133c874acb574b9c79d242925edc3d3a2a454373739",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_validation.py": {
+      "normalized_sha256": "a6a1d0c28268db6f80c9a522e5d0b3b11c34c0844d4701143101bc7da9187bfc",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_validator_v2.py": {
+      "normalized_sha256": "c7a18bc923c06bb73dc7f5989c57489eef6375252fcebafd86449cb63b0f2dde",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_verified_downloader.py": {
+      "normalized_sha256": "9993cce7b99aedf2cfe5e9a37a8b2f8d891ee53657de7d7e577e7aba00f7796e",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_versioned_models.py": {
+      "normalized_sha256": "477ec70383fbee0fb413452425586bd49f86886baca0243d9e484d43ad64db96",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_voice_enter.py": {
+      "normalized_sha256": "70778b09c13ca79248b884f8586b268a45430acd401a94378f1287ff8d5d6f4a",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_voice_enter_app.py": {
+      "normalized_sha256": "5a77c3b4a239e55f1b2770f5ce6b79554ae8123c4e0d6df7ebfa46e5cf5b04dc",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_whisper_engine.py": {
+      "normalized_sha256": "0193cf92cf38d1068ac30517b527a7cb13dedb458f2ae4b1c935e350c081c459",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_whisper_local.py": {
+      "normalized_sha256": "1d52666e4319335937896c9464c7587a394b3ea257d789388ff2f8b6c2e46049",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_whisper_mode_ui.py": {
+      "normalized_sha256": "5e9d58d37321773acff1c58cdf18726432da8ddb0885862c5ff65f9beffc8bc4",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_whisper_turbo.py": {
+      "normalized_sha256": "dd13941d0825a566293a4b5c775fe5f626670d9c7c4cff20fcb060171be2ebc9",
+      "modified_before_final_run_started": true
+    },
+    "tests/test_wispr_warning.py": {
+      "normalized_sha256": "d993f1b3414326c584bfd461fc0d6a5a7d4a31c1cdb701c3144f3b365a85255f",
+      "modified_before_final_run_started": true
+    },
+    "tests/translation_cases.jsonl": {
+      "normalized_sha256": "4d9e7f21876c03550aec0ade5b837434402022de5bc41d75d9f45fa9bf7c5b4d",
+      "modified_before_final_run_started": true
+    }
+  },
+  "final_test_exit_observed": 0,
+  "final_test_log": "final-tests-r14.txt",
+  "owner_desktop_audio_input_used": false,
+  "owner_accuracy_accepted": false
+}

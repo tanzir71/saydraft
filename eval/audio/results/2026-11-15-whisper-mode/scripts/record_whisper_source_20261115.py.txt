@@ -1,0 +1,37 @@
+"""Bind completed guarded checks to the committed source, without application imports."""
+from datetime import datetime
+import hashlib
+import json
+from pathlib import Path
+import subprocess
+
+qa = Path(__file__).resolve().parent
+repo = qa / 'worktrees/whisper-mode-20261115'
+root = qa / 'whisper-mode-20261115-r1'
+source = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=repo, text=True).strip()
+assert not subprocess.check_output(['git', 'status', '--porcelain'], cwd=repo)
+start = datetime.fromisoformat('2026-11-14T20:35:12.4334144+00:00').timestamp()
+paths = subprocess.check_output(['git', 'ls-files', 'saydraft', 'tests'], cwd=repo, text=True).splitlines()
+files = {}
+for name in paths:
+    if not (name.endswith('.py') or name.endswith('.json') or name.endswith('.jsonl')):
+        continue
+    path = repo / name
+    blob = path.read_bytes().replace(b'\r\n', b'\n')
+    committed = subprocess.check_output(['git', 'show', f'{source}:{name}'], cwd=repo).replace(b'\r\n', b'\n')
+    assert blob == committed, name
+    assert path.stat().st_mtime < start, name
+    files[name] = {'normalized_sha256': hashlib.sha256(blob).hexdigest(),
+        'modified_before_final_run_started': True}
+for scale in (1, 2):
+    rendered = json.loads((root / f'renders-r3-{scale}x/report.json').read_bytes())
+    for name, expected in rendered['source_files'].items():
+        assert files[name]['normalized_sha256'] == expected, name
+report = {'source': source, 'clean': True, 'final_test_start_utc': '2026-11-14T20:35:12.4334144Z',
+    'source_unchanged_since_final_run_started': True, 'files': files,
+    'final_test_exit_observed': 0, 'final_test_log': 'final-tests-r14.txt',
+    'owner_desktop_audio_input_used': False, 'owner_accuracy_accepted': False}
+target = root / 'source-witness.json'
+assert not target.exists()
+target.write_text(json.dumps(report, indent=2) + '\n', encoding='utf-8')
+print(json.dumps({'source': source, 'files': len(files), 'clean': True, 'render_sources_match': True}))

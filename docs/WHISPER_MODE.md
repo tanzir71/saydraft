@@ -91,3 +91,13 @@ output and unchanged capture arrays, including partial hops and a 25-second
 boundary. The cached model setup makes no network requests. Neither those checks
 nor the offscreen UI tests use owner audio devices, clipboard, foreground or OS
 input. Artificial quiet signals are not whispered owner recordings.
+
+The [2026-11-15 implementation evidence](../eval/audio/results/2026-11-15-whisper-mode/)
+binds clean source `6edaad6` to 426 passing focused checks, three optional skips,
+three restricted entry-point deselections, 64 themed renders and nine actual
+native enhancement cases. Rules pass 556/556 and adversarial validation 100/100.
+The fresh portable build passes frozen runtime and actual enhancement checks,
+plus the 1,384-file bundle and ZIP audit. Its complete notices and every package
+file verify independently. SkipInstaller leaves installer/signing and connected
+frozen interaction unqualified; P7.4 owner accuracy and release latency remain
+open. No Actions run or PR is required for this locally verified checkpoint.

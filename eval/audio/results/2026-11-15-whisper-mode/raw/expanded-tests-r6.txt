@@ -1,0 +1,59 @@
+..............................................F......................... [ 20%]
+........................................................................ [ 40%]
+........................................................................ [ 61%]
+..................................................................s..... [ 81%]
+......s.....s....................................................        [100%]
+================================== FAILURES ===================================
+_ test_quiet_mode_keeps_saved_streaming_preference_but_makes_processed_primary_final _
+
+subject = (<saydraft.ui.settings_page.SettingsPage(0x1cf7091eeb0) at 0x000001CF5945FEC0>, WindowsPath('D:/Saydraft-Codex-QA-2026...eControls(0x1cf70865fb0) at 0x000001CF72250F00>, <PySide6.QtWidgets.QApplication(0x1cf7027cd30) at 0x000001CF71D158C0>)
+
+    def test_quiet_mode_keeps_saved_streaming_preference_but_makes_processed_primary_final(subject):
+        from saydraft.core.preview import streaming_result_enabled
+        window, _path, controls, _app = subject
+        tier = window.tier_combo
+        tier.setCurrentIndex(tier.findData('pro'))
+        window.refresh_labs()
+        window.labs_page.live.setChecked(True)
+        window.labs_page.streaming.setChecked(True)
+        controls.enabled.setChecked(True)
+        controls.enhancement.setChecked(False)
+>       assert window.labs_page.streaming.isChecked() and not window.labs_page.streaming.isEnabled()
+E       assert (True and not True)
+E        +  where True = <built-in method isChecked of PySide6.QtWidgets.QCheckBox object at 0x000001CF592FA700>()
+E        +    where <built-in method isChecked of PySide6.QtWidgets.QCheckBox object at 0x000001CF592FA700> = <PySide6.QtWidgets.QCheckBox(0x1cf707242d0) at 0x000001CF592FA700>.isChecked
+E        +      where <PySide6.QtWidgets.QCheckBox(0x1cf707242d0) at 0x000001CF592FA700> = <saydraft.ui.labs_page.LabsPage(0x1cf7047f850) at 0x000001CF59723180>.streaming
+E        +        where <saydraft.ui.labs_page.LabsPage(0x1cf7047f850) at 0x000001CF59723180> = <saydraft.ui.settings_page.SettingsPage(0x1cf7091eeb0) at 0x000001CF5945FEC0>.labs_page
+E        +  and   True = <built-in method isEnabled of PySide6.QtWidgets.QCheckBox object at 0x000001CF592FA700>()
+E        +    where <built-in method isEnabled of PySide6.QtWidgets.QCheckBox object at 0x000001CF592FA700> = <PySide6.QtWidgets.QCheckBox(0x1cf707242d0) at 0x000001CF592FA700>.isEnabled
+E        +      where <PySide6.QtWidgets.QCheckBox(0x1cf707242d0) at 0x000001CF592FA700> = <saydraft.ui.labs_page.LabsPage(0x1cf7047f850) at 0x000001CF59723180>.streaming
+E        +        where <saydraft.ui.labs_page.LabsPage(0x1cf7047f850) at 0x000001CF59723180> = <saydraft.ui.settings_page.SettingsPage(0x1cf7091eeb0) at 0x000001CF5945FEC0>.labs_page
+
+tests\test_whisper_mode_ui.py:163: AssertionError
+---------------------------- Captured stderr call -----------------------------
+Traceback (most recent call last):
+  File "D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\whisper-mode-20261115\saydraft\ui\settings_page.py", line 688, in refresh_labs
+    self.labs_page.update_eligibility(cfg, report)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\whisper-mode-20261115\saydraft\ui\labs_page.py", line 94, in update_eligibility
+    self.command.update_eligibility(config, self.report_loader() if report is None else report)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\whisper-mode-20261115\saydraft\ui\command_setup.py", line 98, in update_eligibility
+    self._details()
+    ~~~~~~~~~~~~~^^
+  File "D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\whisper-mode-20261115\saydraft\ui\command_setup.py", line 112, in _details
+    package = command_bundle(self._backend())
+                             ~~~~~~~~~~~~~^^
+  File "D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\whisper-mode-20261115\saydraft\ui\command_setup.py", line 109, in _backend
+    return command_choice(staged, self.report).backend
+           ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\whisper-mode-20261115\saydraft\models\command.py", line 20, in command_choice
+    return _choice(config, report, 'command_mode')
+  File "D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\whisper-mode-20261115\saydraft\models\command.py", line 38, in _choice
+    backend = selected if selected in ("cpu", "vulkan") else "vulkan" if (report or {}).get("vulkan") else "cpu"
+                                                                         ^^^^^^^^^^^^^^^^^^
+AttributeError: 'bool' object has no attribute 'get'
+- generated xml file: D:\Saydraft-Codex-QA-20261112-01a1cbc7\whisper-mode-20261115-r1\expanded-tests-r6.xml -
+=========================== short test summary info ===========================
+FAILED tests/test_whisper_mode_ui.py::test_quiet_mode_keeps_saved_streaming_preference_but_makes_processed_primary_final
+1 failed, 349 passed, 3 skipped, 2 deselected in 23.97s

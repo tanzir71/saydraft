@@ -1,0 +1,44 @@
+.................................................F...................... [ 18%]
+........................................................................ [ 37%]
+........................................................................ [ 56%]
+.....................................................................s.. [ 75%]
+.........s.....s........................................................ [ 93%]
+........................                                                 [100%]
+================================== FAILURES ===================================
+_ test_long_setup_feedback_fits_the_real_hub_footer_at_minimum_size_with_large_text _
+
+subject = (<[RuntimeError('libshiboken: Internal C++ object (SettingsPage) already deleted.') raised in repr()] SettingsPage obj...)] WhisperModeControls object at 0x1a9e9f78500>, <PySide6.QtWidgets.QApplication(0x1a9e81d9c00) at 0x000001A9E9A35840>)
+
+    def test_long_setup_feedback_fits_the_real_hub_footer_at_minimum_size_with_large_text(subject):
+        from saydraft.history import DictationHistoryStore
+        from saydraft.ui.hub import HubWindow
+        window, path, _controls, app = subject
+        original = QtGui.QFont(app.font())
+        large = QtGui.QFont(original)
+        large.setPixelSize(22)
+        app.setFont(large)
+        store = DictationHistoryStore(path.parent / 'footer-history.db')
+        hub = HubWindow(settings_options={}, settings_page_factory=lambda **kwargs: window,
+            history_options={'store': store, 'clipboard': NS(setText=lambda text: None)})
+        try:
+            hub.resize(880, 600)
+            hub.show_page('Settings', tab='Microphone')
+            hub.show()
+            window.status_label.setText('An enhancement file changed. Open Microphone to review setup, then download '
+                'it again or turn enhancement off before saving.')
+            app.processEvents()
+            label = window.status_label
+>           assert label.height() >= label.heightForWidth(label.width())
+E           assert 30 >= 204
+E            +  where 30 = <built-in method height of PySide6.QtWidgets.QLabel object at 0x000001A9D10AAF40>()
+E            +    where <built-in method height of PySide6.QtWidgets.QLabel object at 0x000001A9D10AAF40> = <PySide6.QtWidgets.QLabel(0x1a9e8861340) at 0x000001A9D10AAF40>.height
+E            +  and   204 = <built-in method heightForWidth of PySide6.QtWidgets.QLabel object at 0x000001A9D10AAF40>(360)
+E            +    where <built-in method heightForWidth of PySide6.QtWidgets.QLabel object at 0x000001A9D10AAF40> = <PySide6.QtWidgets.QLabel(0x1a9e8861340) at 0x000001A9D10AAF40>.heightForWidth
+E            +    and   360 = <built-in method width of PySide6.QtWidgets.QLabel object at 0x000001A9D10AAF40>()
+E            +      where <built-in method width of PySide6.QtWidgets.QLabel object at 0x000001A9D10AAF40> = <PySide6.QtWidgets.QLabel(0x1a9e8861340) at 0x000001A9D10AAF40>.width
+
+tests\test_whisper_mode_ui.py:192: AssertionError
+- generated xml file: D:\Saydraft-Codex-QA-20261112-01a1cbc7\whisper-mode-20261115-r1\final-tests-r11.xml -
+=========================== short test summary info ===========================
+FAILED tests/test_whisper_mode_ui.py::test_long_setup_feedback_fits_the_real_hub_footer_at_minimum_size_with_large_text
+1 failed, 380 passed, 3 skipped, 2 deselected in 46.20s

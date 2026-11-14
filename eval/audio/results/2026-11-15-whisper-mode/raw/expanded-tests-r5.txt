@@ -1,0 +1,42 @@
+....................................F................................... [ 32%]
+........................................................................ [ 65%]
+....F................................................................... [ 98%]
+...                                                                      [100%]
+================================== FAILURES ===================================
+_ test_meeting_setup_reviews_enhancement_when_its_recognition_uses_quiet_mode _
+
+    def test_meeting_setup_reviews_enhancement_when_its_recognition_uses_quiet_mode():
+        from saydraft.audio.gtcrn import MODEL_ID
+        from saydraft.meetings.setup import meeting_setup_plan
+        config = quiet_config()
+        config['app']['tier'] = 'pro'
+        without = meeting_setup_plan(config)
+        assert MODEL_ID not in without.model_ids
+        config['recording']['whisper_enhancement'] = True
+        reviewed = meeting_setup_plan(config)
+        assert MODEL_ID in reviewed.model_ids
+>       assert reviewed.download_bytes - without.download_bytes == 541126
+E       AssertionError: assert (5481229913 - 5480694275) == 541126
+E        +  where 5481229913 = MeetingSetupPlan(model_ids=('parakeet-tdt-0-6b-v3-int8', 'whisper-tiny-lid-int8', 'whisper-large-v3-turbo', 'silero-va...8893098', '4168f45a16a1290d65a4ec0fa312ae917a4c15d6', 'github-release-asset-709507579'), backend='cpu', reason='ready').download_bytes
+E        +  and   5480694275 = MeetingSetupPlan(model_ids=('parakeet-tdt-0-6b-v3-int8', 'whisper-tiny-lid-int8', 'whisper-large-v3-turbo', 'silero-va...8893098', '4168f45a16a1290d65a4ec0fa312ae917a4c15d6', 'github-release-asset-709507579'), backend='cpu', reason='ready').download_bytes
+
+tests\test_quiet_speech.py:232: AssertionError
+______ test_streaming_is_off_by_default_and_needs_a_live_preview_opt_in _______
+
+    def test_streaming_is_off_by_default_and_needs_a_live_preview_opt_in():
+        config = default_config()
+>       assert config["labs"] == {"live_preview": False, "use_streaming_result": False, "command_mode": False,
+                                  "translate_mode": False, "ask_mode": False}
+E       AssertionError: assert {'ask_mode': ...': False, ...} == {'ask_mode': ...': False, ...}
+E         
+E         Omitting 5 identical items, use -vv to show
+E         Left contains 1 more item:
+E         {'notetaker': False}
+E         Use -v to get more diff
+
+tests\test_preview_selection.py:31: AssertionError
+- generated xml file: D:\Saydraft-Codex-QA-20261112-01a1cbc7\whisper-mode-20261115-r1\expanded-tests-r5.xml -
+=========================== short test summary info ===========================
+FAILED tests/test_quiet_speech.py::test_meeting_setup_reviews_enhancement_when_its_recognition_uses_quiet_mode
+FAILED tests/test_preview_selection.py::test_streaming_is_off_by_default_and_needs_a_live_preview_opt_in
+2 failed, 217 passed, 2 deselected in 17.93s

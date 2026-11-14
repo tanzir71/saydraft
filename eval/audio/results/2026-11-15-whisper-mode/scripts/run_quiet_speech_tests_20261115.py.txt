@@ -1,0 +1,50 @@
+"""Local own-fixture tests; owner capture, profile and app entry points are barred."""
+import atexit
+import importlib.abc
+import hashlib
+import json
+import os
+from pathlib import Path
+import sys
+import types
+
+qa=Path(__file__).resolve().parent
+repo=qa/'worktrees/whisper-mode-20261115'
+root=qa/'whisper-mode-20261115-r1'
+os.environ['QT_QPA_PLATFORM']='offscreen'
+os.environ['TEMP']=os.environ['TMP']=str(root/'tmp')
+(root/'tmp').mkdir(exist_ok=True)
+class Guard(importlib.abc.MetaPathFinder):
+    def find_spec(self, fullname, path=None, target=None):
+        if fullname.split('.')[0] in ('soundcard','sounddevice') or fullname in (
+            'saydraft.app','saydraft.compat.migrate','saydraft.logging_config','saydraft.single_instance'):
+            raise AssertionError('Owner desktop/audio/profile services are barred')
+sys.meta_path.insert(0,Guard())
+sys.path.insert(0,str(repo))
+sys.path.insert(0,str(qa/'dictionary-correction-20261115-r1/dependencies'))
+profile=types.ModuleType('saydraft.compat.migrate')
+profile.LEGACY_NAME='VoiceTray'
+guard=Path(sys.argv.pop(1))
+os.environ['LOCALAPPDATA']=str(root/'profiles'/hashlib.sha256(str(guard).encode()).hexdigest()[:8])
+def profile_root():
+    path=Path(os.environ['LOCALAPPDATA']).absolute()
+    if not path.is_relative_to(root):
+        raise AssertionError('Only the explicit D QA profile is allowed')
+    return path
+profile.profile_root=profile_root
+sys.modules[profile.__name__]=profile
+atexit.register(lambda:guard.write_text(json.dumps({'audio_sdk_imported':any(
+    name in sys.modules for name in ('soundcard','sounddevice')),'owner_profile_used':False,
+    'app_entrypoint_imported':'saydraft.app' in sys.modules})+'\n',encoding='utf-8'))
+if sys.argv[1] in ('--script','--module'):
+    import runpy
+    mode=sys.argv.pop(1)
+    script=sys.argv.pop(1)
+    sys.argv[0]=script
+    if mode=='--script':
+        runpy.run_path(script,run_name='__main__')
+    else:
+        runpy.run_module(script,run_name='__main__',alter_sys=True)
+else:
+    import pytest
+    raise SystemExit(pytest.main(sys.argv[1:]))

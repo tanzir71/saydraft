@@ -1,0 +1,31 @@
+{
+  "version": "0.1.0",
+  "frozen": true,
+  "microphone_used": false,
+  "audio_devices_enumerated": false,
+  "input_injected": false,
+  "owner_clipboard_accessed": false,
+  "active_application_read": false,
+  "asr_performed": false,
+  "native_firewall_verified": false,
+  "checks": {
+    "resources": true,
+    "dictionary_correction": true,
+    "quiet_speech": true,
+    "third_party_notices": true,
+    "native_imports": true,
+    "meeting_capture_resources": true,
+    "tray_images": true,
+    "python_network_guard": true,
+    "forbidden_modules_absent": true,
+    "quiet_speech_native": true
+  },
+  "complete": true,
+  "third_party_notices": {
+    "components": 40,
+    "files": 511,
+    "index_sha256": "21e27f4b23aabbd4ac775224c102d7e6be473f233ef00959b924d7a5eb1fe0a2"
+  },
+  "stage": "complete",
+  "enhancement_performed": true
+}

@@ -1,0 +1,37 @@
+{
+  "source": "6edaad6f470b97e7bfed8248a22df0ec8db97a64",
+  "passed_tests": 426,
+  "skipped_tests": 3,
+  "deselected_tests": 3,
+  "final_test_exit_observed": 0,
+  "final_test_seconds": 115.03,
+  "renders": 64,
+  "native_cases": 9,
+  "rules": 556,
+  "adversarial": 100,
+  "build_exit_observed": 0,
+  "frozen_enhancement_exit_observed": 0,
+  "portable": {
+    "Saydraft-0.1.0-win-x64.zip": {
+      "bytes": 157066806,
+      "sha256": "13acb9c5dddbe054a88ab40e5403962d69372f2f7aec768785a0d3a773d2556b"
+    }
+  },
+  "notice_inventory": {
+    "components": 40,
+    "files": 511,
+    "index_sha256": "21e27f4b23aabbd4ac775224c102d7e6be473f233ef00959b924d7a5eb1fe0a2"
+  },
+  "bundle_files": 1384,
+  "build_root": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\whisper-mode-package-20261115-r1",
+  "owner_accuracy_accepted": false,
+  "whispered_speech_accuracy_measured": false,
+  "p7_4_accepted": false,
+  "installer_qualified": false,
+  "latency_accepted": false,
+  "full_goal_complete": false,
+  "owner_desktop_audio_input_used": false,
+  "actions_dispatched": false,
+  "pull_requests_created": false,
+  "dense_script_reserved_recordings_uninferred": 60
+}

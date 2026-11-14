@@ -1,0 +1,424 @@
+{
+  "platform": "offscreen",
+  "scale": 2,
+  "source": "32bce3236f61db691b650bac59338cc5e1094cc0",
+  "source_dirty": true,
+  "source_files": {
+    "saydraft/asr/quiet.py": "57b1ddf2da11f60e6e915f2c678f2e30281879437862b21fb477d93c94fad7b9",
+    "saydraft/asr/router.py": "929b8e282c94671e6664f065b8fd1c09fca1399c9ec4b199351b6908eec9ac0a",
+    "saydraft/asr/selection.py": "f2945661ebd22cda590315adef0e601e8b4fa6c6125ef26ebe72d3b382d1f530",
+    "saydraft/asr/sherpa_parakeet.py": "7857fbdb61d2ee92dc2b1b48abf0df8af56e078e9316817b88e03155d1b5c66b",
+    "saydraft/asr/whisper_ct2.py": "cd14107f7d08c85317ec81c4357ee8608250694af22cd539bff6c894fc33ecdb",
+    "saydraft/audio/gtcrn.py": "b5ab71f3013a173e9446447407d1ee0a85dcc19d6b8c542dc58a5911d26c7a36",
+    "saydraft/audio/quiet.py": "67c9a99771d257a3db50921b8c0fcb7ca086995a088960de1e66423ea9d6aa28",
+    "saydraft/audio/vad.py": "a2af9749c3e2d15bddcb974294ef22926eb1b40e1fababefd5976851c4aa12bc",
+    "saydraft/audio/vad_silero.py": "2656b8988865430d1571e53551661837ea8cf1593be2221a1c4ed7b963c92a04",
+    "saydraft/config.py": "323d717ecc47a8701a1a66a2a1a984e5a35e18698462e9836b6c893ea6e199a6",
+    "saydraft/core/preview.py": "1621c5e50c1bd122e79b18a6d38aa27869b3825d0999f425cfe6f33b64594c38",
+    "saydraft/core/segments.py": "472b5ed980b772d4153b7548e15f601cdca30f7b4c2cec4be15b226b5fb8a89e",
+    "saydraft/core/timings.py": "c62ea4b05dc661b577726b036ed23ad34671a986865c34ea29b368468a9da0de",
+    "saydraft/core/worker.py": "39d0b805e11895c8155e67e2e5dc4d1749e662a158adb7eb62cc73c0a51983fc",
+    "saydraft/meetings/setup.py": "dc83ccaf8897c8cabb24356b25d7df670b90be89a5656632955978db004bd1a8",
+    "saydraft/model_download.py": "be388981666d7d9f62b0a379a02d8ba14ac4f7c8fd2ed803e6262883e60c94a9",
+    "saydraft/models/manifest.json": "f50eceafecbc60d1b0a5f5e573e141d1f4991add087b0d4c438b8811e3932945",
+    "saydraft/models/storage.py": "f30cb5f654985468c41c232f31596f730f501b4e048f35fedc009577cb9e157f",
+    "saydraft/package_check.py": "cbb192ae8a6e635041699329d7440c6271941d541f5806b6e6453ace387111e8",
+    "saydraft/stt/whisper_engine.py": "b7b8660763494f6bcac5edc225c03e074e635cd16cc580335a8b1840e33f2df7",
+    "saydraft/ui/hub.py": "849fbb715e553e513c89745e164c3197d00948d256baf5fb06a89d3a3cdfbf79",
+    "saydraft/ui/labs_page.py": "010d93c8ec4374af5e487886bb7f7326b6b8f77471110ca8bd6ebf20ec0a1dbd",
+    "saydraft/ui/microphone_page.py": "3e688dd19a8949d3fbf12a7b6e7da68ce68ebf6f34abb8d3295d98392776d44b",
+    "saydraft/ui/settings_page.py": "1498542da6756ffe4d3fec4eb6c914b48b6d00c273ea9fa305b7c80e5281883c",
+    "saydraft/ui/whisper_mode.py": "00a8fdf67ffdf7a673842041d16786c38b3f7bb1f03f4e97140a188ed09591ab"
+  },
+  "network_guard": true,
+  "owner_or_download_ports_called": [],
+  "model_loaded": false,
+  "owner_accuracy_accepted": false,
+  "rows": [
+    {
+      "theme": "light",
+      "width": 880,
+      "height": 600,
+      "font_pixels": 22,
+      "state": "off",
+      "enabled": false,
+      "enhancement": true,
+      "ready": false,
+      "files": [
+        {
+          "name": "light-880-22-off-controls.png",
+          "bytes": 159814,
+          "sha256": "971da241db8d67f00b26b550778d56f97f33bcabb78de70dabd556cb2e5eed9e"
+        },
+        {
+          "name": "light-880-22-off-setup.png",
+          "bytes": 187263,
+          "sha256": "e5942a557d0d43ba4b8bf5ca47878c77c93fb95607dbc0ebac56bb018d1d02d7"
+        }
+      ],
+      "no_horizontal_overflow": true,
+      "unchanged_config_and_history": true
+    },
+    {
+      "theme": "light",
+      "width": 880,
+      "height": 600,
+      "font_pixels": 22,
+      "state": "gain-agc",
+      "enabled": true,
+      "enhancement": false,
+      "ready": false,
+      "files": [
+        {
+          "name": "light-880-22-gain-agc-controls.png",
+          "bytes": 179972,
+          "sha256": "9c7d7b1b8d3f478514cb8a9bd5d85444eba7a151f92a18f59d6f109f9e54de03"
+        },
+        {
+          "name": "light-880-22-gain-agc-setup.png",
+          "bytes": 187263,
+          "sha256": "e5942a557d0d43ba4b8bf5ca47878c77c93fb95607dbc0ebac56bb018d1d02d7"
+        }
+      ],
+      "no_horizontal_overflow": true,
+      "unchanged_config_and_history": true
+    },
+    {
+      "theme": "light",
+      "width": 880,
+      "height": 600,
+      "font_pixels": 22,
+      "state": "needs-setup",
+      "enabled": true,
+      "enhancement": true,
+      "ready": false,
+      "files": [
+        {
+          "name": "light-880-22-needs-setup-controls.png",
+          "bytes": 185459,
+          "sha256": "f9b2930362bd8d08132bab69c5e632d63fc710dcd4b82d90e43e5230fe33a405"
+        },
+        {
+          "name": "light-880-22-needs-setup-setup.png",
+          "bytes": 192818,
+          "sha256": "0d02522f79c10878c4bc3fe8aad0d7b8d6c3b03ec35b52e183ce1bbff6d66bf4"
+        }
+      ],
+      "no_horizontal_overflow": true,
+      "unchanged_config_and_history": true
+    },
+    {
+      "theme": "light",
+      "width": 880,
+      "height": 600,
+      "font_pixels": 22,
+      "state": "ready",
+      "enabled": true,
+      "enhancement": true,
+      "ready": true,
+      "files": [
+        {
+          "name": "light-880-22-ready-controls.png",
+          "bytes": 179939,
+          "sha256": "35fded62cd44e00299d65515d682d55fb3ae26f284d3a3d00c373e6fb833de45"
+        },
+        {
+          "name": "light-880-22-ready-setup.png",
+          "bytes": 185311,
+          "sha256": "a54f8824015b0b9a0c07d50a65f8abbbb437edfb7a8e6fcd75584c042ba00f05"
+        }
+      ],
+      "no_horizontal_overflow": true,
+      "unchanged_config_and_history": true
+    },
+    {
+      "theme": "light",
+      "width": 1080,
+      "height": 720,
+      "font_pixels": 16,
+      "state": "off",
+      "enabled": false,
+      "enhancement": true,
+      "ready": false,
+      "files": [
+        {
+          "name": "light-1080-16-off-controls.png",
+          "bytes": 175396,
+          "sha256": "bc02f492aca9442cd542c9190866e75d1940848a278ea7c9d34da88f0158e20e"
+        },
+        {
+          "name": "light-1080-16-off-setup.png",
+          "bytes": 197900,
+          "sha256": "4f7744235330e15bf268c5288543b178742663ad43318fe649c5c50ab534f8a7"
+        }
+      ],
+      "no_horizontal_overflow": true,
+      "unchanged_config_and_history": true
+    },
+    {
+      "theme": "light",
+      "width": 1080,
+      "height": 720,
+      "font_pixels": 16,
+      "state": "gain-agc",
+      "enabled": true,
+      "enhancement": false,
+      "ready": false,
+      "files": [
+        {
+          "name": "light-1080-16-gain-agc-controls.png",
+          "bytes": 198116,
+          "sha256": "a061a3f47406d1dfccf768d3e11051e2d313b957d789ee3b941c8578dea106c1"
+        },
+        {
+          "name": "light-1080-16-gain-agc-setup.png",
+          "bytes": 198116,
+          "sha256": "a061a3f47406d1dfccf768d3e11051e2d313b957d789ee3b941c8578dea106c1"
+        }
+      ],
+      "no_horizontal_overflow": true,
+      "unchanged_config_and_history": true
+    },
+    {
+      "theme": "light",
+      "width": 1080,
+      "height": 720,
+      "font_pixels": 16,
+      "state": "needs-setup",
+      "enabled": true,
+      "enhancement": true,
+      "ready": false,
+      "files": [
+        {
+          "name": "light-1080-16-needs-setup-controls.png",
+          "bytes": 204972,
+          "sha256": "9b31c02da18a70733e95cf40a26a28598ae0feae7a72ec043400d3ae31befb20"
+        },
+        {
+          "name": "light-1080-16-needs-setup-setup.png",
+          "bytes": 204972,
+          "sha256": "9b31c02da18a70733e95cf40a26a28598ae0feae7a72ec043400d3ae31befb20"
+        }
+      ],
+      "no_horizontal_overflow": true,
+      "unchanged_config_and_history": true
+    },
+    {
+      "theme": "light",
+      "width": 1080,
+      "height": 720,
+      "font_pixels": 16,
+      "state": "ready",
+      "enabled": true,
+      "enhancement": true,
+      "ready": true,
+      "files": [
+        {
+          "name": "light-1080-16-ready-controls.png",
+          "bytes": 190412,
+          "sha256": "a94199051186585273ba67b9dc37c84ce79268a86c8e10e3816793a179288810"
+        },
+        {
+          "name": "light-1080-16-ready-setup.png",
+          "bytes": 190412,
+          "sha256": "a94199051186585273ba67b9dc37c84ce79268a86c8e10e3816793a179288810"
+        }
+      ],
+      "no_horizontal_overflow": true,
+      "unchanged_config_and_history": true
+    },
+    {
+      "theme": "dark",
+      "width": 880,
+      "height": 600,
+      "font_pixels": 22,
+      "state": "off",
+      "enabled": false,
+      "enhancement": true,
+      "ready": false,
+      "files": [
+        {
+          "name": "dark-880-22-off-controls.png",
+          "bytes": 162412,
+          "sha256": "b5672aa3721788866a3c02043472e37a0824a63410450e7faaf22afa0cfd60e4"
+        },
+        {
+          "name": "dark-880-22-off-setup.png",
+          "bytes": 190122,
+          "sha256": "3069257e76b4ecbd8076f95140f4c75278b93f525de58197929179fa9b5b686a"
+        }
+      ],
+      "no_horizontal_overflow": true,
+      "unchanged_config_and_history": true
+    },
+    {
+      "theme": "dark",
+      "width": 880,
+      "height": 600,
+      "font_pixels": 22,
+      "state": "gain-agc",
+      "enabled": true,
+      "enhancement": false,
+      "ready": false,
+      "files": [
+        {
+          "name": "dark-880-22-gain-agc-controls.png",
+          "bytes": 182445,
+          "sha256": "ad0ab9b548bfd4b8a517a3774424d96ff6feebd98a6f64d6042a45d74dda8ef2"
+        },
+        {
+          "name": "dark-880-22-gain-agc-setup.png",
+          "bytes": 190122,
+          "sha256": "3069257e76b4ecbd8076f95140f4c75278b93f525de58197929179fa9b5b686a"
+        }
+      ],
+      "no_horizontal_overflow": true,
+      "unchanged_config_and_history": true
+    },
+    {
+      "theme": "dark",
+      "width": 880,
+      "height": 600,
+      "font_pixels": 22,
+      "state": "needs-setup",
+      "enabled": true,
+      "enhancement": true,
+      "ready": false,
+      "files": [
+        {
+          "name": "dark-880-22-needs-setup-controls.png",
+          "bytes": 188172,
+          "sha256": "4accf4c1aa14eb6e358a557e696667ab9b654e11ce094a515859b8d0f04e2fbf"
+        },
+        {
+          "name": "dark-880-22-needs-setup-setup.png",
+          "bytes": 195476,
+          "sha256": "f13790d0aab1bcee45c1ba36f5e81c9b146373fc947fc78da26ffa7bbf82cc3a"
+        }
+      ],
+      "no_horizontal_overflow": true,
+      "unchanged_config_and_history": true
+    },
+    {
+      "theme": "dark",
+      "width": 880,
+      "height": 600,
+      "font_pixels": 22,
+      "state": "ready",
+      "enabled": true,
+      "enhancement": true,
+      "ready": true,
+      "files": [
+        {
+          "name": "dark-880-22-ready-controls.png",
+          "bytes": 182537,
+          "sha256": "4506fbb09ebc8e80ef4381c5652637e60eb0e71a5adb61fb4cab33c75dfb1820"
+        },
+        {
+          "name": "dark-880-22-ready-setup.png",
+          "bytes": 188164,
+          "sha256": "5791965d85d13a85bfb12f479491da741ef965c2e44aafe311b231a82be30f8e"
+        }
+      ],
+      "no_horizontal_overflow": true,
+      "unchanged_config_and_history": true
+    },
+    {
+      "theme": "dark",
+      "width": 1080,
+      "height": 720,
+      "font_pixels": 16,
+      "state": "off",
+      "enabled": false,
+      "enhancement": true,
+      "ready": false,
+      "files": [
+        {
+          "name": "dark-1080-16-off-controls.png",
+          "bytes": 177421,
+          "sha256": "5aa06935e22ce47b15b23c4eeb9b6cd8d2b11928a48186c528d338aa9c449e28"
+        },
+        {
+          "name": "dark-1080-16-off-setup.png",
+          "bytes": 200291,
+          "sha256": "a2a01b3ed13a44263b9ec410814a7fd7cc09bf6957bb51e1f18f4a7b0197609a"
+        }
+      ],
+      "no_horizontal_overflow": true,
+      "unchanged_config_and_history": true
+    },
+    {
+      "theme": "dark",
+      "width": 1080,
+      "height": 720,
+      "font_pixels": 16,
+      "state": "gain-agc",
+      "enabled": true,
+      "enhancement": false,
+      "ready": false,
+      "files": [
+        {
+          "name": "dark-1080-16-gain-agc-controls.png",
+          "bytes": 200511,
+          "sha256": "5ced5296e66c79309b15b03a46d4b485cea2fd660cba38aae4b9b6c24e7eb479"
+        },
+        {
+          "name": "dark-1080-16-gain-agc-setup.png",
+          "bytes": 200511,
+          "sha256": "5ced5296e66c79309b15b03a46d4b485cea2fd660cba38aae4b9b6c24e7eb479"
+        }
+      ],
+      "no_horizontal_overflow": true,
+      "unchanged_config_and_history": true
+    },
+    {
+      "theme": "dark",
+      "width": 1080,
+      "height": 720,
+      "font_pixels": 16,
+      "state": "needs-setup",
+      "enabled": true,
+      "enhancement": true,
+      "ready": false,
+      "files": [
+        {
+          "name": "dark-1080-16-needs-setup-controls.png",
+          "bytes": 207675,
+          "sha256": "e6e80fc1cbaa900a39319d9af01ca330214f553dd2d8e0734434785a5ee8bbd8"
+        },
+        {
+          "name": "dark-1080-16-needs-setup-setup.png",
+          "bytes": 207675,
+          "sha256": "e6e80fc1cbaa900a39319d9af01ca330214f553dd2d8e0734434785a5ee8bbd8"
+        }
+      ],
+      "no_horizontal_overflow": true,
+      "unchanged_config_and_history": true
+    },
+    {
+      "theme": "dark",
+      "width": 1080,
+      "height": 720,
+      "font_pixels": 16,
+      "state": "ready",
+      "enabled": true,
+      "enhancement": true,
+      "ready": true,
+      "files": [
+        {
+          "name": "dark-1080-16-ready-controls.png",
+          "bytes": 193196,
+          "sha256": "865ae16cecf28b0117dbb9e191991490667cbd958704e3a8f5cdbc8271dc5616"
+        },
+        {
+          "name": "dark-1080-16-ready-setup.png",
+          "bytes": 193196,
+          "sha256": "865ae16cecf28b0117dbb9e191991490667cbd958704e3a8f5cdbc8271dc5616"
+        }
+      ],
+      "no_horizontal_overflow": true,
+      "unchanged_config_and_history": true
+    }
+  ],
+  "renders": 32
+}

@@ -1,0 +1,77 @@
+"""Actual pinned GTCRN on generated/file fixtures, with no owner audio SDKs."""
+import hashlib
+import importlib.abc
+import json
+from pathlib import Path
+import shutil
+import subprocess
+import sys
+import time
+
+class Guard(importlib.abc.MetaPathFinder):
+    def find_spec(self, fullname, path=None, target=None):
+        if fullname.split('.')[0] in ('soundcard','sounddevice') or fullname in ('saydraft.app','saydraft.compat.migrate'):
+            raise AssertionError('Owner audio/profile services are barred')
+sys.meta_path.insert(0,Guard())
+import numpy as np
+from saydraft.audio.gtcrn import GtcrnDenoiser, MODEL_ID
+from saydraft.audio.quiet import QuietSpeechProcessor, QuietSpeechSettings
+from saydraft.models.installation import install_files, installation_target, staging_directory
+from saydraft.models.manifest import get_model
+from saydraft.models.downloader import installation_ready
+from saydraft.privacy.netguard import NetworkGuard
+import soundfile as sf
+
+qa=Path(__file__).resolve().parent
+root=qa/'whisper-mode-20261115-r1'
+report_path=root/(sys.argv[1] if len(sys.argv)>1 else 'native-product-r1.json')
+assert not report_path.exists()
+model=get_model(MODEL_ID)
+target=installation_target(root/'model-cache',model)
+stage=staging_directory(target);stage.mkdir(parents=True,exist_ok=True)
+for name in ('gtcrn_simple.onnx','LICENSE'):
+    shutil.copyfile(root/name,stage/name)
+shutil.copyfile(root/'README.md',stage/'MODEL_CARD.md')
+calls=[]
+def forbidden(*args,**kwargs):
+    calls.append('network')
+    raise AssertionError('All payloads were already verified locally')
+NetworkGuard.install()
+installed=install_files(model,target,opener=forbidden)
+assert not calls and installation_ready(model,installed,check_hashes=True)
+processor=QuietSpeechProcessor(QuietSpeechSettings(True,12,True,True),
+    denoiser_factory=lambda:GtcrnDenoiser(installed))
+started=time.perf_counter();processor.prepare();load_seconds=time.perf_counter()-started
+rows=[]
+for n in (0,1,511,512,513,16001,400001):
+    audio=(np.sin(np.arange(n,dtype=np.float32)*0.17)*0.002).astype(np.float32)
+    original=hashlib.sha256(audio.tobytes()).hexdigest()
+    started=time.perf_counter();output=processor.process(audio);elapsed=time.perf_counter()-started
+    assert output.shape==audio.shape and np.isfinite(output).all()
+    assert not len(output) or np.max(np.abs(output))<=0.980001
+    assert hashlib.sha256(audio.tobytes()).hexdigest()==original
+    rows.append({'input_samples':n,'output_samples':len(output),'input_sha256':original,
+        'output_sha256':hashlib.sha256(output.tobytes()).hexdigest(),'seconds':elapsed})
+for fixture in (Path('tests/fixtures/hello.wav'),Path('assets/audio/benchmark.wav')):
+    if not fixture.is_file():
+        continue
+    audio,sample_rate=sf.read(fixture,dtype='float32',always_2d=True)
+    assert sample_rate==16000
+    audio=audio.mean(axis=1,dtype=np.float32)
+    original=hashlib.sha256(audio.tobytes()).hexdigest()
+    started=time.perf_counter();output=processor.process(audio);elapsed=time.perf_counter()-started
+    assert output.shape==audio.shape and np.isfinite(output).all()
+    assert hashlib.sha256(audio.tobytes()).hexdigest()==original
+    rows.append({'fixture':str(fixture),'input_samples':len(audio),'output_samples':len(output),
+        'input_sha256':original,'output_sha256':hashlib.sha256(output.tobytes()).hexdigest(),'seconds':elapsed})
+processor.close()
+report={'complete':True,'load_seconds':load_seconds,'rows':rows,'model_id':MODEL_ID,
+    'model_sha256':model['files'][0]['sha256'],'installation':str(installed),'cache_network_requests':len(calls),
+    'python_network_guard':True,'audio_sdk_imported':any(n in sys.modules for n in ('soundcard','sounddevice')),
+    'owner_accuracy_accepted':False,'whispered_speech_accuracy_measured':False,'latency_accepted':False}
+report['source']=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip()
+report['source_dirty']=bool(subprocess.check_output(['git','status','--porcelain'],text=True).strip())
+report['source_files']={str(path).replace('\\','/'):hashlib.sha256(path.read_bytes().replace(b'\r\n',b'\n')).hexdigest()
+    for path in (Path('saydraft/audio/quiet.py'),Path('saydraft/audio/gtcrn.py'))}
+report_path.write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8')
+print(json.dumps(report))

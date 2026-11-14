@@ -1,0 +1,95 @@
+..............F..F........F............................................. [ 77%]
+.....................                                                    [100%]
+================================== FAILURES ===================================
+_ test_real_worker_controller_and_queued_qt_meter_signals_compose_without_capture _
+
+subject = (<saydraft.ui.microphone_page.MicrophonePage(0x20c734d6a10) at 0x0000020C746F9500>, namespace(QtCore=<module 'PySide6....tapi='Windows WASAPI')), InputDevice(index=2, selection=InputSelection(name='Public headset', hostapi='MME'))), [], [])
+
+    def test_real_worker_controller_and_queued_qt_meter_signals_compose_without_capture(subject):
+>       from saydraft.app import WorkerController,create_worker_signals
+
+tests\test_microphone_ui.py:150: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+<frozen importlib._bootstrap>:1369: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1331: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:1265: in _find_spec
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <__main__.Guard object at 0x0000020C59299940>, fullname = 'saydraft.app'
+path = ['D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\whisper-mode-20261115\\saydraft']
+target = None
+
+    def find_spec(self, fullname, path=None, target=None):
+        if fullname.split('.')[0] in ('soundcard','sounddevice') or fullname in (
+            'saydraft.app','saydraft.compat.migrate','saydraft.logging_config','saydraft.single_instance'):
+>           raise AssertionError('Owner desktop/audio/profile services are barred')
+E           AssertionError: Owner desktop/audio/profile services are barred
+
+..\..\run_quiet_speech_tests_20261115.py:20: AssertionError
+____ test_saved_custom_recording_limits_survive_the_twenty_minute_default _____
+
+tmp_path = WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/whisper-mode-20261115-r1/pytest-ui-r2/test_saved_custom_recording_li0')
+
+    def test_saved_custom_recording_limits_survive_the_twenty_minute_default(tmp_path):
+        from saydraft.config import load_config
+    
+        for maximum, warning in ((600, 540), (90, 0), (1800, 1740)):
+            path = tmp_path / f"cap-{maximum}.json"
+            expected = {"max_seconds": maximum, "warning_seconds": warning, "retain_audio": False}
+            path.write_text(json.dumps({"recording": expected}), encoding="utf-8")
+            config = load_config(config_path=path, settings_path=tmp_path / "absent-settings.txt")
+            upgraded = {**expected, "input_device": "", "input_hostapi": "", "audio_retention_days": 0}
+>           assert config["recording"] == upgraded
+E           AssertionError: assert {'audio_reten...ds': 600, ...} == {'audio_reten...ds': 600, ...}
+E             
+E             Omitting 6 identical items, use -vv to show
+E             Left contains 4 more items:
+E             {'whisper_agc': True,
+E              'whisper_enhancement': True,
+E              'whisper_gain_db': 12.0,
+E              'whisper_mode': False}
+E             Use -v to get more diff
+
+tests\test_config.py:25: AssertionError
+__________ test_main_initializes_logging_and_config_before_qt_shell ___________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000020C75290830>
+tmp_path = WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/whisper-mode-20261115-r1/pytest-ui-r2/test_main_initializes_logging_0')
+
+    def test_main_initializes_logging_and_config_before_qt_shell(monkeypatch, tmp_path):
+        import sys
+        import types
+    
+        import saydraft.config as config
+>       import saydraft.logging_config as logging_config
+
+tests\test_config.py:249: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+<frozen importlib._bootstrap>:1369: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1331: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:1265: in _find_spec
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <__main__.Guard object at 0x0000020C59299940>
+fullname = 'saydraft.logging_config'
+path = ['D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\whisper-mode-20261115\\saydraft']
+target = None
+
+    def find_spec(self, fullname, path=None, target=None):
+        if fullname.split('.')[0] in ('soundcard','sounddevice') or fullname in (
+            'saydraft.app','saydraft.compat.migrate','saydraft.logging_config','saydraft.single_instance'):
+>           raise AssertionError('Owner desktop/audio/profile services are barred')
+E           AssertionError: Owner desktop/audio/profile services are barred
+
+..\..\run_quiet_speech_tests_20261115.py:20: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_microphone_ui.py::test_real_worker_controller_and_queued_qt_meter_signals_compose_without_capture
+FAILED tests/test_config.py::test_saved_custom_recording_limits_survive_the_twenty_minute_default
+FAILED tests/test_config.py::test_main_initializes_logging_and_config_before_qt_shell
+3 failed, 90 passed in 16.16s

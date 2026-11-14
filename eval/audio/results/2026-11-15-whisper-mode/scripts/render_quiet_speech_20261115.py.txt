@@ -1,0 +1,111 @@
+"""Only owned offscreen windows and explicit D fixtures; no live devices or input."""
+import hashlib
+import json
+import os
+from pathlib import Path
+import subprocess
+import sys
+from types import SimpleNamespace as NS
+
+output,scale=Path(sys.argv[1]),int(sys.argv[2])
+assert scale in (1,2)
+os.environ['QT_QPA_PLATFORM']='offscreen'
+os.environ['QT_STYLE_OVERRIDE']='Fusion'
+os.environ['QT_SCALE_FACTOR']=str(scale)
+output.mkdir(exist_ok=False)
+from PySide6 import QtCore,QtGui,QtWidgets
+from saydraft.config import default_config,save_config
+from saydraft.history import DictationHistoryStore
+from saydraft.privacy.netguard import NetworkGuard
+from saydraft.ui.fonts import install_bundled_fonts
+from saydraft.ui.theme import install_theme
+from saydraft.ui.hub import HubWindow
+import saydraft.models.storage
+import saydraft.ui.onboarding_models
+
+saydraft.models.storage.storage_roots=lambda:()
+saydraft.ui.onboarding_models.inspect_speech_package=lambda model:{'state':'missing','missing':[]}
+NetworkGuard.install()
+calls=[]
+def forbidden(*args,**kwargs):
+    calls.append('owner-or-download-port')
+    raise AssertionError('No recording, playback, device discovery or downloads are permitted')
+app=QtWidgets.QApplication([])
+assert app.platformName()=='offscreen'
+assert len(install_bundled_fonts(app))==8
+controller=install_theme(app,mode='light')
+base_font=QtGui.QFont(app.font())
+rows=[]
+for theme in ('light','dark'):
+    controller.set_mode(theme)
+    for width,height,pixels in ((880,600,22),(1080,720,16)):
+        font=QtGui.QFont(base_font);font.setPixelSize(pixels);app.setFont(font)
+        profile=output/f'{theme}-{width}-{pixels}'
+        profile.mkdir()
+        config=default_config()
+        config['dictation']['glossary_path']=str(profile/'glossary.json')
+        config['dictation']['app_profiles_path']=str(profile/'profiles.json')
+        save_config(config,profile/'config.json')
+        (profile/'glossary.json').write_text('{}\n',encoding='utf-8')
+        (profile/'profiles.json').write_text('[]\n',encoding='utf-8')
+        (profile/'snippets.txt').write_text('',encoding='utf-8')
+        store=DictationHistoryStore(profile/'history.db')
+        hub=HubWindow(settings_options=dict(config_path=profile/'config.json',snippets_path=profile/'snippets.txt',
+            autostart_manager=NS(is_enabled=lambda:False,set_enabled=forbidden),
+            microphone_devices_provider=forbidden,microphone_start_callback=forbidden,microphone_stop_callback=lambda *args:True),
+            history_options=dict(store=store,clipboard=NS(setText=forbidden),glossary_path=profile/'glossary.json'))
+        hub.resize(width,height)
+        settings=hub.settings_page;controls=settings.microphone_page.whisper_controls
+        controls.callback=forbidden
+        hub.show_page('Settings',tab='Microphone');hub.show();app.processEvents()
+        scroll=settings.tabs.currentWidget()
+        assert isinstance(scroll,QtWidgets.QScrollArea)
+        before=(profile/'config.json').read_bytes()
+        for state,enabled,enhancement,ready in (('off',False,True,False),('gain-agc',True,False,False),
+                ('needs-setup',True,True,False),('ready',True,True,True)):
+            controls.ready_provider=lambda selected=ready:selected
+            controls.enabled.setChecked(enabled);controls.enhancement.setChecked(enhancement)
+            controls.refresh_status();controls.progress.setValue(100 if ready else 0)
+            app.processEvents()
+            assert not controls.gain.isEnabled() if not enabled else controls.gain.isEnabled()
+            if enabled and enhancement and not ready:
+                try:controls.validate()
+                except ValueError as error:settings.status_label.setText(str(error))
+                else:raise AssertionError('Unverified enhancement must refuse shared Save')
+            else:
+                controls.validate();settings.status_label.clear()
+            for _ in range(3):app.processEvents()
+            link_color=controls.license_label.palette().color(QtGui.QPalette.WindowText).name()
+            assert controls.license_label.text().count(f'color:{link_color}')==2
+            if settings.status_label.text():
+                feedback=settings.status_label
+                assert feedback.height()>=feedback.heightForWidth(feedback.width())
+                assert feedback.mapTo(hub,QtCore.QPoint()).y()+feedback.height()<=hub.height()-10
+            files=[]
+            for label,widget in (('controls',controls.enabled),('setup',controls.status)):
+                scroll.ensureWidgetVisible(widget)
+                app.processEvents()
+                assert scroll.horizontalScrollBar().maximum()==0
+                center=widget.mapTo(scroll.viewport(),widget.rect().center())
+                assert scroll.viewport().rect().contains(center),(theme,width,pixels,state,label)
+                shot=hub.grab()
+                assert (shot.width(),shot.height())==(width*scale,height*scale)
+                name=f'{theme}-{width}-{pixels}-{state}-{label}.png'
+                assert shot.save(str(output/name))
+                raw=(output/name).read_bytes()
+                files.append({'name':name,'bytes':len(raw),'sha256':hashlib.sha256(raw).hexdigest()})
+            assert (profile/'config.json').read_bytes()==before and store.list_recent()==[] and not calls
+            rows.append({'theme':theme,'width':width,'height':height,'font_pixels':QtGui.QFontInfo(hub.font()).pixelSize(),
+                'state':state,'enabled':enabled,'enhancement':enhancement,'ready':ready,'files':files,
+                'no_horizontal_overflow':True,'unchanged_config_and_history':True})
+        hub.close();hub.deleteLater();app.sendPostedEvents(None,QtCore.QEvent.DeferredDelete);app.processEvents()
+controller.close()
+paths=subprocess.check_output(['git','diff','--name-only','--','saydraft'],text=True).splitlines()
+paths+=['saydraft/audio/quiet.py','saydraft/audio/gtcrn.py','saydraft/asr/quiet.py','saydraft/ui/whisper_mode.py']
+hashes={name:hashlib.sha256(Path(name).read_bytes().replace(b'\r\n',b'\n')).hexdigest() for name in sorted(set(paths)) if Path(name).is_file()}
+report={'platform':'offscreen','scale':scale,'source':subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),
+    'source_dirty':bool(subprocess.check_output(['git','status','--porcelain'],text=True).strip()),'source_files':hashes,
+    'network_guard':NetworkGuard.is_installed(),'owner_or_download_ports_called':calls,'model_loaded':False,
+    'owner_accuracy_accepted':False,'rows':rows,'renders':sum(len(row['files']) for row in rows)}
+(output/'report.json').write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8')
+print(json.dumps({'renders':report['renders'],'scale':scale,'passed':True}))

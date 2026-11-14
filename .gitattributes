@@ -12,6 +12,8 @@ assets/licenses/packaged/** -text -whitespace
 assets/licenses/3dspeaker-eres2net-base/** -text
 assets/licenses/3dspeaker-eres2net-base/MODEL_CARD.md -whitespace
 assets/licenses/gtcrn/** -text -whitespace
+# Retain original quiet-speech checks, upstream records, render and package bytes.
+eval/audio/results/2026-11-15-whisper-mode/** -text -whitespace
 
 # Derived frequency data and its provenance retain their pinned bytes.
 assets/dictionary/frequency/*.gz binary

@@ -1,0 +1,37 @@
+...............................................F........................ [ 18%]
+........................................................................ [ 37%]
+........................................................................ [ 56%]
+...................................................................s.... [ 75%]
+.......s.....s.......................................................... [ 94%]
+......................                                                   [100%]
+================================== FAILURES ===================================
+_ test_quiet_mode_keeps_saved_streaming_preference_but_makes_processed_primary_final _
+
+subject = (<saydraft.ui.settings_page.SettingsPage(0x281ff5bbf50) at 0x00000281954AAA40>, WindowsPath('D:/Saydraft-Codex-QA-2026...eControls(0x281ff6c4460) at 0x00000281951EC7C0>, <PySide6.QtWidgets.QApplication(0x281ff077050) at 0x0000028194FD3A40>)
+
+    def test_quiet_mode_keeps_saved_streaming_preference_but_makes_processed_primary_final(subject):
+        from saydraft.core.preview import streaming_result_enabled
+        window, _path, controls, _app = subject
+        tier = window.tier_combo
+        tier.setCurrentIndex(tier.findData('pro'))
+        window.refresh_labs()
+        window.labs_page.live.setChecked(True)
+        window.labs_page.streaming.setChecked(True)
+        controls.enabled.setChecked(True)
+        controls.enhancement.setChecked(False)
+>       assert window.labs_page.streaming.isChecked() and not window.labs_page.streaming.isEnabled()
+E       assert (True and not True)
+E        +  where True = <built-in method isChecked of PySide6.QtWidgets.QCheckBox object at 0x00000281FC5E9640>()
+E        +    where <built-in method isChecked of PySide6.QtWidgets.QCheckBox object at 0x00000281FC5E9640> = <PySide6.QtWidgets.QCheckBox(0x281ff45f410) at 0x00000281FC5E9640>.isChecked
+E        +      where <PySide6.QtWidgets.QCheckBox(0x281ff45f410) at 0x00000281FC5E9640> = <saydraft.ui.labs_page.LabsPage(0x281ff60b150) at 0x000002819547C280>.streaming
+E        +        where <saydraft.ui.labs_page.LabsPage(0x281ff60b150) at 0x000002819547C280> = <saydraft.ui.settings_page.SettingsPage(0x281ff5bbf50) at 0x00000281954AAA40>.labs_page
+E        +  and   True = <built-in method isEnabled of PySide6.QtWidgets.QCheckBox object at 0x00000281FC5E9640>()
+E        +    where <built-in method isEnabled of PySide6.QtWidgets.QCheckBox object at 0x00000281FC5E9640> = <PySide6.QtWidgets.QCheckBox(0x281ff45f410) at 0x00000281FC5E9640>.isEnabled
+E        +      where <PySide6.QtWidgets.QCheckBox(0x281ff45f410) at 0x00000281FC5E9640> = <saydraft.ui.labs_page.LabsPage(0x281ff60b150) at 0x000002819547C280>.streaming
+E        +        where <saydraft.ui.labs_page.LabsPage(0x281ff60b150) at 0x000002819547C280> = <saydraft.ui.settings_page.SettingsPage(0x281ff5bbf50) at 0x00000281954AAA40>.labs_page
+
+tests\test_whisper_mode_ui.py:163: AssertionError
+- generated xml file: D:\Saydraft-Codex-QA-20261112-01a1cbc7\whisper-mode-20261115-r1\final-tests-r8.xml -
+=========================== short test summary info ===========================
+FAILED tests/test_whisper_mode_ui.py::test_quiet_mode_keeps_saved_streaming_preference_but_makes_processed_primary_final
+1 failed, 378 passed, 3 skipped, 2 deselected in 48.94s
