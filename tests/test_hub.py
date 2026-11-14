@@ -59,6 +59,13 @@ def test_hub_has_one_window_and_seven_pages_with_real_existing_controls(subject)
     assert sections.currentText() == "Privacy"
 
 
+def test_home_meeting_action_forwards_one_explicit_request_without_recording(subject):
+    calls = []
+    subject.hub.meeting_requested.connect(lambda: calls.append('meeting'))
+    subject.hub.page_widgets['Home'].meeting_button.click()
+    assert calls == ['meeting']
+
+
 def test_shared_save_preserves_all_fields_and_applies_edits_from_separate_pages(subject):
     from saydraft.ui.settings_page import SettingsPage
 

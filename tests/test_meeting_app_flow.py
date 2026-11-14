@@ -32,7 +32,14 @@ def subject(tmp_path):
         app.meeting_capsule.accept_status(replace(f.controller.latest, capture_stopped=True, phase='cancelled'))
         app.meeting_capsule.close()
         app.meeting_capsule.deleteLater()
+    if app.meeting_setup is not None:
+        app.meeting_setup.close()
+        from tests.test_meeting_setup_ui import settle
+        settle(lambda: not app.meeting_setup._inflight and app.meeting_setup.task is None)
+        app.meeting_setup.deleteLater()
     qt.QtWidgets.QApplication.instance().processEvents()
+
+
 
 
 def present(s):
@@ -102,3 +109,45 @@ def test_repeated_quit_does_not_enqueue_multiple_stop_or_timer_requests(subject)
     s.f.executor.drain()
     s.callbacks.pop(0)()
     assert s.calls.count('quit') == 1 and not s.f.owner.started
+
+
+def test_home_setup_start_preserves_first_paint_gate_then_saves_independent_note(subject, monkeypatch):
+    from saydraft.ui import meeting_setup
+    from tests.test_meeting_setup_ui import inventory, settle, verified
+    s = subject
+    s.f.worker.services.config['app']['tier'] = 'pro'
+    original = meeting_setup.MeetingSetupDialog
+    monkeypatch.setattr(meeting_setup, 'MeetingSetupDialog', lambda config, **options:
+        original(config, inspector=verified, devices_provider=inventory, **options))
+    s.app._show_meeting_setup()
+    dialog = s.app.meeting_setup
+    settle(lambda: not dialog._inflight)
+    dialog.refresh.click()
+    settle(lambda: not dialog._inflight)
+    dialog.microphone.setCurrentIndex(1)
+    dialog.output.setCurrentIndex(1)
+    dialog.consent.setChecked(True)
+    assert dialog.start() is True
+    assert not s.f.owner.started and not s.f.controller.active.indicator.is_set()
+    s.app._meeting_status(s.f.controller.latest)
+    settle(lambda: s.f.controller.active.indicator.is_set())
+    s.f.executor.drain()
+    assert s.f.controller.latest.phase == 'finished' and s.f.store.active() == s.f.primary
+    assert len(s.f.store.list()) == 2
+
+
+def test_home_action_during_active_meeting_presents_existing_capsule(subject, monkeypatch):
+    from saydraft.ui import meeting_setup
+    s = subject
+    present(s)
+    monkeypatch.setattr(meeting_setup, 'MeetingSetupDialog', lambda *args, **kwargs:
+        pytest.fail('Active meeting must not open another setup'))
+    s.app._show_meeting_setup()
+    assert s.app.meeting_setup is None and s.app.meeting_capsule.isVisible()
+
+
+def test_worker_config_review_is_an_independent_snapshot(subject):
+    s = subject
+    snapshot = s.app.controller.meeting_config()
+    snapshot['labs']['notetaker'] = False
+    assert s.f.worker.services.config['labs']['notetaker'] is True

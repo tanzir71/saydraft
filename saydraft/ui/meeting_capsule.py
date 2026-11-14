@@ -19,6 +19,7 @@ _COPY = {
     'saving': 'Recording stopped. Saving a separate meeting Note…',
     'cancelled': 'Recording stopped. This meeting was discarded.',
     'discarded': 'The unsaved meeting was discarded.',
+    'empty': 'Recording stopped. No speech was detected, so no Note was saved.',
     'failed': 'The meeting could not start. Review setup and try again.',
 }
 _ERRORS = {

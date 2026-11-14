@@ -1,11 +1,62 @@
 # Local meeting analysis (in development)
 
-Notetaker is not exposed as an app recording action yet. P7.5 remains open.
+Notetaker is available from source as an experimental Pro feature. P7.5 remains
+open: live devices, the frozen connected app, a 30-minute meeting and broader
+speech/speaker/summary accuracy have not been accepted.
 The analysis checkpoint passes full CI and packaging at `a097576` (4,407 tests,
 12 optional skips). Later native development runs verify execution and expose
 summary-quality limits; they do not accept the complete app workflow or accuracy.
 See the [capture and model spike](spikes/meeting-capture.md) for the backend,
 licenses, process ownership and their separate qualification limits.
+
+## Set up and start
+
+1. Select Pro in Settings → Models, or complete the performance check with a Pro
+   result. In Settings → Labs, enable **Meeting notes** and Save Settings.
+2. Open **Meeting notes · Labs** from Home. Review the complete model list,
+   download sizes, publishers, license links, sources and storage allowance.
+   **Download / Resume setup** is explicit; enabling Labs never downloads or
+   records. Pause keeps resumable files. Previously verified models are reused.
+3. Choose **Refresh devices**, then select the microphone and the computer audio
+   output used by your call. Refresh only lists metadata; it opens no stream.
+   The selected output's exact endpoint is required; ambiguous microphones and
+   unsupported loopback outputs cannot start. Use headphones to reduce echo.
+4. Set the maximum duration (1–120 minutes), inform participants and confirm that
+   you have permission to record, then choose **Start meeting**. Recording waits
+   for the persistent capsule to paint. Setup/download completion never starts it.
+5. Choose **Stop and make Notes** in the capsule. Processing stays local and saves
+   a separate Note without replacing the active Scratchpad. Review names,
+   speaker labels, dates, decisions and task owners against the transcript.
+
+Setup checks model hashes off the GUI thread. Devices are discovered only after
+Refresh. Closing setup clears consent and ignores late check results; reopening
+requires fresh checks and device discovery. Changed Settings invalidate the model
+review, and the worker atomically refuses a Start based on stale Settings. If a
+meeting is already active or awaiting recovery, Home presents that capsule.
+
+Meeting speech follows saved language pins/manual model choices, without
+foreground-app overrides. Auto requires both the default speech model and the
+shared **All languages** model ready before capture, since a later chunk's
+language is unknown during setup. It retries unsupported/unknown or low-confidence
+chunks with the shared model without dictation's release-time retry budget. There
+are no language packs or automatic transfers. English/supported-language pins can
+use only the default model; pins requiring All languages use the shared model.
+A multilingual retry failure is a visible recognition failure, rather than
+accepting the unsupported primary text. Model coverage does not establish
+accuracy in every language.
+
+If every recognized range fails, audio stays bounded in memory for an explicit
+retry; retry never records again. A successful silence result reports that no
+speech was detected and creates no empty Note. Audio is not archived to disk.
+Closing Saydraft or terminating the process loses unsaved in-memory recovery.
+
+The guarded local setup regression run passes **636 tests** with one entry-point
+test deselected because it requires the stopped profile/instance services. It
+uses fresh disposable profile/temp paths, bars real audio SDK imports and
+exercises owned offscreen widgets with fake model/device ports. The earlier 125
+focused checks also pass. Sixteen light/dark renders cover 460/780px widths and
+16/22px text, with no horizontal overflow or clipped Start/consent controls.
+These checks establish setup behavior, not native device or language accuracy.
 
 ## Capture collection and speech
 
@@ -108,7 +159,7 @@ notes; an independent edit is never overwritten. A failed save retains its draft
 `MeetingController` now reserves the serial app worker after an explicit
 consented request. Dictation, practice, editing and model removal cannot begin
 while it owns capture or analysis. The new `labs.notetaker` flag defaults off;
-model setup and the user-facing start action are still pending. Existing saved
+model setup and the Home start action are now connected as described above. Existing saved
 language/routing settings feed a fresh meeting ASR, without a foreground read.
 The Pro editing lease retires ordinary cleanup warming, verifies installed
 dependencies before recording and starts the larger summary server only after
@@ -126,7 +177,7 @@ full native tree exit and pipe EOF are confirmed.
 
 After capture, failures retain bounded PCM in memory or the available transcript
 and immutable Note draft. Explicit retry never starts another recording. Once a
-transcript exists the PCM is released; a failed Note save retains text only.
+usable transcript exists the PCM is released; a failed Note save retains text only.
 Saving and retrying preserve the active Scratchpad. Cancellation after a Note
 has committed reports the saved Note rather than claiming it was discarded.
 The app's controlled Quit path waits for the meeting to stop and save. An unsaved

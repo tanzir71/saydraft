@@ -47,7 +47,7 @@ class LocalMeetingProcessor:
 
 
 def prepare_meeting(services, config, *, need_speech=True):
-    from saydraft.asr.selection import create_asr
+    from .asr import create_meeting_asr
     from saydraft.data.notes import NoteStore
     from saydraft.models.command import installed_command_config, meeting_choice
     from saydraft.models.hardware import latest_report
@@ -70,7 +70,7 @@ def prepare_meeting(services, config, *, need_speech=True):
     try:
         processor = LocalMeetingProcessor(None, None, editor, NoteStore(services.history.db_path))
         if need_speech:
-            processor.asr = create_asr(config)
+            processor.asr = create_meeting_asr(config)
             processor.asr.prepare()
             processor.diarizer = SpeakerDiarizer()
             processor.diarizer.prepare()

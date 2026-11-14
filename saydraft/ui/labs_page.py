@@ -9,6 +9,7 @@ from saydraft.core.preview import preview_eligibility
 from saydraft.model_download import download_preview_model
 from saydraft.models.hardware import latest_report
 from saydraft.models.manifest import get_model
+from saydraft.models.tiers import effective_tier
 from .download_task import DownloadTask, call_download
 from .progress import ThemedProgressBar
 from .command_setup import CommandSetup
@@ -61,11 +62,24 @@ class LabsPage(QtWidgets.QWidget):
         layout.addWidget(self.status)
         self.command = CommandSetup(config, report=self.report_loader())
         layout.addWidget(self.command)
+        meeting = QtWidgets.QGroupBox('Meeting notes · Labs')
+        meeting_layout = QtWidgets.QVBoxLayout(meeting)
+        self.meeting_enabled = QtWidgets.QCheckBox('Enable meeting notes')
+        self.meeting_enabled.setChecked(config.get('labs', {}).get('notetaker') is True)
+        description = QtWidgets.QLabel('Open Meeting notes from Home to review the local models and select the '
+            'microphone and computer audio. Recording requires an explicit Start and participant permission. '
+            'This Pro feature never downloads or records when enabled. Speaker labels and summaries need review.')
+        description.setWordWrap(True)
+        meeting_layout.addWidget(self.meeting_enabled)
+        meeting_layout.addWidget(description)
+        layout.addWidget(meeting)
         layout.addStretch()
         self.update_eligibility(config)
 
     def update_eligibility(self, config, report=None):
         self.config = config
+        meeting_report = self.report_loader() if report is None else report
+        self.meeting_enabled.setEnabled(effective_tier(config, meeting_report) == 'pro' or self.meeting_enabled.isChecked())
         reason = preview_eligibility(config, self.report_loader() if report is None else report)
         self.allowed = reason is None
         self.eligibility.setText({"needs_pro": "Check performance on the Performance tab or select Pro in Models; the Pro tier is required.",
@@ -88,7 +102,7 @@ class LabsPage(QtWidgets.QWidget):
     def apply_to(self, config):
         self.update_eligibility(config)
         config.setdefault("labs", {}).update(live_preview=self.live.isChecked(),
-                                             use_streaming_result=self.streaming.isChecked())
+                                             use_streaming_result=self.streaming.isChecked(), notetaker=self.meeting_enabled.isChecked())
         self.command.apply_to(config)
 
     def start_download(self):

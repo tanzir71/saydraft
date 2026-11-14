@@ -28,7 +28,7 @@ def test_labs_shows_size_and_license_and_toggles_never_download():
     page.streaming.setChecked(True)
     page.apply_to(config)
     assert config["labs"] == {"live_preview": True, "use_streaming_result": True, "command_mode": False,
-                              "translate_mode": False, "ask_mode": False} and not calls
+                              "translate_mode": False, "ask_mode": False, "notetaker": False} and not calls
     config["stt"]["pinned_languages"] = ["bn"]
     page.update_eligibility(config)
     assert not page.live.isEnabled() and not page.live.isChecked() and not page.download.isEnabled()
@@ -42,6 +42,30 @@ def test_missing_pro_measurement_disables_preview():
     page = LabsPage(default_config(), report_loader=lambda: None)
     assert not page.live.isEnabled() and not page.download.isEnabled()
     assert "Performance" in page.eligibility.text()
+
+
+def test_notetaker_opt_in_is_independent_of_english_preview_and_never_downloads():
+    from saydraft.ui.labs_page import LabsPage
+    qt_modules()
+    config = default_config()
+    config['app']['tier'] = 'pro'
+    config['stt']['pinned_languages'] = ['bn', 'ar']
+    calls = []
+    page = LabsPage(config, callback=lambda *args: calls.append(True), report_loader=lambda: None)
+    try:
+        assert page.meeting_enabled.isEnabled() and not page.meeting_enabled.isChecked() and not page.live.isEnabled()
+        page.meeting_enabled.setChecked(True)
+        page.apply_to(config)
+        assert config['labs']['notetaker'] is True and not calls
+        config['app']['tier'] = 'standard'
+        page.update_eligibility(config)
+        assert page.meeting_enabled.isEnabled()
+        page.meeting_enabled.setChecked(False)
+        page.apply_to(config)
+        assert config['labs']['notetaker'] is False and not page.meeting_enabled.isEnabled() and not calls
+    finally:
+        page.close()
+        page.deleteLater()
 
 
 def test_saving_other_settings_preserves_command_opt_in_and_its_independent_backend(tmp_path):

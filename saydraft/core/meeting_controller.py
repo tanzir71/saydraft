@@ -76,13 +76,14 @@ class MeetingController:
             self.latest = value
             self.worker.emit('meeting_status', value)
 
-    def request(self, request):
+    def request(self, request, *, expected_config=None):
         w = self.worker
         if type(request) is not CaptureRequest or not request.consent or not w._lock.acquire(blocking=False):
             return False
         try:
             if (w._closing or w.busy or w._pending_config is not None or self.recovery is not None
-                    or w.services.config.get('labs', {}).get('notetaker') is not True):
+                    or w.services.config.get('labs', {}).get('notetaker') is not True
+                    or expected_config is not None and w.services.config != expected_config):
                 return False
             request.to_json()
             job = self.active = _Meeting(w.services, copy.deepcopy(w.services.config), request)
@@ -220,6 +221,14 @@ class MeetingController:
                     self._status(job, 'transcribing')
                     job.transcript = job.processor.transcribe(audio, cancelled=lambda: self._cancelled(job),
                         on_progress=lambda value: self._status(job, 'transcribing', progress=value * 100))
+                    if not job.transcript.utterances:
+                        issues = job.transcript.issues
+                        job.transcript = None
+                        if issues:
+                            raise RuntimeError('No usable transcript; retain audio for explicit retry')
+                        job.collected = None
+                        phase, reason = 'empty', 'no_speech'
+                        return
                     # PCM is never written to disk and is released once a
                     # transcript exists. A later save failure retains text only.
                     audio = None

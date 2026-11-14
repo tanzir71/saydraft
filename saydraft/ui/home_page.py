@@ -12,6 +12,7 @@ from .icons import line_icon
 class HomePage(QtWidgets.QScrollArea):
     history_requested = QtCore.Signal(int)
     privacy_requested = QtCore.Signal()
+    meeting_requested = QtCore.Signal()
 
     def __init__(self, store, *, shortcut=lambda: "Ctrl+Win", model=lambda: "", tier=lambda: "pending",
                  now=datetime.now):
@@ -65,6 +66,9 @@ class HomePage(QtWidgets.QScrollArea):
         self.offline_button.clicked.connect(self.privacy_requested)
         chips.addWidget(self.offline_button)
         layout.addLayout(chips)
+        self.meeting_button = QtWidgets.QPushButton('Meeting notes · Labs')
+        self.meeting_button.clicked.connect(self.meeting_requested)
+        layout.addWidget(self.meeting_button, alignment=QtCore.Qt.AlignLeft)
         heading = QtWidgets.QLabel("Recent dictations")
         heading.setProperty("role", "eyebrow")
         layout.addWidget(heading)

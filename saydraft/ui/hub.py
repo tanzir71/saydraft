@@ -22,6 +22,8 @@ _ICONS = {
 
 
 class HubWindow(QtWidgets.QWidget):
+    meeting_requested = QtCore.Signal()
+
     def __init__(self, *, settings_options, history_options, shortcut=lambda: "Ctrl+Win", model=lambda: "",
                  tier=lambda: "pending", settings_page_factory=SettingsPage, history_page_factory=HistoryPage):
         super().__init__()
@@ -57,6 +59,7 @@ class HubWindow(QtWidgets.QWidget):
         self.home_page = HomePage(self.history_page.store, shortcut=shortcut, model=model, tier=tier)
         self.home_page.history_requested.connect(self._open_history_row)
         self.home_page.privacy_requested.connect(lambda: self.show_page("Settings", tab="Privacy"))
+        self.home_page.meeting_requested.connect(self.meeting_requested)
         self.history_view = QtWidgets.QScrollArea()
         self.history_view.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.history_view.setWidgetResizable(True)

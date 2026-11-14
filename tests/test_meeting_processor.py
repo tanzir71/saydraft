@@ -15,6 +15,7 @@ def fixture(tmp_path, monkeypatch):
     config['labs']['notetaker'] = True
     config['app']['tier'] = 'pro'
     config['command']['backend'] = 'cpu'
+    config['stt']['routing_enabled'] = False
     calls = []
     editor = NS(close=lambda: calls.append('editor_close'))
     asr = NS(prepare=lambda: calls.append('asr_prepare'))

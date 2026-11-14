@@ -110,8 +110,15 @@ class WorkerController:
             else:
                 core.shutdown()
 
-    def request_meeting(self, request):
-        return bool(self.core and self.core.meeting.request(request))
+    def request_meeting(self, request, *, expected_config=None):
+        return bool(self.core and self.core.meeting.request(request, expected_config=expected_config))
+
+    def meeting_config(self):
+        import copy
+        return copy.deepcopy(self.core.services.config) if self.core is not None else None
+
+    def meeting_status_snapshot(self):
+        return self.core.meeting.latest if self.core is not None else None
 
     def is_current_meeting(self, status):
         return bool(self.core and self.core.meeting.status_is_current(status))
@@ -383,6 +390,7 @@ class SaydraftApp:
         self.config = None
         self.crash_guard = None
         self.meeting_capsule = None
+        self.meeting_setup = None
         self._meeting_quit_pending = False
 
     def run(self) -> int:
@@ -787,6 +795,35 @@ class SaydraftApp:
         if self._ensure_scratchpad():
             self.scratchpad_window.present(new=True)
 
+    def _show_meeting_setup(self):
+        if (getattr(self.controller, 'meeting_busy', lambda: False)()
+                or getattr(self.controller, 'has_meeting_recovery', lambda: False)()):
+            status = self.controller.meeting_status_snapshot()
+            if status is not None:
+                self._meeting_status(status)
+                if self.meeting_capsule is not None:
+                    self.meeting_capsule.show()
+            return
+        config = getattr(self.controller, 'meeting_config', lambda: None)()
+        if config is None:
+            return
+        if self.meeting_setup is None:
+            from .ui.meeting_setup import MeetingSetupDialog
+            self.meeting_setup = MeetingSetupDialog(config, start_callback=self.controller.request_meeting)
+            self.meeting_setup.settings_requested.connect(self._show_meeting_settings)
+            about = getattr(self.qt_app, 'aboutToQuit', None)
+            if about is not None:
+                about.connect(self.meeting_setup.close)
+        else:
+            self.meeting_setup.set_config(config)
+        self.meeting_setup.show()
+        self.meeting_setup.raise_()
+        self.meeting_setup.activateWindow()
+
+    def _show_meeting_settings(self, tab):
+        self._show_hub('Settings')
+        self.settings_window.show_tab(tab)
+
     def _meeting_status(self, status):
         current = getattr(self.controller, 'is_current_meeting', lambda value: False)
         if not current(status):
@@ -917,6 +954,9 @@ class SaydraftApp:
                 shortcut=self._controller_hotkey_hint, model=self._controller_model_label, tier=self._hub_tier)
             self.settings_window = self.hub_window.settings_page
             self.history_window = self.hub_window.history_page
+            meeting = getattr(self.hub_window, 'meeting_requested', None)
+            if meeting is not None:
+                meeting.connect(self._show_meeting_setup)
             notes = getattr(self.hub_window, 'notes_page', None)
             if notes is not None:
                 notes.open_requested.connect(self._show_scratchpad)
@@ -1005,6 +1045,8 @@ class SaydraftApp:
 
     def _on_settings_applied(self, config: dict) -> None:
         self.config = config
+        if self.meeting_setup is not None:
+            self.meeting_setup.set_config(config)
         self._configure_updates(config)
         presenter = getattr(self, "dictionary_presenter", None)
         if presenter is not None:

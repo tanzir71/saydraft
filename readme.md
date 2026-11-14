@@ -62,7 +62,8 @@ qualification are tracked separately:
 | Available from source | Still in progress |
 |---|---|
 | Local dictation, rules cleanup, optional local AI cleanup | Current-model quality and release latency qualification |
-| Hub, History, Dictionary, Snippets, Style, Scratchpad and Notes | Full Command qualification, Notetaker |
+| Hub, History, Dictionary, Snippets, Style, Scratchpad and Notes | Full Command qualification |
+| Experimental Pro [meeting notes](docs/MEETINGS.md): reviewed setup, consented Start, speaker transcript and local summary | Live-device, packaged, 30-minute meeting and broader accuracy acceptance |
 | Experimental Pro Translate with per-group Style targets | Broader translation quality and physical workflow acceptance |
 | Experimental Pro [Ask about selected text](docs/ASK.md), with separate answer Notes; native read-only browser workflow verified | Packaged/physical Ask acceptance; broader answer quality |
 | Six-page setup, verified downloads, model performance check | Fresh-profile and physical Windows acceptance |

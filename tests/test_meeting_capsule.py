@@ -146,6 +146,16 @@ def test_cancel_processing_does_not_hide_a_recording_or_repeat_automatically(cap
     assert len(stops) == 1
 
 
+def test_silence_terminal_state_does_not_offer_a_nonexistent_note(capsule):
+    _, widget, _ = capsule
+    requested = []
+    widget.notes_requested.connect(requested.append)
+    widget.accept_status(MeetingStatus(object(), 'empty', True, reason='no_speech'))
+    assert 'no Note was saved' in widget.description.text() and widget.primary.text() == 'Close'
+    widget.primary.click()
+    assert not requested and not widget.isVisible()
+
+
 def test_finished_no_speech_is_not_misrepresented_as_a_transcript(capsule):
     _, widget, _ = capsule
     widget.accept_status(MeetingStatus(object(), 'finished', True, reason='no_speech'))

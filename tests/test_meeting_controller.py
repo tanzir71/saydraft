@@ -9,7 +9,7 @@ from saydraft.data.notes import NoteStore
 from saydraft.meetings.session import MeetingCaptureSession
 from saydraft.meetings.request import CaptureRequest
 from saydraft.meetings.summary import SummaryReply
-from saydraft.meetings.transcription import MeetingTranscript, Utterance
+from saydraft.meetings.transcription import AnalysisIssue, MeetingTranscript, Utterance
 from tests.test_meeting_session import Capture, Clock
 from tests.test_session_worker import make_worker
 
@@ -208,6 +208,45 @@ def test_failed_recognition_retry_uses_only_the_retained_in_memory_audio(tmp_pat
     assert [call[0] for call in f.calls].count('capture_factory') == 1
     assert [call for call in f.calls if call[0] == 'transcribe'][-1][1] is audio
     assert f.controller.latest.phase == 'finished'
+
+
+def test_empty_failed_transcript_retains_audio_for_retry_instead_of_saving_empty_note(tmp_path):
+    f = rig(tmp_path)
+    transcribe = f.processor.transcribe
+    f.processor.transcribe = lambda *args, **options: MeetingTranscript((),
+        (AnalysisIssue('microphone', 0., .1, 'recognition_failed'),), True, .1)
+    start(f)
+    f.executor.drain()
+    assert f.controller.latest.phase == 'recovery' and f.controller.latest.retained == 'audio'
+    assert f.controller.recovery.transcript is None and f.controller.recovery.collected.audio is not None
+    assert len(f.store.list()) == 1 and f.store.active() == f.primary
+    f.processor.transcribe = transcribe
+    assert f.controller.retry(f.controller.latest)
+    f.executor.drain()
+    assert f.controller.latest.phase == 'finished'
+    assert [call[0] for call in f.calls].count('capture_factory') == 1
+
+
+def test_silent_successful_transcript_finishes_without_empty_note_or_audio_recovery(tmp_path):
+    f = rig(tmp_path)
+    f.processor.transcribe = lambda *args, **options: MeetingTranscript((), (), True, .1)
+    start(f)
+    f.executor.drain()
+    assert f.controller.latest.phase == 'empty' and f.controller.recovery is None
+    assert len(f.store.list()) == 1 and f.store.active() == f.primary
+
+
+def test_stale_reviewed_settings_are_refused_atomically_before_capture_or_indicator(tmp_path):
+    import copy
+    f = rig(tmp_path)
+    snapshot = copy.deepcopy(f.worker.services.config)
+    snapshot['stt']['pinned_languages'] = ['bn']
+    assert not f.controller.request(CaptureRequest(consent=True), expected_config=snapshot)
+    assert f.controller.latest is None and not f.calls and not f.worker.busy
+    snapshot = copy.deepcopy(f.worker.services.config)
+    assert f.controller.request(CaptureRequest(consent=True), expected_config=snapshot)
+    f.controller.cancel()
+    f.executor.drain()
 
 
 def test_explicit_recovery_discard_is_queued_and_does_not_change_notes(tmp_path):

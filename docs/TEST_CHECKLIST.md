@@ -26,6 +26,15 @@ owner-profile operations require a suitable isolated environment or a later
 owner-authorized acceptance step; do not enable them by pretending this machine
 is a hosted CI runner. Record such checks as unqualified rather than passed.
 
+Meeting setup checks must inject device/model/download ports when running on the
+stopped owner desktop. Never invoke its default Refresh provider in that setting.
+The focused suites are `tests/test_meeting_setup.py`, `test_meeting_setup_ui.py`,
+`test_meeting_asr.py`, `test_meeting_devices.py`, `test_meeting_app_flow.py` and the
+existing meeting/controller/Labs/Hub regressions. They verify explicit setup,
+exact endpoint selection, fresh consent, stale-setting refusal, first-painted
+indicator admission, multilingual retry and independent Notes with fake ports.
+They do not qualify live capture or full language/speaker/summary accuracy.
+
 Install the development requirements in an isolated Python 3.13 environment;
 see [CONTRIBUTING.md](../CONTRIBUTING.md). Run from the repository root:
 
