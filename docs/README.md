@@ -78,6 +78,8 @@ including the optional public-audio recognizer smoke.
 - [Core refactor](CORE_REFACTOR.md): application boundaries and injected ports.
 - [Theme](THEME.md) and [fonts](FONTS.md): shared tokens, Qt rendering, and bundled typefaces.
 - [Website](SITE.md): Astro, Storybook, Playwright, Lighthouse, and GitHub Pages.
+- [Launch drafts](launch/README.md): factual source-preview listings, Product Hunt,
+  Show HN, Reddit and awesome-list copy for the owner to review and post.
 
 Dated benchmark sections and `eval/` reports describe the source and corpus
 used in those runs. They are not automatically current-source, owner-accuracy,
