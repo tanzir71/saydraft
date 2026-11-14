@@ -74,6 +74,14 @@ force an English default. Owner instructions distinguish a quoted third-person
 name from the person speaking. This is a prompt correction; native confirmation
 and broader semantic owner/decision accuracy remain required.
 
+At `30163a3` the same three frozen language/action cases pass natively, including
+both original-script names. Manual review still found the English explicit
+decision missing from Decisions and an Arabic future task incorrectly repeated
+as an assignment decision. A separate, stricter development decision gate was
+frozen before changing generation order. Requests now extract decisions and
+tasks before topics and distinguish a future task from an agreed assignment.
+The original acceptance criteria and raw outputs remain unchanged.
+
 `MeetingNoteDraft` renders bounded Markdown with evidence, timed speaker/track
 transcripts, recognition provenance and visible incomplete sections. A failed
 summary preserves the transcript. Recorded/model Markdown and HTML are escaped
