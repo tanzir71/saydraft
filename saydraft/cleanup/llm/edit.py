@@ -70,6 +70,8 @@ _EXAMPLES = (
      "Make this shorter.", "We have not yet received the final documents because approval is pending."),
     ("Sorry, I can't assist with that request.", "Make this more formal.",
      "I apologize, but I am unable to assist with that request."),
+    ("First check the battery. Next connect the cable. Last restart the device.", "Format these steps as bullets.",
+     "- First check the battery.\n- Next connect the cable.\n- Last restart the device."),
 )
 
 
