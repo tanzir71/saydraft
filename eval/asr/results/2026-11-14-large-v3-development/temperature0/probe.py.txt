@@ -1,0 +1,172 @@
+"""Frozen nine-clip development model comparison, using explicit local QA cache."""
+import hashlib
+import json
+import os
+import subprocess
+import sys
+import time
+import traceback
+from pathlib import Path
+
+BASE = Path(__file__).resolve().parent
+SOURCE = BASE / 'worktrees/asr-languages-1b7e7ea-20261114'
+ROOT = BASE / 'whisper-large-v3-temp0-development-1b7e7ea-20261114-r1'
+CACHE = BASE / 'whisper-large-v3-quality-cache-20261114-r1'
+RUNTIME = BASE / 'latency-runtime-874a9c4-20261114/venv/Scripts/python.exe'
+sys.path.insert(0, str(SOURCE))
+sha = lambda path: hashlib.sha256(Path(path).read_bytes()).hexdigest()
+read = lambda path: json.loads(Path(path).read_text(encoding='utf-8'))
+
+def save(path, value):
+    stage = path.with_suffix('.tmp')
+    stage.write_text(json.dumps(value, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+    stage.replace(path)
+
+def freeze():
+    from tools.asr_accuracy import _source
+    ROOT.mkdir(exist_ok=False)
+    original = BASE / 'external-whisper-boundaries-1b7e7ea-20261114-r1/frozen-plan.json'
+    clips = read(original)['clips']
+    assert len(clips) == 9 and _source() == read(original)['source']
+    manifest = CACHE / 'candidate-manifest.json'
+    save(ROOT / 'frozen-plan.json', {
+        'scope': 'Already-observed development clips only: first3 bn/ta/te from original corpus. Whole-clip full large-v3 with fixed temperature0 versus retained turbo baseline; prior default-large result is separately pinned. No new holdout clips.',
+        'source': _source(), 'script_sha256': sha(__file__), 'clips': clips,
+        'candidate_manifest': str(manifest), 'candidate_manifest_sha256': sha(manifest),
+        'selection_parent_plan_sha256': sha(original), 'prior_default_report_sha256': sha(BASE / 'whisper-large-v3-development-1b7e7ea-20261114-r1/native-r1/report.json'), 'prior_default_journal_sha256': sha(BASE / 'whisper-large-v3-development-1b7e7ea-20261114-r1/native-r1/cases.jsonl'), 'selection_before_inference': True,
+        'generation': 'Production WhisperCT2Engine kwargs plus temperature=0.0 only; noVAD/no previous conditioning; language pin; beam5; default timestamp behavior.',
+        'decoder': 'Unchanged448 token/model30s feature context; no max_length, chunk_length or token overrides.',
+        'candidate_storage': 'Systran FP16 source weights; CPU int8 runtime; cache-only; not app catalog/default.'})
+    print(json.dumps({'frozen': True, 'clips': len(clips), 'plan_sha256': sha(ROOT / 'frozen-plan.json')}), flush=True)
+
+def run():
+    import numpy as np
+    import soundfile as sf
+    from tools.asr_accuracy import load_corpora, _source
+    from tools.bench_models import score
+    from tools.latency_environment import runtime_environment
+    from saydraft.models.downloader import installation_ready
+    from saydraft.stt.whisper_engine import _import_whisper_model
+    from saydraft.asr.whisper_ct2 import WhisperCT2Engine, WhisperEngineConfig
+    from saydraft.privacy.netguard import NetworkGuard
+    plan_path = ROOT / 'frozen-plan.json'
+    plan, plan_sha = read(plan_path), sha(plan_path)
+    assert sha(__file__) == plan['script_sha256'] and _source() == plan['source']
+    boundary_exit = read(BASE / 'external-whisper-boundaries-1b7e7ea-20261114-r1/observer-r1/process.json')
+    assert boundary_exit['native_exit_observed'] and boundary_exit['returncode'] == 0
+    setup_exit = read(CACHE / 'observer-r1/process.json')
+    assert setup_exit['child_exit_observed'] and setup_exit['returncode'] == 0 and read(CACHE / 'download.json')['complete']
+    assert sha(plan['candidate_manifest']) == plan['candidate_manifest_sha256']
+    manifest = read(plan['candidate_manifest'])
+    output = ROOT / 'native-r1'
+    output.mkdir(exist_ok=False)
+    report = {'scope': plan['scope'], 'plan_sha256': plan_sha, 'script_sha256': sha(__file__),
+              'source': _source(), 'runtime_environment': runtime_environment(), 'pid': os.getpid(),
+              'model': {'id': 'whisper-large-v3', 'revision': manifest['revision'],
+                        'manifest_sha256': sha(plan['candidate_manifest'])},
+              'network': 'PythonGuard/local-only; OS firewall unmeasured',
+              'complete': False, 'cases': [], 'temperature': 0.0, 'owner_accuracy_accepted': False,
+              'language_quality_accepted': False, 'latency_qualified': False}
+    report_path = output / 'report.json'
+    save(report_path, report)
+    NetworkGuard.install()
+    try:
+        assert installation_ready(manifest, CACHE / 'model', check_hashes=True)
+        report['model']['verified_before'] = True
+        clips, receipts = load_corpora(list(dict.fromkeys(row['corpus']['path'] for row in plan['clips'])))
+        lookup = {(row['language'], row['id']): row for row in clips}
+        report['corpora'] = receipts
+        for selected in plan['clips']:
+            assert sha(selected['baseline_journal']) == selected['baseline_journal_sha256']
+            assert selected['audio_sha256'] == lookup[selected['language'], selected['id']]['sha256']
+        native_model = _import_whisper_model(suppress_ipv6_probe=True)(str(CACHE / 'model'), device='cpu',
+                                                                 compute_type='int8', local_files_only=True)
+        original_transcribe = native_model.transcribe
+        def transcribe_temperature_zero(*args, **kwargs):
+            assert 'temperature' not in kwargs
+            return original_transcribe(*args, temperature=0.0, **kwargs)
+        native_model.transcribe = transcribe_temperature_zero
+        engine = WhisperCT2Engine(WhisperEngineConfig(model_size='large-v3', silence_trim=False),
+                                  model_factory=lambda *args, **kwargs: native_model)
+        engine.prepare()
+        calls, native = [], native_model.model
+        class Proxy:
+            def __getattr__(self, name):
+                return getattr(native, name)
+            def generate(self, *args, **kwargs):
+                results = native.generate(*args, **kwargs)
+                calls.append({'max_length': kwargs.get('max_length'), 'prompt_tokens': len(args[1][0]),
+                              'sampling_temperature': kwargs.get('sampling_temperature'),
+                              'generated_tokens': [len(row.sequences_ids[0]) for row in results]})
+                return results
+        native_model.model = Proxy()
+        assert native_model.max_length == 448 and native_model.feature_extractor.chunk_length == 30
+        report['model_max_length'] = native_model.max_length
+        report['feature_chunk_length'] = native_model.feature_extractor.chunk_length
+        save(report_path, report)
+        with (output / 'cases.jsonl').open('x', encoding='utf-8') as journal:
+            for selected in plan['clips']:
+                clip = lookup[selected['language'], selected['id']]
+                audio, rate = sf.read(clip['audio_path'], dtype='float32')
+                assert rate == 16000 and len(audio) == clip['num_samples'] and audio.ndim == 1 and np.isfinite(audio).all()
+                engine.set_language(clip['language'])
+                calls.clear()
+                started = time.perf_counter()
+                text = engine.transcribe(audio)
+                baseline = next(row for row in (json.loads(line) for line in Path(selected['baseline_journal']).read_text(encoding='utf-8').splitlines())
+                                if row['id'] == clip['id'] and row['model'] == 'whisper-large-v3-turbo')
+                assert baseline['reference'] == clip['reference'] and baseline['sha256'] == clip['sha256']
+                row = {'language': clip['language'], 'id': clip['id'], 'audio_sha256': clip['sha256'],
+                       'reference': clip['reference'], 'audio_samples': len(audio), 'text': text,
+                       'scores': score(clip['reference'], text), 'decode_calls': list(calls),
+                       'contains_replacement': '\ufffd' in text, 'baseline_text': baseline['asr_text'],
+                       'baseline_scores': baseline['asr_scores'], 'seconds': time.perf_counter() - started}
+                report['cases'].append(row)
+                journal.write(json.dumps(row, ensure_ascii=False) + '\n')
+                journal.flush()
+                save(report_path, report)
+                print(json.dumps({'language': row['language'], 'id': row['id'], 'scores': row['scores'],
+                                  'baseline_scores': row['baseline_scores']}), flush=True)
+        report['source_unchanged'] = _source() == report['source']
+        report['runtime_environment_unchanged'] = runtime_environment() == report['runtime_environment']
+        report['pins_unchanged'] = installation_ready(manifest, CACHE / 'model', check_hashes=True)
+        report['plan_unchanged'] = sha(plan_path) == plan_sha
+        report['script_unchanged'] = sha(__file__) == report['script_sha256']
+        report['complete'] = len(report['cases']) == 9 and all(report[key] for key in (
+            'source_unchanged', 'runtime_environment_unchanged', 'pins_unchanged', 'plan_unchanged', 'script_unchanged'))
+        report['journal_sha256'] = sha(output / 'cases.jsonl')
+    except BaseException as error:
+        report['error_type'] = type(error).__name__
+        traceback.print_exc()
+    finally:
+        NetworkGuard.uninstall()
+        save(report_path, report)
+    raise SystemExit(0 if report['complete'] else 1)
+
+def observe():
+    folder = ROOT / 'observer-r1'
+    folder.mkdir(exist_ok=False)
+    args = [str(RUNTIME), str(Path(__file__).resolve()), '--run']
+    env = os.environ.copy()
+    env.update(PYTHONUTF8='1', HF_HUB_OFFLINE='1', HF_HUB_DISABLE_TELEMETRY='1', DO_NOT_TRACK='1', PYTHONDONTWRITEBYTECODE='1')
+    state = {'observer_pid': os.getpid(), 'args': args, 'started_epoch': time.time(), 'native_exit_observed': False}
+    with (folder / 'stdout.txt').open('x', encoding='utf-8') as stdout, (folder / 'stderr.txt').open('x', encoding='utf-8') as stderr:
+        child = subprocess.Popen(args, cwd=SOURCE, env=env, stdout=stdout, stderr=stderr, creationflags=subprocess.CREATE_NO_WINDOW)
+        state['native_pid'] = child.pid
+        save(folder / 'process.json', state)
+        state['returncode'] = child.wait()
+    state.update(native_exit_observed=True, ended_epoch=time.time(), stdout_sha256=sha(folder / 'stdout.txt'), stderr_sha256=sha(folder / 'stderr.txt'))
+    for name in ('report.json', 'cases.jsonl'):
+        if (ROOT / 'native-r1' / name).exists():
+            state[name + '_sha256'] = sha(ROOT / 'native-r1' / name)
+    save(folder / 'process.json', state)
+    raise SystemExit(state['returncode'])
+
+if sys.argv[1:] == ['--freeze']:
+    freeze()
+elif sys.argv[1:] == ['--run']:
+    run()
+elif sys.argv[1:] == ['--observe']:
+    observe()
+else:
+    raise SystemExit('Choose --freeze, --run or --observe')

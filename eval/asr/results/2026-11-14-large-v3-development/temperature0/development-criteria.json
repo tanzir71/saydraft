@@ -1,0 +1,16 @@
+{
+  "scope": "Admission from observed development to untouched confirmation only; never language/default/latency/owner acceptance.",
+  "frozen_epoch": 1794655843.5226996,
+  "before_native_development": true,
+  "plan_sha256": "f27ddb5436b487b1ced0a2acd8c7abd8fffd178525537d65b1aed1c7fdc12c11",
+  "verifier_sha256": "30638b585dac239028e427e45ae136287334b09172cc3884532857973a9f8c87",
+  "required_languages": [
+    "bn",
+    "ta",
+    "te"
+  ],
+  "cases_per_language": 3,
+  "metric_gate": "Each language aggregate WER must not increase and CER must strictly decrease versus unchanged turbo baseline.",
+  "output_gate": "No new empty output and no newly introduced U+FFFD case compared with that exact baseline clip.",
+  "measurement_gate": "All9 cases, native zero exit, clean unchanged source/runtime/script/plan/custom model pins, exact original corpus/reference/audio/baseline journals and recomputed scores."
+}

@@ -65,11 +65,18 @@ Sixty new confirmation clips have separately verified audio/reference/TSV hashes
 and IDs disjoint from the observed baseline: twenty each for Bengali, Tamil and
 Telugu. They have no model inference at this snapshot. Preserve them for a
 candidate that passes development, and record consumption before later tuning.
-A whole-clip full large-v3 model comparison is frozen to the same nine observed
-development clips; its explicit QA-only cache download is in progress. Its
-accuracy is unmeasured and it is not registered in the app. Pinned source cards
-retain differing conversion/upstream license metadata for review before any
-distribution decision.
+Two whole-clip full large-v3 comparisons now finish on the same nine observed
+development clips. The explicit QA-only cache is fully verified; it is not
+registered in the app. The [complete record](../../eval/asr/results/2026-11-14-large-v3-development/README.md)
+retains both pre-inference criteria, raw outputs, native zero exits and score
+replay. Default full large-v3 improves Bengali but regresses Tamil and Telugu
+CER. A second candidate changes only temperature to zero: Tamil WER/CER improves
+to 37.84%/8.28%, but Telugu CER remains 19.72% versus turbo 18.66% (56 versus 53
+character errors). Both fail the unchanged requirement that every language's
+WER not worsen and CER strictly improve. Neither is admitted to the sixty new
+confirmation clips. Pinned source cards retain differing conversion/upstream
+license metadata for review before any distribution decision. No production
+model or decoder change follows.
 
 The related [upstream report](https://github.com/OpenNMT/CTranslate2/issues/2074)
 describes the 224-token limit for a no-timestamp path. These probes retain the

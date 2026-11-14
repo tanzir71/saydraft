@@ -1,0 +1,17 @@
+{
+  "observer_pid": 29088,
+  "args": [
+    "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\latency-runtime-874a9c4-20261114\\venv\\Scripts\\python.exe",
+    "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\compare_whisper_large_v3_20261114.py",
+    "--run"
+  ],
+  "started_epoch": 1794654367.9781277,
+  "native_exit_observed": true,
+  "native_pid": 26560,
+  "returncode": 0,
+  "ended_epoch": 1794655452.5255306,
+  "stdout_sha256": "4ba54b1f86f338ec90da19a07884efe4847109ede241ec301c833ed3891c6d8b",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "report.json_sha256": "ee417b759b4be62bf55520e0bd816076a0abbc16e8cd5a2be5fa849d058245d6",
+  "cases.jsonl_sha256": "fce603e08849a7dfbc71fd8ca687ac9538d1f724afb5a8dcf56ecdfc7dc763b1"
+}

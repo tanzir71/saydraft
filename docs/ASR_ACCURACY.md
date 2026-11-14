@@ -11,8 +11,11 @@ Bengali, Tamil and Telugu show substantial recognition errors. A separate three-
 capping and rejects an internal 8-second-window candidate because character
 errors worsen. A second [nine-clip external-segmentation experiment](../eval/asr/results/2026-11-14-external-boundaries/README.md)
 also regresses and is rejected. Sixty new disjoint confirmation clips are
-verified and remain uninferred; a larger-model comparison is frozen to observed
-development clips while its explicit QA cache is prepared. These development
+verified and remain uninferred. Two [full large-v3 development comparisons](../eval/asr/results/2026-11-14-large-v3-development/README.md)
+now finish on the same nine observed clips with independently verified scores
+and zero native exits. Both fail their frozen admission gate: default full
+large-v3 regresses Tamil/Telugu CER; temperature zero improves Tamil but still
+regresses Telugu CER. No default or decoder change is promoted. These development
 findings are not broad language acceptance.
 Owner-recording acceptance remains deferred. The isolated Pro latency run has
 finished and its [failed median gate is retained](LATENCY_MATRIX.md).

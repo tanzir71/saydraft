@@ -1,0 +1,156 @@
+{
+  "scope": "Two nine-case observed development measurements, never owner/language/default/latency acceptance.",
+  "decision": "Both candidates rejected by criteria frozen before their inference. Sixty new confirmation clips remain uninferred.",
+  "files": [
+    {
+      "file": "default/frozen-plan.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\whisper-large-v3-development-1b7e7ea-20261114-r1\\frozen-plan.json",
+      "sha256": "3693670960c88db29239dad4efdde1e9329e99e622e0223ff41cbc45cdd6c14b"
+    },
+    {
+      "file": "default/development-criteria.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\whisper-large-v3-development-1b7e7ea-20261114-r1\\development-criteria.json",
+      "sha256": "fe6909fc1e225a0475cc63e33aefbb6e85b087c2bfece73101c0abf045e2b0a1"
+    },
+    {
+      "file": "default/independent-verification.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\whisper-large-v3-development-1b7e7ea-20261114-r1\\independent-verification.json",
+      "sha256": "7095e1a766dbd3b6090f2f09d6f20a681952934193268628524a797b1090829c"
+    },
+    {
+      "file": "default/report.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\whisper-large-v3-development-1b7e7ea-20261114-r1\\native-r1\\report.json",
+      "sha256": "ee417b759b4be62bf55520e0bd816076a0abbc16e8cd5a2be5fa849d058245d6"
+    },
+    {
+      "file": "default/cases.jsonl",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\whisper-large-v3-development-1b7e7ea-20261114-r1\\native-r1\\cases.jsonl",
+      "sha256": "fce603e08849a7dfbc71fd8ca687ac9538d1f724afb5a8dcf56ecdfc7dc763b1"
+    },
+    {
+      "file": "default/process.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\whisper-large-v3-development-1b7e7ea-20261114-r1\\observer-r1\\process.json",
+      "sha256": "2695bff8960c7a96d610d3b94cb8cabe6ec38cf8a8f4a175640f55c5a4cdd97c"
+    },
+    {
+      "file": "default/stdout.txt",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\whisper-large-v3-development-1b7e7ea-20261114-r1\\observer-r1\\stdout.txt",
+      "sha256": "4ba54b1f86f338ec90da19a07884efe4847109ede241ec301c833ed3891c6d8b"
+    },
+    {
+      "file": "default/stderr.txt",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\whisper-large-v3-development-1b7e7ea-20261114-r1\\observer-r1\\stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "default/probe.py.txt",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\compare_whisper_large_v3_20261114.py",
+      "sha256": "fd4ce201a498f895a691a56b45bc4c02e38018498caddb76e368566ab2b84553"
+    },
+    {
+      "file": "default/verify-original-machine.py.txt",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\verify_large_v3_development_20261114.py",
+      "sha256": "d794b61788fb5b0143465bd20916fcc6d19faad0d83457cde0d59f7317656020"
+    },
+    {
+      "file": "temperature0/frozen-plan.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\whisper-large-v3-temp0-development-1b7e7ea-20261114-r1\\frozen-plan.json",
+      "sha256": "f27ddb5436b487b1ced0a2acd8c7abd8fffd178525537d65b1aed1c7fdc12c11"
+    },
+    {
+      "file": "temperature0/development-criteria.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\whisper-large-v3-temp0-development-1b7e7ea-20261114-r1\\development-criteria.json",
+      "sha256": "1924ca504ebc219b109bedace52827695c580ce1e17c256b3790186fec3c6f61"
+    },
+    {
+      "file": "temperature0/independent-verification.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\whisper-large-v3-temp0-development-1b7e7ea-20261114-r1\\independent-verification.json",
+      "sha256": "8577bf33d45d6641fbf65505b14789ef717a3c040592b0f5fb78a5ae0b623c94"
+    },
+    {
+      "file": "temperature0/report.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\whisper-large-v3-temp0-development-1b7e7ea-20261114-r1\\native-r1\\report.json",
+      "sha256": "7d8ee499861898ff6941bd4fc39456c6bf72de4d0ff6a66cb7085565001639d0"
+    },
+    {
+      "file": "temperature0/cases.jsonl",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\whisper-large-v3-temp0-development-1b7e7ea-20261114-r1\\native-r1\\cases.jsonl",
+      "sha256": "a9b77261f86123440493b7c1d67b2bf3659a5695eaa5d4ecceaac9ffb9b113d1"
+    },
+    {
+      "file": "temperature0/process.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\whisper-large-v3-temp0-development-1b7e7ea-20261114-r1\\observer-r1\\process.json",
+      "sha256": "baa3039d758b0b6f6346ba264cbad164ce9a923e11ecd83d0327feacde14a07f"
+    },
+    {
+      "file": "temperature0/stdout.txt",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\whisper-large-v3-temp0-development-1b7e7ea-20261114-r1\\observer-r1\\stdout.txt",
+      "sha256": "cb0f21e6c237855285f3f43b99df84987ca4f5c33a5e512ea13a8540358c2ab9"
+    },
+    {
+      "file": "temperature0/stderr.txt",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\whisper-large-v3-temp0-development-1b7e7ea-20261114-r1\\observer-r1\\stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "temperature0/probe.py.txt",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\compare_whisper_zero_temperature_20261114.py",
+      "sha256": "d208fdea975fd1091c6bb6e601a7221bf4277c444d9d83997af4002e8a9d1255"
+    },
+    {
+      "file": "temperature0/verify-original-machine.py.txt",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\verify_zero_temperature_development_20261114.py",
+      "sha256": "30638b585dac239028e427e45ae136287334b09172cc3884532857973a9f8c87"
+    },
+    {
+      "file": "model/candidate-manifest.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\whisper-large-v3-quality-cache-20261114-r1\\candidate-manifest.json",
+      "sha256": "3e011da22e6ac6281725d49afe536b156ae9bc7aabef46a33d542864a66d024f"
+    },
+    {
+      "file": "model/download.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\whisper-large-v3-quality-cache-20261114-r1\\download.json",
+      "sha256": "661959140b6ada78e76e60f8ed6ac9cccf3e255498149691379ff8393e0744cb"
+    },
+    {
+      "file": "model/download-process.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\whisper-large-v3-quality-cache-20261114-r1\\observer-r1\\process.json",
+      "sha256": "e9d22218cbed8af5bad1e0ce78dd6f0af1cc5fe28e19395cb65c9a05a7bfcb23"
+    },
+    {
+      "file": "model/download-stdout.txt",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\whisper-large-v3-quality-cache-20261114-r1\\observer-r1\\stdout.txt",
+      "sha256": "07f14b9bf855e0a5a147eb71bef3a8572b43bdd13d5e311aa2b61ae6cc455605"
+    },
+    {
+      "file": "model/download-stderr.txt",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\whisper-large-v3-quality-cache-20261114-r1\\observer-r1\\stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "model/source/index.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\whisper-large-v3-candidate-metadata-20261114-r1\\index.json",
+      "sha256": "3429e3933a9fa147761216e7cc20bdcd69fd542f71eccb04c2e562792f43bd5d"
+    },
+    {
+      "file": "model/source/Systran--faster-whisper-large-v3/api.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\whisper-large-v3-candidate-metadata-20261114-r1\\Systran--faster-whisper-large-v3\\api.json",
+      "sha256": "7864f4ae3805bc13f8193571159aa3e53b7ec3d4909905bfa80579805306d780"
+    },
+    {
+      "file": "model/source/Systran--faster-whisper-large-v3/README.md",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\whisper-large-v3-candidate-metadata-20261114-r1\\Systran--faster-whisper-large-v3\\README.md",
+      "sha256": "39e96252229f5a3d0141dc81afb65a36fd205461ac21e5b70f2cd1248ef0082c"
+    },
+    {
+      "file": "model/source/openai--whisper-large-v3/api.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\whisper-large-v3-candidate-metadata-20261114-r1\\openai--whisper-large-v3\\api.json",
+      "sha256": "3911c4b5a34ca9055edac8fc7e927e484e3860c2736629da6da68f52ed3337b3"
+    },
+    {
+      "file": "model/source/openai--whisper-large-v3/README.md",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\whisper-large-v3-candidate-metadata-20261114-r1\\openai--whisper-large-v3\\README.md",
+      "sha256": "b05416eb578e9fc65ce137f3401bafdf3bc2feac7448e7dd180dcd367b8cfb52"
+    }
+  ]
+}

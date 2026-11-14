@@ -61,3 +61,5 @@ eval/asr/results/**/*.txt -text whitespace=blank-at-eol,blank-at-eof,space-befor
 eval/asr/results/**/*.md -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 # Preserve indentation on blank lines in retained CI console output.
 eval/asr/results/**/*-ci-failure.txt -text -whitespace
+# Unchanged model cards/API metadata retain original formatting and hashes.
+eval/asr/results/2026-11-14-large-v3-development/model/source/** -text -whitespace

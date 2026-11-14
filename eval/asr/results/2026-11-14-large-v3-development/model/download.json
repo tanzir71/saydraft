@@ -1,0 +1,17 @@
+{
+  "scope": "QA candidate only; not registered or offered in app; no default or quality acceptance.",
+  "pid": 39492,
+  "started_epoch": 1794653047.7661293,
+  "manifest_sha256": "3e011da22e6ac6281725d49afe536b156ae9bc7aabef46a33d542864a66d024f",
+  "complete": true,
+  "percent": 100,
+  "verified_files": {
+    "model.bin": "69f74147e3334731bc3a76048724833325d2ec74642fb52620eda87352e3d4f1",
+    "config.json": "a9306624f5ec14270a014b647e5c316b6e03a662c369758d1b90697a7b0655b9",
+    "preprocessor_config.json": "7ccc62c6f2765af1f3b46c00c9b5894426835a05021c8b9c01eecb6dfb542711",
+    "tokenizer.json": "6d8cbd7cd0d8d5815e478dac67b85a26bbe77c1f5e0c6d76d1ce2abc0e5f21ca",
+    "vocabulary.json": "c69260f2ab26d659b7c398f9a2b2b48ed0df16c3b47d7326782fd9cba71690c1",
+    "README.md": "39e96252229f5a3d0141dc81afb65a36fd205461ac21e5b70f2cd1248ef0082c"
+  },
+  "ended_epoch": 1794654367.7896092
+}

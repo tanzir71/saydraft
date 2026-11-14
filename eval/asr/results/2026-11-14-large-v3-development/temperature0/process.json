@@ -1,0 +1,17 @@
+{
+  "observer_pid": 5200,
+  "args": [
+    "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\latency-runtime-874a9c4-20261114\\venv\\Scripts\\python.exe",
+    "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\compare_whisper_zero_temperature_20261114.py",
+    "--run"
+  ],
+  "started_epoch": 1794655863.1818492,
+  "native_exit_observed": true,
+  "native_pid": 12356,
+  "returncode": 0,
+  "ended_epoch": 1794656364.7086382,
+  "stdout_sha256": "cb0f21e6c237855285f3f43b99df84987ca4f5c33a5e512ea13a8540358c2ab9",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "report.json_sha256": "7d8ee499861898ff6941bd4fc39456c6bf72de4d0ff6a66cb7085565001639d0",
+  "cases.jsonl_sha256": "a9b77261f86123440493b7c1d67b2bf3659a5695eaa5d4ecceaac9ffb9b113d1"
+}

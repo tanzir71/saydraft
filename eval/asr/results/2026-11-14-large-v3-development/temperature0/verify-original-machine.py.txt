@@ -1,0 +1,115 @@
+"""Independently verify the frozen large-v3 development measurement and gate.
+
+--freeze-criteria is admitted only before native development starts. Its gate
+allows a candidate to proceed to untouched confirmation, never app promotion.
+"""
+import hashlib
+import json
+import sys
+import time
+from collections import Counter
+from pathlib import Path
+
+BASE = Path(__file__).resolve().parent
+ROOT = BASE / 'whisper-large-v3-temp0-development-1b7e7ea-20261114-r1'
+CACHE = BASE / 'whisper-large-v3-quality-cache-20261114-r1'
+SOURCE = BASE / 'worktrees/asr-languages-1b7e7ea-20261114'
+sys.path.insert(0, str(SOURCE))
+read = lambda path: json.loads(Path(path).read_text(encoding='utf-8'))
+sha = lambda path: hashlib.sha256(Path(path).read_bytes()).hexdigest()
+
+if sys.argv[1:] == ['--freeze-criteria']:
+    assert not (ROOT / 'native-r1').exists() and not (ROOT / 'observer-r1').exists()
+    assert read(BASE / 'whisper-large-v3-development-1b7e7ea-20261114-r1/independent-verification.json')['measurement_integrity']
+    criteria = {'scope': 'Admission from observed development to untouched confirmation only; never language/default/latency/owner acceptance.',
+                'frozen_epoch': time.time(), 'before_native_development': True,
+                'plan_sha256': sha(ROOT / 'frozen-plan.json'), 'verifier_sha256': sha(__file__),
+                'required_languages': ['bn', 'ta', 'te'], 'cases_per_language': 3,
+                'metric_gate': 'Each language aggregate WER must not increase and CER must strictly decrease versus unchanged turbo baseline.',
+                'output_gate': 'No new empty output and no newly introduced U+FFFD case compared with that exact baseline clip.',
+                'measurement_gate': 'All9 cases, native zero exit, clean unchanged source/runtime/script/plan/custom model pins, exact original corpus/reference/audio/baseline journals and recomputed scores.'}
+    with (ROOT / 'development-criteria.json').open('x', encoding='utf-8') as output:
+        json.dump(criteria, output, indent=2)
+        output.write('\n')
+    print(json.dumps({'frozen': True, 'criteria_sha256': sha(ROOT / 'development-criteria.json')}))
+    raise SystemExit(0)
+
+assert sys.argv[1:] == ['--verify']
+from tools.asr_accuracy import _source, load_corpora
+from tools.bench_models import score
+from tools.latency_environment import runtime_environment
+from saydraft.models.downloader import installation_ready
+import soundfile as sf
+
+plan = read(ROOT / 'frozen-plan.json')
+assert sha(BASE / 'whisper-large-v3-development-1b7e7ea-20261114-r1/native-r1/report.json') == plan['prior_default_report_sha256']
+assert sha(BASE / 'whisper-large-v3-development-1b7e7ea-20261114-r1/native-r1/cases.jsonl') == plan['prior_default_journal_sha256']
+criteria = read(ROOT / 'development-criteria.json')
+process = read(ROOT / 'observer-r1/process.json')
+report = read(ROOT / 'native-r1/report.json')
+assert process['native_exit_observed'] and process['returncode'] == 0
+assert criteria['frozen_epoch'] < process['started_epoch'] and criteria['before_native_development']
+assert criteria['verifier_sha256'] == sha(__file__)
+assert criteria['plan_sha256'] == report['plan_sha256'] == sha(ROOT / 'frozen-plan.json')
+assert plan['script_sha256'] == report['script_sha256'] == sha(BASE / 'compare_whisper_zero_temperature_20261114.py')
+assert plan['source'] == report['source'] == _source()
+assert report['runtime_environment'] == runtime_environment()
+assert report['complete'] and len(report['cases']) == 9
+assert all(report[key] for key in ('source_unchanged', 'runtime_environment_unchanged', 'pins_unchanged', 'plan_unchanged', 'script_unchanged'))
+assert report['temperature'] == 0.0
+assert report['model_max_length'] == 448 and report['feature_chunk_length'] == 30
+assert sha(CACHE / 'candidate-manifest.json') == plan['candidate_manifest_sha256'] == report['model']['manifest_sha256']
+manifest = read(CACHE / 'candidate-manifest.json')
+assert manifest['revision'] == report['model']['revision'] == 'edaa852ec7e145841d8ffdb056a99866b5f0a478'
+assert installation_ready(manifest, CACHE / 'model', check_hashes=True)
+for name in ('report.json', 'cases.jsonl'):
+    assert process[name + '_sha256'] == sha(ROOT / 'native-r1' / name)
+for name in ('stdout', 'stderr'):
+    assert process[name + '_sha256'] == sha(ROOT / 'observer-r1' / (name + '.txt'))
+rows = [json.loads(line) for line in (ROOT / 'native-r1/cases.jsonl').read_text(encoding='utf-8').splitlines()]
+assert rows == report['cases'] and sha(ROOT / 'native-r1/cases.jsonl') == report['journal_sha256']
+assert [(row['language'], row['id']) for row in rows] == [(row['language'], row['id']) for row in plan['clips']]
+clips, receipts = load_corpora([item['path'] for item in report['corpora']])
+assert receipts == report['corpora']
+lookup = {(row['language'], row['id']): row for row in clips}
+summary, new_empty, new_replacement = {}, [], []
+for selected, row in zip(plan['clips'], rows):
+    clip = lookup[row['language'], row['id']]
+    assert row['reference'] == clip['reference'] and row['audio_sha256'] == clip['sha256']
+    assert sha(selected['baseline_journal']) == selected['baseline_journal_sha256']
+    baseline = next(item for item in (json.loads(line) for line in Path(selected['baseline_journal']).read_text(encoding='utf-8').splitlines())
+                    if item['id'] == row['id'] and item['model'] == 'whisper-large-v3-turbo')
+    assert row['baseline_text'] == baseline['asr_text'] and row['baseline_scores'] == baseline['asr_scores']
+    assert row['reference'] == baseline['reference'] and row['audio_sha256'] == baseline['sha256']
+    assert row['scores'] == score(row['reference'], row['text'])
+    assert row['baseline_scores'] == score(row['reference'], row['baseline_text'])
+    audio, rate = sf.read(clip['audio_path'], dtype='float32')
+    assert rate == 16000 and len(audio) == row['audio_samples'] == clip['num_samples']
+    assert row['contains_replacement'] == ('\ufffd' in row['text'])
+    if not row['text'].strip() and row['baseline_text'].strip():
+        new_empty.append((row['language'], row['id']))
+    if '\ufffd' in row['text'] and '\ufffd' not in row['baseline_text']:
+        new_replacement.append((row['language'], row['id']))
+    assert row['decode_calls'] and all(call['max_length'] == 448 and call['prompt_tokens'] == 3 for call in row['decode_calls'])
+    assert all(call['sampling_temperature'] in (None, 0, 0.0) for call in row['decode_calls'])
+    group = summary.setdefault(row['language'], {'samples': 0, 'baseline': Counter(), 'candidate': Counter()})
+    group['samples'] += 1
+    group['baseline'].update(row['baseline_scores'])
+    group['candidate'].update(row['scores'])
+assert sorted(summary) == sorted(criteria['required_languages'])
+for group in summary.values():
+    assert group['samples'] == criteria['cases_per_language']
+    for stage in ('baseline', 'candidate'):
+        group[stage] = dict(group[stage])
+        group[stage]['wer'] = group[stage]['word_errors'] / group[stage]['reference_words']
+        group[stage]['cer'] = group[stage]['character_errors'] / group[stage]['reference_characters']
+    group['development_metric_gate'] = group['candidate']['wer'] <= group['baseline']['wer'] and group['candidate']['cer'] < group['baseline']['cer']
+admit = all(group['development_metric_gate'] for group in summary.values()) and not new_empty and not new_replacement
+result = {'measurement_integrity': True, 'cases': 9, 'criteria_sha256': sha(ROOT / 'development-criteria.json'),
+          'source_corpus_audio_reference_baseline_scores_and_model_pins_verified': True,
+          'native_child_exit_observed': True, 'summary': summary, 'new_empty_cases': new_empty,
+          'new_replacement_cases': new_replacement, 'admit_untouched_confirmation': admit,
+          'owner_accuracy_accepted': False, 'language_quality_accepted': False, 'default_accepted': False,
+          'decision': 'Eligible for separately frozen untouched comparison only.' if admit else 'Reject this development candidate; leave new confirmation clips uninferred.'}
+(ROOT / 'independent-verification.json').write_text(json.dumps(result, indent=2) + '\n', encoding='utf-8')
+print(json.dumps(result))

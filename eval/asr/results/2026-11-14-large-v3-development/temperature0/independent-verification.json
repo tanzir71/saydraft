@@ -1,0 +1,76 @@
+{
+  "measurement_integrity": true,
+  "cases": 9,
+  "criteria_sha256": "1924ca504ebc219b109bedace52827695c580ce1e17c256b3790186fec3c6f61",
+  "source_corpus_audio_reference_baseline_scores_and_model_pins_verified": true,
+  "native_child_exit_observed": true,
+  "summary": {
+    "bn": {
+      "samples": 3,
+      "baseline": {
+        "word_errors": 53,
+        "reference_words": 63,
+        "character_errors": 134,
+        "reference_characters": 341,
+        "wer": 0.8412698412698413,
+        "cer": 0.39296187683284456
+      },
+      "candidate": {
+        "word_errors": 42,
+        "reference_words": 63,
+        "character_errors": 97,
+        "reference_characters": 341,
+        "wer": 0.6666666666666666,
+        "cer": 0.2844574780058651
+      },
+      "development_metric_gate": true
+    },
+    "ta": {
+      "samples": 3,
+      "baseline": {
+        "word_errors": 28,
+        "reference_words": 37,
+        "character_errors": 139,
+        "reference_characters": 302,
+        "wer": 0.7567567567567568,
+        "cer": 0.4602649006622517
+      },
+      "candidate": {
+        "word_errors": 14,
+        "reference_words": 37,
+        "character_errors": 25,
+        "reference_characters": 302,
+        "wer": 0.3783783783783784,
+        "cer": 0.08278145695364239
+      },
+      "development_metric_gate": true
+    },
+    "te": {
+      "samples": 3,
+      "baseline": {
+        "word_errors": 33,
+        "reference_words": 47,
+        "character_errors": 53,
+        "reference_characters": 284,
+        "wer": 0.7021276595744681,
+        "cer": 0.18661971830985916
+      },
+      "candidate": {
+        "word_errors": 26,
+        "reference_words": 47,
+        "character_errors": 56,
+        "reference_characters": 284,
+        "wer": 0.5531914893617021,
+        "cer": 0.19718309859154928
+      },
+      "development_metric_gate": false
+    }
+  },
+  "new_empty_cases": [],
+  "new_replacement_cases": [],
+  "admit_untouched_confirmation": false,
+  "owner_accuracy_accepted": false,
+  "language_quality_accepted": false,
+  "default_accepted": false,
+  "decision": "Reject this development candidate; leave new confirmation clips uninferred."
+}

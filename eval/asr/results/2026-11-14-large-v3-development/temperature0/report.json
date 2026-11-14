@@ -1,0 +1,396 @@
+{
+  "scope": "Already-observed development clips only: first3 bn/ta/te from original corpus. Whole-clip full large-v3 with fixed temperature0 versus retained turbo baseline; prior default-large result is separately pinned. No new holdout clips.",
+  "plan_sha256": "f27ddb5436b487b1ced0a2acd8c7abd8fffd178525537d65b1aed1c7fdc12c11",
+  "script_sha256": "d208fdea975fd1091c6bb6e601a7221bf4277c444d9d83997af4002e8a9d1255",
+  "source": {
+    "commit": "1b7e7eaf493e082692343244d6f1aed3e9907d68",
+    "dirty": false,
+    "fingerprints": {
+      "tools/asr_accuracy.py": "68d1fe7a6943c9b5c828cd921d7dda8c29e6edff592c636a853db72ee7673fd9",
+      "tools/bench_models.py": "915727fa0ee9cfd69b366c1f742069e8b6df7c02fd30874b98b404b0531cc547",
+      "tools/fetch_asr_corpus.py": "3cf853c5afc4f9687087cc0b6a86a835db34c4916e8bcbc512f5519ca7ece964",
+      "saydraft/asr/languages.py": "fc80248ae2e9787f978cb761f0a1f0d1eba65837d33c1eab64846cf1319d9ad0",
+      "saydraft/asr/router.py": "5ce679819126a6aed5442e6b5f612a1e6db3bfa9baadb01d810ecee6b957da89",
+      "saydraft/asr/sherpa_parakeet.py": "d8c66212398722976bdc94e2fb6e4b869e96dff48f84c957a91954eb74376327",
+      "saydraft/stt/whisper_engine.py": "7c10fd5de5aac1882a346e36becaeb33026c0cc5413bfc9ac7aac333ece596ad",
+      "saydraft/cleanup/styles.py": "0e486ee417cea0136ac762c7a5e9fe6db54722bb44accf182664e8a4cc541334",
+      "saydraft/cleanup/language.py": "ddd898ef5a3d19bd2bb640914a67b3f6b93c4944174baf17e79f44a8a422d9d3",
+      "saydraft/cleanup/formatter.py": "c002bb7b2372ec5e2595975c2dde55910a3f482879a1fbae49f6a834d0940b05",
+      "saydraft/dictation/pipeline.py": "1788598e4478113f9ce89c8cb3d7cef7302aae9e201b5e7dd2ac26d7668d7440",
+      "saydraft/dictation/rules.py": "873f82203f5ef7808d2ce114ef7411938a2d00b8d90518746067ad8da6804340",
+      "saydraft/asr/whisper_ct2.py": "f677767d5adea48e79e8e30442e3786ea101ae5395e372e5d7b8e8ff843e272f",
+      "saydraft/cleanup/llm/validate.py": "55ba406a1e2bf1b941a7cb3b79105cb21c36a7771d37b782f17761c0d96ba0dd",
+      "saydraft/models/manifest.json": "7f6b5d8aa719bd02f3be1af82bdf4d9f5b1345fd10094eb76b808ab0858772a0",
+      "tools/latency_environment.py": "5bb7649763d41107cfdbe50692025d525e276718e92fa5b082fefcffab963ccd",
+      "requirements.txt": "646c992a372da5724783b86c4439c838c73f592d80714fe647e66b3423ed9c4e"
+    }
+  },
+  "runtime_environment": {
+    "python": "3.13.17",
+    "implementation": "cpython",
+    "cache_tag": "cpython-313",
+    "architecture": "AMD64",
+    "interpreter_sha256": "4e67d9e9a3673aa7b6219f1280d5ec3f1b6c0d5bd98ea8688c72d0cb7582d664",
+    "packages": {
+      "numpy": "2.5.4",
+      "soundfile": "0.14.0",
+      "webrtcvad-wheels": "2.0.14",
+      "faster-whisper": "1.2.1",
+      "ctranslate2": "4.9.0",
+      "sherpa-onnx": "1.13.4",
+      "sherpa-onnx-core": "1.13.4",
+      "onnxruntime": "1.32.0"
+    }
+  },
+  "pid": 23548,
+  "model": {
+    "id": "whisper-large-v3",
+    "revision": "edaa852ec7e145841d8ffdb056a99866b5f0a478",
+    "manifest_sha256": "3e011da22e6ac6281725d49afe536b156ae9bc7aabef46a33d542864a66d024f",
+    "verified_before": true
+  },
+  "network": "PythonGuard/local-only; OS firewall unmeasured",
+  "complete": true,
+  "cases": [
+    {
+      "language": "bn",
+      "id": 1916,
+      "audio_sha256": "7cf52bece22aefba405829426c8b83acd67c9515986d51fb19f6a18681e80e0b",
+      "reference": "জার্মানির অনেক বেক করা খাবারগুলিতে বাদাম, হ্যাজনেলট এবং অন্যান্য বাদামের উপাদান পাওয়া যায়। পছন্দের কেকগুলি প্রায়শই একটি কাপ ভরা কফির সাথে ভাল মানায়।",
+      "audio_samples": 259200,
+      "text": "জান্মানের অনেক বেক্করা খাবার্গুলিতে বাদাম, হাজনেল্ত এবং অন্যান্ন বাদামের উপাদাম পায়া জায় পছন্দের কেক গুলি প্রাইশাই একটি কাপ ভারা কফির সাথে ভালো আনাই",
+      "scores": {
+        "word_errors": 15,
+        "reference_words": 23,
+        "character_errors": 20,
+        "reference_characters": 127
+      },
+      "decode_calls": [
+        {
+          "max_length": 448,
+          "prompt_tokens": 3,
+          "sampling_temperature": null,
+          "generated_tokens": [
+            224
+          ]
+        },
+        {
+          "max_length": 448,
+          "prompt_tokens": 3,
+          "sampling_temperature": null,
+          "generated_tokens": [
+            117
+          ]
+        }
+      ],
+      "contains_replacement": false,
+      "baseline_text": "জান্মানের অনেক বেক্করা খাবার গুলিতে বাদাম হেজ নেল্ত এবং অনান্ন নো বাদামের উপাদাম পাও জায় অছন্দের কেক্গুলি প্রা",
+      "baseline_scores": {
+        "word_errors": 21,
+        "reference_words": 23,
+        "character_errors": 51,
+        "reference_characters": 127
+      },
+      "seconds": 84.72391620000053
+    },
+    {
+      "language": "bn",
+      "id": 1879,
+      "audio_sha256": "8c40e7d6c18122601972c4a8e11ba027f751ef9bad683f63a73501839cc62b66",
+      "reference": "একজন শুধুমাত্র আশ্চর্য হতে পারে এই ভেবে যে যখন নতুন কিছু আসে তখন কী-বোর্ড কীরকম হবে।",
+      "audio_samples": 167040,
+      "text": "এক জন সুধুমাত্র আস্টার্য হতে পারে এই ভেবে যে জখন নতন কিসু আসে তখন কিবোর কি রকম হবে",
+      "scores": {
+        "word_errors": 10,
+        "reference_words": 17,
+        "character_errors": 11,
+        "reference_characters": 67
+      },
+      "decode_calls": [
+        {
+          "max_length": 448,
+          "prompt_tokens": 3,
+          "sampling_temperature": null,
+          "generated_tokens": [
+            161
+          ]
+        }
+      ],
+      "contains_replacement": false,
+      "baseline_text": "এক জন সুদোমাত্র আশ তর্য হতে পারে এই ভেবেজে যখন নতুন কিসু আশে তখন কিবার কিরকম হারে",
+      "baseline_scores": {
+        "word_errors": 13,
+        "reference_words": 17,
+        "character_errors": 15,
+        "reference_characters": 67
+      },
+      "seconds": 48.0954569000005
+    },
+    {
+      "language": "bn",
+      "id": 1804,
+      "audio_sha256": "7359665c138d797a9ce5c6827bd653d11cf2beb514fecc60d01d6d0ad5f16f6b",
+      "reference": "হাইতিয়ান ইনস্টিটিউট ফর জাস্টিস অ্যান্ড ডেমোক্রেসি এর স্বতন্ত্র সমীক্ষাতে উল্লেখ করা হয়েছে যে নেপালি জাতিসংঘের শান্তিরক্ষা বাহিনী অজান্তেই হাইতিতে এই রোগটি নিয়ে এসেছিল।",
+      "audio_samples": 233280,
+      "text": "হাইতিযান ইনিস্টিট্যুট ফর জাস্টিস এন ডেমক্রেসি এর সতন্ত্র সমিক্খাতে উল্লেক করা হয়েছে জে নেপালি জাতি সংগের সান্",
+      "scores": {
+        "word_errors": 17,
+        "reference_words": 23,
+        "character_errors": 66,
+        "reference_characters": 147
+      },
+      "decode_calls": [
+        {
+          "max_length": 448,
+          "prompt_tokens": 3,
+          "sampling_temperature": null,
+          "generated_tokens": [
+            224
+          ]
+        }
+      ],
+      "contains_replacement": false,
+      "baseline_text": "হাইতিযান ইনিস্টিটিয়ট ফার জাস্টিস এন ডেমক্রেসি এর সতন্ত্র সমিখাতে উলে করা হোয়েছে জে নেপালি জাতি সংগের সান্তি র�",
+      "baseline_scores": {
+        "word_errors": 19,
+        "reference_words": 23,
+        "character_errors": 68,
+        "reference_characters": 147
+      },
+      "seconds": 56.9532264999998
+    },
+    {
+      "language": "ta",
+      "id": 1792,
+      "audio_sha256": "449d0c9516dc1cf0d5082f0ffdb744b858dd0bb67033e2c02a13ea989987b439",
+      "reference": "இது வேதியியல் pH என அழைக்கப்படுகிறது. நீங்கள் சிவப்பு முட்டைக்கோஸ் சாற்றைப் பயன்படுத்தி ஒரு குறிகாட்டியை உருவாக்கலாம்.",
+      "audio_samples": 124800,
+      "text": "இது வேதியில் PH என அளைக்கப்படிகிறது, நீங்கள் சுவப்பு முட்டைக்கும் சார்ட்ரைப் பயன்படுத்தி ஒரு குரியாட்டியை உருவாக்கலாம்.",
+      "scores": {
+        "word_errors": 6,
+        "reference_words": 13,
+        "character_errors": 12,
+        "reference_characters": 104
+      },
+      "decode_calls": [
+        {
+          "max_length": 448,
+          "prompt_tokens": 3,
+          "sampling_temperature": null,
+          "generated_tokens": [
+            102
+          ]
+        }
+      ],
+      "contains_replacement": false,
+      "baseline_text": "இது வேதியில் பீகச் சென அலைக்கப்படிகிறது நீங்கள் சுவுப்பு முட்டைக்கோ சாற்றைப் பையன் படுத்தி ஒரு குரியாட்யை உருவாக்கலாம்.",
+      "baseline_scores": {
+        "word_errors": 9,
+        "reference_words": 13,
+        "character_errors": 19,
+        "reference_characters": 104
+      },
+      "seconds": 28.235457899998437
+    },
+    {
+      "language": "ta",
+      "id": 1891,
+      "audio_sha256": "b2ec2dd1f835acc101cb09ad16458fea1bbd8132ad208c38b7757e2fd1d40a88",
+      "reference": "லக்கா சிங் பஜனையை வழங்கினார். பாடகர், ராஜு கண்டெல்வலும் அவருடன் வந்திருந்தார்.",
+      "audio_samples": 111360,
+      "text": "லகாசிங் பஜனையை வளங்கினார் பாடகர் ராஜு கண்டல்வாளும் அவருடன் வந்திருந்தார்",
+      "scores": {
+        "word_errors": 4,
+        "reference_words": 9,
+        "character_errors": 6,
+        "reference_characters": 67
+      },
+      "decode_calls": [
+        {
+          "max_length": 448,
+          "prompt_tokens": 3,
+          "sampling_temperature": null,
+          "generated_tokens": [
+            70
+          ]
+        }
+      ],
+      "contains_replacement": false,
+      "baseline_text": "லகாசிங் பஜனிய வழங்கினர் பாடகர் ராஜு கண்டல் வாழும் அவருடன் வந்திருந்தர்",
+      "baseline_scores": {
+        "word_errors": 7,
+        "reference_words": 9,
+        "character_errors": 9,
+        "reference_characters": 67
+      },
+      "seconds": 20.504665500000556
+    },
+    {
+      "language": "ta",
+      "id": 1666,
+      "audio_sha256": "4aa3a619095b7a609c173e0dbafdd8b328c00c326e5ff942f302036c2389c5cf",
+      "reference": "நீங்கள் உங்கள் சொந்த கருத்தைத் தவிர அரசாங்கங்களின் ஆலோசனையை பெற விரும்பலாம், ஆனால் அவர்களின் ஆலோசனை அவர்களின் குடிமக்களுக்கென உருவாக்கப்பட்டுள்ளது.",
+      "audio_samples": 407040,
+      "text": "நீங்கள் உங்கள் சொந்த கருத்தை தவிர அரசாங்கங்களின் ஆலோசனையைப் பிற விரும்பலாம் ஆனால் அவர்களின் ஆலோசனை அவர்களின் குடிமக்களிக்கின உருவாக்கப்பட்டுள்ளது.",
+      "scores": {
+        "word_errors": 4,
+        "reference_words": 15,
+        "character_errors": 7,
+        "reference_characters": 131
+      },
+      "decode_calls": [
+        {
+          "max_length": 448,
+          "prompt_tokens": 3,
+          "sampling_temperature": null,
+          "generated_tokens": [
+            124
+          ]
+        }
+      ],
+      "contains_replacement": false,
+      "baseline_text": "நீங்கள் உங்கள் சொந்த liquor Morrisonதைத்த MichaHa",
+      "baseline_scores": {
+        "word_errors": 12,
+        "reference_words": 15,
+        "character_errors": 111,
+        "reference_characters": 131
+      },
+      "seconds": 30.393939199999295
+    },
+    {
+      "language": "te",
+      "id": 1912,
+      "audio_sha256": "bd35d16f1293f8d8133436d9b387ddad2a8ff31abbb272ab58513af291561f84",
+      "reference": "చిన్న ద్వీపాలలో చాలా వరకు స్వతంత్ర దేశాలు, లేదా ఫ్రాన్స్ తో సంబంధం కలిగి ఉన్నాయి, ఇంకా వీటిని  లగ్జరీ బీచ్ రిసార్ట్ స్ అని పిలుస్తారు.",
+      "audio_samples": 132480,
+      "text": "చిన్న ద్వేపాలలో చాలా వర్కు స్వతంత్ర దేశాలు లేదా ఫ్రాంస్ తో సమ్బందం కలికి ఉన్నాయి ఇంకా విటిని లగ్జరి బిచ్ రేసాట్స్ను అని",
+      "scores": {
+        "word_errors": 11,
+        "reference_words": 20,
+        "character_errors": 25,
+        "reference_characters": 111
+      },
+      "decode_calls": [
+        {
+          "max_length": 448,
+          "prompt_tokens": 3,
+          "sampling_temperature": null,
+          "generated_tokens": [
+            224
+          ]
+        }
+      ],
+      "contains_replacement": false,
+      "baseline_text": "చిన్నద్ వేపలలో చాలా వరకు స్వతంత్ర దేశాలు లేద ఫ్రాంస్ తో సంబందం కలికి మున్నాయి ఇంక విటిని లక్జరి బిచ రేజాట్స్ను అని పిలుస",
+      "baseline_scores": {
+        "word_errors": 14,
+        "reference_words": 20,
+        "character_errors": 26,
+        "reference_characters": 111
+      },
+      "seconds": 54.68315299999995
+    },
+    {
+      "language": "te",
+      "id": 1908,
+      "audio_sha256": "7dc8baa363ec436333b2c1f4545bb62b4f445f708bcce141fa618134a80332c3",
+      "reference": "కొన్ని క్రియలు ఆబ్జెక్టుల మధ్య తేడాను గుర్తించడానికి ఇది ఒక ముఖ్యమైన మార్గం.",
+      "audio_samples": 107520,
+      "text": "కొన్ని క్రేలు అబ్జక్ట్లు మద్య తేడాను గుర్తించడానకి ఇది ఒక ముఖ్యమైన మార్గం",
+      "scores": {
+        "word_errors": 4,
+        "reference_words": 10,
+        "character_errors": 8,
+        "reference_characters": 66
+      },
+      "decode_calls": [
+        {
+          "max_length": 448,
+          "prompt_tokens": 3,
+          "sampling_temperature": null,
+          "generated_tokens": [
+            140
+          ]
+        }
+      ],
+      "contains_replacement": false,
+      "baseline_text": "కొన్ని క్రేయ్లు అబ్జెక్ట్లు మద్య తేడాను గుర్తిం చడానకి ఇది ఓక ముఖ్యమైన మార్గం",
+      "baseline_scores": {
+        "word_errors": 6,
+        "reference_words": 10,
+        "character_errors": 8,
+        "reference_characters": 66
+      },
+      "seconds": 79.56412179999825
+    },
+    {
+      "language": "te",
+      "id": 1666,
+      "audio_sha256": "7012022d111ae03810895fad4b092784056686370f70bf57ab98dc3e2dcb7464",
+      "reference": "మీరు మీ స్వంతం ఆలోచనలతో కాకుండా ప్రభుత్వాల సలహా కూడా తీసుకోవాలని అనుకోవచ్చు, అయితే వారి సలహా వారి పౌరుల కోసం రూపొందించబడింది.",
+      "audio_samples": 161280,
+      "text": "మీరు మిస్వంతమ్ ఆలోచనలతో కాకుండా ప్రబుత్వాల సల్హా కోడా తిసికోవాలనే అనుకోవచ్చు. అయ్తే వారి సల్హా వారి పావురులకోసం రూపం ది",
+      "scores": {
+        "word_errors": 11,
+        "reference_words": 17,
+        "character_errors": 23,
+        "reference_characters": 107
+      },
+      "decode_calls": [
+        {
+          "max_length": 448,
+          "prompt_tokens": 3,
+          "sampling_temperature": null,
+          "generated_tokens": [
+            224
+          ]
+        }
+      ],
+      "contains_replacement": false,
+      "baseline_text": "మీరు మి స్వంతమ ఆలో చనలతో కాకుండా ప్రబుత్వాల సల్హా కోడా తీసికోవలన అనుకోవచ్చు అయితే వారి సల్హా ద్వారి పవరుల కోసం రూపం దించ",
+      "baseline_scores": {
+        "word_errors": 13,
+        "reference_words": 17,
+        "character_errors": 19,
+        "reference_characters": 107
+      },
+      "seconds": 83.45088430000033
+    }
+  ],
+  "temperature": 0.0,
+  "owner_accuracy_accepted": false,
+  "language_quality_accepted": false,
+  "latency_qualified": false,
+  "corpora": [
+    {
+      "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-public-fleurs-20261114\\bn-r1\\corpus.json",
+      "sha256": "a3bfc3d4de2624629e6d90abe699e40c829f0aea83bcc7bd18518a129023b1b3",
+      "language": "bn",
+      "clips": 20,
+      "metadata_sha256": "a7d892390778ce23d0acf15bbba4d9454439c48607cefb923e37f55a480c4c0c"
+    },
+    {
+      "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-public-fleurs-20261114\\ta-r1\\corpus.json",
+      "sha256": "b7bec61010b5817316caf4a39af0bd23d85010116b4c36d12e31c23213f38e5d",
+      "language": "ta",
+      "clips": 20,
+      "metadata_sha256": "9ecedf850940ae13b75c1eecee692c581a44b7f560feecd9a53eaf5a3e838be7"
+    },
+    {
+      "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-public-fleurs-20261114\\te-r2\\corpus.json",
+      "sha256": "e1cfba00bb0aaae6893671a668398a20d71368c4c11ee4077d47112b040d0986",
+      "language": "te",
+      "clips": 20,
+      "metadata_sha256": "81313da935e3e1d45b69080ec29e5cb1b1b872a06d52ed05ebfc9d218565417e"
+    }
+  ],
+  "model_max_length": 448,
+  "feature_chunk_length": 30,
+  "source_unchanged": true,
+  "runtime_environment_unchanged": true,
+  "pins_unchanged": true,
+  "plan_unchanged": true,
+  "script_unchanged": true,
+  "journal_sha256": "a9b77261f86123440493b7c1d67b2bf3659a5695eaa5d4ecceaac9ffb9b113d1"
+}

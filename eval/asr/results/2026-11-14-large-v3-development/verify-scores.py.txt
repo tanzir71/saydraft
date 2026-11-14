@@ -1,0 +1,111 @@
+"""Offline replay of retained scores, frozen admission gates and provenance.
+
+Standard library only. Does not rerun models or verify absent audio/weight bytes.
+The original-machine verifiers retain that separately completed verification.
+"""
+import hashlib
+import json
+import unicodedata
+from collections import Counter
+from pathlib import Path
+
+root = Path(__file__).resolve().parent
+read = lambda path: json.loads(path.read_text(encoding='utf-8'))
+sha = lambda path: hashlib.sha256(path.read_bytes()).hexdigest()
+for item in read(root / 'index.json')['files']:
+    path = (root / item['file']).resolve()
+    assert path.is_relative_to(root) and sha(path) == item['sha256'], item['file']
+
+
+def normalize(value):
+    value = unicodedata.normalize('NFKC', value).casefold()
+    return ' '.join(''.join(' ' if unicodedata.category(char)[0] in 'PS' else char for char in value).split())
+
+
+def distance(left, right):
+    previous = list(range(len(left) + 1))
+    for j, actual in enumerate(right, 1):
+        current = [j]
+        for i, expected in enumerate(left, 1):
+            current.append(min(previous[i] + 1, current[i - 1] + 1, previous[i - 1] + int(expected != actual)))
+        previous = current
+    return previous[-1]
+
+
+def score(reference, hypothesis):
+    left, right = normalize(reference), normalize(hypothesis)
+    return {'word_errors': distance(left.split(), right.split()), 'reference_words': len(left.split()),
+            'character_errors': distance(left.replace(' ', ''), right.replace(' ', '')),
+            'reference_characters': len(left.replace(' ', ''))}
+
+
+manifest = read(root / 'model/candidate-manifest.json')
+download = read(root / 'model/download.json')
+assert download['complete'] and download['manifest_sha256'] == sha(root / 'model/candidate-manifest.json')
+assert manifest['revision'] == 'edaa852ec7e145841d8ffdb056a99866b5f0a478'
+assert all(download['verified_files'][item['path']] == item['sha256'] for item in manifest['files'])
+assert read(root / 'model/download-process.json')['returncode'] == 0
+summaries = {}
+for slug in ('default', 'temperature0'):
+    folder = root / slug
+    report, plan, process, criteria, receipt = (read(folder / name) for name in (
+        'report.json', 'frozen-plan.json', 'process.json', 'development-criteria.json', 'independent-verification.json'))
+    assert report['complete'] and process['native_exit_observed'] and process['returncode'] == 0
+    assert criteria['before_native_development'] and criteria['frozen_epoch'] < process['started_epoch']
+    assert criteria['plan_sha256'] == report['plan_sha256'] == sha(folder / 'frozen-plan.json')
+    assert criteria['verifier_sha256'] == sha(folder / 'verify-original-machine.py.txt')
+    assert report['script_sha256'] == plan['script_sha256'] == sha(folder / 'probe.py.txt')
+    assert report['journal_sha256'] == process['cases.jsonl_sha256'] == sha(folder / 'cases.jsonl')
+    assert process['report.json_sha256'] == sha(folder / 'report.json')
+    assert all(process[name + '_sha256'] == sha(folder / (name + '.txt')) for name in ('stdout', 'stderr'))
+    assert report['source'] == plan['source'] and not report['source']['dirty']
+    assert report['source']['commit'] == '1b7e7eaf493e082692343244d6f1aed3e9907d68'
+    assert all(report[key] for key in ('source_unchanged', 'runtime_environment_unchanged', 'pins_unchanged', 'plan_unchanged', 'script_unchanged'))
+    assert report['model']['manifest_sha256'] == sha(root / 'model/candidate-manifest.json')
+    assert report['model_max_length'] == 448 and report['feature_chunk_length'] == 30
+    rows = [json.loads(line) for line in (folder / 'cases.jsonl').read_text(encoding='utf-8').splitlines()]
+    assert rows == report['cases'] and len(rows) == 9
+    assert [(row['language'], row['id']) for row in rows] == [(row['language'], row['id']) for row in plan['clips']]
+    summary, new_empty, new_replacement = {}, [], []
+    for selected, row in zip(plan['clips'], rows):
+        original = root.parent / '2026-11-14-public-read/shards' / row['language']
+        assert sha(original / 'cases.jsonl') == selected['baseline_journal_sha256']
+        assert sha(original / 'corpus.json') == selected['corpus']['sha256']
+        baseline = next(item for item in (json.loads(line) for line in (original / 'cases.jsonl').read_text(encoding='utf-8').splitlines())
+                        if item['id'] == row['id'] and item['model'] == 'whisper-large-v3-turbo')
+        assert row['reference'] == baseline['reference'] and row['audio_sha256'] == baseline['sha256'] == selected['audio_sha256']
+        assert row['baseline_text'] == baseline['asr_text'] and row['baseline_scores'] == baseline['asr_scores']
+        assert row['scores'] == score(row['reference'], row['text'])
+        assert row['baseline_scores'] == score(row['reference'], row['baseline_text'])
+        assert row['contains_replacement'] == ('\ufffd' in row['text'])
+        if not row['text'].strip() and row['baseline_text'].strip():
+            new_empty.append([row['language'], row['id']])
+        if '\ufffd' in row['text'] and '\ufffd' not in row['baseline_text']:
+            new_replacement.append([row['language'], row['id']])
+        assert row['decode_calls'] and all(call['max_length'] == 448 and call['prompt_tokens'] == 3 for call in row['decode_calls'])
+        if slug == 'temperature0':
+            assert report['temperature'] == 0.0
+            assert all(call['sampling_temperature'] in (None, 0, 0.0) for call in row['decode_calls'])
+        group = summary.setdefault(row['language'], {'samples': 0, 'baseline': Counter(), 'candidate': Counter()})
+        group['samples'] += 1
+        group['baseline'].update(row['baseline_scores'])
+        group['candidate'].update(row['scores'])
+    assert sorted(summary) == sorted(criteria['required_languages'])
+    for group in summary.values():
+        assert group['samples'] == criteria['cases_per_language'] == 3
+        for stage in ('baseline', 'candidate'):
+            group[stage] = dict(group[stage])
+            group[stage]['wer'] = group[stage]['word_errors'] / group[stage]['reference_words']
+            group[stage]['cer'] = group[stage]['character_errors'] / group[stage]['reference_characters']
+        group['development_metric_gate'] = group['candidate']['wer'] <= group['baseline']['wer'] and group['candidate']['cer'] < group['baseline']['cer']
+    admit = all(group['development_metric_gate'] for group in summary.values()) and not new_empty and not new_replacement
+    assert summary == receipt['summary'] and new_empty == receipt['new_empty_cases'] and new_replacement == receipt['new_replacement_cases']
+    assert admit == receipt['admit_untouched_confirmation'] == False
+    assert receipt['criteria_sha256'] == sha(folder / 'development-criteria.json')
+    assert not any(receipt[key] for key in ('owner_accuracy_accepted', 'language_quality_accepted', 'default_accepted'))
+    summaries[slug] = summary
+temp_plan = read(root / 'temperature0/frozen-plan.json')
+assert temp_plan['prior_default_report_sha256'] == sha(root / 'default/report.json')
+assert temp_plan['prior_default_journal_sha256'] == sha(root / 'default/cases.jsonl')
+print(json.dumps({'passed': True, 'native_model_cases': 18, 'admit_confirmation': False,
+                  'scope': 'Retained bytes and scores only; no new inference or owner accuracy acceptance.'}))

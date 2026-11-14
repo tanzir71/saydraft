@@ -1,0 +1,16 @@
+{
+  "observer_pid": 7636,
+  "args": [
+    "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\latency-runtime-874a9c4-20261114\\venv\\Scripts\\python.exe",
+    "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\prepare_whisper_large_v3_candidate_20261114.py",
+    "--download"
+  ],
+  "started_epoch": 1794653047.4939773,
+  "child_exit_observed": true,
+  "child_pid": 2288,
+  "returncode": 0,
+  "ended_epoch": 1794654367.828498,
+  "stdout_sha256": "07f14b9bf855e0a5a147eb71bef3a8572b43bdd13d5e311aa2b61ae6cc455605",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "download_sha256": "661959140b6ada78e76e60f8ed6ac9cccf3e255498149691379ff8393e0744cb"
+}
