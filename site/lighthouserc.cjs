@@ -3,7 +3,7 @@ module.exports = {
     collect: {
       startServerCommand: 'npm run preview -- --port 4174',
       startServerReadyPattern: 'localhost|127.0.0.1',
-      url: ['http://127.0.0.1:4174/saydraft/', 'http://127.0.0.1:4174/saydraft/download/', 'http://127.0.0.1:4174/saydraft/privacy/'],
+      url: ['http://127.0.0.1:4174/saydraft/', 'http://127.0.0.1:4174/saydraft/download/', 'http://127.0.0.1:4174/saydraft/privacy/', 'http://127.0.0.1:4174/saydraft/wispr-flow-alternative/', 'http://127.0.0.1:4174/saydraft/offline-dictation-windows/'],
       numberOfRuns: 3,
       settings: { chromeFlags: '--headless --no-sandbox --disable-gpu' },
     },

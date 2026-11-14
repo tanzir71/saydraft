@@ -36,7 +36,8 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <footer class="container site-footer">
       <a class="footer-mark" href={base}>Saydraft<span aria-hidden="true">✳</span></a>
       <p class="muted">Your words. Your machine.</p>
-      <div class="footer-links"><a href={`${base}docs/getting-started/`}>Getting started</a><a href={`${base}languages/`}>Languages</a><a href={`${base}privacy/`}>Privacy</a><a href={`${base}credits/`}>Credits</a><a href="https://github.com/tanzir71/saydraft/blob/main/LICENSE">MIT license ↗</a></div>
+      <div class="footer-links"><a href={`${base}docs/getting-started/`}>Getting started</a><a href={`${base}languages/`}>Languages</a><a href={`${base}offline-dictation-windows/`}>Offline dictation guide</a><a href={`${base}dictation-for-developers/`}>For developers</a><a href={`${base}privacy/`}>Privacy</a><a href={`${base}credits/`}>Credits</a><a href={`${base}changelog/`}>Changelog</a><a href="https://github.com/tanzir71/saydraft/blob/main/LICENSE">MIT license ↗</a></div>
+      <nav class="footer-compare" aria-label="Compare dictation tools"><span>Compare</span><a href={`${base}wispr-flow-alternative/`}>Wispr Flow</a><a href={`${base}typeless-alternative/`}>Typeless</a><a href={`${base}superwhisper-alternative-windows/`}>Superwhisper</a><a href={`${base}windows-voice-typing-alternative/`}>Windows voice typing</a><a href={`${base}dragon-alternative/`}>Dragon</a></nav>
       <div class="footer-bottom"><small>Free, open-source dictation for Windows.</small><nav aria-label="Creator links"><a href="https://tanziro.com" target="_blank" rel="noopener">Built by tanziro.com</a><a href="https://buymeacoffee.com/tanzir" target="_blank" rel="noopener">Support Saydraft ↗</a></nav></div>
     </footer>
   </body>
@@ -48,6 +49,8 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
   .site-footer p { text-align: right; font-size: 14px; }
   .footer-links { display: flex; flex-wrap: wrap; gap: 24px; grid-column: 1 / -1; margin-top: 22px; }
   .footer-links a, small, .footer-bottom a { font-size: 12px; }
+  .footer-compare { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 12px 24px; font-size: 12px; }
+  .footer-compare span { color: var(--color-ink-muted); }
   .footer-bottom { grid-column: 1 / -1; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 20px; border-top: 1px solid var(--color-hairline); padding-top: 24px; margin-top: 8px; }
   .footer-bottom nav { display: flex; flex-wrap: wrap; gap: 24px; }
   small { color: var(--color-ink-muted); }

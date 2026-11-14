@@ -1,0 +1,62 @@
+---
+title: "Voice Coding and Dictation for Developers | Saydraft"
+description: "Use local Windows dictation for coding prompts, notes and commit messages. Learn Saydraft's Code mode, dictionary, shortcuts and review limits."
+heading: "Dictation for developers on Windows."
+eyebrow: "Speak the next draft of your idea"
+verified: "2026-11-14"
+sources:
+  - label: "Saydraft styles and Code mode"
+    url: "https://github.com/tanzir71/saydraft/blob/main/docs/STYLES.md"
+  - label: "Source setup and current qualification"
+    url: "https://github.com/tanzir71/saydraft"
+  - label: "Experimental Command Mode"
+    url: "https://github.com/tanzir71/saydraft/blob/main/docs/COMMAND_MODE.md"
+faqs:
+  - q: "Can I use Saydraft with VS Code, Cursor or a coding assistant?"
+    a: "Saydraft can deliver text to supported editable Windows fields. Try the exact editor or terminal field you use; it has no dedicated integration with those products, and field or privilege restrictions can require Copy recovery."
+  - q: "Will Code mode turn speech into correct program syntax?"
+    a: "Code mode avoids ordinary prose cleanup. It is not a programming-language parser and cannot guarantee correct identifiers, punctuation, commands or generated code. Review the result before running it."
+---
+import SiteLink from '../../components/SiteLink.astro';
+
+Voice typing is useful for the prose around development: a prompt for a coding
+assistant, a bug report, a design note or a commit-message draft. Saydraft runs
+speech models locally on Windows and lets you review the resulting text.
+
+Use it in a supported editable field in VS Code, Cursor, a browser or another
+editor. There is no dedicated Cursor, Claude Code or Codex integration. Test the
+actual field and privilege level you use before relying on automatic delivery.
+
+## Choose processing that fits the text
+
+Use Code mode when prose rewriting could damage literal material. Raw mode is
+another option for retaining recognized wording. Neither mode turns the speech
+recognizer into a syntax-aware programming tool: identifiers, paths, symbols and
+shell commands still need review.
+
+For a natural-language issue or email, a Style can choose a different tone and
+cleanup intensity. Keep technical terms in the dictionary, and use snippets for
+known text you deliberately want to insert.
+
+## A practical first workflow
+
+1. Complete <SiteLink path="docs/getting-started/">local model setup</SiteLink>.
+2. Start in a scratch document, then try your real editor's input field.
+3. Dictate a short plain-language prompt and check names, negation and numbers.
+4. Copy the reviewed result when a field cannot support safe automatic insertion.
+
+Avoid treating spoken terminal text as permission to execute it. Review an
+instruction before pressing Enter yourself. Optional spoken-Enter behavior is
+separate and off by default.
+
+## Experimental editing tools
+
+Pro/Labs Command Mode can edit selected text with a separately installed local
+model. Ask can explain selected text in a separate answer note. These features
+have bounded selection and output checks, but those checks do not prove that
+every answer or edit preserves meaning.
+
+Saydraft is currently available from source. Physical and packaged workflow
+qualification, broad language accuracy and release latency remain in progress.
+The <SiteLink path="offline-dictation-windows/">offline guide</SiteLink>
+explains model and privacy trade-offs before you choose a daily workflow.

@@ -3,12 +3,16 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "engines": { "node": ">=24.22.2" },
+  "engines": {
+    "node": ">=24.22.2"
+  },
   "scripts": {
     "dev": "astro dev --host 127.0.0.1",
     "tokens": "node ../tools/generate_tokens.mjs",
     "tokens:check": "node ../tools/generate_tokens.mjs --check",
-    "build": "npm run tokens:check && astro check && astro build",
+    "content:check": "node tools/check-content-dates.mjs",
+    "content:test": "node --test tools/content-verification.test.mjs tools/releases.test.mjs",
+    "build": "npm run tokens:check && npm run content:check && astro check && astro build",
     "preview": "astro preview --host 127.0.0.1",
     "test": "playwright test",
     "storybook": "storybook dev -p 6006 --host 127.0.0.1 --disable-telemetry",
@@ -16,6 +20,7 @@
     "lighthouse": "lhci autorun"
   },
   "dependencies": {
+    "@astrojs/mdx": "8.1.6",
     "@astrojs/react": "7.1.8",
     "@fontsource-variable/geist": "5.3.0",
     "@fontsource-variable/geist-mono": "5.3.0",

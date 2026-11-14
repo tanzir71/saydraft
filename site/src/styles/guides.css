@@ -1,0 +1,18 @@
+.guide-document { max-width: 960px; }
+.guide-breadcrumb { display: flex; gap: 10px; color: var(--color-ink-muted); font-size: 12px; margin-bottom: 40px; }
+.guide-breadcrumb span:last-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.guide-document h1 { max-width: 16ch; font-size: clamp(48px, 6vw, 80px); }
+.guide-verified { font-size: 12px !important; margin-bottom: 44px !important; }
+.guide-copy, .guide-faq, .guide-sources { max-width: 72ch; }
+.guide-copy table { width: 100%; table-layout: fixed; border-collapse: collapse; margin-block: 32px; font-size: 13px; }
+.guide-copy th, .guide-copy td { text-align: left; vertical-align: top; padding: 16px 10px; border-bottom: 1px solid var(--color-hairline); overflow-wrap: anywhere; line-height: 1.6; }
+.guide-copy th { font-weight: 600; }
+.guide-next { padding: 32px; border-radius: var(--radius-card); background: var(--color-paper-raised); margin-block: 56px; }
+.guide-next h2 { margin-top: 0; }
+.guide-related ul { display: flex; gap: 12px 24px; flex-wrap: wrap; list-style: none; padding-left: 0; }
+.guide-related a { font-size: 13px; }
+.guide-sources li { font-size: 13px; margin-bottom: 10px; }
+@media (max-width: 600px) {
+  .guide-copy th, .guide-copy td { padding: 12px 7px; font-size: 12px; }
+  .guide-next { padding: 24px; }
+}

@@ -1,0 +1,6 @@
+---
+import { publishedReleases } from '../lib/releases';
+const releases = await publishedReleases();
+---
+{releases.length === 0 ? <p class="notice">No public releases have been published yet. The current application is available from source.</p> : <div class="release-list">{releases.map((release) => <section><h2>{release.name}</h2><p><time datetime={release.published}>{release.published.slice(0, 10)}</time>{release.preview && ' · Preview release'}</p><p class="release-excerpt">{release.body}</p><p><a href={release.url}>Read the complete release notes on GitHub ↗</a></p></section>)}</div>}
+<style>.release-excerpt { white-space: pre-wrap; overflow-wrap: anywhere; }</style>

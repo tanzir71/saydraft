@@ -1,0 +1,29 @@
+---
+title: "Saydraft Changelog and Release Status"
+description: "Read Saydraft's published release history and current build status. Release notes are fetched from GitHub during the website build."
+heading: "Saydraft release notes."
+eyebrow: "Published changes, in one place"
+verified: "2026-11-14"
+sources:
+  - label: "Published Saydraft releases"
+    url: "https://github.com/tanzir71/saydraft/releases"
+  - label: "Source history"
+    url: "https://github.com/tanzir71/saydraft/commits/main/"
+faqs: []
+---
+import ReleaseList from '../../components/ReleaseList.astro';
+import SiteLink from '../../components/SiteLink.astro';
+
+This page shows the latest public GitHub Releases as checked during the website
+build. Preview releases are labelled. Draft builds stay private and are excluded
+from the list; source commits are not presented as published app releases.
+
+<ReleaseList />
+
+## Running the development source
+
+The repository can move ahead of packaged releases. Review the
+<SiteLink path="download/">current setup status</SiteLink> and follow the
+<SiteLink path="docs/getting-started/">getting-started guide</SiteLink> when
+running from source. Signed-release, physical workflow and broad accuracy
+qualification remain separate from a successful automated build.

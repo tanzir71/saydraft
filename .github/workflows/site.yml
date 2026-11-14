@@ -16,6 +16,7 @@ jobs:
     env:
       ASTRO_TELEMETRY_DISABLED: '1'
       STORYBOOK_DISABLE_TELEMETRY: '1'
+      GITHUB_TOKEN: ${{ github.token }}
     defaults:
       run:
         working-directory: site
@@ -27,6 +28,7 @@ jobs:
           cache: npm
           cache-dependency-path: site/package-lock.json
       - run: npm ci
+      - run: npm run content:test
       - run: npm run build
       - run: npm run storybook:build
       - run: npx playwright install chromium --no-shell

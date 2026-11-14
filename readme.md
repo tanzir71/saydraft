@@ -21,6 +21,12 @@ and German** with compatible local speech models. See the
 [Getting started](https://tanzir71.github.io/saydraft/docs/getting-started/) ·
 [Documentation](docs/README.md) · [Contributing](CONTRIBUTING.md)
 
+Explore the [offline dictation guide](https://tanzir71.github.io/saydraft/offline-dictation-windows/),
+[developer workflows](https://tanzir71.github.io/saydraft/dictation-for-developers/)
+and dated [Wispr Flow comparison](https://tanzir71.github.io/saydraft/wispr-flow-alternative/).
+The website also covers Typeless, Superwhisper, Windows voice typing and Dragon;
+its [changelog](https://tanzir71.github.io/saydraft/changelog/) lists published releases only.
+
 [Install from source](#run-from-source) · [First launch](#first-launch) ·
 [Models and languages](#set-up-once-then-go-offline) · [Daily use](#daily-use) ·
 [Troubleshooting](#troubleshooting-and-development)

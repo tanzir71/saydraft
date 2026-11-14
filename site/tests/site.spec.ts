@@ -3,6 +3,8 @@ import { gzipSync } from 'node:zlib';
 import { readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { HtmlValidate } from 'html-validate';
+import { publicPages } from '../src/data/languages';
+import { guideRoutes } from '../src/data/guides';
 
 test('home is local, responsive, and light on JavaScript', async ({ page, request }, testInfo) => {
   const external: string[] = [];
@@ -61,12 +63,7 @@ test('native navigation, questions, and reduced-motion simulation work', async (
 });
 
 test('all public pages have working local links and unique metadata', async ({ page, request }) => {
-  const pages = ['', 'download/', 'docs/getting-started/', 'privacy/', 'credits/',
-    'languages/', 'languages/bengali/', 'languages/arabic/', 'languages/thai/', 'languages/chinese/', 'languages/korean/',
-    'languages/brazilian-portuguese/', 'languages/japanese/', 'languages/spanish/',
-    'languages/indonesian/', 'languages/malay/', 'languages/hindi/', 'languages/urdu/',
-    'languages/vietnamese/', 'languages/filipino-tagalog/', 'languages/tamil/', 'languages/telugu/',
-    'languages/persian/', 'languages/french/', 'languages/german/'];
+  const pages = publicPages;
   const titles = new Set<string>();
   const descriptions = new Set<string>();
   for (const path of pages) {
@@ -82,6 +79,60 @@ test('all public pages have working local links and unique metadata', async ({ p
   }
   expect(titles.size).toBe(pages.length);
   expect(descriptions.size).toBe(pages.length);
+});
+
+test('guide keyboard navigation exposes the skip link and reaches main content', async ({ page }) => {
+  await page.goto('./wispr-flow-alternative/');
+  await page.keyboard.press('Tab');
+  await expect(page.getByRole('link', { name: 'Skip to content' })).toBeFocused();
+  await expect(page.getByRole('link', { name: 'Skip to content' })).toBeInViewport();
+  await page.keyboard.press('Enter');
+  await expect(page).toHaveURL(/#main$/);
+});
+
+test('dated guides have visible sources, linked schemas and local-only page loads', async ({ page, request }) => {
+  const external: string[] = [];
+  await page.route('**/*', (route) => {
+    if (new URL(route.request().url()).host !== '127.0.0.1:4173') {
+      external.push(route.request().url());
+      return route.abort();
+    }
+    return route.continue();
+  });
+  for (const { slug } of guideRoutes) {
+    await page.goto(`./${slug}/`);
+    await expect(page.locator('.guide-verified time')).toHaveAttribute('datetime', /^\d{4}-\d{2}-\d{2}$/);
+    await expect(page.locator('.guide-sources a').first()).toBeVisible();
+    await expect(page.locator('.guide-next a')).toHaveAttribute('href', '/saydraft/download/');
+    const contrast = await page.locator('.guide-next a').evaluate((button) => {
+      const style = getComputedStyle(button);
+      function luminance(value: string) {
+        const channels = value.match(/\d+(?:\.\d+)?/g)!.slice(0, 3).map(Number).map((n) => n / 255);
+        const values = channels.map((n) => n <= .04045 ? n / 12.92 : ((n + .055) / 1.055) ** 2.4);
+        return values[0] * .2126 + values[1] * .7152 + values[2] * .0722;
+      }
+      const foreground = luminance(style.color), background = luminance(style.backgroundColor);
+      return (Math.max(foreground, background) + .05) / (Math.min(foreground, background) + .05);
+    });
+    expect(contrast).toBeGreaterThanOrEqual(4.5);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+    const schemas = (await page.locator('script[type="application/ld+json"]').allTextContents()).map((text) => JSON.parse(text));
+    expect(schemas.some((schema) => schema['@type'] === 'BreadcrumbList')).toBe(true);
+    if (slug !== 'changelog') {
+      expect(schemas.find((schema) => schema['@type'] === 'FAQPage').mainEntity.length).toBeGreaterThan(0);
+      const answer = page.locator('.guide-faq summary').first();
+      await answer.click();
+      await expect(page.locator('.guide-faq details').first()).toHaveAttribute('open', '');
+      await answer.click();
+    }
+    await expect(page.locator('.skip-link')).not.toBeInViewport();
+    await page.evaluate(async () => { await document.fonts.ready; window.scrollTo(0, 0); });
+    await page.screenshot({ path: test.info().outputPath(`${slug}-viewport.png`), animations: 'disabled' });
+    await page.screenshot({ path: test.info().outputPath(`${slug}.png`), fullPage: true, animations: 'disabled' });
+  }
+  expect(external).toEqual([]);
+  const sitemap = await (await request.get('/saydraft/sitemap.xml')).text();
+  for (const { slug } of guideRoutes) expect(sitemap).toContain(`https://tanzir71.github.io/saydraft/${slug}/`);
 });
 
 test('language guides are linked, indexable and accurately describe shared models', async ({ page, request }) => {
@@ -141,7 +192,7 @@ test('language guides are linked, indexable and accurately describe shared model
   expect(response.headers()['content-type']).toMatch(/^(?:application|text)\/xml(?:;|$)/i);
   const sitemap = await response.text();
   const urls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
-  expect(new Set(urls).size).toBe(25);
+  expect(new Set(urls)).toEqual(new Set(publicPages.map((path) => `https://tanzir71.github.io/saydraft/${path}`)));
   for (const [slug] of guides) expect(urls).toContain(`https://tanzir71.github.io/saydraft/languages/${slug}/`);
   for (const url of urls) expect((await request.get(new URL(url).pathname)).ok(), url).toBe(true);
 });

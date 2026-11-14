@@ -1,11 +1,11 @@
 # Saydraft website
 
-The Astro site in `site/` now builds twenty-five static pages, including nineteen
-language guides and their overview.
+The Astro site in `site/` now builds thirty-three static pages, including nineteen
+language guides, their overview and eight dated content pages.
 This is an early P9 foundation, brought forward at the owner's request. The
 approved §9 tokens are shared through `design/tokens.json`; the dependency-free
 generator emits CSS and light/dark Qt QSS. Qt installation and the initial gallery
-are described in `docs/THEME.md`. P9's complete library, comparisons, MDX docs, demo port, schema,
+are described in `docs/THEME.md`. P9's complete library, remaining MDX docs, demo port, schema,
 launch assets and final acceptance remain open.
 
 The original pages are Home, Download, Getting started, Privacy and Credits. The
@@ -28,7 +28,7 @@ Translate-mode output targets.
 The twenty language pages render as static HTML with unique titles/descriptions/H1s,
 canonical URLs, breadcrumbs and WebPage structured data on individual guides.
 Home includes SoftwareApplication metadata describing the same model coverage.
-`sitemap.xml` enumerates all twenty-five public HTML pages; the shared head links to it.
+`sitemap.xml` enumerates all thirty-three public HTML pages; the shared head links to it.
 No search-ranking claim, fabricated release, review rating or alternate-language
 page is added. Additional technical SEO and original P9 acceptance remain open.
 The getting-started page follows the current setup order: microphone, model
@@ -74,6 +74,7 @@ intentional: the current Astro checker accepts 5/6 and rejects TypeScript 7.
 node tools/generate_tokens.mjs --check
 cd site
 npm ci
+npm run content:test
 npm run build
 npm run storybook:build
 npx playwright install chromium --no-shell
@@ -102,7 +103,7 @@ requests and the 60 KB gzip JavaScript budget. Initial viewport captures are als
 attached to its report. Linux users can run functional checks with a local
 baseline; visual CI runs on Windows to match the committed baseline platform.
 
-Lighthouse uses three mobile runs on Home/Download/Privacy with the planned
+Lighthouse uses three mobile runs on Home/Download/Privacy and the Wispr/offline guides with the planned
 performance/accessibility/SEO, LCP and CLS budgets. Reports stay local or in CI
 artifacts; they are never uploaded to a public temporary report service.
 
@@ -183,3 +184,47 @@ lists, complete sitemap and committed favicon bytes. Source `e442880` also
 4,000 tests / 12 explicit skips, rules 556/556 and adversarial 100/100. This
 completes P3.9/P9.9 at their stated scope. The earlier 23-page deployment receipt
 is historical; the original P9 library/content and further SEO remain open.
+
+## Dated content expansion, 14 November 2026
+
+Five comparison pages cover Wispr Flow, Typeless, Superwhisper, Windows voice
+typing and Dragon. An offline dictation pillar, developer guide and public-release
+changelog bring the build to 33 HTML pages. They use Astro MDX collections and
+the existing typography, inset rounded panels and readable shared CTA. All
+nineteen language guides retain their alphabetical ordering. Creator credit and
+support links remain in the footer alongside the new content links.
+
+Comparison facts link to primary vendor sources and visibly state their checked
+date. Current Windows/Linux availability, local versus cloud behavior, USD plan
+prices and development-status limits are described without comparative accuracy
+claims. These are English editorial pages, not localized UI. Each route has
+unique metadata, one H1, a canonical URL, sitemap coverage and breadcrumb data;
+visible FAQs also supply matching FAQPage data.
+
+`npm run build` first checks every MDX `verified:` date against a 120-day UTC
+calendar window. Missing, invalid, future and stale dates fail before Astro can
+reuse content cache; the collection schema checks again. A real build with a
+stale date was refused and its original content restored. Four Node checks cover
+date boundaries, recursive files with both newline styles and GitHub release
+filtering. Dates must follow renewed source review, not automatic refresh.
+
+The changelog reads GitHub Releases only during the build. Read-only CI
+credentials stay on the build host. Drafts are excluded even when the build token
+can see them; published previews are labelled and release text is escaped. An
+unavailable or malformed API fails the build instead of masquerading as an empty
+history. There are currently no public app releases, so the page explains source
+availability. Page loads make no GitHub request.
+
+Local build diagnostics and Storybook pass. All 27 browser checks pass in a normal
+run against the reviewed baselines. The expanded suite checks
+all 33 routes at 390/768/1440, native FAQ behavior, keyboard skip navigation,
+local-only assets, guide CTA contrast, metadata, HTML and the exact sitemap.
+Fifteen Lighthouse runs across five representative pages meet the budgets:
+performance at least 99, accessibility/SEO 100, maximum LCP 960 ms and zero CLS.
+These are simulated local measurements. The final guide and footer captures are
+reviewed; refreshed Home baselines include the intended footer links. The initial
+missing-browser-cache invocation is retained separately from the corrected run.
+
+This completes these eight pages and their content pipeline. P9.4 remains open
+for the remaining documentation/content migrations; the full component library,
+home design, technical SEO and original P9 acceptance are still separate.
