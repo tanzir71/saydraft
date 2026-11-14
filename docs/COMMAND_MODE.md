@@ -37,7 +37,7 @@ constructs a fresh manager and prepares a fresh prefix. Repeated old-session
 closure cannot retire a successor. Synthetic tests cover both switch directions,
 pending process exit, concurrent closure and cancelled/late results.
 
-The clean native owner-switch probe at `be9cde4` completes original cleanup
+The clean native owner-switch probe at `6099772` completes original cleanup
 preparation, Command 4B editing and fresh cleanup preparation, with all six owned
 native process exits observed and four authored edit examples passing. It waits
 for owned Command exit before the final prefix check; ordinary app cleanup can
@@ -237,6 +237,15 @@ probe passes all 13 cases locally and on CI; eight clean offscreen recovery
 renders cover both themes at 1x/2x. Reports, images, the earlier fixture/inventory
 failures and exact scope limits are in the
 [confirmation/recovery record](../eval/context/results/2026-11-14-confirmation-recovery/README.md).
+
+The model ownership and Settings integration at `ea2d25b` pass 3,487 tests /
+12 skips, rules 556/556, normal cleanup adversarial checks 100/100 and package
+verification. Native ownership source `6099772` completes both model switches,
+six observed owned exits and four authored edit examples. Its model/session
+scope is unchanged by the later Labs-save correction. The
+[ownership record](../eval/commands/results/2026-11-14-model-ownership/README.md)
+retains that proof, both native diagnostics and the initial four-failure CI.
+Full shortcut/recording/copy-fallback and packaged Command acceptance remain open.
 
 ```powershell
 python -m pytest tests/test_selection.py tests/test_selection_worker.py tests/test_selection_patterns.py -q

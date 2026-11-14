@@ -89,6 +89,16 @@ skips; rules pass 556/556 and adversarial validation passes 100/100.
 
 ## Delivery
 
+The 14 November privacy-copy correction documents the saved opt-in GitHub update
+check alongside explicit model downloads. The privacy page explains its cadence,
+version-only app metadata and manual installation; the Home FAQ also names the
+default-off check. This matches [the app's update policy](UPDATES.md).
+At source `97b1cdd`, the five-page local build has no Astro diagnostics, and
+[Site checks](https://github.com/tanzir71/saydraft/actions/runs/43542672302) passes
+build, Storybook, all 15 browser checks and Lighthouse assertions across nine
+runs. [Pages deployment](https://github.com/tanzir71/saydraft/actions/runs/43542948717)
+also passes; a direct HTTP check returns 200 and the updated privacy section.
+
 The owner requested automatic commits/pushes to `main` with no further PRs. All
 101 earlier task PRs were closed or merged after the verified stack reached main.
 The Site checks workflow builds and tests the site. Pages builds the exact

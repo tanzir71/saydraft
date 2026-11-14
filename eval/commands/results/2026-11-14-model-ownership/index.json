@@ -1,8 +1,7 @@
 {
   "schema": 1,
-  "source": "be9cde444dbf12708a6e820459185724a10c562b",
-  "product_source": "77c160af38ab0b23001712b0f53842b1fa780946",
-  "product_unchanged_since": "77c160a",
+  "source": "ea2d25bfd321eac292efa4b9002fd19231cffafd",
+  "product_source": "ea2d25bfd321eac292efa4b9002fd19231cffafd",
   "scope": "native model-owner boundary, authored text only; no speech or desktop integration",
   "native_process_exits": 6,
   "native_edit_examples": 4,
@@ -10,16 +9,61 @@
   "files_sha256": {
     "diagnostic-original-handle.json": "d09929e07e3370b462e69ea1c283772e1d3e8416f5d614e8aa421bf947b8c1d5",
     "diagnostic-immediate-prefix.json": "2c5caa22adce8eb049083cabe3372eae3824ec3c8db1f26bb8e02d2f94db55d5",
-    "native-switch.json": "184d6cc42fe7e4b6438e64a43e824fd5be89a60ed0f4a0629ae067561df2e884"
+    "native-switch.json": "184d6cc42fe7e4b6438e64a43e824fd5be89a60ed0f4a0629ae067561df2e884",
+    "native-switch-final.json": "b362990d9f325bb9d8751c0f1900c73be3c9f9101cd6c388198408d903624aab",
+    "initial-failed-ci-run.json": "b0fd4fd9f06b45a9c1705a1d5153b29d788451b804123c09f930b3dce1cc623b",
+    "package-run.json": "e841b0466cefeb8961fd5daa34b388a68f43c9641eb1459e8113009a5fcdeaa1",
+    "ci-run.json": "ef8c636d9a6e018b76153335bae17bd9dcd1fe63c73d3be3f9bc01e3a2d2d17c"
   },
   "diagnostics": [
     "R1 observer attempted polling a retired original wrapper handle; no edit inference. Observer now uses separately retained native handles.",
     "R2 completed four edits and observed all four owned exits, but immediate post-close cleanup preparation returned false. R3 explicitly observes Command exit within a bounded five-second probe barrier before fresh preparation. No app wait or product timing acceptance is inferred."
   ],
   "verification": {
-    "focused_tests": 225,
-    "probe_observer_tests": 5,
-    "ci_pending": 43541433255,
-    "package_pending": 43541252024
+    "focused_tests": 232,
+    "settings_review_tests": 124,
+    "package_run": 43542282354,
+    "package_conclusion": "success",
+    "ci_run": 43542282351,
+    "ci_conclusion": "success",
+    "windows_job": 132285336552,
+    "passed": 3487,
+    "skipped": 12,
+    "seconds": 418.34,
+    "rules": "556/556",
+    "normal_cleanup_adversarial": "100/100",
+    "full_command_mode_accepted": false
+  },
+  "prior_accepted_source": "be9cde444dbf12708a6e820459185724a10c562b",
+  "failed_ci": {
+    "run": 43541251958,
+    "job": 132282081589,
+    "source": "77c160af38ab0b23001712b0f53842b1fa780946",
+    "passed": 3475,
+    "failed": 4,
+    "skipped": 12,
+    "seconds": 394.52,
+    "failures": [
+      "Two stale review-preparation fixtures omitted their client owner",
+      "Hub save dropped new command_mode when Labs rebuilt its config dictionary",
+      "Preview-default assertion omitted new default-off command flag"
+    ],
+    "log_sha256": "266288446b0ce01d2f748918b8c63b3222f3904b6cdc831a85e96f5112560b87",
+    "follow_up": "Preserve other Labs preferences, supply a coherent fake preparation/client pair, update default assertions and test unrelated Settings saves."
+  },
+  "latest_product_source": "ea2d25bfd321eac292efa4b9002fd19231cffafd",
+  "native_source": "6099772c8e7a40f126b7e35114451179fce1d593",
+  "native_scope_unchanged_through": "ea2d25bfd321eac292efa4b9002fd19231cffafd",
+  "unchanged_scope_paths": [
+    "saydraft/models",
+    "saydraft/config.py",
+    "saydraft/dictation/command_session.py",
+    "saydraft/dictation/llm_local.py",
+    "tools/probe_command_session.py"
+  ],
+  "private_logs_sha256": {
+    "package-final.log": "1a6ac82c29fca0a5bcc2e7ebc93eeefa7654d115a6f7cca39cc77f1a22cadcba",
+    "windows-final.log": "6883482d922acd583db40bede7a71eb2d7932fdb69cc47ed3a39c376a08102f2",
+    "initial-ci.log": "266288446b0ce01d2f748918b8c63b3222f3904b6cdc831a85e96f5112560b87"
   }
 }
