@@ -3,8 +3,11 @@
 Status, 14 November 2026: language coverage, cleanup safeguards and controlled
 acquisition/scoring tests pass. Four hundred public clips across twenty languages
 (81.41 minutes) have verified audio headers, references and hashes. Native model
-scoring is running in independent per-language processes; no expanded
-speech-accuracy result is claimed yet.
+scoring is running in independent per-language processes; the full expanded
+speech-accuracy comparison is not complete. A separate three-clip
+[Bengali decoder diagnostic](spikes/bengali-decoder.md) confirms native output
+capping and rejects an internal 8-second-window candidate because character
+errors worsen. This development finding is not broad language acceptance.
 Owner-recording acceptance remains deferred. The isolated Pro latency run has
 finished and its [failed median gate is retained](LATENCY_MATRIX.md).
 

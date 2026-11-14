@@ -1,0 +1,41 @@
+import hashlib,json,os,subprocess,sys,time
+from pathlib import Path
+base=Path('D:/Saydraft-Codex-QA-20261112-01a1cbc7');source=base/'worktrees/asr-languages-1b7e7ea-20261114';sys.path.insert(0,str(source))
+from tools.asr_accuracy import load_corpora,_engine,_source
+from tools.bench_models import score
+from saydraft.models.downloader import installation_ready
+from saydraft.models.manifest import get_model
+from saydraft.privacy.netguard import NetworkGuard
+import soundfile as sf
+output=base/'bn-decoder-diagnostic-1b7e7ea-20261114-r1';output.mkdir(exist_ok=False)
+model_id='whisper-large-v3-turbo';directory=base/'turbo-models/whisper/large-v3-turbo';manifest=get_model(model_id)
+report={'scope':'Development decoder instrumentation on first three already-observed public Bengali clips; no benchmark acceptance, no audio hardware/input, no latency claim, production decode kwargs unchanged','source':_source(),'script_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),'pid':os.getpid(),'complete':False,'rows':[]}
+def save():
+ p=output/'report.json';temp=output/'report.json.tmp';temp.write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n',encoding='utf-8');temp.replace(p)
+save();NetworkGuard.install()
+try:
+ assert not report['source']['dirty'] and report['source']['commit']=='1b7e7eaf493e082692343244d6f1aed3e9907d68'
+ assert installation_ready(manifest,directory,check_hashes=True)
+ clips,corpora=load_corpora([base/'asr-public-fleurs-20261114/bn-r1/corpus.json']);clips=clips[:3];report['corpora']=corpora;report['selected_ids']=[clip['id'] for clip in clips];save()
+ engine=_engine(model_id,directory);engine.prepare();engine.set_language('bn');model=engine._model
+ native=model.model;active=[];eot=model.hf_tokenizer.token_to_id('<|endoftext|>')
+ class Proxy:
+  def __getattr__(self,name):return getattr(native,name)
+  def generate(self,*args,**kwargs):
+   started=time.perf_counter();results=native.generate(*args,**kwargs)
+   for result in results:
+    tokens=result.sequences_ids[0];text_ids=[token for token in tokens if token<eot];decoded=model.hf_tokenizer.decode(text_ids)
+    active.append({'max_length_option':kwargs.get('max_length'),'beam_size':kwargs.get('beam_size'),'temperature':kwargs.get('sampling_temperature',0),'prompt_tokens':len(args[1][0]),'generated_tokens':len(tokens),'text_tokens':len(text_ids),'last_tokens':tokens[-8:],'tokens_sha256':hashlib.sha256(json.dumps(tokens).encode()).hexdigest(),'decoded':decoded,'contains_replacement': '\ufffd' in decoded,'seconds':time.perf_counter()-started})
+   return results
+ model.model=Proxy();report['model_max_length']=model.max_length;save()
+ with (output/'cases.jsonl').open('x',encoding='utf-8') as journal:
+  for clip in clips:
+   active.clear();audio,rate=sf.read(clip['audio_path'],dtype='float32');assert rate==16000
+   started=time.perf_counter();text=engine.transcribe(audio)
+   row={'id':clip['id'],'audio_sha256':clip['sha256'],'reference':clip['reference'],'text':text,'scores':score(clip['reference'],text),'decode_calls':list(active),'seconds':time.perf_counter()-started}
+   report['rows'].append(row);journal.write(json.dumps(row,ensure_ascii=False)+'\n');journal.flush();save();print(json.dumps({'id':row['id'],'calls':len(active),'generated_lengths':[x['generated_tokens'] for x in active],'max_length':model.max_length}),flush=True)
+ report['source_unchanged']=_source()==report['source'];report['pins_unchanged']=installation_ready(manifest,directory,check_hashes=True)
+ report['complete']=len(report['rows'])==3 and report['source_unchanged'] and report['pins_unchanged']
+except BaseException as error:report['error_type']=type(error).__name__
+finally:NetworkGuard.uninstall();save()
+raise SystemExit(0 if report['complete'] else 1)

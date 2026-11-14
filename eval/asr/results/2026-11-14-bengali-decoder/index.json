@@ -1,0 +1,45 @@
+{
+  "scope": "Three already-observed public Bengali development clips; unchanged production baseline and internal8s candidate. Candidate increases CER and is not promoted. This is not20language accuracy acceptance.",
+  "files": [
+    {
+      "file": "baseline-report.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\bn-decoder-diagnostic-1b7e7ea-20261114-r1\\report.json",
+      "sha256": "90d3333c8f7c7f169677d4b16cad83debe960d804c4a88a38fa1780aa6988921"
+    },
+    {
+      "file": "baseline-cases.jsonl",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\bn-decoder-diagnostic-1b7e7ea-20261114-r1\\cases.jsonl",
+      "sha256": "4fc3e699467e20e42b62e3d2d7fcead26d49c9a86fa25e043d447e9ea690ef78"
+    },
+    {
+      "file": "baseline-process.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\bn-decoder-observer-1b7e7ea-20261114-r1\\process.json",
+      "sha256": "e661175f09b68fbcf439bdce5ab8707c8a7e07df4f37b40d688c5359bb9031cc"
+    },
+    {
+      "file": "baseline-probe.py.txt",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\diagnose_bn_decode_1b7e7ea.py",
+      "sha256": "2f974e38a8ce4352cb5c73845ba1a74b830243e40e4433ca38ea2e27537fc182"
+    },
+    {
+      "file": "internal8s-report.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\bn-decoder-8s-diagnostic-1b7e7ea-20261114-r1\\report.json",
+      "sha256": "d4575ad081d0bf21b2e5bd497dd7608cdfa804645f27f2d44612e4e6d22695ba"
+    },
+    {
+      "file": "internal8s-cases.jsonl",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\bn-decoder-8s-diagnostic-1b7e7ea-20261114-r1\\cases.jsonl",
+      "sha256": "7a02231ede3c93bf575c9ec111f97671076dce62e874efd252b8370ad38be109"
+    },
+    {
+      "file": "internal8s-process.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\bn-decoder-8s-observer-1b7e7ea-20261114-r1\\process.json",
+      "sha256": "30faaf5195923db75fbdef72a23b2778c195cc8ace9f52e0fbb9872a810a0935"
+    },
+    {
+      "file": "internal8s-probe.py.txt",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\diagnose_bn_decode_8s_1b7e7ea.py",
+      "sha256": "be3d3b12a68bc1be63ad156b9cc9e6b6e5ea5309e8fec78329bed771ab437b07"
+    }
+  ]
+}

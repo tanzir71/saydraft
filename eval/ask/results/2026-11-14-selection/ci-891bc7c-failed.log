@@ -1,0 +1,1107 @@
+update-metadata-smoke	Set up job	﻿2026-11-14T09:21:56.2030989Z Current runner version: '2.338.2'
+update-metadata-smoke	Set up job	2026-11-14T09:21:56.2079923Z ##[group]Runner Image Provisioner
+update-metadata-smoke	Set up job	2026-11-14T09:21:56.2080665Z Hosted Compute Agent
+update-metadata-smoke	Set up job	2026-11-14T09:21:56.2081090Z Version: 20261103.629
+update-metadata-smoke	Set up job	2026-11-14T09:21:56.2081567Z Commit: 15dbd9ccb5dbf34fae002b6ed1a2670f52df37bc
+update-metadata-smoke	Set up job	2026-11-14T09:21:56.2082612Z Build Date: 2026-11-03T17:26:59Z
+update-metadata-smoke	Set up job	2026-11-14T09:21:56.2083189Z Worker ID: {1d08a41d-10c3-45ad-9a1c-5b183e1bcedc}
+update-metadata-smoke	Set up job	2026-11-14T09:21:56.2083707Z Region: eastus
+update-metadata-smoke	Set up job	2026-11-14T09:21:56.2084167Z Cloud: Azure
+update-metadata-smoke	Set up job	2026-11-14T09:21:56.2084560Z ##[endgroup]
+update-metadata-smoke	Set up job	2026-11-14T09:21:56.2085697Z ##[group]Operating System
+update-metadata-smoke	Set up job	2026-11-14T09:21:56.2086347Z Microsoft Windows Server 2025
+update-metadata-smoke	Set up job	2026-11-14T09:21:56.2086956Z 10.0.26100
+update-metadata-smoke	Set up job	2026-11-14T09:21:56.2087556Z Datacenter
+update-metadata-smoke	Set up job	2026-11-14T09:21:56.2088095Z ##[endgroup]
+update-metadata-smoke	Set up job	2026-11-14T09:21:56.2088693Z ##[group]Runner Image
+update-metadata-smoke	Set up job	2026-11-14T09:21:56.2089391Z Image: windows-2025-vs2026
+update-metadata-smoke	Set up job	2026-11-14T09:21:56.2090090Z Version: 20261103.298.1
+update-metadata-smoke	Set up job	2026-11-14T09:21:56.2091534Z Included Software: https://github.com/actions/runner-images/blob/win25-vs2026/20261103.298/images/windows/Windows2025-VS2026-Readme.md
+update-metadata-smoke	Set up job	2026-11-14T09:21:56.2094261Z Image Release: https://github.com/actions/runner-images/releases/tag/win25-vs2026%2F20261103.298
+update-metadata-smoke	Set up job	2026-11-14T09:21:56.2095469Z ##[endgroup]
+update-metadata-smoke	Set up job	2026-11-14T09:21:56.2096800Z ##[group]GITHUB_TOKEN Permissions
+update-metadata-smoke	Set up job	2026-11-14T09:21:56.2099119Z Contents: read
+update-metadata-smoke	Set up job	2026-11-14T09:21:56.2099894Z Metadata: read
+update-metadata-smoke	Set up job	2026-11-14T09:21:56.2100521Z ##[endgroup]
+update-metadata-smoke	Set up job	2026-11-14T09:21:56.2103249Z Secret source: Actions
+update-metadata-smoke	Set up job	2026-11-14T09:21:56.2104371Z Cache mode: write
+update-metadata-smoke	Set up job	2026-11-14T09:21:56.2105108Z Prepare workflow directory
+update-metadata-smoke	Set up job	2026-11-14T09:21:56.2389622Z Prepare all required actions
+update-metadata-smoke	Set up job	2026-11-14T09:21:56.2442667Z Getting action download info
+update-metadata-smoke	Set up job	2026-11-14T09:21:56.3966000Z Download action repository 'actions/checkout@v7' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+update-metadata-smoke	Set up job	2026-11-14T09:21:56.4998753Z Download action repository 'actions/setup-python@v7' (SHA:6d4fd22b20465ccc0f7354476588e8df7c9ca0e0)
+update-metadata-smoke	Set up job	2026-11-14T09:21:56.8208788Z Complete job name: update-metadata-smoke
+update-metadata-smoke	Run actions/checkout@v7	﻿2026-11-14T09:21:56.9392956Z ##[group]Run actions/checkout@v7
+update-metadata-smoke	Run actions/checkout@v7	2026-11-14T09:21:56.9393866Z with:
+update-metadata-smoke	Run actions/checkout@v7	2026-11-14T09:21:56.9394182Z   repository: tanzir71/saydraft
+update-metadata-smoke	Run actions/checkout@v7	2026-11-14T09:21:56.9397474Z   token: ***
+update-metadata-smoke	Run actions/checkout@v7	2026-11-14T09:21:56.9397777Z   ssh-strict: true
+update-metadata-smoke	Run actions/checkout@v7	2026-11-14T09:21:56.9398087Z   ssh-user: git
+update-metadata-smoke	Run actions/checkout@v7	2026-11-14T09:21:56.9398400Z   persist-credentials: true
+update-metadata-smoke	Run actions/checkout@v7	2026-11-14T09:21:56.9398746Z   clean: true
+update-metadata-smoke	Run actions/checkout@v7	2026-11-14T09:21:56.9399053Z   sparse-checkout-cone-mode: true
+update-metadata-smoke	Run actions/checkout@v7	2026-11-14T09:21:56.9399424Z   fetch-depth: 1
+update-metadata-smoke	Run actions/checkout@v7	2026-11-14T09:21:56.9399723Z   fetch-tags: false
+update-metadata-smoke	Run actions/checkout@v7	2026-11-14T09:21:56.9400028Z   show-progress: true
+update-metadata-smoke	Run actions/checkout@v7	2026-11-14T09:21:56.9400336Z   lfs: false
+update-metadata-smoke	Run actions/checkout@v7	2026-11-14T09:21:56.9400615Z   submodules: false
+update-metadata-smoke	Run actions/checkout@v7	2026-11-14T09:21:56.9400924Z   set-safe-directory: true
+update-metadata-smoke	Run actions/checkout@v7	2026-11-14T09:21:56.9401285Z   allow-unsafe-pr-checkout: false
+update-metadata-smoke	Run actions/checkout@v7	2026-11-14T09:21:56.9401809Z ##[endgroup]
+update-metadata-smoke	Run actions/checkout@v7	2026-11-14T09:21:57.0602377Z Syncing repository: tanzir71/saydraft
+update-metadata-smoke	Run actions/checkout@v7	2026-11-14T09:21:57.0604077Z ##[group]Getting Git version info
+update-metadata-smoke	Run actions/checkout@v7	2026-11-14T09:21:57.0604581Z Working directory is 'D:\a\saydraft\saydraft'
+update-metadata-smoke	Run actions/checkout@v7	2026-11-14T09:21:57.1184974Z [command]"C:\Program Files\Git\bin\git.exe" version
+update-metadata-smoke	Run actions/checkout@v7	2026-11-14T09:21:57.4631835Z git version 2.56.0.windows.4
+update-metadata-smoke	Run actions/checkout@v7	2026-11-14T09:21:57.4672885Z ##[endgroup]
+update-metadata-smoke	Run actions/checkout@v7	2026-11-14T09:21:57.4686734Z Temporarily overriding HOME='D:\a\_temp\5649fed7-1825-4050-9031-140ee52b7c04' before making global git config changes
+update-metadata-smoke	Run actions/checkout@v7	2026-11-14T09:21:57.4695008Z Adding repository directory to the temporary git global config as a safe directory
+update-metadata-smoke	Run actions/checkout@v7	2026-11-14T09:21:57.4695947Z [command]"C:\Program Files\Git\bin\git.exe" config --global --add safe.directory D:\a\saydraft\saydraft
+update-metadata-smoke	Run actions/checkout@v7	2026-11-14T09:21:57.5262405Z Deleting the contents of 'D:\a\saydraft\saydraft'
+update-metadata-smoke	Run actions/checkout@v7	2026-11-14T09:21:57.5266771Z ##[group]Determining repository object format
+update-metadata-smoke	Run actions/checkout@v7	2026-11-14T09:21:57.5268450Z ##[endgroup]
+update-metadata-smoke	Run actions/checkout@v7	2026-11-14T09:21:57.5269746Z ##[group]Initializing the repository
+update-metadata-smoke	Run actions/checkout@v7	2026-11-14T09:21:57.5276297Z [command]"C:\Program Files\Git\bin\git.exe" init D:\a\saydraft\saydraft
+update-metadata-smoke	Run actions/checkout@v7	2026-11-14T09:21:57.6053799Z Initialized empty Git repository in D:/a/saydraft/saydraft/.git/
+update-metadata-smoke	Run actions/checkout@v7	2026-11-14T09:21:57.6100290Z [command]"C:\Program Files\Git\bin\git.exe" remote add origin https://github.com/tanzir71/saydraft
+update-metadata-smoke	Run actions/checkout@v7	2026-11-14T09:21:57.6767471Z ##[endgroup]
+update-metadata-smoke	Run actions/checkout@v7	2026-11-14T09:21:57.6768834Z ##[group]Disabling automatic garbage collection
+update-metadata-smoke	Run actions/checkout@v7	2026-11-14T09:21:57.6775625Z [command]"C:\Program Files\Git\bin\git.exe" config --local gc.auto 0
+update-metadata-smoke	Run actions/checkout@v7	2026-11-14T09:21:57.7112296Z ##[endgroup]
+update-metadata-smoke	Run actions/checkout@v7	2026-11-14T09:21:57.7113585Z ##[group]Setting up auth
+update-metadata-smoke	Run actions/checkout@v7	2026-11-14T09:21:57.7114443Z Removing SSH command configuration
+update-metadata-smoke	Run actions/checkout@v7	2026-11-14T09:21:57.7122877Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+update-metadata-smoke	Run actions/checkout@v7	2026-11-14T09:21:57.7442050Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+update-metadata-smoke	Run actions/checkout@v7	2026-11-14T09:21:59.0689842Z Removing HTTP extra header
+update-metadata-smoke	Run actions/checkout@v7	2026-11-14T09:21:59.0700967Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+update-metadata-smoke	Run actions/checkout@v7	2026-11-14T09:21:59.1016852Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+update-metadata-smoke	Run actions/checkout@v7	2026-11-14T09:21:59.5726808Z Removing includeIf entries pointing to credentials config files
+update-metadata-smoke	Run actions/checkout@v7	2026-11-14T09:21:59.5738736Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp ^includeIf\.gitdir:
+update-metadata-smoke	Run actions/checkout@v7	2026-11-14T09:21:59.6051855Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "git config --local --show-origin --name-only --get-regexp remote.origin.url"
+update-metadata-smoke	Run actions/checkout@v7	2026-11-14T09:22:00.0664037Z [command]"C:\Program Files\Git\bin\git.exe" config --file D:\a\_temp\git-credentials-0c1707ca-f1c0-4f3a-94b9-6a050dacbce5.config http.https://github.com/.extraheader "AUTHORIZATION: basic ***"
+update-metadata-smoke	Run actions/checkout@v7	2026-11-14T09:22:00.1027997Z [command]"C:\Program Files\Git\bin\git.exe" config --local includeIf.gitdir:D:/a/saydraft/saydraft/.git.path D:\a\_temp\git-credentials-0c1707ca-f1c0-4f3a-94b9-6a050dacbce5.config
+update-metadata-smoke	Run actions/checkout@v7	2026-11-14T09:22:00.1338953Z [command]"C:\Program Files\Git\bin\git.exe" config --local includeIf.gitdir:D:/a/saydraft/saydraft/.git/worktrees/*.path D:\a\_temp\git-credentials-0c1707ca-f1c0-4f3a-94b9-6a050dacbce5.config
+update-metadata-smoke	Run actions/checkout@v7	2026-11-14T09:22:00.1690345Z [command]"C:\Program Files\Git\bin\git.exe" config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-0c1707ca-f1c0-4f3a-94b9-6a050dacbce5.config
+update-metadata-smoke	Run actions/checkout@v7	2026-11-14T09:22:00.1992762Z [command]"C:\Program Files\Git\bin\git.exe" config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-0c1707ca-f1c0-4f3a-94b9-6a050dacbce5.config
+update-metadata-smoke	Run actions/checkout@v7	2026-11-14T09:22:00.2291723Z ##[endgroup]
+update-metadata-smoke	Run actions/checkout@v7	2026-11-14T09:22:00.2292290Z ##[group]Fetching the repository
+update-metadata-smoke	Run actions/checkout@v7	2026-11-14T09:22:00.2304967Z [command]"C:\Program Files\Git\bin\git.exe" -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +891bc7c58e1491dab5d96c5b53ff530c623c8048:refs/remotes/origin/main
+update-metadata-smoke	Run actions/checkout@v7	2026-11-14T09:22:02.3059059Z From https://github.com/tanzir71/saydraft
+update-metadata-smoke	Run actions/checkout@v7	2026-11-14T09:22:02.3059743Z  * [new ref]         891bc7c58e1491dab5d96c5b53ff530c623c8048 -> origin/main
+update-metadata-smoke	Run actions/checkout@v7	2026-11-14T09:22:02.3099622Z [command]"C:\Program Files\Git\bin\git.exe" branch --list --remote origin/main
+update-metadata-smoke	Run actions/checkout@v7	2026-11-14T09:22:02.3469696Z   origin/main
+update-metadata-smoke	Run actions/checkout@v7	2026-11-14T09:22:02.3505350Z [command]"C:\Program Files\Git\bin\git.exe" rev-parse refs/remotes/origin/main
+update-metadata-smoke	Run actions/checkout@v7	2026-11-14T09:22:02.3862169Z 891bc7c58e1491dab5d96c5b53ff530c623c8048
+update-metadata-smoke	Run actions/checkout@v7	2026-11-14T09:22:02.3889933Z ##[endgroup]
+update-metadata-smoke	Run actions/checkout@v7	2026-11-14T09:22:02.3890309Z ##[group]Determining the checkout info
+update-metadata-smoke	Run actions/checkout@v7	2026-11-14T09:22:02.3891249Z ##[endgroup]
+update-metadata-smoke	Run actions/checkout@v7	2026-11-14T09:22:02.3898673Z [command]"C:\Program Files\Git\bin\git.exe" sparse-checkout disable
+update-metadata-smoke	Run actions/checkout@v7	2026-11-14T09:22:02.4326052Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset-all extensions.worktreeConfig
+update-metadata-smoke	Run actions/checkout@v7	2026-11-14T09:22:02.4617691Z ##[group]Checking out the ref
+update-metadata-smoke	Run actions/checkout@v7	2026-11-14T09:22:02.4623057Z [command]"C:\Program Files\Git\bin\git.exe" checkout --progress --force -B main refs/remotes/origin/main
+update-metadata-smoke	Run actions/checkout@v7	2026-11-14T09:22:03.0604184Z Switched to a new branch 'main'
+update-metadata-smoke	Run actions/checkout@v7	2026-11-14T09:22:03.0706805Z branch 'main' set up to track 'origin/main'.
+update-metadata-smoke	Run actions/checkout@v7	2026-11-14T09:22:03.1179423Z ##[endgroup]
+update-metadata-smoke	Run actions/checkout@v7	2026-11-14T09:22:03.1186291Z [command]"C:\Program Files\Git\bin\git.exe" log -1 --format=%H
+update-metadata-smoke	Run actions/checkout@v7	2026-11-14T09:22:03.1481542Z 891bc7c58e1491dab5d96c5b53ff530c623c8048
+update-metadata-smoke	Run actions/setup-python@v7	﻿2026-11-14T09:22:03.1896659Z ##[group]Run actions/setup-python@v7
+update-metadata-smoke	Run actions/setup-python@v7	2026-11-14T09:22:03.1896961Z with:
+update-metadata-smoke	Run actions/setup-python@v7	2026-11-14T09:22:03.1897120Z   python-version: 3.13
+update-metadata-smoke	Run actions/setup-python@v7	2026-11-14T09:22:03.1897293Z   check-latest: false
+update-metadata-smoke	Run actions/setup-python@v7	2026-11-14T09:22:03.1899361Z   token: ***
+update-metadata-smoke	Run actions/setup-python@v7	2026-11-14T09:22:03.1899617Z   mirror: https://raw.githubusercontent.com/actions/python-versions/main
+update-metadata-smoke	Run actions/setup-python@v7	2026-11-14T09:22:03.1899937Z   update-environment: true
+update-metadata-smoke	Run actions/setup-python@v7	2026-11-14T09:22:03.1900120Z   allow-prereleases: false
+update-metadata-smoke	Run actions/setup-python@v7	2026-11-14T09:22:03.1900290Z   freethreaded: false
+update-metadata-smoke	Run actions/setup-python@v7	2026-11-14T09:22:03.1900448Z ##[endgroup]
+update-metadata-smoke	Run actions/setup-python@v7	2026-11-14T09:22:03.3080954Z ##[group]Installed versions
+update-metadata-smoke	Run actions/setup-python@v7	2026-11-14T09:22:03.3246589Z Successfully set up CPython (3.13.17)
+update-metadata-smoke	Run actions/setup-python@v7	2026-11-14T09:22:03.3247209Z ##[endgroup]
+update-metadata-smoke	Verify default-off policy without an outbound request	﻿2026-11-14T09:22:03.3550158Z ##[group]Run python -m tools.probe_updates
+update-metadata-smoke	Verify default-off policy without an outbound request	2026-11-14T09:22:03.3550605Z ^[[36;1mpython -m tools.probe_updates^[[0m
+update-metadata-smoke	Verify default-off policy without an outbound request	2026-11-14T09:22:03.4159747Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+update-metadata-smoke	Verify default-off policy without an outbound request	2026-11-14T09:22:03.4160095Z env:
+update-metadata-smoke	Verify default-off policy without an outbound request	2026-11-14T09:22:03.4160323Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.13.17\x64
+update-metadata-smoke	Verify default-off policy without an outbound request	2026-11-14T09:22:03.4160730Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.13.17\x64/lib/pkgconfig
+update-metadata-smoke	Verify default-off policy without an outbound request	2026-11-14T09:22:03.4161079Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+update-metadata-smoke	Verify default-off policy without an outbound request	2026-11-14T09:22:03.4161392Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+update-metadata-smoke	Verify default-off policy without an outbound request	2026-11-14T09:22:03.4161741Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+update-metadata-smoke	Verify default-off policy without an outbound request	2026-11-14T09:22:03.4162023Z ##[endgroup]
+update-metadata-smoke	Verify default-off policy without an outbound request	2026-11-14T09:22:05.3439395Z Blocked outbound DNS to host api.github.com
+update-metadata-smoke	Verify default-off policy without an outbound request	2026-11-14T09:22:05.3440560Z {"complete": true, "opt_in": false, "state": "disabled", "http_status": null, "failure_reason": null, "api_scope_retired": true, "installer_downloaded": false, "browser_opened": false, "desktop_app_started": false}
+update-metadata-smoke	Explicit opt-in public update metadata smoke	﻿2026-11-14T09:22:05.4811298Z ##[group]Run python -m tools.probe_updates --enabled
+update-metadata-smoke	Explicit opt-in public update metadata smoke	2026-11-14T09:22:05.4811699Z ^[[36;1mpython -m tools.probe_updates --enabled^[[0m
+update-metadata-smoke	Explicit opt-in public update metadata smoke	2026-11-14T09:22:05.4869813Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+update-metadata-smoke	Explicit opt-in public update metadata smoke	2026-11-14T09:22:05.4870447Z env:
+update-metadata-smoke	Explicit opt-in public update metadata smoke	2026-11-14T09:22:05.4870664Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.13.17\x64
+update-metadata-smoke	Explicit opt-in public update metadata smoke	2026-11-14T09:22:05.4871028Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.13.17\x64/lib/pkgconfig
+update-metadata-smoke	Explicit opt-in public update metadata smoke	2026-11-14T09:22:05.4871373Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+update-metadata-smoke	Explicit opt-in public update metadata smoke	2026-11-14T09:22:05.4871692Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+update-metadata-smoke	Explicit opt-in public update metadata smoke	2026-11-14T09:22:05.4871993Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+update-metadata-smoke	Explicit opt-in public update metadata smoke	2026-11-14T09:22:05.4872238Z ##[endgroup]
+update-metadata-smoke	Explicit opt-in public update metadata smoke	2026-11-14T09:22:06.2435085Z Blocked outbound DNS to host api.github.com
+update-metadata-smoke	Explicit opt-in public update metadata smoke	2026-11-14T09:22:06.2436046Z {"complete": true, "opt_in": true, "state": "no_release", "http_status": 404, "failure_reason": "http", "api_scope_retired": true, "installer_downloaded": false, "browser_opened": false, "desktop_app_started": false}
+update-metadata-smoke	Post Run actions/setup-python@v7	﻿2026-11-14T09:22:06.3633784Z Post job cleanup.
+update-metadata-smoke	Post Run actions/checkout@v7	﻿2026-11-14T09:22:06.5244940Z Post job cleanup.
+update-metadata-smoke	Post Run actions/checkout@v7	2026-11-14T09:22:06.6641650Z [command]"C:\Program Files\Git\bin\git.exe" version
+update-metadata-smoke	Post Run actions/checkout@v7	2026-11-14T09:22:06.6940598Z git version 2.56.0.windows.4
+update-metadata-smoke	Post Run actions/checkout@v7	2026-11-14T09:22:06.7006917Z Temporarily overriding HOME='D:\a\_temp\e1b724a8-98e4-4cba-a968-4c336063effa' before making global git config changes
+update-metadata-smoke	Post Run actions/checkout@v7	2026-11-14T09:22:06.7008129Z Adding repository directory to the temporary git global config as a safe directory
+update-metadata-smoke	Post Run actions/checkout@v7	2026-11-14T09:22:06.7017572Z [command]"C:\Program Files\Git\bin\git.exe" config --global --add safe.directory D:\a\saydraft\saydraft
+update-metadata-smoke	Post Run actions/checkout@v7	2026-11-14T09:22:06.7372427Z Removing SSH command configuration
+update-metadata-smoke	Post Run actions/checkout@v7	2026-11-14T09:22:06.7386651Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+update-metadata-smoke	Post Run actions/checkout@v7	2026-11-14T09:22:06.7745304Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+update-metadata-smoke	Post Run actions/checkout@v7	2026-11-14T09:22:07.2401566Z Removing HTTP extra header
+update-metadata-smoke	Post Run actions/checkout@v7	2026-11-14T09:22:07.2410538Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+update-metadata-smoke	Post Run actions/checkout@v7	2026-11-14T09:22:07.2751330Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+update-metadata-smoke	Post Run actions/checkout@v7	2026-11-14T09:22:07.7533402Z Removing includeIf entries pointing to credentials config files
+update-metadata-smoke	Post Run actions/checkout@v7	2026-11-14T09:22:07.7542541Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp ^includeIf\.gitdir:
+update-metadata-smoke	Post Run actions/checkout@v7	2026-11-14T09:22:07.7808938Z includeif.gitdir:D:/a/saydraft/saydraft/.git.path
+update-metadata-smoke	Post Run actions/checkout@v7	2026-11-14T09:22:07.7809717Z includeif.gitdir:D:/a/saydraft/saydraft/.git/worktrees/*.path
+update-metadata-smoke	Post Run actions/checkout@v7	2026-11-14T09:22:07.7810092Z includeif.gitdir:/github/workspace/.git.path
+update-metadata-smoke	Post Run actions/checkout@v7	2026-11-14T09:22:07.7810382Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+update-metadata-smoke	Post Run actions/checkout@v7	2026-11-14T09:22:07.7841093Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:D:/a/saydraft/saydraft/.git.path
+update-metadata-smoke	Post Run actions/checkout@v7	2026-11-14T09:22:07.8103063Z D:\a\_temp\git-credentials-0c1707ca-f1c0-4f3a-94b9-6a050dacbce5.config
+update-metadata-smoke	Post Run actions/checkout@v7	2026-11-14T09:22:07.8147352Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:D:/a/saydraft/saydraft/.git.path D\:\\a\\_temp\\git\-credentials\-0c1707ca\-f1c0\-4f3a\-94b9\-6a050dacbce5\.config
+update-metadata-smoke	Post Run actions/checkout@v7	2026-11-14T09:22:07.8446959Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:D:/a/saydraft/saydraft/.git/worktrees/*.path
+update-metadata-smoke	Post Run actions/checkout@v7	2026-11-14T09:22:07.8708198Z D:\a\_temp\git-credentials-0c1707ca-f1c0-4f3a-94b9-6a050dacbce5.config
+update-metadata-smoke	Post Run actions/checkout@v7	2026-11-14T09:22:07.8740736Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:D:/a/saydraft/saydraft/.git/worktrees/*.path D\:\\a\\_temp\\git\-credentials\-0c1707ca\-f1c0\-4f3a\-94b9\-6a050dacbce5\.config
+update-metadata-smoke	Post Run actions/checkout@v7	2026-11-14T09:22:07.9035964Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:/github/workspace/.git.path
+update-metadata-smoke	Post Run actions/checkout@v7	2026-11-14T09:22:07.9295697Z /github/runner_temp/git-credentials-0c1707ca-f1c0-4f3a-94b9-6a050dacbce5.config
+update-metadata-smoke	Post Run actions/checkout@v7	2026-11-14T09:22:07.9330150Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-0c1707ca\-f1c0\-4f3a\-94b9\-6a050dacbce5\.config
+update-metadata-smoke	Post Run actions/checkout@v7	2026-11-14T09:22:07.9625628Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+update-metadata-smoke	Post Run actions/checkout@v7	2026-11-14T09:22:07.9882311Z /github/runner_temp/git-credentials-0c1707ca-f1c0-4f3a-94b9-6a050dacbce5.config
+update-metadata-smoke	Post Run actions/checkout@v7	2026-11-14T09:22:07.9914836Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-0c1707ca\-f1c0\-4f3a\-94b9\-6a050dacbce5\.config
+update-metadata-smoke	Post Run actions/checkout@v7	2026-11-14T09:22:08.0210430Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "git config --local --show-origin --name-only --get-regexp remote.origin.url"
+update-metadata-smoke	Post Run actions/checkout@v7	2026-11-14T09:22:08.4803130Z Removing credentials config 'D:\a\_temp\git-credentials-0c1707ca-f1c0-4f3a-94b9-6a050dacbce5.config'
+update-metadata-smoke	Complete job	﻿2026-11-14T09:22:08.4966124Z Cleaning up orphan processes
+firewall-owned-rule-smoke	Set up job	﻿2026-11-14T09:21:57.1200573Z Current runner version: '2.338.2'
+firewall-owned-rule-smoke	Set up job	2026-11-14T09:21:57.1244812Z ##[group]Runner Image Provisioner
+firewall-owned-rule-smoke	Set up job	2026-11-14T09:21:57.1245613Z Hosted Compute Agent
+firewall-owned-rule-smoke	Set up job	2026-11-14T09:21:57.1246164Z Version: 20261103.629
+firewall-owned-rule-smoke	Set up job	2026-11-14T09:21:57.1246751Z Commit: 15dbd9ccb5dbf34fae002b6ed1a2670f52df37bc
+firewall-owned-rule-smoke	Set up job	2026-11-14T09:21:57.1247462Z Build Date: 2026-11-03T17:26:59Z
+firewall-owned-rule-smoke	Set up job	2026-11-14T09:21:57.1248104Z Worker ID: {7f2687df-e24c-4235-ab17-48882b841f23}
+firewall-owned-rule-smoke	Set up job	2026-11-14T09:21:57.1249064Z Region: westus3
+firewall-owned-rule-smoke	Set up job	2026-11-14T09:21:57.1249558Z Cloud: Azure
+firewall-owned-rule-smoke	Set up job	2026-11-14T09:21:57.1250110Z ##[endgroup]
+firewall-owned-rule-smoke	Set up job	2026-11-14T09:21:57.1251433Z ##[group]Operating System
+firewall-owned-rule-smoke	Set up job	2026-11-14T09:21:57.1252125Z Microsoft Windows Server 2025
+firewall-owned-rule-smoke	Set up job	2026-11-14T09:21:57.1252686Z 10.0.26100
+firewall-owned-rule-smoke	Set up job	2026-11-14T09:21:57.1253165Z Datacenter
+firewall-owned-rule-smoke	Set up job	2026-11-14T09:21:57.1253711Z ##[endgroup]
+firewall-owned-rule-smoke	Set up job	2026-11-14T09:21:57.1254464Z ##[group]Runner Image
+firewall-owned-rule-smoke	Set up job	2026-11-14T09:21:57.1255013Z Image: windows-2025-vs2026
+firewall-owned-rule-smoke	Set up job	2026-11-14T09:21:57.1255570Z Version: 20261103.298.1
+firewall-owned-rule-smoke	Set up job	2026-11-14T09:21:57.1256647Z Included Software: https://github.com/actions/runner-images/blob/win25-vs2026/20261103.298/images/windows/Windows2025-VS2026-Readme.md
+firewall-owned-rule-smoke	Set up job	2026-11-14T09:21:57.1258680Z Image Release: https://github.com/actions/runner-images/releases/tag/win25-vs2026%2F20261103.298
+firewall-owned-rule-smoke	Set up job	2026-11-14T09:21:57.1260623Z ##[endgroup]
+firewall-owned-rule-smoke	Set up job	2026-11-14T09:21:57.1261765Z ##[group]GITHUB_TOKEN Permissions
+firewall-owned-rule-smoke	Set up job	2026-11-14T09:21:57.1263809Z Contents: read
+firewall-owned-rule-smoke	Set up job	2026-11-14T09:21:57.1264418Z Metadata: read
+firewall-owned-rule-smoke	Set up job	2026-11-14T09:21:57.1264927Z ##[endgroup]
+firewall-owned-rule-smoke	Set up job	2026-11-14T09:21:57.1266912Z Secret source: Actions
+firewall-owned-rule-smoke	Set up job	2026-11-14T09:21:57.1267769Z Cache mode: write
+firewall-owned-rule-smoke	Set up job	2026-11-14T09:21:57.1268520Z Prepare workflow directory
+firewall-owned-rule-smoke	Set up job	2026-11-14T09:21:57.1693191Z Prepare all required actions
+firewall-owned-rule-smoke	Set up job	2026-11-14T09:21:57.1742071Z Getting action download info
+firewall-owned-rule-smoke	Set up job	2026-11-14T09:21:57.4493002Z Download action repository 'actions/checkout@v7' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+firewall-owned-rule-smoke	Set up job	2026-11-14T09:21:57.5771738Z Download action repository 'actions/setup-python@v7' (SHA:6d4fd22b20465ccc0f7354476588e8df7c9ca0e0)
+firewall-owned-rule-smoke	Set up job	2026-11-14T09:21:58.2347975Z Download action repository 'actions/upload-artifact@v7' (SHA:cf430e030ddbb5b0abf93d22962f4752f3646cd9)
+firewall-owned-rule-smoke	Set up job	2026-11-14T09:21:58.4580731Z Complete job name: firewall-owned-rule-smoke
+firewall-owned-rule-smoke	Run actions/checkout@v7	﻿2026-11-14T09:21:58.6161499Z ##[group]Run actions/checkout@v7
+firewall-owned-rule-smoke	Run actions/checkout@v7	2026-11-14T09:21:58.6162918Z with:
+firewall-owned-rule-smoke	Run actions/checkout@v7	2026-11-14T09:21:58.6163669Z   repository: tanzir71/saydraft
+firewall-owned-rule-smoke	Run actions/checkout@v7	2026-11-14T09:21:58.6169411Z   token: ***
+firewall-owned-rule-smoke	Run actions/checkout@v7	2026-11-14T09:21:58.6169945Z   ssh-strict: true
+firewall-owned-rule-smoke	Run actions/checkout@v7	2026-11-14T09:21:58.6170378Z   ssh-user: git
+firewall-owned-rule-smoke	Run actions/checkout@v7	2026-11-14T09:21:58.6170806Z   persist-credentials: true
+firewall-owned-rule-smoke	Run actions/checkout@v7	2026-11-14T09:21:58.6171288Z   clean: true
+firewall-owned-rule-smoke	Run actions/checkout@v7	2026-11-14T09:21:58.6171721Z   sparse-checkout-cone-mode: true
+firewall-owned-rule-smoke	Run actions/checkout@v7	2026-11-14T09:21:58.6172245Z   fetch-depth: 1
+firewall-owned-rule-smoke	Run actions/checkout@v7	2026-11-14T09:21:58.6172662Z   fetch-tags: false
+firewall-owned-rule-smoke	Run actions/checkout@v7	2026-11-14T09:21:58.6173087Z   show-progress: true
+firewall-owned-rule-smoke	Run actions/checkout@v7	2026-11-14T09:21:58.6173539Z   lfs: false
+firewall-owned-rule-smoke	Run actions/checkout@v7	2026-11-14T09:21:58.6173958Z   submodules: false
+firewall-owned-rule-smoke	Run actions/checkout@v7	2026-11-14T09:21:58.6174394Z   set-safe-directory: true
+firewall-owned-rule-smoke	Run actions/checkout@v7	2026-11-14T09:21:58.6174899Z   allow-unsafe-pr-checkout: false
+firewall-owned-rule-smoke	Run actions/checkout@v7	2026-11-14T09:21:58.6175839Z env:
+firewall-owned-rule-smoke	Run actions/checkout@v7	2026-11-14T09:21:58.6176267Z   QT_QPA_PLATFORM: offscreen
+firewall-owned-rule-smoke	Run actions/checkout@v7	2026-11-14T09:21:58.6176765Z   HF_HUB_OFFLINE: 1
+firewall-owned-rule-smoke	Run actions/checkout@v7	2026-11-14T09:21:58.6177201Z   HF_HUB_DISABLE_TELEMETRY: 1
+firewall-owned-rule-smoke	Run actions/checkout@v7	2026-11-14T09:21:58.6177719Z   DO_NOT_TRACK: 1
+firewall-owned-rule-smoke	Run actions/checkout@v7	2026-11-14T09:21:58.6178133Z ##[endgroup]
+firewall-owned-rule-smoke	Run actions/checkout@v7	2026-11-14T09:21:58.7616741Z Syncing repository: tanzir71/saydraft
+firewall-owned-rule-smoke	Run actions/checkout@v7	2026-11-14T09:21:58.7618484Z ##[group]Getting Git version info
+firewall-owned-rule-smoke	Run actions/checkout@v7	2026-11-14T09:21:58.7619117Z Working directory is 'D:\a\saydraft\saydraft'
+firewall-owned-rule-smoke	Run actions/checkout@v7	2026-11-14T09:21:58.8536968Z [command]"C:\Program Files\Git\bin\git.exe" version
+firewall-owned-rule-smoke	Run actions/checkout@v7	2026-11-14T09:21:59.1967837Z git version 2.56.0.windows.4
+firewall-owned-rule-smoke	Run actions/checkout@v7	2026-11-14T09:21:59.2031422Z ##[endgroup]
+firewall-owned-rule-smoke	Run actions/checkout@v7	2026-11-14T09:21:59.2049678Z Temporarily overriding HOME='D:\a\_temp\b24ed048-840e-44b1-9fd3-ea070300d84d' before making global git config changes
+firewall-owned-rule-smoke	Run actions/checkout@v7	2026-11-14T09:21:59.2054150Z Adding repository directory to the temporary git global config as a safe directory
+firewall-owned-rule-smoke	Run actions/checkout@v7	2026-11-14T09:21:59.2060502Z [command]"C:\Program Files\Git\bin\git.exe" config --global --add safe.directory D:\a\saydraft\saydraft
+firewall-owned-rule-smoke	Run actions/checkout@v7	2026-11-14T09:21:59.2760990Z Deleting the contents of 'D:\a\saydraft\saydraft'
+firewall-owned-rule-smoke	Run actions/checkout@v7	2026-11-14T09:21:59.2766231Z ##[group]Determining repository object format
+firewall-owned-rule-smoke	Run actions/checkout@v7	2026-11-14T09:21:59.2768434Z ##[endgroup]
+firewall-owned-rule-smoke	Run actions/checkout@v7	2026-11-14T09:21:59.2771078Z ##[group]Initializing the repository
+firewall-owned-rule-smoke	Run actions/checkout@v7	2026-11-14T09:21:59.2778920Z [command]"C:\Program Files\Git\bin\git.exe" init D:\a\saydraft\saydraft
+firewall-owned-rule-smoke	Run actions/checkout@v7	2026-11-14T09:21:59.3685827Z Initialized empty Git repository in D:/a/saydraft/saydraft/.git/
+firewall-owned-rule-smoke	Run actions/checkout@v7	2026-11-14T09:21:59.3731584Z [command]"C:\Program Files\Git\bin\git.exe" remote add origin https://github.com/tanzir71/saydraft
+firewall-owned-rule-smoke	Run actions/checkout@v7	2026-11-14T09:21:59.4655733Z ##[endgroup]
+firewall-owned-rule-smoke	Run actions/checkout@v7	2026-11-14T09:21:59.4657589Z ##[group]Disabling automatic garbage collection
+firewall-owned-rule-smoke	Run actions/checkout@v7	2026-11-14T09:21:59.4663818Z [command]"C:\Program Files\Git\bin\git.exe" config --local gc.auto 0
+firewall-owned-rule-smoke	Run actions/checkout@v7	2026-11-14T09:21:59.5023878Z ##[endgroup]
+firewall-owned-rule-smoke	Run actions/checkout@v7	2026-11-14T09:21:59.5025644Z ##[group]Setting up auth
+firewall-owned-rule-smoke	Run actions/checkout@v7	2026-11-14T09:21:59.5026922Z Removing SSH command configuration
+firewall-owned-rule-smoke	Run actions/checkout@v7	2026-11-14T09:21:59.5033608Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+firewall-owned-rule-smoke	Run actions/checkout@v7	2026-11-14T09:21:59.5396055Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+firewall-owned-rule-smoke	Run actions/checkout@v7	2026-11-14T09:22:01.0553054Z Removing HTTP extra header
+firewall-owned-rule-smoke	Run actions/checkout@v7	2026-11-14T09:22:01.0563657Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+firewall-owned-rule-smoke	Run actions/checkout@v7	2026-11-14T09:22:01.0931732Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+firewall-owned-rule-smoke	Run actions/checkout@v7	2026-11-14T09:22:01.6806410Z Removing includeIf entries pointing to credentials config files
+firewall-owned-rule-smoke	Run actions/checkout@v7	2026-11-14T09:22:01.6815953Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp ^includeIf\.gitdir:
+firewall-owned-rule-smoke	Run actions/checkout@v7	2026-11-14T09:22:01.7181113Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "git config --local --show-origin --name-only --get-regexp remote.origin.url"
+firewall-owned-rule-smoke	Run actions/checkout@v7	2026-11-14T09:22:02.2845201Z [command]"C:\Program Files\Git\bin\git.exe" config --file D:\a\_temp\git-credentials-f23a6ba1-cad4-4851-81a5-a51ce316e30b.config http.https://github.com/.extraheader "AUTHORIZATION: basic ***"
+firewall-owned-rule-smoke	Run actions/checkout@v7	2026-11-14T09:22:02.3228119Z [command]"C:\Program Files\Git\bin\git.exe" config --local includeIf.gitdir:D:/a/saydraft/saydraft/.git.path D:\a\_temp\git-credentials-f23a6ba1-cad4-4851-81a5-a51ce316e30b.config
+firewall-owned-rule-smoke	Run actions/checkout@v7	2026-11-14T09:22:02.3622700Z [command]"C:\Program Files\Git\bin\git.exe" config --local includeIf.gitdir:D:/a/saydraft/saydraft/.git/worktrees/*.path D:\a\_temp\git-credentials-f23a6ba1-cad4-4851-81a5-a51ce316e30b.config
+firewall-owned-rule-smoke	Run actions/checkout@v7	2026-11-14T09:22:02.4056316Z [command]"C:\Program Files\Git\bin\git.exe" config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-f23a6ba1-cad4-4851-81a5-a51ce316e30b.config
+firewall-owned-rule-smoke	Run actions/checkout@v7	2026-11-14T09:22:02.4427640Z [command]"C:\Program Files\Git\bin\git.exe" config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-f23a6ba1-cad4-4851-81a5-a51ce316e30b.config
+firewall-owned-rule-smoke	Run actions/checkout@v7	2026-11-14T09:22:02.4796002Z ##[endgroup]
+firewall-owned-rule-smoke	Run actions/checkout@v7	2026-11-14T09:22:02.4796644Z ##[group]Fetching the repository
+firewall-owned-rule-smoke	Run actions/checkout@v7	2026-11-14T09:22:02.4808043Z [command]"C:\Program Files\Git\bin\git.exe" -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +891bc7c58e1491dab5d96c5b53ff530c623c8048:refs/remotes/origin/main
+firewall-owned-rule-smoke	Run actions/checkout@v7	2026-11-14T09:22:04.1548390Z From https://github.com/tanzir71/saydraft
+firewall-owned-rule-smoke	Run actions/checkout@v7	2026-11-14T09:22:04.1551740Z  * [new ref]         891bc7c58e1491dab5d96c5b53ff530c623c8048 -> origin/main
+firewall-owned-rule-smoke	Run actions/checkout@v7	2026-11-14T09:22:04.1599106Z [command]"C:\Program Files\Git\bin\git.exe" branch --list --remote origin/main
+firewall-owned-rule-smoke	Run actions/checkout@v7	2026-11-14T09:22:04.2041918Z   origin/main
+firewall-owned-rule-smoke	Run actions/checkout@v7	2026-11-14T09:22:04.2084099Z [command]"C:\Program Files\Git\bin\git.exe" rev-parse refs/remotes/origin/main
+firewall-owned-rule-smoke	Run actions/checkout@v7	2026-11-14T09:22:04.2492763Z 891bc7c58e1491dab5d96c5b53ff530c623c8048
+firewall-owned-rule-smoke	Run actions/checkout@v7	2026-11-14T09:22:04.2526151Z ##[endgroup]
+firewall-owned-rule-smoke	Run actions/checkout@v7	2026-11-14T09:22:04.2526578Z ##[group]Determining the checkout info
+firewall-owned-rule-smoke	Run actions/checkout@v7	2026-11-14T09:22:04.2527554Z ##[endgroup]
+firewall-owned-rule-smoke	Run actions/checkout@v7	2026-11-14T09:22:04.2535640Z [command]"C:\Program Files\Git\bin\git.exe" sparse-checkout disable
+firewall-owned-rule-smoke	Run actions/checkout@v7	2026-11-14T09:22:04.2999683Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset-all extensions.worktreeConfig
+firewall-owned-rule-smoke	Run actions/checkout@v7	2026-11-14T09:22:04.3369038Z ##[group]Checking out the ref
+firewall-owned-rule-smoke	Run actions/checkout@v7	2026-11-14T09:22:04.3382285Z [command]"C:\Program Files\Git\bin\git.exe" checkout --progress --force -B main refs/remotes/origin/main
+firewall-owned-rule-smoke	Run actions/checkout@v7	2026-11-14T09:22:05.1142673Z Switched to a new branch 'main'
+firewall-owned-rule-smoke	Run actions/checkout@v7	2026-11-14T09:22:05.1284814Z branch 'main' set up to track 'origin/main'.
+firewall-owned-rule-smoke	Run actions/checkout@v7	2026-11-14T09:22:05.1506591Z ##[endgroup]
+firewall-owned-rule-smoke	Run actions/checkout@v7	2026-11-14T09:22:05.2205517Z [command]"C:\Program Files\Git\bin\git.exe" log -1 --format=%H
+firewall-owned-rule-smoke	Run actions/checkout@v7	2026-11-14T09:22:05.2559089Z 891bc7c58e1491dab5d96c5b53ff530c623c8048
+firewall-owned-rule-smoke	Run actions/setup-python@v7	﻿2026-11-14T09:22:05.3016632Z ##[group]Run actions/setup-python@v7
+firewall-owned-rule-smoke	Run actions/setup-python@v7	2026-11-14T09:22:05.3016994Z with:
+firewall-owned-rule-smoke	Run actions/setup-python@v7	2026-11-14T09:22:05.3017182Z   python-version: 3.13
+firewall-owned-rule-smoke	Run actions/setup-python@v7	2026-11-14T09:22:05.3017388Z   cache: pip
+firewall-owned-rule-smoke	Run actions/setup-python@v7	2026-11-14T09:22:05.3017597Z   cache-dependency-path: requirements*.txt
+firewall-owned-rule-smoke	Run actions/setup-python@v7	2026-11-14T09:22:05.3017872Z   check-latest: false
+firewall-owned-rule-smoke	Run actions/setup-python@v7	2026-11-14T09:22:05.3020706Z   token: ***
+firewall-owned-rule-smoke	Run actions/setup-python@v7	2026-11-14T09:22:05.3021023Z   mirror: https://raw.githubusercontent.com/actions/python-versions/main
+firewall-owned-rule-smoke	Run actions/setup-python@v7	2026-11-14T09:22:05.3021419Z   update-environment: true
+firewall-owned-rule-smoke	Run actions/setup-python@v7	2026-11-14T09:22:05.3021643Z   allow-prereleases: false
+firewall-owned-rule-smoke	Run actions/setup-python@v7	2026-11-14T09:22:05.3021857Z   freethreaded: false
+firewall-owned-rule-smoke	Run actions/setup-python@v7	2026-11-14T09:22:05.3022046Z env:
+firewall-owned-rule-smoke	Run actions/setup-python@v7	2026-11-14T09:22:05.3022213Z   QT_QPA_PLATFORM: offscreen
+firewall-owned-rule-smoke	Run actions/setup-python@v7	2026-11-14T09:22:05.3022423Z   HF_HUB_OFFLINE: 1
+firewall-owned-rule-smoke	Run actions/setup-python@v7	2026-11-14T09:22:05.3022613Z   HF_HUB_DISABLE_TELEMETRY: 1
+firewall-owned-rule-smoke	Run actions/setup-python@v7	2026-11-14T09:22:05.3022821Z   DO_NOT_TRACK: 1
+firewall-owned-rule-smoke	Run actions/setup-python@v7	2026-11-14T09:22:05.3022993Z ##[endgroup]
+firewall-owned-rule-smoke	Run actions/setup-python@v7	2026-11-14T09:22:05.4499804Z ##[group]Installed versions
+firewall-owned-rule-smoke	Run actions/setup-python@v7	2026-11-14T09:22:05.4674548Z Successfully set up CPython (3.13.17)
+firewall-owned-rule-smoke	Run actions/setup-python@v7	2026-11-14T09:22:05.4675516Z ##[endgroup]
+firewall-owned-rule-smoke	Run actions/setup-python@v7	2026-11-14T09:22:08.2573423Z Cache hit for: setup-python-Windows-x64-python-3.13.17-pip-81de94d2a75a75c707d4f07f83a3f316bdbe4b138be41ffaee86fee062ad169e
+firewall-owned-rule-smoke	Run actions/setup-python@v7	2026-11-14T09:22:09.5190719Z Received 67108864 of 389559175 (17.2%), 63.9 MBs/sec
+firewall-owned-rule-smoke	Run actions/setup-python@v7	2026-11-14T09:22:10.5289287Z Received 264241152 of 389559175 (67.8%), 125.6 MBs/sec
+firewall-owned-rule-smoke	Run actions/setup-python@v7	2026-11-14T09:22:11.3458415Z Received 389559175 of 389559175 (100.0%), 131.4 MBs/sec
+firewall-owned-rule-smoke	Run actions/setup-python@v7	2026-11-14T09:22:11.3462745Z Cache Size: ~372 MB (389559175 B)
+firewall-owned-rule-smoke	Run actions/setup-python@v7	2026-11-14T09:22:11.3565102Z [command]"C:\Program Files\Git\usr\bin\tar.exe" -xf D:/a/_temp/349261bd-bc7c-4760-b508-95ab2859e089/cache.tzst -P -C D:/a/saydraft/saydraft --force-local --use-compress-program "zstd -d"
+firewall-owned-rule-smoke	Run actions/setup-python@v7	2026-11-14T09:22:13.5306733Z Cache restored successfully
+firewall-owned-rule-smoke	Run actions/setup-python@v7	2026-11-14T09:22:13.5529098Z Cache restored from key: setup-python-Windows-x64-python-3.13.17-pip-81de94d2a75a75c707d4f07f83a3f316bdbe4b138be41ffaee86fee062ad169e
+firewall-owned-rule-smoke	Install isolated probe dependencies	﻿2026-11-14T09:22:13.5917692Z ##[group]Run python -m pip install -r requirements.txt
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:13.5918186Z ^[[36;1mpython -m pip install -r requirements.txt^[[0m
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:13.6677881Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:13.6678388Z env:
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:13.6678629Z   QT_QPA_PLATFORM: offscreen
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:13.6678934Z   HF_HUB_OFFLINE: 1
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:13.6679190Z   HF_HUB_DISABLE_TELEMETRY: 1
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:13.6679483Z   DO_NOT_TRACK: 1
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:13.6679859Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.13.17\x64
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:13.6680539Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.13.17\x64/lib/pkgconfig
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:13.6681344Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:13.6681893Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:13.6682436Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:13.6683083Z ##[endgroup]
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:16.2420690Z Collecting PySide6==6.11.1 (from -r requirements.txt (line 1))
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:16.2446802Z   Using cached pyside6-6.11.1-cp310-abi3-win_amd64.whl.metadata (5.5 kB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:16.2802696Z Collecting sounddevice==0.5.2 (from -r requirements.txt (line 2))
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:16.2826768Z   Using cached sounddevice-0.5.2-py3-none-win_amd64.whl.metadata (1.6 kB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:16.5093095Z Collecting numpy>=1.26 (from -r requirements.txt (line 3))
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:16.5119790Z   Using cached numpy-2.5.4-cp313-cp313-win_amd64.whl.metadata (6.6 kB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:16.5370740Z Collecting faster-whisper==1.2.1 (from -r requirements.txt (line 4))
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:16.5393671Z   Using cached faster_whisper-1.2.1-py3-none-any.whl.metadata (16 kB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:16.6419713Z Collecting sherpa-onnx==1.13.4 (from -r requirements.txt (line 5))
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:16.6444577Z   Using cached sherpa_onnx-1.13.4-cp313-cp313-win_amd64.whl.metadata (50 kB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:16.6808910Z Collecting soundfile>=0.12.1 (from -r requirements.txt (line 6))
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:16.6832184Z   Using cached soundfile-0.14.0-py2.py3-none-win_amd64.whl.metadata (18 kB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:16.7392313Z Collecting webrtcvad-wheels==2.0.14 (from -r requirements.txt (line 7))
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:16.7417787Z   Using cached webrtcvad_wheels-2.0.14-cp313-cp313-win_amd64.whl.metadata (5.6 kB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:16.7685360Z Collecting pyperclip==1.9.0 (from -r requirements.txt (line 8))
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:16.7687814Z   Using cached pyperclip-1.9.0-py3-none-any.whl
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:16.8305837Z Collecting comtypes==1.4.16 (from -r requirements.txt (line 9))
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:16.8330817Z   Using cached comtypes-1.4.16-py3-none-any.whl.metadata (7.8 kB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:16.8869987Z Collecting pyinstaller==6.22.3 (from -r requirements.txt (line 10))
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:16.8894515Z   Using cached pyinstaller-6.22.3-py3-none-win_amd64.whl.metadata (8.5 kB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:16.9289487Z Collecting shiboken6==6.11.1 (from PySide6==6.11.1->-r requirements.txt (line 1))
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:16.9327595Z   Using cached shiboken6-6.11.1-cp310-abi3-win_amd64.whl.metadata (2.5 kB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:16.9659541Z Collecting PySide6_Essentials==6.11.1 (from PySide6==6.11.1->-r requirements.txt (line 1))
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:16.9683394Z   Using cached pyside6_essentials-6.11.1-cp310-abi3-win_amd64.whl.metadata (3.8 kB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:17.0039015Z Collecting PySide6_Addons==6.11.1 (from PySide6==6.11.1->-r requirements.txt (line 1))
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:17.0063966Z   Using cached pyside6_addons-6.11.1-cp310-abi3-win_amd64.whl.metadata (4.2 kB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:17.1257737Z Collecting CFFI>=1.0 (from sounddevice==0.5.2->-r requirements.txt (line 2))
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:17.1285716Z   Using cached cffi-2.1.1-cp313-cp313-win_amd64.whl.metadata (2.6 kB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:17.2330616Z Collecting ctranslate2<5,>=4.0 (from faster-whisper==1.2.1->-r requirements.txt (line 4))
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:17.2356713Z   Using cached ctranslate2-4.9.0-cp313-cp313-win_amd64.whl.metadata (11 kB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:17.2971456Z Collecting huggingface-hub>=0.21 (from faster-whisper==1.2.1->-r requirements.txt (line 4))
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:17.2997397Z   Using cached huggingface_hub-2.4.0-py3-none-any.whl.metadata (16 kB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:17.4694600Z Collecting tokenizers<1,>=0.13 (from faster-whisper==1.2.1->-r requirements.txt (line 4))
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:17.4778136Z   Using cached tokenizers-0.23.3-cp310-abi3-win_amd64.whl.metadata (10 kB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:17.5618388Z Collecting onnxruntime<2,>=1.14 (from faster-whisper==1.2.1->-r requirements.txt (line 4))
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:17.5638781Z   Using cached onnxruntime-1.32.0-cp313-cp313-win_amd64.whl.metadata (6.1 kB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:17.6282283Z Collecting av>=11 (from faster-whisper==1.2.1->-r requirements.txt (line 4))
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:17.6302152Z   Using cached av-19.0.2-cp312-abi3-win_amd64.whl.metadata (5.1 kB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:17.6734515Z Collecting tqdm (from faster-whisper==1.2.1->-r requirements.txt (line 4))
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:17.6754059Z   Using cached tqdm-4.70.1-py3-none-any.whl.metadata (57 kB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:17.7237718Z Collecting sherpa-onnx-core==1.13.4 (from sherpa-onnx==1.13.4->-r requirements.txt (line 5))
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:17.7257874Z   Using cached sherpa_onnx_core-1.13.4-py3-none-win_amd64.whl.metadata (532 bytes)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:17.7535590Z Collecting altgraph (from pyinstaller==6.22.3->-r requirements.txt (line 10))
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:17.7555233Z   Using cached altgraph-0.17.5-py2.py3-none-any.whl.metadata (7.5 kB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:17.7860108Z Collecting packaging>=22.0 (from pyinstaller==6.22.3->-r requirements.txt (line 10))
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:17.7884079Z   Using cached packaging-26.3-py3-none-any.whl.metadata (3.5 kB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:17.8121524Z Collecting pefile>=2022.5.30 (from pyinstaller==6.22.3->-r requirements.txt (line 10))
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:17.8144504Z   Using cached pefile-2024.8.26-py3-none-any.whl.metadata (1.4 kB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:17.8511454Z Collecting pyinstaller-hooks-contrib>=2026.7 (from pyinstaller==6.22.3->-r requirements.txt (line 10))
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:17.8536962Z   Using cached pyinstaller_hooks_contrib-2026.10-py3-none-any.whl.metadata (16 kB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:17.8785558Z Collecting pywin32-ctypes>=0.2.1 (from pyinstaller==6.22.3->-r requirements.txt (line 10))
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:17.8809451Z   Using cached pywin32_ctypes-0.2.3-py3-none-any.whl.metadata (3.9 kB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:17.9782714Z Collecting setuptools>=42.0.0 (from pyinstaller==6.22.3->-r requirements.txt (line 10))
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:17.9803452Z   Using cached setuptools-84.2.1-py3-none-any.whl.metadata (6.6 kB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:18.0375931Z Collecting pyyaml<7,>=5.3 (from ctranslate2<5,>=4.0->faster-whisper==1.2.1->-r requirements.txt (line 4))
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:18.0395441Z   Using cached pyyaml-6.0.3-cp313-cp313-win_amd64.whl.metadata (2.4 kB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:18.0664862Z Collecting flatbuffers (from onnxruntime<2,>=1.14->faster-whisper==1.2.1->-r requirements.txt (line 4))
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:18.0685806Z   Using cached flatbuffers-25.12.19-py2.py3-none-any.whl.metadata (1.0 kB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:18.2399992Z Collecting protobuf>=4.25.8 (from onnxruntime<2,>=1.14->faster-whisper==1.2.1->-r requirements.txt (line 4))
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:18.2422761Z   Using cached protobuf-7.36.2-cp310-abi3-win_amd64.whl.metadata (595 bytes)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:18.2821458Z Collecting click<9.0.0,>=8.4.2 (from huggingface-hub>=0.21->faster-whisper==1.2.1->-r requirements.txt (line 4))
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:18.2841653Z   Using cached click-8.5.1-py3-none-any.whl.metadata (2.6 kB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:18.3263077Z Collecting filelock>=3.10.0 (from huggingface-hub>=0.21->faster-whisper==1.2.1->-r requirements.txt (line 4))
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:18.3282790Z   Using cached filelock-4.2.10-py3-none-any.whl.metadata (2.3 kB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:18.3613713Z Collecting fsspec>=2023.5.0 (from huggingface-hub>=0.21->faster-whisper==1.2.1->-r requirements.txt (line 4))
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:18.3647932Z   Using cached fsspec-2026.9.0-py3-none-any.whl.metadata (10 kB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:18.4357860Z Collecting hf-xet<2.0.0,>=1.6.0 (from huggingface-hub>=0.21->faster-whisper==1.2.1->-r requirements.txt (line 4))
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:18.4378681Z   Using cached hf_xet-1.8.0-cp38-abi3-win_amd64.whl.metadata (4.9 kB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:18.4644582Z Collecting httpx2<3,>=2.0.0 (from huggingface-hub>=0.21->faster-whisper==1.2.1->-r requirements.txt (line 4))
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:18.4664221Z   Using cached httpx2-2.16.0-py3-none-any.whl.metadata (10 kB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:18.5025450Z Collecting typing-extensions>=4.1.0 (from huggingface-hub>=0.21->faster-whisper==1.2.1->-r requirements.txt (line 4))
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:18.5045234Z   Using cached typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:18.5368717Z Collecting anyio>=4.10 (from httpx2<3,>=2.0.0->huggingface-hub>=0.21->faster-whisper==1.2.1->-r requirements.txt (line 4))
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:18.5402279Z   Using cached anyio-4.16.0-py3-none-any.whl.metadata (4.7 kB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:18.5680561Z Collecting httpcore2==2.16.0 (from httpx2<3,>=2.0.0->huggingface-hub>=0.21->faster-whisper==1.2.1->-r requirements.txt (line 4))
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:18.5699996Z   Using cached httpcore2-2.16.0-py3-none-any.whl.metadata (27 kB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:18.5992252Z Collecting idna>=3.18 (from httpx2<3,>=2.0.0->huggingface-hub>=0.21->faster-whisper==1.2.1->-r requirements.txt (line 4))
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:18.6011712Z   Using cached idna-3.20-py3-none-any.whl.metadata (7.2 kB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:18.6288324Z Collecting truststore>=0.10 (from httpx2<3,>=2.0.0->huggingface-hub>=0.21->faster-whisper==1.2.1->-r requirements.txt (line 4))
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:18.6494784Z   Using cached truststore-0.10.5-py3-none-any.whl.metadata (4.5 kB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:18.6750427Z Collecting h11>=0.16 (from httpcore2==2.16.0->httpx2<3,>=2.0.0->huggingface-hub>=0.21->faster-whisper==1.2.1->-r requirements.txt (line 4))
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:18.6769966Z   Using cached h11-0.16.0-py3-none-any.whl.metadata (8.3 kB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:18.7098775Z Collecting pycparser (from CFFI>=1.0->sounddevice==0.5.2->-r requirements.txt (line 2))
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:18.7118636Z   Using cached pycparser-3.12-py3-none-any.whl.metadata (9.7 kB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:18.7492956Z Collecting colorama (from tqdm->faster-whisper==1.2.1->-r requirements.txt (line 4))
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:18.7513155Z   Using cached colorama-0.4.6-py2.py3-none-any.whl.metadata (17 kB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:18.7604265Z Using cached pyside6-6.11.1-cp310-abi3-win_amd64.whl (578 kB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:18.7644252Z Using cached sounddevice-0.5.2-py3-none-win_amd64.whl (363 kB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:18.7667813Z Using cached faster_whisper-1.2.1-py3-none-any.whl (1.1 MB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:18.7691718Z Using cached sherpa_onnx-1.13.4-cp313-cp313-win_amd64.whl (2.2 MB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:18.7719738Z Using cached webrtcvad_wheels-2.0.14-cp313-cp313-win_amd64.whl (19 kB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:18.7738079Z Using cached comtypes-1.4.16-py3-none-any.whl (296 kB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:18.7761312Z Using cached pyinstaller-6.22.3-py3-none-win_amd64.whl (1.5 MB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:18.7785649Z Using cached pyside6_addons-6.11.1-cp310-abi3-win_amd64.whl (168.8 MB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:18.8540982Z Using cached pyside6_essentials-6.11.1-cp310-abi3-win_amd64.whl (77.5 MB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:18.9093158Z Using cached sherpa_onnx_core-1.13.4-py3-none-win_amd64.whl (16.5 MB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:19.0969354Z Using cached shiboken6-6.11.1-cp310-abi3-win_amd64.whl (1.2 MB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:19.0996349Z Using cached ctranslate2-4.9.0-cp313-cp313-win_amd64.whl (20.4 MB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:19.1109708Z Using cached onnxruntime-1.32.0-cp313-cp313-win_amd64.whl (16.7 MB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:19.1205033Z Using cached pyyaml-6.0.3-cp313-cp313-win_amd64.whl (154 kB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:19.1281395Z Using cached tokenizers-0.23.3-cp310-abi3-win_amd64.whl (2.9 MB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:19.1313101Z Using cached huggingface_hub-2.4.0-py3-none-any.whl (857 kB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:19.1336058Z Using cached click-8.5.1-py3-none-any.whl (126 kB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:19.1354348Z Using cached hf_xet-1.8.0-cp38-abi3-win_amd64.whl (3.9 MB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:19.1392903Z Using cached httpx2-2.16.0-py3-none-any.whl (97 kB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:19.1410991Z Using cached httpcore2-2.16.0-py3-none-any.whl (85 kB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:19.1429242Z Using cached numpy-2.5.4-cp313-cp313-win_amd64.whl (12.6 MB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:19.1503620Z Using cached soundfile-0.14.0-py2.py3-none-win_amd64.whl (1.0 MB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:19.1529963Z Using cached anyio-4.16.0-py3-none-any.whl (134 kB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:19.1548617Z Using cached av-19.0.2-cp312-abi3-win_amd64.whl (28.2 MB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:19.1706184Z Using cached cffi-2.1.1-cp313-cp313-win_amd64.whl (185 kB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:19.1726149Z Using cached filelock-4.2.10-py3-none-any.whl (218 kB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:19.1748105Z Using cached fsspec-2026.9.0-py3-none-any.whl (221 kB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:19.1768037Z Using cached h11-0.16.0-py3-none-any.whl (37 kB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:19.1786453Z Using cached idna-3.20-py3-none-any.whl (69 kB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:19.1804956Z Using cached packaging-26.3-py3-none-any.whl (129 kB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:19.1826856Z Using cached pefile-2024.8.26-py3-none-any.whl (74 kB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:19.1844869Z Using cached protobuf-7.36.2-cp310-abi3-win_amd64.whl (456 kB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:19.1865465Z Using cached pyinstaller_hooks_contrib-2026.10-py3-none-any.whl (463 kB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:19.1885696Z Using cached pywin32_ctypes-0.2.3-py3-none-any.whl (30 kB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:19.1907397Z Using cached setuptools-84.2.1-py3-none-any.whl (876 kB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:19.1931125Z Using cached tqdm-4.70.1-py3-none-any.whl (80 kB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:19.1949067Z Using cached truststore-0.10.5-py3-none-any.whl (19 kB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:19.1967860Z Using cached typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:19.1989357Z Using cached altgraph-0.17.5-py2.py3-none-any.whl (21 kB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:19.2007202Z Using cached colorama-0.4.6-py2.py3-none-any.whl (25 kB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:19.2025291Z Using cached flatbuffers-25.12.19-py2.py3-none-any.whl (26 kB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:19.2046282Z Using cached pycparser-3.12-py3-none-any.whl (62 kB)
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:19.9589958Z Installing collected packages: webrtcvad-wheels, sherpa-onnx-core, pyperclip, flatbuffers, altgraph, typing-extensions, truststore, shiboken6, sherpa-onnx, setuptools, pyyaml, pywin32-ctypes, pycparser, protobuf, pefile, packaging, numpy, idna, hf-xet, h11, fsspec, filelock, comtypes, colorama, click, av, tqdm, PySide6_Essentials, pyinstaller-hooks-contrib, onnxruntime, httpcore2, ctranslate2, CFFI, anyio, soundfile, sounddevice, PySide6_Addons, pyinstaller, httpx2, PySide6, huggingface-hub, tokenizers, faster-whisper
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:46.5590079Z 
+firewall-owned-rule-smoke	Install isolated probe dependencies	2026-11-14T09:22:46.5642732Z Successfully installed CFFI-2.1.1 PySide6-6.11.1 PySide6_Addons-6.11.1 PySide6_Essentials-6.11.1 altgraph-0.17.5 anyio-4.16.0 av-19.0.2 click-8.5.1 colorama-0.4.6 comtypes-1.4.16 ctranslate2-4.9.0 faster-whisper-1.2.1 filelock-4.2.10 flatbuffers-25.12.19 fsspec-2026.9.0 h11-0.16.0 hf-xet-1.8.0 httpcore2-2.16.0 httpx2-2.16.0 huggingface-hub-2.4.0 idna-3.20 numpy-2.5.4 onnxruntime-1.32.0 packaging-26.3 pefile-2024.8.26 protobuf-7.36.2 pycparser-3.12 pyinstaller-6.22.3 pyinstaller-hooks-contrib-2026.10 pyperclip-1.9.0 pywin32-ctypes-0.2.3 pyyaml-6.0.3 setuptools-84.2.1 sherpa-onnx-1.13.4 sherpa-onnx-core-1.13.4 shiboken6-6.11.1 sounddevice-0.5.2 soundfile-0.14.0 tokenizers-0.23.3 tqdm-4.70.1 truststore-0.10.5 typing-extensions-4.16.0 webrtcvad-wheels-2.0.14
+firewall-owned-rule-smoke	Verify owned rule, native boundary, worker and download recovery	﻿2026-11-14T09:22:47.0218768Z ##[group]Run python -m tools.probe_firewall --output "$env:RUNNER_TEMP/saydraft-firewall-probe"
+firewall-owned-rule-smoke	Verify owned rule, native boundary, worker and download recovery	2026-11-14T09:22:47.0219819Z ^[[36;1mpython -m tools.probe_firewall --output "$env:RUNNER_TEMP/saydraft-firewall-probe"^[[0m
+firewall-owned-rule-smoke	Verify owned rule, native boundary, worker and download recovery	2026-11-14T09:22:47.0291231Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+firewall-owned-rule-smoke	Verify owned rule, native boundary, worker and download recovery	2026-11-14T09:22:47.0291585Z env:
+firewall-owned-rule-smoke	Verify owned rule, native boundary, worker and download recovery	2026-11-14T09:22:47.0291779Z   QT_QPA_PLATFORM: offscreen
+firewall-owned-rule-smoke	Verify owned rule, native boundary, worker and download recovery	2026-11-14T09:22:47.0292010Z   HF_HUB_OFFLINE: 1
+firewall-owned-rule-smoke	Verify owned rule, native boundary, worker and download recovery	2026-11-14T09:22:47.0292208Z   HF_HUB_DISABLE_TELEMETRY: 1
+firewall-owned-rule-smoke	Verify owned rule, native boundary, worker and download recovery	2026-11-14T09:22:47.0292426Z   DO_NOT_TRACK: 1
+firewall-owned-rule-smoke	Verify owned rule, native boundary, worker and download recovery	2026-11-14T09:22:47.0292720Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.13.17\x64
+firewall-owned-rule-smoke	Verify owned rule, native boundary, worker and download recovery	2026-11-14T09:22:47.0293194Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.13.17\x64/lib/pkgconfig
+firewall-owned-rule-smoke	Verify owned rule, native boundary, worker and download recovery	2026-11-14T09:22:47.0293669Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+firewall-owned-rule-smoke	Verify owned rule, native boundary, worker and download recovery	2026-11-14T09:22:47.0294087Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+firewall-owned-rule-smoke	Verify owned rule, native boundary, worker and download recovery	2026-11-14T09:22:47.0294511Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+firewall-owned-rule-smoke	Verify owned rule, native boundary, worker and download recovery	2026-11-14T09:22:47.0294856Z ##[endgroup]
+firewall-owned-rule-smoke	Verify owned rule, native boundary, worker and download recovery	2026-11-14T09:23:23.4145927Z {"complete": true, "stage": "complete", "cleanup_absent": true, "error_type": null, "rule_shape": {"enabled": "True", "profile": "Any", "direction": "Outbound", "action": "Block", "package": "", "protocol": "Any", "local": "Any", "remote": "Any", "service": "Any", "alias": "Any", "type": "Any"}}
+firewall-owned-rule-smoke	Retain disposable rule receipts	﻿2026-11-14T09:23:23.5552377Z ##[group]Run actions/upload-artifact@v7
+firewall-owned-rule-smoke	Retain disposable rule receipts	2026-11-14T09:23:23.5552762Z with:
+firewall-owned-rule-smoke	Retain disposable rule receipts	2026-11-14T09:23:23.5552969Z   name: owned-firewall-receipts
+firewall-owned-rule-smoke	Retain disposable rule receipts	2026-11-14T09:23:23.5553437Z   if-no-files-found: warn
+firewall-owned-rule-smoke	Retain disposable rule receipts	2026-11-14T09:23:23.5554523Z   path: D:\a\_temp/saydraft-firewall-probe/report.json
+firewall-owned-rule-smoke	Retain disposable rule receipts	D:\a\_temp/saydraft-firewall-probe/child-*/result.json
+firewall-owned-rule-smoke	Retain disposable rule receipts	D:\a\_temp/saydraft-firewall-probe/child-*/process.json
+firewall-owned-rule-smoke	Retain disposable rule receipts	D:\a\_temp/saydraft-firewall-probe/worker/report.json
+firewall-owned-rule-smoke	Retain disposable rule receipts	D:\a\_temp/saydraft-firewall-probe/worker/cases.jsonl
+firewall-owned-rule-smoke	Retain disposable rule receipts	
+firewall-owned-rule-smoke	Retain disposable rule receipts	2026-11-14T09:23:23.5556132Z   compression-level: 6
+firewall-owned-rule-smoke	Retain disposable rule receipts	2026-11-14T09:23:23.5556354Z   overwrite: false
+firewall-owned-rule-smoke	Retain disposable rule receipts	2026-11-14T09:23:23.5556563Z   include-hidden-files: false
+firewall-owned-rule-smoke	Retain disposable rule receipts	2026-11-14T09:23:23.5556803Z   archive: true
+firewall-owned-rule-smoke	Retain disposable rule receipts	2026-11-14T09:23:23.5556980Z env:
+firewall-owned-rule-smoke	Retain disposable rule receipts	2026-11-14T09:23:23.5557158Z   QT_QPA_PLATFORM: offscreen
+firewall-owned-rule-smoke	Retain disposable rule receipts	2026-11-14T09:23:23.5557376Z   HF_HUB_OFFLINE: 1
+firewall-owned-rule-smoke	Retain disposable rule receipts	2026-11-14T09:23:23.5557572Z   HF_HUB_DISABLE_TELEMETRY: 1
+firewall-owned-rule-smoke	Retain disposable rule receipts	2026-11-14T09:23:23.5557793Z   DO_NOT_TRACK: 1
+firewall-owned-rule-smoke	Retain disposable rule receipts	2026-11-14T09:23:23.5558068Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.13.17\x64
+firewall-owned-rule-smoke	Retain disposable rule receipts	2026-11-14T09:23:23.5558567Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.13.17\x64/lib/pkgconfig
+firewall-owned-rule-smoke	Retain disposable rule receipts	2026-11-14T09:23:23.5559031Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+firewall-owned-rule-smoke	Retain disposable rule receipts	2026-11-14T09:23:23.5559440Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+firewall-owned-rule-smoke	Retain disposable rule receipts	2026-11-14T09:23:23.5559835Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+firewall-owned-rule-smoke	Retain disposable rule receipts	2026-11-14T09:23:23.5560147Z ##[endgroup]
+firewall-owned-rule-smoke	Retain disposable rule receipts	2026-11-14T09:23:23.7500925Z With the provided path, there will be 17 files uploaded
+firewall-owned-rule-smoke	Retain disposable rule receipts	2026-11-14T09:23:23.7506604Z Artifact name is valid!
+firewall-owned-rule-smoke	Retain disposable rule receipts	2026-11-14T09:23:23.7508019Z Root directory input is valid!
+firewall-owned-rule-smoke	Retain disposable rule receipts	2026-11-14T09:23:24.0728574Z Uploading artifact: owned-firewall-receipts.zip
+firewall-owned-rule-smoke	Retain disposable rule receipts	2026-11-14T09:23:24.0777351Z Beginning upload of artifact content to blob storage
+firewall-owned-rule-smoke	Retain disposable rule receipts	2026-11-14T09:23:24.3708315Z Uploaded bytes 6451
+firewall-owned-rule-smoke	Retain disposable rule receipts	2026-11-14T09:23:24.4287812Z Finished uploading artifact content to blob storage!
+firewall-owned-rule-smoke	Retain disposable rule receipts	2026-11-14T09:23:24.4289284Z SHA256 digest of uploaded artifact is 8c454b7d3719d54f144f847288d0139856104adbc60f49d199cba708b76b4034
+firewall-owned-rule-smoke	Retain disposable rule receipts	2026-11-14T09:23:24.4289999Z Finalizing artifact upload
+firewall-owned-rule-smoke	Retain disposable rule receipts	2026-11-14T09:23:24.9044962Z Artifact owned-firewall-receipts successfully finalized. Artifact ID 14107693632
+firewall-owned-rule-smoke	Retain disposable rule receipts	2026-11-14T09:23:24.9046528Z Artifact owned-firewall-receipts has been successfully uploaded! Final size is 6451 bytes. Artifact ID is 14107693632
+firewall-owned-rule-smoke	Retain disposable rule receipts	2026-11-14T09:23:24.9054998Z Artifact download URL: https://github.com/tanzir71/saydraft/actions/runs/43580199843/artifacts/14107693632
+firewall-owned-rule-smoke	Post Run actions/setup-python@v7	﻿2026-11-14T09:23:24.9388642Z Post job cleanup.
+firewall-owned-rule-smoke	Post Run actions/setup-python@v7	2026-11-14T09:23:25.0827241Z Cache hit occurred on the primary key setup-python-Windows-x64-python-3.13.17-pip-81de94d2a75a75c707d4f07f83a3f316bdbe4b138be41ffaee86fee062ad169e, not saving cache.
+firewall-owned-rule-smoke	Post Run actions/checkout@v7	﻿2026-11-14T09:23:25.1111726Z Post job cleanup.
+firewall-owned-rule-smoke	Post Run actions/checkout@v7	2026-11-14T09:23:25.3111823Z [command]"C:\Program Files\Git\bin\git.exe" version
+firewall-owned-rule-smoke	Post Run actions/checkout@v7	2026-11-14T09:23:25.3459485Z git version 2.56.0.windows.4
+firewall-owned-rule-smoke	Post Run actions/checkout@v7	2026-11-14T09:23:25.3527638Z Temporarily overriding HOME='D:\a\_temp\846ca145-1a4a-4c89-9f7a-f906837a6e5c' before making global git config changes
+firewall-owned-rule-smoke	Post Run actions/checkout@v7	2026-11-14T09:23:25.3528719Z Adding repository directory to the temporary git global config as a safe directory
+firewall-owned-rule-smoke	Post Run actions/checkout@v7	2026-11-14T09:23:25.3538235Z [command]"C:\Program Files\Git\bin\git.exe" config --global --add safe.directory D:\a\saydraft\saydraft
+firewall-owned-rule-smoke	Post Run actions/checkout@v7	2026-11-14T09:23:25.3903749Z Removing SSH command configuration
+firewall-owned-rule-smoke	Post Run actions/checkout@v7	2026-11-14T09:23:25.3915416Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+firewall-owned-rule-smoke	Post Run actions/checkout@v7	2026-11-14T09:23:25.4371207Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+firewall-owned-rule-smoke	Post Run actions/checkout@v7	2026-11-14T09:23:26.0338116Z Removing HTTP extra header
+firewall-owned-rule-smoke	Post Run actions/checkout@v7	2026-11-14T09:23:26.0348308Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+firewall-owned-rule-smoke	Post Run actions/checkout@v7	2026-11-14T09:23:26.0720927Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+firewall-owned-rule-smoke	Post Run actions/checkout@v7	2026-11-14T09:23:26.6330803Z Removing includeIf entries pointing to credentials config files
+firewall-owned-rule-smoke	Post Run actions/checkout@v7	2026-11-14T09:23:26.6341452Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp ^includeIf\.gitdir:
+firewall-owned-rule-smoke	Post Run actions/checkout@v7	2026-11-14T09:23:26.6671736Z includeif.gitdir:D:/a/saydraft/saydraft/.git.path
+firewall-owned-rule-smoke	Post Run actions/checkout@v7	2026-11-14T09:23:26.6672853Z includeif.gitdir:D:/a/saydraft/saydraft/.git/worktrees/*.path
+firewall-owned-rule-smoke	Post Run actions/checkout@v7	2026-11-14T09:23:26.6674501Z includeif.gitdir:/github/workspace/.git.path
+firewall-owned-rule-smoke	Post Run actions/checkout@v7	2026-11-14T09:23:26.6674975Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+firewall-owned-rule-smoke	Post Run actions/checkout@v7	2026-11-14T09:23:26.6710952Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:D:/a/saydraft/saydraft/.git.path
+firewall-owned-rule-smoke	Post Run actions/checkout@v7	2026-11-14T09:23:26.7035380Z D:\a\_temp\git-credentials-f23a6ba1-cad4-4851-81a5-a51ce316e30b.config
+firewall-owned-rule-smoke	Post Run actions/checkout@v7	2026-11-14T09:23:26.7075776Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:D:/a/saydraft/saydraft/.git.path D\:\\a\\_temp\\git\-credentials\-f23a6ba1\-cad4\-4851\-81a5\-a51ce316e30b\.config
+firewall-owned-rule-smoke	Post Run actions/checkout@v7	2026-11-14T09:23:26.7487900Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:D:/a/saydraft/saydraft/.git/worktrees/*.path
+firewall-owned-rule-smoke	Post Run actions/checkout@v7	2026-11-14T09:23:26.7813262Z D:\a\_temp\git-credentials-f23a6ba1-cad4-4851-81a5-a51ce316e30b.config
+firewall-owned-rule-smoke	Post Run actions/checkout@v7	2026-11-14T09:23:26.7852272Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:D:/a/saydraft/saydraft/.git/worktrees/*.path D\:\\a\\_temp\\git\-credentials\-f23a6ba1\-cad4\-4851\-81a5\-a51ce316e30b\.config
+firewall-owned-rule-smoke	Post Run actions/checkout@v7	2026-11-14T09:23:26.8215561Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:/github/workspace/.git.path
+firewall-owned-rule-smoke	Post Run actions/checkout@v7	2026-11-14T09:23:26.8535200Z /github/runner_temp/git-credentials-f23a6ba1-cad4-4851-81a5-a51ce316e30b.config
+firewall-owned-rule-smoke	Post Run actions/checkout@v7	2026-11-14T09:23:26.8574006Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-f23a6ba1\-cad4\-4851\-81a5\-a51ce316e30b\.config
+firewall-owned-rule-smoke	Post Run actions/checkout@v7	2026-11-14T09:23:26.8932137Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+firewall-owned-rule-smoke	Post Run actions/checkout@v7	2026-11-14T09:23:26.9249811Z /github/runner_temp/git-credentials-f23a6ba1-cad4-4851-81a5-a51ce316e30b.config
+firewall-owned-rule-smoke	Post Run actions/checkout@v7	2026-11-14T09:23:26.9288004Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-f23a6ba1\-cad4\-4851\-81a5\-a51ce316e30b\.config
+firewall-owned-rule-smoke	Post Run actions/checkout@v7	2026-11-14T09:23:26.9645765Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "git config --local --show-origin --name-only --get-regexp remote.origin.url"
+firewall-owned-rule-smoke	Post Run actions/checkout@v7	2026-11-14T09:23:27.5197771Z Removing credentials config 'D:\a\_temp\git-credentials-f23a6ba1-cad4-4851-81a5-a51ce316e30b.config'
+firewall-owned-rule-smoke	Complete job	﻿2026-11-14T09:23:27.5389343Z Cleaning up orphan processes
+windows	Set up job	﻿2026-11-14T09:21:56.3608659Z Current runner version: '2.338.2'
+windows	Set up job	2026-11-14T09:21:56.3671766Z ##[group]Runner Image Provisioner
+windows	Set up job	2026-11-14T09:21:56.3672749Z Hosted Compute Agent
+windows	Set up job	2026-11-14T09:21:56.3673460Z Version: 20261103.629
+windows	Set up job	2026-11-14T09:21:56.3674155Z Commit: 15dbd9ccb5dbf34fae002b6ed1a2670f52df37bc
+windows	Set up job	2026-11-14T09:21:56.3674945Z Build Date: 2026-11-03T17:26:59Z
+windows	Set up job	2026-11-14T09:21:56.3675682Z Worker ID: {22e37cdb-908a-427d-ab85-f682821165c6}
+windows	Set up job	2026-11-14T09:21:56.3676840Z Region: eastus2
+windows	Set up job	2026-11-14T09:21:56.3677577Z Cloud: Azure
+windows	Set up job	2026-11-14T09:21:56.3678266Z ##[endgroup]
+windows	Set up job	2026-11-14T09:21:56.3680096Z ##[group]Operating System
+windows	Set up job	2026-11-14T09:21:56.3680923Z Microsoft Windows Server 2025
+windows	Set up job	2026-11-14T09:21:56.3681557Z 10.0.26100
+windows	Set up job	2026-11-14T09:21:56.3682124Z Datacenter
+windows	Set up job	2026-11-14T09:21:56.3682708Z ##[endgroup]
+windows	Set up job	2026-11-14T09:21:56.3683283Z ##[group]Runner Image
+windows	Set up job	2026-11-14T09:21:56.3683968Z Image: windows-2025-vs2026
+windows	Set up job	2026-11-14T09:21:56.3684601Z Version: 20261103.298.1
+windows	Set up job	2026-11-14T09:21:56.3685930Z Included Software: https://github.com/actions/runner-images/blob/win25-vs2026/20261103.298/images/windows/Windows2025-VS2026-Readme.md
+windows	Set up job	2026-11-14T09:21:56.3688259Z Image Release: https://github.com/actions/runner-images/releases/tag/win25-vs2026%2F20261103.298
+windows	Set up job	2026-11-14T09:21:56.3689602Z ##[endgroup]
+windows	Set up job	2026-11-14T09:21:56.3690823Z ##[group]GITHUB_TOKEN Permissions
+windows	Set up job	2026-11-14T09:21:56.3693095Z Contents: read
+windows	Set up job	2026-11-14T09:21:56.3693733Z Metadata: read
+windows	Set up job	2026-11-14T09:21:56.3694315Z ##[endgroup]
+windows	Set up job	2026-11-14T09:21:56.3697010Z Secret source: Actions
+windows	Set up job	2026-11-14T09:21:56.3698182Z Cache mode: write
+windows	Set up job	2026-11-14T09:21:56.3698975Z Prepare workflow directory
+windows	Set up job	2026-11-14T09:21:56.4037042Z Prepare all required actions
+windows	Set up job	2026-11-14T09:21:56.4087033Z Getting action download info
+windows	Set up job	2026-11-14T09:21:56.5551192Z Download action repository 'actions/checkout@v7' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+windows	Set up job	2026-11-14T09:21:56.6540774Z Download action repository 'actions/setup-python@v7' (SHA:6d4fd22b20465ccc0f7354476588e8df7c9ca0e0)
+windows	Set up job	2026-11-14T09:21:56.9011039Z Download action repository 'actions/upload-artifact@v7' (SHA:cf430e030ddbb5b0abf93d22962f4752f3646cd9)
+windows	Set up job	2026-11-14T09:21:57.0724006Z Complete job name: windows
+windows	Run actions/checkout@v7	﻿2026-11-14T09:21:57.1867997Z ##[group]Run actions/checkout@v7
+windows	Run actions/checkout@v7	2026-11-14T09:21:57.1868911Z with:
+windows	Run actions/checkout@v7	2026-11-14T09:21:57.1869223Z   repository: tanzir71/saydraft
+windows	Run actions/checkout@v7	2026-11-14T09:21:57.1872517Z   token: ***
+windows	Run actions/checkout@v7	2026-11-14T09:21:57.1872814Z   ssh-strict: true
+windows	Run actions/checkout@v7	2026-11-14T09:21:57.1873111Z   ssh-user: git
+windows	Run actions/checkout@v7	2026-11-14T09:21:57.1873418Z   persist-credentials: true
+windows	Run actions/checkout@v7	2026-11-14T09:21:57.1873759Z   clean: true
+windows	Run actions/checkout@v7	2026-11-14T09:21:57.1874070Z   sparse-checkout-cone-mode: true
+windows	Run actions/checkout@v7	2026-11-14T09:21:57.1874439Z   fetch-depth: 1
+windows	Run actions/checkout@v7	2026-11-14T09:21:57.1874732Z   fetch-tags: false
+windows	Run actions/checkout@v7	2026-11-14T09:21:57.1875035Z   show-progress: true
+windows	Run actions/checkout@v7	2026-11-14T09:21:57.1875339Z   lfs: false
+windows	Run actions/checkout@v7	2026-11-14T09:21:57.1875611Z   submodules: false
+windows	Run actions/checkout@v7	2026-11-14T09:21:57.1875916Z   set-safe-directory: true
+windows	Run actions/checkout@v7	2026-11-14T09:21:57.1876262Z   allow-unsafe-pr-checkout: false
+windows	Run actions/checkout@v7	2026-11-14T09:21:57.1876768Z env:
+windows	Run actions/checkout@v7	2026-11-14T09:21:57.1877077Z   QT_QPA_PLATFORM: offscreen
+windows	Run actions/checkout@v7	2026-11-14T09:21:57.1877417Z   HF_HUB_OFFLINE: 1
+windows	Run actions/checkout@v7	2026-11-14T09:21:57.1877719Z   HF_HUB_DISABLE_TELEMETRY: 1
+windows	Run actions/checkout@v7	2026-11-14T09:21:57.1878088Z   DO_NOT_TRACK: 1
+windows	Run actions/checkout@v7	2026-11-14T09:21:57.1878721Z ##[endgroup]
+windows	Run actions/checkout@v7	2026-11-14T09:21:57.3083272Z Syncing repository: tanzir71/saydraft
+windows	Run actions/checkout@v7	2026-11-14T09:21:57.3084731Z ##[group]Getting Git version info
+windows	Run actions/checkout@v7	2026-11-14T09:21:57.3085197Z Working directory is 'D:\a\saydraft\saydraft'
+windows	Run actions/checkout@v7	2026-11-14T09:21:57.4411034Z [command]"C:\Program Files\Git\bin\git.exe" version
+windows	Run actions/checkout@v7	2026-11-14T09:21:57.8017445Z git version 2.56.0.windows.4
+windows	Run actions/checkout@v7	2026-11-14T09:21:57.8062528Z ##[endgroup]
+windows	Run actions/checkout@v7	2026-11-14T09:21:57.8077304Z Temporarily overriding HOME='D:\a\_temp\1a4288c0-c49f-414a-a05e-ed8dbcd39c05' before making global git config changes
+windows	Run actions/checkout@v7	2026-11-14T09:21:57.8078467Z Adding repository directory to the temporary git global config as a safe directory
+windows	Run actions/checkout@v7	2026-11-14T09:21:57.8087776Z [command]"C:\Program Files\Git\bin\git.exe" config --global --add safe.directory D:\a\saydraft\saydraft
+windows	Run actions/checkout@v7	2026-11-14T09:21:57.8675173Z Deleting the contents of 'D:\a\saydraft\saydraft'
+windows	Run actions/checkout@v7	2026-11-14T09:21:57.8679588Z ##[group]Determining repository object format
+windows	Run actions/checkout@v7	2026-11-14T09:21:57.8681225Z ##[endgroup]
+windows	Run actions/checkout@v7	2026-11-14T09:21:57.8682097Z ##[group]Initializing the repository
+windows	Run actions/checkout@v7	2026-11-14T09:21:57.8688808Z [command]"C:\Program Files\Git\bin\git.exe" init D:\a\saydraft\saydraft
+windows	Run actions/checkout@v7	2026-11-14T09:21:58.0214573Z Initialized empty Git repository in D:/a/saydraft/saydraft/.git/
+windows	Run actions/checkout@v7	2026-11-14T09:21:58.0263745Z [command]"C:\Program Files\Git\bin\git.exe" remote add origin https://github.com/tanzir71/saydraft
+windows	Run actions/checkout@v7	2026-11-14T09:21:58.0926121Z ##[endgroup]
+windows	Run actions/checkout@v7	2026-11-14T09:21:58.0926924Z ##[group]Disabling automatic garbage collection
+windows	Run actions/checkout@v7	2026-11-14T09:21:58.0932640Z [command]"C:\Program Files\Git\bin\git.exe" config --local gc.auto 0
+windows	Run actions/checkout@v7	2026-11-14T09:21:58.1232267Z ##[endgroup]
+windows	Run actions/checkout@v7	2026-11-14T09:21:58.1233039Z ##[group]Setting up auth
+windows	Run actions/checkout@v7	2026-11-14T09:21:58.1233611Z Removing SSH command configuration
+windows	Run actions/checkout@v7	2026-11-14T09:21:58.1242005Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+windows	Run actions/checkout@v7	2026-11-14T09:21:58.1549685Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+windows	Run actions/checkout@v7	2026-11-14T09:21:59.4637363Z Removing HTTP extra header
+windows	Run actions/checkout@v7	2026-11-14T09:21:59.4646059Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+windows	Run actions/checkout@v7	2026-11-14T09:21:59.4943626Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+windows	Run actions/checkout@v7	2026-11-14T09:21:59.9505682Z Removing includeIf entries pointing to credentials config files
+windows	Run actions/checkout@v7	2026-11-14T09:21:59.9517551Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp ^includeIf\.gitdir:
+windows	Run actions/checkout@v7	2026-11-14T09:21:59.9844327Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "git config --local --show-origin --name-only --get-regexp remote.origin.url"
+windows	Run actions/checkout@v7	2026-11-14T09:22:00.4429569Z [command]"C:\Program Files\Git\bin\git.exe" config --file D:\a\_temp\git-credentials-f912779a-e423-4f91-82a6-58320f8e42ce.config http.https://github.com/.extraheader "AUTHORIZATION: basic ***"
+windows	Run actions/checkout@v7	2026-11-14T09:22:00.4736739Z [command]"C:\Program Files\Git\bin\git.exe" config --local includeIf.gitdir:D:/a/saydraft/saydraft/.git.path D:\a\_temp\git-credentials-f912779a-e423-4f91-82a6-58320f8e42ce.config
+windows	Run actions/checkout@v7	2026-11-14T09:22:00.5028086Z [command]"C:\Program Files\Git\bin\git.exe" config --local includeIf.gitdir:D:/a/saydraft/saydraft/.git/worktrees/*.path D:\a\_temp\git-credentials-f912779a-e423-4f91-82a6-58320f8e42ce.config
+windows	Run actions/checkout@v7	2026-11-14T09:22:00.5516226Z [command]"C:\Program Files\Git\bin\git.exe" config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-f912779a-e423-4f91-82a6-58320f8e42ce.config
+windows	Run actions/checkout@v7	2026-11-14T09:22:00.5821533Z [command]"C:\Program Files\Git\bin\git.exe" config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-f912779a-e423-4f91-82a6-58320f8e42ce.config
+windows	Run actions/checkout@v7	2026-11-14T09:22:00.6125864Z ##[endgroup]
+windows	Run actions/checkout@v7	2026-11-14T09:22:00.6126407Z ##[group]Fetching the repository
+windows	Run actions/checkout@v7	2026-11-14T09:22:00.6135629Z [command]"C:\Program Files\Git\bin\git.exe" -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +891bc7c58e1491dab5d96c5b53ff530c623c8048:refs/remotes/origin/main
+windows	Run actions/checkout@v7	2026-11-14T09:22:02.6643086Z From https://github.com/tanzir71/saydraft
+windows	Run actions/checkout@v7	2026-11-14T09:22:02.6644365Z  * [new ref]         891bc7c58e1491dab5d96c5b53ff530c623c8048 -> origin/main
+windows	Run actions/checkout@v7	2026-11-14T09:22:02.6687830Z [command]"C:\Program Files\Git\bin\git.exe" branch --list --remote origin/main
+windows	Run actions/checkout@v7	2026-11-14T09:22:02.7048421Z   origin/main
+windows	Run actions/checkout@v7	2026-11-14T09:22:02.7085756Z [command]"C:\Program Files\Git\bin\git.exe" rev-parse refs/remotes/origin/main
+windows	Run actions/checkout@v7	2026-11-14T09:22:02.7424130Z 891bc7c58e1491dab5d96c5b53ff530c623c8048
+windows	Run actions/checkout@v7	2026-11-14T09:22:02.7452262Z ##[endgroup]
+windows	Run actions/checkout@v7	2026-11-14T09:22:02.7452707Z ##[group]Determining the checkout info
+windows	Run actions/checkout@v7	2026-11-14T09:22:02.7453228Z ##[endgroup]
+windows	Run actions/checkout@v7	2026-11-14T09:22:02.7460163Z [command]"C:\Program Files\Git\bin\git.exe" sparse-checkout disable
+windows	Run actions/checkout@v7	2026-11-14T09:22:02.7836970Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset-all extensions.worktreeConfig
+windows	Run actions/checkout@v7	2026-11-14T09:22:02.8124671Z ##[group]Checking out the ref
+windows	Run actions/checkout@v7	2026-11-14T09:22:02.8131608Z [command]"C:\Program Files\Git\bin\git.exe" checkout --progress --force -B main refs/remotes/origin/main
+windows	Run actions/checkout@v7	2026-11-14T09:22:03.4875530Z Switched to a new branch 'main'
+windows	Run actions/checkout@v7	2026-11-14T09:22:03.4957344Z branch 'main' set up to track 'origin/main'.
+windows	Run actions/checkout@v7	2026-11-14T09:22:03.5018033Z ##[endgroup]
+windows	Run actions/checkout@v7	2026-11-14T09:22:03.6184143Z [command]"C:\Program Files\Git\bin\git.exe" log -1 --format=%H
+windows	Run actions/checkout@v7	2026-11-14T09:22:03.6482654Z 891bc7c58e1491dab5d96c5b53ff530c623c8048
+windows	Run actions/setup-python@v7	﻿2026-11-14T09:22:03.6905457Z ##[group]Run actions/setup-python@v7
+windows	Run actions/setup-python@v7	2026-11-14T09:22:03.6905748Z with:
+windows	Run actions/setup-python@v7	2026-11-14T09:22:03.6905911Z   python-version: 3.13
+windows	Run actions/setup-python@v7	2026-11-14T09:22:03.6906078Z   cache: pip
+windows	Run actions/setup-python@v7	2026-11-14T09:22:03.6906360Z   cache-dependency-path: requirements.txt
+windows	Run actions/setup-python@v7	requirements-dev.txt
+windows	Run actions/setup-python@v7	
+windows	Run actions/setup-python@v7	2026-11-14T09:22:03.6906645Z   check-latest: false
+windows	Run actions/setup-python@v7	2026-11-14T09:22:03.6908892Z   token: ***
+windows	Run actions/setup-python@v7	2026-11-14T09:22:03.6909454Z   mirror: https://raw.githubusercontent.com/actions/python-versions/main
+windows	Run actions/setup-python@v7	2026-11-14T09:22:03.6909762Z   update-environment: true
+windows	Run actions/setup-python@v7	2026-11-14T09:22:03.6909965Z   allow-prereleases: false
+windows	Run actions/setup-python@v7	2026-11-14T09:22:03.6910130Z   freethreaded: false
+windows	Run actions/setup-python@v7	2026-11-14T09:22:03.6910279Z env:
+windows	Run actions/setup-python@v7	2026-11-14T09:22:03.6910427Z   QT_QPA_PLATFORM: offscreen
+windows	Run actions/setup-python@v7	2026-11-14T09:22:03.6910599Z   HF_HUB_OFFLINE: 1
+windows	Run actions/setup-python@v7	2026-11-14T09:22:03.6910747Z   HF_HUB_DISABLE_TELEMETRY: 1
+windows	Run actions/setup-python@v7	2026-11-14T09:22:03.6910918Z   DO_NOT_TRACK: 1
+windows	Run actions/setup-python@v7	2026-11-14T09:22:03.6911064Z ##[endgroup]
+windows	Run actions/setup-python@v7	2026-11-14T09:22:03.8039565Z ##[group]Installed versions
+windows	Run actions/setup-python@v7	2026-11-14T09:22:03.8191628Z Successfully set up CPython (3.13.17)
+windows	Run actions/setup-python@v7	2026-11-14T09:22:03.8192355Z ##[endgroup]
+windows	Run actions/setup-python@v7	2026-11-14T09:22:06.5347425Z Cache hit for: setup-python-Windows-x64-python-3.13.17-pip-4c2b008d8eaddc00dbc459f1b0a2984ce73a67e8137f0fa8d2a18fb63e35d616
+windows	Run actions/setup-python@v7	2026-11-14T09:22:07.7528636Z Received 134217728 of 389558209 (34.5%), 111.3 MBs/sec
+windows	Run actions/setup-python@v7	2026-11-14T09:22:08.7642926Z Received 293601280 of 389558209 (75.4%), 129.6 MBs/sec
+windows	Run actions/setup-python@v7	2026-11-14T09:22:09.3868581Z Received 389558209 of 389558209 (100.0%), 133.5 MBs/sec
+windows	Run actions/setup-python@v7	2026-11-14T09:22:09.3872575Z Cache Size: ~372 MB (389558209 B)
+windows	Run actions/setup-python@v7	2026-11-14T09:22:09.3956614Z [command]"C:\Program Files\Git\usr\bin\tar.exe" -xf D:/a/_temp/30dadab6-dc92-4a73-8133-ef53e61af58d/cache.tzst -P -C D:/a/saydraft/saydraft --force-local --use-compress-program "zstd -d"
+windows	Run actions/setup-python@v7	2026-11-14T09:22:11.5182545Z Cache restored successfully
+windows	Run actions/setup-python@v7	2026-11-14T09:22:11.5363287Z Cache restored from key: setup-python-Windows-x64-python-3.13.17-pip-4c2b008d8eaddc00dbc459f1b0a2984ce73a67e8137f0fa8d2a18fb63e35d616
+windows	Install development dependencies	﻿2026-11-14T09:22:11.5673570Z ##[group]Run python -m pip install -r requirements-dev.txt
+windows	Install development dependencies	2026-11-14T09:22:11.5674078Z ^[[36;1mpython -m pip install -r requirements-dev.txt^[[0m
+windows	Install development dependencies	2026-11-14T09:22:11.6521213Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+windows	Install development dependencies	2026-11-14T09:22:11.6521537Z env:
+windows	Install development dependencies	2026-11-14T09:22:11.6521709Z   QT_QPA_PLATFORM: offscreen
+windows	Install development dependencies	2026-11-14T09:22:11.6521905Z   HF_HUB_OFFLINE: 1
+windows	Install development dependencies	2026-11-14T09:22:11.6522066Z   HF_HUB_DISABLE_TELEMETRY: 1
+windows	Install development dependencies	2026-11-14T09:22:11.6522243Z   DO_NOT_TRACK: 1
+windows	Install development dependencies	2026-11-14T09:22:11.6522456Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.13.17\x64
+windows	Install development dependencies	2026-11-14T09:22:11.6522856Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.13.17\x64/lib/pkgconfig
+windows	Install development dependencies	2026-11-14T09:22:11.6523208Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+windows	Install development dependencies	2026-11-14T09:22:11.6523515Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+windows	Install development dependencies	2026-11-14T09:22:11.6523821Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+windows	Install development dependencies	2026-11-14T09:22:11.6524322Z ##[endgroup]
+windows	Install development dependencies	2026-11-14T09:22:14.2826937Z Collecting PySide6==6.11.1 (from -r D:\a\saydraft\saydraft\requirements.txt (line 1))
+windows	Install development dependencies	2026-11-14T09:22:14.2846226Z   Using cached pyside6-6.11.1-cp310-abi3-win_amd64.whl.metadata (5.5 kB)
+windows	Install development dependencies	2026-11-14T09:22:14.3097284Z Collecting sounddevice==0.5.2 (from -r D:\a\saydraft\saydraft\requirements.txt (line 2))
+windows	Install development dependencies	2026-11-14T09:22:14.3113460Z   Using cached sounddevice-0.5.2-py3-none-win_amd64.whl.metadata (1.6 kB)
+windows	Install development dependencies	2026-11-14T09:22:14.4599348Z Collecting numpy>=1.26 (from -r D:\a\saydraft\saydraft\requirements.txt (line 3))
+windows	Install development dependencies	2026-11-14T09:22:14.4618273Z   Using cached numpy-2.5.4-cp313-cp313-win_amd64.whl.metadata (6.6 kB)
+windows	Install development dependencies	2026-11-14T09:22:14.5147117Z Collecting faster-whisper==1.2.1 (from -r D:\a\saydraft\saydraft\requirements.txt (line 4))
+windows	Install development dependencies	2026-11-14T09:22:14.5163121Z   Using cached faster_whisper-1.2.1-py3-none-any.whl.metadata (16 kB)
+windows	Install development dependencies	2026-11-14T09:22:14.5933508Z Collecting sherpa-onnx==1.13.4 (from -r D:\a\saydraft\saydraft\requirements.txt (line 5))
+windows	Install development dependencies	2026-11-14T09:22:14.5952543Z   Using cached sherpa_onnx-1.13.4-cp313-cp313-win_amd64.whl.metadata (50 kB)
+windows	Install development dependencies	2026-11-14T09:22:14.6177832Z Collecting soundfile>=0.12.1 (from -r D:\a\saydraft\saydraft\requirements.txt (line 6))
+windows	Install development dependencies	2026-11-14T09:22:14.6193861Z   Using cached soundfile-0.14.0-py2.py3-none-win_amd64.whl.metadata (18 kB)
+windows	Install development dependencies	2026-11-14T09:22:14.6589098Z Collecting webrtcvad-wheels==2.0.14 (from -r D:\a\saydraft\saydraft\requirements.txt (line 7))
+windows	Install development dependencies	2026-11-14T09:22:14.6605652Z   Using cached webrtcvad_wheels-2.0.14-cp313-cp313-win_amd64.whl.metadata (5.6 kB)
+windows	Install development dependencies	2026-11-14T09:22:14.6841449Z Collecting pyperclip==1.9.0 (from -r D:\a\saydraft\saydraft\requirements.txt (line 8))
+windows	Install development dependencies	2026-11-14T09:22:14.6842533Z   Using cached pyperclip-1.9.0-py3-none-any.whl
+windows	Install development dependencies	2026-11-14T09:22:14.7296879Z Collecting comtypes==1.4.16 (from -r D:\a\saydraft\saydraft\requirements.txt (line 9))
+windows	Install development dependencies	2026-11-14T09:22:14.7312830Z   Using cached comtypes-1.4.16-py3-none-any.whl.metadata (7.8 kB)
+windows	Install development dependencies	2026-11-14T09:22:14.7704894Z Collecting pyinstaller==6.22.3 (from -r D:\a\saydraft\saydraft\requirements.txt (line 10))
+windows	Install development dependencies	2026-11-14T09:22:14.7721560Z   Using cached pyinstaller-6.22.3-py3-none-win_amd64.whl.metadata (8.5 kB)
+windows	Install development dependencies	2026-11-14T09:22:14.7995653Z Collecting pytest==8.3.2 (from -r requirements-dev.txt (line 2))
+windows	Install development dependencies	2026-11-14T09:22:14.8025333Z   Using cached pytest-8.3.2-py3-none-any.whl.metadata (7.5 kB)
+windows	Install development dependencies	2026-11-14T09:22:15.0395952Z Collecting ruff==0.15.16 (from -r requirements-dev.txt (line 3))
+windows	Install development dependencies	2026-11-14T09:22:15.0418190Z   Using cached ruff-0.15.16-py3-none-win_amd64.whl.metadata (27 kB)
+windows	Install development dependencies	2026-11-14T09:22:15.1748248Z Collecting msgpack==1.1.1 (from -r requirements-dev.txt (line 4))
+windows	Install development dependencies	2026-11-14T09:22:15.1858822Z   Using cached msgpack-1.1.1-cp313-cp313-win_amd64.whl.metadata (8.6 kB)
+windows	Install development dependencies	2026-11-14T09:22:15.2346987Z Collecting shiboken6==6.11.1 (from PySide6==6.11.1->-r D:\a\saydraft\saydraft\requirements.txt (line 1))
+windows	Install development dependencies	2026-11-14T09:22:15.3596003Z   Using cached shiboken6-6.11.1-cp310-abi3-win_amd64.whl.metadata (2.5 kB)
+windows	Install development dependencies	2026-11-14T09:22:15.3834366Z Collecting PySide6_Essentials==6.11.1 (from PySide6==6.11.1->-r D:\a\saydraft\saydraft\requirements.txt (line 1))
+windows	Install development dependencies	2026-11-14T09:22:15.3853329Z   Using cached pyside6_essentials-6.11.1-cp310-abi3-win_amd64.whl.metadata (3.8 kB)
+windows	Install development dependencies	2026-11-14T09:22:15.4099682Z Collecting PySide6_Addons==6.11.1 (from PySide6==6.11.1->-r D:\a\saydraft\saydraft\requirements.txt (line 1))
+windows	Install development dependencies	2026-11-14T09:22:15.4117990Z   Using cached pyside6_addons-6.11.1-cp310-abi3-win_amd64.whl.metadata (4.2 kB)
+windows	Install development dependencies	2026-11-14T09:22:15.4908093Z Collecting CFFI>=1.0 (from sounddevice==0.5.2->-r D:\a\saydraft\saydraft\requirements.txt (line 2))
+windows	Install development dependencies	2026-11-14T09:22:15.4938952Z   Using cached cffi-2.1.1-cp313-cp313-win_amd64.whl.metadata (2.6 kB)
+windows	Install development dependencies	2026-11-14T09:22:15.6676486Z Collecting ctranslate2<5,>=4.0 (from faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 4))
+windows	Install development dependencies	2026-11-14T09:22:15.6701235Z   Using cached ctranslate2-4.9.0-cp313-cp313-win_amd64.whl.metadata (11 kB)
+windows	Install development dependencies	2026-11-14T09:22:15.8710252Z Collecting huggingface-hub>=0.21 (from faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 4))
+windows	Install development dependencies	2026-11-14T09:22:15.9959445Z   Using cached huggingface_hub-2.4.0-py3-none-any.whl.metadata (16 kB)
+windows	Install development dependencies	2026-11-14T09:22:16.1098453Z Collecting tokenizers<1,>=0.13 (from faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 4))
+windows	Install development dependencies	2026-11-14T09:22:16.1120170Z   Using cached tokenizers-0.23.3-cp310-abi3-win_amd64.whl.metadata (10 kB)
+windows	Install development dependencies	2026-11-14T09:22:16.1687043Z Collecting onnxruntime<2,>=1.14 (from faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 4))
+windows	Install development dependencies	2026-11-14T09:22:16.1707159Z   Using cached onnxruntime-1.32.0-cp313-cp313-win_amd64.whl.metadata (6.1 kB)
+windows	Install development dependencies	2026-11-14T09:22:16.2224452Z Collecting av>=11 (from faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 4))
+windows	Install development dependencies	2026-11-14T09:22:16.2283992Z   Using cached av-19.0.2-cp312-abi3-win_amd64.whl.metadata (5.1 kB)
+windows	Install development dependencies	2026-11-14T09:22:16.3665938Z Collecting tqdm (from faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 4))
+windows	Install development dependencies	2026-11-14T09:22:16.3697661Z   Using cached tqdm-4.70.1-py3-none-any.whl.metadata (57 kB)
+windows	Install development dependencies	2026-11-14T09:22:16.4251454Z Collecting sherpa-onnx-core==1.13.4 (from sherpa-onnx==1.13.4->-r D:\a\saydraft\saydraft\requirements.txt (line 5))
+windows	Install development dependencies	2026-11-14T09:22:16.4269444Z   Using cached sherpa_onnx_core-1.13.4-py3-none-win_amd64.whl.metadata (532 bytes)
+windows	Install development dependencies	2026-11-14T09:22:16.4712120Z Collecting altgraph (from pyinstaller==6.22.3->-r D:\a\saydraft\saydraft\requirements.txt (line 10))
+windows	Install development dependencies	2026-11-14T09:22:16.4727768Z   Using cached altgraph-0.17.5-py2.py3-none-any.whl.metadata (7.5 kB)
+windows	Install development dependencies	2026-11-14T09:22:16.4962429Z Collecting packaging>=22.0 (from pyinstaller==6.22.3->-r D:\a\saydraft\saydraft\requirements.txt (line 10))
+windows	Install development dependencies	2026-11-14T09:22:16.4978820Z   Using cached packaging-26.3-py3-none-any.whl.metadata (3.5 kB)
+windows	Install development dependencies	2026-11-14T09:22:16.5215101Z Collecting pefile>=2022.5.30 (from pyinstaller==6.22.3->-r D:\a\saydraft\saydraft\requirements.txt (line 10))
+windows	Install development dependencies	2026-11-14T09:22:16.5233205Z   Using cached pefile-2024.8.26-py3-none-any.whl.metadata (1.4 kB)
+windows	Install development dependencies	2026-11-14T09:22:16.5459746Z Collecting pyinstaller-hooks-contrib>=2026.7 (from pyinstaller==6.22.3->-r D:\a\saydraft\saydraft\requirements.txt (line 10))
+windows	Install development dependencies	2026-11-14T09:22:16.5477279Z   Using cached pyinstaller_hooks_contrib-2026.10-py3-none-any.whl.metadata (16 kB)
+windows	Install development dependencies	2026-11-14T09:22:16.5671077Z Collecting pywin32-ctypes>=0.2.1 (from pyinstaller==6.22.3->-r D:\a\saydraft\saydraft\requirements.txt (line 10))
+windows	Install development dependencies	2026-11-14T09:22:16.5688265Z   Using cached pywin32_ctypes-0.2.3-py3-none-any.whl.metadata (3.9 kB)
+windows	Install development dependencies	2026-11-14T09:22:16.6322732Z Collecting setuptools>=42.0.0 (from pyinstaller==6.22.3->-r D:\a\saydraft\saydraft\requirements.txt (line 10))
+windows	Install development dependencies	2026-11-14T09:22:16.6343272Z   Using cached setuptools-84.2.1-py3-none-any.whl.metadata (6.6 kB)
+windows	Install development dependencies	2026-11-14T09:22:16.6561340Z Collecting iniconfig (from pytest==8.3.2->-r requirements-dev.txt (line 2))
+windows	Install development dependencies	2026-11-14T09:22:16.6579005Z   Using cached iniconfig-2.3.1-py3-none-any.whl.metadata (2.8 kB)
+windows	Install development dependencies	2026-11-14T09:22:16.6781430Z Collecting pluggy<2,>=1.5 (from pytest==8.3.2->-r requirements-dev.txt (line 2))
+windows	Install development dependencies	2026-11-14T09:22:16.6796835Z   Using cached pluggy-1.7.0-py3-none-any.whl.metadata (5.0 kB)
+windows	Install development dependencies	2026-11-14T09:22:16.7040795Z Collecting colorama (from pytest==8.3.2->-r requirements-dev.txt (line 2))
+windows	Install development dependencies	2026-11-14T09:22:16.7070456Z   Using cached colorama-0.4.6-py2.py3-none-any.whl.metadata (17 kB)
+windows	Install development dependencies	2026-11-14T09:22:16.7606618Z Collecting pyyaml<7,>=5.3 (from ctranslate2<5,>=4.0->faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 4))
+windows	Install development dependencies	2026-11-14T09:22:16.7623323Z   Using cached pyyaml-6.0.3-cp313-cp313-win_amd64.whl.metadata (2.4 kB)
+windows	Install development dependencies	2026-11-14T09:22:16.7823890Z Collecting flatbuffers (from onnxruntime<2,>=1.14->faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 4))
+windows	Install development dependencies	2026-11-14T09:22:16.7839191Z   Using cached flatbuffers-25.12.19-py2.py3-none-any.whl.metadata (1.0 kB)
+windows	Install development dependencies	2026-11-14T09:22:16.9587250Z Collecting protobuf>=4.25.8 (from onnxruntime<2,>=1.14->faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 4))
+windows	Install development dependencies	2026-11-14T09:22:16.9606128Z   Using cached protobuf-7.36.2-cp310-abi3-win_amd64.whl.metadata (595 bytes)
+windows	Install development dependencies	2026-11-14T09:22:16.9951622Z Collecting click<9.0.0,>=8.4.2 (from huggingface-hub>=0.21->faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 4))
+windows	Install development dependencies	2026-11-14T09:22:16.9967898Z   Using cached click-8.5.1-py3-none-any.whl.metadata (2.6 kB)
+windows	Install development dependencies	2026-11-14T09:22:17.0231375Z Collecting filelock>=3.10.0 (from huggingface-hub>=0.21->faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 4))
+windows	Install development dependencies	2026-11-14T09:22:17.0246919Z   Using cached filelock-4.2.10-py3-none-any.whl.metadata (2.3 kB)
+windows	Install development dependencies	2026-11-14T09:22:17.0487616Z Collecting fsspec>=2023.5.0 (from huggingface-hub>=0.21->faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 4))
+windows	Install development dependencies	2026-11-14T09:22:17.0503782Z   Using cached fsspec-2026.9.0-py3-none-any.whl.metadata (10 kB)
+windows	Install development dependencies	2026-11-14T09:22:17.1005713Z Collecting hf-xet<2.0.0,>=1.6.0 (from huggingface-hub>=0.21->faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 4))
+windows	Install development dependencies	2026-11-14T09:22:17.1036759Z   Using cached hf_xet-1.8.0-cp38-abi3-win_amd64.whl.metadata (4.9 kB)
+windows	Install development dependencies	2026-11-14T09:22:17.1231419Z Collecting httpx2<3,>=2.0.0 (from huggingface-hub>=0.21->faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 4))
+windows	Install development dependencies	2026-11-14T09:22:17.1247024Z   Using cached httpx2-2.16.0-py3-none-any.whl.metadata (10 kB)
+windows	Install development dependencies	2026-11-14T09:22:17.1517339Z Collecting typing-extensions>=4.1.0 (from huggingface-hub>=0.21->faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 4))
+windows	Install development dependencies	2026-11-14T09:22:17.1533591Z   Using cached typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+windows	Install development dependencies	2026-11-14T09:22:17.1760795Z Collecting anyio>=4.10 (from httpx2<3,>=2.0.0->huggingface-hub>=0.21->faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 4))
+windows	Install development dependencies	2026-11-14T09:22:17.1776569Z   Using cached anyio-4.16.0-py3-none-any.whl.metadata (4.7 kB)
+windows	Install development dependencies	2026-11-14T09:22:17.1970911Z Collecting httpcore2==2.16.0 (from httpx2<3,>=2.0.0->huggingface-hub>=0.21->faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 4))
+windows	Install development dependencies	2026-11-14T09:22:17.1985979Z   Using cached httpcore2-2.16.0-py3-none-any.whl.metadata (27 kB)
+windows	Install development dependencies	2026-11-14T09:22:17.2208462Z Collecting idna>=3.18 (from httpx2<3,>=2.0.0->huggingface-hub>=0.21->faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 4))
+windows	Install development dependencies	2026-11-14T09:22:17.2223411Z   Using cached idna-3.20-py3-none-any.whl.metadata (7.2 kB)
+windows	Install development dependencies	2026-11-14T09:22:17.3625366Z Collecting truststore>=0.10 (from httpx2<3,>=2.0.0->huggingface-hub>=0.21->faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 4))
+windows	Install development dependencies	2026-11-14T09:22:17.3642510Z   Using cached truststore-0.10.5-py3-none-any.whl.metadata (4.5 kB)
+windows	Install development dependencies	2026-11-14T09:22:17.3861234Z Collecting h11>=0.16 (from httpcore2==2.16.0->httpx2<3,>=2.0.0->huggingface-hub>=0.21->faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 4))
+windows	Install development dependencies	2026-11-14T09:22:17.3879004Z   Using cached h11-0.16.0-py3-none-any.whl.metadata (8.3 kB)
+windows	Install development dependencies	2026-11-14T09:22:17.4191502Z Collecting pycparser (from CFFI>=1.0->sounddevice==0.5.2->-r D:\a\saydraft\saydraft\requirements.txt (line 2))
+windows	Install development dependencies	2026-11-14T09:22:17.4207716Z   Using cached pycparser-3.12-py3-none-any.whl.metadata (9.7 kB)
+windows	Install development dependencies	2026-11-14T09:22:17.4317857Z Using cached pyside6-6.11.1-cp310-abi3-win_amd64.whl (578 kB)
+windows	Install development dependencies	2026-11-14T09:22:17.4348980Z Using cached sounddevice-0.5.2-py3-none-win_amd64.whl (363 kB)
+windows	Install development dependencies	2026-11-14T09:22:17.4366040Z Using cached faster_whisper-1.2.1-py3-none-any.whl (1.1 MB)
+windows	Install development dependencies	2026-11-14T09:22:17.4384396Z Using cached sherpa_onnx-1.13.4-cp313-cp313-win_amd64.whl (2.2 MB)
+windows	Install development dependencies	2026-11-14T09:22:17.4408260Z Using cached webrtcvad_wheels-2.0.14-cp313-cp313-win_amd64.whl (19 kB)
+windows	Install development dependencies	2026-11-14T09:22:17.4426499Z Using cached comtypes-1.4.16-py3-none-any.whl (296 kB)
+windows	Install development dependencies	2026-11-14T09:22:17.4443852Z Using cached pyinstaller-6.22.3-py3-none-win_amd64.whl (1.5 MB)
+windows	Install development dependencies	2026-11-14T09:22:17.4464634Z Using cached pytest-8.3.2-py3-none-any.whl (341 kB)
+windows	Install development dependencies	2026-11-14T09:22:17.4480168Z Using cached ruff-0.15.16-py3-none-win_amd64.whl (11.8 MB)
+windows	Install development dependencies	2026-11-14T09:22:17.4545515Z Using cached msgpack-1.1.1-cp313-cp313-win_amd64.whl (72 kB)
+windows	Install development dependencies	2026-11-14T09:22:17.4559731Z Using cached pyside6_addons-6.11.1-cp310-abi3-win_amd64.whl (168.8 MB)
+windows	Install development dependencies	2026-11-14T09:22:17.5300927Z Using cached pyside6_essentials-6.11.1-cp310-abi3-win_amd64.whl (77.5 MB)
+windows	Install development dependencies	2026-11-14T09:22:17.5626748Z Using cached sherpa_onnx_core-1.13.4-py3-none-win_amd64.whl (16.5 MB)
+windows	Install development dependencies	2026-11-14T09:22:17.5714133Z Using cached shiboken6-6.11.1-cp310-abi3-win_amd64.whl (1.2 MB)
+windows	Install development dependencies	2026-11-14T09:22:17.5747191Z Using cached ctranslate2-4.9.0-cp313-cp313-win_amd64.whl (20.4 MB)
+windows	Install development dependencies	2026-11-14T09:22:17.5842787Z Using cached onnxruntime-1.32.0-cp313-cp313-win_amd64.whl (16.7 MB)
+windows	Install development dependencies	2026-11-14T09:22:17.5920370Z Using cached pluggy-1.7.0-py3-none-any.whl (27 kB)
+windows	Install development dependencies	2026-11-14T09:22:17.5935676Z Using cached pyyaml-6.0.3-cp313-cp313-win_amd64.whl (154 kB)
+windows	Install development dependencies	2026-11-14T09:22:17.5952613Z Using cached tokenizers-0.23.3-cp310-abi3-win_amd64.whl (2.9 MB)
+windows	Install development dependencies	2026-11-14T09:22:17.5979489Z Using cached huggingface_hub-2.4.0-py3-none-any.whl (857 kB)
+windows	Install development dependencies	2026-11-14T09:22:17.5998545Z Using cached click-8.5.1-py3-none-any.whl (126 kB)
+windows	Install development dependencies	2026-11-14T09:22:17.6013642Z Using cached hf_xet-1.8.0-cp38-abi3-win_amd64.whl (3.9 MB)
+windows	Install development dependencies	2026-11-14T09:22:17.6045138Z Using cached httpx2-2.16.0-py3-none-any.whl (97 kB)
+windows	Install development dependencies	2026-11-14T09:22:17.6098259Z Using cached httpcore2-2.16.0-py3-none-any.whl (85 kB)
+windows	Install development dependencies	2026-11-14T09:22:17.6112697Z Using cached numpy-2.5.4-cp313-cp313-win_amd64.whl (12.6 MB)
+windows	Install development dependencies	2026-11-14T09:22:17.6177505Z Using cached soundfile-0.14.0-py2.py3-none-win_amd64.whl (1.0 MB)
+windows	Install development dependencies	2026-11-14T09:22:17.6199007Z Using cached anyio-4.16.0-py3-none-any.whl (134 kB)
+windows	Install development dependencies	2026-11-14T09:22:17.6213451Z Using cached av-19.0.2-cp312-abi3-win_amd64.whl (28.2 MB)
+windows	Install development dependencies	2026-11-14T09:22:17.6335535Z Using cached cffi-2.1.1-cp313-cp313-win_amd64.whl (185 kB)
+windows	Install development dependencies	2026-11-14T09:22:17.6350803Z Using cached filelock-4.2.10-py3-none-any.whl (218 kB)
+windows	Install development dependencies	2026-11-14T09:22:17.6368384Z Using cached fsspec-2026.9.0-py3-none-any.whl (221 kB)
+windows	Install development dependencies	2026-11-14T09:22:17.6437211Z Using cached h11-0.16.0-py3-none-any.whl (37 kB)
+windows	Install development dependencies	2026-11-14T09:22:17.6456514Z Using cached idna-3.20-py3-none-any.whl (69 kB)
+windows	Install development dependencies	2026-11-14T09:22:17.6613588Z Using cached packaging-26.3-py3-none-any.whl (129 kB)
+windows	Install development dependencies	2026-11-14T09:22:17.6628472Z Using cached pefile-2024.8.26-py3-none-any.whl (74 kB)
+windows	Install development dependencies	2026-11-14T09:22:17.6642960Z Using cached protobuf-7.36.2-cp310-abi3-win_amd64.whl (456 kB)
+windows	Install development dependencies	2026-11-14T09:22:17.6798856Z Using cached pyinstaller_hooks_contrib-2026.10-py3-none-any.whl (463 kB)
+windows	Install development dependencies	2026-11-14T09:22:17.6819502Z Using cached pywin32_ctypes-0.2.3-py3-none-any.whl (30 kB)
+windows	Install development dependencies	2026-11-14T09:22:17.6834774Z Using cached setuptools-84.2.1-py3-none-any.whl (876 kB)
+windows	Install development dependencies	2026-11-14T09:22:17.7129917Z Using cached tqdm-4.70.1-py3-none-any.whl (80 kB)
+windows	Install development dependencies	2026-11-14T09:22:17.7147226Z Using cached truststore-0.10.5-py3-none-any.whl (19 kB)
+windows	Install development dependencies	2026-11-14T09:22:17.7162659Z Using cached typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+windows	Install development dependencies	2026-11-14T09:22:17.7180639Z Using cached altgraph-0.17.5-py2.py3-none-any.whl (21 kB)
+windows	Install development dependencies	2026-11-14T09:22:17.7208892Z Using cached colorama-0.4.6-py2.py3-none-any.whl (25 kB)
+windows	Install development dependencies	2026-11-14T09:22:17.7223500Z Using cached flatbuffers-25.12.19-py2.py3-none-any.whl (26 kB)
+windows	Install development dependencies	2026-11-14T09:22:17.8141673Z Using cached iniconfig-2.3.1-py3-none-any.whl (7.6 kB)
+windows	Install development dependencies	2026-11-14T09:22:17.8185994Z Using cached pycparser-3.12-py3-none-any.whl (62 kB)
+windows	Install development dependencies	2026-11-14T09:22:21.1198719Z Installing collected packages: webrtcvad-wheels, sherpa-onnx-core, pyperclip, flatbuffers, altgraph, typing-extensions, truststore, shiboken6, sherpa-onnx, setuptools, ruff, pyyaml, pywin32-ctypes, pycparser, protobuf, pluggy, pefile, packaging, numpy, msgpack, iniconfig, idna, hf-xet, h11, fsspec, filelock, comtypes, colorama, click, av, tqdm, pytest, PySide6_Essentials, pyinstaller-hooks-contrib, onnxruntime, httpcore2, ctranslate2, CFFI, anyio, soundfile, sounddevice, PySide6_Addons, pyinstaller, httpx2, PySide6, huggingface-hub, tokenizers, faster-whisper
+windows	Install development dependencies	2026-11-14T09:22:46.3655588Z 
+windows	Install development dependencies	2026-11-14T09:22:46.3698054Z Successfully installed CFFI-2.1.1 PySide6-6.11.1 PySide6_Addons-6.11.1 PySide6_Essentials-6.11.1 altgraph-0.17.5 anyio-4.16.0 av-19.0.2 click-8.5.1 colorama-0.4.6 comtypes-1.4.16 ctranslate2-4.9.0 faster-whisper-1.2.1 filelock-4.2.10 flatbuffers-25.12.19 fsspec-2026.9.0 h11-0.16.0 hf-xet-1.8.0 httpcore2-2.16.0 httpx2-2.16.0 huggingface-hub-2.4.0 idna-3.20 iniconfig-2.3.1 msgpack-1.1.1 numpy-2.5.4 onnxruntime-1.32.0 packaging-26.3 pefile-2024.8.26 pluggy-1.7.0 protobuf-7.36.2 pycparser-3.12 pyinstaller-6.22.3 pyinstaller-hooks-contrib-2026.10 pyperclip-1.9.0 pytest-8.3.2 pywin32-ctypes-0.2.3 pyyaml-6.0.3 ruff-0.15.16 setuptools-84.2.1 sherpa-onnx-1.13.4 sherpa-onnx-core-1.13.4 shiboken6-6.11.1 sounddevice-0.5.2 soundfile-0.14.0 tokenizers-0.23.3 tqdm-4.70.1 truststore-0.10.5 typing-extensions-4.16.0 webrtcvad-wheels-2.0.14
+windows	Lint	﻿2026-11-14T09:22:46.9170744Z ##[group]Run python -m ruff check .
+windows	Lint	2026-11-14T09:22:46.9171082Z ^[[36;1mpython -m ruff check .^[[0m
+windows	Lint	2026-11-14T09:22:46.9228303Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+windows	Lint	2026-11-14T09:22:46.9228605Z env:
+windows	Lint	2026-11-14T09:22:46.9228777Z   QT_QPA_PLATFORM: offscreen
+windows	Lint	2026-11-14T09:22:46.9228964Z   HF_HUB_OFFLINE: 1
+windows	Lint	2026-11-14T09:22:46.9229125Z   HF_HUB_DISABLE_TELEMETRY: 1
+windows	Lint	2026-11-14T09:22:46.9229313Z   DO_NOT_TRACK: 1
+windows	Lint	2026-11-14T09:22:46.9229547Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.13.17\x64
+windows	Lint	2026-11-14T09:22:46.9229907Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.13.17\x64/lib/pkgconfig
+windows	Lint	2026-11-14T09:22:46.9230267Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+windows	Lint	2026-11-14T09:22:46.9230579Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+windows	Lint	2026-11-14T09:22:46.9230890Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+windows	Lint	2026-11-14T09:22:46.9231134Z ##[endgroup]
+windows	Lint	2026-11-14T09:22:47.3151343Z All checks passed!
+windows	Fetch pinned VAD fixture for native offline smoke	﻿2026-11-14T09:22:47.6412173Z ##[group]Run $vadFixture = python -c "from saydraft.model_download import download_silero_vad_model; print((download_silero_vad_model(models_dir='build/test-models') / 'silero_vad.onnx').resolve())"
+windows	Fetch pinned VAD fixture for native offline smoke	2026-11-14T09:22:47.6413340Z ^[[36;1m$vadFixture = python -c "from saydraft.model_download import download_silero_vad_model; print((download_silero_vad_model(models_dir='build/test-models') / 'silero_vad.onnx').resolve())"^[[0m
+windows	Fetch pinned VAD fixture for native offline smoke	2026-11-14T09:22:47.6413984Z ^[[36;1mif ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }^[[0m
+windows	Fetch pinned VAD fixture for native offline smoke	2026-11-14T09:22:47.6414387Z ^[[36;1m"SAYDRAFT_TEST_SILERO_MODEL=$vadFixture" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append^[[0m
+windows	Fetch pinned VAD fixture for native offline smoke	2026-11-14T09:22:47.6470660Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+windows	Fetch pinned VAD fixture for native offline smoke	2026-11-14T09:22:47.6470933Z env:
+windows	Fetch pinned VAD fixture for native offline smoke	2026-11-14T09:22:47.6471085Z   QT_QPA_PLATFORM: offscreen
+windows	Fetch pinned VAD fixture for native offline smoke	2026-11-14T09:22:47.6471264Z   HF_HUB_OFFLINE: 1
+windows	Fetch pinned VAD fixture for native offline smoke	2026-11-14T09:22:47.6471428Z   HF_HUB_DISABLE_TELEMETRY: 1
+windows	Fetch pinned VAD fixture for native offline smoke	2026-11-14T09:22:47.6471602Z   DO_NOT_TRACK: 1
+windows	Fetch pinned VAD fixture for native offline smoke	2026-11-14T09:22:47.6471868Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.13.17\x64
+windows	Fetch pinned VAD fixture for native offline smoke	2026-11-14T09:22:47.6472216Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.13.17\x64/lib/pkgconfig
+windows	Fetch pinned VAD fixture for native offline smoke	2026-11-14T09:22:47.6472566Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+windows	Fetch pinned VAD fixture for native offline smoke	2026-11-14T09:22:47.6472877Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+windows	Fetch pinned VAD fixture for native offline smoke	2026-11-14T09:22:47.6473171Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+windows	Fetch pinned VAD fixture for native offline smoke	2026-11-14T09:22:47.6473406Z ##[endgroup]
+windows	Unit and offline tests	﻿2026-11-14T09:22:48.6164901Z ##[group]Run python -m pytest tests -q -rs -o faulthandler_timeout=120 --durations=12 --basetemp=build/pytest
+windows	Unit and offline tests	2026-11-14T09:22:48.6165579Z ^[[36;1mpython -m pytest tests -q -rs -o faulthandler_timeout=120 --durations=12 --basetemp=build/pytest^[[0m
+windows	Unit and offline tests	2026-11-14T09:22:48.6221442Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+windows	Unit and offline tests	2026-11-14T09:22:48.6221726Z env:
+windows	Unit and offline tests	2026-11-14T09:22:48.6221884Z   QT_QPA_PLATFORM: offscreen
+windows	Unit and offline tests	2026-11-14T09:22:48.6222068Z   HF_HUB_OFFLINE: 1
+windows	Unit and offline tests	2026-11-14T09:22:48.6222229Z   HF_HUB_DISABLE_TELEMETRY: 1
+windows	Unit and offline tests	2026-11-14T09:22:48.6222414Z   DO_NOT_TRACK: 1
+windows	Unit and offline tests	2026-11-14T09:22:48.6222801Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.13.17\x64
+windows	Unit and offline tests	2026-11-14T09:22:48.6223172Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.13.17\x64/lib/pkgconfig
+windows	Unit and offline tests	2026-11-14T09:22:48.6223521Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+windows	Unit and offline tests	2026-11-14T09:22:48.6223844Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+windows	Unit and offline tests	2026-11-14T09:22:48.6224148Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+windows	Unit and offline tests	2026-11-14T09:22:48.6224691Z   SAYDRAFT_TEST_SILERO_MODEL: D:\a\saydraft\saydraft\build\test-models\silero-vad-v5\5cd2ba54db059f961e7545d4f211b44f005a6dfb\silero_vad.onnx
+windows	Unit and offline tests	2026-11-14T09:22:48.6225146Z ##[endgroup]
+windows	Unit and offline tests	2026-11-14T09:22:56.7598386Z ........................................................................ [  1%]
+windows	Unit and offline tests	2026-11-14T09:22:57.3073203Z ........................................................................ [  3%]
+windows	Unit and offline tests	2026-11-14T09:22:57.6818119Z ........................................................................ [  5%]
+windows	Unit and offline tests	2026-11-14T09:22:57.8895036Z ........................................................................ [  6%]
+windows	Unit and offline tests	2026-11-14T09:22:58.2318655Z ...............s........................................................ [  8%]
+windows	Unit and offline tests	2026-11-14T09:22:58.4274265Z ........................................................................ [ 10%]
+windows	Unit and offline tests	2026-11-14T09:23:03.0896609Z ........................................................................ [ 12%]
+windows	Unit and offline tests	2026-11-14T09:23:04.2775685Z ........................................................................ [ 13%]
+windows	Unit and offline tests	2026-11-14T09:23:04.4527049Z ........................................................................ [ 15%]
+windows	Unit and offline tests	2026-11-14T09:23:06.9434429Z ........................................................................ [ 17%]
+windows	Unit and offline tests	2026-11-14T09:23:07.8928559Z ........................................................................ [ 19%]
+windows	Unit and offline tests	2026-11-14T09:23:07.9944032Z ........................................................................ [ 20%]
+windows	Unit and offline tests	2026-11-14T09:23:08.2364188Z ........................................................................ [ 22%]
+windows	Unit and offline tests	2026-11-14T09:23:08.3597631Z ........................................................................ [ 24%]
+windows	Unit and offline tests	2026-11-14T09:23:08.5720344Z ........................................................................ [ 26%]
+windows	Unit and offline tests	2026-11-14T09:23:16.7730897Z ........................................................................ [ 27%]
+windows	Unit and offline tests	2026-11-14T09:23:17.5157356Z ........................................................................ [ 29%]
+windows	Unit and offline tests	2026-11-14T09:23:17.7720594Z ........................................................................ [ 31%]
+windows	Unit and offline tests	2026-11-14T09:23:17.9469967Z ........................................................................ [ 33%]
+windows	Unit and offline tests	2026-11-14T09:23:24.3198236Z ........................................................................ [ 34%]
+windows	Unit and offline tests	2026-11-14T09:23:25.3683524Z ........................................................................ [ 36%]
+windows	Unit and offline tests	2026-11-14T09:23:25.5252245Z ........................................................................ [ 38%]
+windows	Unit and offline tests	2026-11-14T09:23:25.9239957Z ........................................................................ [ 40%]
+windows	Unit and offline tests	2026-11-14T09:23:29.1766387Z ........................................................................ [ 41%]
+windows	Unit and offline tests	2026-11-14T09:23:31.4404009Z ........................................................................ [ 43%]
+windows	Unit and offline tests	2026-11-14T09:23:31.8892530Z ........................................................................ [ 45%]
+windows	Unit and offline tests	2026-11-14T09:23:35.7282958Z ........................................................................ [ 47%]
+windows	Unit and offline tests	2026-11-14T09:23:35.7925001Z ........................................................................ [ 48%]
+windows	Unit and offline tests	2026-11-14T09:23:36.8348213Z ........................................................................ [ 50%]
+windows	Unit and offline tests	2026-11-14T09:23:37.9425927Z ........................................................................ [ 52%]
+windows	Unit and offline tests	2026-11-14T09:23:38.4826074Z ........................................................................ [ 54%]
+windows	Unit and offline tests	2026-11-14T09:23:39.4233367Z ........................................................................ [ 55%]
+windows	Unit and offline tests	2026-11-14T09:23:42.9154657Z ........................................................................ [ 57%]
+windows	Unit and offline tests	2026-11-14T09:23:42.9742193Z ........................................................................ [ 59%]
+windows	Unit and offline tests	2026-11-14T09:23:43.0432853Z ........................................................................ [ 61%]
+windows	Unit and offline tests	2026-11-14T09:23:44.5123421Z ........................................................................ [ 62%]
+windows	Unit and offline tests	2026-11-14T09:23:51.7003974Z ........................................................................ [ 64%]
+windows	Unit and offline tests	2026-11-14T09:24:04.4834276Z .................................s...................s.................. [ 66%]
+windows	Unit and offline tests	2026-11-14T09:24:06.1232566Z ...........................................................ss........... [ 67%]
+windows	Unit and offline tests	2026-11-14T09:24:06.2858893Z ........................................................................ [ 69%]
+windows	Unit and offline tests	2026-11-14T09:24:07.7614335Z ...............................F.........F.............................. [ 71%]
+windows	Unit and offline tests	2026-11-14T09:24:08.1411482Z ........................................................................ [ 73%]
+windows	Unit and offline tests	2026-11-14T09:24:08.2706472Z ........................................................................ [ 74%]
+windows	Unit and offline tests	2026-11-14T09:24:19.7105082Z ........................................................................ [ 76%]
+windows	Unit and offline tests	2026-11-14T09:24:19.9568349Z ........................................................................ [ 78%]
+windows	Unit and offline tests	2026-11-14T09:24:20.0569245Z ........................................................................ [ 80%]
+windows	Unit and offline tests	2026-11-14T09:24:24.1072498Z ........................................................................ [ 81%]
+windows	Unit and offline tests	2026-11-14T09:24:25.7736290Z ............................s........................................... [ 83%]
+windows	Unit and offline tests	2026-11-14T09:24:27.3090478Z ........................................................................ [ 85%]
+windows	Unit and offline tests	2026-11-14T09:24:29.0555994Z ........................................................................ [ 87%]
+windows	Unit and offline tests	2026-11-14T09:24:29.1972122Z .........................................................s.............. [ 88%]
+windows	Unit and offline tests	2026-11-14T09:30:25.2554155Z ........................................................................ [ 90%]
+windows	Unit and offline tests	2026-11-14T09:30:25.5069183Z ........................................................................ [ 92%]
+windows	Unit and offline tests	2026-11-14T09:30:31.1803977Z ........................................................................ [ 94%]
+windows	Unit and offline tests	2026-11-14T09:30:33.1456889Z ........................................................................ [ 95%]
+windows	Unit and offline tests	2026-11-14T09:30:33.6446700Z ........................................................................ [ 97%]
+windows	Unit and offline tests	2026-11-14T09:30:33.8062725Z ..............................................................s......... [ 99%]
+windows	Unit and offline tests	2026-11-14T09:30:34.1132657Z .........sss.....s........                                               [100%]
+windows	Unit and offline tests	2026-11-14T09:30:34.1133310Z ================================== FAILURES ===================================
+windows	Unit and offline tests	2026-11-14T09:30:34.1134057Z ______ test_streaming_is_off_by_default_and_needs_a_live_preview_opt_in _______
+windows	Unit and offline tests	2026-11-14T09:30:34.1134416Z 
+windows	Unit and offline tests	2026-11-14T09:30:34.1134688Z     def test_streaming_is_off_by_default_and_needs_a_live_preview_opt_in():
+windows	Unit and offline tests	2026-11-14T09:30:34.1135214Z         config = default_config()
+windows	Unit and offline tests	2026-11-14T09:30:34.1135913Z >       assert config["labs"] == {"live_preview": False, "use_streaming_result": False, "command_mode": False, "translate_mode": False}
+windows	Unit and offline tests	2026-11-14T09:30:34.1139736Z E       AssertionError: assert {'ask_mode': ...': False, ...} == {'command_mod...esult': False}
+windows	Unit and offline tests	2026-11-14T09:30:34.1142862Z E         
+windows	Unit and offline tests	2026-11-14T09:30:34.1147595Z E         Omitting 4 identical items, use -vv to show
+windows	Unit and offline tests	2026-11-14T09:30:34.1154735Z E         Left contains 1 more item:
+windows	Unit and offline tests	2026-11-14T09:30:34.1155878Z E         {'ask_mode': False}
+windows	Unit and offline tests	2026-11-14T09:30:34.1160326Z E         
+windows	Unit and offline tests	2026-11-14T09:30:34.1161317Z E         Full diff:
+windows	Unit and offline tests	2026-11-14T09:30:34.1163293Z E           {
+windows	Unit and offline tests	2026-11-14T09:30:34.1164374Z E         +     'ask_mode': False,
+windows	Unit and offline tests	2026-11-14T09:30:34.1165068Z E               'command_mode': False,
+windows	Unit and offline tests	2026-11-14T09:30:34.1165696Z E               'live_preview': False,
+windows	Unit and offline tests	2026-11-14T09:30:34.1166734Z E               'translate_mode': False,
+windows	Unit and offline tests	2026-11-14T09:30:34.1167322Z E               'use_streaming_result': False,
+windows	Unit and offline tests	2026-11-14T09:30:34.1168508Z E           }
+windows	Unit and offline tests	2026-11-14T09:30:34.1168879Z 
+windows	Unit and offline tests	2026-11-14T09:30:34.1169316Z tests\test_preview_selection.py:31: AssertionError
+windows	Unit and offline tests	2026-11-14T09:30:34.1170256Z _________ test_labs_shows_size_and_license_and_toggles_never_download _________
+windows	Unit and offline tests	2026-11-14T09:30:34.1170727Z 
+windows	Unit and offline tests	2026-11-14T09:30:34.1171193Z     def test_labs_shows_size_and_license_and_toggles_never_download():
+windows	Unit and offline tests	2026-11-14T09:30:34.1172262Z         from saydraft.ui.labs_page import LabsPage
+windows	Unit and offline tests	2026-11-14T09:30:34.1172964Z     
+windows	Unit and offline tests	2026-11-14T09:30:34.1173261Z         qt_modules()
+windows	Unit and offline tests	2026-11-14T09:30:34.1173547Z         config = default_config()
+windows	Unit and offline tests	2026-11-14T09:30:34.1173814Z         calls = []
+windows	Unit and offline tests	2026-11-14T09:30:34.1174125Z         page = LabsPage(config, callback=lambda *args: calls.append(True),
+windows	Unit and offline tests	2026-11-14T09:30:34.1174580Z                         report_loader=lambda: {"assessment": {"tier": "pro"}})
+windows	Unit and offline tests	2026-11-14T09:30:34.1175038Z         assert "463.9 MB" in page.license.text() and "NVIDIA Open Model License" in page.license.text()
+windows	Unit and offline tests	2026-11-14T09:30:34.1175513Z         assert not page.live.isChecked() and not page.streaming.isChecked()
+windows	Unit and offline tests	2026-11-14T09:30:34.1175870Z         page.live.setChecked(True)
+windows	Unit and offline tests	2026-11-14T09:30:34.1176165Z         page.streaming.setChecked(True)
+windows	Unit and offline tests	2026-11-14T09:30:34.1176426Z         page.apply_to(config)
+windows	Unit and offline tests	2026-11-14T09:30:34.1176905Z >       assert config["labs"] == {"live_preview": True, "use_streaming_result": True, "command_mode": False, "translate_mode": False} and not calls
+windows	Unit and offline tests	2026-11-14T09:30:34.1177534Z E       AssertionError: assert ({'ask_mode': ...': False, ...} == {'command_mod...result': True}
+windows	Unit and offline tests	2026-11-14T09:30:34.1177945Z E         
+windows	Unit and offline tests	2026-11-14T09:30:34.1178191Z E         Omitting 4 identical items, use -vv to show
+windows	Unit and offline tests	2026-11-14T09:30:34.1178487Z E         Left contains 1 more item:
+windows	Unit and offline tests	2026-11-14T09:30:34.1178745Z E         {'ask_mode': False}
+windows	Unit and offline tests	2026-11-14T09:30:34.1178998Z E         
+windows	Unit and offline tests	2026-11-14T09:30:34.1179190Z E         Full diff:
+windows	Unit and offline tests	2026-11-14T09:30:34.1179397Z E           {
+windows	Unit and offline tests	2026-11-14T09:30:34.1179606Z E         +     'ask_mode': False,
+windows	Unit and offline tests	2026-11-14T09:30:34.1179884Z E               'command_mode': False,
+windows	Unit and offline tests	2026-11-14T09:30:34.1180144Z E               'live_preview': True,
+windows	Unit and offline tests	2026-11-14T09:30:34.1180399Z E               'translate_mode': False,
+windows	Unit and offline tests	2026-11-14T09:30:34.1180660Z E               'use_streaming_result': True,
+windows	Unit and offline tests	2026-11-14T09:30:34.1180941Z E           })
+windows	Unit and offline tests	2026-11-14T09:30:34.1181042Z 
+windows	Unit and offline tests	2026-11-14T09:30:34.1181254Z tests\test_preview_ui.py:30: AssertionError
+windows	Unit and offline tests	2026-11-14T09:30:34.1181884Z ============================ slowest 12 durations =============================
+windows	Unit and offline tests	2026-11-14T09:30:34.1182703Z 55.97s call     tests/test_theme.py::test_unknown_platform_and_minimum_font_restore_without_overriding_larger_text
+windows	Unit and offline tests	2026-11-14T09:30:34.1183316Z 51.62s call     tests/test_theme.py::test_close_cancels_pending_work_and_preserves_newer_app_styles
+windows	Unit and offline tests	2026-11-14T09:30:34.1183816Z 44.24s call     tests/test_theme.py::test_platform_changes_coalesce_and_high_contrast_wins
+windows	Unit and offline tests	2026-11-14T09:30:34.1184271Z 7.70s call     tests/test_theme.py::test_start_failure_rolls_back_font_and_styles
+windows	Unit and offline tests	2026-11-14T09:30:34.1185477Z 6.88s call     tests/test_theme.py::test_progress_text_contrasts_with_both_fill_and_track[False-False-10-light]
+windows	Unit and offline tests	2026-11-14T09:30:34.1186450Z 6.19s call     tests/test_theme.py::test_minimum_settings_size_keeps_controls_readable_and_reachable[16-light]
+windows	Unit and offline tests	2026-11-14T09:30:34.1187045Z 6.17s call     tests/test_theme.py::test_minimum_settings_size_keeps_controls_readable_and_reachable[22-light]
+windows	Unit and offline tests	2026-11-14T09:30:34.1187618Z 5.40s call     tests/test_theme.py::test_minimum_settings_size_keeps_controls_readable_and_reachable[16-dark]
+windows	Unit and offline tests	2026-11-14T09:30:34.1188195Z 5.32s call     tests/test_theme.py::test_minimum_settings_size_keeps_controls_readable_and_reachable[22-dark]
+windows	Unit and offline tests	2026-11-14T09:30:34.1188957Z 5.13s call     tests/test_theme.py::test_progress_text_contrasts_with_both_fill_and_track[False-False-10-dark]
+windows	Unit and offline tests	2026-11-14T09:30:34.1189531Z 5.13s call     tests/test_theme.py::test_progress_text_contrasts_with_both_fill_and_track[False-False-50-dark]
+windows	Unit and offline tests	2026-11-14T09:30:34.1190122Z 5.12s call     tests/test_theme.py::test_progress_text_contrasts_with_both_fill_and_track[False-False-50-light]
+windows	Unit and offline tests	2026-11-14T09:30:34.1190587Z =========================== short test summary info ===========================
+windows	Unit and offline tests	2026-11-14T09:30:34.1191137Z SKIPPED [1] tests\test_audio_language_id.py:70: set the explicit verified helper directory for native smoke
+windows	Unit and offline tests	2026-11-14T09:30:34.1191826Z SKIPPED [1] tests\test_onboarding_practice.py:281: set the explicit verified Parakeet v3 directory for the bundled-audio practice smoke
+windows	Unit and offline tests	2026-11-14T09:30:34.1192510Z SKIPPED [1] tests\test_whisper_local.py:225: provide the explicit verified Whisper turbo fixture root for native cache checks
+windows	Unit and offline tests	2026-11-14T09:30:34.1193111Z SKIPPED [2] tests\test_parakeet.py:75: set the explicit verified model directory to run the native smoke
+windows	Unit and offline tests	2026-11-14T09:30:34.1193742Z SKIPPED [1] tests\test_setup_benchmark.py:369: set the explicit verified Parakeet v3 fixture root for the setup performance smoke
+windows	Unit and offline tests	2026-11-14T09:30:34.1194352Z SKIPPED [1] tests\test_streaming_runtime.py:212: provide the explicit verified preview installation
+windows	Unit and offline tests	2026-11-14T09:30:34.1194926Z SKIPPED [1] tests\test_whisper_engine.py:196: Set SAYDRAFT_RUN_WHISPER_INTEGRATION=1 to run faster-whisper model test
+windows	Unit and offline tests	2026-11-14T09:30:34.1195566Z SKIPPED [3] tests\test_whisper_local.py:269: provide the explicit verified Whisper turbo fixture root for native cache checks
+windows	Unit and offline tests	2026-11-14T09:30:34.1196173Z SKIPPED [1] tests\test_whisper_turbo.py:77: provide the explicitly downloaded pinned Whisper turbo model
+windows	Unit and offline tests	2026-11-14T09:30:34.1196606Z 2 failed, 4116 passed, 12 skipped in 464.37s (0:07:44)
+windows	Unit and offline tests	2026-11-14T09:30:35.5437969Z ##[error]Process completed with exit code 1.
+windows	Retain owned-window native diagnostics	﻿2026-11-14T09:30:35.5628009Z ##[group]Run actions/upload-artifact@v7
+windows	Retain owned-window native diagnostics	2026-11-14T09:30:35.5628395Z with:
+windows	Retain owned-window native diagnostics	2026-11-14T09:30:35.5628622Z   name: owned-window-native-diagnostics
+windows	Retain owned-window native diagnostics	2026-11-14T09:30:35.5628902Z   if-no-files-found: ignore
+windows	Retain owned-window native diagnostics	2026-11-14T09:30:35.5629838Z   path: build/pytest/**/own-controls/report.json
+windows	Retain owned-window native diagnostics	build/pytest/**/own-app-context/report.json
+windows	Retain owned-window native diagnostics	build/pytest/**/own-tracked-edit/report.json
+windows	Retain owned-window native diagnostics	build/pytest/**/own-selection/report.json
+windows	Retain owned-window native diagnostics	build/pytest/**/own-command/report.json
+windows	Retain owned-window native diagnostics	build/pytest/**/own-command-copy/report.json
+windows	Retain owned-window native diagnostics	build/pytest/**/own-selection-copy/report.json
+windows	Retain owned-window native diagnostics	
+windows	Retain owned-window native diagnostics	2026-11-14T09:30:35.5630825Z   compression-level: 6
+windows	Retain owned-window native diagnostics	2026-11-14T09:30:35.5631054Z   overwrite: false
+windows	Retain owned-window native diagnostics	2026-11-14T09:30:35.5631279Z   include-hidden-files: false
+windows	Retain owned-window native diagnostics	2026-11-14T09:30:35.5631558Z   archive: true
+windows	Retain owned-window native diagnostics	2026-11-14T09:30:35.5631762Z env:
+windows	Retain owned-window native diagnostics	2026-11-14T09:30:35.5631962Z   QT_QPA_PLATFORM: offscreen
+windows	Retain owned-window native diagnostics	2026-11-14T09:30:35.5632195Z   HF_HUB_OFFLINE: 1
+windows	Retain owned-window native diagnostics	2026-11-14T09:30:35.5632427Z   HF_HUB_DISABLE_TELEMETRY: 1
+windows	Retain owned-window native diagnostics	2026-11-14T09:30:35.5632685Z   DO_NOT_TRACK: 1
+windows	Retain owned-window native diagnostics	2026-11-14T09:30:35.5633030Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.13.17\x64
+windows	Retain owned-window native diagnostics	2026-11-14T09:30:35.5633451Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.13.17\x64/lib/pkgconfig
+windows	Retain owned-window native diagnostics	2026-11-14T09:30:35.5633853Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+windows	Retain owned-window native diagnostics	2026-11-14T09:30:35.5634247Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+windows	Retain owned-window native diagnostics	2026-11-14T09:30:35.5634607Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+windows	Retain owned-window native diagnostics	2026-11-14T09:30:35.5635168Z   SAYDRAFT_TEST_SILERO_MODEL: D:\a\saydraft\saydraft\build\test-models\silero-vad-v5\5cd2ba54db059f961e7545d4f211b44f005a6dfb\silero_vad.onnx
+windows	Retain owned-window native diagnostics	2026-11-14T09:30:35.5635666Z ##[endgroup]
+windows	Retain owned-window native diagnostics	2026-11-14T09:30:37.6566147Z With the provided path, there will be 14 files uploaded
+windows	Retain owned-window native diagnostics	2026-11-14T09:30:37.6572800Z Artifact name is valid!
+windows	Retain owned-window native diagnostics	2026-11-14T09:30:37.6573403Z Root directory input is valid!
+windows	Retain owned-window native diagnostics	2026-11-14T09:30:37.8776088Z Uploading artifact: owned-window-native-diagnostics.zip
+windows	Retain owned-window native diagnostics	2026-11-14T09:30:37.8814418Z Beginning upload of artifact content to blob storage
+windows	Retain owned-window native diagnostics	2026-11-14T09:30:37.9492081Z Uploaded bytes 15918
+windows	Retain owned-window native diagnostics	2026-11-14T09:30:37.9597692Z Finished uploading artifact content to blob storage!
+windows	Retain owned-window native diagnostics	2026-11-14T09:30:37.9598592Z SHA256 digest of uploaded artifact is 50c27b10cd5096ca65df35fd7f1b9574bfa51091892a21e989603d919698868d
+windows	Retain owned-window native diagnostics	2026-11-14T09:30:37.9599372Z Finalizing artifact upload
+windows	Retain owned-window native diagnostics	2026-11-14T09:30:38.3063236Z Artifact owned-window-native-diagnostics successfully finalized. Artifact ID 14108308381
+windows	Retain owned-window native diagnostics	2026-11-14T09:30:38.3064455Z Artifact owned-window-native-diagnostics has been successfully uploaded! Final size is 15918 bytes. Artifact ID is 14108308381
+windows	Retain owned-window native diagnostics	2026-11-14T09:30:38.3071595Z Artifact download URL: https://github.com/tanzir71/saydraft/actions/runs/43580199843/artifacts/14108308381
+windows	Post Run actions/checkout@v7	﻿2026-11-14T09:30:38.3419962Z Post job cleanup.
+windows	Post Run actions/checkout@v7	2026-11-14T09:30:38.5088067Z [command]"C:\Program Files\Git\bin\git.exe" version
+windows	Post Run actions/checkout@v7	2026-11-14T09:30:38.5392469Z git version 2.56.0.windows.4
+windows	Post Run actions/checkout@v7	2026-11-14T09:30:38.5451105Z Temporarily overriding HOME='D:\a\_temp\63335aa3-a466-4f24-86d0-f5126783f276' before making global git config changes
+windows	Post Run actions/checkout@v7	2026-11-14T09:30:38.5452044Z Adding repository directory to the temporary git global config as a safe directory
+windows	Post Run actions/checkout@v7	2026-11-14T09:30:38.5460697Z [command]"C:\Program Files\Git\bin\git.exe" config --global --add safe.directory D:\a\saydraft\saydraft
+windows	Post Run actions/checkout@v7	2026-11-14T09:30:38.5766500Z Removing SSH command configuration
+windows	Post Run actions/checkout@v7	2026-11-14T09:30:38.5776098Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+windows	Post Run actions/checkout@v7	2026-11-14T09:30:38.6116421Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+windows	Post Run actions/checkout@v7	2026-11-14T09:30:39.1373821Z Removing HTTP extra header
+windows	Post Run actions/checkout@v7	2026-11-14T09:30:39.1383283Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+windows	Post Run actions/checkout@v7	2026-11-14T09:30:39.1690542Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+windows	Post Run actions/checkout@v7	2026-11-14T09:30:39.6258433Z Removing includeIf entries pointing to credentials config files
+windows	Post Run actions/checkout@v7	2026-11-14T09:30:39.6268142Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp ^includeIf\.gitdir:
+windows	Post Run actions/checkout@v7	2026-11-14T09:30:39.6532865Z includeif.gitdir:D:/a/saydraft/saydraft/.git.path
+windows	Post Run actions/checkout@v7	2026-11-14T09:30:39.6533768Z includeif.gitdir:D:/a/saydraft/saydraft/.git/worktrees/*.path
+windows	Post Run actions/checkout@v7	2026-11-14T09:30:39.6534500Z includeif.gitdir:/github/workspace/.git.path
+windows	Post Run actions/checkout@v7	2026-11-14T09:30:39.6535010Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+windows	Post Run actions/checkout@v7	2026-11-14T09:30:39.6565368Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:D:/a/saydraft/saydraft/.git.path
+windows	Post Run actions/checkout@v7	2026-11-14T09:30:39.6828296Z D:\a\_temp\git-credentials-f912779a-e423-4f91-82a6-58320f8e42ce.config
+windows	Post Run actions/checkout@v7	2026-11-14T09:30:39.6872877Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:D:/a/saydraft/saydraft/.git.path D\:\\a\\_temp\\git\-credentials\-f912779a\-e423\-4f91\-82a6\-58320f8e42ce\.config
+windows	Post Run actions/checkout@v7	2026-11-14T09:30:39.7176767Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:D:/a/saydraft/saydraft/.git/worktrees/*.path
+windows	Post Run actions/checkout@v7	2026-11-14T09:30:39.7440196Z D:\a\_temp\git-credentials-f912779a-e423-4f91-82a6-58320f8e42ce.config
+windows	Post Run actions/checkout@v7	2026-11-14T09:30:39.7475124Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:D:/a/saydraft/saydraft/.git/worktrees/*.path D\:\\a\\_temp\\git\-credentials\-f912779a\-e423\-4f91\-82a6\-58320f8e42ce\.config
+windows	Post Run actions/checkout@v7	2026-11-14T09:30:39.7769835Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:/github/workspace/.git.path
+windows	Post Run actions/checkout@v7	2026-11-14T09:30:39.8028221Z /github/runner_temp/git-credentials-f912779a-e423-4f91-82a6-58320f8e42ce.config
+windows	Post Run actions/checkout@v7	2026-11-14T09:30:39.8061340Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-f912779a\-e423\-4f91\-82a6\-58320f8e42ce\.config
+windows	Post Run actions/checkout@v7	2026-11-14T09:30:39.8355358Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+windows	Post Run actions/checkout@v7	2026-11-14T09:30:39.8610956Z /github/runner_temp/git-credentials-f912779a-e423-4f91-82a6-58320f8e42ce.config
+windows	Post Run actions/checkout@v7	2026-11-14T09:30:39.8642944Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-f912779a\-e423\-4f91\-82a6\-58320f8e42ce\.config
+windows	Post Run actions/checkout@v7	2026-11-14T09:30:39.8934322Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "git config --local --show-origin --name-only --get-regexp remote.origin.url"
+windows	Post Run actions/checkout@v7	2026-11-14T09:30:40.3546231Z Removing credentials config 'D:\a\_temp\git-credentials-f912779a-e423-4f91-82a6-58320f8e42ce.config'
+windows	Complete job	﻿2026-11-14T09:30:40.3722983Z Cleaning up orphan processes

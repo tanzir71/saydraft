@@ -1,4 +1,5 @@
 {
+  "scope": "Native model diagnostic and source CI/package proof; browser workflow has its separate record.",
   "files": [
     {
       "file": "diagnostic-891bc7c-report.json",
@@ -94,7 +95,51 @@
       "file": "native-c225370-followup-cases.jsonl",
       "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\ask-native-c225370-20261114\\followup-r1\\cases.jsonl",
       "sha256": "5483a83030fdbc82ade47ed3dd7c4d2cf292909068ead2412c7e3219ed018c2f"
+    },
+    {
+      "file": "ci-c225370.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\run-43580561281.json",
+      "sha256": "cc041c068011b0564adeaf2114eb46baa4958c934e72c02c2e18c9cf14c97704"
+    },
+    {
+      "file": "ci-c225370.log",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\run-43580561281.log",
+      "sha256": "ac18e6844be38d1c26a3d2efdb850e1e48e014233157ec4c8f5a3174b91f38a4"
+    },
+    {
+      "file": "ci-891bc7c-failed.log",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\run-43580199843.log",
+      "sha256": "d28b855cce9263a9a5e74d87ca9972d5a2df1ff1491a7e61616caafd6234d759"
+    },
+    {
+      "file": "package-c225370.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\run-43580561319.json",
+      "sha256": "f67499587a22e8eeec7e7d1e35b2f21b9e625a280c53feae497257862845953f"
+    },
+    {
+      "file": "package-c225370-bundle.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\ask-package-c225370-receipts-r1\\audit\\bundle.json",
+      "sha256": "264d988ee276f6772d3a00ff49f9669c7c3c383471661b94aedcc7014efe64cb"
+    },
+    {
+      "file": "package-c225370-runtime.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\ask-package-c225370-receipts-r1\\audit\\runtime.json",
+      "sha256": "a714ed91e6d2b3d5e914446fcf8f9bd1b61cbb6cffff0ebd8466e6cc14005ec2"
+    },
+    {
+      "file": "package-c225370-installer.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\ask-package-c225370-receipts-r1\\audit\\installer-smoke.json",
+      "sha256": "35e4202aba06aa66f31cc7331e82faf53b8448be56fdddc2ca2b89c0f40b7f21"
+    },
+    {
+      "file": "package-c225370-analysis.toc",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\ask-package-c225370-receipts-r1\\work\\Saydraft\\Analysis-00.toc",
+      "sha256": "7ce4687ae165a7e9e063b3925cd0adafc81851f856eb711de7975e29eefdf0b8"
+    },
+    {
+      "file": "package-c225370-ask-modules.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\ask-package-c225370-receipts-r1\\ask-module-verification.json",
+      "sha256": "07bbd519fea5e125d2c2178c423a4c2215e44787a33749079dd07be6ad223956"
     }
-  ],
-  "scope": "Native Ask8/9 original failure retained; revised-prompt9/9 original and9/9 frozen development follow-up; native browser acceptance remains open."
+  ]
 }

@@ -52,3 +52,7 @@ eval/ask/results/**/*.json -text whitespace=blank-at-eol,blank-at-eof,space-befo
 eval/ask/results/**/*.jsonl -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 eval/ask/results/**/*.log -text -whitespace
 eval/ask/results/**/*.txt -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+eval/ask/results/**/*.toc -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+eval/asr/results/**/*.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+eval/asr/results/**/*.jsonl -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+eval/asr/results/**/*.txt -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol

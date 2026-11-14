@@ -3,8 +3,9 @@
 Status, 14 November 2026: Ask is connected from the default-off Pro/Labs opt-in
 through selection review, local generation, History and an independent answer
 Scratchpad. The actual pinned model passes eighteen authored-text smoke cases.
-P7.3 remains open pending native read-only browser acceptance. The owner desktop
-test remains stopped.
+A separate real-browser workflow passes with a scripted model. P7.3 remains open
+for combined actual-model/browser verification and final current-source checks.
+The owner desktop test remains stopped.
 
 ## Using Ask from source
 
@@ -90,7 +91,13 @@ owned offscreen renders cover both themes at 1x/2x, including Labs opt-ins and
 downgrade states, complete/recoverable answers and small-window feedback. Rules
 556/556 and adversarial 100/100 pass. These use authored text, fake model/clipboard
 ports and owned SQLite, without owner microphone, foreground reads or OS input.
-Fresh full CI/package verification of this integration follows.
+Connected source `c225370` now passes [full CI](https://github.com/tanzir71/saydraft/actions/runs/43580561281):
+4,118 tests / 12 explicit skips, rules 556/556 and adversarial 100/100. Its
+[package workflow](https://github.com/tanzir71/saydraft/actions/runs/43580561319)
+also passes; the actual PyInstaller table contains the Ask controller, processor,
+client and both windows. This does not qualify a frozen Ask interaction. The
+earlier `891bc7c` run's two exact Labs-default assertion failures and original
+log are retained. Subsequent browser compatibility source has separate checks.
 
 The first clean native run at `891bc7c` completes all nine cases with unchanged
 source/pins and both native exits observed, but passes only **8/9** meaning
@@ -109,7 +116,8 @@ factual accuracy. The answer window asks users to review generated text.
 Still required:
 
 - Verify native read-only browser article selection on a disposable remote
-  desktop, with no writes to the source and with queued cancellation guards.
+  desktop with the actual local model in the same flow. The scripted-model native
+  browser path is verified separately below.
 - Complete physical/packaged workflow acceptance when separately permitted.
 
 The `readonly-browser-ask-smoke` CI job now prepares a fresh headed Chromium
@@ -134,8 +142,15 @@ The first correction at `3a48913` also refuses before its ancestor walk. The nex
 correction handles empty focused selections, preserves ambiguous-range refusal,
 and uses explicit selected-span read-only metadata to override a container's
 Value default and prevent replacement. All 154 related policy/range/worker/Ask/edit
-checks pass locally; remote rerun is pending. Both original failures remain in
-the [browser record](../eval/ask/results/2026-11-14-browser/README.md).
+checks pass locally. Clean `4485386` passes the native browser job: three real
+selected-text reads, explicit read-only metadata, original source hash, History
+before presentation, a separate answer Note, unchanged article/selection and
+observed browser/UIA exits. Independent verification reads the retained SQLite
+rows and provenance. Both original failures remain in the
+[browser record](../eval/ask/results/2026-11-14-browser/README.md). Its initial Qt
+captures omitted bundled-font setup and show missing glyphs; the harness now
+loads the same verified fonts and light theme as the app before rendering.
+The themed rerun and final global checks follow.
 It complements the actual-model smoke above; it does not combine a native model
 with a browser or qualify physical hooks, microphone input or a frozen app.
 

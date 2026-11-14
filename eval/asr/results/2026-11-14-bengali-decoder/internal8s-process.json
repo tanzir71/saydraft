@@ -1,0 +1,14 @@
+{
+  "coordinator_pid": 36448,
+  "started_epoch": 1794649993.4747515,
+  "complete": true,
+  "pid": 24396,
+  "returncode": 0,
+  "finished_epoch": 1794650316.9502406,
+  "sha256": {
+    "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\bn-decoder-8s-observer-1b7e7ea-20261114-r1\\stdout.log": "b052eb2221381994cdc6dc64cd31face793ac31bbc9758359cda39f08d07ad45",
+    "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\bn-decoder-8s-observer-1b7e7ea-20261114-r1\\stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\bn-decoder-8s-diagnostic-1b7e7ea-20261114-r1\\report.json": "d4575ad081d0bf21b2e5bd497dd7608cdfa804645f27f2d44612e4e6d22695ba",
+    "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\bn-decoder-8s-diagnostic-1b7e7ea-20261114-r1\\cases.jsonl": "7a02231ede3c93bf575c9ec111f97671076dce62e874efd252b8370ad38be109"
+  }
+}

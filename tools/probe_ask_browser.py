@@ -52,8 +52,10 @@ def run(path):
     from saydraft.data.notes import NoteStore
     from saydraft.history import DictationHistoryStore
     from saydraft.privacy.netguard import NetworkGuard
+    from saydraft.ui.fonts import install_bundled_fonts
+    from saydraft.ui.theme import install_theme
 
-    output, worker, owner, app, executor = Path(path).parent, None, None, None, None
+    output, worker, owner, app, executor, theme = Path(path).parent, None, None, None, None, None
     report = {'source': subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip(),
         'source_dirty': bool(subprocess.check_output(['git', 'status', '--porcelain']).strip()),
         'scope': __doc__, 'stages': [], 'native_reads': 0, 'native_metadata': [], 'model_calls': [], 'copies': [], 'complete': False}
@@ -133,6 +135,10 @@ def run(path):
         qt = QtWidgets.QApplication([])
         assert qt.platformName() == 'offscreen'
         qt.setQuitOnLastWindowClosed(False)
+        report['bundled_font_faces'] = len(install_bundled_fonts(qt))
+        assert report['bundled_font_faces'] == 8
+        theme = install_theme(qt, mode='light')
+        assert theme is not None
         owner = BoundedUIA(factory=factory, capture_timeout=.5)
         assert ready.wait(5), 'Native UIA owner did not initialize'
         context = ForegroundContextProvider(api=api, uia=owner)
@@ -223,6 +229,8 @@ def run(path):
             report['uia_closed'] = False
         report['no_audio_module_loaded'] = 'sounddevice' not in sys.modules
         report['complete'] &= report['uia_closed'] and report['no_audio_module_loaded']
+        if theme is not None:
+            theme.close()
         NetworkGuard.uninstall()
         (output / 'native-report.json').write_text(json.dumps(report, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
     return 0 if report['complete'] else 1

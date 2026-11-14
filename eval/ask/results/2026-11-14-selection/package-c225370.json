@@ -1,0 +1,115 @@
+{
+  "conclusion": "success",
+  "headSha": "c225370545d9f77f98ffb54a74d6cf8c2ef29db1",
+  "jobs": [
+    {
+      "completedAt": "2026-11-14T09:32:36Z",
+      "conclusion": "success",
+      "databaseId": 132404190481,
+      "name": "unsigned-windows",
+      "startedAt": "2026-11-14T09:26:30Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-11-14T09:26:32Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-11-14T09:26:31Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-14T09:26:39Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@v7",
+          "number": 2,
+          "startedAt": "2026-11-14T09:26:32Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-14T09:26:39Z",
+          "conclusion": "success",
+          "name": "Run actions/setup-python@v7",
+          "number": 3,
+          "startedAt": "2026-11-14T09:26:39Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-14T09:26:40Z",
+          "conclusion": "success",
+          "name": "Choose fresh retained build directory",
+          "number": 4,
+          "startedAt": "2026-11-14T09:26:39Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-14T09:31:25Z",
+          "conclusion": "success",
+          "name": "Build and audit unsigned application and installer",
+          "number": 5,
+          "startedAt": "2026-11-14T09:26:40Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-14T09:31:51Z",
+          "conclusion": "success",
+          "name": "Verify disposable per-user install and uninstall",
+          "number": 6,
+          "startedAt": "2026-11-14T09:31:25Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-14T09:32:24Z",
+          "conclusion": "success",
+          "name": "Verify frozen firewall helper on disposable runner",
+          "number": 7,
+          "startedAt": "2026-11-14T09:31:51Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-14T09:32:29Z",
+          "conclusion": "success",
+          "name": "Retain unsigned binary artifacts",
+          "number": 8,
+          "startedAt": "2026-11-14T09:32:24Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-14T09:32:30Z",
+          "conclusion": "success",
+          "name": "Retain package verification receipts",
+          "number": 9,
+          "startedAt": "2026-11-14T09:32:29Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-14T09:32:30Z",
+          "conclusion": "success",
+          "name": "Post Run actions/setup-python@v7",
+          "number": 17,
+          "startedAt": "2026-11-14T09:32:30Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-14T09:32:33Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@v7",
+          "number": 18,
+          "startedAt": "2026-11-14T09:32:30Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-14T09:32:33Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 19,
+          "startedAt": "2026-11-14T09:32:33Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/tanzir71/saydraft/actions/runs/43580561319/job/132404190481"
+    }
+  ],
+  "status": "completed",
+  "url": "https://github.com/tanzir71/saydraft/actions/runs/43580561319"
+}

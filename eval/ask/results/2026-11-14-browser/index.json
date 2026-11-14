@@ -1,5 +1,5 @@
 {
-  "scope": "Original failed native browser diagnostics, before final compatibility correction. Both refuse source before text read; unchanged article and observed exits. No browser acceptance yet.",
+  "scope": "Native browser behavior passes at4485386 with scripted model/memory Copy; first failures retained, themed screenshot follow-up pending; actual-model/browser joint run remains unverified.",
   "files": [
     {
       "file": "c7b9566-report.json",
@@ -25,6 +25,31 @@
       "file": "controlled-ranges.txt",
       "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\ask-document-selection-r4.log",
       "sha256": "94dc334ccfc56817a014b945478344485338c6c07b4266e1f37f1a92de853bea"
+    },
+    {
+      "file": "4485386-report.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\ask-browser-4485386-artifact-r1\\report.json",
+      "sha256": "ed41acbdbd93eef963a1b91fa1c6a67648bc7d56a34d5b9e023a887aa4e8b385"
+    },
+    {
+      "file": "4485386-native-report.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\ask-browser-4485386-artifact-r1\\native-report.json",
+      "sha256": "70f59ca0cfcf44027055da8fd7c4055eedc649dd83a6599f69b2876e3212539c"
+    },
+    {
+      "file": "4485386-request.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\ask-browser-4485386-artifact-r1\\request.json",
+      "sha256": "376cc60c2ac65bfe33c78df25967fea01c9aa323bfa2d8888abfa20876860700"
+    },
+    {
+      "file": "4485386-independent-verification.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\ask-browser-4485386-artifact-r1\\independent-verification.json",
+      "sha256": "448fd4811faeb304296c85d599a90c1f9042e87b21cb0db2afe740828e9032a1"
+    },
+    {
+      "file": "verify-browser.py.txt",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\verify_browser_ask_4485386.py",
+      "sha256": "b38f18d7f6a26002896a67f84571a42195f33dea4b2ca0ab22c6a9728bcb7424"
     }
   ]
 }

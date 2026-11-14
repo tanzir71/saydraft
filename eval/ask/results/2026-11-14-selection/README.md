@@ -51,7 +51,18 @@ ongoing review validity so an already open question can receive dictation.
 The [384-case connected suite](controlled-connected.txt) and
 [76 preview/Settings checks](controlled-preview-settings.txt) pass. The final
 38-case lifecycle/window group and 62 client/processor/answer checks also pass
-locally. Exact-source full CI/package results follow separately.
+locally. [Full CI at c225370](https://github.com/tanzir71/saydraft/actions/runs/43580561281)
+passes 4,118 tests / 12 explicit skips in 628.42s, rules 556/556 and adversarial
+100/100; [metadata](ci-c225370.json) and [complete log](ci-c225370.log) retain the
+result. The [earlier 891bc7c log](ci-891bc7c-failed.log) retains its two exact
+Labs-default assertion failures (4,116 passes / 12 skips), corrected in c225370.
+The [package workflow](package-c225370.json), [bundle audit](package-c225370-bundle.json),
+[frozen runtime](package-c225370-runtime.json) and [installer receipt](package-c225370-installer.json)
+pass. The original [PyInstaller table](package-c225370-analysis.toc) and its
+[module verification](package-c225370-ask-modules.json) confirm collection of the
+Ask controller, processor, client and both windows. They do not qualify an actual
+frozen Ask interaction. Later browser compatibility source is verified in the
+separate browser record.
 
 No microphone, foreground application, UIA selection, clipboard, browser, hook
 or OS input is used here. Native read-only browser and physical/packaged workflow

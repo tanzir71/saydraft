@@ -1,0 +1,159 @@
+{
+  "scope": "Development decoder instrumentation on first three already-observed public Bengali clips; no benchmark acceptance, no audio hardware/input, no latency claim, production decode kwargs unchanged",
+  "source": {
+    "commit": "1b7e7eaf493e082692343244d6f1aed3e9907d68",
+    "dirty": false,
+    "fingerprints": {
+      "tools/asr_accuracy.py": "68d1fe7a6943c9b5c828cd921d7dda8c29e6edff592c636a853db72ee7673fd9",
+      "tools/bench_models.py": "915727fa0ee9cfd69b366c1f742069e8b6df7c02fd30874b98b404b0531cc547",
+      "tools/fetch_asr_corpus.py": "3cf853c5afc4f9687087cc0b6a86a835db34c4916e8bcbc512f5519ca7ece964",
+      "saydraft/asr/languages.py": "fc80248ae2e9787f978cb761f0a1f0d1eba65837d33c1eab64846cf1319d9ad0",
+      "saydraft/asr/router.py": "5ce679819126a6aed5442e6b5f612a1e6db3bfa9baadb01d810ecee6b957da89",
+      "saydraft/asr/sherpa_parakeet.py": "d8c66212398722976bdc94e2fb6e4b869e96dff48f84c957a91954eb74376327",
+      "saydraft/stt/whisper_engine.py": "7c10fd5de5aac1882a346e36becaeb33026c0cc5413bfc9ac7aac333ece596ad",
+      "saydraft/cleanup/styles.py": "0e486ee417cea0136ac762c7a5e9fe6db54722bb44accf182664e8a4cc541334",
+      "saydraft/cleanup/language.py": "ddd898ef5a3d19bd2bb640914a67b3f6b93c4944174baf17e79f44a8a422d9d3",
+      "saydraft/cleanup/formatter.py": "c002bb7b2372ec5e2595975c2dde55910a3f482879a1fbae49f6a834d0940b05",
+      "saydraft/dictation/pipeline.py": "1788598e4478113f9ce89c8cb3d7cef7302aae9e201b5e7dd2ac26d7668d7440",
+      "saydraft/dictation/rules.py": "873f82203f5ef7808d2ce114ef7411938a2d00b8d90518746067ad8da6804340",
+      "saydraft/asr/whisper_ct2.py": "f677767d5adea48e79e8e30442e3786ea101ae5395e372e5d7b8e8ff843e272f",
+      "saydraft/cleanup/llm/validate.py": "55ba406a1e2bf1b941a7cb3b79105cb21c36a7771d37b782f17761c0d96ba0dd",
+      "saydraft/models/manifest.json": "7f6b5d8aa719bd02f3be1af82bdf4d9f5b1345fd10094eb76b808ab0858772a0",
+      "tools/latency_environment.py": "5bb7649763d41107cfdbe50692025d525e276718e92fa5b082fefcffab963ccd",
+      "requirements.txt": "646c992a372da5724783b86c4439c838c73f592d80714fe647e66b3423ed9c4e"
+    }
+  },
+  "script_sha256": "2f974e38a8ce4352cb5c73845ba1a74b830243e40e4433ca38ea2e27537fc182",
+  "pid": 24932,
+  "complete": true,
+  "rows": [
+    {
+      "id": 1916,
+      "audio_sha256": "7cf52bece22aefba405829426c8b83acd67c9515986d51fb19f6a18681e80e0b",
+      "reference": "জার্মানির অনেক বেক করা খাবারগুলিতে বাদাম, হ্যাজনেলট এবং অন্যান্য বাদামের উপাদান পাওয়া যায়। পছন্দের কেকগুলি প্রায়শই একটি কাপ ভরা কফির সাথে ভাল মানায়।",
+      "text": "জান্মানের অনেক বেক্করা খাবার গুলিতে বাদাম হেজ নেল্ত এবং অনান্ন নো বাদামের উপাদাম পাও জায় অছন্দের কেক্গুলি প্রা",
+      "scores": {
+        "word_errors": 21,
+        "reference_words": 23,
+        "character_errors": 51,
+        "reference_characters": 127
+      },
+      "decode_calls": [
+        {
+          "max_length_option": 448,
+          "beam_size": 5,
+          "temperature": 0,
+          "prompt_tokens": 3,
+          "generated_tokens": 224,
+          "text_tokens": 223,
+          "last_tokens": [
+            103,
+            156,
+            100,
+            235,
+            156,
+            12811,
+            29045,
+            122
+          ],
+          "tokens_sha256": "56cb4699fc14da92a4a2001ef2270efc73e4d928aa7f853453c3daa4b0213727",
+          "decoded": " জান্মানের অনেক বেক্করা খাবার গুলিতে বাদাম হেজ নেল্ত এবং অনান্ন নো বাদামের উপাদাম পাও জায় অছন্দের কেক্গুলি প্রা",
+          "contains_replacement": false,
+          "seconds": 25.027582199999415
+        }
+      ],
+      "seconds": 44.07127820000005
+    },
+    {
+      "id": 1879,
+      "audio_sha256": "8c40e7d6c18122601972c4a8e11ba027f751ef9bad683f63a73501839cc62b66",
+      "reference": "একজন শুধুমাত্র আশ্চর্য হতে পারে এই ভেবে যে যখন নতুন কিছু আসে তখন কী-বোর্ড কীরকম হবে।",
+      "text": "এক জন সুদোমাত্র আশ তর্য হতে পারে এই ভেবেজে যখন নতুন কিসু আশে তখন কিবার কিরকম হারে",
+      "scores": {
+        "word_errors": 13,
+        "reference_words": 17,
+        "character_errors": 15,
+        "reference_characters": 67
+      },
+      "decode_calls": [
+        {
+          "max_length_option": 448,
+          "beam_size": 5,
+          "temperature": 0,
+          "prompt_tokens": 3,
+          "generated_tokens": 159,
+          "text_tokens": 157,
+          "last_tokens": [
+            29045,
+            122,
+            156,
+            12811,
+            156,
+            100,
+            229,
+            50840
+          ],
+          "tokens_sha256": "8805be2bacc6726170a3d407f18bb2b7c3d02b74e8c4678c2e7cf940c316724e",
+          "decoded": " এক জন সুদোমাত্র আশ তর্য হতে পারে এই ভেবেজে যখন নতুন কিসু আশে তখন কিবার কিরকম হারে",
+          "contains_replacement": false,
+          "seconds": 11.241612000000714
+        }
+      ],
+      "seconds": 33.22002450000036
+    },
+    {
+      "id": 1804,
+      "audio_sha256": "7359665c138d797a9ce5c6827bd653d11cf2beb514fecc60d01d6d0ad5f16f6b",
+      "reference": "হাইতিয়ান ইনস্টিটিউট ফর জাস্টিস অ্যান্ড ডেমোক্রেসি এর স্বতন্ত্র সমীক্ষাতে উল্লেখ করা হয়েছে যে নেপালি জাতিসংঘের শান্তিরক্ষা বাহিনী অজান্তেই হাইতিতে এই রোগটি নিয়ে এসেছিল।",
+      "text": "হাইতিযান ইনিস্টিটিয়ট ফার জাস্টিস এন ডেমক্রেসি এর সতন্ত্র সমিখাতে উলে করা হোয়েছে জে নেপালি জাতি সংগের সান্তি র�",
+      "scores": {
+        "word_errors": 19,
+        "reference_words": 23,
+        "character_errors": 68,
+        "reference_characters": 147
+      },
+      "decode_calls": [
+        {
+          "max_length_option": 448,
+          "beam_size": 5,
+          "temperature": 0,
+          "prompt_tokens": 3,
+          "generated_tokens": 224,
+          "text_tokens": 223,
+          "last_tokens": [
+            29045,
+            97,
+            29045,
+            123,
+            220,
+            156,
+            12811,
+            29045
+          ],
+          "tokens_sha256": "fe738c300bb7f6439a045cf532bfcc587c7cc4c64e468b4ee4eefecf48bf40f9",
+          "decoded": " হাইতিযান ইনিস্টিটিয়ট ফার জাস্টিস এন ডেমক্রেসি এর সতন্ত্র সমিখাতে উলে করা হোয়েছে জে নেপালি জাতি সংগের সান্তি র�",
+          "contains_replacement": true,
+          "seconds": 21.242428499999733
+        }
+      ],
+      "seconds": 36.48370140000043
+    }
+  ],
+  "corpora": [
+    {
+      "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-public-fleurs-20261114\\bn-r1\\corpus.json",
+      "sha256": "a3bfc3d4de2624629e6d90abe699e40c829f0aea83bcc7bd18518a129023b1b3",
+      "language": "bn",
+      "clips": 20,
+      "metadata_sha256": "a7d892390778ce23d0acf15bbba4d9454439c48607cefb923e37f55a480c4c0c"
+    }
+  ],
+  "selected_ids": [
+    1916,
+    1879,
+    1804
+  ],
+  "model_max_length": 448,
+  "source_unchanged": true,
+  "pins_unchanged": true
+}

@@ -1,0 +1,12 @@
+{
+  "source": "c225370545d9f77f98ffb54a74d6cf8c2ef29db1",
+  "required_modules": {
+    "saydraft.core.ask_controller": true,
+    "saydraft.core.ask": true,
+    "saydraft.cleanup.llm.ask": true,
+    "saydraft.ui.ask_window": true,
+    "saydraft.ui.ask_answer": true
+  },
+  "analysis_sha256": "7ce4687ae165a7e9e063b3925cd0adafc81851f856eb711de7975e29eefdf0b8",
+  "scope": "Actual PyInstaller module collection and package gates; not a frozen Ask interaction"
+}

@@ -1,0 +1,186 @@
+{
+  "scope": "Disposable headed Chromium article -> real native foreground/UIA -> actual Ask worker/review/History/answer Notes; scripted model and memory Copy; no audio, hooks, OS typing, source edits or owner desktop; not actual-model/browser combined acceptance",
+  "title": "Saydraft read-only Ask b1814a82-778a-47f6-a84b-3024f1ae5162",
+  "source_sha256": "fd6b4fb89c925f94c5a8762321f39b9e148b36adee554e9c01229b22be3d068a",
+  "fixture_sha256": "94f3bdb5de738fb3b55c965cd4d26ae960f471731709a19cc0ad22f8ab7be9cd",
+  "requests": [
+    {
+      "url": "owned-article.html",
+      "allowed": true
+    }
+  ],
+  "complete": true,
+  "browser_pid": 2256,
+  "browser_version": "158.0.8127.18",
+  "before": {
+    "article": "<article id=\"article\" aria-label=\"Library notice\"><p id=\"selection\">The library opens on Saturday at 10:00. It is closed on Sunday.</p>\n<p>Public authored test fixture. This article is read-only.</p></article>",
+    "selection": "The library opens on Saturday at 10:00. It is closed on Sunday.",
+    "editable": false,
+    "focused": "BODY"
+  },
+  "python_exit": {
+    "code": 0,
+    "signal": null
+  },
+  "article_unchanged": true,
+  "native": {
+    "source": "44853861b05d2e3b1910681f58962309706d74c7",
+    "source_dirty": false,
+    "scope": "Real browser selection -> actual Ask flow, restricted to disposable Windows CI.\n\nThe model and explicit Copy port are scripted. No audio, hook, OS input,\nclipboard transaction or document insertion is allowed. Actual pinned-model\nanswers are measured by the separate cache-only tools.probe_ask runner.\n",
+    "stages": [
+      "native-read-only-article-reviewed",
+      "history-and-independent-answer-note-before-explicit-memory-copy"
+    ],
+    "native_reads": 3,
+    "native_metadata": [
+      {
+        "type": 50026,
+        "password": false,
+        "focused": true
+      },
+      {
+        "type": 50026,
+        "password": false,
+        "focused": true
+      },
+      {
+        "type": 50026,
+        "password": false,
+        "focused": true
+      },
+      {
+        "type": 50026,
+        "password": false,
+        "focused": true
+      },
+      {
+        "type": 50026,
+        "password": false,
+        "focused": true
+      },
+      {
+        "type": 50026,
+        "password": false,
+        "focused": true
+      },
+      {
+        "type": 50026,
+        "password": false,
+        "focused": true
+      }
+    ],
+    "model_calls": [
+      {
+        "source_sha256": "fd6b4fb89c925f94c5a8762321f39b9e148b36adee554e9c01229b22be3d068a",
+        "question": "When does the library open?"
+      }
+    ],
+    "copies": [
+      "The library opens on Saturday at 10:00."
+    ],
+    "complete": true,
+    "expected_source_sha256": "fd6b4fb89c925f94c5a8762321f39b9e148b36adee554e9c01229b22be3d068a",
+    "browser_window": 131592,
+    "document_ancestors": [
+      {
+        "type": 50030,
+        "password": false,
+        "native_handle": 0
+      },
+      {
+        "type": 50030,
+        "password": false,
+        "native_handle": 0
+      },
+      {
+        "type": 50030,
+        "password": false,
+        "native_handle": 0
+      },
+      {
+        "type": 50030,
+        "password": false,
+        "native_handle": 0
+      },
+      {
+        "type": 50030,
+        "password": false,
+        "native_handle": 0
+      },
+      {
+        "type": 50030,
+        "password": false,
+        "native_handle": 0
+      }
+    ],
+    "native_range_queries": [
+      {
+        "type": 50026,
+        "error_type": "ValueError",
+        "hresult": null
+      },
+      {
+        "type": 50030,
+        "count": 1
+      },
+      {
+        "type": 50026,
+        "error_type": "ValueError",
+        "hresult": null
+      },
+      {
+        "type": 50030,
+        "count": 1
+      },
+      {
+        "type": 50026,
+        "error_type": "ValueError",
+        "hresult": null
+      },
+      {
+        "type": 50030,
+        "count": 1
+      },
+      {
+        "type": 50026,
+        "error_type": "ValueError",
+        "hresult": null
+      },
+      {
+        "type": 50030,
+        "count": 1
+      },
+      {
+        "type": 50026,
+        "error_type": "ValueError",
+        "hresult": null
+      },
+      {
+        "type": 50030,
+        "count": 1
+      },
+      {
+        "type": 50026,
+        "error_type": "ValueError",
+        "hresult": null
+      },
+      {
+        "type": 50030,
+        "count": 1
+      }
+    ],
+    "native_captures": [
+      {
+        "status": "ready",
+        "read_only": true,
+        "control_type": 50026,
+        "source_sha256": "fd6b4fb89c925f94c5a8762321f39b9e148b36adee554e9c01229b22be3d068a",
+        "allow_copy": false
+      }
+    ],
+    "history_before_presentation": true,
+    "uia_closed": true,
+    "no_audio_module_loaded": true
+  },
+  "browser_exit_observed": true
+}

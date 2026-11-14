@@ -1,5 +1,17 @@
 # Read-only browser Ask diagnostics · 14 November 2026
 
+Clean `4485386` now passes the [native browser job](https://github.com/tanzir71/saydraft/actions/runs/43582821699).
+The [driver](4485386-report.json), [native report](4485386-native-report.json)
+and [independent verification](4485386-independent-verification.json) confirm
+three real selected-text reads with explicit read-only metadata, unchanged
+article/selection, History before presentation, a separate answer Note and
+observed browser/child/UIA exits. The [verifier](verify-browser.py.txt) also reads
+the original SQLite History/Notes rows and source hash/length provenance. This
+still uses a scripted model and memory Copy; a combined actual-model/browser
+run remains unverified. The initial Qt screenshots omitted font installation
+and show missing glyphs, so they are not visual acceptance. A themed harness
+rerun follows. Both earlier failures remain below.
+
 Both first native CI runs refuse the focused Chromium Group (50026) without
 reading source text, invoking a model or writing a document. The authored
 article and DOM selection remain unchanged, and the owned browser/UIA exits

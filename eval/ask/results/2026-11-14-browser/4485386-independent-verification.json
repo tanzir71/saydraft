@@ -1,0 +1,17 @@
+{
+  "source": "44853861b05d2e3b1910681f58962309706d74c7",
+  "scope": "Independent retained browser/native/request/source/SQLite/Notes/process outcome verification. Scripted model/memory Copy; actual model smoke separate.",
+  "passed": true,
+  "artifacts": {
+    "answer.png": "7a98b3f1bce4dde62a296c9b5e56a21fd5e472980a64d1c91c0b3f77413dede8",
+    "article.html": "94f3bdb5de738fb3b55c965cd4d26ae960f471731709a19cc0ad22f8ab7be9cd",
+    "native-report.json": "70f59ca0cfcf44027055da8fd7c4055eedc649dd83a6599f69b2876e3212539c",
+    "public-history.db": "16523ae7a1d00d58574332ead8a196da32be6069fd2080acf471b26a10aa9d0c",
+    "python-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "python-stdout.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "question.png": "0ce7ecab8c17079fc4452ebd243864a24c2e779b5b64658a46ee356c669f3260",
+    "read-only-article.png": "221a81dddc73ed7b3d441e4568a47625aef7caa771757bc13fc387bab32f3f99",
+    "report.json": "ed41acbdbd93eef963a1b91fa1c6a67648bc7d56a34d5b9e023a887aa4e8b385",
+    "request.json": "376cc60c2ac65bfe33c78df25967fea01c9aa323bfa2d8888abfa20876860700"
+  }
+}

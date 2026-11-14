@@ -1,0 +1,159 @@
+{
+  "source": "44853861b05d2e3b1910681f58962309706d74c7",
+  "source_dirty": false,
+  "scope": "Real browser selection -> actual Ask flow, restricted to disposable Windows CI.\n\nThe model and explicit Copy port are scripted. No audio, hook, OS input,\nclipboard transaction or document insertion is allowed. Actual pinned-model\nanswers are measured by the separate cache-only tools.probe_ask runner.\n",
+  "stages": [
+    "native-read-only-article-reviewed",
+    "history-and-independent-answer-note-before-explicit-memory-copy"
+  ],
+  "native_reads": 3,
+  "native_metadata": [
+    {
+      "type": 50026,
+      "password": false,
+      "focused": true
+    },
+    {
+      "type": 50026,
+      "password": false,
+      "focused": true
+    },
+    {
+      "type": 50026,
+      "password": false,
+      "focused": true
+    },
+    {
+      "type": 50026,
+      "password": false,
+      "focused": true
+    },
+    {
+      "type": 50026,
+      "password": false,
+      "focused": true
+    },
+    {
+      "type": 50026,
+      "password": false,
+      "focused": true
+    },
+    {
+      "type": 50026,
+      "password": false,
+      "focused": true
+    }
+  ],
+  "model_calls": [
+    {
+      "source_sha256": "fd6b4fb89c925f94c5a8762321f39b9e148b36adee554e9c01229b22be3d068a",
+      "question": "When does the library open?"
+    }
+  ],
+  "copies": [
+    "The library opens on Saturday at 10:00."
+  ],
+  "complete": true,
+  "expected_source_sha256": "fd6b4fb89c925f94c5a8762321f39b9e148b36adee554e9c01229b22be3d068a",
+  "browser_window": 131592,
+  "document_ancestors": [
+    {
+      "type": 50030,
+      "password": false,
+      "native_handle": 0
+    },
+    {
+      "type": 50030,
+      "password": false,
+      "native_handle": 0
+    },
+    {
+      "type": 50030,
+      "password": false,
+      "native_handle": 0
+    },
+    {
+      "type": 50030,
+      "password": false,
+      "native_handle": 0
+    },
+    {
+      "type": 50030,
+      "password": false,
+      "native_handle": 0
+    },
+    {
+      "type": 50030,
+      "password": false,
+      "native_handle": 0
+    }
+  ],
+  "native_range_queries": [
+    {
+      "type": 50026,
+      "error_type": "ValueError",
+      "hresult": null
+    },
+    {
+      "type": 50030,
+      "count": 1
+    },
+    {
+      "type": 50026,
+      "error_type": "ValueError",
+      "hresult": null
+    },
+    {
+      "type": 50030,
+      "count": 1
+    },
+    {
+      "type": 50026,
+      "error_type": "ValueError",
+      "hresult": null
+    },
+    {
+      "type": 50030,
+      "count": 1
+    },
+    {
+      "type": 50026,
+      "error_type": "ValueError",
+      "hresult": null
+    },
+    {
+      "type": 50030,
+      "count": 1
+    },
+    {
+      "type": 50026,
+      "error_type": "ValueError",
+      "hresult": null
+    },
+    {
+      "type": 50030,
+      "count": 1
+    },
+    {
+      "type": 50026,
+      "error_type": "ValueError",
+      "hresult": null
+    },
+    {
+      "type": 50030,
+      "count": 1
+    }
+  ],
+  "native_captures": [
+    {
+      "status": "ready",
+      "read_only": true,
+      "control_type": 50026,
+      "source_sha256": "fd6b4fb89c925f94c5a8762321f39b9e148b36adee554e9c01229b22be3d068a",
+      "allow_copy": false
+    }
+  ],
+  "history_before_presentation": true,
+  "uia_closed": true,
+  "no_audio_module_loaded": true
+}

@@ -1,0 +1,281 @@
+{
+  "conclusion": "success",
+  "headSha": "c225370545d9f77f98ffb54a74d6cf8c2ef29db1",
+  "jobs": [
+    {
+      "completedAt": "2026-11-14T09:26:49Z",
+      "conclusion": "success",
+      "databaseId": 132404190747,
+      "name": "update-metadata-smoke",
+      "startedAt": "2026-11-14T09:26:30Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-11-14T09:26:32Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-11-14T09:26:31Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-14T09:26:41Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@v7",
+          "number": 2,
+          "startedAt": "2026-11-14T09:26:32Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-14T09:26:41Z",
+          "conclusion": "success",
+          "name": "Run actions/setup-python@v7",
+          "number": 3,
+          "startedAt": "2026-11-14T09:26:41Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-14T09:26:43Z",
+          "conclusion": "success",
+          "name": "Verify default-off policy without an outbound request",
+          "number": 4,
+          "startedAt": "2026-11-14T09:26:41Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-14T09:26:45Z",
+          "conclusion": "success",
+          "name": "Explicit opt-in public update metadata smoke",
+          "number": 5,
+          "startedAt": "2026-11-14T09:26:43Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-14T09:26:45Z",
+          "conclusion": "success",
+          "name": "Post Run actions/setup-python@v7",
+          "number": 9,
+          "startedAt": "2026-11-14T09:26:45Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-14T09:26:47Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@v7",
+          "number": 10,
+          "startedAt": "2026-11-14T09:26:45Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-14T09:26:47Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 11,
+          "startedAt": "2026-11-14T09:26:47Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/tanzir71/saydraft/actions/runs/43580561281/job/132404190747"
+    },
+    {
+      "completedAt": "2026-11-14T09:27:55Z",
+      "conclusion": "success",
+      "databaseId": 132404190809,
+      "name": "firewall-owned-rule-smoke",
+      "startedAt": "2026-11-14T09:26:30Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-11-14T09:26:32Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-11-14T09:26:31Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-14T09:26:38Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@v7",
+          "number": 2,
+          "startedAt": "2026-11-14T09:26:32Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-14T09:26:46Z",
+          "conclusion": "success",
+          "name": "Run actions/setup-python@v7",
+          "number": 3,
+          "startedAt": "2026-11-14T09:26:38Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-14T09:27:17Z",
+          "conclusion": "success",
+          "name": "Install isolated probe dependencies",
+          "number": 4,
+          "startedAt": "2026-11-14T09:26:46Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-14T09:27:49Z",
+          "conclusion": "success",
+          "name": "Verify owned rule, native boundary, worker and download recovery",
+          "number": 5,
+          "startedAt": "2026-11-14T09:27:17Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-14T09:27:50Z",
+          "conclusion": "success",
+          "name": "Retain disposable rule receipts",
+          "number": 6,
+          "startedAt": "2026-11-14T09:27:49Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-14T09:27:50Z",
+          "conclusion": "success",
+          "name": "Post Run actions/setup-python@v7",
+          "number": 11,
+          "startedAt": "2026-11-14T09:27:50Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-14T09:27:53Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@v7",
+          "number": 12,
+          "startedAt": "2026-11-14T09:27:50Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-14T09:27:53Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 13,
+          "startedAt": "2026-11-14T09:27:53Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/tanzir71/saydraft/actions/runs/43580561281/job/132404190809"
+    },
+    {
+      "completedAt": "2026-11-14T09:38:11Z",
+      "conclusion": "success",
+      "databaseId": 132404190869,
+      "name": "windows",
+      "startedAt": "2026-11-14T09:26:30Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-11-14T09:26:33Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-11-14T09:26:31Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-14T09:26:41Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@v7",
+          "number": 2,
+          "startedAt": "2026-11-14T09:26:33Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-14T09:26:49Z",
+          "conclusion": "success",
+          "name": "Run actions/setup-python@v7",
+          "number": 3,
+          "startedAt": "2026-11-14T09:26:41Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-14T09:27:29Z",
+          "conclusion": "success",
+          "name": "Install development dependencies",
+          "number": 4,
+          "startedAt": "2026-11-14T09:26:49Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-14T09:27:30Z",
+          "conclusion": "success",
+          "name": "Lint",
+          "number": 5,
+          "startedAt": "2026-11-14T09:27:29Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-14T09:27:31Z",
+          "conclusion": "success",
+          "name": "Fetch pinned VAD fixture for native offline smoke",
+          "number": 6,
+          "startedAt": "2026-11-14T09:27:30Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-14T09:38:02Z",
+          "conclusion": "success",
+          "name": "Unit and offline tests",
+          "number": 7,
+          "startedAt": "2026-11-14T09:27:31Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-14T09:38:06Z",
+          "conclusion": "success",
+          "name": "Retain owned-window native diagnostics",
+          "number": 8,
+          "startedAt": "2026-11-14T09:38:02Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-14T09:38:07Z",
+          "conclusion": "success",
+          "name": "Cleanup regression evaluation",
+          "number": 9,
+          "startedAt": "2026-11-14T09:38:06Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-14T09:38:07Z",
+          "conclusion": "success",
+          "name": "Adversarial cleanup validation",
+          "number": 10,
+          "startedAt": "2026-11-14T09:38:07Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-14T09:38:07Z",
+          "conclusion": "success",
+          "name": "Post Run actions/setup-python@v7",
+          "number": 19,
+          "startedAt": "2026-11-14T09:38:07Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-14T09:38:10Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@v7",
+          "number": 20,
+          "startedAt": "2026-11-14T09:38:07Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-14T09:38:10Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 21,
+          "startedAt": "2026-11-14T09:38:10Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/tanzir71/saydraft/actions/runs/43580561281/job/132404190869"
+    }
+  ],
+  "status": "completed",
+  "url": "https://github.com/tanzir71/saydraft/actions/runs/43580561281"
+}

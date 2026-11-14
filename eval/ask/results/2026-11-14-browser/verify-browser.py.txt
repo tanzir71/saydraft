@@ -1,0 +1,30 @@
+import hashlib,json,sys
+from pathlib import Path
+sys.path.insert(0,str(Path.cwd()))
+from saydraft.data.notes import NoteStore
+from saydraft.history import DictationHistoryStore
+root=Path('D:/Saydraft-Codex-QA-20261112-01a1cbc7/ask-browser-4485386-artifact-r1')
+driver=json.loads((root/'report.json').read_text(encoding='utf-8'));native=json.loads((root/'native-report.json').read_text(encoding='utf-8'));request=json.loads((root/'request.json').read_text(encoding='utf-8'))
+digest=lambda path:hashlib.sha256(path.read_bytes()).hexdigest()
+assert native['source']=='44853861b05d2e3b1910681f58962309706d74c7' and not native['source_dirty']
+assert driver['complete'] and native['complete'] and driver['native']==native
+assert driver['python_exit']=={'code':0,'signal':None} and driver['browser_exit_observed'] and native['uia_closed']
+assert driver['article_unchanged'] and driver['before']['editable'] is False and driver['before']['selection']==request['source']
+assert driver['fixture_sha256']==digest(root/'article.html') and driver['browser_pid']==request['browser_pid']
+sha=hashlib.sha256(request['source'].encode('utf-8')).hexdigest()
+assert driver['source_sha256']==native['expected_source_sha256']==sha
+assert len(driver['requests'])==1 and all(row['allowed'] for row in driver['requests'])
+assert native['native_reads']==3 and len(native['native_captures'])==1
+capture=native['native_captures'][0];assert capture['status']=='ready' and capture['read_only'] is True and capture['allow_copy'] is False and capture['source_sha256']==sha
+assert all(row['type']==50030 and row['password'] is False and row['native_handle']==0 for row in native['document_ancestors'])
+assert all(row['password'] is False and row['focused'] is True for row in native['native_metadata'])
+assert native['history_before_presentation'] and native['no_audio_module_loaded'] and len(native['model_calls'])==1
+assert native['model_calls'][0]['source_sha256']==sha
+history=DictationHistoryStore(root/'public-history.db');rows=history.list_recent();assert len(rows)==1 and history.last_transcript() is None
+row=rows[0];assert row.mode=='ask' and row.raw_text==native['model_calls'][0]['question'] and native['copies']==[row.cleaned_text]
+provenance=json.loads(row.edits_json)[0];assert provenance['source_sha256']==sha and provenance['source_utf16_units']==len(request['source'].encode('utf-16-le'))//2
+notes=NoteStore(root/'public-history.db');assert notes.active().body=='Primary public note remains active'
+assert len(notes.list())==2 and any(notes.get(note.id).body==row.cleaned_text for note in notes.list())
+receipt={'source':native['source'],'scope':'Independent retained browser/native/request/source/SQLite/Notes/process outcome verification. Scripted model/memory Copy; actual model smoke separate.','passed':True,'artifacts':{p.name:digest(p) for p in root.iterdir() if p.is_file()}}
+(root/'independent-verification.json').write_text(json.dumps(receipt,indent=2)+'\n',encoding='utf-8')
+print(json.dumps({'passed':True,'readonly_native_selection':True,'history_and_independent_note':True}))
