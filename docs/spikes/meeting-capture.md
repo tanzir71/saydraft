@@ -1,10 +1,11 @@
 # Meeting capture foundation · 14 November 2026
 
 P7.5 remains open. The capture readers, resampler, isolated streaming worker and
-verified speaker-model adapter are implemented. The Notetaker app flow, VAD/ASR,
-meeting timeline and diarization integration, local summary, Notes
-delivery and 30-minute offline meeting acceptance still need integration and
-verification. Capture is not exposed as a recording action in the app.
+verified speaker-model adapter are implemented. The bounded timeline, VAD/ASR,
+speaker integration, cited local summary and independent Notes core are also
+implemented with native file-fixture evidence and explicit quality limits.
+The Notetaker app flow and 30-minute offline meeting acceptance still need
+integration and verification. Capture is not exposed as a recording action.
 
 ## Backend choice
 
@@ -163,8 +164,9 @@ clips. It never captures audio, scans a profile or downloads weights.
 
 The [analysis checkpoint](../MEETINGS.md) implements the bounded memory timeline,
 chunked recognition, cited local summary and independent meeting Notes. Its
-native qualification and the app workflow are still pending; the sections below
-describe the complete integration and acceptance scope.
+native file-fixture execution is verified, with failed summary quality gates
+retained. The sections below describe the remaining app integration and full
+acceptance scope.
 
 Connect the owned worker to the app and display a persistent Recording meeting capsule before starting
 capture and until native capture actually stops. Never auto-start or join a call
@@ -173,10 +175,9 @@ final resampling tail; explain the use of headphones to reduce acoustic echo.
 Honor retention-off behavior rather than silently archiving meeting audio.
 Qualify the complete connected Notetaker workflow in the frozen package build.
 
-Add chunked VAD and local recognition, connect the verified speaker adapter to
-the two-track meeting timeline, and add a Pro local summary with title,
-topics, decisions and next steps with owners. Save the Markdown as a separate
-meeting note without replacing the active Scratchpad. Verify cancellation,
+Connect the existing chunked VAD/recognition, speaker timeline, Pro cited local
+summary and independent meeting Note delivery to that app workflow. Preserve
+the active Scratchpad. Verify cancellation,
 backpressure, model failures, incomplete capture, crash recovery and note-save
 failure before completing the app flow.
 

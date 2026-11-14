@@ -1,9 +1,9 @@
 # Local meeting analysis (in development)
 
 Notetaker is not exposed as an app recording action yet. P7.5 remains open.
-The committed capture/speaker foundation passes full CI and packaging at
-`6e1d41a` (4,323 tests, 12 optional skips). The analysis work below still needs
-native model qualification and the complete app workflow before acceptance.
+The analysis checkpoint passes full CI and packaging at `a097576` (4,407 tests,
+12 optional skips). Later native development runs verify execution and expose
+summary-quality limits; they do not accept the complete app workflow or accuracy.
 See the [capture and model spike](spikes/meeting-capture.md) for the backend,
 licenses, process ownership and their separate qualification limits.
 
@@ -38,7 +38,9 @@ the detector's retrospective segment start/end bounds, merges overlapping
 padding and caps native speech segments at 20 seconds inside its 30-second
 buffer. The WebRTC fallback keeps its frame-based path. The regression checks
 verify that native range inputs reach recognition without dropping onsets or
-duplicating overlapping padding. Native word-preservation confirmation follows.
+duplicating overlapping padding. Native runs at `a097576` and `b65068f` restore
+both clipped words in the same two public files. This is a narrow regression
+confirmation, not a broad ASR accuracy result.
 
 ## Local summary and independent Notes
 
@@ -71,8 +73,8 @@ failed outputs are retained. Summary requests now carry a normalized known
 language from the complete transcript through extraction and reduction, with an
 explicit script-preservation instruction. Unknown or mixed metadata does not
 force an English default. Owner instructions distinguish a quoted third-person
-name from the person speaking. This is a prompt correction; native confirmation
-and broader semantic owner/decision accuracy remain required.
+name from the person speaking. The three original development cases pass at
+`30163a3` and `b65068f`; broader semantic owner/decision accuracy remains open.
 
 At `30163a3` the same three frozen language/action cases pass natively, including
 both original-script names. Manual review still found the English explicit
@@ -81,6 +83,17 @@ as an assignment decision. A separate, stricter development decision gate was
 frozen before changing generation order. Requests now extract decisions and
 tasks before topics and distinguish a future task from an agreed assignment.
 The original acceptance criteria and raw outputs remain unchanged.
+
+The stricter follow-up at `b65068f` passes English and Arabic but remains failed
+for Bengali: the price is retained in Topics rather than repeated in Decisions.
+The original source states that price separately from the publication choice.
+No criterion or raw failed report was changed. The same source's native public
+file-fixture path completes speech in 10.20 seconds and summary in 47.25 seconds,
+saves an independent Note and preserves the active fixture Scratchpad. Its two
+unrelated read-speech excerpts are grouped into one topic, so an execution pass
+does not establish ideal topic grouping. Complete raw failures, follow-ups and a
+portable standard-library verifier are in
+[`eval/meetings/results/2026-11-14-analysis/`](../eval/meetings/results/2026-11-14-analysis/).
 
 `MeetingNoteDraft` renders bounded Markdown with evidence, timed speaker/track
 transcripts, recognition provenance and visible incomplete sections. A failed
@@ -92,9 +105,11 @@ notes; an independent edit is never overwritten. A failed save retains its draft
 
 ## Verification and remaining work
 
-All 237 focused local checks pass under a guard barring real SoundCard,
-sounddevice and owner profile/app-service imports. They include 79 new analysis,
-summary and Notes cases plus the existing capture/model/process regressions.
+The guarded focused run at `30163a3` passes 281 checks, barring real SoundCard,
+sounddevice and owner profile/app-service imports. After the summary generation
+order change, all 60 affected summary/Notes checks pass again. The suite includes
+analysis, language metadata, summary, Notes, capture/model/process and downloader
+regressions.
 The store cases use temporary SQLite; native process cases use owned fixture
 children and generated PCM. This does not qualify actual microphone/WASAPI
 capture or the app recording interface.
@@ -109,7 +124,9 @@ active fixture Scratchpad stays unchanged and observes the owned server exit.
 It releases the PCM/ASR sessions before preparing the larger summary model.
 Python NetworkGuard and native firewall qualification remain distinct.
 
-Native qualification of this analysis checkpoint is pending. Next connect the
+Native execution of this analysis checkpoint is verified within the narrow
+development scopes above; semantic summary and speaker accuracy are unaccepted.
+Next connect the
 explicit setup, capture reservation, continuously drained worker, persistent
 Recording meeting capsule, processing/recovery and Notes presentation to the app.
 Verify retention-off cleanup, native cancellation/exit, the frozen connected

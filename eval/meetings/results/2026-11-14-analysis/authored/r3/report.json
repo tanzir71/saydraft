@@ -1,0 +1,233 @@
+{
+  "source": "b65068f266f32741fe8bb277f8ee9356e5606d2e",
+  "source_clean": true,
+  "source_sha256": {
+    "saydraft/meetings/summary.py": "e4797bba508720cde1869525cb1c2978f1573e63c99602950919b6bd00d2eec5",
+    "saydraft/meetings/notes.py": "466cbd7359c89f39c3c7f97951f0d5b80f2dcd79d11ea0f66df5326a8a2026b7",
+    "tools/probe_meeting_analysis.py": "d46488685fd39267ae4176d241f331e151d5f8717f64ade2ddbf4258c954a96a"
+  },
+  "plan_sha256": "f0ee783407a9be223bea17703c2707aa78c9f83bdde30277069dc9046b04eb3f",
+  "scope": "authored summary development smoke, not broad quality/owner acceptance",
+  "cases": [
+    {
+      "id": "english_actions",
+      "seconds": 116.57216260000132,
+      "reply": {
+        "summary": {
+          "title": "Beta Release Planning and Draft Submission",
+          "topics": [
+            {
+              "topic": "Beta Release Schedule and Pricing",
+              "summary": "The group agreed on the beta release date and price, explicitly stating that the renewal price should remain unchanged.",
+              "evidence": [
+                {
+                  "utterance": 1,
+                  "quote": "We decided to release the beta on Tuesday, 17 November. The beta price is $25. Do not change the renewal price."
+                }
+              ]
+            },
+            {
+              "topic": "Draft Submission",
+              "summary": "Speaker 2 committed to sending a draft by Friday.",
+              "evidence": [
+                {
+                  "utterance": 2,
+                  "quote": "I will send the draft by Friday."
+                }
+              ]
+            },
+            {
+              "topic": "Accessibility Review",
+              "summary": "A next step to review accessibility was identified, but no owner was assigned.",
+              "evidence": [
+                {
+                  "utterance": 3,
+                  "quote": "Next step: review accessibility. The owner for that review is not assigned."
+                }
+              ]
+            }
+          ],
+          "decisions": [
+            {
+              "text": "Release the beta on Tuesday, 17 November at a price of $25, without changing the renewal price.",
+              "evidence": [
+                {
+                  "utterance": 1,
+                  "quote": "We decided to release the beta on Tuesday, 17 November. The beta price is $25. Do not change the renewal price."
+                }
+              ]
+            }
+          ],
+          "next_steps": [
+            {
+              "task": "Send the draft",
+              "owner": "Speaker 2",
+              "evidence": [
+                {
+                  "utterance": 2,
+                  "quote": "I will send the draft by Friday."
+                }
+              ]
+            },
+            {
+              "task": "Review accessibility",
+              "owner": null,
+              "evidence": [
+                {
+                  "utterance": 3,
+                  "quote": "Next step: review accessibility. The owner for that review is not assigned."
+                }
+              ]
+            }
+          ]
+        },
+        "reason": "ok",
+        "calls": 1
+      },
+      "accepted": true,
+      "claim_checks": {
+        "Tuesday": true,
+        "25": true
+      },
+      "action_checks": [
+        true,
+        true
+      ],
+      "decision_checks": {
+        "Tuesday": true,
+        "25": true
+      },
+      "decision_count_check": true
+    },
+    {
+      "id": "bengali_named_owner",
+      "seconds": 60.25250829999641,
+      "reply": {
+        "summary": {
+          "title": "মঙ্গলবারের প্রকাশ এবং রিমার কাজের সময়সীমা",
+          "topics": [
+            {
+              "topic": "মূল্য নির্ধারণ",
+              "summary": "মূল্য ২৫ টাকা নির্ধারণ করা হয়েছে।",
+              "evidence": [
+                {
+                  "utterance": 1,
+                  "quote": "মূল্য হবে ২৫ টাকা।"
+                }
+              ]
+            }
+          ],
+          "decisions": [
+            {
+              "text": "মঙ্গলবার প্রকাশ করার সিদ্ধান্ত নেওয়া হয়েছে।",
+              "evidence": [
+                {
+                  "utterance": 1,
+                  "quote": "আমরা মঙ্গলবার প্রকাশ করার সিদ্ধান্ত নিয়েছি।"
+                }
+              ]
+            }
+          ],
+          "next_steps": [
+            {
+              "task": "রিমা শুক্রবার খসড়া পাঠাবে।",
+              "owner": "রিমা",
+              "evidence": [
+                {
+                  "utterance": 2,
+                  "quote": "রিমা শুক্রবার খসড়া পাঠাবে।"
+                }
+              ]
+            }
+          ]
+        },
+        "reason": "ok",
+        "calls": 1
+      },
+      "accepted": false,
+      "claim_checks": {
+        "মঙ্গলবার": true,
+        "25": true
+      },
+      "action_checks": [
+        true
+      ],
+      "decision_checks": {
+        "মঙ্গলবার": true,
+        "25": false
+      },
+      "decision_count_check": true
+    },
+    {
+      "id": "arabic_named_owner",
+      "seconds": 60.49366949999967,
+      "reply": {
+        "summary": {
+          "title": "قرار إطلاق النسخة التجريبية وتوزيع المهام",
+          "topics": [
+            {
+              "topic": "إطلاق النسخة التجريبية",
+              "summary": "تم الاتفاق على إطلاق النسخة التجريبية يوم الثلاثاء بسعر 25 دولارًا، مع تحديد أن ليلى سترسل المسودة يوم الجمعة.",
+              "evidence": [
+                {
+                  "utterance": 1,
+                  "quote": "قررنا إطلاق النسخة التجريبية يوم الثلاثاء بسعر 25 دولارًا."
+                },
+                {
+                  "utterance": 2,
+                  "quote": "ليلى سترسل المسودة يوم الجمعة."
+                }
+              ]
+            }
+          ],
+          "decisions": [
+            {
+              "text": "إطلاق النسخة التجريبية يوم الثلاثاء بسعر 25 دولارًا.",
+              "evidence": [
+                {
+                  "utterance": 1,
+                  "quote": "قررنا إطلاق النسخة التجريبية يوم الثلاثاء بسعر 25 دولارًا."
+                }
+              ]
+            }
+          ],
+          "next_steps": [
+            {
+              "task": "إرسال المسودة",
+              "owner": "ليلى",
+              "evidence": [
+                {
+                  "utterance": 2,
+                  "quote": "ليلى سترسل المسودة يوم الجمعة."
+                }
+              ]
+            }
+          ]
+        },
+        "reason": "ok",
+        "calls": 1
+      },
+      "accepted": true,
+      "claim_checks": {
+        "الثلاثاء": true,
+        "25": true
+      },
+      "action_checks": [
+        true
+      ],
+      "decision_checks": {
+        "الثلاثاء": true,
+        "25": true
+      },
+      "decision_count_check": true
+    }
+  ],
+  "passed": false,
+  "decisions_plan_sha256": "6ee3d0a96adfbf04a682d75d44bf6e1e16d01ccbf22a2dd95412a4c26c268e79",
+  "native_exits": [
+    true
+  ],
+  "source_unchanged": true,
+  "plan_unchanged": true,
+  "models_unchanged": true
+}

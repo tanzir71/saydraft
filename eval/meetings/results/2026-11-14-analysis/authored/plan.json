@@ -1,0 +1,74 @@
+{
+  "schema": 1,
+  "scope": "authored summary development smoke, not broad quality/owner acceptance",
+  "license": "MIT",
+  "selection": "Authored and frozen before any native generation on these cases.",
+  "criteria_scope": "Check claim text outside evidence quotes; normalize Unicode digits; all actions need the exact listed owner or null. Structural literal-evidence guards also apply.",
+  "cases": [
+    {
+      "id": "english_actions",
+      "language": "en",
+      "utterances": [
+        "We decided to release the beta on Tuesday, 17 November. The beta price is $25. Do not change the renewal price.",
+        "I will send the draft by Friday.",
+        "Next step: review accessibility. The owner for that review is not assigned."
+      ],
+      "criteria": {
+        "claim_terms": [
+          "Tuesday",
+          "25"
+        ],
+        "actions": [
+          {
+            "task_term": "draft",
+            "owner": "Speaker 2"
+          },
+          {
+            "task_term": "accessibility",
+            "owner": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "bengali_named_owner",
+      "language": "bn",
+      "utterances": [
+        "আমরা মঙ্গলবার প্রকাশ করার সিদ্ধান্ত নিয়েছি। মূল্য হবে ২৫ টাকা।",
+        "রিমা শুক্রবার খসড়া পাঠাবে।"
+      ],
+      "criteria": {
+        "claim_terms": [
+          "মঙ্গলবার",
+          "25"
+        ],
+        "actions": [
+          {
+            "task_term": "খসড়া",
+            "owner": "রিমা"
+          }
+        ]
+      }
+    },
+    {
+      "id": "arabic_named_owner",
+      "language": "ar",
+      "utterances": [
+        "قررنا إطلاق النسخة التجريبية يوم الثلاثاء بسعر 25 دولارًا.",
+        "ليلى سترسل المسودة يوم الجمعة."
+      ],
+      "criteria": {
+        "claim_terms": [
+          "الثلاثاء",
+          "25"
+        ],
+        "actions": [
+          {
+            "task_term": "المسودة",
+            "owner": "ليلى"
+          }
+        ]
+      }
+    }
+  ]
+}

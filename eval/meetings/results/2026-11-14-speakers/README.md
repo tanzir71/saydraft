@@ -49,7 +49,11 @@ process/ownership checks pass locally under the import guard. The source's
 [package build passes](https://github.com/tanzir71/saydraft/actions/runs/43599599092).
 The new speaker work separately passes 41 new and 50 existing downloader/catalog
 checks. These local test counts are observed console results, not raw CI receipts
-for the corrected source; that full CI result is pending.
+for the corrected source. The subsequent metadata/setup/checklist repairs at
+`6e1d41a` pass [all four CI jobs](https://github.com/tanzir71/saydraft/actions/runs/43603619373)
+(4,323 tests, 12 explicit skips, rules 556/556 and adversarial 100/100) and
+[packaging](https://github.com/tanzir71/saydraft/actions/runs/43603621310).
+These later CI results do not broaden the speaker smoke's accuracy scope.
 
 Run `python verify-smoke.py.txt --repo <checkout>` for portable raw-file, original
 Git source, catalog, input provenance and output consistency checks. Supply

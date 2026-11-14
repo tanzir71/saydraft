@@ -1,0 +1,232 @@
+{
+  "source": "a0975768328f917a029213ec1bc7d6ffafa7b1c8",
+  "source_clean": true,
+  "source_sha256": {
+    "saydraft/meetings/summary.py": "e027a80fdeca2b8f6fb68b7a48e887c882b6d93c1fb89ddb85c2929d8b7b2918",
+    "saydraft/meetings/notes.py": "466cbd7359c89f39c3c7f97951f0d5b80f2dcd79d11ea0f66df5326a8a2026b7",
+    "tools/probe_meeting_analysis.py": "d46488685fd39267ae4176d241f331e151d5f8717f64ade2ddbf4258c954a96a"
+  },
+  "plan_sha256": "f0ee783407a9be223bea17703c2707aa78c9f83bdde30277069dc9046b04eb3f",
+  "scope": "authored summary development smoke, not broad quality/owner acceptance",
+  "cases": [
+    {
+      "id": "english_actions",
+      "seconds": 76.05446129999837,
+      "reply": {
+        "summary": {
+          "title": "Beta Release Planning and Draft Submission",
+          "topics": [
+            {
+              "topic": "Beta Release Schedule and Pricing",
+              "summary": "The beta release is scheduled for Tuesday, 17 November, with a price of $25. The renewal price must remain unchanged.",
+              "evidence": [
+                {
+                  "utterance": 1,
+                  "quote": "We decided to release the beta on Tuesday, 17 November. The beta price is $25. Do not change the renewal price."
+                }
+              ]
+            },
+            {
+              "topic": "Draft Submission",
+              "summary": "Speaker 2 committed to sending a draft by Friday.",
+              "evidence": [
+                {
+                  "utterance": 2,
+                  "quote": "I will send the draft by Friday."
+                }
+              ]
+            },
+            {
+              "topic": "Accessibility Review",
+              "summary": "The next step is to review accessibility, but the owner for this task has not been assigned.",
+              "evidence": [
+                {
+                  "utterance": 3,
+                  "quote": "Next step: review accessibility. The owner for that review is not assigned."
+                }
+              ]
+            }
+          ],
+          "decisions": [],
+          "next_steps": [
+            {
+              "task": "Send draft",
+              "owner": "Speaker 2",
+              "evidence": [
+                {
+                  "utterance": 2,
+                  "quote": "I will send the draft by Friday."
+                }
+              ]
+            },
+            {
+              "task": "Review accessibility",
+              "owner": null,
+              "evidence": [
+                {
+                  "utterance": 3,
+                  "quote": "Next step: review accessibility. The owner for that review is not assigned."
+                }
+              ]
+            }
+          ]
+        },
+        "reason": "ok",
+        "calls": 1
+      },
+      "accepted": true,
+      "claim_checks": {
+        "Tuesday": true,
+        "25": true
+      },
+      "action_checks": [
+        true,
+        true
+      ]
+    },
+    {
+      "id": "bengali_named_owner",
+      "seconds": 61.94622750000053,
+      "reply": {
+        "summary": {
+          "title": "Meeting Summary",
+          "topics": [
+            {
+              "topic": "Publication Date and Price",
+              "summary": "The group decided to publish on Tuesday with a price of 25 taka.",
+              "evidence": [
+                {
+                  "utterance": 1,
+                  "quote": "আমরা মঙ্গলবার প্রকাশ করার সিদ্ধান্ত নিয়েছি। মূল্য হবে ২৫ টাকা।"
+                }
+              ]
+            },
+            {
+              "topic": "Draft Submission by Rima",
+              "summary": "Rima will submit the draft on Friday.",
+              "evidence": [
+                {
+                  "utterance": 2,
+                  "quote": "রিমা শুক্রবার খসড়া পাঠাবে।"
+                }
+              ]
+            }
+          ],
+          "decisions": [
+            {
+              "text": "Publish on Tuesday with a price of 25 taka.",
+              "evidence": [
+                {
+                  "utterance": 1,
+                  "quote": "আমরা মঙ্গলবার প্রকাশ করার সিদ্ধান্ত নিয়েছি। মূল্য হবে ২৫ টাকা।"
+                }
+              ]
+            }
+          ],
+          "next_steps": [
+            {
+              "task": "Submit draft",
+              "owner": "Speaker 2",
+              "evidence": [
+                {
+                  "utterance": 2,
+                  "quote": "রিমা শুক্রবার খসড়া পাঠাবে।"
+                }
+              ]
+            }
+          ]
+        },
+        "reason": "ok",
+        "calls": 1
+      },
+      "accepted": false,
+      "claim_checks": {
+        "মঙ্গলবার": false,
+        "25": true
+      },
+      "action_checks": [
+        false
+      ]
+    },
+    {
+      "id": "arabic_named_owner",
+      "seconds": 68.8010663999994,
+      "reply": {
+        "summary": {
+          "title": "Meeting Notes: Beta Launch and Draft Submission",
+          "topics": [
+            {
+              "topic": "Beta Launch Date and Price",
+              "summary": "The group decided to launch the beta version on Tuesday at a price of $25.",
+              "evidence": [
+                {
+                  "utterance": 1,
+                  "quote": "قررنا إطلاق النسخة التجريبية يوم الثلاثاء بسعر 25 دولارًا."
+                }
+              ]
+            },
+            {
+              "topic": "Draft Submission by Layla",
+              "summary": "Layla will send the draft on Friday.",
+              "evidence": [
+                {
+                  "utterance": 2,
+                  "quote": "ليلى سترسل المسودة يوم الجمعة."
+                }
+              ]
+            }
+          ],
+          "decisions": [
+            {
+              "text": "Launch the beta version on Tuesday at $25.",
+              "evidence": [
+                {
+                  "utterance": 1,
+                  "quote": "قررنا إطلاق النسخة التجريبية يوم الثلاثاء بسعر 25 دولارًا."
+                }
+              ]
+            },
+            {
+              "text": "Layla will send the draft on Friday.",
+              "evidence": [
+                {
+                  "utterance": 2,
+                  "quote": "ليلى سترسل المسودة يوم الجمعة."
+                }
+              ]
+            }
+          ],
+          "next_steps": [
+            {
+              "task": "Send the draft",
+              "owner": "Speaker 2",
+              "evidence": [
+                {
+                  "utterance": 2,
+                  "quote": "ليلى سترسل المسودة يوم الجمعة."
+                }
+              ]
+            }
+          ]
+        },
+        "reason": "ok",
+        "calls": 1
+      },
+      "accepted": false,
+      "claim_checks": {
+        "الثلاثاء": false,
+        "25": true
+      },
+      "action_checks": [
+        false
+      ]
+    }
+  ],
+  "passed": false,
+  "native_exits": [
+    true
+  ],
+  "source_unchanged": true,
+  "plan_unchanged": true,
+  "models_unchanged": true
+}

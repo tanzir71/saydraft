@@ -1,0 +1,97 @@
+import importlib.abc
+import sys
+from pathlib import Path
+
+qa = Path(__file__).resolve().parent
+repo = qa / 'worktrees/meeting-analysis-20261114'
+class NoOwnerModules(importlib.abc.MetaPathFinder):
+    def find_spec(self, fullname, path=None, target=None):
+        if (fullname.split('.')[0] in ('soundcard', 'sounddevice') or fullname in (
+            'saydraft.app', 'saydraft.compat.migrate', 'saydraft.logging_config', 'saydraft.single_instance')):
+            raise AssertionError('Owner audio/profile imports are barred')
+sys.meta_path.insert(0, NoOwnerModules())
+sys.path.insert(0, str(repo))
+
+from dataclasses import asdict
+import hashlib
+import json
+import subprocess
+import time
+import unicodedata
+
+from tools.probe_meeting_analysis import OwnedProcessMeter, RecordedClient, digest
+from saydraft.cleanup.llm.sidecar import SidecarConfig, SidecarManager
+from saydraft.meetings.notes import MeetingNoteDraft
+from saydraft.meetings.summary import SummaryClient
+from saydraft.meetings.transcription import MeetingTranscript, Utterance
+from saydraft.models.downloader import installation_ready
+from saydraft.models.manifest import get_model
+from saydraft.privacy.netguard import NetworkGuard
+
+root = qa / 'meeting-summary-development-20261114-r1'
+output = root / 'native-a097576-r1'
+output.mkdir(exist_ok=False)
+plan_path = root / 'plan.json'
+plan_sha = hashlib.sha256(plan_path.read_bytes()).hexdigest()
+assert plan_sha == 'f0ee783407a9be223bea17703c2707aa78c9f83bdde30277069dc9046b04eb3f'
+plan = json.loads(plan_path.read_text(encoding='utf-8'))
+head = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=repo, text=True).strip()
+assert head == 'a0975768328f917a029213ec1bc7d6ffafa7b1c8'
+assert not subprocess.check_output(['git', 'status', '--porcelain'], cwd=repo, text=True).strip()
+paths = {name: Path(value) for name, value in json.loads((qa / 'meeting-analysis-native-paths-20261114.json').read_text()).items()}
+for name in ('qwen35-4b-q4-k-m', 'llama-cpp-b12110-cpu-x64'):
+    assert installation_ready(get_model(name), paths[name], check_hashes=True)
+files = [repo / 'saydraft/meetings/summary.py', repo / 'saydraft/meetings/notes.py',
+         repo / 'tools/probe_meeting_analysis.py']
+fingerprints = {path.relative_to(repo).as_posix(): digest(path) for path in files}
+weight = next(file['path'] for file in get_model('qwen35-4b-q4-k-m')['files'] if file['path'].endswith('.gguf'))
+NetworkGuard.install()
+meter = OwnedProcessMeter()
+manager = SidecarManager(SidecarConfig((paths['qwen35-4b-q4-k-m'] / weight).resolve(), backend='cpu',
+    context_size=4096, threads=4, startup_seconds=60, max_restarts=0),
+    resolver=lambda name: paths.get(name), capability_check=lambda backend: backend == 'cpu',
+    process_factory=meter.spawn, client_factory=lambda port, token: RecordedClient(port, token, output))
+report = {'source': head, 'source_clean': True, 'source_sha256': fingerprints, 'plan_sha256': plan_sha,
+          'scope': plan['scope'], 'cases': [], 'passed': False}
+def normalized(value):
+    return ''.join(str(unicodedata.digit(char)) if char.isdecimal() else char for char in value).casefold()
+try:
+    assert manager.prepare(), manager.status
+    for case in plan['cases']:
+        transcript = MeetingTranscript(tuple(Utterance(index + 1, 'microphone' if index % 2 == 0 else 'desktop',
+            float(index * 5), float(index * 5 + 4), (index % 2,), text, 'authored-summary-fixture', case['language'])
+            for index, text in enumerate(case['utterances'])), (), True, float(len(case['utterances']) * 5))
+        started = time.perf_counter()
+        reply = SummaryClient(manager).summarize(transcript)
+        item = {'id': case['id'], 'seconds': time.perf_counter() - started, 'reply': asdict(reply), 'accepted': False}
+        if reply.summary is not None:
+            summary = reply.summary
+            # Evidence quotes cannot make a wrong paraphrase pass these checks.
+            claims = normalized(' '.join([summary.title, *[topic.summary for topic in summary.topics],
+                                           *[decision.text for decision in summary.decisions]]))
+            item['claim_checks'] = {term: normalized(term) in claims for term in case['criteria']['claim_terms']}
+            item['action_checks'] = [any(normalized(expected['task_term']) in normalized(action.task)
+                and action.owner == expected['owner'] for action in summary.next_steps)
+                for expected in case['criteria']['actions']]
+            note = MeetingNoteDraft.create(transcript, summary)
+            (output / (case['id'] + '.md')).write_text(note.body, encoding='utf-8')
+            item['accepted'] = all(item['claim_checks'].values()) and all(item['action_checks'])
+        report['cases'].append(item)
+        (output / 'checkpoint.json').write_text(json.dumps(report, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+        print(json.dumps({'id': case['id'], 'reason': reply.reason, 'accepted': item['accepted'],
+                          'seconds': item['seconds']}), flush=True)
+    report['passed'] = all(case['accepted'] for case in report['cases'])
+except BaseException as error:
+    report['error'] = {'type': type(error).__name__, 'message': str(error)}
+finally:
+    manager.close()
+    report['native_exits'] = meter.finish()
+    report['source_unchanged'] = fingerprints == {path.relative_to(repo).as_posix(): digest(path) for path in files}
+    report['plan_unchanged'] = hashlib.sha256(plan_path.read_bytes()).hexdigest() == plan_sha
+    report['models_unchanged'] = all(installation_ready(get_model(name), paths[name], check_hashes=True)
+        for name in ('qwen35-4b-q4-k-m', 'llama-cpp-b12110-cpu-x64'))
+    report['passed'] = bool(report['passed'] and report['native_exits'] and all(report['native_exits'])
+        and report['source_unchanged'] and report['plan_unchanged'] and report['models_unchanged'])
+    (output / 'report.json').write_text(json.dumps(report, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+print(json.dumps({'passed': report['passed'], 'native_exits': report['native_exits']}), flush=True)
+raise SystemExit(0 if report['passed'] else 1)

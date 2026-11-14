@@ -1,0 +1,201 @@
+"""Verify retained public meeting development evidence without native imports."""
+import argparse
+import hashlib
+import json
+from pathlib import Path
+import sqlite3
+import struct
+import subprocess
+import unicodedata
+
+
+def sha(data):
+    return hashlib.sha256(data).hexdigest()
+
+
+def normalized(value):
+    return ''.join(str(unicodedata.digit(char)) if char.isdecimal() else char for char in value).casefold()
+
+
+def audio_metadata(path):
+    # The pinned FLEURS files are IEEE float WAV, which stdlib wave cannot read.
+    raw = path.read_bytes()
+    assert raw[:4] == b'RIFF' and raw[8:12] == b'WAVE'
+    offset, fields, data_size = 12, None, None
+    while offset + 8 <= len(raw):
+        name, size = struct.unpack_from('<4sI', raw, offset)
+        begin = offset + 8
+        assert begin + size <= len(raw)
+        if name == b'fmt ':
+            assert size >= 16 and fields is None
+            fields = struct.unpack_from('<HHIIHH', raw, begin)
+        elif name == b'data':
+            assert data_size is None
+            data_size = size
+        offset = begin + size + size % 2
+    assert fields is not None and data_size is not None
+    format_tag, channels, rate, byte_rate, alignment, bits = fields
+    assert format_tag in (1, 3) and bits in (16, 32) and alignment == channels * bits // 8
+    assert byte_rate == rate * alignment and data_size % alignment == 0
+    return channels, rate, data_size // alignment
+
+
+def completion(path):
+    content, finishes, done = [], [], False
+    for line in path.read_text(encoding='utf-8').splitlines():
+        if not line.startswith('data: '):
+            continue
+        value = line[6:]
+        if value == '[DONE]':
+            done = True
+            continue
+        for choice in json.loads(value).get('choices', []):
+            delta = choice.get('delta') or {}
+            assert not delta.get('tool_calls'), 'Unexpected native tool output'
+            content.append(delta.get('content') or '')
+            if choice.get('finish_reason'):
+                finishes.append(choice['finish_reason'])
+    return ''.join(content), done, finishes
+
+
+def verify_sources(repo, head, fingerprints):
+    for path, expected in fingerprints.items():
+        blob = subprocess.check_output(['git', 'show', f'{head}:{path}'], cwd=repo)
+        candidates = (blob, blob.replace(b'\r\n', b'\n').replace(b'\n', b'\r\n'))
+        assert expected in {sha(value) for value in candidates}, f'Original source mismatch: {head}:{path}'
+
+
+def verify_summary(summary, texts, speakers):
+    assert summary['topics'], 'A topic is required'
+    for group in ('topics', 'decisions', 'next_steps'):
+        for item in summary[group]:
+            assert 1 <= len(item['evidence']) <= 3
+            for citation in item['evidence']:
+                assert citation['quote'] in texts[citation['utterance']]
+            if group == 'next_steps' and item['owner'] is not None:
+                owner = item['owner']
+                assert any(owner in citation['quote'] or owner in speakers[citation['utterance']]
+                           for citation in item['evidence']), 'Owner evidence mismatch'
+
+
+def verify_file_run(directory, report, repo, corpus_path, audio_root):
+    source = report['source']
+    assert not source['dirty'] and report['source_unchanged']
+    verify_sources(repo, source['commit'], source['sha256'])
+    assert report['capture'] == 'synthetic file events' and report['native_firewall_verified'] is False
+    assert report['python_network_policy'] and report['native_exits'] and all(report['native_exits'])
+    assert sha(corpus_path.read_bytes()) == report['corpus']['sha256']
+    corpus = json.loads(corpus_path.read_text(encoding='utf-8'))
+    assert all(corpus[key] == report['corpus'][key] for key in ('dataset', 'revision', 'license'))
+    clips = {clip['sha256']: clip for clip in corpus['clips']}
+    for item in report['inputs']:
+        clip = clips[item['sha256']]
+        assert item['reference'] == clip['reference'] and item['frames'] == clip['num_samples']
+        if audio_root:
+            audio = audio_root / 'audio' / item['path'].replace('\\', '/').rsplit('/', 1)[-1]
+            assert sha(audio.read_bytes()) == item['sha256']
+            assert audio_metadata(audio) == (1, 16000, item['frames'])
+    catalog = json.loads(subprocess.check_output(['git', 'show', f"{source['commit']}:saydraft/models/manifest.json"], cwd=repo))
+    entries = {model['id']: model for model in catalog['models']}
+    for name, model in report['models'].items():
+        assert model['verified_before'] and model['verified_after']
+        assert model['revision'] == entries[name]['revision'] and model['license'] == entries[name]['license']
+    transcript = report['transcript']
+    texts = {part['id']: part['text'] for part in transcript['utterances']}
+    speakers = {part['id']: [f'Speaker {index + 1}' for index in part['speakers']]
+                for part in transcript['utterances']}
+    reply = report['summary']
+    raw, done, finishes = completion(directory / 'completion-1.sse')
+    if reply['summary'] is None:
+        assert not report['passed'] and reply['reason'] == 'timeout' and not done
+    else:
+        assert report['passed'] and reply['reason'] == 'ok' and done and finishes == ['stop']
+        assert json.loads(raw) == reply['summary']
+        verify_summary(reply['summary'], texts, speakers)
+    metadata = report['notes']
+    markdown = (directory / 'meeting.md').read_bytes()
+    assert sha(markdown) == metadata['markdown_sha256']
+    with sqlite3.connect((directory / 'public-notes.db').resolve().as_uri() + '?mode=ro&immutable=1', uri=True) as db:
+        assert db.execute('PRAGMA integrity_check').fetchone() == ('ok',)
+        rows = db.execute('SELECT id,kind,body,revision FROM notes').fetchall()
+        assert len(rows) == 2
+        note = next(row for row in rows if row[0] == metadata['id'])
+        assert note[1] == 'meeting' and note[3] == 1
+        assert note[2] == markdown.decode('utf-8').replace('\r\n', '\n')
+        active = db.execute("SELECT note_id FROM note_state WHERE name='scratchpad'").fetchone()[0]
+        scratchpad = next(row for row in rows if row[0] == active)
+        assert scratchpad[1:] == ('scratchpad', 'Public fixture Scratchpad; preserve this active draft.', 1)
+    assert metadata['active_scratchpad_unchanged'] and metadata['retry_same_note']
+
+
+def verify_authored(directory, report, plan, plan_sha, decisions_plan, decisions_sha, repo):
+    assert report['source_clean'] and report['source_unchanged'] and report['plan_unchanged']
+    assert report['models_unchanged'] and report['native_exits'] and all(report['native_exits'])
+    assert report['plan_sha256'] == plan_sha
+    verify_sources(repo, report['source'], report['source_sha256'])
+    assert [item['id'] for item in report['cases']] == [case['id'] for case in plan['cases']]
+    decision_passes = []
+    for index, (item, case) in enumerate(zip(report['cases'], plan['cases']), 1):
+        reply = item['reply']
+        assert reply['reason'] == 'ok' and reply['calls'] == 1
+        summary = reply['summary']
+        raw, done, finishes = completion(directory / f'completion-{index}.sse')
+        assert done and finishes == ['stop'] and json.loads(raw) == summary
+        texts = dict(enumerate(case['utterances'], 1))
+        speakers = {number: [f'Speaker {(number - 1) % 2 + 1}'] for number in texts}
+        verify_summary(summary, texts, speakers)
+        claims = normalized(' '.join([summary['title'], *[topic['summary'] for topic in summary['topics']],
+                                     *[decision['text'] for decision in summary['decisions']]]))
+        checks = {term: normalized(term) in claims for term in case['criteria']['claim_terms']}
+        actions = [any(normalized(expected['task_term']) in normalized(action['task'])
+                       and action['owner'] == expected['owner'] for action in summary['next_steps'])
+                   for expected in case['criteria']['actions']]
+        assert item['claim_checks'] == checks and item['action_checks'] == actions
+        expected = decisions_plan['criteria'][case['id']]
+        decisions = normalized(' '.join(decision['text'] for decision in summary['decisions']))
+        decision_checks = {term: normalized(term) in decisions for term in expected['decision_terms']}
+        count_check = len(summary['decisions']) == expected['maximum_decisions']
+        decision_passes.append(all(decision_checks.values()) and count_check)
+        base_pass = all(checks.values()) and all(actions)
+        if 'decisions_plan_sha256' in report:
+            assert report['decisions_plan_sha256'] == decisions_sha
+            assert item['decision_checks'] == decision_checks and item['decision_count_check'] == count_check
+            assert item['accepted'] == (base_pass and decision_passes[-1])
+        else:
+            assert item['accepted'] == base_pass
+    assert report['passed'] == all(item['accepted'] for item in report['cases'])
+    return all(decision_passes)
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--repo', type=Path, required=True)
+    parser.add_argument('--evidence', type=Path, default=Path(__file__).resolve().parent)
+    parser.add_argument('--audio-root', type=Path)
+    args = parser.parse_args()
+    root = args.evidence
+    manifest = json.loads((root / 'evidence.json').read_text(encoding='utf-8'))
+    for name, expected in manifest['files'].items():
+        assert sha((root / name).read_bytes()) == expected, f'Raw file mismatch: {name}'
+    plan_bytes = (root / 'authored/plan.json').read_bytes()
+    plan_sha, plan = sha(plan_bytes), json.loads(plan_bytes)
+    assert plan_sha == 'f0ee783407a9be223bea17703c2707aa78c9f83bdde30277069dc9046b04eb3f'
+    decisions_bytes = (root / 'authored/decisions-plan.json').read_bytes()
+    decisions_sha, decisions_plan = sha(decisions_bytes), json.loads(decisions_bytes)
+    assert decisions_sha == '6ee3d0a96adfbf04a682d75d44bf6e1e16d01ccbf22a2dd95412a4c26c268e79'
+    for name, expected_pass in manifest['file_runs'].items():
+        report = json.loads((root / name / 'report.json').read_text(encoding='utf-8'))
+        assert report['passed'] == expected_pass
+        verify_file_run(root / name, report, args.repo, root / 'sources/corpus.json', args.audio_root)
+    for name, expected_pass in manifest['authored_runs'].items():
+        report = json.loads((root / name / 'report.json').read_text(encoding='utf-8'))
+        assert report['passed'] == expected_pass
+        decision_pass = verify_authored(root / name, report, plan, plan_sha, decisions_plan, decisions_sha, args.repo)
+        assert decision_pass == manifest['supplemental_decision_gate'][name]
+    print(json.dumps({'raw_files': len(manifest['files']), 'file_runs': manifest['file_runs'],
+                      'authored_runs': manifest['authored_runs'],
+                      'supplemental_decision_gate': manifest['supplemental_decision_gate'], 'verified': True}))
+
+
+if __name__ == '__main__':
+    main()

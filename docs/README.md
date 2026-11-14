@@ -72,6 +72,7 @@ including the optional public-audio recognizer smoke.
 
 - [Test checklist](TEST_CHECKLIST.md): automated gates and manual Windows acceptance.
 - [Meeting capture foundation](spikes/meeting-capture.md): backend choice, explicit capture readers and resampling; the Notetaker app flow and 30-minute acceptance remain open.
+- [Local meeting analysis](MEETINGS.md): bounded file-fixture speech/speaker analysis, cited summaries, independent Notes and retained native quality failures; recording UI and meeting accuracy remain open.
 - [Soak checks](SOAK.md): combined RSS, History, memory-clipboard and owned native cleanup cycles.
 - [Evaluation](EVALUATION.md): cleanup harness, exact outputs, and action cases.
 - [Cleanup evidence](CLEANUP_EVIDENCE.md): source/corpus fingerprints and native evidence.

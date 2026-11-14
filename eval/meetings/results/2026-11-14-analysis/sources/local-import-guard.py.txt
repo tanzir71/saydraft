@@ -1,0 +1,15 @@
+import importlib.abc
+from pathlib import Path
+import sys
+
+qa = Path(__file__).resolve().parent
+assert not any(name in sys.modules for name in ('soundcard', 'sounddevice'))
+class NoOwnerModules(importlib.abc.MetaPathFinder):
+    def find_spec(self, fullname, path=None, target=None):
+        if (fullname.split('.')[0] in ('soundcard', 'sounddevice') or fullname in (
+            'saydraft.app', 'saydraft.compat.migrate', 'saydraft.logging_config', 'saydraft.single_instance')):
+            raise AssertionError('Owner audio/profile imports are barred')
+sys.meta_path.insert(0, NoOwnerModules())
+sys.path.insert(0, str(qa / 'worktrees/meeting-analysis-20261114'))
+from tools.probe_meeting_analysis import main
+raise SystemExit(main())

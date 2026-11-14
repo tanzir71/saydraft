@@ -1,0 +1,159 @@
+{
+  "schema": 1,
+  "measured_at": "2026-11-14T14:37:09.049586+00:00",
+  "scope": "native file-fixture analysis through meeting Notes; no live device/GUI/30-minute acceptance",
+  "source": {
+    "commit": "8b84a940a2a84906ea5db789b8327c657b7ed2e4",
+    "dirty": false,
+    "sha256": {
+      "saydraft/meetings/__init__.py": "44947896a07bbdd08b3cb29228dd6877fe739fabe01603c18fbc5616a7eb4a93",
+      "saydraft/meetings/audio.py": "6badc445df15bf78ec9fb21996eaa32def34b7375950380f68f4ea373086a7e6",
+      "saydraft/meetings/child.py": "04fbd0a132ad7402be5b1d3b8bc8fae7727ce4d5d515719b77f97d406345ab1e",
+      "saydraft/meetings/diarization.py": "1013b70a880be597f00029782610a6039105d138725852e343b1b3f34ef97f17",
+      "saydraft/meetings/limits.py": "fa6eb9af36a3f3e0dba56227cd1f806a783736148812105caeb5d4f9e202dedc",
+      "saydraft/meetings/models.py": "228fd0113ca746811af2e71b4a552277d856d0731b1acb1592feff2b041b44c0",
+      "saydraft/meetings/notes.py": "466cbd7359c89f39c3c7f97951f0d5b80f2dcd79d11ea0f66df5326a8a2026b7",
+      "saydraft/meetings/process.py": "61c372858a0336b4b36b344af7ee625be7f256966a56a1a3ab092eda14fa6edb",
+      "saydraft/meetings/protocol.py": "c8349073a155327040fdc09ba56d85ff1d17f72d7b5645b6027d7c33d3460741",
+      "saydraft/meetings/request.py": "742c6b5ab8b2d76123c6a91ef7a2218d2e1106716490e2111d7bd800ceecc4f4",
+      "saydraft/meetings/stop.py": "8d100c208c6fa2be33d31867368d32499c2b443310efeac024729d075592bcdd",
+      "saydraft/meetings/summary.py": "bc29e13f5bb9ef37ad54d3d8b2e069093d048fe8a239c73aaced24ed53f1aab7",
+      "saydraft/meetings/timeline.py": "a2a953594ac75b7b13fc317ea083a36cf7ef53c96c68979106159ed167140e94",
+      "saydraft/meetings/transcription.py": "90debcea485d2d49f55a3e15b3a6966a9c8a24d4205359880ffe858a988f8114",
+      "tools/probe_meeting_analysis.py": "5785c94b92c024b5fb838cd62fc48d47f591161e3e30319dee07af70a3c913b5",
+      "saydraft/models/manifest.json": "c98a45d8e0cb02fde68f806aecbafa31ba29fcc481150a4c1e181eca72f2f949",
+      "saydraft/asr/sherpa_parakeet.py": "d8c66212398722976bdc94e2fb6e4b869e96dff48f84c957a91954eb74376327",
+      "saydraft/audio/vad_silero.py": "0755e745f971aee089474f3596b4c94ef7898f123aa866673aa40265ece83366",
+      "saydraft/data/notes.py": "b6c0533375cfd5535007b292d9511197ae534a5f6ec2bcfea08599532a275c4b"
+    }
+  },
+  "models": {
+    "parakeet-tdt-0-6b-v3-int8": {
+      "revision": "ed5d745623472f97cfc2e6c2916ee248798fc5a8",
+      "verified_before": true,
+      "license": "CC-BY-4.0",
+      "verified_after": true
+    },
+    "silero-vad-v5": {
+      "revision": "5cd2ba54db059f961e7545d4f211b44f005a6dfb",
+      "verified_before": true,
+      "license": "MIT",
+      "verified_after": true
+    },
+    "pyannote-segmentation-3-0": {
+      "revision": "9403a6902bb58e3d5ae8c7e77c3422de279db2e0",
+      "verified_before": true,
+      "license": "MIT",
+      "verified_after": true
+    },
+    "3dspeaker-eres2net-base": {
+      "revision": "github-release-asset-198893098",
+      "verified_before": true,
+      "license": "Apache-2.0",
+      "verified_after": true
+    },
+    "qwen35-4b-q4-k-m": {
+      "revision": "4168f45a16a1290d65a4ec0fa312ae917a4c15d6",
+      "verified_before": true,
+      "license": "Apache-2.0",
+      "verified_after": true
+    },
+    "llama-cpp-b12110-cpu-x64": {
+      "revision": "github-release-asset-709507579",
+      "verified_before": true,
+      "license": "MIT + LLVM OpenMP license notice",
+      "verified_after": true
+    }
+  },
+  "corpus": {
+    "dataset": "google/fleurs",
+    "revision": "70bb2e84b976b7e960aa89f1c648e09c59f894dd",
+    "license": "CC-BY-4.0",
+    "sha256": "94c8335a2e6164be097ac109d981697bbe67bd6e38442a373e9b70932b25dc5a"
+  },
+  "inputs": [
+    {
+      "track": "microphone",
+      "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-public-fleurs-20261114\\en-r1\\audio\\1003119935936341070.wav",
+      "sha256": "33aca50159ec2e3cbcc894eb26faa916d6badb1b49fb75994973561540a7f012",
+      "frames": 168960,
+      "reference": "However, due to the slow communication channels, styles in the west could lag behind by 25 to 30 year."
+    },
+    {
+      "track": "desktop",
+      "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-public-fleurs-20261114\\en-r1\\audio\\10167324587744183095.wav",
+      "sha256": "260bdd1a15e1d35bcc5d91667516ca3bc659285e10f94872182715bcd7880398",
+      "frames": 183360,
+      "reference": "To the north and within easy reach is the romantic and fascinating town of Sintra and which was made famous to foreigners after a glowing account of its splendours recorded by Lord Byron."
+    }
+  ],
+  "capture": "synthetic file events",
+  "native_firewall_verified": false,
+  "passed": false,
+  "transcribe_seconds": 29.166930200000934,
+  "transcript": {
+    "utterances": [
+      {
+        "id": 1,
+        "track": "desktop",
+        "start": 0.48,
+        "end": 11.13,
+        "speakers": [
+          1
+        ],
+        "text": "north and within easy reach is the romantic and fascinating town of Sintra and which was made famous to foreigners after a glowing account of the splendors recorded by Lord Byron.",
+        "model_id": "parakeet-tdt-0-6b-v3-int8",
+        "language": null
+      },
+      {
+        "id": 2,
+        "track": "microphone",
+        "start": 1.14,
+        "end": 4.02,
+        "speakers": [
+          0
+        ],
+        "text": "However, due to the slow communication channels.",
+        "model_id": "parakeet-tdt-0-6b-v3-int8",
+        "language": null
+      },
+      {
+        "id": 3,
+        "track": "microphone",
+        "start": 4.53,
+        "end": 9.12,
+        "speakers": [
+          0
+        ],
+        "text": "Is in the West could lag behind by twenty five to thirty years.",
+        "model_id": "parakeet-tdt-0-6b-v3-int8",
+        "language": null
+      }
+    ],
+    "issues": [],
+    "capture_complete": true,
+    "duration": 11.46
+  },
+  "summary_seconds": 120.01745239999946,
+  "summary": {
+    "summary": null,
+    "reason": "timeout",
+    "calls": 1
+  },
+  "notes": {
+    "id": "0a677f54bb7549cc992503633903ecf7",
+    "kind": "meeting",
+    "revision": 1,
+    "active_scratchpad_unchanged": true,
+    "retry_same_note": true,
+    "markdown_sha256": "f21dd543171d2fa71d07b1edc1d68a42636cd7146cf202acee4900eb266f7a2d"
+  },
+  "python_network_policy": true,
+  "native_exits": [
+    true
+  ],
+  "native_pids": [
+    32180
+  ],
+  "source_unchanged": true
+}

@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "scope": "Supplemental development gate after manual review found an explicit English decision omitted; not a blind accuracy test.",
+  "base_plan_sha256": "f0ee783407a9be223bea17703c2707aa78c9f83bdde30277069dc9046b04eb3f",
+  "selection": "Frozen before changing summary field order or the follow-up native run. Base plan and old outputs remain unchanged.",
+  "criteria": {
+    "english_actions": {
+      "decision_terms": [
+        "Tuesday",
+        "25"
+      ],
+      "maximum_decisions": 1
+    },
+    "bengali_named_owner": {
+      "decision_terms": [
+        "মঙ্গলবার",
+        "25"
+      ],
+      "maximum_decisions": 1
+    },
+    "arabic_named_owner": {
+      "decision_terms": [
+        "الثلاثاء",
+        "25"
+      ],
+      "maximum_decisions": 1
+    }
+  },
+  "rules": "Normalize Unicode digits and case only. Check decision text outside evidence. Base frozen language/owner checks must also pass; require exactly one explicit decision, not a future-task statement."
+}
