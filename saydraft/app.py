@@ -60,6 +60,7 @@ def create_worker_signals(QtCore):
         ask_status_changed = QtCore.Signal(object)
         ask_answer_requested = QtCore.Signal(object)
         ask_retired = QtCore.Signal(object)
+        meeting_status = QtCore.Signal(object)
 
     return SaydraftWorkerSignals()
 
@@ -108,6 +109,30 @@ class WorkerController:
                 self._bar_actions.close()
             else:
                 core.shutdown()
+
+    def request_meeting(self, request):
+        return bool(self.core and self.core.meeting.request(request))
+
+    def is_current_meeting(self, status):
+        return bool(self.core and self.core.meeting.status_is_current(status))
+
+    def confirm_meeting_indicator(self, status):
+        return bool(self.core and self.core.meeting.confirm_indicator(status))
+
+    def stop_meeting(self, status=None, *, cancel=False):
+        return bool(self.core and self.core.meeting.stop(status, cancel=cancel))
+
+    def retry_meeting(self, status):
+        return bool(self.core and self.core.meeting.retry(status))
+
+    def discard_meeting(self, status):
+        return bool(self.core and self.core.meeting.discard(status))
+
+    def meeting_busy(self):
+        return bool(self.core and self.core.meeting.busy)
+
+    def has_meeting_recovery(self):
+        return bool(self.core and self.core.meeting.recovery is not None)
 
     def start_listening(self):
         if self.core is not None:
@@ -357,6 +382,8 @@ class SaydraftApp:
         self.onboarding_window = None
         self.config = None
         self.crash_guard = None
+        self.meeting_capsule = None
+        self._meeting_quit_pending = False
 
     def run(self) -> int:
         qt_modules = self.qt_modules or _load_qt_modules()
@@ -447,6 +474,12 @@ class SaydraftApp:
             self.signals.ask_answer_requested.connect(self._ask_answer_requested)
             self.signals.ask_retired.connect(self._ask_retired)
         self.signals.history_retry_finished.connect(self._finish_history_retry)
+        meeting_signal = getattr(self.signals, 'meeting_status', None)
+        if meeting_signal is not None:
+            if hasattr(qt_modules.QtCore, 'Qt'):
+                meeting_signal.connect(self._meeting_status, qt_modules.QtCore.Qt.QueuedConnection)
+            else:
+                meeting_signal.connect(self._meeting_status)
         self.signals.hardware_benchmark_finished.connect(self._finish_hardware_benchmark)
         self.signals.preview_text_changed.connect(self._show_preview)
         self.signals.preview_unavailable.connect(self._preview_unavailable)
@@ -754,7 +787,50 @@ class SaydraftApp:
         if self._ensure_scratchpad():
             self.scratchpad_window.present(new=True)
 
+    def _meeting_status(self, status):
+        current = getattr(self.controller, 'is_current_meeting', lambda value: False)
+        if not current(status):
+            return
+        if self.meeting_capsule is None:
+            from .ui.meeting_capsule import MeetingCapsule
+            self.meeting_capsule = MeetingCapsule()
+            self.meeting_capsule.indicator_ready.connect(self.controller.confirm_meeting_indicator)
+            self.meeting_capsule.stop_requested.connect(
+                lambda value, cancel: self.controller.stop_meeting(value, cancel=cancel))
+            self.meeting_capsule.retry_requested.connect(self.controller.retry_meeting)
+            self.meeting_capsule.discard_requested.connect(self.controller.discard_meeting)
+            self.meeting_capsule.notes_requested.connect(
+                lambda value: self._show_hub('Notes') if current(value) else None)
+        self.meeting_capsule.accept_status(status)
+        state = (TrayState.RECORDING if not status.capture_stopped else
+                 TrayState.PROCESSING if status.phase in ('checking', 'transcribing', 'summarizing', 'saving') else TrayState.IDLE)
+        self.tray.set_state(state)
+        if status.phase == 'finished' and self.hub_window is not None:
+            self.hub_window.notes_page.refresh()
+
+    def _resume_meeting_quit(self):
+        if not self._meeting_quit_pending:
+            return
+        if getattr(self.controller, 'meeting_busy', lambda: False)():
+            qt = self.qt_modules or _load_qt_modules()
+            qt.QtCore.QTimer.singleShot(100, self._resume_meeting_quit)
+            return
+        self._meeting_quit_pending = False
+        self._request_quit()
+
     def _request_quit(self):
+        if getattr(self.controller, 'meeting_busy', lambda: False)():
+            if not self._meeting_quit_pending:
+                self._meeting_quit_pending = True
+                self.controller.stop_meeting()
+                qt = self.qt_modules or _load_qt_modules()
+                qt.QtCore.QTimer.singleShot(100, self._resume_meeting_quit)
+            return False
+        if getattr(self.controller, 'has_meeting_recovery', lambda: False)():
+            self.tray.show_notification('Save or discard the unsaved meeting before quitting.')
+            if self.meeting_capsule is not None:
+                self.meeting_capsule.show()
+            return False
         cancel = getattr(self.controller, 'cancel_ask', None)
         if cancel is not None:
             cancel()

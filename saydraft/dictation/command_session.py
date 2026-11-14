@@ -113,6 +113,30 @@ class CommandModelSession:
                 return AskReply(None, 'cancelled')
             return AskReply(None, 'unavailable')
 
+    def summarize_meeting(self, transcript, *, cancelled=lambda: False, timeout=300, total_seconds=900):
+        from saydraft.meetings.summary import SummaryClient, SummaryReply
+        def retired():
+            return cancelled() or not self._current()
+        if retired():
+            self.close()
+            return SummaryReply(None, 'cancelled')
+        try:
+            manager = self._get_manager()
+            if manager is None or retired():
+                return SummaryReply(None, 'cancelled')
+            reply = SummaryClient(manager, clock=self._clock).summarize(transcript,
+                cancelled=retired, timeout=timeout, total_seconds=total_seconds)
+            if retired() or reply.reason == 'cancelled':
+                self.close()
+                return SummaryReply(None, 'cancelled', reply.calls)
+            return reply
+        except Exception:
+            logger.warning('Local meeting summary unavailable; retain the transcript')
+            if retired():
+                self.close()
+                return SummaryReply(None, 'cancelled')
+            return SummaryReply(None, 'unavailable')
+
     def close(self):
         self._closed.set()
         with self._lock:

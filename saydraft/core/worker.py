@@ -86,6 +86,8 @@ class SessionWorker:
         self.translation = TranslationTask(self)
         from .ask_controller import AskController
         self.ask = AskController(self)
+        from .meeting_controller import MeetingController
+        self.meeting = MeetingController(self)
         self.hotkeys = HotkeyService(services.config, start=lambda: self.start_recording(_return_generation=True),
                                      start_guarded=lambda current: self.start_recording(
                                          _return_generation=True, request_current=current),
@@ -270,7 +272,7 @@ class SessionWorker:
     def busy(self):
         return (self._capturing_context or self._inflight > 0 or self.session.active
                 or self.command.busy or self.ask.busy or self.microphone_test.active or self.shortcut_capture.active
-                or self.practice.active or self._model_storage_busy)
+                or self.practice.active or self.meeting.busy or self._model_storage_busy)
 
     def remove_stored_model(self, entry):
         """The storage UI calls this off-thread after confirmation; reserve the idle app."""
@@ -686,6 +688,7 @@ class SessionWorker:
         self.command.cancel()
         self.translation.cancel()
         self.ask.cancel()
+        self.meeting.cancel()
         if command_active:
             self.hotkeys._controller.discard_active_recording()
         self._history_retry_cancel.set()

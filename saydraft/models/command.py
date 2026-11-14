@@ -28,6 +28,10 @@ def ask_choice(config, report=None):
     return _choice(config, report, 'ask_mode')
 
 
+def meeting_choice(config, report=None):
+    return _choice(config, report, 'notetaker')
+
+
 def _choice(config, report, flag):
     model_id = load_manifest()["command_model"]
     selected = config.get("command", {}).get("backend", "auto")

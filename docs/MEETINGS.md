@@ -103,7 +103,47 @@ for export. Saving uses the existing Notes database with kind `meeting` and
 can be retried after a failed notification or concurrent save without duplicate
 notes; an independent edit is never overwritten. A failed save retains its draft.
 
-## Verification and remaining work
+## App lifecycle integration
+
+`MeetingController` now reserves the serial app worker after an explicit
+consented request. Dictation, practice, editing and model removal cannot begin
+while it owns capture or analysis. The new `labs.notetaker` flag defaults off;
+model setup and the user-facing start action are still pending. Existing saved
+language/routing settings feed a fresh meeting ASR, without a foreground read.
+The Pro editing lease retires ordinary cleanup warming, verifies installed
+dependencies before recording and starts the larger summary server only after
+the separate speech/speaker sessions are released. No path downloads implicitly.
+
+The Qt capsule acknowledges its first paint before capture can start. Queued
+status updates carry an identity ticket and stale updates cannot show or stop a
+successor. The capsule cannot hide or close while capture may continue. An
+unconfirmed stop keeps the worker reservation, process owner and visible warning;
+it never switches to processing or claims the audio stopped. Stop/cancel callers
+set events; native work stays off the GUI. Capture continuously drains to bounded
+slabs, including packets queued after the final process observation. Startup and
+duration watchdogs request stop; forced-stop failures retain the owner until
+full native tree exit and pipe EOF are confirmed.
+
+After capture, failures retain bounded PCM in memory or the available transcript
+and immutable Note draft. Explicit retry never starts another recording. Once a
+transcript exists the PCM is released; a failed Note save retains text only.
+Saving and retrying preserve the active Scratchpad. Cancellation after a Note
+has committed reports the saved Note rather than claiming it was discarded.
+The app's controlled Quit path waits for the meeting to stop and save. An unsaved
+recovery requires Retry or explicit Discard before Quit can proceed. Abrupt OS
+termination still depends on native ownership and is separate from this UI path.
+
+The guarded local suite passes 440 checks spanning the new lifecycle, owned
+offscreen capsule, shared editing lease, previous meeting core, workers and
+model/downloader contracts. It bars real audio SDK and app/profile-service
+imports and substitutes a disposable profile port. The five actual app-shell
+flow checks run on disposable CI; they are not run on the stopped owner desktop.
+The first offscreen render exposed a transparent background under the text;
+the capsule now explicitly paints an opaque themed rounded panel. A regression
+checks the panel's alpha. The 56-state light/dark 16/22px development render is
+retained on the QA volume; clean-source render/native/CI qualification follows.
+
+## Earlier analysis verification and full acceptance
 
 The guarded focused run at `30163a3` passes 281 checks, barring real SoundCard,
 sounddevice and owner profile/app-service imports. After the summary generation
@@ -126,9 +166,8 @@ Python NetworkGuard and native firewall qualification remain distinct.
 
 Native execution of this analysis checkpoint is verified within the narrow
 development scopes above; semantic summary and speaker accuracy are unaccepted.
-Next connect the
-explicit setup, capture reservation, continuously drained worker, persistent
-Recording meeting capsule, processing/recovery and Notes presentation to the app.
+Next finish explicit model/device setup and the consented start action, then
+qualify the connected capture/processing/recovery/Notes workflow.
 Verify retention-off cleanup, native cancellation/exit, the frozen connected
 workflow and the specified 30-minute offline meeting with speakers, summary,
 decisions and next steps. Do not join calls as a bot or auto-start recording.
