@@ -1,0 +1,83 @@
+"""Verify retained raw records, all three evaluations and portable packaging."""
+import argparse
+import hashlib
+import json
+from pathlib import Path
+import subprocess
+import sys
+import zipfile
+
+
+def sha(path):
+    value=hashlib.sha256()
+    with Path(path).open('rb') as source:
+        for chunk in iter(lambda:source.read(1024*1024),b''):
+            value.update(chunk)
+    return value.hexdigest()
+
+
+def main():
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--repo',type=Path,required=True)
+    parser.add_argument('--evidence',type=Path,default=Path(__file__).resolve().parent)
+    parser.add_argument('--build-root',type=Path)
+    args=parser.parse_args()
+    root=args.evidence
+    def read(name):
+        return json.loads((root/name).read_bytes())
+    files=read('files.json')
+    for name,value in files.items():
+        path=Path(name)
+        assert not path.is_absolute() and '..' not in path.parts
+        assert sha(root/path)==value,name
+    old=args.repo/'eval/asr/results/2026-11-14-dictionary-names'
+    commands=[
+        [str(root/'verify-correction.py.txt'),'--repo',str(args.repo),'--plan',str(root/'plan.json'),
+         '--output',str(root),'--input-root',str(old)],
+        [str(root/'verify-confirmation-portable.py.txt'),'--repo',str(args.repo),'--plan',str(root/'confirmation-plan.json'),
+         '--output',str(root/'confirmation'),'--development-root',str(root),'--input-root',str(old)],
+        [str(root/'verify-pipeline.py.txt'),'--repo',str(args.repo),'--output',str(root/'pipeline')],
+    ]
+    for command in commands:
+        subprocess.run([sys.executable,*command],check=True,stdout=subprocess.DEVNULL)
+    package=read('package/verification.json')
+    audit=read('package/bundle.json')
+    runtime=read('package/runtime.json')
+    assert package['portable_build_passed'] and package['source_clean'] and runtime['complete'] and runtime['frozen']
+    assert runtime['checks']['dictionary_correction'] and all(runtime['checks'].values())
+    assert not any(runtime[k] for k in ('microphone_used','audio_devices_enumerated','input_injected','owner_clipboard_accessed','active_application_read','asr_performed','native_firewall_verified'))
+    assert package['source']==audit['git_commit'] and not audit['source_dirty']
+    assert audit['runtime_report_sha256']==sha(root/'package/runtime.json')
+    assert not any(package[k] for k in ('installer_built','signed','release_published','owner_audio_or_input_used','installer_size_gate','packaging_gate'))
+    assert package['all_installed_metaphone_files_match_qualified_source']
+    assert package['installed_metaphone_python_files']==read('plan.json')['package']['python_files']
+    assert package['metaphone_full_license_matches_pinned_sdist'] and package['metaphone_license_in_zip_verified']
+    assert (root/'package/Metaphone-LICENSE.txt').read_bytes()==(root/'Metaphone-LICENSE.txt').read_bytes()
+    assert package['archive']['sha256']==audit['artifacts']['Saydraft-0.1.0-win-x64.zip']['sha256']
+    assert package['archive']['bytes']==audit['artifacts']['Saydraft-0.1.0-win-x64.zip']['bytes']
+    index=read('package/notice-index.json')
+    component=next(row for row in index['components'] if row['name']=='metaphone')
+    assert component==package['metaphone'] and component['version']=='0.6' and component['license_files']
+    assert sha(root/'package/notice-index.json')==package['third_party_notices']['index_sha256']
+    assert len(index['components'])==40 and len(index['files'])==511
+    if args.build_root:
+        build=args.build_root
+        assert sha(build/'audit/runtime.json')==sha(root/'package/runtime.json')
+        assert sha(build/'audit/bundle.json')==sha(root/'package/bundle.json')
+        bundle=build/'dist/Saydraft'
+        assert all(sha(bundle/name)==value for name,value in audit['file_sha256'].items())
+        archive=build/'artifacts/Saydraft-0.1.0-win-x64.zip'
+        assert sha(archive)==package['archive']['sha256'] and archive.stat().st_size==package['archive']['bytes']
+        with zipfile.ZipFile(archive) as stored:
+            for name,value in index['files'].items():
+                candidates=[item for item in stored.namelist() if item.endswith('third_party_licenses/'+name)]
+                assert len(candidates)==1 and hashlib.sha256(stored.read(candidates[0])).hexdigest()==value['sha256']
+    print(json.dumps({'verified':True,'raw_records':len(files),'development_text_records':384,
+                      'confirmation_native_decodes':96,'confirmation_records':192,'final_pipeline_records':96,
+                      'development_and_confirmation_gates_passed':True,'portable_build_passed':True,
+                      'actual_bundle_and_zip_verified':bool(args.build_root),'installer_qualified':False,
+                      'owner_accuracy_accepted':False,'full_goal_complete':False}))
+
+
+if __name__=='__main__':
+    main()

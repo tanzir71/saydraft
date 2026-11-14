@@ -43,7 +43,7 @@ Metaphone 0.6 is pinned with its BSD license. No decoder, model or model-downloa
 default changes. The compiled vocabulary replays all 96 qualified outputs exactly;
 721 expanded integration checks pass. Full-pipeline and frozen-package results
 are recorded in the [retained evidence](../../eval/asr/results/2026-11-15-dictionary-correction/)
-when complete; live capture/delivery and release latency remain unqualified.
+with complete verification. The final cleanup pipeline keeps the same name gains and zero per-clip regressions on all 96 cases; 89 eligible dictionary calls measure first-use 3.23 ms, warm median 0.45 ms and lower observed p95 1.30 ms in this paired process. Fresh portable build `98adc4a` passes frozen dictionary/resources/native imports/notices and the 1,382-file audit, with the exact qualified Metaphone source and BSD license verified inside the ZIP. All 80 raw records pass independent verification, including actual bundle/archive bytes. Installer/signing, live capture/delivery, full release latency and broader/owner accuracy stay unqualified.
 
 ## 15 November: disjoint names and collateral regressions
 
@@ -102,7 +102,7 @@ The 48 new reserved recordings and 60 earlier Bengali/Tamil/Telugu confirmation
 clips remain uninferred. No defaults, model packages, dependencies or production
 correction path change. Next: a conservative phonetic/edit correction or output
 guard under a new frozen development protocol, followed by confirmation before
-production integration. P3.5 remains unchecked.
+production integration. The later qualified phonetic-only path above supersedes that failed-candidate status.
 
 ## 14 November: authentic tokenizer and measured rejection
 

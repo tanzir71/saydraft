@@ -1,0 +1,28 @@
+"""Only explicit public file/model inputs; reject owner audio/profile imports."""
+import atexit
+import importlib.abc
+import json
+from pathlib import Path
+import sys
+import types
+
+qa=Path(__file__).resolve().parent
+repo=qa/'worktrees/dictionary-correction-20261115'
+class Guard(importlib.abc.MetaPathFinder):
+    def find_spec(self,fullname,path=None,target=None):
+        if fullname.split('.')[0] in ('soundcard','sounddevice') or fullname in (
+            'saydraft.app','saydraft.compat.migrate','saydraft.logging_config','saydraft.single_instance'):
+            raise AssertionError('Owner desktop/audio/profile services are barred')
+sys.meta_path.insert(0,Guard())
+sys.path.insert(0,str(repo))
+sys.path.insert(0,str(qa/"dictionary-correction-20261115-r1/dependencies"))
+profile=types.ModuleType('saydraft.compat.migrate')
+profile.LEGACY_NAME='VoiceTray'
+profile.profile_root=lambda:qa/'dictionary-correction-profile'
+sys.modules[profile.__name__]=profile
+guard_path=Path(sys.argv.pop(1))
+atexit.register(lambda:guard_path.write_text(json.dumps({'real_audio_sdk_imported':any(
+    name in sys.modules for name in ('soundcard','sounddevice')),'owner_profile_module_used':False})+'\n',encoding='utf-8'))
+import runpy
+module=sys.argv.pop(1)
+runpy.run_path(module,run_name="__main__")

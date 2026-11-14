@@ -15,7 +15,17 @@ behavior. Its scalable glossary index replays all 96 qualified outputs exactly
 and checks ambiguity beyond 40 entries. Metaphone 0.6 is now a pinned runtime
 dependency with its complete license collected from the actual wheel. The
 earlier isolated-install recipe remains hash locked. Full-pipeline/package
-qualification results follow when complete.
+qualification now passes: the real final-cleanup pipeline retains both recall gains with zero per-clip regressions across all 96 cases. Its kernel implementation matches the measured source except docstrings. The first driver incorrectly required a dictionary timing for empty ASR; its failure/15 partial rows are retained. The corrected driver keeps all 96 quality cases, measures 89 eligible calls, and records first observed call 3.23 ms, warm median 0.45 ms, lower observed p95 1.30 ms. This is not a full release-latency result.
+
+Fresh portable source `98adc4a` passes frozen dictionary/resource/native-import checks, the 1,382-file audit, and notices for 40 components/511 payloads. All seven installed Metaphone Python files match the qualified source; its full BSD license is byte-identical inside the portable ZIP. The initial source-only dependency install failure is retained; the fresh rebuild allows Metaphone alongside pyperclip and succeeds. The 157,040,733-byte ZIP SHA-256 is `3bb6825cb5e0a1249b4cb1b3008da7ed7ea3dfa32c532b1423cfc07e34f7687d`. Installer/signing and owner/physical acceptance remain open.
+
+All **80 raw records** are hashed and independently verified. Run from the checkout:
+
+```powershell
+python eval/asr/results/2026-11-15-dictionary-correction/verify-all.py.txt --repo .
+```
+
+Add `--build-root PATH` to rehash all actual bundle files and the portable ZIP, including every notice inside it. Individual verifiers support optional explicit dependency/model/tokenizer/audio roots. No model, audio SDK or app is imported by the default aggregate verification. No Actions runs or PRs were used.
 
 Development source `604b5556c423c3edf2ed9961365e6f9c3316167c` completes all 384
 text-processing records, exit 0 after 5.06 seconds, with unchanged source/plan/

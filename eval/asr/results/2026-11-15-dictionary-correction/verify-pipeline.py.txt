@@ -1,0 +1,93 @@
+"""Independently score final pipeline output and verify the measured kernel."""
+import argparse
+import ast
+from collections import Counter
+import hashlib
+import json
+from pathlib import Path
+import runpy
+import statistics
+import subprocess
+
+
+def sha(data):
+    return hashlib.sha256(data).hexdigest()
+
+
+def implementation(data):
+    tree = ast.parse(data.decode('utf-8'))
+    for node in ast.walk(tree):
+        if isinstance(node,(ast.Module,ast.ClassDef,ast.FunctionDef,ast.AsyncFunctionDef)) and node.body:
+            first = node.body[0]
+            if isinstance(first,ast.Expr) and isinstance(first.value,ast.Constant) and isinstance(first.value.value,str):
+                node.body.pop(0)
+    return ast.dump(tree,include_attributes=False)
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--repo',type=Path,required=True)
+    parser.add_argument('--output',type=Path,required=True)
+    args = parser.parse_args()
+    proof = args.repo/'eval/asr/results/2026-11-15-dictionary-correction'
+    result = json.loads((args.output/'report.json').read_bytes())
+    source = result['source']
+    production = subprocess.check_output(['git','show',f'{source}:saydraft/asr/biasing.py'],cwd=args.repo)
+    measured = subprocess.check_output(['git','show','604b5556c423c3edf2ed9961365e6f9c3316167c:saydraft/asr/biasing.py'],cwd=args.repo)
+    assert implementation(production)==implementation(measured) and result['kernel_implementation_ast_unchanged_except_docstrings']
+    assert all(result[k] for k in ('source_clean','complete','python_network_guard'))
+    assert not any(result[k] for k in ('speech_model_loaded','live_audio_or_input_used','ai_cleanup_enabled','release_latency_accepted','owner_accuracy_accepted'))
+    for name,value in result['input_files'].items():
+        path=args.repo/name.replace('\\','/')
+        assert sha(path.read_bytes())==value
+    helpers=runpy.run_path(str(args.repo/'eval/asr/results/2026-11-14-dictionary-names/verify-names.py.txt'))
+    normal,score,terms,protected=(helpers[k] for k in ('normal','scores','terms','protected'))
+    plan=json.loads((proof/'plan.json').read_bytes())
+    glossary={normal(term) for term in plan['terms']}
+    rows=[json.loads(line) for line in (args.output/'cases.jsonl').read_text(encoding='utf-8').splitlines()]
+    assert len(rows)==result['cases']==96
+    timings=[]
+    for phase,directory in (('development',proof),('confirmation',proof/'confirmation')):
+        original=[json.loads(line) for line in (directory/'cases.jsonl').read_text(encoding='utf-8').splitlines()]
+        original=[row for row in original if row['arm']=='parakeet_greedy']
+        selected=[row for row in rows if row['phase']==phase]
+        assert len(selected)==48 and [row['id'] for row in selected]==[row['id'] for row in original]
+        total={arm:{'terms':Counter(),'scores':Counter()} for arm in ('baseline','candidate')}
+        regressions=[]
+        for row,old in zip(selected,original,strict=True):
+            assert row['reference']==old['reference'] and row['raw_asr']==old['text']
+            for arm,field in (('baseline','baseline_cleaned'),('candidate','candidate_cleaned')):
+                expected={'terms':terms(row['reference'],row[field],glossary),'scores':score(row['reference'],row[field]),
+                          'protected':protected(row['reference'],row[field],glossary)}
+                assert row[arm]==expected
+                for key in total[arm]:
+                    total[arm][key].update(expected[key])
+            before,after=row['baseline'],row['candidate']
+            failures=[k for k in ('word_errors','character_errors') if after['scores'][k]>before['scores'][k]]
+            failures += [k for k in before['protected'] if after['protected'][k]>before['protected'][k]]
+            if after['terms']['false_positives']>before['terms']['false_positives']:
+                failures.append('term_false_positives')
+            if failures:
+                regressions.append({'id':row['id'],'metrics':failures})
+            if row['dictionary_attempted']:
+                assert row['dictionary_seconds']>0
+                timings.append(row['dictionary_seconds'])
+            else:
+                assert row['dictionary_seconds']==0
+        gain=total['candidate']['terms']['matched']/total['baseline']['terms']['matched']-1
+        expected={'cases':48,'baseline':{k:dict(v) for k,v in total['baseline'].items()},
+                  'candidate':{k:dict(v) for k,v in total['candidate'].items()},
+                  'relative_name_recall_gain':gain,'regressions':regressions,'gate_passed':gain>=.30 and not regressions}
+        assert result['phases'][phase]==expected and expected['gate_passed']
+    assert result['dictionary_attempted_records']==len(timings)==89
+    assert result['dictionary_cold_seconds']==timings[0]
+    assert result['dictionary_warm_p50_seconds']==statistics.median(timings[1:])
+    assert result['dictionary_warm_p95_seconds']==sorted(timings[1:])[int(.95*(len(timings)-2))]
+    print(json.dumps({'verified':True,'source':source,'final_pipeline_cases':96,'both_frozen_gates_passed':True,
+                      'all_empty_outputs_retained':True,'kernel_implementation_unchanged':True,
+                      'raw_history_proof':'separate memory-port integration tests',
+                      'release_latency_accepted':False,'owner_accuracy_accepted':False}))
+
+
+if __name__=='__main__':
+    main()

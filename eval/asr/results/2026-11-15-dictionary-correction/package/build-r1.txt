@@ -1,0 +1,27 @@
+Collecting PySide6==6.11.1 (from -r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\dictionary-correction-20261115\requirements.txt (line 1))
+  Downloading pyside6-6.11.1-cp310-abi3-win_amd64.whl.metadata (5.5 kB)
+Collecting sounddevice==0.5.2 (from -r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\dictionary-correction-20261115\requirements.txt (line 2))
+  Downloading sounddevice-0.5.2-py3-none-win_amd64.whl.metadata (1.6 kB)
+Collecting SoundCard==0.4.6 (from -r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\dictionary-correction-20261115\requirements.txt (line 3))
+  Downloading soundcard-0.4.6-py3-none-any.whl.metadata (14 kB)
+Collecting numpy>=1.26 (from -r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\dictionary-correction-20261115\requirements.txt (line 4))
+  Downloading numpy-2.5.4-cp313-cp313-win_amd64.whl.metadata (6.6 kB)
+Collecting faster-whisper==1.2.1 (from -r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\dictionary-correction-20261115\requirements.txt (line 5))
+  Downloading faster_whisper-1.2.1-py3-none-any.whl.metadata (16 kB)
+Collecting sherpa-onnx==1.13.4 (from -r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\dictionary-correction-20261115\requirements.txt (line 6))
+  Downloading sherpa_onnx-1.13.4-cp313-cp313-win_amd64.whl.metadata (50 kB)
+Collecting soundfile>=0.12.1 (from -r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\dictionary-correction-20261115\requirements.txt (line 7))
+  Downloading soundfile-0.14.0-py2.py3-none-win_amd64.whl.metadata (18 kB)
+Collecting webrtcvad-wheels==2.0.14 (from -r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\dictionary-correction-20261115\requirements.txt (line 8))
+  Downloading webrtcvad_wheels-2.0.14-cp313-cp313-win_amd64.whl.metadata (5.6 kB)
+Collecting pyperclip==1.9.0 (from -r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\dictionary-correction-20261115\requirements.txt (line 9))
+  Downloading pyperclip-1.9.0.tar.gz (20 kB)
+  Installing build dependencies: started
+  Installing build dependencies: finished with status 'done'
+  Getting requirements to build wheel: started
+  Getting requirements to build wheel: finished with status 'done'
+  Preparing metadata (pyproject.toml): started
+  Preparing metadata (pyproject.toml): finished with status 'done'
+ERROR: Ignored the following versions that require a different python version: 6.3.0 Requires-Python >=3.6,<3.11; 6.3.1 Requires-Python >=3.6,<3.11; 6.3.2 Requires-Python >=3.6,<3.11; 6.4.0.1 Requires-Python >=3.7,<3.12; 6.4.1 Requires-Python >=3.7,<3.12; 6.4.2 Requires-Python >=3.7,<3.12; 6.4.3 Requires-Python >=3.7,<3.12; 6.5.0 Requires-Python >=3.7,<3.12; 6.5.1 Requires-Python >=3.7,<3.12; 6.5.1.1 Requires-Python >=3.7,<3.12; 6.5.2 Requires-Python >=3.7,<3.12; 6.5.3 Requires-Python >=3.7,<3.12; 6.6.0 Requires-Python >=3.8,<3.13; 6.6.1 Requires-Python >=3.8,<3.13; 6.6.2 Requires-Python >=3.8,<3.13; 6.6.3 Requires-Python >=3.8,<3.13; 6.6.3.1 Requires-Python >=3.8,<3.13; 6.7.0 Requires-Python >=3.9,<3.13; 6.7.1 Requires-Python >=3.9,<3.13; 6.7.2 Requires-Python >=3.9,<3.13; 6.7.3 Requires-Python >=3.9,<3.13; 6.8.0 Requires-Python >=3.9,<3.13; 6.8.0.1 Requires-Python >=3.9,<3.13
+ERROR: Could not find a version that satisfies the requirement Metaphone==0.6 (from versions: none)
+ERROR: No matching distribution found for Metaphone==0.6

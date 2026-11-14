@@ -1,0 +1,58 @@
+{
+  "source": "98adc4adc46bfe1575d694fa8e798552988afb1a",
+  "source_clean": true,
+  "runtime_complete": true,
+  "dictionary_frozen_check": true,
+  "files_audited": 1382,
+  "uncompressed_bytes": 399468395,
+  "third_party_notices": {
+    "components": 40,
+    "files": 511,
+    "index_sha256": "21e27f4b23aabbd4ac775224c102d7e6be473f233ef00959b924d7a5eb1fe0a2"
+  },
+  "metaphone": {
+    "name": "metaphone",
+    "version": "0.6",
+    "modules": [
+      "metaphone"
+    ],
+    "license_files": [
+      "distributions/component-metaphone/00005-LICENSE"
+    ],
+    "notice_files": [],
+    "sources": [
+      "https://github.com/oubiwann/metaphone"
+    ],
+    "metadata_file": "distributions/component-metaphone/METADATA.txt"
+  },
+  "metaphone_full_license_matches_pinned_sdist": true,
+  "metaphone_license_in_zip_verified": true,
+  "archive": {
+    "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dictionary-correction-package-20261115-r2\\artifacts\\Saydraft-0.1.0-win-x64.zip",
+    "bytes": 157040733,
+    "sha256": "3bb6825cb5e0a1249b4cb1b3008da7ed7ea3dfa32c532b1423cfc07e34f7687d"
+  },
+  "bundle_artifacts": {
+    "Saydraft-0.1.0-win-x64.zip": {
+      "bytes": 157040733,
+      "sha256": "3bb6825cb5e0a1249b4cb1b3008da7ed7ea3dfa32c532b1423cfc07e34f7687d"
+    }
+  },
+  "installer_size_gate": false,
+  "packaging_gate": false,
+  "portable_build_passed": true,
+  "installer_built": false,
+  "signed": false,
+  "release_published": false,
+  "owner_audio_or_input_used": false,
+  "installed_metaphone_python_files": {
+    "meta.py": "c5ef73dff5e4cfb80aefe6f5eec5147ddbf3efd5ede955e0de630a67ec61ec01",
+    "metaphone.py": "6e24b19a497372ecfac753ababd12cb097f0a53040b5fce715ac6e563b44f044",
+    "word.py": "f614aaa0e426c44d017ce4eb95008f41460b402024b9b488f87a9ee718978225",
+    "__init__.py": "dd9aeb482d7088f75959a65116f175b491e416f3ef74e4ff38fa8b7ac8de3f35",
+    "tests/test_metaphone.py": "b7da6892d552be90000ee611d28407346bed2366206694e42b6db7aa238c2ffb",
+    "tests/test_word.py": "3a37290e465ef22beda2d0db78f176dc17cb32a4edba198b00723451839543fa",
+    "tests/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "all_installed_metaphone_files_match_qualified_source": true
+}

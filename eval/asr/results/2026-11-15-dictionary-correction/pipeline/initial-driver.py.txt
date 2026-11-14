@@ -1,0 +1,111 @@
+"""File-only final-cleanup comparison; no speech model or owner desktop I/O."""
+import ast
+from collections import Counter
+import hashlib
+import json
+from pathlib import Path
+import runpy
+import statistics
+import subprocess
+import sys
+from types import SimpleNamespace
+
+qa = Path(__file__).resolve().parent
+repo = qa / 'worktrees/dictionary-correction-20261115'
+proof = repo / 'eval/asr/results/2026-11-15-dictionary-correction'
+output = qa / 'dictionary-correction-20261115-r1/pipeline-r1'
+assert not output.exists()
+assert not subprocess.check_output(['git','status','--porcelain'],cwd=repo,text=True).strip()
+source = subprocess.check_output(['git','rev-parse','HEAD'],cwd=repo,text=True).strip()
+sys.path.insert(0,str(repo))
+sys.path.insert(0,str(qa/'dictionary-correction-20261115-r1/dependencies'))
+from saydraft.asr.biasing import DictionaryResult
+from saydraft.dictation import DictationConfig, DictationContext, DictationPipeline
+from saydraft.dictation.glossary import Glossary
+from saydraft.privacy.netguard import NetworkGuard
+
+
+def without_docs(path):
+    tree = ast.parse(path.read_text(encoding='utf-8'))
+    for node in ast.walk(tree):
+        if isinstance(node,(ast.Module,ast.ClassDef,ast.FunctionDef,ast.AsyncFunctionDef)) and node.body:
+            first = node.body[0]
+            if isinstance(first,ast.Expr) and isinstance(first.value,ast.Constant) and isinstance(first.value.value,str):
+                node.body.pop(0)
+    return ast.dump(tree,include_attributes=False)
+
+
+assert without_docs(repo/'saydraft/asr/biasing.py')==without_docs(proof/'source/saydraft/asr/biasing.py')
+helpers = runpy.run_path(str(repo/'eval/asr/results/2026-11-14-dictionary-names/verify-names.py.txt'))
+normal, score, term_counts, protected = (helpers[key] for key in ('normal','scores','terms','protected'))
+plan = json.loads((proof/'plan.json').read_bytes())
+glossary = {normal(term) for term in plan['terms']}
+
+
+class NoDictionary:
+    def __init__(self,terms):
+        pass
+    def correct(self,text,**kwargs):
+        return DictionaryResult(text,text,reason='baseline_no_dictionary')
+
+
+def pipeline(**kwargs):
+    value = DictationPipeline(DictationConfig(),llm_cleaner=SimpleNamespace(available=lambda:False),**kwargs)
+    value.glossary = Glossary(user_terms=tuple(plan['terms']))
+    return value
+
+
+baseline, candidate = pipeline(dictionary_factory=NoDictionary),pipeline()
+context = DictationContext(language='en',intensity=2)
+output.mkdir()
+results, timings, all_rows = {},[],[]
+NetworkGuard.install()
+try:
+    with (output/'cases.jsonl').open('x',encoding='utf-8',newline='\n') as journal:
+        for phase,path in (('development',proof/'cases.jsonl'),('confirmation',proof/'confirmation/cases.jsonl')):
+            rows = [json.loads(line) for line in path.read_text(encoding='utf-8').splitlines()]
+            rows = [row for row in rows if row['arm']=='parakeet_greedy']
+            assert len(rows)==48 and len({row['id'] for row in rows})==48
+            totals = {arm:{'terms':Counter(),'scores':Counter()} for arm in ('baseline','candidate')}
+            regressions = []
+            for row in rows:
+                before = baseline.process_transcript(row['text'],context)
+                after = candidate.process_transcript(row['text'],context)
+                timings.append(candidate.last_timings['dictionary'])
+                old = {'terms':term_counts(row['reference'],before,glossary),'scores':score(row['reference'],before),
+                       'protected':protected(row['reference'],before,glossary)}
+                new = {'terms':term_counts(row['reference'],after,glossary),'scores':score(row['reference'],after),
+                       'protected':protected(row['reference'],after,glossary)}
+                for arm,value in (('baseline',old),('candidate',new)):
+                    totals[arm]['terms'].update(value['terms'])
+                    totals[arm]['scores'].update(value['scores'])
+                failed = [key for key in ('word_errors','character_errors') if new['scores'][key]>old['scores'][key]]
+                failed += [key for key in old['protected'] if new['protected'][key]>old['protected'][key]]
+                if new['terms']['false_positives']>old['terms']['false_positives']:
+                    failed.append('term_false_positives')
+                if failed:
+                    regressions.append({'id':row['id'],'metrics':failed})
+                record = {'phase':phase,'id':row['id'],'reference':row['reference'],'raw_asr':row['text'],
+                          'baseline_cleaned':before,'candidate_cleaned':after,'baseline':old,'candidate':new,
+                          'dictionary_seconds':candidate.last_timings['dictionary']}
+                all_rows.append(record)
+                journal.write(json.dumps(record,ensure_ascii=False)+'\n')
+            gain = totals['candidate']['terms']['matched']/totals['baseline']['terms']['matched']-1
+            results[phase] = {'cases':48,'baseline':{k:dict(v) for k,v in totals['baseline'].items()},
+                              'candidate':{k:dict(v) for k,v in totals['candidate'].items()},
+                              'relative_name_recall_gain':gain,'regressions':regressions,
+                              'gate_passed':gain>=.30 and not regressions}
+    report = {'source':source,'source_clean':True,'cases':len(all_rows),'complete':len(all_rows)==96,
+              'kernel_implementation_ast_unchanged_except_docstrings':True,
+              'phases':results,'dictionary_cold_seconds':timings[0],
+              'dictionary_warm_p50_seconds':statistics.median(timings[1:]),
+              'dictionary_warm_p95_seconds':sorted(timings[1:])[int(.95*(len(timings)-2))],
+              'python_network_guard':NetworkGuard.is_installed(),'speech_model_loaded':False,
+              'live_audio_or_input_used':False,'ai_cleanup_enabled':False,
+              'release_latency_accepted':False,'owner_accuracy_accepted':False,
+              'input_files':{str(path.relative_to(repo)):hashlib.sha256(path.read_bytes()).hexdigest()
+                             for path in (proof/'cases.jsonl',proof/'confirmation/cases.jsonl')}}
+    (output/'report.json').write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8')
+    print(json.dumps(report))
+finally:
+    NetworkGuard.uninstall()

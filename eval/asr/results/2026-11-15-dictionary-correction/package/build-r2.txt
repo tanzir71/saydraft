@@ -1,0 +1,295 @@
+Collecting PySide6==6.11.1 (from -r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\dictionary-correction-20261115\requirements.txt (line 1))
+  Using cached pyside6-6.11.1-cp310-abi3-win_amd64.whl.metadata (5.5 kB)
+Collecting sounddevice==0.5.2 (from -r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\dictionary-correction-20261115\requirements.txt (line 2))
+  Using cached sounddevice-0.5.2-py3-none-win_amd64.whl.metadata (1.6 kB)
+Collecting SoundCard==0.4.6 (from -r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\dictionary-correction-20261115\requirements.txt (line 3))
+  Using cached soundcard-0.4.6-py3-none-any.whl.metadata (14 kB)
+Collecting numpy>=1.26 (from -r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\dictionary-correction-20261115\requirements.txt (line 4))
+  Using cached numpy-2.5.4-cp313-cp313-win_amd64.whl.metadata (6.6 kB)
+Collecting faster-whisper==1.2.1 (from -r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\dictionary-correction-20261115\requirements.txt (line 5))
+  Using cached faster_whisper-1.2.1-py3-none-any.whl.metadata (16 kB)
+Collecting sherpa-onnx==1.13.4 (from -r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\dictionary-correction-20261115\requirements.txt (line 6))
+  Using cached sherpa_onnx-1.13.4-cp313-cp313-win_amd64.whl.metadata (50 kB)
+Collecting soundfile>=0.12.1 (from -r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\dictionary-correction-20261115\requirements.txt (line 7))
+  Using cached soundfile-0.14.0-py2.py3-none-win_amd64.whl.metadata (18 kB)
+Collecting webrtcvad-wheels==2.0.14 (from -r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\dictionary-correction-20261115\requirements.txt (line 8))
+  Using cached webrtcvad_wheels-2.0.14-cp313-cp313-win_amd64.whl.metadata (5.6 kB)
+Collecting pyperclip==1.9.0 (from -r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\dictionary-correction-20261115\requirements.txt (line 9))
+  Using cached pyperclip-1.9.0.tar.gz (20 kB)
+  Installing build dependencies: started
+  Installing build dependencies: finished with status 'done'
+  Getting requirements to build wheel: started
+  Getting requirements to build wheel: finished with status 'done'
+  Preparing metadata (pyproject.toml): started
+  Preparing metadata (pyproject.toml): finished with status 'done'
+Collecting Metaphone==0.6 (from -r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\dictionary-correction-20261115\requirements.txt (line 10))
+  Using cached metaphone-0.6-py3-none-any.whl
+Collecting comtypes==1.4.16 (from -r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\dictionary-correction-20261115\requirements.txt (line 11))
+  Downloading comtypes-1.4.16-py3-none-any.whl.metadata (7.8 kB)
+Collecting pyinstaller==6.22.3 (from -r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\dictionary-correction-20261115\requirements.txt (line 12))
+  Downloading pyinstaller-6.22.3-py3-none-win_amd64.whl.metadata (8.5 kB)
+Collecting shiboken6==6.11.1 (from PySide6==6.11.1->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\dictionary-correction-20261115\requirements.txt (line 1))
+  Downloading shiboken6-6.11.1-cp310-abi3-win_amd64.whl.metadata (2.5 kB)
+Collecting PySide6_Essentials==6.11.1 (from PySide6==6.11.1->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\dictionary-correction-20261115\requirements.txt (line 1))
+  Downloading pyside6_essentials-6.11.1-cp310-abi3-win_amd64.whl.metadata (3.8 kB)
+Collecting PySide6_Addons==6.11.1 (from PySide6==6.11.1->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\dictionary-correction-20261115\requirements.txt (line 1))
+  Downloading pyside6_addons-6.11.1-cp310-abi3-win_amd64.whl.metadata (4.2 kB)
+Collecting CFFI>=1.0 (from sounddevice==0.5.2->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\dictionary-correction-20261115\requirements.txt (line 2))
+  Downloading cffi-2.1.1-cp313-cp313-win_amd64.whl.metadata (2.6 kB)
+Collecting ctranslate2<5,>=4.0 (from faster-whisper==1.2.1->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\dictionary-correction-20261115\requirements.txt (line 5))
+  Downloading ctranslate2-4.9.0-cp313-cp313-win_amd64.whl.metadata (11 kB)
+Collecting huggingface-hub>=0.21 (from faster-whisper==1.2.1->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\dictionary-correction-20261115\requirements.txt (line 5))
+  Downloading huggingface_hub-2.4.0-py3-none-any.whl.metadata (16 kB)
+Collecting tokenizers<1,>=0.13 (from faster-whisper==1.2.1->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\dictionary-correction-20261115\requirements.txt (line 5))
+  Downloading tokenizers-0.23.3-cp310-abi3-win_amd64.whl.metadata (10 kB)
+Collecting onnxruntime<2,>=1.14 (from faster-whisper==1.2.1->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\dictionary-correction-20261115\requirements.txt (line 5))
+  Downloading onnxruntime-1.32.0-cp313-cp313-win_amd64.whl.metadata (6.1 kB)
+Collecting av>=11 (from faster-whisper==1.2.1->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\dictionary-correction-20261115\requirements.txt (line 5))
+  Downloading av-19.0.2-cp312-abi3-win_amd64.whl.metadata (5.1 kB)
+Collecting tqdm (from faster-whisper==1.2.1->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\dictionary-correction-20261115\requirements.txt (line 5))
+  Downloading tqdm-4.70.1-py3-none-any.whl.metadata (57 kB)
+Collecting sherpa-onnx-core==1.13.4 (from sherpa-onnx==1.13.4->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\dictionary-correction-20261115\requirements.txt (line 6))
+  Downloading sherpa_onnx_core-1.13.4-py3-none-win_amd64.whl.metadata (532 bytes)
+Collecting altgraph (from pyinstaller==6.22.3->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\dictionary-correction-20261115\requirements.txt (line 12))
+  Downloading altgraph-0.17.5-py2.py3-none-any.whl.metadata (7.5 kB)
+Collecting packaging>=22.0 (from pyinstaller==6.22.3->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\dictionary-correction-20261115\requirements.txt (line 12))
+  Downloading packaging-26.3-py3-none-any.whl.metadata (3.5 kB)
+Collecting pefile>=2022.5.30 (from pyinstaller==6.22.3->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\dictionary-correction-20261115\requirements.txt (line 12))
+  Downloading pefile-2024.8.26-py3-none-any.whl.metadata (1.4 kB)
+Collecting pyinstaller-hooks-contrib>=2026.7 (from pyinstaller==6.22.3->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\dictionary-correction-20261115\requirements.txt (line 12))
+  Downloading pyinstaller_hooks_contrib-2026.10-py3-none-any.whl.metadata (16 kB)
+Collecting pywin32-ctypes>=0.2.1 (from pyinstaller==6.22.3->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\dictionary-correction-20261115\requirements.txt (line 12))
+  Downloading pywin32_ctypes-0.2.3-py3-none-any.whl.metadata (3.9 kB)
+Collecting setuptools>=42.0.0 (from pyinstaller==6.22.3->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\dictionary-correction-20261115\requirements.txt (line 12))
+  Downloading setuptools-84.2.1-py3-none-any.whl.metadata (6.6 kB)
+Collecting pyyaml<7,>=5.3 (from ctranslate2<5,>=4.0->faster-whisper==1.2.1->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\dictionary-correction-20261115\requirements.txt (line 5))
+  Downloading pyyaml-6.0.3-cp313-cp313-win_amd64.whl.metadata (2.4 kB)
+Collecting flatbuffers (from onnxruntime<2,>=1.14->faster-whisper==1.2.1->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\dictionary-correction-20261115\requirements.txt (line 5))
+  Downloading flatbuffers-25.12.19-py2.py3-none-any.whl.metadata (1.0 kB)
+Collecting protobuf>=4.25.8 (from onnxruntime<2,>=1.14->faster-whisper==1.2.1->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\dictionary-correction-20261115\requirements.txt (line 5))
+  Downloading protobuf-7.36.2-cp310-abi3-win_amd64.whl.metadata (595 bytes)
+Collecting click<9.0.0,>=8.4.2 (from huggingface-hub>=0.21->faster-whisper==1.2.1->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\dictionary-correction-20261115\requirements.txt (line 5))
+  Downloading click-8.5.1-py3-none-any.whl.metadata (2.6 kB)
+Collecting filelock>=3.10.0 (from huggingface-hub>=0.21->faster-whisper==1.2.1->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\dictionary-correction-20261115\requirements.txt (line 5))
+  Downloading filelock-4.2.10-py3-none-any.whl.metadata (2.3 kB)
+Collecting fsspec>=2023.5.0 (from huggingface-hub>=0.21->faster-whisper==1.2.1->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\dictionary-correction-20261115\requirements.txt (line 5))
+  Downloading fsspec-2026.9.0-py3-none-any.whl.metadata (10 kB)
+Collecting hf-xet<2.0.0,>=1.6.0 (from huggingface-hub>=0.21->faster-whisper==1.2.1->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\dictionary-correction-20261115\requirements.txt (line 5))
+  Downloading hf_xet-1.8.0-cp38-abi3-win_amd64.whl.metadata (4.9 kB)
+Collecting httpx2<3,>=2.0.0 (from huggingface-hub>=0.21->faster-whisper==1.2.1->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\dictionary-correction-20261115\requirements.txt (line 5))
+  Downloading httpx2-2.16.0-py3-none-any.whl.metadata (10 kB)
+Collecting typing-extensions>=4.1.0 (from huggingface-hub>=0.21->faster-whisper==1.2.1->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\dictionary-correction-20261115\requirements.txt (line 5))
+  Downloading typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+Collecting anyio>=4.10 (from httpx2<3,>=2.0.0->huggingface-hub>=0.21->faster-whisper==1.2.1->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\dictionary-correction-20261115\requirements.txt (line 5))
+  Downloading anyio-4.16.0-py3-none-any.whl.metadata (4.7 kB)
+Collecting httpcore2==2.16.0 (from httpx2<3,>=2.0.0->huggingface-hub>=0.21->faster-whisper==1.2.1->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\dictionary-correction-20261115\requirements.txt (line 5))
+  Downloading httpcore2-2.16.0-py3-none-any.whl.metadata (27 kB)
+Collecting idna>=3.18 (from httpx2<3,>=2.0.0->huggingface-hub>=0.21->faster-whisper==1.2.1->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\dictionary-correction-20261115\requirements.txt (line 5))
+  Downloading idna-3.20-py3-none-any.whl.metadata (7.2 kB)
+Collecting truststore>=0.10 (from httpx2<3,>=2.0.0->huggingface-hub>=0.21->faster-whisper==1.2.1->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\dictionary-correction-20261115\requirements.txt (line 5))
+  Downloading truststore-0.10.5-py3-none-any.whl.metadata (4.5 kB)
+Collecting h11>=0.16 (from httpcore2==2.16.0->httpx2<3,>=2.0.0->huggingface-hub>=0.21->faster-whisper==1.2.1->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\dictionary-correction-20261115\requirements.txt (line 5))
+  Downloading h11-0.16.0-py3-none-any.whl.metadata (8.3 kB)
+Collecting pycparser (from CFFI>=1.0->sounddevice==0.5.2->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\dictionary-correction-20261115\requirements.txt (line 2))
+  Downloading pycparser-3.12-py3-none-any.whl.metadata (9.7 kB)
+Collecting colorama (from tqdm->faster-whisper==1.2.1->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\dictionary-correction-20261115\requirements.txt (line 5))
+  Downloading colorama-0.4.6-py2.py3-none-any.whl.metadata (17 kB)
+Downloading pyside6-6.11.1-cp310-abi3-win_amd64.whl (578 kB)
+   ---------------------------------------- 578.4/578.4 kB 1.7 MB/s  0:00:00
+Downloading sounddevice-0.5.2-py3-none-win_amd64.whl (363 kB)
+Downloading soundcard-0.4.6-py3-none-any.whl (43 kB)
+Downloading faster_whisper-1.2.1-py3-none-any.whl (1.1 MB)
+   ---------------------------------------- 1.1/1.1 MB 1.8 MB/s  0:00:00
+Downloading sherpa_onnx-1.13.4-cp313-cp313-win_amd64.whl (2.2 MB)
+   ---------------------------------------- 2.2/2.2 MB 2.8 MB/s  0:00:00
+Downloading webrtcvad_wheels-2.0.14-cp313-cp313-win_amd64.whl (19 kB)
+Downloading comtypes-1.4.16-py3-none-any.whl (296 kB)
+Downloading pyinstaller-6.22.3-py3-none-win_amd64.whl (1.5 MB)
+   ---------------------------------------- 1.5/1.5 MB 2.5 MB/s  0:00:00
+Downloading pyside6_addons-6.11.1-cp310-abi3-win_amd64.whl (168.8 MB)
+   ---------------------------------------- 168.8/168.8 MB 2.3 MB/s  0:01:09
+Downloading pyside6_essentials-6.11.1-cp310-abi3-win_amd64.whl (77.5 MB)
+   ---------------------------------------- 77.5/77.5 MB 2.7 MB/s  0:00:28
+Downloading sherpa_onnx_core-1.13.4-py3-none-win_amd64.whl (16.5 MB)
+   ---------------------------------------- 16.5/16.5 MB 2.2 MB/s  0:00:07
+Downloading shiboken6-6.11.1-cp310-abi3-win_amd64.whl (1.2 MB)
+   ---------------------------------------- 1.2/1.2 MB 1.6 MB/s  0:00:00
+Downloading ctranslate2-4.9.0-cp313-cp313-win_amd64.whl (20.4 MB)
+   ---------------------------------------- 20.4/20.4 MB 2.5 MB/s  0:00:08
+Downloading onnxruntime-1.32.0-cp313-cp313-win_amd64.whl (16.7 MB)
+   ---------------------------------------- 16.7/16.7 MB 2.5 MB/s  0:00:06
+Downloading pyyaml-6.0.3-cp313-cp313-win_amd64.whl (154 kB)
+Downloading tokenizers-0.23.3-cp310-abi3-win_amd64.whl (2.9 MB)
+   ---------------------------------------- 2.9/2.9 MB 2.7 MB/s  0:00:01
+Downloading huggingface_hub-2.4.0-py3-none-any.whl (857 kB)
+   ---------------------------------------- 857.0/857.0 kB 2.1 MB/s  0:00:00
+Downloading click-8.5.1-py3-none-any.whl (126 kB)
+Downloading hf_xet-1.8.0-cp38-abi3-win_amd64.whl (3.9 MB)
+   ---------------------------------------- 3.9/3.9 MB 2.5 MB/s  0:00:01
+Downloading httpx2-2.16.0-py3-none-any.whl (97 kB)
+Downloading httpcore2-2.16.0-py3-none-any.whl (85 kB)
+Downloading numpy-2.5.4-cp313-cp313-win_amd64.whl (12.6 MB)
+   ---------------------------------------- 12.6/12.6 MB 2.8 MB/s  0:00:04
+Downloading soundfile-0.14.0-py2.py3-none-win_amd64.whl (1.0 MB)
+   ---------------------------------------- 1.0/1.0 MB 2.2 MB/s  0:00:00
+Downloading anyio-4.16.0-py3-none-any.whl (134 kB)
+Downloading av-19.0.2-cp312-abi3-win_amd64.whl (28.2 MB)
+   ---------------------------------------- 28.2/28.2 MB 2.1 MB/s  0:00:13
+Downloading cffi-2.1.1-cp313-cp313-win_amd64.whl (185 kB)
+Downloading filelock-4.2.10-py3-none-any.whl (218 kB)
+Downloading fsspec-2026.9.0-py3-none-any.whl (221 kB)
+Downloading h11-0.16.0-py3-none-any.whl (37 kB)
+Downloading idna-3.20-py3-none-any.whl (69 kB)
+Downloading packaging-26.3-py3-none-any.whl (129 kB)
+Downloading pefile-2024.8.26-py3-none-any.whl (74 kB)
+Downloading protobuf-7.36.2-cp310-abi3-win_amd64.whl (456 kB)
+Downloading pyinstaller_hooks_contrib-2026.10-py3-none-any.whl (463 kB)
+Downloading pywin32_ctypes-0.2.3-py3-none-any.whl (30 kB)
+Downloading setuptools-84.2.1-py3-none-any.whl (876 kB)
+   ---------------------------------------- 876.3/876.3 kB 1.4 MB/s  0:00:00
+Downloading tqdm-4.70.1-py3-none-any.whl (80 kB)
+Downloading truststore-0.10.5-py3-none-any.whl (19 kB)
+Downloading typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+Downloading altgraph-0.17.5-py2.py3-none-any.whl (21 kB)
+Downloading colorama-0.4.6-py2.py3-none-any.whl (25 kB)
+Downloading flatbuffers-25.12.19-py2.py3-none-any.whl (26 kB)
+Downloading pycparser-3.12-py3-none-any.whl (62 kB)
+Building wheels for collected packages: pyperclip
+  Building wheel for pyperclip (pyproject.toml): started
+  Building wheel for pyperclip (pyproject.toml): finished with status 'done'
+  Created wheel for pyperclip: filename=pyperclip-1.9.0-py3-none-any.whl size=11117 sha256=0b60f92badf3bdc698413814cdfe82d02e3ba825c234b8a5497b374234e98310
+  Stored in directory: d:\saydraft-codex-qa-20261112-01a1cbc7\pip-cache\wheels\9c\79\90\c9e831caaffa2633ad99f1d35c6ea39866b92de62e909e89ef
+Successfully built pyperclip
+Installing collected packages: webrtcvad-wheels, sherpa-onnx-core, pyperclip, Metaphone, flatbuffers, altgraph, typing-extensions, truststore, shiboken6, sherpa-onnx, setuptools, pyyaml, pywin32-ctypes, pycparser, protobuf, pefile, packaging, numpy, idna, hf-xet, h11, fsspec, filelock, comtypes, colorama, click, av, tqdm, PySide6_Essentials, pyinstaller-hooks-contrib, onnxruntime, httpcore2, ctranslate2, CFFI, anyio, soundfile, sounddevice, SoundCard, PySide6_Addons, pyinstaller, httpx2, PySide6, huggingface-hub, tokenizers, faster-whisper
+
+Successfully installed CFFI-2.1.1 Metaphone-0.6 PySide6-6.11.1 PySide6_Addons-6.11.1 PySide6_Essentials-6.11.1 SoundCard-0.4.6 altgraph-0.17.5 anyio-4.16.0 av-19.0.2 click-8.5.1 colorama-0.4.6 comtypes-1.4.16 ctranslate2-4.9.0 faster-whisper-1.2.1 filelock-4.2.10 flatbuffers-25.12.19 fsspec-2026.9.0 h11-0.16.0 hf-xet-1.8.0 httpcore2-2.16.0 httpx2-2.16.0 huggingface-hub-2.4.0 idna-3.20 numpy-2.5.4 onnxruntime-1.32.0 packaging-26.3 pefile-2024.8.26 protobuf-7.36.2 pycparser-3.12 pyinstaller-6.22.3 pyinstaller-hooks-contrib-2026.10 pyperclip-1.9.0 pywin32-ctypes-0.2.3 pyyaml-6.0.3 setuptools-84.2.1 sherpa-onnx-1.13.4 sherpa-onnx-core-1.13.4 shiboken6-6.11.1 sounddevice-0.5.2 soundfile-0.14.0 tokenizers-0.23.3 tqdm-4.70.1 truststore-0.10.5 typing-extensions-4.16.0 webrtcvad-wheels-2.0.14
+215 INFO: PyInstaller: 6.22.3, contrib hooks: 2026.10
+215 INFO: Python: 3.13.17
+264 INFO: Platform: Windows-11-10.0.26200-SP0
+264 INFO: Python environment: D:\Saydraft-Codex-QA-20261112-01a1cbc7\dictionary-correction-package-20261115-r2\venv
+266 INFO: Removing temporary files and cleaning cache in D:\Saydraft-Codex-QA-20261112-01a1cbc7\dictionary-correction-package-20261115-r2\pyinstaller-cache\pyinstaller
+2246 INFO: Module search paths (PYTHONPATH):
+['D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\dictionary-correction-20261115',
+ 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\dictionary-correction-20261115',
+ 'C:\\Python313\\python313.zip',
+ 'C:\\Python313\\DLLs',
+ 'C:\\Python313\\Lib',
+ 'C:\\Python313',
+ 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dictionary-correction-package-20261115-r2\\venv',
+ 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dictionary-correction-package-20261115-r2\\venv\\Lib\\site-packages',
+ 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\dictionary-correction-20261115\\installer',
+ 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\dictionary-correction-20261115']
+2822 INFO: Appending 'binaries' from .spec
+2823 INFO: Appending 'datas' from .spec
+2868 INFO: checking Analysis
+2868 INFO: Building Analysis because Analysis-00.toc is non existent
+2868 INFO: Looking for Python shared library...
+2868 INFO: Using Python shared library: C:\Python313\python313.dll
+2868 INFO: Running Analysis Analysis-00.toc
+2868 INFO: Target bytecode optimization level: 0
+2868 INFO: Initializing module dependency graph...
+2870 INFO: Initializing module graph hook caches...
+2891 INFO: Analyzing modules for base_library.zip ...
+4052 INFO: Processing standard module hook 'hook-heapq.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dictionary-correction-package-20261115-r2\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+4406 INFO: Processing standard module hook 'hook-math.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dictionary-correction-package-20261115-r2\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+4590 INFO: Processing standard module hook 'hook-encodings.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dictionary-correction-package-20261115-r2\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+7406 INFO: Processing standard module hook 'hook-pickle.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dictionary-correction-package-20261115-r2\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+9311 INFO: Caching module dependency graph...
+9356 INFO: Analyzing D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\dictionary-correction-20261115\installer\entry.py
+9434 INFO: Processing standard module hook 'hook-sysconfig.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dictionary-correction-package-20261115-r2\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+9440 INFO: Processing standard module hook 'hook-_ctypes.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dictionary-correction-package-20261115-r2\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+9807 INFO: Processing standard module hook 'hook-platform.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dictionary-correction-package-20261115-r2\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+9921 INFO: Processing pre-safe-import-module hook 'hook-typing_extensions.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dictionary-correction-package-20261115-r2\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
+9922 INFO: SetuptoolsInfo: initializing cached setuptools info...
+10893 INFO: Processing standard module hook 'hook-multiprocessing.util.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dictionary-correction-package-20261115-r2\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+11103 INFO: Processing standard module hook 'hook-xml.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dictionary-correction-package-20261115-r2\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+12028 INFO: Processing standard module hook 'hook-anyio.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dictionary-correction-package-20261115-r2\\venv\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\stdhooks'
+14034 INFO: Processing pre-safe-import-module hook 'hook-backports.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dictionary-correction-package-20261115-r2\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
+14034 INFO: Setuptools: 'backports' appears to be a full setuptools-vendored copy - creating alias to 'setuptools._vendor.backports'!
+14043 INFO: Processing standard module hook 'hook-setuptools.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dictionary-correction-package-20261115-r2\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+14058 INFO: Processing pre-safe-import-module hook 'hook-distutils.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dictionary-correction-package-20261115-r2\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
+14102 INFO: Processing pre-safe-import-module hook 'hook-jaraco.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dictionary-correction-package-20261115-r2\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
+14103 INFO: Setuptools: 'jaraco' appears to be a full setuptools-vendored copy - creating alias to 'setuptools._vendor.jaraco'!
+14124 INFO: Processing pre-safe-import-module hook 'hook-more_itertools.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dictionary-correction-package-20261115-r2\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
+14124 INFO: Setuptools: 'more_itertools' appears to be a setuptools-vendored copy - creating alias to 'setuptools._vendor.more_itertools'!
+14357 INFO: Processing standard module hook 'hook-_osx_support.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dictionary-correction-package-20261115-r2\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+14379 INFO: Processing pre-safe-import-module hook 'hook-packaging.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dictionary-correction-package-20261115-r2\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
+14793 INFO: Processing standard module hook 'hook-setuptools._vendor.jaraco.text.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dictionary-correction-package-20261115-r2\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+14794 INFO: Processing pre-safe-import-module hook 'hook-importlib_resources.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dictionary-correction-package-20261115-r2\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
+15558 INFO: Processing pre-safe-import-module hook 'hook-tomli.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dictionary-correction-package-20261115-r2\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
+15559 INFO: Setuptools: 'tomli' appears to be a setuptools-vendored copy - creating alias to 'setuptools._vendor.tomli'!
+16582 INFO: Processing pre-safe-import-module hook 'hook-wheel.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dictionary-correction-package-20261115-r2\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
+16583 INFO: Setuptools: 'wheel' appears to be a setuptools-vendored copy - creating alias to 'setuptools._vendor.wheel'!
+17204 INFO: Processing standard module hook 'hook-difflib.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dictionary-correction-package-20261115-r2\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+17382 INFO: Processing standard module hook 'hook-webbrowser.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dictionary-correction-package-20261115-r2\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+18116 INFO: Processing standard module hook 'hook-sqlite3.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dictionary-correction-package-20261115-r2\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+19993 INFO: Processing standard module hook 'hook-numpy.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dictionary-correction-package-20261115-r2\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+24171 INFO: Processing standard module hook 'hook-fsspec.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dictionary-correction-package-20261115-r2\\venv\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\stdhooks'
+25200 INFO: Processing standard module hook 'hook-onnxruntime.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dictionary-correction-package-20261115-r2\\venv\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\stdhooks'
+25310 INFO: Processing pre-safe-import-module hook 'hook-tensorflow.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dictionary-correction-package-20261115-r2\\venv\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\pre_safe_import_module'
+25417 INFO: Processing standard module hook 'hook-sounddevice.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dictionary-correction-package-20261115-r2\\venv\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\stdhooks'
+25425 INFO: Processing standard module hook 'hook-soundcard.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\dictionary-correction-20261115\\installer\\hooks'
+25608 INFO: Processing standard module hook 'hook-pycparser.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dictionary-correction-package-20261115-r2\\venv\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\stdhooks'
+27764 INFO: Processing standard module hook 'hook-webrtcvad.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dictionary-correction-package-20261115-r2\\venv\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\stdhooks'
+28423 INFO: Processing standard module hook 'hook-PySide6.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dictionary-correction-package-20261115-r2\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+28604 INFO: Processing standard module hook 'hook-shiboken6.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dictionary-correction-package-20261115-r2\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+28892 INFO: Processing standard module hook 'hook-PySide6.QtNetwork.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dictionary-correction-package-20261115-r2\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+34312 INFO: Processing standard module hook 'hook-PySide6.QtCore.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dictionary-correction-package-20261115-r2\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+40256 INFO: Processing standard module hook 'hook-PySide6.QtGui.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\dictionary-correction-20261115\\installer\\hooks'
+68650 INFO: Processing standard module hook 'hook-PySide6.QtWidgets.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dictionary-correction-package-20261115-r2\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+74451 INFO: Processing standard module hook 'hook-av.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dictionary-correction-package-20261115-r2\\venv\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\stdhooks'
+75551 INFO: Processing standard module hook 'hook-PySide6.QtSvg.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dictionary-correction-package-20261115-r2\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+77526 INFO: Processing standard module hook 'hook-soundfile.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dictionary-correction-package-20261115-r2\\venv\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\stdhooks'
+77806 INFO: Processing standard module hook 'hook-comtypes.client.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dictionary-correction-package-20261115-r2\\venv\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\stdhooks'
+78949 INFO: Processing standard module hook 'hook-PySide6.QtMultimedia.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dictionary-correction-package-20261115-r2\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+83463 INFO: Analyzing hidden import 'faster_whisper.assets'
+83463 INFO: Analyzing hidden import 'sherpa_onnx.__main__'
+83469 INFO: Analyzing hidden import 'sherpa_onnx.cli'
+83473 INFO: Processing module hooks (post-graph stage)...
+84502 WARNING: Hidden import "pycparser.lextab" not found!
+84502 WARNING: Hidden import "pycparser.yacctab" not found!
+84521 INFO: Processing standard module hook 'hook-PySide6.QtMultimediaWidgets.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dictionary-correction-package-20261115-r2\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+85637 INFO: Performing binary vs. data reclassification (694 entries)
+85782 INFO: Looking for ctypes DLLs
+86075 INFO: Analyzing run-time hooks ...
+86083 INFO: Including run-time hook 'pyi_rth_inspect.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dictionary-correction-package-20261115-r2\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks'
+86087 INFO: Including run-time hook 'pyi_rth_pkgutil.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dictionary-correction-package-20261115-r2\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks'
+86090 INFO: Including run-time hook 'pyi_rth_multiprocessing.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dictionary-correction-package-20261115-r2\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks'
+86093 INFO: Including run-time hook 'pyi_rth_setuptools.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dictionary-correction-package-20261115-r2\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks'
+86095 INFO: Including run-time hook 'pyi_rth_pyside6.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dictionary-correction-package-20261115-r2\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks'
+86099 INFO: Processing pre-find-module-path hook 'hook-_pyi_rth_utils.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dictionary-correction-package-20261115-r2\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\pre_find_module_path'
+86101 INFO: Processing standard module hook 'hook-_pyi_rth_utils.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dictionary-correction-package-20261115-r2\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+86158 INFO: Creating base_library.zip...
+86191 INFO: Looking for dynamic libraries
+87684 INFO: Extra DLL search directories (AddDllDirectory): ['D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dictionary-correction-package-20261115-r2\\venv\\Lib\\site-packages\\shiboken6', 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dictionary-correction-package-20261115-r2\\venv\\Lib\\site-packages\\numpy.libs', 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dictionary-correction-package-20261115-r2\\venv\\Lib\\site-packages\\ctranslate2', 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dictionary-correction-package-20261115-r2\\venv\\Lib\\site-packages\\av.libs']
+87684 INFO: Extra DLL search directories (PATH): ['D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dictionary-correction-package-20261115-r2\\venv\\Lib\\site-packages\\PySide6']
+89757 INFO: Warnings written to D:\Saydraft-Codex-QA-20261112-01a1cbc7\dictionary-correction-package-20261115-r2\work\Saydraft\warn-Saydraft.txt
+89935 INFO: Graph cross-reference written to D:\Saydraft-Codex-QA-20261112-01a1cbc7\dictionary-correction-package-20261115-r2\work\Saydraft\xref-Saydraft.html
+93025 INFO: checking PYZ
+93025 INFO: Building PYZ because PYZ-00.toc is non existent
+93025 INFO: Building PYZ (ZlibArchive) D:\Saydraft-Codex-QA-20261112-01a1cbc7\dictionary-correction-package-20261115-r2\work\Saydraft\PYZ-00.pyz
+94201 INFO: Building PYZ (ZlibArchive) D:\Saydraft-Codex-QA-20261112-01a1cbc7\dictionary-correction-package-20261115-r2\work\Saydraft\PYZ-00.pyz completed successfully.
+94236 INFO: checking PKG
+94237 INFO: Building PKG because PKG-00.toc is non existent
+94237 INFO: Building PKG (CArchive) Saydraft.pkg
+94258 INFO: Building PKG (CArchive) Saydraft.pkg completed successfully.
+94259 INFO: Bootloader D:\Saydraft-Codex-QA-20261112-01a1cbc7\dictionary-correction-package-20261115-r2\venv\Lib\site-packages\PyInstaller\bootloader\Windows-64bit-intel\runw.exe
+94260 INFO: checking EXE
+94260 INFO: Building EXE because EXE-00.toc is non existent
+94260 INFO: Building EXE from EXE-00.toc
+94260 INFO: Copying bootloader EXE to D:\Saydraft-Codex-QA-20261112-01a1cbc7\dictionary-correction-package-20261115-r2\work\Saydraft\Saydraft.exe
+94264 INFO: Copying icon to EXE
+94267 INFO: Copying version information to EXE
+94271 INFO: Copying 0 resources to EXE
+94272 INFO: Embedding manifest in EXE
+94274 INFO: Appending PKG archive to EXE
+94284 INFO: Fixing EXE headers
+94405 INFO: Building EXE from EXE-00.toc completed successfully.
+94420 INFO: checking COLLECT
+94420 INFO: Building COLLECT because COLLECT-00.toc is non existent
+94420 INFO: Building COLLECT COLLECT-00.toc
+95863 INFO: Building COLLECT COLLECT-00.toc completed successfully.
+95917 INFO: Build complete! The results are available in: D:\Saydraft-Codex-QA-20261112-01a1cbc7\dictionary-correction-package-20261115-r2\dist
+{"preflight_only": true, "files": 1382}
+{"files": 1382, "uncompressed_bytes": 399468395, "installer_size_gate": false, "packaging_gate": false}
+Built Saydraft 0.1.0. Retained bundle, receipts and artifacts at D:\Saydraft-Codex-QA-20261112-01a1cbc7\dictionary-correction-package-20261115-r2
