@@ -229,6 +229,10 @@ def test_explicit_preparation_waits_only_for_the_requested_context_and_can_retir
         if state == "cancelled":
             cancelled.set()
         return True
+    # A preparation belongs to an already constructed client. Stubbing warm
+    # must supply that ownership pair rather than creating a new native client.
+    llm._client = SimpleNamespace()
+    monkeypatch.setattr(llm, "_manager_factory", lambda config: pytest.fail("Unexpected model construction"))
     llm._preparation = SimpleNamespace(wait=wait, ready=lambda hints:
         seen.append(hints) is None and state=="ready")
     monkeypatch.setattr(llm,"warm_for_context",lambda context: True)

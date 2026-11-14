@@ -83,7 +83,8 @@ class LabsPage(QtWidgets.QWidget):
 
     def apply_to(self, config):
         self.update_eligibility(config)
-        config["labs"] = {"live_preview": self.live.isChecked(), "use_streaming_result": self.streaming.isChecked()}
+        config.setdefault("labs", {}).update(live_preview=self.live.isChecked(),
+                                             use_streaming_result=self.streaming.isChecked())
 
     def start_download(self):
         self.update_eligibility(self.config)

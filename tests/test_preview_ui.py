@@ -27,7 +27,7 @@ def test_labs_shows_size_and_license_and_toggles_never_download():
     page.live.setChecked(True)
     page.streaming.setChecked(True)
     page.apply_to(config)
-    assert config["labs"] == {"live_preview": True, "use_streaming_result": True} and not calls
+    assert config["labs"] == {"live_preview": True, "use_streaming_result": True, "command_mode": False} and not calls
     config["stt"]["pinned_languages"] = ["bn"]
     page.update_eligibility(config)
     assert not page.live.isEnabled() and not page.live.isChecked() and not page.download.isEnabled()
@@ -41,6 +41,23 @@ def test_missing_pro_measurement_disables_preview():
     page = LabsPage(default_config(), report_loader=lambda: None)
     assert not page.live.isEnabled() and not page.download.isEnabled()
     assert "Performance" in page.eligibility.text()
+
+
+def test_saving_other_settings_preserves_command_opt_in_and_its_independent_backend(tmp_path):
+    from saydraft.config import load_config
+    from tests.test_settings_window import make_window
+
+    window, config_path, _ = make_window(tmp_path, overrides={
+        'labs': {'command_mode': True}, 'command': {'backend': 'cpu'}})
+    try:
+        window.speech_hotkey_edit.setText('f8')
+        assert window.apply_changes()
+        saved = load_config(config_path=config_path)
+        assert saved['labs']['command_mode'] is True
+        assert saved['command']['backend'] == 'cpu'
+        assert not saved['labs']['live_preview'] and not saved['labs']['use_streaming_result']
+    finally:
+        window.close()
 
 
 def test_settings_persists_explicit_labs_choices_and_language_changes_disable_them(tmp_path):

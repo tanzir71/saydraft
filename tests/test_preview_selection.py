@@ -28,7 +28,7 @@ def test_missing_hardware_evidence_cannot_enable_preview():
 
 def test_streaming_is_off_by_default_and_needs_a_live_preview_opt_in():
     config = default_config()
-    assert config["labs"] == {"live_preview": False, "use_streaming_result": False}
+    assert config["labs"] == {"live_preview": False, "use_streaming_result": False, "command_mode": False}
     config["labs"]["use_streaming_result"] = True
     assert not sanitize_config(config)["labs"]["use_streaming_result"]
     config["labs"]["live_preview"] = True
