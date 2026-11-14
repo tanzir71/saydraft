@@ -6,7 +6,7 @@ This boundary never sends the spoken instruction through dictation cleanup.
 
 import json
 import time
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 
 from saydraft.cleanup.llm.edit import validate_edit_output
 from saydraft.history import HistoryEntry
@@ -19,6 +19,7 @@ class CommandEditResult:
     reason: str
     history_id: int | None = None
     insertion: InsertionResult | None = None
+    confirmation_reason: str = ""
 
 
 class CommandEditProcessor:
@@ -45,7 +46,7 @@ class CommandEditProcessor:
         try:
             if not current():
                 return CommandEditResult(None, "cancelled")
-            if captured.selection.status != "ok":
+            if captured.selection.status != "ready":
                 return CommandEditResult(None, captured.selection.status)
             # Read-only/changed/sensitive selections need no model work.
             if reason := guard():
@@ -87,11 +88,23 @@ class CommandEditProcessor:
                     enter_guard=current, field_guard=guard))
             except Exception:
                 inserted = InsertionResult("not_inserted", "none", "insertion_error")
-            stages["insert"] = self.clock() - started
             if not current() or inserted is None:
                 return CommandEditResult(None, "cancelled", identifier)
+            confirmation = ""
+            if inserted.status == "inserted":
+                try:
+                    confirmation = run_current(lambda: self.selections.confirm_replacement(captured, reply.text))
+                except Exception:
+                    confirmation = "field_unavailable"
+                if confirmation is None or not current():
+                    return CommandEditResult(None, "cancelled", identifier)
+                if confirmation:
+                    # The key may already have written text. Recovery must ask
+                    # the user to check the target before copying/pasting again.
+                    inserted = replace(inserted, status="not_inserted", reason="insertion_unconfirmed")
+            stages["insert"] = self.clock() - started
             result = CommandEditResult(reply.text, "ok" if inserted.status == "inserted" else inserted.reason,
-                                       identifier, inserted)
+                                       identifier, inserted, confirmation)
             try:
                 self.history.update_timings(identifier, stages)
             except Exception:

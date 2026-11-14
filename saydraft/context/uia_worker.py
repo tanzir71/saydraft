@@ -6,7 +6,7 @@ from dataclasses import dataclass, field, replace
 import math
 
 from .focused_edit import FocusedEdit, read_focused_edit
-from .selection import MAX_SELECTION_LEASE, SelectionSnapshot, SelectionTracker
+from .selection import MAX_SELECTION_LEASE, REPLACEMENT_LIMIT, SelectionSnapshot, SelectionTracker
 from .tracked_edit import FieldIdentity
 
 
@@ -24,6 +24,7 @@ class _Request:
     snapshot: SelectionSnapshot | None = None
     for_write: bool = True
     selection_epoch: int = 0
+    replacement: str = ""
 
 
 class BoundedUIA:
@@ -86,6 +87,23 @@ class BoundedUIA:
             self._wake.set()
         return True
 
+    def confirm_replacement(self, snapshot, replacement):
+        if (type(snapshot) is not SelectionSnapshot or type(snapshot.identity) is not FieldIdentity
+                or not snapshot.identity.valid() or snapshot.status != "ready"
+                or type(snapshot.generation) is not int or type(snapshot.ticket) is not int or snapshot.ticket <= 0):
+            return "selection_expired"
+        try:
+            valid = (type(replacement) is str and 0 < len(replacement) <= REPLACEMENT_LIMIT
+                     and len(replacement.encode("utf-16-le")) // 2 <= REPLACEMENT_LIMIT)
+        except UnicodeError:
+            valid = False
+        if not valid:
+            self.cancel_selection(snapshot)
+            return "insertion_unconfirmed"
+        request = _Request(snapshot.identity.window, True, time.monotonic() + self.capture_timeout,
+                           operation="confirm_replacement", snapshot=snapshot, replacement=replacement)
+        return self._submit(request, "insertion_unconfirmed")
+
     def _submit(self, request, fallback):
         with self._lock:
             if self._closed or self._request is not None:
@@ -93,7 +111,7 @@ class BoundedUIA:
             if request.operation == "capture_selection":
                 self._selection_epoch += 1
                 self._clear_selection = True
-            elif request.operation == "verify_selection" and request.snapshot.generation != self._selection_epoch:
+            elif request.operation in ("verify_selection", "confirm_replacement") and request.snapshot.generation != self._selection_epoch:
                 return "selection_expired"
             request.selection_epoch = self._selection_epoch
             self._request = request
@@ -162,6 +180,8 @@ class BoundedUIA:
                             lease_seconds=request.lease_seconds, current=current), generation=request.selection_epoch)
                     elif request.operation == "verify_selection":
                         result = tracker.verify(request.snapshot, for_write=request.for_write, current=current)
+                    elif request.operation == "confirm_replacement":
+                        result = tracker.confirm(request.snapshot, request.replacement, current=current)
                     else:
                         result = read_focused_edit(reader, request.window, include_text=request.include_text, current=current)
                 with self._lock:

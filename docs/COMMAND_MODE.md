@@ -1,7 +1,8 @@
 # Command Mode implementation
 
 P7.1 remains in progress. The selected-target boundary, explicit local edit
-client/validator and guarded processing boundary are implemented. The shortcut/Labs
+client/validator and guarded processing boundary, including bounded post-write
+confirmation, are implemented. The shortcut/Labs
 admission, clipboard-copy fallback, instruction recording and standalone Copy
 recovery UI still need connecting. No Command Mode control is advertised as
 available in the app.
@@ -45,6 +46,23 @@ lease. It validates the target before generation, saves selected text, replaceme
 instruction/model provenance and timings before input, and supplies the current
 session plus exact selection guard immediately before paste. Its `paste_only`
 insertion option refuses typing profiles and clipboard-error typing fallback.
+The processor uses the capture provider's actual `ready` selection contract;
+an earlier `ok`/`ready` mismatch is corrected and covered through the real provider
+and bounded owner, rather than only a manually constructed snapshot.
+
+After paste, success requires fresh target/password metadata, a collapsed caret
+and two exact reads of the intended replacement span. Capture retains a native
+text-unit offset whose metadata-only round trip reaches the original start;
+confirmation reconstructs that position without treating Python character counts
+as native coordinates. The span reads are capped at the expected replacement's
+UTF-16 size plus one overflow unit, never a full-document `GetText`. A provider
+that cannot supply this position, a changed/unsupported field, a partial write or
+an ignored paste yields `insertion_unconfirmed`. The native selection lease is
+one-shot and retired after confirmation. This remains an observation, not an
+atomic lock against concurrent application changes.
+
+An unconfirmed paste may already have written text. Recovery must say to check
+the original field before copying/pasting again; there is no automatic retry.
 Failed delivery passes a standalone recovery result to the caller. The remaining
 UI adapter must show a separate Copy surface and preserve the current dirty or
 conflicted Scratchpad draft. Command results remain searchable in History but
@@ -74,6 +92,10 @@ they do not accept the remaining full app integration.
 The transport follows the pinned llama.cpp
 [b12110 server contract](https://github.com/ggml-org/llama.cpp/blob/b12110/tools/server/README.md)
 for `/apply-template`, `/tokenize`, schema-constrained chat output and streaming.
+Native offset handling follows the Windows SDK's
+[endpoint movement](https://learn.microsoft.com/en-us/windows/win32/api/uiautomationclient/nf-uiautomationclient-iuiautomationtextrange-moveendpointbyunit)
+and [range endpoint](https://learn.microsoft.com/en-us/windows/win32/api/uiautomationclient/nf-uiautomationclient-iuiautomationtextrange-moveendpointbyrange)
+contracts, including providers that promote unsupported text units.
 
 ```powershell
 python -m pytest tests/test_command_edit.py tests/test_cleanup_preparation.py -q
@@ -97,8 +119,8 @@ Before a replacement, `verify_selection()` rechecks window/process/field identit
 fresh password state, both range endpoints and exact selected text. Identical
 text selected at a different position is rejected. Known read-only selections can
 be read for an answer, while write verification refuses them. Unknown editability
-is not a promise that paste will succeed; replacement confirmation and recovery
-remain part of the pending Command Mode integration.
+is not a promise that paste will succeed; only the post-write confirmation can
+observe success. Full hotkey and recovery UI integration remains pending.
 
 Requests share the existing one-request owner and at-most-500-ms capture budget.
 Cancellation wakes the caller and revokes late results without joining a blocked
@@ -126,11 +148,17 @@ expiry, queued-result retirement, cancellation during capture/verification,
 stale-generation cleanup, source-thread ownership and default-context behavior.
 
 `tools.probe_selection` uses this process's invisible EDIT control, actual native
-ranges and the real bounded owner. Direct fixture messages select only known
+ranges and the real bounded owner. Direct fixture messages select and replace only known
 public text. The probe substitutes its own focus identity and never reads the
 active application or changes foreground focus. It checks a 1,408-unit selection,
 same-text/different-position rejection, text changes, read-only behavior, password
-refusal, cancellation and observed MTA/window retirement. This is not physical
+refusal, cancellation and observed MTA/window retirement. It also confirms Unicode
+and 9,000-unit replacements, refuses a deliberately truncated write, checks that
+matching text elsewhere is insufficient, and refuses a newly sensitive field
+before reading post-write text. The real provider-to-processor path writes History
+before a bounded message to its own EDIT, confirms the result, restores a memory
+clipboard and invokes recovery for an ignored fixture paste. Recognition and edit
+generation are stubs in this target/delivery probe. This is not physical
 focus/paste, native clipboard fallback, full Command Mode or owner-data acceptance.
 
 The selected-target layer passes at clean `5339fa9`: 3,343 tests / 12 skips,

@@ -9,6 +9,7 @@ from .focused_edit import read_focused_edit
 from .tracked_edit import FieldIdentity
 
 SELECTION_LIMIT = 8192  # UTF-16 units; incomplete selections are never returned.
+REPLACEMENT_LIMIT = 16384
 MAX_SELECTION_LEASE = 3660  # Maximum recording cap plus processing time.
 
 
@@ -28,6 +29,7 @@ class _Lease:
     snapshot: SelectionSnapshot
     anchor: object
     expires_at: float
+    position: int | None = None  # Native text-unit offset; never surrounding text.
 
 
 class SelectionTracker:
@@ -138,24 +140,45 @@ class SelectionTracker:
                 return SelectionSnapshot(status="selection_changed")
             if not text:
                 return SelectionSnapshot(status="empty", read_only=read_only, **base)
+            position = None
+            positioning = getattr(self.reader, "selection_position", None)
+            if positioning is not None:
+                try:
+                    position = positioning(element, anchor, current)
+                except Exception:
+                    pass  # Selection remains readable; a later paste cannot be confirmed.
+            if type(position) is not int or not 0 <= position < 2**31:
+                position = None
+            element, reason = self._element(identity, field.control_type, current)
+            if reason:
+                return SelectionSnapshot(status=reason)
+            final = self.reader.selection_range(element, current)
+            if final is None or not self.reader.same_selection(anchor, final):
+                return SelectionSnapshot(status="selection_changed")
             self._ticket += 1
             snapshot = SelectionSnapshot("ready", self._ticket, identity, field.control_type, text, read_only)
-            self._lease = _Lease(snapshot, anchor, self.clock() + lease_seconds)
+            self._lease = _Lease(snapshot, anchor, self.clock() + lease_seconds, position)
             return snapshot
         except Exception:
             self.clear()
             return SelectionSnapshot()
 
-    def verify(self, snapshot, *, for_write=True, current=lambda: True):
-        self._owned()
-        if type(for_write) is not bool:
-            return "field_unavailable"
+    def _matching(self, snapshot):
         self.expire()
         lease = self._lease
         if (type(snapshot) is not SelectionSnapshot or snapshot.status != "ready" or type(snapshot.ticket) is not int
                 or lease is None or snapshot.ticket != lease.snapshot.ticket
                 or snapshot.identity != lease.snapshot.identity or snapshot.control_type != lease.snapshot.control_type
                 or type(snapshot.text) is not str or snapshot.text != lease.snapshot.text):
+            return None
+        return lease
+
+    def verify(self, snapshot, *, for_write=True, current=lambda: True):
+        self._owned()
+        if type(for_write) is not bool:
+            return "field_unavailable"
+        lease = self._matching(snapshot)
+        if lease is None:
             return "selection_expired"
         try:
             element, reason = self._element(snapshot.identity, snapshot.control_type, current)
@@ -181,3 +204,34 @@ class SelectionTracker:
         except Exception:
             self.clear()
             return "field_unavailable"
+
+    def confirm(self, snapshot, replacement, *, current=lambda: True):
+        """One-shot post-write read of the intended span; never another write."""
+        self._owned()
+        lease = self._matching(snapshot)
+        if lease is None:
+            return "selection_expired"  # Never retire a newer session's lease.
+        try:
+            if type(replacement) is not str or not 0 < len(replacement) <= REPLACEMENT_LIMIT:
+                return "insertion_unconfirmed"
+            units = len(replacement.encode("utf-16-le")) // 2
+            if not 0 < units <= REPLACEMENT_LIMIT or lease.position is None:
+                return "insertion_unconfirmed"
+            read = getattr(self.reader, "replacement_text", None)
+            if read is None:
+                return "insertion_unconfirmed"
+            for _ in range(2):
+                element, reason = self._element(snapshot.identity, snapshot.control_type, current)
+                if reason:
+                    return reason
+                if self._read_only(element) is True:
+                    return "read_only"
+                text = read(element, lease.position, units, current)
+                if type(text) is not str or text != replacement:
+                    return "insertion_unconfirmed"
+            _element, reason = self._element(snapshot.identity, snapshot.control_type, current)
+            return reason
+        except Exception:
+            return "insertion_unconfirmed"
+        finally:
+            self.clear()  # A confirmation receipt cannot be replayed.

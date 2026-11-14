@@ -212,8 +212,9 @@ def setup_processor(tmp_path, *, verify=lambda: '', history=None):
     editor = SimpleNamespace(model_id='fixture-llm', edit_selection=lambda *args, **kwargs:
                              EditReply('The file arrived.', 'ok', 150, 768))
     captured = SelectedContext(TargetContext(focus=15, app_title='Owned fixture', uia_status='ok'),
-                               SelectionSnapshot(status='ok', text='I wanted to say the file arrived.', ticket=1))
+                               SelectionSnapshot(status='ready', text='I wanted to say the file arrived.', ticket=1))
     selections = SimpleNamespace(verify_selection=lambda *args, **kwargs: verify(),
+                                 confirm_replacement=lambda *args: '',
                                  cancel_selection=lambda value: events.append(('cancel', value)))
     clipboard, keyboard = FakeClipboard(), FakeKeyboard()
     def send(key):
@@ -300,3 +301,27 @@ def test_command_delivery_refuses_typing_profile_and_clipboard_failure(tmp_path)
     f.processor.inserter.clipboard = Unavailable()
     result = f.run()
     assert result.reason == 'clipboard_unavailable' and not f.keyboard.ops and f.recovered == [result]
+
+
+@pytest.mark.parametrize('reason', ['field_unavailable', 'focus_changed', 'password_field', 'selection_expired'])
+def test_sent_paste_with_unverifiable_target_is_recovered_without_a_second_write(tmp_path, reason):
+    f = setup_processor(tmp_path)
+    f.processor.selections.confirm_replacement = lambda *args: reason
+    result = f.run()
+    assert result.reason == 'insertion_unconfirmed' and result.confirmation_reason == reason
+    assert result.insertion.status == 'not_inserted' and result.insertion.method == 'paste'
+    assert f.recovered == [result] and f.events == [('send', 'ctrl+v'), ('cancel', f.captured)]
+    assert f.clipboard.value == 'original' and len(f.history.list_recent()) == 1
+
+
+def test_cancel_after_sent_input_drops_result_without_copy_popup_or_retry(tmp_path):
+    f = setup_processor(tmp_path)
+    send = f.keyboard.send
+    def cancelled_send(key):
+        send(key)
+        f.active[0] = False
+    f.keyboard.send = cancelled_send
+    f.processor.selections.confirm_replacement = lambda *args: pytest.fail('Retired session must not read')
+    result = f.run()
+    assert result.reason == 'cancelled' and result.text is None and not f.recovered
+    assert f.events == [('send', 'ctrl+v'), ('cancel', f.captured)] and f.clipboard.value == 'original'

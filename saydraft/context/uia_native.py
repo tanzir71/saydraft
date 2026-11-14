@@ -195,6 +195,63 @@ class NativeUIAReader:
         except Exception:
             return None
 
+    def _position_range(self, document, position, current):
+        lib = self.lib
+        result = document.Clone()
+        result.MoveEndpointByRange(lib.TextPatternRangeEndpoint_End, document, lib.TextPatternRangeEndpoint_Start)
+        if position:
+            moved = result.MoveEndpointByUnit(lib.TextPatternRangeEndpoint_Start, lib.TextUnit_Character, position)
+            if type(moved) is not int or moved != position:
+                return None
+        return result if current() else None
+
+    def selection_position(self, element, selected, current):
+        """Round-trip a metadata-only native offset, with no document GetText."""
+        if not current():
+            return None
+        lib = self.lib
+        pattern = element.GetCurrentPattern(lib.UIA_TextPatternId).QueryInterface(lib.IUIAutomationTextPattern)
+        document, probe = pattern.DocumentRange, selected.Clone()
+        moved = probe.MoveEndpointByUnit(lib.TextPatternRangeEndpoint_Start, lib.TextUnit_Character, -(2**31 - 1))
+        if type(moved) is not int or not -(2**31 - 1) <= moved <= 0 or not current():
+            return None
+        compared = probe.CompareEndpoints(lib.TextPatternRangeEndpoint_Start, document, lib.TextPatternRangeEndpoint_Start)
+        if type(compared) is not int or compared != 0:
+            return None
+        restored = self._position_range(document, -moved, current)
+        if restored is None:
+            return None
+        compared = restored.CompareEndpoints(lib.TextPatternRangeEndpoint_Start, selected, lib.TextPatternRangeEndpoint_Start)
+        return -moved if type(compared) is int and compared == 0 and current() else None
+
+    def replacement_text(self, element, position, limit, current):
+        """Read only the bounded planned span ending at the current caret.
+
+        Native units may be promoted by a provider; capture requires an exact
+        round trip. No Python character count is used as a native coordinate.
+        """
+        if (type(position) is not int or not 0 <= position < 2**31 or type(limit) is not int
+                or not 1 <= limit <= 16384 or not current()):
+            return None
+        lib = self.lib
+        pattern = element.GetCurrentPattern(lib.UIA_TextPatternId).QueryInterface(lib.IUIAutomationTextPattern)
+        start = self._position_range(pattern.DocumentRange, position, current)
+        caret = self.selection_range(element, current)
+        if start is None or caret is None:
+            return None
+        collapsed = caret.CompareEndpoints(lib.TextPatternRangeEndpoint_Start, caret, lib.TextPatternRangeEndpoint_End)
+        after = start.CompareEndpoints(lib.TextPatternRangeEndpoint_Start, caret, lib.TextPatternRangeEndpoint_Start)
+        if type(collapsed) is not int or collapsed != 0 or type(after) is not int or after >= 0 or not current():
+            return None
+        start.MoveEndpointByRange(lib.TextPatternRangeEndpoint_End, caret, lib.TextPatternRangeEndpoint_Start)
+        text = start.GetText(limit + 1)
+        if (type(text) is not str or len(text) > limit or len(text.encode("utf-16-le")) // 2 > limit or not current()):
+            return None
+        fresh = self.selection_range(element, current)
+        if fresh is None or not self.same_selection(caret, fresh) or not current():
+            return None
+        return text
+
     def text_context(self, element, limit, *, current=lambda: True):
         if type(limit) is not int or not 1 <= limit <= 1024:
             raise ValueError("UIA text read must be bounded")

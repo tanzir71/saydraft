@@ -57,6 +57,16 @@ def test_native_selection_uses_only_own_ranges_and_rejects_changed_read_only_or_
     report = json.loads((output / "report.json").read_text(encoding="utf-8"))
     assert completed.returncode == 0, report
     assert report["probe_complete"] and report["mta_closed"] and report["own_windows_closed"]
+    spans = [case for case in report['cases'] if case['case'] == 'replacement_span']
+    assert len(spans) == 2 and any(case['replacement_units'] == 9000 for case in spans)
+    assert all(case['reason'] == '' and case['own_field_exact'] for case in spans)
+    pipeline = [case for case in report['cases'] if case['case'] == 'command_processor_native_target']
+    assert len(pipeline) == 2 and {case['fixture_direct_message_write'] for case in pipeline} == {True, False}
+    assert all(case['ready_contract'] and case['durable_before_input'] and case['memory_clipboard_restored'] for case in pipeline)
+    assert all(case['reason'] == ('ok' if case['fixture_direct_message_write'] else 'insertion_unconfirmed') for case in pipeline)
+    assert any(case['case'] == 'password_before_confirmation' and case['no_post_write_text_read'] for case in report['cases'])
+    assert any(case['case'] == 'truncated_write_unconfirmed' and case['reason'] == 'insertion_unconfirmed'
+               and case['own_field_units'] <= case['fixture_text_limit'] for case in report['cases'])
     assert not report["active_application_read"] and not report["owner_clipboard_accessed"]
     assert not report["input_injected"] and not report["microphone_used"]
     assert [row["case"] for row in report["cases"]] == ["long_selection", "same_text_new_range", "changed_text", "read_only", "password", "cancel"]

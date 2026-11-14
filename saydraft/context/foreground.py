@@ -202,6 +202,14 @@ class ForegroundContextProvider:
             return SelectedContext()
 
     def verify_selection(self, captured, *, for_write=True):
+        if type(for_write) is not bool:
+            return "field_unavailable"
+        return self._selection_request(captured, lambda snapshot: self._uia.verify_selection(snapshot, for_write=for_write))
+
+    def confirm_replacement(self, captured, replacement):
+        return self._selection_request(captured, lambda snapshot: self._uia.confirm_replacement(snapshot, replacement))
+
+    def _selection_request(self, captured, operation):
         if self._closed or not self._use_uia or self._uia is None:
             return "field_unavailable"
         if (type(captured) is not SelectedContext or type(captured.selection) is not SelectionSnapshot
@@ -209,7 +217,7 @@ class ForegroundContextProvider:
             return "selection_expired"
         target, snapshot = captured.target, captured.selection
         identity = snapshot.identity
-        if (type(identity) is not FieldIdentity or not identity.valid() or type(for_write) is not bool
+        if (type(identity) is not FieldIdentity or not identity.valid()
                 or target.focus != identity.window or target.process_id != identity.process_id
                 or target.field_id != identity.runtime_id or target.control_type != snapshot.control_type
                 or target.selection != snapshot.text or target.uia_status != "ok"
@@ -222,7 +230,7 @@ class ForegroundContextProvider:
             if api.foreground() != target.focus or api.window_pid(target.focus) != target.process_id:
                 reason = "focus_changed"
             else:
-                reason = self._uia.verify_selection(snapshot, for_write=for_write)
+                reason = operation(snapshot)
                 if not reason and (self._closed or api.foreground() != target.focus
                                    or api.window_pid(target.focus) != target.process_id):
                     reason = "focus_changed"
