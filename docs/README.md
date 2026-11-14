@@ -93,6 +93,7 @@ preserved. Decoder defaults and broader/owner accuracy acceptance stay unchanged
 - [Website](SITE.md): Astro, Storybook, Playwright, Lighthouse, and GitHub Pages.
 - [Website components](SITE_COMPONENTS.md): complete token-based library, static interactions, Storybook states and three-width visual checks.
 - [Website documentation](SITE_DOCS.md): dated MDX routes, model transfer tables, navigation and content qualification.
+- [Website SEO](SITE_SEO.md): social images, sitemap, readable exports, ownership tags and current rich-result limits.
 - [Launch drafts](launch/README.md): factual source-preview listings, Product Hunt,
   Show HN, Reddit and awesome-list copy for the owner to review and post.
 

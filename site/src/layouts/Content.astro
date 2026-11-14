@@ -8,6 +8,7 @@ import { FAQ } from '../components/FAQ/FAQ';
 import { TableOfContents } from '../components/DocLayout/TableOfContents';
 import { guideRoutes } from '../data/guides';
 import { documentationRoutes } from '../data/documentation';
+import { applicationSchema, creatorSchema } from '../data/application';
 import '../styles/prose.css';
 import '../styles/guides.css';
 
@@ -46,4 +47,6 @@ const related = documentation ? documentationRoutes.filter((route) => route.slug
   </main>
   <StructuredData data={{ '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: breadcrumb.map((item, index) => ({ '@type': 'ListItem', position: index + 1, ...item })) }} />
   {faqs.length > 0 && <StructuredData data={{ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqs.map(({ q, a }) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) }} />}
+  {['download', 'offline-dictation-windows'].includes(path) && <StructuredData data={applicationSchema(Astro.site!, base)} />}
+  {path === 'credits' && <StructuredData data={creatorSchema(Astro.site!, base)} />}
 </Base>

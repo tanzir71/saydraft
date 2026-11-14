@@ -18,6 +18,8 @@ jobs:
     env:
       ASTRO_TELEMETRY_DISABLED: '1'
       GITHUB_TOKEN: ${{ github.token }}
+      GOOGLE_SITE_VERIFICATION: ${{ vars.GOOGLE_SITE_VERIFICATION }}
+      BING_SITE_VERIFICATION: ${{ vars.BING_SITE_VERIFICATION }}
     steps:
       - uses: actions/checkout@v7
         with:

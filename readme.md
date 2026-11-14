@@ -32,8 +32,10 @@ its [changelog](https://tanzir71.github.io/saydraft/changelog/) lists published 
 ## Current status
 
 Saydraft is in active development. Run from source using the steps below.
-There is no published installer release yet; signing and
-clean-machine validation remain on the [roadmap](WISPR_OFFLINE_PARITY_PLAN.md).
+An older unsigned verification pre-release is listed on
+[GitHub Releases](https://github.com/tanzir71/saydraft/releases). It predates the
+current source and does not establish current app or signing acceptance. Signing
+and clean-machine validation remain on the [roadmap](WISPR_OFFLINE_PARITY_PLAN.md).
 The [packaging pipeline](docs/PACKAGING.md) produces an approximately 104 MB unsigned installer
 that passes resource, dependency-notice and install/uninstall checks. Its
 [retained verification](eval/packaging/results/2026-11-14-notices/README.md)
@@ -321,6 +323,8 @@ components, 71 Storybook states and responsive visual checks.
 The [documentation guide](docs/SITE_DOCS.md) covers the dated user-guide routes,
 shared model-size tables and local content verification. Website changes are
 validated locally and pushed; hosted publication is a separate step.
+The [SEO guide](docs/SITE_SEO.md) covers per-page social images, sitemap/readable
+exports, owner verification tags and the remaining rich-result eligibility limits.
 Report reproducible problems in [GitHub Issues](https://github.com/tanzir71/saydraft/issues)
 with redacted logs and your source version; keep private recordings and transcripts out
 of public reports.

@@ -1,0 +1,15 @@
+---
+import Base from '../layouts/Base.astro';
+import { Button } from '../components/Button/Button';
+import '../styles/prose.css';
+const base = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/`;
+---
+<Base title="Page not found · Saydraft" description="Find Saydraft's offline Windows dictation guides, model setup and source download instructions." noindex canonicalPath={`${base}404.html`}>
+  <main id="main" class="document container">
+    <p class="eyebrow">A little off course</p>
+    <h1>That page has moved.</h1>
+    <p>The address may be incomplete, or the page may have moved. Start with the home page or find a guide in the documentation.</p>
+    <p><Button href={base}>Back to Saydraft</Button></p>
+    <p><a href={`${base}docs/`}>Browse the documentation</a> · <a href={`${base}download/`}>Download and setup</a></p>
+  </main>
+</Base>

@@ -33,7 +33,7 @@ const url = new URL(`${base}languages/${language.slug}/`, Astro.site).href;
     <p><a href={`${base}download/`}>Get Saydraft for Windows</a> · <a href={`${base}privacy/`}>See how dictation stays local</a></p>
     <aside class="related-languages" aria-label="Other dictation languages"><h2>More languages, the same app.</h2><ul>{languages.filter((other) => other.slug !== language.slug).map((other) => <li><a href={`${base}languages/${other.slug}/`}>{other.name} voice typing</a></li>)}<li><a href={`${base}languages/`}>All language and model guidance</a></li></ul></aside>
   </main>
-  <StructuredData data={{ '@type': 'WebPage', name: language.title, description: language.description, url, inLanguage: 'en', about: { '@type': 'SoftwareApplication', name: 'Saydraft', operatingSystem: 'Windows 10, Windows 11', applicationCategory: 'UtilitiesApplication', featureList: `Offline ${language.name} speech recognition` } }} />
+  <StructuredData data={{ '@type': 'WebPage', name: language.title, description: language.description, url, inLanguage: 'en', about: { '@id': new URL(`${base}#software`, Astro.site).href } }} />
   <StructuredData data={{ '@type': 'BreadcrumbList', itemListElement: [
     { '@type': 'ListItem', position: 1, name: 'Saydraft', item: new URL(base, Astro.site).href },
     { '@type': 'ListItem', position: 2, name: 'Languages', item: new URL(`${base}languages/`, Astro.site).href },

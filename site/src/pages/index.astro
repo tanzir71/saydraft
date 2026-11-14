@@ -12,6 +12,7 @@ import { Eyebrow } from '../components/Eyebrow/Eyebrow';
 import { FeatureRow } from '../components/FeatureRow/FeatureRow';
 import { StyleSwitcher } from '../components/StyleSwitcher/StyleSwitcher';
 import StructuredData from '../components/StructuredData.astro';
+import { applicationSchema } from '../data/application';
 import { languages } from '../data/languages';
 import '../styles/home.css';
 import '../styles/languages.css';
@@ -53,7 +54,8 @@ const questions = [
     <section class="section container faq-section" id="questions" aria-labelledby="faq-title"><div><p class="eyebrow">A few good questions</p><h2 id="faq-title">Glad you<br /><em>asked.</em></h2></div><FAQ questions={questions} /></section>
     <section class="final-sheet" aria-labelledby="final-title"><div class="container"><p class="eyebrow">Make room for your next thought</p><h2 id="final-title">Less keyboard.<br /><em>More possibility.</em></h2><Button href={`${base}download/`} variant="on-dark">Get Saydraft for Windows</Button><p>Free. Open source. Yours to make your own.</p></div></section>
   </main>
-  <StructuredData data={{ '@type': 'SoftwareApplication', name: 'Saydraft', url: new URL(base, Astro.site).href, operatingSystem: 'Windows 10, Windows 11', applicationCategory: 'UtilitiesApplication', isAccessibleForFree: true, license: 'https://github.com/tanzir71/saydraft/blob/main/LICENSE', featureList: ['Offline voice typing with installed speech models', 'Thai, Chinese, Korean, Bengali and Arabic via the shared All languages model', 'Portuguese, including Brazilian Portuguese, via Parakeet v3 or All languages', 'Local speech recognition and cleanup'] }} />
+  <StructuredData data={applicationSchema(Astro.site!, base)} />
+  <StructuredData data={{ '@type': 'FAQPage', mainEntity: questions.map(({ question, answer }) => ({ '@type': 'Question', name: question, acceptedAnswer: { '@type': 'Answer', text: answer } })) }} />
 <script>
   const scene = document.querySelector<HTMLElement>('[data-demo-scene]');
   const play = scene?.querySelector<HTMLButtonElement>('[data-demo-play]');

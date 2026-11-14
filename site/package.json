@@ -11,7 +11,7 @@
     "tokens": "node ../tools/generate_tokens.mjs",
     "tokens:check": "node ../tools/generate_tokens.mjs --check",
     "content:check": "node tools/check-content-dates.mjs",
-    "content:test": "node --test tools/content-verification.test.mjs tools/releases.test.mjs tools/html-validation.test.mjs tools/model-downloads.test.mjs",
+    "content:test": "node --test tools/content-verification.test.mjs tools/releases.test.mjs tools/html-validation.test.mjs tools/model-downloads.test.mjs tools/seo.test.mjs",
     "build": "npm run tokens:check && npm run content:check && astro check && astro build",
     "preview": "astro preview --host 127.0.0.1",
     "test": "playwright test",
@@ -23,14 +23,18 @@
   "dependencies": {
     "@astrojs/mdx": "8.1.6",
     "@astrojs/react": "7.1.8",
+    "@astrojs/sitemap": "3.7.5",
     "@fontsource-variable/geist": "5.3.0",
     "@fontsource-variable/geist-mono": "5.3.0",
     "@fontsource-variable/noto-sans-arabic": "5.3.0",
     "@fontsource-variable/noto-sans-bengali": "5.3.0",
     "@fontsource/instrument-serif": "5.3.0",
     "astro": "7.4.11",
+    "parse5": "8.1.1",
     "react": "19.3.1",
-    "react-dom": "19.3.1"
+    "react-dom": "19.3.1",
+    "satori": "0.63.2",
+    "sharp": "0.35.5"
   },
   "devDependencies": {
     "@astrojs/check": "0.9.12",

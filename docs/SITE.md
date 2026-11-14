@@ -1,7 +1,9 @@
 # Saydraft website
 
-The Astro site in `site/` now builds forty-three static pages, including nineteen
-language guides, their overview and twenty-two dated MDX content pages.
+The Astro site in `site/` now builds forty-three indexable static pages plus a
+custom 404, including nineteen language guides, their overview and twenty-two
+dated MDX content pages. [Technical SEO](SITE_SEO.md) describes the generated
+social images, sitemap index, readable exports and remaining external acceptance.
 This is an early P9 foundation, brought forward at the owner's request. The
 approved §9 tokens are shared through `design/tokens.json`; the dependency-free
 generator emits CSS and light/dark Qt QSS. Qt installation and the initial gallery
