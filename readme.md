@@ -49,6 +49,10 @@ qualification are tracked separately:
 |---|---|
 | Local dictation, rules cleanup, optional local AI cleanup | Current-model quality and release latency qualification |
 | Hub, History, Dictionary, Snippets, Style, Scratchpad and Notes | Command, Translate, Ask, Notetaker |
+
+Command Mode's selection guard, local edit client and paste processing are under
+development. The recording shortcut and Copy recovery UI are not connected yet;
+see the [implementation status](docs/COMMAND_MODE.md).
 | Six-page setup, verified downloads, model performance check | Fresh-profile and physical Windows acceptance |
 | Public website, setup guide, verified unsigned builds and opt-in update notices | Signing and release publication |
 

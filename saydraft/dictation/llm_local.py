@@ -110,6 +110,31 @@ class LocalLLMCleaner:
     def warm(self):
         return self._warm(PromptHints(post_rules=True))
 
+    def edit_selection(self, selection, instruction, *, cancelled=lambda: False, timeout=45):
+        """Explicit command task on the same installed, serial local model.
+
+        Admission/recording belong to Command Mode. A cold or busy sidecar
+        reports that state; it never returns the spoken instruction as text.
+        """
+        from saydraft.cleanup.llm.edit import EditClient, EditReply
+        if cancelled() or self._closed:
+            return EditReply(None, "cancelled")
+        try:
+            client = self._get_client()
+            if client is None:
+                return EditReply(None, "disabled")
+            def invalidate():
+                client.invalidate_prefix()
+                if self._preparation is not None:
+                    self._preparation.invalidate()
+            reply = EditClient(client.manager, clock=self._clock, invalidate=invalidate).edit(
+                selection, instruction, timeout=timeout, cancelled=lambda: cancelled() or self._closed)
+            return EditReply(None, "cancelled") if cancelled() or self._closed else reply
+        except Exception:
+            logger.warning("Local edit unavailable; no replacement delivered")
+            logger.debug("Local edit failure detail", exc_info=True)
+            return EditReply(None, "unavailable")
+
     def warm_for_context(self, context):
         if (context.mode == "raw" or context.profile == "code/comments" or context.app_group == "code"
                 or style_for(context).intensity == 1):

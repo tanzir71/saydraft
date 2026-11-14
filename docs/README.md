@@ -39,7 +39,7 @@ including the optional public-audio recognizer smoke.
 | [Snippets](SNIPPETS.md) | Triggers, variables, import/export, and SQLite adoption |
 | [Dictionary learning](DICTIONARY_LEARNING.md) | Vocabulary, correction learning, and Undo |
 | [Delivery](DELIVERY.md) | Focus checks, protected/elevated targets, and insertion fallbacks |
-| [Command Mode work](COMMAND_MODE.md) | Implemented selected-target boundary and remaining P7.1 integration |
+| [Command Mode work](COMMAND_MODE.md) | Selection leases, local edit/validator and guarded processing; remaining P7.1 integration |
 | [Scratchpad and Notes](NOTES.md) | Local autosave, search/reopen, conflict recovery, and the last-diff shortcut |
 
 ## Models, privacy, and data

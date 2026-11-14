@@ -75,6 +75,20 @@ def test_style_changed_during_probe_is_prepared_after_current_work_without_anoth
     assert prep.ready(PromptHints(style="casual", post_rules=True))
 
 
+def test_explicit_edit_invalidation_retires_inflight_preparation_receipt():
+    prep, threads, _manager, calls = fixture()
+    original = prep.client.prepare_prompt
+    def probe(**kwargs):
+        result = original(**kwargs)
+        if len(calls) == 1:
+            prep.invalidate()
+        return result
+    prep.client.prepare_prompt = probe
+    prep.request(PromptHints(post_rules=True))
+    threads.run()
+    assert len(calls) == 2 and prep.ready(PromptHints(post_rules=True))
+
+
 def test_failed_protocol_is_not_retried_in_same_instance_but_new_instance_can_prepare():
     prep, threads, manager, calls = fixture("prompt_incomplete")
     prep.request(PromptHints(post_rules=True))

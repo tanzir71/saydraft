@@ -31,6 +31,10 @@ class CleanupClient:
         self.decoder = DecoderCalibration(manager)
         self._prefix = None
 
+    def invalidate_prefix(self):
+        """A different explicit local task evicted the prepared cleanup chat."""
+        self._prefix = None
+
     def calibrate_decoder(self, *, timeout=60, force=False):
         # Raw completion replaces the native KV cache, including on failure.
         if force or self.decoder.current is None:

@@ -77,7 +77,8 @@ class Inserter(Protocol):
                     app_title: str | None = None, send_enter: bool = False,
                     enter_guard: Callable[[], bool] | None = None,
                     field_guard: Callable[[], str] | None = None,
-                    before_insert: Callable[[], None] | None = None) -> InsertionResult: ...
+                    before_insert: Callable[[], None] | None = None,
+                    paste_only: bool = False) -> InsertionResult: ...
 
 
 class ContextProvider(Protocol):

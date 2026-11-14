@@ -129,7 +129,7 @@ def migrate_database(path: str | Path, *, import_paths: dict[str, Path] | None =
 def _backfill_stats(connection):
     daily = defaultdict(lambda: [0, 0, 0.0])
     for day, cleaned, duration in connection.execute(
-        "SELECT date(created_at, 'localtime'), cleaned_text, duration_seconds FROM dictations"
+        "SELECT date(created_at, 'localtime'), cleaned_text, duration_seconds FROM dictations WHERE mode != 'command'"
     ):
         values = daily[day or "unknown"]
         values[0] += 1

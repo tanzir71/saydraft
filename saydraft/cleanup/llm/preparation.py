@@ -17,6 +17,7 @@ class PromptPreparation:
         self._lock = threading.RLock()
         self._closed = self._running = False
         self._wanted = self._prepared = self._failed = None
+        self._revision = 0
         self._reason, self._seconds = "not_prepared", None
         self._settled = threading.Event()
         self._settled.set()
@@ -74,6 +75,7 @@ class PromptPreparation:
                         self._settled.set()
                         return
                     key = self._wanted
+                    revision = self._revision
                 manager = self.client.manager
                 seconds = None
                 if not manager.prepare():
@@ -104,6 +106,11 @@ class PromptPreparation:
                         self._settled.set()
                         return
                     valid = reason == "prepared" and generation is not None and generation == current
+                    if revision != self._revision:
+                        # Another task used the same serial KV cache. A late
+                        # preparation receipt cannot restore stale readiness.
+                        self._prepared = None
+                        continue
                     self._prepared = (generation, key) if valid else None
                     self._failed = ((generation, key) if not valid and generation is not None
                                     and reason not in ("busy", "not_ready", "model_not_ready") else None)
@@ -128,4 +135,5 @@ class PromptPreparation:
 
     def invalidate(self):
         with self._lock:
+            self._revision += 1
             self._prepared = self._failed = None

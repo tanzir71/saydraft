@@ -1,9 +1,66 @@
 # Command Mode implementation
 
-P7.1 remains in progress. The new selected-target boundary is implemented;
-the shortcut/Labs admission, clipboard-copy fallback, instruction recording,
-edit generation/validation and guarded replacement/Scratchpad flow are not yet
-connected. No Command Mode control is advertised as available in the app.
+P7.1 remains in progress. The selected-target boundary, explicit local edit
+client/validator and guarded processing boundary are implemented. The shortcut/Labs
+admission, clipboard-copy fallback, instruction recording and standalone Copy
+recovery UI still need connecting. No Command Mode control is advertised as
+available in the app.
+
+## Local edit and delivery boundaries
+
+`LocalLLMCleaner.edit_selection()` reuses the installed, serial sidecar. It has
+an explicit 45-second editing deadline, separate from the normal 800-ms cleanup
+budget. Cold/busy/unavailable requests return their state, without substituting
+the spoken instruction. No model download or speech-language setting is changed.
+The request contains the complete bounded selection and instruction, with no
+surrounding document. The pinned server's rendered template is tokenized before
+generation; the full output allowance plus a 64-token reserve must fit the
+configured context. Oversized input is refused rather than truncated.
+
+The response uses a one-field JSON schema. Delivery requires a complete SSE
+finish, exactly one `replacement` string, and no tools, duplicate/extra fields,
+invalid controls or new response wrappers. The independent edit validator allows
+rewriting, while preserving numeric values, currencies, URLs, emails, code
+literals and placeholders. Ordinary edits also retain negation and explicit
+date/time/number-word facts. An explicit English translation instruction permits
+language and word changes. Conservative checks can reject legitimate edits;
+they do not prove factual or semantic equivalence. The normal cleanup validator
+and its word-preservation rules are unchanged.
+
+An edit evicts both the native cleanup prefix receipt and background readiness.
+An in-flight preparation cannot publish a stale ready state after invalidation;
+ordinary cleanup must prepare again. Cancellation discards the candidate at
+request boundaries and during streaming. A blocked HTTP read is still bounded
+by the request deadline; this boundary does not promise instantaneous native
+inference interruption.
+
+`CommandEditProcessor` receives an already admitted current session and selection
+lease. It validates the target before generation, saves selected text, replacement,
+instruction/model provenance and timings before input, and supplies the current
+session plus exact selection guard immediately before paste. Its `paste_only`
+insertion option refuses typing profiles and clipboard-error typing fallback.
+Failed delivery passes a standalone recovery result to the caller. The remaining
+UI adapter must show a separate Copy surface and preserve the current dirty or
+conflicted Scratchpad draft. Command results remain searchable in History but
+do not count as dictated words, speaking time or dictations; Paste last transcript
+continues to use a dictation row.
+
+Thirty authored public cases cover shorter, formal, bullets and Spanish. Their
+references and semantic anchors are an evaluation aid, separate from production
+validation. Hand-authored references alone are not native-model acceptance.
+`tools.probe_command_edit` runs every case through the pinned installed model,
+retaining output, token counts, timings, source/runtime hashes and observed native
+exit. The probe uses no audio, hooks, clipboard, foreground or OS text input.
+It does not establish full Command Mode or owner-data acceptance.
+
+The transport follows the pinned llama.cpp
+[b12110 server contract](https://github.com/ggml-org/llama.cpp/blob/b12110/tools/server/README.md)
+for `/apply-template`, `/tokenize`, schema-constrained chat output and streaming.
+
+```powershell
+python -m pytest tests/test_command_edit.py tests/test_cleanup_preparation.py -q
+python -m tools.probe_command_edit --model D:\Models\model.gguf --runtime-dir D:\Models\runtime --output D:\QA\Command-New
+```
 
 ## Selected-target boundary
 

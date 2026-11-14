@@ -64,6 +64,7 @@ class Inserter:
         enter_guard: Callable[[], bool] | None = None,
         field_guard: Callable[[], str] | None = None,
         before_insert: Callable[[], None] | None = None,
+        paste_only: bool = False,
     ) -> InsertionResult:
         if not text:
             return InsertionResult(status="skipped_empty", method="none", reason="empty_text")
@@ -77,6 +78,8 @@ class Inserter:
             )
 
         method = self._method_for_app(app_title)
+        if paste_only and method == "typing":
+            return InsertionResult("not_inserted", "none", "paste_unavailable")
         def check():
             reason = self._delivery_block(start_focus, enter_guard)
             if reason or field_guard is None:
@@ -108,7 +111,7 @@ class Inserter:
                 return InsertionResult("skipped_focus_changed" if reason == "focus_changed" else "not_inserted", "none", reason)
             self.keyboard.write(text)
         elif hasattr(self.clipboard, "temporary_text"):
-            delivered = self._native_paste(text, check, observing)
+            delivered = self._native_paste(text, check, observing, paste_only=paste_only)
             if (delivered.status != "inserted" or delivered.clipboard_pending
                     or delivered.reason in ("clipboard_cleanup_failed", "clipboard_restore_failed")):
                 return delivered
@@ -130,7 +133,7 @@ class Inserter:
             return InsertionResult("inserted", method, note, enter_sent=True)
         return InsertionResult(status="inserted", method=method, reason=note)
 
-    def _native_paste(self, text, check, before_insert=lambda: None):
+    def _native_paste(self, text, check, before_insert=lambda: None, *, paste_only=False):
         from .clipboard_win import DeliveryBlocked
         attempted = pasted = False
         blocked, lease = "", None
@@ -154,6 +157,8 @@ class Inserter:
             else:
                 before_insert()
                 blocked = check()
+                if not blocked and paste_only:
+                    blocked = "clipboard_unavailable"
                 if not blocked:
                     self.keyboard.write(text)
                     pending = self.clipboard.pending is not None
