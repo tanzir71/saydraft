@@ -16,8 +16,8 @@ import numpy as np
 from saydraft.models.downloader import installation_ready
 from saydraft.models.manifest import get_model
 from .audio import SAMPLE_RATE
+from .limits import MAX_ANALYSIS_SAMPLES
 from .models import EMBEDDING_MODEL, SEGMENTATION_MODEL
-from .request import MAX_SECONDS
 
 
 class DiarizationCancelled(Exception):
@@ -86,7 +86,7 @@ class SpeakerDiarizer:
             raise ValueError('Invalid meeting analysis callbacks')
         waveform = np.asarray(audio)
         if (waveform.ndim != 1 or waveform.dtype.kind != 'f'
-                or len(waveform) > (MAX_SECONDS * 2 + 1) * SAMPLE_RATE
+                or len(waveform) > MAX_ANALYSIS_SAMPLES
                 or not np.isfinite(waveform).all() or np.any(np.abs(waveform) > 8)):
             raise ValueError('Invalid meeting speaker audio')
         if cancelled():

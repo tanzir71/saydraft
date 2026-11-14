@@ -19,6 +19,7 @@ import numpy as np
 import soundfile as sf
 
 from saydraft.meetings.diarization import SpeakerDiarizer
+from saydraft.meetings.limits import MAX_ANALYSIS_SAMPLES
 from saydraft.meetings.models import speaker_bundle
 from saydraft.meetings.request import MAX_SECONDS
 from saydraft.models.downloader import installation_ready
@@ -55,7 +56,7 @@ def run_probe(model_root, paths, *, num_speakers=-1):
         path = Path(supplied).resolve()
         info = sf.info(path)
         if (info.samplerate != 16000 or info.channels != 1 or not 0 < info.frames <= MAX_SECONDS * 16000
-                or cursor + info.frames + (16000 if parts else 0) > (MAX_SECONDS * 2 + 1) * 16000):
+                or cursor + info.frames + (16000 if parts else 0) > MAX_ANALYSIS_SAMPLES):
             raise ValueError('Probe input must fit the mono 16 kHz meeting duration bound')
         if parts:
             parts.append(np.zeros(16000, np.float32))

@@ -15,6 +15,7 @@ import zlib
 import numpy as np
 
 from .audio import SAMPLE_RATE, mono_float
+from .limits import MAX_AUDIO_SAMPLES
 from .request import MAX_SECONDS, strict_json
 
 HEADER = struct.Struct('<4sBII')
@@ -22,7 +23,6 @@ PCM_HEADER = struct.Struct('<BQ')
 MAGIC = b'SDM1'
 MAX_PAYLOAD = 16 * 1024
 MAX_INPUT_CHUNK = 4096
-MAX_AUDIO_SAMPLES = 1600
 TRACKS = ('microphone', 'desktop')
 TRACK_NUMBERS = {'microphone': 1, 'desktop': 2}
 START, AUDIO, READY, END, ERROR = range(1, 6)

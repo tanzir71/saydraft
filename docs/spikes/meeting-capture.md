@@ -161,6 +161,11 @@ clips. It never captures audio, scans a profile or downloads weights.
 
 ## Remaining integration and acceptance
 
+The [analysis checkpoint](../MEETINGS.md) implements the bounded memory timeline,
+chunked recognition, cited local summary and independent meeting Notes. Its
+native qualification and the app workflow are still pending; the sections below
+describe the complete integration and acceptance scope.
+
 Connect the owned worker to the app and display a persistent Recording meeting capsule before starting
 capture and until native capture actually stops. Never auto-start or join a call
 as a bot. Preserve separate microphone/desktop track provenance, gaps and the
