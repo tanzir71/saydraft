@@ -324,6 +324,16 @@ diagnostic are in the [held-recording record](../eval/commands/results/2026-11-1
 This proves the connected readable-UIA flow under controlled ports, without
 physical microphone/hooks/clipboard/paste or full frozen Command acceptance.
 
+The held clipboard route at `458e902`, followed by an evidence-extension correction
+at `dbbe950`, passes **3,662 tests / 12 skips**, both cleanup gates, auxiliary CI
+jobs and package checks. Local/CI native-field probes each complete 16 checks,
+including three fallback cases with scripted copy/ASR/model ports. CI separately
+passes 18 held UIA checks and three native clipboard transactions restoring all
+11 formats. Sixteen clean UI renders fit at 1x/2x. The
+[connected-flow record](../eval/commands/results/2026-11-14-clipboard-flow/README.md)
+retains those distinct scopes, raw proof and the earlier evidence-naming failure.
+Physical Ctrl+C, microphone/hooks and full packaged Command acceptance remain open.
+
 ```powershell
 python -m pytest tests/test_selection.py tests/test_selection_worker.py tests/test_selection_patterns.py -q
 python -m tools.probe_selection --output D:\QA\OwnSelection-New

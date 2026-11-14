@@ -101,3 +101,13 @@ clipboard/ASR/model ports. It checks successful Copy, a field becoming sensitive
 and cancellation during copy, with no paste or native selection-text reads in
 those three paths. It is distinct from the real native clipboard transaction
 probe above. Physical Ctrl+C and full packaged acceptance remain open.
+
+The connected route at `458e902`, with evidence-extension correction `dbbe950`,
+passes **3,662 tests / 12 skips**, rules 556/556, adversarial checks 100/100 and
+auxiliary CI jobs. The package at the identical application source passes its
+audits/lifecycle/regressions and collects the new copy worker module. Local/CI
+owned-field probes each pass 16 checks; CI separately retains the original
+18-case held UIA route and three real native clipboard transactions. Sixteen
+clean UI renders cover both themes at 1x/2x. Raw reports, scope and the earlier
+evidence-filename failure are in the
+[connected-flow record](../eval/commands/results/2026-11-14-clipboard-flow/README.md).

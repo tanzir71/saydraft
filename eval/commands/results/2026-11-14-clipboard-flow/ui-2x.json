@@ -1,0 +1,254 @@
+{
+  "scope": "owned offscreen Command clipboard opt-in and Copy recovery; no devices, clipboard or foreground",
+  "scale": 2,
+  "platform": "offscreen",
+  "files": [
+    {
+      "path": "light-labs-pro-off.png",
+      "sha256": "ba1548f694246c6028c75bc4d86a0159d86637bea8e495d5f8267efedee394ea",
+      "width": 1320,
+      "height": 1472,
+      "labels": [
+        {
+          "text": "Select text and hold Ctrl+Win+Alt. Wait for the Command label, then speak a short editing instruction. Release to edit; Esc cancels. Read-only selections produce an edit to copy. This Pro feature uses a separate local editing model. Dictation cleanup can stay off.",
+          "height": 88,
+          "required": 84
+        },
+        {
+          "text": "Pro tier available. Download or verify the model, enable Command and Save Settings.",
+          "height": 88,
+          "required": 42
+        },
+        {
+          "text": "For unsupported selections, fallback uses ordinary Ctrl+C after you release the shortcut. Windows clipboard history and sync settings apply. If the original selection cannot be verified for replacement, the edit opens in a separate window with Copy.",
+          "height": 89,
+          "required": 84
+        },
+        {
+          "text": "3,037.7 MB total download · Qwen3.5 4B model and processor files<br>Qwen / Bartowski · <a style=\"color:#141414\" href=\"https://huggingface.co/Qwen/Qwen3.5-4B/blob/851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a/LICENSE\">Apache-2.0 license</a> · <a style=\"color:#141414\" href=\"https://huggingface.co/bartowski/Qwen_Qwen3.5-4B-GGUF\">Source and credits</a><br>The ggml authors; LLVM OpenMP contributors · <a style=\"color:#141414\" href=\"https://github.com/ggml-org/llama.cpp/blob/cd959bae99ff4bed22bef2604f45241c09bbb8c8/LICENSE\">MIT + LLVM OpenMP license notice</a> · <a style=\"color:#141414\" href=\"https://github.com/ggml-org/llama.cpp/releases/tag/b12110\">Source and credits</a>",
+          "height": 88,
+          "required": 84
+        },
+        {
+          "text": "Review the size and licenses before downloading. Existing verified files are reused. Enabling Command never starts a download.",
+          "height": 88,
+          "required": 42
+        }
+      ]
+    },
+    {
+      "path": "light-labs-pro-fallback.png",
+      "sha256": "b9397123a10739fcbdc20d17895fad90c74a7227088644f9780e9cb18aa169c8",
+      "width": 1320,
+      "height": 1472,
+      "labels": [
+        {
+          "text": "Select text and hold Ctrl+Win+Alt. Wait for the Command label, then speak a short editing instruction. Release to edit; Esc cancels. Read-only selections produce an edit to copy. This Pro feature uses a separate local editing model. Dictation cleanup can stay off.",
+          "height": 88,
+          "required": 84
+        },
+        {
+          "text": "Pro tier available. Download or verify the model, enable Command and Save Settings.",
+          "height": 88,
+          "required": 42
+        },
+        {
+          "text": "For unsupported selections, fallback uses ordinary Ctrl+C after you release the shortcut. Windows clipboard history and sync settings apply. If the original selection cannot be verified for replacement, the edit opens in a separate window with Copy.",
+          "height": 89,
+          "required": 84
+        },
+        {
+          "text": "3,037.7 MB total download · Qwen3.5 4B model and processor files<br>Qwen / Bartowski · <a style=\"color:#141414\" href=\"https://huggingface.co/Qwen/Qwen3.5-4B/blob/851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a/LICENSE\">Apache-2.0 license</a> · <a style=\"color:#141414\" href=\"https://huggingface.co/bartowski/Qwen_Qwen3.5-4B-GGUF\">Source and credits</a><br>The ggml authors; LLVM OpenMP contributors · <a style=\"color:#141414\" href=\"https://github.com/ggml-org/llama.cpp/blob/cd959bae99ff4bed22bef2604f45241c09bbb8c8/LICENSE\">MIT + LLVM OpenMP license notice</a> · <a style=\"color:#141414\" href=\"https://github.com/ggml-org/llama.cpp/releases/tag/b12110\">Source and credits</a>",
+          "height": 88,
+          "required": 84
+        },
+        {
+          "text": "Review the size and licenses before downloading. Existing verified files are reused. Enabling Command never starts a download.",
+          "height": 88,
+          "required": 42
+        }
+      ]
+    },
+    {
+      "path": "light-labs-standard-off.png",
+      "sha256": "9504ebdeaf1b9b644011a897dad30268037d9c0050751a66fa2fc60de69b856b",
+      "width": 1320,
+      "height": 1514,
+      "labels": [
+        {
+          "text": "Select text and hold Ctrl+Win+Alt. Wait for the Command label, then speak a short editing instruction. Release to edit; Esc cancels. Read-only selections produce an edit to copy. This Pro feature uses a separate local editing model. Dictation cleanup can stay off.",
+          "height": 92,
+          "required": 84
+        },
+        {
+          "text": "Needs Pro tier: Command uses a larger local editing model. Check performance or select Pro in Models before using it.",
+          "height": 93,
+          "required": 42
+        },
+        {
+          "text": "For unsupported selections, fallback uses ordinary Ctrl+C after you release the shortcut. Windows clipboard history and sync settings apply. If the original selection cannot be verified for replacement, the edit opens in a separate window with Copy.",
+          "height": 92,
+          "required": 84
+        },
+        {
+          "text": "3,037.7 MB total download · Qwen3.5 4B model and processor files<br>Qwen / Bartowski · <a style=\"color:#141414\" href=\"https://huggingface.co/Qwen/Qwen3.5-4B/blob/851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a/LICENSE\">Apache-2.0 license</a> · <a style=\"color:#141414\" href=\"https://huggingface.co/bartowski/Qwen_Qwen3.5-4B-GGUF\">Source and credits</a><br>The ggml authors; LLVM OpenMP contributors · <a style=\"color:#141414\" href=\"https://github.com/ggml-org/llama.cpp/blob/cd959bae99ff4bed22bef2604f45241c09bbb8c8/LICENSE\">MIT + LLVM OpenMP license notice</a> · <a style=\"color:#141414\" href=\"https://github.com/ggml-org/llama.cpp/releases/tag/b12110\">Source and credits</a>",
+          "height": 93,
+          "required": 84
+        },
+        {
+          "text": "Review the size and licenses before downloading. Existing verified files are reused. Enabling Command never starts a download.",
+          "height": 92,
+          "required": 42
+        }
+      ]
+    },
+    {
+      "path": "light-copy-recovery.png",
+      "sha256": "9ae9dfa83325a29367464d3bd08b93a6b302c03bc9b6088a316159fe70d7db6b",
+      "width": 1280,
+      "height": 1040,
+      "labels": [
+        {
+          "text": "Command edit",
+          "height": 45,
+          "required": 45
+        },
+        {
+          "text": "Your edit is ready. The original selection could not be verified for replacement, so no paste was sent. Copy the edit into the original field. This edit saves as a separate note on this PC.",
+          "height": 63,
+          "required": 63
+        },
+        {
+          "text": "Saved on this PC",
+          "height": 21,
+          "required": 21
+        }
+      ]
+    },
+    {
+      "path": "dark-labs-pro-off.png",
+      "sha256": "24098bb53192486e75644ae7394f1db304bf370e93afa4895f2273e32ba4460d",
+      "width": 1320,
+      "height": 1472,
+      "labels": [
+        {
+          "text": "Select text and hold Ctrl+Win+Alt. Wait for the Command label, then speak a short editing instruction. Release to edit; Esc cancels. Read-only selections produce an edit to copy. This Pro feature uses a separate local editing model. Dictation cleanup can stay off.",
+          "height": 88,
+          "required": 84
+        },
+        {
+          "text": "Pro tier available. Download or verify the model, enable Command and Save Settings.",
+          "height": 88,
+          "required": 42
+        },
+        {
+          "text": "For unsupported selections, fallback uses ordinary Ctrl+C after you release the shortcut. Windows clipboard history and sync settings apply. If the original selection cannot be verified for replacement, the edit opens in a separate window with Copy.",
+          "height": 89,
+          "required": 84
+        },
+        {
+          "text": "3,037.7 MB total download · Qwen3.5 4B model and processor files<br>Qwen / Bartowski · <a style=\"color:#f5f2e9\" href=\"https://huggingface.co/Qwen/Qwen3.5-4B/blob/851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a/LICENSE\">Apache-2.0 license</a> · <a style=\"color:#f5f2e9\" href=\"https://huggingface.co/bartowski/Qwen_Qwen3.5-4B-GGUF\">Source and credits</a><br>The ggml authors; LLVM OpenMP contributors · <a style=\"color:#f5f2e9\" href=\"https://github.com/ggml-org/llama.cpp/blob/cd959bae99ff4bed22bef2604f45241c09bbb8c8/LICENSE\">MIT + LLVM OpenMP license notice</a> · <a style=\"color:#f5f2e9\" href=\"https://github.com/ggml-org/llama.cpp/releases/tag/b12110\">Source and credits</a>",
+          "height": 88,
+          "required": 84
+        },
+        {
+          "text": "Review the size and licenses before downloading. Existing verified files are reused. Enabling Command never starts a download.",
+          "height": 88,
+          "required": 42
+        }
+      ]
+    },
+    {
+      "path": "dark-labs-pro-fallback.png",
+      "sha256": "ac53b6a03ce1832debf68d7276f6d311f600c88ed75c149e9dead663646a196e",
+      "width": 1320,
+      "height": 1472,
+      "labels": [
+        {
+          "text": "Select text and hold Ctrl+Win+Alt. Wait for the Command label, then speak a short editing instruction. Release to edit; Esc cancels. Read-only selections produce an edit to copy. This Pro feature uses a separate local editing model. Dictation cleanup can stay off.",
+          "height": 88,
+          "required": 84
+        },
+        {
+          "text": "Pro tier available. Download or verify the model, enable Command and Save Settings.",
+          "height": 88,
+          "required": 42
+        },
+        {
+          "text": "For unsupported selections, fallback uses ordinary Ctrl+C after you release the shortcut. Windows clipboard history and sync settings apply. If the original selection cannot be verified for replacement, the edit opens in a separate window with Copy.",
+          "height": 89,
+          "required": 84
+        },
+        {
+          "text": "3,037.7 MB total download · Qwen3.5 4B model and processor files<br>Qwen / Bartowski · <a style=\"color:#f5f2e9\" href=\"https://huggingface.co/Qwen/Qwen3.5-4B/blob/851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a/LICENSE\">Apache-2.0 license</a> · <a style=\"color:#f5f2e9\" href=\"https://huggingface.co/bartowski/Qwen_Qwen3.5-4B-GGUF\">Source and credits</a><br>The ggml authors; LLVM OpenMP contributors · <a style=\"color:#f5f2e9\" href=\"https://github.com/ggml-org/llama.cpp/blob/cd959bae99ff4bed22bef2604f45241c09bbb8c8/LICENSE\">MIT + LLVM OpenMP license notice</a> · <a style=\"color:#f5f2e9\" href=\"https://github.com/ggml-org/llama.cpp/releases/tag/b12110\">Source and credits</a>",
+          "height": 88,
+          "required": 84
+        },
+        {
+          "text": "Review the size and licenses before downloading. Existing verified files are reused. Enabling Command never starts a download.",
+          "height": 88,
+          "required": 42
+        }
+      ]
+    },
+    {
+      "path": "dark-labs-standard-off.png",
+      "sha256": "65de395b790a33b5e6a06144be051ce3324f6081e28e4fff1f4e7e91b0c6443e",
+      "width": 1320,
+      "height": 1514,
+      "labels": [
+        {
+          "text": "Select text and hold Ctrl+Win+Alt. Wait for the Command label, then speak a short editing instruction. Release to edit; Esc cancels. Read-only selections produce an edit to copy. This Pro feature uses a separate local editing model. Dictation cleanup can stay off.",
+          "height": 92,
+          "required": 84
+        },
+        {
+          "text": "Needs Pro tier: Command uses a larger local editing model. Check performance or select Pro in Models before using it.",
+          "height": 93,
+          "required": 42
+        },
+        {
+          "text": "For unsupported selections, fallback uses ordinary Ctrl+C after you release the shortcut. Windows clipboard history and sync settings apply. If the original selection cannot be verified for replacement, the edit opens in a separate window with Copy.",
+          "height": 92,
+          "required": 84
+        },
+        {
+          "text": "3,037.7 MB total download · Qwen3.5 4B model and processor files<br>Qwen / Bartowski · <a style=\"color:#f5f2e9\" href=\"https://huggingface.co/Qwen/Qwen3.5-4B/blob/851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a/LICENSE\">Apache-2.0 license</a> · <a style=\"color:#f5f2e9\" href=\"https://huggingface.co/bartowski/Qwen_Qwen3.5-4B-GGUF\">Source and credits</a><br>The ggml authors; LLVM OpenMP contributors · <a style=\"color:#f5f2e9\" href=\"https://github.com/ggml-org/llama.cpp/blob/cd959bae99ff4bed22bef2604f45241c09bbb8c8/LICENSE\">MIT + LLVM OpenMP license notice</a> · <a style=\"color:#f5f2e9\" href=\"https://github.com/ggml-org/llama.cpp/releases/tag/b12110\">Source and credits</a>",
+          "height": 93,
+          "required": 84
+        },
+        {
+          "text": "Review the size and licenses before downloading. Existing verified files are reused. Enabling Command never starts a download.",
+          "height": 92,
+          "required": 42
+        }
+      ]
+    },
+    {
+      "path": "dark-copy-recovery.png",
+      "sha256": "742c60f8ea28c786d2d80db568c7350e71b728bc7031ac6d2b615e64af42813e",
+      "width": 1280,
+      "height": 1040,
+      "labels": [
+        {
+          "text": "Command edit",
+          "height": 45,
+          "required": 45
+        },
+        {
+          "text": "Your edit is ready. The original selection could not be verified for replacement, so no paste was sent. Copy the edit into the original field. This edit saves as a separate note on this PC.",
+          "height": 63,
+          "required": 63
+        },
+        {
+          "text": "Saved on this PC",
+          "height": 21,
+          "required": 21
+        }
+      ]
+    }
+  ],
+  "git_commit": "458e9021512b68acba4a5109330faf69d783982c",
+  "source_dirty": false,
+  "renderer_sha256": "2e27d6d517c2d9840ae4d2f8493cff3acdc1221fba70291e6743d48e6608bac2"
+}

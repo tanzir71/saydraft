@@ -1,7 +1,7 @@
 """Serial cache-only native Command Mode generation on authored public text.
 
 No hooks, microphone, clipboard, foreground reads or OS text input. This tests the
-local editing boundary, not the still-unconnected end-to-end Command Mode flow.
+local editing boundary; it does not qualify the full held-recording/delivery flow.
 """
 
 import argparse

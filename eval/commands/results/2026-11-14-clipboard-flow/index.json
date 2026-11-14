@@ -1,0 +1,116 @@
+{
+  "schema": 1,
+  "application_source": "458e9021512b68acba4a5109330faf69d783982c",
+  "evidence_extension_correction": "dbbe950366cd0ead0386bcf53cc6a03e6fa82e22",
+  "scope": "held Command opt-in -> original native field metadata -> scripted clipboard capture -> sealed same-generation lease -> scripted instruction ASR/model -> SQLite -> independent Copy recovery; no automatic unsupported-range paste",
+  "local_native_total": 16,
+  "fallback_worker_cases": 3,
+  "ui_images": 16,
+  "owner_desktop_accessed": false,
+  "physical_ctrl_c_accepted": false,
+  "full_command_accepted": false,
+  "verification": {
+    "focused_passed": 311,
+    "final_ui_subset_passed": 62,
+    "package": "success",
+    "ci": "success",
+    "passed": 3662,
+    "skipped": 12,
+    "seconds": 305.82,
+    "rules": "556/556",
+    "normal_cleanup_adversarial": "100/100"
+  },
+  "earlier_failure": {
+    "run": 43549665795,
+    "failed": 1,
+    "passed": 3609,
+    "skipped": 12,
+    "seconds": 465.98,
+    "cause": "Raw PyInstaller analysis excluded-engine list scanned as runtime source under .toc.txt. Native .toc rename preserves bytes and guard; application code unchanged. Not accepted full CI."
+  },
+  "files_sha256": {
+    "ci-native-clipboard.json": "2f5661d0ee234e80187b7ddd18b8049db06601b08df6ac6a70467872a1077e2f",
+    "ci-native-fallback.json": "eb429b736638c0c10b0afa60651c5237e2d704b71190a9be6d7b9da8ed8088c1",
+    "ci-native-uia-held.json": "303d47d17d89b2c4720f6cd505c3f5b40c2beab84b3ab37b0c87d7795f475201",
+    "ci-run.json": "c7900c8dfa15a193ff96b6dc5d6221bcf061f9ef7922fcc90cb447d2b2733014",
+    "earlier-dirty-native.json": "c889e3af71ba20a71fb9f350a11c230d96b3f7fe963d338e8cdb304726ea6252",
+    "earlier-failed-docs-ci.json": "0c3281946b38007ab47fd8169c3dc353f450a8e42b5e981b1cca12b991456f7a",
+    "local-native.json": "7b9ff40a730e503dd1b7a3212bc2b575ec01aead32da1cac763f5aab9a6472c9",
+    "package-analysis.toc": "4245baf8c0339ddece9959b1a0d33cf7f2ec45e598e54ddf3f9b9b6a708a7c74",
+    "package-bundle.json": "ebb0ab7f18f73854eafd16d009a8d5426c83adb8996aa86bf14a18ca71646c7d",
+    "package-run.json": "4fd1f3da42d8e571b1644e5c5bcaa064dccf26d444c4730b1a999eec5a5e10fa",
+    "render.py.txt": "2e27d6d517c2d9840ae4d2f8493cff3acdc1221fba70291e6743d48e6608bac2",
+    "superseded-cancelled-ci.json": "308a8efd19003b4f3621fbeab2d98621409cc06317b5ed5bcdcf82068941a3c9",
+    "ui-1x.json": "7026bdb025046ba54448a6740af13000a4aca2f086a4c6ec01987c856e4ab0b9",
+    "ui-2x.json": "fbff5b2d9bf45f9babee1dad3326e96738772c30d7ce3555b29e46e9d57cbab4",
+    "ui-1x/dark-copy-recovery.png": "9adb3abcbff7a6796f29e9ab3b49e82191504f4cd95fd14c173fba8ba28460d6",
+    "ui-1x/dark-labs-pro-fallback.png": "ae3182fa1606791227fbbbc193a05d6df50e1a497cf2856c36f920556336e69b",
+    "ui-1x/dark-labs-pro-off.png": "1c406020b3b3985e2163438f838670d9a8e1d897c876ba9d9ec2efdaa25b924d",
+    "ui-1x/dark-labs-standard-off.png": "88b647e0e9a5bb09440564c841b8747962591868333a9e6f0965739248c7af31",
+    "ui-1x/light-copy-recovery.png": "30f3bbb543e38d818c33e8bc897edffa3b95ddeba48896b6e619f10e55bff6c7",
+    "ui-1x/light-labs-pro-fallback.png": "ff02f5177f91a7aa3959ba6518cf7697fab40dcdddb5bd9527e80d504bc8b49f",
+    "ui-1x/light-labs-pro-off.png": "91ed2c8ff96d781a9fea8d19ce4c32b9ded9d9acd53fd7ab736fe603d929fb54",
+    "ui-1x/light-labs-standard-off.png": "4c2e8b6393916b96529afdd76dbcc028d695e7a69f3da25b0924f5797fe93a6b",
+    "ui-2x/dark-copy-recovery.png": "742c60f8ea28c786d2d80db568c7350e71b728bc7031ac6d2b615e64af42813e",
+    "ui-2x/dark-labs-pro-fallback.png": "ac53b6a03ce1832debf68d7276f6d311f600c88ed75c149e9dead663646a196e",
+    "ui-2x/dark-labs-pro-off.png": "24098bb53192486e75644ae7394f1db304bf370e93afa4895f2273e32ba4460d",
+    "ui-2x/dark-labs-standard-off.png": "65de395b790a33b5e6a06144be051ce3324f6081e28e4fff1f4e7e91b0c6443e",
+    "ui-2x/light-copy-recovery.png": "9ae9dfa83325a29367464d3bd08b93a6b302c03bc9b6088a316159fe70d7db6b",
+    "ui-2x/light-labs-pro-fallback.png": "b9397123a10739fcbdc20d17895fad90c74a7227088644f9780e9cb18aa169c8",
+    "ui-2x/light-labs-pro-off.png": "ba1548f694246c6028c75bc4d86a0159d86637bea8e495d5f8267efedee394ea",
+    "ui-2x/light-labs-standard-off.png": "9504ebdeaf1b9b644011a897dad30268037d9c0050751a66fa2fc60de69b856b"
+  },
+  "package": {
+    "run": 43551305301,
+    "job": 132314134214,
+    "log_sha256": "e6c29987e55abb67a96a8b1e7557a4f8e9957d7bd4235f177dfed3edf3fce554",
+    "receipt_artifact": 14095854326,
+    "receipt_zip_sha256": "116434b1b6998f52e144daea11bad7a7938262552a3abbc380ee044fddad831d",
+    "modules_collected": [
+      "saydraft.core.command_copy",
+      "saydraft.insert.selection_copy"
+    ]
+  },
+  "prior_failed_docs_log_sha256": "d4dc0e97c3eb277205e10617bc0f99c80009b25fee9306a7b9d8a342662f44db",
+  "application_unchanged_after_extension_correction": [
+    ".gitattributes",
+    "eval/commands/results/2026-11-14-selection-copy/README.md",
+    "eval/commands/results/2026-11-14-selection-copy/index.json",
+    "eval/commands/results/2026-11-14-selection-copy/package-analysis.toc"
+  ],
+  "ci": {
+    "run": 43551502035,
+    "job": 132314764812,
+    "log_sha256": "574585a3527bfa2b4ab5a1b88526c417ac74d62665d9675e4b4f2763f695d302"
+  },
+  "ci_native_artifact": {
+    "id": 14096965999,
+    "zip_sha256": "3d0c376a9bae2f3c472a93a1b2fef911f4a42b59984a70b184cb40c8a127a646",
+    "aliases": {
+      "ci-native-fallback.json": {
+        "paths": [
+          "test_held_command_copy_uses_na0/own-command-copy/report.json",
+          "test_held_command_copy_uses_nacurrent/own-command-copy/report.json"
+        ],
+        "unique_measurements": 1,
+        "cases": 16
+      },
+      "ci-native-uia-held.json": {
+        "paths": [
+          "test_held_command_worker_uses_0/own-command/report.json",
+          "test_held_command_worker_uses_current/own-command/report.json"
+        ],
+        "unique_measurements": 1,
+        "cases": 18
+      },
+      "ci-native-clipboard.json": {
+        "paths": [
+          "test_native_selection_copy_res0/own-selection-copy/report.json",
+          "test_native_selection_copy_rescurrent/own-selection-copy/report.json"
+        ],
+        "unique_measurements": 1,
+        "cases": 3
+      }
+    }
+  }
+}

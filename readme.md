@@ -24,7 +24,7 @@ dictation has no cloud fallback or subscription.
 Saydraft is in active development. Run from source using the steps below.
 There is no published installer release yet; signing and
 clean-machine validation remain on the [roadmap](WISPR_OFFLINE_PARITY_PLAN.md).
-The [packaging pipeline](docs/PACKAGING.md) produces a 104.0 MB unsigned installer
+The [packaging pipeline](docs/PACKAGING.md) produces an approximately 104 MB unsigned installer
 that passes resource, dependency-notice and install/uninstall checks. Its
 [retained verification](eval/packaging/results/2026-11-14-notices/README.md)
 covers 38 components and 506 notice files.
@@ -63,7 +63,8 @@ setup/recovery renders. A separate Labs opt-in now connects
 [clipboard-copy fallback](docs/COMMAND_CLIPBOARD.md) for unsupported safe fields;
 Windows clipboard history/sync settings apply. It offers Copy when the original
 selection cannot be verified for replacement. Full Command acceptance remains open;
-see the [implementation status](docs/COMMAND_MODE.md).
+see the [implementation status](docs/COMMAND_MODE.md) and
+[connected-flow verification](eval/commands/results/2026-11-14-clipboard-flow/README.md).
 
 See the [documentation index](docs/README.md) for individual features and the
 [parity plan](WISPR_OFFLINE_PARITY_PLAN.md) for the complete acceptance status.
