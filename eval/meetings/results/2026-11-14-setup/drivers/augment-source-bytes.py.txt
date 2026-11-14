@@ -1,0 +1,45 @@
+"""Retain exact tested mixed-newline bytes; no product or test output edits."""
+import hashlib
+import io
+import json
+from pathlib import Path
+import shutil
+import subprocess
+import tarfile
+
+qa = Path(__file__).resolve().parent
+repo = qa / 'worktrees/meeting-setup-20261114'
+root = repo / 'eval/meetings/results/2026-11-14-setup'
+checks = json.loads((root / 'checks/r11-receipt.json').read_text(encoding='utf-8'))
+sha = lambda value: hashlib.sha256(value).hexdigest()
+shutil.copyfile(root / 'verify-setup.py.txt', root / 'drivers/verify-initial.py.txt')
+shutil.copyfile(root / 'files.json', root / 'drivers/files-initial.json')
+archive = subprocess.check_output(['git', 'archive', checks['source'], 'saydraft', 'tests'], cwd=repo)
+retained = []
+with tarfile.open(fileobj=io.BytesIO(archive)) as stream:
+    for name, expected in checks['source_sha256'].items():
+        data = stream.extractfile(name).read()
+        if expected not in {sha(data), sha(data.replace(b'\r\n', b'\n').replace(b'\n', b'\r\n'))}:
+            raw = (repo / name).read_bytes()
+            assert sha(raw) == expected and raw.replace(b'\r\n', b'\n') == data.replace(b'\r\n', b'\n')
+            target = root / 'source-bytes' / (name + '.txt')
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_bytes(raw)
+            retained.append(name)
+assert len(retained) == 8
+shutil.copyfile(qa / 'verify_meeting_setup_20261114.py', root / 'verify-setup.py.txt')
+shutil.copyfile(Path(__file__), root / 'drivers/augment-source-bytes.py.txt')
+(root / 'drivers/line-ending-verification.json').write_text(json.dumps({
+    'initial_verifier': 'Failed at saydraft/meetings/asr.py because only uniform LF/CRLF were accepted',
+    'retained_exact_tested_files': retained,
+    'requirement': 'Raw byte hash must match the pre/post test receipt and normalize exactly to the Git blob; no other source difference accepted'
+}, indent=2) + '\n', encoding='utf-8')
+with (root / 'README.md').open('a', encoding='utf-8') as output:
+    output.write('\nEight new files had mixed CRLF/LF bytes in the tested Windows checkout. The initial\n'
+        'verifier accepted only uniform line endings and failed. Their exact tested bytes\n'
+        'are retained under source-bytes: each must match its original test fingerprint\n'
+        'and differ from the Git blob only by CRLF normalization. Both verifier versions\n'
+        'and the original manifest remain retained; product/test outputs were not edited.\n')
+files = {p.relative_to(root).as_posix(): sha(p.read_bytes()) for p in sorted(root.rglob('*')) if p.is_file() and p != root / 'files.json'}
+(root / 'files.json').write_text(json.dumps(files, indent=2) + '\n', encoding='utf-8')
+print(json.dumps({'retained_source_files': len(retained), 'raw_files': len(files)}))

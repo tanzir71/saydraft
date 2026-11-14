@@ -1,0 +1,48 @@
+"""Local owned-widget checks; prohibit owner audio SDK and profile services."""
+import importlib.abc
+from pathlib import Path
+import sys
+import types
+import hashlib
+import json
+import subprocess
+
+qa = Path(__file__).resolve().parent
+repo = qa / 'worktrees/meeting-setup-20261114'
+label, *paths = sys.argv[1:]
+assert label.isalnum() and paths and all(path.startswith('tests/test_') and path.endswith('.py') for path in paths)
+class Guard(importlib.abc.MetaPathFinder):
+    def find_spec(self, fullname, path=None, target=None):
+        if fullname.split('.')[0] in ('soundcard', 'sounddevice') or fullname in (
+            'saydraft.compat.migrate', 'saydraft.logging_config', 'saydraft.single_instance'):
+            raise AssertionError('Owner audio/profile services are barred')
+sys.meta_path.insert(0, Guard())
+sys.path.insert(0, str(repo))
+profile = types.ModuleType('saydraft.compat.migrate')
+profile.LEGACY_NAME = 'VoiceTray'
+profile.profile_root = lambda: qa / ('meeting-setup-local-profile-' + label)
+sys.modules[profile.__name__] = profile
+logs = types.ModuleType('saydraft.logging_config')
+logs.log_file_path = lambda **kwargs: qa / ('meeting-setup-local-profile-' + label) / 'logs/saydraft.log'
+sys.modules[logs.__name__] = logs
+import pytest
+
+def fingerprint():
+    names = subprocess.check_output(['git', 'ls-files', '--', 'saydraft', 'tests'], cwd=repo, text=True).splitlines()
+    return {name: hashlib.sha256((repo / name).read_bytes()).hexdigest() for name in names if name.endswith('.py')}
+head = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=repo, text=True).strip()
+dirty = subprocess.check_output(['git', 'status', '--porcelain'], cwd=repo, text=True).splitlines()
+before = fingerprint()
+result = pytest.main([*paths, '-q', '-o',
+    'faulthandler_timeout=60', '-k', 'not test_main_initializes_logging_and_config_before_qt_shell', '-o',
+    f'cache_dir={qa / ("pytest-meeting-setup-cache-" + label)}',
+    f'--basetemp={qa / ("pytest-meeting-setup-" + label)}'])
+(qa / ('meeting-setup-local-' + label + '-receipt.json')).write_text(json.dumps({
+    'source': head, 'dirty': dirty, 'paths': paths, 'exit_code': result,
+    'source_sha256': before, 'source_unchanged': before == fingerprint(),
+    'excluded_test': 'test_main_initializes_logging_and_config_before_qt_shell',
+    'reason': 'Stopped owner profile/single-instance services; not qualified by this guarded local runner',
+    'audio_sdk_imported_at_end': any(name in sys.modules for name in ('soundcard', 'sounddevice')),
+    'scope': 'Owned offscreen Qt, temporary files, fake device/model ports; real audio SDK/profile services barred'
+}, indent=2) + '\n', encoding='utf-8')
+raise SystemExit(result)

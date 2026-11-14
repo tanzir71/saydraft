@@ -1,0 +1,125 @@
+"""Collect exact-source local setup evidence, retaining earlier failures."""
+import hashlib
+import ast
+import json
+from pathlib import Path
+import shutil
+import subprocess
+
+qa = Path(__file__).resolve().parent
+repo = qa / 'worktrees/meeting-setup-20261114'
+build = qa / 'meeting-setup-package-20261114-r2'
+source = '4d497584093a63fd00c3c01db50d7daef4633a49'
+assert subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=repo, text=True).strip() == source
+assert not subprocess.check_output(['git', 'status', '--porcelain'], cwd=repo, text=True).strip()
+checks = json.loads((qa / 'meeting-setup-local-r11-receipt.json').read_text(encoding='utf-8'))
+assert checks['source'] == source and not checks['dirty'] and checks['source_unchanged'] and checks['exit_code'] == 0
+assert not checks['audio_sdk_imported_at_end']
+assert '661 passed, 1 deselected' in (qa / 'meeting-setup-local-r11.txt').read_text(encoding='utf-8')
+renders = json.loads((qa / 'meeting-setup-renders-final-r02/report.json').read_text(encoding='utf-8'))
+assert renders['source'] == source and not renders['dirty'] and len(renders['rows']) == 16
+audit = json.loads((build / 'audit/bundle.json').read_text(encoding='utf-8'))
+runtime = json.loads((build / 'audit/runtime.json').read_text(encoding='utf-8'))
+assert audit['git_commit'] == source and not audit['source_dirty'] and runtime['complete']
+assert not audit['installer_size_gate'] and not audit['packaging_gate']
+out = repo / 'eval/meetings/results/2026-11-14-setup'
+out.mkdir(exist_ok=False)
+def copy(src, name):
+    target = out / name
+    target.parent.mkdir(exist_ok=True, parents=True)
+    shutil.copyfile(src, target)
+for i in range(1, 12):
+    copy(qa / f'meeting-setup-local-r{i:02}.txt', f'checks/r{i:02}.txt')
+copy(qa / 'meeting-setup-local-r11-receipt.json', 'checks/r11-receipt.json')
+for path in (qa / 'meeting-setup-renders-final-r02').iterdir():
+    copy(path, 'renders/' + path.name)
+for name in ('bundle.json', 'preflight.json', 'runtime.json', 'requirements-frozen.txt'):
+    copy(build / 'audit' / name, 'package/' + name)
+copy(build / 'artifacts/SHA256SUMS', 'package/SHA256SUMS')
+copy(qa / 'meeting-setup-package-20261114-r2.txt', 'package/build.txt')
+copy(qa / 'meeting-setup-package-20261114-r1.txt', 'package/failed-r1/build.txt')
+copy(qa / 'meeting-setup-package-20261114-r1/audit/runtime.json', 'package/failed-r1/runtime.json')
+copy(qa / 'meeting-setup-icu-diagnostic-r1-runtime.json', 'package/diagnostic-icu-removed-runtime.json')
+copy(qa / 'meeting-setup-icu-failure-diagnosis.json', 'package/failed-r1/diagnosis.json')
+copy(qa / 'run_meeting_setup_checks_20261114.py', 'drivers/checks.py.txt')
+copy(qa / 'render_meeting_setup_20261114.py', 'drivers/render.py.txt')
+copy(Path(__file__), 'drivers/collect.py.txt')
+copy(qa / 'verify_meeting_setup_20261114.py', 'verify-setup.py.txt')
+for label in ('rules', 'adversarial', 'lint'):
+    copy(qa / f'meeting-setup-{label}-final.txt', f'checks/{label}.txt')
+analysis = (build / 'work/Saydraft/Analysis-00.toc').read_text(encoding='utf-8')
+modules = ('saydraft.ui.meeting_setup', 'saydraft.meetings.setup', 'saydraft.meetings.devices', 'saydraft.meetings.asr')
+assert all(name in analysis for name in modules)
+native = []
+def walk(value):
+    if isinstance(value, (list, tuple)):
+        if len(value) == 3 and isinstance(value[0], str) and value[2] == 'BINARY':
+            assert 'windowsapps' not in value[1].lower(), value
+            if any(name in value[0].lower() for name in ('icuuc.dll', 'vcruntime140', 'msvcp140')):
+                native.append(value)
+        for child in value:
+            walk(child)
+walk(ast.literal_eval(analysis))
+(out / 'package/native-origins.json').write_text(json.dumps({'source': source,
+    'no_windowsapps_binaries': True, 'selected_origins': native}, indent=2) + '\n', encoding='utf-8')
+(out / 'package/setup-modules.json').write_text(json.dumps({'source': source,
+    'analysis_sha256': hashlib.sha256(analysis.encode('utf-8')).hexdigest(), 'included_modules': modules}, indent=2) + '\n', encoding='utf-8')
+(out / 'README.md').write_text('''# Meeting setup: local verification
+
+Clean implementation source: `4d497584093a63fd00c3c01db50d7daef4633a49`.
+Delivery uses local validation and direct pushes; no Actions run was dispatched.
+
+The final guarded run passes **661 tests**, with one profile/instance entry-point
+test deselected. The runner bars real SoundCard/sounddevice imports and owner
+profile services, uses fresh disposable paths and injects fake device/model ports.
+The receipt fingerprints 493 Python files before/after the run. It does not claim
+that all repository tests or the live OS/input matrix ran.
+
+Sixteen owned offscreen renders cover light/dark, 16/22px text, 460/780px widths
+and model/device views. Start, consent and horizontal bounds pass. The setup
+checks include explicit model review/download/pause/reinspection, device Refresh,
+exact endpoints, fresh permission, stale Settings refusal, the painted indicator,
+Auto multilingual retry, recovery without recapture and independent Notes.
+Two native-object lifetime fixtures cover metadata failure before COM teardown.
+Rules pass 556/556 and authored adversarial validation passes 100/100.
+
+The clean-source fresh-environment **portable bundle** passes frozen imports,
+resources, model/font/license notices, capture headers, Python NetworkGuard and
+the module/file audit. All four setup modules occur in its Analysis table. It
+uses no audio devices, clipboard, foreground reads, hooks or ASR. The portable
+ZIP and full build remain local; their hashes are retained. `-SkipInstaller`
+means the installer and packaging acceptance gates remain **false**. No install,
+signing, publication, native firewall or connected frozen meeting was accepted.
+
+The first local build compiled but failed QtWidgets import. PyInstaller copied
+an incompatible `icuuc.dll` from the desktop launcher's inherited PATH; 20 exports
+required by QtCore were absent. A separate copied-bundle diagnostic removed only
+that copied DLL and passed verification. The original failed bundle/report remain
+unchanged. The corrected builder restricts PATH to explicit Python/Git and Windows
+directories, restores the environment afterward, and the fresh second build passes.
+Its native-origin record contains no WindowsApps binaries. Shared pip caching
+reuses wheels while retaining a fresh venv and output directory.
+
+Earlier check logs remain intact: r01 had two test-assumption errors; r02 exposed
+silence handling and a missing Pro fixture setting; r03 passed 125. r04 retained
+the barred profile/instance entry-point failure; r05 reused a disposable cache
+and failed 16 cache-state assertions. Per-run profiles fix that harness problem.
+r06/r07 pass 636; r08 referenced an absent test file and ran no tests; r09 passes
+16 endpoint checks; r10 passes 23 packaging contracts. r11 is the final 661 pass.
+
+Run the standard-library verifier from a checkout containing this source:
+
+```powershell
+python eval/meetings/results/2026-11-14-setup/verify-setup.py.txt --repo .
+```
+
+Optionally add `--build-root PATH` to hash the local ZIP and check its Analysis
+table. The verifier never imports the app, SDKs or models. `files.json` retains
+the exact raw-record hashes. Live/default-profile capture, broad language/speaker/
+summary accuracy, a connected frozen workflow and the 30-minute meeting gate
+remain open; P7.5 is unchecked.
+''', encoding='utf-8')
+files = {p.relative_to(out).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(out.rglob('*')) if p.is_file()}
+(out / 'files.json').write_text(json.dumps(files, indent=2) + '\n', encoding='utf-8')
+print(json.dumps({'source': source, 'files': len(files), 'renders': len(renders['rows']), 'tests': 661,
+    'portable_bundle': True, 'installer_gate': False, 'live_capture_or_full_accuracy_accepted': False}))

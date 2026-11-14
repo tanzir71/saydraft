@@ -1,0 +1,290 @@
+Collecting PySide6==6.11.1 (from -r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\meeting-setup-20261114\requirements.txt (line 1))
+  Downloading pyside6-6.11.1-cp310-abi3-win_amd64.whl.metadata (5.5 kB)
+Collecting sounddevice==0.5.2 (from -r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\meeting-setup-20261114\requirements.txt (line 2))
+  Downloading sounddevice-0.5.2-py3-none-win_amd64.whl.metadata (1.6 kB)
+Collecting SoundCard==0.4.6 (from -r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\meeting-setup-20261114\requirements.txt (line 3))
+  Downloading soundcard-0.4.6-py3-none-any.whl.metadata (14 kB)
+Collecting numpy>=1.26 (from -r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\meeting-setup-20261114\requirements.txt (line 4))
+  Downloading numpy-2.5.4-cp313-cp313-win_amd64.whl.metadata (6.6 kB)
+Collecting faster-whisper==1.2.1 (from -r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\meeting-setup-20261114\requirements.txt (line 5))
+  Downloading faster_whisper-1.2.1-py3-none-any.whl.metadata (16 kB)
+Collecting sherpa-onnx==1.13.4 (from -r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\meeting-setup-20261114\requirements.txt (line 6))
+  Downloading sherpa_onnx-1.13.4-cp313-cp313-win_amd64.whl.metadata (50 kB)
+Collecting soundfile>=0.12.1 (from -r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\meeting-setup-20261114\requirements.txt (line 7))
+  Downloading soundfile-0.14.0-py2.py3-none-win_amd64.whl.metadata (18 kB)
+Collecting webrtcvad-wheels==2.0.14 (from -r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\meeting-setup-20261114\requirements.txt (line 8))
+  Downloading webrtcvad_wheels-2.0.14-cp313-cp313-win_amd64.whl.metadata (5.6 kB)
+Collecting pyperclip==1.9.0 (from -r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\meeting-setup-20261114\requirements.txt (line 9))
+  Downloading pyperclip-1.9.0.tar.gz (20 kB)
+  Installing build dependencies: started
+  Installing build dependencies: finished with status 'done'
+  Getting requirements to build wheel: started
+  Getting requirements to build wheel: finished with status 'done'
+  Preparing metadata (pyproject.toml): started
+  Preparing metadata (pyproject.toml): finished with status 'done'
+Collecting comtypes==1.4.16 (from -r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\meeting-setup-20261114\requirements.txt (line 10))
+  Downloading comtypes-1.4.16-py3-none-any.whl.metadata (7.8 kB)
+Collecting pyinstaller==6.22.3 (from -r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\meeting-setup-20261114\requirements.txt (line 11))
+  Downloading pyinstaller-6.22.3-py3-none-win_amd64.whl.metadata (8.5 kB)
+Collecting shiboken6==6.11.1 (from PySide6==6.11.1->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\meeting-setup-20261114\requirements.txt (line 1))
+  Downloading shiboken6-6.11.1-cp310-abi3-win_amd64.whl.metadata (2.5 kB)
+Collecting PySide6_Essentials==6.11.1 (from PySide6==6.11.1->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\meeting-setup-20261114\requirements.txt (line 1))
+  Downloading pyside6_essentials-6.11.1-cp310-abi3-win_amd64.whl.metadata (3.8 kB)
+Collecting PySide6_Addons==6.11.1 (from PySide6==6.11.1->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\meeting-setup-20261114\requirements.txt (line 1))
+  Downloading pyside6_addons-6.11.1-cp310-abi3-win_amd64.whl.metadata (4.2 kB)
+Collecting CFFI>=1.0 (from sounddevice==0.5.2->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\meeting-setup-20261114\requirements.txt (line 2))
+  Downloading cffi-2.1.1-cp313-cp313-win_amd64.whl.metadata (2.6 kB)
+Collecting ctranslate2<5,>=4.0 (from faster-whisper==1.2.1->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\meeting-setup-20261114\requirements.txt (line 5))
+  Downloading ctranslate2-4.9.0-cp313-cp313-win_amd64.whl.metadata (11 kB)
+Collecting huggingface-hub>=0.21 (from faster-whisper==1.2.1->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\meeting-setup-20261114\requirements.txt (line 5))
+  Downloading huggingface_hub-2.4.0-py3-none-any.whl.metadata (16 kB)
+Collecting tokenizers<1,>=0.13 (from faster-whisper==1.2.1->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\meeting-setup-20261114\requirements.txt (line 5))
+  Downloading tokenizers-0.23.3-cp310-abi3-win_amd64.whl.metadata (10 kB)
+Collecting onnxruntime<2,>=1.14 (from faster-whisper==1.2.1->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\meeting-setup-20261114\requirements.txt (line 5))
+  Downloading onnxruntime-1.32.0-cp313-cp313-win_amd64.whl.metadata (6.1 kB)
+Collecting av>=11 (from faster-whisper==1.2.1->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\meeting-setup-20261114\requirements.txt (line 5))
+  Downloading av-19.0.2-cp312-abi3-win_amd64.whl.metadata (5.1 kB)
+Collecting tqdm (from faster-whisper==1.2.1->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\meeting-setup-20261114\requirements.txt (line 5))
+  Downloading tqdm-4.70.1-py3-none-any.whl.metadata (57 kB)
+Collecting sherpa-onnx-core==1.13.4 (from sherpa-onnx==1.13.4->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\meeting-setup-20261114\requirements.txt (line 6))
+  Downloading sherpa_onnx_core-1.13.4-py3-none-win_amd64.whl.metadata (532 bytes)
+Collecting altgraph (from pyinstaller==6.22.3->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\meeting-setup-20261114\requirements.txt (line 11))
+  Downloading altgraph-0.17.5-py2.py3-none-any.whl.metadata (7.5 kB)
+Collecting packaging>=22.0 (from pyinstaller==6.22.3->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\meeting-setup-20261114\requirements.txt (line 11))
+  Downloading packaging-26.3-py3-none-any.whl.metadata (3.5 kB)
+Collecting pefile>=2022.5.30 (from pyinstaller==6.22.3->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\meeting-setup-20261114\requirements.txt (line 11))
+  Downloading pefile-2024.8.26-py3-none-any.whl.metadata (1.4 kB)
+Collecting pyinstaller-hooks-contrib>=2026.7 (from pyinstaller==6.22.3->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\meeting-setup-20261114\requirements.txt (line 11))
+  Downloading pyinstaller_hooks_contrib-2026.10-py3-none-any.whl.metadata (16 kB)
+Collecting pywin32-ctypes>=0.2.1 (from pyinstaller==6.22.3->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\meeting-setup-20261114\requirements.txt (line 11))
+  Downloading pywin32_ctypes-0.2.3-py3-none-any.whl.metadata (3.9 kB)
+Collecting setuptools>=42.0.0 (from pyinstaller==6.22.3->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\meeting-setup-20261114\requirements.txt (line 11))
+  Downloading setuptools-84.2.1-py3-none-any.whl.metadata (6.6 kB)
+Collecting pyyaml<7,>=5.3 (from ctranslate2<5,>=4.0->faster-whisper==1.2.1->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\meeting-setup-20261114\requirements.txt (line 5))
+  Downloading pyyaml-6.0.3-cp313-cp313-win_amd64.whl.metadata (2.4 kB)
+Collecting flatbuffers (from onnxruntime<2,>=1.14->faster-whisper==1.2.1->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\meeting-setup-20261114\requirements.txt (line 5))
+  Downloading flatbuffers-25.12.19-py2.py3-none-any.whl.metadata (1.0 kB)
+Collecting protobuf>=4.25.8 (from onnxruntime<2,>=1.14->faster-whisper==1.2.1->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\meeting-setup-20261114\requirements.txt (line 5))
+  Downloading protobuf-7.36.2-cp310-abi3-win_amd64.whl.metadata (595 bytes)
+Collecting click<9.0.0,>=8.4.2 (from huggingface-hub>=0.21->faster-whisper==1.2.1->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\meeting-setup-20261114\requirements.txt (line 5))
+  Downloading click-8.5.1-py3-none-any.whl.metadata (2.6 kB)
+Collecting filelock>=3.10.0 (from huggingface-hub>=0.21->faster-whisper==1.2.1->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\meeting-setup-20261114\requirements.txt (line 5))
+  Downloading filelock-4.2.10-py3-none-any.whl.metadata (2.3 kB)
+Collecting fsspec>=2023.5.0 (from huggingface-hub>=0.21->faster-whisper==1.2.1->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\meeting-setup-20261114\requirements.txt (line 5))
+  Downloading fsspec-2026.9.0-py3-none-any.whl.metadata (10 kB)
+Collecting hf-xet<2.0.0,>=1.6.0 (from huggingface-hub>=0.21->faster-whisper==1.2.1->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\meeting-setup-20261114\requirements.txt (line 5))
+  Downloading hf_xet-1.8.0-cp38-abi3-win_amd64.whl.metadata (4.9 kB)
+Collecting httpx2<3,>=2.0.0 (from huggingface-hub>=0.21->faster-whisper==1.2.1->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\meeting-setup-20261114\requirements.txt (line 5))
+  Downloading httpx2-2.16.0-py3-none-any.whl.metadata (10 kB)
+Collecting typing-extensions>=4.1.0 (from huggingface-hub>=0.21->faster-whisper==1.2.1->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\meeting-setup-20261114\requirements.txt (line 5))
+  Downloading typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+Collecting anyio>=4.10 (from httpx2<3,>=2.0.0->huggingface-hub>=0.21->faster-whisper==1.2.1->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\meeting-setup-20261114\requirements.txt (line 5))
+  Downloading anyio-4.16.0-py3-none-any.whl.metadata (4.7 kB)
+Collecting httpcore2==2.16.0 (from httpx2<3,>=2.0.0->huggingface-hub>=0.21->faster-whisper==1.2.1->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\meeting-setup-20261114\requirements.txt (line 5))
+  Downloading httpcore2-2.16.0-py3-none-any.whl.metadata (27 kB)
+Collecting idna>=3.18 (from httpx2<3,>=2.0.0->huggingface-hub>=0.21->faster-whisper==1.2.1->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\meeting-setup-20261114\requirements.txt (line 5))
+  Downloading idna-3.20-py3-none-any.whl.metadata (7.2 kB)
+Collecting truststore>=0.10 (from httpx2<3,>=2.0.0->huggingface-hub>=0.21->faster-whisper==1.2.1->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\meeting-setup-20261114\requirements.txt (line 5))
+  Downloading truststore-0.10.5-py3-none-any.whl.metadata (4.5 kB)
+Collecting h11>=0.16 (from httpcore2==2.16.0->httpx2<3,>=2.0.0->huggingface-hub>=0.21->faster-whisper==1.2.1->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\meeting-setup-20261114\requirements.txt (line 5))
+  Downloading h11-0.16.0-py3-none-any.whl.metadata (8.3 kB)
+Collecting pycparser (from CFFI>=1.0->sounddevice==0.5.2->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\meeting-setup-20261114\requirements.txt (line 2))
+  Downloading pycparser-3.12-py3-none-any.whl.metadata (9.7 kB)
+Collecting colorama (from tqdm->faster-whisper==1.2.1->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\meeting-setup-20261114\requirements.txt (line 5))
+  Downloading colorama-0.4.6-py2.py3-none-any.whl.metadata (17 kB)
+Downloading pyside6-6.11.1-cp310-abi3-win_amd64.whl (578 kB)
+   ---------------------------------------- 578.4/578.4 kB 1.7 MB/s  0:00:00
+Downloading sounddevice-0.5.2-py3-none-win_amd64.whl (363 kB)
+Downloading soundcard-0.4.6-py3-none-any.whl (43 kB)
+Downloading faster_whisper-1.2.1-py3-none-any.whl (1.1 MB)
+   ---------------------------------------- 1.1/1.1 MB 2.1 MB/s  0:00:00
+Downloading sherpa_onnx-1.13.4-cp313-cp313-win_amd64.whl (2.2 MB)
+   ---------------------------------------- 2.2/2.2 MB 2.0 MB/s  0:00:01
+Downloading webrtcvad_wheels-2.0.14-cp313-cp313-win_amd64.whl (19 kB)
+Downloading comtypes-1.4.16-py3-none-any.whl (296 kB)
+Downloading pyinstaller-6.22.3-py3-none-win_amd64.whl (1.5 MB)
+   ---------------------------------------- 1.5/1.5 MB 2.5 MB/s  0:00:00
+Downloading pyside6_addons-6.11.1-cp310-abi3-win_amd64.whl (168.8 MB)
+   ---------------------------------------- 168.8/168.8 MB 1.6 MB/s  0:01:24
+Downloading pyside6_essentials-6.11.1-cp310-abi3-win_amd64.whl (77.5 MB)
+   ---------------------------------------- 77.5/77.5 MB 2.2 MB/s  0:00:37
+Downloading sherpa_onnx_core-1.13.4-py3-none-win_amd64.whl (16.5 MB)
+   ---------------------------------------- 16.5/16.5 MB 2.5 MB/s  0:00:06
+Downloading shiboken6-6.11.1-cp310-abi3-win_amd64.whl (1.2 MB)
+   ---------------------------------------- 1.2/1.2 MB 2.4 MB/s  0:00:00
+Downloading ctranslate2-4.9.0-cp313-cp313-win_amd64.whl (20.4 MB)
+   ---------------------------------------- 20.4/20.4 MB 2.2 MB/s  0:00:09
+Downloading onnxruntime-1.32.0-cp313-cp313-win_amd64.whl (16.7 MB)
+   ---------------------------------------- 16.7/16.7 MB 1.9 MB/s  0:00:08
+Downloading pyyaml-6.0.3-cp313-cp313-win_amd64.whl (154 kB)
+Downloading tokenizers-0.23.3-cp310-abi3-win_amd64.whl (2.9 MB)
+   ---------------------------------------- 2.9/2.9 MB 1.7 MB/s  0:00:01
+Downloading huggingface_hub-2.4.0-py3-none-any.whl (857 kB)
+   ---------------------------------------- 857.0/857.0 kB 1.5 MB/s  0:00:00
+Downloading click-8.5.1-py3-none-any.whl (126 kB)
+Downloading hf_xet-1.8.0-cp38-abi3-win_amd64.whl (3.9 MB)
+   ---------------------------------------- 3.9/3.9 MB 1.9 MB/s  0:00:02
+Downloading httpx2-2.16.0-py3-none-any.whl (97 kB)
+Downloading httpcore2-2.16.0-py3-none-any.whl (85 kB)
+Downloading numpy-2.5.4-cp313-cp313-win_amd64.whl (12.6 MB)
+   ---------------------------------------- 12.6/12.6 MB 2.1 MB/s  0:00:05
+Downloading soundfile-0.14.0-py2.py3-none-win_amd64.whl (1.0 MB)
+   ---------------------------------------- 1.0/1.0 MB 1.5 MB/s  0:00:00
+Downloading anyio-4.16.0-py3-none-any.whl (134 kB)
+Downloading av-19.0.2-cp312-abi3-win_amd64.whl (28.2 MB)
+   ---------------------------------------- 28.2/28.2 MB 2.0 MB/s  0:00:14
+Downloading cffi-2.1.1-cp313-cp313-win_amd64.whl (185 kB)
+Downloading filelock-4.2.10-py3-none-any.whl (218 kB)
+Downloading fsspec-2026.9.0-py3-none-any.whl (221 kB)
+Downloading h11-0.16.0-py3-none-any.whl (37 kB)
+Downloading idna-3.20-py3-none-any.whl (69 kB)
+Downloading packaging-26.3-py3-none-any.whl (129 kB)
+Downloading pefile-2024.8.26-py3-none-any.whl (74 kB)
+Downloading protobuf-7.36.2-cp310-abi3-win_amd64.whl (456 kB)
+Downloading pyinstaller_hooks_contrib-2026.10-py3-none-any.whl (463 kB)
+Downloading pywin32_ctypes-0.2.3-py3-none-any.whl (30 kB)
+Downloading setuptools-84.2.1-py3-none-any.whl (876 kB)
+   ---------------------------------------- 876.3/876.3 kB 1.7 MB/s  0:00:00
+Downloading tqdm-4.70.1-py3-none-any.whl (80 kB)
+Downloading truststore-0.10.5-py3-none-any.whl (19 kB)
+Downloading typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+Downloading altgraph-0.17.5-py2.py3-none-any.whl (21 kB)
+Downloading colorama-0.4.6-py2.py3-none-any.whl (25 kB)
+Downloading flatbuffers-25.12.19-py2.py3-none-any.whl (26 kB)
+Downloading pycparser-3.12-py3-none-any.whl (62 kB)
+Building wheels for collected packages: pyperclip
+  Building wheel for pyperclip (pyproject.toml): started
+  Building wheel for pyperclip (pyproject.toml): finished with status 'done'
+  Created wheel for pyperclip: filename=pyperclip-1.9.0-py3-none-any.whl size=11117 sha256=2191cd0a1eb853fc3ea15cb89dc882e3726ab35f4e30b16d66b2103ba5e60826
+  Stored in directory: d:\saydraft-codex-qa-20261112-01a1cbc7\meeting-setup-package-20261114-r1\pip-cache\wheels\9c\79\90\c9e831caaffa2633ad99f1d35c6ea39866b92de62e909e89ef
+Successfully built pyperclip
+Installing collected packages: webrtcvad-wheels, sherpa-onnx-core, pyperclip, flatbuffers, altgraph, typing-extensions, truststore, shiboken6, sherpa-onnx, setuptools, pyyaml, pywin32-ctypes, pycparser, protobuf, pefile, packaging, numpy, idna, hf-xet, h11, fsspec, filelock, comtypes, colorama, click, av, tqdm, PySide6_Essentials, pyinstaller-hooks-contrib, onnxruntime, httpcore2, ctranslate2, CFFI, anyio, soundfile, sounddevice, SoundCard, PySide6_Addons, pyinstaller, httpx2, PySide6, huggingface-hub, tokenizers, faster-whisper
+
+Successfully installed CFFI-2.1.1 PySide6-6.11.1 PySide6_Addons-6.11.1 PySide6_Essentials-6.11.1 SoundCard-0.4.6 altgraph-0.17.5 anyio-4.16.0 av-19.0.2 click-8.5.1 colorama-0.4.6 comtypes-1.4.16 ctranslate2-4.9.0 faster-whisper-1.2.1 filelock-4.2.10 flatbuffers-25.12.19 fsspec-2026.9.0 h11-0.16.0 hf-xet-1.8.0 httpcore2-2.16.0 httpx2-2.16.0 huggingface-hub-2.4.0 idna-3.20 numpy-2.5.4 onnxruntime-1.32.0 packaging-26.3 pefile-2024.8.26 protobuf-7.36.2 pycparser-3.12 pyinstaller-6.22.3 pyinstaller-hooks-contrib-2026.10 pyperclip-1.9.0 pywin32-ctypes-0.2.3 pyyaml-6.0.3 setuptools-84.2.1 sherpa-onnx-1.13.4 sherpa-onnx-core-1.13.4 shiboken6-6.11.1 sounddevice-0.5.2 soundfile-0.14.0 tokenizers-0.23.3 tqdm-4.70.1 truststore-0.10.5 typing-extensions-4.16.0 webrtcvad-wheels-2.0.14
+244 INFO: PyInstaller: 6.22.3, contrib hooks: 2026.10
+245 INFO: Python: 3.13.17
+288 INFO: Platform: Windows-11-10.0.26200-SP0
+288 INFO: Python environment: D:\Saydraft-Codex-QA-20261112-01a1cbc7\meeting-setup-package-20261114-r1\venv
+295 INFO: Removing temporary files and cleaning cache in D:\Saydraft-Codex-QA-20261112-01a1cbc7\meeting-setup-package-20261114-r1\pyinstaller-cache\pyinstaller
+2517 INFO: Module search paths (PYTHONPATH):
+['D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\meeting-setup-20261114',
+ 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\meeting-setup-20261114',
+ 'C:\\Python313\\python313.zip',
+ 'C:\\Python313\\DLLs',
+ 'C:\\Python313\\Lib',
+ 'C:\\Python313',
+ 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\meeting-setup-package-20261114-r1\\venv',
+ 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\meeting-setup-package-20261114-r1\\venv\\Lib\\site-packages',
+ 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\meeting-setup-20261114\\installer',
+ 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\meeting-setup-20261114']
+3167 INFO: Appending 'binaries' from .spec
+3167 INFO: Appending 'datas' from .spec
+3222 INFO: checking Analysis
+3222 INFO: Building Analysis because Analysis-00.toc is non existent
+3222 INFO: Looking for Python shared library...
+3222 INFO: Using Python shared library: C:\Python313\python313.dll
+3222 INFO: Running Analysis Analysis-00.toc
+3222 INFO: Target bytecode optimization level: 0
+3222 INFO: Initializing module dependency graph...
+3224 INFO: Initializing module graph hook caches...
+3249 INFO: Analyzing modules for base_library.zip ...
+5130 INFO: Processing standard module hook 'hook-encodings.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\meeting-setup-package-20261114-r1\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+5667 INFO: Processing standard module hook 'hook-math.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\meeting-setup-package-20261114-r1\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+7744 INFO: Processing standard module hook 'hook-pickle.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\meeting-setup-package-20261114-r1\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+9165 INFO: Processing standard module hook 'hook-heapq.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\meeting-setup-package-20261114-r1\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+9893 INFO: Caching module dependency graph...
+9954 INFO: Analyzing D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\meeting-setup-20261114\installer\entry.py
+10032 INFO: Processing standard module hook 'hook-sysconfig.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\meeting-setup-package-20261114-r1\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+10041 INFO: Processing standard module hook 'hook-_ctypes.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\meeting-setup-package-20261114-r1\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+10466 INFO: Processing standard module hook 'hook-platform.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\meeting-setup-package-20261114-r1\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+10578 INFO: Processing pre-safe-import-module hook 'hook-typing_extensions.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\meeting-setup-package-20261114-r1\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
+10579 INFO: SetuptoolsInfo: initializing cached setuptools info...
+11586 INFO: Processing standard module hook 'hook-multiprocessing.util.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\meeting-setup-package-20261114-r1\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+11778 INFO: Processing standard module hook 'hook-xml.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\meeting-setup-package-20261114-r1\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+12772 INFO: Processing standard module hook 'hook-anyio.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\meeting-setup-package-20261114-r1\\venv\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\stdhooks'
+14879 INFO: Processing pre-safe-import-module hook 'hook-backports.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\meeting-setup-package-20261114-r1\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
+14879 INFO: Setuptools: 'backports' appears to be a full setuptools-vendored copy - creating alias to 'setuptools._vendor.backports'!
+14888 INFO: Processing standard module hook 'hook-setuptools.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\meeting-setup-package-20261114-r1\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+14906 INFO: Processing pre-safe-import-module hook 'hook-distutils.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\meeting-setup-package-20261114-r1\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
+14949 INFO: Processing pre-safe-import-module hook 'hook-jaraco.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\meeting-setup-package-20261114-r1\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
+14949 INFO: Setuptools: 'jaraco' appears to be a full setuptools-vendored copy - creating alias to 'setuptools._vendor.jaraco'!
+14963 INFO: Processing pre-safe-import-module hook 'hook-more_itertools.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\meeting-setup-package-20261114-r1\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
+14963 INFO: Setuptools: 'more_itertools' appears to be a setuptools-vendored copy - creating alias to 'setuptools._vendor.more_itertools'!
+15182 INFO: Processing standard module hook 'hook-_osx_support.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\meeting-setup-package-20261114-r1\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+15206 INFO: Processing pre-safe-import-module hook 'hook-packaging.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\meeting-setup-package-20261114-r1\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
+15600 INFO: Processing standard module hook 'hook-setuptools._vendor.jaraco.text.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\meeting-setup-package-20261114-r1\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+15601 INFO: Processing pre-safe-import-module hook 'hook-importlib_resources.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\meeting-setup-package-20261114-r1\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
+16445 INFO: Processing pre-safe-import-module hook 'hook-tomli.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\meeting-setup-package-20261114-r1\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
+16445 INFO: Setuptools: 'tomli' appears to be a setuptools-vendored copy - creating alias to 'setuptools._vendor.tomli'!
+17541 INFO: Processing pre-safe-import-module hook 'hook-wheel.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\meeting-setup-package-20261114-r1\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
+17542 INFO: Setuptools: 'wheel' appears to be a setuptools-vendored copy - creating alias to 'setuptools._vendor.wheel'!
+18158 INFO: Processing standard module hook 'hook-difflib.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\meeting-setup-package-20261114-r1\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+18328 INFO: Processing standard module hook 'hook-webbrowser.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\meeting-setup-package-20261114-r1\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+19076 INFO: Processing standard module hook 'hook-sqlite3.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\meeting-setup-package-20261114-r1\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+21049 INFO: Processing standard module hook 'hook-numpy.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\meeting-setup-package-20261114-r1\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+25395 INFO: Processing standard module hook 'hook-fsspec.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\meeting-setup-package-20261114-r1\\venv\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\stdhooks'
+26446 INFO: Processing standard module hook 'hook-onnxruntime.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\meeting-setup-package-20261114-r1\\venv\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\stdhooks'
+26562 INFO: Processing pre-safe-import-module hook 'hook-tensorflow.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\meeting-setup-package-20261114-r1\\venv\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\pre_safe_import_module'
+26695 INFO: Processing standard module hook 'hook-sounddevice.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\meeting-setup-package-20261114-r1\\venv\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\stdhooks'
+26706 INFO: Processing standard module hook 'hook-soundcard.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\meeting-setup-20261114\\installer\\hooks'
+26930 INFO: Processing standard module hook 'hook-pycparser.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\meeting-setup-package-20261114-r1\\venv\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\stdhooks'
+29017 INFO: Processing standard module hook 'hook-webrtcvad.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\meeting-setup-package-20261114-r1\\venv\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\stdhooks'
+29647 INFO: Processing standard module hook 'hook-PySide6.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\meeting-setup-package-20261114-r1\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+29847 INFO: Processing standard module hook 'hook-shiboken6.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\meeting-setup-package-20261114-r1\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+30141 INFO: Processing standard module hook 'hook-PySide6.QtNetwork.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\meeting-setup-package-20261114-r1\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+38192 INFO: Processing standard module hook 'hook-PySide6.QtCore.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\meeting-setup-package-20261114-r1\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+47532 INFO: Processing standard module hook 'hook-PySide6.QtGui.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\meeting-setup-20261114\\installer\\hooks'
+97523 INFO: Processing standard module hook 'hook-PySide6.QtWidgets.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\meeting-setup-package-20261114-r1\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+107937 INFO: Processing standard module hook 'hook-av.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\meeting-setup-package-20261114-r1\\venv\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\stdhooks'
+109072 INFO: Processing standard module hook 'hook-PySide6.QtSvg.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\meeting-setup-package-20261114-r1\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+112023 INFO: Processing standard module hook 'hook-soundfile.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\meeting-setup-package-20261114-r1\\venv\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\stdhooks'
+112336 INFO: Processing standard module hook 'hook-comtypes.client.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\meeting-setup-package-20261114-r1\\venv\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\stdhooks'
+114013 INFO: Processing standard module hook 'hook-PySide6.QtMultimedia.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\meeting-setup-package-20261114-r1\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+122458 INFO: Analyzing hidden import 'faster_whisper.assets'
+122458 INFO: Analyzing hidden import 'sherpa_onnx.__main__'
+122465 INFO: Analyzing hidden import 'sherpa_onnx.cli'
+122470 INFO: Processing module hooks (post-graph stage)...
+123417 WARNING: Hidden import "pycparser.lextab" not found!
+123418 WARNING: Hidden import "pycparser.yacctab" not found!
+123446 INFO: Processing standard module hook 'hook-PySide6.QtMultimediaWidgets.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\meeting-setup-package-20261114-r1\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+125249 INFO: Performing binary vs. data reclassification (696 entries)
+125408 INFO: Looking for ctypes DLLs
+125737 INFO: Analyzing run-time hooks ...
+125746 INFO: Including run-time hook 'pyi_rth_inspect.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\meeting-setup-package-20261114-r1\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks'
+125751 INFO: Including run-time hook 'pyi_rth_pkgutil.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\meeting-setup-package-20261114-r1\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks'
+125755 INFO: Including run-time hook 'pyi_rth_multiprocessing.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\meeting-setup-package-20261114-r1\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks'
+125760 INFO: Including run-time hook 'pyi_rth_setuptools.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\meeting-setup-package-20261114-r1\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks'
+125762 INFO: Including run-time hook 'pyi_rth_pyside6.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\meeting-setup-package-20261114-r1\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks'
+125765 INFO: Processing pre-find-module-path hook 'hook-_pyi_rth_utils.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\meeting-setup-package-20261114-r1\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\pre_find_module_path'
+125766 INFO: Processing standard module hook 'hook-_pyi_rth_utils.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\meeting-setup-package-20261114-r1\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+125823 INFO: Creating base_library.zip...
+125859 INFO: Looking for dynamic libraries
+127780 INFO: Extra DLL search directories (AddDllDirectory): ['D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\meeting-setup-package-20261114-r1\\venv\\Lib\\site-packages\\shiboken6', 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\meeting-setup-package-20261114-r1\\venv\\Lib\\site-packages\\numpy.libs', 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\meeting-setup-package-20261114-r1\\venv\\Lib\\site-packages\\ctranslate2', 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\meeting-setup-package-20261114-r1\\venv\\Lib\\site-packages\\av.libs']
+127780 INFO: Extra DLL search directories (PATH): ['D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\meeting-setup-package-20261114-r1\\venv\\Lib\\site-packages\\PySide6']
+131349 INFO: Warnings written to D:\Saydraft-Codex-QA-20261112-01a1cbc7\meeting-setup-package-20261114-r1\work\Saydraft\warn-Saydraft.txt
+131537 INFO: Graph cross-reference written to D:\Saydraft-Codex-QA-20261112-01a1cbc7\meeting-setup-package-20261114-r1\work\Saydraft\xref-Saydraft.html
+134684 INFO: checking PYZ
+134684 INFO: Building PYZ because PYZ-00.toc is non existent
+134684 INFO: Building PYZ (ZlibArchive) D:\Saydraft-Codex-QA-20261112-01a1cbc7\meeting-setup-package-20261114-r1\work\Saydraft\PYZ-00.pyz
+136039 INFO: Building PYZ (ZlibArchive) D:\Saydraft-Codex-QA-20261112-01a1cbc7\meeting-setup-package-20261114-r1\work\Saydraft\PYZ-00.pyz completed successfully.
+136078 INFO: checking PKG
+136078 INFO: Building PKG because PKG-00.toc is non existent
+136078 INFO: Building PKG (CArchive) Saydraft.pkg
+136106 INFO: Building PKG (CArchive) Saydraft.pkg completed successfully.
+136107 INFO: Bootloader D:\Saydraft-Codex-QA-20261112-01a1cbc7\meeting-setup-package-20261114-r1\venv\Lib\site-packages\PyInstaller\bootloader\Windows-64bit-intel\runw.exe
+136107 INFO: checking EXE
+136108 INFO: Building EXE because EXE-00.toc is non existent
+136108 INFO: Building EXE from EXE-00.toc
+136108 INFO: Copying bootloader EXE to D:\Saydraft-Codex-QA-20261112-01a1cbc7\meeting-setup-package-20261114-r1\work\Saydraft\Saydraft.exe
+136113 INFO: Copying icon to EXE
+136117 INFO: Copying version information to EXE
+136123 INFO: Copying 0 resources to EXE
+136123 INFO: Embedding manifest in EXE
+136127 INFO: Appending PKG archive to EXE
+136138 INFO: Fixing EXE headers
+136251 INFO: Building EXE from EXE-00.toc completed successfully.
+136277 INFO: checking COLLECT
+136277 INFO: Building COLLECT because COLLECT-00.toc is non existent
+136277 INFO: Building COLLECT COLLECT-00.toc
+138993 INFO: Building COLLECT COLLECT-00.toc completed successfully.
+139045 INFO: Build complete! The results are available in: D:\Saydraft-Codex-QA-20261112-01a1cbc7\meeting-setup-package-20261114-r1\dist

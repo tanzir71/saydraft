@@ -1,0 +1,66 @@
+........................................................................ [ 11%]
+........................................................................ [ 22%]
+........................................................................ [ 34%]
+........................................................................ [ 45%]
+........................................................................ [ 56%]
+........................................................................ [ 68%]
+........................................................................ [ 79%]
+........................................................................ [ 90%]
+........................................................F.               [100%]
+================================== FAILURES ===================================
+__________ test_main_initializes_logging_and_config_before_qt_shell ___________
+
+obj = <module 'saydraft.compat' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\meeting-setup-20261114\\saydraft\\compat\\__init__.py'>
+name = 'migrate', ann = 'saydraft.compat.migrate'
+
+    def annotated_getattr(obj: object, name: str, ann: str) -> object:
+        try:
+>           obj = getattr(obj, name)
+                  ^^^^^^^^^^^^^^^^^^
+E           AttributeError: module 'saydraft.compat' has no attribute 'migrate'
+
+C:\Users\tanzir\AppData\Roaming\Python\Python313\site-packages\_pytest\monkeypatch.py:90: AttributeError
+
+The above exception was the direct cause of the following exception:
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000021CCE180D70>
+tmp_path = WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/pytest-meeting-setup-r04/test_main_initializes_logging_0')
+
+    def test_main_initializes_logging_and_config_before_qt_shell(monkeypatch, tmp_path):
+        import sys
+        import types
+    
+        import saydraft.config as config
+        import saydraft.logging_config as logging_config
+        import saydraft.main as main
+    
+        calls = []
+        monkeypatch.setenv("LOCALAPPDATA", str(tmp_path))
+>       monkeypatch.setattr("saydraft.compat.migrate.migrate_autostart", lambda manager: False)
+
+tests\test_config.py:254: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\tanzir\AppData\Roaming\Python\Python313\site-packages\_pytest\monkeypatch.py:102: in derive_importpath
+    target = resolve(module)
+             ^^^^^^^^^^^^^^^
+C:\Users\tanzir\AppData\Roaming\Python\Python313\site-packages\_pytest\monkeypatch.py:84: in resolve
+    found = annotated_getattr(found, part, used)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+obj = <module 'saydraft.compat' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\meeting-setup-20261114\\saydraft\\compat\\__init__.py'>
+name = 'migrate', ann = 'saydraft.compat.migrate'
+
+    def annotated_getattr(obj: object, name: str, ann: str) -> object:
+        try:
+            obj = getattr(obj, name)
+        except AttributeError as e:
+>           raise AttributeError(
+                f"{type(obj).__name__!r} object at {ann} has no attribute {name!r}"
+            ) from e
+E           AttributeError: 'module' object at saydraft.compat.migrate has no attribute 'migrate'
+
+C:\Users\tanzir\AppData\Roaming\Python\Python313\site-packages\_pytest\monkeypatch.py:92: AttributeError
+=========================== short test summary info ===========================
+FAILED tests/test_config.py::test_main_initializes_logging_and_config_before_qt_shell
+1 failed, 633 passed in 128.80s (0:02:08)

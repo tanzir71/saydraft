@@ -1,0 +1,81 @@
+"""Verify local setup receipts using only the standard library; no app imports."""
+import argparse
+import hashlib
+import io
+import json
+from pathlib import Path, PurePosixPath
+import subprocess
+import tarfile
+
+
+def sha(data):
+    return hashlib.sha256(data).hexdigest()
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--repo', type=Path, required=True)
+    parser.add_argument('--evidence', type=Path, default=Path(__file__).resolve().parent)
+    parser.add_argument('--build-root', type=Path)
+    args = parser.parse_args()
+    root = args.evidence
+    def read(name):
+        return json.loads((root / name).read_text(encoding='utf-8'))
+    files = read('files.json')
+    for name, expected in files.items():
+        path = PurePosixPath(name)
+        assert not path.is_absolute() and '..' not in path.parts
+        assert sha((root / name).read_bytes()) == expected, name
+    checks = read('checks/r11-receipt.json')
+    source = checks['source']
+    assert checks['exit_code'] == 0 and checks['source_unchanged'] and not checks['dirty']
+    assert not checks['audio_sdk_imported_at_end']
+    assert checks['excluded_test'] == 'test_main_initializes_logging_and_config_before_qt_shell'
+    assert '661 passed, 1 deselected' in (root / 'checks/r11.txt').read_text(encoding='utf-8')
+    archive = subprocess.check_output(['git', 'archive', source, 'saydraft', 'tests'], cwd=args.repo)
+    with tarfile.open(fileobj=io.BytesIO(archive)) as stream:
+        for name, expected in checks['source_sha256'].items():
+            data = stream.extractfile(name).read()
+            if expected not in {sha(data), sha(data.replace(b'\r\n', b'\n').replace(b'\n', b'\r\n'))}:
+                raw = (root / 'source-bytes' / (name + '.txt')).read_bytes()
+                assert sha(raw) == expected, name
+                assert raw.replace(b'\r\n', b'\n') == data.replace(b'\r\n', b'\n'), name
+    renders = read('renders/report.json')
+    assert renders['source'] == source and not renders['dirty'] and renders['network_guard']
+    assert not renders['audio_sdk_imported']
+    rows = renders['rows']
+    assert len(rows) == 16 and len({row['path'] for row in rows}) == 16
+    assert {(r['theme'], r['font_px'], r['width'], r['position']) for r in rows} == {
+        (theme, font, width, position) for theme in ('light','dark') for font in (16,22)
+        for width in (460,780) for position in ('models','devices')}
+    assert all(not row['horizontal_overflow'] and row['start_enabled'] for row in rows)
+    for row in rows:
+        assert sha((root / 'renders' / row['path']).read_bytes()) == row['sha256']
+    audit, runtime = read('package/bundle.json'), read('package/runtime.json')
+    assert audit['git_commit'] == source and not audit['source_dirty']
+    assert runtime['complete'] and runtime['frozen'] and all(runtime['checks'].values())
+    for flag in ('microphone_used', 'audio_devices_enumerated', 'input_injected', 'owner_clipboard_accessed',
+                 'active_application_read', 'asr_performed', 'native_firewall_verified'):
+        assert runtime[flag] is False, flag
+    assert not audit['installer_size_gate'] and not audit['packaging_gate']
+    modules = read('package/setup-modules.json')
+    assert modules['source'] == source and set(modules['included_modules']) == {
+        'saydraft.ui.meeting_setup', 'saydraft.meetings.setup', 'saydraft.meetings.devices', 'saydraft.meetings.asr'}
+    if args.build_root:
+        analysis = (args.build_root / 'work/Saydraft/Analysis-00.toc').read_text(encoding='utf-8')
+        assert sha(analysis.encode('utf-8')) == modules['analysis_sha256']
+        assert all(name in analysis for name in modules['included_modules'])
+        for name, item in audit['artifacts'].items():
+            path = args.build_root / 'artifacts' / name
+            assert path.stat().st_size == item['bytes'] and sha(path.read_bytes()) == item['sha256']
+    assert not read('package/failed-r1/runtime.json')['complete']
+    assert len(read('package/failed-r1/diagnosis.json')['qtcore_required_exports_missing']) == 20
+    assert read('package/native-origins.json')['no_windowsapps_binaries']
+    assert read('package/diagnostic-icu-removed-runtime.json')['complete']
+    print(json.dumps({'verified': True, 'source': source, 'raw_files': len(files), 'tests': 661,
+        'deselected': 1, 'renders': 16, 'portable_bundle': True,
+        'installer_gate': False, 'live_capture_or_full_accuracy_accepted': False}))
+
+
+if __name__ == '__main__':
+    main()

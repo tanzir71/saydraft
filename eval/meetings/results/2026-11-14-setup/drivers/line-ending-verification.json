@@ -1,0 +1,14 @@
+{
+  "initial_verifier": "Failed at saydraft/meetings/asr.py because only uniform LF/CRLF were accepted",
+  "retained_exact_tested_files": [
+    "saydraft/meetings/asr.py",
+    "saydraft/meetings/devices.py",
+    "saydraft/meetings/setup.py",
+    "saydraft/ui/meeting_setup.py",
+    "tests/test_meeting_asr.py",
+    "tests/test_meeting_devices.py",
+    "tests/test_meeting_setup.py",
+    "tests/test_meeting_setup_ui.py"
+  ],
+  "requirement": "Raw byte hash must match the pre/post test receipt and normalize exactly to the Git blob; no other source difference accepted"
+}

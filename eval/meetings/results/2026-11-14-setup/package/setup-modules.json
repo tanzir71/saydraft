@@ -1,0 +1,10 @@
+{
+  "source": "4d497584093a63fd00c3c01db50d7daef4633a49",
+  "analysis_sha256": "61f319b9458818a8418a0c2aea8923361bb873f5d7e7e8c6ceb5c0f1d16114be",
+  "included_modules": [
+    "saydraft.ui.meeting_setup",
+    "saydraft.meetings.setup",
+    "saydraft.meetings.devices",
+    "saydraft.meetings.asr"
+  ]
+}

@@ -5,6 +5,15 @@ and draft-release workflows are retained as manual-only tools; pushes and tags
 start neither, and no successful GitHub Actions run is required for delivery.
 The historical runner receipts below retain their original dates and scope.
 
+The local `4d49758` portable diagnostic passes on a fresh Python environment,
+including frozen imports/resources/notices, the actual module/file audit and a
+hashed ZIP. Its first attempt exposed a launcher-PATH ICU collision; the build
+now excludes unrelated application directories from DLL discovery. The original
+failure, exact diagnosis and passing follow-up are retained with the
+[meeting setup records](../eval/meetings/results/2026-11-14-setup/README.md).
+This run used `-SkipInstaller`, so its installer and packaging gates remain false;
+it does not accept a connected frozen meeting or publish an app release.
+
 `tools/build.ps1` now builds in a fresh Python 3.13 virtual environment outside
 the source checkout. It installs only `requirements.txt`, uses the canonical
 `Saydraft.spec`, verifies the frozen runtime, audits the actual module graph and

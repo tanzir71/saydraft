@@ -1,0 +1,556 @@
+........................................................................ [ 11%]
+........................................................................ [ 22%]
+........................................................................ [ 33%]
+........................................................................ [ 45%]
+........................................................................ [ 56%]
+........................................................................ [ 67%]
+........................................................................ [ 79%]
+....FFFFFFFFFFFFFFFF.................................................... [ 90%]
+............................................................             [100%]
+================================== FAILURES ===================================
+_ test_every_role_uses_explicit_pinned_versions_and_reads_legacy_in_place[whisper-base] _
+
+tmp_path = WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/pytest-meeting-setup-r05/test_every_role_uses_explicit_0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000025FCA43EBA0>
+catalog = {'download_hosts': ['huggingface.co', 'us.aws.cdn.hf.co'], 'engine': 'whisper', 'files': [{'path': 'model.bin', 'sha25...tran/faster-whisper-base/resolve/ebe41f70d5b6dfa9166e2c581c45c9c0cfc57b66/vocabulary.txt'}], 'id': 'whisper-base', ...}
+
+    @pytest.mark.parametrize("catalog", CATALOG, ids=[model["id"] for model in CATALOG])
+    def test_every_role_uses_explicit_pinned_versions_and_reads_legacy_in_place(tmp_path, monkeypatch, catalog):
+        import saydraft.model_download as facade
+        model = dict(catalog, files=tiny_model()["files"])
+        model.pop("archive", None)
+        assert model_version(catalog) == catalog["revision"] == catalog["version"]
+        assert model_relative_dir(catalog) == Path(catalog["id"]) / catalog["version"]
+        monkeypatch.setenv("LOCALAPPDATA", str(tmp_path / "profile"))
+        monkeypatch.setattr(facade, "__file__", str(tmp_path / "source" / "saydraft" / "model_download.py"))
+        monkeypatch.setattr(facade, "get_model", lambda identifier: model)
+        root = facade.default_models_dir()
+        legacy = write_model(model, root / legacy_model_relative_dir(model))
+        before = state(root)
+        legacy_before = state(legacy)
+        assert facade.find_installed_model(model["id"], check_hashes=True) == legacy
+        assert installation_target(root, model) == legacy
+        assert install_files(model, legacy, opener=lambda *args, **kwargs: pytest.fail("Unexpected network")) == legacy
+>       assert state(root) == before and not (root / model_relative_dir(model)).exists()
+E       AssertionError: assert ({'3dspeaker-e...'abcdef', ...} == {'3dspeaker-e...'abcdef', ...}
+E         
+E         Omitting 64 identical items, use -vv to show
+E         Use -v to get more diff and not True)
+E        +  where True = exists()
+E        +    where exists = (WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/meeting-setup-local-profile-01/Saydraft/models') / WindowsPath('whisper-base/ebe41f70d5b6dfa9166e2c581c45c9c0cfc57b66')).exists
+E        +      where WindowsPath('whisper-base/ebe41f70d5b6dfa9166e2c581c45c9c0cfc57b66') = model_relative_dir({'download_hosts': ['huggingface.co', 'us.aws.cdn.hf.co'], 'engine': 'whisper', 'files': [{'path': 'model.bin', 'sha25...e': 6, 'url': 'https://models.example/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/model.bin'}], 'id': 'whisper-base', ...})
+
+tests\test_versioned_models.py:71: AssertionError
+_ test_every_role_uses_explicit_pinned_versions_and_reads_legacy_in_place[whisper-small] _
+
+tmp_path = WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/pytest-meeting-setup-r05/test_every_role_uses_explicit_1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000025FB1AFDFD0>
+catalog = {'download_hosts': ['huggingface.co', 'us.aws.cdn.hf.co'], 'engine': 'whisper', 'files': [{'path': 'model.bin', 'sha25...an/faster-whisper-small/resolve/536b0662742c02347bc0e980a01041f333bce120/vocabulary.txt'}], 'id': 'whisper-small', ...}
+
+    @pytest.mark.parametrize("catalog", CATALOG, ids=[model["id"] for model in CATALOG])
+    def test_every_role_uses_explicit_pinned_versions_and_reads_legacy_in_place(tmp_path, monkeypatch, catalog):
+        import saydraft.model_download as facade
+        model = dict(catalog, files=tiny_model()["files"])
+        model.pop("archive", None)
+        assert model_version(catalog) == catalog["revision"] == catalog["version"]
+        assert model_relative_dir(catalog) == Path(catalog["id"]) / catalog["version"]
+        monkeypatch.setenv("LOCALAPPDATA", str(tmp_path / "profile"))
+        monkeypatch.setattr(facade, "__file__", str(tmp_path / "source" / "saydraft" / "model_download.py"))
+        monkeypatch.setattr(facade, "get_model", lambda identifier: model)
+        root = facade.default_models_dir()
+        legacy = write_model(model, root / legacy_model_relative_dir(model))
+        before = state(root)
+        legacy_before = state(legacy)
+        assert facade.find_installed_model(model["id"], check_hashes=True) == legacy
+        assert installation_target(root, model) == legacy
+        assert install_files(model, legacy, opener=lambda *args, **kwargs: pytest.fail("Unexpected network")) == legacy
+>       assert state(root) == before and not (root / model_relative_dir(model)).exists()
+E       AssertionError: assert ({'3dspeaker-e...'abcdef', ...} == {'3dspeaker-e...'abcdef', ...}
+E         
+E         Omitting 64 identical items, use -vv to show
+E         Use -v to get more diff and not True)
+E        +  where True = exists()
+E        +    where exists = (WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/meeting-setup-local-profile-01/Saydraft/models') / WindowsPath('whisper-small/536b0662742c02347bc0e980a01041f333bce120')).exists
+E        +      where WindowsPath('whisper-small/536b0662742c02347bc0e980a01041f333bce120') = model_relative_dir({'download_hosts': ['huggingface.co', 'us.aws.cdn.hf.co'], 'engine': 'whisper', 'files': [{'path': 'model.bin', 'sha25...': 6, 'url': 'https://models.example/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/model.bin'}], 'id': 'whisper-small', ...})
+
+tests\test_versioned_models.py:71: AssertionError
+_ test_every_role_uses_explicit_pinned_versions_and_reads_legacy_in_place[whisper-medium] _
+
+tmp_path = WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/pytest-meeting-setup-r05/test_every_role_uses_explicit_2')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000025FCAE88D00>
+catalog = {'download_hosts': ['huggingface.co', 'us.aws.cdn.hf.co'], 'engine': 'whisper', 'files': [{'path': 'model.bin', 'sha25.../faster-whisper-medium/resolve/08e178d48790749d25932bbc082711ddcfdfbc4f/vocabulary.txt'}], 'id': 'whisper-medium', ...}
+
+    @pytest.mark.parametrize("catalog", CATALOG, ids=[model["id"] for model in CATALOG])
+    def test_every_role_uses_explicit_pinned_versions_and_reads_legacy_in_place(tmp_path, monkeypatch, catalog):
+        import saydraft.model_download as facade
+        model = dict(catalog, files=tiny_model()["files"])
+        model.pop("archive", None)
+        assert model_version(catalog) == catalog["revision"] == catalog["version"]
+        assert model_relative_dir(catalog) == Path(catalog["id"]) / catalog["version"]
+        monkeypatch.setenv("LOCALAPPDATA", str(tmp_path / "profile"))
+        monkeypatch.setattr(facade, "__file__", str(tmp_path / "source" / "saydraft" / "model_download.py"))
+        monkeypatch.setattr(facade, "get_model", lambda identifier: model)
+        root = facade.default_models_dir()
+        legacy = write_model(model, root / legacy_model_relative_dir(model))
+        before = state(root)
+        legacy_before = state(legacy)
+        assert facade.find_installed_model(model["id"], check_hashes=True) == legacy
+        assert installation_target(root, model) == legacy
+        assert install_files(model, legacy, opener=lambda *args, **kwargs: pytest.fail("Unexpected network")) == legacy
+>       assert state(root) == before and not (root / model_relative_dir(model)).exists()
+E       AssertionError: assert ({'3dspeaker-e...'abcdef', ...} == {'3dspeaker-e...'abcdef', ...}
+E         
+E         Omitting 64 identical items, use -vv to show
+E         Use -v to get more diff and not True)
+E        +  where True = exists()
+E        +    where exists = (WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/meeting-setup-local-profile-01/Saydraft/models') / WindowsPath('whisper-medium/08e178d48790749d25932bbc082711ddcfdfbc4f')).exists
+E        +      where WindowsPath('whisper-medium/08e178d48790749d25932bbc082711ddcfdfbc4f') = model_relative_dir({'download_hosts': ['huggingface.co', 'us.aws.cdn.hf.co'], 'engine': 'whisper', 'files': [{'path': 'model.bin', 'sha25...: 6, 'url': 'https://models.example/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/model.bin'}], 'id': 'whisper-medium', ...})
+
+tests\test_versioned_models.py:71: AssertionError
+_ test_every_role_uses_explicit_pinned_versions_and_reads_legacy_in_place[silero-vad-v5] _
+
+tmp_path = WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/pytest-meeting-setup-r05/test_every_role_uses_explicit_3')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000025FCAE88AD0>
+catalog = {'download_hosts': ['raw.githubusercontent.com'], 'engine': 'silero_vad', 'files': [{'path': 'silero_vad.onnx', 'sha25...hubusercontent.com/snakers4/silero-vad/5cd2ba54db059f961e7545d4f211b44f005a6dfb/LICENSE'}], 'id': 'silero-vad-v5', ...}
+
+    @pytest.mark.parametrize("catalog", CATALOG, ids=[model["id"] for model in CATALOG])
+    def test_every_role_uses_explicit_pinned_versions_and_reads_legacy_in_place(tmp_path, monkeypatch, catalog):
+        import saydraft.model_download as facade
+        model = dict(catalog, files=tiny_model()["files"])
+        model.pop("archive", None)
+        assert model_version(catalog) == catalog["revision"] == catalog["version"]
+        assert model_relative_dir(catalog) == Path(catalog["id"]) / catalog["version"]
+        monkeypatch.setenv("LOCALAPPDATA", str(tmp_path / "profile"))
+        monkeypatch.setattr(facade, "__file__", str(tmp_path / "source" / "saydraft" / "model_download.py"))
+        monkeypatch.setattr(facade, "get_model", lambda identifier: model)
+        root = facade.default_models_dir()
+        legacy = write_model(model, root / legacy_model_relative_dir(model))
+        before = state(root)
+        legacy_before = state(legacy)
+        assert facade.find_installed_model(model["id"], check_hashes=True) == legacy
+        assert installation_target(root, model) == legacy
+        assert install_files(model, legacy, opener=lambda *args, **kwargs: pytest.fail("Unexpected network")) == legacy
+>       assert state(root) == before and not (root / model_relative_dir(model)).exists()
+E       AssertionError: assert ({'3dspeaker-e...'abcdef', ...} == {'3dspeaker-e...'abcdef', ...}
+E         
+E         Omitting 64 identical items, use -vv to show
+E         Use -v to get more diff and not True)
+E        +  where True = exists()
+E        +    where exists = (WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/meeting-setup-local-profile-01/Saydraft/models') / WindowsPath('silero-vad-v5/5cd2ba54db059f961e7545d4f211b44f005a6dfb')).exists
+E        +      where WindowsPath('silero-vad-v5/5cd2ba54db059f961e7545d4f211b44f005a6dfb') = model_relative_dir({'download_hosts': ['raw.githubusercontent.com'], 'engine': 'silero_vad', 'files': [{'path': 'model.bin', 'sha256': 'b...': 6, 'url': 'https://models.example/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/model.bin'}], 'id': 'silero-vad-v5', ...})
+
+tests\test_versioned_models.py:71: AssertionError
+_ test_every_role_uses_explicit_pinned_versions_and_reads_legacy_in_place[parakeet-tdt-0-6b-v3-int8] _
+
+tmp_path = WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/pytest-meeting-setup-r05/test_every_role_uses_explicit_4')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000025FCAEE2040>
+catalog = {'download_hosts': ['huggingface.co', 'us.aws.cdn.hf.co'], 'engine': 'parakeet', 'files': [{'path': 'encoder.int8.onnx...tdt-0.6b-v3-int8/resolve/ed5d745623472f97cfc2e6c2916ee248798fc5a8/README.md'}], 'id': 'parakeet-tdt-0-6b-v3-int8', ...}
+
+    @pytest.mark.parametrize("catalog", CATALOG, ids=[model["id"] for model in CATALOG])
+    def test_every_role_uses_explicit_pinned_versions_and_reads_legacy_in_place(tmp_path, monkeypatch, catalog):
+        import saydraft.model_download as facade
+        model = dict(catalog, files=tiny_model()["files"])
+        model.pop("archive", None)
+        assert model_version(catalog) == catalog["revision"] == catalog["version"]
+        assert model_relative_dir(catalog) == Path(catalog["id"]) / catalog["version"]
+        monkeypatch.setenv("LOCALAPPDATA", str(tmp_path / "profile"))
+        monkeypatch.setattr(facade, "__file__", str(tmp_path / "source" / "saydraft" / "model_download.py"))
+        monkeypatch.setattr(facade, "get_model", lambda identifier: model)
+        root = facade.default_models_dir()
+        legacy = write_model(model, root / legacy_model_relative_dir(model))
+        before = state(root)
+        legacy_before = state(legacy)
+        assert facade.find_installed_model(model["id"], check_hashes=True) == legacy
+        assert installation_target(root, model) == legacy
+        assert install_files(model, legacy, opener=lambda *args, **kwargs: pytest.fail("Unexpected network")) == legacy
+>       assert state(root) == before and not (root / model_relative_dir(model)).exists()
+E       AssertionError: assert ({'3dspeaker-e...'abcdef', ...} == {'3dspeaker-e...'abcdef', ...}
+E         
+E         Omitting 64 identical items, use -vv to show
+E         Use -v to get more diff and not True)
+E        +  where True = exists()
+E        +    where exists = (WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/meeting-setup-local-profile-01/Saydraft/models') / WindowsPath('parakeet-tdt-0-6b-v3-int8/ed5d745623472f97cfc2e6c2916ee248798fc5a8')).exists
+E        +      where WindowsPath('parakeet-tdt-0-6b-v3-int8/ed5d745623472f97cfc2e6c2916ee248798fc5a8') = model_relative_dir({'download_hosts': ['huggingface.co', 'us.aws.cdn.hf.co'], 'engine': 'parakeet', 'files': [{'path': 'model.bin', 'sha2... 'https://models.example/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/model.bin'}], 'id': 'parakeet-tdt-0-6b-v3-int8', ...})
+
+tests\test_versioned_models.py:71: AssertionError
+_ test_every_role_uses_explicit_pinned_versions_and_reads_legacy_in_place[parakeet-tdt-0-6b-v2-int8] _
+
+tmp_path = WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/pytest-meeting-setup-r05/test_every_role_uses_explicit_5')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000025FCAEA6430>
+catalog = {'download_hosts': ['huggingface.co', 'us.aws.cdn.hf.co'], 'engine': 'parakeet', 'files': [{'path': 'encoder.int8.onnx...tdt-0.6b-v2-int8/resolve/84b478d541cdbf0c296a7ab5f1e20a6f8f998114/README.md'}], 'id': 'parakeet-tdt-0-6b-v2-int8', ...}
+
+    @pytest.mark.parametrize("catalog", CATALOG, ids=[model["id"] for model in CATALOG])
+    def test_every_role_uses_explicit_pinned_versions_and_reads_legacy_in_place(tmp_path, monkeypatch, catalog):
+        import saydraft.model_download as facade
+        model = dict(catalog, files=tiny_model()["files"])
+        model.pop("archive", None)
+        assert model_version(catalog) == catalog["revision"] == catalog["version"]
+        assert model_relative_dir(catalog) == Path(catalog["id"]) / catalog["version"]
+        monkeypatch.setenv("LOCALAPPDATA", str(tmp_path / "profile"))
+        monkeypatch.setattr(facade, "__file__", str(tmp_path / "source" / "saydraft" / "model_download.py"))
+        monkeypatch.setattr(facade, "get_model", lambda identifier: model)
+        root = facade.default_models_dir()
+        legacy = write_model(model, root / legacy_model_relative_dir(model))
+        before = state(root)
+        legacy_before = state(legacy)
+        assert facade.find_installed_model(model["id"], check_hashes=True) == legacy
+        assert installation_target(root, model) == legacy
+        assert install_files(model, legacy, opener=lambda *args, **kwargs: pytest.fail("Unexpected network")) == legacy
+>       assert state(root) == before and not (root / model_relative_dir(model)).exists()
+E       AssertionError: assert ({'3dspeaker-e...'abcdef', ...} == {'3dspeaker-e...'abcdef', ...}
+E         
+E         Omitting 64 identical items, use -vv to show
+E         Use -v to get more diff and not True)
+E        +  where True = exists()
+E        +    where exists = (WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/meeting-setup-local-profile-01/Saydraft/models') / WindowsPath('parakeet-tdt-0-6b-v2-int8/84b478d541cdbf0c296a7ab5f1e20a6f8f998114')).exists
+E        +      where WindowsPath('parakeet-tdt-0-6b-v2-int8/84b478d541cdbf0c296a7ab5f1e20a6f8f998114') = model_relative_dir({'download_hosts': ['huggingface.co', 'us.aws.cdn.hf.co'], 'engine': 'parakeet', 'files': [{'path': 'model.bin', 'sha2... 'https://models.example/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/model.bin'}], 'id': 'parakeet-tdt-0-6b-v2-int8', ...})
+
+tests\test_versioned_models.py:71: AssertionError
+_ test_every_role_uses_explicit_pinned_versions_and_reads_legacy_in_place[whisper-large-v3-turbo] _
+
+tmp_path = WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/pytest-meeting-setup-r05/test_every_role_uses_explicit_6')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000025FCAEA6A50>
+catalog = {'compute_type': 'int8', 'download_hosts': ['huggingface.co', 'us.aws.cdn.hf.co'], 'engine': 'whisper', 'files': [{'pa...gface.co/dropbox-dash/faster-whisper-large-v3-turbo/resolve/0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf/README.md'}], ...}
+
+    @pytest.mark.parametrize("catalog", CATALOG, ids=[model["id"] for model in CATALOG])
+    def test_every_role_uses_explicit_pinned_versions_and_reads_legacy_in_place(tmp_path, monkeypatch, catalog):
+        import saydraft.model_download as facade
+        model = dict(catalog, files=tiny_model()["files"])
+        model.pop("archive", None)
+        assert model_version(catalog) == catalog["revision"] == catalog["version"]
+        assert model_relative_dir(catalog) == Path(catalog["id"]) / catalog["version"]
+        monkeypatch.setenv("LOCALAPPDATA", str(tmp_path / "profile"))
+        monkeypatch.setattr(facade, "__file__", str(tmp_path / "source" / "saydraft" / "model_download.py"))
+        monkeypatch.setattr(facade, "get_model", lambda identifier: model)
+        root = facade.default_models_dir()
+        legacy = write_model(model, root / legacy_model_relative_dir(model))
+        before = state(root)
+        legacy_before = state(legacy)
+        assert facade.find_installed_model(model["id"], check_hashes=True) == legacy
+        assert installation_target(root, model) == legacy
+        assert install_files(model, legacy, opener=lambda *args, **kwargs: pytest.fail("Unexpected network")) == legacy
+>       assert state(root) == before and not (root / model_relative_dir(model)).exists()
+E       AssertionError: assert ({'3dspeaker-e...'abcdef', ...} == {'3dspeaker-e...'abcdef', ...}
+E         
+E         Omitting 64 identical items, use -vv to show
+E         Use -v to get more diff and not True)
+E        +  where True = exists()
+E        +    where exists = (WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/meeting-setup-local-profile-01/Saydraft/models') / WindowsPath('whisper-large-v3-turbo/0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf')).exists
+E        +      where WindowsPath('whisper-large-v3-turbo/0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf') = model_relative_dir({'compute_type': 'int8', 'download_hosts': ['huggingface.co', 'us.aws.cdn.hf.co'], 'engine': 'whisper', 'files': [{'pa...6c5c6dcd93c4721', 'size': 6, 'url': 'https://models.example/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/model.bin'}], ...})
+
+tests\test_versioned_models.py:71: AssertionError
+_ test_every_role_uses_explicit_pinned_versions_and_reads_legacy_in_place[whisper-tiny-lid-int8] _
+
+tmp_path = WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/pytest-meeting-setup-r05/test_every_role_uses_explicit_7')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000025FB1B72AC0>
+catalog = {'download_hosts': ['huggingface.co', 'us.aws.cdn.hf.co'], 'engine': 'sherpa_whisper_lid', 'files': [{'path': 'tiny-en...er-tiny/resolve/65176e2deb88badc814a94058666cadccc29b61c/tiny-decoder.int8.onnx'}], 'id': 'whisper-tiny-lid-int8', ...}
+
+    @pytest.mark.parametrize("catalog", CATALOG, ids=[model["id"] for model in CATALOG])
+    def test_every_role_uses_explicit_pinned_versions_and_reads_legacy_in_place(tmp_path, monkeypatch, catalog):
+        import saydraft.model_download as facade
+        model = dict(catalog, files=tiny_model()["files"])
+        model.pop("archive", None)
+        assert model_version(catalog) == catalog["revision"] == catalog["version"]
+        assert model_relative_dir(catalog) == Path(catalog["id"]) / catalog["version"]
+        monkeypatch.setenv("LOCALAPPDATA", str(tmp_path / "profile"))
+        monkeypatch.setattr(facade, "__file__", str(tmp_path / "source" / "saydraft" / "model_download.py"))
+        monkeypatch.setattr(facade, "get_model", lambda identifier: model)
+        root = facade.default_models_dir()
+        legacy = write_model(model, root / legacy_model_relative_dir(model))
+        before = state(root)
+        legacy_before = state(legacy)
+        assert facade.find_installed_model(model["id"], check_hashes=True) == legacy
+        assert installation_target(root, model) == legacy
+        assert install_files(model, legacy, opener=lambda *args, **kwargs: pytest.fail("Unexpected network")) == legacy
+>       assert state(root) == before and not (root / model_relative_dir(model)).exists()
+E       AssertionError: assert ({'3dspeaker-e...'abcdef', ...} == {'3dspeaker-e...'abcdef', ...}
+E         
+E         Omitting 64 identical items, use -vv to show
+E         Use -v to get more diff and not True)
+E        +  where True = exists()
+E        +    where exists = (WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/meeting-setup-local-profile-01/Saydraft/models') / WindowsPath('whisper-tiny-lid-int8/65176e2deb88badc814a94058666cadccc29b61c')).exists
+E        +      where WindowsPath('whisper-tiny-lid-int8/65176e2deb88badc814a94058666cadccc29b61c') = model_relative_dir({'download_hosts': ['huggingface.co', 'us.aws.cdn.hf.co'], 'engine': 'sherpa_whisper_lid', 'files': [{'path': 'model.b...rl': 'https://models.example/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/model.bin'}], 'id': 'whisper-tiny-lid-int8', ...})
+
+tests\test_versioned_models.py:71: AssertionError
+_ test_every_role_uses_explicit_pinned_versions_and_reads_legacy_in_place[nemotron-preview-160ms-int8] _
+
+tmp_path = WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/pytest-meeting-setup-r05/test_every_role_uses_explicit_8')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000025FB1B726D0>
+catalog = {'archive': {'asset_id': 405279013, 'format': 'tar.bz2', 'path': 'nemotron-160ms.tar.bz2', 'sha256': '0ae73a41cd51599d... ['api.github.com', 'release-assets.githubusercontent.com'], 'engine': 'sherpa_nemo_stream', 'experimental': True, ...}
+
+    @pytest.mark.parametrize("catalog", CATALOG, ids=[model["id"] for model in CATALOG])
+    def test_every_role_uses_explicit_pinned_versions_and_reads_legacy_in_place(tmp_path, monkeypatch, catalog):
+        import saydraft.model_download as facade
+        model = dict(catalog, files=tiny_model()["files"])
+        model.pop("archive", None)
+        assert model_version(catalog) == catalog["revision"] == catalog["version"]
+        assert model_relative_dir(catalog) == Path(catalog["id"]) / catalog["version"]
+        monkeypatch.setenv("LOCALAPPDATA", str(tmp_path / "profile"))
+        monkeypatch.setattr(facade, "__file__", str(tmp_path / "source" / "saydraft" / "model_download.py"))
+        monkeypatch.setattr(facade, "get_model", lambda identifier: model)
+        root = facade.default_models_dir()
+        legacy = write_model(model, root / legacy_model_relative_dir(model))
+        before = state(root)
+        legacy_before = state(legacy)
+        assert facade.find_installed_model(model["id"], check_hashes=True) == legacy
+        assert installation_target(root, model) == legacy
+        assert install_files(model, legacy, opener=lambda *args, **kwargs: pytest.fail("Unexpected network")) == legacy
+>       assert state(root) == before and not (root / model_relative_dir(model)).exists()
+E       AssertionError: assert ({'3dspeaker-e...'abcdef', ...} == {'3dspeaker-e...'abcdef', ...}
+E         
+E         Omitting 64 identical items, use -vv to show
+E         Use -v to get more diff and not True)
+E        +  where True = exists()
+E        +    where exists = (WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/meeting-setup-local-profile-01/Saydraft/models') / WindowsPath('nemotron-preview-160ms-int8/github-release-asset-405279013')).exists
+E        +      where WindowsPath('nemotron-preview-160ms-int8/github-release-asset-405279013') = model_relative_dir({'download_hosts': ['api.github.com', 'release-assets.githubusercontent.com'], 'engine': 'sherpa_nemo_stream', 'experi...6c5c6dcd93c4721', 'size': 6, 'url': 'https://models.example/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/model.bin'}], ...})
+
+tests\test_versioned_models.py:71: AssertionError
+_ test_every_role_uses_explicit_pinned_versions_and_reads_legacy_in_place[llama-cpp-b12110-cpu-x64] _
+
+tmp_path = WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/pytest-meeting-setup-r05/test_every_role_uses_explicit_9')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000025FCAEA6890>
+catalog = {'archive': {'asset_id': 709507579, 'format': 'zip', 'path': 'llama-b12110-cpu.zip', 'sha256': '98901e327c252875accaf2..., 'cpu_features_required': ['avx2'], 'download_hosts': ['api.github.com', 'release-assets.githubusercontent.com'], ...}
+
+    @pytest.mark.parametrize("catalog", CATALOG, ids=[model["id"] for model in CATALOG])
+    def test_every_role_uses_explicit_pinned_versions_and_reads_legacy_in_place(tmp_path, monkeypatch, catalog):
+        import saydraft.model_download as facade
+        model = dict(catalog, files=tiny_model()["files"])
+        model.pop("archive", None)
+        assert model_version(catalog) == catalog["revision"] == catalog["version"]
+        assert model_relative_dir(catalog) == Path(catalog["id"]) / catalog["version"]
+        monkeypatch.setenv("LOCALAPPDATA", str(tmp_path / "profile"))
+        monkeypatch.setattr(facade, "__file__", str(tmp_path / "source" / "saydraft" / "model_download.py"))
+        monkeypatch.setattr(facade, "get_model", lambda identifier: model)
+        root = facade.default_models_dir()
+        legacy = write_model(model, root / legacy_model_relative_dir(model))
+        before = state(root)
+        legacy_before = state(legacy)
+        assert facade.find_installed_model(model["id"], check_hashes=True) == legacy
+        assert installation_target(root, model) == legacy
+        assert install_files(model, legacy, opener=lambda *args, **kwargs: pytest.fail("Unexpected network")) == legacy
+>       assert state(root) == before and not (root / model_relative_dir(model)).exists()
+E       AssertionError: assert ({'3dspeaker-e...'abcdef', ...} == {'3dspeaker-e...'abcdef', ...}
+E         
+E         Omitting 64 identical items, use -vv to show
+E         Use -v to get more diff and not True)
+E        +  where True = exists()
+E        +    where exists = (WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/meeting-setup-local-profile-01/Saydraft/models') / WindowsPath('llama-cpp-b12110-cpu-x64/github-release-asset-709507579')).exists
+E        +      where WindowsPath('llama-cpp-b12110-cpu-x64/github-release-asset-709507579') = model_relative_dir({'backend': 'cpu', 'cpu_features_required': ['avx2'], 'download_hosts': ['api.github.com', 'release-assets.githubusercontent.com'], 'engine': 'llama_cpp', ...})
+
+tests\test_versioned_models.py:71: AssertionError
+_ test_every_role_uses_explicit_pinned_versions_and_reads_legacy_in_place[llama-cpp-b12110-vulkan-x64] _
+
+tmp_path = WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/pytest-meeting-setup-r05/test_every_role_uses_explicit_10')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000025FCAEE2CF0>
+catalog = {'archive': {'asset_id': 709511274, 'format': 'zip', 'path': 'llama-b12110-vulkan.zip', 'sha256': '9732a5e48887ca54d0b..., 'cpu_features_required': ['avx2'], 'download_hosts': ['api.github.com', 'release-assets.githubusercontent.com'], ...}
+
+    @pytest.mark.parametrize("catalog", CATALOG, ids=[model["id"] for model in CATALOG])
+    def test_every_role_uses_explicit_pinned_versions_and_reads_legacy_in_place(tmp_path, monkeypatch, catalog):
+        import saydraft.model_download as facade
+        model = dict(catalog, files=tiny_model()["files"])
+        model.pop("archive", None)
+        assert model_version(catalog) == catalog["revision"] == catalog["version"]
+        assert model_relative_dir(catalog) == Path(catalog["id"]) / catalog["version"]
+        monkeypatch.setenv("LOCALAPPDATA", str(tmp_path / "profile"))
+        monkeypatch.setattr(facade, "__file__", str(tmp_path / "source" / "saydraft" / "model_download.py"))
+        monkeypatch.setattr(facade, "get_model", lambda identifier: model)
+        root = facade.default_models_dir()
+        legacy = write_model(model, root / legacy_model_relative_dir(model))
+        before = state(root)
+        legacy_before = state(legacy)
+        assert facade.find_installed_model(model["id"], check_hashes=True) == legacy
+        assert installation_target(root, model) == legacy
+        assert install_files(model, legacy, opener=lambda *args, **kwargs: pytest.fail("Unexpected network")) == legacy
+>       assert state(root) == before and not (root / model_relative_dir(model)).exists()
+E       AssertionError: assert ({'3dspeaker-e...'abcdef', ...} == {'3dspeaker-e...'abcdef', ...}
+E         
+E         Omitting 64 identical items, use -vv to show
+E         Use -v to get more diff and not True)
+E        +  where True = exists()
+E        +    where exists = (WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/meeting-setup-local-profile-01/Saydraft/models') / WindowsPath('llama-cpp-b12110-vulkan-x64/github-release-asset-709511274')).exists
+E        +      where WindowsPath('llama-cpp-b12110-vulkan-x64/github-release-asset-709511274') = model_relative_dir({'backend': 'vulkan', 'cpu_features_required': ['avx2'], 'download_hosts': ['api.github.com', 'release-assets.githubusercontent.com'], 'engine': 'llama_cpp', ...})
+
+tests\test_versioned_models.py:71: AssertionError
+_ test_every_role_uses_explicit_pinned_versions_and_reads_legacy_in_place[qwen35-08b-q4-k-m] _
+
+tmp_path = WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/pytest-meeting-setup-r05/test_every_role_uses_explicit_11')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000025FCAEE3930>
+catalog = {'disk_mb': 579.629622, 'download_hosts': ['huggingface.co', 'us.aws.cdn.hf.co'], 'engine': 'llama.cpp', 'files': [{'p...th': 'LICENSE.txt', 'sha256': 'bbedc3fda3305820b977265f01b8619d87570a6739de3a5582c3464840f1e57a', 'size': 11544}], ...}
+
+    @pytest.mark.parametrize("catalog", CATALOG, ids=[model["id"] for model in CATALOG])
+    def test_every_role_uses_explicit_pinned_versions_and_reads_legacy_in_place(tmp_path, monkeypatch, catalog):
+        import saydraft.model_download as facade
+        model = dict(catalog, files=tiny_model()["files"])
+        model.pop("archive", None)
+        assert model_version(catalog) == catalog["revision"] == catalog["version"]
+        assert model_relative_dir(catalog) == Path(catalog["id"]) / catalog["version"]
+        monkeypatch.setenv("LOCALAPPDATA", str(tmp_path / "profile"))
+        monkeypatch.setattr(facade, "__file__", str(tmp_path / "source" / "saydraft" / "model_download.py"))
+        monkeypatch.setattr(facade, "get_model", lambda identifier: model)
+        root = facade.default_models_dir()
+        legacy = write_model(model, root / legacy_model_relative_dir(model))
+        before = state(root)
+        legacy_before = state(legacy)
+        assert facade.find_installed_model(model["id"], check_hashes=True) == legacy
+        assert installation_target(root, model) == legacy
+        assert install_files(model, legacy, opener=lambda *args, **kwargs: pytest.fail("Unexpected network")) == legacy
+>       assert state(root) == before and not (root / model_relative_dir(model)).exists()
+E       AssertionError: assert ({'3dspeaker-e...'abcdef', ...} == {'3dspeaker-e...'abcdef', ...}
+E         
+E         Omitting 64 identical items, use -vv to show
+E         Use -v to get more diff and not True)
+E        +  where True = exists()
+E        +    where exists = (WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/meeting-setup-local-profile-01/Saydraft/models') / WindowsPath('qwen35-08b-q4-k-m/f36b1ea49a332ede8fe5f389bbf5b3575ef71f48')).exists
+E        +      where WindowsPath('qwen35-08b-q4-k-m/f36b1ea49a332ede8fe5f389bbf5b3575ef71f48') = model_relative_dir({'disk_mb': 579.629622, 'download_hosts': ['huggingface.co', 'us.aws.cdn.hf.co'], 'engine': 'llama.cpp', 'files': [{'p...6c5c6dcd93c4721', 'size': 6, 'url': 'https://models.example/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/model.bin'}], ...})
+
+tests\test_versioned_models.py:71: AssertionError
+_ test_every_role_uses_explicit_pinned_versions_and_reads_legacy_in_place[qwen35-2b-q4-k-m] _
+
+tmp_path = WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/pytest-meeting-setup-r05/test_every_role_uses_explicit_12')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000025FCAE89DA0>
+catalog = {'disk_mb': 1396.212212, 'download_hosts': ['huggingface.co', 'us.aws.cdn.hf.co'], 'engine': 'llama.cpp', 'files': [{'...th': 'LICENSE.txt', 'sha256': 'bbedc3fda3305820b977265f01b8619d87570a6739de3a5582c3464840f1e57a', 'size': 11544}], ...}
+
+    @pytest.mark.parametrize("catalog", CATALOG, ids=[model["id"] for model in CATALOG])
+    def test_every_role_uses_explicit_pinned_versions_and_reads_legacy_in_place(tmp_path, monkeypatch, catalog):
+        import saydraft.model_download as facade
+        model = dict(catalog, files=tiny_model()["files"])
+        model.pop("archive", None)
+        assert model_version(catalog) == catalog["revision"] == catalog["version"]
+        assert model_relative_dir(catalog) == Path(catalog["id"]) / catalog["version"]
+        monkeypatch.setenv("LOCALAPPDATA", str(tmp_path / "profile"))
+        monkeypatch.setattr(facade, "__file__", str(tmp_path / "source" / "saydraft" / "model_download.py"))
+        monkeypatch.setattr(facade, "get_model", lambda identifier: model)
+        root = facade.default_models_dir()
+        legacy = write_model(model, root / legacy_model_relative_dir(model))
+        before = state(root)
+        legacy_before = state(legacy)
+        assert facade.find_installed_model(model["id"], check_hashes=True) == legacy
+        assert installation_target(root, model) == legacy
+        assert install_files(model, legacy, opener=lambda *args, **kwargs: pytest.fail("Unexpected network")) == legacy
+>       assert state(root) == before and not (root / model_relative_dir(model)).exists()
+E       AssertionError: assert ({'3dspeaker-e...'abcdef', ...} == {'3dspeaker-e...'abcdef', ...}
+E         
+E         Omitting 64 identical items, use -vv to show
+E         Use -v to get more diff and not True)
+E        +  where True = exists()
+E        +    where exists = (WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/meeting-setup-local-profile-01/Saydraft/models') / WindowsPath('qwen35-2b-q4-k-m/7d26695454df6de5fbcce2e58681e62dae06ce43')).exists
+E        +      where WindowsPath('qwen35-2b-q4-k-m/7d26695454df6de5fbcce2e58681e62dae06ce43') = model_relative_dir({'disk_mb': 1396.212212, 'download_hosts': ['huggingface.co', 'us.aws.cdn.hf.co'], 'engine': 'llama.cpp', 'files': [{'...6c5c6dcd93c4721', 'size': 6, 'url': 'https://models.example/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/model.bin'}], ...})
+
+tests\test_versioned_models.py:71: AssertionError
+_ test_every_role_uses_explicit_pinned_versions_and_reads_legacy_in_place[qwen35-4b-q4-k-m] _
+
+tmp_path = WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/pytest-meeting-setup-r05/test_every_role_uses_explicit_13')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000025FB1AFF690>
+catalog = {'disk_mb': 3013.053058, 'download_hosts': ['huggingface.co', 'us.aws.cdn.hf.co'], 'engine': 'llama.cpp', 'files': [{'...th': 'LICENSE.txt', 'sha256': 'bbedc3fda3305820b977265f01b8619d87570a6739de3a5582c3464840f1e57a', 'size': 11544}], ...}
+
+    @pytest.mark.parametrize("catalog", CATALOG, ids=[model["id"] for model in CATALOG])
+    def test_every_role_uses_explicit_pinned_versions_and_reads_legacy_in_place(tmp_path, monkeypatch, catalog):
+        import saydraft.model_download as facade
+        model = dict(catalog, files=tiny_model()["files"])
+        model.pop("archive", None)
+        assert model_version(catalog) == catalog["revision"] == catalog["version"]
+        assert model_relative_dir(catalog) == Path(catalog["id"]) / catalog["version"]
+        monkeypatch.setenv("LOCALAPPDATA", str(tmp_path / "profile"))
+        monkeypatch.setattr(facade, "__file__", str(tmp_path / "source" / "saydraft" / "model_download.py"))
+        monkeypatch.setattr(facade, "get_model", lambda identifier: model)
+        root = facade.default_models_dir()
+        legacy = write_model(model, root / legacy_model_relative_dir(model))
+        before = state(root)
+        legacy_before = state(legacy)
+        assert facade.find_installed_model(model["id"], check_hashes=True) == legacy
+        assert installation_target(root, model) == legacy
+        assert install_files(model, legacy, opener=lambda *args, **kwargs: pytest.fail("Unexpected network")) == legacy
+>       assert state(root) == before and not (root / model_relative_dir(model)).exists()
+E       AssertionError: assert ({'3dspeaker-e...'abcdef', ...} == {'3dspeaker-e...'abcdef', ...}
+E         
+E         Omitting 64 identical items, use -vv to show
+E         Use -v to get more diff and not True)
+E        +  where True = exists()
+E        +    where exists = (WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/meeting-setup-local-profile-01/Saydraft/models') / WindowsPath('qwen35-4b-q4-k-m/4168f45a16a1290d65a4ec0fa312ae917a4c15d6')).exists
+E        +      where WindowsPath('qwen35-4b-q4-k-m/4168f45a16a1290d65a4ec0fa312ae917a4c15d6') = model_relative_dir({'disk_mb': 3013.053058, 'download_hosts': ['huggingface.co', 'us.aws.cdn.hf.co'], 'engine': 'llama.cpp', 'files': [{'...6c5c6dcd93c4721', 'size': 6, 'url': 'https://models.example/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/model.bin'}], ...})
+
+tests\test_versioned_models.py:71: AssertionError
+_ test_every_role_uses_explicit_pinned_versions_and_reads_legacy_in_place[pyannote-segmentation-3-0] _
+
+tmp_path = WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/pytest-meeting-setup-r05/test_every_role_uses_explicit_14')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000025FB1B73000>
+catalog = {'download_hosts': ['huggingface.co', 'cdn-lfs.huggingface.co', 'cdn-lfs-us-1.hf.co', 'cas-bridge.xethub.hf.co'], 'eng...co/csukuangfj/sherpa-onnx-pyannote-segmentation-3-0/resolve/9403a6902bb58e3d5ae8c7e77c3422de279db2e0/README.md'}], ...}
+
+    @pytest.mark.parametrize("catalog", CATALOG, ids=[model["id"] for model in CATALOG])
+    def test_every_role_uses_explicit_pinned_versions_and_reads_legacy_in_place(tmp_path, monkeypatch, catalog):
+        import saydraft.model_download as facade
+        model = dict(catalog, files=tiny_model()["files"])
+        model.pop("archive", None)
+        assert model_version(catalog) == catalog["revision"] == catalog["version"]
+        assert model_relative_dir(catalog) == Path(catalog["id"]) / catalog["version"]
+        monkeypatch.setenv("LOCALAPPDATA", str(tmp_path / "profile"))
+        monkeypatch.setattr(facade, "__file__", str(tmp_path / "source" / "saydraft" / "model_download.py"))
+        monkeypatch.setattr(facade, "get_model", lambda identifier: model)
+        root = facade.default_models_dir()
+        legacy = write_model(model, root / legacy_model_relative_dir(model))
+        before = state(root)
+        legacy_before = state(legacy)
+        assert facade.find_installed_model(model["id"], check_hashes=True) == legacy
+        assert installation_target(root, model) == legacy
+        assert install_files(model, legacy, opener=lambda *args, **kwargs: pytest.fail("Unexpected network")) == legacy
+>       assert state(root) == before and not (root / model_relative_dir(model)).exists()
+E       AssertionError: assert ({'3dspeaker-e...'abcdef', ...} == {'3dspeaker-e...'abcdef', ...}
+E         
+E         Omitting 64 identical items, use -vv to show
+E         Use -v to get more diff and not True)
+E        +  where True = exists()
+E        +    where exists = (WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/meeting-setup-local-profile-01/Saydraft/models') / WindowsPath('pyannote-segmentation-3-0/9403a6902bb58e3d5ae8c7e77c3422de279db2e0')).exists
+E        +      where WindowsPath('pyannote-segmentation-3-0/9403a6902bb58e3d5ae8c7e77c3422de279db2e0') = model_relative_dir({'download_hosts': ['huggingface.co', 'cdn-lfs.huggingface.co', 'cdn-lfs-us-1.hf.co', 'cas-bridge.xethub.hf.co'], 'eng...6c5c6dcd93c4721', 'size': 6, 'url': 'https://models.example/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/model.bin'}], ...})
+
+tests\test_versioned_models.py:71: AssertionError
+_ test_every_role_uses_explicit_pinned_versions_and_reads_legacy_in_place[3dspeaker-eres2net-base] _
+
+tmp_path = WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/pytest-meeting-setup-r05/test_every_role_uses_explicit_15')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000025FC7FE4EC0>
+catalog = {'asset': {'id': 198893098, 'repository': 'k2-fsa/sherpa-onnx'}, 'download_hosts': ['api.github.com', 'release-assets.githubusercontent.com'], 'engine': 'sherpa_3dspeaker', 'experimental': True, ...}
+
+    @pytest.mark.parametrize("catalog", CATALOG, ids=[model["id"] for model in CATALOG])
+    def test_every_role_uses_explicit_pinned_versions_and_reads_legacy_in_place(tmp_path, monkeypatch, catalog):
+        import saydraft.model_download as facade
+        model = dict(catalog, files=tiny_model()["files"])
+        model.pop("archive", None)
+        assert model_version(catalog) == catalog["revision"] == catalog["version"]
+        assert model_relative_dir(catalog) == Path(catalog["id"]) / catalog["version"]
+        monkeypatch.setenv("LOCALAPPDATA", str(tmp_path / "profile"))
+        monkeypatch.setattr(facade, "__file__", str(tmp_path / "source" / "saydraft" / "model_download.py"))
+        monkeypatch.setattr(facade, "get_model", lambda identifier: model)
+        root = facade.default_models_dir()
+        legacy = write_model(model, root / legacy_model_relative_dir(model))
+        before = state(root)
+        legacy_before = state(legacy)
+        assert facade.find_installed_model(model["id"], check_hashes=True) == legacy
+        assert installation_target(root, model) == legacy
+        assert install_files(model, legacy, opener=lambda *args, **kwargs: pytest.fail("Unexpected network")) == legacy
+>       assert state(root) == before and not (root / model_relative_dir(model)).exists()
+E       AssertionError: assert ({'3dspeaker-e...'abcdef', ...} == {'3dspeaker-e...'abcdef', ...}
+E         
+E         Omitting 64 identical items, use -vv to show
+E         Use -v to get more diff and not True)
+E        +  where True = exists()
+E        +    where exists = (WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/meeting-setup-local-profile-01/Saydraft/models') / WindowsPath('3dspeaker-eres2net-base/github-release-asset-198893098')).exists
+E        +      where WindowsPath('3dspeaker-eres2net-base/github-release-asset-198893098') = model_relative_dir({'asset': {'id': 198893098, 'repository': 'k2-fsa/sherpa-onnx'}, 'download_hosts': ['api.github.com', 'release-assets.githubusercontent.com'], 'engine': 'sherpa_3dspeaker', 'experimental': True, ...})
+
+tests\test_versioned_models.py:71: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_versioned_models.py::test_every_role_uses_explicit_pinned_versions_and_reads_legacy_in_place[whisper-base]
+FAILED tests/test_versioned_models.py::test_every_role_uses_explicit_pinned_versions_and_reads_legacy_in_place[whisper-small]
+FAILED tests/test_versioned_models.py::test_every_role_uses_explicit_pinned_versions_and_reads_legacy_in_place[whisper-medium]
+FAILED tests/test_versioned_models.py::test_every_role_uses_explicit_pinned_versions_and_reads_legacy_in_place[silero-vad-v5]
+FAILED tests/test_versioned_models.py::test_every_role_uses_explicit_pinned_versions_and_reads_legacy_in_place[parakeet-tdt-0-6b-v3-int8]
+FAILED tests/test_versioned_models.py::test_every_role_uses_explicit_pinned_versions_and_reads_legacy_in_place[parakeet-tdt-0-6b-v2-int8]
+FAILED tests/test_versioned_models.py::test_every_role_uses_explicit_pinned_versions_and_reads_legacy_in_place[whisper-large-v3-turbo]
+FAILED tests/test_versioned_models.py::test_every_role_uses_explicit_pinned_versions_and_reads_legacy_in_place[whisper-tiny-lid-int8]
+FAILED tests/test_versioned_models.py::test_every_role_uses_explicit_pinned_versions_and_reads_legacy_in_place[nemotron-preview-160ms-int8]
+FAILED tests/test_versioned_models.py::test_every_role_uses_explicit_pinned_versions_and_reads_legacy_in_place[llama-cpp-b12110-cpu-x64]
+FAILED tests/test_versioned_models.py::test_every_role_uses_explicit_pinned_versions_and_reads_legacy_in_place[llama-cpp-b12110-vulkan-x64]
+FAILED tests/test_versioned_models.py::test_every_role_uses_explicit_pinned_versions_and_reads_legacy_in_place[qwen35-08b-q4-k-m]
+FAILED tests/test_versioned_models.py::test_every_role_uses_explicit_pinned_versions_and_reads_legacy_in_place[qwen35-2b-q4-k-m]
+FAILED tests/test_versioned_models.py::test_every_role_uses_explicit_pinned_versions_and_reads_legacy_in_place[qwen35-4b-q4-k-m]
+FAILED tests/test_versioned_models.py::test_every_role_uses_explicit_pinned_versions_and_reads_legacy_in_place[pyannote-segmentation-3-0]
+FAILED tests/test_versioned_models.py::test_every_role_uses_explicit_pinned_versions_and_reads_legacy_in_place[3dspeaker-eres2net-base]
+16 failed, 620 passed, 1 deselected in 78.65s (0:01:18)

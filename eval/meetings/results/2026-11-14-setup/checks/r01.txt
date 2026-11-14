@@ -1,0 +1,59 @@
+..........................F...............F............................. [ 77%]
+.....................                                                    [100%]
+================================== FAILURES ===================================
+_ test_explicit_download_uses_reviewed_versions_space_pause_and_both_installers _
+
+tmp_path = WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/pytest-meeting-setup-r01/test_explicit_download_uses_re0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000001AAFA2F9630>
+
+    def test_explicit_download_uses_reviewed_versions_space_pause_and_both_installers(tmp_path, monkeypatch):
+        from saydraft.models import downloader, installation, packages
+        calls, progress = [], []
+        plan = small_plan()
+        monkeypatch.setattr(installation, 'installation_target', lambda root, model: root / model['id'])
+        monkeypatch.setattr(installation, 'transfer_directory', lambda model, path: path)
+        monkeypatch.setattr(downloader, 'check_bundle_space', lambda targets: calls.append(('space', targets)))
+        monkeypatch.setattr(downloader, 'installation_ready', lambda model, path, **options:
+            calls.append(('verify', model['id'], options)) or True)
+        def install(kind):
+            def run(model, path, **options):
+                calls.append((kind, model['id'], path, options['pause_event']))
+                options['progress_callback'](0)
+                options['progress_callback'](100)
+            return run
+        monkeypatch.setattr(installation, 'install_files', install('files'))
+        monkeypatch.setattr(packages, 'install_archive', install('archive'))
+        pause = threading.Event()
+        result = download_meeting_setup(plan, progress.append, models_dir=tmp_path, pause_event=pause)
+        assert list(result) == list(plan.model_ids) and calls[0][0] == 'space'
+>       assert [call[0] for call in calls] == ['space', 'files', 'verify', 'archive', 'verify']
+E       AssertionError: assert ['space', 'fi...es', 'verify'] == ['space', 'fi...ve', 'verify']
+E         
+E         At index 3 diff: 'files' != 'archive'
+E         Use -v to get more diff
+
+tests\test_meeting_setup.py:72: AssertionError
+___ test_open_checks_cached_models_but_never_discovers_downloads_or_records ___
+
+make = <function make.<locals>.create at 0x000001AA92A83B00>
+
+    def test_open_checks_cached_models_but_never_discovers_downloads_or_records(make):
+        s = make()
+        settle(lambda: not s.dialog._inflight)
+        assert s.dialog.inspection.ready and not s.calls and not s.dialog.start_button.isEnabled()
+        assert 'Source' in s.dialog.licenses.text() and 'GB' in s.dialog.size_note.text()
+        choose_devices(s)
+        assert s.calls == ['devices'] and not s.dialog.start_button.isEnabled()
+        s.dialog.consent.setChecked(True)
+        assert s.dialog.start_button.isEnabled()
+        s.dialog.start_button.click()
+        request, options = s.calls[-1][1:]
+>       assert request.output_device_id == 'exact-fixture-endpoint' and request.microphone.name == 'Fixture microphone'
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'CaptureRequest' object has no attribute 'output_device_id'
+
+tests\test_meeting_setup_ui.py:84: AttributeError
+=========================== short test summary info ===========================
+FAILED tests/test_meeting_setup.py::test_explicit_download_uses_reviewed_versions_space_pause_and_both_installers
+FAILED tests/test_meeting_setup_ui.py::test_open_checks_cached_models_but_never_discovers_downloads_or_records
+2 failed, 91 passed in 14.66s

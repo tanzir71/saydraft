@@ -1,0 +1,89 @@
+"""Render owned offscreen setup using fake model/device ports, no desktop I/O."""
+import importlib.abc
+from pathlib import Path
+import sys
+import types
+
+qa = Path(__file__).resolve().parent
+repo = qa / 'worktrees/meeting-setup-20261114'
+class Guard(importlib.abc.MetaPathFinder):
+    def find_spec(self, fullname, path=None, target=None):
+        if fullname.split('.')[0] in ('soundcard', 'sounddevice') or fullname in (
+            'saydraft.app', 'saydraft.compat.migrate', 'saydraft.logging_config', 'saydraft.single_instance'):
+            raise AssertionError('Owner desktop/audio/profile services are barred')
+sys.meta_path.insert(0, Guard())
+sys.path.insert(0, str(repo))
+profile = types.ModuleType('saydraft.compat.migrate')
+profile.LEGACY_NAME = 'VoiceTray'
+profile.profile_root = lambda: qa / 'meeting-setup-render-profile'
+sys.modules[profile.__name__] = profile
+
+import hashlib
+import json
+import subprocess
+from PySide6 import QtCore, QtGui, QtWidgets
+from saydraft.ui.meeting_setup import MeetingSetupDialog
+from saydraft.ui.fonts import install_bundled_fonts
+from saydraft.ui.theme import install_theme
+from saydraft.privacy.netguard import NetworkGuard
+from tests.test_meeting_setup import pro_config
+from tests.test_meeting_setup_ui import inventory, settle, verified
+
+NetworkGuard.install()
+output = qa / sys.argv[1]
+output.mkdir(exist_ok=False)
+app = QtWidgets.QApplication([])
+assert app.platformName() == 'offscreen'
+def forbidden(*args, **kwargs):
+    raise AssertionError('Clipboard, capture and downloads are barred')
+QtWidgets.QApplication.clipboard = staticmethod(forbidden)
+assert len(install_bundled_fonts(app)) == 8
+theme = install_theme(app, mode='light')
+rows = []
+for mode in ('light', 'dark'):
+    theme.set_mode(mode)
+    for size in (16, 22):
+        font = QtGui.QFont('Geist')
+        font.setPixelSize(size)
+        app.setFont(font)
+        for width in (460, 780):
+            config = pro_config()
+            config['labs']['notetaker'] = True
+            widget = MeetingSetupDialog(config, start_callback=forbidden, inspector=verified,
+                devices_provider=inventory, download_callback=forbidden)
+            widget.resize(width, 740)
+            widget.show()
+            settle(lambda: not widget._inflight)
+            widget.refresh.click()
+            settle(lambda: not widget._inflight)
+            widget.microphone.setCurrentIndex(1)
+            widget.output.setCurrentIndex(1)
+            widget.consent.setChecked(True)
+            assert widget.start_button.isEnabled()
+            app.processEvents()
+            scroll = widget.findChild(QtWidgets.QScrollArea)
+            assert scroll.horizontalScrollBar().maximum() == 0, (mode, size, width, 'horizontal overflow')
+            for child in (widget.close_button, widget.start_button):
+                assert widget.rect().contains(child.geometry()), (mode, size, width, child.text())
+                assert child.width() >= child.fontMetrics().horizontalAdvance(child.text()) + 24
+            assert scroll.widget().width() >= widget.consent.sizeHint().width() + 24
+            for position in ('models', 'devices'):
+                scroll.verticalScrollBar().setValue(0 if position == 'models' else scroll.verticalScrollBar().maximum())
+                app.processEvents()
+                path = output / f'{mode}-{size}px-{width}px-{position}.png'
+                assert widget.grab().save(str(path))
+                rows.append({'path': path.name, 'theme': mode, 'font_px': size, 'width': widget.width(),
+                    'position': position, 'sha256': hashlib.sha256(path.read_bytes()).hexdigest(),
+                    'horizontal_overflow': False, 'start_enabled': widget.start_button.isEnabled(),
+                    'device_pixel_ratio': widget.devicePixelRatio()})
+            widget.close()
+            settle(lambda: not widget._inflight)
+            widget.deleteLater()
+            app.sendPostedEvents(None, QtCore.QEvent.DeferredDelete)
+head = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=repo, text=True).strip()
+dirty = subprocess.check_output(['git', 'status', '--porcelain'], cwd=repo, text=True).splitlines()
+(output / 'report.json').write_text(json.dumps({'source': head, 'dirty': dirty, 'rows': rows,
+    'scope': 'Owned offscreen Qt setup only, fake model/device ports; no audio SDK/device/profile/clipboard access',
+    'network_guard': NetworkGuard.is_installed(), 'audio_sdk_imported': any(name in sys.modules for name in ('soundcard','sounddevice'))},
+    ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+print(json.dumps({'renders': len(rows), 'source': head, 'dirty': bool(dirty), 'output': str(output)}))

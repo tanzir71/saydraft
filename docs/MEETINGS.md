@@ -50,13 +50,22 @@ retry; retry never records again. A successful silence result reports that no
 speech was detected and creates no empty Note. Audio is not archived to disk.
 Closing Saydraft or terminating the process loses unsaved in-memory recovery.
 
-The guarded local setup regression run passes **636 tests** with one entry-point
+The guarded local setup regression run passes **661 tests** with one entry-point
 test deselected because it requires the stopped profile/instance services. It
 uses fresh disposable profile/temp paths, bars real audio SDK imports and
 exercises owned offscreen widgets with fake model/device ports. The earlier 125
-focused checks also pass. Sixteen light/dark renders cover 460/780px widths and
+focused checks also pass. Sixteen light/dark renders cover 460/768px actual widths and
 16/22px text, with no horizontal overflow or clipped Start/consent controls.
 These checks establish setup behavior, not native device or language accuracy.
+Clean source `4d49758` also passes a fresh-environment portable build, frozen
+resource/import/notice verification and the module/file audit. The first build's
+Qt import failure exposed an incompatible ICU DLL copied from the desktop
+launcher's PATH; the builder now restricts that search path and restores it on
+exit. Original failures, the diagnostic, final build/check records, 16 renders,
+exact tested Windows source bytes and a standard-library verifier are retained in
+[`eval/meetings/results/2026-11-14-setup/`](../eval/meetings/results/2026-11-14-setup/).
+This bundle diagnostic used `-SkipInstaller`; installer/public-release and
+connected frozen meeting acceptance remain open.
 
 ## Capture collection and speech
 

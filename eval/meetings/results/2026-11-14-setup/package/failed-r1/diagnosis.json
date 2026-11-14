@@ -1,0 +1,35 @@
+{
+  "source": "448fc4a7258d7ad60a7862e474c03f6acc664b8a",
+  "icu_origins": [
+    [
+      "icuuc.dll",
+      "C:\\Program Files\\WindowsApps\\OpenAI.CodexPrimaryRuntime.v26-1111-574-0_26.1111.574.0_x64__3k8sg7r9htsxt\\dependencies\\native\\poppler\\Library\\bin\\icuuc.dll",
+      "BINARY"
+    ]
+  ],
+  "icu_sha256": "253c09786c3f5123e4db9842aecbfa82138e2952284cad7de8913f080da1f33e",
+  "qtcore_required_exports_missing": [
+    "UCNV_TO_U_CALLBACK_SUBSTITUTE",
+    "UCNV_FROM_U_CALLBACK_SUBSTITUTE",
+    "ucnv_open",
+    "ucnv_close",
+    "ucnv_reset",
+    "ucnv_getMaxCharSize",
+    "ucnv_getName",
+    "ucnv_getToUCallBack",
+    "ucnv_getFromUCallBack",
+    "ucnv_setToUCallBack",
+    "ucnv_setFromUCallBack",
+    "ucnv_fromUnicode",
+    "ucnv_toUnicode",
+    "ucnv_countAvailable",
+    "ucnv_getAvailableName",
+    "ucnv_cbToUWriteUChars",
+    "ucnv_cbFromUWriteUChars",
+    "ucnv_toUCountPending",
+    "ucnv_fromUCountPending",
+    "ucnv_getStandardName"
+  ],
+  "copied_bundle_without_only_this_icu_passes": true,
+  "original_failed_bundle_preserved": true
+}

@@ -1,0 +1,49 @@
+........................................................................ [ 57%]
+................F............F.......................                    [100%]
+================================== FAILURES ===================================
+_ test_silent_successful_transcript_saves_no_speech_note_without_audio_recovery _
+
+tmp_path = WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/pytest-meeting-setup-r02/test_silent_successful_transcr0')
+
+    def test_silent_successful_transcript_saves_no_speech_note_without_audio_recovery(tmp_path):
+        f = rig(tmp_path)
+        f.processor.transcribe = lambda *args, **options: MeetingTranscript((), (), True, .1)
+        start(f)
+        f.executor.drain()
+>       assert f.controller.latest.phase == 'finished' and f.controller.recovery is None
+E       AssertionError: assert ('recovery' == 'finished'
+E         
+E         - finished
+E         + recovery)
+
+tests\test_meeting_controller.py:235: AssertionError
+_ test_home_setup_start_preserves_first_paint_gate_then_saves_independent_note _
+
+subject = namespace(qt=namespace(QtCore=<module 'PySide6.QtCore' from 'C:\\Users\\tanzir\\AppData\\Roaming\\Python\\Python313\\s...s>.close at 0x00000238B990D440>)), app=<saydraft.app.SaydraftApp object at 0x00000238B99F8190>, calls=[], callbacks=[])
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x00000238B98AAF90>
+
+    def test_home_setup_start_preserves_first_paint_gate_then_saves_independent_note(subject, monkeypatch):
+        from saydraft.ui import meeting_setup
+        from tests.test_meeting_setup_ui import inventory, settle, verified
+        s = subject
+        original = meeting_setup.MeetingSetupDialog
+        monkeypatch.setattr(meeting_setup, 'MeetingSetupDialog', lambda config, **options:
+            original(config, inspector=verified, devices_provider=inventory, **options))
+        s.app._show_meeting_setup()
+        dialog = s.app.meeting_setup
+        settle(lambda: not dialog._inflight)
+        dialog.refresh.click()
+        settle(lambda: not dialog._inflight)
+        dialog.microphone.setCurrentIndex(1)
+        dialog.output.setCurrentIndex(1)
+        dialog.consent.setChecked(True)
+>       assert dialog.start() is True
+E       assert False is True
+E        +  where False = start()
+E        +    where start = <saydraft.ui.meeting_setup.MeetingSetupDialog(0x238b84d9e10) at 0x00000238A079A340>.start
+
+tests\test_meeting_app_flow.py:129: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_meeting_controller.py::test_silent_successful_transcript_saves_no_speech_note_without_audio_recovery
+FAILED tests/test_meeting_app_flow.py::test_home_setup_start_preserves_first_paint_gate_then_saves_independent_note
+2 failed, 123 passed in 38.46s
