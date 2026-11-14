@@ -1,0 +1,30 @@
+{
+  "scope": "Original failed native browser diagnostics, before final compatibility correction. Both refuse source before text read; unchanged article and observed exits. No browser acceptance yet.",
+  "files": [
+    {
+      "file": "c7b9566-report.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\ask-browser-c7b9566-artifact-r1\\report.json",
+      "sha256": "c7068fe570e63e6fb9e6886ded311d5d97b7b2ae050b6563b9463bb4739cf064"
+    },
+    {
+      "file": "c7b9566-native-report.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\ask-browser-c7b9566-artifact-r1\\native-report.json",
+      "sha256": "3f21339648cd24461c2ec0a7a883ca9b5317c04aaf3428e3dd0f51e08c14f9ba"
+    },
+    {
+      "file": "3a48913-report.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\ask-browser-3a48913-artifact-r1\\report.json",
+      "sha256": "e4ca517cf61a6798d52342ea81bc513972a21f6f94d823b4186f1f2760fc162b"
+    },
+    {
+      "file": "3a48913-native-report.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\ask-browser-3a48913-artifact-r1\\native-report.json",
+      "sha256": "6e08980917bb6e8e186332d4fb239516612ab9fa8f3a2dcfc0d59b016e8047e8"
+    },
+    {
+      "file": "controlled-ranges.txt",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\ask-document-selection-r4.log",
+      "sha256": "94dc334ccfc56817a014b945478344485338c6c07b4266e1f37f1a92de853bea"
+    }
+  ]
+}

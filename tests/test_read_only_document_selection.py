@@ -54,7 +54,7 @@ def test_focused_body_uses_selected_range_of_nearest_read_only_document_without_
     f = fixture()
     assert f.reader.selection_range(f.body, lambda: True) is f.selected
     assert f.state.visits == [f.body, f.pane] and f.state.clones == 1
-    assert f.reader.selection_read_only(f.body) is True  # Overrides a container Value default of false.
+    assert f.reader.selection_range_read_only(f.selected, lambda: True) is True
 
 
 @pytest.mark.parametrize('value', [False, None, 0, 'true', object()])
@@ -72,7 +72,7 @@ def test_interactive_controls_and_windows_cannot_borrow_an_ancestor_selection(ki
 
 
 @pytest.mark.parametrize('change', ['password', 'unknown_password', 'fresh_password', 'native_window', 'edit', 'window',
-                                   'missing_document', 'multiple', 'unknown_pattern', 'available_pattern'])
+                                   'missing_document', 'multiple'])
 def test_sensitive_unknown_cross_window_and_ambiguous_paths_stop_without_an_answer(change):
     f = fixture()
     if change == 'password':
@@ -89,9 +89,25 @@ def test_sensitive_unknown_cross_window_and_ambiguous_paths_stop_without_an_answ
         f.pane.parent = None
     elif change == 'multiple':
         f.state.count = 2
-    else:
-        f.state.available = None if change == 'unknown_pattern' else True
     assert f.reader.selection_range(f.body, lambda: True) is None
+
+
+def test_empty_focused_container_selection_uses_document_but_multiple_ranges_are_ambiguous():
+    f = fixture()
+    focused_ranges = NS(Length=0)
+    f.body.GetCurrentPattern = lambda key: NS(QueryInterface=lambda interface: NS(GetSelection=lambda: focused_ranges))
+    assert f.reader.selection_range(f.body, lambda: True) is f.selected
+    f.state.visits.clear()
+    focused_ranges.Length = 2
+    assert f.reader.selection_range(f.body, lambda: True) is None and not f.state.visits
+
+
+@pytest.mark.parametrize('value', [True, False, None, 0, 'true'])
+def test_selected_span_read_only_metadata_requires_a_boolean_and_observes_request_cancellation(value):
+    f = fixture()
+    f.state.read_only = value
+    assert f.reader.selection_range_read_only(f.selected, lambda: True) is (value if type(value) is bool else None)
+    assert f.reader.selection_range_read_only(f.selected, lambda: False) is None
 
 
 def test_ancestor_walk_has_a_fixed_bound_and_observes_cancellation():

@@ -88,6 +88,21 @@ def run(path):
             def __getattr__(self, name):
                 return getattr(client, name)
         native.client = Client()  # Delegates unchanged calls, retaining cached ancestry metadata only.
+        ranges_for = native._focused_selection
+        report['native_range_queries'] = []
+        def ranges(element):
+            diagnostic = {'type': native.control_type(element)}
+            try:
+                value = ranges_for(element)
+                diagnostic['count'] = value.Length
+                return value
+            except Exception as error:
+                diagnostic.update(error_type=type(error).__name__, hresult=getattr(error, 'hresult', None))
+                raise
+            finally:
+                if len(report['native_range_queries']) < 32:
+                    report['native_range_queries'].append(diagnostic)
+        native._focused_selection = ranges
         original = native.selection_text
         def read(*args):
             report['native_reads'] += 1

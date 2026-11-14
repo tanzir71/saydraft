@@ -163,19 +163,24 @@ class NativeUIAReader:
         return self.text_context(element, limit, current=current)
 
     def selection_range(self, element, current):
-        """Clone one selected range; no caret/document/value fallback or selection mutation."""
+        """Clone a selected range; never use full-document, caret or Value text."""
         if not current():
             return None
-        lib = self.lib
         try:
-            pattern = element.GetCurrentPattern(lib.UIA_TextPatternId).QueryInterface(lib.IUIAutomationTextPattern)
+            ranges = self._focused_selection(element)
+            count = ranges.Length
         except Exception:
             return self._read_only_document_selection(element, current)
-        ranges = pattern.GetSelection()
-        if type(ranges.Length) is not int or ranges.Length != 1 or not current():
+        if type(count) is not int or count not in (0, 1) or not current():
             return None
+        if count == 0:
+            return self._read_only_document_selection(element, current)
         selected = ranges.GetElement(0).Clone()
         return selected if current() else None
+
+    def _focused_selection(self, element):
+        pattern = element.GetCurrentPattern(self.lib.UIA_TextPatternId).QueryInterface(self.lib.IUIAutomationTextPattern)
+        return pattern.GetSelection()
 
     def _read_only_document_selection(self, element, current):
         """A browser may focus its body container instead of its text document.
@@ -187,8 +192,7 @@ class NativeUIAReader:
         try:
             lib = self.lib
             if (not current() or self.control_type(element) not in (50020, 50026, 50033)
-                    or self.password(element) is not False or self.fresh_password(element) is not False
-                    or element.GetCurrentPropertyValueEx(lib.UIA_IsTextPatternAvailablePropertyId, True) is not False):
+                    or self.password(element) is not False or self.fresh_password(element) is not False):
                 return None
             walker = self.client.RawViewWalker
             for _ in range(8):
@@ -200,8 +204,7 @@ class NativeUIAReader:
                     return None
                 kind = self.control_type(element)
                 if kind == 50030:  # Nearest Document; never skip an unsuitable document.
-                    pattern = element.GetCurrentPattern(lib.UIA_TextPatternId).QueryInterface(lib.IUIAutomationTextPattern)
-                    ranges = pattern.GetSelection()
+                    ranges = self._focused_selection(element)
                     if type(ranges.Length) is not int or ranges.Length != 1 or not current():
                         return None
                     selected = ranges.GetElement(0).Clone()
@@ -228,11 +231,19 @@ class NativeUIAReader:
         return True
 
     def selection_read_only(self, element):
-        if self._read_only_document_selection(element, lambda: True) is not None:
-            return True  # A container's document selection can never authorize replacement.
         try:
             value = element.GetCurrentPropertyValueEx(self.lib.UIA_ValueIsReadOnlyPropertyId, True)
             return value if type(value) is bool else None
+        except Exception:
+            return None
+
+    def selection_range_read_only(self, selected, current):
+        """Selected-span metadata, including a borrowed document range."""
+        if not current():
+            return None
+        try:
+            value = selected.GetAttributeValue(self.lib.UIA_IsReadOnlyAttributeId)
+            return value if type(value) is bool and current() else None
         except Exception:
             return None
 

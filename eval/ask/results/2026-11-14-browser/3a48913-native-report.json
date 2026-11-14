@@ -1,0 +1,40 @@
+{
+  "source": "3a4891369142fbff8a442c3e71224ef8d525ffed",
+  "source_dirty": false,
+  "scope": "Real browser selection -> actual Ask flow, restricted to disposable Windows CI.\n\nThe model and explicit Copy port are scripted. No audio, hook, OS input,\nclipboard transaction or document insertion is allowed. Actual pinned-model\nanswers are measured by the separate cache-only tools.probe_ask runner.\n",
+  "stages": [],
+  "native_reads": 0,
+  "native_metadata": [
+    {
+      "type": 50026,
+      "password": false,
+      "focused": true
+    },
+    {
+      "type": 50026,
+      "password": false,
+      "focused": true
+    }
+  ],
+  "model_calls": [],
+  "copies": [],
+  "complete": false,
+  "expected_source_sha256": "fd6b4fb89c925f94c5a8762321f39b9e148b36adee554e9c01229b22be3d068a",
+  "browser_window": 131440,
+  "document_ancestors": [],
+  "native_captures": [
+    {
+      "status": "unsupported",
+      "read_only": null,
+      "control_type": 50026,
+      "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "allow_copy": false
+    }
+  ],
+  "error": {
+    "type": "AssertionError",
+    "message": ""
+  },
+  "uia_closed": true,
+  "no_audio_module_loaded": true
+}

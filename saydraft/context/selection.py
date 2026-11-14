@@ -96,6 +96,10 @@ class SelectionTracker:
         value = method(element) if method else None
         return value if type(value) is bool else None
 
+    def _range_read_only(self, selected, current):
+        method = getattr(self.reader, 'selection_range_read_only', None)
+        return method(selected, current) is True if method else False
+
     def begin(self, window, process_id, *, lease_seconds=1260, allow_copy=False, current=lambda: True):
         self._owned()
         self.clear()
@@ -146,6 +150,8 @@ class SelectionTracker:
             if reason or again != text:
                 return SelectionSnapshot(status=reason or "selection_changed")
             read_only = self._read_only(element)
+            if self._range_read_only(anchor, current):
+                read_only = True
             element, reason = self._element(identity, field.control_type, current)
             if reason:
                 return SelectionSnapshot(status=reason)
@@ -207,6 +213,8 @@ class SelectionTracker:
                 fresh = self.reader.selection_range(element, current)
                 if fresh is None or not self.reader.same_selection(lease.anchor, fresh):
                     reason = "selection_changed"
+                elif for_write and self._range_read_only(fresh, current):
+                    reason = 'read_only'
                 else:
                     text, reason = self._text(fresh, current)
                     if not reason and text != lease.snapshot.text:

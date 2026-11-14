@@ -122,7 +122,7 @@ scripted answer and memory Copy. The driver checks unchanged article HTML and
 selection, refuses unexpected page requests, closes its own browser and retains
 the native report, exit receipts and screenshots. Its first remote run at
 `c7b9566` finds a real compatibility gap: Chromium focuses a Group container
-(50026), which has no direct Text pattern, so capture correctly refuses it as
+(50026), which exposes no directly usable selected range, so capture refuses it as
 unsupported. The unchanged article and observed browser/UIA exits are retained.
 The correction searches at most eight ancestors of non-editing focused
 containers, stops at edit/native-window boundaries, and accepts only one
@@ -130,8 +130,12 @@ explicitly read-only selected range from the nearest Document. It reads no
 surrounding document text and retains the focused field identity and fresh
 password/focus checks. A captured read-only lease cannot later authorize a
 replacement, even if a caller changes its DTO or the provider becomes writable.
-All 148 related policy/range/worker/Ask/edit checks pass locally; remote rerun
-is pending.
+The first correction at `3a48913` also refuses before its ancestor walk. The next
+correction handles empty focused selections, preserves ambiguous-range refusal,
+and uses explicit selected-span read-only metadata to override a container's
+Value default and prevent replacement. All 154 related policy/range/worker/Ask/edit
+checks pass locally; remote rerun is pending. Both original failures remain in
+the [browser record](../eval/ask/results/2026-11-14-browser/README.md).
 It complements the actual-model smoke above; it does not combine a native model
 with a browser or qualify physical hooks, microphone input or a frozen app.
 

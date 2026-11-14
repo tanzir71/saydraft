@@ -1,0 +1,31 @@
+{
+  "scope": "Disposable headed Chromium article -> real native foreground/UIA -> actual Ask worker/review/History/answer Notes; scripted model and memory Copy; no audio, hooks, OS typing, source edits or owner desktop; not actual-model/browser combined acceptance",
+  "title": "Saydraft read-only Ask 1ca64555-0ee9-4d00-8e14-6a0311f1c657",
+  "source_sha256": "fd6b4fb89c925f94c5a8762321f39b9e148b36adee554e9c01229b22be3d068a",
+  "fixture_sha256": "2e8b0f35c363ad84693c4be61a2b491cebecde14e6f81df2ecfbea7cdb399e76",
+  "requests": [
+    {
+      "url": "owned-article.html",
+      "allowed": true
+    }
+  ],
+  "complete": false,
+  "browser_pid": 5480,
+  "browser_version": "158.0.8127.18",
+  "before": {
+    "article": "<article id=\"article\" aria-label=\"Library notice\"><p id=\"selection\">The library opens on Saturday at 10:00. It is closed on Sunday.</p>\n<p>Public authored test fixture. This article is read-only.</p></article>",
+    "selection": "The library opens on Saturday at 10:00. It is closed on Sunday.",
+    "editable": false,
+    "focused": "BODY"
+  },
+  "python_exit": {
+    "code": 1,
+    "signal": null
+  },
+  "article_unchanged": true,
+  "error": {
+    "name": "AssertionError",
+    "message": "Native UIA/Ask child failed; inspect its retained report\n\n1 !== 0\n"
+  },
+  "browser_exit_observed": true
+}
