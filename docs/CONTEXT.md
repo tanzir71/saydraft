@@ -302,4 +302,6 @@ All ten controlled setup tests pass, including signed/unsigned code handling,
 non-timeout refusal, deadline exhaustion and foreign-process refusal. Three
 actual runs each pass the password/plain owned invisible controls and close all
 windows. They use no owner clipboard, foreground application, microphone or
-injected input. Fresh global CI remains the final qualification.
+injected input. [Fresh global CI at e442880](https://github.com/tanzir71/saydraft/actions/runs/43574670801)
+passes all 4,000 tests with 12 explicit skips, rules 556/556 and adversarial
+100/100. The earlier failed cold-start report is retained as diagnostic evidence.

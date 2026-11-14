@@ -119,5 +119,7 @@ environment. Publish measured scope rather than a blanket accuracy claim.
   examples in the requested/approved language set. They are not native accuracy
   evidence. The focused app and scorer tests pass, alongside the existing rules
   and adversarial checks.
-- Local UI/browser checks and public corpus acquisition pass. Clean CI, complete native
-  scoring, model comparisons and any evidence-backed route changes remain pending.
+- Local UI/browser checks and public corpus acquisition pass. Clean source
+  `e442880` passes global CI (4,000 tests / 12 explicit skips), rules 556/556 and
+  adversarial 100/100. Complete native scoring, model comparisons and any
+  evidence-backed route changes remain pending.

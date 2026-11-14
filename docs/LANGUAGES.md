@@ -102,8 +102,10 @@ pins can identify cleanup language using the installed detector. Native accuracy
 of that evidence still needs evaluation. These
 changes pass the controlled language/worker/practice checks. The final focused
 suite passes 513 tests; subsequent validator/translation follow-ups also pass,
-with rules 556/556 and adversarial 100/100 unchanged. Clean-commit CI remains
-pending before checklist acceptance.
+with rules 556/556 and adversarial 100/100 unchanged. Clean source `e442880`
+[passes full CI](https://github.com/tanzir71/saydraft/actions/runs/43574670801):
+4,000 tests with 12 explicit optional/native skips. Language configuration and
+discoverability acceptance are complete; expanded native accuracy remains open.
 
 The pinned [faster-whisper 1.2.1 language vocabulary](https://github.com/SYSTRAN/faster-whisper/blob/v1.2.1/faster_whisper/tokenizer.py)
 contains `th`, `zh`, `ko` and `pt`. NVIDIA's [Parakeet v3 model card](https://huggingface.co/nvidia/parakeet-tdt-0.6b-v3)

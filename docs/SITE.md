@@ -174,5 +174,12 @@ normal run after review of the refreshed 390/768/1440 Home baselines; the tests
 explicitly check alphabetical order, Bengali/Arabic links and native text
 direction. Mobile Arabic and Bengali captures are reviewed. All nine Lighthouse
 runs on Home/Download/Privacy score 100 for performance, accessibility and SEO,
-with zero CLS and a maximum 960 ms LCP. Fresh CI and deployment verification
-remain pending. The earlier 23-page deployment receipt is historical.
+with zero CLS and a maximum 960 ms LCP.
+[Site checks](https://github.com/tanzir71/saydraft/actions/runs/43573576633) and
+[Pages](https://github.com/tanzir71/saydraft/actions/runs/43573872225) pass for
+`9c4fed6`. Direct HTTP verifies all 25 routes, the two alphabetically ordered
+lists, complete sitemap and committed favicon bytes. Source `e442880` also
+[passes full app CI](https://github.com/tanzir71/saydraft/actions/runs/43574670801):
+4,000 tests / 12 explicit skips, rules 556/556 and adversarial 100/100. This
+completes P3.9/P9.9 at their stated scope. The earlier 23-page deployment receipt
+is historical; the original P9 library/content and further SEO remain open.
