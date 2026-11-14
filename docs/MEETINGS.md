@@ -64,6 +64,16 @@ limits). Compact JSON reduces formatting overhead. Cancellation and deadline
 failure still discard incomplete summary output while retaining the transcript.
 These budgets do not qualify dictation or Pro latency targets.
 
+A separate frozen authored development check at `a097576` passed English actions
+but failed Bengali and Arabic: it translated summaries into English and replaced
+explicit third-person owner names with acoustic speaker labels. The original
+failed outputs are retained. Summary requests now carry a normalized known
+language from the complete transcript through extraction and reduction, with an
+explicit script-preservation instruction. Unknown or mixed metadata does not
+force an English default. Owner instructions distinguish a quoted third-person
+name from the person speaking. This is a prompt correction; native confirmation
+and broader semantic owner/decision accuracy remain required.
+
 `MeetingNoteDraft` renders bounded Markdown with evidence, timed speaker/track
 transcripts, recognition provenance and visible incomplete sections. A failed
 summary preserves the transcript. Recorded/model Markdown and HTML are escaped

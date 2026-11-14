@@ -11,6 +11,8 @@ import math
 import re
 import time
 
+from saydraft.asr.languages import LANGUAGE_LABELS
+from saydraft.cleanup.language import transcript_language
 from saydraft.cleanup.llm.ask import _valid_text, validate_answer
 from saydraft.cleanup.llm.loopback import LocalHTTPError
 from saydraft.cleanup.llm.streaming import read_completion
@@ -24,15 +26,25 @@ _SYSTEM = (
     'negation, names, dates and numbers. Do not invent agreements, decisions, commitments or owners. '
     'Return exactly one JSON object: title, topics, decisions, next_steps. '
     'Each topic has topic, summary and evidence. Each decision has text and evidence. '
-    'Each next step has task, owner and evidence; use null for an unassigned owner. '
+    'Put explicit agreements in decisions even when they also appear in topics. '
+    'A future task alone is not a decision. Each next step has task, owner and evidence; '
+    'use null for an unassigned owner. '
     'Evidence is a nonempty array of {utterance: integer, quote: string}; copy a short exact supporting quote '
     'and its supplied utterance ID. Every claim needs supporting evidence. '
-    'An owner must be explicitly named in the quoted words, or Speaker N for a clear first-person commitment '
-    'from that speaker. Never infer someone\'s real name from their voice. '
+    'When the quoted task names its owner, copy that name exactly in its original script. '
+    'A person mentioned in the third person is not the speaker: never replace that name with Speaker N. '
+    'Use Speaker N only for a clear first-person commitment from that speaker when no name was stated. '
+    'Never infer someone\'s real name from their voice. '
     'Use empty arrays when the source contains no decisions or next steps. '
     'For merge input, combine the supplied summaries without adding facts and retain their evidence quotes. '
     'Write in the predominant transcript language. Keep the response concise and use compact JSON without indentation.'
 )
+_LANGUAGE_NAMES = {'en': 'English', 'ar': 'Arabic', 'bn': 'Bengali', **LANGUAGE_LABELS}
+
+
+def _output_language(sources):
+    languages = {transcript_language(part.language) for part in sources.values()}
+    return languages.pop() if len(languages) == 1 and not languages & {'und', 'mul'} else None
 
 
 @dataclass(frozen=True)
@@ -157,12 +169,20 @@ class SummaryClient:
             raise ValueError('Invalid meeting summary output limit')
         self.manager, self.output_limit, self.clock = manager, output_limit, clock
 
-    def _generate(self, records, sources, *, merge, timeout, cancelled):
-        data = json.dumps({'operation': 'merge' if merge else 'extract', 'records': records}, ensure_ascii=False)
+    def _generate(self, records, sources, *, merge, language, timeout, cancelled):
+        data = json.dumps({'operation': 'merge' if merge else 'extract', 'output_language': language,
+                           'records': records}, ensure_ascii=False)
         if len(data) > 64000:
             return None, 'context_limit'
         data = data.replace('<', '\\u003c').replace('>', '\\u003e').replace('&', '\\u0026')
-        payload = {'model': 'saydraft-meeting', 'messages': [{'role': 'system', 'content': _SYSTEM},
+        system = _SYSTEM
+        if language:
+            system += (f' Write title, topic, summary, decision text and task in '
+                       f'{_LANGUAGE_NAMES.get(language, language)} (language code {language}), '
+                       'using that language\'s original script. Do not translate them into English. '
+                       'Keep the JSON keys and anonymous Speaker N labels as specified; '
+                       'copy evidence and personal names exactly from the source.')
+        payload = {'model': 'saydraft-meeting', 'messages': [{'role': 'system', 'content': system},
             {'role': 'user', 'content': data}], 'stream': True, 'n': 1, 'temperature': 0,
             'max_tokens': self.output_limit, 'cache_prompt': False,
             'chat_template_kwargs': {'enable_thinking': False}, 'reasoning_effort': 'none',
@@ -226,6 +246,7 @@ class SummaryClient:
         sources = {part.id: part for part in transcript.utterances}
         if len(sources) != len(transcript.utterances) or any(type(key) is not int or key < 1 for key in sources):
             raise ValueError('Meeting utterance IDs must be unique positive integers')
+        language = _output_language(sources)
         deadline, calls = self.clock() + total_seconds, 0
         def generate(records, scope, merge=False):
             nonlocal calls
@@ -237,7 +258,8 @@ class SummaryClient:
             if calls >= 256:
                 return None, 'call_limit'
             calls += 1
-            return self._generate(records, scope, merge=merge, timeout=min(timeout, remaining), cancelled=cancelled)
+            return self._generate(records, scope, merge=merge, language=language,
+                                  timeout=min(timeout, remaining), cancelled=cancelled)
         pending, summaries = [list(transcript.utterances)], []
         while pending:
             page = pending.pop(0)

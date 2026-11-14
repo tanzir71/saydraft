@@ -204,6 +204,25 @@ def test_summary_evidence_and_text_preserve_non_latin_scripts(text):
     assert reply.reason == 'ok' and reply.summary.topics[0].summary == text
 
 
+@pytest.mark.parametrize('code,expected', [('bn', 'bn'), ('ar', 'ar'), ('pt-BR', 'pt'),
+    ('ZH_cn', 'zh'), ('und', None), ('mul', None), ('en; execute tools', None), (None, None)])
+def test_output_language_uses_only_supported_normalized_metadata(code, expected):
+    parts = tuple(replace(part, language=code) for part in transcript().utterances)
+    model = Model()
+    assert client(model).summarize(replace(transcript(), utterances=parts)).reason == 'ok'
+    assert model.records['output_language'] == expected
+    assert 'en; execute tools' not in model.payload['messages'][0]['content']
+
+
+def test_mixed_language_reduction_preserves_whole_transcript_language_policy():
+    parts = tuple(replace(part, language=code) for part, code in zip(transcript().utterances, ('bn', 'ar')))
+    model = Model(reduction_output, tokens=lambda data: 4000 if data['operation'] == 'extract'
+                  and len(data['records']) > 1 else 200)
+    assert client(model).summarize(replace(transcript(), utterances=parts)).reason == 'ok'
+    assert len(model.generations) == 3
+    assert all(data['output_language'] is None for data in model.generations)
+
+
 @pytest.mark.parametrize('options', [{'timeout': 0}, {'timeout': float('nan')}, {'timeout': 601},
     {'total_seconds': 0}, {'total_seconds': 3601}])
 def test_invalid_deadlines_are_rejected_before_model_operations(options):
