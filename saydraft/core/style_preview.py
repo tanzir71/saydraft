@@ -47,7 +47,8 @@ def render_style_preview(request, *, llm=None, deadline=None):
             InsertionResult("inserted", "preview", enter_sent=kw.get("send_enter", False))),
         snippets=dict(request.snippets), voice_enter_enabled=request.voice_enter_enabled,
         reporter=SimpleNamespace(report=lambda *args: None))
-    result = processor.process(request.text, context=replace(request.context, cleanup_deadline=deadline),
+    result = processor.process(request.text, context=replace(request.context, cleanup_deadline=deadline,
+        translation_target=""),
         target=TargetContext("style-preview", request.context.app_title, app_group=request.context.app_group),
         model="preview", language=request.context.language)
     return StylePreviewResult(request, result.cleaned_text, pipeline.last_llm_decision, result.insertion.enter_sent)

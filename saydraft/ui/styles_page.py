@@ -10,6 +10,7 @@ from saydraft.context.app_groups import app_group
 from saydraft.core.preferences import parse_snippets, select_context
 from saydraft.core.style_preview import MAX_PREVIEW, StylePreviewRequest, render_style_preview
 from .private_text import PrivatePlainTextEdit
+from .languages_page import language_choices
 
 GROUP_LABELS = {"messages": "Messages", "work_chat": "Work chat", "email": "Email", "docs": "Docs & notes",
     "code": "Code", "ai_chat": "AI chat", "general": "Other"}
@@ -40,6 +41,8 @@ class StylesPage(QtWidgets.QScrollArea):
         self.matrix.verticalHeader().hide()
         self.matrix.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.matrix.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.Stretch)
+        self.matrix.horizontalHeader().setSectionResizeMode(0, QtWidgets.QHeaderView.Fixed)
+        self.matrix.horizontalHeader().setSectionResizeMode(1, QtWidgets.QHeaderView.Fixed)
         self.tones, self.levels = {}, {}
         saved = config["dictation"].get("styles", {})
         for row, (group, label) in enumerate(GROUP_LABELS.items()):
@@ -98,6 +101,19 @@ class StylesPage(QtWidgets.QScrollArea):
         self.ai_button.clicked.connect(self.preview_ai)
         bar.addWidget(self.ai_button)
         layout.addLayout(bar)
+        languages = QtWidgets.QHBoxLayout()
+        languages.addWidget(QtWidgets.QLabel("Preview language"))
+        self.language = QtWidgets.QComboBox()
+        self.language.setMinimumContentsLength(12)
+        self.language.setSizeAdjustPolicy(QtWidgets.QComboBox.AdjustToMinimumContentsLengthWithIcon)
+        self.language.setAccessibleName("Preview transcript language")
+        self.language.setToolTip("Choose the language of this sample. This only changes the preview; it does not run speech recognition or download models.")
+        self.language.addItem("Follow speech settings", None)
+        for name, code in language_choices():
+            self.language.addItem(f"{name} ({code})", code)
+        self.language.currentIndexChanged.connect(self.invalidate)
+        languages.addWidget(self.language, 1)
+        layout.addLayout(languages)
         details = QtWidgets.QHBoxLayout()
         self.exe, self.site, self.title = (QtWidgets.QLineEdit() for _ in range(3))
         for edit, placeholder in ((self.exe, "App .exe (optional)"), (self.site, "Site hostname (optional)"),
@@ -130,9 +146,22 @@ class StylesPage(QtWidgets.QScrollArea):
         self._defaults(config)
 
     def _fit_matrix(self, *_args):
-        height = self.matrix.horizontalHeader().height() + sum(self.matrix.rowHeight(row) for row in range(self.matrix.rowCount())) + 2 * self.matrix.frameWidth()
-        if height != self.matrix.height():
-            self.matrix.setFixedHeight(height)
+        # ResizeToContents can repeatedly repolish embedded combos while the
+        # application changes fonts/themes. Set bounded widths only when needed.
+        if getattr(self, "_fitting_matrix", False):
+            return
+        self._fitting_matrix = True
+        try:
+            widths = (max(self.matrix.fontMetrics().horizontalAdvance(label) for label in GROUP_LABELS.values()) + 18,
+                max(combo.sizeHint().width() for combo in self.tones.values()))
+            for column, width in enumerate(widths):
+                if self.matrix.columnWidth(column) != width:
+                    self.matrix.setColumnWidth(column, width)
+            height = self.matrix.horizontalHeader().height() + sum(self.matrix.rowHeight(row) for row in range(self.matrix.rowCount())) + 2 * self.matrix.frameWidth()
+            if height != self.matrix.height():
+                self.matrix.setFixedHeight(height)
+        finally:
+            self._fitting_matrix = False
 
     def _select_group(self, row, column):
         self.group.setCurrentIndex(row)
@@ -148,6 +177,7 @@ class StylesPage(QtWidgets.QScrollArea):
             style = select_style(options, group)
             self.tones[group].setItemText(0, "Default · " + TONE_LABELS[style.tone])
             self.levels[group].setItemText(0, "Default · " + LEVEL_LABELS[style.intensity])
+        self._fit_matrix()
 
     def apply_to(self, config):
         config["dictation"]["styles"] = {group: fields for group in GROUP_LABELS if (fields := {
@@ -194,7 +224,10 @@ class StylesPage(QtWidgets.QScrollArea):
             self.group.blockSignals(blocked)
         context = select_context(cfg, profiles, self.title.text() or None,
             app_group=group, app_exe=exe, app_site=site)
-        context = replace(context, language=cfg["stt"]["language"] or "auto")
+        speech_language = cfg["stt"]["language"] or "auto"
+        self.language.setItemText(0, f"Follow speech settings · {speech_language}")
+        context = replace(context, language=self.language.currentData() or speech_language,
+            translation_target="")
         return StylePreviewRequest(self._generation, text, context, self.glossary_provider(),
             tuple(sorted(parse_snippets(self.snippets_provider()).items())),
             cfg["dictation"]["drop_message_period"], cfg["dictation"]["voice_enter_enabled"],
@@ -221,6 +254,8 @@ class StylesPage(QtWidgets.QScrollArea):
             f"{TONE_LABELS[style.tone]} · {LEVEL_LABELS[style.intensity]}")
         self.status.setText(f"Rules preview · {GROUP_LABELS[request.context.app_group]} · "
             f"{policy}. "
+            + ("Choose a preview language to simulate recognized speech in Auto mode. "
+                if request.context.language == "auto" else "")
             + ("Enter command previewed. " if result.enter_requested else "")
             + "AI preview uses the currently applied model. Nothing is recorded or pasted.")
 

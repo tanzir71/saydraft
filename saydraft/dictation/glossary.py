@@ -4,7 +4,7 @@ import json
 import os
 import re
 from dataclasses import dataclass
-from typing import Dict, List, Tuple
+from typing import Dict, Tuple
 
 from saydraft.text_boundaries import whole_word_match
 from saydraft.dictionary.store import add_term
@@ -32,31 +32,27 @@ def load_glossary(path: str) -> Glossary:
             return Glossary()
         with open(path, "r", encoding="utf-8") as f:
             data = json.load(f) if f.readable() else {}
-        if not isinstance(data, dict):
-            return Glossary()
-        user_terms = data.get("user_terms", [])
-        protected_terms = data.get("protected_terms", [])
-        replacements = data.get("replacements", {})
-
-        if not isinstance(user_terms, list):
-            user_terms = []
-        if not isinstance(protected_terms, list):
-            protected_terms = []
-        if not isinstance(replacements, dict):
-            replacements = {}
-
-        normalized_replacements: List[Tuple[str, str]] = []
-        for k, v in replacements.items():
-            if isinstance(k, str) and isinstance(v, str) and k:
-                normalized_replacements.append((k, v))
-
-        return Glossary(
-            user_terms=tuple([t for t in user_terms if isinstance(t, str) and t]),
-            protected_terms=tuple([t for t in protected_terms if isinstance(t, str) and t]),
-            replacements=tuple(normalized_replacements),
-        )
+        return glossary_from_data(data)
     except Exception:
         return Glossary()
+
+
+def glossary_from_data(data) -> Glossary:
+    """Use the same immutable vocabulary for saved and staged dictionaries."""
+    if not isinstance(data, dict):
+        return Glossary()
+    user_terms = data.get("user_terms", [])
+    protected_terms = data.get("protected_terms", [])
+    replacements = data.get("replacements", {})
+    return Glossary(
+        user_terms=tuple(t for t in user_terms if isinstance(t, str) and t)
+            if isinstance(user_terms, list) else (),
+        protected_terms=tuple(t for t in protected_terms if isinstance(t, str) and t)
+            if isinstance(protected_terms, list) else (),
+        replacements=tuple((k, v) for k, v in replacements.items()
+            if isinstance(k, str) and isinstance(v, str) and k)
+            if isinstance(replacements, dict) else (),
+    )
 
 
 def learn_word(path: str | os.PathLike[str], term: str) -> Glossary:

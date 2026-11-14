@@ -30,7 +30,7 @@ from saydraft.ui.dictionary_page import DictionaryPage
 from saydraft.ui.snippets_page import SnippetsPage
 from saydraft.data.snippets import SnippetStore
 from saydraft.history import default_history_path
-from saydraft.dictation.glossary import load_glossary
+from saydraft.dictation.glossary import glossary_from_data
 from saydraft.models.hardware import latest_report
 from saydraft.asr.router import choose_route
 from saydraft.hotkeys.wispr import shortcut_warning, wispr_running
@@ -134,7 +134,9 @@ class SettingsPage(QtWidgets.QWidget):
         self._load_values()
         for signal in (self.mode_combo.currentIndexChanged, self.profile_combo.currentIndexChanged,
                 self.drop_message_period_checkbox.toggled, self.voice_enter_checkbox.toggled,
-                self.app_profiles_editor.textChanged, self.snippets_editor.textChanged):
+                self.app_profiles_editor.textChanged, self.snippets_editor.textChanged,
+                self.dictionary_editor.textChanged, self.dictionary_page.term_edit.textChanged,
+                self.dictionary_page.value_edit.textChanged, self.languages_page.changed):
             signal.connect(self.styles_page.invalidate)
         self._refresh_shortcut_warning()
         self.languages_page.changed.connect(self._sync_language_model)
@@ -175,7 +177,7 @@ class SettingsPage(QtWidgets.QWidget):
         self.styles_page = StylesPage(self.config, config_provider=self._collect_config,
             profiles_provider=lambda: self._parse_json_editor(self.app_profiles_editor, list, "Per-app profiles"),
             snippets_provider=lambda: self.snippets_editor.toPlainText(), callback=self.style_preview_callback,
-            glossary_provider=self.style_glossary_provider or (lambda: load_glossary(self.glossary_path)))
+            glossary_provider=self._style_glossary)
         self._add_tab(self.styles_page, "Style")
         self._add_tab(self._dictionary_tab(), "Dictionary")
         self._add_tab(self._snippets_tab(), "Snippets")
@@ -358,6 +360,11 @@ class SettingsPage(QtWidgets.QWidget):
         self.dictionary_page.reload_requested.connect(self.reload_dictionary)
         self.dictionary_page.status_changed.connect(self.status_label.setText)
         return self.dictionary_page
+
+    def _style_glossary(self):
+        if not self.dictionary_page.dirty and self.style_glossary_provider is not None:
+            return self.style_glossary_provider()
+        return glossary_from_data(self.dictionary_page.preview_data())
 
     def reload_dictionary(self):
         try:

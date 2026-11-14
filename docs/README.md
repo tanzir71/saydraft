@@ -35,7 +35,7 @@ including the optional public-audio recognizer smoke.
 | [Microphone](MICROPHONE.md) | Device selection, read-only Windows privacy check, level-only test, missing-input behavior |
 | [First-run setup](ONBOARDING.md) | Six-page walkthrough, microphone test, model setup, shortcut learning, owned practice, Style quick pick, and remaining acceptance |
 | [Recording limits](RECORDING_LIMITS.md) | 19-minute warning, 20-minute default cap, saved overrides |
-| [Styles](STYLES.md) | Per-app tone, intensity, and preview behavior |
+| [Styles](STYLES.md) | Per-app tone/intensity, staged Dictionary previews, and preview language |
 | [Snippets](SNIPPETS.md) | Triggers, variables, import/export, and SQLite adoption |
 | [Dictionary learning](DICTIONARY_LEARNING.md) | Vocabulary, correction learning, and Undo |
 | [Delivery](DELIVERY.md) | Focus checks, protected/elevated targets, and insertion fallbacks |

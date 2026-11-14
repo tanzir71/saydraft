@@ -118,7 +118,9 @@ the earlier warm fixture results retain their original scope.
   punctuation, and lists; per-app styles; optional local AI cleanup with
   validation and rules fallback. Normal AI cleanup also checks content-word
   identity and order after rules; [validation details](docs/VALIDATOR_V2.md)
-  describe the allowed edits and the broader Polished setting.
+  describe the allowed edits and the broader Polished setting. The Hub's
+  [Style preview](docs/STYLES.md) includes staged Dictionary edits and lets you
+  preview a resolved language without changing speech settings.
 - **One Hub:** Home statistics and recent dictations; searchable History with
   raw/cleaned changes, Markdown/CSV export, and retry when audio was retained.
 - **Scratchpad and Notes:** a floating plain-text draft with local autosave,

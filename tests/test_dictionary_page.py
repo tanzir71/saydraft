@@ -42,6 +42,40 @@ def incoming(subject, data):
     return path
 
 
+@pytest.mark.parametrize('category,term,value', [
+    ('user_terms', 'Krezel', None), ('protected_terms', 'Krezle', None),
+    ('replacements', 'sea sharp', 'C#'),
+])
+def test_pending_form_preview_matches_save_without_mutating_staged_or_saved_state(subject, category, term, value):
+    page = subject.page
+    choose(page, category)
+    page.term_edit.setText(term)
+    if value is not None:
+        page.value_edit.setText(value)
+    before, revision = subject.path.read_bytes(), page.snapshot.revision
+    editor, claims, imports = page.json_editor.toPlainText(), page.manual_claims, page.imports
+    preview = page.preview_data()
+    assert page.json_editor.toPlainText() == editor
+    assert page.manual_claims == claims and page.imports == imports
+    assert page.snapshot.revision == revision and subject.path.read_bytes() == before
+    assert subject.window.apply_changes()
+    assert read_dictionary(subject.path).editable == preview
+
+
+def test_previewing_pending_rename_of_imported_entry_does_not_claim_or_drop_source(subject):
+    page = subject.page
+    assert page.import_file(incoming(subject, {'user_terms': ['Krezel']}))
+    select(page, 'Krezel')
+    page.term_edit.setText('Krezle')
+    imports, claims = page.imports, page.manual_claims
+    preview = page.preview_data()
+    assert preview['user_terms'] == ['Saydraft', 'Krezle']
+    assert page.imports == imports and page.manual_claims == claims
+    assert subject.window.apply_changes()
+    assert read_dictionary(subject.path).editable == preview
+    assert entry_source(read_dictionary(subject.path), 'user_terms', 'Krezle') == 'Manual'
+
+
 def test_structured_edits_are_staged_across_categories_and_shared_save_commits_the_last_form(subject):
     p, w = subject.page, subject.window
     original = subject.path.read_bytes()

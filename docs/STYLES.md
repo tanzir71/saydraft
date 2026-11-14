@@ -19,7 +19,7 @@ tone/intensity. Raw and Code keep their dedicated bypasses.
 
 ## Matrix and preview
 
-Settings → Style shows all seven groups, three tones and four cleanup levels.
+Hub → Style shows all seven groups, three tones and four cleanup levels.
 Default entries remain inherited when saved, so changing a legacy global mode
 does not accidentally freeze every row at its previous level. Editing a row
 selects its preview. Code's prose controls are disabled. Optional app executable,
@@ -33,23 +33,40 @@ intent use the same ordering as dictation, without recording, OS input, clipboar
 access or persistent History/stats. The live preview accepts at most 4096 input
 characters; longer text remains in its editor and is refused, never truncated.
 
+The preview includes staged Dictionary terms, protected terms and replacement
+pairs, including the pending form that Save would apply. It uses the same
+vocabulary conversion and edit validation as the saved dictionary, without
+changing the form, claiming learned words, or writing to disk. Invalid drafts
+show their error instead of a result from an older dictionary. With no edits,
+the running dictionary remains available so newly learned words are reflected.
+
+**Preview language** follows the current speech settings by default. When those
+settings use Auto, choose a language to simulate the recognizer's resolved
+language. This choice belongs only to the preview: it does not change language
+pins, download models, or run recognition. The menu shares the alphabetic language
+names from Settings, including Brazilian Portuguese under `pt`. Cleanup previews
+do not run spoken translation or inherit its per-group target.
+
 Preview with current AI submits one job to the existing serial worker and refuses
 while work is active. It uses the current installed cleaner, its ordinary budget
 and validation, with a two-second outer deadline. A light pipeline wrapper keeps
 the active dictation pipeline's result/timing metadata intact. Draft styles,
-snippets and punctuation settings are previewed; changing model settings requires
-Apply before AI preview. No download is requested. Warming, disabled, unavailable
+Dictionary, snippets and punctuation settings are previewed; changing model
+settings requires Apply before AI preview. No download is requested. Warming, disabled, unavailable
 or rejected AI keeps a labeled rules result. These interface tests do not establish
 native model tone quality.
 
-Queued QObject results carry the original request identity. New text/settings,
-hidden pages and stale requests cannot replace the current output. All 84 matrix
+Queued QObject results carry the original request identity. New text, Dictionary,
+language or settings, hidden pages and stale requests cannot replace the current
+output. All 84 matrix
 states match the authored goldens; tests also cover real debounce, app overrides,
 saved inheritance, simulated Enter/snippets, rejected model edits, busy/shutdown,
 unapplied models, active metadata preservation and GUI-thread signal wiring.
 Earlier offscreen English/Bengali/Arabic matrix layouts were inspected using
 installed Windows fonts. The current app uses its bundled theme/fonts and
-reviewed component-gallery snapshots; full native/manual acceptance remains
+reviewed component-gallery snapshots. The matrix and language selector fit the
+minimum Hub width with larger text; vertical scrolling keeps the lower preview
+controls reachable. Full native/manual acceptance and model tone quality remain
 separate.
 
 ## Selection

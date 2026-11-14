@@ -322,44 +322,67 @@ class DictionaryPage(QtWidgets.QWidget):
         self._imports, self._claims = valid_imports, claims
         self.json_editor.setPlainText(json.dumps(data, ensure_ascii=False, indent=2) + "\n")
 
+    def preview_data(self):
+        """Include a pending form without staging a write, claim or selection change."""
+        if not self.form_changed():
+            return self.data()
+        prepared = self._edited_data("update" if self._selected() is not None else "add")
+        if prepared is None:
+            return self.data()
+        data, claims = prepared
+        imports = {category: {key: record for key, record in records.items()
+            if record["term"] in data.get(category, ()) and (category != "replacements"
+                or data[category][record["term"]] == record["value"])}
+            for category, records in self.imports.items()}
+        validate_dictionary_edit(self.snapshot, data, imports=imports,
+            manual_claims=[(category, term) for (category, _key), term in claims.items()])
+        return data
+
+    def _edited_data(self, operation):
+        if self.snapshot is None:
+            raise ValueError("Reload the repaired Dictionary before editing.")
+        data, category = self.data(), self.kind.currentData()
+        row = self._selected()
+        pairs = category == "replacements"
+        values = data.setdefault(category, {} if pairs else [])
+        claims = self._claims.copy()
+        if operation in ("remove", "manual"):
+            if row is None:
+                return None
+            if operation == "remove":
+                values.pop(row.position)
+            claims[category, term_key(row.term)] = row.term
+        else:
+            term = re.sub(r"\s+", " ", self.term_edit.text()).strip()
+            if not term:
+                raise ValueError("Enter a term or spoken phrase first.")
+            if operation == "update" and row is None:
+                return None
+            if any(term_key(value) == term_key(term) for position, value in enumerate(values)
+                   if operation != "update" or (value if pairs else position) != row.position):
+                raise ValueError("This term or phrase is already in this list.")
+            value = self.value_edit.text() if pairs else None
+            if operation == "add":
+                if pairs:
+                    values[term] = value
+                else:
+                    values.append(term)
+            elif row.term == term and row.value == value:
+                return None
+            elif pairs:
+                data[category] = {term if key == row.position else key: value if key == row.position else old
+                    for key, old in values.items()}
+            else:
+                values[row.position] = term
+            claims[category, term_key(term)] = term
+        return data, claims
+
     def _edit(self, operation):
         try:
-            if self.snapshot is None:
-                raise ValueError("Reload the repaired Dictionary before editing.")
-            data, category = self.data(), self.kind.currentData()
-            row = self._selected()
-            pairs = category == "replacements"
-            values = data.setdefault(category, {} if pairs else [])
-            claims = self._claims.copy()
-            if operation in ("remove", "manual"):
-                if row is None:
-                    return False
-                if operation == "remove":
-                    values.pop(row.position)
-                claims[category, term_key(row.term)] = row.term
-            else:
-                term = re.sub(r"\s+", " ", self.term_edit.text()).strip()
-                if not term:
-                    raise ValueError("Enter a term or spoken phrase first.")
-                if operation == "update" and row is None:
-                    return False
-                if any(term_key(value) == term_key(term) for position, value in enumerate(values)
-                       if operation != "update" or (value if pairs else position) != row.position):
-                    raise ValueError("This term or phrase is already in this list.")
-                value = self.value_edit.text() if pairs else None
-                if operation == "add":
-                    if pairs:
-                        values[term] = value
-                    else:
-                        values.append(term)
-                elif row.term == term and row.value == value:
-                    return True
-                elif pairs:
-                    data[category] = {term if key == row.position else key: value if key == row.position else old
-                        for key, old in values.items()}
-                else:
-                    values[row.position] = term
-                claims[category, term_key(term)] = term
+            prepared = self._edited_data(operation)
+            if prepared is None:
+                return self._selected() is not None and operation == "update"
+            data, claims = prepared
             self._commit(data, claims=claims)
             self.note("Dictionary edit staged. Save changes to apply it.")
             return True

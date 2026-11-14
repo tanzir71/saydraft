@@ -6,6 +6,18 @@ from saydraft.asr.languages import LANGUAGE_LABELS, WHISPER_LANGUAGES, normalize
 from saydraft.asr.router import ALL_LANGUAGES, choose_route
 
 
+def language_choices():
+    """Alphabetical display names shared by speech settings and text previews."""
+    choices = []
+    for code in WHISPER_LANGUAGES:
+        locale = QtCore.QLocale({"jw": "jv"}.get(code, code))
+        name = QtCore.QLocale.languageToString(locale.language())
+        if locale.language() == QtCore.QLocale.C:
+            name = code
+        choices.append((LANGUAGE_LABELS.get(code, name), code))
+    return tuple(sorted(choices))
+
+
 class LanguagesPage(QtWidgets.QWidget):
     changed = QtCore.Signal()
 
@@ -19,15 +31,7 @@ class LanguagesPage(QtWidgets.QWidget):
         self.combos[0].addItem("Auto", None)
         for combo in self.combos[1:]:
             combo.addItem("None", None)
-        choices = []
-        for code in WHISPER_LANGUAGES:
-            locale = QtCore.QLocale({"jw": "jv"}.get(code, code))
-            name = QtCore.QLocale.languageToString(locale.language())
-            if locale.language() == QtCore.QLocale.C:
-                name = code
-            name = LANGUAGE_LABELS.get(code, name)
-            choices.append((name, code))
-        for name, code in sorted(choices):
+        for name, code in language_choices():
             for combo in self.combos:
                 combo.addItem(f"{name} ({code})", code)
         pins = config["stt"].get("pinned_languages", [])
