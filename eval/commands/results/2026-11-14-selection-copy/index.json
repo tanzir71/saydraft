@@ -39,8 +39,8 @@
   "files_sha256": {
     "ci-native.json": "436fa0523436665297fd3e414c8a1ae9f6e62fc9f08babeac54178b3f61f305c",
     "ci-run.json": "4af871196a265ab8f0674e016999871fda35e793795b846554599660de5de266",
-    "package-analysis.toc.txt": "318e3a0a4213ecff641b4c1ead3eacf8d2bdf21ebb94cdd5f72aae12686af28f",
     "package-bundle.json": "8a4180bb21051ccecb12fa5684c64835ade8b0294204850974322dfbccc1d85f",
-    "package-run.json": "021d2f7d206dc7742f5947970120a12a7e717e7c32ef80c5f8acf25e1a67d328"
+    "package-run.json": "021d2f7d206dc7742f5947970120a12a7e717e7c32ef80c5f8acf25e1a67d328",
+    "package-analysis.toc": "318e3a0a4213ecff641b4c1ead3eacf8d2bdf21ebb94cdd5f72aae12686af28f"
   }
 }

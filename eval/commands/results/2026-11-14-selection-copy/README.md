@@ -5,9 +5,15 @@ Clean application source **`48e6dc5`** passes [Windows CI](https://github.com/ta
 adversarial checks **100/100**, and the separate firewall/update jobs. The
 [unsigned package workflow](https://github.com/tanzir71/saydraft/actions/runs/43548756197)
 passes build/resource/notice audits, disposable install/uninstall and existing
-frozen regressions. The retained [frozen analysis](package-analysis.toc.txt)
+frozen regressions. The retained [frozen analysis](package-analysis.toc)
 includes `saydraft.insert.selection_copy`; [bundle audit](package-bundle.json)
 retains the package inspection payload.
+
+The raw analysis now retains its native `.toc` extension and unchanged SHA-256.
+Its initial `.toc.txt` filename caused the runtime-source legacy-engine guard to
+scan the report's deliberately excluded-engine list in the documentation-only
+`6bb2849` CI run. The filename correction changes neither application sources
+nor the runtime guard; the retained report bytes remain identical.
 
 **This is a transaction component.** It is not connected to held Command Mode,
 does not add app clipboard access and does not qualify physical Ctrl+C, original
