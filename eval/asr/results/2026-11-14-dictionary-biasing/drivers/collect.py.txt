@@ -1,0 +1,43 @@
+"""Retain public development outputs and original frozen criteria unchanged."""
+import hashlib
+import json
+from pathlib import Path
+import shutil
+import subprocess
+
+qa=Path(__file__).resolve().parent
+repo=qa/'worktrees/dictionary-evaluation-20261114'
+data=qa/'dictionary-biasing-20261114-r1'
+source='209bc3727ddd6bab18c2339bd4c231313a4f9378'
+assert subprocess.check_output(['git','rev-parse','HEAD'],cwd=repo,text=True).strip()==source
+assert not subprocess.check_output(['git','status','--porcelain'],cwd=repo,text=True).strip()
+result=json.loads((data/'native-r1/report.json').read_text(encoding='utf-8'))
+assert result['source']==source and result['complete'] and not result['development_gate_passed']
+out=repo/'eval/asr/results/2026-11-14-dictionary-biasing'
+out.mkdir(exist_ok=False)
+def copy(path,name):
+    target=out/name
+    target.parent.mkdir(parents=True,exist_ok=True)
+    shutil.copyfile(path,target)
+for name in ('cases.jsonl','report.json'):
+    copy(data/'native-r1'/name,name)
+copy(data/'plan.json','plan.json')
+for a,b in [('native-r1-process.json','process.json'),('native-r1-guard.json','guard.json'),
+            ('native-r1-stdout.txt','stdout.txt'),('native-r1-stderr.txt','stderr.txt')]:
+    copy(data/a,b)
+for name in ('corpus.json','test.tsv','NOTICE.md'):
+    copy(qa/'asr-public-fleurs-20261114/en-r1'/name,name)
+copy(data/'authentic-tokenizer-r1/receipt.json','tokenizer-receipt.json')
+copy(data/'authentic-tokenizer-r1/NOTICE.md','tokenizer-NOTICE.md')
+for name in ('tools/dictionary_biasing.py','tools/fetch_parakeet_tokenizer.py'):
+    copy(data/'native-source'/name,'source/'+name)
+for name in ('run_dictionary_biasing_child_20261114.py','run_dictionary_biasing_native_20261114.py'):
+    copy(qa/name,'drivers/'+name+'.txt')
+for i in range(1,4):
+    copy(qa/f'dictionary-biasing-local-r{i}.txt',f'checks/r{i}.txt')
+copy(qa/'dictionary-biasing-fetch-tokenizer-r1.txt','checks/fetch-tokenizer.txt')
+copy(qa/'verify_dictionary_biasing_20261114.py','verify-dictionary.py.txt')
+copy(Path(__file__),'drivers/collect.py.txt')
+files={p.relative_to(out).as_posix():hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(out.rglob('*')) if p.is_file()}
+(out/'files.json').write_text(json.dumps(files,indent=2)+'\n',encoding='utf-8')
+print(json.dumps({'source':source,'raw_files':len(files),'native_cases':60,'gate_passed':False}))

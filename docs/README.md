@@ -44,8 +44,14 @@ including the optional public-audio recognizer smoke.
 | [Translate while speaking](TRANSLATE.md) | Pro/Labs setup, per-group spoken output language, shared model, guarded delivery and source recovery |
 | [Ask about selected text](ASK.md) | Default-off Pro/Labs selection review, local answers, History and separate Notes; native read-only browser verified, with packaged/physical and broader answer quality acceptance open |
 | [Scratchpad and Notes](NOTES.md) | Local autosave, search/reopen, conflict recovery, and the last-diff shortcut |
+| [Meeting notes](MEETINGS.md) | Experimental Pro/Labs setup, explicit model/device review and consented Start, local transcript/summary, separate Notes and remaining live/frozen/30-minute acceptance |
 
 ## Models, privacy, and data
+
+The [dictionary biasing investigation](spikes/biasing.md) now includes an authentic
+matching tokenizer and a frozen 40-term public-development comparison. The
+candidate adds transcription errors without improving recall and is rejected;
+recognition defaults and owner accuracy acceptance stay unchanged.
 
 | Guide | Contents |
 |---|---|

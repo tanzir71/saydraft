@@ -19,6 +19,16 @@ An explicitly dispatched draft-release workflow additionally requires a version
 tag ref and retains its separate release-proof checks. No public release or
 signing acceptance follows from a local development push.
 
+The logged-in Actions history checked on 14 November shows completed
+[CI #376](https://github.com/tanzir71/saydraft/actions/runs/43609091704) and
+[Package #48](https://github.com/tanzir71/saydraft/actions/runs/43609091661)
+successful at `8884d7e`. The two subsequent meeting-session runs were cancelled
+during the local-only transition. The preceding failed CI #372 was a checklist/
+workflow-command mismatch, followed by successful #373 and later runs. These
+historical results belong to their recorded commits. Current manual-only pushes
+use the local evidence for their source; an old red run is not a fresh check of
+the current `main`.
+
 The owner's stop on desktop input/audio-device access remains in force. Local
 validation uses disposable paths, fake/memory ports, guarded offscreen widgets,
 owned processes and explicit public audio files. Hardware, OS-input and

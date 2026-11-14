@@ -1,0 +1,153 @@
+{
+  "schema": 1,
+  "scope": "previously_evaluated_public_development_not_holdout_or_owner_accuracy",
+  "selection": "Forty longest distinct ASCII alphabetic reference words of at least seven letters; casefold lexical ties; no hypotheses used",
+  "terms": [
+    "communication",
+    "interpersonal",
+    "particularly",
+    "surprisingly",
+    "environment",
+    "fascinating",
+    "photography",
+    "recommended",
+    "broadsides",
+    "foreigners",
+    "management",
+    "Nyiragongo",
+    "regardless",
+    "separating",
+    "splendours",
+    "travellers",
+    "alongside",
+    "depending",
+    "dinosaurs",
+    "emergency",
+    "expressed",
+    "including",
+    "infection",
+    "pollution",
+    "remodeled",
+    "scrapbook",
+    "therefore",
+    "Twentieth",
+    "variation",
+    "alkaline",
+    "behavior",
+    "campuses",
+    "Carolina",
+    "channels",
+    "cheapest",
+    "chemical",
+    "combines",
+    "dinosaur",
+    "dividing",
+    "dominant"
+  ],
+  "corpora": [
+    {
+      "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-public-fleurs-20261114\\en-r1\\corpus.json",
+      "sha256": "94c8335a2e6164be097ac109d981697bbe67bd6e38442a373e9b70932b25dc5a",
+      "language": "en",
+      "clips": 20,
+      "metadata_sha256": "74c046239374deeb60fa63f258f907388093a32bcaa3140965f70ef05c79f7ca"
+    }
+  ],
+  "clips": [
+    {
+      "id": 1904,
+      "sha256": "33aca50159ec2e3cbcc894eb26faa916d6badb1b49fb75994973561540a7f012"
+    },
+    {
+      "id": 1675,
+      "sha256": "7603cae3294309ef70d234180cefccc3b13865ee525262228a636069b9b62841"
+    },
+    {
+      "id": 1950,
+      "sha256": "260bdd1a15e1d35bcc5d91667516ca3bc659285e10f94872182715bcd7880398"
+    },
+    {
+      "id": 1728,
+      "sha256": "b174be7730f0aab6a26762130b66f2125392b50550645727bd057d8479fb6219"
+    },
+    {
+      "id": 1972,
+      "sha256": "bfa2f3fb72a05cbcb7c0000a460435f2d0eedca7c5cc90f01aacc89127df7f63"
+    },
+    {
+      "id": 1938,
+      "sha256": "3802ffc3e69c66e0d2e66652015bff0c6b1b8498bfb8670623eb4e34bc9e008d"
+    },
+    {
+      "id": 1876,
+      "sha256": "6b3081a29a5bb6fc6434e8525690edc26b23844841e119c916183f4ba1863372"
+    },
+    {
+      "id": 1914,
+      "sha256": "14c9f40d7087ed487823917a9bc1838a037d78d315a694f7ace632651c612a61"
+    },
+    {
+      "id": 1846,
+      "sha256": "8152d901627ad1bb88fee68b1f3adb706e33d2292bca02ef4d92465e2db4c84f"
+    },
+    {
+      "id": 1806,
+      "sha256": "9514bffb9e0bd3397f2cf90041eff51b87e68293335f7ff904515a19f8d416e3"
+    },
+    {
+      "id": 1776,
+      "sha256": "0471eb4c8306e143524c09a45c2b4137204ac2a19fc7ed896ed8391ac864347c"
+    },
+    {
+      "id": 1729,
+      "sha256": "76e349546fc73bf40326c0ac33d62b87ffe7b5455afd825f431494e2f7690a8c"
+    },
+    {
+      "id": 1855,
+      "sha256": "cd878b528dca67fdf3754d07a5d43c64dc3577e2105966ba529267d35dc5968b"
+    },
+    {
+      "id": 1919,
+      "sha256": "f93693f080704373d85c2761a4fe12c2a2a4a6ea721576c5c3bf4226dfefa44c"
+    },
+    {
+      "id": 1802,
+      "sha256": "80c74220cd80f918367c517e5ddff1ea9b2d366b7711b83a276a828564cfcc49"
+    },
+    {
+      "id": 1711,
+      "sha256": "8c5d2b4634bab071370c4d03aca8134cdc25dc256f7409fe872dc82803d3b4c7"
+    },
+    {
+      "id": 1685,
+      "sha256": "b32ac05d6df3e023930ff5687e27634e5ca78a44474437e634a794158654a4de"
+    },
+    {
+      "id": 1992,
+      "sha256": "32bafaf58802bef28cbde443d173e51c0afe7c58c8260cb0f5776e2c60a2a3a5"
+    },
+    {
+      "id": 2005,
+      "sha256": "5a56cbc0ec373f9873b762d79e8b6874c889ba07e2bd195c40098e84bd170f5e"
+    },
+    {
+      "id": 1982,
+      "sha256": "6ba50cd176389e65cafd4172d0f6b9849dd12ee2962ee3b0f224bbf55e4a2365"
+    }
+  ],
+  "arms": [
+    "greedy",
+    "beam",
+    "beam_hotwords"
+  ],
+  "threads": 4,
+  "max_active_paths": 4,
+  "hotwords_score": 1.5,
+  "gate": {
+    "relative_term_recall_gain_min": 0.3,
+    "no_added_term_false_positives": true,
+    "no_added_word_or_character_errors": true,
+    "all_cases_complete": true
+  },
+  "metric": "Exact casefolded normalized whole-token occurrence recall; excess predicted occurrences are false positives"
+}

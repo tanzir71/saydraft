@@ -89,7 +89,7 @@ def test_range_budget_seek_and_unbounded_reads_fail_before_network():
     assert len(requests)==1
 
 
-def test_archive_seeks_over_large_weights_without_reading_their_content(tmp_path):
+def test_archive_seeks_over_large_weights_without_streaming_their_payload(tmp_path):
     payload = model(('<unk>',0.), ('▁Sintra',-17.25))
     weight_size = 2*1024**3
     weight = tarfile.TarInfo('model_weights.ckpt')

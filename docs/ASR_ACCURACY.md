@@ -22,6 +22,15 @@ finished and its [failed median gate is retained](LATENCY_MATRIX.md).
 
 ## Evaluation scope
 
+A separate [dictionary-biasing development comparison](spikes/biasing.md) uses
+40 reference-selected ordinary long words on the previously evaluated English
+20-clip set. The authentic matching tokenizer now works, but hotwords retain
+36/42 term occurrences and increase word errors from 55 to 63. The original
+30% relative-recall/no-added-error gate fails. No recognition default changes or
+broader language/owner acceptance follow; a new hard-name corpus and disjoint
+recordings are still needed. The 60-clip Bengali/Tamil/Telugu confirmation set
+remains uninferred.
+
 Evaluate the requested Thai, Mandarin Chinese, Korean, Japanese, Hindi, Urdu,
 Indonesian, Malay, Spanish and Brazilian Portuguese choices, plus the approved
 Vietnamese, Filipino / Tagalog, Tamil, Telugu, Persian, French and German

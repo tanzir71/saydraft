@@ -1,0 +1,23 @@
+{
+  "source": "209bc3727ddd6bab18c2339bd4c231313a4f9378",
+  "source_clean": true,
+  "source_files": {
+    "tools/dictionary_biasing.py": {
+      "raw_sha256": "a05509c665b3e14734b2566de0206cdcf11ef0539031c9284e801a994a2f1157",
+      "lf_sha256": "a05509c665b3e14734b2566de0206cdcf11ef0539031c9284e801a994a2f1157"
+    },
+    "tools/fetch_parakeet_tokenizer.py": {
+      "raw_sha256": "5dfdcb4f678178b57b26ba5e8205fa6c57a7ddabbbd54ab224cfd6f1a48a62ad",
+      "lf_sha256": "5dfdcb4f678178b57b26ba5e8205fa6c57a7ddabbbd54ab224cfd6f1a48a62ad"
+    }
+  },
+  "plan_sha256": "71145ecf9391d440cac46bafa5e9aa5e9d7e9bd6ca17aebef14a0977b571d332",
+  "plan_unchanged": true,
+  "child_exit_code": 0,
+  "child_exit_observed": true,
+  "timed_out": false,
+  "seconds": 68.99857091903687,
+  "hotword_encoding_error": false,
+  "owner_audio_or_input_used": false,
+  "source_unchanged": true
+}

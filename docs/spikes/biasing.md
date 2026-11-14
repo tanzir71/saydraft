@@ -1,9 +1,64 @@
 # Dictionary biasing investigation, 2026-11-12
 
 No winner is selected and no recognition or fuzzy-correction default changes.
-The required 40-term recall test is unavailable within the owner's current
-bundled-fixture scope. Owner accuracy acceptance is explicitly deferred. This
-report separates native capability and smoke latency from term accuracy.
+A 14 November follow-up retrieves the authentic matching tokenizer and measures
+40 reference-selected terms on 20 previously evaluated public English clips.
+The hotword candidate fails: recall is unchanged and transcription errors rise.
+This is observed development data, not an unseen glossary or owner accuracy
+acceptance. P3.5 remains open; the original bundled-fixture investigation follows.
+
+## 14 November: authentic tokenizer and measured rejection
+
+The [pinned NVIDIA archive](https://huggingface.co/nvidia/parakeet-tdt-0.6b-v3/tree/541d1f99c6b0c3cd0b11a95167540bb8edefd82b)
+is an uncompressed NeMo tar. `tools.fetch_parakeet_tokenizer` uses strict bounded
+HTTP ranges to seek over its weights and retain the original tokenizer. It
+retrieves 370,649 bytes from the 2,509,332,480-byte archive; no weights transfer.
+It reads the authentic SentencePiece float32 scores and matches **all 8,192
+piece IDs** against the installed catalog-pinned Parakeet tokens. Scores are
+not invented from IDs. Original tokenizer and exported vocabulary hashes,
+member offsets, every byte-range hash, source pin and CC-BY-4.0 attribution are
+retained. Partial retrieval does **not** verify the full archive checksum and
+does not add a production model package or automatic download.
+
+The frozen comparison uses 40 longest distinct alphabetic English reference
+words from the existing 20-clip FLEURS corpus, with lexical tie-breaking before
+new inference. These ordinary long words include three capitalized forms;
+they do not represent a difficult custom-name glossary. The clips were already
+used in the public ASR development baseline. Original criteria require ≥30%
+relative term-recall improvement, no added dictionary false positives and no
+increase in aggregate word/character errors. All three arms use unchanged
+Parakeet v3 int8, sherpa-onnx 1.13.4, CPU/four threads; beam uses four active paths
+and the preselected upstream/default hotword score 1.5. Forty phrases are passed
+through the native per-stream API, with the verified BPE vocabulary.
+
+| Decoder | Term occurrences matched | Recall | Word errors / 440 | Character errors / 2,075 | Decode p50 |
+|---|---:|---:|---:|---:|---:|
+| Greedy, no dictionary | 36/42 | 85.71% | 55 | 198 | 0.889 s |
+| Beam, no dictionary | 37/42 | 88.10% | 58 | 208 | 0.927 s |
+| Beam plus dictionary | 36/42 | 85.71% | 63 | 214 | 0.977 s |
+
+All 60 decodes complete, with no encoding errors or dictionary false positives.
+The dictionary's relative recall gain is **0%**, and its word/character errors
+increase. The original gate fails; no decoder, runtime, hotword score, dictionary
+rewrite or app default is promoted. The baseline's high recall also caps any
+possible relative gain on these terms at 16.67%; this sample cannot establish
+the required 30% even with perfect recognition. Do not weaken the criterion or
+tune on these outputs. Next evaluation needs a separately frozen set of harder
+names and disjoint recordings, negative contexts, and per-clip/protected-detail
+checks before production use. Phonetic and Whisper-context comparisons remain.
+
+The parent observes native exit 0 after 69 seconds. Source, frozen plan and all
+model-file hashes remain unchanged. Python NetworkGuard is active; a separate
+guard bars real audio SDK and owner-profile imports. Only public files and
+explicit model directories are used. Decode timings exclude imports, hashing,
+model loading, live capture and delivery; they do not close app latency targets.
+Forty-one local checks pass, including range/size/deadline failures, sparse
+2 GiB weight skipping, score/ID corruption, case identity, denominators and
+collateral-error refusal. Original cases, references, criteria, hashes, process/
+guard reports and a standard-library independent scorer are in
+[`eval/asr/results/2026-11-14-dictionary-biasing/`](../../eval/asr/results/2026-11-14-dictionary-biasing/).
+The final expanded local run passes 59 checks, including acquisition and
+manual-only delivery/checklist contracts. No Actions run is dispatched.
 
 ## Pinned runtime capability
 
@@ -60,7 +115,7 @@ can terminate the interpreter:
 python -m tools.probe_parakeet_biasing --model-dir C:\path\to\verified\parakeet-v3 --output build/qa/new-biasing-smoke.json
 ```
 
-## Accuracy acceptance and next experiment
+## Original 12 November accuracy status
 
 | Required result | Status |
 |---|---|
