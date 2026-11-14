@@ -65,6 +65,13 @@ def test_negated_translation_instruction_does_not_relax_normal_edit_negation_gua
     assert validate_edit_output('Do not send it.', 'Do not translate. Make shorter.', 'Send it.').reason == 'negation_changed'
 
 
+def test_edit_validator_distinguishes_modal_may_and_negative_unable_from_changed_facts():
+    assert validate_edit_output('Keep it because it may be useful.', 'Make shorter.', 'Keep it; it could be useful.').ok
+    assert validate_edit_output("I can't attend.", 'Make more formal.', 'I am unable to attend.').ok
+    assert validate_edit_output('I can attend.', 'Make more formal.', 'I am unable to attend.').reason == 'negation_changed'
+    assert validate_edit_output('Release in May.', 'Make shorter.', 'Release in June.').reason == 'dates_changed'
+
+
 def test_thirty_authored_cases_have_valid_references_for_all_four_instruction_families():
     cases = load_cases()
     assert len(cases) == 30 and {case['kind'] for case in cases} == {'shorter', 'formal', 'bullets', 'spanish'}
