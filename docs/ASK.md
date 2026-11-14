@@ -1,9 +1,26 @@
 # Ask about selected text
 
-Status, 14 November 2026: local answer, persistence and review-window components
-are implemented. Ask is not exposed in the app yet. P7.3 remains open until the
-selection controller, Labs/Pro admission, shortcut, answer Scratchpad and native
-read-only browser workflow are connected and verified.
+Status, 14 November 2026: Ask is connected from the default-off Pro/Labs opt-in
+through selection review, local generation, History and an independent answer
+Scratchpad. P7.3 remains open pending actual-model and native read-only browser
+acceptance. The owner desktop test remains stopped.
+
+## Using Ask from source
+
+1. Choose Pro in Models, then review the editing model's size and licenses in
+   Settings → Labs. Use Download / Resume if it is not installed already.
+2. Enable **Ask about selected text** and save Settings. This opt-in is separate
+   from Command, Translate and dictation cleanup; it never starts a download.
+3. Select a readable passage and release **Ctrl+Win+A**. The shortcut can be
+   changed or disabled in Settings → Shortcuts.
+4. Review the frozen selection, then type a question or choose Summarize, Explain
+   or Rewrite. Normal dictation can fill an already open question field.
+5. Read the answer in its separate Scratchpad, edit it if needed, and use Copy
+   when ready. The current note stays active; the original document is not edited.
+
+Read-only selections are eligible. Ask uses UI Automation and does not use
+Command's optional clipboard-copy fallback. Unsupported, changed, sensitive or
+oversized selections are refused. Model answers require review and can be wrong.
 
 ## Implemented boundaries
 
@@ -17,22 +34,30 @@ transport and presentation; they do not prove that every model answer is factual
 
 `CommandModelSession.ask_about` uses the existing revocable editing-model slot.
 It works independently of dictation cleanup, observes cancellation and shutdown,
-and releases its own manager without closing a successor. The connected feature
-will require its own default-off Labs opt-in and Pro admission, using the existing
-explicitly installed shared 4B editing model and processor.
+and releases its own manager without closing a successor. Its independent
+default-off Labs opt-in requires Pro and rechecks admission before generation.
+The existing explicitly installed shared 4B editing model and processor are
+verified on the worker thread; a missing model leaves the question available.
 
 `core.ask.capture_ask_source` explicitly disables clipboard fallback, verifies
 readable UIA selections (including read-only text), and revokes the original
 lease before returning plain source values. It refuses changed, sensitive,
-unsupported, copied or retired selections. The caller must reserve capture and
-fence the subsequent UI request.
+unsupported, copied or retired selections. `core/ask_controller.py` reserves this
+capture on the native action thread before any question window can take focus.
 
 `core/ask.py` then consumes an immutable, reviewed source snapshot. It has no source
-document, insertion, recording or clipboard port. The caller must verify the
-selection, retire its UIA lease before opening the question window, and fence
-each operation and queued UI callback. Complete answers are saved before
+document, insertion, recording or clipboard port. The controller fences
+operations and queued UI callbacks independently from the dictation session, so
+voicing a question does not revoke the reviewed source. Complete answers are saved before
 presentation. Failed generation leaves the question available for retry; a
 History failure preserves the complete answer for independent recovery.
+
+Cancel and Settings changes revoke metadata before model retirement, without
+waiting for native shutdown or an admitted History write on the GUI thread.
+Already committed answers remain in History, while retired popups are suppressed.
+A new capture or navigation invalidates delayed review/answer presentation;
+an existing hands-free recording cannot be claimed by the Ask chord. Only the
+exact cancelled push-to-talk prefix may finish retiring ahead of a new review.
 
 History stores the question and answer with task `ask`, action, model, timing and
 source hash/length provenance. It does not separately store the reviewed excerpt;
@@ -45,27 +70,37 @@ retry, automatic reinsert and transcript diff for these rows.
 or Summarize, Explain and Rewrite actions. It prevents duplicate requests,
 preserves questions on failure, cancels on close and rejects retired updates.
 The review area scrolls at small sizes while feedback and Cancel/Close remain
-visible. It uses injected callbacks and is not registered with the app shell yet.
+visible. A second presentation gate prevents a delayed window from activating
+after another capture starts. `ui/ask_answer.py` uses independent revision-aware
+Notes drafts, preserves Copy when storage fails, and participates in shutdown
+flushing without replacing or activating the current note. Opening an answer
+does not construct Hub/Settings or discover microphone devices.
 
 ## Verification and remaining work
 
-The 205 focused local History/client/session/review checks pass, as does a
-separate 43-case capture/processor/window follow-up. The review widget also passes its nine controlled tests, including
-long Unicode questions and small-window reachability. Sixteen owned offscreen
-renders cover review, busy, failure and ready states in light/dark at 1x/2x.
-These use authored text and fake callbacks, without microphone, owner clipboard,
-foreground reads or OS input. Fresh clean CI for these components follows.
+The earlier component commit `8ec5670` passes full Windows CI: 4,081 tests with
+12 explicit skips, rules 556/556, adversarial 100/100 and the package workflow.
+These results do not qualify the subsequent integration.
+
+The connected implementation passes 384 broadly focused worker, shortcut,
+config, persistence and Qt tests. After visual review, 38 lifecycle/window/flow
+checks also pass with the final scrolling and late-presentation guards. Forty
+owned offscreen renders cover both themes at 1x/2x, including Labs opt-ins and
+downgrade states, complete/recoverable answers and small-window feedback. Rules
+556/556 and adversarial 100/100 pass. These use authored text, fake model/clipboard
+ports and owned SQLite, without owner microphone, foreground reads or OS input.
+Fresh full CI/package verification of this integration follows.
 
 Still required:
 
-- Connect the verified capture helper to the reserved native action thread
-  before any question window takes focus.
-- Connect the revocable worker/controller, independent Labs/Pro gate, shared
-  explicit model setup and shortcut with recording-prefix and hands-free guards.
-- Present answers in independent Scratchpads whose Notes writes do not activate
-  or replace the current note; preserve storage/Copy recovery and shutdown fences.
-- Verify the full source-to-model-to-History-to-Scratchpad path, native read-only
-  browser selection, cancellation/settings races and actual local model behavior.
+- Run `python -m tools.probe_ask --models-dir <explicit-installed-cache>
+  --device Vulkan1 --output <new-evidence-directory>` against the pinned model.
+  Nine authored cases cover the three actions, questions, missing source facts,
+  source-instruction refusal and English/Spanish/Arabic/Bengali smoke answers.
+  Anchors are smoke checks, not exhaustive semantic or multilingual quality.
+- Verify native read-only browser article selection on a disposable remote
+  desktop, with no writes to the source and with queued cancellation guards.
+- Complete physical/packaged workflow acceptance when separately permitted.
 
 The source-only availability and deferred owner desktop acceptance remain as
 documented in the [parity plan](../WISPR_OFFLINE_PARITY_PLAN.md).

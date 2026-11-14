@@ -15,6 +15,10 @@ _PRESETS = (
     ('Rewrite', 'rewrite', 'Rewrite the selected text clearly, preserving its facts and meaning.'),
 )
 _ERRORS = {
+    'model_missing': 'Download or resume the editing model in Settings → Labs, then try again.',
+    'needs_pro': 'Ask needs Pro tier. Check performance or choose Pro in Settings → Models.',
+    'saved_in_history': 'Your answer is saved in History. Open it there when you finish the current work.',
+    'incomplete': 'The answer was cut short. Your question is still here. Select a shorter passage or ask a more focused question.',
     'context_limit': 'This selection is too long for the local model. Select a shorter passage and try again.',
     'invalid_request': 'Enter a short question and try again.',
     'cancelled': 'Ask was cancelled. You can try again.',
@@ -47,6 +51,7 @@ class AskQuestionWindow(QtWidgets.QWidget):
         self._scroll_timer = QtCore.QTimer(self)
         self._scroll_timer.setSingleShot(True)
         self._scroll_timer.timeout.connect(self._ensure_question_visible)
+        scroll.verticalScrollBar().rangeChanged.connect(lambda *_: self._scroll_timer.start(0))
         body = QtWidgets.QWidget()
         scroll.setWidget(body)
         layout = QtWidgets.QVBoxLayout(body)
@@ -114,18 +119,26 @@ class AskQuestionWindow(QtWidgets.QWidget):
         self.ask_button.setEnabled(enabled and question_ok)
         self.close_button.setText('Cancel' if self._busy else 'Close')
 
-    def present(self):
-        if not self._valid():
+    def present(self, *, valid=lambda: True):
+        def current():
+            return self._valid() and valid()
+        if not current():
             self.retire()
             return False
         self.show()
-        if not self._valid():
+        if not current():
             self.retire()
             return False
         self.raise_()
+        if not current():
+            self.retire()
+            return False
         self.activateWindow()
+        if not current():
+            self.retire()
+            return False
         self.question.setFocus()
-        if not self._valid():
+        if not current():
             self.retire()
             return False
         self._scroll_timer.start(0)
@@ -133,7 +146,19 @@ class AskQuestionWindow(QtWidgets.QWidget):
 
     def _ensure_question_visible(self):
         if not self._retired and self.isVisible():
-            self.review_scroll.ensureWidgetVisible(self.question, 0, 8)
+            # Status wrapping changes the viewport height. Settle both layouts
+            # before choosing a scroll position for the full question field.
+            self.layout().activate()
+            self.review_scroll.widget().layout().activate()
+            # ensureWidgetVisible follows a text editor's caret rectangle,
+            # which can leave the rest of a focused question below the viewport.
+            bar = self.review_scroll.verticalScrollBar()
+            top = self.question.mapTo(self.review_scroll.widget(), QtCore.QPoint()).y()
+            bottom = top + self.question.height()
+            if bottom + 8 > bar.value() + self.review_scroll.viewport().height():
+                bar.setValue(bottom + 8 - self.review_scroll.viewport().height())
+            elif top - 8 < bar.value():
+                bar.setValue(top - 8)
 
     def send(self, question, action='question'):
         if self._busy or self._retired or not self._valid():

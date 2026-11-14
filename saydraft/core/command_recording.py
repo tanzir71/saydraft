@@ -96,6 +96,9 @@ class CommandRecording:
                 return False
             intent = _Intent(w.services, choice, held, accepted, w.bar_status.begin())
             self.pending = intent
+            ask = getattr(w, 'ask', None)
+            if ask is not None:
+                ask.invalidate_answer()
             w._command_recovery_ticket = object()
         finally:
             w._lock.release()

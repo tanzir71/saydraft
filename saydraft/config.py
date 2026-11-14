@@ -21,6 +21,7 @@ CONFIG_SCHEMA: dict[str, Any] = {
         "paste_last": str,
         "scratchpad": str,
         "view_diff": str,
+        "ask": str,
         "save": str,
         "cancel": str,
         "tap_lock_ms": int,
@@ -35,7 +36,7 @@ CONFIG_SCHEMA: dict[str, Any] = {
         "notification_duration": int,
         "onboarded": bool,
     },
-    "labs": {"live_preview": bool, "use_streaming_result": bool, "command_mode": bool, "translate_mode": bool},
+    "labs": {"live_preview": bool, "use_streaming_result": bool, "command_mode": bool, "translate_mode": bool, "ask_mode": bool},
     "translation": {"targets": dict},
     "command": {"backend": str, "clipboard_fallback": bool},
     "updates": {"enabled": bool},
@@ -102,6 +103,7 @@ _DEFAULT_CONFIG: dict[str, Any] = {
         "paste_last": "shift+alt+z",
         "scratchpad": "win+alt+s",
         "view_diff": "ctrl+win+d",
+        "ask": "ctrl+win+a",
         "save": "f10",
         "cancel": "esc",
         "tap_lock_ms": 300,
@@ -116,7 +118,7 @@ _DEFAULT_CONFIG: dict[str, Any] = {
         "notification_duration": 3,
         "onboarded": False,
     },
-    "labs": {"live_preview": False, "use_streaming_result": False, "command_mode": False, "translate_mode": False},
+    "labs": {"live_preview": False, "use_streaming_result": False, "command_mode": False, "translate_mode": False, "ask_mode": False},
     "translation": {"targets": {}},
     "command": {"backend": "auto", "clipboard_fallback": False},
     "updates": {"enabled": False},
@@ -258,12 +260,12 @@ def sanitize_config(config: dict[str, Any] | None) -> dict[str, Any]:
         # Newly introduced actions must not take over an owner's custom binding.
         from .hotkeys.recording import validate_hotkeys
         candidate = dict(cfg['hotkeys'])
-        missing = [name for name in ('scratchpad', 'view_diff') if name not in hotkeys]
+        missing = [name for name in ('scratchpad', 'view_diff', 'ask') if name not in hotkeys]
         for name in missing:
             candidate[name] = ''
         for name in missing:
             proposed = {**candidate, name: defaults['hotkeys'][name]}
-            if validate_hotkeys(proposed):
+            if validate_hotkeys(proposed, ask_key=proposed.get('ask', '')):
                 cfg['hotkeys'][name] = ''
             else:
                 candidate = proposed

@@ -19,6 +19,24 @@ def fixture(*, tier='pro', callback=None):
     return CommandSetup(config, callback=callback), config
 
 
+def test_ask_is_an_independent_default_off_shared_model_opt_in_without_transfer():
+    calls = []
+    page, config = fixture(callback=lambda *args, **options: calls.append(True))
+    before = copy.deepcopy(config)
+    assert not page.ask_check.isChecked() and page.ask_check.isEnabled()
+    page.ask_check.setChecked(True)
+    assert config == before and not calls and page.task is None
+    page.apply_to(config)
+    assert config['labs']['ask_mode'] is True
+    assert not config['labs']['command_mode'] and not config['labs']['translate_mode']
+    assert config['llm'] == before['llm'] and config['stt'] == before['stt']
+    assert not config['command']['clipboard_fallback']
+    page.update_eligibility({**config, 'app': {**config['app'], 'tier': 'standard'}})
+    assert page.ask_check.isEnabled()  # A saved opt-in can always be turned off.
+    page.ask_check.setChecked(False)
+    assert not page.ask_check.isEnabled() and not calls
+
+
 def test_review_size_licenses_and_default_off_without_transfer_or_regular_cleanup_changes():
     calls = []
     page, config = fixture(callback=lambda *a, **kw: calls.append(True))

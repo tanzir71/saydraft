@@ -86,17 +86,32 @@ def test_close_cancels_once_and_does_not_wait_for_worker(subject):
     assert closed == [True]
 
 
-def test_small_window_keeps_the_question_and_feedback_reachable(subject):
+@pytest.mark.parametrize('reason', ['context_limit', 'incomplete', 'model_missing'])
+def test_small_window_keeps_the_question_and_feedback_reachable(subject, reason):
+    from PySide6 import QtTest
+    from tests.test_scratchpad import settle
     window, _, _, _ = subject
     qt = qt_modules()
+    qt.QtTest = QtTest
     window.resize(480, 520)
     assert window.present()
     qt.QtWidgets.QApplication.processEvents()
-    window.finished(AskResult(None, 'context_limit'))
+    window.finished(AskResult(None, reason))
     qt.QtWidgets.QApplication.processEvents()
     viewport = window.review_scroll.viewport()
+    settle(qt, lambda: (window.question.mapTo(viewport, qt.QtCore.QPoint()).y()
+                       + window.question.height() <= viewport.height()))
     position = window.question.mapTo(viewport, qt.QtCore.QPoint(0, 0))
     assert position.y() >= 0
     assert position.y() + window.question.height() <= viewport.height()
     assert window.status.isVisible() and window.close_button.isVisible()
     assert window.status.y() + window.status.height() <= window.close_button.y()
+
+
+def test_presentation_gate_is_checked_again_before_focus_changes(subject, monkeypatch):
+    window, _, closed, current = subject
+    permitted = [True]
+    monkeypatch.setattr(window, 'raise_', lambda: permitted.__setitem__(0, False))
+    monkeypatch.setattr(window, 'activateWindow', lambda: pytest.fail('Retired presentation cannot activate'))
+    assert not window.present(valid=lambda: permitted[0])
+    assert closed == [True] and current[0]  # This gate is separate from ongoing review validity.

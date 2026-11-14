@@ -42,7 +42,7 @@ including the optional public-audio recognizer smoke.
 | [Command Mode work](COMMAND_MODE.md) | Experimental held instructions, Labs setup, guarded local edits and Copy recovery; remaining P7.1 acceptance |
 | [Command clipboard boundary](COMMAND_CLIPBOARD.md) | Optional held copy capture, original-field metadata leases, clipboard restoration and Windows limits |
 | [Translate while speaking](TRANSLATE.md) | Pro/Labs setup, per-group spoken output language, shared model, guarded delivery and source recovery |
-| [Ask component status](ASK.md) | Local answers, reviewed-text UI and History boundaries; app integration remains in progress |
+| [Ask about selected text](ASK.md) | Default-off Pro/Labs selection review, local answers, History and separate Scratchpads; native acceptance remains open |
 | [Scratchpad and Notes](NOTES.md) | Local autosave, search/reopen, conflict recovery, and the last-diff shortcut |
 
 ## Models, privacy, and data

@@ -56,6 +56,10 @@ def create_worker_signals(QtCore):
         listening_changed = QtCore.Signal(bool)
         utility_requested = QtCore.Signal(object)
         command_recovery_requested = QtCore.Signal(object)
+        ask_review_requested = QtCore.Signal(object)
+        ask_status_changed = QtCore.Signal(object)
+        ask_answer_requested = QtCore.Signal(object)
+        ask_retired = QtCore.Signal(object)
 
     return SaydraftWorkerSignals()
 
@@ -175,6 +179,35 @@ class WorkerController:
     def is_current_command_request(self, request):
         return bool(self.core and self.core.is_current_command_request(request))
 
+    def is_current_ask_review(self, request):
+        ask = getattr(self.core, 'ask', None)
+        return bool(ask and ask.review_is_current(request))
+
+    def can_present_ask_review(self, request):
+        ask = getattr(self.core, 'ask', None)
+        return bool(ask and ask.review_can_present(request))
+
+    def is_current_ask_status(self, request):
+        ask = getattr(self.core, 'ask', None)
+        return bool(ask and ask.status_is_current(request))
+
+    def is_current_ask_answer(self, request):
+        ask = getattr(self.core, 'ask', None)
+        return bool(ask and ask.answer_is_current(request))
+
+    def submit_ask(self, request, question, action='question'):
+        ask = getattr(self.core, 'ask', None)
+        return bool(ask and ask.submit(request, question, action))
+
+    def cancel_ask(self, request=None):
+        ask = getattr(self.core, 'ask', None)
+        return bool(ask and ask.cancel(request))
+
+    def invalidate_ask_answer(self):
+        ask = getattr(self.core, 'ask', None)
+        if ask is not None:
+            ask.invalidate_answer()
+
     def retry_history_audio(self, row, options=None):
         return bool(self.core and (self.core.retry_history(row) if options is None else self.core.retry_history(row, options)))
 
@@ -284,6 +317,9 @@ class SaydraftApp:
         sound_bank_factory: Callable[..., object] | None = None,
         update_presenter_factory=None,
         command_recovery_factory=None,
+        ask_window_factory=None,
+        ask_answer_factory=None,
+        ask_notes_store_factory=None,
     ):
         self.argv = list(sys.argv if argv is None else argv)
         self.qt_modules = qt_modules
@@ -303,6 +339,10 @@ class SaydraftApp:
         self.update_presenter_factory = update_presenter_factory
         self.command_recovery_factory = command_recovery_factory
         self.command_recovery = None
+        self.ask_window_factory, self.ask_answer_factory = ask_window_factory, ask_answer_factory
+        self.ask_notes_store_factory = ask_notes_store_factory
+        self.ask_window = self.ask_request = self.ask_answers = self.ask_notes_store = None
+        self._ask_presented_job = None
         self.update_presenter = None
         self.bar_sounds = None
         self.qt_app = None
@@ -394,10 +434,18 @@ class SaydraftApp:
             self.signals.dictionary_changed.connect(self._refresh_dictionary, qt_modules.QtCore.Qt.QueuedConnection)
             self.signals.utility_requested.connect(self._utility_requested, qt_modules.QtCore.Qt.QueuedConnection)
             self.signals.command_recovery_requested.connect(self._command_recovery_requested, qt_modules.QtCore.Qt.QueuedConnection)
+            self.signals.ask_review_requested.connect(self._ask_review_requested, qt_modules.QtCore.Qt.QueuedConnection)
+            self.signals.ask_status_changed.connect(self._ask_status_changed, qt_modules.QtCore.Qt.QueuedConnection)
+            self.signals.ask_answer_requested.connect(self._ask_answer_requested, qt_modules.QtCore.Qt.QueuedConnection)
+            self.signals.ask_retired.connect(self._ask_retired, qt_modules.QtCore.Qt.QueuedConnection)
         else:
             self.signals.dictionary_changed.connect(self._refresh_dictionary)
             self.signals.utility_requested.connect(self._utility_requested)
             self.signals.command_recovery_requested.connect(self._command_recovery_requested)
+            self.signals.ask_review_requested.connect(self._ask_review_requested)
+            self.signals.ask_status_changed.connect(self._ask_status_changed)
+            self.signals.ask_answer_requested.connect(self._ask_answer_requested)
+            self.signals.ask_retired.connect(self._ask_retired)
         self.signals.history_retry_finished.connect(self._finish_history_retry)
         self.signals.hardware_benchmark_finished.connect(self._finish_hardware_benchmark)
         self.signals.preview_text_changed.connect(self._show_preview)
@@ -573,6 +621,91 @@ class SaydraftApp:
             self._show_hub('History')
             self.history_window.show_last_diff()
 
+    def _ask_window_matches(self, request):
+        return (self.ask_window is not None and self.ask_request is not None
+                and request.ticket is self.ask_request.ticket)
+
+    def _ask_review_requested(self, request):
+        current = getattr(self.controller, 'is_current_ask_review', None)
+        presentable = getattr(self.controller, 'can_present_ask_review', None)
+        if current is None or presentable is None or not presentable(request):
+            if current is not None and current(request):
+                self.controller.cancel_ask(request)
+            return
+        if self.ask_window is not None:
+            self.ask_window.retire()
+        from .ui.ask_window import AskQuestionWindow
+        try:
+            window = (self.ask_window_factory or AskQuestionWindow)(request.source,
+                submit=lambda question, action: self.controller.submit_ask(request, question, action),
+                cancel=lambda: self.controller.cancel_ask(request), valid=lambda: current(request))
+        except Exception:
+            logger.warning('Ask review window unavailable')
+            self.controller.cancel_ask(request)
+            return
+        self.ask_window, self.ask_request, self._ask_presented_job = window, request, None
+        identifier = id(window)
+        def clear(_object=None):
+            if self.ask_window is not None and id(self.ask_window) == identifier:
+                self.ask_window = self.ask_request = None
+        window.destroyed.connect(clear)
+        self.qt_app.aboutToQuit.connect(window.retire)
+        if not presentable(request) or not window.present(valid=lambda: presentable(request)):
+            window.retire()
+
+    def _ask_retired(self, request):
+        if self._ask_window_matches(request):
+            self.ask_window.retire()
+
+    def _ask_status_changed(self, request):
+        current = getattr(self.controller, 'is_current_ask_status', None)
+        if current is None or not current(request) or not self._ask_window_matches(request):
+            return
+        if request.phase == 'finished' and request.result is not None:
+            result = request.result
+            if result.text and self._ask_presented_job is not request.job:
+                from dataclasses import replace
+                result = replace(result, reason='saved_in_history' if result.history_id else 'display_unavailable')
+            self.ask_window.finished(result)
+        elif request.phase in ('preparing', 'answering'):
+            self.ask_window.progress('Preparing the local model…' if request.phase == 'preparing' else 'Answering locally…')
+
+    def _ask_answer_requested(self, request):
+        current = getattr(self.controller, 'is_current_ask_answer', None)
+        if current is None or not current(request):
+            return
+        if self.ask_answers is None:
+            from .data.notes import NoteStore
+            from .ui.ask_answer import AskAnswerWindow
+            from .ui.command_recovery import CommandRecoveryWindows
+            store = getattr(getattr(self.hub_window, 'notes_page', None), 'store', None)
+            if store is None:
+                history = getattr(self.controller, 'history_store', lambda: None)()
+                database = getattr(history, 'db_path', None)
+                try:
+                    if database is not None:
+                        self.ask_notes_store = (self.ask_notes_store_factory or NoteStore)(database)
+                    store = self.ask_notes_store
+                except Exception:
+                    store = None  # Independent Copy recovery remains available.
+            def refresh():
+                if self.hub_window is not None:
+                    self.hub_window.notes_page.refresh()
+            self.ask_answers = (self.ask_answer_factory or CommandRecoveryWindows)(store,
+                clipboard=getattr(self.history_window, 'clipboard', None), saved=refresh,
+                notes=lambda: self._show_hub('Notes'), window_factory=AskAnswerWindow)
+            self.qt_app.aboutToQuit.connect(self.ask_answers.shutdown)
+        # Notes preparation and widget construction can deliver queued events.
+        if current(request):
+            window = self.ask_answers.present(request.result, valid=lambda: current(request))
+            if window is not None:
+                self._ask_presented_job = request.job
+
+    def _invalidate_ask_answer(self):
+        invalidate = getattr(self.controller, 'invalidate_ask_answer', None)
+        if invalidate is not None:
+            invalidate()
+
     def _command_recovery_requested(self, request):
         current = getattr(self.controller, 'is_current_command_request', None)
         if current is None or not current(request):
@@ -612,23 +745,34 @@ class SaydraftApp:
         return True
 
     def _show_scratchpad(self, identifier=None):
+        self._invalidate_ask_answer()
         if self._ensure_scratchpad():
             self.scratchpad_window.present(identifier)
 
     def _new_scratchpad(self):
+        self._invalidate_ask_answer()
         if self._ensure_scratchpad():
             self.scratchpad_window.present(new=True)
 
     def _request_quit(self):
+        cancel = getattr(self.controller, 'cancel_ask', None)
+        if cancel is not None:
+            cancel()
+        if self.ask_window is not None:
+            self.ask_window.retire()
         quit_app = getattr(self.qt_app, 'quit', lambda: None)
         def flush_primary():
             if self.scratchpad_window is not None:
                 return self.scratchpad_window.flush_then(quit_app)
             quit_app()
             return True
-        if self.command_recovery is not None:
-            return self.command_recovery.flush_then(flush_primary)
-        return flush_primary()
+        def flush_commands():
+            if self.command_recovery is not None:
+                return self.command_recovery.flush_then(flush_primary)
+            return flush_primary()
+        if self.ask_answers is not None:
+            return self.ask_answers.flush_then(flush_commands)
+        return flush_commands()
 
     def _refresh_history(self, row_id):
         if self.hub_window is not None:
@@ -723,6 +867,7 @@ class SaydraftApp:
                 about.connect(self.hub_window.close)
 
     def _show_hub(self, page="Home"):
+        self._invalidate_ask_answer()
         self._ensure_hub()
         self.hub_window.show_page(page)
         self.hub_window.show()

@@ -84,6 +84,8 @@ class SessionWorker:
         self.command = CommandRecording(self)
         from .translation_task import TranslationTask
         self.translation = TranslationTask(self)
+        from .ask_controller import AskController
+        self.ask = AskController(self)
         self.hotkeys = HotkeyService(services.config, start=lambda: self.start_recording(_return_generation=True),
                                      start_guarded=lambda current: self.start_recording(
                                          _return_generation=True, request_current=current),
@@ -93,8 +95,8 @@ class SessionWorker:
                                      keyboard_module=keyboard_module,
                                      stop_session=self._stop_hotkey_session,
                                      timer_factory=timer_factory, paste=self.paste_last,
-                                     ui_request=lambda request: self.emit('utility_requested', request),
-                                     command_start=self.command.start)
+                                     ui_request=self._request_utility_ui,
+                                     command_start=self.command.start, ask_start=self.ask.request)
         self._prepare_context()
         self._warm_cleanup()
         self._start_audio_retention()
@@ -267,7 +269,7 @@ class SessionWorker:
     @property
     def busy(self):
         return (self._capturing_context or self._inflight > 0 or self.session.active
-                or self.command.busy or self.microphone_test.active or self.shortcut_capture.active
+                or self.command.busy or self.ask.busy or self.microphone_test.active or self.shortcut_capture.active
                 or self.practice.active or self._model_storage_busy)
 
     def remove_stored_model(self, entry):
@@ -385,6 +387,10 @@ class SessionWorker:
         except Exception:
             logger.debug("UI receiver unavailable for %s", name, exc_info=True)
 
+    def _request_utility_ui(self, request):
+        self.ask.invalidate_answer()
+        self.emit('utility_requested', request)
+
     def is_current_command_request(self, request):
         from .command_edit import CommandRecoveryRequest
         # GUI admission uses immutable tickets and text-free atomic metadata;
@@ -447,6 +453,7 @@ class SessionWorker:
                 return False
             self._cancel_request.clear()
             self._command_recovery_ticket = object()
+            self.ask.invalidate_answer()
             self._capturing_context = True
             services = self.services
             bar_generation = self.bar_status.begin()
@@ -678,6 +685,7 @@ class SessionWorker:
         command_active = self.command.busy
         self.command.cancel()
         self.translation.cancel()
+        self.ask.cancel()
         if command_active:
             self.hotkeys._controller.discard_active_recording()
         self._history_retry_cancel.set()
@@ -1182,6 +1190,7 @@ class SessionWorker:
                 self.emit("notification_requested", "Finish the current work before pasting the last transcript.")
                 return False
             self._cancel_request.clear()
+            self.ask.invalidate_answer()
             self._capturing_context = True
             context = self.services.context
         finally:
@@ -1258,6 +1267,7 @@ class SessionWorker:
             self.corrections.finish(generation)
 
     def configure(self, config):
+        self.ask.cancel()
         self._retention_generation += 1
         if self.audio_retention is not None:
             self.audio_retention.close()

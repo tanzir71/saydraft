@@ -22,11 +22,12 @@ class UtilityShortcutRequest:
 class HotkeyService:
     def __init__(self, config, *, start, stop, cancel, save, notify, keyboard_module=None,
                  stop_timed=None, native_factory=None, stop_session=None, timer_factory=threading.Timer, paste=None,
-                 start_guarded=None, ui_request=None, command_start=None):
+                 start_guarded=None, ui_request=None, command_start=None, ask_start=None):
         self.config = config
         self.start_recording = start
         self.start_guarded = start_guarded
         self.command_start = command_start
+        self.ask_start = ask_start
         self._requests_cancelled = threading.Event()
         self._start_guard = None
         self.ui_request, self._ui_ticket = ui_request, object()
@@ -57,7 +58,7 @@ class HotkeyService:
                                 on_record_cancel=self.cancel_recording, on_save=self._save_if_allowed,
                                 on_backend_failure=self._native_failed, native_factory=self.native_factory,
                                 timer_factory=self.timer_factory, on_paste=self._paste_if_allowed if self.paste is not None else None,
-                                on_utility=self._request_ui if self.ui_request is not None else None,
+                                on_utility=self._request_ui if self.ui_request is not None or self.ask_start is not None else None,
                                 on_command_start_guarded=self._command_start if self.command_start is not None else None)
 
     def _allowed(self, guard=None):
@@ -89,11 +90,20 @@ class HotkeyService:
         with self._lock:
             self._ui_ticket = object()
 
-    def _request_ui(self, action):
+    def _request_ui(self, action, *, prefix_session_id=None):
         with self._lock:
-            if not self.enabled or not self._allowed(self._start_guard) or action not in ('scratchpad', 'view_diff'):
+            if not self.enabled or not self._allowed(self._start_guard):
                 return False
-            request = UtilityShortcutRequest(action, self._ui_ticket)
+            if action == 'ask':
+                capture, guard = self.ask_start, self._start_guard
+                request = None
+            elif action in ('scratchpad', 'view_diff'):
+                capture = None
+                request = UtilityShortcutRequest(action, self._ui_ticket)
+            else:
+                return False
+        if action == 'ask':
+            return bool(capture and capture(lambda: self._allowed(guard), prefix_session_id=prefix_session_id))
         if self.ui_request is not None:
             self.ui_request(request)
             return True

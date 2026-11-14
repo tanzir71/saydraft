@@ -31,6 +31,7 @@ class HotkeyConfig:
     scratchpad_hotkey: str | None = None
     view_diff_hotkey: str | None = None
     command_hotkey: str | None = None
+    ask_hotkey: str | None = None
 
     @classmethod
     def from_app_config(cls, config: dict[str, Any]) -> "HotkeyConfig":
@@ -49,6 +50,7 @@ class HotkeyConfig:
             scratchpad_hotkey=str(hotkeys.get("scratchpad", "")),
             view_diff_hotkey=str(hotkeys.get("view_diff", "")),
             command_hotkey='ctrl+win+alt' if config.get('labs', {}).get('command_mode') is True else None,
+            ask_hotkey=str(hotkeys.get('ask', '')) if config.get('labs', {}).get('ask_mode') is True else None,
         )
 
 
@@ -88,6 +90,8 @@ class HotkeyController:
         if on_command_start_guarded is not None and on_record_cancel is None:
             raise ValueError('Command recording requires an explicit cancellation callback')
         self.config = config or HotkeyConfig()
+        if self.config.ask_hotkey and on_record_cancel is None:
+            raise ValueError('Ask requires an explicit recording cancellation callback')
         self.on_record_start = on_record_start
         self.on_record_start_guarded = on_record_start_guarded
         self.on_utility = on_utility
@@ -111,6 +115,7 @@ class HotkeyController:
         self._second_tap = False
         self._request = 0
         self._session_id = None
+        self._utility_prefix = None
         self._kind = 'dictation'
         self._listening_epoch = 0
         self.on_paste = on_paste
@@ -205,8 +210,9 @@ class HotkeyController:
                 hands_free_key=self.config.hands_free_hotkey, toggle=self._on_hands_free_press,
                 paste_key=self.config.paste_last_hotkey, paste=self.on_paste,
                 utility_keys={name: key for name, key in (
-                    ('scratchpad', self.config.scratchpad_hotkey), ('view_diff', self.config.view_diff_hotkey))
-                    if key and self.on_utility is not None}, utility=self.on_utility,
+                    ('scratchpad', self.config.scratchpad_hotkey), ('view_diff', self.config.view_diff_hotkey),
+                    ('ask', self.config.ask_hotkey))
+                    if key and self.on_utility is not None}, utility=self._request_utility,
                 cancel_prefix=self._on_utility_prefix,
                 command_key=self.config.command_hotkey,
                 command_press=self._on_command_press if self.on_command_start_guarded is not None else None,
@@ -263,10 +269,11 @@ class HotkeyController:
                     self.config.paste_last_hotkey, self.on_paste, trigger_on_release=True,
                     suppress=self.config.suppress, timeout=self.config.timeout))
             if self.on_utility is not None:
-                for name, key in (('scratchpad', self.config.scratchpad_hotkey), ('view_diff', self.config.view_diff_hotkey)):
+                for name, key in (('scratchpad', self.config.scratchpad_hotkey), ('view_diff', self.config.view_diff_hotkey),
+                    ('ask', self.config.ask_hotkey)):
                     if key:
                         self._handles.append(self._keyboard.add_hotkey(key,
-                            lambda name=name: self.on_utility(name), trigger_on_release=True,
+                            lambda name=name: self._request_utility(name), trigger_on_release=True,
                             suppress=self.config.suppress, timeout=self.config.timeout))
             if self.config.cancel_hotkey:
                 self._handles.append(
@@ -558,8 +565,19 @@ class HotkeyController:
         # With no acknowledgement, request invalidation alone retires the pending
         # start. Never call stop(None), which could stop a newer worker session.
 
+    def _request_utility(self, name):
+        with self._lock:
+            prefix = self._utility_prefix
+            self._utility_prefix = None
+        if self.on_utility is None:
+            return False
+        if name == 'ask':
+            return self.on_utility(name, prefix_session_id=prefix) if self.config.ask_hotkey else False
+        return self.on_utility(name)
+
     def _on_utility_prefix(self, when=None):
         with self._lock:
+            self._utility_prefix = None
             if self._locked:
                 # This session predates the tool chord. Clear only the held
                 # gesture so releasing Ctrl/Win cannot finish or cancel it.
@@ -567,6 +585,7 @@ class HotkeyController:
                 return
             if not self.is_recording:
                 return  # A failed new start does not own another busy job.
+            self._utility_prefix = self._session_id
         self._on_cancel_press(when)
 
     def _on_cancel_press(self, when=None) -> None:

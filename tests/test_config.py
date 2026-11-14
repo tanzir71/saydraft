@@ -34,7 +34,7 @@ def test_shortcut_upgrade_preserves_old_bindings_and_does_not_intercept_mouse(tm
     path.write_text(json.dumps(old), encoding="utf-8")
     cfg = load_config(config_path=path, settings_path=tmp_path / "absent.txt")
     assert cfg["hotkeys"] == {**old["hotkeys"], "speech_mouse": "", "hands_free": "ctrl+win+space",
-                              "paste_last": "shift+alt+z", "scratchpad": "win+alt+s", "view_diff": "ctrl+win+d",
+                              "paste_last": "shift+alt+z", "scratchpad": "win+alt+s", "view_diff": "ctrl+win+d", "ask": "ctrl+win+a",
                               "tap_lock_ms": 300}
     assert save_config(cfg, path) == cfg
     assert load_config(config_path=path, settings_path=tmp_path / "absent.txt") == cfg
@@ -171,6 +171,7 @@ def test_load_config_migrates_settings_txt_once_and_keeps_old_file_untouched(tmp
         "paste_last": "shift+alt+z",
         "scratchpad": "win+alt+s",
         "view_diff": "ctrl+win+d",
+        "ask": "ctrl+win+a",
         "save": "f8",
         "cancel": "esc",
         "tap_lock_ms": 300,
@@ -226,6 +227,7 @@ def test_existing_config_ignores_unknown_keys_and_fills_missing_defaults(tmp_pat
         "paste_last": "shift+alt+z",
         "scratchpad": "win+alt+s",
         "view_diff": "ctrl+win+d",
+        "ask": "ctrl+win+a",
         "save": "f10",
         "cancel": "esc",
         "tap_lock_ms": 300,

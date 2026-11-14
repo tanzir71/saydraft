@@ -24,6 +24,10 @@ def translation_choice(config, report=None):
     return _choice(config, report, 'translate_mode')
 
 
+def ask_choice(config, report=None):
+    return _choice(config, report, 'ask_mode')
+
+
 def _choice(config, report, flag):
     model_id = load_manifest()["command_model"]
     selected = config.get("command", {}).get("backend", "auto")

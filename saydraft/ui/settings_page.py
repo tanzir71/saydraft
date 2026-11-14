@@ -54,9 +54,10 @@ def resolve_project_path(value: str | os.PathLike[str], *, base: Path | None = N
     return base / path if base is not None else resolve_data_path(path)
 
 
-def find_hotkey_conflicts(hotkeys: dict[str, str], *, command_mode=False) -> list[str]:
+def find_hotkey_conflicts(hotkeys: dict[str, str], *, command_mode=False, ask_mode=False) -> list[str]:
     from saydraft.hotkeys.recording import validate_hotkeys
-    return validate_hotkeys(hotkeys, command_key='ctrl+win+alt' if command_mode else '')
+    return validate_hotkeys(hotkeys, command_key='ctrl+win+alt' if command_mode else '',
+                            ask_key=hotkeys.get('ask', '') if ask_mode else '')
 
 
 class SettingsPage(QtWidgets.QWidget):
@@ -256,6 +257,9 @@ class SettingsPage(QtWidgets.QWidget):
         self.scratchpad_hotkey_edit.setPlaceholderText('win+alt+s; blank disables')
         self.view_diff_hotkey_edit = QtWidgets.QLineEdit()
         self.view_diff_hotkey_edit.setPlaceholderText('ctrl+win+d; blank disables')
+        self.ask_hotkey_edit = QtWidgets.QLineEdit()
+        self.ask_hotkey_edit.setPlaceholderText('ctrl+win+a; blank disables')
+        self.ask_hotkey_edit.setToolTip('Open a reviewed-text question. Enable Ask separately in Labs.')
         self.save_hotkey_edit = QtWidgets.QLineEdit()
         self.cancel_hotkey_edit = QtWidgets.QLineEdit()
         self.tap_lock_spin = QtWidgets.QSpinBox()
@@ -271,12 +275,13 @@ class SettingsPage(QtWidgets.QWidget):
         form.addRow("Paste last transcript", self.paste_last_hotkey_edit)
         form.addRow('Open Scratchpad', self.scratchpad_hotkey_edit)
         form.addRow('View last diff', self.view_diff_hotkey_edit)
+        form.addRow('Ask about selected text', self.ask_hotkey_edit)
         self.shortcut_warning_label = QtWidgets.QLabel()
         self.shortcut_warning_label.setWordWrap(True)
         form.addRow(self.shortcut_warning_label)
         for edit in (self.speech_hotkey_edit, self.alternative_hotkey_edit, self.mouse_hotkey_edit,
                      self.hands_free_hotkey_edit, self.paste_last_hotkey_edit, self.scratchpad_hotkey_edit,
-                     self.view_diff_hotkey_edit, self.save_hotkey_edit, self.cancel_hotkey_edit):
+                     self.view_diff_hotkey_edit, self.ask_hotkey_edit, self.save_hotkey_edit, self.cancel_hotkey_edit):
             edit.textChanged.connect(lambda text: self._show_shortcut_warning())
         form.addRow("Save hotkey", self.save_hotkey_edit)
         form.addRow("Cancel hotkey", self.cancel_hotkey_edit)
@@ -493,6 +498,7 @@ class SettingsPage(QtWidgets.QWidget):
         self.paste_last_hotkey_edit.setText(cfg["hotkeys"]["paste_last"])
         self.scratchpad_hotkey_edit.setText(cfg['hotkeys']['scratchpad'])
         self.view_diff_hotkey_edit.setText(cfg['hotkeys']['view_diff'])
+        self.ask_hotkey_edit.setText(cfg['hotkeys']['ask'])
         self.save_hotkey_edit.setText(cfg["hotkeys"]["save"])
         self.cancel_hotkey_edit.setText(cfg["hotkeys"]["cancel"])
         self.tap_lock_spin.setValue(int(cfg["hotkeys"]["tap_lock_ms"]))
@@ -544,7 +550,8 @@ class SettingsPage(QtWidgets.QWidget):
         try:
             cfg = self._collect_config()
             self._refresh_shortcut_warning()
-            conflicts = find_hotkey_conflicts(cfg["hotkeys"], command_mode=cfg.get('labs', {}).get('command_mode', False))
+            conflicts = find_hotkey_conflicts(cfg["hotkeys"], command_mode=cfg.get('labs', {}).get('command_mode', False),
+                                             ask_mode=cfg.get('labs', {}).get('ask_mode') is True)
             if conflicts:
                 self.status_label.setText("Hotkey conflict: " + "; ".join(conflicts))
                 return False
@@ -605,6 +612,7 @@ class SettingsPage(QtWidgets.QWidget):
                   "hands_free": self.hands_free_hotkey_edit.text(),
                   "paste_last": self.paste_last_hotkey_edit.text(),
                   'scratchpad': self.scratchpad_hotkey_edit.text(), 'view_diff': self.view_diff_hotkey_edit.text(),
+                  'ask': self.ask_hotkey_edit.text(),
                   "cancel": self.cancel_hotkey_edit.text()}
         warning = shortcut_warning(values, detector=lambda: getattr(self, "_wispr_running", None))
         self.shortcut_warning_label.setText(warning)
@@ -622,6 +630,7 @@ class SettingsPage(QtWidgets.QWidget):
         cfg["hotkeys"]["paste_last"] = self.paste_last_hotkey_edit.text().strip()
         cfg['hotkeys']['scratchpad'] = self.scratchpad_hotkey_edit.text().strip()
         cfg['hotkeys']['view_diff'] = self.view_diff_hotkey_edit.text().strip()
+        cfg['hotkeys']['ask'] = self.ask_hotkey_edit.text().strip()
         cfg["hotkeys"]["save"] = self.save_hotkey_edit.text().strip()
         cfg["hotkeys"]["cancel"] = self.cancel_hotkey_edit.text().strip()
         cfg["hotkeys"]["tap_lock_ms"] = int(self.tap_lock_spin.value())
