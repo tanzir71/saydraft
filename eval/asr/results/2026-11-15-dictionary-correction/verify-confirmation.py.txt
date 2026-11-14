@@ -1,0 +1,162 @@
+"""Independent reserved confirmation verifier; no app/ASR/audio SDK imports."""
+import argparse
+from collections import Counter
+import gzip
+import hashlib
+import json
+from pathlib import Path
+import runpy
+import subprocess
+import sys
+import unicodedata
+
+
+def sha(data):
+    return hashlib.sha256(data).hexdigest()
+
+
+def digest(path):
+    value = hashlib.sha256()
+    with Path(path).open('rb') as source:
+        for chunk in iter(lambda: source.read(1024 * 1024), b''):
+            value.update(chunk)
+    return value.hexdigest()
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--repo', type=Path, required=True)
+    parser.add_argument('--output', type=Path, required=True)
+    parser.add_argument('--plan', type=Path, required=True)
+    parser.add_argument('--process', type=Path)
+    parser.add_argument('--dependency-root', type=Path)
+    parser.add_argument('--model-root', type=Path)
+    parser.add_argument('--tokenizer-root', type=Path)
+    parser.add_argument('--corpus-root', type=Path)
+    args = parser.parse_args()
+    plan_bytes = args.plan.read_bytes()
+    plan = json.loads(plan_bytes)
+    development = Path(plan['development'])
+    dev_plan = json.loads((development / 'plan.json').read_bytes())
+    original = Path(dev_plan['input_evidence'])
+    command = [sys.executable, str(development / 'verify-correction.py.txt'), '--repo', str(args.repo),
+               '--plan', str(development / 'plan.json'), '--output', str(development)]
+    if args.dependency_root:
+        command += ['--dependency-root', str(args.dependency_root)]
+    subprocess.run(command, check=True, stdout=subprocess.DEVNULL)
+    assert all(digest(development / name) == value for name, value in plan['development_files'].items())
+    helpers = runpy.run_path(str(original / 'verify-names.py.txt'))
+    normal, scores, terms, protected = (helpers[key] for key in ('normal', 'scores', 'terms', 'protected'))
+    dl = runpy.run_path(str(development / 'verify-correction.py.txt'))['dl']
+    result = json.loads((args.output / 'report.json').read_bytes())
+    process = json.loads((args.process or args.output / 'process.json').read_bytes())
+    assert process['source'] == result['source'] and process['child_exit_observed'] and process['child_exit_code'] == 0 and not process['timed_out']
+    assert process['source_unchanged'] and process['plan_unchanged'] and not process['hotword_encoding_error']
+    assert all(result[key] for key in ('source_clean', 'plan_unchanged', 'model_files_unchanged', 'corpus_unchanged', 'development_unchanged', 'package_unchanged', 'python_network_guard', 'complete'))
+    assert not any(result[key] for key in ('owner_accuracy_accepted', 'ship_accepted', 'native_firewall_verified', 'bengali_tamil_telugu_audio_decoded'))
+    assert result['runtime'] == '1.13.4' and result['native_decodes'] == 96 and result['only_audio_cohort_decoded'] == 'reserved_confirmation'
+    assert digest(args.plan) == process['plan_sha256'] == result['plan_sha256']
+    assert (args.output / 'plan.json').read_bytes() == plan_bytes
+    frozen = subprocess.check_output(['git', 'show', f"{result['source']}:eval/asr/results/2026-11-15-dictionary-correction/confirmation-plan.json"], cwd=args.repo)
+    assert frozen == plan_bytes and plan['cohort'] == 'reserved_confirmation'
+    assert plan['gate'] == dev_plan['gate'] and plan['terms'] == dev_plan['terms']
+    assert plan['candidates'] == ['parakeet_greedy__phonetic', 'parakeet_greedy__context_then_phonetic']
+    for name, expected in {**plan['algorithm_source_lf_sha256'], 'tools/dictionary_confirmation.py': plan['confirmation_source_lf_sha256']}.items():
+        blob = subprocess.check_output(['git', 'show', f"{result['source']}:{name}"], cwd=args.repo)
+        assert sha(blob.replace(b'\r\n', b'\n')) == expected
+    corpus_path = Path(plan['corpus_path'])
+    assert digest(corpus_path) == plan['corpus_sha256']
+    corpus = json.loads(corpus_path.read_bytes())
+    reserved = corpus['cohorts']['reserved_confirmation']
+    assert len(reserved) == 48
+    ids = [row['id'] for row in reserved]
+    assert len(set(ids)) == 48
+    for selected, clip in zip(plan['clips'], reserved, strict=True):
+        assert all(selected[key] == clip[key] for key in selected)
+        if args.corpus_root:
+            assert digest(args.corpus_root / clip['audio']) == clip['sha256']
+    catalog = json.loads(subprocess.check_output(['git', 'show', f"{result['source']}:saydraft/models/manifest.json"], cwd=args.repo))
+    model = next(row for row in catalog['models'] if row['id'] == 'parakeet-tdt-0-6b-v3-int8')
+    assert result['model_files'] == {row['path']: row['sha256'] for row in model['files']}
+    if args.model_root:
+        assert all(digest(args.model_root / name) == value for name, value in result['model_files'].items())
+    if args.tokenizer_root:
+        tokenizer = json.loads((original / 'tokenizer-receipt.json').read_bytes())
+        assert digest(args.tokenizer_root / 'tokenizer.vocab') == tokenizer['vocab_sha256']
+        assert digest(args.tokenizer_root / 'tokenizer.model') == tokenizer['tokenizer_sha256']
+    packed = subprocess.check_output(['git', 'show', f"{result['source']}:{plan['frequency']['file']}"], cwd=args.repo)
+    assert sha(packed) == plan['frequency']['sha256'] == digest(args.repo / plan['frequency']['file'])
+    common = frozenset(gzip.decompress(packed).decode().splitlines())
+    encoder = None
+    if args.dependency_root:
+        package = args.dependency_root / 'metaphone'
+        assert {p.relative_to(package).as_posix(): digest(p) for p in package.rglob('*.py')} == plan['package']['python_files']
+        sys.path.insert(0, str(args.dependency_root))
+        from metaphone import doublemetaphone
+        encoder = doublemetaphone
+    def codes(text):
+        value = ''.join(c for c in unicodedata.normalize('NFKD', text).casefold() if c.isascii() and c.isalpha())
+        return {code for code in encoder(value) if len(code) >= 2}
+    rows = [json.loads(line) for line in (args.output / 'cases.jsonl').read_text(encoding='utf-8').splitlines()]
+    assert len(rows) == result['completed_cases'] == result['expected_cases'] == 192
+    glossary, by_arm = {normal(term) for term in plan['terms']}, {}
+    for arm in plan['arms']:
+        selected = [row for row in rows if row['arm'] == arm]
+        assert [row['id'] for row in selected] == ids
+        by_arm[arm] = selected
+        counts, errors, surfaces, edits_count = Counter(), Counter(), Counter(), 0
+        for row, clip in zip(selected, reserved, strict=True):
+            assert row['error'] is None and all(row[key] == clip[key] for key in ('id', 'source_filename', 'reference', 'role'))
+            assert row['audio_sha256'] == clip['sha256']
+            text = row['raw']
+            if arm in plan['candidates']:
+                assert text == by_arm['parakeet_greedy'][ids.index(row['id'])]['text']
+            for stage in row['stages']:
+                assert stage['raw'] == text
+                last = -1
+                for edit in stage['edits']:
+                    assert last <= edit['start'] < edit['end'] <= len(text)
+                    assert text[edit['start']:edit['end']] == edit['before'] and edit['term'] in plan['terms']
+                    assert normal(edit['after']) == normal(edit['term']) and normal(edit['before']) not in common
+                    assert dl(normal(edit['before']), normal(edit['after'])) == edit['distance']
+                    assert edit['distance'] <= (2 if min(len(normal(edit['before'])), len(normal(edit['after']))) >= 6 else 1)
+                    if encoder:
+                        assert [term for term in plan['terms'] if codes(edit['before']) & codes(term)] == [edit['term']]
+                    last = edit['end']
+                for edit in reversed(stage['edits']):
+                    text = text[:edit['start']] + edit['after'] + text[edit['end']:]
+                assert text == stage['text']
+                edits_count += len(stage['edits'])
+            assert text == row['text']
+            counts.update(terms(row['reference'], text, glossary))
+            errors.update(scores(row['reference'], text))
+            surfaces.update(protected(row['reference'], text, glossary))
+        assert result['arms'][arm] == {'cases':48, 'terms':dict(counts), 'scores':dict(errors), 'protected_errors':dict(surfaces),
+                                       'term_recall':counts['matched']/counts['expected'], 'edits':edits_count}
+    passing = []
+    for arm in plan['candidates']:
+        regressions = []
+        for old, new in zip(by_arm['parakeet_greedy'], by_arm[arm], strict=True):
+            before, after = scores(old['reference'],old['text']), scores(new['reference'],new['text'])
+            previous, current = protected(old['reference'],old['text'],glossary), protected(new['reference'],new['text'],glossary)
+            failed = [k for k in ('word_errors','character_errors') if after[k]>before[k]]
+            failed += [k for k in previous if current[k]>previous[k]]
+            if terms(new['reference'],new['text'],glossary)['false_positives']>terms(old['reference'],old['text'],glossary)['false_positives']:
+                failed.append('term_false_positives')
+            if failed:
+                regressions.append({'id':new['id'],'role':new['role'],'metrics':failed})
+        gain = result['arms'][arm]['term_recall']/result['arms']['parakeet_greedy']['term_recall']-1
+        accepted = gain>=.30 and not regressions and result['arms'][arm]['terms']['false_positives']<=result['arms']['parakeet_greedy']['terms']['false_positives']
+        assert result['comparisons'][arm] == {'relative_term_recall_gain':gain,'regressions':regressions,'confirmation_gate_passed':accepted}
+        if accepted:
+            passing.append(arm)
+    chosen = sorted(passing,key=lambda arm:(-result['arms'][arm]['term_recall'],arm!='parakeet_greedy__phonetic',arm))[0] if passing else None
+    assert result['chosen_candidate']==chosen and result['confirmation_gate_passed']==bool(passing)
+    print(json.dumps({'verified':True,'source':result['source'],'native_decodes':96,'records':192,
+                      'confirmation_gate_passed':result['confirmation_gate_passed'],'chosen':chosen,
+                      'phonetics_verified':bool(encoder),'actual_audio_verified':bool(args.corpus_root),
+                      'actual_model_verified':bool(args.model_root),'owner_accuracy_accepted':False,'ship_accepted':False}))
+
+
+if __name__ == '__main__':
+    main()

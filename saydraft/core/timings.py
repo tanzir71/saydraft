@@ -3,7 +3,7 @@
 import logging
 
 logger = logging.getLogger(__name__)
-STAGES = ("record", "vad", "stt", "lid", "rules", "llm", "insert")
+STAGES = ("record", "vad", "stt", "lid", "dictionary", "rules", "llm", "insert")
 
 
 class TimingReporter:

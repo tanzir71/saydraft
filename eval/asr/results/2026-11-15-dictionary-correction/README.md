@@ -1,5 +1,22 @@
 # Frozen dictionary correction development protocol
 
+Confirmation is complete: source `e44b93a`, 96 native decodes and 192 records,
+exit 0 after 123.26 seconds. Both admitted variants raise matches **15→22/43
+(+46.67%)**, with seven edits, word errors 234→227, character errors 917→908,
+zero false positives and no per-clip regressions. The frozen tie-break selects
+phonetic-only, with no additional ASR pass. Exact output/source/process/guard
+and independent actual-payload verification are in `confirmation/`. Recording
+sets share prompts; speaker independence and owner accuracy remain unverified.
+The 60 Bengali/Tamil/Telugu confirmation clips remain unused.
+
+Application integration uses the selected kernel in normal resolved-English
+cleanup, preserving raw ASR History, literal/protected content and Verbatim/code
+behavior. Its scalable glossary index replays all 96 qualified outputs exactly
+and checks ambiguity beyond 40 entries. Metaphone 0.6 is now a pinned runtime
+dependency with its complete license collected from the actual wheel. The
+earlier isolated-install recipe remains hash locked. Full-pipeline/package
+qualification results follow when complete.
+
 Development source `604b5556c423c3edf2ed9961365e6f9c3316167c` completes all 384
 text-processing records, exit 0 after 5.06 seconds, with unchanged source/plan/
 inputs/package hashes. Phonetic correction raises Parakeet matches **15→20/43**
@@ -8,7 +25,8 @@ The combined path produces the same scores. Both pass the frozen development
 gate; transfer alone gains 6.67%, while Whisper variants gain at most 18.18%.
 The independent scorer replays every edit and verifies metrics, common-word
 filter, true Damerau distance, pinned phonetic codes, source and input hashes.
-The expanded local suite passes **300 tests**. No production path is activated.
+The expanded prototype suite passes **300 tests**. At that development checkpoint
+no production path had been activated.
 
 `confirmation-plan.json` freezes a separate 48-recording test before decoding:
 the original second recordings, unchanged dictionary/correction/package/wordlist,
@@ -46,9 +64,9 @@ number/acronym surface errors, with every case complete. Passing development
 only selects a candidate for a separate frozen confirmation run. It does not
 qualify production integration, broad accuracy or owner acceptance.
 
-`saydraft.asr.biasing` is not connected to the dictation path. Metaphone 0.6 is
-pinned for development; `eval/asr/dictionary-correction-requirements.txt` locks
-the source SHA-256 for an isolated install. It is not a shipping dependency.
+The original `604b555` candidate was not connected to dictation; application
+integration follows confirmation. `eval/asr/dictionary-correction-requirements.txt`
+locks the same Metaphone 0.6 source SHA-256 for isolated evaluation installs.
 The [upstream package](https://pypi.org/project/Metaphone/0.6/) is BSD licensed;
 the unchanged license, source metadata and installation provenance are retained.
 No model downloads, audio capture/playback, clipboard, hooks or owner profile

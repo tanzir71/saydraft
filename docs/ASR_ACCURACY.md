@@ -22,6 +22,17 @@ finished and its [failed median gate is retained](LATENCY_MATRIX.md).
 
 ## Evaluation scope
 
+A [conservative phonetic dictionary path](spikes/biasing.md) now passes unchanged
+≥30%/no-per-clip-regression gates: 15→20/43 name matches on development (+33.33%),
+then 15→22/43 on 48 reserved recordings (+46.67%), with no false positives. Its
+confirmation was frozen before decoding. The sets share prompts and have
+unverified speaker independence; broader and owner accuracy remain open. The
+selected path adds no ASR pass and is integrated into resolved-English cleanup,
+preserving original History text and protected/literal content. The 60 separate
+Bengali/Tamil/Telugu confirmation clips remain uninferred.
+
+Earlier ASR-only findings:
+
 A [disjoint 40-name development comparison](spikes/biasing.md) now completes
 240 native decodes on 48 pinned FLEURS English dev clips. Parakeet hotwords
 improves exact name recall 15→20/43 (33.33% relative); Whisper context improves
@@ -29,8 +40,8 @@ improves exact name recall 15→20/43 (33.33% relative); Whisper context improve
 false positives, but fail the frozen per-clip gate on three and two clips
 respectively. Whisper's number-surface change is a formatting difference, not
 proof of changed numeric meaning. No recognition default or phonetic rewrite
-is promoted. The 48 paired reserved recordings share prompts and remain
-uninferred, as do the 60 Bengali/Tamil/Telugu confirmation clips. Independent
+was promoted by that experiment. Its 48 paired reserved recordings were later
+used only by the frozen conservative confirmation above. Independent
 verification covers raw scores, Git source, selection, actual audio/archive,
 tokenizer and both models. The earlier ordinary-word comparison (36/42, zero
 gain and increased errors) remains retained separately. Neither experiment

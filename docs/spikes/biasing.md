@@ -1,11 +1,49 @@
 # Dictionary biasing investigation, 2026-11-12
 
-No winner is selected and no recognition or fuzzy-correction default changes.
-A disjoint 40-name follow-up now measures 240 native decodes on 48 public English
-development clips. Parakeet hotwords improve name recall 33.33% and Whisper
-context improves it 68.18%, clearing the recall subtarget. Both fail the stricter
-frozen per-clip admission gate. Defaults stay unchanged, reserved recordings
-remain uninferred, and production biasing plus phonetic correction remain open.
+The selected path is conservative phonetic correction after ordinary recognition.
+It passes frozen development and reserved-recording gates and is integrated into
+normal resolved-English cleanup. Decoder/model choices stay unchanged. Owner
+accuracy and broader language quality remain unaccepted.
+
+## 15 November: qualified correction and application integration
+
+Source `604b555` freezes a separate protocol on the **already observed** English
+development outputs. Forty terms, all case IDs, raw inputs and strict gates
+stay intact. Every edit needs a unique Double Metaphone target, small unrestricted
+Damerau–Levenshtein distance and a non-common original spelling. Code, numbers,
+ambiguity and protected spans decline changes. Hint transfer takes only eligible
+dictionary spans, keeping other baseline bytes. No reference or case ID is
+passed to the corrector. All 384 text-processing records complete, exit 0.
+
+Phonetic-only and combined variants both improve Parakeet matches 15→20/43
+(+33.33%), word errors 276→271 and character errors 1,113→1,108: five edits,
+zero false positives and no per-clip regressions. Other variants miss the recall
+gate. Source `e44b93a` then freezes confirmation before decoding the original
+48 reserved recordings. Candidate code, word list, package and gates remain
+unchanged. All 96 native decodes and 192 total records finish, exit 0 after
+123.26 seconds. Both variants improve matches **15→22/43 (+46.67%)**, word errors
+234→227 and character errors 917→908, with seven edits, zero false positives and
+no per-clip word/character/number/acronym regressions. The frozen tie-break picks
+**phonetic-only**, which needs no extra recognition pass. Independent verifiers
+replay edits, phonetic codes, true distance, word-list filtering, scores and
+source/input/actual model/audio hashes.
+
+The two sets contain 96 distinct recordings with shared prompts and unverified
+speaker independence. They do not qualify unseen text, broad accents, other
+languages or owner accuracy. The 60 Bengali/Tamil/Telugu confirmation clips stay
+uninferred. Earlier failed raw experiments and criteria below remain unchanged.
+
+The application uses a cached complete-glossary index with ambiguity checked
+across batches. Literals, protected words and explicit replacement destinations
+are masked first; newly corrected names receive the existing AI protection.
+Reserved placeholder IDs prevent collisions inside nested quoted/code spans.
+Raw/Verbatim/code/translation/unknown-language paths decline fuzzy changes, and
+History retains original ASR text. Dictionary duration is recorded separately.
+Metaphone 0.6 is pinned with its BSD license. No decoder, model or model-download
+default changes. The compiled vocabulary replays all 96 qualified outputs exactly;
+721 expanded integration checks pass. Full-pipeline and frozen-package results
+are recorded in the [retained evidence](../../eval/asr/results/2026-11-15-dictionary-correction/)
+when complete; live capture/delivery and release latency remain unqualified.
 
 ## 15 November: disjoint names and collateral regressions
 
@@ -194,6 +232,5 @@ phonetic matches must preserve the original. A Double Metaphone match alone is
 not sufficient evidence to rewrite a homophone. Do not infer Bengali/Arabic
 support from an English phonetic algorithm.
 
-P3.5 remains unchecked. The public corpus above is now available, but no candidate
-passes every frozen admission gate and production phonetic correction is still
-pending. No further owner upload request is made while the deferral stands.
+The later conservative correction above supersedes the initial lack of a passing
+candidate. Owner acceptance remains deferred; no further upload request is made.

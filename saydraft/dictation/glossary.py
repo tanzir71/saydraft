@@ -74,12 +74,13 @@ def apply_replacements(text: str, glossary: Glossary) -> str:
     return out
 
 
-def protect_terms(text: str, glossary: Glossary) -> Tuple[str, Dict[str, str]]:
+def protect_terms(text: str, glossary: Glossary, *, reserved=()) -> Tuple[str, Dict[str, str]]:
     protected = glossary.all_protected()
     if not text or not protected:
         return text, {}
 
     mapping: Dict[str, str] = {}
+    reserved = set(reserved)
     idx = 0
     terms = [re.escape(term) for term in protected if term.strip()]
     if not terms:
@@ -90,7 +91,7 @@ def protect_terms(text: str, glossary: Glossary) -> Tuple[str, Dict[str, str]]:
         nonlocal idx
         if not whole_word_match(text, match):
             return match[0]
-        while f"__GLOSSARY_{idx}__" in text:
+        while f"__GLOSSARY_{idx}__" in text or f"__GLOSSARY_{idx}__" in reserved:
             idx += 1
         placeholder = f"__GLOSSARY_{idx}__"
         idx += 1

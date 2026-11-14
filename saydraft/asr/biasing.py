@@ -1,4 +1,4 @@
-"""Bounded dictionary correction candidate; not integrated into dictation yet.
+"""Bounded dictionary correction kernel for explicit English prose.
 
 Only explicit English prose is eligible. Double Metaphone is an approximate
 match, so every correction also needs a small unrestricted Damerau-Levenshtein
@@ -146,7 +146,7 @@ def _bounded(values, limit):
 class DictionaryCorrector:
     """No model, profile, device, clipboard, network or OS input access.
 
-    The optional Metaphone dependency is loaded lazily. Missing dependencies or
+    The Metaphone dependency is loaded lazily. Missing dependencies or
     corrupt/unavailable word lists preserve the whole original transcript.
     """
 

@@ -125,7 +125,9 @@ the earlier warm fixture results retain their original scope.
   searchable notes, and revision conflict recovery. A shortcut also opens the
   last dictation's changes. See the [Notes guide](docs/NOTES.md).
 - **Personal vocabulary:** searchable Dictionary terms, protected terms, and
-  replacement pairs; Snippets with date/clipboard variables and import/export.
+  replacement pairs, with conservative spelling correction in resolved-English
+  dictation; Snippets with date/clipboard variables and import/export. See
+  [dictionary behavior and limits](docs/DICTIONARY_LEARNING.md).
 - **Translate while speaking · Labs:** optional Pro translation to English,
   Spanish or Arabic with per-group targets, local generation and Copy recovery.
   See the [setup and limits](docs/TRANSLATE.md).

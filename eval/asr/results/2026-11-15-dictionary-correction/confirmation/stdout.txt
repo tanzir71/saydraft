@@ -1,0 +1,12 @@
+{"verified": true, "cases": 384, "passing": ["parakeet_greedy__phonetic", "parakeet_greedy__context_then_phonetic"], "chosen": "parakeet_greedy__context_then_phonetic", "edits_replayed": true, "source_and_inputs_verified": true, "phonetics_verified": true, "confirmation_inferred": false, "owner_accuracy_accepted": false}
+{"arm": "parakeet_greedy", "completed": 10, "expected": 48}
+{"arm": "parakeet_greedy", "completed": 20, "expected": 48}
+{"arm": "parakeet_greedy", "completed": 30, "expected": 48}
+{"arm": "parakeet_greedy", "completed": 40, "expected": 48}
+{"arm": "parakeet_greedy", "completed": 48, "expected": 48}
+{"arm": "parakeet_hotwords", "completed": 10, "expected": 48}
+{"arm": "parakeet_hotwords", "completed": 20, "expected": 48}
+{"arm": "parakeet_hotwords", "completed": 30, "expected": 48}
+{"arm": "parakeet_hotwords", "completed": 40, "expected": 48}
+{"arm": "parakeet_hotwords", "completed": 48, "expected": 48}
+{"complete": true, "confirmation_gate_passed": true, "chosen_candidate": "parakeet_greedy__phonetic", "ship_accepted": false}

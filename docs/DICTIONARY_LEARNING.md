@@ -7,6 +7,30 @@ explicit Add, optional Auto-add, revision-scoped Undo and Settings controls are
 implemented. Both learning settings default off.
 Manual desktop acceptance remains deferred after Computer Use was stopped.
 
+## Dictionary spelling during dictation
+
+Manual and learned entries now help correct close spelling errors in resolved
+English dictation when normal cleanup is allowed. The selected path combines
+Double Metaphone with unrestricted Damerau–Levenshtein distance and needs no
+additional ASR pass or model. Common words, ambiguous targets, code/identifiers,
+numbers, literals and protected text decline fuzzy changes. Explicit replacement
+pairs take priority; use one when you intend to change a valid word or homophone.
+
+Raw/Verbatim, code, translation, unknown/other languages and mixed scripts do not
+receive phonetic guesses. History keeps original ASR text; corrected names are
+protected before subsequent cleanup. The dictionary timing stage logs duration,
+without transcript content. Entries are indexed across the complete glossary
+and ambiguity is checked globally, including across processing batches.
+
+The kernel handles prose up to 4,096 characters and fuzzy targets up to 64
+characters/six words. Unsupported longer entries keep exact protection; missing
+runtime or frequency data preserves recognized words. Reload/Add/learning update
+the cached vocabulary. The [public evaluation](spikes/biasing.md) passes frozen
+gates on development (15→20/43 names, +33.33%) and separate recordings
+(15→22/43, +46.67%), with no false positives or per-clip regressions. Shared
+prompts, unverified speaker independence and deferred owner/broader acceptance
+limit these results. P5.6's native learning and Undo acceptance remains open.
+
 ## Suggestions and actions
 
 Hub → Dictionary exposes **Suggest words from corrections** and a separate

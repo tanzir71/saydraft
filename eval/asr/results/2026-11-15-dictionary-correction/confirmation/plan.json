@@ -1,0 +1,452 @@
+{
+  "schema": 1,
+  "protocol": "dictionary_reserved_recordings_v1",
+  "development": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\dictionary-correction-20261115\\eval\\asr\\results\\2026-11-15-dictionary-correction",
+  "development_files": {
+    "plan.json": "b882668eda335fc21dd6e06b1d031aba7c3b1ba91a9d6661b60a723225134030",
+    "report.json": "34483fffdf64d1984efe7de43d1035b0b4247d16e8a631094b7f02fc89e7e919",
+    "cases.jsonl": "53f9e02daca0088ee108d7ccf5a9f6a94f057df2ed6c8f46b91115512ce6a565",
+    "verify-correction.py.txt": "d6343ed3fb86bb860f49d8964489d7cf4feb76638a276b89c4765874ee186933"
+  },
+  "development_source": "604b5556c423c3edf2ed9961365e6f9c3316167c",
+  "corpus_path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dictionary-names-20261114-r1\\corpus-r1\\corpus.json",
+  "corpus_sha256": "db5907f2aa541128326959b2e8ba8715cb8eee59cfdf1c91d46996212d72806b",
+  "terms": [
+    "Martelly",
+    "Manila",
+    "Mediterranean",
+    "Maciej",
+    "Krezel",
+    "Ogarzynska",
+    "Seork",
+    "Siminoff",
+    "Chhappan",
+    "Bhog",
+    "Shyam",
+    "Timbuktu",
+    "Fairmont",
+    "Marion",
+    "Kundalini",
+    "Johndroe",
+    "Kashiwazaki",
+    "Kariwa",
+    "Niigata",
+    "Klöcker",
+    "Ehrenstrahl",
+    "Comoros",
+    "Mayotte",
+    "Lakkha",
+    "Bishkek",
+    "Gingrich",
+    "Bachmann",
+    "Galapagos",
+    "Versace",
+    "Armand",
+    "Uthappa",
+    "Aristarchus",
+    "Kruger",
+    "Mozambique",
+    "Zimbabwe",
+    "Vinson",
+    "Velasquez",
+    "Honshu",
+    "Auckland",
+    "Canaan"
+  ],
+  "cohort": "reserved_confirmation",
+  "clips": [
+    {
+      "id": 1510,
+      "source_filename": "2031944424456517788.wav",
+      "sha256": "66a44512e47ba2602858aba53dfe261c0799783ecdcac1193ca1082798102c58",
+      "reference": "The U.N. also hopes to finalize a fund to help countries affected by global warming to cope with the impacts.",
+      "role": "negative_other"
+    },
+    {
+      "id": 1511,
+      "source_filename": "12204437526850617043.wav",
+      "sha256": "a64ab90296f35b4ac62d0757462765c97afe5486bdd0bdb37c9276f77994ce56",
+      "reference": "Soon, officers equipped with riot gear entered the yard and cornered the inmates with tear gas.",
+      "role": "negative_other"
+    },
+    {
+      "id": 1512,
+      "source_filename": "14943482914786149710.wav",
+      "sha256": "3fb1685f0f903b272d4f298e6b0f467b8a62b9e184c01d86b03c6d34feb3c265",
+      "reference": "This new environment has different resources and different competitors, so the new population will need different features or adaptations to be a strong competitor than what they had needed before.",
+      "role": "negative_other"
+    },
+    {
+      "id": 1513,
+      "source_filename": "12541283768447528582.wav",
+      "sha256": "5c8c649b8ccd8587b69a5b6c43742c6f15ae8a53f46a29b780471784cebe0dc7",
+      "reference": "Argentina is well known for having one of the best polo teams and players in the world.",
+      "role": "negative_other"
+    },
+    {
+      "id": 1514,
+      "source_filename": "15472366452348613907.wav",
+      "sha256": "a9ce6623d9580f7914d0e43e1b040e9c4b94d44ff7ee24710b728ae0db3ef4aa",
+      "reference": "When the fighting ceased after the wounded were transported to the hospital, about 40 of the other remaining inmates stayed in the yard and refused to return to their cells.",
+      "role": "negative_numeric"
+    },
+    {
+      "id": 1515,
+      "source_filename": "1894240377480073066.wav",
+      "sha256": "d588efa693e6499b34faccf9de5819f37ffd4c029abbe7644f78143c9aaadb34",
+      "reference": "It is Martelly's fifth CEP in four years.",
+      "role": "positive"
+    },
+    {
+      "id": 1516,
+      "source_filename": "4749248313097377688.wav",
+      "sha256": "e844d44abfbcaeb953846dcb74b008a9b1f2f35869bd94092661f7a369f8c0b5",
+      "reference": "Please treat the site with all of the dignity, solemnity and respect it deserves. Do not make jokes about the Holocaust or Nazis.",
+      "role": "negative_other"
+    },
+    {
+      "id": 1517,
+      "source_filename": "14073676806876183541.wav",
+      "sha256": "75ee3afa8c3e5608d40a01b566b5acafe0918612d48a6b3b4e5b31d7d13219b6",
+      "reference": "Research in AI involves making machines to automate tasks that require intelligent behavior.",
+      "role": "negative_other"
+    },
+    {
+      "id": 1518,
+      "source_filename": "3051387636483776445.wav",
+      "sha256": "2cd7c2e1e4687d29c23e7ece3d4d95c792562b5a8821fb48f901b5596b8a878c",
+      "reference": "A former Filipino policeman has kept Hong Kong tourists hostage by hijacking their bus in Manila, the capital of the Philippines.",
+      "role": "positive"
+    },
+    {
+      "id": 1519,
+      "source_filename": "16685771406658302555.wav",
+      "sha256": "dc083a9c47c913df2bdfd231ef342580d545d2c95fb19f52c95909db30192a0e",
+      "reference": "In many cases, enrolling on a gap-year course abroad can actually improve your chances of moving into higher education back in your home country.",
+      "role": "negative_other"
+    },
+    {
+      "id": 1520,
+      "source_filename": "14159953987327027140.wav",
+      "sha256": "73e8490f8f7115d133b97d61c02aa3f3a06f7e67d7d584bb98008bd3ddbe4944",
+      "reference": "Out of 1,400 people polled prior to the 2010 federal election, those who oppose Australia becoming a republic grew by 8 per cent since 2008.",
+      "role": "negative_numeric"
+    },
+    {
+      "id": 1521,
+      "source_filename": "11909868287041540501.wav",
+      "sha256": "80a8402ab1352900fed0c48b4ad687681a3e91ce3a94864014a327ad3f2ac620",
+      "reference": "The satellite in space gets the call and then reflects it back down, almost instantly.",
+      "role": "negative_other"
+    },
+    {
+      "id": 1522,
+      "source_filename": "15608148901268659392.wav",
+      "sha256": "bd03c1ee2ee8041cb163eec91f73713c5200794fbcdb37f032bc6c3bdd0b9485",
+      "reference": "Technology offers the solution with virtual field trips. Students can look at museum artifacts, visit an aquarium, or admire beautiful art while sitting with their class.",
+      "role": "negative_other"
+    },
+    {
+      "id": 1523,
+      "source_filename": "7691076933585556685.wav",
+      "sha256": "26e8ddd08500af5a99522fdb9f8f9e15f1f9ce5f61e12574b8028436b9e8dc01",
+      "reference": "The final score was a one-point victory, 21 to 20, ending the All Blacks' 15 game winning streak.",
+      "role": "negative_numeric"
+    },
+    {
+      "id": 1524,
+      "source_filename": "18084691195582560514.wav",
+      "sha256": "c68c73005dc054491d3e8cf50f81caad2f39d8b2b944efa8f81a723e01187d26",
+      "reference": "There are a lot of social and political effects such as the use of metric system, a shift from absolutism to republicanism, nationalism and the belief the country belongs to the people not to one sole ruler.",
+      "role": "negative_other"
+    },
+    {
+      "id": 1525,
+      "source_filename": "7197385702704991551.wav",
+      "sha256": "fcdb36b9e7f31a21c0ce7b305dc958a8ab759ff37a5d06a5a35f62803220ecb3",
+      "reference": "The broad boulevards, glass-fronted buildings and modern shopping centers are dotted with traditional red-tiled roofs, the 18th century market, and old mosques and churches, although the city has an atmosphere more of Mediterranean Europe than traditional Turkey.",
+      "role": "positive"
+    },
+    {
+      "id": 1527,
+      "source_filename": "843704469654597326.wav",
+      "sha256": "c866c37853980db185d8d00cd3a7dbd8166a2caf44143ddb41508a8559e0cbc6",
+      "reference": "Poland's men's visually impaired skier Maciej Krezel and guide Anna Ogarzynska finished thirteenth in the Super-G. South Korea's Jong Seork Park finished twenty-fourth in the men's sitting Super-G.",
+      "role": "positive"
+    },
+    {
+      "id": 1529,
+      "source_filename": "4153726051135194587.wav",
+      "sha256": "a8cffda74db0e91ea10faf39e22278aab01f13edbdd4be20522c053338d040d8",
+      "reference": "Previously, Ring's CEO, Jamie Siminoff, remarked the company started when his doorbell wasn't audible from his shop in his garage.",
+      "role": "positive"
+    },
+    {
+      "id": 1532,
+      "source_filename": "8263310139256169825.wav",
+      "sha256": "65c65c2f3f01266d5551076135494c8744b93f802d7ea8ef5c21912c904bb9d5",
+      "reference": "108 plates of Chhappan Bhog (in Hinduism, 56 different edible items, like, sweets, fruits, nuts, dishes etc. which are offered to deity) were served to Baba Shyam.",
+      "role": "positive"
+    },
+    {
+      "id": 1534,
+      "source_filename": "7552355741824675369.wav",
+      "sha256": "6cc6ea5a44bcda2fbc95272a691310998ba4549f85ca7205348d4fbad9cf071d",
+      "reference": "Combined with its relative inaccessibility, \"Timbuktu\" has come to be used as a metaphor for exotic, distant lands.",
+      "role": "positive"
+    },
+    {
+      "id": 1538,
+      "source_filename": "3414700157664963361.wav",
+      "sha256": "1b4f8a5c0e8a1e5607beb302d3e5977bb646215598235e0ce73987582b8bd879",
+      "reference": "The stretch between Point Marion and Fairmont presents the most challenging driving conditions on the Buffalo-Pittsburgh Highway, passing frequently through isolated backwoods terrain.",
+      "role": "positive"
+    },
+    {
+      "id": 1540,
+      "source_filename": "180913665597546887.wav",
+      "sha256": "3dd67ad6c530881963d44461e4177fc08ed9122279f5f9e4167915babf0e1910",
+      "reference": "In principle the Tibetan Buddhism is very simple. It consists of Kundalini Yoga, meditation and the path of all-embracing love.",
+      "role": "positive"
+    },
+    {
+      "id": 1542,
+      "source_filename": "3553772547707478752.wav",
+      "sha256": "42ec7ab011220a85d151555bfc06e6292a86c53b082623e6341f232281dfd10f",
+      "reference": "Bush spokesman Gordon Johndroe called North Korea's pledge \"a major step towards the goal of achieving the verifiable denuclearization of the Korean peninsula.\"",
+      "role": "positive"
+    },
+    {
+      "id": 1547,
+      "source_filename": "17581818460988395551.wav",
+      "sha256": "1dd2480d0134309ea43ad04f9aa25446c6771fdc2267dfc0af80945d3bcfc085",
+      "reference": "NHK also reported that the Kashiwazaki Kariwa nuclear power plant in Niigata prefecture was operating normally.",
+      "role": "positive"
+    },
+    {
+      "id": 1556,
+      "source_filename": "2728000583961321213.wav",
+      "sha256": "dfe295309b3ee6495bdd67a4f2722cc65431651270041b588ea04ee8e90f4edf",
+      "reference": "His 1,000th stamp was the magnificent \"Great Deeds by Swedish Kings\" by David Klöcker Ehrenstrahl in 2000, which is listed in the Guinness Book of World Records.",
+      "role": "positive"
+    },
+    {
+      "id": 1571,
+      "source_filename": "227756730022928180.wav",
+      "sha256": "cf6626ab911493ede40fe7524711dd62b41daa7e6830aa1e11c0afcb5e33751b",
+      "reference": "The Arabs also brought Islam to the lands, and it took in a big way in the Comoros and Mayotte.",
+      "role": "positive"
+    },
+    {
+      "id": 1578,
+      "source_filename": "14595151361585873501.wav",
+      "sha256": "ead2e4b86adbfa21642810890924d48227f47ff2323f34902cd5662ccff52cc4",
+      "reference": "Then, Lakkha Singh took the lead in singing the bhajans.",
+      "role": "positive"
+    },
+    {
+      "id": 1580,
+      "source_filename": "16228441545130711683.wav",
+      "sha256": "042e421b320312e810fc442863722a6f848b20c66498e8c887b8990f0974763e",
+      "reference": "Across the United States of America, there are approximately 400,000 known cases of Multiple Sclerosis (MS), leaving it as the leading neurological disease in younger and middle aged adults.",
+      "role": "negative_numeric"
+    },
+    {
+      "id": 1584,
+      "source_filename": "2677167459739246091.wav",
+      "sha256": "c0b5c8929b8eac539f6daeddcb87fa5b7b9b47db8487f0c75411c8695943f3ac",
+      "reference": "Widespread looting reportedly continued overnight, as law enforcement officers were not present on Bishkek's streets.",
+      "role": "positive"
+    },
+    {
+      "id": 1586,
+      "source_filename": "17322856977537488565.wav",
+      "sha256": "852c161001e63110082062883430ef051b0fe5832f940fe64d1bb2f2c43f9e5c",
+      "reference": "Her first was the Slalom, where she earned a Did Not Finish in her first run. 36 of the 116 competitors had the same result in that race.",
+      "role": "negative_numeric"
+    },
+    {
+      "id": 1591,
+      "source_filename": "3811651886093426130.wav",
+      "sha256": "87f0e629456b18545b6a18c2668eaa67106fd21a284f65f143b3ddbee17c5bc2",
+      "reference": "Former House Speaker Newt Gingrich, Texas governor Rick Perry, and Congresswoman Michele Bachmann finished in fourth, fifth, and sixth place, respectively.",
+      "role": "positive"
+    },
+    {
+      "id": 1593,
+      "source_filename": "17970999751468913254.wav",
+      "sha256": "bfcce772318286caea4f28e9a40d469a0246dde2f4cd7c3e444c02629c3ac940",
+      "reference": "Eventually, wooden wheels were replaced by iron wheels. In 1767, the first full-iron rails were introduced.",
+      "role": "negative_numeric"
+    },
+    {
+      "id": 1602,
+      "source_filename": "4996448179547087187.wav",
+      "sha256": "7cf0a248060700c87bdb988a8f0f35c9ebe9d9f0245aa5c41e34a7acc2257970",
+      "reference": "Majorcan cuisine, like that of similar zones in the Mediterranean, is based on bread, vegetables and meat (specially pork), and uses olive oil throughout.",
+      "role": "positive"
+    },
+    {
+      "id": 1604,
+      "source_filename": "7777234891538102330.wav",
+      "sha256": "9cd22e310635a73a1afae2b3b8c0d14e758e54144f124f53f12270e6b3308a16",
+      "reference": "As NSA, he assisted Carter in diplomatically handling world affairs, such as the Camp David Accords, 1978; normalizing US–China relations thought the late 1970s; the Iranian Revolution, which led to the Iran hostage crisis, 1979; and the Soviet invasion in Afghanistan, 1979.",
+      "role": "negative_numeric"
+    },
+    {
+      "id": 1605,
+      "source_filename": "18255068392894758145.wav",
+      "sha256": "2a840af19170f5421f1c53e11a13b6026f97430c0d0b2ef1e13b229bdec8dfb2",
+      "reference": "Due to the long distance from the continent mammals were unable to make the journey making the giant tortoise the primary grazing animal in the Galapagos.",
+      "role": "positive"
+    },
+    {
+      "id": 1606,
+      "source_filename": "2866207319892896064.wav",
+      "sha256": "f943af368280d4c0ead56100513020040f781b2b3a270ab2dc96d89d43136c18",
+      "reference": "The Portuguese destroyed it and rebuilt it under the name Casa Branca, only to abandon it after an earthquake in 1755.",
+      "role": "negative_numeric"
+    },
+    {
+      "id": 1608,
+      "source_filename": "4582604850545677686.wav",
+      "sha256": "03f70ebc96e49cf588275b86265588016fc6fd629ae7e96f5821ae9dabc1b19b",
+      "reference": "I lost my sister and her friend, and on my way there were two disabled people in wheelchairs, people just jumping over and pushing them,\" Armand Versace said.",
+      "role": "positive"
+    },
+    {
+      "id": 1609,
+      "source_filename": "3165540733904730243.wav",
+      "sha256": "347228b0381efa21d8cb445be239ec3c7073b71af53ea4fb35d9112be2ddb430",
+      "reference": "Robin Uthappa made the innings highest score, 70 runs in just 41 balls by hitting 11 fours and 2 sixes.",
+      "role": "positive"
+    },
+    {
+      "id": 1612,
+      "source_filename": "16514625503507012676.wav",
+      "sha256": "11bfaeb589639ccb036378fb16612a85a951b31d841d0727bb8ec4ef17060d63",
+      "reference": "Water is spilling over the levee in a section 100 feet wide.",
+      "role": "negative_numeric"
+    },
+    {
+      "id": 1615,
+      "source_filename": "12448892225382361830.wav",
+      "sha256": "84bf76069bfaa6b431a60adddda47bbbbf681ea3f7912808bc1c4666fd5d94fd",
+      "reference": "Thousands of years ago, a man called Aristarchus said that the Solar System moved around the Sun.",
+      "role": "positive"
+    },
+    {
+      "id": 1617,
+      "source_filename": "16305283541792645469.wav",
+      "sha256": "b9a889aa2e86107d43226c7f833aae3416530ccf133b519ecb9148fd273bf2ca",
+      "reference": "The Kruger National Park (KNP) lies in the north-east of South Africa and runs along the border of Mozambique in the east, Zimbabwe in the north, and the southern border is the Crocodile River.",
+      "role": "positive"
+    },
+    {
+      "id": 1618,
+      "source_filename": "1434421756977348703.wav",
+      "sha256": "72702c8a07bee7c6aecfc27f8289b38e3ed0947c793519a543faf8f7b186f6a6",
+      "reference": "The northern part or Sentinel Range has Antarctica's highest mountains, the Vinson Massif, peaking at 4892 m Mount Vinson.",
+      "role": "positive"
+    },
+    {
+      "id": 1625,
+      "source_filename": "6615452215796933088.wav",
+      "sha256": "e6189ef9030d6e70fccd4c65bc18f633f6641579f387651da262eaa071f270b3",
+      "reference": "Famous singers across the country presented bhajans, or devotional songs, to Shri Shyam's feet.",
+      "role": "positive"
+    },
+    {
+      "id": 1626,
+      "source_filename": "16893502586280184429.wav",
+      "sha256": "98847e1d0d44d9bf8388ddf2568a82e3979d9f0e49435471ecdc8ac8a12b660e",
+      "reference": "The Olympic gold medalist was due to swim in the 100m and 200m freestyle and in three relays at the Commonwealth Games, but due to his complaints his fitness has been in doubt.",
+      "role": "negative_numeric"
+    },
+    {
+      "id": 1630,
+      "source_filename": "8259791173436815888.wav",
+      "sha256": "e85aef051308d5afd533ce01d5c94baea3d9b785b0d0c57e64e3c183e1556b30",
+      "reference": "Arly Velasquez of Mexico finished fifteenth in the men's sitting Super-G. New Zealand's Adam Hall finished ninth in the men's standing Super-G.",
+      "role": "positive"
+    },
+    {
+      "id": 1634,
+      "source_filename": "2444568678842868955.wav",
+      "sha256": "ec5338d7431efcdfe25ad766ca93129355df36513badb94abaa68220930b75e2",
+      "reference": "Japans holds nearly 7,000 islands (the biggest being Honshu), making Japan the 7th largest island in the world!",
+      "role": "positive"
+    },
+    {
+      "id": 1646,
+      "source_filename": "7939024995221969344.wav",
+      "sha256": "49a61b4e3ca8e15ec1efc930e0e77094e523808b4dd36152d9edb4cadad3190e",
+      "reference": "There are many beaches, due to Auckland's straddling of two harbours. The most popular ones are in three areas.",
+      "role": "positive"
+    },
+    {
+      "id": 1648,
+      "source_filename": "4597829414184879457.wav",
+      "sha256": "34e0b8f4486ae5b6c99735103c7f293b395f14f185fb08c38440c1d607774c1f",
+      "reference": "There were no large forests in the land of Canaan, so wood was extremely expensive.",
+      "role": "positive"
+    }
+  ],
+  "candidates": [
+    "parakeet_greedy__phonetic",
+    "parakeet_greedy__context_then_phonetic"
+  ],
+  "arms": [
+    "parakeet_greedy",
+    "parakeet_hotwords",
+    "parakeet_greedy__phonetic",
+    "parakeet_greedy__context_then_phonetic"
+  ],
+  "parameters": {
+    "threads": 4,
+    "parakeet_max_active_paths": 4,
+    "parakeet_hotwords_score": 1.5,
+    "whisper_beam_size": 5,
+    "whisper_language": "en",
+    "whisper_compute_type": "int8",
+    "whisper_vad_filter": false,
+    "whisper_condition_on_previous_text": false,
+    "whisper_context_parameter": "hotwords",
+    "whisper_context": "Martelly, Manila, Mediterranean, Maciej, Krezel, Ogarzynska, Seork, Siminoff, Chhappan, Bhog, Shyam, Timbuktu, Fairmont, Marion, Kundalini, Johndroe, Kashiwazaki, Kariwa, Niigata, Klöcker, Ehrenstrahl, Comoros, Mayotte, Lakkha, Bishkek, Gingrich, Bachmann, Galapagos, Versace, Armand, Uthappa, Aristarchus, Kruger, Mozambique, Zimbabwe, Vinson, Velasquez, Honshu, Auckland, Canaan"
+  },
+  "gate": {
+    "relative_term_recall_gain_min": 0.3,
+    "no_added_term_false_positives": true,
+    "no_added_per_clip_word_or_character_errors": true,
+    "no_added_per_clip_number_or_acronym_surface_errors": true,
+    "all_frozen_cases_complete": true
+  },
+  "algorithm_source_lf_sha256": {
+    "saydraft/asr/biasing.py": "ecde7835dae06b20d52c30df5d607cd76b6fdb93b3737babbd4bbe2f4d7c61fc",
+    "tools/dictionary_correction.py": "19034313456cb864aa13cdf1f32e251c039c9222271b93b1a7851b7a7cacb71a"
+  },
+  "confirmation_source_lf_sha256": "03a6d59c7235c57064453b147a67da0685ec86e2b1c34c2525491e044b414ab5",
+  "package": {
+    "name": "Metaphone",
+    "version": "0.6",
+    "sdist_sha256": "ad0beadca66cb7ec6ede71ef72bb02da097c493ddf159930d6340bc83f53da27",
+    "python_files": {
+      "__init__.py": "dd9aeb482d7088f75959a65116f175b491e416f3ef74e4ff38fa8b7ac8de3f35",
+      "meta.py": "c5ef73dff5e4cfb80aefe6f5eec5147ddbf3efd5ede955e0de630a67ec61ec01",
+      "metaphone.py": "6e24b19a497372ecfac753ababd12cb097f0a53040b5fce715ac6e563b44f044",
+      "tests/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "tests/test_metaphone.py": "b7da6892d552be90000ee611d28407346bed2366206694e42b6db7aa238c2ffb",
+      "tests/test_word.py": "3a37290e465ef22beda2d0db78f176dc17cb32a4edba198b00723451839543fa",
+      "word.py": "f614aaa0e426c44d017ce4eb95008f41460b402024b9b488f87a9ee718978225"
+    }
+  },
+  "frequency": {
+    "file": "assets/dictionary/frequency/en.txt.gz",
+    "sha256": "426aa2bf7589ddf28101e2856211a23945d586d83f427f47caa50b40b9f9e29c",
+    "words": 28916
+  },
+  "selection": "Only the two development-passing candidates advance, unchanged. Decode the original lexically second reserved recordings; no case exclusion. They share reference prompts; speaker independence and unseen text are unverified.",
+  "selection_policy": "Among confirmation-passing candidates choose greatest name recall, then no additional hinted ASR decode, then lexical name. The development-selected combined candidate is included unchanged.",
+  "owner_accuracy_accepted": false,
+  "ship_accepted": false
+}

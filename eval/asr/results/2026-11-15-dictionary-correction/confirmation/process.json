@@ -1,0 +1,27 @@
+{
+  "source": "e44b93aa1b3d4810f2cd6cd32cc647fac0b90a22",
+  "source_clean": true,
+  "source_files": {
+    "saydraft/asr/biasing.py": {
+      "raw_sha256": "ecde7835dae06b20d52c30df5d607cd76b6fdb93b3737babbd4bbe2f4d7c61fc",
+      "lf_sha256": "ecde7835dae06b20d52c30df5d607cd76b6fdb93b3737babbd4bbe2f4d7c61fc"
+    },
+    "tools/dictionary_correction.py": {
+      "raw_sha256": "19034313456cb864aa13cdf1f32e251c039c9222271b93b1a7851b7a7cacb71a",
+      "lf_sha256": "19034313456cb864aa13cdf1f32e251c039c9222271b93b1a7851b7a7cacb71a"
+    },
+    "tools/dictionary_confirmation.py": {
+      "raw_sha256": "03a6d59c7235c57064453b147a67da0685ec86e2b1c34c2525491e044b414ab5",
+      "lf_sha256": "03a6d59c7235c57064453b147a67da0685ec86e2b1c34c2525491e044b414ab5"
+    }
+  },
+  "plan_sha256": "349168af7f76e3e7c6d35d0521bdedf5ed0eb64893566756b9f011edcce16603",
+  "plan_unchanged": true,
+  "child_exit_code": 0,
+  "child_exit_observed": true,
+  "timed_out": false,
+  "seconds": 123.25998902320862,
+  "hotword_encoding_error": false,
+  "owner_audio_or_input_used": false,
+  "source_unchanged": true
+}

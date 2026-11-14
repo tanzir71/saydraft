@@ -38,6 +38,12 @@ def verify_runtime():
             if not (root / name).is_file():
                 raise ValueError('Bundled resource missing')
         result['checks']['resources'] = True
+        from .dictation.dictionary_correction import DictionaryVocabulary
+
+        spelling = DictionaryVocabulary(('Krezel',)).correct('Ask Krezle.', language='en')
+        if spelling.text != 'Ask Krezel.' or len(spelling.edits) != 1:
+            raise ValueError('Bundled dictionary correction runtime is unavailable')
+        result['checks']['dictionary_correction'] = True
         from .third_party import verify_notices
 
         result['third_party_notices'] = verify_notices(root / 'third_party_licenses')

@@ -44,14 +44,15 @@ def test_processing_reports_stage_timings_without_transcript(caplog, monkeypatch
     monkeypatch.setattr(logging.getLogger("saydraft"), "propagate", True)
     processor, _events, _notifications = make_processor()
     processor.clock = iter([10.0, 10.2]).__next__
-    processor.cleaner.last_timings = {"rules": 0.11, "llm": 0.22}
+    processor.cleaner.last_timings = {"rules": 0.11, "llm": 0.22, "dictionary": 0.04}
     with caplog.at_level(logging.INFO, logger="saydraft.core.timings"):
         process(processor, "private words", timings={"record": 1.2, "vad": 0.03, "stt": 0.4})
     assert "record=1.200s" in caplog.text
     assert "rules=0.110s" in caplog.text
     assert "llm=0.220s" in caplog.text
     assert "insert=0.200s" in caplog.text
-    assert "total=0.960s" in caplog.text
+    assert "dictionary=0.040s" in caplog.text
+    assert "total=1.000s" in caplog.text
     assert "private words" not in caplog.text
 
 

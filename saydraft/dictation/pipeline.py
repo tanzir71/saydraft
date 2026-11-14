@@ -1,12 +1,16 @@
 from __future__ import annotations
 
 import time
+import re
+import unicodedata
 from dataclasses import dataclass
 from typing import Optional
 
 from saydraft.cleanup.code_mode import render_code
 from saydraft.cleanup.formatter import caret_layout, final_punctuation, layout_hints
 from saydraft.cleanup.styles import rule_options, style_for
+from saydraft.dictionary.frequency import language_code
+from .dictionary_correction import DictionaryVocabulary
 from .glossary import Glossary, apply_replacements, learn_word, load_glossary, protect_terms, restore_terms
 from .llm_local import LocalLLMConfig, LocalLLMCleaner
 from .protect import protect_spans, restore_spans
@@ -25,13 +29,18 @@ _options_for = rule_options  # Compatibility for callers of the former private h
 
 
 class DictationPipeline:
-    def __init__(self, cfg: DictationConfig, llm_cleaner: Optional[LocalLLMCleaner] = None):
+    def __init__(self, cfg: DictationConfig, llm_cleaner: Optional[LocalLLMCleaner] = None,
+                 *, dictionary_factory=DictionaryVocabulary):
         self.cfg = cfg
         self.glossary: Glossary = load_glossary(cfg.glossary_path) if cfg.glossary_path else Glossary()
         self.llm = llm_cleaner if llm_cleaner is not None else LocalLLMCleaner(cfg.llm)
         self.last_timings: dict[str, float] = {"rules": 0.0, "llm": 0.0}
         self.last_llm_decision = "disabled"
         self.last_llm_model = None
+        self.last_dictionary_result = None
+        self._dictionary_terms = None
+        self._dictionary_vocabulary = None
+        self._dictionary_factory = dictionary_factory
 
     def reload_glossary(self):
         self.glossary = load_glossary(self.cfg.glossary_path) if self.cfg.glossary_path else Glossary()
@@ -82,6 +91,7 @@ class DictationPipeline:
         self.last_timings = {"rules": 0.0, "llm": 0.0}
         self.last_llm_decision = "disabled"
         self.last_llm_model = None
+        self.last_dictionary_result = None
         if not raw_text:
             return ""
 
@@ -90,8 +100,30 @@ class DictationPipeline:
         protected_text, mapping = protect_terms(text, self.glossary)
         protected_text, span_mapping = protect_spans(protected_text, protected_tokens=mapping)
 
-        rules_started = time.perf_counter()
         code = context.mode != "raw" and (context.profile == "code/comments" or context.app_group == "code")
+        if (self.glossary.user_terms and context.mode != "raw" and not code
+                and style_for(context).intensity != 1 and language_code(context.language) == "en"
+                and not context.translation_target
+                and not any(char.isalpha() and 'LATIN' not in unicodedata.name(char, '') for char in raw_text)):
+            dictionary_started = time.perf_counter()
+            if self._dictionary_terms != self.glossary.user_terms:
+                self._dictionary_vocabulary = self._dictionary_factory(self.glossary.user_terms)
+                self._dictionary_terms = self.glossary.user_terms
+            reserved = (*mapping, *re.findall(r"__GLOSSARY_\d+__", text))
+            # Explicit replacements outrank a fuzzy guess. Restore these extra
+            # masks before ordinary rules so their existing formatting still runs.
+            prepared, replacement_mapping = protect_terms(protected_text,
+                Glossary(protected_terms=tuple(destination for _source, destination in self.glossary.replacements if destination)),
+                reserved=reserved)
+            self.last_dictionary_result = self._dictionary_vocabulary.correct(prepared, language=context.language)
+            protected_text = restore_terms(self.last_dictionary_result.text, replacement_mapping)
+            # Newly corrected canonical terms receive the same LLM protection as
+            # terms that were recognized correctly on the first pass.
+            protected_text, corrected_mapping = protect_terms(protected_text, self.glossary, reserved=reserved)
+            mapping.update(corrected_mapping)
+            self.last_timings["dictionary"] = time.perf_counter() - dictionary_started
+
+        rules_started = time.perf_counter()
         rule_clean = render_code(protected_text) if code else apply_rules(protected_text, _options_for(context))
         self.last_timings["rules"] = time.perf_counter() - rules_started
 
