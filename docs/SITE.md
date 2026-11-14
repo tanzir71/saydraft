@@ -1,6 +1,6 @@
 # Saydraft website
 
-The Astro site in `site/` now builds twenty-three static pages, including seventeen
+The Astro site in `site/` now builds twenty-five static pages, including nineteen
 language guides and their overview.
 This is an early P9 foundation, brought forward at the owner's request. The
 approved §9 tokens are shared through `design/tokens.json`; the dependency-free
@@ -14,19 +14,21 @@ there are no invented installers, checksums, package-manager commands or release
 The source instructions use the same `python -m saydraft` entrypoint as the
 repository README and contributor guide.
 
-The owner-requested language expansion adds a language overview and seventeen language-specific
-guides for the requested and explicitly approved additions (see LANGUAGES.md). Home links to
-all seventeen; navigation and the footer link to the overview. Each guide explains
+The owner-requested language expansion adds a language overview and nineteen language-specific
+guides for the requested/approved additions and existing Bengali/Arabic support
+(see LANGUAGES.md). Home links to all nineteen; navigation and the footer link
+to the overview. Home, overview and related-language links share alphabetical
+ordering by English display name. Each guide explains
 its actual language code, compatible shared model, explicit setup and language
 limits. Portuguese uses `pt`, including Brazil; no Brazil-only model or measured
-accent accuracy is claimed. Existing Bengali/Arabic support remains documented.
+accent accuracy is claimed. Bengali and Arabic each have a linked guide with their native name.
 These are English speech-recognition guides, not translated app UI or new
 Translate-mode output targets.
 
-The eighteen new pages render as static HTML with unique titles/descriptions/H1s,
+The twenty language pages render as static HTML with unique titles/descriptions/H1s,
 canonical URLs, breadcrumbs and WebPage structured data on individual guides.
 Home includes SoftwareApplication metadata describing the same model coverage.
-`sitemap.xml` enumerates all twenty-three public HTML pages; the shared head links to it.
+`sitemap.xml` enumerates all twenty-five public HTML pages; the shared head links to it.
 No search-ranking claim, fabricated release, review rating or alternate-language
 page is added. Additional technical SEO and original P9 acceptance remain open.
 The getting-started page follows the current setup order: microphone, model
@@ -158,3 +160,19 @@ cache was explicitly selected on D: after an initial missing-runtime diagnostic;
 the diagnostic and MIME assertion failure are retained separately in QA.
 Native ASR accuracy, the full original P9 library/content and public CI/deployment
 verification remain distinct.
+
+## Bengali, Arabic and alphabetic ordering correction
+
+The owner's follow-up identified that the initial linked list omitted Bengali
+and Arabic despite existing model support. Both now have dedicated native-name
+guides, and the nineteen-guide catalog is sorted by English display name for
+Home, the overview and every related-language list. The complete sitemap has
+25 public HTML URLs. No speech-model change or separate language pack is needed.
+
+The corrected local build and Storybook pass. All 21 browser checks pass in a
+normal run after review of the refreshed 390/768/1440 Home baselines; the tests
+explicitly check alphabetical order, Bengali/Arabic links and native text
+direction. Mobile Arabic and Bengali captures are reviewed. All nine Lighthouse
+runs on Home/Download/Privacy score 100 for performance, accessibility and SEO,
+with zero CLS and a maximum 960 ms LCP. Fresh CI and deployment verification
+remain pending. The earlier 23-page deployment receipt is historical.

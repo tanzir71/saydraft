@@ -1,5 +1,25 @@
 /** Speech coverage, not translated UI locales or language-specific accuracy scores. */
-export const languages = [
+const languageCatalog = [
+  {
+    slug: 'bengali', code: 'bn', nativeName: 'বাংলা', direction: 'ltr', name: 'Bengali', model: 'all',
+    title: 'Bengali Voice Typing for Windows, Offline | Saydraft',
+    description: 'Type Bangla with your voice on Windows. Saydraft offers free, open-source offline Bengali speech recognition through a shared local model.',
+    intro: 'Write in Bengali, also called Bangla, with your voice on Windows. Saydraft recognizes Bengali speech locally using the shared All languages model, without a cloud transcription account.',
+    detail: 'Choose Bengali, language code bn, in Languages. Pin Bengali alone for a direct recognition hint, or combine it with English or another language when you switch between them. Bengali is already supported by the shared multilingual model; there is no separate Bangla language pack.',
+    use: 'Draft Bengali messages, emails and notes in an editable Windows app. Review spelling, conjuncts, names, numbers and English loanwords before sending. Raw mode retains the recognized wording without prose cleanup. The language choice does not add a Romanized-Bangla conversion setting.',
+    question: 'Do I need a separate Bengali model or keyboard?',
+    answer: 'Install the shared All languages model once through Download / Resume. It covers Bengali alongside Arabic and other supported languages. A Bengali keyboard can help with manual corrections, but dictation delivers Unicode text and does not depend on choosing that keyboard layout. Selecting Bengali starts no download.',
+  },
+  {
+    slug: 'arabic', code: 'ar', nativeName: 'العربية', direction: 'rtl', name: 'Arabic', model: 'all',
+    title: 'Arabic Voice Typing for Windows, Offline | Saydraft',
+    description: 'Dictate Arabic offline on Windows with Saydraft. Free, open-source Arabic voice typing through a shared local multilingual speech model.',
+    intro: 'Turn spoken Arabic into text on your Windows PC while keeping speech recognition local. Saydraft uses the installed All languages model for Arabic dictation, with no cloud transcription account.',
+    detail: 'Choose Arabic, language code ar, in Languages. Pin Arabic alone for a direct recognition hint, or pin it alongside English or another language for model language detection. The current choice does not expose a separate decoder for every Arabic dialect.',
+    use: 'Draft Arabic messages, notes and documents in an editable app that supports right-to-left text. Review spelling, names, numbers, punctuation and mixed Arabic/Latin text before sending. Dialect and recording conditions affect recognition; Raw mode keeps the recognized wording without prose cleanup.',
+    question: 'Is Arabic dictation the same as translating into Arabic?',
+    answer: 'Arabic dictation transcribes Arabic speech using All languages. The separate experimental Pro/Labs Translate mode can produce Arabic from recognized speech using its explicitly installed local editing model. You do not need Translate mode or a separate Arabic language pack to dictate Arabic.',
+  },
   {
     slug: 'thai', code: 'th', nativeName: 'ภาษาไทย', direction: 'ltr', name: 'Thai', model: 'all',
     title: 'Thai Voice Typing for Windows, Offline | Saydraft',
@@ -171,6 +191,8 @@ export const languages = [
     answer: 'Yes. An installed Parakeet v3 model covers German. The optional All languages model is needed for other language combinations, not for German alone. Both models run locally after explicit setup; neither selection starts a download by itself.',
   },
 ] as const;
+
+export const languages = [...languageCatalog].sort((a, b) => a.name.localeCompare(b.name, 'en'));
 
 export const publicPages = [
   '', 'download/', 'docs/getting-started/', 'privacy/', 'credits/', 'languages/',

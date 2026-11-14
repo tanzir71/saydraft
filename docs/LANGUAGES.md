@@ -86,7 +86,7 @@ See [accuracy evaluation scope](ASR_ACCURACY.md).
 
 The cleanup audit found English word rules were applied across languages:
 Portuguese **um** could be deleted as an English filler, and meaningful repeated
-words could be collapsed. The drafted correction disables English lexical,
+words could be collapsed. The correction disables English lexical,
 number, command, casing and punctuation heuristics for known non-English
 language contexts. Ordinary AI cleanup must preserve the native word sequence;
 English article/agreement exceptions do not apply there, including Polished.
@@ -117,10 +117,13 @@ scope. The new public evaluation corpus now has 400 verified clips across twenty
 languages; expanded native scoring remains pending. Routing and offscreen UI checks can verify language selection, decoder
 hints, persistence and shared model reuse without claiming new speech accuracy.
 
-The [language overview](https://tanzir71.github.io/saydraft/languages/) and seventeen
+The [language overview](https://tanzir71.github.io/saydraft/languages/) and nineteen
 language-specific pages expose this setup guidance as static, crawlable HTML.
 They have unique titles, descriptions and canonical URLs, internal links and
-sitemap entries. They are English guides, so no translated-page `hreflang`
+sitemap entries. Bengali and Arabic have their own guides alongside the seventeen
+new highlights. See the [Bengali / Bangla guide](https://tanzir71.github.io/saydraft/languages/bengali/)
+and [Arabic guide](https://tanzir71.github.io/saydraft/languages/arabic/). Home, the overview and related-language links use alphabetical
+order by English display name. They are English guides, so no translated-page `hreflang`
 alternates or app-menu locale claims are added. Search indexing and rankings
 depend on the search engine; no ranking guarantee is made.
 

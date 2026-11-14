@@ -3,7 +3,8 @@
 Status, 14 November 2026: language coverage, cleanup safeguards and controlled
 acquisition/scoring tests pass. Four hundred public clips across twenty languages
 (81.41 minutes) have verified audio headers, references and hashes. Native model
-scoring is the next step; no expanded speech-accuracy result is claimed yet.
+scoring is running in independent per-language processes; no expanded
+speech-accuracy result is claimed yet.
 Owner-recording acceptance remains deferred. The isolated Pro latency run has
 finished and its [failed median gate is retained](LATENCY_MATRIX.md).
 
@@ -58,7 +59,12 @@ evaluation data only; it opens no microphone and runs no recognition model.
 Archive identity, transfer receipts and sample manifests must be checked before
 an accuracy result can be trusted. The native multilingual scoring runner
 in `tools.asr_accuracy` passes its controlled tests; the existing `bench_languages`
-tool remains a script-only smoke. The multilingual native run remains pending.
+tool remains a script-only smoke. The first combined native run stopped after
+86 of 500 cases when its execution session disappeared. Process inspection found
+no scorer or coordinator; no native-exit receipt or final hashes were written.
+That partial is retained and does not establish a completed result. Fresh
+per-language runs use the same frozen clean source, clips and selection order,
+with an observed child exit and post-run hashes for each language.
 
 The scoring runner validates frozen TSV/reference/audio hashes before inference,
 loads only explicitly supplied model directories, caches compatible engines, and
@@ -113,5 +119,5 @@ environment. Publish measured scope rather than a blanket accuracy claim.
   examples in the requested/approved language set. They are not native accuracy
   evidence. The focused app and scorer tests pass, alongside the existing rules
   and adversarial checks.
-- Local UI/browser checks and public corpus acquisition pass. Clean CI, native
+- Local UI/browser checks and public corpus acquisition pass. Clean CI, complete native
   scoring, model comparisons and any evidence-backed route changes remain pending.

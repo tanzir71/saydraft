@@ -62,7 +62,7 @@ test('native navigation, questions, and reduced-motion simulation work', async (
 
 test('all public pages have working local links and unique metadata', async ({ page, request }) => {
   const pages = ['', 'download/', 'docs/getting-started/', 'privacy/', 'credits/',
-    'languages/', 'languages/thai/', 'languages/chinese/', 'languages/korean/',
+    'languages/', 'languages/bengali/', 'languages/arabic/', 'languages/thai/', 'languages/chinese/', 'languages/korean/',
     'languages/brazilian-portuguese/', 'languages/japanese/', 'languages/spanish/',
     'languages/indonesian/', 'languages/malay/', 'languages/hindi/', 'languages/urdu/',
     'languages/vietnamese/', 'languages/filipino-tagalog/', 'languages/tamil/', 'languages/telugu/',
@@ -86,21 +86,28 @@ test('all public pages have working local links and unique metadata', async ({ p
 
 test('language guides are linked, indexable and accurately describe shared models', async ({ page, request }) => {
   const guides = [
-    ['thai', 'Thai', 'th'], ['chinese', 'Chinese (Mandarin)', 'zh'],
-    ['korean', 'Korean', 'ko'], ['brazilian-portuguese', 'Brazilian Portuguese', 'pt'],
-    ['japanese', 'Japanese', 'ja'], ['spanish', 'Spanish', 'es'],
-    ['indonesian', 'Indonesian', 'id'], ['malay', 'Malay', 'ms'],
-    ['hindi', 'Hindi', 'hi'], ['urdu', 'Urdu', 'ur'],
-    ['vietnamese', 'Vietnamese', 'vi'], ['filipino-tagalog', 'Filipino / Tagalog', 'tl'],
-    ['tamil', 'Tamil', 'ta'], ['telugu', 'Telugu', 'te'], ['persian', 'Persian (Farsi)', 'fa'],
-    ['french', 'French', 'fr'], ['german', 'German', 'de'],
+    ['arabic', 'Arabic', 'ar'], ['bengali', 'Bengali', 'bn'],
+    ['brazilian-portuguese', 'Brazilian Portuguese', 'pt'], ['chinese', 'Chinese (Mandarin)', 'zh'],
+    ['filipino-tagalog', 'Filipino / Tagalog', 'tl'], ['french', 'French', 'fr'],
+    ['german', 'German', 'de'], ['hindi', 'Hindi', 'hi'], ['indonesian', 'Indonesian', 'id'],
+    ['japanese', 'Japanese', 'ja'], ['korean', 'Korean', 'ko'], ['malay', 'Malay', 'ms'],
+    ['persian', 'Persian (Farsi)', 'fa'], ['spanish', 'Spanish', 'es'], ['tamil', 'Tamil', 'ta'],
+    ['telugu', 'Telugu', 'te'], ['thai', 'Thai', 'th'], ['urdu', 'Urdu', 'ur'],
+    ['vietnamese', 'Vietnamese', 'vi'],
   ];
   await page.goto('./');
+  const orderedLabels = guides.map(([, name]) => `${name} voice typing ↗`);
+  await expect(page.locator('.language-links a')).toHaveText(orderedLabels);
   for (const [slug, name] of guides) {
     await expect(page.locator('.language-section').getByRole('link', { name: `${name} voice typing` })).toHaveAttribute('href', `/saydraft/languages/${slug}/`);
   }
   await page.locator('.language-section').getByRole('link', { name: 'Korean voice typing' }).click();
   await expect(page).toHaveURL(/\/languages\/korean\/$/);
+  await page.goto('./languages/');
+  await expect(page.locator('.language-grid h2 a')).toHaveText(orderedLabels);
+  for (const [slug, name] of guides) {
+    await expect(page.locator('.language-grid').getByRole('link', { name: `${name} voice typing` })).toHaveAttribute('href', `/saydraft/languages/${slug}/`);
+  }
   for (const [slug, name, code] of guides) {
     await page.goto(`./languages/${slug}/`);
     await expect(page.getByRole('heading', { level: 1 })).toContainText(name);
@@ -108,6 +115,7 @@ test('language guides are linked, indexable and accurately describe shared model
     await expect(page.locator('meta[name="robots"]')).toHaveCount(0);
     await expect(page.locator('[data-language-native]')).toBeVisible();
     await expect(page.locator('[data-language-native]')).toHaveAttribute('lang', code === 'pt' ? 'pt-BR' : code);
+    await expect(page.locator('[data-language-native]')).toHaveAttribute('dir', ['ar', 'ur', 'fa'].includes(code) ? 'rtl' : 'ltr');
     expect((await page.title()).length).toBeLessThanOrEqual(60);
     const description = await page.locator('meta[name="description"]').getAttribute('content');
     expect(description!.length).toBeLessThanOrEqual(155);
@@ -122,6 +130,10 @@ test('language guides are linked, indexable and accurately describe shared model
     expect(document.inLanguage).toBe('en');
     const breadcrumbs = data.find((item) => item['@type'] === 'BreadcrumbList').itemListElement;
     expect(breadcrumbs.at(-1).item).toBe(document.url);
+    await expect(page.locator('.related-languages a')).toHaveText([
+      ...guides.filter(([other]) => other !== slug).map(([, otherName]) => `${otherName} voice typing`),
+      'All language and model guidance',
+    ]);
     await page.screenshot({ path: test.info().outputPath(`${slug}.png`), fullPage: true, animations: 'disabled' });
   }
   const response = await request.get('./sitemap.xml');
@@ -129,7 +141,7 @@ test('language guides are linked, indexable and accurately describe shared model
   expect(response.headers()['content-type']).toMatch(/^(?:application|text)\/xml(?:;|$)/i);
   const sitemap = await response.text();
   const urls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
-  expect(new Set(urls).size).toBe(23);
+  expect(new Set(urls).size).toBe(25);
   for (const [slug] of guides) expect(urls).toContain(`https://tanzir71.github.io/saydraft/languages/${slug}/`);
   for (const url of urls) expect((await request.get(new URL(url).pathname)).ok(), url).toBe(true);
 });
