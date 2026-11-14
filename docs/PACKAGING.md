@@ -40,6 +40,12 @@ Use `-InnoCompiler` for a nonstandard `ISCC.exe` location. The script does not
 reuse a venv, inherit user site packages, delete previous builds or overwrite an
 existing output root. Temporary files, Python/packager caches and application
 state use the build directory; environment changes are restored on return.
+The build also restricts the native DLL search PATH to the selected Python/Git
+and Windows directories. A desktop launcher's private ICU DLL can otherwise
+shadow Windows ICU and make a successfully compiled Qt bundle fail at import.
+Use `-PipCache D:\QA\Shared-Pip-Cache` to reuse downloaded wheels while retaining
+a fresh virtual environment and output directory; the default cache stays
+inside the new build directory.
 
 The output retains `dist/Saydraft/`, `work/`, a dependency/version receipt,
 resource/runtime reports, the module/file audit, a portable ZIP, the installer

@@ -4,6 +4,7 @@ param(
     [string]$Python = (Get-Command python -ErrorAction Stop).Source,
     [string]$OutputRoot,
     [string]$InnoCompiler,
+    [string]$PipCache,
     [switch]$SkipInstaller,
     [switch]$AllowDirtySource
 )
@@ -12,10 +13,14 @@ $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
 $ProjectRoot = (Resolve-Path -LiteralPath (Join-Path $PSScriptRoot '..')).Path
 $Python = (Resolve-Path -LiteralPath $Python).Path
+$GitExecutable = (Get-Command git -ErrorAction Stop).Source
 if (-not $OutputRoot) {
     $OutputRoot = Join-Path ([IO.Path]::GetTempPath()) ('Saydraft-build-' + [guid]::NewGuid().ToString('N'))
 }
 $RunRoot = [IO.Path]::GetFullPath($ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($OutputRoot))
+$CacheRoot = if ($PipCache) {
+    [IO.Path]::GetFullPath($ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($PipCache))
+} else { Join-Path $RunRoot 'pip-cache' }
 if ($RunRoot.Equals($ProjectRoot, [StringComparison]::OrdinalIgnoreCase) -or
     $RunRoot.StartsWith($ProjectRoot + [IO.Path]::DirectorySeparatorChar, [StringComparison]::OrdinalIgnoreCase)) {
     throw 'Choose a fresh output directory outside the source checkout.'
@@ -42,7 +47,7 @@ if (-not $VersionMatch.Success) { throw 'Could not read the three-part Saydraft 
 $Version = $VersionMatch.Groups[1].Value
 $VersionTuple = ($Version.Split('.') + '0') -join ', '
 $SavedEnvironment = @{}
-$EnvironmentNames = @('PYTHONPATH', 'PYTHONHOME', 'PYTHONSTARTUP', 'PYTHONINSPECT', 'PYTHONNOUSERSITE', 'PYINSTALLER_CONFIG_DIR', 'SAYDRAFT_VERSION_FILE',
+$EnvironmentNames = @('PATH', 'PYTHONPATH', 'PYTHONHOME', 'PYTHONSTARTUP', 'PYTHONINSPECT', 'PYTHONNOUSERSITE', 'PYINSTALLER_CONFIG_DIR', 'SAYDRAFT_VERSION_FILE',
     'SAYDRAFT_NOTICE_OUTPUT', 'SAYDRAFT_INNO_COMPILER',
     'TEMP', 'TMP', 'LOCALAPPDATA', 'APPDATA', 'USERPROFILE', 'HF_HOME', 'HF_HUB_OFFLINE',
     'HF_HUB_DISABLE_TELEMETRY', 'DO_NOT_TRACK', 'PYTHONUTF8', 'PYTHONIOENCODING')
@@ -58,6 +63,11 @@ try {
         New-Item -ItemType Directory -Path (Join-Path $RunRoot $Name) | Out-Null
     }
     $env:PYTHONPATH = ''
+    # PyInstaller searches PATH for native dependencies. Desktop launchers can
+    # prepend incompatible ICU/VC runtimes; keep only the explicit toolchain and
+    # Windows directories, rather than copying unrelated application DLLs.
+    $env:PATH = @((Split-Path -Parent $Python), (Join-Path (Split-Path -Parent $Python) 'Scripts'),
+        (Split-Path -Parent $GitExecutable), (Join-Path $env:SystemRoot 'System32'), $env:SystemRoot) -join ';'
     $env:PYTHONHOME = $env:PYTHONSTARTUP = $env:PYTHONINSPECT = ''
     $env:PYTHONNOUSERSITE = '1'
     $env:PYTHONUTF8 = '1'
@@ -78,7 +88,7 @@ try {
     Invoke-Checked -Executable $VenvPython -Arguments @('-c', 'import sys,site; assert sys.prefix != sys.base_prefix and not site.ENABLE_USER_SITE') -Stage 'Environment isolation check'
     Invoke-Checked -Executable $VenvPython -Arguments @('-m', 'pip', '--isolated', 'install',
         '--disable-pip-version-check', '--only-binary=:all:', '--no-binary=pyperclip',
-        '--cache-dir', (Join-Path $RunRoot 'pip-cache'),
+        '--cache-dir', $CacheRoot,
         '-r', (Join-Path $ProjectRoot 'requirements.txt')) -Stage 'Runtime requirements installation'
     & $VenvPython -m pip freeze --all | Set-Content -LiteralPath (Join-Path $RunRoot 'audit\requirements-frozen.txt') -Encoding utf8
     if ($LASTEXITCODE -ne 0) { throw 'Dependency receipt failed.' }

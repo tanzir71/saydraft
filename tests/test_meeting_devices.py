@@ -1,5 +1,6 @@
 from contextlib import contextmanager
 from types import SimpleNamespace as NS
+import weakref
 
 import pytest
 
@@ -44,3 +45,25 @@ def test_inventory_rejects_default_or_duplicate_devices():
     for microphones, outputs in [((InputSelection(),), (output,)), ((mic, mic), (output,)), ((mic,), (output, output))]:
         with pytest.raises(ValueError):
             MeetingDevices(microphones, outputs)
+
+
+@pytest.mark.parametrize('invalid', [False, True])
+def test_native_device_aliases_are_released_before_com_exit_even_when_metadata_raises(invalid):
+    refs = []
+    class Native:
+        def __init__(self, **values):
+            self.__dict__.update(values)
+            refs.append(weakref.ref(self))
+    @contextmanager
+    def com():
+        try:
+            yield
+        finally:
+            assert refs and all(ref() is None for ref in refs)
+    backend = NS(all_speakers=lambda: [Native(id='one', name='Speakers')],
+        all_microphones=lambda **options: [Native(id='one', isloopback=True, channels=65 if invalid else 2)])
+    if invalid:
+        with pytest.raises(ValueError, match='channel'):
+            discover_meeting_devices(input_provider=lambda: (), desktop_backend=backend, com_context=com)
+    else:
+        assert discover_meeting_devices(input_provider=lambda: (), desktop_backend=backend, com_context=com).outputs[0].supported

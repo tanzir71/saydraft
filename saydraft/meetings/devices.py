@@ -42,17 +42,30 @@ class MeetingDevices:
 
 def _output_choices(backend):
     # Native device references die before the caller leaves its COM apartment.
-    loops = tuple(backend.all_microphones(include_loopback=True))
-    speakers = tuple(backend.all_speakers())
-    identities = Counter(item.id for item in speakers)
-    outputs = []
-    for speaker in speakers:
-        if identities[speaker.id] != 1:
-            continue
-        matches = [item for item in loops if item.id == speaker.id and item.isloopback is True]
-        channels = matches[0].channels if len(matches) == 1 and type(matches[0].channels) is int else 0
-        outputs.append(MeetingOutput(speaker.id, speaker.name, channels))
-    return tuple(outputs)
+    loops = speakers = matches = ()
+    speaker = loopback = None
+    try:
+        loops = tuple(backend.all_microphones(include_loopback=True))
+        speakers = tuple(backend.all_speakers())
+        identities = Counter()
+        for speaker in speakers:
+            identities[speaker.id] += 1
+        outputs = []
+        for speaker in speakers:
+            if identities[speaker.id] != 1:
+                continue
+            matches = []
+            for loopback in loops:
+                if loopback.id == speaker.id and loopback.isloopback is True:
+                    matches.append(loopback)
+            channels = matches[0].channels if len(matches) == 1 and type(matches[0].channels) is int else 0
+            outputs.append(MeetingOutput(speaker.id, speaker.name, channels))
+        return tuple(outputs)
+    finally:
+        # An exception traceback retains this frame. Clear every native alias
+        # here, before the outer context uninitializes the owning COM apartment.
+        loops = speakers = matches = ()
+        speaker = loopback = None
 
 
 def discover_meeting_devices(*, input_provider=list_inputs, desktop_backend=None, com_context=audio_com_context):
