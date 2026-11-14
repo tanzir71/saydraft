@@ -28,6 +28,9 @@ def prepare_owned_element(reader, handle, report, *, clock=time.monotonic):
 
     UIA_E_TIMEOUT is documented at:
     https://learn.microsoft.com/en-us/windows/win32/winauto/uiauto-error-codes
+    Native acquisition can also return HRESULT_FROM_WIN32(ERROR_TIMEOUT),
+    observed as 0x800705b4 on a cold disposable CI provider:
+    https://learn.microsoft.com/en-us/windows/win32/debug/system-error-codes--1300-1699-
     Every failed acquisition remains visible in the fixture setup receipt.
     """
     if reader.window_pid(handle) != os.getpid():
@@ -44,9 +47,12 @@ def prepare_owned_element(reader, handle, report, *, clock=time.monotonic):
                 element = reader.client.ElementFromHandleBuildCache(handle, reader.cache)
             except Exception as error:
                 hresult = getattr(error, 'hresult', None)
-                if type(hresult) is not int or hresult & 0xFFFFFFFF != 0x80131505:
+                if type(hresult) is not int or hresult & 0xFFFFFFFF not in (0x80131505, 0x800705B4):
                     raise
                 receipt['timeouts'] += 1
+                errors = receipt.setdefault('timeout_hresult_counts', {})
+                key = f'{hresult & 0xFFFFFFFF:#010x}'
+                errors[key] = errors.get(key, 0) + 1
                 last_error = error
                 continue
             if clock() - started >= 2:

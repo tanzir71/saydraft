@@ -278,3 +278,28 @@ invocation before the asynchronous History read; normal fresh metadata and OS
 delivery guards apply afterward. It does not recapture a different field and
 treat that as the requested target. Ordinary dictation retains its text-aware
 capture for caret formatting.
+
+## Owned-provider setup timeout, 14 November 2026
+
+At source `9c4fed6`, [CI](https://github.com/tanzir71/saydraft/actions/runs/43573576627)
+passed 3,995 tests with 12 explicit skips and one native fixture failure. The
+retained `own-controls/report.json` places it in `acquire_element`, before any
+password/read-policy check: the first cold owned EDIT returned signed HRESULT
+`-2147023436` (`0x800705b4`) after 0.970 s. The plain EDIT later prepared in
+1.151 s after four separately counted UIA timeouts. The failed report and log
+remain in the CI artifact and local QA evidence.
+
+Microsoft documents [ERROR_TIMEOUT = 1460](https://learn.microsoft.com/en-us/windows/win32/debug/system-error-codes--1300-1699-)
+and [HRESULT_FROM_WIN32](https://learn.microsoft.com/en-us/windows/win32/api/winerror/nf-winerror-hresult_from_win32).
+Those definitions identify the observed Win32 HRESULT as a timeout, alongside
+the existing [UIA_E_TIMEOUT](https://learn.microsoft.com/en-us/windows/win32/winauto/uiauto-error-codes).
+The owned-fixture preparation helper now recognizes both forms within its
+existing two-second/32-attempt budget and records counts by HRESULT. Unknown
+errors still propagate; ownership admission and production context deadlines
+retain their existing checks.
+
+All ten controlled setup tests pass, including signed/unsigned code handling,
+non-timeout refusal, deadline exhaustion and foreign-process refusal. Three
+actual runs each pass the password/plain owned invisible controls and close all
+windows. They use no owner clipboard, foreground application, microphone or
+injected input. Fresh global CI remains the final qualification.

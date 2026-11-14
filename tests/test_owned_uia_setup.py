@@ -18,17 +18,19 @@ def fixture_reader(action, pid=None):
         client=SimpleNamespace(ElementFromHandleBuildCache=action, ConnectionTimeout=100, TransactionTimeout=100), cache=object())
 
 
-def test_cold_provider_timeouts_are_retained_as_setup_and_never_change_runtime_limits():
+@pytest.mark.parametrize('hresult', [-2146233083, -2147023436, 0x80131505, 0x800705B4])
+def test_cold_provider_timeouts_are_retained_as_setup_and_never_change_runtime_limits(hresult):
     ticks, attempts, result, report = [0.0], [], object(), {}
     def acquire(handle, cache):
         attempts.append(handle)
         ticks[0] += .1
         if len(attempts) < 3:
-            raise NativeFailure(-2146233083)
+            raise NativeFailure(hresult)
         return result
     reader = fixture_reader(acquire)
     assert prepare_owned_element(reader, 17, report, clock=lambda: ticks[0]) is result
-    assert report['provider_setup'][0] == {'attempts': 3, 'timeouts': 2, 'ready': True, 'seconds': ticks[0]}
+    assert report['provider_setup'][0] == {'attempts': 3, 'timeouts': 2, 'ready': True, 'seconds': ticks[0],
+        'timeout_hresult_counts': {f'{hresult & 0xFFFFFFFF:#010x}': 2}}
     assert reader.client.ConnectionTimeout == reader.client.TransactionTimeout == 100
 
 
@@ -49,14 +51,17 @@ def test_non_timeout_errors_are_not_retried_or_hidden():
     assert not report['provider_setup'][0]['ready']
 
 
-def test_setup_stops_at_its_own_budget_and_preserves_last_native_error():
+@pytest.mark.parametrize('hresult', [-2146233083, -2147023436])
+def test_setup_stops_at_its_own_budget_and_preserves_last_native_error(hresult):
     report, ticks = {}, [0.0]
     def timeout(*args):
         ticks[0] += .5
-        raise NativeFailure(-2146233083)
-    with pytest.raises(NativeFailure):
+        raise NativeFailure(hresult)
+    with pytest.raises(NativeFailure) as error:
         prepare_owned_element(fixture_reader(timeout), 17, report, clock=lambda: ticks[0])
-    assert report['provider_setup'][0] == {'attempts': 4, 'timeouts': 4, 'ready': False, 'seconds': 2.0}
+    assert error.value.hresult == hresult
+    assert report['provider_setup'][0] == {'attempts': 4, 'timeouts': 4, 'ready': False, 'seconds': 2.0,
+        'timeout_hresult_counts': {f'{hresult & 0xFFFFFFFF:#010x}': 4}}
 
 
 def test_window_message_wait_wakes_for_sent_and_already_seen_messages_without_foreign_handles():
