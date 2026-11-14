@@ -31,7 +31,7 @@ jobs:
       - name: Lint
         run: python -m ruff check .
       - name: Model catalog and installation contracts
-        run: python -m pytest tests/test_versioned_models.py tests/test_meeting_models.py tests/test_model_packages.py tests/test_verified_downloader.py -q --basetemp=build/pytest-catalog
+        run: python -m pytest tests/test_versioned_models.py tests/test_meeting_models.py tests/test_model_packages.py tests/test_verified_downloader.py -q --basetemp="${{ runner.temp }}/saydraft-pytest-catalog"
       - name: Fetch pinned VAD fixture for native offline smoke
         shell: pwsh
         run: |
