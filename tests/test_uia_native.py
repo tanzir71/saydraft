@@ -69,4 +69,7 @@ def test_native_selection_uses_only_own_ranges_and_rejects_changed_read_only_or_
                and case['own_field_units'] <= case['fixture_text_limit'] for case in report['cases'])
     assert not report["active_application_read"] and not report["owner_clipboard_accessed"]
     assert not report["input_injected"] and not report["microphone_used"]
-    assert [row["case"] for row in report["cases"]] == ["long_selection", "same_text_new_range", "changed_text", "read_only", "password", "cancel"]
+    assert [row["case"] for row in report["cases"]] == [
+        "long_selection", "same_text_new_range", "changed_text", "replacement_span", "replacement_span",
+        "matching_text_elsewhere_unconfirmed", "truncated_write_unconfirmed", "password_before_confirmation",
+        "command_processor_native_target", "command_processor_native_target", "read_only", "password", "cancel"]
