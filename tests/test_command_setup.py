@@ -58,7 +58,9 @@ def test_clipboard_fallback_is_a_separate_staged_opt_in_with_windows_policy_disc
     page.apply_to(config)
     assert config['command']['clipboard_fallback'] is True
     page.enabled_check.setChecked(False)
-    assert not page.copy_check.isEnabled() and page.copy_check.isChecked()
+    assert page.copy_check.isEnabled() and page.copy_check.isChecked()
+    page.copy_check.setChecked(False)
+    assert not page.copy_check.isEnabled()
 
 
 def test_standard_disables_clipboard_fallback_even_with_saved_command_opt_in():
@@ -76,6 +78,25 @@ def test_translate_is_independent_staged_default_off_and_standard_is_gated():
     assert config['labs']['translate_mode'] and not config['labs']['command_mode']
     standard, _ = fixture(tier='standard')
     assert not standard.translate_check.isEnabled()
+
+
+def test_downgraded_profile_can_revoke_saved_opt_ins_without_enabling_or_downloading():
+    page, config = fixture()
+    for check in (page.enabled_check, page.translate_check, page.copy_check):
+        check.setChecked(True)
+    page.apply_to(config)
+    config['app']['tier'] = 'standard'
+    page.update_eligibility(config)
+    assert not page.download_button.isEnabled()
+    for check in (page.enabled_check, page.translate_check, page.copy_check):
+        assert check.isChecked() and check.isEnabled()
+        check.click()
+        assert not check.isChecked() and not check.isEnabled()
+        check.click()
+        assert not check.isChecked()
+    page.apply_to(config)
+    assert not config['labs']['translate_mode'] and not config['labs']['command_mode']
+    assert not config['command']['clipboard_fallback'] and page.task is None
 
 
 def test_explicit_download_uses_captured_backend_off_gui_and_does_not_enable_or_apply(tmp_path):

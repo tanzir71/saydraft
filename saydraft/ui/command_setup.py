@@ -74,7 +74,8 @@ class CommandSetup(QtWidgets.QGroupBox):
         self.backend.currentIndexChanged.connect(self._details)
         self.download_button.clicked.connect(self.start_download)
         self.pause_button.clicked.connect(self.pause)
-        self.enabled_check.toggled.connect(self._copy_eligibility)
+        for check in (self.enabled_check, self.translate_check, self.copy_check):
+            check.toggled.connect(self._update_opt_ins)
         self.update_eligibility(config, report)
 
     def update_eligibility(self, config, report=None):
@@ -82,17 +83,18 @@ class CommandSetup(QtWidgets.QGroupBox):
         self.allowed = effective_tier(config, report) == 'pro'
         self.eligibility.setText('Pro tier available. Download or verify the model, enable Command or Translate and Save Settings.'
             if self.allowed else 'Needs Pro tier: Command and Translate use a larger local editing model. '
-            'Check performance or select Pro in Models before using it.')
-        self.enabled_check.setEnabled(self.allowed)
-        self.translate_check.setEnabled(self.allowed)
-        self._copy_eligibility()
+            'Check performance or select Pro in Models before using it. Existing opt-ins can be turned off here.')
+        self._update_opt_ins()
         self.backend.setEnabled(self.task is None)
         self.download_button.setEnabled(self.allowed and self.task is None)
         self.pause_button.setEnabled(self.task is not None)
         self._details()
 
-    def _copy_eligibility(self):
-        self.copy_check.setEnabled(self.allowed and self.enabled_check.isChecked())
+    def _update_opt_ins(self):
+        # A tier downgrade must never trap a saved opt-in in the checked state.
+        self.enabled_check.setEnabled(self.allowed or self.enabled_check.isChecked())
+        self.translate_check.setEnabled(self.allowed or self.translate_check.isChecked())
+        self.copy_check.setEnabled(self.copy_check.isChecked() or self.allowed and self.enabled_check.isChecked())
 
     def _backend(self):
         staged = {**self.config, 'command': {'backend': self.backend.currentData()}}
