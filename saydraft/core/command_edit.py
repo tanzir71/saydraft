@@ -109,6 +109,7 @@ class CommandEditProcessor:
                 asr_model=asr_model, llm_model=self.editor.model_id, llm_decision="edit_validated",
                 timings_json=json.dumps(stages), audio_path=audio_path, edits_json=json.dumps([{
                     "type": "command_edit", "instruction": instruction, "validator": "edit-v1",
+                    "selection_source": getattr(captured.selection, 'origin', 'uia'),
                     "input_tokens": reply.input_tokens, "output_limit": reply.output_limit}], ensure_ascii=False))
             try:
                 identifier = persist_current(lambda: self.history.append(entry))
@@ -121,9 +122,14 @@ class CommandEditProcessor:
                 return CommandEditResult(None, "cancelled")
             started = self.clock()
             try:
-                inserted = run_current(lambda: self.inserter.insert_text(reply.text,
-                    start_focus=target.focus, app_title=target.app_title, paste_only=True,
-                    enter_guard=current, field_guard=guard))
+                if getattr(captured.selection, 'origin', 'uia') == 'clipboard':
+                    # Complete copied text lacks anchored endpoints. Keep the
+                    # validated edit and offer Copy without a blind paste.
+                    inserted = InsertionResult('not_inserted', 'none', 'copy_only')
+                else:
+                    inserted = run_current(lambda: self.inserter.insert_text(reply.text,
+                        start_focus=target.focus, app_title=target.app_title, paste_only=True,
+                        enter_guard=current, field_guard=guard))
             except Exception:
                 inserted = InsertionResult("not_inserted", "none", "insertion_error")
             if not current() or inserted is None:

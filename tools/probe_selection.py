@@ -48,6 +48,7 @@ def probe(report, *, output, exercise=None):
     report["cases"], report["reads"] = [], 0
     report["confirmation_reads"] = 0
     fixture_buffers = []
+    selection_supported = [True]
     fixture_api = NativeForegroundApi()
 
     def pump_until(done, seconds):
@@ -92,6 +93,8 @@ def probe(report, *, output, exercise=None):
             prepare_owned_element(native, child, report)
             native.focused_element = lambda: native.client.ElementFromHandleBuildCache(child, native.cache)
             native.same_focus = lambda element: True  # Owned invisible provider only; no global focus read.
+            selected_range = native.selection_range
+            native.selection_range = lambda *args: selected_range(*args) if selection_supported[0] else None
             original = native.selection_text
             def read(*args):
                 report["reads"] += 1
@@ -246,6 +249,8 @@ def probe(report, *, output, exercise=None):
         if exercise is not None:
             exercise(SimpleNamespace(context=context, call=call, pump_until=pump_until, set_text=set_text,
                                      replace_text=replace_text, field_text=field_text, output=output,
+                                     set_selection_supported=lambda value: selection_supported.__setitem__(0, value),
+                                     set_password=lambda value: user.SendMessageW(child, 0x00CC, ord('*') if value else 0, 0),
                                      set_read_only=lambda value: user.SendMessageW(child, 0x00CF, int(value), 0)), report)
     finally:
         if context is not None:

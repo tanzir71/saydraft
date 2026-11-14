@@ -1,9 +1,11 @@
 # Command clipboard capture boundary
 
-`WindowsClipboard.capture_selection()` is the transaction foundation for P7.1's
-Ctrl+C fallback. **It is not connected to the held Command flow yet.** Unsupported
-UIA selections still refuse before Command recording; no new clipboard access or
-input occurs in the app. [Command Mode status](COMMAND_MODE.md) tracks that work.
+`WindowsClipboard.capture_selection()` now connects to P7.1's held Ctrl+C fallback
+through `capture_command_copy()`. It requires Pro, experimental Command Mode and
+a separate saved **Allow clipboard-copy fallback** opt-in in Labs. The new
+`command.clipboard_fallback` preference defaults off, including upgrades from an
+existing Command profile. [Command Mode status](COMMAND_MODE.md) tracks full
+physical/frozen acceptance separately.
 
 ## Transaction contract
 
@@ -47,17 +49,22 @@ reclaim a copy arriving after the observation deadline without risking newer
 data. The timeout bounds polling, not a blocking Windows delayed renderer.
 Integration belongs on a worker and must keep cancellation/Settings responsive.
 
-This primitive grants **no write-back authority**. The planned unsupported-UIA
-route must recheck the original known-safe field, capture after modifier release,
-generate from that complete copied selection and offer Copy recovery when no
-anchored original range can be verified. Failed recognition/generation must retain
-instruction provenance. Those producer/lease/recovery connections remain open.
+This route grants **no write-back authority** for an unsupported original range.
+Before recording, the existing single MTA reserves metadata for the original
+Edit/Text/Document field with explicitly false cached/fresh password state.
+After recording stops, the worker waits up to 750 ms for all physical modifiers
+to clear, rechecks field identity/integrity and sends one guarded copy. It seals
+complete copied text to the same unexpired ticket/generation after restoration,
+then runs instruction ASR and edit processing. History precedes independent Copy
+recovery. It never sends a blind paste for a `clipboard` lease. Capture or model
+failure retains instruction provenance; Settings/cancellation can retire the
+reservation without waiting for a GUI/session mutex.
 
 A target's ordinary Ctrl+C can enter Windows clipboard history or sync according
 to that target's/Windows settings. Restoring the original does not retroactively
 remove such entries. Saydraft's own paste/History Copy privacy flags cannot
-control another app's publication. This must be disclosed when exposing the
-fallback; the inert primitive does not enable it.
+control another app's publication. The Labs opt-in displays this before saving.
+Enabling fallback does not enable Command, download a model or change cleanup.
 
 ## Verification
 
@@ -87,5 +94,10 @@ python -m pytest tests/test_selection_copy.py tests/test_clipboard_transactions.
 python -m tools.probe_selection_copy --output D:\QA\New-Private-Copy-Probe
 ```
 
-Native/physical Ctrl+C, unsupported-field metadata leases, held recording,
-end-to-end model/Copy integration and full packaged acceptance remain distinct.
+The newer owned-field probe `tools.probe_command_copy` connects compiled synthetic
+chords, the actual worker, native field metadata, MTA sealing, SQLite and queued
+Copy recovery. It deliberately suppresses the selection pattern and scripts the
+clipboard/ASR/model ports. It checks successful Copy, a field becoming sensitive
+and cancellation during copy, with no paste or native selection-text reads in
+those three paths. It is distinct from the real native clipboard transaction
+probe above. Physical Ctrl+C and full packaged acceptance remain open.

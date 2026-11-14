@@ -59,7 +59,10 @@ experimental Labs setup and held instruction route are connected for readable
 selections. Read-only results are offered for Copy. The
 [held-flow verification](eval/commands/results/2026-11-14-held-recording/README.md)
 includes full CI/package checks, controlled native worker scenarios and both-theme
-setup/recovery renders. Clipboard-copy fallback and full Command acceptance remain open;
+setup/recovery renders. A separate Labs opt-in now connects
+[clipboard-copy fallback](docs/COMMAND_CLIPBOARD.md) for unsupported safe fields;
+Windows clipboard history/sync settings apply. It offers Copy when the original
+selection cannot be verified for replacement. Full Command acceptance remains open;
 see the [implementation status](docs/COMMAND_MODE.md).
 
 See the [documentation index](docs/README.md) for individual features and the

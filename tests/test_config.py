@@ -1,6 +1,18 @@
 import json
 
 
+def test_command_clipboard_upgrade_defaults_off_and_only_preserves_explicit_boolean_opt_in(tmp_path):
+    from saydraft.config import load_config
+    for label, command, expected in [('old', {'backend': 'vulkan'}, False),
+        ('explicit', {'backend': 'cpu', 'clipboard_fallback': True}, True),
+        ('malformed', {'backend': 'auto', 'clipboard_fallback': 'true'}, False)]:
+        path = tmp_path / (label + '.json')
+        path.write_text(json.dumps({'labs': {'command_mode': True}, 'command': command}), encoding='utf-8')
+        config = load_config(config_path=path, settings_path=tmp_path / 'absent.txt')
+        assert config['command']['clipboard_fallback'] is expected
+        assert config['command']['backend'] == command['backend'] and config['labs']['command_mode'] is True
+
+
 def test_saved_custom_recording_limits_survive_the_twenty_minute_default(tmp_path):
     from saydraft.config import load_config
 

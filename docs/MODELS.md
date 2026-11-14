@@ -67,8 +67,9 @@ The two chosen Qwen 0.8B/2B pins now also appear in the app's explicit cleanup
 setup. The measured 4B pin is catalogued separately for experimental Command
 editing; it leaves those cleanup defaults unchanged. Its admission/owner boundary
 is documented in [Command Mode](COMMAND_MODE.md#command-model-ownership); the
-Labs now offers the explicit Command download and held-recording opt-in; its
-clipboard-capture fallback and full acceptance remain pending. Gemma remains developer-only.
+Labs now offers explicit Command setup and held recording, plus a separate saved
+clipboard-capture fallback opt-in. Neither opt-in downloads a model or changes
+cleanup. Full Command acceptance remains pending. Gemma remains developer-only.
 Qwen Q4_K_M weights are
 0.58/1.40/3.01 GB; ggml-org Gemma Q4_0 weights are 2.84/4.59 GB, above the earlier
 Gemma estimates. Five-artifact quality and conditional manifest choices are

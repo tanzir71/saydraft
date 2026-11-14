@@ -62,6 +62,15 @@ def test_failed_instruction_recovery_is_explicitly_labelled_and_retains_full_pla
     assert f.clipboard.texts == [text] and f.store.get(window.draft.snapshot().identifier).body == text
 
 
+def test_clipboard_fallback_explains_no_paste_and_copies_only_after_explicit_click(recovery):
+    f = recovery
+    window = f.group.present(CommandEditResult('The file arrived.', 'copy_only'))
+    settle(f.qt, lambda: not window.draft.snapshot().dirty and not window.draft.snapshot().saving)
+    assert 'no paste was sent' in window.description.text() and not f.clipboard.texts
+    window.copy_button.click()
+    assert f.clipboard.texts == ['The file arrived.']
+
+
 @pytest.mark.parametrize('conflicted', [False, True])
 def test_a_dirty_or_conflicted_primary_scratchpad_is_never_replaced_or_activated(recovery, conflicted):
     from saydraft.ui.scratchpad import ScratchpadWindow

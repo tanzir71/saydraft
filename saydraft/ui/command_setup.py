@@ -26,6 +26,12 @@ class CommandSetup(QtWidgets.QGroupBox):
         self.description.setWordWrap(True)
         self.enabled_check = QtWidgets.QCheckBox('Enable experimental Command Mode')
         self.enabled_check.setChecked(config.get('labs', {}).get('command_mode', False))
+        self.copy_check = QtWidgets.QCheckBox('Allow clipboard-copy fallback')
+        self.copy_check.setChecked(config.get('command', {}).get('clipboard_fallback') is True)
+        self.copy_description = QtWidgets.QLabel('For unsupported selections, fallback uses ordinary Ctrl+C after you release the shortcut. '
+            'Windows clipboard history and sync settings apply. If the original selection cannot be verified '
+            'for replacement, the edit opens in a separate window with Copy.')
+        self.copy_description.setWordWrap(True)
         self.backend = QtWidgets.QComboBox()
         self.backend.setAccessibleName('Command model processor')
         for title, value in [('Recommended processor', 'auto'), ('CPU', 'cpu'), ('GPU (Vulkan)', 'vulkan')]:
@@ -52,7 +58,8 @@ class CommandSetup(QtWidgets.QGroupBox):
         buttons.addWidget(self.download_button)
         buttons.addWidget(self.pause_button)
         layout = QtWidgets.QVBoxLayout(self)
-        for widget in (self.description, self.eligibility, self.enabled_check, self.backend, self.license):
+        for widget in (self.description, self.eligibility, self.enabled_check, self.copy_check,
+                       self.copy_description, self.backend, self.license):
             layout.addWidget(widget)
         layout.addLayout(buttons)
         layout.addWidget(self.progress)
@@ -60,6 +67,7 @@ class CommandSetup(QtWidgets.QGroupBox):
         self.backend.currentIndexChanged.connect(self._details)
         self.download_button.clicked.connect(self.start_download)
         self.pause_button.clicked.connect(self.pause)
+        self.enabled_check.toggled.connect(self._copy_eligibility)
         self.update_eligibility(config, report)
 
     def update_eligibility(self, config, report=None):
@@ -69,10 +77,14 @@ class CommandSetup(QtWidgets.QGroupBox):
             if self.allowed else 'Needs Pro tier: Command uses a larger local editing model. '
             'Check performance or select Pro in Models before using it.')
         self.enabled_check.setEnabled(self.allowed)
+        self._copy_eligibility()
         self.backend.setEnabled(self.task is None)
         self.download_button.setEnabled(self.allowed and self.task is None)
         self.pause_button.setEnabled(self.task is not None)
         self._details()
+
+    def _copy_eligibility(self):
+        self.copy_check.setEnabled(self.allowed and self.enabled_check.isChecked())
 
     def _backend(self):
         staged = {**self.config, 'command': {'backend': self.backend.currentData()}}
@@ -98,6 +110,7 @@ class CommandSetup(QtWidgets.QGroupBox):
     def apply_to(self, config):
         config.setdefault('labs', {})['command_mode'] = self.enabled_check.isChecked()
         config.setdefault('command', {})['backend'] = self.backend.currentData()
+        config['command']['clipboard_fallback'] = self.copy_check.isChecked()
 
     def start_download(self):
         if not self.allowed or self.task is not None:

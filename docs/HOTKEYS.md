@@ -7,7 +7,10 @@ Ctrl+Win PTT prefix is cancelled/discarded before Command starts; a pre-existing
 hands-free session stays owned by that session. Pending starts acknowledge a
 generation before arming, so quick release cannot stop a later session. The
 compiled matcher/controller and owned native field fixtures are covered;
-physical shortcut/paste acceptance and clipboard capture fallback remain open.
+physical shortcut/paste acceptance remains open. An independent saved Labs
+clipboard-fallback opt-in waits for all physical modifiers to clear after release,
+then rechecks the original field before one Ctrl+C. It never releases held keys;
+unsupported ranges produce a validated edit for Copy without automatic paste.
 See [Command Mode](COMMAND_MODE.md).
 
 **Win+Alt+S** opens Scratchpad and **Ctrl+Win+D** opens the latest global History

@@ -2,14 +2,16 @@
 
 P7.1 remains in progress. The experimental held-recording route now connects
 Labs/Pro/model admission, instruction ASR, selected-text generation, History,
-guarded paste/confirmation and independent Copy recovery. It currently requires
-a safely readable selection. The Ctrl+C capture fallback and full
-physical/frozen Command acceptance remain open; the checkbox stays off by default.
+guarded paste/confirmation and independent Copy recovery. Readable UIA selections
+can be replaced after range checks. A separate default-off clipboard fallback
+captures unsupported selections from known-safe text fields after release and
+offers validated Copy results when replacement cannot be verified. Full physical
+and frozen Command acceptance remain open; Command itself stays off by default.
 
-The [clipboard transaction foundation](COMMAND_CLIPBOARD.md) now provides an
-explicit guarded one-copy/snapshot/restore boundary with shared recovery. It is
-not wired into this experimental route yet; unsupported UIA fields still refuse
-before Command audio. No new clipboard capture occurs in the running app.
+The [clipboard route](COMMAND_CLIPBOARD.md) uses an explicit guarded
+one-copy/snapshot/restore transaction, a generation-scoped metadata lease and
+shared clipboard recovery. It requires its own Labs opt-in; existing Command
+preferences do not silently acquire clipboard capture.
 Clean `48e6dc5` passes 3,610 tests / 12 skips and package checks; its private-station
 owned-EDIT probe captures three complete selections and restores all 11 formats.
 The [component record](../eval/commands/results/2026-11-14-selection-copy/README.md)
@@ -24,17 +26,27 @@ keeps that scope separate from physical Ctrl+C and fallback producer acceptance.
 3. Select text, hold **Ctrl+Win+Alt**, and wait for the Command label before
    speaking a short editing instruction. The distinct tick plays when sounds are
    enabled. Release to edit. Esc cancels.
+4. For an app that cannot expose its selection, separately enable **Allow
+   clipboard-copy fallback** in Labs and Save. Keep the text selected while
+   recording and release all shortcut keys. This uses ordinary Ctrl+C, so Windows
+   clipboard history/sync settings apply. The resulting edit opens with Copy
+   when the original selection cannot be verified for replacement.
 
 Standard shows **Needs Pro tier** before Command target/model/microphone work.
-Password/changed or unreadable selections refuse before Command audio. Known
+Password/changed or unknown field metadata refuse before Command audio. Unsupported
+selections require the separate clipboard opt-in and an Edit/Text/Document field
+whose password state is explicitly false. Known
 read-only selections can produce a validated edit for Copy without input.
 An earlier legitimate Ctrl+Win dictation prefix can already have started normal
 capture. The Command route cancels/discards that prefix and waits for its serial
 arm/finalizer to finish before a new instruction capture. It does not relabel the
 prefix as Command. A pre-existing hands-free session is preserved.
 
-The original selection is captured before deferred start, then verified again
-after model preparation. A pending start has an explicit generation acknowledgement:
+The original UIA selection, or a metadata-only fallback lease, is captured before
+deferred start and verified again after model preparation. Fallback text is read
+only after recording stops and all physical modifiers clear; the complete restored
+copy is sealed to that same field/ticket/generation before editing. Failed capture
+retains the recognized instruction. A pending start has an explicit generation acknowledgement:
 release before acknowledgement invalidates that request and never calls
 `stop(None)` on another recording. Release during model/speech preparation cannot
 open a late microphone. New starts, Settings, storage work and other capture tools
@@ -223,17 +235,22 @@ UTF-16 units, plus verified window/process/field identity. It reads neither the
 surrounding document nor a larger caret prefix. The normal dictation read keeps
 its original 1,024-unit bound. Empty, unsupported, overlong, malformed, unknown
 password or changed fields never return partial text as a usable selection.
-Unsupported selections retain verified metadata for the future copy fallback;
-that fallback must still recheck sensitive state and handle clipboard races.
+With explicit copy permission, unsupported text selections can instead reserve a
+`copy_pending` lease. It contains verified original metadata and no text/range.
+`seal_copy()` accepts complete copied text only while that same lease remains
+current, unexpired and known non-password. It adds no surrounding context and
+does not extend expiry. Its `clipboard` origin cannot be forged into a UIA range
+lease or authorize automatic paste; read verification remains metadata-only.
 
 The existing single UIA MTA owns the cloned native range. Public snapshots carry
 only immutable text, identity, ticket/generation and a tri-state read-only fact.
-Before a replacement, `verify_selection()` rechecks window/process/field identity,
+For UIA leases before replacement, `verify_selection()` rechecks window/process/field identity,
 fresh password state, both range endpoints and exact selected text. Identical
 text selected at a different position is rejected. Known read-only selections can
 be read for an answer, while write verification refuses them. Unknown editability
 is not a promise that paste will succeed; only the post-write confirmation can
-observe success. Clipboard capture and physical input acceptance remain open.
+observe success. Copied text without endpoints produces a Copy result without a
+paste attempt. Full physical fallback/input acceptance remains open.
 
 Requests share the existing one-request owner and at-most-500-ms capture budget.
 Cancellation wakes the caller and revokes late results without joining a blocked
@@ -295,7 +312,7 @@ scope is unchanged by the later Labs-save correction. The
 [ownership record](../eval/commands/results/2026-11-14-model-ownership/README.md)
 retains that proof, both native diagnostics and the initial four-failure CI.
 That checkpoint did not cover held recording. The current route is described
-above; clipboard capture and full packaged Command acceptance remain open.
+above; full physical clipboard/paste and packaged Command acceptance remain open.
 
 The connected held-recording and Labs setup at clean `c9380ae` pass **3,538 tests /
 12 skips**, rules 556/556, normal cleanup adversarial checks 100/100, both auxiliary

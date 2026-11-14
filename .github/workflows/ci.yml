@@ -50,6 +50,7 @@ jobs:
             build/pytest/**/own-tracked-edit/report.json
             build/pytest/**/own-selection/report.json
             build/pytest/**/own-command/report.json
+            build/pytest/**/own-command-copy/report.json
             build/pytest/**/own-selection-copy/report.json
       - name: Cleanup regression evaluation
         run: python -m saydraft.eval --min-pass-rate 100 --min-cases 556

@@ -24,6 +24,9 @@ class _RecoveryStore:
 
 
 def _description(result):
+    if result.reason == 'copy_only':
+        return ('Your edit is ready. The original selection could not be verified for replacement, so no paste was sent. '
+                'Copy the edit into the original field. This edit saves as a separate note on this PC.')
     if result.reason == 'instruction_history_unavailable':
         return ('Editing did not finish and your instruction could not be saved to History. '
                 'These are your recognized instruction words, available to copy and save as a separate note.')

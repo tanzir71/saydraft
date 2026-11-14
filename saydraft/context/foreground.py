@@ -4,7 +4,7 @@ import ctypes as ct
 import ntpath
 import sys
 import threading
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from ctypes import wintypes as wt
 
 from saydraft.core.interfaces import TargetContext
@@ -163,9 +163,9 @@ class ForegroundContextProvider:
             return False
         return owner.cancel_selection(None if captured is None else captured.selection)
 
-    def capture_selection(self, *, lease_seconds=1260):
+    def capture_selection(self, *, lease_seconds=1260, allow_copy=False):
         """Explicit power-feature read; normal dictation keeps its smaller context bound."""
-        if self._closed or not self._use_uia:
+        if self._closed or not self._use_uia or type(allow_copy) is not bool:
             return SelectedContext()
         self.cancel_selection()  # A new intent retires the previous range before any new read.
         try:
@@ -183,7 +183,8 @@ class ForegroundContextProvider:
             except OSError:
                 exe = ""
             self.prepare()
-            snapshot = self._uia.capture_selection(int(window), pid, lease_seconds=lease_seconds)
+            options = {"allow_copy": True} if allow_copy else {}
+            snapshot = self._uia.capture_selection(int(window), pid, lease_seconds=lease_seconds, **options)
             if self._closed or api.foreground() != window or api.window_pid(window) != pid:
                 self._uia.cancel_selection(snapshot)
                 return SelectedContext()
@@ -204,24 +205,40 @@ class ForegroundContextProvider:
     def verify_selection(self, captured, *, for_write=True):
         if type(for_write) is not bool:
             return "field_unavailable"
-        return self._selection_request(captured, lambda snapshot: self._uia.verify_selection(snapshot, for_write=for_write))
+        return self._selection_request(captured, lambda snapshot: self._uia.verify_selection(snapshot, for_write=for_write),
+                                       allow_pending=True)
+
+    def seal_copy(self, captured, text):
+        if type(captured) is not SelectedContext:
+            return SelectedContext()
+        sealed = None
+        def bind(snapshot):
+            nonlocal sealed
+            sealed = self._uia.seal_copy(snapshot, text)
+            return '' if sealed.status == 'ready' else sealed.status
+        reason = self._selection_request(captured, bind, allow_pending=True)
+        if reason or sealed is None:
+            return SelectedContext(captured.target, SelectionSnapshot(status=reason or 'field_unavailable'))
+        return SelectedContext(replace(captured.target, selection=sealed.text, selection_known=True), sealed)
 
     def confirm_replacement(self, captured, replacement):
         return self._selection_request(captured, lambda snapshot: self._uia.confirm_replacement(snapshot, replacement))
 
-    def _selection_request(self, captured, operation):
+    def _selection_request(self, captured, operation, *, allow_pending=False):
         if self._closed or not self._use_uia or self._uia is None:
             return "field_unavailable"
         if (type(captured) is not SelectedContext or type(captured.selection) is not SelectionSnapshot
-                or type(captured.target) is not TargetContext or captured.selection.status != "ready"):
+                or type(captured.target) is not TargetContext
+                or captured.selection.status not in (("ready", "copy_pending") if allow_pending else ("ready",))):
             return "selection_expired"
         target, snapshot = captured.target, captured.selection
+        pending = snapshot.status == "copy_pending" and snapshot.origin == "clipboard" and not snapshot.text
         identity = snapshot.identity
         if (type(identity) is not FieldIdentity or not identity.valid()
                 or target.focus != identity.window or target.process_id != identity.process_id
                 or target.field_id != identity.runtime_id or target.control_type != snapshot.control_type
                 or target.selection != snapshot.text or target.uia_status != "ok"
-                or not target.selection_known or target.selection_truncated or target.is_password):
+                or (not target.selection_known and not pending) or target.selection_truncated or target.is_password):
             self.cancel_selection(captured)
             return "field_unavailable"
         reason = "field_unavailable"

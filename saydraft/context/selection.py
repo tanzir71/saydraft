@@ -1,6 +1,6 @@
 """Explicit selected-text leases; COM ranges never leave their UIA MTA owner."""
 
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 import math
 import threading
 import time
@@ -11,6 +11,7 @@ from .tracked_edit import FieldIdentity
 SELECTION_LIMIT = 8192  # UTF-16 units; incomplete selections are never returned.
 REPLACEMENT_LIMIT = 16384
 MAX_SELECTION_LEASE = 3660  # Maximum recording cap plus processing time.
+COPY_CONTROL_TYPES = frozenset((50004, 50020, 50030))  # Edit, Text, Document only.
 
 
 @dataclass(frozen=True)
@@ -22,6 +23,7 @@ class SelectionSnapshot:
     text: str = ""
     read_only: bool | None = None
     generation: int = 0  # Minted by the bounded caller, never a native proxy.
+    origin: str = "uia"
 
 
 @dataclass
@@ -94,13 +96,13 @@ class SelectionTracker:
         value = method(element) if method else None
         return value if type(value) is bool else None
 
-    def begin(self, window, process_id, *, lease_seconds=1260, current=lambda: True):
+    def begin(self, window, process_id, *, lease_seconds=1260, allow_copy=False, current=lambda: True):
         self._owned()
         self.clear()
         if (type(window) is not int or not 0 < window < 2**64
                 or type(process_id) is not int or not 0 < process_id < 2**32
                 or type(lease_seconds) not in (int, float) or not math.isfinite(lease_seconds)
-                or not 0 < lease_seconds <= MAX_SELECTION_LEASE):
+                or not 0 < lease_seconds <= MAX_SELECTION_LEASE or type(allow_copy) is not bool):
             return SelectionSnapshot()
         try:
             field = read_focused_edit(self.reader, window, include_text=False, current=current)
@@ -116,8 +118,20 @@ class SelectionTracker:
             try:
                 anchor = self.reader.selection_range(element, current)
             except Exception:
-                return SelectionSnapshot(status="unsupported", **base)
+                anchor = None
             if anchor is None:
+                if allow_copy and field.control_type in COPY_CONTROL_TYPES:
+                    # This reserves only original safe field metadata. No text
+                    # or write authority is obtained until an explicit copy.
+                    read_only = self._read_only(element)
+                    _element, reason = self._element(identity, field.control_type, current)
+                    if reason:
+                        return SelectionSnapshot(status=reason)
+                    self._ticket += 1
+                    snapshot = SelectionSnapshot("copy_pending", self._ticket, identity, field.control_type,
+                                                 read_only=read_only, origin="clipboard")
+                    self._lease = _Lease(snapshot, None, self.clock() + lease_seconds)
+                    return snapshot
                 return SelectionSnapshot(status="unsupported", **base)
             text, reason = self._text(anchor, current)
             element, sensitive = self._element(identity, field.control_type, current)
@@ -166,8 +180,9 @@ class SelectionTracker:
     def _matching(self, snapshot):
         self.expire()
         lease = self._lease
-        if (type(snapshot) is not SelectionSnapshot or snapshot.status != "ready" or type(snapshot.ticket) is not int
+        if (type(snapshot) is not SelectionSnapshot or snapshot.status not in ("ready", "copy_pending") or type(snapshot.ticket) is not int
                 or lease is None or snapshot.ticket != lease.snapshot.ticket
+                or snapshot.status != lease.snapshot.status or snapshot.origin != lease.snapshot.origin
                 or snapshot.identity != lease.snapshot.identity or snapshot.control_type != lease.snapshot.control_type
                 or type(snapshot.text) is not str or snapshot.text != lease.snapshot.text):
             return None
@@ -182,6 +197,10 @@ class SelectionTracker:
             return "selection_expired"
         try:
             element, reason = self._element(snapshot.identity, snapshot.control_type, current)
+            if not reason and snapshot.origin == "clipboard":
+                # A copied string has no anchored original range. Metadata can
+                # authorize reading/generation, never an automatic write.
+                return "copy_only" if for_write else ""
             if not reason and for_write and self._read_only(element) is True:
                 reason = "read_only"
             if not reason:
@@ -205,6 +224,33 @@ class SelectionTracker:
             self.clear()
             return "field_unavailable"
 
+    def seal_copy(self, snapshot, text, *, current=lambda: True):
+        """Bind one complete copied string to the same revocable metadata lease."""
+        self._owned()
+        lease = self._matching(snapshot)
+        if lease is None or snapshot.status != "copy_pending" or snapshot.origin != "clipboard":
+            return SelectionSnapshot(status="selection_expired")
+        try:
+            if (type(text) is not str or not text or "\0" in text
+                    or len(text.encode("utf-16-le")) // 2 > SELECTION_LIMIT):
+                self.clear()
+                return SelectionSnapshot(status="selection_unavailable")
+            element, reason = self._element(snapshot.identity, snapshot.control_type, current)
+            if reason:
+                self.clear()
+                return SelectionSnapshot(status=reason)
+            read_only = self._read_only(element)
+            _element, reason = self._element(snapshot.identity, snapshot.control_type, current)
+            if reason:
+                self.clear()
+                return SelectionSnapshot(status=reason)
+            sealed = replace(lease.snapshot, status="ready", text=text, read_only=read_only)
+            lease.snapshot = sealed
+            return sealed
+        except Exception:
+            self.clear()
+            return SelectionSnapshot(status="field_unavailable")
+
     def confirm(self, snapshot, replacement, *, current=lambda: True):
         """One-shot post-write read of the intended span; never another write."""
         self._owned()
@@ -212,6 +258,8 @@ class SelectionTracker:
         if lease is None:
             return "selection_expired"  # Never retire a newer session's lease.
         try:
+            if snapshot.origin == "clipboard":
+                return "insertion_unconfirmed"
             if type(replacement) is not str or not 0 < len(replacement) <= REPLACEMENT_LIMIT:
                 return "insertion_unconfirmed"
             units = len(replacement.encode("utf-16-le")) // 2

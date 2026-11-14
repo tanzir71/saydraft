@@ -19,6 +19,14 @@ redirects, download installers or install updates. Turning them off retires
 pending results. The release-page link opens only after a user action. See
 [optional update checks](UPDATES.md) for the request and verification scope.
 
+Command Mode's separate default-off [clipboard fallback](COMMAND_CLIPBOARD.md)
+uses ordinary Ctrl+C in the original known-safe field after modifier release.
+Windows/target-app clipboard history and sync settings apply to that copy;
+restoring the original cannot remove history or sync entries retroactively.
+Saydraft's own clipboard privacy flags do not control another app's publication.
+The Labs opt-in discloses this before saving. Generation stays local; copied text
+without an anchored original range produces a Copy result without automatic paste.
+
 The catalog in `saydraft/models/manifest.json` includes Parakeet v3/v2 int8,
 Whisper base/small/medium/turbo, Tiny Whisper language detection, Silero VAD,
 the experimental Nemotron preview model, optional Qwen3.5 cleanup weights and

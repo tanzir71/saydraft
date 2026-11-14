@@ -91,3 +91,24 @@ def test_held_command_worker_uses_owned_native_ranges_without_owner_audio_clipbo
     assert [case['capture_starts'] for case in cases] == [2, 1, 1, 1, 0]
     assert all(case['serial_closed'] and case['own_field_exact'] and case['all_editors_retired']
                and case['memory_clipboard_restored'] for case in cases)
+
+
+@pytest.mark.skipif(sys.platform != 'win32', reason='Windows UI Automation required')
+def test_held_command_copy_uses_native_original_metadata_without_owner_clipboard_or_keys(tmp_path):
+    output = tmp_path / 'own-command-copy'
+    completed = subprocess.run([sys.executable, '-m', 'tools.probe_command_copy', '--output', str(output)],
+                               capture_output=True, timeout=60)
+    report = json.loads((output / 'report.json').read_text(encoding='utf-8'))
+    assert completed.returncode == 0, report
+    assert report['probe_complete'] and report['mta_closed'] and report['own_windows_closed']
+    assert not any(report[key] for key in ('active_application_read', 'input_injected', 'owner_clipboard_accessed',
+                                         'microphone_used', 'asr_performed', 'native_edit_model_used'))
+    cases = [case for case in report['cases'] if case['case'] == 'held_command_worker']
+    assert [case['mode'] for case in cases] == ['fallback_copy', 'fallback_sensitive', 'fallback_cancel']
+    assert [case['outcome'] for case in cases] == ['copy_only', 'password_field', 'cancelled_during_copy']
+    assert [case['copy_attempts'] for case in cases] == [1, 0, 1]
+    assert [case['history_rows'] for case in cases] == [1, 1, 0]
+    assert [case['recovery_requests'] for case in cases] == [1, 0, 0]
+    assert all(case['paste_attempts'] == case['selection_text_reads'] == 0 for case in cases)
+    assert all(case['serial_closed'] and case['own_field_exact'] and case['all_editors_retired']
+               and case['memory_clipboard_restored'] and case['selection_pattern_suppressed'] for case in cases)

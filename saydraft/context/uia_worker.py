@@ -6,7 +6,7 @@ from dataclasses import dataclass, field, replace
 import math
 
 from .focused_edit import FocusedEdit, read_focused_edit
-from .selection import MAX_SELECTION_LEASE, REPLACEMENT_LIMIT, SelectionSnapshot, SelectionTracker
+from .selection import MAX_SELECTION_LEASE, REPLACEMENT_LIMIT, SELECTION_LIMIT, SelectionSnapshot, SelectionTracker
 from .tracked_edit import FieldIdentity
 
 
@@ -25,6 +25,7 @@ class _Request:
     for_write: bool = True
     selection_epoch: int = 0
     replacement: str = ""
+    allow_copy: bool = False
 
 
 class BoundedUIA:
@@ -52,24 +53,41 @@ class BoundedUIA:
         request = _Request(window, include_text, time.monotonic() + budget)
         return self._submit(request, FocusedEdit())
 
-    def capture_selection(self, window, process_id, *, lease_seconds=1260):
+    def capture_selection(self, window, process_id, *, lease_seconds=1260, allow_copy=False):
         if (type(window) is not int or not 0 < window < 2**64
                 or type(process_id) is not int or not 0 < process_id < 2**32
                 or type(lease_seconds) not in (int, float) or not math.isfinite(lease_seconds)
-                or not 0 < lease_seconds <= MAX_SELECTION_LEASE):
+                or not 0 < lease_seconds <= MAX_SELECTION_LEASE or type(allow_copy) is not bool):
             return SelectionSnapshot()
         request = _Request(window, True, time.monotonic() + self.capture_timeout,
-                           operation="capture_selection", process_id=process_id, lease_seconds=lease_seconds)
+                           operation="capture_selection", process_id=process_id, lease_seconds=lease_seconds,
+                           allow_copy=allow_copy)
         return self._submit(request, SelectionSnapshot())
 
     def verify_selection(self, snapshot, *, for_write=True):
         if (type(snapshot) is not SelectionSnapshot or type(snapshot.identity) is not FieldIdentity
-                or not snapshot.identity.valid() or type(for_write) is not bool or snapshot.status != "ready"
+                or not snapshot.identity.valid() or type(for_write) is not bool or snapshot.status not in ("ready", "copy_pending")
                 or type(snapshot.generation) is not int or type(snapshot.ticket) is not int or snapshot.ticket <= 0):
             return "selection_expired"
         request = _Request(snapshot.identity.window, True, time.monotonic() + self.capture_timeout,
                            operation="verify_selection", snapshot=snapshot, for_write=for_write)
         return self._submit(request, "field_unavailable")
+
+    def seal_copy(self, snapshot, text):
+        if (type(snapshot) is not SelectionSnapshot or type(snapshot.identity) is not FieldIdentity
+                or not snapshot.identity.valid() or snapshot.status != "copy_pending" or snapshot.origin != "clipboard"
+                or type(snapshot.generation) is not int or type(snapshot.ticket) is not int or snapshot.ticket <= 0):
+            return SelectionSnapshot(status="selection_expired")
+        try:
+            valid = type(text) is str and bool(text) and "\0" not in text and len(text.encode('utf-16-le')) // 2 <= SELECTION_LIMIT
+        except UnicodeError:
+            valid = False
+        if not valid:
+            self.cancel_selection(snapshot)
+            return SelectionSnapshot(status="selection_unavailable")
+        request = _Request(snapshot.identity.window, False, time.monotonic() + self.capture_timeout,
+                           operation="seal_copy", snapshot=snapshot, replacement=text)
+        return self._submit(request, SelectionSnapshot(status="field_unavailable"))
 
     def cancel_selection(self, snapshot=None):
         """Nonblocking revocation; stale completion cleanup cannot cancel a newer lease."""
@@ -111,8 +129,8 @@ class BoundedUIA:
             if request.operation == "capture_selection":
                 self._selection_epoch += 1
                 self._clear_selection = True
-            elif request.operation in ("verify_selection", "confirm_replacement") and request.snapshot.generation != self._selection_epoch:
-                return "selection_expired"
+            elif request.operation in ("verify_selection", "confirm_replacement", "seal_copy") and request.snapshot.generation != self._selection_epoch:
+                return SelectionSnapshot(status="selection_expired") if request.operation == "seal_copy" else "selection_expired"
             request.selection_epoch = self._selection_epoch
             self._request = request
             self._wake.set()
@@ -177,11 +195,14 @@ class BoundedUIA:
                         return self._current(request)
                     if request.operation == "capture_selection":
                         result = replace(tracker.begin(request.window, request.process_id,
-                            lease_seconds=request.lease_seconds, current=current), generation=request.selection_epoch)
+                            lease_seconds=request.lease_seconds, allow_copy=request.allow_copy, current=current), generation=request.selection_epoch)
                     elif request.operation == "verify_selection":
                         result = tracker.verify(request.snapshot, for_write=request.for_write, current=current)
                     elif request.operation == "confirm_replacement":
                         result = tracker.confirm(request.snapshot, request.replacement, current=current)
+                    elif request.operation == "seal_copy":
+                        result = replace(tracker.seal_copy(request.snapshot, request.replacement, current=current),
+                                         generation=request.selection_epoch)
                     else:
                         result = read_focused_edit(reader, request.window, include_text=request.include_text, current=current)
                 with self._lock:

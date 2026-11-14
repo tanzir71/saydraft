@@ -36,7 +36,7 @@ CONFIG_SCHEMA: dict[str, Any] = {
         "onboarded": bool,
     },
     "labs": {"live_preview": bool, "use_streaming_result": bool, "command_mode": bool},
-    "command": {"backend": str},
+    "command": {"backend": str, "clipboard_fallback": bool},
     "updates": {"enabled": bool},
     "recording": {
         "input_device": str,
@@ -116,7 +116,7 @@ _DEFAULT_CONFIG: dict[str, Any] = {
         "onboarded": False,
     },
     "labs": {"live_preview": False, "use_streaming_result": False, "command_mode": False},
-    "command": {"backend": "auto"},
+    "command": {"backend": "auto", "clipboard_fallback": False},
     "updates": {"enabled": False},
     "recording": {
         "input_device": "",

@@ -14,7 +14,9 @@ from types import SimpleNamespace
 from saydraft.history import HistoryEntry
 from saydraft.models.command import command_choice, installed_command_config
 from saydraft.models.hardware import latest_report
+from saydraft.context.foreground import SelectedContext
 from .bar_status import BarPhase
+from .command_copy import capture_command_copy
 from .command_edit import CommandEditProcessor, CommandEditResult
 from .session import SessionInput as Input, SessionState as State
 
@@ -101,12 +103,17 @@ class CommandRecording:
             if not self._current(intent, held=True):
                 return False
             intent.captured = intent.services.context.capture_selection(
-                lease_seconds=min(3660, config['recording']['max_seconds'] + 125))
+                lease_seconds=min(3660, config['recording']['max_seconds'] + 125),
+                **({'allow_copy': True} if config.get('command', {}).get('clipboard_fallback') is True else {}))
             if not self._current(intent, held=True):
                 return False
-            if intent.captured.selection.status != 'ready':
-                w.emit('notification_requested', 'Select editable text before holding Command Mode. '
-                       'The selected field could not be read safely.')
+            pending_copy = (intent.captured.selection.status == 'copy_pending'
+                and intent.captured.selection.origin == 'clipboard'
+                and config.get('command', {}).get('clipboard_fallback') is True)
+            if intent.captured.selection.status != 'ready' and not pending_copy:
+                w.emit('notification_requested', 'This app does not expose its selection. You can enable clipboard-copy '
+                    'fallback in Settings → Labs.' if intent.captured.selection.status == 'unsupported' else
+                    'Select text before holding Command Mode. The selected field could not be read safely.')
                 return False
             if intent.services.context.verify_selection(intent.captured, for_write=False):
                 w.emit('notification_requested', 'Command Mode cannot safely read this selection. '
@@ -298,6 +305,17 @@ class CommandRecording:
             if discard or not self._current(intent):
                 return
             w.emit('processing_started')
+            processing_capture = intent.captured
+            if intent.captured.selection.status == 'copy_pending':
+                copied = capture_command_copy(intent.captured, context=services.context,
+                    inserter=services.inserter, current=lambda: self._current(intent))
+                if not self._current(intent):
+                    return
+                if copied.captured is not None:
+                    intent.captured = processing_capture = copied.captured
+                else:
+                    processing_capture = SelectedContext(intent.captured.target,
+                        replace(intent.captured.selection, status=copied.reason, text=''))
             if services.config['recording'].get('retain_audio') and services.audio_store is not None:
                 try:
                     audio_path = str(services.audio_store.save(audio, getattr(services.recorder, 'sample_rate', 16000)))
@@ -339,7 +357,7 @@ class CommandRecording:
 
             processor = CommandEditProcessor(editor=intent.editor, selections=services.context, history=services.history,
                 inserter=SimpleNamespace(insert_text=insert), recover=lambda result: w._recover_command_result(generation, result))
-            result = processor.process(intent.captured, raw, run_current=run, persist_current=persist, current=current,
+            result = processor.process(processing_capture, raw, run_current=run, persist_current=persist, current=current,
                 asr_model=w._model_id(), language=getattr(services.asr, 'last_language', None) or
                 services.config['stt'].get('language', 'auto'), duration_seconds=duration, audio_path=audio_path,
                 timings={'record': float(duration or 0), **getattr(services.asr, 'last_timings', {})})
@@ -364,8 +382,13 @@ class CommandRecording:
             w.bar_status.session(generation, BarPhase.INSERTED if result.reason == 'ok' else BarPhase.NOT_INSERTED,
                                  reason=bar_reason, saved=result.history_id is not None)
             if result.text is None and result.reason != 'cancelled':
-                w.emit('notification_requested', 'Command could not finish. Your instruction is saved in History.'
-                       if result.history_id is not None else 'Command could not finish. Check the instruction recovery window.')
+                message = {
+                    'clipboard_restore_pending': 'Clipboard restoration is pending. Open History and choose Recover clipboard.',
+                    'modifier_held': 'Release all shortcut keys so Command can copy the selection.',
+                    'copy_timeout': 'Command could not copy the selection. Keep the text selected and try again.',
+                }.get(result.reason, 'Command could not finish.')
+                w.emit('notification_requested', message + (' Your instruction is saved in History.'
+                    if result.history_id is not None else ' Check the instruction recovery window.'))
         except Exception:
             logger.warning('Command instruction processing unavailable')
             if self._current(intent):

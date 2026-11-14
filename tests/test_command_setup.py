@@ -47,6 +47,26 @@ def test_standard_shows_needs_pro_before_transfer_and_preserves_a_preexisting_op
     assert config['labs']['command_mode'] is True
 
 
+def test_clipboard_fallback_is_a_separate_staged_opt_in_with_windows_policy_disclosure():
+    page, config = fixture()
+    assert not page.copy_check.isChecked() and not page.copy_check.isEnabled()
+    assert 'history and sync' in page.copy_description.text() and 'Ctrl+C' in page.copy_description.text()
+    page.enabled_check.setChecked(True)
+    assert page.copy_check.isEnabled()
+    page.copy_check.setChecked(True)
+    assert config['command']['clipboard_fallback'] is False
+    page.apply_to(config)
+    assert config['command']['clipboard_fallback'] is True
+    page.enabled_check.setChecked(False)
+    assert not page.copy_check.isEnabled() and page.copy_check.isChecked()
+
+
+def test_standard_disables_clipboard_fallback_even_with_saved_command_opt_in():
+    page, _ = fixture(tier='standard')
+    page.enabled_check.setChecked(True)
+    assert not page.copy_check.isEnabled()
+
+
 def test_explicit_download_uses_captured_backend_off_gui_and_does_not_enable_or_apply(tmp_path):
     started, release = threading.Event(), threading.Event()
     calls = []
@@ -98,11 +118,13 @@ def test_settings_stages_the_new_opt_in_and_backend_only_on_save_and_validates_r
         page = window.labs_page.command
         assert page.enabled_check.isEnabled()
         page.enabled_check.setChecked(True)
+        page.copy_check.setChecked(True)
         page.backend.setCurrentIndex(page.backend.findData('cpu'))
         assert load_config(config_path=path)['labs']['command_mode'] is False
         assert window.apply_changes()
         saved = load_config(config_path=path)
         assert saved['labs']['command_mode'] is True and saved['command']['backend'] == 'cpu'
+        assert saved['command']['clipboard_fallback'] is True
         assert saved['llm']['enabled'] is False
         window.speech_hotkey_edit.setText('ctrl+win+alt')
         assert not window.apply_changes() and 'conflict' in window.status_label.text().lower()
