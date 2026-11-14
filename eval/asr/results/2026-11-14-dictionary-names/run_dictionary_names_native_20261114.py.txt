@@ -1,0 +1,49 @@
+"""Observe one bounded native child and retain exact plan/source provenance."""
+import hashlib
+import json
+import os
+from pathlib import Path
+import subprocess
+import time
+
+qa=Path(__file__).resolve().parent
+repo=qa/'worktrees/dictionary-names-20261114'
+root=qa/'dictionary-names-20261114-r1'
+report=root/'native-r1-process.json'
+assert not report.exists()
+head=subprocess.check_output(['git','rev-parse','HEAD'],cwd=repo,text=True).strip()
+assert not subprocess.check_output(['git','status','--porcelain'],cwd=repo,text=True).strip()
+files={}
+for name in ('tools/dictionary_names.py','tools/dictionary_names_corpus.py'):
+    data=(repo/name).read_bytes()
+    files[name]={'raw_sha256':hashlib.sha256(data).hexdigest(),'lf_sha256':hashlib.sha256(data.replace(b'\r\n',b'\n')).hexdigest()}
+    target=root/'native-source'/name
+    target.parent.mkdir(parents=True,exist_ok=True)
+    target.write_bytes(data)
+plan=root/'corpus-r1/plan.json'
+before=hashlib.sha256(plan.read_bytes()).hexdigest()
+args=['C:/Users/tanzir/Desktop/voice_tray/.venv/Scripts/python.exe',str(qa/'run_dictionary_names_child_20261114.py'),
+    str(root/'native-r1-guard.json'),'--corpus',str(root/'corpus-r1/corpus.json'),'--parakeet-dir',str(qa/'parakeet-models/asr/parakeet-tdt-0-6b-v3-int8'),
+    '--whisper-dir',str(qa/'turbo-models/whisper/large-v3-turbo'),'--tokenizer-dir',str(qa/'dictionary-biasing-20261114-r1/authentic-tokenizer-r1'),'--output',str(root/'native-r1')]
+env=os.environ.copy()
+env.update(HF_HUB_OFFLINE='1',HF_HUB_DISABLE_TELEMETRY='1',DO_NOT_TRACK='1',PYTHONUTF8='1')
+assert env.get('GITHUB_ACTIONS')!='true'
+started=time.time()
+timed_out=False
+with (root/'native-r1-stdout.txt').open('xb') as out,(root/'native-r1-stderr.txt').open('xb') as err:
+    try:
+        completed=subprocess.run(args,cwd=repo,env=env,stdout=out,stderr=err,timeout=1800,
+            creationflags=subprocess.CREATE_NO_WINDOW)
+        code=completed.returncode
+    except subprocess.TimeoutExpired:
+        code=None
+        timed_out=True
+stderr=(root/'native-r1-stderr.txt').read_text(encoding='utf-8',errors='replace')
+result={'source':head,'source_clean':True,'source_files':files,'plan_sha256':before,
+    'plan_unchanged':before==hashlib.sha256(plan.read_bytes()).hexdigest(),
+    'child_exit_code':code,'child_exit_observed':not timed_out,'timed_out':timed_out,
+    'seconds':time.time()-started,'hotword_encoding_error':'encode hotwords failed' in stderr.lower(),
+    'owner_audio_or_input_used':False,'source_unchanged':all(hashlib.sha256((repo/name).read_bytes()).hexdigest()==row['raw_sha256'] for name,row in files.items())}
+report.write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8')
+print(json.dumps({key:result[key] for key in ('source','child_exit_code','child_exit_observed','seconds','hotword_encoding_error','source_unchanged','plan_unchanged')}))
+raise SystemExit(0 if code==0 and not timed_out and not result['hotword_encoding_error'] else 1)

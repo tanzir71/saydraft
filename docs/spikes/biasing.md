@@ -1,11 +1,70 @@
 # Dictionary biasing investigation, 2026-11-12
 
 No winner is selected and no recognition or fuzzy-correction default changes.
-A 14 November follow-up retrieves the authentic matching tokenizer and measures
-40 reference-selected terms on 20 previously evaluated public English clips.
-The hotword candidate fails: recall is unchanged and transcription errors rise.
-This is observed development data, not an unseen glossary or owner accuracy
-acceptance. P3.5 remains open; the original bundled-fixture investigation follows.
+A disjoint 40-name follow-up now measures 240 native decodes on 48 public English
+development clips. Parakeet hotwords improve name recall 33.33% and Whisper
+context improves it 68.18%, clearing the recall subtarget. Both fail the stricter
+frozen per-clip admission gate. Defaults stay unchanged, reserved recordings
+remain uninferred, and production biasing plus phonetic correction remain open.
+
+## 15 November: disjoint names and collateral regressions
+
+The reference-only seed was committed before inference at `2215cf6`. Forty names
+and domain terms come from unchanged pinned FLEURS English **dev** references:
+all 28 eligible positive prompts, ten numeric negatives and ten other negatives.
+All 150 dev IDs are disjoint from the 256-ID union of earlier language evaluations
+and reserved Bengali/Tamil/Telugu confirmation IDs. Lexically first and second
+eligible recording filenames produce 48 development and 48 reserved recordings.
+All 96 filenames and audio hashes differ. The cohorts share prompts; speaker
+independence and unseen-text acceptance are not established. No hypotheses were
+used for selection. The complete 171,250,900-byte archive matches its published
+SHA-256 before selected WAVs are copied. Audio and weights stay outside Git.
+
+The five fixed arms use CPU/four threads and unchanged catalog models. Parakeet
+beam uses four active paths and hotword score 1.5; Whisper large-v3-turbo uses
+beam five with/without the 40-name `hotwords` context (151 tokens, untruncated).
+There is no VAD/silence trim, previous-text conditioning or phonetic correction.
+
+| Arm | Names matched / 43 | Recall | Word errors / 1,099 | Character errors / 5,317 | Decode p50 |
+|---|---:|---:|---:|---:|---:|
+| Parakeet greedy | 15 | 34.88% | 276 | 1,113 | 0.957 s |
+| Parakeet beam | 14 | 32.56% | 277 | 1,109 | 1.160 s |
+| Parakeet hotwords | 20 | 46.51% | 266 | 1,089 | 1.177 s |
+| Whisper baseline | 22 | 51.16% | 90 | 204 | 10.231 s |
+| Whisper context | 37 | 86.05% | 78 | 182 | 10.818 s |
+
+All 240 decodes complete without failures or dictionary false positives.
+Hotwords gain **33.33%** relative name recall against Parakeet greedy; Whisper
+context gains **68.18%** against its own baseline. Both improve aggregate scores.
+The original 30% recall subtarget is met on this public development set. The
+separately frozen admission criteria also prohibit per-clip word/character,
+number/acronym surface and dictionary false-positive regressions; neither passes.
+
+Parakeet hotwords regresses three clips: `NHK` becomes `HK`, an already wrong
+name spelling worsens, and a negative sentence loses more characters. Whisper
+context regresses two: `fifth`/`four` become `5th`/`4`, and another sentence
+changes `the` to `a`. Number diagnostics measure literal surface differences;
+the first example does **not** establish changed numeric meaning. Preserve the
+original outcomes and criteria; do not use reference-dependent repairs or relax
+the gate to promote a candidate.
+
+The parent observes native exit 0 after 1,288.53 seconds, with unchanged source,
+plan, corpus and model hashes and no hotword encoding errors. Python NetworkGuard
+and an audio/profile import guard are active. Native firewall, owner audio/input,
+live delivery, cold-start latency and broader accuracy are not qualified.
+Single-run decode timings exclude loading/hashing/capture/delivery, use fixed arm
+order and reuse Whisper for its context arm; they do not close release budgets.
+
+Ninety-eight local tests, 556 cleanup cases, 100 adversarial cases and lint pass.
+An independent standard-library verifier recomputes all scores/per-clip gates
+and checks frozen Git source/selection, TSV, exclusions, every actual audio file,
+the full archive, tokenizer and both pinned models. See the
+[38 raw evidence records and verifier](../../eval/asr/results/2026-11-14-dictionary-names/).
+The 48 new reserved recordings and 60 earlier Bengali/Tamil/Telugu confirmation
+clips remain uninferred. No defaults, model packages, dependencies or production
+correction path change. Next: a conservative phonetic/edit correction or output
+guard under a new frozen development protocol, followed by confirmation before
+production integration. P3.5 remains unchecked.
 
 ## 14 November: authentic tokenizer and measured rejection
 
@@ -135,6 +194,6 @@ phonetic matches must preserve the original. A Double Metaphone match alone is
 not sufficient evidence to rewrite a homophone. Do not infer Bengali/Arabic
 support from an English phonetic algorithm.
 
-P3.5 remains unchecked. Its data-dependent winner and production correction path
-resume when the accuracy corpus is available; no further owner upload request is
-made while the deferral stands.
+P3.5 remains unchecked. The public corpus above is now available, but no candidate
+passes every frozen admission gate and production phonetic correction is still
+pending. No further owner upload request is made while the deferral stands.

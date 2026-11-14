@@ -1,0 +1,47 @@
+"""Retain exact completed native output; never rerun or rewrite its scores."""
+import hashlib
+import json
+from pathlib import Path
+import shutil
+import subprocess
+
+qa = Path(__file__).resolve().parent
+root = qa / 'dictionary-names-20261114-r1'
+repo = qa / 'worktrees/dictionary-names-20261114'
+proof = repo / 'eval/asr/results/2026-11-14-dictionary-names'
+process = json.loads((root / 'native-r1-process.json').read_bytes())
+assert process['child_exit_observed'] and process['child_exit_code'] == 0 and not process['timed_out']
+assert process['source_unchanged'] and process['plan_unchanged'] and not process['hotword_encoding_error']
+assert not subprocess.check_output(['git', 'status', '--porcelain'], cwd=repo, text=True).strip()
+assert subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=repo, text=True).strip() == process['source']
+mapping = {
+    'native-r1-process.json': 'process.json', 'native-r1-guard.json': 'guard.json',
+    'native-r1-stdout.txt': 'stdout.txt', 'native-r1-stderr.txt': 'stderr.txt',
+    'native-r1/started.json': 'started.json', 'native-r1/report.json': 'report.json',
+    'native-r1/cases.jsonl': 'cases.jsonl', 'references-verification-r1.txt': 'references-verification-r1.txt',
+    'rules.txt': 'rules.txt', 'rules-guard.json': 'rules-guard.json',
+    'adversarial.txt': 'adversarial.txt', 'adversarial-guard.json': 'adversarial-guard.json',
+    'github-after-push.json': 'github-after-push.json',
+}
+for name, target in mapping.items():
+    shutil.copyfile(root / name, proof / target)
+for name in process['source_files']:
+    target = proof / 'source' / name
+    target.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copyfile(root / 'native-source' / name, target)
+for name in ('run_dictionary_names_child_20261114.py', 'run_dictionary_names_native_20261114.py',
+             'run_dictionary_names_tests_20261114.py', 'run_dictionary_names_module_20261114.py',
+             'collect_dictionary_names_evidence_20261114.py'):
+    shutil.copyfile(qa / name, proof / (name + '.txt'))
+tokenizer = qa / 'dictionary-biasing-20261114-r1/authentic-tokenizer-r1'
+shutil.copyfile(tokenizer / 'receipt.json', proof / 'tokenizer-receipt.json')
+shutil.copyfile(tokenizer / 'NOTICE.md', proof / 'tokenizer-NOTICE.md')
+shutil.copyfile(qa / 'verify_dictionary_names_20261114.py', proof / 'verify-names.py.txt')
+files = {path.relative_to(proof).as_posix(): hashlib.sha256(path.read_bytes()).hexdigest()
+         for path in sorted(proof.rglob('*')) if path.is_file() and path.name not in
+         ('files.json', 'README.md', 'verification-r1.txt', 'verification-r2.txt')}
+(proof / 'files.json').write_text(json.dumps(files, indent=2) + '\n', encoding='utf-8')
+result = json.loads((proof / 'report.json').read_bytes())
+print(json.dumps({'source': result['source'], 'raw_files': len(files), 'complete': result['complete'],
+                  'development_gate_passed': result['development_gate_passed'], 'confirmation_inferred': result['confirmation_inferred'],
+                  'comparisons': result['comparisons'], 'arms': result['arms']}))

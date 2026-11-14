@@ -1,0 +1,254 @@
+{
+  "complete": true,
+  "expected_cases": 240,
+  "completed_cases": 240,
+  "arms": {
+    "parakeet_greedy": {
+      "cases": 48,
+      "failures": 0,
+      "scores": {
+        "word_errors": 276,
+        "reference_words": 1099,
+        "character_errors": 1113,
+        "reference_characters": 5317
+      },
+      "terms": {
+        "expected": 43,
+        "matched": 15,
+        "false_positives": 0
+      },
+      "protected_errors": {
+        "numbers": 26,
+        "acronyms": 5
+      },
+      "term_recall": 0.3488372093023256,
+      "decode_p50_seconds": 0.9572365499989246
+    },
+    "parakeet_beam": {
+      "cases": 48,
+      "failures": 0,
+      "scores": {
+        "word_errors": 277,
+        "reference_words": 1099,
+        "character_errors": 1109,
+        "reference_characters": 5317
+      },
+      "terms": {
+        "expected": 43,
+        "matched": 14,
+        "false_positives": 0
+      },
+      "protected_errors": {
+        "numbers": 25,
+        "acronyms": 5
+      },
+      "term_recall": 0.32558139534883723,
+      "decode_p50_seconds": 1.1601420999977563
+    },
+    "parakeet_hotwords": {
+      "cases": 48,
+      "failures": 0,
+      "scores": {
+        "word_errors": 266,
+        "reference_words": 1099,
+        "character_errors": 1089,
+        "reference_characters": 5317
+      },
+      "terms": {
+        "expected": 43,
+        "matched": 20,
+        "false_positives": 0
+      },
+      "protected_errors": {
+        "numbers": 25,
+        "acronyms": 7
+      },
+      "term_recall": 0.46511627906976744,
+      "decode_p50_seconds": 1.1768634500003827
+    },
+    "whisper_baseline": {
+      "cases": 48,
+      "failures": 0,
+      "scores": {
+        "word_errors": 90,
+        "reference_words": 1099,
+        "character_errors": 204,
+        "reference_characters": 5317
+      },
+      "terms": {
+        "expected": 43,
+        "matched": 22,
+        "false_positives": 0
+      },
+      "protected_errors": {
+        "numbers": 21,
+        "acronyms": 4
+      },
+      "term_recall": 0.5116279069767442,
+      "decode_p50_seconds": 10.230651699999726
+    },
+    "whisper_context": {
+      "cases": 48,
+      "failures": 0,
+      "scores": {
+        "word_errors": 78,
+        "reference_words": 1099,
+        "character_errors": 182,
+        "reference_characters": 5317
+      },
+      "terms": {
+        "expected": 43,
+        "matched": 37,
+        "false_positives": 0
+      },
+      "protected_errors": {
+        "numbers": 23,
+        "acronyms": 4
+      },
+      "term_recall": 0.8604651162790697,
+      "decode_p50_seconds": 10.817795200000546
+    }
+  },
+  "comparisons": {
+    "parakeet_beam": {
+      "baseline": "parakeet_greedy",
+      "relative_term_recall_gain": -0.06666666666666665,
+      "per_clip_regressions": [
+        {
+          "id": 1547,
+          "role": "positive",
+          "metrics": [
+            "character_errors"
+          ]
+        },
+        {
+          "id": 1578,
+          "role": "positive",
+          "metrics": [
+            "word_errors",
+            "character_errors"
+          ]
+        },
+        {
+          "id": 1618,
+          "role": "positive",
+          "metrics": [
+            "word_errors",
+            "character_errors"
+          ]
+        },
+        {
+          "id": 1626,
+          "role": "negative_numeric",
+          "metrics": [
+            "word_errors",
+            "character_errors"
+          ]
+        }
+      ],
+      "added_term_false_positives": 0,
+      "development_gate_passed": false
+    },
+    "parakeet_hotwords": {
+      "baseline": "parakeet_greedy",
+      "relative_term_recall_gain": 0.33333333333333326,
+      "per_clip_regressions": [
+        {
+          "id": 1547,
+          "role": "positive",
+          "metrics": [
+            "word_errors",
+            "character_errors",
+            "acronyms"
+          ]
+        },
+        {
+          "id": 1608,
+          "role": "positive",
+          "metrics": [
+            "character_errors"
+          ]
+        },
+        {
+          "id": 1626,
+          "role": "negative_numeric",
+          "metrics": [
+            "character_errors"
+          ]
+        }
+      ],
+      "added_term_false_positives": 0,
+      "development_gate_passed": false
+    },
+    "whisper_context": {
+      "baseline": "whisper_baseline",
+      "relative_term_recall_gain": 0.6818181818181817,
+      "per_clip_regressions": [
+        {
+          "id": 1515,
+          "role": "positive",
+          "metrics": [
+            "word_errors",
+            "character_errors",
+            "numbers"
+          ]
+        },
+        {
+          "id": 1525,
+          "role": "positive",
+          "metrics": [
+            "word_errors",
+            "character_errors"
+          ]
+        }
+      ],
+      "added_term_false_positives": 0,
+      "development_gate_passed": false
+    }
+  },
+  "development_gate_passed": false,
+  "confirmation_inferred": false,
+  "ship_or_owner_acceptance": false,
+  "source": "2215cf6c76499774eb4c8b280c8f74ab04ac9191",
+  "source_clean": true,
+  "corpus_sha256": "db5907f2aa541128326959b2e8ba8715cb8eee59cfdf1c91d46996212d72806b",
+  "plan_sha256": "b3cd4c172f5db1eb8366d98ede4f2d0d08c0e9cff889792d85ab1afdacbbead6",
+  "model_files": {
+    "parakeet-tdt-0-6b-v3-int8": {
+      "encoder.int8.onnx": "1afbe69c1ffdabee94755f42e4daf1d93549131a3da11356bda84fcef0f2c479",
+      "decoder.int8.onnx": "0222a86147299d4dee90edf95b6d13827edb42ad8b7c9cf0b2582f030937c0b5",
+      "joiner.int8.onnx": "cbd02f3696e9944970111fb439d9c3fd365a80374565f13f2b9c7007d253fc98",
+      "tokens.txt": "d58544679ea4bc6ac563d1f545eb7d474bd6cfa467f0a6e2c1dc1c7d37e3c35d",
+      "README.md": "701a3375e3fe77308d280c673d34146162d2f1602b44f97d99086e3f537a1119"
+    },
+    "whisper-large-v3-turbo": {
+      "model.bin": "e76620f83d5f5b69efd3d87e3dc180c1bd21df9fbebacfd4335e5e1efcc018da",
+      "config.json": "b0253ea6c0d3bea6b1e19e91a02acfd3b53f4467362efcb5a3e6b16c9b3a9b7e",
+      "preprocessor_config.json": "7ccc62c6f2765af1f3b46c00c9b5894426835a05021c8b9c01eecb6dfb542711",
+      "tokenizer.json": "297b13372ac43916285644fb9687add3cc62ee2a1adb60da3dc25cc94c1871fd",
+      "vocabulary.json": "c69260f2ab26d659b7c398f9a2b2b48ed0df16c3b47d7326782fd9cba71690c1",
+      "README.md": "b3068692728faed23580cce5cd569fc47ff76c690c032b2641ffd5554ea64d8f"
+    }
+  },
+  "model_files_unchanged": true,
+  "corpus_unchanged": true,
+  "plan_unchanged": true,
+  "tokenizer_receipt_sha256": "8def892c10b9f8a90c100d00e74be7e59ca992a0958bf2560f15ed27db07e204",
+  "runtimes": {
+    "sherpa_onnx": "1.13.4",
+    "faster_whisper": "1.2.1",
+    "whisper_context_tokens": 151
+  },
+  "model_load_seconds": {
+    "parakeet_greedy": 4.963134199999331,
+    "parakeet_beam": 7.944115899997996,
+    "parakeet_hotwords": 8.428637800003344,
+    "whisper_baseline": 4.253313499997603,
+    "whisper_context": 1.0000003385357559e-06
+  },
+  "silence_trim": false,
+  "python_network_guard": true,
+  "native_firewall_verified": false,
+  "scope": "public_English_read_speech_development_shared_prompts_reserved_recordings_uninferred",
+  "release_latency_or_broad_accuracy_accepted": false
+}

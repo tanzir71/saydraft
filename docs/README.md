@@ -49,9 +49,10 @@ including the optional public-audio recognizer smoke.
 ## Models, privacy, and data
 
 The [dictionary biasing investigation](spikes/biasing.md) now includes an authentic
-matching tokenizer and a frozen 40-term public-development comparison. The
-candidate adds transcription errors without improving recall and is rejected;
-recognition defaults and owner accuracy acceptance stay unchanged.
+matching tokenizer and 240 decodes on a disjoint 40-name public development set.
+Hotwords/context improve name recall by 33%/68%, but regress some individual
+clips and fail the frozen admission gate. Raw results and an independent scorer
+are retained; defaults and owner accuracy acceptance stay unchanged.
 
 | Guide | Contents |
 |---|---|

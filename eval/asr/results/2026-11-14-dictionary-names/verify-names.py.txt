@@ -1,0 +1,236 @@
+"""Independent stdlib verifier of frozen references and raw paired ASR output."""
+import argparse
+from collections import Counter, defaultdict
+import hashlib
+import json
+from pathlib import Path
+import re
+import statistics
+import subprocess
+import unicodedata
+
+
+def sha(data):
+    return hashlib.sha256(data).hexdigest()
+
+
+def digest(path):
+    value = hashlib.sha256()
+    with Path(path).open('rb') as source:
+        for block in iter(lambda: source.read(1024 * 1024), b''):
+            value.update(block)
+    return value.hexdigest()
+
+
+def normal(text):
+    text = unicodedata.normalize('NFKC', text).casefold()
+    return ' '.join(''.join(' ' if unicodedata.category(c)[0] in 'PS' else c for c in text).split())
+
+
+def distance(left, right):
+    previous = list(range(len(right) + 1))
+    for i, a in enumerate(left, 1):
+        current = [i]
+        for j, b in enumerate(right, 1):
+            current.append(min(current[-1] + 1, previous[j] + 1, previous[j-1] + (a != b)))
+        previous = current
+    return previous[-1]
+
+
+def scores(reference, text):
+    ref, hyp = normal(reference), normal(text)
+    return {'word_errors': distance(ref.split(), hyp.split()), 'reference_words': len(ref.split()),
+            'character_errors': distance(ref.replace(' ', ''), hyp.replace(' ', '')),
+            'reference_characters': len(ref.replace(' ', ''))}
+
+
+def terms(reference, text, glossary):
+    ref, hyp = Counter(normal(reference).split()), Counter(normal(text).split())
+    return {'expected': sum(ref[t] for t in glossary), 'matched': sum(min(ref[t], hyp[t]) for t in glossary),
+            'false_positives': sum(max(0, hyp[t] - ref[t]) for t in glossary)}
+
+
+def surfaces(text, glossary):
+    text = unicodedata.normalize('NFKC', text)
+    return {'numbers': Counter(re.findall(r'(?<!\w)[+-]?\d+(?:[.,:/-]\d+)*(?:%|[A-Za-z]+)?(?!\w)', text)),
+            'acronyms': Counter(t for t in re.findall(r'\b[A-Z][A-Z0-9]{1,}\b', text) if normal(t) not in glossary)}
+
+
+def protected(reference, text, glossary):
+    ref, hyp = surfaces(reference, glossary), surfaces(text, glossary)
+    return {k: sum((ref[k] - hyp[k]).values()) + sum((hyp[k] - ref[k]).values()) for k in ref}
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--repo', type=Path, required=True)
+    parser.add_argument('--evidence', type=Path, default=Path(__file__).resolve().parent)
+    parser.add_argument('--corpus-root', type=Path)
+    parser.add_argument('--parakeet-root', type=Path)
+    parser.add_argument('--whisper-root', type=Path)
+    parser.add_argument('--tokenizer-root', type=Path)
+    parser.add_argument('--check-exclusion-files', action='store_true')
+    parser.add_argument('--references-only', action='store_true', help='Verify the frozen acquisition before results exist')
+    args = parser.parse_args()
+    root = args.evidence
+    def read(name):
+        return json.loads((root / name).read_bytes())
+    files = read('files.json')
+    for name, expected in files.items():
+        assert not Path(name).is_absolute() and '..' not in Path(name).parts
+        assert digest(root / name) == expected, name
+    plan, corpus = read('selection-plan.json'), read('corpus.json')
+    assert plan['protocol'] == corpus['protocol'] == 'fleurs_dev_names_40_v1'
+    assert plan['split'] == 'dev' and plan['revision'] == corpus['revision'] == '70bb2e84b976b7e960aa89f1c648e09c59f894dd'
+    assert plan['license'] == corpus['license'] == 'CC-BY-4.0'
+    assert plan['metadata_sha256'] == corpus['metadata_sha256'] == digest(root / 'dev.tsv') == '9d57ee7e91e9d4c92edb39f6bbea668ef8dc2a3ff96eb510d5580b2ad05d17ec'
+    assert plan['archive_sha256'] == corpus['archive_sha256'] == '2658fda72f199e12676ecac9415094667a4e14e149b146e568ea00b2a2f0954c'
+    assert plan['archive_bytes'] == corpus['archive_bytes_read'] == 171250900
+    assert corpus['full_archive_checksum_verified'] and corpus['complete'] and not corpus['inference_performed']
+    assert corpus['plan_sha256'] == digest(root / 'selection-plan.json')
+    glossary = {normal(term) for term in plan['terms']}
+    assert len(glossary) == len(plan['terms']) == len(plan['seed']) == 40
+    assert [row['term'] for row in plan['seed']] == plan['terms']
+    assert plan['parameters'] == {'threads': 4, 'parakeet_max_active_paths': 4, 'parakeet_hotwords_score': 1.5,
+                                  'whisper_beam_size': 5, 'whisper_language': 'en', 'whisper_compute_type': 'int8',
+                                  'whisper_vad_filter': False, 'whisper_condition_on_previous_text': False,
+                                  'whisper_context_parameter': 'hotwords', 'whisper_context': ', '.join(plan['terms'])}
+    assert plan['gate'] == {'relative_term_recall_gain_min': .30, 'no_added_term_false_positives': True,
+                           'no_added_per_clip_word_or_character_errors': True,
+                           'no_added_per_clip_number_or_protected_token_errors': True, 'all_frozen_cases_complete': True}
+    assert not plan['inference_performed_at_selection'] and not plan['ship_or_owner_acceptance']
+    refs, groups = {}, defaultdict(list)
+    for line in (root / 'dev.tsv').read_text(encoding='utf-8').splitlines():
+        fields = line.split('\t')
+        assert len(fields) == 7 and fields[1] not in refs
+        value = {'id': int(fields[0]), 'source_filename': fields[1], 'reference': fields[2],
+                 'normalized_reference': fields[3], 'num_samples': int(fields[5]), 'gender': fields[6].lower()}
+        refs[fields[1]] = value
+        groups[value['id']].append(value)
+    assert len(refs) == 394 and len(groups) == 150
+    excluded = plan['exclusions']
+    union = set()
+    for item in excluded['sources']:
+        ids = item.get('reserved_ids_only', item.get('ids'))
+        assert ids and len(ids) == len(set(ids))
+        union.update(ids)
+        if args.check_exclusion_files:
+            assert digest(item['path']) == item['sha256']
+            source = json.loads(Path(item['path']).read_bytes())
+            actual = source['clips'][20:] if 'reserved_ids_only' in item else source['clips']
+            assert ids == sorted(row['id'] for row in actual)
+    assert sorted(union) == excluded['ids'] and len(union) == 256 and not set(groups) & union
+    eligible = {identifier: sorted([row for row in rows if 16000 <= row['num_samples'] <= 60 * 16000], key=lambda r: r['source_filename'])
+                for identifier, rows in groups.items()}
+    eligible = {k: v for k, v in eligible.items() if len(v) >= 2}
+    for item in plan['seed']:
+        assert normal(item['term']) in normal(eligible[item['source_id']][0]['reference']).split()
+    positive = sorted(k for k, v in eligible.items() if glossary & set(normal(v[0]['reference']).split()))
+    numeric = sorted(k for k, v in eligible.items() if k not in positive and re.search(r'\d', v[0]['reference']))[:10]
+    other = sorted(k for k, v in eligible.items() if k not in positive and not re.search(r'\d', v[0]['reference']))[:10]
+    selected = sorted(positive + numeric + other)
+    assert len(positive) == 28 and len(selected) == 48
+    names, hashes = set(), set()
+    for index, cohort in enumerate(('development', 'reserved_confirmation')):
+        rows = corpus['cohorts'][cohort]
+        assert len(rows) == 48 and [row['id'] for row in rows] == selected
+        for actual, planned, identifier in zip(rows, plan['cohorts'][cohort], selected, strict=True):
+            expected = {**eligible[identifier][index], 'cohort': cohort, 'role': 'positive' if identifier in positive else 'negative_numeric' if identifier in numeric else 'negative_other'}
+            assert planned == expected and all(actual[k] == v for k, v in expected.items())
+            assert actual['source_filename'] not in names and actual['sha256'] not in hashes
+            names.add(actual['source_filename'])
+            hashes.add(actual['sha256'])
+            if args.corpus_root:
+                audio = args.corpus_root / actual['audio']
+                assert audio.stat().st_size == actual['bytes'] and digest(audio) == actual['sha256']
+    if args.corpus_root:
+        assert digest(args.corpus_root / 'dev.tar.gz') == corpus['archive_sha256']
+    if args.references_only:
+        print(json.dumps({'references_verified': True, 'terms': 40, 'development_recordings': 48,
+                          'reserved_recordings': 48, 'excluded_ids': 256, 'inference_performed': False}))
+        return
+    process, result, guard = read('process.json'), read('report.json'), read('guard.json')
+    assert process['source'] == result['source'] and process['source_clean'] and result['source_clean']
+    assert process['child_exit_observed'] and process['child_exit_code'] == 0 and not process['timed_out']
+    assert all(result[key] for key in ('model_files_unchanged', 'corpus_unchanged', 'plan_unchanged', 'python_network_guard', 'complete'))
+    assert process['source_unchanged'] and process['plan_unchanged'] and not process['hotword_encoding_error']
+    assert b'encode hotwords failed' not in (root / 'stderr.txt').read_bytes().lower()
+    assert guard == {'real_audio_sdk_imported': False, 'owner_profile_module_used': False}
+    assert result['plan_sha256'] == process['plan_sha256'] == digest(root / 'selection-plan.json')
+    assert result['corpus_sha256'] == digest(root / 'corpus.json')
+    for name, item in process['source_files'].items():
+        raw = (root / 'source' / name).read_bytes()
+        assert sha(raw) == item['raw_sha256'] and sha(raw.replace(b'\r\n', b'\n')) == item['lf_sha256']
+        blob = subprocess.check_output(['git', 'show', f"{result['source']}:{name}"], cwd=args.repo)
+        assert raw.replace(b'\r\n', b'\n') == blob.replace(b'\r\n', b'\n')
+    # Frozen source also contains exactly the pre-inference references/selection.
+    for name in ('selection-plan.json', 'dev.tsv', 'exclusions.json'):
+        blob = subprocess.check_output(['git', 'show', f"{result['source']}:eval/asr/results/2026-11-14-dictionary-names/{name}"], cwd=args.repo)
+        assert blob == (root / name).read_bytes()
+    catalog = json.loads(subprocess.check_output(['git', 'show', f"{result['source']}:saydraft/models/manifest.json"], cwd=args.repo))
+    for model_id, values in result['model_files'].items():
+        item = next(row for row in catalog['models'] if row['id'] == model_id)
+        assert values == {row['path']: row['sha256'] for row in item['files']}
+        model_root = args.parakeet_root if model_id.startswith('parakeet') else args.whisper_root
+        if model_root:
+            assert all(digest(model_root / name) == value for name, value in values.items())
+    tokenizer = read('tokenizer-receipt.json')
+    assert digest(root / 'tokenizer-receipt.json') == result['tokenizer_receipt_sha256']
+    assert tokenizer['pieces'] == 8192 and tokenizer['all_token_ids_match']
+    assert tokenizer['tokens_sha256'] == result['model_files']['parakeet-tdt-0-6b-v3-int8']['tokens.txt']
+    if args.tokenizer_root:
+        assert digest(args.tokenizer_root / 'tokenizer.vocab') == tokenizer['vocab_sha256']
+        assert digest(args.tokenizer_root / 'tokenizer.model') == tokenizer['tokenizer_sha256']
+    rows = [json.loads(line) for line in (root / 'cases.jsonl').read_text(encoding='utf-8').splitlines()]
+    assert len(rows) == result['completed_cases'] == result['expected_cases'] == 240
+    arms = ['parakeet_greedy', 'parakeet_beam', 'parakeet_hotwords', 'whisper_baseline', 'whisper_context']
+    assert plan['arms'] == arms and {row['arm'] for row in rows} == set(arms)
+    per_arm = {}
+    for arm in arms:
+        values = [row for row in rows if row['arm'] == arm]
+        assert [row['id'] for row in values] == selected
+        counts, errors, protections = Counter(), Counter(), Counter()
+        for row, clip in zip(values, corpus['cohorts']['development'], strict=True):
+            assert row['error'] is None and all(row[k] == clip[k] for k in ('id', 'source_filename', 'reference', 'role'))
+            assert row['audio_sha256'] == clip['sha256'] and row['seconds'] >= 0
+            assert row['terms'] == terms(row['reference'], row['text'], glossary)
+            assert row['scores'] == scores(row['reference'], row['text'])
+            assert row['protected_errors'] == protected(row['reference'], row['text'], glossary)
+            counts.update(row['terms'])
+            errors.update(row['scores'])
+            protections.update(row['protected_errors'])
+        report = result['arms'][arm]
+        assert report['terms'] == dict(counts) and report['scores'] == dict(errors) and report['protected_errors'] == dict(protections)
+        assert report['cases'] == 48 and report['failures'] == 0 and report['term_recall'] == counts['matched'] / counts['expected']
+        assert report['decode_p50_seconds'] == statistics.median(row['seconds'] for row in values)
+        per_arm[arm] = values
+    passed = []
+    for candidate, baseline in {'parakeet_beam': 'parakeet_greedy', 'parakeet_hotwords': 'parakeet_greedy', 'whisper_context': 'whisper_baseline'}.items():
+        before, after = result['arms'][baseline], result['arms'][candidate]
+        gain = after['term_recall'] / before['term_recall'] - 1 if before['term_recall'] else None
+        regressions = []
+        for old, new in zip(per_arm[baseline], per_arm[candidate], strict=True):
+            failures = [k for k in ('word_errors', 'character_errors') if new['scores'][k] > old['scores'][k]]
+            failures += [k for k in ('numbers', 'acronyms') if new['protected_errors'][k] > old['protected_errors'][k]]
+            if new['terms']['false_positives'] > old['terms']['false_positives']:
+                failures.append('term_false_positives')
+            if failures:
+                regressions.append({'id': old['id'], 'role': old['role'], 'metrics': failures})
+        comparison = result['comparisons'][candidate]
+        extra = after['terms']['false_positives'] - before['terms']['false_positives']
+        accepted = gain is not None and gain >= .30 and extra <= 0 and not regressions
+        assert comparison == {'baseline': baseline, 'relative_term_recall_gain': gain, 'per_clip_regressions': regressions,
+                              'added_term_false_positives': extra, 'development_gate_passed': accepted}
+        passed.append(accepted)
+    assert result['development_gate_passed'] == any(passed)
+    assert not result['confirmation_inferred'] and not result['ship_or_owner_acceptance'] and not result['release_latency_or_broad_accuracy_accepted']
+    assert not result['native_firewall_verified'] and result['runtimes']['sherpa_onnx'] == '1.13.4' and result['runtimes']['faster_whisper'] == '1.2.1'
+    assert result['runtimes']['whisper_context_tokens'] < 224
+    print(json.dumps({'verified': True, 'source': result['source'], 'raw_files': len(files), 'terms': 40, 'cases': 240,
+                      'development_gate_passed': result['development_gate_passed'], 'confirmation_inferred': False,
+                      'audio_archive_verified': bool(args.corpus_root), 'models_verified': bool(args.parakeet_root and args.whisper_root),
+                      'tokenizer_verified': bool(args.tokenizer_root), 'owner_accuracy_accepted': False}))
+
+
+if __name__ == '__main__':
+    main()

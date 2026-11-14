@@ -1,0 +1,38 @@
+{
+  "observed_at_utc": "2026-11-14T17:59:34.255093+00:00",
+  "authority": "User explicitly authorized existing logged-in built-in GitHub browser",
+  "page": "https://github.com/tanzir71/saydraft/actions",
+  "main_pushed": "2215cf6c76499774eb4c8b280c8f74ab04ac9191",
+  "workflow_runs_shown": 477,
+  "newest_runs": [
+    {
+      "run": 43612464465,
+      "workflow": "Package",
+      "conclusion": "cancelled"
+    },
+    {
+      "run": 43612386851,
+      "workflow": "CI",
+      "conclusion": "cancelled"
+    }
+  ],
+  "latest_completed": [
+    {
+      "run": 43609091704,
+      "workflow": "CI",
+      "source": "8884d7e",
+      "conclusion": "success"
+    },
+    {
+      "run": 43609091661,
+      "workflow": "Package",
+      "source": "8884d7e",
+      "conclusion": "success"
+    }
+  ],
+  "new_push_triggered_workflows": false,
+  "dispatch_or_settings_changes": false,
+  "inspection_read_only": true,
+  "cua_completion_summary_sent": true,
+  "current_source_validation": "local checks, not a current Actions run"
+}

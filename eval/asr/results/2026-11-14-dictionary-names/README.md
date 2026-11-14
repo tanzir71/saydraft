@@ -1,13 +1,50 @@
 # Frozen 40-name development protocol
 
+Completed 14–15 November 2026, clean native source
+`2215cf6c76499774eb4c8b280c8f74ab04ac9191`: all 240 decodes finish with exit 0,
+no failures/encoding errors and unchanged source/plan/corpus/model hashes.
+
+| Arm | Names matched / 43 | Word errors / 1,099 | Character errors / 5,317 |
+|---|---:|---:|---:|
+| Parakeet greedy | 15 | 276 | 1,113 |
+| Parakeet beam | 14 | 277 | 1,109 |
+| Parakeet hotwords | 20 | 266 | 1,089 |
+| Whisper baseline | 22 | 90 | 204 |
+| Whisper context | 37 | 78 | 182 |
+
+Hotwords improves name recall **33.33% relative**, Whisper context **68.18%**;
+all arms have zero dictionary false positives. Both improve aggregate scores
+but fail the stricter frozen per-clip gate: three/two regressing clips. Whisper's
+`fifth`→`5th`/`four`→`4` is a surface-format difference, not evidence of changed
+numeric meaning; another clip adds an article error. Every raw output and the
+original criteria are preserved. No app default or production phonetic correction
+changes. Both confirmation sets remain unused.
+
+The parent observes exit 0 after 1,288.53 seconds. Ninety-eight local tests,
+556/556 cleanup cases, 100/100 adversarial cases and lint pass. The independent
+standard-library verifier checks all 38 raw records, frozen selection/source,
+scores/denominators/per-clip gates and optional actual payload bytes:
+
+```powershell
+python eval/asr/results/2026-11-14-dictionary-names/verify-names.py.txt --repo .
+```
+
+Add `--corpus-root PATH` (including the original archive), `--parakeet-root PATH`,
+`--whisper-root PATH`, `--tokenizer-root PATH` and `--check-exclusion-files` for
+the full local payload/earlier-manifest check. `--references-only` independently
+checks the frozen selection. Timings do not qualify release latency; native
+firewall, owner audio/input/profile and broader accuracy remain unmeasured.
+A read-only logged-in GitHub check confirms the push starts no new Actions runs.
+All five repository workflows remain manual-only.
+
 `selection-plan.json` was written before audio acquisition or native inference.
 Forty personal/place names were curated from the unmodified pinned Google
 FLEURS English **dev** references. Every eligible positive utterance is included:
 28 positive prompts, ten numeric negatives and ten other negatives. Development
 and reserved confirmation use the lexically first and second eligible recording
 filenames respectively. They share reference text; speaker independence has not
-been established. No hypothesis was used for selection. Rare-name difficulty
-and any accuracy gain remain unproven until measurement.
+been established. No hypothesis was used for selection. Results above establish
+this sample's measured difficulty and gains, without broader acceptance.
 
 All 150 dev utterance IDs are disjoint from the 256-ID union of earlier public
 language evaluations and reserved Bengali/Tamil/Telugu confirmation IDs. The

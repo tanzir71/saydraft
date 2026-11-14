@@ -1,0 +1,23 @@
+{
+  "source": "2215cf6c76499774eb4c8b280c8f74ab04ac9191",
+  "source_clean": true,
+  "source_files": {
+    "tools/dictionary_names.py": {
+      "raw_sha256": "2c3495240d4d1ffdb403022c9a6152bd53dac19e83375086ef5931e1d0b128bb",
+      "lf_sha256": "2c3495240d4d1ffdb403022c9a6152bd53dac19e83375086ef5931e1d0b128bb"
+    },
+    "tools/dictionary_names_corpus.py": {
+      "raw_sha256": "eee26c055cc573d52eb77e33281ff78981e5649dc7103aa473fd2e0c61bb35af",
+      "lf_sha256": "eee26c055cc573d52eb77e33281ff78981e5649dc7103aa473fd2e0c61bb35af"
+    }
+  },
+  "plan_sha256": "b3cd4c172f5db1eb8366d98ede4f2d0d08c0e9cff889792d85ab1afdacbbead6",
+  "plan_unchanged": true,
+  "child_exit_code": 0,
+  "child_exit_observed": true,
+  "timed_out": false,
+  "seconds": 1288.5312187671661,
+  "hotword_encoding_error": false,
+  "owner_audio_or_input_used": false,
+  "source_unchanged": true
+}

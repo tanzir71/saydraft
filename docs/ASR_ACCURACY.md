@@ -22,14 +22,19 @@ finished and its [failed median gate is retained](LATENCY_MATRIX.md).
 
 ## Evaluation scope
 
-A separate [dictionary-biasing development comparison](spikes/biasing.md) uses
-40 reference-selected ordinary long words on the previously evaluated English
-20-clip set. The authentic matching tokenizer now works, but hotwords retain
-36/42 term occurrences and increase word errors from 55 to 63. The original
-30% relative-recall/no-added-error gate fails. No recognition default changes or
-broader language/owner acceptance follow; a new hard-name corpus and disjoint
-recordings are still needed. The 60-clip Bengali/Tamil/Telugu confirmation set
-remains uninferred.
+A [disjoint 40-name development comparison](spikes/biasing.md) now completes
+240 native decodes on 48 pinned FLEURS English dev clips. Parakeet hotwords
+improves exact name recall 15→20/43 (33.33% relative); Whisper context improves
+22→37/43 (68.18%). Both improve aggregate word/character scores with no dictionary
+false positives, but fail the frozen per-clip gate on three and two clips
+respectively. Whisper's number-surface change is a formatting difference, not
+proof of changed numeric meaning. No recognition default or phonetic rewrite
+is promoted. The 48 paired reserved recordings share prompts and remain
+uninferred, as do the 60 Bengali/Tamil/Telugu confirmation clips. Independent
+verification covers raw scores, Git source, selection, actual audio/archive,
+tokenizer and both models. The earlier ordinary-word comparison (36/42, zero
+gain and increased errors) remains retained separately. Neither experiment
+qualifies broader language or owner accuracy.
 
 Evaluate the requested Thai, Mandarin Chinese, Korean, Japanese, Hindi, Urdu,
 Indonesian, Malay, Spanish and Brazilian Portuguese choices, plus the approved

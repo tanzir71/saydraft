@@ -1,0 +1,26 @@
+{"arm": "parakeet_greedy", "completed": 10, "expected": 48}
+{"arm": "parakeet_greedy", "completed": 20, "expected": 48}
+{"arm": "parakeet_greedy", "completed": 30, "expected": 48}
+{"arm": "parakeet_greedy", "completed": 40, "expected": 48}
+{"arm": "parakeet_greedy", "completed": 48, "expected": 48}
+{"arm": "parakeet_beam", "completed": 10, "expected": 48}
+{"arm": "parakeet_beam", "completed": 20, "expected": 48}
+{"arm": "parakeet_beam", "completed": 30, "expected": 48}
+{"arm": "parakeet_beam", "completed": 40, "expected": 48}
+{"arm": "parakeet_beam", "completed": 48, "expected": 48}
+{"arm": "parakeet_hotwords", "completed": 10, "expected": 48}
+{"arm": "parakeet_hotwords", "completed": 20, "expected": 48}
+{"arm": "parakeet_hotwords", "completed": 30, "expected": 48}
+{"arm": "parakeet_hotwords", "completed": 40, "expected": 48}
+{"arm": "parakeet_hotwords", "completed": 48, "expected": 48}
+{"arm": "whisper_baseline", "completed": 10, "expected": 48}
+{"arm": "whisper_baseline", "completed": 20, "expected": 48}
+{"arm": "whisper_baseline", "completed": 30, "expected": 48}
+{"arm": "whisper_baseline", "completed": 40, "expected": 48}
+{"arm": "whisper_baseline", "completed": 48, "expected": 48}
+{"arm": "whisper_context", "completed": 10, "expected": 48}
+{"arm": "whisper_context", "completed": 20, "expected": 48}
+{"arm": "whisper_context", "completed": 30, "expected": 48}
+{"arm": "whisper_context", "completed": 40, "expected": 48}
+{"arm": "whisper_context", "completed": 48, "expected": 48}
+{"complete": true, "development_gate_passed": false, "confirmation_inferred": false, "ship_or_owner_acceptance": false}
