@@ -1,4 +1,5 @@
 import json
+import gc
 from pathlib import Path
 import shutil
 
@@ -29,6 +30,10 @@ class Hints(QtCore.QObject):
 def setup_theme():
     global APP
     APP = QtWidgets.QApplication.instance() or QtWidgets.QApplication([])
+    # Retire widgets from earlier UI tests before repolishing the whole app.
+    # Closed test windows can otherwise survive in Python/Qt signal cycles.
+    gc.collect()
+    APP.sendPostedEvents(None, QtCore.QEvent.DeferredDelete)
     original_sheet, original_font = APP.styleSheet(), QtGui.QFont(APP.font())
     hints = Hints()
     controllers = []

@@ -22,7 +22,7 @@ def test_developer_recipes_stay_pinned_and_only_measured_choices_enter_app_catal
             assert selected["role"] == "llm" and selected["revision"] == model["revision"]
             assert selected["files"][:2] == model["files"]
             if model["id"] == "qwen35-4b-q4-k-m":
-                assert selected["tasks"] == ["command"]
+                assert selected["tasks"] == ["command", "translate"]
         else:
             with pytest.raises(ValueError, match="No pinned download"):
                 get_model(model["id"])
