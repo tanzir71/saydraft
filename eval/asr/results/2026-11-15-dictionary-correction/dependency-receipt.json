@@ -1,0 +1,17 @@
+{
+  "sdist_sha256": "ad0beadca66cb7ec6ede71ef72bb02da097c493ddf159930d6340bc83f53da27",
+  "bytes": 14075,
+  "installed_python_files": {
+    "meta.py": "c5ef73dff5e4cfb80aefe6f5eec5147ddbf3efd5ede955e0de630a67ec61ec01",
+    "metaphone.py": "6e24b19a497372ecfac753ababd12cb097f0a53040b5fce715ac6e563b44f044",
+    "word.py": "f614aaa0e426c44d017ce4eb95008f41460b402024b9b488f87a9ee718978225",
+    "__init__.py": "dd9aeb482d7088f75959a65116f175b491e416f3ef74e4ff38fa8b7ac8de3f35",
+    "tests/test_metaphone.py": "b7da6892d552be90000ee611d28407346bed2366206694e42b6db7aa238c2ffb",
+    "tests/test_word.py": "3a37290e465ef22beda2d0db78f176dc17cb32a4edba198b00723451839543fa",
+    "tests/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "all_python_files_match_pinned_sdist": true,
+  "license_sha256": "b2a62d5c8f244be728902df5db3d0ac635629da476d9c4d8059b620b1a08c10f",
+  "version": "0.6",
+  "shipping_dependency": false
+}

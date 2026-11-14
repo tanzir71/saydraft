@@ -1,0 +1,19 @@
+Collecting Metaphone==0.6 (from -r eval/asr/dictionary-correction-requirements.txt (line 2))
+  Downloading Metaphone-0.6.tar.gz (14 kB)
+  Installing build dependencies: started
+  Installing build dependencies: finished with status 'done'
+  Getting requirements to build wheel: started
+  Getting requirements to build wheel: finished with status 'done'
+  Preparing metadata (pyproject.toml): started
+  Preparing metadata (pyproject.toml): finished with status 'done'
+Building wheels for collected packages: Metaphone
+  Building wheel for Metaphone (pyproject.toml): started
+  Building wheel for Metaphone (pyproject.toml): finished with status 'done'
+  Created wheel for Metaphone: filename=metaphone-0.6-py3-none-any.whl size=14010 sha256=cbebbdb4497902049438d494656a7233628419ab97921a2353716483196875ec
+  Stored in directory: d:\saydraft-codex-qa-20261112-01a1cbc7\pip-cache\wheels\bd\3c\b0\1b65e3710c48ae9f6f52458d0c097710d2945c14db03fa6928
+Successfully built Metaphone
+Installing collected packages: Metaphone
+Successfully installed Metaphone-0.6
+
+[notice] A new release of pip is available: 26.2.2 -> 26.3
+[notice] To update, run: C:\Users\tanzir\Desktop\voice_tray\.venv\Scripts\python.exe -m pip install --upgrade pip

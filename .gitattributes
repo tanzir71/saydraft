@@ -72,3 +72,5 @@ eval/meetings/results/** -text -whitespace
 eval/asr/results/2026-11-14-dictionary-biasing/** -text -whitespace
 # Preserve the before-inference name seed, public dev references and raw outputs.
 eval/asr/results/2026-11-14-dictionary-names/** -text -whitespace
+# Freeze correction protocols, third-party notices and raw development evidence.
+eval/asr/results/2026-11-15-dictionary-correction/** -text -whitespace
