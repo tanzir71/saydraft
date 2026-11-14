@@ -163,7 +163,8 @@ class WindowsJobProcess:
                 0x08000000 | 0x00080000 | 0x00000400, environment, str(working), c.byref(startup), c.byref(info)))
             self._process, self.pid = info.process, int(info.pid)
             if has_output:
-                reader = threading.Thread(target=self._read_output, name="Saydraft-native-output", daemon=True)
+                name = "Saydraft-native-output" if on_output is not None else "Saydraft-native-metadata"
+                reader = threading.Thread(target=self._read_output, name=name, daemon=True)
                 reader.start()
                 self._reader = reader
                 self._read_ready.set()  # Transfer read-handle ownership only after thread startup succeeds.

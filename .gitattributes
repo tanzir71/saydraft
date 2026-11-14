@@ -66,3 +66,5 @@ eval/asr/results/**/*.md -text whitespace=blank-at-eol,blank-at-eof,space-before
 eval/asr/results/**/*-ci-failure.txt -text -whitespace
 # Unchanged model cards/API metadata retain original formatting and hashes.
 eval/asr/results/2026-11-14-large-v3-development/model/source/** -text -whitespace
+# Speaker smoke receipts and original upstream/CI source bytes stay reproducible.
+eval/meetings/results/** -text -whitespace

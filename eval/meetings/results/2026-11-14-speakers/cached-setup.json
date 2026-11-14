@@ -1,0 +1,21 @@
+{
+  "method": "production explicit setup from independently fetched and hashed staging cache",
+  "network_requests": 0,
+  "owner_audio_imports": false,
+  "models": {
+    "pyannote-segmentation-3-0": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\meeting-models-20261114-r1\\installed\\pyannote-segmentation-3-0\\9403a6902bb58e3d5ae8c7e77c3422de279db2e0",
+    "3dspeaker-eres2net-base": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\meeting-models-20261114-r1\\installed\\3dspeaker-eres2net-base\\github-release-asset-198893098"
+  },
+  "progress": [
+    13,
+    13,
+    13,
+    13,
+    99,
+    99,
+    99,
+    99,
+    100,
+    100
+  ]
+}

@@ -1,0 +1,62 @@
+[
+  {
+    "path": "native-report.json",
+    "bytes": 3643,
+    "sha256": "0deca90c531928ca1cd20160be6675a47c1217e21de0c74e73b6674e39240e35"
+  },
+  {
+    "path": "cached-setup.json",
+    "bytes": 648,
+    "sha256": "5535473c7f0f7bdcd2320f775125dc62e07f798c5994513bd670018318dd715f"
+  },
+  {
+    "path": "sources/segmentation-api.json",
+    "bytes": 1926,
+    "sha256": "a68395795aabaf000445a19a636484c4aa0839aae7044eaad06ebd84d542b1b1"
+  },
+  {
+    "path": "sources/segmentation-LICENSE.txt",
+    "bytes": 1061,
+    "sha256": "14d7016ad68e7394d6e6b78d96cc2ae431c905287b89674cfdf021e79e62b8ba"
+  },
+  {
+    "path": "sources/segmentation-README.md",
+    "bytes": 115,
+    "sha256": "0380ed76a50efcc421dc62f251ed06e8349688466beac3177bee6e00dc336bfc"
+  },
+  {
+    "path": "sources/embedding-asset.json",
+    "bytes": 1525,
+    "sha256": "7758ab840056b3283aeddb7a3c74ae60607489d29b81b004df279831fb43cd5b"
+  },
+  {
+    "path": "sources/embedding-export-onnx.py.txt",
+    "bytes": 4306,
+    "sha256": "596e05754b4e68cbafcfc5865f84c3ff921e6f3ae099752d63150b07b584ed6a"
+  },
+  {
+    "path": "sources/source-records.json",
+    "bytes": 1588,
+    "sha256": "0a86a123967cccbfcdfe1f137f682b1e3f7bdb34baef99633032a4e800379419"
+  },
+  {
+    "path": "sources/fetch-records.json",
+    "bytes": 2251,
+    "sha256": "8d52032c196dfc7efcc62cf37de2d8ec487d043b68230d1525130d68e6537eec"
+  },
+  {
+    "path": "3aa3e84-windows-ci-failure.log",
+    "bytes": 53048,
+    "sha256": "01907259f78f2c0d8cd5dbd325ef31467a7fa2b78b06ecc33d32cc4ebbe1aa6f"
+  },
+  {
+    "path": "local-import-guard.py.txt",
+    "bytes": 590,
+    "sha256": "1a8a6e7a8021013eac18b92ec0cba7f5a3d887c3618b2ef27538111ab7fb0d2c"
+  },
+  {
+    "path": "fleurs-en-corpus.json",
+    "bytes": 14860,
+    "sha256": "94c8335a2e6164be097ac109d981697bbe67bd6e38442a373e9b70932b25dc5a"
+  }
+]

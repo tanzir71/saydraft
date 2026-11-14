@@ -79,13 +79,14 @@ def test_failed_probe_creation_closes_pipe_handles(tmp_path):
     assert after.value <= before.value
 
 
-def test_exception_after_reader_thread_starts_does_not_leak_a_reader_or_child(monkeypatch):
+@pytest.mark.parametrize('streaming', [False, True])
+def test_exception_after_reader_thread_starts_does_not_leak_a_reader_or_child(monkeypatch, streaming):
     import threading
 
     api, observed = kernel(), {}
     original = threading.Thread.start
     def fail_after_start(thread):
-        if thread.name == "Saydraft-native-metadata":
+        if thread.name == ("Saydraft-native-output" if streaming else "Saydraft-native-metadata"):
             process = thread._target.__self__
             observed["handle"] = api.OpenProcess(0x100001, False, process.pid)
             observed["thread"] = thread
@@ -95,8 +96,9 @@ def test_exception_after_reader_thread_starts_does_not_leak_a_reader_or_child(mo
     monkeypatch.setattr(threading.Thread, "start", fail_after_start)
     try:
         with pytest.raises(RuntimeError, match="adoption failure"):
+            options = {'on_output': lambda _chunk: None} if streaming else {'capture_output': True}
             WindowsJobProcess([sys.executable, "-c", "import time;time.sleep(60)"],
-                              env=environment(), capture_output=True)
+                              env=environment(), **options)
         assert observed["handle"] and api.WaitForSingleObject(observed["handle"], 5000) == 0
         observed["thread"].join(1)
         assert not observed["thread"].is_alive()

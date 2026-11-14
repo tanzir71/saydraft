@@ -1,0 +1,107 @@
+{
+  "schema": 1,
+  "measured_at": "2026-11-14T13:37:23.875897+00:00",
+  "scope": "native speaker-model smoke, not meeting acceptance or diarization quality",
+  "source": {
+    "commit": "57be9d26c89842ff00df7145db49f8c6b4864b10",
+    "dirty": false,
+    "sha256": {
+      "tools/probe_meeting_speakers.py": "6d7c3adb347fc9692e5385ded81453d333e5f22f9988046f7802ec5911ecf957",
+      "saydraft/meetings/diarization.py": "132136f975b0f763191ce77b0c987dcf3968127ac09bbbb4839598cc3c7da9d5",
+      "saydraft/meetings/models.py": "9e8c2fec1b888f0b11c06c0f0f0693bd8ecc6453686b5d8d5b500648205ffd6c",
+      "saydraft/models/manifest.py": "589682d1cabe319f0c2801c64e78e71476a779baeac6383b13829e47f05c8d28",
+      "saydraft/models/manifest.json": "b0e5ac062c161e2c18c80330ea594037767c3352b939fe29f2103dd2b7fa1a75"
+    }
+  },
+  "sherpa_onnx": "1.13.4",
+  "models": [
+    {
+      "id": "pyannote-segmentation-3-0",
+      "revision": "9403a6902bb58e3d5ae8c7e77c3422de279db2e0",
+      "license": "MIT",
+      "files": [
+        {
+          "path": "model.onnx",
+          "sha256": "220ad67ca923bef2fa91f2390c786097bf305bceb5e261d4af67b38e938e1079",
+          "bytes": 5992913
+        },
+        {
+          "path": "LICENSE",
+          "sha256": "14d7016ad68e7394d6e6b78d96cc2ae431c905287b89674cfdf021e79e62b8ba",
+          "bytes": 1061
+        },
+        {
+          "path": "README.md",
+          "sha256": "0380ed76a50efcc421dc62f251ed06e8349688466beac3177bee6e00dc336bfc",
+          "bytes": 115
+        }
+      ]
+    },
+    {
+      "id": "3dspeaker-eres2net-base",
+      "revision": "github-release-asset-198893098",
+      "license": "Apache-2.0",
+      "files": [
+        {
+          "path": "embedding.onnx",
+          "sha256": "1a331345f04805badbb495c775a6ddffcdd1a732567d5ec8b3d5749e3c7a5e4b",
+          "bytes": 39593761
+        },
+        {
+          "path": "LICENSE",
+          "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+          "bytes": 11357
+        },
+        {
+          "path": "MODEL_CARD.md",
+          "sha256": "05efb9d9b31433be92260e3811c929b4d5980dd18889220b37dbcd5b973ff6f8",
+          "bytes": 6021
+        },
+        {
+          "path": "NOTICE.txt",
+          "sha256": "f90b20b579da96ff096d31712e31c646f7d2f5fa22e19197f28b42e3c7ed0e49",
+          "bytes": 705
+        }
+      ]
+    }
+  ],
+  "inputs": [
+    {
+      "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-public-fleurs-20261114\\en-r1\\audio\\1003119935936341070.wav",
+      "sha256": "33aca50159ec2e3cbcc894eb26faa916d6badb1b49fb75994973561540a7f012",
+      "frames": 168960,
+      "timeline_start": 0.0
+    },
+    {
+      "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-public-fleurs-20261114\\en-r1\\audio\\10167324587744183095.wav",
+      "sha256": "260bdd1a15e1d35bcc5d91667516ca3bc659285e10f94872182715bcd7880398",
+      "frames": 183360,
+      "timeline_start": 11.56
+    }
+  ],
+  "transformation": "float32 concatenation with one-second silence between inputs",
+  "audio_seconds": 23.02,
+  "num_speakers_setting": -1,
+  "load_seconds": 0.7507764000001771,
+  "process_seconds": 6.002428899999359,
+  "python_network_policy": true,
+  "native_firewall_verified": false,
+  "speaker_clusters": 2,
+  "turns": [
+    {
+      "start": 1.026593804359436,
+      "end": 8.738469123840332,
+      "speaker": 0
+    },
+    {
+      "start": 11.894094467163086,
+      "end": 17.59784507751465,
+      "speaker": 1
+    },
+    {
+      "start": 18.120969772338867,
+      "end": 22.289094924926758,
+      "speaker": 1
+    }
+  ]
+}

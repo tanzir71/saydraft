@@ -1,0 +1,36 @@
+[
+  {
+    "name": "embedding-LICENSE",
+    "url": "https://github.com/modelscope/3D-Speaker/blob/065629c313eaf1a01c65c640c46d77e61e9607b4/LICENSE",
+    "git_blob": "261eeb9e9f8b2b4b0d119366dda99c6fd7d35c64",
+    "size": 11357,
+    "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+  },
+  {
+    "name": "embedding-export-onnx.py.txt",
+    "url": "https://github.com/k2-fsa/sherpa-onnx/blob/v1.13.4/scripts/3dspeaker/export-onnx.py",
+    "git_blob": "9c28ffdd13883362065bea3890358f27fe844072",
+    "size": 4306,
+    "sha256": "596e05754b4e68cbafcfc5865f84c3ff921e6f3ae099752d63150b07b584ed6a"
+  },
+  {
+    "name": "diarization-example.py.txt",
+    "url": "https://github.com/k2-fsa/sherpa-onnx/blob/v1.13.4/python-api-examples/offline-speaker-diarization.py",
+    "git_blob": "36e51e30964557df7cd2be989ddb62e1e22f72ae",
+    "size": 4818,
+    "sha256": "242b95e74d4579462a8895e7bb1fa1b60508080f4f5e0c5cb2397c71802a662d"
+  },
+  {
+    "name": "diarization-impl.h.txt",
+    "url": "https://github.com/k2-fsa/sherpa-onnx/blob/v1.13.4/sherpa-onnx/csrc/offline-speaker-diarization-pyannote-impl.h",
+    "git_blob": "083b62d06dce83e53cbad8b5ff3f4f05ad143599",
+    "size": 25603,
+    "sha256": "cff29b1f8ee107fd4f37ad7d3b609048fa11c62db2643c5db2d3f89d13b8c158"
+  },
+  {
+    "name": "embedding-modelcard-v1.0.1.md",
+    "url": "https://modelscope.cn/models/iic/speech_eres2net_base_sv_zh-cn_3dspeaker_16k/resolve/v1.0.1/README.md",
+    "size": 6021,
+    "sha256": "05efb9d9b31433be92260e3811c929b4d5980dd18889220b37dbcd5b973ff6f8"
+  }
+]

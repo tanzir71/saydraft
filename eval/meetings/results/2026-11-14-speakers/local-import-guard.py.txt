@@ -1,0 +1,13 @@
+import importlib.abc
+import sys
+
+class NoOwnerModules(importlib.abc.MetaPathFinder):
+    def find_spec(self, fullname, path=None, target=None):
+        if (fullname.split('.')[0] in ('soundcard', 'sounddevice') or fullname in (
+            'saydraft.app', 'saydraft.compat.migrate', 'saydraft.logging_config', 'saydraft.single_instance')):
+            raise AssertionError('Owner audio and profile imports are barred')
+
+sys.meta_path.insert(0, NoOwnerModules())
+sys.path.insert(0, 'C:/Users/tanzir/Desktop/voice_tray')
+from tools.probe_meeting_speakers import main
+raise SystemExit(main())

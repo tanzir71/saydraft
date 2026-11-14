@@ -1,0 +1,86 @@
+"""Replay receipt/source checks offline; optional roots also rehash original files."""
+import argparse
+import hashlib
+import json
+import math
+from pathlib import Path
+import subprocess
+
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--repo', type=Path, default=Path(__file__).resolve().parents[4])
+parser.add_argument('--models', type=Path)
+parser.add_argument('--audio-root', type=Path)
+args = parser.parse_args()
+root = Path(__file__).resolve().parent
+
+def sha(data):
+    return hashlib.sha256(data).hexdigest()
+
+for item in json.loads((root / 'raw-files.json').read_text(encoding='utf-8')):
+    path = root / item['path']
+    assert path.resolve().is_relative_to(root)
+    data = path.read_bytes()
+    assert len(data) == item['bytes'] and sha(data) == item['sha256'], item['path']
+
+report = json.loads((root / 'native-report.json').read_text(encoding='utf-8'))
+source = report['source']
+assert source['commit'] == '57be9d26c89842ff00df7145db49f8c6b4864b10' and source['dirty'] is False
+expected_paths = {'tools/probe_meeting_speakers.py', 'saydraft/meetings/diarization.py',
+    'saydraft/meetings/models.py', 'saydraft/models/manifest.py', 'saydraft/models/manifest.json'}
+assert set(source['sha256']) == expected_paths
+
+def original(path):
+    return subprocess.check_output(['git', 'show', source['commit'] + ':' + path], cwd=args.repo)
+
+checkout_endings = {}
+for path, checksum in source['sha256'].items():
+    data = original(path)
+    # These five source files use Git text normalization. The native process
+    # hashes actual checkout bytes, which may contain Windows CRLF line endings.
+    assert b'\r\n' not in data
+    variants = {sha(data): 'LF', sha(data.replace(b'\n', b'\r\n')): 'CRLF'}
+    assert checksum in variants, path
+    checkout_endings[path] = variants[checksum]
+catalog = {model['id']: model for model in json.loads(original('saydraft/models/manifest.json'))['models']}
+assert {model['id'] for model in report['models']} == {'pyannote-segmentation-3-0', '3dspeaker-eres2net-base'}
+for identity in report['models']:
+    model = catalog[identity['id']]
+    assert (identity['revision'], identity['license']) == (model['revision'], model['license'])
+    assert identity['files'] == [{'path': file['path'], 'bytes': file['size'], 'sha256': file['sha256']}
+                                 for file in model['files']]
+    if args.models:
+        for file in model['files']:
+            data = (args.models / model['id'] / model['revision'] / file['path']).read_bytes()
+            assert len(data) == file['size'] and sha(data) == file['sha256']
+
+segmentation = json.loads((root / 'sources/segmentation-api.json').read_text(encoding='utf-8'))
+assert segmentation['sha'] == catalog['pyannote-segmentation-3-0']['revision']
+weight = next(file for file in segmentation['siblings'] if file['rfilename'] == 'model.onnx')
+assert weight['lfs']['sha256'] == catalog['pyannote-segmentation-3-0']['files'][0]['sha256']
+embedding = json.loads((root / 'sources/embedding-asset.json').read_text(encoding='utf-8'))
+assert embedding['id'] == 198893098 and embedding['size'] == 39593761
+
+corpus = json.loads((root / 'fleurs-en-corpus.json').read_text(encoding='utf-8'))
+assert (corpus['dataset'], corpus['revision'], corpus['license']) == (
+    'google/fleurs', '70bb2e84b976b7e960aa89f1c648e09c59f894dd', 'CC-BY-4.0')
+clips = {clip['sha256']: clip for clip in corpus['clips']}
+cursor = 0
+for index, audio in enumerate(report['inputs']):
+    clip = clips[audio['sha256']]
+    cursor += 16000 if index else 0
+    assert audio['frames'] == clip['num_samples'] and audio['timeline_start'] == cursor / 16000
+    if args.audio_root:
+        data = (args.audio_root / clip['audio']).read_bytes()
+        assert len(data) == clip['bytes'] and sha(data) == clip['sha256']
+    cursor += audio['frames']
+assert cursor / 16000 == report['audio_seconds'] == 23.02
+assert report['num_speakers_setting'] == -1 and report['sherpa_onnx'] == '1.13.4'
+assert report['python_network_policy'] is True and report['native_firewall_verified'] is False
+assert all(math.isfinite(report[key]) and report[key] > 0 for key in ('load_seconds', 'process_seconds'))
+assert report['speaker_clusters'] == len({turn['speaker'] for turn in report['turns']}) == 2
+assert len(report['turns']) == 3
+assert all(0 <= turn['start'] < turn['end'] <= report['audio_seconds'] for turn in report['turns'])
+print(json.dumps({'receipt_and_original_source_checks': 'pass',
+    'verified_checkout_line_endings': checkout_endings,
+    'original_model_files_rehashed': bool(args.models), 'original_audio_files_rehashed': bool(args.audio_root),
+    'scope': 'native smoke provenance, not speaker accuracy or meeting acceptance'}))

@@ -75,7 +75,11 @@ that suite belong on the disposable CI runner while the owner desktop is stopped
 The preceding foundation commit `962059b` passed the full disposable Windows CI
 (4,214 tests, 12 skips, rules 556/556 and adversarial 100/100) and package build.
 The connected worker's package build also passes at `3aa3e84`, including the
-SoundCard CFFI resource check; its full CI result is still pending here.
+SoundCard CFFI resource check. That source's Windows CI passes 4,278 tests but
+fails one fault-injection test: renaming the metadata reader prevented its
+startup-failure injection. The metadata name is restored, the test now covers
+both metadata and streaming modes, and all 39 focused process/ownership checks
+pass. The corrected source still needs full CI verification.
 
 ## Isolated capture ownership
 
@@ -145,10 +149,12 @@ All 41 new speaker-model/adapter cases and 50 existing downloader/catalog cases
 pass with owner audio/profile imports barred. Production setup from an
 independently hashed staging cache makes zero requests. A guarded real-native
 smoke on two CC-BY-4.0 English FLEURS clips, separated by one second of silence,
-processes 23.02 seconds into three turns/two acoustic clusters in 5.57 seconds.
+processes 23.02 seconds into three turns/two acoustic clusters in 6.00 seconds
+on clean source `57be9d2` (the initial development smoke took 5.57 seconds).
 It verifies Python NetworkGuard and unchanged source/model hashes. This is a
 small execution smoke, without speaker-reference annotations, DER scoring,
-native firewall evidence or meeting acceptance. The reproducible tool is
+native firewall evidence or meeting acceptance. Raw receipts and source metadata
+are retained in `eval/meetings/results/2026-11-14-speakers/`. The reproducible tool is
 `python -m tools.probe_meeting_speakers --models <explicit-local-model-root>
 --audio <mono-16k-wav> --output <new-report.json>`; repeat `--audio` for multiple
 clips. It never captures audio, scans a profile or downloads weights.
