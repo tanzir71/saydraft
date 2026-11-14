@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "recorded_at": "2026-11-14T00:10:54.641428+00:00",
-  "source": "7265787cdea5dc8747795b14bc1429213adb0a1d",
+  "source": "4c3aa08b8196e093c1c6408e8111e7686a47d58f",
   "scope": "Native generation on authored public text only; no speech, UIA, clipboard, hotkeys, native replacement or recovery UI integration",
   "corpus_sha256": "96216eadaf8f9b2fb7791a8594398d41bbd940844855e38f0cb20147539ce6c1",
   "all_journals_equal_reports": true,
@@ -11,8 +11,8 @@
   "latest_source_fingerprints_rechecked": true,
   "runtime_full_hash_verification": true,
   "candidate_4b_card_weight_license_verification": true,
-  "attempts": 210,
-  "complete_generation_rows": 180,
+  "attempts": 270,
+  "complete_generation_rows": 240,
   "records": [
     {
       "label": "01-endpoint-refusal",
@@ -104,6 +104,36 @@
       "passed": 29,
       "recorded_complete": true,
       "interpretation": "Native generation complete; authored checks are not broad semantic acceptance"
+    },
+    {
+      "label": "08-final-date-4b",
+      "private_folder": "command-edit-final-date-4b-r8",
+      "source": "4c3aa08b8196e093c1c6408e8111e7686a47d58f",
+      "model_id": "qwen35-4b-q4-k-m",
+      "model_revision": "851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+      "weight_sha256": "13c16f426047e2de38cd075bdade4a7bcbc8c774384876f677740cda65f8a983",
+      "rows": 30,
+      "stream_complete_rows": 30,
+      "passed": 30,
+      "recorded_complete": true,
+      "interpretation": "Native generation complete; authored checks are not broad semantic acceptance",
+      "completed_generation_rows": 30,
+      "identities_match_prior_record": "06-ordinal-4b"
+    },
+    {
+      "label": "09-final-date-2b",
+      "private_folder": "command-edit-final-date-2b-r9",
+      "source": "4c3aa08b8196e093c1c6408e8111e7686a47d58f",
+      "model_id": "qwen35-2b-q4-k-m",
+      "model_revision": "15852e8c16360a2fea060d615a32b45270f8a8fc",
+      "weight_sha256": "57a1085840f497d764a7fc5d346922dbde961efb54cc792ea81d694fd846a1d8",
+      "rows": 30,
+      "stream_complete_rows": 30,
+      "passed": 29,
+      "recorded_complete": true,
+      "interpretation": "Native generation complete; authored checks are not broad semantic acceptance",
+      "completed_generation_rows": 30,
+      "identities_match_prior_record": "07-ordinal-2b"
     }
   ],
   "qualitative_review": {
@@ -124,6 +154,11 @@
     "06-ordinal-4b/report.json": "be901a14f575178874daef09428c9cabd105269f9845326e0be21c0b53a2ffa6",
     "06-ordinal-4b/cases.jsonl": "367cc8797d6a590dbd5fa2bed150da2082844be334755f07e05b4f45952a10d0",
     "07-ordinal-2b/report.json": "c26d06d81b619a5fa39657bec994174bd39bc0dad37ac55b8cb4d7284da427ae",
-    "07-ordinal-2b/cases.jsonl": "36fbe8696ac776ac3aafb8322348eb181b1b2cd47bf96ee3b7760dacbf8c6758"
-  }
+    "07-ordinal-2b/cases.jsonl": "36fbe8696ac776ac3aafb8322348eb181b1b2cd47bf96ee3b7760dacbf8c6758",
+    "08-final-date-4b/report.json": "db05ad8f37890b7ddde4229498d5a89fa20c7e6f5c7b94ef57b351f1414ec03a",
+    "08-final-date-4b/cases.jsonl": "c2a78c4ab131cd2aa8b6c40c5562a920586cd5c7127467bc64aefe0fd2639997",
+    "09-final-date-2b/report.json": "c93508f5c12101517d2c08ae796f27052e7a6c45c83cb4c39de67234c2bf6de3",
+    "09-final-date-2b/cases.jsonl": "f32c6a74afd6cfa0da23fb96a81ea09cb702ccdb8f330f885c4329487aadcfef"
+  },
+  "latest_native_pairs_identical_to_previous": true
 }

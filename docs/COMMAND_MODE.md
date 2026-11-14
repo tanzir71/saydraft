@@ -16,6 +16,11 @@ The request contains the complete bounded selection and instruction, with no
 surrounding document. The pinned server's rendered template is tokenized before
 generation; the full output allowance plus a 64-token reserve must fit the
 configured context. Oversized input is refused rather than truncated.
+Literal model-role delimiters and XML-style tags in the document/instruction are
+JSON-escaped before rendering the native chat template; decoding the data restores
+the complete original text. This encoding boundary alone is not proof of general
+prompt-injection resistance. Six separate authored untrusted-document cases
+exercise questions, imperative text, native role tags, XML and nested JSON.
 
 The response uses a one-field JSON schema. Delivery requires a complete SSE
 finish, exactly one `replacement` string, and no tools, duplicate/extra fields,
@@ -54,7 +59,7 @@ retaining output, token counts, timings, source/runtime hashes and observed nati
 exit. The probe uses no audio, hooks, clipboard, foreground or OS text input.
 It does not establish full Command Mode or owner-data acceptance.
 
-At clean `7265787`, actual Qwen3.5 4B output passes all 30 authored checks;
+At clean `4c3aa08`, actual Qwen3.5 4B output passes all 30 authored checks;
 the 2B comparison passes 29 and retains qualitative meaning failures despite
 mechanical acceptance. Both use the same final prompt and unchanged corpus.
 The earlier failures, all outputs, native exit receipts, pinned hashes and review

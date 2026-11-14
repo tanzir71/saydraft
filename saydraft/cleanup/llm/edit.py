@@ -104,7 +104,11 @@ def build_edit_messages(selection, instruction):
     if not _valid_text(instruction, MAX_INSTRUCTION_UNITS):
         raise ValueError("Instruction is empty, invalid or too large")
     def user(text, command):
-        return {"role": "user", "content": json.dumps({"instruction": command, "selection": text}, ensure_ascii=False)}
+        # Model role delimiters in document text must remain JSON data rather
+        # than becoming special tokens in the rendered native chat template.
+        encoded = json.dumps({"instruction": command, "selection": text}, ensure_ascii=False)
+        encoded = encoded.replace("<", "\\u003c").replace(">", "\\u003e").replace("&", "\\u0026")
+        return {"role": "user", "content": encoded}
     messages = [{"role": "system", "content": SYSTEM}]
     for text, command, replacement in _EXAMPLES:
         messages.extend((user(text, command), {"role": "assistant", "content": json.dumps(
