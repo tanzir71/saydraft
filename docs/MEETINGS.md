@@ -137,11 +137,26 @@ The guarded local suite passes 440 checks spanning the new lifecycle, owned
 offscreen capsule, shared editing lease, previous meeting core, workers and
 model/downloader contracts. It bars real audio SDK and app/profile-service
 imports and substitutes a disposable profile port. The five actual app-shell
-flow checks run on disposable CI; they are not run on the stopped owner desktop.
+flow checks also pass locally with owned offscreen widgets, fake capture/model/
+context ports and disposable profile/log ports; neither audio SDK is imported.
+Following the owner's local-only delivery request, Actions is no longer a
+validation or delivery gate.
+The combined guarded local run now passes 468 tests, including those app-shell
+seams and the manual-only workflow policy. The full repository's live OS/native
+probe matrix is a separate, unqualified scope on this stopped desktop.
 The first offscreen render exposed a transparent background under the text;
 the capsule now explicitly paints an opaque themed rounded panel. A regression
-checks the panel's alpha. The 56-state light/dark 16/22px development render is
-retained on the QA volume; clean-source render/native/CI qualification follows.
+checks the panel's alpha. Clean source `f5eaf01` produces 56 light/dark 16/22px
+renders with layout bounds checked. Its local native run verifies the painted
+acknowledgement before the first compressed public file event, all six verified
+models, the real worker/controller/processor, independent Note, unchanged active
+Scratchpad, Python NetworkGuard and owned summary-process exit. No audio device,
+foreground field or owner clipboard is used. This is a file-fixture integration
+result, not live capture, the default profile/cache path, a frozen connected
+workflow, broader accuracy or the 30-minute meeting acceptance.
+The original native/SSE/SQLite/paint/status records, all 56 final renders, exact
+guard drivers, local test log and portable standard-library verifier are in
+[`eval/meetings/results/2026-11-14-lifecycle/`](../eval/meetings/results/2026-11-14-lifecycle/).
 
 ## Earlier analysis verification and full acceptance
 

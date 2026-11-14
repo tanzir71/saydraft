@@ -9,6 +9,23 @@ capture the owner's microphone or operate their desktop.
 
 ## Automated Verification
 
+The owner requested local validation and direct pushes on 14 November 2026.
+All five GitHub workflows are manual-only: pushing branches, pull requests or
+tags starts no checks, builds, deployment or draft release. GitHub Actions is
+not a delivery gate. Run the applicable checks locally and retain exact-source
+results. The manual workflows remain available for an explicitly requested
+disposable-runner diagnostic; no workflow dispatch is part of routine delivery.
+An explicitly dispatched draft-release workflow additionally requires a version
+tag ref and retains its separate release-proof checks. No public release or
+signing acceptance follows from a local development push.
+
+The owner's stop on desktop input/audio-device access remains in force. Local
+validation uses disposable paths, fake/memory ports, guarded offscreen widgets,
+owned processes and explicit public audio files. Hardware, OS-input and
+owner-profile operations require a suitable isolated environment or a later
+owner-authorized acceptance step; do not enable them by pretending this machine
+is a hosted CI runner. Record such checks as unqualified rather than passed.
+
 Install the development requirements in an isolated Python 3.13 environment;
 see [CONTRIBUTING.md](../CONTRIBUTING.md). Run from the repository root:
 
@@ -27,7 +44,7 @@ $env:DO_NOT_TRACK = '1'
 Require zero failures, all 556 current rules cases, and all 100 authored
 adversarial cases. Record the commit, test count, and every skip with each run;
 optional model/native skips require their separate fixtures and acceptance.
-Before model preparation and the full suite, CI runs its catalog, installation
+The retained manual CI workflow runs its catalog, installation
 and checklist contracts with
 `python -m pytest tests/test_versioned_models.py tests/test_meeting_models.py tests/test_model_packages.py tests/test_verified_downloader.py tests/test_manual_checklist.py -q --basetemp="${{ runner.temp }}/saydraft-pytest-catalog"`.
 GitHub Actions expands `runner.temp` to its existing temporary root; local runs

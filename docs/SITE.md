@@ -129,9 +129,12 @@ also passes; a direct HTTP check returns 200 and the updated privacy section.
 
 The owner requested automatic commits/pushes to `main` with no further PRs. All
 101 earlier task PRs were closed or merged after the verified stack reached main.
-The Site checks workflow builds and tests the site. Pages builds the exact
-successful Site checks commit with the official Astro action, then deploys the
-static artifact to GitHub Pages. Manual dispatch is also available. The canonical
+The owner now requests local validation and direct pushes. Site checks and Pages
+are manual-only; a push or completion of another workflow starts neither.
+Build/type checks, Storybook, browser checks and applicable Lighthouse checks run
+locally before delivery. The retained Pages workflow builds its explicitly
+selected commit with the official Astro action only when separately requested.
+The existing live deployment remains in place. The canonical
 is `https://tanzir71.github.io/saydraft/`; no domain purchase or analytics is added.
 
 The previous root `index.html` and `demo/` stay intact pending the old-site

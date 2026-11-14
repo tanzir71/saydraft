@@ -1,0 +1,245 @@
+{
+  "source": "f5eaf0159f547221e09083642c83b2c75fe77ba2",
+  "source_clean": true,
+  "source_sha256": {
+    "saydraft/meetings/__init__.py": "44947896a07bbdd08b3cb29228dd6877fe739fabe01603c18fbc5616a7eb4a93",
+    "saydraft/meetings/audio.py": "6badc445df15bf78ec9fb21996eaa32def34b7375950380f68f4ea373086a7e6",
+    "saydraft/meetings/child.py": "04fbd0a132ad7402be5b1d3b8bc8fae7727ce4d5d515719b77f97d406345ab1e",
+    "saydraft/meetings/diarization.py": "ed1182892c2bd609d348159599ba587ae2e5c7cfdd9e635ccc79b4b35d606e9a",
+    "saydraft/meetings/limits.py": "9629f7d7cdeda324a3ea0c99dc5716b0a6ca633a1ad9db068e68b10d5c7280a6",
+    "saydraft/meetings/models.py": "228fd0113ca746811af2e71b4a552277d856d0731b1acb1592feff2b041b44c0",
+    "saydraft/meetings/notes.py": "4ac705be8a2d02d3a2acfdb1b1b9ca5e60852c567848190e6e6629683f8bc6a8",
+    "saydraft/meetings/process.py": "61c372858a0336b4b36b344af7ee625be7f256966a56a1a3ab092eda14fa6edb",
+    "saydraft/meetings/processor.py": "712fd830d9db1c5c5c820d4a65264011f511e12b9c29b9959230b6982f3df569",
+    "saydraft/meetings/protocol.py": "d86cd72e80d7995bde83f2b279c1adc66e833789c4a20d16b1eb35b6866ad1a4",
+    "saydraft/meetings/request.py": "742c6b5ab8b2d76123c6a91ef7a2218d2e1106716490e2111d7bd800ceecc4f4",
+    "saydraft/meetings/session.py": "4b13effab10b092cf8507a489e7d79b40584b14844b8f4d7d5a2cf03105413f8",
+    "saydraft/meetings/stop.py": "8d100c208c6fa2be33d31867368d32499c2b443310efeac024729d075592bcdd",
+    "saydraft/meetings/summary.py": "e842af250837f9fc6bf2434bf1c25f8d20e0d282ec829b2e3492da3e98ce3983",
+    "saydraft/meetings/timeline.py": "1bfd2c185cb10a3db0c13fba949bbd76c58880f8922726b07c59ce0707d10713",
+    "saydraft/meetings/transcription.py": "c6b24a2624bea73bc6925630382d31433fca0ec2ddda095fa382f210de1141eb",
+    "saydraft/meetings/vad.py": "01cdfdda5970e3a32adfdbdf505eaddab040a9507b4ab6a8cb0d3e6eda405f74",
+    "saydraft/core/meeting_controller.py": "21fda3310e54afabbd71c4d08dfd276e8e5b61ebe895e4a994d906328fed5e17",
+    "saydraft/core/worker.py": "ca5744c93567943045b99df85821433a6f360eb5eea70844b6e533680ca6cbd4",
+    "saydraft/ui/meeting_capsule.py": "ef1dd68153ff077fe7c9afdd52ee0c4ae05ea9790236d5f45f9c02171a76637c",
+    "saydraft/app.py": "1154e5e31ac9e16f889ecb47e705659809459776678b9bdf4cb981cd925a97bb",
+    "saydraft/dictation/command_session.py": "1b993b3ca453e2d4ab1840e4eb5fd07767be7076caa87030759dea3ca7574e09",
+    "saydraft/models/manifest.json": "c98a45d8e0cb02fde68f806aecbafa31ba29fcc481150a4c1e181eca72f2f949",
+    "tests/test_session_worker.py": "e3c82e95b6f008b79bdf98434fdc016cd3f711622a1b70bcf2875760e32d0ed1",
+    "tests/test_processing.py": "84a254f1669f73deba8a98bbdfe1d3b3f2a9b30291c24e8b728a29bef257e95f"
+  },
+  "scope": "Owned offscreen capsule + real worker/controller/processor + compressed public file events; no app-shell/default-profile/live-device/frozen/30min acceptance",
+  "corpus": {
+    "dataset": "google/fleurs",
+    "revision": "70bb2e84b976b7e960aa89f1c648e09c59f894dd",
+    "license": "CC-BY-4.0",
+    "sha256": "94c8335a2e6164be097ac109d981697bbe67bd6e38442a373e9b70932b25dc5a"
+  },
+  "inputs": [
+    {
+      "track": "microphone",
+      "file": "1003119935936341070.wav",
+      "sha256": "33aca50159ec2e3cbcc894eb26faa916d6badb1b49fb75994973561540a7f012",
+      "frames": 168960,
+      "reference": "However, due to the slow communication channels, styles in the west could lag behind by 25 to 30 year."
+    },
+    {
+      "track": "desktop",
+      "file": "10167324587744183095.wav",
+      "sha256": "260bdd1a15e1d35bcc5d91667516ca3bc659285e10f94872182715bcd7880398",
+      "frames": 183360,
+      "reference": "To the north and within easy reach is the romantic and fascinating town of Sintra and which was made famous to foreigners after a glowing account of its splendours recorded by Lord Byron."
+    }
+  ],
+  "models": {
+    "silero-vad-v5": {
+      "revision": "5cd2ba54db059f961e7545d4f211b44f005a6dfb",
+      "verified_before": true
+    },
+    "parakeet-tdt-0-6b-v3-int8": {
+      "revision": "ed5d745623472f97cfc2e6c2916ee248798fc5a8",
+      "verified_before": true
+    },
+    "qwen35-4b-q4-k-m": {
+      "revision": "4168f45a16a1290d65a4ec0fa312ae917a4c15d6",
+      "verified_before": true
+    },
+    "llama-cpp-b12110-cpu-x64": {
+      "revision": "github-release-asset-709507579",
+      "verified_before": true
+    },
+    "pyannote-segmentation-3-0": {
+      "revision": "9403a6902bb58e3d5ae8c7e77c3422de279db2e0",
+      "verified_before": true
+    },
+    "3dspeaker-eres2net-base": {
+      "revision": "github-release-asset-198893098",
+      "verified_before": true
+    }
+  },
+  "native_firewall_verified": false,
+  "passed": true,
+  "terminal": {
+    "phase": "finished",
+    "reason": "ok",
+    "note_id": "948d10261e464c5d8806d0240e52da60"
+  },
+  "painted": [
+    {
+      "phase": "indicator",
+      "visible": true,
+      "owner_not_started": true
+    }
+  ],
+  "displayed_phases": [
+    "indicator",
+    "checking",
+    "preparing",
+    "recording",
+    "transcribing",
+    "summarizing",
+    "saving",
+    "finished"
+  ],
+  "status_trace": [
+    {
+      "thread": 40952,
+      "phase": "indicator",
+      "capture_stopped": false,
+      "reason": "",
+      "progress": null
+    },
+    {
+      "thread": 14892,
+      "phase": "checking",
+      "capture_stopped": false,
+      "reason": "",
+      "progress": null
+    },
+    {
+      "thread": 14892,
+      "phase": "preparing",
+      "capture_stopped": false,
+      "reason": "",
+      "progress": null
+    },
+    {
+      "thread": 14892,
+      "phase": "recording",
+      "capture_stopped": false,
+      "reason": "",
+      "progress": null
+    },
+    {
+      "thread": 14892,
+      "phase": "transcribing",
+      "capture_stopped": true,
+      "reason": "",
+      "progress": null
+    },
+    {
+      "thread": 14892,
+      "phase": "transcribing",
+      "capture_stopped": true,
+      "reason": "",
+      "progress": 17
+    },
+    {
+      "thread": 14892,
+      "phase": "transcribing",
+      "capture_stopped": true,
+      "reason": "",
+      "progress": 40
+    },
+    {
+      "thread": 14892,
+      "phase": "transcribing",
+      "capture_stopped": true,
+      "reason": "",
+      "progress": 47
+    },
+    {
+      "thread": 14892,
+      "phase": "transcribing",
+      "capture_stopped": true,
+      "reason": "",
+      "progress": 100
+    },
+    {
+      "thread": 14892,
+      "phase": "summarizing",
+      "capture_stopped": true,
+      "reason": "",
+      "progress": null
+    },
+    {
+      "thread": 14892,
+      "phase": "saving",
+      "capture_stopped": true,
+      "reason": "",
+      "progress": null
+    },
+    {
+      "thread": 14892,
+      "phase": "finished",
+      "capture_stopped": true,
+      "reason": "ok",
+      "progress": null
+    }
+  ],
+  "transcripts": [
+    {
+      "utterances": [
+        {
+          "id": 1,
+          "track": "desktop",
+          "start": 0.284,
+          "end": 11.46,
+          "speakers": [
+            1
+          ],
+          "text": "To the north and within easy reach is the romantic and fascinating town of Sintra and which was made famous to foreigners after a glowing account of its splendors recorded by Lord Byron.",
+          "model_id": "parakeet-tdt-0-6b-v3-int8",
+          "language": null
+        },
+        {
+          "id": 2,
+          "track": "microphone",
+          "start": 0.956,
+          "end": 3.872,
+          "speakers": [
+            0
+          ],
+          "text": "However, due to the slow communication channels.",
+          "model_id": "parakeet-tdt-0-6b-v3-int8",
+          "language": null
+        },
+        {
+          "id": 3,
+          "track": "microphone",
+          "start": 4.348,
+          "end": 8.992,
+          "speakers": [
+            0
+          ],
+          "text": "styles in the West could lag behind by twenty five to thirty years.",
+          "model_id": "parakeet-tdt-0-6b-v3-int8",
+          "language": null
+        }
+      ],
+      "issues": [],
+      "capture_complete": true,
+      "duration": 11.46
+    }
+  ],
+  "active_scratchpad_unchanged": true,
+  "note_revision": 1,
+  "markdown_sha256": "3eb1b508528b9e2097ab3185affda365aa6b08854017585be4a91bf0ff2d0ca8",
+  "platform": "offscreen",
+  "python_network_policy": true,
+  "native_exits": [
+    true
+  ],
+  "source_unchanged": true,
+  "model_hashes_unchanged": true
+}

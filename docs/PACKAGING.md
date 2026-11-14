@@ -1,5 +1,10 @@
 # Windows packaging
 
+Delivery now uses local checks/builds followed by direct Git pushes. The Package
+and draft-release workflows are retained as manual-only tools; pushes and tags
+start neither, and no successful GitHub Actions run is required for delivery.
+The historical runner receipts below retain their original dates and scope.
+
 `tools/build.ps1` now builds in a fresh Python 3.13 virtual environment outside
 the source checkout. It installs only `requirements.txt`, uses the canonical
 `Saydraft.spec`, verifies the frozen runtime, audits the actual module graph and
@@ -101,12 +106,13 @@ smoke installs, verifies the frozen resources, confirms default data retention,
 reinstalls with autostart, explicitly removes data, and checks that an external
 junction target survives. That script refuses an account with pre-existing
 Saydraft data or startup registration; it is intended for disposable QA accounts.
-CI retains unsigned artifacts and reports even on failure. It creates no release.
+The manual workflow retains unsigned artifacts and reports even on failure. It creates no release.
 
 ## Draft release automation
 
-`release.yml` runs for `v*` tags. It requires successful CI for the exact source,
-builds a fresh unsigned package, repeats the disposable installer lifecycle and
+`release.yml` is manual-only and accepts an explicitly selected `v*` tag ref.
+It does not query or wait for GitHub CI. It builds a fresh unsigned package for
+the selected source, repeats the disposable installer lifecycle and
 validates delivered artifact hashes against the package audit and SHA256SUMS.
 The tag must match the packaged version, with an optional prerelease suffix.
 It then creates a GitHub **draft**, attaching the installer, portable ZIP,

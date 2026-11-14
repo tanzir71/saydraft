@@ -1,10 +1,6 @@
 name: Pages
 
 on:
-  workflow_run:
-    workflows: ['Site checks']
-    types: [completed]
-    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -18,7 +14,6 @@ concurrency:
 
 jobs:
   build:
-    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     env:
       ASTRO_TELEMETRY_DISABLED: '1'
@@ -26,7 +21,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7
         with:
-          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+          ref: ${{ github.sha }}
       - name: Build and upload static site
         uses: withastro/action@v6
         with:

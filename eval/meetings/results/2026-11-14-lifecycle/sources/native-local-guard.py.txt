@@ -1,0 +1,232 @@
+"""Owned offscreen capsule + worker + public file events + actual local models."""
+import importlib.abc
+from pathlib import Path
+import sys
+import types
+
+qa = Path(__file__).resolve().parent
+repo = qa / 'worktrees/meeting-session-20261114'
+class Guard(importlib.abc.MetaPathFinder):
+    def find_spec(self, fullname, path=None, target=None):
+        if (fullname.split('.')[0] in ('soundcard', 'sounddevice') or fullname in (
+            'saydraft.app', 'saydraft.compat.migrate', 'saydraft.logging_config', 'saydraft.single_instance')):
+            raise AssertionError('Owner audio/profile modules are barred')
+sys.meta_path.insert(0, Guard())
+sys.path.insert(0, str(repo))
+profile = types.ModuleType('saydraft.compat.migrate')
+profile.LEGACY_NAME = 'VoiceTray'
+profile.profile_root = lambda: qa / 'meeting-native-lifecycle-profile'
+sys.modules[profile.__name__] = profile
+
+from collections import deque
+from concurrent.futures import ThreadPoolExecutor
+from dataclasses import asdict
+import hashlib
+import json
+import math
+import socket
+import subprocess
+import threading
+import time
+from types import SimpleNamespace as NS
+
+import soundfile as sf
+from PySide6 import QtCore, QtWidgets
+from saydraft.asr.sherpa_parakeet import ParakeetConfig, ParakeetEngine
+from saydraft.cleanup.llm.sidecar import SidecarConfig, SidecarManager
+from saydraft.core.meeting_controller import MeetingController
+from saydraft.data.notes import NoteStore
+from saydraft.dictation.llm_local import LocalLLMConfig, LocalLLMCleaner
+from saydraft.meetings.diarization import SpeakerDiarizer
+from saydraft.meetings.processor import LocalMeetingProcessor
+from saydraft.meetings.process import CaptureOutcome
+from saydraft.meetings.protocol import AudioChunk, CaptureEnd, CaptureEvent, TrackStarted
+from saydraft.meetings.request import CaptureRequest
+from saydraft.meetings.session import MeetingCaptureSession
+from saydraft.meetings.vad import MeetingSileroVad
+from saydraft.models.downloader import installation_ready
+from saydraft.models.manifest import get_model
+from saydraft.privacy.netguard import NetworkGuard
+from saydraft.ui.meeting_capsule import MeetingCapsule
+from saydraft.ui.fonts import install_bundled_fonts
+from saydraft.ui.theme import install_theme
+from tests.test_session_worker import make_worker
+from tools.probe_meeting_analysis import OwnedProcessMeter, RecordedClient, digest
+
+head = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=repo, text=True).strip()
+assert head == 'f5eaf0159f547221e09083642c83b2c75fe77ba2'
+assert not subprocess.check_output(['git', 'status', '--porcelain'], cwd=repo, text=True).strip()
+output = qa / 'meeting-lifecycle-native-20261114-r1-f5eaf01'
+output.mkdir(exist_ok=False)
+sources = [*sorted((repo / 'saydraft/meetings').glob('*.py')), repo / 'saydraft/core/meeting_controller.py',
+    repo / 'saydraft/core/worker.py', repo / 'saydraft/ui/meeting_capsule.py', repo / 'saydraft/app.py',
+    repo / 'saydraft/dictation/command_session.py', repo / 'saydraft/models/manifest.json',
+    repo / 'tests/test_session_worker.py', repo / 'tests/test_processing.py']
+fingerprints = {path.relative_to(repo).as_posix(): digest(path) for path in sources}
+paths = {name: Path(value) for name, value in json.loads((qa / 'meeting-analysis-native-paths-20261114.json').read_text()).items()}
+assert len(paths) == 6
+for name, directory in paths.items():
+    assert installation_ready(get_model(name), directory, check_hashes=True)
+corpus_path = qa / 'asr-public-fleurs-20261114/en-r1/corpus.json'
+corpus = json.loads(corpus_path.read_text(encoding='utf-8'))
+inputs, events, counts = [], [], []
+for track, name in (('microphone', '1003119935936341070.wav'), ('desktop', '10167324587744183095.wav')):
+    path = corpus_path.parent / 'audio' / name
+    checksum = digest(path)
+    clip = next(clip for clip in corpus['clips'] if clip['sha256'] == checksum)
+    waveform, rate = sf.read(path, dtype='float32')
+    assert rate == 16000 and waveform.ndim == 1 and len(waveform) == clip['num_samples']
+    inputs.append({'track': track, 'file': name, 'sha256': checksum, 'frames': len(waveform), 'reference': clip['reference']})
+    events.append(CaptureEvent('track', TrackStarted(track, 0.)))
+    counts.append(len(waveform))
+    # Tracks are file events with compressed delivery, not elapsed live capture.
+    events.extend(CaptureEvent('audio', AudioChunk(track, start, waveform[start:start + 1600].copy()))
+                  for start in range(0, len(waveform), 1600))
+events.insert(1, events.pop(next(index for index, item in enumerate(events) if item.kind == 'track' and item.value.track == 'desktop')))
+events.insert(2, CaptureEvent('ready'))
+end = CaptureEnd(True, 'stopped', *counts)
+events.append(CaptureEvent('end', end))
+
+class PublicCapture:
+    def __init__(self):
+        self.pending, self.queue = deque(events), deque()
+        self.active = self.started = False
+    def start(self, *, indicator_ready):
+        assert indicator_ready is True and painted and capsule.isVisible()
+        self.active = self.started = True
+    def take(self, *, limit):
+        return [self.queue.popleft() for _ in range(min(limit, len(self.queue)))]
+    def poll(self):
+        if self.pending:
+            for _ in range(min(20, len(self.pending))):
+                self.queue.append(self.pending.popleft())
+            assert len(self.queue) <= 64
+            return None
+        self.active = False
+        return CaptureOutcome(True, True, 'stopped', 0, end=end)
+    def request_stop(self):
+        pass
+    def stop(self, *, timeout):
+        self.active = False
+        return CaptureOutcome(True, False, 'forced_stop', 0, True)
+
+NetworkGuard.install()
+app = QtWidgets.QApplication([])
+assert app.platformName() == 'offscreen'
+def forbidden(*args, **kwargs):
+    raise AssertionError('Owner clipboard, recorder and context ports are barred')
+QtWidgets.QApplication.clipboard = staticmethod(forbidden)
+install_bundled_fonts(app)
+theme = install_theme(app, mode='light')
+capsule = MeetingCapsule()
+painted, status_trace, shown = [], [], []
+meter = OwnedProcessMeter()
+weight = next(item['path'] for item in get_model('qwen35-4b-q4-k-m')['files'] if item['path'].endswith('.gguf'))
+model_path = (paths['qwen35-4b-q4-k-m'] / weight).resolve()
+sidecar_config = SidecarConfig(model_path, backend='cpu', context_size=4096, threads=4, startup_seconds=60, max_restarts=0)
+cleaner = LocalLLMCleaner(LocalLLMConfig(enabled=False, model_path=str(model_path)), manager_factory=lambda config:
+    SidecarManager(config, resolver=lambda name: paths.get(name), capability_check=lambda backend: backend == 'cpu',
+        process_factory=meter.spawn, client_factory=lambda port, token: RecordedClient(port, token, output)))
+store = NoteStore(output / 'public-notes.db')
+primary = store.save('b' * 32, 'Public lifecycle Scratchpad; preserve this active draft.')
+worker, _, _, _, _, _ = make_worker(queued=True)
+worker.executor = ThreadPoolExecutor(max_workers=1, thread_name_prefix='Saydraft-public-meeting')
+worker.services.config['labs']['notetaker'] = True
+worker.services.config['app']['tier'] = 'pro'
+worker.services.config['command']['backend'] = 'cpu'
+worker.services.recorder.start = worker.services.recorder.stop = forbidden
+worker.services.context = NS(capture=forbidden)
+owner = PublicCapture()
+transcripts = []
+def processor_factory(services, config, *, need_speech):
+    assert need_speech and config['labs']['notetaker'] and config['app']['tier'] == 'pro'
+    editor = cleaner.command_session(sidecar_config, 'qwen35-4b-q4-k-m')
+    assert editor is not None
+    asr = ParakeetEngine(ParakeetConfig(silence_trim=False), model_dir=paths['parakeet-tdt-0-6b-v3-int8'])
+    asr.prepare()
+    speakers = SpeakerDiarizer(resolver=lambda name, **kwargs: paths.get(name))
+    speakers.prepare()
+    processor = LocalMeetingProcessor(asr, speakers, editor, store, detector_factory=lambda:
+        MeetingSileroVad(paths['silero-vad-v5'] / 'silero_vad.onnx'))
+    original = processor.transcribe
+    def record(audio, **options):
+        transcript = original(audio, **options)
+        transcripts.append(asdict(transcript))
+        return transcript
+    processor.transcribe = record
+    return processor
+worker.meeting = MeetingController(worker, processor_factory=processor_factory,
+    capture_factory=lambda request, **options: MeetingCaptureSession(request, capture_factory=lambda request: owner, **options))
+controller = worker.meeting
+class Bridge(QtCore.QObject):
+    changed = QtCore.Signal(object)
+bridge = Bridge()
+def emit(name, *args):
+    if name == 'meeting_status':
+        status_trace.append({'thread': threading.get_ident(), 'phase': args[0].phase,
+            'capture_stopped': args[0].capture_stopped, 'reason': args[0].reason, 'progress': args[0].progress})
+        bridge.changed.emit(args[0])
+worker.emit_callback = emit
+def show(status):
+    if controller.status_is_current(status):
+        capsule.accept_status(status)
+        if status.phase not in shown:
+            shown.append(status.phase)
+            capsule.grab().save(str(output / (status.phase + '.png')))
+bridge.changed.connect(show, QtCore.Qt.QueuedConnection)
+def acknowledge(status):
+    painted.append({'phase': status.phase, 'visible': capsule.isVisible(), 'owner_not_started': not owner.started})
+    assert controller.confirm_indicator(status)
+capsule.indicator_ready.connect(acknowledge)
+report = {'source': head, 'source_clean': True, 'source_sha256': fingerprints,
+    'scope': 'Owned offscreen capsule + real worker/controller/processor + compressed public file events; no app-shell/default-profile/live-device/frozen/30min acceptance',
+    'corpus': {'dataset': corpus['dataset'], 'revision': corpus['revision'], 'license': corpus['license'], 'sha256': digest(corpus_path)},
+    'inputs': inputs, 'models': {name: {'revision': get_model(name)['revision'], 'verified_before': True} for name in paths},
+    'native_firewall_verified': False, 'passed': False}
+try:
+    assert controller.request(CaptureRequest(consent=True, max_seconds=math.ceil(max(counts) / 16000)))
+    deadline = time.monotonic() + 300
+    while worker.busy and time.monotonic() < deadline:
+        app.processEvents(QtCore.QEventLoop.ExcludeUserInputEvents)
+        time.sleep(.005)
+    assert not worker.busy, 'Public lifecycle deadline expired'
+    app.processEvents()
+    status = controller.latest
+    assert status.phase == 'finished', (status.phase, status.reason)
+    note = store.get(status.note_id)
+    assert note is not None and note.kind == 'meeting' and store.active() == primary
+    assert len(store.list()) == 2 and not owner.active and controller.recovery is None
+    (output / 'meeting.md').write_text(note.body, encoding='utf-8')
+    report.update(terminal={'phase': status.phase, 'reason': status.reason, 'note_id': status.note_id},
+        painted=painted, displayed_phases=shown, status_trace=status_trace, transcripts=transcripts,
+        active_scratchpad_unchanged=store.active() == primary, note_revision=note.revision,
+        markdown_sha256=digest(output / 'meeting.md'), platform=app.platformName())
+    try:
+        socket.getaddrinfo('example.com', 443)
+    except PermissionError:
+        report['python_network_policy'] = True
+    else:
+        raise AssertionError('Python offline policy was not enforced')
+    assert painted and all(row['visible'] and row['owner_not_started'] for row in painted)
+    assert all(not row['capture_stopped'] for row in status_trace if row['phase'] in ('preparing', 'recording'))
+    assert all(row['capture_stopped'] for row in status_trace if row['phase'] in ('transcribing', 'summarizing', 'saving', 'finished'))
+    report['passed'] = True
+except BaseException as error:
+    report['error'] = {'type': type(error).__name__, 'message': str(error)}
+finally:
+    controller.cancel()
+    worker.executor.shutdown(wait=True)
+    cleaner.close()
+    report['native_exits'] = meter.finish()
+    report['source_unchanged'] = fingerprints == {path.relative_to(repo).as_posix(): digest(path) for path in sources}
+    report['model_hashes_unchanged'] = all(installation_ready(get_model(name), directory, check_hashes=True) for name, directory in paths.items())
+    report['passed'] = bool(report['passed'] and report['native_exits'] and all(report['native_exits'])
+        and report['source_unchanged'] and report['model_hashes_unchanged'])
+    if controller.latest is not None and controller.latest.capture_stopped:
+        capsule.close()
+    if theme is not None:
+        theme.close()
+    (output / 'report.json').write_text(json.dumps(report, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+print(json.dumps({'passed': report['passed'], 'terminal': report.get('terminal'), 'error': report.get('error'),
+                  'native_exits': report['native_exits']}), flush=True)
+raise SystemExit(0 if report['passed'] else 1)

@@ -1,9 +1,6 @@
 name: Site checks
 
 on:
-  push:
-    branches: [main]
-    paths: ['site/**', 'design/**', 'tools/generate_tokens.mjs', '.github/workflows/site.yml', '.github/workflows/pages.yml']
   workflow_dispatch:
 
 permissions:

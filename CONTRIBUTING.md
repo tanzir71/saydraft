@@ -25,6 +25,12 @@ installer lifecycle pass; signing and broader clean-machine acceptance remain un
 
 ## App checks
 
+Validate locally, commit and push directly. All GitHub Actions workflows are
+manual-only; branch/tag pushes and pull requests start no checks or deployments.
+Do not wait for an Actions result or dispatch a workflow as part of routine
+delivery. Keep source-specific local receipts and distinguish fixture checks
+from native hardware, physical-input and clean-machine acceptance.
+
 These are the current lint, unit/offline, rules, and authored adversarial gates:
 
 ```powershell
@@ -39,7 +45,7 @@ $env:DO_NOT_TRACK = '1'
 ```
 
 Native/model smoke tests may skip without explicit verified fixtures. The
-[Windows CI workflow](.github/workflows/ci.yml) documents its pinned VAD fixture
+[manual Windows workflow](.github/workflows/ci.yml) documents its pinned VAD fixture
 bootstrap; additional optional fixtures and manual acceptance are described in
 the [test checklist](docs/TEST_CHECKLIST.md). A skipped check is not acceptance.
 

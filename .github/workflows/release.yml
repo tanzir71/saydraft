@@ -1,8 +1,7 @@
 name: Draft release
 
 on:
-  push:
-    tags: ['v*']
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -10,6 +9,7 @@ permissions:
 
 jobs:
   unsigned-draft:
+    if: startsWith(github.ref, 'refs/tags/v')
     runs-on: windows-latest
     timeout-minutes: 50
     permissions:
@@ -28,16 +28,6 @@ jobs:
       - uses: actions/setup-python@v7
         with:
           python-version: '3.13'
-      - name: Require successful CI for this exact source
-        shell: pwsh
-        run: |
-          for ($Attempt = 0; $Attempt -lt 40; $Attempt++) {
-            $Runs = gh run list --workflow ci.yml --commit $env:SOURCE_COMMIT --limit 30 --json status,conclusion | ConvertFrom-Json
-            if ($LASTEXITCODE -ne 0) { throw 'Could not verify exact-source CI.' }
-            if (@($Runs | Where-Object { $_.status -eq 'completed' -and $_.conclusion -eq 'success' }).Count -gt 0) { exit 0 }
-            if ($Attempt -lt 39) { Start-Sleep -Seconds 30 }
-          }
-          throw 'No successful CI result for this exact source within 20 minutes.'
       - name: Choose fresh retained build directory
         shell: pwsh
         run: |

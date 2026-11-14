@@ -1,0 +1,28 @@
+"""Owned offscreen app seams with disposable profile and real audio imports barred."""
+import importlib.abc
+from pathlib import Path
+import sys
+import types
+
+qa = Path(__file__).resolve().parent
+repo = qa / 'worktrees/meeting-session-20261114'
+class Guard(importlib.abc.MetaPathFinder):
+    def find_spec(self, fullname, path=None, target=None):
+        if (fullname.split('.')[0] in ('soundcard', 'sounddevice') or fullname in (
+            'saydraft.compat.migrate', 'saydraft.logging_config', 'saydraft.single_instance')):
+            raise AssertionError('Owner audio/profile services are barred')
+sys.meta_path.insert(0, Guard())
+sys.path.insert(0, str(repo))
+profile = types.ModuleType('saydraft.compat.migrate')
+profile.LEGACY_NAME = 'VoiceTray'
+profile.profile_root = lambda: qa / 'meeting-app-local-profile-s02'
+sys.modules[profile.__name__] = profile
+logs = types.ModuleType('saydraft.logging_config')
+logs.log_file_path = lambda **kwargs: qa / 'meeting-app-local-profile-s01/logs/saydraft.log'
+sys.modules[logs.__name__] = logs
+import pytest
+
+paths = sys.argv[1:]
+assert paths and all(path.startswith('tests/test_') and path.endswith('.py') for path in paths)
+raise SystemExit(pytest.main([*paths, '-q', '-o',
+    f'cache_dir={qa / "pytest-meeting-app-local-cache-s02"}', f'--basetemp={qa / "pytest-meeting-app-local-s02"}']))

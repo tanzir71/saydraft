@@ -1,0 +1,83 @@
+import importlib.abc
+from pathlib import Path
+import sys
+import types
+
+qa = Path(__file__).resolve().parent
+repo = qa / 'worktrees/meeting-session-20261114'
+class Guard(importlib.abc.MetaPathFinder):
+    def find_spec(self, fullname, path=None, target=None):
+        if (fullname.split('.')[0] in ('soundcard', 'sounddevice') or fullname in (
+            'saydraft.app', 'saydraft.compat.migrate', 'saydraft.logging_config', 'saydraft.single_instance')):
+            raise AssertionError('Owner audio/profile imports are barred')
+sys.meta_path.insert(0, Guard())
+sys.path.insert(0, str(repo))
+profile = types.ModuleType('saydraft.compat.migrate')
+profile.LEGACY_NAME = 'VoiceTray'
+profile.profile_root = lambda: qa / 'capsule-render-profile'
+sys.modules[profile.__name__] = profile
+
+from dataclasses import replace
+import hashlib
+import json
+import subprocess
+from PySide6 import QtCore, QtGui, QtWidgets
+from saydraft.core.meeting_controller import MeetingStatus
+from saydraft.ui.meeting_capsule import MeetingCapsule
+from saydraft.ui.fonts import install_bundled_fonts
+from saydraft.ui.theme import install_theme
+from saydraft.privacy.netguard import NetworkGuard
+
+NetworkGuard.install()
+output = qa / sys.argv[1]
+output.mkdir(exist_ok=False)
+app = QtWidgets.QApplication([])
+assert app.platformName() == 'offscreen'
+def forbidden(*args, **kwargs):
+    raise AssertionError('No clipboard/foreground/device use is allowed')
+QtWidgets.QApplication.clipboard = staticmethod(forbidden)
+assert len(install_bundled_fonts(app)) == 8
+theme = install_theme(app, mode='light')
+assert theme is not None
+rows = []
+phases = ('indicator', 'checking', 'preparing', 'recording', 'stopping', 'stop_unconfirmed',
+          'transcribing', 'summarizing', 'saving', 'recovery_audio', 'recovery_text', 'finished', 'cancelled', 'failed')
+for mode in ('light', 'dark'):
+    theme.set_mode(mode)
+    for size in (16, 22):
+        font = QtGui.QFont('Geist')
+        font.setPixelSize(size)
+        app.setFont(font)
+        for phase in phases:
+            widget = MeetingCapsule(clock=lambda: 100.)
+            if phase.startswith('recovery_'):
+                status = MeetingStatus(object(), 'recovery', True, retained=phase.split('_')[1])
+            else:
+                status = MeetingStatus(object(), phase, phase not in phases[:6], reason='ok' if phase == 'finished' else '',
+                                       progress=55 if phase == 'transcribing' else None)
+            widget.accept_status(status)
+            widget.resize(440, widget.height())
+            app.processEvents()
+            widget.adjustSize()
+            app.processEvents()
+            for child in (widget.heading, widget.description, widget.primary, widget.secondary):
+                if child.isVisible():
+                    assert widget.rect().contains(child.geometry()), (phase, size, child.text(), child.geometry())
+            filename = f'{mode}-{size}-{phase}.png'
+            assert widget.grab().save(str(output / filename))
+            rows.append({'theme': mode, 'font_px': size, 'phase': phase, 'file': filename,
+                'width': widget.width(), 'height': widget.height(),
+                'sha256': hashlib.sha256((output / filename).read_bytes()).hexdigest()})
+            widget.accept_status(replace(status, phase='cancelled', capture_stopped=True))
+            widget.close()
+            widget.deleteLater()
+            app.sendPostedEvents(None, QtCore.QEvent.DeferredDelete)
+report = {'source': subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=repo, text=True).strip(),
+    'dirty': bool(subprocess.check_output(['git', 'status', '--porcelain'], cwd=repo, text=True).strip()),
+    'source_sha256': {path.relative_to(repo).as_posix(): hashlib.sha256(path.read_bytes()).hexdigest()
+                      for path in (repo / 'saydraft/ui/meeting_capsule.py', repo / 'saydraft/core/meeting_controller.py')},
+    'platform': app.platformName(), 'network_guard': bool(NetworkGuard._originals),
+    'scope': 'Owned offscreen widget renders, not native capture, physical display or frozen connected workflow', 'rows': rows}
+(output / 'report.json').write_text(json.dumps(report, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+print(json.dumps({'renders': len(rows), 'platform': app.platformName(), 'output': str(output)}))
+theme.close()

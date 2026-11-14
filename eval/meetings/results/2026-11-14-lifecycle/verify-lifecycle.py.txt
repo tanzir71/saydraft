@@ -1,0 +1,98 @@
+"""Check retained local lifecycle evidence; no app, SDK or model imports."""
+import argparse
+import hashlib
+import json
+from pathlib import Path
+import sqlite3
+import subprocess
+
+
+def sha(value):
+    return hashlib.sha256(value).hexdigest()
+
+
+def sources(repo, ref, fingerprints):
+    for name, expected in fingerprints.items():
+        data = subprocess.check_output(['git', 'show', f'{ref}:{name}'], cwd=repo)
+        assert expected in {sha(data), sha(data.replace(b'\r\n', b'\n').replace(b'\n', b'\r\n'))}, name
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--repo', type=Path, required=True)
+    parser.add_argument('--evidence', type=Path, default=Path(__file__).resolve().parent)
+    parser.add_argument('--audio-root', type=Path)
+    args = parser.parse_args()
+    root = args.evidence
+    manifest = json.loads((root / 'evidence.json').read_text(encoding='utf-8'))
+    for name, expected in manifest['files'].items():
+        assert sha((root / name).read_bytes()) == expected, name
+    native = json.loads((root / 'native/report.json').read_text(encoding='utf-8'))
+    assert native['passed'] and native['source_clean'] and native['source_unchanged'] and native['model_hashes_unchanged']
+    assert native['native_exits'] and all(native['native_exits']) and native['python_network_policy']
+    assert native['platform'] == 'offscreen' and native['native_firewall_verified'] is False
+    assert native['terminal']['phase'] == 'finished' and native['terminal']['reason'] == 'ok'
+    assert native['painted'] and all(item['visible'] and item['owner_not_started'] for item in native['painted'])
+    sources(args.repo, native['source'], native['source_sha256'])
+    catalog = json.loads(subprocess.check_output(['git', 'show', f"{native['source']}:saydraft/models/manifest.json"], cwd=args.repo))
+    models = {entry['id']: entry for entry in catalog['models']}
+    for name, entry in native['models'].items():
+        assert entry['verified_before'] and entry['revision'] == models[name]['revision']
+    corpus_bytes = (args.repo / 'eval/meetings/results/2026-11-14-analysis/sources/corpus.json').read_bytes()
+    assert sha(corpus_bytes) == native['corpus']['sha256']
+    corpus = json.loads(corpus_bytes)
+    assert all(corpus[key] == native['corpus'][key] for key in ('dataset', 'revision', 'license'))
+    clips = {clip['sha256']: clip for clip in corpus['clips']}
+    for item in native['inputs']:
+        clip = clips[item['sha256']]
+        assert item['reference'] == clip['reference'] and item['frames'] == clip['num_samples']
+        if args.audio_root:
+            assert sha((args.audio_root / 'audio' / item['file']).read_bytes()) == item['sha256']
+    trace = native['status_trace']
+    assert all(not item['capture_stopped'] for item in trace if item['phase'] in ('preparing', 'recording'))
+    assert all(item['capture_stopped'] for item in trace if item['phase'] in ('transcribing', 'summarizing', 'saving', 'finished'))
+    assert len({item['thread'] for item in trace}) >= 2
+    assert native['active_scratchpad_unchanged'] and native['note_revision'] == 1
+    markdown_bytes = (root / 'native/meeting.md').read_bytes()
+    assert sha(markdown_bytes) == native['markdown_sha256']
+    with sqlite3.connect((root / 'native/public-notes.db').resolve().as_uri() + '?mode=ro&immutable=1', uri=True) as db:
+        assert db.execute('PRAGMA integrity_check').fetchone() == ('ok',)
+        rows = db.execute('SELECT id,kind,body,revision FROM notes').fetchall()
+        assert len(rows) == 2
+        note = next(row for row in rows if row[0] == native['terminal']['note_id'])
+        assert note[1] == 'meeting' and note[3] == 1 and note[2] == markdown_bytes.decode('utf-8').replace('\r\n', '\n')
+        active = db.execute("SELECT note_id FROM note_state WHERE name='scratchpad'").fetchone()[0]
+        primary = next(row for row in rows if row[0] == active)
+        assert primary[1:] == ('scratchpad', 'Public lifecycle Scratchpad; preserve this active draft.', 1)
+    pieces, done, finishes = [], False, []
+    for line in (root / 'native/completion-1.sse').read_text(encoding='utf-8').splitlines():
+        if not line.startswith('data: '):
+            continue
+        if line[6:] == '[DONE]':
+            done = True
+            continue
+        for choice in json.loads(line[6:]).get('choices', []):
+            delta = choice.get('delta') or {}
+            assert not delta.get('tool_calls')
+            pieces.append(delta.get('content') or '')
+            if choice.get('finish_reason'):
+                finishes.append(choice['finish_reason'])
+    assert done and finishes == ['stop']
+    summary = json.loads(''.join(pieces))
+    text = {part['id']: part['text'] for part in native['transcripts'][0]['utterances']}
+    assert summary['topics']
+    for name in ('topics', 'decisions', 'next_steps'):
+        for item in summary[name]:
+            assert item['evidence'] and all(cite['quote'] in text[cite['utterance']] for cite in item['evidence'])
+    renders = json.loads((root / 'renders/report.json').read_text(encoding='utf-8'))
+    assert not renders['dirty'] and renders['source'] == native['source'] and renders['platform'] == 'offscreen'
+    assert renders['network_guard'] and len(renders['rows']) == 56
+    sources(args.repo, renders['source'], renders['source_sha256'])
+    for row in renders['rows']:
+        assert sha((root / 'renders' / row['file']).read_bytes()) == row['sha256']
+    print(json.dumps({'verified': True, 'raw_files': len(manifest['files']), 'render_states': 56,
+                      'native_file_lifecycle': True, 'live_capture_or_full_accuracy_accepted': False}))
+
+
+if __name__ == '__main__':
+    main()

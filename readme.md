@@ -2,8 +2,6 @@
 
 **Speak messy. Paste polished.**
 
-[![CI](https://github.com/tanzir71/saydraft/actions/workflows/ci.yml/badge.svg)](https://github.com/tanzir71/saydraft/actions/workflows/ci.yml)
-[![Site checks](https://github.com/tanzir71/saydraft/actions/workflows/site.yml/badge.svg)](https://github.com/tanzir71/saydraft/actions/workflows/site.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 Saydraft is a free, open-source offline dictation app for Windows. Hold a
@@ -40,8 +38,12 @@ The [packaging pipeline](docs/PACKAGING.md) produces an approximately 104 MB uns
 that passes resource, dependency-notice and install/uninstall checks. Its
 [retained verification](eval/packaging/results/2026-11-14-notices/README.md)
 covers 38 components and 506 notice files.
-The [tag-to-draft release workflow](eval/packaging/results/2026-11-14-draft/README.md)
-has also passed its real dry run; signing and publication remain separate.
+The [draft-release verification](eval/packaging/results/2026-11-14-draft/README.md)
+retains a historical real dry run; signing and publication remain separate.
+
+Development checks and builds run locally before direct pushes. GitHub Actions
+workflows are manual-only and are not a delivery gate. See the
+[local verification checklist](docs/TEST_CHECKLIST.md).
 
 [App update checks](docs/UPDATES.md) are off by default. Enable and save them in
 Settings → Privacy for startup/daily notices and a release-page link. Install
