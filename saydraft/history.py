@@ -198,7 +198,7 @@ class DictationHistoryStore:
     def last_transcript(self) -> str | None:
         """Read the latest nonblank saved result without loading raw text or full rows."""
         with self._connect() as conn:
-            for (text,) in conn.execute("SELECT cleaned_text FROM dictations WHERE mode != 'command' ORDER BY id DESC"):
+            for (text,) in conn.execute("SELECT cleaned_text FROM dictations WHERE mode NOT IN ('command', 'translation_failed') ORDER BY id DESC"):
                 if isinstance(text, str) and text.strip():
                     return text  # Preserve exact stored whitespace, punctuation and casing.
         return None

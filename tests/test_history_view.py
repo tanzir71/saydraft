@@ -16,6 +16,17 @@ def row(**kwargs):
         "notes", 2., "Parakeet"), **kwargs)
 
 
+@pytest.mark.parametrize('mode', ['translate', 'translation_failed'])
+def test_translation_details_identify_task_and_tolerate_malformed_target_metadata(mode):
+    value = row(mode=mode, language='ar', llm_model='4B', llm_decision='translation_ok',
+                edits_json='[{"type":"translation","target_language":"en"}]')
+    text = result_details(value)
+    assert all(part in text for part in ('Spoken translation', 'Source language: ar', 'Target language: English', '4B'))
+    assert 'Cleanup mode' not in text
+    malformed = replace(value, edits_json='[{"type":"translation","target_language":[]}]')
+    assert 'Target language: Not recorded' in result_details(malformed)
+
+
 @pytest.mark.parametrize("value", ["2026-11-12T21:45:00Z", "2026-11-12 21:45:00", "2026-11-13T03:45:00+06:00"])
 def test_timestamp_labels_convert_utc_legacy_and_iso_offsets_to_the_local_day(value):
     zone = timezone(timedelta(hours=6))

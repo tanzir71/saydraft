@@ -62,6 +62,30 @@ class StylesPage(QtWidgets.QScrollArea):
         self.matrix.horizontalHeader().geometriesChanged.connect(self._fit_matrix)
         self._fit_matrix()
         layout.addWidget(self.matrix)
+        from saydraft.translation import LANGUAGES, sanitize_targets
+        self.translation_targets = sanitize_targets(config.get('translation', {}).get('targets', {}))
+        translation = QtWidgets.QGroupBox('Translate while speaking · Labs')
+        translation_layout = QtWidgets.QFormLayout(translation)
+        self.translation_group, self.translation_language = QtWidgets.QComboBox(), QtWidgets.QComboBox()
+        self.translation_group.setAccessibleName('App group for spoken translation')
+        self.translation_language.setAccessibleName('Spoken translation output language')
+        for group, label in GROUP_LABELS.items():
+            if group != 'code':
+                self.translation_group.addItem(label, group)
+        self.translation_language.addItem('Keep recognized language', '')
+        for code, label in LANGUAGES.items():
+            self.translation_language.addItem(label, code)
+        translation_layout.addRow('App group', self.translation_group)
+        translation_layout.addRow('Spoken output', self.translation_language)
+        translation_note = QtWidgets.QLabel('Enable Translate in Settings → Labs after reviewing its local model. '
+            'These saved targets use your normal dictation shortcut and require Pro. Raw and Code bypass translation. '
+            'The cleanup preview below is separate from spoken translation.')
+        translation_note.setWordWrap(True)
+        translation_layout.addRow(translation_note)
+        self.translation_group.currentIndexChanged.connect(self._translation_group)
+        self.translation_language.currentIndexChanged.connect(self._translation_target)
+        self._translation_group()
+        layout.addWidget(translation)
         bar = QtWidgets.QHBoxLayout()
         bar.addWidget(QtWidgets.QLabel("Preview group"))
         self.group = QtWidgets.QComboBox()
@@ -129,6 +153,20 @@ class StylesPage(QtWidgets.QScrollArea):
         config["dictation"]["styles"] = {group: fields for group in GROUP_LABELS if (fields := {
             field: mapping[group].currentData() for field, mapping in (("tone", self.tones), ("intensity", self.levels))
             if mapping[group].currentData() is not None})}
+        config['translation'] = {**config.get('translation', {}), 'targets': dict(self.translation_targets)}
+
+    def _translation_group(self, *_args):
+        blocked = self.translation_language.blockSignals(True)
+        self.translation_language.setCurrentIndex(max(0, self.translation_language.findData(
+            self.translation_targets.get(self.translation_group.currentData(), ''))))
+        self.translation_language.blockSignals(blocked)
+
+    def _translation_target(self, *_args):
+        group, target = self.translation_group.currentData(), self.translation_language.currentData()
+        if target:
+            self.translation_targets[group] = target
+        else:
+            self.translation_targets.pop(group, None)
 
     @QtCore.Slot()
     def invalidate(self, *args):

@@ -1,5 +1,12 @@
 # App styles
 
+The Style page also has a separate **Translate while speaking · Labs** section.
+Save an English, Spanish or Arabic output target per non-code app group, or choose
+Keep recognized language. Translation additionally requires Pro, its independent
+Labs toggle and the explicitly installed shared editing model. The cleanup
+preview remains separate; Raw and Code bypass spoken translation. See
+[Translate setup and recovery](TRANSLATE.md).
+
 P5.7's engine, reusable Style matrix and live preview are implemented in Settings.
 Hub integration remains pending, so the Hub-specific acceptance stays open.
 No desktop control has resumed.

@@ -17,10 +17,18 @@ class CommandModelChoice:
 
 def command_choice(config, report=None):
     """Decision from config/report/catalog only; no installed-file or device scan."""
+    return _choice(config, report, 'command_mode')
+
+
+def translation_choice(config, report=None):
+    return _choice(config, report, 'translate_mode')
+
+
+def _choice(config, report, flag):
     model_id = load_manifest()["command_model"]
     selected = config.get("command", {}).get("backend", "auto")
     backend = selected if selected in ("cpu", "vulkan") else "vulkan" if (report or {}).get("vulkan") else "cpu"
-    reason = ("disabled" if config.get("labs", {}).get("command_mode") is not True else
+    reason = ("disabled" if config.get("labs", {}).get(flag) is not True else
               "needs_pro" if effective_tier(config, report) != "pro" else "ready")
     return CommandModelChoice(model_id, backend, reason)
 

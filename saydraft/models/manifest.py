@@ -124,7 +124,7 @@ def load_manifest(path: Path | None = None) -> dict:
     by_id = {model["id"]: model for model in data["models"]}
     for model in data["models"]:
         if "tasks" in model and (model.get("role") != "llm" or not isinstance(model["tasks"], list)
-                or not model["tasks"] or any(task not in ("cleanup", "command") for task in model["tasks"])
+                or not model["tasks"] or any(task not in ("cleanup", "command", "translate") for task in model["tasks"])
                 or len(set(model["tasks"])) != len(model["tasks"])):
             raise ValueError("LLM tasks must be unique supported task names")
     checked = set()

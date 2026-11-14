@@ -8,6 +8,28 @@ from saydraft.history import HistoryEntry
 from tests.test_history_window import FakeClipboard, build_history, qt_modules, settle_history
 
 
+@pytest.mark.parametrize('mode', ['translate', 'translation_failed'])
+def test_spoken_translation_history_keeps_copy_labels_and_blocks_ordinary_audio_retry(subject, mode):
+    window, qt, clipboard, inserted = subject
+    target = 'El archivo está listo.' if mode == 'translate' else 'The file is ready.'
+    identifier = window.store.append(HistoryEntry('Owned editor', 'The file is ready.', target, mode,
+        'general', 1, 'fixture-asr', audio_path='owned.wav', language='en',
+        edits_json='[{"type":"translation","target_language":"es"}]'))
+    window.refresh()
+    settle_history(window)
+    window._select_id(identifier)
+    settle_history(window)
+    assert not window.retry_button.isEnabled() and not window.choose_retry() and not window.retry_current_audio()
+    assert window.copy_current_text() and clipboard.texts[-1] == target
+    if mode == 'translate':
+        assert window.copy_button.text() == 'Copy translation' and window.reinsert_button.text() == 'Paste translation'
+        assert window.reinsert_current_text() and inserted == [target]
+    else:
+        assert window.copy_button.text() == 'Copy recognized speech' and not window.reinsert_button.isEnabled()
+        assert not window.reinsert_current_text() and not inserted
+        assert not window.raw_toggle.isEnabled() and not window.diff_toggle.isEnabled()
+
+
 @pytest.fixture
 def subject(tmp_path):
     from saydraft.ui.history_page import HistoryPage

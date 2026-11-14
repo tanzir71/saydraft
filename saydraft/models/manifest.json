@@ -946,7 +946,8 @@
         }
       ],
       "tasks": [
-        "command"
+        "command",
+        "translate"
       ],
       "version": "4168f45a16a1290d65a4ec0fa312ae917a4c15d6",
       "disk_mb": 3013.053058,

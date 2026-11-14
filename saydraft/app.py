@@ -480,16 +480,21 @@ class SaydraftApp:
                 self.pill.show_recording(hands_free=self.controller.is_hands_free(), command=True)
             else:
                 self._show_recording_bar()
+                if update.reason == 'translate':
+                    self.pill.status_label.setText('Translate')
         elif update.phase == BarPhase.PROCESSING:
             self.pill.show_processing()
+            if update.reason == 'translate':
+                self.pill.status_label.setText('Translating')
         elif update.phase == BarPhase.NOT_INSERTED:
             self.pill.show_not_inserted(update.reason, saved=update.saved)
         elif update.phase == BarPhase.ERROR:
             message = {"microphone_unavailable": "No microphone", "model_unavailable": "Speech model unavailable",
                 "processing_failed": "Could not complete dictation", 'command_model_unavailable': 'Command model unavailable',
-                'command_failed': 'Command could not finish'}.get(update.reason, "Dictation unavailable")
+                'command_failed': 'Command could not finish',
+                'translation_model_unavailable': 'Translation model unavailable'}.get(update.reason, "Dictation unavailable")
             self.pill.show_error(message, fix_page="microphone" if update.reason == "microphone_unavailable" else
-                                 'labs' if update.reason == 'command_model_unavailable' else "models")
+                                 'labs' if update.reason in ('command_model_unavailable', 'translation_model_unavailable') else "models")
         elif update.phase in (BarPhase.INSERTED, BarPhase.IDLE):
             self.pill.finish_success()
         if self.bar_sounds is not None:

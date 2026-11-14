@@ -57,7 +57,21 @@ def transcript_diff(raw, cleaned):
 
 
 def result_details(row):
-    if row.mode == 'command':
+    if row.mode in ('translate', 'translation_failed'):
+        lines = ['Task: Spoken translation', f"Speech model: {row.asr_model or row.model or 'Unknown'}",
+                 f"Translation model: {row.llm_model or 'None'}", f"Outcome: {row.llm_decision or 'Not recorded'}",
+                 f"Source language: {row.language or 'Not recorded'}"]
+        try:
+            entries = json.loads(row.edits_json)
+        except (TypeError, ValueError):
+            entries = []
+        for item in entries if isinstance(entries, list) else []:
+            if isinstance(item, dict) and item.get('type') == 'translation':
+                from saydraft.translation import LANGUAGES
+                code = item.get('target_language')
+                lines.append('Target language: ' + (LANGUAGES.get(code, 'Not recorded') if type(code) is str else 'Not recorded'))
+                break
+    elif row.mode == 'command':
         lines = ['Task: Command instruction' if not row.cleaned_text else 'Task: Command edit',
                  f"Speech model: {row.asr_model or row.model or 'Unknown'}",
                  f"Edit model: {row.llm_model or 'None'}", f"Edit outcome: {row.llm_decision or 'Not recorded'}",

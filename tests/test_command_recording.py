@@ -28,6 +28,7 @@ def fixture(tmp_path, *, tier='pro', enabled=True):
     config['labs'].update(command_mode=enabled, live_preview=True, use_streaming_result=True)
     config['dictation']['voice_enter_enabled'] = True
     config['llm']['enabled'] = False
+    config['command']['backend'] = 'cpu'  # Explicit CPU does not consult a saved performance report.
     target = TargetContext(15, 'Owned fixture', app_exe='fixture.exe', app_group='docs')
     captured = SelectedContext(target, SelectionSnapshot(status='ready', text='I wanted to say the file arrived.'))
     calls, bars, lease_cancels = [], [], []
@@ -342,3 +343,16 @@ def test_empty_recognition_indexes_retained_command_audio_without_paste_or_dicta
     assert row.audio_path and row.mode == 'command' and not row.raw_text and not row.cleaned_text
     assert 'asr_empty' in row.edits_json and not f.clipboard.ops
     assert f.w.session.state == State.CANCELLED and not f.w.busy and f.history.weekly_stats().dictations == 0
+
+
+def test_recommended_backend_matches_saved_report_in_manual_pro_mode(tmp_path):
+    f = fixture(tmp_path)
+    f.w.services.config['command']['backend'] = 'auto'
+    f.w.command.report_loader = lambda: {'vulkan': True}
+    choices = []
+    def resolve(choice, **kwargs):
+        choices.append(choice)
+        return SidecarConfig(tmp_path / 'fixture.gguf', backend=choice.backend)
+    f.w.command.config_resolver = resolve
+    record(f)
+    assert choices[0].backend == 'vulkan' and f.w.last_command_result.reason == 'ok'

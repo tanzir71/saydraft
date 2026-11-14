@@ -1,5 +1,12 @@
 # Saydraft Test Checklist
 
+Translate's controlled checks are `tests/test_translation.py`,
+`tests/test_translation_worker.py` and the History/Style/Labs/recovery UI suites.
+They use authored text, temporary SQLite, offscreen widgets and memory ports.
+The cache-only native probe and its distinct physical/quality limitations are
+documented in [Translate](TRANSLATE.md). Do not treat these as permission to
+capture the owner's microphone or operate their desktop.
+
 ## Automated Verification
 
 Install the development requirements in an isolated Python 3.13 environment;

@@ -35,7 +35,8 @@ CONFIG_SCHEMA: dict[str, Any] = {
         "notification_duration": int,
         "onboarded": bool,
     },
-    "labs": {"live_preview": bool, "use_streaming_result": bool, "command_mode": bool},
+    "labs": {"live_preview": bool, "use_streaming_result": bool, "command_mode": bool, "translate_mode": bool},
+    "translation": {"targets": dict},
     "command": {"backend": str, "clipboard_fallback": bool},
     "updates": {"enabled": bool},
     "recording": {
@@ -115,7 +116,8 @@ _DEFAULT_CONFIG: dict[str, Any] = {
         "notification_duration": 3,
         "onboarded": False,
     },
-    "labs": {"live_preview": False, "use_streaming_result": False, "command_mode": False},
+    "labs": {"live_preview": False, "use_streaming_result": False, "command_mode": False, "translate_mode": False},
+    "translation": {"targets": {}},
     "command": {"backend": "auto", "clipboard_fallback": False},
     "updates": {"enabled": False},
     "recording": {
@@ -302,6 +304,8 @@ def sanitize_config(config: dict[str, Any] | None) -> dict[str, Any]:
     if not cfg["labs"]["live_preview"]:
         cfg["labs"]["use_streaming_result"] = False
     llm = cfg["llm"]
+    from saydraft.translation import sanitize_targets
+    cfg['translation']['targets'] = sanitize_targets(cfg['translation']['targets'])
     if cfg["command"]["backend"] not in ("auto", "cpu", "vulkan"):
         cfg["command"]["backend"] = "auto"
     if llm["backend"] not in ("cpu", "vulkan"):

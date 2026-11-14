@@ -40,6 +40,25 @@ def test_matrix_roundtrip_keeps_inheritance_and_legacy_mode_changes(tmp_path):
     window.close()
 
 
+def test_translation_targets_stage_per_group_and_save_without_enabling_or_model_transfer(tmp_path):
+    window, path, _ = make_window(tmp_path)
+    try:
+        page = window.styles_page
+        page.translation_group.setCurrentIndex(page.translation_group.findData('email'))
+        page.translation_language.setCurrentIndex(page.translation_language.findData('ar'))
+        assert not window.config['translation']['targets']
+        assert window.apply_changes()
+        assert window.config['translation']['targets'] == {'email': 'ar'}
+        assert not window.config['labs']['translate_mode'] and not window.config['llm']['enabled']
+        page.translation_group.setCurrentIndex(page.translation_group.findData('general'))
+        page.translation_language.setCurrentIndex(page.translation_language.findData('es'))
+        assert window.apply_changes()
+        assert window.config['translation']['targets'] == {'email': 'ar', 'general': 'es'}
+        assert page.translation_group.findData('code') == -1
+    finally:
+        window.close()
+
+
 def test_live_rules_preview_matches_every_group_tone_and_level():
     from saydraft.eval import load_eval_corpus
     expected = {(c.app_group, c.tone, c.intensity): c.expected for c in load_eval_corpus() if c.id.startswith("style-v1-")}

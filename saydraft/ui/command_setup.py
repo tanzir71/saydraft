@@ -16,7 +16,7 @@ class CommandSetup(QtWidgets.QGroupBox):
     finished = QtCore.Signal()
 
     def __init__(self, config, *, report=None, callback=None):
-        super().__init__('Command Mode · experimental')
+        super().__init__('Command and Translate · experimental')
         self.config, self.report = config, report
         self.callback, self.task = callback or download_command_model, None
         self.description = QtWidgets.QLabel('Select text and hold Ctrl+Win+Alt. Wait for the Command label, '
@@ -26,6 +26,13 @@ class CommandSetup(QtWidgets.QGroupBox):
         self.description.setWordWrap(True)
         self.enabled_check = QtWidgets.QCheckBox('Enable experimental Command Mode')
         self.enabled_check.setChecked(config.get('labs', {}).get('command_mode', False))
+        self.translate_check = QtWidgets.QCheckBox('Enable Translate while speaking')
+        self.translate_check.setChecked(config.get('labs', {}).get('translate_mode') is True)
+        self.translate_description = QtWidgets.QLabel('Choose the output language per app group in Style, then use your '
+            'normal dictation shortcut. Wait for the Translate label before speaking. '
+            'Translate shares this local editing model and processor. '
+            'On failure, recognized words stay in History and a Copy window; untranslated words are not pasted automatically.')
+        self.translate_description.setWordWrap(True)
         self.copy_check = QtWidgets.QCheckBox('Allow clipboard-copy fallback')
         self.copy_check.setChecked(config.get('command', {}).get('clipboard_fallback') is True)
         self.copy_description = QtWidgets.QLabel('For unsupported selections, fallback uses ordinary Ctrl+C after you release the shortcut. '
@@ -47,19 +54,19 @@ class CommandSetup(QtWidgets.QGroupBox):
         self._palette_timer.setSingleShot(True)
         self._palette_timer.timeout.connect(self._details)
         self.license.installEventFilter(self)
-        self.download_button = QtWidgets.QPushButton('Download / Resume Command model')
+        self.download_button = QtWidgets.QPushButton('Download / Resume editing model')
         self.pause_button = QtWidgets.QPushButton('Pause')
         self.progress = ThemedProgressBar()
         self.progress.setRange(0, 100)
         self.progress.setAccessibleName('Command model and processor download progress')
         self.status.setText('Review the size and licenses before downloading. Existing verified files are reused. '
-                            'Enabling Command never starts a download.')
+                            'Enabling Command or Translate never starts a download.')
         buttons = QtWidgets.QHBoxLayout()
         buttons.addWidget(self.download_button)
         buttons.addWidget(self.pause_button)
         layout = QtWidgets.QVBoxLayout(self)
         for widget in (self.description, self.eligibility, self.enabled_check, self.copy_check,
-                       self.copy_description, self.backend, self.license):
+                       self.copy_description, self.translate_check, self.translate_description, self.backend, self.license):
             layout.addWidget(widget)
         layout.addLayout(buttons)
         layout.addWidget(self.progress)
@@ -73,10 +80,11 @@ class CommandSetup(QtWidgets.QGroupBox):
     def update_eligibility(self, config, report=None):
         self.config, self.report = config, report
         self.allowed = effective_tier(config, report) == 'pro'
-        self.eligibility.setText('Pro tier available. Download or verify the model, enable Command and Save Settings.'
-            if self.allowed else 'Needs Pro tier: Command uses a larger local editing model. '
+        self.eligibility.setText('Pro tier available. Download or verify the model, enable Command or Translate and Save Settings.'
+            if self.allowed else 'Needs Pro tier: Command and Translate use a larger local editing model. '
             'Check performance or select Pro in Models before using it.')
         self.enabled_check.setEnabled(self.allowed)
+        self.translate_check.setEnabled(self.allowed)
         self._copy_eligibility()
         self.backend.setEnabled(self.task is None)
         self.download_button.setEnabled(self.allowed and self.task is None)
@@ -109,6 +117,7 @@ class CommandSetup(QtWidgets.QGroupBox):
 
     def apply_to(self, config):
         config.setdefault('labs', {})['command_mode'] = self.enabled_check.isChecked()
+        config['labs']['translate_mode'] = self.translate_check.isChecked()
         config.setdefault('command', {})['backend'] = self.backend.currentData()
         config['command']['clipboard_fallback'] = self.copy_check.isChecked()
 
@@ -132,7 +141,7 @@ class CommandSetup(QtWidgets.QGroupBox):
             self.status.setText('Command setup did not return a usable model. Choose Download / Resume to retry.')
             return
         self.progress.setValue(100)
-        self.status.setText('Command model and processor verified. Enable Command and Save Settings to use them.')
+        self.status.setText('Editing model and processor verified. Enable Command or Translate and Save Settings to use them.')
 
     def _failed(self, error):
         self.status.setText(f'Command setup failed: {error}. Choose Download / Resume to retry.')

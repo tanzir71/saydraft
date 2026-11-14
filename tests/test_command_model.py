@@ -20,7 +20,7 @@ def test_command_pin_matches_measured_artifact_and_does_not_change_cleanup_defau
     candidate = next(m for m in json.loads(Path('eval/cleanup/candidates.json').read_text())['models']
                      if m['id'] == model['id'])
     assert model['files'][:2] == candidate['files'] and model['revision'] == candidate['revision']
-    assert model['tasks'] == ['command'] and model['status'] == 'experimental_command'
+    assert model['tasks'] == ['command', 'translate'] and model['status'] == 'experimental_command'
     assert supports_task(model, 'command') and not supports_task(model, 'cleanup')
     assert manifest['cleanup_defaults'] == {'lite': None, 'standard': 'qwen35-08b-q4-k-m', 'pro': 'qwen35-2b-q4-k-m'}
     notice = model['files'][-1]

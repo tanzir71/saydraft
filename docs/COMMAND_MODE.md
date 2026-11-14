@@ -20,8 +20,9 @@ keeps that scope separate from physical Ctrl+C and fallback producer acceptance.
 ## Using the experimental selection path
 
 1. Use the Pro tier, selected in Models or supported by the saved performance check.
-2. In Settings → Labs, review Command's model/runtime sizes, licenses and credits.
-   Choose Download / Resume, then enable experimental Command Mode and Save.
+2. In Settings → Labs → Command and Translate, review the shared model/runtime
+   sizes, licenses and credits. Choose Download / Resume editing model, then
+   enable experimental Command Mode and Save.
    Downloading does not enable it or change ordinary cleanup/speech settings.
 3. Select text, hold **Ctrl+Win+Alt**, and wait for the Command label before
    speaking a short editing instruction. The distinct tick plays when sounds are
@@ -64,6 +65,11 @@ original selection guard. Paste last transcript and dictation statistics remain
 limited to dictation rows.
 
 ## Command model ownership
+
+[Translate while speaking](TRANSLATE.md) now shares this explicit installation,
+backend preference and exclusive editor. Its Labs toggle and spoken-source task
+are independent. Recommended setup/capture both consult the saved hardware
+report, including when Pro is selected manually.
 
 The app catalog now pins the measured **Qwen3.5 4B Q4_K_M** weights, card and
 Apache-2.0 notice for the experimental Command task. It is excluded from the

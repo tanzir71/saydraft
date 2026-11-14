@@ -322,7 +322,7 @@ class HistoryPage(QtWidgets.QWidget):
         self.retry_button.setToolTip("Cancel after the current recognition step; an already saved result stays in History."
             if retrying else "Choose an installed speech model and AI cleanup on/off; save a new History entry for review.")
         self.retry_button.setEnabled(bool(self.cancel_retry_callback and not self._retry_cancel_requested)
-            if retrying else bool(row and row.mode != 'command' and row.audio_path and self.retry_callback))
+            if retrying else bool(row and row.mode not in ('command', 'translate', 'translation_failed') and row.audio_path and self.retry_callback))
         for button in (self.copy_button, self.reinsert_button, self.add_dictionary_button):
             button.setEnabled(row is not None)
         if row is None:
@@ -336,13 +336,25 @@ class HistoryPage(QtWidgets.QWidget):
         self.raw_toggle.setText('Recognized instruction' if instruction else 'Show original selection' if command else 'Show raw transcript')
         self.raw_toggle.setEnabled(not instruction)
         self.diff_toggle.setEnabled(not instruction)
+        if row.mode == 'translation_failed':
+            self.raw_toggle.setEnabled(False)
+            self.diff_toggle.setEnabled(False)
         self.reinsert_button.setEnabled(not command)
+        if row.mode in ('translate', 'translation_failed'):
+            self.retry_button.setToolTip('Ordinary audio retry does not translate. Start a new Translate dictation with the saved Style target.')
         if command:
             self.retry_button.setToolTip('Command audio cannot be retried as dictation. Hold Command again to speak a new instruction.')
         self.why_editor.setPlainText(result_details(row))
         self.copy_button.setText('Copy instruction' if instruction else "Copy raw" if self.raw_toggle.isChecked() else "Copy cleaned")
         self.reinsert_button.setText("Paste raw" if self.raw_toggle.isChecked() else "Paste cleaned")
         self.reinsert_button.setAccessibleName("Paste raw again" if self.raw_toggle.isChecked() else "Paste cleaned again")
+        if row.mode == 'translate' and not self.raw_toggle.isChecked():
+            self.copy_button.setText('Copy translation')
+            self.reinsert_button.setText('Paste translation')
+            self.reinsert_button.setAccessibleName('Paste translation again')
+        if row.mode == 'translation_failed':
+            self.copy_button.setText('Copy recognized speech')
+            self.reinsert_button.setEnabled(False)
         if self.diff_toggle.isChecked() and not instruction:
             self._show_diff(row)
         else:
@@ -480,7 +492,7 @@ class HistoryPage(QtWidgets.QWidget):
         if self._retry_source_id is not None:
             return self.cancel_retry()
         row = self.current_row()
-        if row is None or row.mode == 'command' or not row.audio_path or self.retry_callback is None or self.jobs.closed:
+        if row is None or row.mode in ('command', 'translate', 'translation_failed') or not row.audio_path or self.retry_callback is None or self.jobs.closed:
             return False
         from saydraft.asr.retry import installed_retry_models
         from .history_retry import HistoryRetryDialog
@@ -500,7 +512,7 @@ class HistoryPage(QtWidgets.QWidget):
 
     def retry_current_audio(self, options=None, *, row=None):
         row = row or self.current_row()
-        if (row is None or row.mode == 'command' or not row.audio_path or self.retry_callback is None
+        if (row is None or row.mode in ('command', 'translate', 'translation_failed') or not row.audio_path or self.retry_callback is None
                 or self._retry_source_id is not None or self.jobs.closed):
             return False
         self._retry_source_id = row.id
@@ -573,7 +585,7 @@ class HistoryPage(QtWidgets.QWidget):
     def reinsert_current_text(self) -> bool:
         row = self.current_row()
         text = self.current_text()
-        if row is None or row.mode == 'command' or not text or self.reinsert_callback is None:
+        if row is None or row.mode in ('command', 'translation_failed') or not text or self.reinsert_callback is None:
             return False
         try:
             queued = self.reinsert_callback(text, row)

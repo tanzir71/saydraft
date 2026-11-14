@@ -71,6 +71,18 @@ def test_clipboard_fallback_explains_no_paste_and_copies_only_after_explicit_cli
     assert f.clipboard.texts == ['The file arrived.']
 
 
+def test_translation_and_recognized_speech_recover_separately_without_auto_copy(recovery):
+    f = recovery
+    raw = 'Recognized speech. ' * 1000
+    source = f.group.present(CommandEditResult(raw, 'history_unavailable', task='translation_raw'))
+    translated = f.group.present(CommandEditResult('الملف جاهز.', 'history_unavailable', task='translation'))
+    settle(f.qt, lambda: all(not w.draft.snapshot().dirty and not w.draft.snapshot().saving for w in f.group.windows))
+    assert source.windowTitle().startswith('Recognized speech') and source.editor.toPlainText() == raw
+    assert translated.windowTitle().startswith('Translation') and translated.editor.toPlainText() == 'الملف جاهز.'
+    assert 'No untranslated text was pasted' in source.description.text() and not f.clipboard.texts
+    assert source.draft.snapshot().identifier != translated.draft.snapshot().identifier
+
+
 @pytest.mark.parametrize('conflicted', [False, True])
 def test_a_dirty_or_conflicted_primary_scratchpad_is_never_replaced_or_activated(recovery, conflicted):
     from saydraft.ui.scratchpad import ScratchpadWindow

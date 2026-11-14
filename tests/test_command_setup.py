@@ -67,6 +67,17 @@ def test_standard_disables_clipboard_fallback_even_with_saved_command_opt_in():
     assert not page.copy_check.isEnabled()
 
 
+def test_translate_is_independent_staged_default_off_and_standard_is_gated():
+    page, config = fixture()
+    assert not page.translate_check.isChecked() and page.translate_check.isEnabled()
+    page.translate_check.setChecked(True)
+    assert not config['labs']['translate_mode'] and not page.enabled_check.isChecked()
+    page.apply_to(config)
+    assert config['labs']['translate_mode'] and not config['labs']['command_mode']
+    standard, _ = fixture(tier='standard')
+    assert not standard.translate_check.isEnabled()
+
+
 def test_explicit_download_uses_captured_backend_off_gui_and_does_not_enable_or_apply(tmp_path):
     started, release = threading.Event(), threading.Event()
     calls = []

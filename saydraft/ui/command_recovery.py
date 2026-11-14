@@ -24,6 +24,12 @@ class _RecoveryStore:
 
 
 def _description(result):
+    if result.task == 'translation_raw':
+        return ('These are your recognized speech words, available to copy and save '
+                'as a separate note. No untranslated text was pasted automatically.')
+    if result.task == 'translation':
+        return ('Your translation is ready to copy. Check the original field before pasting again. '
+                'This saves as a separate note on this PC.')
     if result.reason == 'copy_only':
         return ('Your edit is ready. The original selection could not be verified for replacement, so no paste was sent. '
                 'Copy the edit into the original field. This edit saves as a separate note on this PC.')
@@ -45,7 +51,7 @@ class CommandRecoveryWindow(ScratchpadWindow):
         if not isinstance(result, CommandEditResult) or type(result.text) is not str or not result.text.strip():
             raise ValueError('Recovery requires a complete edit')
         try:
-            if result.reason == 'instruction_history_unavailable':
+            if result.reason == 'instruction_history_unavailable' or result.task == 'translation_raw':
                 from saydraft.data.notes import MAX_NOTE_BYTES
                 valid = len(result.text.encode('utf-8')) <= MAX_NOTE_BYTES
             else:
@@ -55,6 +61,8 @@ class CommandRecoveryWindow(ScratchpadWindow):
         if not valid:
             raise ValueError('Recovery edit exceeds its text limit')
         heading = 'Command instruction' if result.reason == 'instruction_history_unavailable' else 'Command edit'
+        if result.task in ('translation', 'translation_raw'):
+            heading = 'Translation' if result.task == 'translation' else 'Recognized speech'
         super().__init__(_RecoveryStore(store), clipboard=clipboard, heading=heading, description=_description(result))
         self.result = result
         self.setAttribute(QtCore.Qt.WA_DeleteOnClose)

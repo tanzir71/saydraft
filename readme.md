@@ -48,7 +48,8 @@ qualification are tracked separately:
 | Available from source | Still in progress |
 |---|---|
 | Local dictation, rules cleanup, optional local AI cleanup | Current-model quality and release latency qualification |
-| Hub, History, Dictionary, Snippets, Style, Scratchpad and Notes | Command, Translate, Ask, Notetaker |
+| Hub, History, Dictionary, Snippets, Style, Scratchpad and Notes | Full Command qualification, Ask, Notetaker |
+| Experimental Pro Translate with per-group Style targets | Broader translation quality and physical workflow acceptance |
 | Six-page setup, verified downloads, model performance check | Fresh-profile and physical Windows acceptance |
 | Public website, setup guide, verified unsigned builds and opt-in update notices | Signing and release publication |
 
@@ -65,6 +66,14 @@ Windows clipboard history/sync settings apply. It offers Copy when the original
 selection cannot be verified for replacement. Full Command acceptance remains open;
 see the [implementation status](docs/COMMAND_MODE.md) and
 [connected-flow verification](eval/commands/results/2026-11-14-clipboard-flow/README.md).
+
+Experimental [Translate while speaking](docs/TRANSLATE.md) uses the normal
+dictation shortcut with an English, Spanish or Arabic target saved per app group
+in Style. Enable it separately in Labs after explicitly installing the shared
+4B editing model. Successful translations are saved before guarded delivery;
+failures preserve recognized speech for Copy without automatically pasting it.
+Raw and Code bypass translation. Native text smoke checks and controlled worker
+tests are distinct from physical Windows and broad quality acceptance.
 
 See the [documentation index](docs/README.md) for individual features and the
 [parity plan](WISPR_OFFLINE_PARITY_PLAN.md) for the complete acceptance status.
@@ -99,6 +108,9 @@ the earlier warm fixture results retain their original scope.
   last dictation's changes. See the [Notes guide](docs/NOTES.md).
 - **Personal vocabulary:** searchable Dictionary terms, protected terms, and
   replacement pairs; Snippets with date/clipboard variables and import/export.
+- **Translate while speaking · Labs:** optional Pro translation to English,
+  Spanish or Arabic with per-group targets, local generation and Copy recovery.
+  See the [setup and limits](docs/TRANSLATE.md).
 - **Guided first launch:** microphone selection and a level-only test, focused
   shortcut learning, chat/email dictation practice with before/after review,
   and a Style quick pick before opening Home.

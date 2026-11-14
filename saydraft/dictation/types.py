@@ -27,4 +27,5 @@ class DictationContext:
     literal_prefix: bool = False
     selection_truncated: bool = False
     tone: Optional[str] = None
+    translation_target: str = ''
 

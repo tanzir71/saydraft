@@ -82,8 +82,10 @@ class CommandRecording:
                 return False
             config = w.services.config
             try:
+                tier = config.get('app', {}).get('tier', 'auto')
                 report = (self.report_loader() if config.get('labs', {}).get('command_mode') is True
-                          and config.get('app', {}).get('tier', 'auto') == 'auto' else None)
+                          and (tier == 'auto' or tier == 'pro' and
+                               config.get('command', {}).get('backend', 'auto') == 'auto') else None)
             except Exception:
                 report = None
             choice = command_choice(config, report)

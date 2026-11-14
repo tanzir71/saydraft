@@ -23,6 +23,7 @@ class CommandEditResult:
     history_id: int | None = None
     insertion: InsertionResult | None = None
     confirmation_reason: str = ""
+    task: str = 'command'
 
 
 @dataclass(frozen=True)

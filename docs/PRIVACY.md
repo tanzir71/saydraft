@@ -1,5 +1,11 @@
 # Offline networking
 
+[Translate while speaking](TRANSLATE.md) is an independent default-off Labs
+feature using the explicitly installed local editing model. It sends recognized
+speech to that local owner, without selected document text or caret context in
+the translation request. History and recovery Notes remain local; ordinary
+delivery and user-initiated Copy retain their existing clipboard boundary.
+
 The process entrypoint installs `NetworkGuard` before starting workers. Python
 socket connections, DNS lookups and UDP sends are denied outside loopback,
 apart from scoped downloads and saved opt-in app update checks.

@@ -125,7 +125,9 @@ def select_context(config: dict, profiles: list[dict], title: str | None, *,
     mode = mode if mode in {"raw", "balanced", "aggressive"} else "balanced"
     profile = profile if profile in {"general", "email", "chat", "notes", "code/comments"} else "general"
     style = select_style({**options, "mode": mode, "profile": profile}, app_group, override)
+    from saydraft.translation import target_for
     return DictationContext(
         mode=mode, profile=profile, app_title=title, app_group=app_group,
         tone=style.tone, intensity=style.intensity,
+        translation_target=target_for(config, app_group, mode=mode, profile=profile),
     )

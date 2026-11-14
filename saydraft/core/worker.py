@@ -82,6 +82,8 @@ class SessionWorker:
                 and not self._cancel_request.is_set(), emit=self.emit, known_terms=self._dictionary_terms)
         from .command_recording import CommandRecording
         self.command = CommandRecording(self)
+        from .translation_task import TranslationTask
+        self.translation = TranslationTask(self)
         self.hotkeys = HotkeyService(services.config, start=lambda: self.start_recording(_return_generation=True),
                                      start_guarded=lambda current: self.start_recording(
                                          _return_generation=True, request_current=current),
@@ -423,6 +425,7 @@ class SessionWorker:
             and self._request_current(self._record_request_current))
 
     def _reject_arming(self, generation):
+        self.translation.finish(generation)
         with self._lock:
             self.session.dispatch(Input.CANCEL, session_id=generation, reason="request_expired")
             if generation == self.session.session_id:
@@ -466,6 +469,11 @@ class SessionWorker:
                     return False
                 context = select_context(services.config, services.profiles, target.app_title,
                     app_group=target.app_group, app_exe=target.app_exe, app_site=target.app_site)
+                translation_choice = self.translation.choice(services.config) if context.translation_target else None
+                if translation_choice is not None and translation_choice.reason != 'ready':
+                    self.emit('notification_requested', 'Needs Pro tier: Translate uses a larger local model. '
+                              'Check performance or choose Pro in Models.')
+                    return False
                 self.session.dispatch(Input.START)
                 generation = self.session.session_id
                 self.bar_status.bind(generation, bar_generation)
@@ -473,7 +481,16 @@ class SessionWorker:
                 self._context = context
                 self._insert_text = insert_text
                 self._record_request_current = request_current
-                self._submit(self._arm, generation)
+                if translation_choice is not None:
+                    self.translation.reserve(generation, context.translation_target, translation_choice)
+                try:
+                    self._submit(self._arm, generation)
+                except Exception:
+                    self.translation.finish(generation)
+                    self.session.dispatch(Input.FAIL, session_id=generation, reason='queue_unavailable')
+                    self.hotkeys._controller.discard_active_recording()
+                    self.emit('notification_requested', 'Could not queue dictation. Try again after the current work finishes.')
+                    return False
                 accepted = True
                 return generation if _return_generation else True
         finally:
@@ -488,12 +505,26 @@ class SessionWorker:
 
     def _arm(self, generation):
         preparing_asr = False
+        translating = self.translation.owns(generation)
         try:
             with self._lock:
                 if not self._capture_request_current(generation):
                     self._reject_arming(generation)
                     return
-            self._warm_cleanup(replace(self._context, app_group=self._target.app_group))
+            if translating:
+                if not self.translation.prepare(generation):
+                    if self._capture_request_current(generation):
+                        with self._lock:
+                            self.session.dispatch(Input.FAIL, session_id=generation)
+                            self.hotkeys._controller.discard_active_recording()
+                        self.bar_status.session(generation, BarPhase.ERROR, reason='translation_model_unavailable')
+                        self.emit('notification_requested', 'Download or resume the editing model in Settings → Labs for Translate.')
+                        self.emit('processing_finished', '')
+                    else:
+                        self._reject_arming(generation)
+                    return
+            else:
+                self._warm_cleanup(replace(self._context, app_group=self._target.app_group))
             set_context = getattr(self.services.asr, "set_context", None)
             if set_context is not None:
                 set_context(self._target)
@@ -541,12 +572,12 @@ class SessionWorker:
                 return
             self.services.recorder.start()
             self.corrections.prepare(generation, self.services.context, self._target,
-                enabled=self._insert_text and self.services.config["dictation"].get("learn_corrections", False),
+                enabled=not translating and self._insert_text and self.services.config["dictation"].get("learn_corrections", False),
                 lease_seconds=min(3660, max(1, self.services.config["recording"]["max_seconds"] + 60)))
             with self._lock:
                 event = self.session.dispatch(Input.ARMED, session_id=generation) if self._capture_request_current(generation) else None
                 if event is not None:
-                    self.bar_status.session(generation, BarPhase.LISTENING)
+                    self.bar_status.session(generation, BarPhase.LISTENING, reason='translate' if translating else '')
                     self.emit("recording_started")
                     limits = self.services.config["recording"]
                     maximum = limits["max_seconds"]
@@ -561,6 +592,7 @@ class SessionWorker:
             self._close_preview(discard=True)
             self._reject_arming(generation)
         except Exception:
+            self.translation.finish(generation)
             self.corrections.cancel(generation)
             logger.exception("Could not arm microphone")
             self.hotkeys._controller.discard_active_recording()
@@ -624,8 +656,10 @@ class SessionWorker:
                 self.bar_status.cancel()
             else:
                 self.bar_status.session(event.session_id, BarPhase.PROCESSING,
-                                        reason='command' if self.command.owns(event.session_id) else '')
-            if event.previous != State.ARMING and event.state != State.CANCELLED and not self.command.owns(event.session_id):
+                                        reason='command' if self.command.owns(event.session_id) else
+                                               'translate' if self.translation.owns(event.session_id) else '')
+            if (event.previous != State.ARMING and event.state != State.CANCELLED
+                    and not self.command.owns(event.session_id) and not self.translation.owns(event.session_id)):
                 released = (min(event.timestamp, released_at) if type(released_at) in (int, float)
                             and math.isfinite(released_at) else event.timestamp)
                 self._context = replace(self._context,
@@ -643,6 +677,7 @@ class SessionWorker:
         self._command_recovery_ticket = object()
         command_active = self.command.busy
         self.command.cancel()
+        self.translation.cancel()
         if command_active:
             self.hotkeys._controller.discard_active_recording()
         self._history_retry_cancel.set()
@@ -695,9 +730,11 @@ class SessionWorker:
         audio_path = None
         raw = ""
         asr_error = None
+        source_incomplete = False
+        translating = self.translation.owns(generation)
         try:
             audio = self.services.recorder.stop()
-            use_streaming = self.services.config.get("labs", {}).get("use_streaming_result", False)
+            use_streaming = not translating and self.services.config.get("labs", {}).get("use_streaming_result", False)
             if self._preview is not None:
                 self._preview.request_finish(discard=discard, flush=use_streaming)
             if not discard:
@@ -721,6 +758,7 @@ class SessionWorker:
                     raw = self.services.asr.transcribe(audio).strip()
                     if not raw and background is not None and background.text:
                         raw = background.text
+                        source_incomplete = True
                         self.last_failed_audio = audio
                 except Exception as error:
                     self.last_failed_audio = audio
@@ -728,6 +766,7 @@ class SessionWorker:
                         asr_error = error
                     else:
                         raw = background.text
+                        source_incomplete = True
                         self.emit("notification_requested", "Some speech needs retry. The recording is kept in this session.")
             preview_wait = time.perf_counter()
             preview = self._close_preview(discard=not self._english_preview())
@@ -759,24 +798,37 @@ class SessionWorker:
             if preview is not None:
                 timings["background_preview_stt"] = preview.compute_seconds
                 timings["stt"] = timings.get("stt", 0) + preview_wait
-            result = self.services.processor.process(
-                raw, target=self._target, context=self._context,
-                model=choice.model, duration_seconds=duration, language=choice.language,
-                insert_text=self._insert_text and not choice.review_only, edits=list(choice.edits),
-                insert_action=lambda action: self._insert_if_current(generation, action), timings=timings,
-                audio_path=audio_path,
-                enter_guard=lambda: not self._cancel_request.is_set() and not self._closing,
-                field_guard=self._field_guard(self._target),
-                before_insert=self.corrections.hook(generation),
-            )
+            if translating:
+                result = self.translation.process(generation, raw, target=self._target, context=self._context,
+                    model=choice.model, language=choice.language, duration=duration, timings=timings,
+                    audio_path=audio_path, insert_text=self._insert_text and not choice.review_only,
+                    source_review=choice.review_only or source_incomplete,
+                    source_edits=(*choice.edits, *([{'type': 'source_incomplete', 'reason': 'background_partial'}]
+                                                 if source_incomplete else [])))
+                if result is None:
+                    return
+            else:
+                result = self.services.processor.process(
+                    raw, target=self._target, context=self._context,
+                    model=choice.model, duration_seconds=duration, language=choice.language,
+                    insert_text=self._insert_text and not choice.review_only, edits=list(choice.edits),
+                    insert_action=lambda action: self._insert_if_current(generation, action), timings=timings,
+                    audio_path=audio_path,
+                    enter_guard=lambda: not self._cancel_request.is_set() and not self._closing,
+                    field_guard=self._field_guard(self._target),
+                    before_insert=self.corrections.hook(generation),
+                )
             reason = result.insertion.reason
+            if translating and result.insertion.status != 'inserted':
+                reason = 'translation_failed' if reason == 'translation_failed' else 'translation_recovery'
             if reason == "history_only":
                 reason = "review_only" if choice.review_only else "saved_only"
             self.bar_status.session(generation,
                 BarPhase.INSERTED if result.insertion.status == "inserted" else BarPhase.NOT_INSERTED,
                 reason=reason, saved=result.history_id is not None)
             bar_outcome = True
-            self.corrections.complete(generation, result.cleaned_text, result.insertion, choice.language)
+            if not translating:
+                self.corrections.complete(generation, result.cleaned_text, result.insertion, choice.language)
             self.last_result = result
             completed_text = result.cleaned_text
             if choice.review_only:
@@ -806,6 +858,7 @@ class SessionWorker:
                 self.bar_status.session(generation, BarPhase.ERROR, reason="processing_failed")
             self.emit("error", "Could not complete dictation; saved words remain in history.")
         finally:
+            self.translation.finish(generation)
             self.corrections.finish(generation)
             self._close_background(discard=True)
             self._close_preview(discard=True)
@@ -820,15 +873,25 @@ class SessionWorker:
         from saydraft.history import HistoryEntry
 
         try:
+            translating = bool(self._context.translation_target)
+            language = (getattr(self.services.asr, 'last_language', None) or
+                        self.services.config['stt'].get('language', 'auto'))
+            notes = [{'type': reason}]
+            task = self.translation.active
+            if translating:
+                notes.append({'type': 'translation', 'target_language': self._context.translation_target,
+                              'source_language': language, 'decision': reason, 'validator': 'translation-v1'})
             row_id = self.services.history.append(HistoryEntry(
-                self._target.app_title, "", "", self._context.mode, self._context.profile,
+                self._target.app_title, "", "", 'translation_failed' if translating else self._context.mode, self._context.profile,
                 duration, self._model_id(), app_exe=self._target.app_exe,
                 app_group=self._target.app_group, audio_path=path,
-                language=getattr(self.services.asr, "last_language", None) or
-                         self.services.config["stt"].get("language", "auto"),
-                edits_json=json.dumps([{"type": reason}])))
+                language=language, asr_model=self._model_id(),
+                llm_model=task.choice.model_id if translating and task is not None else None,
+                llm_decision='translation_' + reason if translating else None,
+                edits_json=json.dumps(notes)))
             self.emit("history_updated", row_id)
-            self.emit("notification_requested", "Recording saved locally. You can retry recognition in History.")
+            self.emit("notification_requested", 'Translation audio saved locally. Start a new Translate dictation; ordinary retry does not translate.'
+                if self._context.translation_target else "Recording saved locally. You can retry recognition in History.")
         except Exception:
             logger.error("Could not index retained audio; the local file is preserved")
             logger.debug("Audio history failure detail", exc_info=True)
@@ -840,7 +903,7 @@ class SessionWorker:
         if not self._lock.acquire(blocking=False):
             return False
         try:
-            if (self.busy or self._closing or getattr(row, 'mode', '') == 'command' or not row.audio_path or
+            if (self.busy or self._closing or getattr(row, 'mode', '') in ('command', 'translate', 'translation_failed') or not row.audio_path or
                     self.services.audio_store is None or self.services.retry_asr is None):
                 return False
             self._retrying_history = True

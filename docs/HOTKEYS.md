@@ -1,5 +1,10 @@
 # Native Windows hotkeys
 
+Experimental [Translate while speaking](TRANSLATE.md) uses the ordinary dictation
+shortcuts when enabled in Labs with a saved Style target for the captured app
+group. Wait for the Translate label before speaking. Raw and Code bypass it;
+no separate translation binding or automatic download is installed.
+
 Experimental **Ctrl+Win+Alt** is installed when Command Mode is enabled in Labs.
 It is a held gesture with Pro/model admission, separate instruction capture and
 Esc cancellation. It never acquires double-tap/hands-free behavior. A legitimate
