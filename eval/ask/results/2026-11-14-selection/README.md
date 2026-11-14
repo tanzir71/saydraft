@@ -24,10 +24,34 @@ It is a small development follow-up, not a representative language benchmark or
 an independent preexisting evaluation set. Any further prompt tuning must not
 present this set as untouched validation.
 
-The next prompt explicitly asks factual answers to keep names, dates, numbers
-and short phrases from the selected source. No native improvement is claimed
-until the resulting runs complete. Answers remain reviewable in Labs; neither
-these anchors nor output-shape validation establish general factual accuracy.
+The revised prompt at clean `c225370` explicitly asks factual answers to keep
+names, dates, numbers and short phrases from the selected source. It passes
+**9/9 original cases and 9/9 frozen follow-up cases**. The original Bengali
+answer now says Saturday; the six new Bengali questions correctly retain the
+source's days, name, location and count, or decline an unprovided price.
+All eighteen raw answers were also read against their sources. This is evidence
+for the general grounding instruction, not general factual accuracy or a
+representative multilingual evaluation. The follow-up set has now been observed
+and cannot serve as untouched validation for later tuning.
+
+The [original-set report](native-c225370-original-report.json) and
+[answers](native-c225370-original-cases.jsonl), [follow-up report](native-c225370-followup-report.json)
+and [answers](native-c225370-followup-cases.jsonl), and [native child receipts](native-c225370-batch.json)
+retain both zero exit codes, source/pin fingerprints and four observed native
+inventory/server exits. An [independent verifier](verify-native.py.txt) checks
+every report/journal/reference/source/model hash, case ID, anchor, SQLite row and
+source hash/length provenance; its [receipt](native-c225370-verification.json)
+confirms all eighteen cases. History precedes presentation and Ask stays excluded
+from Paste Last. Neither SQLite database nor model binaries are committed.
+
+Both-theme [1x](ui-c225370-1x.json) and [2x](ui-c225370-2x.json) reports retain
+forty clean-source offscreen render hashes. Question fields, feedback, buttons
+and labels fit after status wrapping; new capture gates are separate from
+ongoing review validity so an already open question can receive dictation.
+The [384-case connected suite](controlled-connected.txt) and
+[76 preview/Settings checks](controlled-preview-settings.txt) pass. The final
+38-case lifecycle/window group and 62 client/processor/answer checks also pass
+locally. Exact-source full CI/package results follow separately.
 
 No microphone, foreground application, UIA selection, clipboard, browser, hook
 or OS input is used here. Native read-only browser and physical/packaged workflow

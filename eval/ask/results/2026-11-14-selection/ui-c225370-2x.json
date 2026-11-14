@@ -1,0 +1,88 @@
+{
+  "scale": 2,
+  "source": "c225370545d9f77f98ffb54a74d6cf8c2ef29db1",
+  "dirty": false,
+  "renders": [
+    {
+      "file": "light-labs-pro-False.png",
+      "sha256": "32f78cf7d2cbfa3d9c56e7ff6fdc7fc2eaf93375c2bc292c7669e775ebbbef82"
+    },
+    {
+      "file": "light-labs-pro-True.png",
+      "sha256": "af5767ca70111b18960abe5a32327a09335dd417094f6b81425e23157dc02776"
+    },
+    {
+      "file": "light-labs-standard-False.png",
+      "sha256": "0c5121f2096d8edfb0e1d9640809273211b6c44e022356759398dfc496bbeaaa"
+    },
+    {
+      "file": "light-labs-standard-True.png",
+      "sha256": "eaeeadfdf53e9d4d183eac319eeb485754555a63871fba9d732a996eee83a21d"
+    },
+    {
+      "file": "light-question-review.png",
+      "sha256": "411cb99f0c108d89285516638883421f59acf523d2afbd702f20d5bdfc8f586f"
+    },
+    {
+      "file": "light-question-busy.png",
+      "sha256": "e4cb702720272482540c6c8e3c16b1b536e62350c4c5ccdde095d933df0ff99a"
+    },
+    {
+      "file": "light-question-failure.png",
+      "sha256": "aab6ba823e9d8e0a01b1a6b5bc01774d50a18d7131ce03a103ce10ba2491e15d"
+    },
+    {
+      "file": "light-question-ready.png",
+      "sha256": "b715bbab5304c33254510be3a367dde5be5cc6f074f16a540ba52d5266cadf9d"
+    },
+    {
+      "file": "light-answer-history-True.png",
+      "sha256": "a35beb10252e8ca2f08a2f3de3fc6bae39c10ec6fae10e8a2cb9c23b8a87640d"
+    },
+    {
+      "file": "light-answer-history-False.png",
+      "sha256": "77a8783d8d22e88ace6eeadb6cd43ad843edf28925a81169b01f8f688593da77"
+    },
+    {
+      "file": "dark-labs-pro-False.png",
+      "sha256": "e11e45184d43eb0190c548e56fb3b855291e3eca3efad70ee91fd0919f8274e5"
+    },
+    {
+      "file": "dark-labs-pro-True.png",
+      "sha256": "7320ed7636cb957ee20a689ecea4d00535d4cb1190dc2fcd7dc7771903f4dc71"
+    },
+    {
+      "file": "dark-labs-standard-False.png",
+      "sha256": "ab80136b1476e83228d5103f14b1c2e342505765e419feb95b3a414f1628be08"
+    },
+    {
+      "file": "dark-labs-standard-True.png",
+      "sha256": "8524148fae98f95be5a7eeda605ec68cd890efdc05fa931810da4213c3c4516d"
+    },
+    {
+      "file": "dark-question-review.png",
+      "sha256": "55c18fcb307d48792c2e221753a7d43939bcbd9a2495dbbd1d719de4f0f0ffb0"
+    },
+    {
+      "file": "dark-question-busy.png",
+      "sha256": "164c8a2f4585787d9b4caccdbeadc4201ffef582ca18518774a527c6ad5f496f"
+    },
+    {
+      "file": "dark-question-failure.png",
+      "sha256": "d30d8076f76030c639fd35e543f38aa11d4ffc4991fa8be1c0e1df36a501409f"
+    },
+    {
+      "file": "dark-question-ready.png",
+      "sha256": "327078a98c6d63560eb12204178f5bea3bab3013fcc08b969bb799762baa0099"
+    },
+    {
+      "file": "dark-answer-history-True.png",
+      "sha256": "ab517e28d0fee09f6f7d282ef7a389bbda911f0b010b63d08b73f35c4a9f4c5f"
+    },
+    {
+      "file": "dark-answer-history-False.png",
+      "sha256": "78ec8cce192d87447e77b41f3d4939525643d81b3f13d18f8272d1ee80342da8"
+    }
+  ],
+  "scope": "Owned offscreen authored-text setup/review/answer; fake clipboard, own SQLite, no desktop or audio"
+}

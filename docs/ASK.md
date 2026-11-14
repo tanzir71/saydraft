@@ -2,8 +2,9 @@
 
 Status, 14 November 2026: Ask is connected from the default-off Pro/Labs opt-in
 through selection review, local generation, History and an independent answer
-Scratchpad. P7.3 remains open pending actual-model and native read-only browser
-acceptance. The owner desktop test remains stopped.
+Scratchpad. The actual pinned model passes eighteen authored-text smoke cases.
+P7.3 remains open pending native read-only browser acceptance. The owner desktop
+test remains stopped.
 
 ## Using Ask from source
 
@@ -97,20 +98,26 @@ anchors. Its Bengali answer changes Saturday to Friday. This is a genuine
 factual error that structural validation accepts, retained in the
 [native diagnostic](../eval/ask/results/2026-11-14-selection/README.md). The prompt
 now explicitly asks direct factual answers to copy names, dates, numbers and
-short answer phrases from the source; a separately frozen follow-up set and
-unchanged original cases still need inference. No accuracy improvement is
-claimed yet. The answer window explicitly asks users to review generated text.
+short answer phrases from the source. Clean `c225370` passes all nine original
+cases plus nine separately frozen follow-up cases, including six new Bengali
+questions. Independent verification checks the source/model/report/reference
+hashes, both zero child exits, four native inventory/server exits and eighteen
+History rows. Forty clean-source offscreen renders also pass. This supports the
+prompt change on this small development sample; it does not establish general
+factual accuracy. The answer window asks users to review generated text.
 
 Still required:
 
-- Run `python -m tools.probe_ask --models-dir <explicit-installed-cache>
-  --device Vulkan1 --output <new-evidence-directory>` against the pinned model.
-  Nine authored cases cover the three actions, questions, missing source facts,
-  source-instruction refusal and English/Spanish/Arabic/Bengali smoke answers.
-  Anchors are smoke checks, not exhaustive semantic or multilingual quality.
 - Verify native read-only browser article selection on a disposable remote
   desktop, with no writes to the source and with queued cancellation guards.
 - Complete physical/packaged workflow acceptance when separately permitted.
+
+To reproduce the model smoke, use `python -m tools.probe_ask --models-dir
+<explicit-installed-cache> --device Vulkan1 --output <new-evidence-directory>`.
+Add `--holdout` for the frozen development follow-up, using another new directory.
+The original nine cases cover the three actions, questions, missing source
+facts, source-instruction refusal and English/Spanish/Arabic/Bengali answers.
+Anchors are smoke checks, not exhaustive semantic or multilingual quality.
 
 The source-only availability and deferred owner desktop acceptance remain as
 documented in the [parity plan](../WISPR_OFFLINE_PARITY_PLAN.md).

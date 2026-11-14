@@ -1,0 +1,10 @@
+{"id": "question-day", "reason": "ok", "anchors_pass": true}
+{"id": "summarize-limits", "reason": "ok", "anchors_pass": true}
+{"id": "explain-order", "reason": "ok", "anchors_pass": true}
+{"id": "rewrite-condition", "reason": "ok", "anchors_pass": true}
+{"id": "question-spanish", "reason": "ok", "anchors_pass": true}
+{"id": "question-arabic", "reason": "ok", "anchors_pass": true}
+{"id": "question-bengali", "reason": "ok", "anchors_pass": false}
+{"id": "source-instruction-is-data", "reason": "ok", "anchors_pass": true}
+{"id": "unknown-address", "reason": "ok", "anchors_pass": true}
+{"complete": true, "accepted": false, "passed": 8}

@@ -34,7 +34,67 @@
       "file": "frozen-followup-cases.jsonl",
       "original": "C:\\Users\\tanzir\\Desktop\\voice_tray\\tests\\ask_holdout_cases.jsonl",
       "sha256": "e669afd51b997589f4e0e5adb3829cb9220917ffb7cff0be1eabb0e3ffbb5d6a"
+    },
+    {
+      "file": "native-c225370-batch.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\ask-native-c225370-20261114\\batch.json",
+      "sha256": "ddb9449ec0e7f77ec9acb0110a1c1b2ed87a24b8eb4af02e8f1be79dec860218"
+    },
+    {
+      "file": "native-c225370-verification.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\ask-native-c225370-20261114\\independent-verification.json",
+      "sha256": "dd10e1fbcf44cb532c32863793917595ea18472eb2df0e9611292aaaabb43518"
+    },
+    {
+      "file": "verify-native.py.txt",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\verify_native_ask_c225370.py",
+      "sha256": "a6d28e054836e5d8b072880b38883be22ab4a1e0f7fa91df39dc158d3b3c66fb"
+    },
+    {
+      "file": "ui-c225370-1x.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\ask-connected-ui-c225370-1x-r1\\report.json",
+      "sha256": "e81047a6c524f3f7e33130d4d33d8cedda9feb4ea12a7a57ccf12841ac294d43"
+    },
+    {
+      "file": "ui-c225370-2x.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\ask-connected-ui-c225370-2x-r1\\report.json",
+      "sha256": "630062d1b3e2c638652593c20cb8bf951ca7ee5da569d19b7d0bdf1f213b78b0"
+    },
+    {
+      "file": "render-connected.py.txt",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\render_ask_connected.py",
+      "sha256": "5402b70258f5349275508e6dad4e2739d848083dcd6cb9182fc3f832337605c8"
+    },
+    {
+      "file": "controlled-connected.txt",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\ask-connected-broad-r1.log",
+      "sha256": "ac8c69b3d5773d59dc012b381c81641edb304530c4c17d6aa8a8fcb12caced2d"
+    },
+    {
+      "file": "controlled-preview-settings.txt",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\ask-preview-config-r1.log",
+      "sha256": "92bf9bdbc1a4f0ba5ed4dd16fee0ab0407d731e904463fb42c1ad0aeea35a31e"
+    },
+    {
+      "file": "native-c225370-original-report.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\ask-native-c225370-20261114\\original-r1\\report.json",
+      "sha256": "cd664a8cfc70f0f5c2895824c0afa62f257de9c84ebb4f111b57490c9b162c18"
+    },
+    {
+      "file": "native-c225370-original-cases.jsonl",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\ask-native-c225370-20261114\\original-r1\\cases.jsonl",
+      "sha256": "a2d76d144c2333b87b102a79c358054799343cee7487742bea4773cceeaa3698"
+    },
+    {
+      "file": "native-c225370-followup-report.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\ask-native-c225370-20261114\\followup-r1\\report.json",
+      "sha256": "c825c3d1127a99a175264bf5bd51d1f9429520182be77c20f83192f721235f68"
+    },
+    {
+      "file": "native-c225370-followup-cases.jsonl",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\ask-native-c225370-20261114\\followup-r1\\cases.jsonl",
+      "sha256": "5483a83030fdbc82ade47ed3dd7c4d2cf292909068ead2412c7e3219ed018c2f"
     }
   ],
-  "scope": "Native authored-text Ask diagnostic. Baseline8/9; Bengali source fact changed. No acceptance inferred."
+  "scope": "Native Ask8/9 original failure retained; revised-prompt9/9 original and9/9 frozen development follow-up; native browser acceptance remains open."
 }

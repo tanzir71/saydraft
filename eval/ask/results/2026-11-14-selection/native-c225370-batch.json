@@ -1,0 +1,67 @@
+{
+  "source": "c225370",
+  "coordinator_pid": 38332,
+  "cwd": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\ask-c225370-20261114",
+  "started_epoch": 1794648386.492739,
+  "scope": "Public authored-text Ask development comparison, no desktop/audio, not release latency",
+  "complete": true,
+  "runs": [
+    {
+      "case_set": "original",
+      "argv": [
+        "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\latency-runtime-874a9c4-20261114\\venv\\Scripts\\python.exe",
+        "-u",
+        "-m",
+        "tools.probe_ask",
+        "--models-dir",
+        "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\command-session-app-cache-20261114-01",
+        "--device",
+        "Vulkan1",
+        "--output",
+        "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\ask-native-c225370-20261114\\original-r1"
+      ],
+      "started_epoch": 1794648386.4949174,
+      "pid": 36148,
+      "returncode": 0,
+      "finished_epoch": 1794648411.5563881,
+      "sha256": {
+        "original-stdout.log": "faae9b5f72f182088a4992f81d4cd8bf34ab895ed073e5e637699554d4a50c39",
+        "original-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "original-r1\\report.json": "cd664a8cfc70f0f5c2895824c0afa62f257de9c84ebb4f111b57490c9b162c18",
+        "original-r1\\cases.jsonl": "a2d76d144c2333b87b102a79c358054799343cee7487742bea4773cceeaa3698"
+      },
+      "measurement_complete": true,
+      "accepted": true
+    },
+    {
+      "case_set": "followup",
+      "argv": [
+        "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\latency-runtime-874a9c4-20261114\\venv\\Scripts\\python.exe",
+        "-u",
+        "-m",
+        "tools.probe_ask",
+        "--models-dir",
+        "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\command-session-app-cache-20261114-01",
+        "--device",
+        "Vulkan1",
+        "--output",
+        "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\ask-native-c225370-20261114\\followup-r1",
+        "--holdout"
+      ],
+      "started_epoch": 1794648411.5630012,
+      "pid": 35756,
+      "returncode": 0,
+      "finished_epoch": 1794648432.6373918,
+      "sha256": {
+        "followup-stdout.log": "33d4f6eb98ab95d97ea006db2f220c52a204c8145169a35e6bc8089c50c2567c",
+        "followup-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "followup-r1\\report.json": "c825c3d1127a99a175264bf5bd51d1f9429520182be77c20f83192f721235f68",
+        "followup-r1\\cases.jsonl": "5483a83030fdbc82ade47ed3dd7c4d2cf292909068ead2412c7e3219ed018c2f"
+      },
+      "measurement_complete": true,
+      "accepted": true
+    }
+  ],
+  "active": null,
+  "accepted": true
+}

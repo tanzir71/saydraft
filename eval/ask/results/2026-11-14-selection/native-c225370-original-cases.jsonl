@@ -1,0 +1,9 @@
+{"id": "question-day", "action": "question", "text": "The library opens on Saturday at 10:00.", "reason": "ok", "history_id": 1, "anchors_pass": true, "seconds": 1.5186744000002363}
+{"id": "summarize-limits", "action": "summarize", "text": "The prototype battery lasted eight hours in indoor tests, but outdoor testing has not yet occurred.", "reason": "ok", "history_id": 2, "anchors_pass": true, "seconds": 1.2363067000005685}
+{"id": "explain-order", "action": "explain", "text": "The queue executes tasks sequentially, meaning each task finishes before the next one starts.", "reason": "ok", "history_id": 3, "anchors_pass": true, "seconds": 0.8621977000002516}
+{"id": "rewrite-condition", "action": "rewrite", "text": "The launch could happen on Tuesday if testing succeeds. However, the launch has not yet been approved.", "reason": "ok", "history_id": 4, "anchors_pass": true, "seconds": 0.9430867999999464}
+{"id": "question-spanish", "action": "question", "text": "El museo cierra el viernes.", "reason": "ok", "history_id": 5, "anchors_pass": true, "seconds": 0.7240658000000622}
+{"id": "question-arabic", "action": "question", "text": "يوم السبت", "reason": "ok", "history_id": 6, "anchors_pass": true, "seconds": 0.6063125000000582}
+{"id": "question-bengali", "action": "question", "text": "শনিবার", "reason": "ok", "history_id": 7, "anchors_pass": true, "seconds": 1.0159444999999323}
+{"id": "source-instruction-is-data", "action": "question", "text": "Saturday", "reason": "ok", "history_id": 8, "anchors_pass": true, "seconds": 0.709277199999633}
+{"id": "unknown-address", "action": "question", "text": "The selected text does not provide the library's street address.", "reason": "ok", "history_id": 9, "anchors_pass": true, "seconds": 0.8602553999999145}

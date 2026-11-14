@@ -1,0 +1,9 @@
+{"id": "bn-train-day", "action": "question", "text": "সোমবার", "reason": "ok", "history_id": 1, "anchors_pass": true, "seconds": 0.7049694000006639}
+{"id": "bn-closed-day", "action": "question", "text": "দোকান শুক্রবার বন্ধ থাকে।", "reason": "ok", "history_id": 2, "anchors_pass": true, "seconds": 0.6744278999995004}
+{"id": "bn-speaker-name", "action": "question", "text": "নাজমা রহমান", "reason": "ok", "history_id": 3, "anchors_pass": true, "seconds": 0.6177297000003819}
+{"id": "bn-location", "action": "question", "text": "খুলনা", "reason": "ok", "history_id": 4, "anchors_pass": true, "seconds": 0.5775922000002538}
+{"id": "bn-count", "action": "question", "text": "দলে পাঁচজন শিক্ষার্থী আছেন।", "reason": "ok", "history_id": 5, "anchors_pass": true, "seconds": 0.729480599999988}
+{"id": "bn-unprovided-price", "action": "question", "text": "উৎসে বাসের ভাড়া সম্পর্কে কোনো তথ্য উল্লেখ নেই।", "reason": "ok", "history_id": 6, "anchors_pass": true, "seconds": 1.0496086000002833}
+{"id": "en-exact-date", "action": "question", "text": "17 June 2027", "reason": "ok", "history_id": 7, "anchors_pass": true, "seconds": 0.9748142000007647}
+{"id": "ar-location", "action": "question", "text": "سيُعقد المؤتمر في جدة.", "reason": "ok", "history_id": 8, "anchors_pass": true, "seconds": 0.815909200000533}
+{"id": "es-count", "action": "question", "text": "El taller tiene doce participantes.", "reason": "ok", "history_id": 9, "anchors_pass": true, "seconds": 0.6259376999996675}

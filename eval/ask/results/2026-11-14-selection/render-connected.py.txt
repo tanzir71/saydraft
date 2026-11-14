@@ -1,0 +1,68 @@
+import argparse, hashlib, json, os, subprocess, sys, time
+from pathlib import Path
+p=argparse.ArgumentParser();p.add_argument('--output',type=Path,required=True);p.add_argument('--scale',type=int,choices=(1,2),required=True);a=p.parse_args()
+os.environ.update(QT_QPA_PLATFORM='offscreen',QT_STYLE_OVERRIDE='Fusion',QT_SCALE_FACTOR=str(a.scale),LOCALAPPDATA=str(a.output/'profile'))
+sys.path.insert(0,str(Path.cwd()));a.output.mkdir(exist_ok=False)
+from saydraft.privacy.netguard import NetworkGuard
+NetworkGuard.install()
+from PySide6 import QtCore,QtWidgets
+from saydraft.config import default_config
+from saydraft.ui.fonts import install_bundled_fonts
+from saydraft.ui.theme import install_theme
+from saydraft.ui.command_setup import CommandSetup
+from saydraft.ui.ask_window import AskQuestionWindow
+from saydraft.ui.ask_answer import AskAnswerWindow
+from saydraft.ui.command_recovery import CommandRecoveryWindows
+from saydraft.core.ask import AskSource,AskResult
+from saydraft.data.notes import NoteStore
+app=QtWidgets.QApplication([]);app.setQuitOnLastWindowClosed(False);install_bundled_fonts(app);theme=install_theme(app)
+rows=[]
+class Clipboard:
+    copies=[]
+    def setText(self,text):self.copies.append(text)
+clipboard=Clipboard()
+def save(widget,name):
+    for _ in range(6):app.processEvents()
+    if isinstance(widget,AskQuestionWindow):
+        view=widget.review_scroll.viewport();pos=widget.question.mapTo(view,QtCore.QPoint())
+        assert pos.y()>=0 and pos.y()+widget.question.height()<=view.height(),(name,'question clipped')
+    for label in widget.findChildren(QtWidgets.QLabel):
+        if label.isHidden():continue
+        needed=label.heightForWidth(label.width()) if label.wordWrap() else label.sizeHint().height()
+        assert label.height()>=needed,(name,label.text(),label.height(),needed)
+    for button in widget.findChildren(QtWidgets.QAbstractButton):
+        if not button.isHidden():assert button.width()>=button.sizeHint().width(),(name,button.text())
+    target=a.output/(name+'.png');assert widget.grab().save(str(target));rows.append({'file':target.name,'sha256':hashlib.sha256(target.read_bytes()).hexdigest()})
+def retire(widget):
+    widget.hide();widget.deleteLater();app.sendPostedEvents(None,QtCore.QEvent.DeferredDelete)
+try:
+ for mode in ('light','dark'):
+  theme.set_mode(mode)
+  for tier,enabled in [('pro',False),('pro',True),('standard',False),('standard',True)]:
+   cfg=default_config();cfg['app']['tier']=tier;cfg['labs']['ask_mode']=enabled
+   page=CommandSetup(cfg,callback=lambda *args,**kwargs: (_ for _ in ()).throw(AssertionError('No transfer')))
+   page.setFixedWidth(660);page.resize(660,max(page.sizeHint().height(),page.heightForWidth(660),700));page.show();app.processEvents()
+   assert page.ask_check.isChecked()==enabled and page.ask_check.isEnabled()==(tier=='pro' or enabled)
+   assert not page.enabled_check.isChecked() and not page.translate_check.isChecked()
+   save(page,f'{mode}-labs-{tier}-{enabled}');retire(page)
+  for state,width,height in [('review',640,620),('busy',480,520),('failure',480,520),('ready',640,620)]:
+   window=AskQuestionWindow(AskSource('Public reference: The library opens on Saturday. العربية বাংলা <b>literal text</b>'),submit=lambda *args:True,cancel=lambda:None)
+   window.resize(width,height);window.question.setPlainText('When does it open?');window.present();app.processEvents()
+   if state!='review':window.send(window.question.toPlainText())
+   if state=='failure':window.finished(AskResult(None,'incomplete'))
+   if state=='ready':window.finished(AskResult('The library opens on Saturday.','ok',1))
+   save(window,f'{mode}-question-{state}');window.close();app.sendPostedEvents(None,QtCore.QEvent.DeferredDelete)
+  store=NoteStore(a.output/(mode+'-notes.db'));primary=store.save('1'*32,'Primary note')
+  group=CommandRecoveryWindows(store,clipboard=clipboard,window_factory=AskAnswerWindow)
+  for history in (True,False):
+   window=group.present(AskResult('The library opens on Saturday.\nالعربية বাংলা <b>literal answer</b>','ok' if history else 'history_unavailable',1 if history else None))
+   until=time.monotonic()+5
+   while (window.draft.snapshot().dirty or window.draft.snapshot().saving) and time.monotonic()<until:
+    app.processEvents();time.sleep(.005)
+   assert not window.draft.snapshot().dirty and not window.draft.snapshot().saving
+   assert store.active()==primary and not clipboard.copies
+   save(window,f'{mode}-answer-history-{history}');window.shutdown();window.draft.executor.shutdown(wait=True);retire(window)
+ assert 'sounddevice' not in sys.modules
+ (a.output/'report.json').write_text(json.dumps({'scale':a.scale,'source':subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),'dirty':bool(subprocess.check_output(['git','status','--porcelain']).strip()),'renders':rows,'scope':'Owned offscreen authored-text setup/review/answer; fake clipboard, own SQLite, no desktop or audio'},indent=2),encoding='utf-8')
+ print(json.dumps({'scale':a.scale,'renders':len(rows),'labels_fit':True}))
+finally:NetworkGuard.uninstall()

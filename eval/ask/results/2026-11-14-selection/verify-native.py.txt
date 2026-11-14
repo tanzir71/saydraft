@@ -1,0 +1,46 @@
+import hashlib,json,subprocess,sys
+from pathlib import Path
+sys.path.insert(0,str(Path.cwd()))
+from saydraft.history import DictationHistoryStore
+from saydraft.models.downloader import installation_ready
+from saydraft.models.layout import model_directories
+from saydraft.models.manifest import get_model
+base=Path('D:/Saydraft-Codex-QA-20261112-01a1cbc7');root=base/'ask-native-c225370-20261114';source=base/'worktrees/ask-c225370-20261114'
+def digest(path):
+ with path.open('rb') as stream:return hashlib.file_digest(stream,'sha256').hexdigest()
+batch=json.loads((root/'batch.json').read_text());assert batch['complete'] and batch['accepted'] and batch['active'] is None
+assert subprocess.check_output(['git','rev-parse','HEAD'],cwd=source,text=True).strip()=='c225370545d9f77f98ffb54a74d6cf8c2ef29db1'
+assert not subprocess.check_output(['git','status','--porcelain'],cwd=source).strip()
+pins={};total=0;reports=[]
+for run in batch['runs']:
+ assert run['returncode']==0 and run['measurement_complete'] and run['accepted']
+ assert all(digest(root/name)==sha for name,sha in run['sha256'].items())
+ folder=root/(run['case_set']+'-r1');report=json.loads((folder/'report.json').read_text(encoding='utf-8'))
+ assert report['source']=='c225370545d9f77f98ffb54a74d6cf8c2ef29db1' and not report['source_dirty']
+ assert report['complete'] and report['accepted'] and report['source_unchanged'] and report['pins_unchanged']
+ assert report['native_exit_observed']==[True,True] and report['history_before_presentation'] and report['excluded_from_paste_last']
+ assert all(digest(source/name)==sha for name,sha in report['source_fingerprints'].items())
+ refs=[json.loads(line) for line in (source/'tests'/report['case_set']).read_text(encoding='utf-8').splitlines() if line.strip()]
+ rows=[json.loads(line) for line in (folder/'cases.jsonl').read_text(encoding='utf-8').splitlines() if line.strip()]
+ assert rows==report['rows'] and len(rows)==len(refs)==report['passed']==report['history_count']==9
+ history=DictationHistoryStore(folder/'public-history.db');assert history.last_transcript() is None
+ for row,ref in zip(rows,refs,strict=True):
+  assert row['id']==ref['id'] and row['action']==ref['action'] and row['reason']=='ok' and row['anchors_pass']
+  text=row['text'].casefold()
+  assert all(any(option.casefold() in text for option in group) for group in ref['required'])
+  assert not any(option.casefold() in text for option in ref['forbidden'])
+  entry=history.get_row(row['history_id']);assert entry.mode=='ask' and entry.raw_text==ref['question'] and entry.cleaned_text==row['text']
+  provenance=json.loads(entry.edits_json)[0]
+  assert provenance['source_sha256']==hashlib.sha256(ref['source'].encode()).hexdigest()
+  assert provenance['source_utf16_units']==len(ref['source'].encode('utf-16-le'))//2
+ for identifier,files in report['verified'].items():
+  model=get_model(identifier);assert files=={file['path']:file['sha256'] for file in model['files']}
+  if identifier not in pins:
+   directories=model_directories(base/'command-session-app-cache-20261114-01',model)
+   assert any(installation_ready(model,directory,check_hashes=True) for directory in directories)
+   pins[identifier]=files
+ total+=len(rows);reports.append({'set':run['case_set'],'cases':len(rows),'report_sha256':digest(folder/'report.json')})
+assert total==18
+receipt={'source':'c225370545d9f77f98ffb54a74d6cf8c2ef29db1','verified_cases':total,'reports':reports,'verified_pins':pins,'scope':'Independent native report/journal/corpus/source/pins/SQLite/process receipt verification; authored text smoke, not broad semantic or browser acceptance'}
+(root/'independent-verification.json').write_text(json.dumps(receipt,indent=2)+'\n',encoding='utf-8')
+print(json.dumps({'verified_cases':total,'both_sets_accepted':True}))
