@@ -872,6 +872,8 @@ Cloud anything (sync, accounts, team dictionaries, web search in Ask), mobile ap
 
 ## 14. Changelog
 
+- 2026-11-14 | P6 model display labels | Corrected six double-encoded separator characters in speech, preview and cleanup-runtime labels. Direct catalog comparison verifies all non-label fields, IDs, versions and file pins unchanged; 54 picker/download/version/runtime-package checks pass. Both themed offscreen picker renders show readable names with all eight bundled fonts and no device/network/model-loading activity. | saydraft/models/manifest.json
+
 - 2026-11-14 | P3.10 external-boundary development result | Clean1b7e7ea nine-clip bn/ta/te candidate retains all samples and default feature/token context but worsens word errors114→136 and character errors326→451; reject, preserve all raw records and native zero exit. Independent source/model/corpus/reference/score/boundary verification passes. Acquired60new disjoint confirmation clips with no inference. Full large-v3 development comparison frozen; QA-only pinned cache download underway, accuracy/distribution unaccepted. | docs/ASR_ACCURACY.md, docs/spikes/bengali-decoder.md, eval/asr/results/2026-11-14-external-boundaries/
 
 - 2026-11-14 | P0.4 retained-evidence scan boundary | Proof-only26dd660 CI has4,171passing/12skips and one legacy-source scan failure: an unchanged historical ASR snapshot contains a generic scope label matching an old package name. Preserve the original bytes and prune only eval/**/results evidence from that scan. Seven checks pass, including injected legacy imports in app/tools/actual eval sources, root requirements and an app results directory; archived source bytes remain intact. No runtime/dependency change. Full rerun follows. | tests/test_removed_legacy_stt.py
