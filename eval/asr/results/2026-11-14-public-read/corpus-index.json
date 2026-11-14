@@ -1,0 +1,171 @@
+{
+  "dataset_revision": "70bb2e84b976b7e960aa89f1c648e09c59f894dd",
+  "languages": [
+    "en",
+    "bn",
+    "ar",
+    "th",
+    "zh",
+    "ko",
+    "pt",
+    "ja",
+    "es",
+    "id",
+    "ms",
+    "hi",
+    "ur",
+    "vi",
+    "tl",
+    "ta",
+    "te",
+    "fa",
+    "fr",
+    "de"
+  ],
+  "clips": 400,
+  "seconds": 4884.880000000003,
+  "corpora": [
+    {
+      "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-public-fleurs-20261114\\en-r1\\corpus.json",
+      "sha256": "94c8335a2e6164be097ac109d981697bbe67bd6e38442a373e9b70932b25dc5a",
+      "language": "en",
+      "clips": 20,
+      "metadata_sha256": "74c046239374deeb60fa63f258f907388093a32bcaa3140965f70ef05c79f7ca"
+    },
+    {
+      "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-public-fleurs-20261114\\bn-r1\\corpus.json",
+      "sha256": "a3bfc3d4de2624629e6d90abe699e40c829f0aea83bcc7bd18518a129023b1b3",
+      "language": "bn",
+      "clips": 20,
+      "metadata_sha256": "a7d892390778ce23d0acf15bbba4d9454439c48607cefb923e37f55a480c4c0c"
+    },
+    {
+      "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-public-fleurs-20261114\\ar-r1\\corpus.json",
+      "sha256": "471a59dfba231954652c9fd638e024418efbd74ee7235d0ff8ad02386dcf46f9",
+      "language": "ar",
+      "clips": 20,
+      "metadata_sha256": "af9b9aa3f99c39f90e7f8417f10f2f45a7f783441c6a27abfc2c1bededed4af1"
+    },
+    {
+      "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-public-fleurs-20261114\\th-r1\\corpus.json",
+      "sha256": "87953b9bb115ed44a2a0a1bfc8a3742224da1c2320a8f5c0c69b010837b4cf46",
+      "language": "th",
+      "clips": 20,
+      "metadata_sha256": "8db09d12ac384654f6677e141f6e55bf5bc42028160cbc0d2d9f7fac4fe25271"
+    },
+    {
+      "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-public-fleurs-20261114\\zh-r1\\corpus.json",
+      "sha256": "b7cf4465962b83edee3007c0ae51ccb49b440324c1dbb2e3cfbcbcb00941c6f8",
+      "language": "zh",
+      "clips": 20,
+      "metadata_sha256": "5734461648f816181d7dab5fc79204b18c4b9bc2cd5138225b25c72d18385d21"
+    },
+    {
+      "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-public-fleurs-20261114\\ko-r1\\corpus.json",
+      "sha256": "6b70ce15c44c6b22e988a9fda5f2c88dd836d79ed1a6c4c4b565ce8c1b4ed6d0",
+      "language": "ko",
+      "clips": 20,
+      "metadata_sha256": "cf2f7c8765f6203e3c46ef620d5e936d3f331b6e8865455557777dd1347517f5"
+    },
+    {
+      "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-public-fleurs-20261114\\pt-r1\\corpus.json",
+      "sha256": "39a12e5d3915106445c2ff42981cdcd0dbf9925d98df7318dbcf7cd77528066f",
+      "language": "pt",
+      "clips": 20,
+      "metadata_sha256": "4a7b8ae8ce07c355dcd2cf087a6486c7c3ab931d751b9a9218a9ee0cd798964b"
+    },
+    {
+      "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-public-fleurs-20261114\\ja-r1\\corpus.json",
+      "sha256": "c2f5ff6f0b8b716d69bf739f1f9d5447cbdbde08f79a97918aaf815e802f6dff",
+      "language": "ja",
+      "clips": 20,
+      "metadata_sha256": "5dd9643511437414681ad3f23508596c621cdf78978724a09f1f06fefe9d300b"
+    },
+    {
+      "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-public-fleurs-20261114\\es-r1\\corpus.json",
+      "sha256": "82166b641e2a683a53233263eb2caa2b215278b967e51a16a57b14e0ae727775",
+      "language": "es",
+      "clips": 20,
+      "metadata_sha256": "d107a93a4f54a18ac25cd470bb4cdadce14fb075b0c1d1542258e274d209ec09"
+    },
+    {
+      "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-public-fleurs-20261114\\id-r1\\corpus.json",
+      "sha256": "c3fc501a2815a29b8fb63dedd5d0c8b67ef3c94ef6690c966cf539822b43c51c",
+      "language": "id",
+      "clips": 20,
+      "metadata_sha256": "824cad6367283d95f545911eec051c488c182baa13a63227c6330af3c8f80741"
+    },
+    {
+      "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-public-fleurs-20261114\\ms-r1\\corpus.json",
+      "sha256": "fff1005bd1bf6a5d2dc13ac25dd1ec4702d3e4562edd4aa839ed031919581eb0",
+      "language": "ms",
+      "clips": 20,
+      "metadata_sha256": "7833c7bbfdb52a2595c9788f5a9c4023281f04e2c8da389f57f4f193ec13910e"
+    },
+    {
+      "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-public-fleurs-20261114\\hi-r1\\corpus.json",
+      "sha256": "86273b04b819aa91061cefe237b6219edf8aa126f8cb664baca6fd1587f43f6e",
+      "language": "hi",
+      "clips": 20,
+      "metadata_sha256": "889e82e2875490f9533ff59ab67326fcfa01cf828fc4412758aaaa1f442a729f"
+    },
+    {
+      "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-public-fleurs-20261114\\ur-r1\\corpus.json",
+      "sha256": "ae7eff9e40b57375f8cb8b296eb8e5e358e23993db219271291f46a77b1d00d6",
+      "language": "ur",
+      "clips": 20,
+      "metadata_sha256": "39cd4fd14ddcf730a9f2ddfd590181255555ba060a53506dcff598a8b9ecc476"
+    },
+    {
+      "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-public-fleurs-20261114\\vi-r1\\corpus.json",
+      "sha256": "2ac76dc4c23cd2189b61f9d99d9b1c691f369d47b9327fa2e07123b0e3aee01b",
+      "language": "vi",
+      "clips": 20,
+      "metadata_sha256": "eb744c2be5f677b49c35527d428a4f647294bd0f67abd790c296e91efaaffb93"
+    },
+    {
+      "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-public-fleurs-20261114\\tl-r1\\corpus.json",
+      "sha256": "80b2a7fdfcbcd6ddbb1ab55314dabe913fa5faf91cb97dc109933855c407e97c",
+      "language": "tl",
+      "clips": 20,
+      "metadata_sha256": "3e23f5be5ebf6ae133fb2f2c3a9f4ef21498fc2de0ce9161b02b94b3f2bb553b"
+    },
+    {
+      "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-public-fleurs-20261114\\ta-r1\\corpus.json",
+      "sha256": "b7bec61010b5817316caf4a39af0bd23d85010116b4c36d12e31c23213f38e5d",
+      "language": "ta",
+      "clips": 20,
+      "metadata_sha256": "9ecedf850940ae13b75c1eecee692c581a44b7f560feecd9a53eaf5a3e838be7"
+    },
+    {
+      "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-public-fleurs-20261114\\te-r2\\corpus.json",
+      "sha256": "e1cfba00bb0aaae6893671a668398a20d71368c4c11ee4077d47112b040d0986",
+      "language": "te",
+      "clips": 20,
+      "metadata_sha256": "81313da935e3e1d45b69080ec29e5cb1b1b872a06d52ed05ebfc9d218565417e"
+    },
+    {
+      "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-public-fleurs-20261114\\fa-r2\\corpus.json",
+      "sha256": "8d5e8d1282d4bd8a9420fbd2eb7e79f3669aeaabb5a67817bc0916d3d16dd72d",
+      "language": "fa",
+      "clips": 20,
+      "metadata_sha256": "2f96b4df444a63964e689db45ce9445c9759b41578d010a5f758dbd29b004579"
+    },
+    {
+      "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-public-fleurs-20261114\\fr-r1\\corpus.json",
+      "sha256": "bb047503510a7e9884d8a35aa9b48a8468165bb4e0ea6061e36a68a04de1a00c",
+      "language": "fr",
+      "clips": 20,
+      "metadata_sha256": "5d06d338b242e00786fcf12c4c92008b9f399d5a5c872c91dca90572e7869c0d"
+    },
+    {
+      "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-public-fleurs-20261114\\de-r1\\corpus.json",
+      "sha256": "d1c8fac774207644bd2403373cb22f6be5dceab3c8d24b11fc46a6143992da7d",
+      "language": "de",
+      "clips": 20,
+      "metadata_sha256": "82fab72c58a347345675c238f2492bb997105a4ab45d69e2a2b34ed29082fa97"
+    }
+  ],
+  "all_hashes_and_audio_headers_verified": true,
+  "inference_run": false
+}

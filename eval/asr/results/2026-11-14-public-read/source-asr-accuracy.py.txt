@@ -1,0 +1,276 @@
+"""Score explicit, hashed public speech corpora with installed models offline.
+
+No microphone, clipboard, input hooks, downloads or AI cleanup. This evaluates
+recognition and deterministic cleanup; it does not certify owner accuracy or
+release latency. Raw references and outputs stay in the chosen report folder.
+"""
+
+from __future__ import annotations
+
+import argparse
+import hashlib
+import json
+import platform
+import re
+import subprocess
+import time
+import unicodedata
+from collections import Counter
+from datetime import datetime, timezone
+from pathlib import Path
+
+from saydraft.asr.languages import PARAKEET_LANGUAGES, WHISPER_LANGUAGES
+from saydraft.asr.model_ids import DEFAULT_MODEL
+from saydraft.asr.router import ALL_LANGUAGES, choose_route
+from saydraft.cleanup.llm.validate import AMOUNTS, extract_numbers
+from tools.bench_models import normalized, score
+from tools.fetch_asr_corpus import FLEURS_CONFIGS, REVISION, parse_references
+from tools.latency_environment import runtime_environment
+
+CHARACTER_METRIC = frozenset(('zh', 'yue', 'ja', 'th', 'lo', 'my', 'km'))
+
+
+def digest(path):
+    value = hashlib.sha256()
+    with Path(path).open('rb') as source:
+        for data in iter(lambda: source.read(1024 * 1024), b''):
+            value.update(data)
+    return value.hexdigest()
+
+
+def load_corpora(paths):
+    clips, receipts, seen = [], [], set()
+    for path in paths:
+        path = Path(path).resolve()
+        if path.stat().st_size > 8 * 1024 * 1024:
+            raise ValueError('Corpus manifest is too large')
+        manifest = json.loads(path.read_text(encoding='utf-8'))
+        language = manifest.get('language')
+        if (manifest.get('schema') != 1 or manifest.get('complete') is not True
+                or manifest.get('dataset') != 'google/fleurs' or manifest.get('revision') != REVISION
+                or manifest.get('license') != 'CC-BY-4.0' or language not in WHISPER_LANGUAGES
+                or manifest.get('config') != FLEURS_CONFIGS.get(language)
+                or manifest.get('split') != 'test' or not isinstance(manifest.get('clips'), list)
+                or not 1 <= len(manifest['clips']) <= 100):
+            raise ValueError('Incomplete or unsupported public corpus')
+        metadata = path.parent / 'test.tsv'
+        if (not metadata.resolve().is_relative_to(path.parent) or metadata.stat().st_size > 8 * 1024 * 1024
+                or digest(metadata) != manifest.get('metadata_sha256')):
+            raise ValueError('Public reference metadata changed')
+        references = parse_references(metadata.read_bytes())
+        for row in manifest['clips']:
+            name = row.get('source_filename')
+            reference = references.get(name)
+            identifier = (language, row.get('id'))
+            if (identifier in seen or reference is None
+                    or any(row.get(key) != value for key, value in reference.items())
+                    or row.get('language') != language or row.get('config') != manifest['config']
+                    or row.get('split') != 'test' or not normalized(row['reference'])):
+                raise ValueError('Mismatched or duplicate public reference')
+            if row.get('audio') != f'audio/{name}':
+                raise ValueError('Unexpected corpus audio path')
+            audio = (path.parent / row['audio']).resolve()
+            if not audio.is_relative_to(path.parent) or not audio.is_file():
+                raise ValueError('Corpus audio leaves the explicit corpus folder')
+            if (not 1 <= audio.stat().st_size <= 4 * 1024 * 1024
+                    or audio.stat().st_size != row.get('bytes') or digest(audio) != row.get('sha256')):
+                raise ValueError('Public audio bytes changed')
+            clips.append({**row, 'audio_path': str(audio), 'corpus_sha256': digest(path)})
+            seen.add(identifier)
+        receipts.append({'path': str(path), 'sha256': digest(path), 'language': language,
+                         'clips': len(manifest['clips']), 'metadata_sha256': manifest['metadata_sha256']})
+    if not clips:
+        raise ValueError('Supply a nonempty public reference corpus')
+    return clips, receipts
+
+
+def models_for(language, recipe='compare'):
+    if language not in WHISPER_LANGUAGES or recipe not in ('compare', 'routed'):
+        raise ValueError('Unsupported accuracy recipe or language')
+    if recipe == 'routed':
+        return (choose_route((language,)).model_id,)
+    return (DEFAULT_MODEL, ALL_LANGUAGES) if language in PARAKEET_LANGUAGES else (ALL_LANGUAGES,)
+
+
+def detail_surfaces(text):
+    """Review diagnostics: punctuation-stripped WER can hide signs/currencies.
+
+    Surface differences are not a semantic-equivalence verdict. This records
+    the existing validator's recognized amount forms and Unicode currency signs.
+    """
+    return {'numbers': extract_numbers(text),
+            'amounts': [re.sub(r'\s+', '', match[0]).casefold() for match in AMOUNTS.finditer(text)],
+            'currency_signs': [char for char in text if unicodedata.category(char) == 'Sc']}
+
+
+def summarize(cases):
+    result = {}
+    for language, model in sorted({(row['language'], row['model']) for row in cases}):
+        rows = [row for row in cases if row['language'] == language and row['model'] == model]
+        stages = {}
+        for stage in ('asr', 'rules'):
+            totals = Counter()
+            for row in rows:
+                totals.update(row[f'{stage}_scores'])
+            stages[stage] = {**totals, 'wer': totals['word_errors'] / totals['reference_words'],
+                             'cer': totals['character_errors'] / totals['reference_characters']}
+        result.setdefault(language, {})[model] = {
+            'samples': len(rows), 'audio_seconds': sum(row['audio_seconds'] for row in rows),
+            'empty_outputs': sum(not row['asr_text'].strip() for row in rows),
+            'inference_errors': sum(row.get('error_type') is not None for row in rows),
+            'asr_detail_surface_changes': sum(row.get('detail_surfaces', {}).get('reference') !=
+                row.get('detail_surfaces', {}).get('asr') for row in rows),
+            'cleanup_detail_surface_changes': sum(row.get('detail_surfaces', {}).get('asr') !=
+                row.get('detail_surfaces', {}).get('rules') for row in rows),
+            'primary_metric': 'cer' if language in CHARACTER_METRIC else 'wer',
+            'cleanup_regressions': sum(row['rules_scores']['character_errors'] > row['asr_scores']['character_errors']
+                                       or row['rules_scores']['word_errors'] > row['asr_scores']['word_errors'] for row in rows),
+            **stages}
+    return result
+
+
+def _source():
+    root = Path(__file__).resolve().parents[1]
+    def git(*args):
+        return subprocess.check_output(['git', '-C', str(root), *args], text=True, encoding='utf-8').strip()
+    paths = ('tools/asr_accuracy.py', 'tools/bench_models.py', 'tools/fetch_asr_corpus.py',
+             'saydraft/asr/languages.py', 'saydraft/asr/router.py', 'saydraft/asr/sherpa_parakeet.py',
+             'saydraft/stt/whisper_engine.py', 'saydraft/cleanup/styles.py', 'saydraft/cleanup/language.py',
+             'saydraft/cleanup/formatter.py', 'saydraft/dictation/pipeline.py', 'saydraft/dictation/rules.py',
+             'saydraft/asr/whisper_ct2.py', 'saydraft/cleanup/llm/validate.py', 'saydraft/models/manifest.json',
+             'tools/latency_environment.py', 'requirements.txt')
+    return {'commit': git('rev-parse', 'HEAD'), 'dirty': bool(git('status', '--porcelain')),
+            'fingerprints': {name: digest(root / name) for name in paths}}
+
+
+def _engine(model, directory):
+    if model == DEFAULT_MODEL:
+        from saydraft.asr.sherpa_parakeet import ParakeetConfig, ParakeetEngine
+        return ParakeetEngine(ParakeetConfig(silence_trim=False), model_dir=directory)
+    from saydraft.asr.whisper_ct2 import TURBO_MODEL, WhisperCT2Engine, WhisperEngineConfig
+    from saydraft.stt.whisper_engine import _import_whisper_model
+    native = _import_whisper_model(suppress_ipv6_probe=True)(str(directory), device='cpu',
+                                                            compute_type='int8', local_files_only=True)
+    return WhisperCT2Engine(WhisperEngineConfig(model_size=TURBO_MODEL, silence_trim=False),
+                            model_factory=lambda *args, **kwargs: native)
+
+
+def _write(path, report):
+    staging = path.with_suffix('.tmp')
+    with staging.open('w', encoding='utf-8') as output:
+        json.dump(report, output, ensure_ascii=False, indent=2)
+    staging.replace(path)
+
+
+def run(corpora, directories, output, *, recipe='compare'):
+    import numpy as np
+    import soundfile as sf
+    from saydraft.dictation import DictationConfig, DictationContext, DictationPipeline
+    from saydraft.models.downloader import installation_ready
+    from saydraft.models.manifest import get_model
+    from saydraft.privacy.netguard import NetworkGuard
+
+    clips, corpora_receipt = load_corpora(corpora)
+    requested_models = {model for clip in clips for model in models_for(clip['language'], recipe)}
+    for model in requested_models:
+        if model not in directories or not installation_ready(get_model(model), directories[model], check_hashes=True):
+            raise ValueError('Supply an explicit complete pinned model directory for every requested engine')
+    output = Path(output)
+    output.mkdir(parents=True, exist_ok=False)
+    source = _source()
+    environment = runtime_environment()
+    report = {'schema': 1, 'measured_at': datetime.now(timezone.utc).isoformat(), 'platform': platform.platform(),
+        'source': source, 'runtime_environment': environment, 'recipe': recipe, 'corpora': corpora_receipt,
+        'models': {model: {'revision': get_model(model)['revision'], 'verified_before': True}
+                   for model in sorted(requested_models)},
+        'scope': 'small_public_read_speech_recognition_and_rules_only', 'offline': True,
+        'network_enforcement': 'Python network guard; native models configured local-only; OS firewall not measured here.',
+        'audio_inputs': 'explicit_hashed_public_files_no_microphone', 'silence_trim': False,
+        'ai_cleanup_measured': False, 'owner_accuracy_accepted': False,
+        'normalization': 'bench_models.normalized: NFKC/casefold; punctuation+symbols become spaces; combining marks retained; CER removes whitespace.',
+        'expected_cases': sum(len(models_for(row['language'], recipe)) for row in clips),
+        'unmeasured_languages': sorted(WHISPER_LANGUAGES - {row['language'] for row in clips}),
+        'languages_without_mapped_fleurs_corpus': sorted(WHISPER_LANGUAGES - FLEURS_CONFIGS.keys()),
+        'completed_cases': 0, 'complete': False, 'summary': {}}
+    _write(output / 'report.json', report)
+    engines, cases = {}, []
+    pipeline = DictationPipeline(DictationConfig())
+    NetworkGuard.install()
+    try:
+        with (output / 'cases.jsonl').open('x', encoding='utf-8') as journal:
+            for clip in clips:
+                audio, rate = sf.read(clip['audio_path'], dtype='float32')
+                if (rate != 16000 or audio.ndim != 1 or len(audio) != clip['num_samples']
+                        or not np.isfinite(audio).all()):
+                    raise ValueError('Public audio does not match the frozen 16 kHz mono reference')
+                for model in models_for(clip['language'], recipe):
+                    if model not in engines:
+                        engines[model] = _engine(model, directories[model])
+                        engines[model].prepare()
+                    engine = engines[model]
+                    hint = getattr(engine, 'set_language', None)
+                    if hint is not None:
+                        hint(clip['language'])
+                    started = time.perf_counter()
+                    text, error = '', None
+                    try:
+                        text = engine.transcribe(audio)
+                        if type(text) is not str:
+                            raise TypeError('Recognition returned an invalid transcript')
+                    except Exception as exc:
+                        error = type(exc).__name__
+                        text = ''  # Failed/empty output stays in the score denominator.
+                    elapsed = time.perf_counter() - started
+                    cleaned = pipeline.process_transcript(text, DictationContext(language=clip['language'], intensity=3))
+                    case = {key: clip[key] for key in ('id', 'language', 'config', 'split', 'source_filename',
+                        'sha256', 'reference', 'normalized_reference', 'corpus_sha256')}
+                    case.update(model=model, audio_seconds=len(audio) / rate, asr_text=text, rules_text=cleaned,
+                        error_type=error, inference_seconds=elapsed, reported_language=getattr(engine, 'last_language', None),
+                        asr_scores=score(clip['reference'], text), rules_scores=score(clip['reference'], cleaned),
+                        detail_surfaces={'reference': detail_surfaces(clip['reference']),
+                                         'asr': detail_surfaces(text), 'rules': detail_surfaces(cleaned)})
+                    journal.write(json.dumps(case, ensure_ascii=False) + '\n')
+                    journal.flush()
+                    cases.append(case)
+                    report['completed_cases'] = len(cases)
+                    report['summary'] = summarize(cases)
+                    _write(output / 'report.json', report)
+        report['complete'] = report['completed_cases'] == report['expected_cases']
+    except Exception as exc:
+        report['error_type'] = type(exc).__name__
+        raise
+    finally:
+        pipeline.close()
+        NetworkGuard.uninstall()
+        report['source_unchanged'] = _source() == source
+        report['runtime_environment_unchanged'] = runtime_environment() == environment
+        report['journal_sha256'] = digest(output / 'cases.jsonl') if (output / 'cases.jsonl').exists() else None
+        for model in requested_models:
+            report['models'][model]['verified_after'] = installation_ready(get_model(model), directories[model], check_hashes=True)
+        report['measurement_integrity'] = bool(report['complete'] and not source['dirty']
+            and report['source_unchanged'] and report['runtime_environment_unchanged']
+            and not any(row.get('error_type') for row in cases)
+            and all(row['verified_after'] for row in report['models'].values()))
+        _write(output / 'report.json', report)
+    return report
+
+
+def main(argv=None):
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--corpus', type=Path, nargs='+', required=True)
+    parser.add_argument('--parakeet-dir', type=Path)
+    parser.add_argument('--whisper-dir', type=Path)
+    parser.add_argument('--recipe', choices=('compare', 'routed'), default='compare')
+    parser.add_argument('--output', type=Path, required=True)
+    args = parser.parse_args(argv)
+    if args.output.exists():
+        parser.error('Choose a new report folder; previous results are retained')
+    directories = {model: path for model, path in ((DEFAULT_MODEL, args.parakeet_dir),
+                                                  (ALL_LANGUAGES, args.whisper_dir)) if path is not None}
+    report = run(args.corpus, directories, args.output, recipe=args.recipe)
+    print(json.dumps({key: report[key] for key in ('complete', 'expected_cases', 'completed_cases', 'summary')}))
+    return 0 if report['measurement_integrity'] else 1
+
+
+if __name__ == '__main__':
+    raise SystemExit(main())

@@ -61,8 +61,10 @@ and `SAYDRAFT_ASK_REQUIRE_NATIVE=1`. Model files are outside the uploaded eviden
 The artifact retains native metadata, bounded selection hashes, actual-model
 answer/anchors/pins, browser/child/sidecar exits, unchanged DOM/selection checks
 and themed screenshots. Scripted mode remains an explicit diagnostic only.
-The first combined actual-model run is pending; [Ask](ASK.md) distinguishes its
-scope from broad quality, physical input and frozen-app acceptance.
+The combined actual-model run at `666cf5d` passes, including independently
+verified SQLite/Notes, unchanged source and all exits. Its full CI passes 4,172
+tests / 12 skips, rules 556/556 and adversarial 100/100. [Ask](ASK.md) distinguishes
+this browser fixture from broad quality, physical input and frozen-app acceptance.
 
 The [soak guide](SOAK.md) describes `tools/soak.py --cycles 200 --json` and its
 explicit native-cleanup recipe. Native runs join measured RSS, History-before-

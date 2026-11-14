@@ -3,9 +3,11 @@
 Status, 14 November 2026: Ask is connected from the default-off Pro/Labs opt-in
 through selection review, local generation, History and an independent answer
 Scratchpad. The actual pinned model passes eighteen authored-text smoke cases.
-A separate real-browser workflow passes with a scripted model. P7.3 remains open
-for combined actual-model/browser verification and final current-source checks.
-The owner desktop test remains stopped.
+The combined real-browser/native UIA/pinned CPU model workflow also passes, with
+independently verified History/Notes, unchanged article and observed exits.
+Current full CI passes 4,172 tests with 12 explicit skips. This accepts P7.3's
+implementation and read-only-browser scope. Physical/frozen workflow and broader
+answer quality remain separate; the owner desktop test remains stopped.
 
 ## Using Ask from source
 
@@ -113,12 +115,21 @@ History rows. Forty clean-source offscreen renders also pass. This supports the
 prompt change on this small development sample; it does not establish general
 factual accuracy. The answer window asks users to review generated text.
 
-Still required:
+The combined browser workflow at clean `666cf5d` passes
+[full CI](https://github.com/tanzir71/saydraft/actions/runs/43584597735):
+4,172 tests / 12 explicit skips in 602.81 seconds, rules 556/556, adversarial
+100/100 and all auxiliary jobs. Production app code is unchanged since
+`4485386`, whose full CI and unsigned package workflow also pass. The real model
+answers the native selected article correctly, then saves History and a separate
+Note while the primary note remains active. Source hashes, three UIA text reads,
+unchanged DOM/selection, model/runtime pins and all native/browser/child exits
+are independently verified from the retained artifacts. The themed review and
+answer screenshots are legible. This meets the specified P7.3 browser scope.
 
-- Verify native read-only browser article selection on a disposable remote
-  desktop with the actual local model in the same flow. The scripted-model native
-  browser path is verified separately below.
+Still required outside that scope:
+
 - Complete physical/packaged workflow acceptance when separately permitted.
+- Evaluate broader factual accuracy and additional conversational conditions.
 
 The `readonly-browser-ask-smoke` CI job now prepares a fresh headed Chromium
 using the site's pinned Playwright dependency. The driver and Python probe
@@ -157,12 +168,16 @@ setup step prepares the pinned 4B model and CPU runtime in a separate runner
 cache, outside the uploaded evidence directory. Runtime uses verified local
 files only, observes native sidecar exits and post-run hashes, and checks actual
 answer anchors, History and Notes. The CI job requires this mode and cannot
-silently substitute the scripted model. Its first real-model run is pending.
+silently substitute the scripted model. Its first real-model run at `666cf5d`
+passes; the complete answer is “The library opens on Saturday at 10:00.” and
+matches the authored source. The [retained browser record](../eval/ask/results/2026-11-14-browser/README.md)
+includes raw reports, screenshots, the public-fixture SQLite database and a
+portable independent verifier.
 The 51 focused controller/flow/request checks pass locally, including cache-path
 admission and wrong-day/time/negation refusals in the authored smoke checker.
 The earlier browser results complement the separate actual-model smoke above.
-The new combined run remains unverified until its remote results are inspected;
-it does not qualify physical hooks, microphone input, broad quality or a frozen app.
+The inspected combined run uses memory Copy; it does not qualify physical
+hooks, microphone input, owner clipboard, broad quality or a frozen app.
 
 The driver uses Playwright's documented [owned server process and close APIs](https://playwright.dev/docs/api/class-browserserver).
 The native reader obtains a selected range through Microsoft's

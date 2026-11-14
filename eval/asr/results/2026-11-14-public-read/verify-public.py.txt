@@ -1,0 +1,141 @@
+"""Replay retained scores without audio, models, network or application imports.
+
+Run with: python verify-public.py.txt
+The separate original machine verification also checked the audio/TSV bytes.
+This replay verifies the published manifests, native-exit receipts and journals.
+"""
+import hashlib
+import json
+import math
+import re
+import unicodedata
+from collections import Counter
+from pathlib import Path
+
+root = Path(__file__).resolve().parent
+read = lambda path: json.loads(path.read_text(encoding='utf-8'))
+sha = lambda path: hashlib.sha256(path.read_bytes()).hexdigest()
+index = read(root / 'index.json')
+for item in index['files']:
+    path = (root / item['file']).resolve()
+    assert path.is_relative_to(root), item['file']
+    assert sha(path) == item['sha256'], item['file']
+
+def normalize(text):
+    value = unicodedata.normalize('NFKC', text).casefold()
+    value = ''.join(' ' if unicodedata.category(char)[0] in 'PS' else char for char in value)
+    return ' '.join(value.split())
+
+def edit_distance(left, right):
+    previous = list(range(len(left) + 1))
+    for j, actual in enumerate(right, 1):
+        current = [j]
+        for i, expected in enumerate(left, 1):
+            current.append(min(previous[i] + 1, current[i - 1] + 1,
+                               previous[i - 1] + int(expected != actual)))
+        previous = current
+    return previous[-1]
+
+def scores(reference, hypothesis):
+    left, right = normalize(reference), normalize(hypothesis)
+    return {'word_errors': edit_distance(left.split(), right.split()),
+            'reference_words': len(left.split()),
+            'character_errors': edit_distance(left.replace(' ', ''), right.replace(' ', '')),
+            'reference_characters': len(left.replace(' ', ''))}
+
+summary = read(root / 'summary.json')
+batch = read(root / 'batch.json')
+model_catalog = {row['id']: row for row in read(root / 'source-model-manifest.json')['models']}
+assert batch['complete'] and batch['expected_cases'] == batch['completed_cases'] == 500
+expected_languages = {'en', 'bn', 'ar', 'th', 'zh', 'ko', 'pt', 'ja', 'es', 'id',
+                      'ms', 'hi', 'ur', 'vi', 'tl', 'ta', 'te', 'fa', 'fr', 'de'}
+assert {row['language'] for row in batch['languages']} == expected_languages
+assert len(batch['languages']) == 20
+seen, all_rows, source, environment, unique_seconds = set(), [], None, None, 0
+for item in batch['languages']:
+    language = item['language']
+    folder = root / 'shards' / language
+    process, report, corpus = (read(folder / name) for name in ('process.json', 'report.json', 'corpus.json'))
+    assert process['returncode'] == 0 and process['native_exit_observed']
+    assert sha(folder / 'process.json') == item['process_sha256']
+    for name in ('report.json', 'cases.jsonl'):
+        assert sha(folder / name) == process[name + '_sha256']
+    for name in ('stdout', 'stderr'):
+        assert sha(folder / (name + '.txt')) == process[name + '_sha256']
+    assert sha(folder / 'corpus.json') == process['corpus_sha256'] == report['corpora'][0]['sha256']
+    assert report['journal_sha256'] == sha(folder / 'cases.jsonl')
+    assert report['complete'] and report['measurement_integrity']
+    assert report['offline'] and report['silence_trim'] is False and report['ai_cleanup_measured'] is False
+    assert report['owner_accuracy_accepted'] is False and report['normalization'] == summary['normalization']
+    assert report['source_unchanged'] and report['runtime_environment_unchanged']
+    assert report['source']['commit'] == batch['source_commit'] and not report['source']['dirty']
+    assert source in (None, report['source']) and environment in (None, report['runtime_environment'])
+    source, environment = report['source'], report['runtime_environment']
+    assert all(model['verified_before'] and model['verified_after'] for model in report['models'].values())
+    assert all(model['revision'] == model_catalog[name]['revision'] for name, model in report['models'].items())
+    assert corpus['complete'] and corpus['language'] == language and corpus['split'] == 'test'
+    assert corpus['dataset'] == 'google/fleurs' and corpus['license'] == 'CC-BY-4.0'
+    assert corpus['revision'] == '70bb2e84b976b7e960aa89f1c648e09c59f894dd'
+    clips = {row['id']: row for row in corpus['clips']}
+    assert len(clips) == len(corpus['clips']) == 20
+    rows = [json.loads(line) for line in (folder / 'cases.jsonl').read_text(encoding='utf-8').splitlines()]
+    models = {'whisper-large-v3-turbo'}
+    if language in {'en', 'pt', 'es', 'fr', 'de'}:
+        models.add('parakeet-tdt-0-6b-v3-int8')
+    assert set(report['models']) == models
+    expected = {(language, identifier, model) for identifier in clips for model in models}
+    actual = set()
+    for row in rows:
+        key = (row['language'], row['id'], row['model'])
+        assert key not in seen and key in expected
+        seen.add(key)
+        actual.add(key)
+        clip = clips[row['id']]
+        for field in ('reference', 'normalized_reference', 'source_filename', 'sha256', 'config', 'split'):
+            assert row[field] == clip[field]
+        assert row['corpus_sha256'] == sha(folder / 'corpus.json')
+        assert row['language'] == language and row['error_type'] is None
+        assert math.isclose(row['audio_seconds'], clip['num_samples'] / 16000, abs_tol=1e-9)
+        for stage in ('asr', 'rules'):
+            assert scores(row['reference'], row[stage + '_text']) == row[stage + '_scores']
+    assert actual == expected and len(rows) == report['expected_cases'] == report['completed_cases']
+    assert len(rows) == item['expected_cases'] == item['completed_cases']
+    assert set(report['summary']) == {language}
+    for model in models:
+        group = [row for row in rows if row['model'] == model]
+        result = report['summary'][language][model]
+        assert result == summary['languages'][language][model]
+        assert result['samples'] == len(group) == 20
+        assert math.isclose(result['audio_seconds'], sum(row['audio_seconds'] for row in group), abs_tol=1e-9)
+        assert result['empty_outputs'] == sum(not row['asr_text'].strip() for row in group)
+        assert result['inference_errors'] == 0
+        assert result['primary_metric'] == ('cer' if language in {'zh', 'ja', 'th'} else 'wer')
+        assert result['cleanup_regressions'] == sum(
+            row['rules_scores']['word_errors'] > row['asr_scores']['word_errors'] or
+            row['rules_scores']['character_errors'] > row['asr_scores']['character_errors'] for row in group)
+        for stage in ('asr', 'rules'):
+            counts = Counter()
+            for row in group:
+                counts.update(row[stage + '_scores'])
+            assert {key: result[stage][key] for key in counts} == dict(counts)
+            assert result[stage]['wer'] == counts['word_errors'] / counts['reference_words']
+            assert result[stage]['cer'] == counts['character_errors'] / counts['reference_characters']
+    unique_seconds += sum(clip['num_samples'] / 16000 for clip in clips.values())
+    all_rows.extend(rows)
+assert len(all_rows) == summary['model_cases'] == 500
+assert summary['unique_clips'] == 400 and math.isclose(summary['unique_audio_seconds'], unique_seconds)
+assert set(summary['languages']) == expected_languages
+assert len(summary['unmeasured_languages']) == len(set(summary['unmeasured_languages']))
+assert set(summary['unmeasured_languages']) == set(summary['supported_languages']) - expected_languages
+catalog_source = (root / 'source-languages.py.txt').read_text(encoding='utf-8')
+codes = re.search(r'WHISPER_LANGUAGES = frozenset\("""(.*?)"""\.split\(\)\)', catalog_source, re.S)
+assert codes and set(summary['supported_languages']) == set(codes[1].split())
+for public, original in (('source-asr-accuracy.py.txt', 'tools/asr_accuracy.py'),
+                         ('source-bench-models.py.txt', 'tools/bench_models.py'),
+                         ('source-languages.py.txt', 'saydraft/asr/languages.py'),
+                         ('source-model-manifest.json', 'saydraft/models/manifest.json')):
+    assert sha(root / public) == source['fingerprints'][original]
+assert sum(row['language'] != 'en' and row['asr_text'] != row['rules_text'] for row in all_rows) == 0
+print(json.dumps({'passed': True, 'languages': 20, 'unique_clips': 400, 'model_cases': len(all_rows),
+                  'raw_scores_independently_recomputed': True, 'native_exits_observed': 20,
+                  'owner_accuracy_accepted': False}))

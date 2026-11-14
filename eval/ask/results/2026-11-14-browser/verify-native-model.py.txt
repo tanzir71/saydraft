@@ -1,0 +1,79 @@
+import hashlib
+import json
+import sqlite3
+from pathlib import Path
+
+root = Path(__file__).resolve().parent / 'native-model-666cf5d'
+driver = json.loads((root / 'report.json').read_text(encoding='utf-8'))
+native = json.loads((root / 'native-report.json').read_text(encoding='utf-8'))
+request = json.loads((root / 'request.json').read_text(encoding='utf-8'))
+digest = lambda path: hashlib.sha256(path.read_bytes()).hexdigest()
+verification = json.loads((root / 'independent-verification.json').read_text(encoding='utf-8'))
+for name, expected in verification['artifacts'].items():
+    assert Path(name).name == name
+    assert digest(root / name) == expected, name
+assert native['source'] == '666cf5d7970935b93039c4b2457abc883bceca62' and not native['source_dirty']
+assert driver['complete'] and native['complete'] and driver['native'] == native
+assert driver['mode'] == native['mode'] == 'native_model'
+assert driver['python_exit'] == {'code': 0, 'signal': None}
+assert driver['browser_exit_observed'] and native['uia_closed']
+assert driver['article_unchanged'] and driver['before']['editable'] is False
+assert driver['before']['selection'] == request['source']
+assert driver['fixture_sha256'] == digest(root / 'article.html')
+assert driver['browser_pid'] == request['browser_pid']
+source_hash = hashlib.sha256(request['source'].encode()).hexdigest()
+assert driver['source_sha256'] == native['expected_source_sha256'] == source_hash
+assert len(driver['requests']) == 1 and all(row['allowed'] for row in driver['requests'])
+assert native['native_reads'] == 3 and len(native['native_captures']) == 1
+capture = native['native_captures'][0]
+assert capture['status'] == 'ready' and capture['read_only'] is True
+assert capture['allow_copy'] is False and capture['source_sha256'] == source_hash
+assert all(row['type'] == 50030 and row['password'] is False and row['native_handle'] == 0
+           for row in native['document_ancestors'])
+assert all(row['password'] is False and row['focused'] is True for row in native['native_metadata'])
+assert native['history_before_presentation'] and native['no_audio_module_loaded']
+assert len(native['model_calls']) == 1 and native['source_unchanged']
+call = native['model_calls'][0]
+assert call['source_sha256'] == source_hash
+assert call['model_id'] == 'qwen35-4b-q4-k-m' and call['reason'] == 'ok'
+assert call['stream_complete'] and call['input_tokens'] > 0
+assert native['native_model_used'] and native['pins_unchanged']
+assert len(native['native_model_pids']) == len(native['native_model_exits']) == 1
+assert all(native['native_model_exits'])
+assert set(native['verified']) == {'qwen35-4b-q4-k-m', 'llama-cpp-b12110-cpu-x64'}
+assert native['bundled_font_faces'] == 8
+assert native['answer_text'] == 'The library opens on Saturday at 10:00.'
+database = root / 'public-history.db'
+before_database = digest(database)
+# Read the immutable artifact directly: application store initialization migrates
+# schema and can rewrite SQLite pages even when only querying public rows.
+connection = sqlite3.connect(database.resolve().as_uri() + '?mode=ro&immutable=1', uri=True)
+connection.row_factory = sqlite3.Row
+try:
+    rows = connection.execute('SELECT * FROM dictations').fetchall()
+    assert len(rows) == 1
+    row = rows[0]
+    assert row['mode'] == 'ask' and row['raw_text'] == call['question']
+    assert row['llm_model'] == call['model_id']
+    assert native['copies'] == [row['cleaned_text']] == [native['answer_text']]
+    provenance = json.loads(row['edits_json'])[0]
+    assert provenance['source_sha256'] == source_hash
+    assert provenance['source_utf16_units'] == len(request['source'].encode('utf-16-le')) // 2
+    notes = connection.execute('SELECT * FROM notes').fetchall()
+    active = connection.execute('''SELECT n.body FROM notes n JOIN note_state s ON n.id=s.note_id
+        WHERE s.name='scratchpad' ''').fetchall()
+    assert len(active) == 1 and active[0]['body'] == 'Primary public note remains active'
+    assert len(notes) == 2 and any(note['body'] == row['cleaned_text'] for note in notes)
+finally:
+    connection.close()
+assert digest(database) == before_database
+receipt = {
+    'source': native['source'], 'passed': True,
+    'scope': 'Independent retained real browser/UIA/pinned CPU model/source/SQLite/Notes/exit verification; memory Copy; one English authored passage, not broad semantic or physical/frozen acceptance.',
+    'answer_manually_reviewed': native['answer_text'],
+    'screenshots_reviewed': ['question.png', 'answer.png'],
+    'artifacts': {p.name: digest(p) for p in root.iterdir()
+                  if p.is_file() and p.name != 'independent-verification.json'},
+}
+print(json.dumps({'passed': True, 'readonly_native_selection': True, 'actual_model': call['model_id'],
+                  'history_and_independent_note': True, 'sidecar_exit_observed': True}))

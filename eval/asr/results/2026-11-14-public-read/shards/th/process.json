@@ -1,0 +1,27 @@
+{
+  "args": [
+    "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\latency-runtime-874a9c4-20261114\\venv\\Scripts\\python.exe",
+    "-m",
+    "tools.asr_accuracy",
+    "--recipe",
+    "compare",
+    "--parakeet-dir",
+    "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\parakeet-models\\asr\\parakeet-tdt-0-6b-v3-int8",
+    "--whisper-dir",
+    "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\turbo-models\\whisper\\large-v3-turbo",
+    "--output",
+    "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\th\\native-r1",
+    "--corpus",
+    "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-public-fleurs-20261114\\th-r1\\corpus.json"
+  ],
+  "native_pid": 14368,
+  "native_exit_observed": true,
+  "returncode": 0,
+  "started_epoch": 1794643941.1599445,
+  "ended_epoch": 1794644560.774867,
+  "stdout_sha256": "f59b9c4f857db0a7a83244dd18a9e5c5c5c193585cc4bf41d369790f7da70add",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "corpus_sha256": "87953b9bb115ed44a2a0a1bfc8a3742224da1c2320a8f5c0c69b010837b4cf46",
+  "report.json_sha256": "b95ac1eddbf98f628651af50ecc302a169006042e9af3d2446a23f855cfd1387",
+  "cases.jsonl_sha256": "5a110efcb0a6ef3d3818a7be14362a8cf584a4c305c04ff2ac36634d54049dca"
+}

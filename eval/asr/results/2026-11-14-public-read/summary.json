@@ -1,0 +1,986 @@
+{
+  "schema": 1,
+  "source_commit": "1b7e7eaf493e082692343244d6f1aed3e9907d68",
+  "scope": "400 public read clips, 20 per language; ASR and deterministic rules; no AI/VAD, owner audio or release-latency acceptance.",
+  "model_cases": 500,
+  "unique_clips": 400,
+  "unique_audio_seconds": 4884.88,
+  "owner_accuracy_accepted": false,
+  "language_accuracy_accepted": false,
+  "normalization": "bench_models.normalized: NFKC/casefold; punctuation+symbols become spaces; combining marks retained; CER removes whitespace.",
+  "supported_languages": [
+    "af",
+    "am",
+    "ar",
+    "as",
+    "az",
+    "ba",
+    "be",
+    "bg",
+    "bn",
+    "bo",
+    "br",
+    "bs",
+    "ca",
+    "cs",
+    "cy",
+    "da",
+    "de",
+    "el",
+    "en",
+    "es",
+    "et",
+    "eu",
+    "fa",
+    "fi",
+    "fo",
+    "fr",
+    "gl",
+    "gu",
+    "ha",
+    "haw",
+    "he",
+    "hi",
+    "hr",
+    "ht",
+    "hu",
+    "hy",
+    "id",
+    "is",
+    "it",
+    "ja",
+    "jw",
+    "ka",
+    "kk",
+    "km",
+    "kn",
+    "ko",
+    "la",
+    "lb",
+    "ln",
+    "lo",
+    "lt",
+    "lv",
+    "mg",
+    "mi",
+    "mk",
+    "ml",
+    "mn",
+    "mr",
+    "ms",
+    "mt",
+    "my",
+    "ne",
+    "nl",
+    "nn",
+    "no",
+    "oc",
+    "pa",
+    "pl",
+    "ps",
+    "pt",
+    "ro",
+    "ru",
+    "sa",
+    "sd",
+    "si",
+    "sk",
+    "sl",
+    "sn",
+    "so",
+    "sq",
+    "sr",
+    "su",
+    "sv",
+    "sw",
+    "ta",
+    "te",
+    "tg",
+    "th",
+    "tk",
+    "tl",
+    "tr",
+    "tt",
+    "uk",
+    "ur",
+    "uz",
+    "vi",
+    "yi",
+    "yo",
+    "yue",
+    "zh"
+  ],
+  "unmeasured_languages": [
+    "af",
+    "am",
+    "as",
+    "az",
+    "ba",
+    "be",
+    "bg",
+    "bo",
+    "br",
+    "bs",
+    "ca",
+    "cs",
+    "cy",
+    "da",
+    "el",
+    "et",
+    "eu",
+    "fi",
+    "fo",
+    "gl",
+    "gu",
+    "ha",
+    "haw",
+    "he",
+    "hr",
+    "ht",
+    "hu",
+    "hy",
+    "is",
+    "it",
+    "jw",
+    "ka",
+    "kk",
+    "km",
+    "kn",
+    "la",
+    "lb",
+    "ln",
+    "lo",
+    "lt",
+    "lv",
+    "mg",
+    "mi",
+    "mk",
+    "ml",
+    "mn",
+    "mr",
+    "mt",
+    "my",
+    "ne",
+    "nl",
+    "nn",
+    "no",
+    "oc",
+    "pa",
+    "pl",
+    "ps",
+    "ro",
+    "ru",
+    "sa",
+    "sd",
+    "si",
+    "sk",
+    "sl",
+    "sn",
+    "so",
+    "sq",
+    "sr",
+    "su",
+    "sv",
+    "sw",
+    "tg",
+    "tk",
+    "tr",
+    "tt",
+    "uk",
+    "uz",
+    "yi",
+    "yo",
+    "yue"
+  ],
+  "languages_without_mapped_fleurs_corpus": [
+    "ba",
+    "bo",
+    "br",
+    "eu",
+    "fo",
+    "haw",
+    "ht",
+    "la",
+    "mg",
+    "nn",
+    "sa",
+    "si",
+    "sq",
+    "su",
+    "tk",
+    "tt",
+    "yi"
+  ],
+  "languages": {
+    "ar": {
+      "whisper-large-v3-turbo": {
+        "samples": 20,
+        "audio_seconds": 233.28,
+        "empty_outputs": 0,
+        "inference_errors": 0,
+        "asr_detail_surface_changes": 1,
+        "cleanup_detail_surface_changes": 0,
+        "primary_metric": "wer",
+        "cleanup_regressions": 0,
+        "asr": {
+          "word_errors": 64,
+          "reference_words": 411,
+          "character_errors": 86,
+          "reference_characters": 1990,
+          "wer": 0.15571776155717762,
+          "cer": 0.04321608040201005
+        },
+        "rules": {
+          "word_errors": 64,
+          "reference_words": 411,
+          "character_errors": 86,
+          "reference_characters": 1990,
+          "wer": 0.15571776155717762,
+          "cer": 0.04321608040201005
+        }
+      }
+    },
+    "bn": {
+      "whisper-large-v3-turbo": {
+        "samples": 20,
+        "audio_seconds": 280.26,
+        "empty_outputs": 0,
+        "inference_errors": 0,
+        "asr_detail_surface_changes": 3,
+        "cleanup_detail_surface_changes": 0,
+        "primary_metric": "wer",
+        "cleanup_regressions": 0,
+        "asr": {
+          "word_errors": 350,
+          "reference_words": 412,
+          "character_errors": 881,
+          "reference_characters": 2258,
+          "wer": 0.8495145631067961,
+          "cer": 0.39016829052258634
+        },
+        "rules": {
+          "word_errors": 350,
+          "reference_words": 412,
+          "character_errors": 881,
+          "reference_characters": 2258,
+          "wer": 0.8495145631067961,
+          "cer": 0.39016829052258634
+        }
+      }
+    },
+    "de": {
+      "parakeet-tdt-0-6b-v3-int8": {
+        "samples": 20,
+        "audio_seconds": 276.3,
+        "empty_outputs": 0,
+        "inference_errors": 0,
+        "asr_detail_surface_changes": 1,
+        "cleanup_detail_surface_changes": 0,
+        "primary_metric": "wer",
+        "cleanup_regressions": 0,
+        "asr": {
+          "word_errors": 27,
+          "reference_words": 450,
+          "character_errors": 51,
+          "reference_characters": 2625,
+          "wer": 0.06,
+          "cer": 0.019428571428571427
+        },
+        "rules": {
+          "word_errors": 27,
+          "reference_words": 450,
+          "character_errors": 51,
+          "reference_characters": 2625,
+          "wer": 0.06,
+          "cer": 0.019428571428571427
+        }
+      },
+      "whisper-large-v3-turbo": {
+        "samples": 20,
+        "audio_seconds": 276.3,
+        "empty_outputs": 0,
+        "inference_errors": 0,
+        "asr_detail_surface_changes": 0,
+        "cleanup_detail_surface_changes": 0,
+        "primary_metric": "wer",
+        "cleanup_regressions": 0,
+        "asr": {
+          "word_errors": 15,
+          "reference_words": 450,
+          "character_errors": 18,
+          "reference_characters": 2625,
+          "wer": 0.03333333333333333,
+          "cer": 0.006857142857142857
+        },
+        "rules": {
+          "word_errors": 15,
+          "reference_words": 450,
+          "character_errors": 18,
+          "reference_characters": 2625,
+          "wer": 0.03333333333333333,
+          "cer": 0.006857142857142857
+        }
+      }
+    },
+    "en": {
+      "parakeet-tdt-0-6b-v3-int8": {
+        "samples": 20,
+        "audio_seconds": 188.6,
+        "empty_outputs": 1,
+        "inference_errors": 0,
+        "asr_detail_surface_changes": 3,
+        "cleanup_detail_surface_changes": 2,
+        "primary_metric": "wer",
+        "cleanup_regressions": 2,
+        "asr": {
+          "word_errors": 55,
+          "reference_words": 440,
+          "character_errors": 198,
+          "reference_characters": 2075,
+          "wer": 0.125,
+          "cer": 0.09542168674698795
+        },
+        "rules": {
+          "word_errors": 57,
+          "reference_words": 440,
+          "character_errors": 212,
+          "reference_characters": 2075,
+          "wer": 0.12954545454545455,
+          "cer": 0.10216867469879518
+        }
+      },
+      "whisper-large-v3-turbo": {
+        "samples": 20,
+        "audio_seconds": 188.6,
+        "empty_outputs": 0,
+        "inference_errors": 0,
+        "asr_detail_surface_changes": 3,
+        "cleanup_detail_surface_changes": 1,
+        "primary_metric": "wer",
+        "cleanup_regressions": 1,
+        "asr": {
+          "word_errors": 22,
+          "reference_words": 440,
+          "character_errors": 59,
+          "reference_characters": 2075,
+          "wer": 0.05,
+          "cer": 0.028433734939759037
+        },
+        "rules": {
+          "word_errors": 23,
+          "reference_words": 440,
+          "character_errors": 62,
+          "reference_characters": 2075,
+          "wer": 0.05227272727272727,
+          "cer": 0.029879518072289158
+        }
+      }
+    },
+    "es": {
+      "parakeet-tdt-0-6b-v3-int8": {
+        "samples": 20,
+        "audio_seconds": 228.12,
+        "empty_outputs": 0,
+        "inference_errors": 0,
+        "asr_detail_surface_changes": 1,
+        "cleanup_detail_surface_changes": 0,
+        "primary_metric": "wer",
+        "cleanup_regressions": 0,
+        "asr": {
+          "word_errors": 16,
+          "reference_words": 479,
+          "character_errors": 44,
+          "reference_characters": 2303,
+          "wer": 0.033402922755741124,
+          "cer": 0.01910551454624403
+        },
+        "rules": {
+          "word_errors": 16,
+          "reference_words": 479,
+          "character_errors": 44,
+          "reference_characters": 2303,
+          "wer": 0.033402922755741124,
+          "cer": 0.01910551454624403
+        }
+      },
+      "whisper-large-v3-turbo": {
+        "samples": 20,
+        "audio_seconds": 228.12,
+        "empty_outputs": 0,
+        "inference_errors": 0,
+        "asr_detail_surface_changes": 0,
+        "cleanup_detail_surface_changes": 0,
+        "primary_metric": "wer",
+        "cleanup_regressions": 0,
+        "asr": {
+          "word_errors": 9,
+          "reference_words": 479,
+          "character_errors": 12,
+          "reference_characters": 2303,
+          "wer": 0.018789144050104383,
+          "cer": 0.005210594876248371
+        },
+        "rules": {
+          "word_errors": 9,
+          "reference_words": 479,
+          "character_errors": 12,
+          "reference_characters": 2303,
+          "wer": 0.018789144050104383,
+          "cer": 0.005210594876248371
+        }
+      }
+    },
+    "fa": {
+      "whisper-large-v3-turbo": {
+        "samples": 20,
+        "audio_seconds": 315.0,
+        "empty_outputs": 0,
+        "inference_errors": 0,
+        "asr_detail_surface_changes": 1,
+        "cleanup_detail_surface_changes": 0,
+        "primary_metric": "wer",
+        "cleanup_regressions": 0,
+        "asr": {
+          "word_errors": 134,
+          "reference_words": 493,
+          "character_errors": 138,
+          "reference_characters": 2007,
+          "wer": 0.2718052738336714,
+          "cer": 0.0687593423019432
+        },
+        "rules": {
+          "word_errors": 134,
+          "reference_words": 493,
+          "character_errors": 138,
+          "reference_characters": 2007,
+          "wer": 0.2718052738336714,
+          "cer": 0.0687593423019432
+        }
+      }
+    },
+    "fr": {
+      "parakeet-tdt-0-6b-v3-int8": {
+        "samples": 20,
+        "audio_seconds": 238.68,
+        "empty_outputs": 0,
+        "inference_errors": 0,
+        "asr_detail_surface_changes": 3,
+        "cleanup_detail_surface_changes": 0,
+        "primary_metric": "wer",
+        "cleanup_regressions": 0,
+        "asr": {
+          "word_errors": 56,
+          "reference_words": 624,
+          "character_errors": 118,
+          "reference_characters": 2877,
+          "wer": 0.08974358974358974,
+          "cer": 0.041014946124435174
+        },
+        "rules": {
+          "word_errors": 56,
+          "reference_words": 624,
+          "character_errors": 118,
+          "reference_characters": 2877,
+          "wer": 0.08974358974358974,
+          "cer": 0.041014946124435174
+        }
+      },
+      "whisper-large-v3-turbo": {
+        "samples": 20,
+        "audio_seconds": 238.68,
+        "empty_outputs": 0,
+        "inference_errors": 0,
+        "asr_detail_surface_changes": 2,
+        "cleanup_detail_surface_changes": 0,
+        "primary_metric": "wer",
+        "cleanup_regressions": 0,
+        "asr": {
+          "word_errors": 45,
+          "reference_words": 624,
+          "character_errors": 77,
+          "reference_characters": 2877,
+          "wer": 0.07211538461538461,
+          "cer": 0.0267639902676399
+        },
+        "rules": {
+          "word_errors": 45,
+          "reference_words": 624,
+          "character_errors": 77,
+          "reference_characters": 2877,
+          "wer": 0.07211538461538461,
+          "cer": 0.0267639902676399
+        }
+      }
+    },
+    "hi": {
+      "whisper-large-v3-turbo": {
+        "samples": 20,
+        "audio_seconds": 234.66,
+        "empty_outputs": 0,
+        "inference_errors": 0,
+        "asr_detail_surface_changes": 2,
+        "cleanup_detail_surface_changes": 0,
+        "primary_metric": "wer",
+        "cleanup_regressions": 0,
+        "asr": {
+          "word_errors": 156,
+          "reference_words": 527,
+          "character_errors": 226,
+          "reference_characters": 2161,
+          "wer": 0.29601518026565465,
+          "cer": 0.1045812124016659
+        },
+        "rules": {
+          "word_errors": 156,
+          "reference_words": 527,
+          "character_errors": 226,
+          "reference_characters": 2161,
+          "wer": 0.29601518026565465,
+          "cer": 0.1045812124016659
+        }
+      }
+    },
+    "id": {
+      "whisper-large-v3-turbo": {
+        "samples": 20,
+        "audio_seconds": 242.22,
+        "empty_outputs": 0,
+        "inference_errors": 0,
+        "asr_detail_surface_changes": 1,
+        "cleanup_detail_surface_changes": 0,
+        "primary_metric": "wer",
+        "cleanup_regressions": 0,
+        "asr": {
+          "word_errors": 37,
+          "reference_words": 397,
+          "character_errors": 83,
+          "reference_characters": 2310,
+          "wer": 0.09319899244332494,
+          "cer": 0.03593073593073593
+        },
+        "rules": {
+          "word_errors": 37,
+          "reference_words": 397,
+          "character_errors": 83,
+          "reference_characters": 2310,
+          "wer": 0.09319899244332494,
+          "cer": 0.03593073593073593
+        }
+      }
+    },
+    "ja": {
+      "whisper-large-v3-turbo": {
+        "samples": 20,
+        "audio_seconds": 252.42000000000002,
+        "empty_outputs": 0,
+        "inference_errors": 0,
+        "asr_detail_surface_changes": 0,
+        "cleanup_detail_surface_changes": 0,
+        "primary_metric": "cer",
+        "cleanup_regressions": 0,
+        "asr": {
+          "word_errors": 47,
+          "reference_words": 59,
+          "character_errors": 43,
+          "reference_characters": 995,
+          "wer": 0.7966101694915254,
+          "cer": 0.04321608040201005
+        },
+        "rules": {
+          "word_errors": 47,
+          "reference_words": 59,
+          "character_errors": 43,
+          "reference_characters": 995,
+          "wer": 0.7966101694915254,
+          "cer": 0.04321608040201005
+        }
+      }
+    },
+    "ko": {
+      "whisper-large-v3-turbo": {
+        "samples": 20,
+        "audio_seconds": 243.54,
+        "empty_outputs": 0,
+        "inference_errors": 0,
+        "asr_detail_surface_changes": 3,
+        "cleanup_detail_surface_changes": 0,
+        "primary_metric": "wer",
+        "cleanup_regressions": 0,
+        "asr": {
+          "word_errors": 34,
+          "reference_words": 297,
+          "character_errors": 20,
+          "reference_characters": 913,
+          "wer": 0.11447811447811448,
+          "cer": 0.02190580503833516
+        },
+        "rules": {
+          "word_errors": 34,
+          "reference_words": 297,
+          "character_errors": 20,
+          "reference_characters": 913,
+          "wer": 0.11447811447811448,
+          "cer": 0.02190580503833516
+        }
+      }
+    },
+    "ms": {
+      "whisper-large-v3-turbo": {
+        "samples": 20,
+        "audio_seconds": 202.8,
+        "empty_outputs": 0,
+        "inference_errors": 0,
+        "asr_detail_surface_changes": 2,
+        "cleanup_detail_surface_changes": 0,
+        "primary_metric": "wer",
+        "cleanup_regressions": 0,
+        "asr": {
+          "word_errors": 45,
+          "reference_words": 372,
+          "character_errors": 97,
+          "reference_characters": 2275,
+          "wer": 0.12096774193548387,
+          "cer": 0.04263736263736264
+        },
+        "rules": {
+          "word_errors": 45,
+          "reference_words": 372,
+          "character_errors": 97,
+          "reference_characters": 2275,
+          "wer": 0.12096774193548387,
+          "cer": 0.04263736263736264
+        }
+      }
+    },
+    "pt": {
+      "parakeet-tdt-0-6b-v3-int8": {
+        "samples": 20,
+        "audio_seconds": 275.88,
+        "empty_outputs": 0,
+        "inference_errors": 0,
+        "asr_detail_surface_changes": 0,
+        "cleanup_detail_surface_changes": 0,
+        "primary_metric": "wer",
+        "cleanup_regressions": 0,
+        "asr": {
+          "word_errors": 24,
+          "reference_words": 548,
+          "character_errors": 51,
+          "reference_characters": 2688,
+          "wer": 0.043795620437956206,
+          "cer": 0.018973214285714284
+        },
+        "rules": {
+          "word_errors": 24,
+          "reference_words": 548,
+          "character_errors": 51,
+          "reference_characters": 2688,
+          "wer": 0.043795620437956206,
+          "cer": 0.018973214285714284
+        }
+      },
+      "whisper-large-v3-turbo": {
+        "samples": 20,
+        "audio_seconds": 275.88,
+        "empty_outputs": 0,
+        "inference_errors": 0,
+        "asr_detail_surface_changes": 1,
+        "cleanup_detail_surface_changes": 0,
+        "primary_metric": "wer",
+        "cleanup_regressions": 0,
+        "asr": {
+          "word_errors": 24,
+          "reference_words": 548,
+          "character_errors": 42,
+          "reference_characters": 2688,
+          "wer": 0.043795620437956206,
+          "cer": 0.015625
+        },
+        "rules": {
+          "word_errors": 24,
+          "reference_words": 548,
+          "character_errors": 42,
+          "reference_characters": 2688,
+          "wer": 0.043795620437956206,
+          "cer": 0.015625
+        }
+      }
+    },
+    "ta": {
+      "whisper-large-v3-turbo": {
+        "samples": 20,
+        "audio_seconds": 277.06,
+        "empty_outputs": 0,
+        "inference_errors": 0,
+        "asr_detail_surface_changes": 6,
+        "cleanup_detail_surface_changes": 0,
+        "primary_metric": "wer",
+        "cleanup_regressions": 0,
+        "asr": {
+          "word_errors": 268,
+          "reference_words": 343,
+          "character_errors": 1023,
+          "reference_characters": 2661,
+          "wer": 0.7813411078717201,
+          "cer": 0.38444193912063135
+        },
+        "rules": {
+          "word_errors": 268,
+          "reference_words": 343,
+          "character_errors": 1023,
+          "reference_characters": 2661,
+          "wer": 0.7813411078717201,
+          "cer": 0.38444193912063135
+        }
+      }
+    },
+    "te": {
+      "whisper-large-v3-turbo": {
+        "samples": 20,
+        "audio_seconds": 226.74,
+        "empty_outputs": 0,
+        "inference_errors": 0,
+        "asr_detail_surface_changes": 2,
+        "cleanup_detail_surface_changes": 0,
+        "primary_metric": "wer",
+        "cleanup_regressions": 0,
+        "asr": {
+          "word_errors": 296,
+          "reference_words": 354,
+          "character_errors": 989,
+          "reference_characters": 2354,
+          "wer": 0.8361581920903954,
+          "cer": 0.4201359388275276
+        },
+        "rules": {
+          "word_errors": 296,
+          "reference_words": 354,
+          "character_errors": 989,
+          "reference_characters": 2354,
+          "wer": 0.8361581920903954,
+          "cer": 0.4201359388275276
+        }
+      }
+    },
+    "th": {
+      "whisper-large-v3-turbo": {
+        "samples": 20,
+        "audio_seconds": 220.44,
+        "empty_outputs": 0,
+        "inference_errors": 0,
+        "asr_detail_surface_changes": 4,
+        "cleanup_detail_surface_changes": 0,
+        "primary_metric": "cer",
+        "cleanup_regressions": 0,
+        "asr": {
+          "word_errors": 78,
+          "reference_words": 70,
+          "character_errors": 278,
+          "reference_characters": 2468,
+          "wer": 1.1142857142857143,
+          "cer": 0.1126418152350081
+        },
+        "rules": {
+          "word_errors": 78,
+          "reference_words": 70,
+          "character_errors": 278,
+          "reference_characters": 2468,
+          "wer": 1.1142857142857143,
+          "cer": 0.1126418152350081
+        }
+      }
+    },
+    "tl": {
+      "whisper-large-v3-turbo": {
+        "samples": 20,
+        "audio_seconds": 299.22,
+        "empty_outputs": 0,
+        "inference_errors": 0,
+        "asr_detail_surface_changes": 2,
+        "cleanup_detail_surface_changes": 0,
+        "primary_metric": "wer",
+        "cleanup_regressions": 0,
+        "asr": {
+          "word_errors": 54,
+          "reference_words": 451,
+          "character_errors": 79,
+          "reference_characters": 2233,
+          "wer": 0.1197339246119734,
+          "cer": 0.03537841468875952
+        },
+        "rules": {
+          "word_errors": 54,
+          "reference_words": 451,
+          "character_errors": 79,
+          "reference_characters": 2233,
+          "wer": 0.1197339246119734,
+          "cer": 0.03537841468875952
+        }
+      }
+    },
+    "ur": {
+      "whisper-large-v3-turbo": {
+        "samples": 20,
+        "audio_seconds": 196.08,
+        "empty_outputs": 0,
+        "inference_errors": 0,
+        "asr_detail_surface_changes": 4,
+        "cleanup_detail_surface_changes": 0,
+        "primary_metric": "wer",
+        "cleanup_regressions": 0,
+        "asr": {
+          "word_errors": 127,
+          "reference_words": 561,
+          "character_errors": 194,
+          "reference_characters": 2030,
+          "wer": 0.22638146167557932,
+          "cer": 0.09556650246305419
+        },
+        "rules": {
+          "word_errors": 127,
+          "reference_words": 561,
+          "character_errors": 194,
+          "reference_characters": 2030,
+          "wer": 0.22638146167557932,
+          "cer": 0.09556650246305419
+        }
+      }
+    },
+    "vi": {
+      "whisper-large-v3-turbo": {
+        "samples": 20,
+        "audio_seconds": 239.04,
+        "empty_outputs": 0,
+        "inference_errors": 0,
+        "asr_detail_surface_changes": 0,
+        "cleanup_detail_surface_changes": 0,
+        "primary_metric": "wer",
+        "cleanup_regressions": 0,
+        "asr": {
+          "word_errors": 51,
+          "reference_words": 582,
+          "character_errors": 105,
+          "reference_characters": 2007,
+          "wer": 0.08762886597938144,
+          "cer": 0.052316890881913304
+        },
+        "rules": {
+          "word_errors": 51,
+          "reference_words": 582,
+          "character_errors": 105,
+          "reference_characters": 2007,
+          "wer": 0.08762886597938144,
+          "cer": 0.052316890881913304
+        }
+      }
+    },
+    "zh": {
+      "whisper-large-v3-turbo": {
+        "samples": 20,
+        "audio_seconds": 214.54,
+        "empty_outputs": 0,
+        "inference_errors": 0,
+        "asr_detail_surface_changes": 1,
+        "cleanup_detail_surface_changes": 0,
+        "primary_metric": "cer",
+        "cleanup_regressions": 0,
+        "asr": {
+          "word_errors": 55,
+          "reference_words": 72,
+          "character_errors": 50,
+          "reference_characters": 667,
+          "wer": 0.7638888888888888,
+          "cer": 0.07496251874062969
+        },
+        "rules": {
+          "word_errors": 55,
+          "reference_words": 72,
+          "character_errors": 50,
+          "reference_characters": 667,
+          "wer": 0.7638888888888888,
+          "cer": 0.07496251874062969
+        }
+      }
+    }
+  },
+  "literal_cleanup_regressions": [
+    {
+      "language": "en",
+      "id": 1914,
+      "model": "parakeet-tdt-0-6b-v3-int8",
+      "reference": "Twentieth century research has shown that there are two pools of genetic variation: hidden and expressed.",
+      "asr_text": "Twentieth century research has shown that there are two pools of genetic variation hidden and expressed.",
+      "rules_text": "20th century research has shown that there are 2 pools of genetic variation hidden and expressed.",
+      "asr_scores": {
+        "word_errors": 0,
+        "reference_words": 16,
+        "character_errors": 0,
+        "reference_characters": 88
+      },
+      "rules_scores": {
+        "word_errors": 2,
+        "reference_words": 16,
+        "character_errors": 10,
+        "reference_characters": 88
+      }
+    },
+    {
+      "language": "en",
+      "id": 1914,
+      "model": "whisper-large-v3-turbo",
+      "reference": "Twentieth century research has shown that there are two pools of genetic variation: hidden and expressed.",
+      "asr_text": "20th century research has shown that there are two pools of genetic variation hidden and expressed.",
+      "rules_text": "20th century research has shown that there are 2 pools of genetic variation hidden and expressed.",
+      "asr_scores": {
+        "word_errors": 1,
+        "reference_words": 16,
+        "character_errors": 7,
+        "reference_characters": 88
+      },
+      "rules_scores": {
+        "word_errors": 2,
+        "reference_words": 16,
+        "character_errors": 10,
+        "reference_characters": 88
+      }
+    },
+    {
+      "language": "en",
+      "id": 1711,
+      "model": "parakeet-tdt-0-6b-v3-int8",
+      "reference": "These theories look at what it is about certain people that make them want the things that they do and what things in their environment will make them do or not do certain things.",
+      "asr_text": "These three look at what it is about certain people that make them want the things that they do and what things in their environment will make them do or not do certain things.",
+      "rules_text": "These 3 look at what it is about certain people that make them want the things that they do and what things in their environment will make them do or not do certain things.",
+      "asr_scores": {
+        "word_errors": 1,
+        "reference_words": 34,
+        "character_errors": 4,
+        "reference_characters": 145
+      },
+      "rules_scores": {
+        "word_errors": 1,
+        "reference_words": 34,
+        "character_errors": 8,
+        "reference_characters": 145
+      }
+    }
+  ],
+  "cleanup_regression_interpretation": "Three English model cases have numeric/ordinal ITN surface changes. Original literal-reference metrics remain unchanged; no semantic equivalence score is substituted.",
+  "runtime_environment": {
+    "python": "3.13.17",
+    "implementation": "cpython",
+    "cache_tag": "cpython-313",
+    "architecture": "AMD64",
+    "interpreter_sha256": "4e67d9e9a3673aa7b6219f1280d5ec3f1b6c0d5bd98ea8688c72d0cb7582d664",
+    "packages": {
+      "numpy": "2.5.4",
+      "soundfile": "0.14.0",
+      "webrtcvad-wheels": "2.0.14",
+      "faster-whisper": "1.2.1",
+      "ctranslate2": "4.9.0",
+      "sherpa-onnx": "1.13.4",
+      "sherpa-onnx-core": "1.13.4",
+      "onnxruntime": "1.32.0"
+    }
+  }
+}

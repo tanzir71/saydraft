@@ -1,0 +1,41 @@
+import hashlib,json,os,subprocess,time,traceback
+from pathlib import Path
+b=Path(__file__).resolve().parent
+root=b/'asr-accuracy-1b7e7ea-shards-20261114-r2'
+root.mkdir(exist_ok=False)
+checkout=b/'worktrees/asr-languages-1b7e7ea-20261114'
+python=b/'latency-runtime-874a9c4-20261114/venv/Scripts/python.exe'
+corpus_index=b/'asr-public-fleurs-20261114/verified-corpus-index.json'
+corpora=json.loads(corpus_index.read_text(encoding='utf-8'))['corpora']
+def sha(p):return hashlib.sha256(Path(p).read_bytes()).hexdigest()
+def write(p,d):
+ t=p.with_suffix('.tmp');t.write_text(json.dumps(d,indent=2),encoding='utf-8');t.replace(p)
+state={'schema':1,'source_commit':'1b7e7eaf493e082692343244d6f1aed3e9907d68','corpus_index_sha256':sha(corpus_index),'pid':os.getpid(),'started_epoch':time.time(),'complete':False,'expected_cases':500,'completed_cases':0,'languages':[],'scope':'independent_public_read_asr_and_rules_runs_no_owner_audio_no_release_latency'}
+write(root/'batch.json',state)
+env=os.environ.copy();env.update(PYTHONUTF8='1',HF_HUB_OFFLINE='1',HF_HUB_DISABLE_TELEMETRY='1',DO_NOT_TRACK='1',QT_QPA_PLATFORM='offscreen',PYTHONDONTWRITEBYTECODE='1')
+try:
+ for corpus in corpora:
+  language=corpus['language'];folder=root/language;folder.mkdir()
+  output=folder/'native-r1'
+  args=[str(python),'-m','tools.asr_accuracy','--recipe','compare','--parakeet-dir',str(b/'parakeet-models/asr/parakeet-tdt-0-6b-v3-int8'),'--whisper-dir',str(b/'turbo-models/whisper/large-v3-turbo'),'--output',str(output),'--corpus',corpus['path']]
+  started=time.time()
+  with (folder/'stdout.log').open('x',encoding='utf-8') as stdout,(folder/'stderr.log').open('x',encoding='utf-8') as stderr:
+   child=subprocess.Popen(args,cwd=checkout,env=env,stdout=stdout,stderr=stderr)
+   state['active']={'language':language,'pid':child.pid,'output':str(output)};write(root/'batch.json',state)
+   code=child.wait()
+  receipt={'args':args,'native_pid':child.pid,'native_exit_observed':True,'returncode':code,'started_epoch':started,'ended_epoch':time.time(),'stdout_sha256':sha(folder/'stdout.log'),'stderr_sha256':sha(folder/'stderr.log'),'corpus_sha256':sha(corpus['path'])}
+  for name in ('report.json','cases.jsonl'):
+   if (output/name).exists():receipt[name+'_sha256']=sha(output/name)
+  write(folder/'process.json',receipt)
+  report=json.loads((output/'report.json').read_text(encoding='utf-8'))
+  state['languages'].append({'language':language,'returncode':code,'completed_cases':report['completed_cases'],'expected_cases':report['expected_cases'],'measurement_integrity':report.get('measurement_integrity'),'report':str(output/'report.json'),'process_sha256':sha(folder/'process.json')})
+  state['completed_cases']+=report['completed_cases'];state.pop('active',None);write(root/'batch.json',state)
+  print(json.dumps(state['languages'][-1]),flush=True)
+  if code!=0 or not report.get('measurement_integrity'):raise RuntimeError('Native shard did not pass measurement integrity: '+language)
+ state['complete']=len(state['languages'])==20 and state['completed_cases']==500
+except BaseException as exc:
+ state['error_type']=type(exc).__name__;traceback.print_exc()
+finally:
+ state['ended_epoch']=time.time();write(root/'batch.json',state)
+print(json.dumps({'complete':state['complete'],'completed_cases':state['completed_cases']}),flush=True)
+raise SystemExit(0 if state['complete'] else 1)

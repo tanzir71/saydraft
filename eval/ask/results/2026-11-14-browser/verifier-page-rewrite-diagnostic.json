@@ -1,0 +1,7 @@
+{
+  "reason": "Initial verifier opened application stores; schema initialization rewrote SQLite metadata. Published replay now uses mode=ro&immutable=1 and checks DB byte stability.",
+  "earlier_local_copy_sha256": "de98f2de464b55d5eb3dc3074ff65bbd2975d43774a97e8b07739b0603472165",
+  "fresh_artifact_sha256": "0182db45f59e0ade580988efdfc6d6e193d98ed31dd515edc61c1e76f2527766",
+  "dictations_notes_active_state_rows_identical": true,
+  "restored_from_same_ci_artifact": 43584597735
+}

@@ -1,0 +1,662 @@
+{
+  "scope": "400 public read clips, 20 per language; ASR and deterministic rules; no AI/VAD, owner audio or release-latency acceptance.",
+  "files": [
+    {
+      "file": "batch.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\batch.json",
+      "sha256": "ad115382b8a747ffc6458855235a5aa34e5984554094c073a2a1e13c03772596"
+    },
+    {
+      "file": "original-independent-verification.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\independent-completed-shard-verification.json",
+      "sha256": "48929ecb5d9c9f77e1e4eaff883a1cebcd44f22527930a3c0d94bd2044d477a8"
+    },
+    {
+      "file": "verify-original-machine.py.txt",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\verify_completed_asr_shards.py",
+      "sha256": "12c0ad548cf0cf76a79cb0665525b38b1e25900fffe8df6e4ed4d81a4f966e6e"
+    },
+    {
+      "file": "original-coordinator.py.txt",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\run_asr_accuracy_shards_1b7e7ea.py",
+      "sha256": "7bd3efcd4c16ee286d2917ac81bf4d4eaefcf0f3152bb989952a2a935fd28df3"
+    },
+    {
+      "file": "corpus-index.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-public-fleurs-20261114\\verified-corpus-index.json",
+      "sha256": "dc6421e116ddd06095001e5dc5096916f53a8e4eb47261536b8d197482cae001"
+    },
+    {
+      "file": "source-asr-accuracy.py.txt",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\asr-languages-1b7e7ea-20261114\\tools\\asr_accuracy.py",
+      "sha256": "68d1fe7a6943c9b5c828cd921d7dda8c29e6edff592c636a853db72ee7673fd9"
+    },
+    {
+      "file": "source-bench-models.py.txt",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\asr-languages-1b7e7ea-20261114\\tools\\bench_models.py",
+      "sha256": "915727fa0ee9cfd69b366c1f742069e8b6df7c02fd30874b98b404b0531cc547"
+    },
+    {
+      "file": "source-languages.py.txt",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\asr-languages-1b7e7ea-20261114\\saydraft\\asr\\languages.py",
+      "sha256": "fc80248ae2e9787f978cb761f0a1f0d1eba65837d33c1eab64846cf1319d9ad0"
+    },
+    {
+      "file": "source-model-manifest.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\asr-languages-1b7e7ea-20261114\\saydraft\\models\\manifest.json",
+      "sha256": "7f6b5d8aa719bd02f3be1af82bdf4d9f5b1345fd10094eb76b808ab0858772a0"
+    },
+    {
+      "file": "shards/en/report.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\en\\native-r1\\report.json",
+      "sha256": "b7df0f6b3e5c4bd39e2a26ea7a0efc43b3070580ecae6b6a045f68fed2346f4a"
+    },
+    {
+      "file": "shards/en/cases.jsonl",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\en\\native-r1\\cases.jsonl",
+      "sha256": "e6007e44caa0e486ad137323f5765563029e8aefbbf71e2a864919f29df1db45"
+    },
+    {
+      "file": "shards/en/process.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\en\\process.json",
+      "sha256": "cfb9f38073e01c8bfc5c21d7801564435930cab5d06cb4b92cd4538324465d98"
+    },
+    {
+      "file": "shards/en/stdout.txt",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\en\\stdout.log",
+      "sha256": "93c47afdb660b4758cd8cc28b48245d4fc0c52d750b5371ce8fb652947518a8b"
+    },
+    {
+      "file": "shards/en/stderr.txt",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\en\\stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "shards/en/corpus.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-public-fleurs-20261114\\en-r1\\corpus.json",
+      "sha256": "94c8335a2e6164be097ac109d981697bbe67bd6e38442a373e9b70932b25dc5a"
+    },
+    {
+      "file": "shards/bn/report.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\bn\\native-r1\\report.json",
+      "sha256": "13996d37124f7fe800dc0256633aeb8accbd04a0aefae6a1c8d47c05b38c3c8b"
+    },
+    {
+      "file": "shards/bn/cases.jsonl",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\bn\\native-r1\\cases.jsonl",
+      "sha256": "e9ce3944f48fe2937f5df1414e117437a7601589afa7704133ee61d01bc21e64"
+    },
+    {
+      "file": "shards/bn/process.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\bn\\process.json",
+      "sha256": "7b5f9bab10a9889a1de71379dc1bfb9f21d45e11736000c6de12ab59d57d0268"
+    },
+    {
+      "file": "shards/bn/stdout.txt",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\bn\\stdout.log",
+      "sha256": "af00693c5be0f59b0ffbe190bcf9bd0c71f99ef6871599843a73fa07b50ac610"
+    },
+    {
+      "file": "shards/bn/stderr.txt",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\bn\\stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "shards/bn/corpus.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-public-fleurs-20261114\\bn-r1\\corpus.json",
+      "sha256": "a3bfc3d4de2624629e6d90abe699e40c829f0aea83bcc7bd18518a129023b1b3"
+    },
+    {
+      "file": "shards/ar/report.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\ar\\native-r1\\report.json",
+      "sha256": "019a93d9188d7ec1e2de2a638b659c0d574c9e3416902d44a7f519d58b3859a8"
+    },
+    {
+      "file": "shards/ar/cases.jsonl",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\ar\\native-r1\\cases.jsonl",
+      "sha256": "32975fc2a7eb74c48cefc0d097710b8043d6a5663b788c10ed096d89d34f7bad"
+    },
+    {
+      "file": "shards/ar/process.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\ar\\process.json",
+      "sha256": "f4afc6b3b6e17f334aa1125dc25608e98236673c43673d80b05d52d3a352a22f"
+    },
+    {
+      "file": "shards/ar/stdout.txt",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\ar\\stdout.log",
+      "sha256": "6d948b9432430a19304c95e68c9b067c7847e0f58f36b513a7437698f0811fe5"
+    },
+    {
+      "file": "shards/ar/stderr.txt",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\ar\\stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "shards/ar/corpus.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-public-fleurs-20261114\\ar-r1\\corpus.json",
+      "sha256": "471a59dfba231954652c9fd638e024418efbd74ee7235d0ff8ad02386dcf46f9"
+    },
+    {
+      "file": "shards/th/report.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\th\\native-r1\\report.json",
+      "sha256": "b95ac1eddbf98f628651af50ecc302a169006042e9af3d2446a23f855cfd1387"
+    },
+    {
+      "file": "shards/th/cases.jsonl",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\th\\native-r1\\cases.jsonl",
+      "sha256": "5a110efcb0a6ef3d3818a7be14362a8cf584a4c305c04ff2ac36634d54049dca"
+    },
+    {
+      "file": "shards/th/process.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\th\\process.json",
+      "sha256": "d30e6b438033f556e5e64eca1289cee9d534935be71f5ba956b76a05534e1a26"
+    },
+    {
+      "file": "shards/th/stdout.txt",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\th\\stdout.log",
+      "sha256": "f59b9c4f857db0a7a83244dd18a9e5c5c5c193585cc4bf41d369790f7da70add"
+    },
+    {
+      "file": "shards/th/stderr.txt",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\th\\stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "shards/th/corpus.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-public-fleurs-20261114\\th-r1\\corpus.json",
+      "sha256": "87953b9bb115ed44a2a0a1bfc8a3742224da1c2320a8f5c0c69b010837b4cf46"
+    },
+    {
+      "file": "shards/zh/report.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\zh\\native-r1\\report.json",
+      "sha256": "5dd441e366fc0ea1c786a689dabd090cc1b7b53b38ff049c221320aac6c56b45"
+    },
+    {
+      "file": "shards/zh/cases.jsonl",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\zh\\native-r1\\cases.jsonl",
+      "sha256": "4c3e96c0f8bf22b054aa77368a6d9b4baea933701fd4e210d8d2b8a3d25dbc34"
+    },
+    {
+      "file": "shards/zh/process.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\zh\\process.json",
+      "sha256": "9cb88f37567a3fa5fe872d318455079347bc8e6c0303b713723f2480b2a91a69"
+    },
+    {
+      "file": "shards/zh/stdout.txt",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\zh\\stdout.log",
+      "sha256": "607caba354d999547c71d38ea0c113f9f822df5d3c1e836d70cf9311a9c8bc26"
+    },
+    {
+      "file": "shards/zh/stderr.txt",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\zh\\stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "shards/zh/corpus.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-public-fleurs-20261114\\zh-r1\\corpus.json",
+      "sha256": "b7cf4465962b83edee3007c0ae51ccb49b440324c1dbb2e3cfbcbcb00941c6f8"
+    },
+    {
+      "file": "shards/ko/report.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\ko\\native-r1\\report.json",
+      "sha256": "58716773d315a38c58df54aa6ab631a2d20fc204289b68f0d8f01cae4d3eb39b"
+    },
+    {
+      "file": "shards/ko/cases.jsonl",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\ko\\native-r1\\cases.jsonl",
+      "sha256": "90498516847a1441d55cdc17a6786cf39fa2e4211421874454851819305564d1"
+    },
+    {
+      "file": "shards/ko/process.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\ko\\process.json",
+      "sha256": "a6783d23278b6306621920940e160b660fcc7cbb971e723d8019e113d71808a6"
+    },
+    {
+      "file": "shards/ko/stdout.txt",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\ko\\stdout.log",
+      "sha256": "0364e278b60527188a80645d7bf590b8babd18f4a23ea76c486de2e35c6a7009"
+    },
+    {
+      "file": "shards/ko/stderr.txt",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\ko\\stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "shards/ko/corpus.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-public-fleurs-20261114\\ko-r1\\corpus.json",
+      "sha256": "6b70ce15c44c6b22e988a9fda5f2c88dd836d79ed1a6c4c4b565ce8c1b4ed6d0"
+    },
+    {
+      "file": "shards/pt/report.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\pt\\native-r1\\report.json",
+      "sha256": "b18db9fbc26cc468e710b66916a07182b7451281dfbac98492c0fc70bfdb2406"
+    },
+    {
+      "file": "shards/pt/cases.jsonl",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\pt\\native-r1\\cases.jsonl",
+      "sha256": "2d9a3baebd0fd54c0d6e569ec80d2466df51ff5047ed58e3ef2a85432c7a20a9"
+    },
+    {
+      "file": "shards/pt/process.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\pt\\process.json",
+      "sha256": "41dc57cfb315726f7e841104b26d7a6f1757d1c7ec8d6cda99e1e21df56c6b4e"
+    },
+    {
+      "file": "shards/pt/stdout.txt",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\pt\\stdout.log",
+      "sha256": "15c6ba497f95e56f7a7efb6fa926d8af8a522512985fabbf02d070bafaa398e5"
+    },
+    {
+      "file": "shards/pt/stderr.txt",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\pt\\stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "shards/pt/corpus.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-public-fleurs-20261114\\pt-r1\\corpus.json",
+      "sha256": "39a12e5d3915106445c2ff42981cdcd0dbf9925d98df7318dbcf7cd77528066f"
+    },
+    {
+      "file": "shards/ja/report.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\ja\\native-r1\\report.json",
+      "sha256": "2ef9c0f71b3939870370e67cac66df111eda61e4ba1a3cc3bf1536fe04a5d193"
+    },
+    {
+      "file": "shards/ja/cases.jsonl",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\ja\\native-r1\\cases.jsonl",
+      "sha256": "23f80dc18ba62e114bcdcac388786bde64f17da4d0667cf0fc3e56a00807d4a9"
+    },
+    {
+      "file": "shards/ja/process.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\ja\\process.json",
+      "sha256": "2ad74c3e119c1bfb6d1be0990529d35543d52b29dc5824dbf9028082d6330f71"
+    },
+    {
+      "file": "shards/ja/stdout.txt",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\ja\\stdout.log",
+      "sha256": "a29cfc8fbeb294750b7363f7b21f002ed69ccd78673e2ba75828fe76f88f4d7d"
+    },
+    {
+      "file": "shards/ja/stderr.txt",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\ja\\stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "shards/ja/corpus.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-public-fleurs-20261114\\ja-r1\\corpus.json",
+      "sha256": "c2f5ff6f0b8b716d69bf739f1f9d5447cbdbde08f79a97918aaf815e802f6dff"
+    },
+    {
+      "file": "shards/es/report.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\es\\native-r1\\report.json",
+      "sha256": "6f207c87cf5df98126f25b449a0529829ec522b4c16786d33c81c51a4abb5fe5"
+    },
+    {
+      "file": "shards/es/cases.jsonl",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\es\\native-r1\\cases.jsonl",
+      "sha256": "1778fa40da7e16a98adb9ee9a11e592e334f290b1cf3db88438c73509588f458"
+    },
+    {
+      "file": "shards/es/process.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\es\\process.json",
+      "sha256": "c9212e579bc91a9eab15e86b606b22249939793c4eb8a21d7fafe7dac431b353"
+    },
+    {
+      "file": "shards/es/stdout.txt",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\es\\stdout.log",
+      "sha256": "0dc68b557ed8d338bfe379a769e1589ef5d3070a5bd754d008af35422918c46b"
+    },
+    {
+      "file": "shards/es/stderr.txt",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\es\\stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "shards/es/corpus.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-public-fleurs-20261114\\es-r1\\corpus.json",
+      "sha256": "82166b641e2a683a53233263eb2caa2b215278b967e51a16a57b14e0ae727775"
+    },
+    {
+      "file": "shards/id/report.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\id\\native-r1\\report.json",
+      "sha256": "8daef8067faf12c8f52f80ae62522fbf566b98e7230362173f48a248d5944a25"
+    },
+    {
+      "file": "shards/id/cases.jsonl",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\id\\native-r1\\cases.jsonl",
+      "sha256": "b8d5fcbe50b9e9c2a0679bbd5b9dfb40fa179340b9ae22a6858696bb0c19fc19"
+    },
+    {
+      "file": "shards/id/process.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\id\\process.json",
+      "sha256": "e0d1affb0f4b12adac1452d0bc32db0aea65e4e7243204f6d9028a7bc41adbd6"
+    },
+    {
+      "file": "shards/id/stdout.txt",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\id\\stdout.log",
+      "sha256": "68b3c4c17bede3fe2c630d086f0ac0552455dca7930327c8ae13d888f78d8683"
+    },
+    {
+      "file": "shards/id/stderr.txt",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\id\\stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "shards/id/corpus.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-public-fleurs-20261114\\id-r1\\corpus.json",
+      "sha256": "c3fc501a2815a29b8fb63dedd5d0c8b67ef3c94ef6690c966cf539822b43c51c"
+    },
+    {
+      "file": "shards/ms/report.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\ms\\native-r1\\report.json",
+      "sha256": "0b20be2716fcecbcf8d7d0aae5bb6ba1599651c2ec4bbdbb80f0d7fcc0f89373"
+    },
+    {
+      "file": "shards/ms/cases.jsonl",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\ms\\native-r1\\cases.jsonl",
+      "sha256": "f4bcae8594fc89001156c456a984ff4760e2f09872d88058e4cf1c22f467058f"
+    },
+    {
+      "file": "shards/ms/process.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\ms\\process.json",
+      "sha256": "daae689d98cc4cbebbaba29ddf4e183a402a6c021a680633aece1875a88e285b"
+    },
+    {
+      "file": "shards/ms/stdout.txt",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\ms\\stdout.log",
+      "sha256": "1099225b1d327592b475c37b20b8384e2c6d0cdd80ca34fa4d619a6e841f58ac"
+    },
+    {
+      "file": "shards/ms/stderr.txt",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\ms\\stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "shards/ms/corpus.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-public-fleurs-20261114\\ms-r1\\corpus.json",
+      "sha256": "fff1005bd1bf6a5d2dc13ac25dd1ec4702d3e4562edd4aa839ed031919581eb0"
+    },
+    {
+      "file": "shards/hi/report.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\hi\\native-r1\\report.json",
+      "sha256": "380bb1ca6c89ca4242acc91106bb62d2941ecbade6f61e6bbc7fcfb957848463"
+    },
+    {
+      "file": "shards/hi/cases.jsonl",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\hi\\native-r1\\cases.jsonl",
+      "sha256": "859ed443a3ef8ea9d1584a212ade7cbacb6299499774caaaf31e112b42977579"
+    },
+    {
+      "file": "shards/hi/process.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\hi\\process.json",
+      "sha256": "3c54f82cb95517723f170bef18ac7a6778747063ce9ba420fd2f24e19f2e8424"
+    },
+    {
+      "file": "shards/hi/stdout.txt",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\hi\\stdout.log",
+      "sha256": "c715db7fdbdb8470ed0caa227adbaff590e468c83bdc04b7217bc4c92f80bd53"
+    },
+    {
+      "file": "shards/hi/stderr.txt",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\hi\\stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "shards/hi/corpus.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-public-fleurs-20261114\\hi-r1\\corpus.json",
+      "sha256": "86273b04b819aa91061cefe237b6219edf8aa126f8cb664baca6fd1587f43f6e"
+    },
+    {
+      "file": "shards/ur/report.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\ur\\native-r1\\report.json",
+      "sha256": "ba2f95a686a6c234c2aa22c23ea10179380781b86948f5cbec0f6c517713f820"
+    },
+    {
+      "file": "shards/ur/cases.jsonl",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\ur\\native-r1\\cases.jsonl",
+      "sha256": "3b369e2775afa1ee8822fffa0249bbabfcc8e79ef7ebb8b6b62ade00d78246e1"
+    },
+    {
+      "file": "shards/ur/process.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\ur\\process.json",
+      "sha256": "fc003940b5bc313e90c50cdcda1f8ecc5bb2d64b41dc837ee78d968ec8194c70"
+    },
+    {
+      "file": "shards/ur/stdout.txt",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\ur\\stdout.log",
+      "sha256": "1fad5f2be77382c7ce084b3a2b383627e1e0d896947abed14d9b9faca92546a5"
+    },
+    {
+      "file": "shards/ur/stderr.txt",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\ur\\stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "shards/ur/corpus.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-public-fleurs-20261114\\ur-r1\\corpus.json",
+      "sha256": "ae7eff9e40b57375f8cb8b296eb8e5e358e23993db219271291f46a77b1d00d6"
+    },
+    {
+      "file": "shards/vi/report.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\vi\\native-r1\\report.json",
+      "sha256": "81e0e6f688caf16b5d24fe97ba6280d660abdbf0333e243ff6ab8d562b5f8b73"
+    },
+    {
+      "file": "shards/vi/cases.jsonl",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\vi\\native-r1\\cases.jsonl",
+      "sha256": "99b4c0d13762844de8872fc2c5b218e7cd4efd8f8bdb62cb990ba938397bb7ad"
+    },
+    {
+      "file": "shards/vi/process.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\vi\\process.json",
+      "sha256": "20974db197814de1d1a058da2b0992f0275cb40903be1e54c9c7c4b261f6bc97"
+    },
+    {
+      "file": "shards/vi/stdout.txt",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\vi\\stdout.log",
+      "sha256": "ec60f6e4cf30834604178d066db1e5c6f99b96b024eb2fa143bf3fba1e5f983c"
+    },
+    {
+      "file": "shards/vi/stderr.txt",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\vi\\stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "shards/vi/corpus.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-public-fleurs-20261114\\vi-r1\\corpus.json",
+      "sha256": "2ac76dc4c23cd2189b61f9d99d9b1c691f369d47b9327fa2e07123b0e3aee01b"
+    },
+    {
+      "file": "shards/tl/report.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\tl\\native-r1\\report.json",
+      "sha256": "39c8bc16adecada247a0d5f4702fa29597fa818731b7ed8c1cdec93070fc9eb9"
+    },
+    {
+      "file": "shards/tl/cases.jsonl",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\tl\\native-r1\\cases.jsonl",
+      "sha256": "1a33a4d7865ae13f37648ba0f4a1b8ad659f2166903c3742995deadc684fbb96"
+    },
+    {
+      "file": "shards/tl/process.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\tl\\process.json",
+      "sha256": "828f42832c60d9ab0cc1aecf68aa4a7bdd66526c54dff4b792180358c321c5a9"
+    },
+    {
+      "file": "shards/tl/stdout.txt",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\tl\\stdout.log",
+      "sha256": "3d179c076a381af23833eb5d849cc37e5f583d85a81483c7539d3f91ea344863"
+    },
+    {
+      "file": "shards/tl/stderr.txt",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\tl\\stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "shards/tl/corpus.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-public-fleurs-20261114\\tl-r1\\corpus.json",
+      "sha256": "80b2a7fdfcbcd6ddbb1ab55314dabe913fa5faf91cb97dc109933855c407e97c"
+    },
+    {
+      "file": "shards/ta/report.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\ta\\native-r1\\report.json",
+      "sha256": "b2a04cd84cab9bad0256d65fae09b68b88078305cb51436ac7716e324ad9e919"
+    },
+    {
+      "file": "shards/ta/cases.jsonl",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\ta\\native-r1\\cases.jsonl",
+      "sha256": "686c7702924a0c966eee11937e6b5000c996638a6801f0a9c2bff21ca3e3f24c"
+    },
+    {
+      "file": "shards/ta/process.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\ta\\process.json",
+      "sha256": "48860b585dfaada54833dec18227bf754ac55362452d0e7b484cd115f5a3553f"
+    },
+    {
+      "file": "shards/ta/stdout.txt",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\ta\\stdout.log",
+      "sha256": "34854c48d227cc5ecb4d6c56682ca801436809d689d62dac8ee9eb5d241aa254"
+    },
+    {
+      "file": "shards/ta/stderr.txt",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\ta\\stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "shards/ta/corpus.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-public-fleurs-20261114\\ta-r1\\corpus.json",
+      "sha256": "b7bec61010b5817316caf4a39af0bd23d85010116b4c36d12e31c23213f38e5d"
+    },
+    {
+      "file": "shards/te/report.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\te\\native-r1\\report.json",
+      "sha256": "1d55b31598b54b97da9f1dff600728b4db083471b326a691cfab8b986f09ce09"
+    },
+    {
+      "file": "shards/te/cases.jsonl",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\te\\native-r1\\cases.jsonl",
+      "sha256": "323f4899034a446461298a1fe75b5a9fca4273aef3e82c142c1c62c1c38bf593"
+    },
+    {
+      "file": "shards/te/process.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\te\\process.json",
+      "sha256": "ace7f47e34a5389a3924cdcf810e793f9b17c456f171321ce7927893aad6bdd1"
+    },
+    {
+      "file": "shards/te/stdout.txt",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\te\\stdout.log",
+      "sha256": "281454975db86925ac8fa3569265f09821b9580ac8e2069925fa37cb6ac1bad0"
+    },
+    {
+      "file": "shards/te/stderr.txt",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\te\\stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "shards/te/corpus.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-public-fleurs-20261114\\te-r2\\corpus.json",
+      "sha256": "e1cfba00bb0aaae6893671a668398a20d71368c4c11ee4077d47112b040d0986"
+    },
+    {
+      "file": "shards/fa/report.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\fa\\native-r1\\report.json",
+      "sha256": "c561a5711860bc474a3430db1bdef3099e279da0f281a1b175e8f2934157b787"
+    },
+    {
+      "file": "shards/fa/cases.jsonl",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\fa\\native-r1\\cases.jsonl",
+      "sha256": "db7bbefae1ac5c90ba86b96659c51a0b1b5218d4a2460cd40207a8486c3f3d92"
+    },
+    {
+      "file": "shards/fa/process.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\fa\\process.json",
+      "sha256": "b0d1dcf353e614231eade1ef3c8f11579d7ff1b73264887860748c790f087f01"
+    },
+    {
+      "file": "shards/fa/stdout.txt",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\fa\\stdout.log",
+      "sha256": "4d7bf88bd6af43f413f135aabac1061c105edf0d369a9b29006a3e9c779bccbf"
+    },
+    {
+      "file": "shards/fa/stderr.txt",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\fa\\stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "shards/fa/corpus.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-public-fleurs-20261114\\fa-r2\\corpus.json",
+      "sha256": "8d5e8d1282d4bd8a9420fbd2eb7e79f3669aeaabb5a67817bc0916d3d16dd72d"
+    },
+    {
+      "file": "shards/fr/report.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\fr\\native-r1\\report.json",
+      "sha256": "9c60486b4679cf79c4742b89136017d6f7d2e00920b47e17d933c5034cbd22ae"
+    },
+    {
+      "file": "shards/fr/cases.jsonl",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\fr\\native-r1\\cases.jsonl",
+      "sha256": "be0160ae861b965e336423a8118a2517920810ca506f5299bbcca6288205000f"
+    },
+    {
+      "file": "shards/fr/process.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\fr\\process.json",
+      "sha256": "0b106791adbaf86ea58cda08cf750adce896d3da575ee530586494b1a70d7177"
+    },
+    {
+      "file": "shards/fr/stdout.txt",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\fr\\stdout.log",
+      "sha256": "82b27fc93be78afaf6b1593cdc265ed5c78f7454fd8e48ef2fde49b2015237eb"
+    },
+    {
+      "file": "shards/fr/stderr.txt",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\fr\\stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "shards/fr/corpus.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-public-fleurs-20261114\\fr-r1\\corpus.json",
+      "sha256": "bb047503510a7e9884d8a35aa9b48a8468165bb4e0ea6061e36a68a04de1a00c"
+    },
+    {
+      "file": "shards/de/report.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\de\\native-r1\\report.json",
+      "sha256": "0da0ceee1cff8c3d6f1cb67672ec13be9a477db2f72a6c2a5b2ffd6b5e05365a"
+    },
+    {
+      "file": "shards/de/cases.jsonl",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\de\\native-r1\\cases.jsonl",
+      "sha256": "27e1ef395b9ea7e6428ee92594bdc74e7be977cf8e9bd3878b7a233e458a5bc2"
+    },
+    {
+      "file": "shards/de/process.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\de\\process.json",
+      "sha256": "57d002aeb812c5db654a29f1fb1b757e0adea51b7357ceeb46bf413c7741949f"
+    },
+    {
+      "file": "shards/de/stdout.txt",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\de\\stdout.log",
+      "sha256": "b28d08a66bf2116292349dd257d0a63e8608295a0058e321d624ae6ff78c592c"
+    },
+    {
+      "file": "shards/de/stderr.txt",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\de\\stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "shards/de/corpus.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-public-fleurs-20261114\\de-r1\\corpus.json",
+      "sha256": "d1c8fac774207644bd2403373cb22f6be5dceab3c8d24b11fc46a6143992da7d"
+    },
+    {
+      "file": "README.md",
+      "sha256": "4f3ffd5f4806b4d673d86001606590209174816ef60dfc0b3632f276d4218b37"
+    },
+    {
+      "file": "summary.json",
+      "sha256": "f75287c835c0ddf5030ec96dd3206e14e320e2c79f490ae7e188ae62e26d5d9a"
+    },
+    {
+      "file": "verify-public.py.txt",
+      "sha256": "94f69f9a7e49cb4ba563fd0e7375d1df9bbfeb1745d4ee766187ef5236dd30c5"
+    }
+  ]
+}

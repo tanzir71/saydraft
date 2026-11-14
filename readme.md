@@ -56,7 +56,7 @@ qualification are tracked separately:
 | Local dictation, rules cleanup, optional local AI cleanup | Current-model quality and release latency qualification |
 | Hub, History, Dictionary, Snippets, Style, Scratchpad and Notes | Full Command qualification, Notetaker |
 | Experimental Pro Translate with per-group Style targets | Broader translation quality and physical workflow acceptance |
-| Experimental Pro [Ask about selected text](docs/ASK.md), with separate answer Notes | Native browser and packaged Ask acceptance; broader answer quality |
+| Experimental Pro [Ask about selected text](docs/ASK.md), with separate answer Notes; native read-only browser workflow verified | Packaged/physical Ask acceptance; broader answer quality |
 | Six-page setup, verified downloads, model performance check | Fresh-profile and physical Windows acceptance |
 | Public website, setup guide, verified unsigned builds and opt-in update notices | Signing and release publication |
 

@@ -1,0 +1,23 @@
+{
+  "source": "666cf5d7970935b93039c4b2457abc883bceca62",
+  "passed": true,
+  "scope": "Independent real browser/UIA/pinned CPU model/source/SQLite/Notes/exit verification. Database replay uses immutable read-only SQLite; memory Copy; not physical/frozen or broad semantic acceptance.",
+  "answer_manually_reviewed": "The library opens on Saturday at 10:00.",
+  "screenshots_reviewed": [
+    "question.png",
+    "answer.png"
+  ],
+  "artifacts": {
+    "answer.png": "d4fe78da686461eeb2887c1e67ab60b7c8c9cfed65476f697fc9688e4c362da1",
+    "article.html": "95d2ba0add4effd6fc956e03c443751f066ef652099e1e2a3f8b9de8e6765a57",
+    "native-report.json": "6db4c789d6a5da50415a2b5651c422cfad680be7dac7cc920aebb6ba3e54606c",
+    "public-history.db": "0182db45f59e0ade580988efdfc6d6e193d98ed31dd515edc61c1e76f2527766",
+    "python-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "python-stdout.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "question.png": "50f549ce24ac6b05b89e03d13e99f582efefab4e9284b5e0321a1fc6d6294f30",
+    "read-only-article.png": "221a81dddc73ed7b3d441e4568a47625aef7caa771757bc13fc387bab32f3f99",
+    "report.json": "addfa053f1435d9ddc2d992243a8af8a08a5d7797c408d27622ef2e98d07d8d6",
+    "request.json": "5cb506d655ec6d377b768ce9301a96e324124428c1895d665d43912b76fa7c3f"
+  },
+  "database_verification": "mode=ro&immutable=1; bytes unchanged before/after replay"
+}

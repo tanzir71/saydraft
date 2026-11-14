@@ -1,5 +1,5 @@
 {
-  "scope": "Native browser behavior passes at4485386 with scripted model/memory Copy; first failures retained, themed screenshot follow-up pending; actual-model/browser joint run remains unverified.",
+  "scope": "666cf5d actual pinned CPU model/real Chromium/native UIA/Ask/History/independent Notes passes; source app4485386. Earlier failures and scripted diagnostics retained. Memory Copy; not physical/frozen or broad semantic acceptance.",
   "files": [
     {
       "file": "c7b9566-report.json",
@@ -50,6 +50,79 @@
       "file": "verify-browser.py.txt",
       "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\verify_browser_ask_4485386.py",
       "sha256": "b38f18d7f6a26002896a67f84571a42195f33dea4b2ca0ab22c6a9728bcb7424"
+    },
+    {
+      "file": "native-model-666cf5d/answer.png",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\ask-browser-666cf5d-pristine-r2\\answer.png",
+      "sha256": "d4fe78da686461eeb2887c1e67ab60b7c8c9cfed65476f697fc9688e4c362da1"
+    },
+    {
+      "file": "native-model-666cf5d/article.html",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\ask-browser-666cf5d-pristine-r2\\article.html",
+      "sha256": "95d2ba0add4effd6fc956e03c443751f066ef652099e1e2a3f8b9de8e6765a57"
+    },
+    {
+      "file": "native-model-666cf5d/independent-verification.json",
+      "original": "Independent immutable read-only replay of freshly downloaded same-run artifact",
+      "sha256": "a04ae6a1d3b1bfa60f76981230aa8cea79504e8935fac4f0a0ca81d9f4cad2b5"
+    },
+    {
+      "file": "native-model-666cf5d/native-report.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\ask-browser-666cf5d-pristine-r2\\native-report.json",
+      "sha256": "6db4c789d6a5da50415a2b5651c422cfad680be7dac7cc920aebb6ba3e54606c"
+    },
+    {
+      "file": "native-model-666cf5d/public-history.db",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\ask-browser-666cf5d-pristine-r2\\public-history.db",
+      "sha256": "0182db45f59e0ade580988efdfc6d6e193d98ed31dd515edc61c1e76f2527766"
+    },
+    {
+      "file": "native-model-666cf5d/python-stderr.log",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\ask-browser-666cf5d-pristine-r2\\python-stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "native-model-666cf5d/python-stdout.log",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\ask-browser-666cf5d-pristine-r2\\python-stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "native-model-666cf5d/question.png",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\ask-browser-666cf5d-pristine-r2\\question.png",
+      "sha256": "50f549ce24ac6b05b89e03d13e99f582efefab4e9284b5e0321a1fc6d6294f30"
+    },
+    {
+      "file": "native-model-666cf5d/read-only-article.png",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\ask-browser-666cf5d-pristine-r2\\read-only-article.png",
+      "sha256": "221a81dddc73ed7b3d441e4568a47625aef7caa771757bc13fc387bab32f3f99"
+    },
+    {
+      "file": "native-model-666cf5d/report.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\ask-browser-666cf5d-pristine-r2\\report.json",
+      "sha256": "addfa053f1435d9ddc2d992243a8af8a08a5d7797c408d27622ef2e98d07d8d6"
+    },
+    {
+      "file": "native-model-666cf5d/request.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\ask-browser-666cf5d-pristine-r2\\request.json",
+      "sha256": "5cb506d655ec6d377b768ce9301a96e324124428c1895d665d43912b76fa7c3f"
+    },
+    {
+      "file": "verify-native-original.py.txt",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\verify_browser_ask_666cf5d.py",
+      "sha256": "59f69cb81089b951b79b8721a23b43ddd74ac032617dc07eda679d3c6e26eb41"
+    },
+    {
+      "file": "verify-native-model.py.txt",
+      "sha256": "fa63e2ca77a5521b4b45ae22416233543a1dd938f34e05d27bfb9cfa7b303829"
+    },
+    {
+      "file": "ci-666cf5d.json",
+      "original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\run-43584597735.json",
+      "sha256": "f5b134360d0d897d3db825f261445cf94cab01a1e2edd2f93cd492b475115efd"
+    },
+    {
+      "file": "verifier-page-rewrite-diagnostic.json",
+      "sha256": "bbdf5f25b0014601e5004ca5e284d598d527f875cb6ccf78832222e05c64be6f"
     }
   ]
 }

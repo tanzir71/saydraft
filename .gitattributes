@@ -53,6 +53,9 @@ eval/ask/results/**/*.jsonl -text whitespace=blank-at-eol,blank-at-eof,space-bef
 eval/ask/results/**/*.log -text -whitespace
 eval/ask/results/**/*.txt -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 eval/ask/results/**/*.toc -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+eval/ask/results/**/*.html -text
+eval/ask/results/**/*.db -text
 eval/asr/results/**/*.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 eval/asr/results/**/*.jsonl -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 eval/asr/results/**/*.txt -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+eval/asr/results/**/*.md -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol

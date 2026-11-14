@@ -1,0 +1,37 @@
+import hashlib,json,subprocess,sys
+from pathlib import Path
+base=Path(__file__).resolve().parent
+sys.path.insert(0,str(Path.cwd()))
+from tools.asr_accuracy import load_corpora,models_for,summarize
+from tools.bench_models import score
+root=base/'asr-accuracy-1b7e7ea-shards-20261114-r2'
+source=base/'worktrees/asr-languages-1b7e7ea-20261114'
+batch=json.loads((root/'batch.json').read_text(encoding='utf-8'))
+def sha(p):return hashlib.sha256(Path(p).read_bytes()).hexdigest()
+assert not subprocess.check_output(['git','-C',str(source),'status','--porcelain']).strip()
+verified=[]
+for item in batch['languages']:
+ report_path=Path(item['report']);report=json.loads(report_path.read_text(encoding='utf-8'));folder=report_path.parent.parent
+ process=json.loads((folder/'process.json').read_text(encoding='utf-8'))
+ assert process['returncode']==0 and process['native_exit_observed']
+ assert sha(folder/'process.json')==item['process_sha256']
+ assert report['complete'] and report['measurement_integrity'] and report['source_unchanged'] and report['runtime_environment_unchanged'] and not report['source']['dirty']
+ assert report['source']['commit']=='1b7e7eaf493e082692343244d6f1aed3e9907d68'
+ assert all(sha(source/name)==value for name,value in report['source']['fingerprints'].items())
+ assert all(v['verified_before'] and v['verified_after'] for v in report['models'].values())
+ rows=[json.loads(line) for line in (report_path.parent/'cases.jsonl').read_text(encoding='utf-8').splitlines()]
+ assert len(rows)==report['completed_cases']==report['expected_cases']
+ for name in ('report.json','cases.jsonl'):assert sha(report_path.parent/name)==process[name+'_sha256']
+ assert sha(report_path.parent/'cases.jsonl')==report['journal_sha256']
+ clips,_=load_corpora([r['path'] for r in report['corpora']]);lookup={r['id']:r for r in clips}
+ expected={(r['id'],m) for r in clips for m in models_for(r['language'],'compare')}
+ assert {(r['id'],r['model']) for r in rows}==expected and len(expected)==len(rows)
+ for row in rows:
+  assert row['reference']==lookup[row['id']]['reference'] and row['sha256']==lookup[row['id']]['sha256']
+  assert row['asr_scores']==score(row['reference'],row['asr_text']) and row['rules_scores']==score(row['reference'],row['rules_text'])
+  assert not row.get('error_type')
+ assert summarize(rows)==report['summary']
+ verified.append({'language':item['language'],'cases':len(rows),'native_exit_observed':True,'integrity':True,'source_fingerprints_verified':True,'corpus_audio_reference_hashes_verified':True,'raw_scores_recomputed':True,'summary':report['summary'][item['language']]})
+result={'verified_completed_shards':verified,'completed_cases':sum(r['cases'] for r in verified),'complete_batch':batch['complete']}
+(root/'independent-completed-shard-verification.json').write_text(json.dumps(result,ensure_ascii=False,indent=2),encoding='utf-8')
+print(json.dumps({'verified_languages':[r['language'] for r in verified],'completed_cases':result['completed_cases'],'complete_batch':batch['complete']}))

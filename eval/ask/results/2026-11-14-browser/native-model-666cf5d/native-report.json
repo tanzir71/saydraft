@@ -1,0 +1,224 @@
+{
+  "source": "666cf5d7970935b93039c4b2457abc883bceca62",
+  "source_dirty": false,
+  "scope": "Real browser selection -> actual Ask flow, restricted to disposable Windows CI.\n\nThe optional explicit cache selects the actual pinned CPU editing model; without\nit the model is scripted. Copy always uses memory. No audio, hook, OS input,\nclipboard transaction, implicit download or document insertion is allowed.\n",
+  "mode": "native_model",
+  "verified": {
+    "qwen35-4b-q4-k-m": {
+      "Qwen_Qwen3.5-4B-Q4_K_M.gguf": "13c16f426047e2de38cd075bdade4a7bcbc8c774384876f677740cda65f8a983",
+      "README.md": "385066b55f515ade2629bfa5c0c43213b13fa2610f94ccc183f010df3e9fb55a",
+      "LICENSE.txt": "bbedc3fda3305820b977265f01b8619d87570a6739de3a5582c3464840f1e57a"
+    },
+    "llama-cpp-b12110-cpu-x64": {
+      "LICENSE-LLVM-OpenMP": "fdad1758a9e1f9d5a81e18879b3406772115edc92c24bfa36b70c654f325e8e4",
+      "ggml-base.dll": "3a0399fa51102a86824255beda9d021ea7e8cd2bd8ca448a43a9a80aa4829290",
+      "ggml-cpu-alderlake.dll": "1de7a0d14d70bd741f2e4cdfa959176fee26680d6fbc78c717c0bd19e20b6233",
+      "ggml-cpu-cannonlake.dll": "1451909b84c223739247088a0e03db0f89bcd83461f2af43f53d794727afddcd",
+      "ggml-cpu-cascadelake.dll": "74d79278bd20143d3e7deeb2b5c033555f9d621016a7152b5190a2fcbf30265c",
+      "ggml-cpu-cooperlake.dll": "737f0e96f23ca7d66c8dc55eace36ebbfd47770a9a228c804ffff5bf66f933a8",
+      "ggml-cpu-haswell.dll": "85d9ffd6f84fd0ec01586420b935ac4d5a5c9a1ab76b533eb3ddc060c1fe2869",
+      "ggml-cpu-icelake.dll": "41ca727e74b171983ea9afe0250553706c09225c10a8c6ad72a619f9189279a8",
+      "ggml-cpu-ivybridge.dll": "39752b7667cb34b3bbd06178fac83803f6089771d43873a9c81015d2a98c280b",
+      "ggml-cpu-piledriver.dll": "65bef2ae4f69256d9aff053a6fff1abdbd33acdbc51ede863d8bc5bd43c53ee8",
+      "ggml-cpu-sandybridge.dll": "5359624dee5670cb299c08f4a49347f7a6f4d0df35ed4c0a91164e4d771b3e23",
+      "ggml-cpu-sapphirerapids.dll": "a7a395d0e49f182240c9a2ed1d623398911506bdae418baf161354541aa06a89",
+      "ggml-cpu-skylakex.dll": "6bd53dc5731c5b9e4d3fbf98a9dc5b3ce76d357be9a579bc6c8cedac035462e8",
+      "ggml-cpu-sse42.dll": "1e1700e6b6eef26b6abb0bc68669b6ee9fdad2b8d00058e491cb5160eb54afc2",
+      "ggml-cpu-x64.dll": "81877c8787f9d5680b990f4cf5f8b89ba5b02ee5064b36abfd53d9d2ffb50916",
+      "ggml-cpu-zen4.dll": "b5c1eec79e83878303acfa774f1275d9e025493b2c23f2a01af09fe985cdc21a",
+      "ggml.dll": "06dfdff8b7b834c757ec5b5411abfc0f732604fb595eaaffbdc6da563523e8a1",
+      "libomp.dll": "a12116ba72d1d6820407cf30be23da04ce79d6bb8a71a5ee71759c5a1faa6f1c",
+      "llama-common.dll": "0898e517843e4478b5178621dc878552b4d40a4d47d7b6f1775e7897f4e2344e",
+      "llama-server-impl.dll": "c5d306bdcad1c4011f18a1c01ae2fcdca48a197af0d421c2931ace2cfb487fc6",
+      "llama-server.exe": "00d50686815af38249d0218c91558fbd0e9093ac8c074bac86196907f4305e31",
+      "llama.dll": "211b91d86e67c49f12eb97992b45ae4c2fc797d6edab48637835a877c808890e",
+      "mtmd.dll": "74a3cace50f6c545cc66e4dc05e2aecf465f146ea1b4000376cd9834598a3e14",
+      "LICENSE-llama-cpp.txt": "94f29bbed6a22c35b992c5c6ebf0e7c92f13b836b90f36f461c9cf2f0f1d010d"
+    }
+  },
+  "stages": [
+    "native-read-only-article-reviewed",
+    "history-and-independent-answer-note-before-explicit-memory-copy"
+  ],
+  "native_reads": 3,
+  "native_metadata": [
+    {
+      "type": 50026,
+      "password": false,
+      "focused": true
+    },
+    {
+      "type": 50026,
+      "password": false,
+      "focused": true
+    },
+    {
+      "type": 50026,
+      "password": false,
+      "focused": true
+    },
+    {
+      "type": 50026,
+      "password": false,
+      "focused": true
+    },
+    {
+      "type": 50026,
+      "password": false,
+      "focused": true
+    },
+    {
+      "type": 50026,
+      "password": false,
+      "focused": true
+    },
+    {
+      "type": 50026,
+      "password": false,
+      "focused": true
+    }
+  ],
+  "model_calls": [
+    {
+      "source_sha256": "fd6b4fb89c925f94c5a8762321f39b9e148b36adee554e9c01229b22be3d068a",
+      "question": "When does the library open?",
+      "model_id": "qwen35-4b-q4-k-m",
+      "reason": "ok",
+      "stream_complete": true,
+      "input_tokens": 240,
+      "output_limit": 768
+    }
+  ],
+  "copies": [
+    "The library opens on Saturday at 10:00."
+  ],
+  "complete": true,
+  "expected_source_sha256": "fd6b4fb89c925f94c5a8762321f39b9e148b36adee554e9c01229b22be3d068a",
+  "browser_window": 196990,
+  "bundled_font_faces": 8,
+  "document_ancestors": [
+    {
+      "type": 50030,
+      "password": false,
+      "native_handle": 0
+    },
+    {
+      "type": 50030,
+      "password": false,
+      "native_handle": 0
+    },
+    {
+      "type": 50030,
+      "password": false,
+      "native_handle": 0
+    },
+    {
+      "type": 50030,
+      "password": false,
+      "native_handle": 0
+    },
+    {
+      "type": 50030,
+      "password": false,
+      "native_handle": 0
+    },
+    {
+      "type": 50030,
+      "password": false,
+      "native_handle": 0
+    }
+  ],
+  "native_range_queries": [
+    {
+      "type": 50026,
+      "error_type": "ValueError",
+      "hresult": null
+    },
+    {
+      "type": 50030,
+      "count": 1
+    },
+    {
+      "type": 50026,
+      "error_type": "ValueError",
+      "hresult": null
+    },
+    {
+      "type": 50030,
+      "count": 1
+    },
+    {
+      "type": 50026,
+      "error_type": "ValueError",
+      "hresult": null
+    },
+    {
+      "type": 50030,
+      "count": 1
+    },
+    {
+      "type": 50026,
+      "error_type": "ValueError",
+      "hresult": null
+    },
+    {
+      "type": 50030,
+      "count": 1
+    },
+    {
+      "type": 50026,
+      "error_type": "ValueError",
+      "hresult": null
+    },
+    {
+      "type": 50030,
+      "count": 1
+    },
+    {
+      "type": 50026,
+      "error_type": "ValueError",
+      "hresult": null
+    },
+    {
+      "type": 50030,
+      "count": 1
+    }
+  ],
+  "native_captures": [
+    {
+      "status": "ready",
+      "read_only": true,
+      "control_type": 50026,
+      "source_sha256": "fd6b4fb89c925f94c5a8762321f39b9e148b36adee554e9c01229b22be3d068a",
+      "allow_copy": false
+    }
+  ],
+  "ask_status": [
+    {
+      "phase": "preparing",
+      "reason": null
+    },
+    {
+      "phase": "answering",
+      "reason": null
+    },
+    {
+      "phase": "finished",
+      "reason": "ok"
+    }
+  ],
+  "history_before_presentation": true,
+  "answer_text": "The library opens on Saturday at 10:00.",
+  "answer_anchors_pass": true,
+  "native_model_pids": [
+    8580
+  ],
+  "native_model_exits": [
+    true
+  ],
+  "pins_unchanged": true,
+  "native_model_used": true,
+  "uia_closed": true,
+  "no_audio_module_loaded": true,
+  "source_unchanged": true
+}

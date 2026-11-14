@@ -1,10 +1,12 @@
 # Multilingual speech accuracy work
 
 Status, 14 November 2026: language coverage, cleanup safeguards and controlled
-acquisition/scoring tests pass. Four hundred public clips across twenty languages
-(81.41 minutes) have verified audio headers, references and hashes. Native model
-scoring is running in independent per-language processes; the full expanded
-speech-accuracy comparison is not complete. A separate three-clip
+acquisition/scoring tests pass. The [public read-speech baseline](../eval/asr/results/2026-11-14-public-read/README.md)
+is complete: four hundred unique clips across twenty languages (81.41 minutes),
+500 model cases, twenty observed zero native exits, and independently verified
+audio/reference/source/model hashes and score totals. This is a small baseline;
+language-quality acceptance and evidence-backed improvements remain open.
+Bengali, Tamil and Telugu show substantial recognition errors. A separate three-clip
 [Bengali decoder diagnostic](spikes/bengali-decoder.md) confirms native output
 capping and rejects an internal 8-second-window candidate because character
 errors worsen. This development finding is not broad language acceptance.
@@ -67,7 +69,12 @@ tool remains a script-only smoke. The first combined native run stopped after
 no scorer or coordinator; no native-exit receipt or final hashes were written.
 That partial is retained and does not establish a completed result. Fresh
 per-language runs use the same frozen clean source, clips and selection order,
-with an observed child exit and post-run hashes for each language.
+with an observed child exit and post-run hashes for each language. All twenty
+now finish: Whisper scores all 400 clips, while Parakeet scores the same 100
+English, Portuguese, Spanish, French and German clips. The original partial is
+not merged into that result. The retained record includes every raw output,
+per-language corpus manifest, original report, process receipt and a portable
+offline verifier that independently recomputes all 500 WER/CER pairs.
 
 The scoring runner validates frozen TSV/reference/audio hashes before inference,
 loads only explicitly supplied model directories, caches compatible engines, and
@@ -81,6 +88,22 @@ AI cleanup, VAD trimming and OS firewall enforcement are outside this runner's
 stated scope. Native scoring must use a clean, unchanged source checkout.
 
 ## Measurements and decisions
+
+The [baseline table and full summaries](../eval/asr/results/2026-11-14-public-read/README.md)
+keep each language/model separate. Bengali WER/CER is 84.95%/39.02%, Tamil
+78.13%/38.44%, and Telugu 83.62%/42.01%; these failures need further decoder/model
+investigation and untouched confirmation. The rejected Bengali 8-second-window
+candidate is not promoted. English Parakeet has one empty output, retained in
+the denominator. Brazilian Portuguese ties at 4.38% WER for both models on this
+sample, which does not justify a regional model-default change. No production
+decoder or routing default changes follow from this baseline alone.
+
+All non-English transcripts pass through deterministic cleanup unchanged.
+Three English model cases have worse literal scores after intended numeric or
+ordinal formatting (`Twentieth` → `20th`, `two` → `2`, `three` → `3`). The raw
+reference scores remain unchanged and the surface differences are disclosed;
+no semantic-equivalence oracle replaces them. The global unmeasured list covers
+80 remaining language codes, computed after combining all measured languages.
 
 - Report each language's sample count, duration, empty-output rate, WER and CER
   separately. Use CER as the primary diagnostic for languages without dependable
@@ -124,5 +147,6 @@ environment. Publish measured scope rather than a blanket accuracy claim.
   and adversarial checks.
 - Local UI/browser checks and public corpus acquisition pass. Clean source
   `e442880` passes global CI (4,000 tests / 12 explicit skips), rules 556/556 and
-  adversarial 100/100. Complete native scoring, model comparisons and any
-  evidence-backed route changes remain pending.
+  adversarial 100/100. The separate clean `1b7e7ea` native accuracy baseline is
+  complete. Quality improvements, untouched confirmation, mixed/noisy speech,
+  other catalog languages and deferred owner accuracy remain open under P3.10.
