@@ -1,0 +1,535 @@
+﻿2026-11-14T13:24:30.7860550Z Current runner version: '2.338.2'
+2026-11-14T13:24:30.8160658Z ##[group]Runner Image Provisioner
+2026-11-14T13:24:30.8161551Z Hosted Compute Agent
+2026-11-14T13:24:30.8162089Z Version: 20261103.629
+2026-11-14T13:24:30.8162693Z Commit: 15dbd9ccb5dbf34fae002b6ed1a2670f52df37bc
+2026-11-14T13:24:30.8163403Z Build Date: 2026-11-03T17:26:59Z
+2026-11-14T13:24:30.8164105Z Worker ID: {616bc135-93a6-45f4-a6be-744039aa4b87}
+2026-11-14T13:24:30.8164826Z Region: westus
+2026-11-14T13:24:30.8165424Z Cloud: Azure
+2026-11-14T13:24:30.8165931Z ##[endgroup]
+2026-11-14T13:24:30.8167318Z ##[group]Operating System
+2026-11-14T13:24:30.8167974Z Microsoft Windows Server 2025
+2026-11-14T13:24:30.8168554Z 10.0.26100
+2026-11-14T13:24:30.8169036Z Datacenter
+2026-11-14T13:24:30.8169503Z ##[endgroup]
+2026-11-14T13:24:30.8170009Z ##[group]Runner Image
+2026-11-14T13:24:30.8170561Z Image: windows-2025-vs2026
+2026-11-14T13:24:30.8171630Z Version: 20261103.298.1
+2026-11-14T13:24:30.8173180Z Included Software: https://github.com/actions/runner-images/blob/win25-vs2026/20261103.298/images/windows/Windows2025-VS2026-Readme.md
+2026-11-14T13:24:30.8174933Z Image Release: https://github.com/actions/runner-images/releases/tag/win25-vs2026%2F20261103.298
+2026-11-14T13:24:30.8175880Z ##[endgroup]
+2026-11-14T13:24:30.8176953Z ##[group]GITHUB_TOKEN Permissions
+2026-11-14T13:24:30.8178772Z Contents: read
+2026-11-14T13:24:30.8179325Z Metadata: read
+2026-11-14T13:24:30.8179871Z ##[endgroup]
+2026-11-14T13:24:30.8181913Z Secret source: Actions
+2026-11-14T13:24:30.8182770Z Cache mode: write
+2026-11-14T13:24:30.8183436Z Prepare workflow directory
+2026-11-14T13:24:30.9410941Z Prepare all required actions
+2026-11-14T13:24:30.9461184Z Getting action download info
+2026-11-14T13:24:31.2951237Z Download action repository 'actions/checkout@v7' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+2026-11-14T13:24:31.4743263Z Download action repository 'actions/setup-python@v7' (SHA:6d4fd22b20465ccc0f7354476588e8df7c9ca0e0)
+2026-11-14T13:24:32.0034961Z Download action repository 'actions/upload-artifact@v7' (SHA:cf430e030ddbb5b0abf93d22962f4752f3646cd9)
+2026-11-14T13:24:32.6165070Z Complete job name: windows
+2026-11-14T13:24:33.4049246Z ##[group]Run actions/checkout@v7
+2026-11-14T13:24:33.4050377Z with:
+2026-11-14T13:24:33.4050924Z   repository: tanzir71/saydraft
+2026-11-14T13:24:33.4054796Z   token: ***
+2026-11-14T13:24:33.4055198Z   ssh-strict: true
+2026-11-14T13:24:33.4055581Z   ssh-user: git
+2026-11-14T13:24:33.4055971Z   persist-credentials: true
+2026-11-14T13:24:33.4056384Z   clean: true
+2026-11-14T13:24:33.4056773Z   sparse-checkout-cone-mode: true
+2026-11-14T13:24:33.4057199Z   fetch-depth: 1
+2026-11-14T13:24:33.4057586Z   fetch-tags: false
+2026-11-14T13:24:33.4057973Z   show-progress: true
+2026-11-14T13:24:33.4058374Z   lfs: false
+2026-11-14T13:24:33.4058764Z   submodules: false
+2026-11-14T13:24:33.4059154Z   set-safe-directory: true
+2026-11-14T13:24:33.4059592Z   allow-unsafe-pr-checkout: false
+2026-11-14T13:24:33.4060283Z env:
+2026-11-14T13:24:33.4060701Z   QT_QPA_PLATFORM: offscreen
+2026-11-14T13:24:33.4061122Z   HF_HUB_OFFLINE: 1
+2026-11-14T13:24:33.4061548Z   HF_HUB_DISABLE_TELEMETRY: 1
+2026-11-14T13:24:33.4061958Z   DO_NOT_TRACK: 1
+2026-11-14T13:24:33.4062316Z ##[endgroup]
+2026-11-14T13:24:33.5952599Z Syncing repository: tanzir71/saydraft
+2026-11-14T13:24:33.5954214Z ##[group]Getting Git version info
+2026-11-14T13:24:33.5954836Z Working directory is 'D:\a\saydraft\saydraft'
+2026-11-14T13:24:33.6964278Z [command]"C:\Program Files\Git\bin\git.exe" version
+2026-11-14T13:24:34.0363403Z git version 2.56.0.windows.4
+2026-11-14T13:24:34.0416021Z ##[endgroup]
+2026-11-14T13:24:34.0453910Z Temporarily overriding HOME='D:\a\_temp\13697e2e-523f-46c7-af2b-8b335e68a7a6' before making global git config changes
+2026-11-14T13:24:34.0454894Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-14T13:24:34.0455752Z [command]"C:\Program Files\Git\bin\git.exe" config --global --add safe.directory D:\a\saydraft\saydraft
+2026-11-14T13:24:34.1082759Z Deleting the contents of 'D:\a\saydraft\saydraft'
+2026-11-14T13:24:34.1088099Z ##[group]Determining repository object format
+2026-11-14T13:24:34.1090413Z ##[endgroup]
+2026-11-14T13:24:34.1091109Z ##[group]Initializing the repository
+2026-11-14T13:24:34.1099170Z [command]"C:\Program Files\Git\bin\git.exe" init D:\a\saydraft\saydraft
+2026-11-14T13:24:34.1960702Z Initialized empty Git repository in D:/a/saydraft/saydraft/.git/
+2026-11-14T13:24:34.2010567Z [command]"C:\Program Files\Git\bin\git.exe" remote add origin https://github.com/tanzir71/saydraft
+2026-11-14T13:24:34.2749977Z ##[endgroup]
+2026-11-14T13:24:34.2750670Z ##[group]Disabling automatic garbage collection
+2026-11-14T13:24:34.2758685Z [command]"C:\Program Files\Git\bin\git.exe" config --local gc.auto 0
+2026-11-14T13:24:34.3135678Z ##[endgroup]
+2026-11-14T13:24:34.3136754Z ##[group]Setting up auth
+2026-11-14T13:24:34.3137554Z Removing SSH command configuration
+2026-11-14T13:24:34.3147066Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+2026-11-14T13:24:34.3533101Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+2026-11-14T13:24:35.7908776Z Removing HTTP extra header
+2026-11-14T13:24:35.7917561Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-14T13:24:35.8293852Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+2026-11-14T13:24:36.3773118Z Removing includeIf entries pointing to credentials config files
+2026-11-14T13:24:36.3784076Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-14T13:24:36.4242101Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "git config --local --show-origin --name-only --get-regexp remote.origin.url"
+2026-11-14T13:24:36.9855145Z [command]"C:\Program Files\Git\bin\git.exe" config --file D:\a\_temp\git-credentials-7f646491-0872-4513-9d3e-88131c69a49c.config http.https://github.com/.extraheader "AUTHORIZATION: basic ***"
+2026-11-14T13:24:37.0252866Z [command]"C:\Program Files\Git\bin\git.exe" config --local includeIf.gitdir:D:/a/saydraft/saydraft/.git.path D:\a\_temp\git-credentials-7f646491-0872-4513-9d3e-88131c69a49c.config
+2026-11-14T13:24:37.0638585Z [command]"C:\Program Files\Git\bin\git.exe" config --local includeIf.gitdir:D:/a/saydraft/saydraft/.git/worktrees/*.path D:\a\_temp\git-credentials-7f646491-0872-4513-9d3e-88131c69a49c.config
+2026-11-14T13:24:37.1075007Z [command]"C:\Program Files\Git\bin\git.exe" config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-7f646491-0872-4513-9d3e-88131c69a49c.config
+2026-11-14T13:24:37.1474294Z [command]"C:\Program Files\Git\bin\git.exe" config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-7f646491-0872-4513-9d3e-88131c69a49c.config
+2026-11-14T13:24:37.1857990Z ##[endgroup]
+2026-11-14T13:24:37.1858705Z ##[group]Fetching the repository
+2026-11-14T13:24:37.1868083Z [command]"C:\Program Files\Git\bin\git.exe" -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +3aa3e84b73fd65b00c335925ff58eafc54b24538:refs/remotes/origin/main
+2026-11-14T13:24:38.8744296Z From https://github.com/tanzir71/saydraft
+2026-11-14T13:24:38.8746420Z  * [new ref]         3aa3e84b73fd65b00c335925ff58eafc54b24538 -> origin/main
+2026-11-14T13:24:38.8799608Z [command]"C:\Program Files\Git\bin\git.exe" branch --list --remote origin/main
+2026-11-14T13:24:38.9271235Z   origin/main
+2026-11-14T13:24:38.9329996Z [command]"C:\Program Files\Git\bin\git.exe" rev-parse refs/remotes/origin/main
+2026-11-14T13:24:38.9771003Z 3aa3e84b73fd65b00c335925ff58eafc54b24538
+2026-11-14T13:24:38.9809462Z ##[endgroup]
+2026-11-14T13:24:38.9809848Z ##[group]Determining the checkout info
+2026-11-14T13:24:38.9810847Z ##[endgroup]
+2026-11-14T13:24:38.9820107Z [command]"C:\Program Files\Git\bin\git.exe" sparse-checkout disable
+2026-11-14T13:24:39.0319264Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset-all extensions.worktreeConfig
+2026-11-14T13:24:39.0735615Z ##[group]Checking out the ref
+2026-11-14T13:24:39.0748646Z [command]"C:\Program Files\Git\bin\git.exe" checkout --progress --force -B main refs/remotes/origin/main
+2026-11-14T13:24:40.1019575Z Switched to a new branch 'main'
+2026-11-14T13:24:40.1148943Z branch 'main' set up to track 'origin/main'.
+2026-11-14T13:24:40.1522506Z ##[endgroup]
+2026-11-14T13:24:40.2521087Z [command]"C:\Program Files\Git\bin\git.exe" log -1 --format=%H
+2026-11-14T13:24:40.2929443Z 3aa3e84b73fd65b00c335925ff58eafc54b24538
+2026-11-14T13:24:40.3471129Z ##[group]Run actions/setup-python@v7
+2026-11-14T13:24:40.3471467Z with:
+2026-11-14T13:24:40.3471654Z   python-version: 3.13
+2026-11-14T13:24:40.3471857Z   cache: pip
+2026-11-14T13:24:40.3472163Z   cache-dependency-path: requirements.txt
+requirements-dev.txt
+
+2026-11-14T13:24:40.3472519Z   check-latest: false
+2026-11-14T13:24:40.3475035Z   token: ***
+2026-11-14T13:24:40.3475343Z   mirror: https://raw.githubusercontent.com/actions/python-versions/main
+2026-11-14T13:24:40.3475721Z   update-environment: true
+2026-11-14T13:24:40.3475936Z   allow-prereleases: false
+2026-11-14T13:24:40.3476145Z   freethreaded: false
+2026-11-14T13:24:40.3476332Z env:
+2026-11-14T13:24:40.3476507Z   QT_QPA_PLATFORM: offscreen
+2026-11-14T13:24:40.3476712Z   HF_HUB_OFFLINE: 1
+2026-11-14T13:24:40.3476896Z   HF_HUB_DISABLE_TELEMETRY: 1
+2026-11-14T13:24:40.3477099Z   DO_NOT_TRACK: 1
+2026-11-14T13:24:40.3477269Z ##[endgroup]
+2026-11-14T13:24:40.4922849Z ##[group]Installed versions
+2026-11-14T13:24:40.5640828Z Successfully set up CPython (3.13.17)
+2026-11-14T13:24:40.5641581Z ##[endgroup]
+2026-11-14T13:24:43.5584103Z Cache hit for: setup-python-Windows-x64-python-3.13.17-pip-825c6e1504df5d56594eec7293539d5817a61eaf82da627f5efa9406ff0f1030
+2026-11-14T13:24:44.8499293Z Received 33554432 of 389686892 (8.6%), 31.9 MBs/sec
+2026-11-14T13:24:45.9068350Z Received 134217728 of 389686892 (34.4%), 62.1 MBs/sec
+2026-11-14T13:24:46.9223745Z Received 264241152 of 389686892 (67.8%), 82.1 MBs/sec
+2026-11-14T13:24:47.9254072Z Received 373293056 of 389686892 (95.8%), 87.3 MBs/sec
+2026-11-14T13:24:48.1993436Z Received 389686892 of 389686892 (100.0%), 85.4 MBs/sec
+2026-11-14T13:24:48.1997833Z Cache Size: ~372 MB (389686892 B)
+2026-11-14T13:24:48.2076275Z [command]"C:\Program Files\Git\usr\bin\tar.exe" -xf D:/a/_temp/2f47561a-952a-4283-8722-78f46dcd3076/cache.tzst -P -C D:/a/saydraft/saydraft --force-local --use-compress-program "zstd -d"
+2026-11-14T13:24:50.0209636Z Cache restored successfully
+2026-11-14T13:24:50.0407229Z Cache restored from key: setup-python-Windows-x64-python-3.13.17-pip-825c6e1504df5d56594eec7293539d5817a61eaf82da627f5efa9406ff0f1030
+2026-11-14T13:24:50.0775922Z ##[group]Run python -m pip install -r requirements-dev.txt
+2026-11-14T13:24:50.0776822Z [36;1mpython -m pip install -r requirements-dev.txt[0m
+2026-11-14T13:24:50.1438503Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2026-11-14T13:24:50.1438927Z env:
+2026-11-14T13:24:50.1439142Z   QT_QPA_PLATFORM: offscreen
+2026-11-14T13:24:50.1439415Z   HF_HUB_OFFLINE: 1
+2026-11-14T13:24:50.1439640Z   HF_HUB_DISABLE_TELEMETRY: 1
+2026-11-14T13:24:50.1439889Z   DO_NOT_TRACK: 1
+2026-11-14T13:24:50.1440207Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.13.17\x64
+2026-11-14T13:24:50.1440767Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.13.17\x64/lib/pkgconfig
+2026-11-14T13:24:50.1441308Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+2026-11-14T13:24:50.1441793Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+2026-11-14T13:24:50.1442503Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+2026-11-14T13:24:50.1442931Z ##[endgroup]
+2026-11-14T13:24:52.6893249Z Collecting PySide6==6.11.1 (from -r D:\a\saydraft\saydraft\requirements.txt (line 1))
+2026-11-14T13:24:52.6916522Z   Using cached pyside6-6.11.1-cp310-abi3-win_amd64.whl.metadata (5.5 kB)
+2026-11-14T13:24:52.7227873Z Collecting sounddevice==0.5.2 (from -r D:\a\saydraft\saydraft\requirements.txt (line 2))
+2026-11-14T13:24:52.7252016Z   Using cached sounddevice-0.5.2-py3-none-win_amd64.whl.metadata (1.6 kB)
+2026-11-14T13:24:52.7460282Z Collecting SoundCard==0.4.6 (from -r D:\a\saydraft\saydraft\requirements.txt (line 3))
+2026-11-14T13:24:52.7483653Z   Using cached soundcard-0.4.6-py3-none-any.whl.metadata (14 kB)
+2026-11-14T13:24:52.9819800Z Collecting numpy>=1.26 (from -r D:\a\saydraft\saydraft\requirements.txt (line 4))
+2026-11-14T13:24:52.9847063Z   Using cached numpy-2.5.4-cp313-cp313-win_amd64.whl.metadata (6.6 kB)
+2026-11-14T13:24:53.0054301Z Collecting faster-whisper==1.2.1 (from -r D:\a\saydraft\saydraft\requirements.txt (line 5))
+2026-11-14T13:24:53.0115869Z   Using cached faster_whisper-1.2.1-py3-none-any.whl.metadata (16 kB)
+2026-11-14T13:24:53.1156530Z Collecting sherpa-onnx==1.13.4 (from -r D:\a\saydraft\saydraft\requirements.txt (line 6))
+2026-11-14T13:24:53.1183260Z   Using cached sherpa_onnx-1.13.4-cp313-cp313-win_amd64.whl.metadata (50 kB)
+2026-11-14T13:24:53.1452850Z Collecting soundfile>=0.12.1 (from -r D:\a\saydraft\saydraft\requirements.txt (line 7))
+2026-11-14T13:24:53.1476428Z   Using cached soundfile-0.14.0-py2.py3-none-win_amd64.whl.metadata (18 kB)
+2026-11-14T13:24:53.2010838Z Collecting webrtcvad-wheels==2.0.14 (from -r D:\a\saydraft\saydraft\requirements.txt (line 8))
+2026-11-14T13:24:53.2035626Z   Using cached webrtcvad_wheels-2.0.14-cp313-cp313-win_amd64.whl.metadata (5.6 kB)
+2026-11-14T13:24:53.2224494Z Collecting pyperclip==1.9.0 (from -r D:\a\saydraft\saydraft\requirements.txt (line 9))
+2026-11-14T13:24:53.2226368Z   Using cached pyperclip-1.9.0-py3-none-any.whl
+2026-11-14T13:24:53.2762410Z Collecting comtypes==1.4.16 (from -r D:\a\saydraft\saydraft\requirements.txt (line 10))
+2026-11-14T13:24:53.2785689Z   Using cached comtypes-1.4.16-py3-none-any.whl.metadata (7.8 kB)
+2026-11-14T13:24:53.3297022Z Collecting pyinstaller==6.22.3 (from -r D:\a\saydraft\saydraft\requirements.txt (line 11))
+2026-11-14T13:24:53.3340256Z   Using cached pyinstaller-6.22.3-py3-none-win_amd64.whl.metadata (8.5 kB)
+2026-11-14T13:24:53.3683870Z Collecting pytest==8.3.2 (from -r requirements-dev.txt (line 2))
+2026-11-14T13:24:53.3709136Z   Using cached pytest-8.3.2-py3-none-any.whl.metadata (7.5 kB)
+2026-11-14T13:24:53.8014036Z Collecting ruff==0.15.16 (from -r requirements-dev.txt (line 3))
+2026-11-14T13:24:53.8052703Z   Using cached ruff-0.15.16-py3-none-win_amd64.whl.metadata (27 kB)
+2026-11-14T13:24:53.9217225Z Collecting msgpack==1.1.1 (from -r requirements-dev.txt (line 4))
+2026-11-14T13:24:53.9253418Z   Using cached msgpack-1.1.1-cp313-cp313-win_amd64.whl.metadata (8.6 kB)
+2026-11-14T13:24:53.9722212Z Collecting shiboken6==6.11.1 (from PySide6==6.11.1->-r D:\a\saydraft\saydraft\requirements.txt (line 1))
+2026-11-14T13:24:53.9745773Z   Using cached shiboken6-6.11.1-cp310-abi3-win_amd64.whl.metadata (2.5 kB)
+2026-11-14T13:24:54.0381910Z Collecting PySide6_Essentials==6.11.1 (from PySide6==6.11.1->-r D:\a\saydraft\saydraft\requirements.txt (line 1))
+2026-11-14T13:24:54.0409458Z   Using cached pyside6_essentials-6.11.1-cp310-abi3-win_amd64.whl.metadata (3.8 kB)
+2026-11-14T13:24:54.0728210Z Collecting PySide6_Addons==6.11.1 (from PySide6==6.11.1->-r D:\a\saydraft\saydraft\requirements.txt (line 1))
+2026-11-14T13:24:54.0777652Z   Using cached pyside6_addons-6.11.1-cp310-abi3-win_amd64.whl.metadata (4.2 kB)
+2026-11-14T13:24:54.2143459Z Collecting CFFI>=1.0 (from sounddevice==0.5.2->-r D:\a\saydraft\saydraft\requirements.txt (line 2))
+2026-11-14T13:24:54.2180798Z   Using cached cffi-2.1.1-cp313-cp313-win_amd64.whl.metadata (2.6 kB)
+2026-11-14T13:24:54.3408387Z Collecting ctranslate2<5,>=4.0 (from faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 5))
+2026-11-14T13:24:54.3436869Z   Using cached ctranslate2-4.9.0-cp313-cp313-win_amd64.whl.metadata (11 kB)
+2026-11-14T13:24:54.4105804Z Collecting huggingface-hub>=0.21 (from faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 5))
+2026-11-14T13:24:54.4133881Z   Using cached huggingface_hub-2.4.0-py3-none-any.whl.metadata (16 kB)
+2026-11-14T13:24:54.5929746Z Collecting tokenizers<1,>=0.13 (from faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 5))
+2026-11-14T13:24:54.5957232Z   Using cached tokenizers-0.23.3-cp310-abi3-win_amd64.whl.metadata (10 kB)
+2026-11-14T13:24:54.6732016Z Collecting onnxruntime<2,>=1.14 (from faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 5))
+2026-11-14T13:24:54.6795877Z   Using cached onnxruntime-1.32.0-cp313-cp313-win_amd64.whl.metadata (6.1 kB)
+2026-11-14T13:24:54.7499687Z Collecting av>=11 (from faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 5))
+2026-11-14T13:24:54.7524457Z   Using cached av-19.0.2-cp312-abi3-win_amd64.whl.metadata (5.1 kB)
+2026-11-14T13:24:54.8524869Z Collecting tqdm (from faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 5))
+2026-11-14T13:24:54.8548064Z   Using cached tqdm-4.70.1-py3-none-any.whl.metadata (57 kB)
+2026-11-14T13:24:54.9207919Z Collecting sherpa-onnx-core==1.13.4 (from sherpa-onnx==1.13.4->-r D:\a\saydraft\saydraft\requirements.txt (line 6))
+2026-11-14T13:24:54.9235085Z   Using cached sherpa_onnx_core-1.13.4-py3-none-win_amd64.whl.metadata (532 bytes)
+2026-11-14T13:24:54.9478807Z Collecting altgraph (from pyinstaller==6.22.3->-r D:\a\saydraft\saydraft\requirements.txt (line 11))
+2026-11-14T13:24:54.9500051Z   Using cached altgraph-0.17.5-py2.py3-none-any.whl.metadata (7.5 kB)
+2026-11-14T13:24:54.9746054Z Collecting packaging>=22.0 (from pyinstaller==6.22.3->-r D:\a\saydraft\saydraft\requirements.txt (line 11))
+2026-11-14T13:24:54.9766768Z   Using cached packaging-26.3-py3-none-any.whl.metadata (3.5 kB)
+2026-11-14T13:24:54.9966745Z Collecting pefile>=2022.5.30 (from pyinstaller==6.22.3->-r D:\a\saydraft\saydraft\requirements.txt (line 11))
+2026-11-14T13:24:54.9992696Z   Using cached pefile-2024.8.26-py3-none-any.whl.metadata (1.4 kB)
+2026-11-14T13:24:55.0299788Z Collecting pyinstaller-hooks-contrib>=2026.7 (from pyinstaller==6.22.3->-r D:\a\saydraft\saydraft\requirements.txt (line 11))
+2026-11-14T13:24:55.0323101Z   Using cached pyinstaller_hooks_contrib-2026.10-py3-none-any.whl.metadata (16 kB)
+2026-11-14T13:24:55.0523182Z Collecting pywin32-ctypes>=0.2.1 (from pyinstaller==6.22.3->-r D:\a\saydraft\saydraft\requirements.txt (line 11))
+2026-11-14T13:24:55.1080969Z   Using cached pywin32_ctypes-0.2.3-py3-none-any.whl.metadata (3.9 kB)
+2026-11-14T13:24:55.2035889Z Collecting setuptools>=42.0.0 (from pyinstaller==6.22.3->-r D:\a\saydraft\saydraft\requirements.txt (line 11))
+2026-11-14T13:24:55.2062086Z   Using cached setuptools-84.2.1-py3-none-any.whl.metadata (6.6 kB)
+2026-11-14T13:24:55.2283475Z Collecting iniconfig (from pytest==8.3.2->-r requirements-dev.txt (line 2))
+2026-11-14T13:24:55.2302771Z   Using cached iniconfig-2.3.1-py3-none-any.whl.metadata (2.8 kB)
+2026-11-14T13:24:55.2526116Z Collecting pluggy<2,>=1.5 (from pytest==8.3.2->-r requirements-dev.txt (line 2))
+2026-11-14T13:24:55.2562659Z   Using cached pluggy-1.7.0-py3-none-any.whl.metadata (5.0 kB)
+2026-11-14T13:24:55.2778316Z Collecting colorama (from pytest==8.3.2->-r requirements-dev.txt (line 2))
+2026-11-14T13:24:55.2797907Z   Using cached colorama-0.4.6-py2.py3-none-any.whl.metadata (17 kB)
+2026-11-14T13:24:55.3501690Z Collecting pyyaml<7,>=5.3 (from ctranslate2<5,>=4.0->faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 5))
+2026-11-14T13:24:55.3524107Z   Using cached pyyaml-6.0.3-cp313-cp313-win_amd64.whl.metadata (2.4 kB)
+2026-11-14T13:24:55.3734252Z Collecting flatbuffers (from onnxruntime<2,>=1.14->faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 5))
+2026-11-14T13:24:55.3754247Z   Using cached flatbuffers-25.12.19-py2.py3-none-any.whl.metadata (1.0 kB)
+2026-11-14T13:24:55.5686119Z Collecting protobuf>=4.25.8 (from onnxruntime<2,>=1.14->faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 5))
+2026-11-14T13:24:55.5709294Z   Using cached protobuf-7.36.2-cp310-abi3-win_amd64.whl.metadata (595 bytes)
+2026-11-14T13:24:55.6040135Z Collecting click<9.0.0,>=8.4.2 (from huggingface-hub>=0.21->faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 5))
+2026-11-14T13:24:55.6061423Z   Using cached click-8.5.1-py3-none-any.whl.metadata (2.6 kB)
+2026-11-14T13:24:55.6391243Z Collecting filelock>=3.10.0 (from huggingface-hub>=0.21->faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 5))
+2026-11-14T13:24:55.6412873Z   Using cached filelock-4.2.10-py3-none-any.whl.metadata (2.3 kB)
+2026-11-14T13:24:55.6661263Z Collecting fsspec>=2023.5.0 (from huggingface-hub>=0.21->faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 5))
+2026-11-14T13:24:55.6681945Z   Using cached fsspec-2026.9.0-py3-none-any.whl.metadata (10 kB)
+2026-11-14T13:24:55.7492231Z Collecting hf-xet<2.0.0,>=1.6.0 (from huggingface-hub>=0.21->faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 5))
+2026-11-14T13:24:55.7529316Z   Using cached hf_xet-1.8.0-cp38-abi3-win_amd64.whl.metadata (4.9 kB)
+2026-11-14T13:24:55.7769161Z Collecting httpx2<3,>=2.0.0 (from huggingface-hub>=0.21->faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 5))
+2026-11-14T13:24:55.7789398Z   Using cached httpx2-2.16.0-py3-none-any.whl.metadata (10 kB)
+2026-11-14T13:24:55.8086986Z Collecting typing-extensions>=4.1.0 (from huggingface-hub>=0.21->faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 5))
+2026-11-14T13:24:55.8107049Z   Using cached typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+2026-11-14T13:24:55.8360401Z Collecting anyio>=4.10 (from httpx2<3,>=2.0.0->huggingface-hub>=0.21->faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 5))
+2026-11-14T13:24:55.8380282Z   Using cached anyio-4.16.0-py3-none-any.whl.metadata (4.7 kB)
+2026-11-14T13:24:55.8577769Z Collecting httpcore2==2.16.0 (from httpx2<3,>=2.0.0->huggingface-hub>=0.21->faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 5))
+2026-11-14T13:24:55.8597851Z   Using cached httpcore2-2.16.0-py3-none-any.whl.metadata (27 kB)
+2026-11-14T13:24:55.8822209Z Collecting idna>=3.18 (from httpx2<3,>=2.0.0->huggingface-hub>=0.21->faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 5))
+2026-11-14T13:24:55.8843908Z   Using cached idna-3.20-py3-none-any.whl.metadata (7.2 kB)
+2026-11-14T13:24:55.9073509Z Collecting truststore>=0.10 (from httpx2<3,>=2.0.0->huggingface-hub>=0.21->faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 5))
+2026-11-14T13:24:55.9093515Z   Using cached truststore-0.10.5-py3-none-any.whl.metadata (4.5 kB)
+2026-11-14T13:24:55.9309542Z Collecting h11>=0.16 (from httpcore2==2.16.0->httpx2<3,>=2.0.0->huggingface-hub>=0.21->faster-whisper==1.2.1->-r D:\a\saydraft\saydraft\requirements.txt (line 5))
+2026-11-14T13:24:55.9331794Z   Using cached h11-0.16.0-py3-none-any.whl.metadata (8.3 kB)
+2026-11-14T13:24:55.9559787Z Collecting pycparser (from CFFI>=1.0->sounddevice==0.5.2->-r D:\a\saydraft\saydraft\requirements.txt (line 2))
+2026-11-14T13:24:55.9580278Z   Using cached pycparser-3.12-py3-none-any.whl.metadata (9.7 kB)
+2026-11-14T13:24:55.9725572Z Using cached pyside6-6.11.1-cp310-abi3-win_amd64.whl (578 kB)
+2026-11-14T13:24:55.9762993Z Using cached sounddevice-0.5.2-py3-none-win_amd64.whl (363 kB)
+2026-11-14T13:24:55.9785715Z Using cached soundcard-0.4.6-py3-none-any.whl (43 kB)
+2026-11-14T13:24:55.9803951Z Using cached faster_whisper-1.2.1-py3-none-any.whl (1.1 MB)
+2026-11-14T13:24:55.9827503Z Using cached sherpa_onnx-1.13.4-cp313-cp313-win_amd64.whl (2.2 MB)
+2026-11-14T13:24:55.9856500Z Using cached webrtcvad_wheels-2.0.14-cp313-cp313-win_amd64.whl (19 kB)
+2026-11-14T13:24:55.9876462Z Using cached comtypes-1.4.16-py3-none-any.whl (296 kB)
+2026-11-14T13:24:55.9896568Z Using cached pyinstaller-6.22.3-py3-none-win_amd64.whl (1.5 MB)
+2026-11-14T13:24:55.9921706Z Using cached pytest-8.3.2-py3-none-any.whl (341 kB)
+2026-11-14T13:24:55.9941547Z Using cached ruff-0.15.16-py3-none-win_amd64.whl (11.8 MB)
+2026-11-14T13:24:56.0053954Z Using cached msgpack-1.1.1-cp313-cp313-win_amd64.whl (72 kB)
+2026-11-14T13:24:56.0073356Z Using cached pyside6_addons-6.11.1-cp310-abi3-win_amd64.whl (168.8 MB)
+2026-11-14T13:24:56.0835818Z Using cached pyside6_essentials-6.11.1-cp310-abi3-win_amd64.whl (77.5 MB)
+2026-11-14T13:24:56.1231643Z Using cached sherpa_onnx_core-1.13.4-py3-none-win_amd64.whl (16.5 MB)
+2026-11-14T13:24:56.1388358Z Using cached shiboken6-6.11.1-cp310-abi3-win_amd64.whl (1.2 MB)
+2026-11-14T13:24:56.1414911Z Using cached ctranslate2-4.9.0-cp313-cp313-win_amd64.whl (20.4 MB)
+2026-11-14T13:24:56.1527083Z Using cached onnxruntime-1.32.0-cp313-cp313-win_amd64.whl (16.7 MB)
+2026-11-14T13:24:56.1620060Z Using cached pluggy-1.7.0-py3-none-any.whl (27 kB)
+2026-11-14T13:24:56.1641317Z Using cached pyyaml-6.0.3-cp313-cp313-win_amd64.whl (154 kB)
+2026-11-14T13:24:56.1660436Z Using cached tokenizers-0.23.3-cp310-abi3-win_amd64.whl (2.9 MB)
+2026-11-14T13:24:56.1692101Z Using cached huggingface_hub-2.4.0-py3-none-any.whl (857 kB)
+2026-11-14T13:24:56.1714780Z Using cached click-8.5.1-py3-none-any.whl (126 kB)
+2026-11-14T13:24:56.1735595Z Using cached hf_xet-1.8.0-cp38-abi3-win_amd64.whl (3.9 MB)
+2026-11-14T13:24:56.1772717Z Using cached httpx2-2.16.0-py3-none-any.whl (97 kB)
+2026-11-14T13:24:56.1805844Z Using cached httpcore2-2.16.0-py3-none-any.whl (85 kB)
+2026-11-14T13:24:56.1825087Z Using cached numpy-2.5.4-cp313-cp313-win_amd64.whl (12.6 MB)
+2026-11-14T13:24:56.1907959Z Using cached soundfile-0.14.0-py2.py3-none-win_amd64.whl (1.0 MB)
+2026-11-14T13:24:56.1931050Z Using cached anyio-4.16.0-py3-none-any.whl (134 kB)
+2026-11-14T13:24:56.1949233Z Using cached av-19.0.2-cp312-abi3-win_amd64.whl (28.2 MB)
+2026-11-14T13:24:56.2131764Z Using cached cffi-2.1.1-cp313-cp313-win_amd64.whl (185 kB)
+2026-11-14T13:24:56.2154563Z Using cached filelock-4.2.10-py3-none-any.whl (218 kB)
+2026-11-14T13:24:56.2173843Z Using cached fsspec-2026.9.0-py3-none-any.whl (221 kB)
+2026-11-14T13:24:56.2193291Z Using cached h11-0.16.0-py3-none-any.whl (37 kB)
+2026-11-14T13:24:56.2211933Z Using cached idna-3.20-py3-none-any.whl (69 kB)
+2026-11-14T13:24:56.2232954Z Using cached packaging-26.3-py3-none-any.whl (129 kB)
+2026-11-14T13:24:56.2252012Z Using cached pefile-2024.8.26-py3-none-any.whl (74 kB)
+2026-11-14T13:24:56.2270987Z Using cached protobuf-7.36.2-cp310-abi3-win_amd64.whl (456 kB)
+2026-11-14T13:24:56.2294786Z Using cached pyinstaller_hooks_contrib-2026.10-py3-none-any.whl (463 kB)
+2026-11-14T13:24:56.2316147Z Using cached pywin32_ctypes-0.2.3-py3-none-any.whl (30 kB)
+2026-11-14T13:24:56.2334953Z Using cached setuptools-84.2.1-py3-none-any.whl (876 kB)
+2026-11-14T13:24:56.2358809Z Using cached tqdm-4.70.1-py3-none-any.whl (80 kB)
+2026-11-14T13:24:56.2381311Z Using cached truststore-0.10.5-py3-none-any.whl (19 kB)
+2026-11-14T13:24:56.2413466Z Using cached typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+2026-11-14T13:24:56.2431627Z Using cached altgraph-0.17.5-py2.py3-none-any.whl (21 kB)
+2026-11-14T13:24:56.2482093Z Using cached colorama-0.4.6-py2.py3-none-any.whl (25 kB)
+2026-11-14T13:24:56.2502699Z Using cached flatbuffers-25.12.19-py2.py3-none-any.whl (26 kB)
+2026-11-14T13:24:56.2521315Z Using cached iniconfig-2.3.1-py3-none-any.whl (7.6 kB)
+2026-11-14T13:24:56.2556253Z Using cached pycparser-3.12-py3-none-any.whl (62 kB)
+2026-11-14T13:24:57.7633176Z Installing collected packages: webrtcvad-wheels, sherpa-onnx-core, pyperclip, flatbuffers, altgraph, typing-extensions, truststore, shiboken6, sherpa-onnx, setuptools, ruff, pyyaml, pywin32-ctypes, pycparser, protobuf, pluggy, pefile, packaging, numpy, msgpack, iniconfig, idna, hf-xet, h11, fsspec, filelock, comtypes, colorama, click, av, tqdm, pytest, PySide6_Essentials, pyinstaller-hooks-contrib, onnxruntime, httpcore2, ctranslate2, CFFI, anyio, soundfile, sounddevice, SoundCard, PySide6_Addons, pyinstaller, httpx2, PySide6, huggingface-hub, tokenizers, faster-whisper
+2026-11-14T13:25:28.2597633Z 
+2026-11-14T13:25:28.2654968Z Successfully installed CFFI-2.1.1 PySide6-6.11.1 PySide6_Addons-6.11.1 PySide6_Essentials-6.11.1 SoundCard-0.4.6 altgraph-0.17.5 anyio-4.16.0 av-19.0.2 click-8.5.1 colorama-0.4.6 comtypes-1.4.16 ctranslate2-4.9.0 faster-whisper-1.2.1 filelock-4.2.10 flatbuffers-25.12.19 fsspec-2026.9.0 h11-0.16.0 hf-xet-1.8.0 httpcore2-2.16.0 httpx2-2.16.0 huggingface-hub-2.4.0 idna-3.20 iniconfig-2.3.1 msgpack-1.1.1 numpy-2.5.4 onnxruntime-1.32.0 packaging-26.3 pefile-2024.8.26 pluggy-1.7.0 protobuf-7.36.2 pycparser-3.12 pyinstaller-6.22.3 pyinstaller-hooks-contrib-2026.10 pyperclip-1.9.0 pytest-8.3.2 pywin32-ctypes-0.2.3 pyyaml-6.0.3 ruff-0.15.16 setuptools-84.2.1 sherpa-onnx-1.13.4 sherpa-onnx-core-1.13.4 shiboken6-6.11.1 sounddevice-0.5.2 soundfile-0.14.0 tokenizers-0.23.3 tqdm-4.70.1 truststore-0.10.5 typing-extensions-4.16.0 webrtcvad-wheels-2.0.14
+2026-11-14T13:25:28.9932195Z ##[group]Run python -m ruff check .
+2026-11-14T13:25:28.9932789Z [36;1mpython -m ruff check .[0m
+2026-11-14T13:25:29.0003895Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2026-11-14T13:25:29.0004242Z env:
+2026-11-14T13:25:29.0004432Z   QT_QPA_PLATFORM: offscreen
+2026-11-14T13:25:29.0004667Z   HF_HUB_OFFLINE: 1
+2026-11-14T13:25:29.0004871Z   HF_HUB_DISABLE_TELEMETRY: 1
+2026-11-14T13:25:29.0005091Z   DO_NOT_TRACK: 1
+2026-11-14T13:25:29.0005367Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.13.17\x64
+2026-11-14T13:25:29.0005834Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.13.17\x64/lib/pkgconfig
+2026-11-14T13:25:29.0006322Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+2026-11-14T13:25:29.0006730Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+2026-11-14T13:25:29.0007146Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+2026-11-14T13:25:29.0007469Z ##[endgroup]
+2026-11-14T13:25:29.4955830Z All checks passed!
+2026-11-14T13:25:29.6568486Z ##[group]Run $vadFixture = python -c "from saydraft.model_download import download_silero_vad_model; print((download_silero_vad_model(models_dir='build/test-models') / 'silero_vad.onnx').resolve())"
+2026-11-14T13:25:29.6570019Z [36;1m$vadFixture = python -c "from saydraft.model_download import download_silero_vad_model; print((download_silero_vad_model(models_dir='build/test-models') / 'silero_vad.onnx').resolve())"[0m
+2026-11-14T13:25:29.6570857Z [36;1mif ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }[0m
+2026-11-14T13:25:29.6571399Z [36;1m"SAYDRAFT_TEST_SILERO_MODEL=$vadFixture" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append[0m
+2026-11-14T13:25:29.6646265Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2026-11-14T13:25:29.6646613Z env:
+2026-11-14T13:25:29.6646796Z   QT_QPA_PLATFORM: offscreen
+2026-11-14T13:25:29.6647020Z   HF_HUB_OFFLINE: 1
+2026-11-14T13:25:29.6647216Z   HF_HUB_DISABLE_TELEMETRY: 1
+2026-11-14T13:25:29.6666853Z   DO_NOT_TRACK: 1
+2026-11-14T13:25:29.6667180Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.13.17\x64
+2026-11-14T13:25:29.6667665Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.13.17\x64/lib/pkgconfig
+2026-11-14T13:25:29.6668137Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+2026-11-14T13:25:29.6668546Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+2026-11-14T13:25:29.6668956Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+2026-11-14T13:25:29.6669281Z ##[endgroup]
+2026-11-14T13:25:30.9863984Z ##[group]Run python -m pytest tests -q -rs -o faulthandler_timeout=120 --durations=12 --basetemp=build/pytest
+2026-11-14T13:25:30.9865015Z [36;1mpython -m pytest tests -q -rs -o faulthandler_timeout=120 --durations=12 --basetemp=build/pytest[0m
+2026-11-14T13:25:30.9938316Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2026-11-14T13:25:30.9938682Z env:
+2026-11-14T13:25:30.9938866Z   QT_QPA_PLATFORM: offscreen
+2026-11-14T13:25:30.9939092Z   HF_HUB_OFFLINE: 1
+2026-11-14T13:25:30.9939294Z   HF_HUB_DISABLE_TELEMETRY: 1
+2026-11-14T13:25:30.9939517Z   DO_NOT_TRACK: 1
+2026-11-14T13:25:30.9939803Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.13.17\x64
+2026-11-14T13:25:30.9940264Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.13.17\x64/lib/pkgconfig
+2026-11-14T13:25:30.9940718Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+2026-11-14T13:25:30.9941122Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+2026-11-14T13:25:30.9941565Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+2026-11-14T13:25:30.9942497Z   SAYDRAFT_TEST_SILERO_MODEL: D:\a\saydraft\saydraft\build\test-models\silero-vad-v5\5cd2ba54db059f961e7545d4f211b44f005a6dfb\silero_vad.onnx
+2026-11-14T13:25:30.9943107Z ##[endgroup]
+2026-11-14T13:25:40.2660970Z ........................................................................ [  1%]
+2026-11-14T13:25:40.7793272Z ........................................................................ [  3%]
+2026-11-14T13:25:41.2227623Z ........................................................................ [  5%]
+2026-11-14T13:25:41.5742742Z ........................................................................ [  6%]
+2026-11-14T13:25:42.0567624Z ........................................s............................... [  8%]
+2026-11-14T13:25:42.1801958Z ........................................................................ [ 10%]
+2026-11-14T13:25:47.3814574Z ........................................................................ [ 11%]
+2026-11-14T13:25:48.6971010Z ........................................................................ [ 13%]
+2026-11-14T13:25:48.9094080Z ........................................................................ [ 15%]
+2026-11-14T13:25:52.4476536Z ........................................................................ [ 16%]
+2026-11-14T13:25:53.7384443Z ........................................................................ [ 18%]
+2026-11-14T13:25:53.9484986Z ........................................................................ [ 20%]
+2026-11-14T13:25:54.2609289Z ........................................................................ [ 21%]
+2026-11-14T13:25:54.3500881Z ........................................................................ [ 23%]
+2026-11-14T13:25:54.6477954Z ........................................................................ [ 25%]
+2026-11-14T13:25:55.4950930Z ........................................................................ [ 26%]
+2026-11-14T13:26:04.6177785Z ........................................................................ [ 28%]
+2026-11-14T13:26:04.9641488Z ........................................................................ [ 30%]
+2026-11-14T13:26:05.2275830Z ........................................................................ [ 31%]
+2026-11-14T13:26:09.7851709Z ........................................................................ [ 33%]
+2026-11-14T13:26:13.6381414Z ........................................................................ [ 35%]
+2026-11-14T13:26:14.5710280Z ........................................................................ [ 36%]
+2026-11-14T13:26:15.1149068Z ........................................................................ [ 38%]
+2026-11-14T13:26:18.1966785Z ........................................................................ [ 40%]
+2026-11-14T13:26:21.6222283Z ........................................................................ [ 41%]
+2026-11-14T13:26:22.4003317Z ........................................................................ [ 43%]
+2026-11-14T13:26:27.5911716Z ........................................................................ [ 45%]
+2026-11-14T13:26:27.6938815Z ........................................................................ [ 46%]
+2026-11-14T13:26:28.5144781Z ........................................................................ [ 48%]
+2026-11-14T13:26:30.6637628Z ........................................................................ [ 50%]
+2026-11-14T13:26:32.3383972Z ........................................................................ [ 52%]
+2026-11-14T13:26:32.6680543Z ........................................................................ [ 53%]
+2026-11-14T13:26:33.6143410Z ........................................................................ [ 55%]
+2026-11-14T13:26:35.2099082Z ........................................................................ [ 57%]
+2026-11-14T13:26:39.1258021Z ........................................................................ [ 58%]
+2026-11-14T13:26:39.2161316Z ........................................................................ [ 60%]
+2026-11-14T13:26:39.3118202Z ........................................................................ [ 62%]
+2026-11-14T13:26:42.3422631Z ..........................................................F............. [ 63%]
+2026-11-14T13:26:48.5451935Z ........................................................................ [ 65%]
+2026-11-14T13:27:03.8129085Z ...........s...................s........................................ [ 67%]
+2026-11-14T13:27:04.5956457Z .....................................ss................................. [ 68%]
+2026-11-14T13:27:04.7852185Z ........................................................................ [ 70%]
+2026-11-14T13:27:05.8295439Z ........................................................................ [ 72%]
+2026-11-14T13:27:06.1142464Z ........................................................................ [ 73%]
+2026-11-14T13:27:06.4435156Z ........................................................................ [ 75%]
+2026-11-14T13:27:18.4641745Z ........................................................................ [ 77%]
+2026-11-14T13:27:18.5568304Z ........................................................................ [ 78%]
+2026-11-14T13:27:18.8908745Z ........................................................................ [ 80%]
+2026-11-14T13:27:23.8106160Z ........................................................................ [ 82%]
+2026-11-14T13:27:26.3756522Z .........................................s.............................. [ 83%]
+2026-11-14T13:27:28.1329931Z ........................................................................ [ 85%]
+2026-11-14T13:27:30.8887293Z ........................................................................ [ 87%]
+2026-11-14T13:27:31.0227828Z ........................................................................ [ 88%]
+2026-11-14T13:35:15.2006472Z ..s..................................................................... [ 90%]
+2026-11-14T13:35:19.6899558Z ........................................................................ [ 92%]
+2026-11-14T13:35:26.7898258Z ........................................................................ [ 93%]
+2026-11-14T13:35:29.4888456Z ........................................................................ [ 95%]
+2026-11-14T13:35:30.1759570Z ........................................................................ [ 97%]
+2026-11-14T13:35:30.2983529Z ........................................................................ [ 98%]
+2026-11-14T13:35:30.8521367Z .......s..................sss.....s........                              [100%]
+2026-11-14T13:35:30.8522516Z ================================== FAILURES ===================================
+2026-11-14T13:35:30.8523647Z __ test_exception_after_reader_thread_starts_does_not_leak_a_reader_or_child __
+2026-11-14T13:35:30.8524407Z 
+2026-11-14T13:35:30.8526306Z monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000029B05128E50>
+2026-11-14T13:35:30.8526982Z 
+2026-11-14T13:35:30.8527748Z     def test_exception_after_reader_thread_starts_does_not_leak_a_reader_or_child(monkeypatch):
+2026-11-14T13:35:30.8531956Z         import threading
+2026-11-14T13:35:30.8533249Z     
+2026-11-14T13:35:30.8534668Z         api, observed = kernel(), {}
+2026-11-14T13:35:30.8539157Z         original = threading.Thread.start
+2026-11-14T13:35:30.8544587Z         def fail_after_start(thread):
+2026-11-14T13:35:30.8550295Z             if thread.name == "Saydraft-native-metadata":
+2026-11-14T13:35:30.8552601Z                 process = thread._target.__self__
+2026-11-14T13:35:30.8556359Z                 observed["handle"] = api.OpenProcess(0x100001, False, process.pid)
+2026-11-14T13:35:30.8558211Z                 observed["thread"] = thread
+2026-11-14T13:35:30.8559225Z                 original(thread)
+2026-11-14T13:35:30.8559751Z                 raise RuntimeError("injected thread adoption failure")
+2026-11-14T13:35:30.8561194Z             original(thread)
+2026-11-14T13:35:30.8563024Z         monkeypatch.setattr(threading.Thread, "start", fail_after_start)
+2026-11-14T13:35:30.8564311Z         try:
+2026-11-14T13:35:30.8565968Z >           with pytest.raises(RuntimeError, match="adoption failure"):
+2026-11-14T13:35:30.8566902Z E           Failed: DID NOT RAISE <class 'RuntimeError'>
+2026-11-14T13:35:30.8567706Z 
+2026-11-14T13:35:30.8568026Z tests\test_native_output_capture.py:97: Failed
+2026-11-14T13:35:30.8569713Z ============================ slowest 12 durations =============================
+2026-11-14T13:35:30.8571430Z 72.31s call     tests/test_theme.py::test_unknown_platform_and_minimum_font_restore_without_overriding_larger_text
+2026-11-14T13:35:30.8573124Z 63.59s call     tests/test_theme.py::test_close_cancels_pending_work_and_preserves_newer_app_styles
+2026-11-14T13:35:30.8575650Z 57.77s call     tests/test_theme.py::test_platform_changes_coalesce_and_high_contrast_wins
+2026-11-14T13:35:30.8576537Z 10.19s call     tests/test_theme.py::test_start_failure_rolls_back_font_and_styles
+2026-11-14T13:35:30.8578485Z 9.43s call     tests/test_theme.py::test_progress_text_contrasts_with_both_fill_and_track[False-False-10-light]
+2026-11-14T13:35:30.8580186Z 8.63s call     tests/test_theme.py::test_minimum_settings_size_keeps_controls_readable_and_reachable[16-light]
+2026-11-14T13:35:30.8581484Z 8.40s call     tests/test_theme.py::test_progress_text_contrasts_with_both_fill_and_track[False-True-90-light]
+2026-11-14T13:35:30.8582789Z 8.13s call     tests/test_theme.py::test_minimum_settings_size_keeps_controls_readable_and_reachable[22-light]
+2026-11-14T13:35:30.8584149Z 7.48s call     tests/test_theme.py::test_progress_text_contrasts_with_both_fill_and_track[False-True-90-dark]
+2026-11-14T13:35:30.8585032Z 7.31s call     tests/test_theme.py::test_progress_text_contrasts_with_both_fill_and_track[False-True-50-dark]
+2026-11-14T13:35:30.8585850Z 7.22s call     tests/test_theme.py::test_minimum_settings_size_keeps_controls_readable_and_reachable[22-dark]
+2026-11-14T13:35:30.8586634Z 7.08s call     tests/test_theme.py::test_progress_text_contrasts_with_both_fill_and_track[True-False-90-dark]
+2026-11-14T13:35:30.8587231Z =========================== short test summary info ===========================
+2026-11-14T13:35:30.8587825Z SKIPPED [1] tests\test_audio_language_id.py:70: set the explicit verified helper directory for native smoke
+2026-11-14T13:35:30.8588696Z SKIPPED [1] tests\test_onboarding_practice.py:281: set the explicit verified Parakeet v3 directory for the bundled-audio practice smoke
+2026-11-14T13:35:30.8589608Z SKIPPED [1] tests\test_whisper_local.py:225: provide the explicit verified Whisper turbo fixture root for native cache checks
+2026-11-14T13:35:30.8590391Z SKIPPED [2] tests\test_parakeet.py:75: set the explicit verified model directory to run the native smoke
+2026-11-14T13:35:30.8591419Z SKIPPED [1] tests\test_setup_benchmark.py:369: set the explicit verified Parakeet v3 fixture root for the setup performance smoke
+2026-11-14T13:35:30.8592658Z SKIPPED [1] tests\test_streaming_runtime.py:212: provide the explicit verified preview installation
+2026-11-14T13:35:30.8593607Z SKIPPED [1] tests\test_whisper_engine.py:196: Set SAYDRAFT_RUN_WHISPER_INTEGRATION=1 to run faster-whisper model test
+2026-11-14T13:35:30.8594441Z SKIPPED [3] tests\test_whisper_local.py:269: provide the explicit verified Whisper turbo fixture root for native cache checks
+2026-11-14T13:35:30.8595262Z SKIPPED [1] tests\test_whisper_turbo.py:77: provide the explicitly downloaded pinned Whisper turbo model
+2026-11-14T13:35:30.8595830Z 1 failed, 4278 passed, 12 skipped in 598.70s (0:09:58)
+2026-11-14T13:35:32.3625957Z ##[error]Process completed with exit code 1.
+2026-11-14T13:35:32.3850216Z ##[group]Run actions/upload-artifact@v7
+2026-11-14T13:35:32.3850612Z with:
+2026-11-14T13:35:32.3850893Z   name: owned-window-native-diagnostics
+2026-11-14T13:35:32.3851268Z   if-no-files-found: ignore
+2026-11-14T13:35:32.3852513Z   path: build/pytest/**/own-controls/report.json
+build/pytest/**/own-app-context/report.json
+build/pytest/**/own-tracked-edit/report.json
+build/pytest/**/own-selection/report.json
+build/pytest/**/own-command/report.json
+build/pytest/**/own-command-copy/report.json
+build/pytest/**/own-selection-copy/report.json
+
+2026-11-14T13:35:32.3853802Z   compression-level: 6
+2026-11-14T13:35:32.3854111Z   overwrite: false
+2026-11-14T13:35:32.3854381Z   include-hidden-files: false
+2026-11-14T13:35:32.3854671Z   archive: true
+2026-11-14T13:35:32.3854941Z env:
+2026-11-14T13:35:32.3855205Z   QT_QPA_PLATFORM: offscreen
+2026-11-14T13:35:32.3855479Z   HF_HUB_OFFLINE: 1
+2026-11-14T13:35:32.3855735Z   HF_HUB_DISABLE_TELEMETRY: 1
+2026-11-14T13:35:32.3856082Z   DO_NOT_TRACK: 1
+2026-11-14T13:35:32.3856417Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.13.17\x64
+2026-11-14T13:35:32.3856938Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.13.17\x64/lib/pkgconfig
+2026-11-14T13:35:32.3857472Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+2026-11-14T13:35:32.3857935Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+2026-11-14T13:35:32.3858407Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.17\x64
+2026-11-14T13:35:32.3859128Z   SAYDRAFT_TEST_SILERO_MODEL: D:\a\saydraft\saydraft\build\test-models\silero-vad-v5\5cd2ba54db059f961e7545d4f211b44f005a6dfb\silero_vad.onnx
+2026-11-14T13:35:32.3860238Z ##[endgroup]
+2026-11-14T13:35:35.0479659Z With the provided path, there will be 14 files uploaded
+2026-11-14T13:35:35.0480523Z Artifact name is valid!
+2026-11-14T13:35:35.0480980Z Root directory input is valid!
+2026-11-14T13:35:35.4484968Z Uploading artifact: owned-window-native-diagnostics.zip
+2026-11-14T13:35:35.4537174Z Beginning upload of artifact content to blob storage
+2026-11-14T13:35:35.8243764Z Uploaded bytes 15948
+2026-11-14T13:35:35.8955891Z Finished uploading artifact content to blob storage!
+2026-11-14T13:35:35.8957587Z SHA256 digest of uploaded artifact is 860ed623d0d3baf9e7a0c472c9d5ca19fbfde067350c12f0bcc1324e3c87a971
+2026-11-14T13:35:35.8959210Z Finalizing artifact upload
+2026-11-14T13:35:36.3959752Z Artifact owned-window-native-diagnostics successfully finalized. Artifact ID 14116371405
+2026-11-14T13:35:36.3961312Z Artifact owned-window-native-diagnostics has been successfully uploaded! Final size is 15948 bytes. Artifact ID is 14116371405
+2026-11-14T13:35:36.3969478Z Artifact download URL: https://github.com/tanzir71/saydraft/actions/runs/43599599062/artifacts/14116371405
+2026-11-14T13:35:36.4354444Z Post job cleanup.
+2026-11-14T13:35:36.6426538Z [command]"C:\Program Files\Git\bin\git.exe" version
+2026-11-14T13:35:36.6804225Z git version 2.56.0.windows.4
+2026-11-14T13:35:36.6866692Z Temporarily overriding HOME='D:\a\_temp\12a66211-bee4-4d1e-8f19-0da2f2eae209' before making global git config changes
+2026-11-14T13:35:36.6867947Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-14T13:35:36.6877967Z [command]"C:\Program Files\Git\bin\git.exe" config --global --add safe.directory D:\a\saydraft\saydraft
+2026-11-14T13:35:36.7254580Z Removing SSH command configuration
+2026-11-14T13:35:36.7265346Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+2026-11-14T13:35:36.7652963Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+2026-11-14T13:35:37.3324316Z Removing HTTP extra header
+2026-11-14T13:35:37.3334248Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-14T13:35:37.3718263Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+2026-11-14T13:35:37.9457523Z Removing includeIf entries pointing to credentials config files
+2026-11-14T13:35:37.9468837Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-14T13:35:37.9811982Z includeif.gitdir:D:/a/saydraft/saydraft/.git.path
+2026-11-14T13:35:37.9812752Z includeif.gitdir:D:/a/saydraft/saydraft/.git/worktrees/*.path
+2026-11-14T13:35:37.9813816Z includeif.gitdir:/github/workspace/.git.path
+2026-11-14T13:35:37.9814384Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-11-14T13:35:37.9855222Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:D:/a/saydraft/saydraft/.git.path
+2026-11-14T13:35:38.0198883Z D:\a\_temp\git-credentials-7f646491-0872-4513-9d3e-88131c69a49c.config
+2026-11-14T13:35:38.0249851Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:D:/a/saydraft/saydraft/.git.path D\:\\a\\_temp\\git\-credentials\-7f646491\-0872\-4513\-9d3e\-88131c69a49c\.config
+2026-11-14T13:35:38.0648321Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:D:/a/saydraft/saydraft/.git/worktrees/*.path
+2026-11-14T13:35:38.1109909Z D:\a\_temp\git-credentials-7f646491-0872-4513-9d3e-88131c69a49c.config
+2026-11-14T13:35:38.1158362Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:D:/a/saydraft/saydraft/.git/worktrees/*.path D\:\\a\\_temp\\git\-credentials\-7f646491\-0872\-4513\-9d3e\-88131c69a49c\.config
+2026-11-14T13:35:38.1583591Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:/github/workspace/.git.path
+2026-11-14T13:35:38.1999019Z /github/runner_temp/git-credentials-7f646491-0872-4513-9d3e-88131c69a49c.config
+2026-11-14T13:35:38.2054852Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-7f646491\-0872\-4513\-9d3e\-88131c69a49c\.config
+2026-11-14T13:35:38.2578274Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-11-14T13:35:38.2983409Z /github/runner_temp/git-credentials-7f646491-0872-4513-9d3e-88131c69a49c.config
+2026-11-14T13:35:38.3032606Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-7f646491\-0872\-4513\-9d3e\-88131c69a49c\.config
+2026-11-14T13:35:38.3430091Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "git config --local --show-origin --name-only --get-regexp remote.origin.url"
+2026-11-14T13:35:38.8963155Z Removing credentials config 'D:\a\_temp\git-credentials-7f646491-0872-4513-9d3e-88131c69a49c.config'
+2026-11-14T13:35:38.9160906Z Cleaning up orphan processes
