@@ -1,0 +1,161 @@
+{
+  "runs": [
+    {
+      "file": "lhr-1794691348114-503600.json",
+      "sha256": "649f2685a83f66237133034cbc59336617d117c8260486ebd4a72e623141dc72",
+      "url": "http://127.0.0.1:42733/saydraft/",
+      "performance": 1,
+      "accessibility": 1,
+      "seo": 1,
+      "lcp_ms": 960,
+      "cls": 0
+    },
+    {
+      "file": "lhr-1794691365703-939900.json",
+      "sha256": "c16ecbccf3f38978189f5097c669065be4b4b31f9357254a6db73f19845f1315",
+      "url": "http://127.0.0.1:42733/saydraft/",
+      "performance": 0.99,
+      "accessibility": 1,
+      "seo": 1,
+      "lcp_ms": 960,
+      "cls": 0
+    },
+    {
+      "file": "lhr-1794691381102-773900.json",
+      "sha256": "2efb6fd702ad1b7a89f4e1736435ec25718f9c7abeaceff3901440090aaa375a",
+      "url": "http://127.0.0.1:42733/saydraft/",
+      "performance": 1,
+      "accessibility": 1,
+      "seo": 1,
+      "lcp_ms": 960,
+      "cls": 0
+    },
+    {
+      "file": "lhr-1794691396538-165400.json",
+      "sha256": "e4c489ee60eb2ac1e640ea5e61bf62e4a24d25cb626e02a5b09009bf1494a093",
+      "url": "http://127.0.0.1:42733/saydraft/download/",
+      "performance": 1,
+      "accessibility": 1,
+      "seo": 1,
+      "lcp_ms": 887,
+      "cls": 0
+    },
+    {
+      "file": "lhr-1794691411834-991900.json",
+      "sha256": "c11a3c13376558a072947b0a312f7aaa97b7b56771c5f4fc581c3827635d9a79",
+      "url": "http://127.0.0.1:42733/saydraft/download/",
+      "performance": 1,
+      "accessibility": 1,
+      "seo": 1,
+      "lcp_ms": 782.956,
+      "cls": 0
+    },
+    {
+      "file": "lhr-1794691426623-738000.json",
+      "sha256": "8c25c5fe0efba46c957e5a8384d5608b085a2992066128ed8dd6bfe81b2cae19",
+      "url": "http://127.0.0.1:42733/saydraft/download/",
+      "performance": 1,
+      "accessibility": 1,
+      "seo": 1,
+      "lcp_ms": 810,
+      "cls": 0
+    },
+    {
+      "file": "lhr-1794691441279-345000.json",
+      "sha256": "2690831daba08fc894219b23f7e4c72b03b6a09b8dc66847b1152695e157edf4",
+      "url": "http://127.0.0.1:42733/saydraft/privacy/",
+      "performance": 1,
+      "accessibility": 1,
+      "seo": 1,
+      "lcp_ms": 810,
+      "cls": 0
+    },
+    {
+      "file": "lhr-1794691455942-863500.json",
+      "sha256": "2f0bacbb1d75444127c10c02aeae626d8d848211b187c5cb8750053c54996887",
+      "url": "http://127.0.0.1:42733/saydraft/privacy/",
+      "performance": 1,
+      "accessibility": 1,
+      "seo": 1,
+      "lcp_ms": 753.1479999999999,
+      "cls": 0
+    },
+    {
+      "file": "lhr-1794691470431-937100.json",
+      "sha256": "171e26f4b56018a4b1067606c1345020a6ac9c86478ef6cf915c07f226ba1463",
+      "url": "http://127.0.0.1:42733/saydraft/privacy/",
+      "performance": 1,
+      "accessibility": 1,
+      "seo": 1,
+      "lcp_ms": 810,
+      "cls": 0
+    },
+    {
+      "file": "lhr-1794691484741-415600.json",
+      "sha256": "a88a4eca2d7a3b37c976e036fe46e7474766925eb87550a08e5a034a8c9d684c",
+      "url": "http://127.0.0.1:42733/saydraft/wispr-flow-alternative/",
+      "performance": 1,
+      "accessibility": 1,
+      "seo": 1,
+      "lcp_ms": 810,
+      "cls": 0
+    },
+    {
+      "file": "lhr-1794691499220-441600.json",
+      "sha256": "103adfdd483155ba67f4120b9c373507fd7340da582738af107923e80533426f",
+      "url": "http://127.0.0.1:42733/saydraft/wispr-flow-alternative/",
+      "performance": 1,
+      "accessibility": 1,
+      "seo": 1,
+      "lcp_ms": 810,
+      "cls": 0
+    },
+    {
+      "file": "lhr-1794691513724-410300.json",
+      "sha256": "3b058bf771d54c4f3d57784de9f1c456e02d0ce082a0ada93a02fa43bb7cd04d",
+      "url": "http://127.0.0.1:42733/saydraft/wispr-flow-alternative/",
+      "performance": 1,
+      "accessibility": 1,
+      "seo": 1,
+      "lcp_ms": 810,
+      "cls": 0
+    },
+    {
+      "file": "lhr-1794691528401-635800.json",
+      "sha256": "d0dc3ab7bb085688eca68e8a9ee3d80e87b77ba4c6a186e1d4dc960a6a3556d6",
+      "url": "http://127.0.0.1:42733/saydraft/offline-dictation-windows/",
+      "performance": 1,
+      "accessibility": 1,
+      "seo": 1,
+      "lcp_ms": 810,
+      "cls": 0
+    },
+    {
+      "file": "lhr-1794691543462-130200.json",
+      "sha256": "1eade6800b6f65f67411c90b65d29b5bfb4b99c42c83f13c84e15eb694722d66",
+      "url": "http://127.0.0.1:42733/saydraft/offline-dictation-windows/",
+      "performance": 1,
+      "accessibility": 1,
+      "seo": 1,
+      "lcp_ms": 810,
+      "cls": 0
+    },
+    {
+      "file": "lhr-1794691558095-877700.json",
+      "sha256": "0374a909a91fb5ce08c090eeedeffaa7c52a0745fc153f34708b4358bdb087db",
+      "url": "http://127.0.0.1:42733/saydraft/offline-dictation-windows/",
+      "performance": 1,
+      "accessibility": 1,
+      "seo": 1,
+      "lcp_ms": 810,
+      "cls": 0
+    }
+  ],
+  "count": 15,
+  "min_performance": 0.99,
+  "min_accessibility": 1,
+  "min_seo": 1,
+  "max_lcp_ms": 960,
+  "max_cls": 0,
+  "exit_observed": 0
+}

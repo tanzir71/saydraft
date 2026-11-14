@@ -1,0 +1,95 @@
+"""Verify retained source, complete component coverage, snapshots and Lighthouse evidence."""
+import argparse
+from collections import Counter
+import hashlib
+import json
+from pathlib import Path, PurePosixPath
+import struct
+import subprocess
+
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--repo', type=Path, required=True)
+parser.add_argument('--site-root', type=Path)
+args = parser.parse_args()
+repo = args.repo.resolve()
+root = Path(__file__).resolve().parent
+read = lambda name: json.loads((root / name).read_bytes())
+sha = lambda data: hashlib.sha256(data).hexdigest()
+receipt = read('receipt.json')
+files = read('files.json')
+for name, expected in files.items():
+    relative = PurePosixPath(name)
+    path = (root / relative).resolve()
+    assert not relative.is_absolute() and '..' not in relative.parts and path.is_relative_to(root)
+    assert sha(path.read_bytes()) == expected, name
+source = receipt['source']
+witness = read('source-witness.json')
+assert source == witness['source']
+queries = ''.join(f'{source}:{name}\n' for name in witness['files']).encode()
+objects = subprocess.check_output(['git', 'cat-file', '--batch'], cwd=repo, input=queries)
+offset = 0
+for name, record in witness['files'].items():
+    end = objects.index(b'\n', offset); header = objects[offset:end].split()
+    assert header[1] == b'blob', name
+    size = int(header[2]); committed = objects[end + 1:end + 1 + size]; offset = end + 2 + size
+    normalize = lambda data: data if record['binary'] else data.replace(b'\r\n', b'\n')
+    assert sha(normalize(committed)) == record['sha256'], name
+    assert sha(normalize((repo / name).read_bytes())) == record['sha256'], name
+    assert record['modified_before_site_run']
+    if record['component_scope']: assert record['modified_before_component_run']
+required = {'NavPill', 'Button', 'Eyebrow', 'SerifHeading', 'Sheet', 'Ribbon', 'BarDemo', 'EditChip', 'BeforeAfterCard',
+    'FeatureRow', 'StyleSwitcher', 'KeyCaps', 'StatBlock', 'PrivacyFacts', 'CompareTable', 'FAQ', 'DownloadCard',
+    'CreditsBand', 'Footer', 'AnnouncementBar', 'TableOfContents', 'Callout', 'CodeBlock'}
+stories = [r for r in read('storybook-index.json')['entries'].values() if r['type'] == 'story']
+assert {r['title'].split('/')[-1] for r in stories} == required
+assert len(stories) == receipt['stories'] == 71 and len(required) == receipt['components'] == 23
+for name, count in (('components-r5', 234), ('site-tests-r8', 30)):
+    report = read('raw/' + name + '.json')
+    assert report['stats']['expected'] == count
+    assert not any(report['stats'][key] for key in ('unexpected', 'skipped', 'flaky'))
+    assert len(report['config']['projects']) == 3
+for story in stories:
+    for project, width, height in (('mobile', 390, 844), ('tablet', 768, 1024), ('desktop', 1440, 900)):
+        name = f"site/component-tests/library.spec.ts-snapshots/{story['id']}-{project}-win32.png"
+        assert name in witness['files']
+        data = (repo / name).read_bytes()
+        assert data[:8] == b'\x89PNG\r\n\x1a\n'
+        actual = struct.unpack('>II', data[16:24]); assert actual[0] == width and actual[1] >= height
+assert len([name for name in witness['files'] if name.startswith('site/component-tests/') and name.endswith('.png')]) == 213
+for name, width in (('mobile', 390), ('tablet', 768), ('desktop', 1440)):
+    data = (repo / f'site/tests/site.spec.ts-snapshots/home-{name}-win32.png').read_bytes()
+    assert data[:8] == b'\x89PNG\r\n\x1a\n' and struct.unpack('>II', data[16:24])[0] == width
+contracts = (root / 'raw/contracts-r2.txt').read_text(encoding='utf-8')
+assert 'tests 7' in contracts and 'pass 7' in contracts and 'fail 0' in contracts
+typing = (root / 'raw/typecheck-final-r3.txt').read_text(encoding='utf-8')
+assert '0 errors' in typing and '0 warnings' in typing and '0 hints' in typing
+assert '33 page(s) built' in (root / 'raw/build-r6.txt').read_text(encoding='utf-8')
+assert 'Storybook build completed successfully' in (root / 'raw/storybook-r3.txt').read_text(encoding='utf-8')
+assert read('raw/final-dist-match.json')['matches_lighthouse_output']
+summary = read('raw/lighthouse-summary-r2.json')
+urls = Counter()
+for record in summary['runs']:
+    report = read('lighthouse/' + record['file'])
+    assert not report.get('runtimeError') and report['finalUrl'] == record['url']
+    assert sha((root / 'lighthouse' / record['file']).read_bytes()) == record['sha256']
+    categories = report['categories']
+    assert categories['performance']['score'] >= .95 and categories['accessibility']['score'] == categories['seo']['score'] == 1
+    assert report['audits']['largest-contentful-paint']['numericValue'] <= 2000
+    assert report['audits']['cumulative-layout-shift']['numericValue'] < .05
+    urls[report['finalUrl']] += 1
+assert len(urls) == 5 and set(urls.values()) == {3} and sum(urls.values()) == 15
+assert receipt['p9_2_accepted'] and not receipt['full_goal_complete'] and not receipt['site_published']
+assert not receipt['actions_dispatched'] and not receipt['owner_clipboard_used']
+assert not subprocess.check_output(['git', 'diff', '--name-only', '6edaad6f470b97e7bfed8248a22df0ec8db97a64', source, '--',
+    'saydraft', 'assets', 'requirements.txt', 'Saydraft.spec', 'installer', 'tools/build.ps1', 'tools/package_audit.py', '.github/workflows'], cwd=repo)
+output_verified = False
+if args.site_root:
+    outputs = read('outputs.json')
+    for label, directory in (('site', 'dist'), ('storybook', 'storybook-static')):
+        actual = {p.relative_to(args.site_root / directory).as_posix(): sha(p.read_bytes())
+            for p in (args.site_root / directory).rglob('*') if p.is_file()}
+        assert actual == outputs[label], label
+    output_verified = True
+print(json.dumps({'verified': True, 'source': source, 'records': len(files), 'components': 23, 'stories': 71,
+    'component_checks': 234, 'site_checks': 30, 'snapshots': 213, 'lighthouse_runs': 15,
+    'actual_build_outputs_verified': output_verified, 'p9_2_accepted': True, 'full_goal_complete': False}))

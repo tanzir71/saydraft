@@ -1,0 +1,129 @@
+
+> saydraft-site@0.1.0 test
+> playwright test --grep content and native questions --reporter=list,json
+
+[WebServer] (node:44324) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 3 tests using 3 workers
+
+(node:22040) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:2452) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:44880) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  3 [tablet] › tests\site.spec.ts:201:1 › content and native questions work with JavaScript disabled (7.1s)
+  x  1 [desktop] › tests\site.spec.ts:201:1 › content and native questions work with JavaScript disabled (8.5s)
+  x  2 [mobile] › tests\site.spec.ts:201:1 › content and native questions work with JavaScript disabled (6.9s)
+
+
+  1) [mobile] › tests\site.spec.ts:201:1 › content and native questions work with JavaScript disabled 
+
+    Error: expect(locator).toHaveText(expected) failed
+
+    Locator:  locator('figure noscript')
+    Expected: "Select the command text to copy it."
+    Received: ""
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveText" locator('figure noscript') with timeout 5000ms
+      - waiting for locator('figure noscript')
+        14 × locator resolved to <noscript>Select the command text to copy it.</noscript>
+           - unexpected value ""
+
+
+      214 |   await expect(page.locator('pre code')).toContainText('python -m saydraft');
+      215 |   const manualCopy = page.locator('figure noscript');
+    > 216 |   await expect(manualCopy).toHaveText('Select the command text to copy it.');
+          |                            ^
+      217 |   await expect(manualCopy).toBeVisible();
+      218 |   await page.goto(`${siteOrigin}/saydraft/offline-dictation-windows/`);
+      219 |   const contents = page.getByRole('navigation', { name: 'On this page' });
+        at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\tests\site.spec.ts:216:28
+
+    Error Context: test-results\site-content-and-native-qu-f12d5-rk-with-JavaScript-disabled-mobile\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\site-content-and-native-qu-f12d5-rk-with-JavaScript-disabled-mobile\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\site-content-and-native-qu-f12d5-rk-with-JavaScript-disabled-mobile\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [tablet] › tests\site.spec.ts:201:1 › content and native questions work with JavaScript disabled 
+
+    Error: expect(locator).toHaveText(expected) failed
+
+    Locator:  locator('figure noscript')
+    Expected: "Select the command text to copy it."
+    Received: ""
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveText" locator('figure noscript') with timeout 5000ms
+      - waiting for locator('figure noscript')
+        14 × locator resolved to <noscript>Select the command text to copy it.</noscript>
+           - unexpected value ""
+
+
+      214 |   await expect(page.locator('pre code')).toContainText('python -m saydraft');
+      215 |   const manualCopy = page.locator('figure noscript');
+    > 216 |   await expect(manualCopy).toHaveText('Select the command text to copy it.');
+          |                            ^
+      217 |   await expect(manualCopy).toBeVisible();
+      218 |   await page.goto(`${siteOrigin}/saydraft/offline-dictation-windows/`);
+      219 |   const contents = page.getByRole('navigation', { name: 'On this page' });
+        at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\tests\site.spec.ts:216:28
+
+    Error Context: test-results\site-content-and-native-qu-f12d5-rk-with-JavaScript-disabled-tablet\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\site-content-and-native-qu-f12d5-rk-with-JavaScript-disabled-tablet\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\site-content-and-native-qu-f12d5-rk-with-JavaScript-disabled-tablet\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) [desktop] › tests\site.spec.ts:201:1 › content and native questions work with JavaScript disabled 
+
+    Error: expect(locator).toHaveText(expected) failed
+
+    Locator:  locator('figure noscript')
+    Expected: "Select the command text to copy it."
+    Received: ""
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveText" locator('figure noscript') with timeout 5000ms
+      - waiting for locator('figure noscript')
+        14 × locator resolved to <noscript>Select the command text to copy it.</noscript>
+           - unexpected value ""
+
+
+      214 |   await expect(page.locator('pre code')).toContainText('python -m saydraft');
+      215 |   const manualCopy = page.locator('figure noscript');
+    > 216 |   await expect(manualCopy).toHaveText('Select the command text to copy it.');
+          |                            ^
+      217 |   await expect(manualCopy).toBeVisible();
+      218 |   await page.goto(`${siteOrigin}/saydraft/offline-dictation-windows/`);
+      219 |   const contents = page.getByRole('navigation', { name: 'On this page' });
+        at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\tests\site.spec.ts:216:28
+
+    Error Context: test-results\site-content-and-native-qu-f12d5-rk-with-JavaScript-disabled-desktop\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\site-content-and-native-qu-f12d5-rk-with-JavaScript-disabled-desktop\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\site-content-and-native-qu-f12d5-rk-with-JavaScript-disabled-desktop\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3 failed
+    [mobile] › tests\site.spec.ts:201:1 › content and native questions work with JavaScript disabled 
+    [tablet] › tests\site.spec.ts:201:1 › content and native questions work with JavaScript disabled 
+    [desktop] › tests\site.spec.ts:201:1 › content and native questions work with JavaScript disabled 

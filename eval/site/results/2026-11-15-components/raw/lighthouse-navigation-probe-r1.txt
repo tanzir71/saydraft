@@ -1,0 +1,11 @@
+D:\Saydraft-Codex-QA-20261112-01a1cbc7\website-content-20261114-r1\site\node_modules\chrome-launcher\dist\chrome-launcher.js:198
+                this.fs.writeFileSync(this.pidFile, chrome.pid.toString());
+                                                               ^
+
+TypeError: Cannot read properties of undefined (reading 'toString')
+    at Launcher.<anonymous> (D:\Saydraft-Codex-QA-20261112-01a1cbc7\website-content-20261114-r1\site\node_modules\chrome-launcher\dist\chrome-launcher.js:198:64)
+    at Generator.next (<anonymous>)
+    at fulfilled (D:\Saydraft-Codex-QA-20261112-01a1cbc7\website-content-20261114-r1\site\node_modules\chrome-launcher\dist\chrome-launcher.js:10:58)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+
+Node.js v24.22.2

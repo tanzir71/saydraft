@@ -1,0 +1,293 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "--grep",
+      "content and native questions",
+      "--reporter=list,json"
+    ],
+    "configFile": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\playwright.config.ts",
+    "rootDir": "D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-component-library-20261115/site/tests",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 3
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-component-library-20261115/site/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 3
+        },
+        "id": "mobile",
+        "name": "mobile",
+        "testDir": "D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-component-library-20261115/site/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-component-library-20261115/site/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 3
+        },
+        "id": "tablet",
+        "name": "tablet",
+        "testDir": "D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-component-library-20261115/site/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-component-library-20261115/site/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 3
+        },
+        "id": "desktop",
+        "name": "desktop",
+        "testDir": "D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-component-library-20261115/site/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 3
+        },
+        "name": "mobile",
+        "testDir": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\tests",
+        "snapshotDir": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\tests",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 30000,
+        "use": {
+          "baseURL": "http://127.0.0.1:42731/saydraft/",
+          "browserName": "chromium",
+          "channel": "chromium",
+          "reducedMotion": "reduce",
+          "trace": "retain-on-failure",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          }
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "mobile"
+      },
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 3
+        },
+        "name": "tablet",
+        "testDir": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\tests",
+        "snapshotDir": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\tests",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 30000,
+        "use": {
+          "baseURL": "http://127.0.0.1:42731/saydraft/",
+          "browserName": "chromium",
+          "channel": "chromium",
+          "reducedMotion": "reduce",
+          "trace": "retain-on-failure",
+          "viewport": {
+            "width": 768,
+            "height": 1024
+          }
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "tablet"
+      },
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 3
+        },
+        "name": "desktop",
+        "testDir": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\tests",
+        "snapshotDir": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\tests",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 30000,
+        "use": {
+          "baseURL": "http://127.0.0.1:42731/saydraft/",
+          "browserName": "chromium",
+          "channel": "chromium",
+          "reducedMotion": "reduce",
+          "trace": "retain-on-failure",
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          }
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "desktop"
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list"
+      ],
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.65.0",
+    "workers": 3,
+    "webServer": {
+      "command": "npm run preview -- --port 42731",
+      "url": "http://127.0.0.1:42731/saydraft/",
+      "reuseExistingServer": false,
+      "timeout": 30000
+    }
+  },
+  "suites": [
+    {
+      "title": "site.spec.ts",
+      "file": "site.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "content and native questions work with JavaScript disabled",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile",
+              "projectName": "mobile",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3331,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-14T21:35:43.326Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            },
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "tablet",
+              "projectName": "tablet",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 5021,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-14T21:35:43.341Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            },
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 6720,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-14T21:35:43.340Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5c02723ad68c2a0d50c5-1a02aca89147026dd1b7",
+          "file": "site.spec.ts",
+          "line": 201,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-11-14T21:35:40.206Z",
+    "duration": 12921.468,
+    "expected": 3,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

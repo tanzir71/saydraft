@@ -1,0 +1,1164 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "--reporter=list,json"
+    ],
+    "configFile": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\playwright.config.ts",
+    "rootDir": "D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-component-library-20261115/site/tests",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 3
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-component-library-20261115/site/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 3
+        },
+        "id": "mobile",
+        "name": "mobile",
+        "testDir": "D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-component-library-20261115/site/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-component-library-20261115/site/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 3
+        },
+        "id": "tablet",
+        "name": "tablet",
+        "testDir": "D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-component-library-20261115/site/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-component-library-20261115/site/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 3
+        },
+        "id": "desktop",
+        "name": "desktop",
+        "testDir": "D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-component-library-20261115/site/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 3
+        },
+        "name": "mobile",
+        "testDir": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\tests",
+        "snapshotDir": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\tests",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 30000,
+        "use": {
+          "baseURL": "http://127.0.0.1:42731/saydraft/",
+          "browserName": "chromium",
+          "channel": "chromium",
+          "reducedMotion": "reduce",
+          "trace": "retain-on-failure",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          }
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "mobile"
+      },
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 3
+        },
+        "name": "tablet",
+        "testDir": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\tests",
+        "snapshotDir": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\tests",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 30000,
+        "use": {
+          "baseURL": "http://127.0.0.1:42731/saydraft/",
+          "browserName": "chromium",
+          "channel": "chromium",
+          "reducedMotion": "reduce",
+          "trace": "retain-on-failure",
+          "viewport": {
+            "width": 768,
+            "height": 1024
+          }
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "tablet"
+      },
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 3
+        },
+        "name": "desktop",
+        "testDir": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\tests",
+        "snapshotDir": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\tests",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 30000,
+        "use": {
+          "baseURL": "http://127.0.0.1:42731/saydraft/",
+          "browserName": "chromium",
+          "channel": "chromium",
+          "reducedMotion": "reduce",
+          "trace": "retain-on-failure",
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          }
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "desktop"
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list"
+      ],
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.65.0",
+    "workers": 3,
+    "webServer": {
+      "command": "npm run preview -- --port 42731",
+      "url": "http://127.0.0.1:42731/saydraft/",
+      "reuseExistingServer": false,
+      "timeout": 30000
+    }
+  },
+  "suites": [
+    {
+      "title": "site.spec.ts",
+      "file": "site.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "home is local, responsive, and light on JavaScript",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile",
+              "projectName": "mobile",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6449,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-14T21:29:59.277Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "Viewport",
+                      "contentType": "image/png",
+                      "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\test-results\\site-home-is-local-responsive-and-light-on-JavaScript-mobile\\attachments\\Viewport-8e969f244a0782e4efa640e41d1f77707dea5b84.png"
+                    },
+                    {
+                      "name": "sheet",
+                      "contentType": "image/png",
+                      "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\test-results\\site-home-is-local-responsive-and-light-on-JavaScript-mobile\\attachments\\sheet-d838710e4f048e766a240ecf8477d413dc2c2e77.png"
+                    },
+                    {
+                      "name": "footer",
+                      "contentType": "image/png",
+                      "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\test-results\\site-home-is-local-responsive-and-light-on-JavaScript-mobile\\attachments\\footer-7b81b3e0754d2c16a2a028bf8316277609daded8.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            },
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "tablet",
+              "projectName": "tablet",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5848,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-14T21:30:19.971Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "Viewport",
+                      "contentType": "image/png",
+                      "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\test-results\\site-home-is-local-responsive-and-light-on-JavaScript-tablet\\attachments\\Viewport-d26cc2e21e0c0318f8499263254f18bc9acabe2f.png"
+                    },
+                    {
+                      "name": "sheet",
+                      "contentType": "image/png",
+                      "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\test-results\\site-home-is-local-responsive-and-light-on-JavaScript-tablet\\attachments\\sheet-5d49e925a8a289b847311a9b0567e2f81297e2e3.png"
+                    },
+                    {
+                      "name": "footer",
+                      "contentType": "image/png",
+                      "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\test-results\\site-home-is-local-responsive-and-light-on-JavaScript-tablet\\attachments\\footer-0ead7543a7a60078b93c82f8d01d8ba24f36e56b.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            },
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 7,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6188,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-14T21:30:52.366Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "Viewport",
+                      "contentType": "image/png",
+                      "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\test-results\\site-home-is-local-responsive-and-light-on-JavaScript-desktop\\attachments\\Viewport-4e38d53f470a124aa9c949cb645210f1c26513a3.png"
+                    },
+                    {
+                      "name": "sheet",
+                      "contentType": "image/png",
+                      "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\test-results\\site-home-is-local-responsive-and-light-on-JavaScript-desktop\\attachments\\sheet-748b1f0583b45a1faa1e4836bf84bec667e73e4e.png"
+                    },
+                    {
+                      "name": "footer",
+                      "contentType": "image/png",
+                      "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\test-results\\site-home-is-local-responsive-and-light-on-JavaScript-desktop\\attachments\\footer-0ea94d0a199051a7bf7e35c60b342dcb004b93cc.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5c02723ad68c2a0d50c5-5b8e75366fabb37e8fb2",
+          "file": "site.spec.ts",
+          "line": 10,
+          "column": 1
+        },
+        {
+          "title": "native navigation, questions, and reduced-motion simulation work",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile",
+              "projectName": "mobile",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 3374,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-14T21:29:59.265Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            },
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "tablet",
+              "projectName": "tablet",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 5773,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-14T21:30:19.957Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            },
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 8,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 2502,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-14T21:30:55.453Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5c02723ad68c2a0d50c5-fb52008dcab4dc45deab",
+          "file": "site.spec.ts",
+          "line": 51,
+          "column": 1
+        },
+        {
+          "title": "all public pages have working local links and unique metadata",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile",
+              "projectName": "mobile",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 14074,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-14T21:29:59.298Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            },
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "tablet",
+              "projectName": "tablet",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 22500,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-14T21:30:27.682Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            },
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 9,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 19807,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-14T21:31:02.856Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5c02723ad68c2a0d50c5-1bb3f37d90c310e07572",
+          "file": "site.spec.ts",
+          "line": 66,
+          "column": 1
+        },
+        {
+          "title": "guide keyboard navigation exposes the skip link and reaches main content",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile",
+              "projectName": "mobile",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 3838,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-14T21:30:03.092Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            },
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "tablet",
+              "projectName": "tablet",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2193,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-14T21:30:27.483Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            },
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 8,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 1160,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-14T21:30:59.968Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5c02723ad68c2a0d50c5-9822721571b6178d7d81",
+          "file": "site.spec.ts",
+          "line": 85,
+          "column": 1
+        },
+        {
+          "title": "dated guides have visible sources, linked schemas and local-only page loads",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile",
+              "projectName": "mobile",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 8633,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-14T21:30:06.204Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            },
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "tablet",
+              "projectName": "tablet",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 11235,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-14T21:30:28.113Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            },
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 7,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 12746,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-14T21:31:00.438Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5c02723ad68c2a0d50c5-d88fc0008a879d8ea5c5",
+          "file": "site.spec.ts",
+          "line": 94,
+          "column": 1
+        },
+        {
+          "title": "language guides are linked, indexable and accurately describe shared models",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile",
+              "projectName": "mobile",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 10423,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-14T21:30:06.949Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            },
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "tablet",
+              "projectName": "tablet",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 16562,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-14T21:30:29.697Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            },
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 8,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 19499,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-14T21:31:01.170Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5c02723ad68c2a0d50c5-6860d738a731b3b80aeb",
+          "file": "site.spec.ts",
+          "line": 139,
+          "column": 1
+        },
+        {
+          "title": "content and native questions work with JavaScript disabled",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile",
+              "projectName": "mobile",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "failed",
+                  "duration": 5874,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText('Select the command text to copy it.', { exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByText('Select the command text to copy it.', { exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText('Select the command text to copy it.', { exact: true })\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText('Select the command text to copy it.', { exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByText('Select the command text to copy it.', { exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText('Select the command text to copy it.', { exact: true })\u001b[22m\n\n    at D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\tests\\site.spec.ts:215:88",
+                    "location": {
+                      "file": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\tests\\site.spec.ts",
+                      "column": 88,
+                      "line": 215
+                    },
+                    "snippet": " \u001b[90m 213 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m`${siteOrigin}/saydraft/download/`\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 214 |\u001b[39m   \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'pre code'\u001b[39m))\u001b[33m.\u001b[39mtoContainText(\u001b[32m'python -m saydraft'\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 215 |\u001b[39m   \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByText(\u001b[32m'Select the command text to copy it.'\u001b[39m\u001b[33m,\u001b[39m { exact\u001b[33m:\u001b[39m \u001b[36mtrue\u001b[39m }))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                                                        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 216 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m`${siteOrigin}/saydraft/offline-dictation-windows/`\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 217 |\u001b[39m   \u001b[36mconst\u001b[39m contents \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'navigation'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[32m'On this page'\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m 218 |\u001b[39m   \u001b[36mconst\u001b[39m target \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m contents\u001b[33m.\u001b[39mgetByRole(\u001b[32m'link'\u001b[39m)\u001b[33m.\u001b[39mfirst()\u001b[33m.\u001b[39mgetAttribute(\u001b[32m'href'\u001b[39m)\u001b[33m;\u001b[39m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\tests\\site.spec.ts",
+                        "column": 88,
+                        "line": 215
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText('Select the command text to copy it.', { exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByText('Select the command text to copy it.', { exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText('Select the command text to copy it.', { exact: true })\u001b[22m\n\n\n  213 |   await page.goto(`${siteOrigin}/saydraft/download/`);\n  214 |   await expect(page.locator('pre code')).toContainText('python -m saydraft');\n> 215 |   await expect(page.getByText('Select the command text to copy it.', { exact: true })).toBeVisible();\n      |                                                                                        ^\n  216 |   await page.goto(`${siteOrigin}/saydraft/offline-dictation-windows/`);\n  217 |   const contents = page.getByRole('navigation', { name: 'On this page' });\n  218 |   const target = await contents.getByRole('link').first().getAttribute('href');\n    at D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\tests\\site.spec.ts:215:88"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-14T21:30:13.891Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\test-results\\site-content-and-native-qu-f12d5-rk-with-JavaScript-disabled-mobile\\error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\test-results\\site-content-and-native-qu-f12d5-rk-with-JavaScript-disabled-mobile\\trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\tests\\site.spec.ts",
+                    "column": 88,
+                    "line": 215
+                  }
+                }
+              ],
+              "status": "unexpected"
+            },
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "tablet",
+              "projectName": "tablet",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 1,
+                  "status": "failed",
+                  "duration": 6729,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText('Select the command text to copy it.', { exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByText('Select the command text to copy it.', { exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText('Select the command text to copy it.', { exact: true })\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText('Select the command text to copy it.', { exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByText('Select the command text to copy it.', { exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText('Select the command text to copy it.', { exact: true })\u001b[22m\n\n    at D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\tests\\site.spec.ts:215:88",
+                    "location": {
+                      "file": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\tests\\site.spec.ts",
+                      "column": 88,
+                      "line": 215
+                    },
+                    "snippet": " \u001b[90m 213 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m`${siteOrigin}/saydraft/download/`\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 214 |\u001b[39m   \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'pre code'\u001b[39m))\u001b[33m.\u001b[39mtoContainText(\u001b[32m'python -m saydraft'\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 215 |\u001b[39m   \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByText(\u001b[32m'Select the command text to copy it.'\u001b[39m\u001b[33m,\u001b[39m { exact\u001b[33m:\u001b[39m \u001b[36mtrue\u001b[39m }))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                                                        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 216 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m`${siteOrigin}/saydraft/offline-dictation-windows/`\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 217 |\u001b[39m   \u001b[36mconst\u001b[39m contents \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'navigation'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[32m'On this page'\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m 218 |\u001b[39m   \u001b[36mconst\u001b[39m target \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m contents\u001b[33m.\u001b[39mgetByRole(\u001b[32m'link'\u001b[39m)\u001b[33m.\u001b[39mfirst()\u001b[33m.\u001b[39mgetAttribute(\u001b[32m'href'\u001b[39m)\u001b[33m;\u001b[39m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\tests\\site.spec.ts",
+                        "column": 88,
+                        "line": 215
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText('Select the command text to copy it.', { exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByText('Select the command text to copy it.', { exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText('Select the command text to copy it.', { exact: true })\u001b[22m\n\n\n  213 |   await page.goto(`${siteOrigin}/saydraft/download/`);\n  214 |   await expect(page.locator('pre code')).toContainText('python -m saydraft');\n> 215 |   await expect(page.getByText('Select the command text to copy it.', { exact: true })).toBeVisible();\n      |                                                                                        ^\n  216 |   await page.goto(`${siteOrigin}/saydraft/offline-dictation-windows/`);\n  217 |   const contents = page.getByRole('navigation', { name: 'On this page' });\n  218 |   const target = await contents.getByRole('link').first().getAttribute('href');\n    at D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\tests\\site.spec.ts:215:88"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-14T21:30:39.375Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\test-results\\site-content-and-native-qu-f12d5-rk-with-JavaScript-disabled-tablet\\error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\test-results\\site-content-and-native-qu-f12d5-rk-with-JavaScript-disabled-tablet\\trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\tests\\site.spec.ts",
+                    "column": 88,
+                    "line": 215
+                  }
+                }
+              ],
+              "status": "unexpected"
+            },
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 7,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 6577,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText('Select the command text to copy it.', { exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByText('Select the command text to copy it.', { exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText('Select the command text to copy it.', { exact: true })\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText('Select the command text to copy it.', { exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByText('Select the command text to copy it.', { exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText('Select the command text to copy it.', { exact: true })\u001b[22m\n\n    at D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\tests\\site.spec.ts:215:88",
+                    "location": {
+                      "file": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\tests\\site.spec.ts",
+                      "column": 88,
+                      "line": 215
+                    },
+                    "snippet": " \u001b[90m 213 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m`${siteOrigin}/saydraft/download/`\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 214 |\u001b[39m   \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'pre code'\u001b[39m))\u001b[33m.\u001b[39mtoContainText(\u001b[32m'python -m saydraft'\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 215 |\u001b[39m   \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByText(\u001b[32m'Select the command text to copy it.'\u001b[39m\u001b[33m,\u001b[39m { exact\u001b[33m:\u001b[39m \u001b[36mtrue\u001b[39m }))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                                                        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 216 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m`${siteOrigin}/saydraft/offline-dictation-windows/`\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 217 |\u001b[39m   \u001b[36mconst\u001b[39m contents \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'navigation'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[32m'On this page'\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m 218 |\u001b[39m   \u001b[36mconst\u001b[39m target \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m contents\u001b[33m.\u001b[39mgetByRole(\u001b[32m'link'\u001b[39m)\u001b[33m.\u001b[39mfirst()\u001b[33m.\u001b[39mgetAttribute(\u001b[32m'href'\u001b[39m)\u001b[33m;\u001b[39m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\tests\\site.spec.ts",
+                        "column": 88,
+                        "line": 215
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText('Select the command text to copy it.', { exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByText('Select the command text to copy it.', { exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText('Select the command text to copy it.', { exact: true })\u001b[22m\n\n\n  213 |   await page.goto(`${siteOrigin}/saydraft/download/`);\n  214 |   await expect(page.locator('pre code')).toContainText('python -m saydraft');\n> 215 |   await expect(page.getByText('Select the command text to copy it.', { exact: true })).toBeVisible();\n      |                                                                                        ^\n  216 |   await page.goto(`${siteOrigin}/saydraft/offline-dictation-windows/`);\n  217 |   const contents = page.getByRole('navigation', { name: 'On this page' });\n  218 |   const target = await contents.getByRole('link').first().getAttribute('href');\n    at D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\tests\\site.spec.ts:215:88"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-14T21:31:13.266Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\test-results\\site-content-and-native-qu-f12d5-rk-with-JavaScript-disabled-desktop\\error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\test-results\\site-content-and-native-qu-f12d5-rk-with-JavaScript-disabled-desktop\\trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\tests\\site.spec.ts",
+                    "column": 88,
+                    "line": 215
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "5c02723ad68c2a0d50c5-1a02aca89147026dd1b7",
+          "file": "site.spec.ts",
+          "line": 201,
+          "column": 1
+        },
+        {
+          "title": "source command copy and guide contents work in the static site",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile",
+              "projectName": "mobile",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 593,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-14T21:30:14.856Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            },
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "tablet",
+              "projectName": "tablet",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1253,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-14T21:30:46.281Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            },
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 8,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 1223,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-14T21:31:20.715Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5c02723ad68c2a0d50c5-79f31a38d28d0a09917a",
+          "file": "site.spec.ts",
+          "line": 225,
+          "column": 1
+        },
+        {
+          "title": "built HTML follows the document contract",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile",
+              "projectName": "mobile",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 860,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-14T21:30:15.461Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            },
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "tablet",
+              "projectName": "tablet",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2615,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-14T21:30:47.560Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            },
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 8,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 2684,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-14T21:31:21.959Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5c02723ad68c2a0d50c5-99a84fea82f303a6697e",
+          "file": "site.spec.ts",
+          "line": 252,
+          "column": 1
+        },
+        {
+          "title": "navigation fits between tablet and desktop widths",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile",
+              "projectName": "mobile",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 793,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-14T21:30:16.334Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            },
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "tablet",
+              "projectName": "tablet",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 2638,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-14T21:30:50.644Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            },
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 10,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2518,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-14T21:31:25.621Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5c02723ad68c2a0d50c5-a9d921e5ebc559060949",
+          "file": "site.spec.ts",
+          "line": 263,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-11-14T21:29:56.170Z",
+    "duration": 95366.966,
+    "expected": 27,
+    "skipped": 0,
+    "unexpected": 3,
+    "flaky": 0
+  }
+}

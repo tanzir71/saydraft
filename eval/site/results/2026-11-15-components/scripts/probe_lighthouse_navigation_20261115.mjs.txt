@@ -1,0 +1,31 @@
+import { createRequire } from 'node:module';
+import { pathToFileURL } from 'node:url';
+import { writeFileSync, mkdirSync } from 'node:fs';
+const qa = 'D:/Saydraft-Codex-QA-20261112-01a1cbc7';
+process.env.PLAYWRIGHT_BROWSERS_PATH = qa + '/playwright-browsers';
+const repo = qa + '/worktrees/site-component-library-20261115/site';
+const require = createRequire(repo + '/package.json');
+const { chromium } = require('@playwright/test');
+const { launch } = await import(pathToFileURL(require.resolve('chrome-launcher')).href);
+let native, browser;
+const report = { url: 'http://127.0.0.1:42733/saydraft/', requestsFailed: [], headless: true, owner_profile_used: false };
+try {
+  mkdirSync(qa + '/site-component-library-20261115-r1/lighthouse-probe-profile-r1', { recursive: true });
+  native = await launch({ chromePath: chromium.executablePath(),
+    chromeFlags: ['--headless', '--no-sandbox', '--disable-gpu'],
+    userDataDir: qa + '/site-component-library-20261115-r1/lighthouse-probe-profile-r1', logLevel: 'error' });
+  report.pid = native.pid;
+  browser = await chromium.connectOverCDP(`http://127.0.0.1:${native.port}`);
+  const page = await browser.contexts()[0].newPage();
+  page.on('requestfailed', (request) => report.requestsFailed.push({ url: request.url(), error: request.failure()?.errorText }));
+  try { const response = await page.goto(report.url, { waitUntil: 'domcontentloaded' }); report.status = response?.status(); }
+  catch (error) { report.error = error.message; }
+  report.finalUrl = page.url();
+  report.title = await page.title();
+  report.text = (await page.locator('body').innerText()).slice(0, 400);
+} finally {
+  if (browser) await browser.close();
+  if (native) { await native.kill(); report.owned_browser_stopped = true; }
+}
+writeFileSync(qa + '/site-component-library-20261115-r1/lighthouse-navigation-probe-r1.json', JSON.stringify(report, null, 2));
+console.log(JSON.stringify(report));

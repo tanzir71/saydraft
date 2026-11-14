@@ -1,0 +1,565 @@
+
+> saydraft-site@0.1.0 test:components
+> playwright test -c playwright.components.config.ts --update-snapshots --reporter=list,json
+
+[WebServer] (node:38960) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 231 tests using 3 workers
+
+(node:21220) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:10172) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:39176) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok   1 [mobile] › component-tests\library.spec.ts:13:1 › built Storybook covers every specified component and all declared states (12ms)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\layout-announcementbar--linked-mobile-win32.png, writing actual.
+  ok   3 [mobile] › component-tests\library.spec.ts:21:3 › Layout/AnnouncementBar · layout-announcementbar--linked renders locally without overflow (3.3s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-bardemo--listening-mobile-win32.png, writing actual.
+  ok   4 [mobile] › component-tests\library.spec.ts:21:3 › Product/BarDemo · product-bardemo--listening renders locally without overflow (3.4s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-bardemo--idle-mobile-win32.png, writing actual.
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\layout-announcementbar--text-only-mobile-win32.png, writing actual.
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-bardemo--cleaning-mobile-win32.png, writing actual.
+  ok   2 [mobile] › component-tests\library.spec.ts:21:3 › Layout/AnnouncementBar · layout-announcementbar--text-only renders locally without overflow (5.7s)
+  ok   5 [mobile] › component-tests\library.spec.ts:21:3 › Product/BarDemo · product-bardemo--idle renders locally without overflow (2.2s)
+  ok   6 [mobile] › component-tests\library.spec.ts:21:3 › Product/BarDemo · product-bardemo--cleaning renders locally without overflow (1.5s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-bardemo--reduced-motion-mobile-win32.png, writing actual.
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-bardemo--inserted-mobile-win32.png, writing actual.
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-beforeaftercard--backtrack-mobile-win32.png, writing actual.
+  ok   9 [mobile] › component-tests\library.spec.ts:21:3 › Product/BeforeAfterCard · product-beforeaftercard--backtrack renders locally without overflow (1.2s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-beforeaftercard--fillers-mobile-win32.png, writing actual.
+  ok   8 [mobile] › component-tests\library.spec.ts:21:3 › Product/BarDemo · product-bardemo--reduced-motion renders locally without overflow (2.4s)
+  ok   7 [mobile] › component-tests\library.spec.ts:21:3 › Product/BarDemo · product-bardemo--inserted renders locally without overflow (2.4s)
+  ok  10 [mobile] › component-tests\library.spec.ts:21:3 › Product/BeforeAfterCard · product-beforeaftercard--fillers renders locally without overflow (1.3s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-beforeaftercard--lists-mobile-win32.png, writing actual.
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-beforeaftercard--multilingual-mobile-win32.png, writing actual.
+  ok  12 [mobile] › component-tests\library.spec.ts:21:3 › Product/BeforeAfterCard · product-beforeaftercard--multilingual renders locally without overflow (1.1s)
+  ok  11 [mobile] › component-tests\library.spec.ts:21:3 › Product/BeforeAfterCard · product-beforeaftercard--lists renders locally without overflow (1.3s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\foundations-button--primary-mobile-win32.png, writing actual.
+  ok  13 [mobile] › component-tests\library.spec.ts:21:3 › Foundations/Button · foundations-button--primary renders locally without overflow (1.3s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\foundations-button--secondary-mobile-win32.png, writing actual.
+  ok  14 [mobile] › component-tests\library.spec.ts:21:3 › Foundations/Button · foundations-button--secondary renders locally without overflow (950ms)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\foundations-button--on-dark-mobile-win32.png, writing actual.
+  ok  15 [mobile] › component-tests\library.spec.ts:21:3 › Foundations/Button · foundations-button--on-dark renders locally without overflow (1.0s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-comparetable--dated-sources-mobile-win32.png, writing actual.
+  ok  16 [mobile] › component-tests\library.spec.ts:21:3 › Product/CompareTable · product-comparetable--dated-sources renders locally without overflow (1.7s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-comparetable--on-dark-mobile-win32.png, writing actual.
+  ok  17 [mobile] › component-tests\library.spec.ts:21:3 › Product/CompareTable · product-comparetable--on-dark renders locally without overflow (1.1s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\layout-creditsband--open-models-mobile-win32.png, writing actual.
+  ok  18 [mobile] › component-tests\library.spec.ts:21:3 › Layout/CreditsBand · layout-creditsband--open-models renders locally without overflow (1.1s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\docs-callout--information-mobile-win32.png, writing actual.
+  ok  19 [mobile] › component-tests\library.spec.ts:21:3 › Docs/Callout · docs-callout--information renders locally without overflow (1.2s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\docs-callout--warning-mobile-win32.png, writing actual.
+  ok  20 [mobile] › component-tests\library.spec.ts:21:3 › Docs/Callout · docs-callout--warning renders locally without overflow (1.2s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\docs-callout--on-dark-mobile-win32.png, writing actual.
+  ok  21 [mobile] › component-tests\library.spec.ts:21:3 › Docs/Callout · docs-callout--on-dark renders locally without overflow (1.2s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\docs-codeblock--commands-mobile-win32.png, writing actual.
+  ok  22 [mobile] › component-tests\library.spec.ts:21:3 › Docs/CodeBlock · docs-codeblock--commands renders locally without overflow (1.2s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\docs-codeblock--long-line-mobile-win32.png, writing actual.
+  ok  23 [mobile] › component-tests\library.spec.ts:21:3 › Docs/CodeBlock · docs-codeblock--long-line renders locally without overflow (1.2s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\docs-codeblock--on-dark-mobile-win32.png, writing actual.
+  ok  24 [mobile] › component-tests\library.spec.ts:21:3 › Docs/CodeBlock · docs-codeblock--on-dark renders locally without overflow (1.2s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\docs-tableofcontents--sections-mobile-win32.png, writing actual.
+  ok  25 [mobile] › component-tests\library.spec.ts:21:3 › Docs/TableOfContents · docs-tableofcontents--sections renders locally without overflow (1.2s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\docs-tableofcontents--on-dark-mobile-win32.png, writing actual.
+  ok  26 [mobile] › component-tests\library.spec.ts:21:3 › Docs/TableOfContents · docs-tableofcontents--on-dark renders locally without overflow (1.3s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-downloadcard--development-mobile-win32.png, writing actual.
+  ok  27 [mobile] › component-tests\library.spec.ts:21:3 › Product/DownloadCard · product-downloadcard--development renders locally without overflow (1.2s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-downloadcard--future-release-fixture-mobile-win32.png, writing actual.
+  ok  28 [mobile] › component-tests\library.spec.ts:21:3 › Product/DownloadCard · product-downloadcard--future-release-fixture renders locally without overflow (1.8s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-downloadcard--without-package-manager-mobile-win32.png, writing actual.
+  ok  29 [mobile] › component-tests\library.spec.ts:21:3 › Product/DownloadCard · product-downloadcard--without-package-manager renders locally without overflow (1.8s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-downloadcard--on-dark-mobile-win32.png, writing actual.
+  ok  30 [mobile] › component-tests\library.spec.ts:21:3 › Product/DownloadCard · product-downloadcard--on-dark renders locally without overflow (1.7s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-editchip--backtrack-mobile-win32.png, writing actual.
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-editchip--on-dark-mobile-win32.png, writing actual.
+  ok  33 [mobile] › component-tests\library.spec.ts:21:3 › Product/EditChip · product-editchip--on-dark renders locally without overflow (2.0s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-editchip--filler-mobile-win32.png, writing actual.
+  ok  32 [mobile] › component-tests\library.spec.ts:21:3 › Product/EditChip · product-editchip--filler renders locally without overflow (3.6s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\foundations-eyebrow--paper-mobile-win32.png, writing actual.
+  ok  31 [mobile] › component-tests\library.spec.ts:21:3 › Product/EditChip · product-editchip--backtrack renders locally without overflow (3.8s)
+  ok  34 [mobile] › component-tests\library.spec.ts:21:3 › Foundations/Eyebrow · foundations-eyebrow--paper renders locally without overflow (2.9s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\foundations-eyebrow--on-dark-mobile-win32.png, writing actual.
+  ok  35 [mobile] › component-tests\library.spec.ts:21:3 › Foundations/Eyebrow · foundations-eyebrow--on-dark renders locally without overflow (1.7s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\content-faq--closed-mobile-win32.png, writing actual.
+  ok  36 [mobile] › component-tests\library.spec.ts:21:3 › Content/FAQ · content-faq--closed renders locally without overflow (1.6s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\content-faq--open-mobile-win32.png, writing actual.
+  ok  37 [mobile] › component-tests\library.spec.ts:21:3 › Content/FAQ · content-faq--open renders locally without overflow (1.6s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\content-faq--on-dark-mobile-win32.png, writing actual.
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-featurerow--visual-left-mobile-win32.png, writing actual.
+  ok  39 [mobile] › component-tests\library.spec.ts:21:3 › Product/FeatureRow · product-featurerow--visual-left renders locally without overflow (2.1s)
+  ok  38 [mobile] › component-tests\library.spec.ts:21:3 › Content/FAQ · content-faq--on-dark renders locally without overflow (2.1s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-featurerow--visual-right-mobile-win32.png, writing actual.
+  ok  40 [mobile] › component-tests\library.spec.ts:21:3 › Product/FeatureRow · product-featurerow--visual-right renders locally without overflow (1.8s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-featurerow--highlighted-mobile-win32.png, writing actual.
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-featurerow--reduced-motion-mobile-win32.png, writing actual.
+  ok  41 [mobile] › component-tests\library.spec.ts:21:3 › Product/FeatureRow · product-featurerow--highlighted renders locally without overflow (1.9s)
+  ok  42 [mobile] › component-tests\library.spec.ts:21:3 › Product/FeatureRow · product-featurerow--reduced-motion renders locally without overflow (2.0s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\layout-footer--project-and-creator-mobile-win32.png, writing actual.
+  ok  43 [mobile] › component-tests\library.spec.ts:21:3 › Layout/Footer · layout-footer--project-and-creator renders locally without overflow (1.9s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\foundations-keycaps--hold-to-speak-mobile-win32.png, writing actual.
+  ok  44 [mobile] › component-tests\library.spec.ts:21:3 › Foundations/KeyCaps · foundations-keycaps--hold-to-speak renders locally without overflow (1.3s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\foundations-keycaps--hands-free-mobile-win32.png, writing actual.
+  ok  45 [mobile] › component-tests\library.spec.ts:21:3 › Foundations/KeyCaps · foundations-keycaps--hands-free renders locally without overflow (1.3s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\foundations-keycaps--paste-last-mobile-win32.png, writing actual.
+  ok  46 [mobile] › component-tests\library.spec.ts:21:3 › Foundations/KeyCaps · foundations-keycaps--paste-last renders locally without overflow (1.5s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\foundations-keycaps--on-dark-mobile-win32.png, writing actual.
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\navigation-navpill--default-mobile-win32.png, writing actual.
+  ok  47 [mobile] › component-tests\library.spec.ts:21:3 › Foundations/KeyCaps · foundations-keycaps--on-dark renders locally without overflow (1.6s)
+  ok  48 [mobile] › component-tests\library.spec.ts:21:3 › Navigation/NavPill · navigation-navpill--default renders locally without overflow (1.5s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-privacyfacts--paper-mobile-win32.png, writing actual.
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\navigation-navpill--mobile-menu-open-mobile-win32.png, writing actual.
+  ok  50 [mobile] › component-tests\library.spec.ts:21:3 › Product/PrivacyFacts · product-privacyfacts--paper renders locally without overflow (1.8s)
+  ok  49 [mobile] › component-tests\library.spec.ts:21:3 › Navigation/NavPill · navigation-navpill--mobile-menu-open renders locally without overflow (2.0s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-privacyfacts--on-dark-mobile-win32.png, writing actual.
+  ok  51 [mobile] › component-tests\library.spec.ts:21:3 › Product/PrivacyFacts · product-privacyfacts--on-dark renders locally without overflow (2.0s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-ribbon--animated-mobile-win32.png, writing actual.
+  ok  52 [mobile] › component-tests\library.spec.ts:21:3 › Product/Ribbon · product-ribbon--animated renders locally without overflow (1.7s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-ribbon--static-mobile-win32.png, writing actual.
+  ok  53 [mobile] › component-tests\library.spec.ts:21:3 › Product/Ribbon · product-ribbon--static renders locally without overflow (1.9s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-ribbon--reduced-motion-mobile-win32.png, writing actual.
+  ok  54 [mobile] › component-tests\library.spec.ts:21:3 › Product/Ribbon · product-ribbon--reduced-motion renders locally without overflow (1.8s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-ribbon--on-dark-mobile-win32.png, writing actual.
+  ok  55 [mobile] › component-tests\library.spec.ts:21:3 › Product/Ribbon · product-ribbon--on-dark renders locally without overflow (1.5s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\foundations-serifheading--medium-mobile-win32.png, writing actual.
+  ok  56 [mobile] › component-tests\library.spec.ts:21:3 › Foundations/SerifHeading · foundations-serifheading--medium renders locally without overflow (1.6s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\foundations-serifheading--large-mobile-win32.png, writing actual.
+  ok  57 [mobile] › component-tests\library.spec.ts:21:3 › Foundations/SerifHeading · foundations-serifheading--large renders locally without overflow (1.6s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\foundations-serifheading--hero-mobile-win32.png, writing actual.
+  ok  58 [mobile] › component-tests\library.spec.ts:21:3 › Foundations/SerifHeading · foundations-serifheading--hero renders locally without overflow (1.3s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\foundations-serifheading--on-dark-mobile-win32.png, writing actual.
+  ok  59 [mobile] › component-tests\library.spec.ts:21:3 › Foundations/SerifHeading · foundations-serifheading--on-dark renders locally without overflow (1.5s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\foundations-sheet--paper-mobile-win32.png, writing actual.
+  ok  60 [mobile] › component-tests\library.spec.ts:21:3 › Foundations/Sheet · foundations-sheet--paper renders locally without overflow (1.7s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\foundations-sheet--night-mobile-win32.png, writing actual.
+  ok  61 [mobile] › component-tests\library.spec.ts:21:3 › Foundations/Sheet · foundations-sheet--night renders locally without overflow (1.6s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\foundations-sheet--deep-mobile-win32.png, writing actual.
+  ok  62 [mobile] › component-tests\library.spec.ts:21:3 › Foundations/Sheet · foundations-sheet--deep renders locally without overflow (1.8s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\foundations-sheet--raised-mobile-win32.png, writing actual.
+  ok  63 [mobile] › component-tests\library.spec.ts:21:3 › Foundations/Sheet · foundations-sheet--raised renders locally without overflow (1.8s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\foundations-sheet--stacked-mobile-win32.png, writing actual.
+  ok  64 [mobile] › component-tests\library.spec.ts:21:3 › Foundations/Sheet · foundations-sheet--stacked renders locally without overflow (1.6s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\foundations-sheet--overlap-mobile-win32.png, writing actual.
+  ok  65 [mobile] › component-tests\library.spec.ts:21:3 › Foundations/Sheet · foundations-sheet--overlap renders locally without overflow (1.9s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-statblock--qualitative-mobile-win32.png, writing actual.
+  ok  66 [mobile] › component-tests\library.spec.ts:21:3 › Product/StatBlock · product-statblock--qualitative renders locally without overflow (1.8s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-statblock--sourced-mobile-win32.png, writing actual.
+  ok  67 [mobile] › component-tests\library.spec.ts:21:3 › Product/StatBlock · product-statblock--sourced renders locally without overflow (2.0s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-statblock--on-dark-mobile-win32.png, writing actual.
+  ok  68 [mobile] › component-tests\library.spec.ts:21:3 › Product/StatBlock · product-statblock--on-dark renders locally without overflow (1.8s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-styleswitcher--formal-mobile-win32.png, writing actual.
+  ok  69 [mobile] › component-tests\library.spec.ts:21:3 › Product/StyleSwitcher · product-styleswitcher--formal renders locally without overflow (2.0s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-styleswitcher--casual-mobile-win32.png, writing actual.
+  ok  70 [mobile] › component-tests\library.spec.ts:21:3 › Product/StyleSwitcher · product-styleswitcher--casual renders locally without overflow (1.7s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-styleswitcher--very-casual-mobile-win32.png, writing actual.
+  ok  71 [mobile] › component-tests\library.spec.ts:21:3 › Product/StyleSwitcher · product-styleswitcher--very-casual renders locally without overflow (1.5s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-styleswitcher--independent-instances-mobile-win32.png, writing actual.
+  ok  72 [mobile] › component-tests\library.spec.ts:21:3 › Product/StyleSwitcher · product-styleswitcher--independent-instances renders locally without overflow (1.5s)
+  ok  73 [mobile] › component-tests\library.spec.ts:42:1 › native tones support keyboard selection and independent instances (1.3s)
+  ok  75 [mobile] › component-tests\library.spec.ts:78:1 › development downloads omit unpublished artifacts and checksum details disclose exact bytes (1.5s)
+  ok  76 [mobile] › component-tests\library.spec.ts:89:1 › comparison cells retain their dates and sources with keyboard scrolling (1.3s)
+  ok  77 [mobile] › component-tests\library.spec.ts:102:1 › reduced-motion ribbon exposes a static visual (855ms)
+  x   74 [mobile] › component-tests\library.spec.ts:57:1 › copy uses only the requested command and handles a denied browser permission (1.4s)
+(node:43608) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:5392) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok  78 [tablet] › component-tests\library.spec.ts:13:1 › built Storybook covers every specified component and all declared states (12ms)
+(node:45264) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-bardemo--listening-tablet-win32.png, writing actual.
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\layout-announcementbar--text-only-tablet-win32.png, writing actual.
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\layout-announcementbar--linked-tablet-win32.png, writing actual.
+  ok  81 [tablet] › component-tests\library.spec.ts:21:3 › Layout/AnnouncementBar · layout-announcementbar--text-only renders locally without overflow (5.8s)
+  ok  79 [tablet] › component-tests\library.spec.ts:21:3 › Product/BarDemo · product-bardemo--listening renders locally without overflow (6.4s)
+  ok  80 [tablet] › component-tests\library.spec.ts:21:3 › Layout/AnnouncementBar · layout-announcementbar--linked renders locally without overflow (6.4s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-bardemo--cleaning-tablet-win32.png, writing actual.
+  ok  83 [tablet] › component-tests\library.spec.ts:21:3 › Product/BarDemo · product-bardemo--cleaning renders locally without overflow (1.9s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-bardemo--inserted-tablet-win32.png, writing actual.
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-bardemo--idle-tablet-win32.png, writing actual.
+  ok  82 [tablet] › component-tests\library.spec.ts:21:3 › Product/BarDemo · product-bardemo--idle renders locally without overflow (2.5s)
+  ok  84 [tablet] › component-tests\library.spec.ts:21:3 › Product/BarDemo · product-bardemo--inserted renders locally without overflow (2.2s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-bardemo--reduced-motion-tablet-win32.png, writing actual.
+  ok  85 [tablet] › component-tests\library.spec.ts:21:3 › Product/BarDemo · product-bardemo--reduced-motion renders locally without overflow (1.4s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-beforeaftercard--fillers-tablet-win32.png, writing actual.
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-beforeaftercard--backtrack-tablet-win32.png, writing actual.
+  ok  86 [tablet] › component-tests\library.spec.ts:21:3 › Product/BeforeAfterCard · product-beforeaftercard--backtrack renders locally without overflow (2.1s)
+  ok  87 [tablet] › component-tests\library.spec.ts:21:3 › Product/BeforeAfterCard · product-beforeaftercard--fillers renders locally without overflow (2.1s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-beforeaftercard--lists-tablet-win32.png, writing actual.
+  ok  88 [tablet] › component-tests\library.spec.ts:21:3 › Product/BeforeAfterCard · product-beforeaftercard--lists renders locally without overflow (1.7s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\foundations-button--primary-tablet-win32.png, writing actual.
+  ok  89 [tablet] › component-tests\library.spec.ts:21:3 › Foundations/Button · foundations-button--primary renders locally without overflow (1.7s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-beforeaftercard--multilingual-tablet-win32.png, writing actual.
+  ok  90 [tablet] › component-tests\library.spec.ts:21:3 › Product/BeforeAfterCard · product-beforeaftercard--multilingual renders locally without overflow (1.8s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\foundations-button--secondary-tablet-win32.png, writing actual.
+  ok  91 [tablet] › component-tests\library.spec.ts:21:3 › Foundations/Button · foundations-button--secondary renders locally without overflow (2.1s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\foundations-button--on-dark-tablet-win32.png, writing actual.
+  ok  92 [tablet] › component-tests\library.spec.ts:21:3 › Foundations/Button · foundations-button--on-dark renders locally without overflow (1.9s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-comparetable--dated-sources-tablet-win32.png, writing actual.
+  ok  93 [tablet] › component-tests\library.spec.ts:21:3 › Product/CompareTable · product-comparetable--dated-sources renders locally without overflow (2.0s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-comparetable--on-dark-tablet-win32.png, writing actual.
+  ok  94 [tablet] › component-tests\library.spec.ts:21:3 › Product/CompareTable · product-comparetable--on-dark renders locally without overflow (1.6s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\layout-creditsband--open-models-tablet-win32.png, writing actual.
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\docs-callout--information-tablet-win32.png, writing actual.
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\docs-callout--warning-tablet-win32.png, writing actual.
+  ok  96 [tablet] › component-tests\library.spec.ts:21:3 › Docs/Callout · docs-callout--information renders locally without overflow (2.1s)
+  ok  95 [tablet] › component-tests\library.spec.ts:21:3 › Layout/CreditsBand · layout-creditsband--open-models renders locally without overflow (2.3s)
+  ok  97 [tablet] › component-tests\library.spec.ts:21:3 › Docs/Callout · docs-callout--warning renders locally without overflow (1.6s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\docs-codeblock--commands-tablet-win32.png, writing actual.
+  ok  99 [tablet] › component-tests\library.spec.ts:21:3 › Docs/CodeBlock · docs-codeblock--commands renders locally without overflow (1.9s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\docs-callout--on-dark-tablet-win32.png, writing actual.
+  ok  98 [tablet] › component-tests\library.spec.ts:21:3 › Docs/Callout · docs-callout--on-dark renders locally without overflow (2.4s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\docs-codeblock--long-line-tablet-win32.png, writing actual.
+  ok 100 [tablet] › component-tests\library.spec.ts:21:3 › Docs/CodeBlock · docs-codeblock--long-line renders locally without overflow (2.8s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\docs-codeblock--on-dark-tablet-win32.png, writing actual.
+  ok 101 [tablet] › component-tests\library.spec.ts:21:3 › Docs/CodeBlock · docs-codeblock--on-dark renders locally without overflow (1.8s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\docs-tableofcontents--sections-tablet-win32.png, writing actual.
+  ok 102 [tablet] › component-tests\library.spec.ts:21:3 › Docs/TableOfContents · docs-tableofcontents--sections renders locally without overflow (1.9s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\docs-tableofcontents--on-dark-tablet-win32.png, writing actual.
+  ok 103 [tablet] › component-tests\library.spec.ts:21:3 › Docs/TableOfContents · docs-tableofcontents--on-dark renders locally without overflow (1.9s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-downloadcard--development-tablet-win32.png, writing actual.
+  ok 104 [tablet] › component-tests\library.spec.ts:21:3 › Product/DownloadCard · product-downloadcard--development renders locally without overflow (2.1s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-downloadcard--future-release-fixture-tablet-win32.png, writing actual.
+  ok 105 [tablet] › component-tests\library.spec.ts:21:3 › Product/DownloadCard · product-downloadcard--future-release-fixture renders locally without overflow (2.0s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-downloadcard--without-package-manager-tablet-win32.png, writing actual.
+  ok 106 [tablet] › component-tests\library.spec.ts:21:3 › Product/DownloadCard · product-downloadcard--without-package-manager renders locally without overflow (1.9s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-downloadcard--on-dark-tablet-win32.png, writing actual.
+  ok 107 [tablet] › component-tests\library.spec.ts:21:3 › Product/DownloadCard · product-downloadcard--on-dark renders locally without overflow (1.8s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-editchip--backtrack-tablet-win32.png, writing actual.
+  ok 108 [tablet] › component-tests\library.spec.ts:21:3 › Product/EditChip · product-editchip--backtrack renders locally without overflow (1.7s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-editchip--filler-tablet-win32.png, writing actual.
+  ok 109 [tablet] › component-tests\library.spec.ts:21:3 › Product/EditChip · product-editchip--filler renders locally without overflow (1.9s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-editchip--on-dark-tablet-win32.png, writing actual.
+  ok 110 [tablet] › component-tests\library.spec.ts:21:3 › Product/EditChip · product-editchip--on-dark renders locally without overflow (1.7s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\foundations-eyebrow--paper-tablet-win32.png, writing actual.
+  ok 111 [tablet] › component-tests\library.spec.ts:21:3 › Foundations/Eyebrow · foundations-eyebrow--paper renders locally without overflow (1.8s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\foundations-eyebrow--on-dark-tablet-win32.png, writing actual.
+  ok 112 [tablet] › component-tests\library.spec.ts:21:3 › Foundations/Eyebrow · foundations-eyebrow--on-dark renders locally without overflow (1.7s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\content-faq--closed-tablet-win32.png, writing actual.
+  ok 113 [tablet] › component-tests\library.spec.ts:21:3 › Content/FAQ · content-faq--closed renders locally without overflow (1.7s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\content-faq--open-tablet-win32.png, writing actual.
+  ok 114 [tablet] › component-tests\library.spec.ts:21:3 › Content/FAQ · content-faq--open renders locally without overflow (1.8s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\content-faq--on-dark-tablet-win32.png, writing actual.
+  ok 115 [tablet] › component-tests\library.spec.ts:21:3 › Content/FAQ · content-faq--on-dark renders locally without overflow (2.3s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-featurerow--visual-left-tablet-win32.png, writing actual.
+  ok 116 [tablet] › component-tests\library.spec.ts:21:3 › Product/FeatureRow · product-featurerow--visual-left renders locally without overflow (2.4s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-featurerow--visual-right-tablet-win32.png, writing actual.
+  ok 117 [tablet] › component-tests\library.spec.ts:21:3 › Product/FeatureRow · product-featurerow--visual-right renders locally without overflow (1.9s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-featurerow--highlighted-tablet-win32.png, writing actual.
+  ok 118 [tablet] › component-tests\library.spec.ts:21:3 › Product/FeatureRow · product-featurerow--highlighted renders locally without overflow (1.8s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\layout-footer--project-and-creator-tablet-win32.png, writing actual.
+  ok 120 [tablet] › component-tests\library.spec.ts:21:3 › Layout/Footer · layout-footer--project-and-creator renders locally without overflow (1.8s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-featurerow--reduced-motion-tablet-win32.png, writing actual.
+  ok 119 [tablet] › component-tests\library.spec.ts:21:3 › Product/FeatureRow · product-featurerow--reduced-motion renders locally without overflow (2.5s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\foundations-keycaps--hold-to-speak-tablet-win32.png, writing actual.
+  ok 121 [tablet] › component-tests\library.spec.ts:21:3 › Foundations/KeyCaps · foundations-keycaps--hold-to-speak renders locally without overflow (1.7s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\foundations-keycaps--hands-free-tablet-win32.png, writing actual.
+  ok 122 [tablet] › component-tests\library.spec.ts:21:3 › Foundations/KeyCaps · foundations-keycaps--hands-free renders locally without overflow (1.5s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\foundations-keycaps--on-dark-tablet-win32.png, writing actual.
+  ok 124 [tablet] › component-tests\library.spec.ts:21:3 › Foundations/KeyCaps · foundations-keycaps--on-dark renders locally without overflow (1.8s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\foundations-keycaps--paste-last-tablet-win32.png, writing actual.
+  ok 123 [tablet] › component-tests\library.spec.ts:21:3 › Foundations/KeyCaps · foundations-keycaps--paste-last renders locally without overflow (2.2s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\navigation-navpill--default-tablet-win32.png, writing actual.
+  ok 125 [tablet] › component-tests\library.spec.ts:21:3 › Navigation/NavPill · navigation-navpill--default renders locally without overflow (3.0s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\navigation-navpill--mobile-menu-open-tablet-win32.png, writing actual.
+  ok 126 [tablet] › component-tests\library.spec.ts:21:3 › Navigation/NavPill · navigation-navpill--mobile-menu-open renders locally without overflow (2.1s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-privacyfacts--paper-tablet-win32.png, writing actual.
+  ok 127 [tablet] › component-tests\library.spec.ts:21:3 › Product/PrivacyFacts · product-privacyfacts--paper renders locally without overflow (3.3s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-ribbon--animated-tablet-win32.png, writing actual.
+  ok 129 [tablet] › component-tests\library.spec.ts:21:3 › Product/Ribbon · product-ribbon--animated renders locally without overflow (1.8s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-privacyfacts--on-dark-tablet-win32.png, writing actual.
+  ok 128 [tablet] › component-tests\library.spec.ts:21:3 › Product/PrivacyFacts · product-privacyfacts--on-dark renders locally without overflow (2.4s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-ribbon--static-tablet-win32.png, writing actual.
+  ok 130 [tablet] › component-tests\library.spec.ts:21:3 › Product/Ribbon · product-ribbon--static renders locally without overflow (1.7s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-ribbon--on-dark-tablet-win32.png, writing actual.
+  ok 132 [tablet] › component-tests\library.spec.ts:21:3 › Product/Ribbon · product-ribbon--on-dark renders locally without overflow (1.5s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-ribbon--reduced-motion-tablet-win32.png, writing actual.
+  ok 131 [tablet] › component-tests\library.spec.ts:21:3 › Product/Ribbon · product-ribbon--reduced-motion renders locally without overflow (2.5s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\foundations-serifheading--medium-tablet-win32.png, writing actual.
+  ok 133 [tablet] › component-tests\library.spec.ts:21:3 › Foundations/SerifHeading · foundations-serifheading--medium renders locally without overflow (1.6s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\foundations-serifheading--large-tablet-win32.png, writing actual.
+  ok 134 [tablet] › component-tests\library.spec.ts:21:3 › Foundations/SerifHeading · foundations-serifheading--large renders locally without overflow (1.4s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\foundations-serifheading--hero-tablet-win32.png, writing actual.
+  ok 135 [tablet] › component-tests\library.spec.ts:21:3 › Foundations/SerifHeading · foundations-serifheading--hero renders locally without overflow (1.5s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\foundations-sheet--paper-tablet-win32.png, writing actual.
+  ok 137 [tablet] › component-tests\library.spec.ts:21:3 › Foundations/Sheet · foundations-sheet--paper renders locally without overflow (1.4s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\foundations-serifheading--on-dark-tablet-win32.png, writing actual.
+  ok 136 [tablet] › component-tests\library.spec.ts:21:3 › Foundations/SerifHeading · foundations-serifheading--on-dark renders locally without overflow (1.8s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\foundations-sheet--night-tablet-win32.png, writing actual.
+  ok 138 [tablet] › component-tests\library.spec.ts:21:3 › Foundations/Sheet · foundations-sheet--night renders locally without overflow (1.6s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\foundations-sheet--deep-tablet-win32.png, writing actual.
+  ok 139 [tablet] › component-tests\library.spec.ts:21:3 › Foundations/Sheet · foundations-sheet--deep renders locally without overflow (1.4s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\foundations-sheet--raised-tablet-win32.png, writing actual.
+  ok 140 [tablet] › component-tests\library.spec.ts:21:3 › Foundations/Sheet · foundations-sheet--raised renders locally without overflow (1.8s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\foundations-sheet--stacked-tablet-win32.png, writing actual.
+  ok 141 [tablet] › component-tests\library.spec.ts:21:3 › Foundations/Sheet · foundations-sheet--stacked renders locally without overflow (1.7s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\foundations-sheet--overlap-tablet-win32.png, writing actual.
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-statblock--qualitative-tablet-win32.png, writing actual.
+  ok 142 [tablet] › component-tests\library.spec.ts:21:3 › Foundations/Sheet · foundations-sheet--overlap renders locally without overflow (2.0s)
+  ok 143 [tablet] › component-tests\library.spec.ts:21:3 › Product/StatBlock · product-statblock--qualitative renders locally without overflow (1.5s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-statblock--sourced-tablet-win32.png, writing actual.
+  ok 144 [tablet] › component-tests\library.spec.ts:21:3 › Product/StatBlock · product-statblock--sourced renders locally without overflow (2.3s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-statblock--on-dark-tablet-win32.png, writing actual.
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-styleswitcher--formal-tablet-win32.png, writing actual.
+  ok 145 [tablet] › component-tests\library.spec.ts:21:3 › Product/StatBlock · product-statblock--on-dark renders locally without overflow (1.9s)
+  ok 146 [tablet] › component-tests\library.spec.ts:21:3 › Product/StyleSwitcher · product-styleswitcher--formal renders locally without overflow (1.9s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-styleswitcher--casual-tablet-win32.png, writing actual.
+  ok 147 [tablet] › component-tests\library.spec.ts:21:3 › Product/StyleSwitcher · product-styleswitcher--casual renders locally without overflow (1.9s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-styleswitcher--independent-instances-tablet-win32.png, writing actual.
+  ok 149 [tablet] › component-tests\library.spec.ts:21:3 › Product/StyleSwitcher · product-styleswitcher--independent-instances renders locally without overflow (2.1s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-styleswitcher--very-casual-tablet-win32.png, writing actual.
+  ok 148 [tablet] › component-tests\library.spec.ts:21:3 › Product/StyleSwitcher · product-styleswitcher--very-casual renders locally without overflow (2.8s)
+  ok 150 [tablet] › component-tests\library.spec.ts:42:1 › native tones support keyboard selection and independent instances (1.3s)
+  ok 153 [tablet] › component-tests\library.spec.ts:89:1 › comparison cells retain their dates and sources with keyboard scrolling (1.9s)
+  ok 152 [tablet] › component-tests\library.spec.ts:78:1 › development downloads omit unpublished artifacts and checksum details disclose exact bytes (2.6s)
+  ok 154 [tablet] › component-tests\library.spec.ts:102:1 › reduced-motion ribbon exposes a static visual (923ms)
+  x  151 [tablet] › component-tests\library.spec.ts:57:1 › copy uses only the requested command and handles a denied browser permission (2.1s)
+(node:28380) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:37024) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:44204) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 157 [desktop] › component-tests\library.spec.ts:13:1 › built Storybook covers every specified component and all declared states (19ms)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\layout-announcementbar--text-only-desktop-win32.png, writing actual.
+  ok 155 [desktop] › component-tests\library.spec.ts:21:3 › Layout/AnnouncementBar · layout-announcementbar--text-only renders locally without overflow (2.5s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-bardemo--idle-desktop-win32.png, writing actual.
+  ok 159 [desktop] › component-tests\library.spec.ts:21:3 › Product/BarDemo · product-bardemo--idle renders locally without overflow (1.4s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-bardemo--listening-desktop-win32.png, writing actual.
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-bardemo--cleaning-desktop-win32.png, writing actual.
+  ok 160 [desktop] › component-tests\library.spec.ts:21:3 › Product/BarDemo · product-bardemo--cleaning renders locally without overflow (1.8s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\layout-announcementbar--linked-desktop-win32.png, writing actual.
+  ok 156 [desktop] › component-tests\library.spec.ts:21:3 › Layout/AnnouncementBar · layout-announcementbar--linked renders locally without overflow (3.9s)
+  ok 158 [desktop] › component-tests\library.spec.ts:21:3 › Product/BarDemo · product-bardemo--listening renders locally without overflow (4.1s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-bardemo--inserted-desktop-win32.png, writing actual.
+  ok 161 [desktop] › component-tests\library.spec.ts:21:3 › Product/BarDemo · product-bardemo--inserted renders locally without overflow (1.9s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-bardemo--reduced-motion-desktop-win32.png, writing actual.
+  ok 162 [desktop] › component-tests\library.spec.ts:21:3 › Product/BarDemo · product-bardemo--reduced-motion renders locally without overflow (1.6s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-beforeaftercard--backtrack-desktop-win32.png, writing actual.
+  ok 163 [desktop] › component-tests\library.spec.ts:21:3 › Product/BeforeAfterCard · product-beforeaftercard--backtrack renders locally without overflow (2.2s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-beforeaftercard--fillers-desktop-win32.png, writing actual.
+  ok 164 [desktop] › component-tests\library.spec.ts:21:3 › Product/BeforeAfterCard · product-beforeaftercard--fillers renders locally without overflow (1.8s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-beforeaftercard--lists-desktop-win32.png, writing actual.
+  ok 165 [desktop] › component-tests\library.spec.ts:21:3 › Product/BeforeAfterCard · product-beforeaftercard--lists renders locally without overflow (1.8s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-beforeaftercard--multilingual-desktop-win32.png, writing actual.
+  ok 166 [desktop] › component-tests\library.spec.ts:21:3 › Product/BeforeAfterCard · product-beforeaftercard--multilingual renders locally without overflow (2.0s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\foundations-button--primary-desktop-win32.png, writing actual.
+  ok 167 [desktop] › component-tests\library.spec.ts:21:3 › Foundations/Button · foundations-button--primary renders locally without overflow (1.7s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\foundations-button--secondary-desktop-win32.png, writing actual.
+  ok 168 [desktop] › component-tests\library.spec.ts:21:3 › Foundations/Button · foundations-button--secondary renders locally without overflow (1.8s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-comparetable--dated-sources-desktop-win32.png, writing actual.
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\foundations-button--on-dark-desktop-win32.png, writing actual.
+  ok 170 [desktop] › component-tests\library.spec.ts:21:3 › Product/CompareTable · product-comparetable--dated-sources renders locally without overflow (1.9s)
+  ok 169 [desktop] › component-tests\library.spec.ts:21:3 › Foundations/Button · foundations-button--on-dark renders locally without overflow (2.1s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-comparetable--on-dark-desktop-win32.png, writing actual.
+  ok 171 [desktop] › component-tests\library.spec.ts:21:3 › Product/CompareTable · product-comparetable--on-dark renders locally without overflow (1.6s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\layout-creditsband--open-models-desktop-win32.png, writing actual.
+  ok 172 [desktop] › component-tests\library.spec.ts:21:3 › Layout/CreditsBand · layout-creditsband--open-models renders locally without overflow (1.7s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\docs-callout--warning-desktop-win32.png, writing actual.
+  ok 174 [desktop] › component-tests\library.spec.ts:21:3 › Docs/Callout · docs-callout--warning renders locally without overflow (1.8s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\docs-callout--information-desktop-win32.png, writing actual.
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\docs-callout--on-dark-desktop-win32.png, writing actual.
+  ok 173 [desktop] › component-tests\library.spec.ts:21:3 › Docs/Callout · docs-callout--information renders locally without overflow (3.2s)
+  ok 175 [desktop] › component-tests\library.spec.ts:21:3 › Docs/Callout · docs-callout--on-dark renders locally without overflow (1.6s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\docs-codeblock--commands-desktop-win32.png, writing actual.
+  ok 176 [desktop] › component-tests\library.spec.ts:21:3 › Docs/CodeBlock · docs-codeblock--commands renders locally without overflow (1.6s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\docs-codeblock--on-dark-desktop-win32.png, writing actual.
+  ok 178 [desktop] › component-tests\library.spec.ts:21:3 › Docs/CodeBlock · docs-codeblock--on-dark renders locally without overflow (1.3s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\docs-codeblock--long-line-desktop-win32.png, writing actual.
+  ok 177 [desktop] › component-tests\library.spec.ts:21:3 › Docs/CodeBlock · docs-codeblock--long-line renders locally without overflow (1.8s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\docs-tableofcontents--sections-desktop-win32.png, writing actual.
+  ok 179 [desktop] › component-tests\library.spec.ts:21:3 › Docs/TableOfContents · docs-tableofcontents--sections renders locally without overflow (1.4s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\docs-tableofcontents--on-dark-desktop-win32.png, writing actual.
+  ok 180 [desktop] › component-tests\library.spec.ts:21:3 › Docs/TableOfContents · docs-tableofcontents--on-dark renders locally without overflow (1.6s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-downloadcard--development-desktop-win32.png, writing actual.
+  ok 181 [desktop] › component-tests\library.spec.ts:21:3 › Product/DownloadCard · product-downloadcard--development renders locally without overflow (1.7s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-downloadcard--future-release-fixture-desktop-win32.png, writing actual.
+  ok 182 [desktop] › component-tests\library.spec.ts:21:3 › Product/DownloadCard · product-downloadcard--future-release-fixture renders locally without overflow (1.7s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-downloadcard--without-package-manager-desktop-win32.png, writing actual.
+  ok 183 [desktop] › component-tests\library.spec.ts:21:3 › Product/DownloadCard · product-downloadcard--without-package-manager renders locally without overflow (1.5s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-downloadcard--on-dark-desktop-win32.png, writing actual.
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-editchip--backtrack-desktop-win32.png, writing actual.
+  ok 185 [desktop] › component-tests\library.spec.ts:21:3 › Product/EditChip · product-editchip--backtrack renders locally without overflow (1.5s)
+  ok 184 [desktop] › component-tests\library.spec.ts:21:3 › Product/DownloadCard · product-downloadcard--on-dark renders locally without overflow (1.6s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-editchip--filler-desktop-win32.png, writing actual.
+  ok 186 [desktop] › component-tests\library.spec.ts:21:3 › Product/EditChip · product-editchip--filler renders locally without overflow (1.3s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-editchip--on-dark-desktop-win32.png, writing actual.
+  ok 187 [desktop] › component-tests\library.spec.ts:21:3 › Product/EditChip · product-editchip--on-dark renders locally without overflow (1.4s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\foundations-eyebrow--paper-desktop-win32.png, writing actual.
+  ok 188 [desktop] › component-tests\library.spec.ts:21:3 › Foundations/Eyebrow · foundations-eyebrow--paper renders locally without overflow (1.5s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\foundations-eyebrow--on-dark-desktop-win32.png, writing actual.
+  ok 189 [desktop] › component-tests\library.spec.ts:21:3 › Foundations/Eyebrow · foundations-eyebrow--on-dark renders locally without overflow (1.4s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\content-faq--closed-desktop-win32.png, writing actual.
+  ok 190 [desktop] › component-tests\library.spec.ts:21:3 › Content/FAQ · content-faq--closed renders locally without overflow (1.5s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\content-faq--open-desktop-win32.png, writing actual.
+  ok 191 [desktop] › component-tests\library.spec.ts:21:3 › Content/FAQ · content-faq--open renders locally without overflow (1.6s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\content-faq--on-dark-desktop-win32.png, writing actual.
+  ok 192 [desktop] › component-tests\library.spec.ts:21:3 › Content/FAQ · content-faq--on-dark renders locally without overflow (1.5s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-featurerow--visual-left-desktop-win32.png, writing actual.
+  ok 193 [desktop] › component-tests\library.spec.ts:21:3 › Product/FeatureRow · product-featurerow--visual-left renders locally without overflow (1.5s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-featurerow--visual-right-desktop-win32.png, writing actual.
+  ok 194 [desktop] › component-tests\library.spec.ts:21:3 › Product/FeatureRow · product-featurerow--visual-right renders locally without overflow (1.7s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-featurerow--highlighted-desktop-win32.png, writing actual.
+  ok 195 [desktop] › component-tests\library.spec.ts:21:3 › Product/FeatureRow · product-featurerow--highlighted renders locally without overflow (1.5s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-featurerow--reduced-motion-desktop-win32.png, writing actual.
+  ok 196 [desktop] › component-tests\library.spec.ts:21:3 › Product/FeatureRow · product-featurerow--reduced-motion renders locally without overflow (1.6s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\layout-footer--project-and-creator-desktop-win32.png, writing actual.
+  ok 197 [desktop] › component-tests\library.spec.ts:21:3 › Layout/Footer · layout-footer--project-and-creator renders locally without overflow (1.8s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\foundations-keycaps--hold-to-speak-desktop-win32.png, writing actual.
+  ok 198 [desktop] › component-tests\library.spec.ts:21:3 › Foundations/KeyCaps · foundations-keycaps--hold-to-speak renders locally without overflow (1.6s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\foundations-keycaps--hands-free-desktop-win32.png, writing actual.
+  ok 199 [desktop] › component-tests\library.spec.ts:21:3 › Foundations/KeyCaps · foundations-keycaps--hands-free renders locally without overflow (1.5s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\foundations-keycaps--on-dark-desktop-win32.png, writing actual.
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\foundations-keycaps--paste-last-desktop-win32.png, writing actual.
+  ok 201 [desktop] › component-tests\library.spec.ts:21:3 › Foundations/KeyCaps · foundations-keycaps--on-dark renders locally without overflow (1.6s)
+  ok 200 [desktop] › component-tests\library.spec.ts:21:3 › Foundations/KeyCaps · foundations-keycaps--paste-last renders locally without overflow (1.8s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\navigation-navpill--default-desktop-win32.png, writing actual.
+  ok 202 [desktop] › component-tests\library.spec.ts:21:3 › Navigation/NavPill · navigation-navpill--default renders locally without overflow (1.6s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\navigation-navpill--mobile-menu-open-desktop-win32.png, writing actual.
+  ok 203 [desktop] › component-tests\library.spec.ts:21:3 › Navigation/NavPill · navigation-navpill--mobile-menu-open renders locally without overflow (1.6s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-privacyfacts--paper-desktop-win32.png, writing actual.
+  ok 204 [desktop] › component-tests\library.spec.ts:21:3 › Product/PrivacyFacts · product-privacyfacts--paper renders locally without overflow (1.7s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-privacyfacts--on-dark-desktop-win32.png, writing actual.
+  ok 205 [desktop] › component-tests\library.spec.ts:21:3 › Product/PrivacyFacts · product-privacyfacts--on-dark renders locally without overflow (1.4s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-ribbon--animated-desktop-win32.png, writing actual.
+  ok 206 [desktop] › component-tests\library.spec.ts:21:3 › Product/Ribbon · product-ribbon--animated renders locally without overflow (1.3s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-ribbon--static-desktop-win32.png, writing actual.
+  ok 207 [desktop] › component-tests\library.spec.ts:21:3 › Product/Ribbon · product-ribbon--static renders locally without overflow (1.5s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-ribbon--reduced-motion-desktop-win32.png, writing actual.
+  ok 208 [desktop] › component-tests\library.spec.ts:21:3 › Product/Ribbon · product-ribbon--reduced-motion renders locally without overflow (1.5s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-ribbon--on-dark-desktop-win32.png, writing actual.
+  ok 209 [desktop] › component-tests\library.spec.ts:21:3 › Product/Ribbon · product-ribbon--on-dark renders locally without overflow (1.4s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\foundations-serifheading--medium-desktop-win32.png, writing actual.
+  ok 210 [desktop] › component-tests\library.spec.ts:21:3 › Foundations/SerifHeading · foundations-serifheading--medium renders locally without overflow (1.5s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\foundations-serifheading--large-desktop-win32.png, writing actual.
+  ok 211 [desktop] › component-tests\library.spec.ts:21:3 › Foundations/SerifHeading · foundations-serifheading--large renders locally without overflow (1.6s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\foundations-serifheading--hero-desktop-win32.png, writing actual.
+  ok 212 [desktop] › component-tests\library.spec.ts:21:3 › Foundations/SerifHeading · foundations-serifheading--hero renders locally without overflow (1.4s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\foundations-serifheading--on-dark-desktop-win32.png, writing actual.
+  ok 213 [desktop] › component-tests\library.spec.ts:21:3 › Foundations/SerifHeading · foundations-serifheading--on-dark renders locally without overflow (1.5s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\foundations-sheet--paper-desktop-win32.png, writing actual.
+  ok 214 [desktop] › component-tests\library.spec.ts:21:3 › Foundations/Sheet · foundations-sheet--paper renders locally without overflow (1.3s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\foundations-sheet--night-desktop-win32.png, writing actual.
+  ok 215 [desktop] › component-tests\library.spec.ts:21:3 › Foundations/Sheet · foundations-sheet--night renders locally without overflow (1.4s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\foundations-sheet--deep-desktop-win32.png, writing actual.
+  ok 216 [desktop] › component-tests\library.spec.ts:21:3 › Foundations/Sheet · foundations-sheet--deep renders locally without overflow (1.6s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\foundations-sheet--raised-desktop-win32.png, writing actual.
+  ok 217 [desktop] › component-tests\library.spec.ts:21:3 › Foundations/Sheet · foundations-sheet--raised renders locally without overflow (1.4s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\foundations-sheet--stacked-desktop-win32.png, writing actual.
+  ok 218 [desktop] › component-tests\library.spec.ts:21:3 › Foundations/Sheet · foundations-sheet--stacked renders locally without overflow (1.4s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\foundations-sheet--overlap-desktop-win32.png, writing actual.
+  ok 219 [desktop] › component-tests\library.spec.ts:21:3 › Foundations/Sheet · foundations-sheet--overlap renders locally without overflow (1.4s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-statblock--qualitative-desktop-win32.png, writing actual.
+  ok 220 [desktop] › component-tests\library.spec.ts:21:3 › Product/StatBlock · product-statblock--qualitative renders locally without overflow (1.4s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-statblock--sourced-desktop-win32.png, writing actual.
+  ok 221 [desktop] › component-tests\library.spec.ts:21:3 › Product/StatBlock · product-statblock--sourced renders locally without overflow (1.6s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-styleswitcher--formal-desktop-win32.png, writing actual.
+  ok 223 [desktop] › component-tests\library.spec.ts:21:3 › Product/StyleSwitcher · product-styleswitcher--formal renders locally without overflow (1.4s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-statblock--on-dark-desktop-win32.png, writing actual.
+  ok 222 [desktop] › component-tests\library.spec.ts:21:3 › Product/StatBlock · product-statblock--on-dark renders locally without overflow (1.6s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-styleswitcher--casual-desktop-win32.png, writing actual.
+  ok 224 [desktop] › component-tests\library.spec.ts:21:3 › Product/StyleSwitcher · product-styleswitcher--casual renders locally without overflow (1.7s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-styleswitcher--very-casual-desktop-win32.png, writing actual.
+  ok 225 [desktop] › component-tests\library.spec.ts:21:3 › Product/StyleSwitcher · product-styleswitcher--very-casual renders locally without overflow (1.5s)
+A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-styleswitcher--independent-instances-desktop-win32.png, writing actual.
+  ok 226 [desktop] › component-tests\library.spec.ts:21:3 › Product/StyleSwitcher · product-styleswitcher--independent-instances renders locally without overflow (1.7s)
+  ok 227 [desktop] › component-tests\library.spec.ts:42:1 › native tones support keyboard selection and independent instances (1.1s)
+  ok 229 [desktop] › component-tests\library.spec.ts:78:1 › development downloads omit unpublished artifacts and checksum details disclose exact bytes (1.4s)
+  ok 230 [desktop] › component-tests\library.spec.ts:89:1 › comparison cells retain their dates and sources with keyboard scrolling (963ms)
+  x  228 [desktop] › component-tests\library.spec.ts:57:1 › copy uses only the requested command and handles a denied browser permission (1.2s)
+  ok 231 [desktop] › component-tests\library.spec.ts:102:1 › reduced-motion ribbon exposes a static visual (809ms)
+
+
+  1) [mobile] › component-tests\library.spec.ts:57:1 › copy uses only the requested command and handles a denied browser permission 
+
+    Error: locator.innerText: Error: strict mode violation: locator('pre code') resolved to 2 elements:
+        1) <code id="error-stack"></code> aka locator('#error-stack')
+        2) <code>py -3.13 -m venv .venv↵.venv\Scripts\python -m pi…</code> aka getByText('py -3.13 -m venv .venv .venv\\')
+
+    Call log:
+      - waiting for locator('pre code')
+
+
+      68 |   await copy.click();
+      69 |   await expect(page.getByRole('status')).toHaveText('Copied.');
+    > 70 |   const code = await page.locator('pre code').innerText();
+         |                                               ^
+      71 |   expect(await page.evaluate(() => (window as unknown as { __copyProbe: { writes: string[] } }).__copyProbe.writes)).toEqual([code]);
+      72 |   await page.evaluate(() => { (window as unknown as { __copyProbe: { deny: boolean } }).__copyProbe.deny = true; });
+      73 |   await copy.click();
+        at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts:70:47
+
+    Error Context: component-results\library-copy-uses-only-the-2c893-a-denied-browser-permission-mobile\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    component-results\library-copy-uses-only-the-2c893-a-denied-browser-permission-mobile\trace.zip
+    Usage:
+
+        npx playwright show-trace component-results\library-copy-uses-only-the-2c893-a-denied-browser-permission-mobile\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [tablet] › component-tests\library.spec.ts:57:1 › copy uses only the requested command and handles a denied browser permission 
+
+    Error: locator.innerText: Error: strict mode violation: locator('pre code') resolved to 2 elements:
+        1) <code id="error-stack"></code> aka locator('#error-stack')
+        2) <code>py -3.13 -m venv .venv↵.venv\Scripts\python -m pi…</code> aka getByText('py -3.13 -m venv .venv .venv\\')
+
+    Call log:
+      - waiting for locator('pre code')
+
+
+      68 |   await copy.click();
+      69 |   await expect(page.getByRole('status')).toHaveText('Copied.');
+    > 70 |   const code = await page.locator('pre code').innerText();
+         |                                               ^
+      71 |   expect(await page.evaluate(() => (window as unknown as { __copyProbe: { writes: string[] } }).__copyProbe.writes)).toEqual([code]);
+      72 |   await page.evaluate(() => { (window as unknown as { __copyProbe: { deny: boolean } }).__copyProbe.deny = true; });
+      73 |   await copy.click();
+        at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts:70:47
+
+    Error Context: component-results\library-copy-uses-only-the-2c893-a-denied-browser-permission-tablet\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    component-results\library-copy-uses-only-the-2c893-a-denied-browser-permission-tablet\trace.zip
+    Usage:
+
+        npx playwright show-trace component-results\library-copy-uses-only-the-2c893-a-denied-browser-permission-tablet\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) [desktop] › component-tests\library.spec.ts:57:1 › copy uses only the requested command and handles a denied browser permission 
+
+    Error: locator.innerText: Error: strict mode violation: locator('pre code') resolved to 2 elements:
+        1) <code id="error-stack"></code> aka locator('#error-stack')
+        2) <code>py -3.13 -m venv .venv↵.venv\Scripts\python -m pi…</code> aka getByText('py -3.13 -m venv .venv .venv\\')
+
+    Call log:
+      - waiting for locator('pre code')
+
+
+      68 |   await copy.click();
+      69 |   await expect(page.getByRole('status')).toHaveText('Copied.');
+    > 70 |   const code = await page.locator('pre code').innerText();
+         |                                               ^
+      71 |   expect(await page.evaluate(() => (window as unknown as { __copyProbe: { writes: string[] } }).__copyProbe.writes)).toEqual([code]);
+      72 |   await page.evaluate(() => { (window as unknown as { __copyProbe: { deny: boolean } }).__copyProbe.deny = true; });
+      73 |   await copy.click();
+        at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts:70:47
+
+    Error Context: component-results\library-copy-uses-only-the-2c893-a-denied-browser-permission-desktop\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    component-results\library-copy-uses-only-the-2c893-a-denied-browser-permission-desktop\trace.zip
+    Usage:
+
+        npx playwright show-trace component-results\library-copy-uses-only-the-2c893-a-denied-browser-permission-desktop\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3 failed
+    [mobile] › component-tests\library.spec.ts:57:1 › copy uses only the requested command and handles a denied browser permission 
+    [tablet] › component-tests\library.spec.ts:57:1 › copy uses only the requested command and handles a denied browser permission 
+    [desktop] › component-tests\library.spec.ts:57:1 › copy uses only the requested command and handles a denied browser permission 
+  228 passed (2.7m)

@@ -1,0 +1,6 @@
+
+> saydraft-site@0.1.0 test:components
+> playwright test -c playwright.components.config.ts --update-snapshots --reporter=list,json
+
+Error: http://127.0.0.1:6006/index.json is already used, make sure that nothing is running on the port/url or set reuseExistingServer:true in config.webServer.
+

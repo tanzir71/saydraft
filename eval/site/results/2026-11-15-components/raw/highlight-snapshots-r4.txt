@@ -1,0 +1,23 @@
+
+> saydraft-site@0.1.0 test:components
+> playwright test -c playwright.components.config.ts --grep product-featurerow--highlighted --update-snapshots --reporter=list,json
+
+[WebServer] (node:30416) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 3 tests using 3 workers
+
+(node:27156) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:33336) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:30612) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-featurerow--highlighted-tablet-win32.png is re-generated, writing actual.
+  ok 2 [tablet] › component-tests\library.spec.ts:22:3 › Product/FeatureRow · product-featurerow--highlighted renders locally without overflow (4.3s)
+D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-featurerow--highlighted-mobile-win32.png is re-generated, writing actual.
+  ok 1 [mobile] › component-tests\library.spec.ts:22:3 › Product/FeatureRow · product-featurerow--highlighted renders locally without overflow (4.7s)
+D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\component-tests\library.spec.ts-snapshots\product-featurerow--highlighted-desktop-win32.png is re-generated, writing actual.
+  ok 3 [desktop] › component-tests\library.spec.ts:22:3 › Product/FeatureRow · product-featurerow--highlighted renders locally without overflow (5.1s)
+
+  3 passed (16.7s)

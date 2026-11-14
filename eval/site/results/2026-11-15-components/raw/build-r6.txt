@@ -1,0 +1,76 @@
+
+> saydraft-site@0.1.0 build
+> npm run tokens:check && npm run content:check && astro check && astro build
+
+
+> saydraft-site@0.1.0 tokens:check
+> node ../tools/generate_tokens.mjs --check
+
+12 shared token outputs verified.
+
+> saydraft-site@0.1.0 content:check
+> node tools/check-content-dates.mjs
+
+Verified dates are current for 8 content pages.
+03:28:30 [content] Syncing content
+03:28:30 [content] Synced content
+03:28:30 [types] Generated 533ms
+03:28:30 [check] Getting diagnostics for Astro files in D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site...
+Result (80 files): 
+- 0 errors
+- 0 warnings
+- 0 hints
+
+03:28:37 [content] Syncing content
+03:28:37 [content] Synced content
+03:28:37 [types] Generated 731ms
+03:28:37 [build] output: "static"
+03:28:37 [build] mode: "static"
+03:28:37 [build] directory: D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\dist\
+03:28:37 [build] Collecting build info...
+03:28:37 [build] ✓ Completed in 781ms.
+03:28:37 [build] Building static entrypoints...
+03:28:38 [vite] ✓ built in 548ms
+03:28:38 [vite] ✓ built in 137ms
+03:28:38 [build] Rearranging server assets...
+
+ generating static routes 
+03:28:38   ├─ /credits/index.html (+26ms) 
+03:28:38   ├─ /docs/getting-started/index.html (+5ms) 
+03:28:38   ├─ /download/index.html (+6ms) 
+03:28:38   ├─ /languages/arabic/index.html (+5ms) 
+03:28:38   ├─ /languages/bengali/index.html (+3ms) 
+03:28:38   ├─ /languages/brazilian-portuguese/index.html (+3ms) 
+03:28:38   ├─ /languages/chinese/index.html (+2ms) 
+03:28:38   ├─ /languages/filipino-tagalog/index.html (+4ms) 
+03:28:38   ├─ /languages/french/index.html (+4ms) 
+03:28:38   ├─ /languages/german/index.html (+3ms) 
+03:28:38   ├─ /languages/hindi/index.html (+3ms) 
+03:28:38   ├─ /languages/indonesian/index.html (+2ms) 
+03:28:38   ├─ /languages/japanese/index.html (+3ms) 
+03:28:38   ├─ /languages/korean/index.html (+3ms) 
+03:28:38   ├─ /languages/malay/index.html (+3ms) 
+03:28:38   ├─ /languages/persian/index.html (+2ms) 
+03:28:38   ├─ /languages/spanish/index.html (+2ms) 
+03:28:38   ├─ /languages/tamil/index.html (+2ms) 
+03:28:38   ├─ /languages/telugu/index.html (+2ms) 
+03:28:38   ├─ /languages/thai/index.html (+2ms) 
+03:28:38   ├─ /languages/urdu/index.html (+2ms) 
+03:28:38   ├─ /languages/vietnamese/index.html (+2ms) 
+03:28:38   ├─ /languages/index.html (+3ms) 
+03:28:38   ├─ /privacy/index.html (+3ms) 
+03:28:38   ├─ /sitemap.xml (+2ms) 
+03:28:38   ├─ /dragon-alternative/index.html (+10ms) 
+03:28:38   ├─ /superwhisper-alternative-windows/index.html (+5ms) 
+03:28:38   ├─ /typeless-alternative/index.html (+5ms) 
+03:28:38   ├─ /windows-voice-typing-alternative/index.html (+6ms) 
+03:28:38   ├─ /wispr-flow-alternative/index.html (+6ms) 
+03:28:38   ├─ /changelog/index.html (+567ms) 
+03:28:39   ├─ /dictation-for-developers/index.html (+8ms) 
+03:28:39   ├─ /offline-dictation-windows/index.html (+8ms) 
+03:28:39   ├─ /index.html (+13ms) 
+03:28:39 ✓ Completed in 780ms.
+
+03:28:39 [build] ✓ Completed in 1.78s.
+03:28:39 [build] 33 page(s) built in 2.57s
+03:28:39 [build] Complete!

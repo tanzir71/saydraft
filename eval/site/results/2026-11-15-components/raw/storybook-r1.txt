@@ -1,0 +1,180 @@
+
+> saydraft-site@0.1.0 storybook:build
+> storybook build --disable-telemetry
+
+
+T  Building storybook v10.6.7
+|
+o  Cleaning outputDir: storybook-static
+|
+o  Loading presets
+|
+o  Building manager..
+|
+•  Building open services..
+|
+•  Building preview..
+|  Vite vite v8.3.8 building client environment for production...
+transforming...
+✓ 109 modules transformed.
+rendering chunks...
+computing gzip size...
+|  Vite
+|  storybook-static/assets/noto-sans-bengali-latin-ext-wght-normal-B4w0d5pX.woff2
+|  13.61 kB
+|  storybook-static/assets/noto-sans-arabic-symbols-wght-normal-BJ6p-EzA.woff2
+|  14.58 kB
+|  storybook-static/assets/noto-sans-arabic-latin-ext-wght-normal-CIz31GGw.woff2
+|  16.81 kB
+|  storybook-static/assets/instrument-serif-latin-400-normal-BVbkICAY.woff
+|  18.33 kB
+|  storybook-static/iframe.html
+|  18.71 kB │ gzip:   5.27 kB
+|  storybook-static/assets/instrument-serif-latin-400-italic-u__WvvIK.woff
+|  19.26 kB
+|  storybook-static/assets/instrument-serif-latin-400-normal-DnYpCC2O.woff2
+|  21.03 kB
+|  storybook-static/assets/instrument-serif-latin-400-italic-DKMiL14s.woff2
+|  22.12 kB
+|  storybook-static/assets/noto-sans-arabic-math-wght-normal-pS2d8anF.woff2
+|  22.71 kB
+|  storybook-static/assets/geist-mono-latin-wght-normal-XN7g48iV.woff2
+|  23.12 kB
+|  storybook-static/assets/noto-sans-bengali-latin-wght-normal-BEfni1Yl.woff2
+|  25.60 kB
+|  storybook-static/assets/geist-latin-wght-normal-BgDaEnEv.woff2
+|  29.40 kB
+|  storybook-static/assets/noto-sans-arabic-latin-wght-normal-BQEJrIpl.woff2
+|  31.41 kB
+|  storybook-static/assets/noto-sans-bengali-bengali-wght-normal-DeF8kf4m.woff2
+|  107.72 kB
+|  storybook-static/assets/noto-sans-arabic-arabic-wght-normal-BhzieyvS.woff2
+|  165.96 kB
+|  storybook-static/assets/Eyebrow-538rrWwh.css
+|  0.12 kB │ gzip:   0.12 kB
+|  storybook-static/assets/EditChip-B2iYYNoi.css
+|  0.19 kB │ gzip:   0.16 kB
+|  storybook-static/assets/AnnouncementBar-CknJRmlx.css
+|  0.23 kB │ gzip:   0.17 kB
+|  storybook-static/assets/PrivacyFacts-BRGsBVuH.css
+|  0.24 kB │ gzip:   0.15 kB
+|  storybook-static/assets/StatBlock-BWhvy7yZ.css
+|  0.33 kB │ gzip:   0.23 kB
+|  storybook-static/assets/Ribbon-BloPLJwT.css
+|  0.37 kB │ gzip:   0.21 kB
+|  storybook-static/assets/KeyCaps-DWrMlfGC.css
+|  0.47 kB │ gzip:   0.25 kB
+|  storybook-static/assets/SerifHeading-BkERSDcH.css
+|  0.55 kB │ gzip:   0.21 kB
+|  storybook-static/assets/DownloadCard-CvN2kfcG.css
+|  0.59 kB │ gzip:   0.31 kB
+|  storybook-static/assets/BeforeAfterCard-Bob_degX.css
+|  0.62 kB │ gzip:   0.32 kB
+|  storybook-static/assets/FAQ-CNzyjjgc.css
+|  0.63 kB │ gzip:   0.34 kB
+|  storybook-static/assets/Sheet-Ds857Yq3.css
+|  0.64 kB │ gzip:   0.27 kB
+|  storybook-static/assets/CreditsBand-BkUxm7cz.css
+|  0.67 kB │ gzip:   0.32 kB
+|  storybook-static/assets/CompareTable-_3XDUNO9.css
+|  0.76 kB │ gzip:   0.35 kB
+|  storybook-static/assets/FeatureRow-VuQnNfz3.css
+|  0.96 kB │ gzip:   0.46 kB
+|  storybook-static/assets/Button-8R2eSSnE.css
+|  1.02 kB │ gzip:   0.41 kB
+|  storybook-static/assets/Footer-DfGBCmS5.css
+|  1.05 kB │ gzip:   0.45 kB
+|  storybook-static/assets/BarDemo-CLP-UbRF.css
+|  1.19 kB │ gzip:   0.51 kB
+|  storybook-static/assets/StyleSwitcher-684US_R0.css
+|  1.33 kB │ gzip:   0.54 kB
+|  storybook-static/assets/DocLayout-mYzKk9LM.css
+|  1.52 kB │ gzip:   0.57 kB
+|  storybook-static/assets/NavPill-BkWf69lg.css
+|  1.64 kB │ gzip:   0.60 kB
+|  storybook-static/assets/iframe-D0ZsGF_m.css
+|  9.42 kB │ gzip:   3.24 kB
+|  storybook-static/assets/iframe-CIsiPzQe.js
+|  0.04 kB │ gzip:   0.06 kB
+|  storybook-static/assets/DocLayout.module-CiPT0eUU.js
+|  0.33 kB │ gzip:   0.24 kB
+|  storybook-static/assets/Eyebrow.stories-Bmpg47xG.js
+|  0.37 kB │ gzip:   0.28 kB
+|  storybook-static/assets/EditChip.stories-BEVRFVXt.js
+|  0.43 kB │ gzip:   0.31 kB
+|  storybook-static/assets/EditChip-CXiRCJ0q.js
+|  0.46 kB │ gzip:   0.32 kB
+|  storybook-static/assets/Button.stories-B29uMJXH.js
+|  0.47 kB │ gzip:   0.32 kB
+|  storybook-static/assets/Eyebrow-tjIiS0Gf.js
+|  0.47 kB │ gzip:   0.32 kB
+|  storybook-static/assets/SerifHeading.stories-BemvaOjR.js
+|  0.58 kB │ gzip:   0.38 kB
+|  storybook-static/assets/CodeBlock.stories-CFt7NMOa.js
+|  0.60 kB │ gzip:   0.42 kB
+|  storybook-static/assets/StyleSwitcher.stories-CffMjkij.js
+|  0.70 kB │ gzip:   0.41 kB
+|  storybook-static/assets/Button-BRWjmYQQ.js
+|  0.98 kB │ gzip:   0.52 kB
+|  storybook-static/assets/storyFixtures-DcCGJhpu.js
+|  1.03 kB │ gzip:   0.62 kB
+|  storybook-static/assets/SerifHeading-Dn-Oco4b.js
+|  1.05 kB │ gzip:   0.49 kB
+|  storybook-static/assets/AnnouncementBar.stories-BYvdswYf.js
+|  1.07 kB │ gzip:   0.63 kB
+|  storybook-static/assets/CodeBlock-DWiAu61g.js
+|  1.08 kB │ gzip:   0.53 kB
+|  storybook-static/assets/TableOfContents.stories-2ExD4WLT.js
+|  1.13 kB │ gzip:   0.64 kB
+|  storybook-static/assets/Sheet.stories-Dt2I9RTg.js
+|  1.20 kB │ gzip:   0.57 kB
+|  storybook-static/assets/rolldown-runtime-sJBDdmOt.js
+|  1.20 kB │ gzip:   0.67 kB
+|  storybook-static/assets/Callout.stories-Di4eFa-v.js
+|  1.33 kB │ gzip:   0.71 kB
+|  storybook-static/assets/KeyCaps.stories-Dn-ThgFZ.js
+|  1.35 kB │ gzip:   0.70 kB
+|  storybook-static/assets/CreditsBand.stories-BvtG_GMy.js
+|  1.49 kB │ gzip:   0.78 kB
+|  storybook-static/assets/FAQ.stories-BVj0YO1C.js
+|  1.50 kB │ gzip:   0.81 kB
+|  storybook-static/assets/PrivacyFacts.stories-CIj9e0oQ.js
+|  1.50 kB │ gzip:   0.74 kB
+|  storybook-static/assets/Ribbon.stories-B5ZKxbNz.js
+|  1.70 kB │ gzip:   0.89 kB
+|  storybook-static/assets/Sheet-BiLh4KMi.js
+|  1.73 kB │ gzip:   0.69 kB
+|  storybook-static/assets/preload-helper-Dt5pTa-y.js
+|  1.74 kB │ gzip:   0.90 kB
+|  storybook-static/assets/StyleSwitcher-beM-9N-U.js
+|  1.80 kB │ gzip:   0.77 kB
+|  storybook-static/assets/StatBlock.stories-ClO57k1y.js
+|  1.85 kB │ gzip:   0.88 kB
+|  storybook-static/assets/BeforeAfterCard.stories-CFC3BF_J.js
+|  1.91 kB │ gzip:   0.93 kB
+|  storybook-static/assets/NavPill.stories-ww4wN6U_.js
+|  2.02 kB │ gzip:   0.89 kB
+|  storybook-static/assets/BarDemo.stories-Dw2sTeW7.js
+|  2.10 kB │ gzip:   1.05 kB
+|  storybook-static/assets/CompareTable.stories-CE6-dzXQ.js
+|  2.18 kB │ gzip:   0.97 kB
+|  storybook-static/assets/FeatureRow.stories-BbHjXLJj.js
+|  2.28 kB │ gzip:   1.01 kB
+|  storybook-static/assets/Footer.stories-3uf6t-6s.js
+|  2.34 kB │ gzip:   1.09 kB
+|  storybook-static/assets/DownloadCard.stories-mBljndfA.js
+|  2.82 kB │ gzip:   1.27 kB
+|  storybook-static/vite-inject-mocker-entry.js
+|  27.75 kB │ gzip:   9.66 kB
+|  storybook-static/assets/react-18-BbSkOuTU.js
+|  211.28 kB │ gzip:  66.05 kB
+|  storybook-static/assets/iframe-BKZL_AjX.js
+|  1,132.99 kB │ gzip: 321.66 kB
+
+|  Vite ✓ built in 2.93s
+|
+o  Output directory:
+|  D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-component-library-20261115/site/storybook-static
+|
+—  Storybook build completed successfully
+

@@ -1,0 +1,101 @@
+
+> saydraft-site@0.1.0 build
+> npm run tokens:check && npm run content:check && astro check && astro build
+
+
+> saydraft-site@0.1.0 tokens:check
+> node ../tools/generate_tokens.mjs --check
+
+12 shared token outputs verified.
+
+> saydraft-site@0.1.0 content:check
+> node tools/check-content-dates.mjs
+
+Verified dates are current for 8 content pages.
+02:56:16 [content] Syncing content
+02:56:16 [content] Synced content
+02:56:16 [types] Generated 7.69s
+02:56:16 [check] Getting diagnostics for Astro files in D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site...
+Result (74 files): 
+- 0 errors
+- 0 warnings
+- 0 hints
+
+02:56:41 [content] Syncing content
+02:56:41 [content] Synced content
+02:56:41 [types] Generated 3.16s
+02:56:41 [build] output: "static"
+02:56:41 [build] mode: "static"
+02:56:41 [build] directory: D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\site\dist\
+02:56:41 [build] Collecting build info...
+02:56:41 [build] ✓ Completed in 3.41s.
+02:56:41 [build] Building static entrypoints...
+02:56:43 [vite] ✓ built in 1.39s
+02:56:43 [vite] ✓ built in 297ms
+02:56:43 [build] Rearranging server assets...
+
+ generating static routes 
+02:56:43   ├─ /credits/index.html (+32ms) 
+02:56:43   ├─ /docs/getting-started/index.html (+9ms) 
+02:56:43   ├─ /download/index.html (+15ms) 
+02:56:43   ├─ /languages/arabic/index.html (+11ms) 
+02:56:43   ├─ /languages/bengali/index.html (+6ms) 
+02:56:43   ├─ /languages/brazilian-portuguese/index.html (+5ms) 
+02:56:43   ├─ /languages/chinese/index.html (+5ms) 
+02:56:43   ├─ /languages/filipino-tagalog/index.html (+7ms) 
+02:56:43   ├─ /languages/french/index.html (+6ms) 
+02:56:43   ├─ /languages/german/index.html (+5ms) 
+02:56:43   ├─ /languages/hindi/index.html (+4ms) 
+02:56:43   ├─ /languages/indonesian/index.html (+5ms) 
+02:56:43   ├─ /languages/japanese/index.html (+88ms) 
+02:56:44   ├─ /languages/korean/index.html (+4ms) 
+02:56:44   ├─ /languages/malay/index.html (+4ms) 
+02:56:44   ├─ /languages/persian/index.html (+4ms) 
+02:56:44   ├─ /languages/spanish/index.html (+3ms) 
+02:56:44   ├─ /languages/tamil/index.html (+4ms) 
+02:56:44   ├─ /languages/telugu/index.html (+4ms) 
+02:56:44   ├─ /languages/thai/index.html (+4ms) 
+02:56:44   ├─ /languages/urdu/index.html (+4ms) 
+02:56:44   ├─ /languages/vietnamese/index.html (+5ms) 
+02:56:44   ├─ /languages/index.html (+6ms) 
+02:56:44   ├─ /privacy/index.html (+5ms) 
+02:56:44   ├─ /sitemap.xml (+4ms) 
+02:56:44   ├─ /dragon-alternative/index.html (+16ms) 
+02:56:44   ├─ /superwhisper-alternative-windows/index.html (+12ms) 
+02:56:44   ├─ /typeless-alternative/index.html (+13ms) 
+02:56:44   ├─ /windows-voice-typing-alternative/index.html (+9ms) 
+02:56:44   ├─ /wispr-flow-alternative/index.html (+11ms) 
+02:56:44   ├─ /changelog/index.html (+515ms) 
+02:56:44   ├─ /dictation-for-developers/index.html (+10ms) 
+02:56:44   ├─ /offline-dictation-windows/index.html (+9ms) 
+Error: Objects are not valid as a React child (found: object with keys {htmlParts, expressions, error, wrapped}). If you meant to render a collection of children, use an array instead.
+    at retryNode (D:\Saydraft-Codex-QA-20261112-01a1cbc7\website-content-20261114-r1\site\node_modules\react-dom\cjs\react-dom-server.node.production.js:5880:13)
+    at renderNodeDestructive (D:\Saydraft-Codex-QA-20261112-01a1cbc7\website-content-20261114-r1\site\node_modules\react-dom\cjs\react-dom-server.node.production.js:5629:7)
+    at renderNode (D:\Saydraft-Codex-QA-20261112-01a1cbc7\website-content-20261114-r1\site\node_modules\react-dom\cjs\react-dom-server.node.production.js:6209:14)
+    at renderElement (D:\Saydraft-Codex-QA-20261112-01a1cbc7\website-content-20261114-r1\site\node_modules\react-dom\cjs\react-dom-server.node.production.js:5078:14)
+    at retryNode (D:\Saydraft-Codex-QA-20261112-01a1cbc7\website-content-20261114-r1\site\node_modules\react-dom\cjs\react-dom-server.node.production.js:5839:16)
+    at renderNodeDestructive (D:\Saydraft-Codex-QA-20261112-01a1cbc7\website-content-20261114-r1\site\node_modules\react-dom\cjs\react-dom-server.node.production.js:5629:7)
+    at renderNode (D:\Saydraft-Codex-QA-20261112-01a1cbc7\website-content-20261114-r1\site\node_modules\react-dom\cjs\react-dom-server.node.production.js:6209:14)
+    at renderChildrenArray (D:\Saydraft-Codex-QA-20261112-01a1cbc7\website-content-20261114-r1\site\node_modules\react-dom\cjs\react-dom-server.node.production.js:5983:7)
+    at retryNode (D:\Saydraft-Codex-QA-20261112-01a1cbc7\website-content-20261114-r1\site\node_modules\react-dom\cjs\react-dom-server.node.production.js:5853:9)
+    at renderNodeDestructive (D:\Saydraft-Codex-QA-20261112-01a1cbc7\website-content-20261114-r1\site\node_modules\react-dom\cjs\react-dom-server.node.production.js:5629:7)
+02:56:44 [ERROR] Error: Objects are not valid as a React child (found: object with keys {htmlParts, expressions, error, wrapped}). If you meant to render a collection of children, use an array instead.
+    at retryNode (D:\Saydraft-Codex-QA-20261112-01a1cbc7\website-content-20261114-r1\site\node_modules\react-dom\cjs\react-dom-server.node.production.js:5880:13)
+    at renderNodeDestructive (D:\Saydraft-Codex-QA-20261112-01a1cbc7\website-content-20261114-r1\site\node_modules\react-dom\cjs\react-dom-server.node.production.js:5629:7)
+    at renderNode (D:\Saydraft-Codex-QA-20261112-01a1cbc7\website-content-20261114-r1\site\node_modules\react-dom\cjs\react-dom-server.node.production.js:6209:14)
+    at renderElement (D:\Saydraft-Codex-QA-20261112-01a1cbc7\website-content-20261114-r1\site\node_modules\react-dom\cjs\react-dom-server.node.production.js:5078:14)
+    at retryNode (D:\Saydraft-Codex-QA-20261112-01a1cbc7\website-content-20261114-r1\site\node_modules\react-dom\cjs\react-dom-server.node.production.js:5839:16)
+    at renderNodeDestructive (D:\Saydraft-Codex-QA-20261112-01a1cbc7\website-content-20261114-r1\site\node_modules\react-dom\cjs\react-dom-server.node.production.js:5629:7)
+    at renderNode (D:\Saydraft-Codex-QA-20261112-01a1cbc7\website-content-20261114-r1\site\node_modules\react-dom\cjs\react-dom-server.node.production.js:6209:14)
+    at renderChildrenArray (D:\Saydraft-Codex-QA-20261112-01a1cbc7\website-content-20261114-r1\site\node_modules\react-dom\cjs\react-dom-server.node.production.js:5983:7)
+    at retryNode (D:\Saydraft-Codex-QA-20261112-01a1cbc7\website-content-20261114-r1\site\node_modules\react-dom\cjs\react-dom-server.node.production.js:5853:9)
+    at renderNodeDestructive (D:\Saydraft-Codex-QA-20261112-01a1cbc7\website-content-20261114-r1\site\node_modules\react-dom\cjs\react-dom-server.node.production.js:5629:7)
+02:56:44 [ERROR] [build] Caught error rendering /: Error: Objects are not valid as a React child (found: object with keys {htmlParts, expressions, error, wrapped}). If you meant to render a collection of children, use an array instead.
+Objects are not valid as a React child (found: object with keys {htmlParts, expressions, error, wrapped}). If you meant to render a collection of children, use an array instead.
+  Stack trace:
+    at retryNode (D:\Saydraft-Codex-QA-20261112-01a1cbc7\website-content-20261114-r1\site\node_modules\react-dom\cjs\react-dom-server.node.production.js:5880:13)
+    at renderNode (D:\Saydraft-Codex-QA-20261112-01a1cbc7\website-content-20261114-r1\site\node_modules\react-dom\cjs\react-dom-server.node.production.js:6209:14)
+    at retryNode (D:\Saydraft-Codex-QA-20261112-01a1cbc7\website-content-20261114-r1\site\node_modules\react-dom\cjs\react-dom-server.node.production.js:5839:16)
+    at renderNode (D:\Saydraft-Codex-QA-20261112-01a1cbc7\website-content-20261114-r1\site\node_modules\react-dom\cjs\react-dom-server.node.production.js:6209:14)
+    at retryNode (D:\Saydraft-Codex-QA-20261112-01a1cbc7\website-content-20261114-r1\site\node_modules\react-dom\cjs\react-dom-server.node.production.js:5853:9)
+02:56:44   ├─ /index.html

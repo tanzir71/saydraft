@@ -1,0 +1,2417 @@
+{
+  "source": "da4b480719786e476a7b96235a15cc2bd5ded1f2",
+  "test_starts": {
+    "components": 1794691817.62,
+    "site": 1794692238.165
+  },
+  "files": {
+    "design/tokens.json": {
+      "sha256": "ad9d0348699819ea81f0c00547f3b7f96bc7e6f023f3f885d0eafecc775ea988",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": false,
+      "modified_before_component_run": null
+    },
+    "site/.htmlvalidate.json": {
+      "sha256": "6354c186790330705af3850738507c10f63e4b8ddac7822c58614f42a019e96d",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": false,
+      "modified_before_component_run": null
+    },
+    "site/.storybook/main.ts": {
+      "sha256": "efadd7c6bfaa32115f9d7cba89ce589ce12e21a5477e164757f1f2ccfd4b81bc",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/.storybook/preview.tsx": {
+      "sha256": "2302f7818830d4d0e46aced69540b4c89a17833d76763c9c413519a28ad54ca5",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/astro.config.mjs": {
+      "sha256": "4710e9113cd24a3e08cf87033b20e2ec20a683811009509e516e85385f364ea5",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": false,
+      "modified_before_component_run": null
+    },
+    "site/component-tests/contrast.ts": {
+      "sha256": "0f7f9d524f28057725bb097d22fb510a9059da97d456d8fc12ba887feb13fc92",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts": {
+      "sha256": "3d504b5567a6256b135aa2a2813cc15107bf6f19fb2977efe3588b42624c3f38",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/content-faq--closed-desktop-win32.png": {
+      "sha256": "ce187c7cea3d5a0ce6232b901b9086ef8263282eb2f072eb5c8494661cdf0c14",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/content-faq--closed-mobile-win32.png": {
+      "sha256": "0add1d032a70e4c34f17c81f930bc8a6542e2e6d9a10fa18a4c80a7e77e538b9",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/content-faq--closed-tablet-win32.png": {
+      "sha256": "0f2536543ca40717ba2b03bdc3c20f63abe6fbbce9295ebf5961ab1891cb7bc5",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/content-faq--on-dark-desktop-win32.png": {
+      "sha256": "53cc5a5bcb53f993266d6cb7d4730adc8dc890190f916585eac7afb460722252",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/content-faq--on-dark-mobile-win32.png": {
+      "sha256": "9b44ffa72eb18989b7f09cef197efd15222998c19fc7d516991bab1480986a12",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/content-faq--on-dark-tablet-win32.png": {
+      "sha256": "901a372cd329cf1503f5a4344f5c9bafa472ea563d91dcb680d0bf1ee920e03a",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/content-faq--open-desktop-win32.png": {
+      "sha256": "c419b056b28bf36ce4de17d7df5868930404d19ec6e8fa702bacaf5d021abb4c",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/content-faq--open-mobile-win32.png": {
+      "sha256": "2c894566eb5dd0805029db0d4eba2052e7bd8e93f13941dd1505114163942550",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/content-faq--open-tablet-win32.png": {
+      "sha256": "ebb9fbed398eb92e00de5ba4817a6e21cdf25fe4b2a2b6aa3bb08a3db37468c8",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/docs-callout--information-desktop-win32.png": {
+      "sha256": "976ae3678105ec1bb1c915e58a200ff8fb316e57f7059896ad361156223d2865",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/docs-callout--information-mobile-win32.png": {
+      "sha256": "9a5f85d7b2324e42163dd5f916b7bb1941c0bbce969c2381143ac13dffe4a940",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/docs-callout--information-tablet-win32.png": {
+      "sha256": "75139b1fe1d1e137eef2457feb00cb1e7bd3af0c8e302b3d8c1d9d6a79363d7d",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/docs-callout--on-dark-desktop-win32.png": {
+      "sha256": "15f8049e4a588eb6c0bf46fc8d7914c262a990797567cac2f420dbddae8a2dd3",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/docs-callout--on-dark-mobile-win32.png": {
+      "sha256": "a5fae807053397d292191a1dd8b7f3225885bdea2b82679e24d953d19fc08e85",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/docs-callout--on-dark-tablet-win32.png": {
+      "sha256": "19e1163dbd691189d5fe8a1ae529556a2de8028a556f22933ac649ab36d3171d",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/docs-callout--warning-desktop-win32.png": {
+      "sha256": "22a679720a7404ff06da0bad69c1b4fc2eb11f03214cfcf0020f514d3e808e89",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/docs-callout--warning-mobile-win32.png": {
+      "sha256": "af25e9b2343031555283f7d4fb17261933f36ee52c1fa0b38d7d7785b0ccbcc4",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/docs-callout--warning-tablet-win32.png": {
+      "sha256": "7fdd4d8eae9fbb59a861a5a227a9f99ee07168ea59e4a8c8abc1978940752d1f",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/docs-codeblock--commands-desktop-win32.png": {
+      "sha256": "c480c8023d4c959375fc20eef27e0027f8c066b90e4b5909b0ca8d2223bc662e",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/docs-codeblock--commands-mobile-win32.png": {
+      "sha256": "2d2bfdf02ecd575d1bbf9902e65f719157596ab709257f66afb12e7b55b7378f",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/docs-codeblock--commands-tablet-win32.png": {
+      "sha256": "eb4d8e65d3b37841d42d8c578431247a34336cf9c84db33e096ad4a126e2c54a",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/docs-codeblock--long-line-desktop-win32.png": {
+      "sha256": "5b6a155c5eb17e1a3a394222590f3f90926ecc9ba2cc736cc5a873c4cde80433",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/docs-codeblock--long-line-mobile-win32.png": {
+      "sha256": "f82bc7fded45aac0930b3543daad1867fc7e34a6db1af92cd19c34b70c96895e",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/docs-codeblock--long-line-tablet-win32.png": {
+      "sha256": "338d368b4bb4f8f9cca0f7bee22cbbf0c5d38ef7fb28744c4d46c35d97a9a3b3",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/docs-codeblock--on-dark-desktop-win32.png": {
+      "sha256": "a5998e1751c7a632ca1a7e6088aa493b350e50c77b1925cfa81c42f02b84a2a5",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/docs-codeblock--on-dark-mobile-win32.png": {
+      "sha256": "60a9db426e9ef851c65f8d3a8c632f6fef870c9e9061cdf14d5bf014690a776b",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/docs-codeblock--on-dark-tablet-win32.png": {
+      "sha256": "20cfa7ecf15b98ddefd405b8c065b97228109977747ac601b09bb67004f5651e",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/docs-tableofcontents--on-dark-desktop-win32.png": {
+      "sha256": "b4e5128403fe041e91c2327043fd61c64b1d10b90445bc55536762dd9a3ef4c3",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/docs-tableofcontents--on-dark-mobile-win32.png": {
+      "sha256": "da99c3205f1da569c02555ebfa1522d5a07c75b3ca4592e801c3984db957b437",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/docs-tableofcontents--on-dark-tablet-win32.png": {
+      "sha256": "635eaab9277ab0a1cd79d195f472692a0c257ac0635fd35187eac3e341b8e76e",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/docs-tableofcontents--sections-desktop-win32.png": {
+      "sha256": "079ca55d28e3df918bae0173cbc3f01182b3710f6014c3ba87671f252a7802cf",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/docs-tableofcontents--sections-mobile-win32.png": {
+      "sha256": "c3533310f57c0b5373e8bcf62e6a168cf4490b246a417e08372c11e186281a39",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/docs-tableofcontents--sections-tablet-win32.png": {
+      "sha256": "94a56f3a51284403b58d69e179817844f88e9ba51495f8e1990f0df9e612829f",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/foundations-button--on-dark-desktop-win32.png": {
+      "sha256": "87b90b165e0ad55b92a07010aa26eefc63d31d5c2299fc5e84097c38b593aa19",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/foundations-button--on-dark-mobile-win32.png": {
+      "sha256": "2ef61c3bee73513beb877dce8759f0b06e30ef4d76a229315288c6ea89906275",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/foundations-button--on-dark-tablet-win32.png": {
+      "sha256": "0ba4b53f7ce0fc7c684f763022ee2dfcb75cabaa197b7fbf8c1791cfb18d39ff",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/foundations-button--primary-desktop-win32.png": {
+      "sha256": "f7a177566e8ec8f8c5983fbdc3cbe5fa51eb2e053edda2beb367f1973934b3b0",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/foundations-button--primary-mobile-win32.png": {
+      "sha256": "8e88f49d6c236f5dc24219fbd9391a4eee2e788491703e7932d8aa6e90a34d55",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/foundations-button--primary-tablet-win32.png": {
+      "sha256": "e30c0e2afb3031c5659703d21f642fb912c23c33343ad75a211a604b2969a570",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/foundations-button--secondary-desktop-win32.png": {
+      "sha256": "9e433ed784c2c1f46597b625c62f493837561e3df234dd2830126d5300c6f221",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/foundations-button--secondary-mobile-win32.png": {
+      "sha256": "b774efd14e43f81b153adecbd916b678e0aa6e99eb9b5c7122e775c26a3c86b7",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/foundations-button--secondary-tablet-win32.png": {
+      "sha256": "7c15df782e920066be96c01ae26f30db48732a9dbea2a23bb99edcef6a45e673",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/foundations-eyebrow--on-dark-desktop-win32.png": {
+      "sha256": "a943eabf4b451fb2c63ce06516ed8483b92e6cf7a67ae7cbec412b93422768a6",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/foundations-eyebrow--on-dark-mobile-win32.png": {
+      "sha256": "96b51e7b9417311103cb41e6e5edb695b39c50d561e9c6f01a2906eaada28ab0",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/foundations-eyebrow--on-dark-tablet-win32.png": {
+      "sha256": "ebb9c32e6d1107473959613078b95a090a5cb87ee62e24655feb3940f2e96911",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/foundations-eyebrow--paper-desktop-win32.png": {
+      "sha256": "81602ba663b3953de49e0cb84d31edfe119764dd8cfa203085c0a1e37f2280a1",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/foundations-eyebrow--paper-mobile-win32.png": {
+      "sha256": "4d04215053808140377ab7d5f79572cef3d1dd58c5e3bb033fd2c733be2d91b8",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/foundations-eyebrow--paper-tablet-win32.png": {
+      "sha256": "24ee0c97a2cd49acac7b8448f12e57d29107d91b28cb8d9b9b1e980492e47434",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/foundations-keycaps--hands-free-desktop-win32.png": {
+      "sha256": "45e5e45667f211af88eea522f66433900ff8e4dd160d8e396b3c352ea8bd3b87",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/foundations-keycaps--hands-free-mobile-win32.png": {
+      "sha256": "ee3206ac91c65de9a19d49be54266f65ed9ffd8cf2947421657d9a089451da23",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/foundations-keycaps--hands-free-tablet-win32.png": {
+      "sha256": "fc4957f355eb09ab8a2e93e24302d082353603e9a3310f099ae8fbd5cf189c80",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/foundations-keycaps--hold-to-speak-desktop-win32.png": {
+      "sha256": "56ce5a754b434c78d9b25aabd61d36548c1ddcbe7d61dd5c6b4b7180f172c7e7",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/foundations-keycaps--hold-to-speak-mobile-win32.png": {
+      "sha256": "d807ae3b36ebc6dd889ab7df2e26e9b2af876002d5c241fd2566549c9e0189f6",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/foundations-keycaps--hold-to-speak-tablet-win32.png": {
+      "sha256": "71e0699efd815edc07acdbb3b92ba0404f8d8bca535d8b2f51b09349cc037bc5",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/foundations-keycaps--on-dark-desktop-win32.png": {
+      "sha256": "2e958f0e17f8391b7828b8309ecd46cd6120ab41c6c6d1f5084a3239f5fb4a71",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/foundations-keycaps--on-dark-mobile-win32.png": {
+      "sha256": "30b43b6a590e78b8f512914672a3360ba25e161662c18645accbf710676a204a",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/foundations-keycaps--on-dark-tablet-win32.png": {
+      "sha256": "0fb729ce101bd3eb619ffd49ebac7dbbf5a8f3ec965367444e76b16487407606",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/foundations-keycaps--paste-last-desktop-win32.png": {
+      "sha256": "970c3da04a56899d3bfe7578817d12267cabe48293f3bab89261dc26a0e4e2a1",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/foundations-keycaps--paste-last-mobile-win32.png": {
+      "sha256": "23e371279b3abc7e72d4d05f1687a83fab513a39926e78fbe39ddc5ea9e86f01",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/foundations-keycaps--paste-last-tablet-win32.png": {
+      "sha256": "02fa763429a85d302e8ee5e8c73e431713ba1b62296fec7bf0c0ff9889b7222d",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/foundations-serifheading--hero-desktop-win32.png": {
+      "sha256": "039bc17752ad0ced82883e6a2d0393bb83e008e3a6369d7ad8a952ae34d08f43",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/foundations-serifheading--hero-mobile-win32.png": {
+      "sha256": "4a12d1e07c21b400dd9a272ae55de3464e59413e36909a7fdc677c50bda49cd1",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/foundations-serifheading--hero-tablet-win32.png": {
+      "sha256": "5969f9b743e4dd7c0d7f0a986210dd477eb4539126e48fd36777a7111085121d",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/foundations-serifheading--large-desktop-win32.png": {
+      "sha256": "b87c2784c90cc7132a35eabd0df2ff969c8d6cad956d36d3f3d112e716534711",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/foundations-serifheading--large-mobile-win32.png": {
+      "sha256": "d63f3f48215cb69eefb87473fc896ecc147db9cfa9c192a98bc24d25a4f7c0b0",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/foundations-serifheading--large-tablet-win32.png": {
+      "sha256": "e35bc9de3541eb9fe3ca9dfe2f239228e3bb5bcc5575c1f69d3b63d8f1f174e9",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/foundations-serifheading--medium-desktop-win32.png": {
+      "sha256": "1b7ca3724de4faf0a32553e61a1807816df3ca28377788ce301b86a49a7303f4",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/foundations-serifheading--medium-mobile-win32.png": {
+      "sha256": "bee1bb475055d52f0a3757598d5e57a73af858381830f28cae0cdfdc51895724",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/foundations-serifheading--medium-tablet-win32.png": {
+      "sha256": "6ca2d16ff9b1aab1e2524e46af1fd12d6fdcdecdbed5291a761eb37beb9349b9",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/foundations-serifheading--on-dark-desktop-win32.png": {
+      "sha256": "ae6da0ca96d04674b499ae6d0f7626f74e2c39736494fdf2902a7a81353b4b59",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/foundations-serifheading--on-dark-mobile-win32.png": {
+      "sha256": "7e5dbbda230650484fff0a5906ed8dacc652f1c54815e7b83b1c76ebc31dda27",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/foundations-serifheading--on-dark-tablet-win32.png": {
+      "sha256": "eb9ef5e2d7e1abec57ee822d8534f9d0cae7d3972d0c19c05217e6684e7f61c3",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/foundations-sheet--deep-desktop-win32.png": {
+      "sha256": "22882c05d883d35c1e7ee0858eee1044b28318662d620015a20183d82db68794",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/foundations-sheet--deep-mobile-win32.png": {
+      "sha256": "9212afa50236026263a1b7a822b8fb15a558c7198cc9a211ebcd73d1980b65b5",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/foundations-sheet--deep-tablet-win32.png": {
+      "sha256": "8e43829ed1ffade973baa43ccd8cc46f00b475b81bb7c9a5fd81870edfbdb3d4",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/foundations-sheet--night-desktop-win32.png": {
+      "sha256": "a0b52397a7d894832e863a9eafeae4a85b2df6f163c889b220808e8c3b6f154f",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/foundations-sheet--night-mobile-win32.png": {
+      "sha256": "c2aa377267966376661fc0103d5c1e5cbc10eb22430595529484407222fc3e6d",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/foundations-sheet--night-tablet-win32.png": {
+      "sha256": "33963a41dd99b5e9bdb3c8a9aaa02cbef468798a60e723561144d668d85ff210",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/foundations-sheet--overlap-desktop-win32.png": {
+      "sha256": "990c159f5af5fb9fade0fa4429a8cbe8fc54fad31a5e96ec59bc818934b717ea",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/foundations-sheet--overlap-mobile-win32.png": {
+      "sha256": "c28ca87bbe91771f525c835d086e6e29ea903f7521def244e2644f0d568b7b18",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/foundations-sheet--overlap-tablet-win32.png": {
+      "sha256": "822ba54f090ebefb6b64786fc45da57a9e559e538c4b371b9b42c49843a43438",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/foundations-sheet--paper-desktop-win32.png": {
+      "sha256": "60e670d4c7f06a18b6e69df74abc279943ec73b496e4047c0231820efebfe764",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/foundations-sheet--paper-mobile-win32.png": {
+      "sha256": "caada3c9831968aacd00065446b2040c0fb1782cf0c444d15b6b2813c5ddee82",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/foundations-sheet--paper-tablet-win32.png": {
+      "sha256": "5ee2eb69a7c4cbe2065caf063e43f5db92e30de26b6ab59d4d8f54c92a224856",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/foundations-sheet--raised-desktop-win32.png": {
+      "sha256": "ecb62d4b136d270875232f917fc83da8a901a99e563f8d5a1ff239cfe264db8d",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/foundations-sheet--raised-mobile-win32.png": {
+      "sha256": "eb959d5cefcf01d60c77c107f8b0117fe71370e51115adb992c855208c51f25c",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/foundations-sheet--raised-tablet-win32.png": {
+      "sha256": "c70469d045ad7ce672c9320f26ba94a0307c112d3c44dedac4e8e1bdac7fa51b",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/foundations-sheet--stacked-desktop-win32.png": {
+      "sha256": "5fd71e766f63ddd1a8baa55380486773b1e5e9706442d26ea8d6d398a0f43026",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/foundations-sheet--stacked-mobile-win32.png": {
+      "sha256": "4cfccf143a57b4e4c99f5592582f7c36df5078b19a10d054bab2f77c5e132f3b",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/foundations-sheet--stacked-tablet-win32.png": {
+      "sha256": "154c41d507bf2049f9f2fdffca1d480023fa9dcc9541c70c35f24c0f20b0f92b",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/layout-announcementbar--linked-desktop-win32.png": {
+      "sha256": "c306a55c1e0cdeec74ee4095c2c40d1698dfdbedd6a9a2bfd87e3fd5c593577b",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/layout-announcementbar--linked-mobile-win32.png": {
+      "sha256": "240057775eb532fd4e0db17aaa0cdf8c868b6e4e80ff326fbc0ef962b32548c4",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/layout-announcementbar--linked-tablet-win32.png": {
+      "sha256": "19f29ec6a222197c6a0cead6ed34de218235336f10911b2af1cecf32a16cd392",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/layout-announcementbar--text-only-desktop-win32.png": {
+      "sha256": "98c3483aed70abdf0b6b857394960f2f794d96979d59e7c132158b9ffa833420",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/layout-announcementbar--text-only-mobile-win32.png": {
+      "sha256": "c3f1ef78a39cfd458ba86f4adc14962f1aac622b89ee01f1b76de5a488750375",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/layout-announcementbar--text-only-tablet-win32.png": {
+      "sha256": "f9195cc0e23f0d75edfec17fe988b228284bceb3626e99a35c3e9592bb4d39b3",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/layout-creditsband--open-models-desktop-win32.png": {
+      "sha256": "d2495a5c70b8ba1e9cd45351fddec74736d995831412176d9a51e31b70d99ebd",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/layout-creditsband--open-models-mobile-win32.png": {
+      "sha256": "b370d1510e7e946c372a6180d6cb14643bf6e2b62d6943b4d7e0adef4a167b43",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/layout-creditsband--open-models-tablet-win32.png": {
+      "sha256": "8124c4e7ce3b3f117b488493418fc216ec596aebed74632bb2510e7a158266fb",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/layout-footer--project-and-creator-desktop-win32.png": {
+      "sha256": "45f5f8f382960a46a35f29ba3cde5e4e5440b984fce913c0118532dda26afb9f",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/layout-footer--project-and-creator-mobile-win32.png": {
+      "sha256": "57bebef21f8269ebffa01d2aae1a2d4af0376f3f26a062e4ed81044d6c59b1a8",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/layout-footer--project-and-creator-tablet-win32.png": {
+      "sha256": "526d0934d26921199794b058f9cf13063ff3a77c30630e453e8b7c226a8f382a",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/navigation-navpill--default-desktop-win32.png": {
+      "sha256": "f3b5bc0d97b4a8f878d74256c9f26cb7a33bc1d61689e366fb6a9ede347efa69",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/navigation-navpill--default-mobile-win32.png": {
+      "sha256": "94432f3d18fc6eaae49178fb0eee6546d7f8528a31da68421b8620a35f786af0",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/navigation-navpill--default-tablet-win32.png": {
+      "sha256": "4aa246129142aaae9e4296d1bf0d8f590aff109cfed6cac12f64c79a1c3568f6",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/navigation-navpill--mobile-menu-open-desktop-win32.png": {
+      "sha256": "f3b5bc0d97b4a8f878d74256c9f26cb7a33bc1d61689e366fb6a9ede347efa69",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/navigation-navpill--mobile-menu-open-mobile-win32.png": {
+      "sha256": "7ecaee6438ef678dc6b30b6a40a2722c224e1afbf523224ab290ef5a1357016c",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/navigation-navpill--mobile-menu-open-tablet-win32.png": {
+      "sha256": "26f8f042fe054217f48d21c55095fdb2766951e126053a475aad1499e5e35ef9",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-bardemo--cleaning-desktop-win32.png": {
+      "sha256": "91593051e7fb3f96288995f920a1e83b0ecf49ad002b11c63e63708db4caf7fa",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-bardemo--cleaning-mobile-win32.png": {
+      "sha256": "1415113b01001c72f71eee94a49ae62f94334e5608fb58d4e3607488cfa76369",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-bardemo--cleaning-tablet-win32.png": {
+      "sha256": "5bcd8969a0da841194d33a226a12c5918a044c5bd96e1f1a789f639b6af73556",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-bardemo--idle-desktop-win32.png": {
+      "sha256": "cc2618a19c11b3ace3d9ef04067c5f6d0301e2a606bd8437de94ea11fd7fbb66",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-bardemo--idle-mobile-win32.png": {
+      "sha256": "e2c104977b735683457014321e8946fa4615e6f8a67bf6a0c25e9f7a4984bd2e",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-bardemo--idle-tablet-win32.png": {
+      "sha256": "2d909d613b0bd30f57a495ccc15cc6b83d449d1459ba48020d67961a4c3c3ff2",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-bardemo--inserted-desktop-win32.png": {
+      "sha256": "8a095e3927e06c7bbb723e322963f60abb0f5c929f55054a6b06cba62fd0fe4b",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-bardemo--inserted-mobile-win32.png": {
+      "sha256": "f81f645a19c4f937036afb29dbfc54ad3389b4efcc7d3fe2c6492a56bf158764",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-bardemo--inserted-tablet-win32.png": {
+      "sha256": "c821239e2af8670abce197c41345d2cf3ccd35c642298f13876d73dcaca27ec6",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-bardemo--listening-desktop-win32.png": {
+      "sha256": "99c5dddc112b7e660279474c2a6a20b2bcfe83229eaa1cb2c7a0c35546aaaddb",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-bardemo--listening-mobile-win32.png": {
+      "sha256": "1415113b01001c72f71eee94a49ae62f94334e5608fb58d4e3607488cfa76369",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-bardemo--listening-tablet-win32.png": {
+      "sha256": "975184494207490eb30ab0138a09a4043faf8b18be10936b173e919a3455f7a2",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-bardemo--reduced-motion-desktop-win32.png": {
+      "sha256": "99c5dddc112b7e660279474c2a6a20b2bcfe83229eaa1cb2c7a0c35546aaaddb",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-bardemo--reduced-motion-mobile-win32.png": {
+      "sha256": "1415113b01001c72f71eee94a49ae62f94334e5608fb58d4e3607488cfa76369",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-bardemo--reduced-motion-tablet-win32.png": {
+      "sha256": "975184494207490eb30ab0138a09a4043faf8b18be10936b173e919a3455f7a2",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-beforeaftercard--backtrack-desktop-win32.png": {
+      "sha256": "a8eb9e3fea9ceedbc16fab35ba76a75161e054fa699b35c475dc18f15d974256",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-beforeaftercard--backtrack-mobile-win32.png": {
+      "sha256": "e1340cd3a769c71b7391d90d35bcc6f4be73527ed67a857aa62769bbe69b996a",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-beforeaftercard--backtrack-tablet-win32.png": {
+      "sha256": "114ff44bf4ca0af194a7922182f9e9eef147fa8bb2fd5decf2be1e7b084d5cb9",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-beforeaftercard--fillers-desktop-win32.png": {
+      "sha256": "5293afa57c2ef96551955992265d97cd553fe5df180fc95d72ae9ab33e8caeb4",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-beforeaftercard--fillers-mobile-win32.png": {
+      "sha256": "f73bd1e3b745859f6a88c878e8ee3e9462b185e01dc52cbd25d69c9554542011",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-beforeaftercard--fillers-tablet-win32.png": {
+      "sha256": "513a6e022039189f5ab1d64c9327c15921f960d3997dea2acc018ecd649987fd",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-beforeaftercard--lists-desktop-win32.png": {
+      "sha256": "a0c9ba99468c4388236228f3c5220a7c4266c29a85b944e328d3d5de46286087",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-beforeaftercard--lists-mobile-win32.png": {
+      "sha256": "d0df2bd9a6098118a7410dcaca2c0e1c59d77f92739167cbd2e4068f10fd41df",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-beforeaftercard--lists-tablet-win32.png": {
+      "sha256": "1e633f86b46ade2c1f048233c2018ca0c488b635da5bc295ff25089848210099",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-beforeaftercard--multilingual-desktop-win32.png": {
+      "sha256": "07e0ce3fb336717c8bc98a701ba8a25c8153bea3aaa4c50a30d0273c710d8286",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-beforeaftercard--multilingual-mobile-win32.png": {
+      "sha256": "c7f571fcce80b66a829e055e0e9cc9878f9757162d3040ef77b57caf07b7063f",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-beforeaftercard--multilingual-tablet-win32.png": {
+      "sha256": "8bbd4930b78cf7fe814b759712962a872fc34f07b709aa6ab7e01055ef01dc14",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-comparetable--dated-sources-desktop-win32.png": {
+      "sha256": "a0022cdd6bca710bb3e09e37fd76385f768ed380bcaa89976f5b0dbca8f7095a",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-comparetable--dated-sources-mobile-win32.png": {
+      "sha256": "6fa21b8ecec63a0dcdca4266371eb02aae756a38523fd2f95b3ed81e74d83f48",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-comparetable--dated-sources-tablet-win32.png": {
+      "sha256": "388cc38bca95a09b2c8a87c51054695852efff4a858d310f1c983e57cb5cb3b6",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-comparetable--on-dark-desktop-win32.png": {
+      "sha256": "e152cb6cd9f131d154d0c89d340d178c4b1110f09d2d1cc793fecb92532e4311",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-comparetable--on-dark-mobile-win32.png": {
+      "sha256": "214c7ac813e9de65c9a610b13ca59e9c4ed3ffc13ae16d2c1a6edde01202931e",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-comparetable--on-dark-tablet-win32.png": {
+      "sha256": "94a128dad9dc37ec297cb6fca01491b3c41923abab6af47b72e21c1002c114ea",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-downloadcard--development-desktop-win32.png": {
+      "sha256": "cfd27572f212edf2f62ac11e048f9c4b779468e1f568ebe1bec039dba715d7d2",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-downloadcard--development-mobile-win32.png": {
+      "sha256": "5df07a5ceef0aa057fe308427633d5f00119a13750b73aae68b9832c708d7704",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-downloadcard--development-tablet-win32.png": {
+      "sha256": "5e3723fe4a47aef568322678a22838526167b8c91d6dfe97ab7ab2b97ad25e6c",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-downloadcard--future-release-fixture-desktop-win32.png": {
+      "sha256": "85688636d83ca260de126cd8b3e955f296dfe5a826555e757dbca203c7c16a17",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-downloadcard--future-release-fixture-mobile-win32.png": {
+      "sha256": "214ad57144b3b155caa38291785630d46e6e03d159625c93a7bbb281c7bdce07",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-downloadcard--future-release-fixture-tablet-win32.png": {
+      "sha256": "bee410a71f12424465bc5cfc77e521dcfae7bf9ab3ba99b4024923b87626a0ff",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-downloadcard--on-dark-desktop-win32.png": {
+      "sha256": "99059471acd3074e2e8d604afd3d4d52d0208041850f2966b65f1841836ab3a7",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-downloadcard--on-dark-mobile-win32.png": {
+      "sha256": "4ec3bc54b92bc2d5d9c648e28da968c5c6d94142eb7535e03bb0842bceb81865",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-downloadcard--on-dark-tablet-win32.png": {
+      "sha256": "95d9848a99d920c8912627efdb5f9b4033388952832019ea0f9dd23ad4d6ac02",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-downloadcard--without-package-manager-desktop-win32.png": {
+      "sha256": "616e4f44f3cd29710cfc81dbd409ab835aa955e929297f96e0bf8fc78f133cef",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-downloadcard--without-package-manager-mobile-win32.png": {
+      "sha256": "4323babbb97bcf4ed0f2fbc23c030aa3aabff90005ec55d7283fee0744058d5d",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-downloadcard--without-package-manager-tablet-win32.png": {
+      "sha256": "0133afcba201bb2ced95ce8311aded1dd2f1d085b27de9d202234a15e3c281c0",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-editchip--backtrack-desktop-win32.png": {
+      "sha256": "89b5dbe1708d41d4c5a511b77eb844bc982a874c13c1c88bb13b23e15eb80ef5",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-editchip--backtrack-mobile-win32.png": {
+      "sha256": "136e83359952791dc13fafaad5d570a661444d7a1e9f287e8a0c56549af62140",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-editchip--backtrack-tablet-win32.png": {
+      "sha256": "6123a6059d4ea4cdcdc39d204126b907a1277208a2e390c2c17e7ef7e5354fc7",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-editchip--filler-desktop-win32.png": {
+      "sha256": "bc959b8a2ffa9551db86bf878cfa26df265cc11cf2df05e144e8fbdaf28bf3a6",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-editchip--filler-mobile-win32.png": {
+      "sha256": "97a78f87fb7f84d42b17f07623c7851b15de7ae7d3c59643faa093866b343201",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-editchip--filler-tablet-win32.png": {
+      "sha256": "9b074cfaf7166d1bb701f5ac72d438d2a63cc3d92b9ed12e75f68aefbaf9ac57",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-editchip--on-dark-desktop-win32.png": {
+      "sha256": "ab2c083223ef43c70150436b3265029fd2b30b20ec100d93118c92cb40fd1e88",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-editchip--on-dark-mobile-win32.png": {
+      "sha256": "9803572db87337a8a88461296b5be90bb7481057c543849eab8793e316bdf528",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-editchip--on-dark-tablet-win32.png": {
+      "sha256": "5b03b28486e6f03a051e70a805b595398503c82a4e57eacd78a2f898fa1eb3a3",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-featurerow--highlighted-desktop-win32.png": {
+      "sha256": "a2a83329c667df7ef921f4ec554d3df8c28fe4eb2e8f59a23ef91527fa1ac597",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-featurerow--highlighted-mobile-win32.png": {
+      "sha256": "f32f3510ee2b1b96458e67f8da28e2bfe5c24642c7f9fcdd2b23eff0cb4475e4",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-featurerow--highlighted-tablet-win32.png": {
+      "sha256": "67a9f28b0012d9a15dce45a06d7abf6efaf29678b93460d51e8ebf3cb2077f85",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-featurerow--reduced-motion-desktop-win32.png": {
+      "sha256": "4070dae37eb00229166eca2e4a5fd7cfa08a7ec6f9910b6f0621efaf76f7b7ea",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-featurerow--reduced-motion-mobile-win32.png": {
+      "sha256": "00ce0015c8930edb55b683e942a43d6e0f227cc2d537bfd7de3d4903b0cab1dc",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-featurerow--reduced-motion-tablet-win32.png": {
+      "sha256": "3cf56695fcc295e43053d400ff89bfab4098daf3aa09d9b25fc3ee4d01e47ce3",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-featurerow--visual-left-desktop-win32.png": {
+      "sha256": "4070dae37eb00229166eca2e4a5fd7cfa08a7ec6f9910b6f0621efaf76f7b7ea",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-featurerow--visual-left-mobile-win32.png": {
+      "sha256": "00ce0015c8930edb55b683e942a43d6e0f227cc2d537bfd7de3d4903b0cab1dc",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-featurerow--visual-left-tablet-win32.png": {
+      "sha256": "3cf56695fcc295e43053d400ff89bfab4098daf3aa09d9b25fc3ee4d01e47ce3",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-featurerow--visual-right-desktop-win32.png": {
+      "sha256": "07683c32886f598262a8aca4c61ed339a22047545b546c66ed0e1278e0d3dacd",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-featurerow--visual-right-mobile-win32.png": {
+      "sha256": "00ce0015c8930edb55b683e942a43d6e0f227cc2d537bfd7de3d4903b0cab1dc",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-featurerow--visual-right-tablet-win32.png": {
+      "sha256": "24cf13a3f5ebc780a1f7edcb76fa63aa3bc15b781ef49dcc1a76d2b1a5d595d1",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-privacyfacts--on-dark-desktop-win32.png": {
+      "sha256": "d13d72870109ce9f4130ba686bd92ec86bb683ebdbf985f450a60a4a51e7a06f",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-privacyfacts--on-dark-mobile-win32.png": {
+      "sha256": "9c5cf82e3f5738bf6c5769cbeba7fe80ae39ef41e445272c4d6258e13bc8b962",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-privacyfacts--on-dark-tablet-win32.png": {
+      "sha256": "f5b55ecb4082ee9513d3c93c4cdb040585448adb4722a7da41c48757c23fb255",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-privacyfacts--paper-desktop-win32.png": {
+      "sha256": "22ffe9e897c82c290c3309a12d9542edd6cede990fe164c302c1c2a815510318",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-privacyfacts--paper-mobile-win32.png": {
+      "sha256": "d39b2aa8ffb7b407484a363eb4fdb1c6d68227ece5dcad1424256af3973b604a",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-privacyfacts--paper-tablet-win32.png": {
+      "sha256": "dc152139d92effac9da32448f4cb449b23710241c324be10b649f08633cc0b13",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-ribbon--animated-desktop-win32.png": {
+      "sha256": "a77abfe2cc23971bcfdb76a73285086f3a82406087e9b1745d3c91ba1a5dc12c",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-ribbon--animated-mobile-win32.png": {
+      "sha256": "720082bec62ca38fa96443e8d078028660bd40c97de5e2411e1184e080884a44",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-ribbon--animated-tablet-win32.png": {
+      "sha256": "bf3b098b73e748ab17dc949e8329c0945eaa74c95c89e9839d0a0aa6613e521b",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-ribbon--on-dark-desktop-win32.png": {
+      "sha256": "6ad29577cf9e47cdbb9576b4005d35bf463912555dfe571fe1bf71a0120fea28",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-ribbon--on-dark-mobile-win32.png": {
+      "sha256": "878aae18eefb5ccac5074c0bf02ae83d4a37d4902e2b90cab5e39ab8d8ab67f3",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-ribbon--on-dark-tablet-win32.png": {
+      "sha256": "ce115b06391c329525e5beb298164f0dfd2c40a268f558230354abbc0a6deb6d",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-ribbon--reduced-motion-desktop-win32.png": {
+      "sha256": "a77abfe2cc23971bcfdb76a73285086f3a82406087e9b1745d3c91ba1a5dc12c",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-ribbon--reduced-motion-mobile-win32.png": {
+      "sha256": "720082bec62ca38fa96443e8d078028660bd40c97de5e2411e1184e080884a44",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-ribbon--reduced-motion-tablet-win32.png": {
+      "sha256": "bf3b098b73e748ab17dc949e8329c0945eaa74c95c89e9839d0a0aa6613e521b",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-ribbon--static-desktop-win32.png": {
+      "sha256": "a77abfe2cc23971bcfdb76a73285086f3a82406087e9b1745d3c91ba1a5dc12c",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-ribbon--static-mobile-win32.png": {
+      "sha256": "720082bec62ca38fa96443e8d078028660bd40c97de5e2411e1184e080884a44",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-ribbon--static-tablet-win32.png": {
+      "sha256": "bf3b098b73e748ab17dc949e8329c0945eaa74c95c89e9839d0a0aa6613e521b",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-statblock--on-dark-desktop-win32.png": {
+      "sha256": "79cde629d5eb3ef8c80f6caf51f582ad1d1ae8f5a04f6a110c8d2f6f220b72c8",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-statblock--on-dark-mobile-win32.png": {
+      "sha256": "ce84720adea24941322ff2805abf61b45c5fff82f3d2bb8553e863d0a6d6c923",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-statblock--on-dark-tablet-win32.png": {
+      "sha256": "2fdab98766ab522de5cbdc6a8b9bf182448aab220cbce59c90584d830e0b21c0",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-statblock--qualitative-desktop-win32.png": {
+      "sha256": "6f8ba9e320ff556e4ecc47b07ea9afabd9a64da5da4769d279f37e8a9809e4ad",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-statblock--qualitative-mobile-win32.png": {
+      "sha256": "cfe7b75b913ca3010917ab646d845d34cb531f28226feed4890827ec9add4c2e",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-statblock--qualitative-tablet-win32.png": {
+      "sha256": "39c8a4303e13b49c557f70442325a8a48ae7519f771e4fdee948e30d826841f0",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-statblock--sourced-desktop-win32.png": {
+      "sha256": "936446047e9521e386cf9d0f5a2c68cad75ebf71193f3df1e5f01927822d2a24",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-statblock--sourced-mobile-win32.png": {
+      "sha256": "166985bdeb759cd4e8c378d3fc8a3ee6777ac75fb8a167a386c4c5d8e36fe69d",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-statblock--sourced-tablet-win32.png": {
+      "sha256": "c6049ebd19fa7ec338d3625a4a3c5e69e138c5579a1e05782fb00df44ecd316b",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-styleswitcher--casual-desktop-win32.png": {
+      "sha256": "e64713156883d02609d7eb5168cdbd53c50a85108de9e8a3340c3f1957c1a4f1",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-styleswitcher--casual-mobile-win32.png": {
+      "sha256": "23bc19e6fab8d2d866b9ab30dc8e3a65601f617f0967685b5269823b8a79e32b",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-styleswitcher--casual-tablet-win32.png": {
+      "sha256": "a5f462c3415c7c71c5bcc2be0db4967c239b5398d607c7f4872b67233578ef83",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-styleswitcher--formal-desktop-win32.png": {
+      "sha256": "5aac6f3595a523c8af67ff5cc127aa5ab1d25f528ab810cfe490a30d33c1ce2f",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-styleswitcher--formal-mobile-win32.png": {
+      "sha256": "769daad88be28bb7c4a7f528fa6ba7e64905040238d82f8399323eb8494a1f0f",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-styleswitcher--formal-tablet-win32.png": {
+      "sha256": "59f85e43de3e5cf43d94de5a768235b7d40700b93a68a40b522fb55125ebf1c6",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-styleswitcher--independent-instances-desktop-win32.png": {
+      "sha256": "53c71250a89d8414f648cb8bdbcc8687a12ef3524ed88dba6fe083a91def7e06",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-styleswitcher--independent-instances-mobile-win32.png": {
+      "sha256": "b32eef5837c400b23d3d92504e9eeccc5a909821cca8f8dacc5582d71e7738ab",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-styleswitcher--independent-instances-tablet-win32.png": {
+      "sha256": "8672561a38bc1d172ec8a03ba1a4227a0755308c7b4d74e4d1eb035b663ca30e",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-styleswitcher--very-casual-desktop-win32.png": {
+      "sha256": "3b6d61387f09c6fd873903a77eddcaba81a068b82e15893f24f88b8518dd218a",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-styleswitcher--very-casual-mobile-win32.png": {
+      "sha256": "3056e813e3151afd70327e17ffd34c40f111292e273669ee3b13d3eed08d0c6b",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/component-tests/library.spec.ts-snapshots/product-styleswitcher--very-casual-tablet-win32.png": {
+      "sha256": "24c6224861175ac4c2b59886925121fb397cad88c178a7cca99f0748616f1701",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/lighthouserc.cjs": {
+      "sha256": "83373808a89e0ed830838cfebea40038b486913458fc26ea2bd5115c19996c98",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": false,
+      "modified_before_component_run": null
+    },
+    "site/package-lock.json": {
+      "sha256": "958f6c76f26453d829269d98e6f912ad74b53f70c3eaf8865ea661e00486f9ff",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/package.json": {
+      "sha256": "4c9268a7ec1185fa7d871b7e14d005ad6675566e597d86583a572098cc3cd045",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/playwright.components.config.ts": {
+      "sha256": "99162b43d206844ef1949662e9659a5c30eeafce2411049bb5cdef811540c624",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/playwright.config.ts": {
+      "sha256": "815797e1b62d17d7633d5d5eb610f8a9dd3dba4ffe404728cd155708d92cfa07",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": false,
+      "modified_before_component_run": null
+    },
+    "site/public/favicon.svg": {
+      "sha256": "29421418e917c3d68163bca96fbf57b6c7cf95659d8a05514e1190418564c71c",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": false,
+      "modified_before_component_run": null
+    },
+    "site/public/licenses/geist-OFL.txt": {
+      "sha256": "71609cbb5c78b5870d712eab73a31d76622635c6ed034ab5cee3b9ecbda8685f",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": false,
+      "modified_before_component_run": null
+    },
+    "site/public/licenses/geist-mono-OFL.txt": {
+      "sha256": "cc815ed4fc045f0e991abb10395b7932bd028c6a067deb13316d6002105074e6",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": false,
+      "modified_before_component_run": null
+    },
+    "site/public/licenses/instrument-serif-OFL.txt": {
+      "sha256": "b6106a757902d2d412e09d94dc4a226fe3da80485208a98003969f1b8b6b1d74",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": false,
+      "modified_before_component_run": null
+    },
+    "site/public/licenses/noto-sans-arabic-OFL.txt": {
+      "sha256": "91053c23e8a0fe5fc9b5fdbe5ff74ceffd66f6f996c123f1a6ca4c23487c1fff",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": false,
+      "modified_before_component_run": null
+    },
+    "site/public/licenses/noto-sans-bengali-OFL.txt": {
+      "sha256": "c0d17a4a6f928d78749dbebfa9d2953b6086c2a1f64cdd1e450cc77fb8199b32",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": false,
+      "modified_before_component_run": null
+    },
+    "site/src/components/AnnouncementBar/AnnouncementBar.module.css": {
+      "sha256": "ffb5e52eacdfb41a9c879ee273f7f5639b8bfa41c98c5b2906d97e6139b22bc7",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/components/AnnouncementBar/AnnouncementBar.stories.tsx": {
+      "sha256": "d746835c2ba12681cf4d623201355b8b6d4cbe4110f85c7c634f3a6aa9d760d7",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/components/AnnouncementBar/AnnouncementBar.tsx": {
+      "sha256": "4a9a9265652a7ef245a1048643ce49fe0f15a41dc6f2c549a37ea159a32de9bb",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/components/BarDemo/BarDemo.module.css": {
+      "sha256": "9bde7afd144b5d97aafc8d059a3649d86326ec83593e4cca349464b6076dd53e",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/components/BarDemo/BarDemo.stories.tsx": {
+      "sha256": "343f6bce4f22496750d5212201ae7cf8c044c2267abf725ba7c8220681d46aa8",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/components/BarDemo/BarDemo.tsx": {
+      "sha256": "be1555a3d564c99f7a68e07dffbda5af13c0f9d2b3a6b222144c82fda127b14f",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/components/BeforeAfterCard/BeforeAfterCard.module.css": {
+      "sha256": "433224c672d81e088d4332ec6002ba09de475b4e7b362e260f5d1c8ef0d6efa4",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/components/BeforeAfterCard/BeforeAfterCard.stories.tsx": {
+      "sha256": "1657ed91fc643f94105c8ccd71eb4c72e4e7b3670bf540a5b3c8b41aa24e0cee",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/components/BeforeAfterCard/BeforeAfterCard.tsx": {
+      "sha256": "530cfc617c8f56a67bc4e91fae6d94c8627c72c315210bb3587cd6f264d10a5a",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/components/Button/Button.module.css": {
+      "sha256": "6289ce8fe6b0285ec43ddee90466135ae4d41ecb0146a8dce959c3d4eee842b9",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/components/Button/Button.stories.tsx": {
+      "sha256": "ac45cc7a0fb0544592515106e15dec258cd58ed3bd0ad6dc94f1d4c6243f97c0",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/components/Button/Button.tsx": {
+      "sha256": "b63a2b4686251a2e6701e74ce25cdc5595e8afa9291bc5148b5731305da9eae0",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/components/CompareTable/CompareTable.module.css": {
+      "sha256": "0a5c188f037f89cd99556bd3be666061c5fb0e87ac90048bc86a186c4b20f8ee",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/components/CompareTable/CompareTable.stories.tsx": {
+      "sha256": "a8c9259b01d0716e81f4043098b208cdbd0838aca550a779060cf35775ec4f97",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/components/CompareTable/CompareTable.tsx": {
+      "sha256": "de0e18ae714c5d620b2ff1ae083edc7ce6a3801357bd909052c9d324e48f2971",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/components/CreditsBand/CreditsBand.module.css": {
+      "sha256": "ae7594d59b5e807c6a2302c97e3e527e75910c53686bf979c0681196c643198f",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/components/CreditsBand/CreditsBand.stories.tsx": {
+      "sha256": "29702856a727f2839b032c2e10e8714a2ce11813ded29edc70a9dbc0a3c9c4ed",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/components/CreditsBand/CreditsBand.tsx": {
+      "sha256": "d4920c3d27b5b76336c8e1492600d9d7338d1fd3dd9d760cfbead6f521ebaa97",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/components/DocLayout/Callout.stories.tsx": {
+      "sha256": "126bc07decf8b67163540aae16c70987cc4177c1556ce35478e5d09d46922023",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/components/DocLayout/Callout.tsx": {
+      "sha256": "f890159d97fc642324ab72e5828e5c4a93c57aaf01dd4fb3635f40b9882aa81e",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/components/DocLayout/CodeBlock.stories.tsx": {
+      "sha256": "79b4924f0c8133ca7a36fa0a29cadcd9fea35db130d54612fc57471af534a20a",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/components/DocLayout/CodeBlock.tsx": {
+      "sha256": "5116382279fa8d1450746ae7deaa078ea76faf42a4062116a11ce24ccecb4ff6",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/components/DocLayout/DocLayout.module.css": {
+      "sha256": "3f799bf09edbf0bd7188022f67e1a13c1d772c0fbd0ae5ca2a7daa7c17210762",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/components/DocLayout/TableOfContents.stories.tsx": {
+      "sha256": "5c6105635a2deda66c8410254ada5b403c334acc2546d846eca76d6697731d16",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/components/DocLayout/TableOfContents.tsx": {
+      "sha256": "90c95954b2f19f24eee0f799c129f0184479d6d3555715e9d9ec05486ceb2ae2",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/components/DownloadCard/DownloadCard.module.css": {
+      "sha256": "804a5ce3cbc9deb9b73218dd2d877c63be584c62d1341dbb6002913f1d8f200a",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/components/DownloadCard/DownloadCard.stories.tsx": {
+      "sha256": "d8ca1418e2f12d164aa08a2bea936e07ec40c76413dc0c301ea1913053feb051",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/components/DownloadCard/DownloadCard.tsx": {
+      "sha256": "4cbf63620abad574a02a31a0077c18d0ea769be0498a150c68cd788728678df3",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/components/EditChip/EditChip.module.css": {
+      "sha256": "040b3c933a30637dc39c537f77d4c4a7cec4cc48c1f6c217dae9a7338b97ce28",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/components/EditChip/EditChip.stories.tsx": {
+      "sha256": "071f03bc520cd4ae0cd87ae7747869fb63b56c5b72385189a251acd7aa64eb17",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/components/EditChip/EditChip.tsx": {
+      "sha256": "cbce49874d4266209f1ab8b47556d6b91d75edfcfcaf6fac2dd33699fe9c4ffb",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/components/Eyebrow/Eyebrow.module.css": {
+      "sha256": "4b07382f6df88041c10199fca7039a02c11e6d134b030d389991051a06ef5bf2",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/components/Eyebrow/Eyebrow.stories.tsx": {
+      "sha256": "31734909441eccf390aba2624e9d0d7c04c34ece3ad06519e77c74c30530cd2d",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/components/Eyebrow/Eyebrow.tsx": {
+      "sha256": "d345b84adfe0ba2aa7e9be60a3ce4f0f9b28b0d4ab4bbc6aa244bc8a10758f06",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/components/FAQ/FAQ.module.css": {
+      "sha256": "eb81fbea8df59aac715616516310427b14ab1ddfbc8189cbcb3adcb7d79eabef",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/components/FAQ/FAQ.stories.tsx": {
+      "sha256": "f57928ef0c9fc374a3a13ebd9e705780ac832a5e4bd231ed4e8eb7d78c374083",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/components/FAQ/FAQ.tsx": {
+      "sha256": "9fdbe43df06d296d8391695ae7604ba21cd867a2bddc7b3a3014dbe259e734fb",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/components/FeatureRow/FeatureRow.module.css": {
+      "sha256": "cfee0514dad118f69105e9dfe374e86559d3b4d070ae8721ec68bbb4366d9f46",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/components/FeatureRow/FeatureRow.stories.tsx": {
+      "sha256": "0dfe9689f3fdc5c8e54a8d636b27d70fad5b86de3d1e3e0c99657f1945b4b743",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/components/FeatureRow/FeatureRow.tsx": {
+      "sha256": "aae412765d07fade2626234e527caea99373f0782c52910206ac26ba545eded8",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/components/Footer/Footer.module.css": {
+      "sha256": "86a930b9b65a3d5544ccdb82a1b53572941805617591bec98ed9fceac326900b",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/components/Footer/Footer.stories.tsx": {
+      "sha256": "76eab2e8ef130536b9d1854e3601245f3a1a926fb0dd9d99f632fc5f4c7e280e",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/components/Footer/Footer.tsx": {
+      "sha256": "fab82d34e61af97e7bb7985c36ad8b1ac46aa78c27147d5ae77a156a2518749e",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/components/KeyCaps/KeyCaps.module.css": {
+      "sha256": "0a18b9987b7486b2b96d7022fb4aaa23f25224cdf17fdb3e97b7dec28242f820",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/components/KeyCaps/KeyCaps.stories.tsx": {
+      "sha256": "34a67693cc56b8a48f57f8b3f0e8e271180299193a2437f60516a72f62018167",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/components/KeyCaps/KeyCaps.tsx": {
+      "sha256": "c3c1931e9285b5b13a13b972525fffb56f8030ec433b7492fff8111124b160dc",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/components/NavPill/NavPill.module.css": {
+      "sha256": "298c95cc5a93bee77cc346f5461e942b8933e34c15e109afc1c8242d80bf933b",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/components/NavPill/NavPill.stories.tsx": {
+      "sha256": "98966f5f98a1abdc6918a02ddff2da19cddbb7ccc2a97eaff95b322bbeb6dd7d",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/components/NavPill/NavPill.tsx": {
+      "sha256": "81962238be3e0c3772ac8675632dac92c406766f210c1f8ac6d883e1eef8dfd3",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/components/PrivacyFacts/PrivacyFacts.module.css": {
+      "sha256": "e26ed4e8def9b5994741cdccfd1ec49a304cce24a04d1b3708bf3617c1d8b9f7",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/components/PrivacyFacts/PrivacyFacts.stories.tsx": {
+      "sha256": "23e30bde7d80e85febca192569d442bbfa0f19117ea78210c657a49b2129e6bb",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/components/PrivacyFacts/PrivacyFacts.tsx": {
+      "sha256": "1c9062ee85ef6dc9f4b2bd355c6c8f2eb7f36e320ec4f03dea457e534319a7cb",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/components/ReleaseList.astro": {
+      "sha256": "4c65f330c6796ae8ce9ee73f17c9ed28371aa2a414711bcde549b0c2ed2fa27c",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/components/Ribbon/Ribbon.module.css": {
+      "sha256": "b32ce46de27fb9ded8ff8a8213db5e0162be43075d63fcef973ef12fe358824f",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/components/Ribbon/Ribbon.stories.tsx": {
+      "sha256": "9f2a47c092c559a8849ecf60d17326a30baae2f67da8395556486e94e6129bd9",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/components/Ribbon/Ribbon.tsx": {
+      "sha256": "6972d12acd1f8aeb4af0574357d826f7b170b3b043f0b01928d078e19f270d28",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/components/SerifHeading/SerifHeading.module.css": {
+      "sha256": "159b4f39a36c238c430cb9c270989fbd06e0a345ccae7f181ab47502d7ccd99b",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/components/SerifHeading/SerifHeading.stories.tsx": {
+      "sha256": "8d2fc241d7d0f39df42a3605cd15949bc36b3e670cee482ac486802113de9131",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/components/SerifHeading/SerifHeading.tsx": {
+      "sha256": "3925d14a04e2dd2df095edfe6c3c280917049d1cc2b26ea27453323d7b1058c1",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/components/Sheet/Sheet.module.css": {
+      "sha256": "50c03f44c47ada92e0fed6ef17e5cb3a06b92b44f6de4341d2abb39cd2a43f85",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/components/Sheet/Sheet.stories.tsx": {
+      "sha256": "c95c9414d763b2493d790183bf0d786c88cdbec099dbb28b5aeab8610eb15b5d",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/components/Sheet/Sheet.tsx": {
+      "sha256": "0ecac195e0be56c7d15fe127005479a25e508fc13bc43f53ee4251d1f86c92ac",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/components/SiteLink.astro": {
+      "sha256": "a8dadcd0b98dc917c61a4cafe2cf44cc9ba7c71e04fa55abd413308e2515379b",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/components/StatBlock/StatBlock.module.css": {
+      "sha256": "45f39d38b4e0390425f6bf497ab182b216796263c9414a18b94ee2b50dd75e4e",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/components/StatBlock/StatBlock.stories.tsx": {
+      "sha256": "e8b58d4ae31df194d787c3063a9664b2ecf2ed84781072f832a70a070e599978",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/components/StatBlock/StatBlock.tsx": {
+      "sha256": "2a190046847c10781f7f551d2109b1834ee69d4d229a1a1b455bc3b1265843f3",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/components/StructuredData.astro": {
+      "sha256": "603d9eed8b43f30af599859d62605f2fcccd9f167bdc776558b2deb096401dc4",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/components/StyleSwitcher/StyleSwitcher.module.css": {
+      "sha256": "2a7ccd82f19b9992b0b314c188ae2ae537572f34da955f6ccf79b683e691c950",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/components/StyleSwitcher/StyleSwitcher.stories.tsx": {
+      "sha256": "9f2fcebf913225e7160c6ec14ca3044cb35f357aefd97f627dc8809c49b931be",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/components/StyleSwitcher/StyleSwitcher.tsx": {
+      "sha256": "5b1d8603c9386e357d05105f35079c737dc73ad5a683881b98d7f1ca32eeb8d1",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/components/storyFixtures.ts": {
+      "sha256": "5eaac8e6e6dc0c7fd90384152fbc1b804843358f5e45649bebde953313f37a4a",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/content.config.ts": {
+      "sha256": "f3b97d8bf2ac6374aaf6aa14667d2057c9b537e19435d1576ae051bd9fb66bc7",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/content/compare/dragon-alternative.mdx": {
+      "sha256": "74b7c74b9fcc21580b640e6253537232c5fdbdfbac610a91736ca01a1ad61985",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/content/compare/superwhisper-alternative-windows.mdx": {
+      "sha256": "742caff9f8b1193ace56d6b0c4d873088f6310bfd57f1ab3421b7ee54d289de6",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/content/compare/typeless-alternative.mdx": {
+      "sha256": "9a90dbb289a2f5f4a841204dfab0fb7508b80b25e2d25926d9cbaaec66fed6ae",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/content/compare/windows-voice-typing-alternative.mdx": {
+      "sha256": "1e16621a9d20d6287360b697aea8c26ee6e23dc1ce9fd819b3f7967bedf11aa7",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/content/compare/wispr-flow-alternative.mdx": {
+      "sha256": "cb96b8dc2777184634979256a3b4e253f14194d30f3e872f16f9b7fa5ec2424f",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/content/guides/changelog.mdx": {
+      "sha256": "6639c2db27111aea9688cdb538b93acf5f1f48b17e46edc737cd09a7593f7b74",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/content/guides/dictation-for-developers.mdx": {
+      "sha256": "e4b97248af252be17e5790de705f4c89b1e0652ea14cc832529ca2ea0e4eabbd",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/content/guides/offline-dictation-windows.mdx": {
+      "sha256": "c8eb32f097fd8beb07109c6f318aaf09f95bafac11ace59266f635af95e96186",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/data/guides.ts": {
+      "sha256": "dbfc63a0074fb22711c5e773025e9bf1d04c5e0ad92b1077df3d35054f663f3d",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/data/languages.ts": {
+      "sha256": "38f9416b8b48ad28d8813125622bd1b967eb4ab6d32be51fc423a98e346bb99d",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/layouts/Base.astro": {
+      "sha256": "8ba60efce3e6c91cd3fabc35eb9e0d989ec5f51bb240fa034eab6c439564246c",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/lib/content-verification.ts": {
+      "sha256": "1da2d54818276f63251166a3c7ab8d436ac997efec44931efdd464c9a54e095a",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/lib/releases.ts": {
+      "sha256": "c9806b4df00f7da161ee7582015e2361000b0840b39956f8ec5cc4d8deae7dfc",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/pages/[guide].astro": {
+      "sha256": "6f59e2d525f6ea973bd5be344f88507a9c03b75539d7eb70e2be4fffca518129",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/pages/credits/index.astro": {
+      "sha256": "bf487960613f3d2220326ad383f883405117e20403afb32ee653ae493e3e8961",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/pages/docs/getting-started/index.astro": {
+      "sha256": "c79868ff86eebc753ad65928dc3a8ab6b0bded7bc406c9bd33031a636fef55b9",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/pages/download/index.astro": {
+      "sha256": "e1de4810f6049f0ad49d27a0a8f2529403f44cb8ed1b9a161cfd23660cc1f56e",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/pages/index.astro": {
+      "sha256": "02edb8c113724aae6ab3d45e72268e495a97cbd0243b575441939ecf58827632",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/pages/languages/[language].astro": {
+      "sha256": "53f5b6b3df096666be312d6c04d4f97d31f275022f82ad9ddde3a84aabd369b2",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/pages/languages/index.astro": {
+      "sha256": "70b2493584f921701a5bb7b20c6375f7abd02f8af4b713dd73ddd8b464f51f7d",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/pages/privacy/index.astro": {
+      "sha256": "5679064bab29c3c66006f89b098cecb810f58cd4fd6e52232fc77d36b6300d41",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/pages/sitemap.xml.ts": {
+      "sha256": "62e33bf16be2f155ce5650da65e8572ae57e8305c9fae991480a1fabf82fd331",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/scripts/copy.ts": {
+      "sha256": "6d5e41dc2fdc09f88bd88aeaa404b0c5e11684b2cab1a2a9e34a24e7cc34a445",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/styles/global.css": {
+      "sha256": "fe1d47c64a3cd65442cfb5148461aa7c548f9ece862dbe1fd82002ef2bac85de",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/styles/guides.css": {
+      "sha256": "126112aebcb652bf740abd2843aff9f3b982631ffcda574cef1a0bb042a7fb2f",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/styles/home.css": {
+      "sha256": "4bd11ea2d2a22810c1679ef665eeb144cbac4092b375c1bfc5c5889e60e633cc",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/styles/languages.css": {
+      "sha256": "ee68bfff8a31a652cb8c15e753dfe0e70c23d77f6161d5faf0af4880b9c2cabf",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/styles/prose.css": {
+      "sha256": "de11b6c83c5bf87f2126a9e74f39f893631fb8e1f27b195059a29338e25d585a",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/src/styles/tokens.css": {
+      "sha256": "352a525908f8d6c7c2b85f6aa0ca55194c41423cad97fbdac6a35958bbdcde27",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/test-ports.ts": {
+      "sha256": "0fa37ad960762b3db453846d4692c0e824664b5a9a04940e3c842108916ab7d8",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/tests/site.spec.ts": {
+      "sha256": "3514f170efb3e296e08a336c855bb14aa83a27dde6b4727c8c24312f80c7a959",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": false,
+      "modified_before_component_run": null
+    },
+    "site/tests/site.spec.ts-snapshots/home-desktop-win32.png": {
+      "sha256": "95179c75c03e4f04348f271ba028491bc95f471084efb630570a8bcb9f810d27",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": false,
+      "modified_before_component_run": null
+    },
+    "site/tests/site.spec.ts-snapshots/home-mobile-win32.png": {
+      "sha256": "b15001d41b86c55eefdf11dd65b6061fe44141588bb4a9465fa085de4aed6df5",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": false,
+      "modified_before_component_run": null
+    },
+    "site/tests/site.spec.ts-snapshots/home-tablet-win32.png": {
+      "sha256": "efa35d7348d4f931a5d8e8793059b953cafd7054629b1d3861fef79b982f1b97",
+      "binary": true,
+      "modified_before_site_run": true,
+      "component_scope": false,
+      "modified_before_component_run": null
+    },
+    "site/tools/check-content-dates.mjs": {
+      "sha256": "92d8575f5b74266569f8dcc4185ee61e0e76d77dad7273578e3c2f7dd5006541",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": false,
+      "modified_before_component_run": null
+    },
+    "site/tools/content-verification.test.mjs": {
+      "sha256": "99aad2f56673fa3779054a9870f9e7572ab9018a46dfc4a87e0d0ebe7b2549b3",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": false,
+      "modified_before_component_run": null
+    },
+    "site/tools/html-validation.test.mjs": {
+      "sha256": "6468b0f6259eb67d39662db0a1cffa8418e8708838b70d8f09a790be2b1656bd",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": false,
+      "modified_before_component_run": null
+    },
+    "site/tools/releases.test.mjs": {
+      "sha256": "0e0ee4ab2c427cf96c95a2046aab77dc9f474effb739bbefc6170dbdc47df213",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": false,
+      "modified_before_component_run": null
+    },
+    "site/tools/serve-storybook.mjs": {
+      "sha256": "232c6483915e8235a1ecaf91939b8d76e945b7fc065058f87e9e43017f032e57",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": true,
+      "modified_before_component_run": true
+    },
+    "site/tsconfig.json": {
+      "sha256": "215179f82b4fbb7a021ace1a46b4a487fc2c40b4ff9b725a8cf305c5c7af53dd",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": false,
+      "modified_before_component_run": null
+    },
+    "tools/generate_tokens.mjs": {
+      "sha256": "73a342903a8322dbc3ca368e054febf2a7062d438718d4db2a9eded5037324bf",
+      "binary": false,
+      "modified_before_site_run": true,
+      "component_scope": false,
+      "modified_before_component_run": null
+    }
+  }
+}

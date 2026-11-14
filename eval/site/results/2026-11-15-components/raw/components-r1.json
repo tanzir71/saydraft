@@ -1,0 +1,196 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "-c",
+      "playwright.components.config.ts",
+      "--update-snapshots",
+      "--reporter=list,json"
+    ],
+    "configFile": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\playwright.components.config.ts",
+    "rootDir": "D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-component-library-20261115/site/component-tests",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {},
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-component-library-20261115/site/component-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {},
+        "id": "mobile",
+        "name": "mobile",
+        "testDir": "D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-component-library-20261115/site/component-tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-component-library-20261115/site/component-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {},
+        "id": "tablet",
+        "name": "tablet",
+        "testDir": "D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-component-library-20261115/site/component-tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-component-library-20261115/site/component-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {},
+        "id": "desktop",
+        "name": "desktop",
+        "testDir": "D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-component-library-20261115/site/component-tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\component-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {},
+        "name": "mobile",
+        "testDir": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\component-tests",
+        "snapshotDir": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\component-tests",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 30000,
+        "use": {
+          "baseURL": "http://127.0.0.1:6006",
+          "browserName": "chromium",
+          "channel": "chromium",
+          "reducedMotion": "reduce",
+          "trace": "retain-on-failure",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          }
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "mobile"
+      },
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\component-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {},
+        "name": "tablet",
+        "testDir": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\component-tests",
+        "snapshotDir": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\component-tests",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 30000,
+        "use": {
+          "baseURL": "http://127.0.0.1:6006",
+          "browserName": "chromium",
+          "channel": "chromium",
+          "reducedMotion": "reduce",
+          "trace": "retain-on-failure",
+          "viewport": {
+            "width": 768,
+            "height": 1024
+          }
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "tablet"
+      },
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\component-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {},
+        "name": "desktop",
+        "testDir": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\component-tests",
+        "snapshotDir": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\component-tests",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 30000,
+        "use": {
+          "baseURL": "http://127.0.0.1:6006",
+          "browserName": "chromium",
+          "channel": "chromium",
+          "reducedMotion": "reduce",
+          "trace": "retain-on-failure",
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          }
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "desktop"
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list"
+      ],
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "changed",
+    "updateSourceMethod": "patch",
+    "version": "1.65.0",
+    "workers": 3,
+    "webServer": {
+      "command": "node tools/serve-storybook.mjs",
+      "url": "http://127.0.0.1:6006/index.json",
+      "reuseExistingServer": false,
+      "timeout": 30000
+    }
+  },
+  "suites": [],
+  "errors": [
+    {
+      "message": "Error: http://127.0.0.1:6006/index.json is already used, make sure that nothing is running on the port/url or set reuseExistingServer:true in config.webServer.",
+      "stack": "Error: http://127.0.0.1:6006/index.json is already used, make sure that nothing is running on the port/url or set reuseExistingServer:true in config.webServer."
+    }
+  ],
+  "stats": {
+    "startTime": "2026-11-14T21:01:58.388Z",
+    "duration": 24.567000000000007,
+    "expected": 0,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

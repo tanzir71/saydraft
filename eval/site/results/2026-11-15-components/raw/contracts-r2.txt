@@ -1,0 +1,19 @@
+
+> saydraft-site@0.1.0 content:test
+> node --test tools/content-verification.test.mjs tools/releases.test.mjs tools/html-validation.test.mjs
+
+✔ quarterly date bounds use UTC calendar dates and reject invalid/future dates (3.2321ms)
+✔ the actual recursive prebuild check rejects stale/missing dates without changing content (21.8241ms)
+✔ HTML5 permits both Astro and React void/boolean serialization (212.6262ms)
+✔ non-void self-closing content remains invalid (17.3844ms)
+✔ ARIA naming misuse and duplicate identifiers remain invalid (44.1165ms)
+✔ build-time release history excludes private drafts and preserves published previews (44.4946ms)
+✔ an unavailable API cannot masquerade as no published releases (2.3863ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 751.3266

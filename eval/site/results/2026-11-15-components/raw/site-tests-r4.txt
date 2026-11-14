@@ -1,0 +1,59 @@
+
+> saydraft-site@0.1.0 test
+> playwright test --reporter=list,json
+
+[WebServer] (node:41788) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 30 tests using 3 workers
+
+(node:11980) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:8048) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:32496) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok  1 [mobile] › tests\site.spec.ts:51:1 › native navigation, questions, and reduced-motion simulation work (3.4s)
+  ok  4 [mobile] › tests\site.spec.ts:85:1 › guide keyboard navigation exposes the skip link and reaches main content (1.9s)
+  ok  3 [mobile] › tests\site.spec.ts:10:1 › home is local, responsive, and light on JavaScript (5.2s)
+  ok  5 [mobile] › tests\site.spec.ts:94:1 › dated guides have visible sources, linked schemas and local-only page loads (7.9s)
+  ok  2 [mobile] › tests\site.spec.ts:66:1 › all public pages have working local links and unique metadata (14.0s)
+  ok  7 [mobile] › tests\site.spec.ts:201:1 › content and native questions work with JavaScript disabled (1.3s)
+  ok  8 [mobile] › tests\site.spec.ts:216:1 › source command copy and guide contents work in the static site (684ms)
+  ok 10 [mobile] › tests\site.spec.ts:252:1 › navigation fits between tablet and desktop widths (947ms)
+  ok  9 [mobile] › tests\site.spec.ts:241:1 › built HTML follows the document contract (1.1s)
+  ok  6 [mobile] › tests\site.spec.ts:139:1 › language guides are linked, indexable and accurately describe shared models (11.4s)
+(node:23564) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:36928) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 11 [tablet] › tests\site.spec.ts:51:1 › native navigation, questions, and reduced-motion simulation work (2.2s)
+  ok 13 [tablet] › tests\site.spec.ts:85:1 › guide keyboard navigation exposes the skip link and reaches main content (1.3s)
+  ok 12 [tablet] › tests\site.spec.ts:10:1 › home is local, responsive, and light on JavaScript (3.6s)
+(node:4064) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 14 [tablet] › tests\site.spec.ts:94:1 › dated guides have visible sources, linked schemas and local-only page loads (9.8s)
+  ok 17 [tablet] › tests\site.spec.ts:201:1 › content and native questions work with JavaScript disabled (1.8s)
+  ok 18 [tablet] › tests\site.spec.ts:216:1 › source command copy and guide contents work in the static site (1.0s)
+  ok 15 [tablet] › tests\site.spec.ts:139:1 › language guides are linked, indexable and accurately describe shared models (12.3s)
+  ok 19 [tablet] › tests\site.spec.ts:241:1 › built HTML follows the document contract (1.1s)
+  ok 20 [tablet] › tests\site.spec.ts:252:1 › navigation fits between tablet and desktop widths (1.4s)
+  ok 16 [tablet] › tests\site.spec.ts:66:1 › all public pages have working local links and unique metadata (14.4s)
+(node:26644) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:27132) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 21 [desktop] › tests\site.spec.ts:51:1 › native navigation, questions, and reduced-motion simulation work (3.1s)
+  ok 23 [desktop] › tests\site.spec.ts:85:1 › guide keyboard navigation exposes the skip link and reaches main content (509ms)
+(node:18264) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 25 [desktop] › tests\site.spec.ts:10:1 › home is local, responsive, and light on JavaScript (6.2s)
+  ok 24 [desktop] › tests\site.spec.ts:94:1 › dated guides have visible sources, linked schemas and local-only page loads (11.3s)
+  ok 22 [desktop] › tests\site.spec.ts:66:1 › all public pages have working local links and unique metadata (15.4s)
+  ok 28 [desktop] › tests\site.spec.ts:216:1 › source command copy and guide contents work in the static site (1.3s)
+  ok 27 [desktop] › tests\site.spec.ts:201:1 › content and native questions work with JavaScript disabled (4.0s)
+  ok 29 [desktop] › tests\site.spec.ts:241:1 › built HTML follows the document contract (1.3s)
+  ok 30 [desktop] › tests\site.spec.ts:252:1 › navigation fits between tablet and desktop widths (1.2s)
+  ok 26 [desktop] › tests\site.spec.ts:139:1 › language guides are linked, indexable and accurately describe shared models (11.4s)
+
+  30 passed (1.3m)

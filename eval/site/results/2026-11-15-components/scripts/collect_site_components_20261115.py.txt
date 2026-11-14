@@ -1,0 +1,134 @@
+"""Retain the completed local component qualification without build/dependency directories."""
+from datetime import datetime
+import hashlib
+import json
+from pathlib import Path
+import shutil
+import subprocess
+
+qa = Path(__file__).resolve().parent
+repo = qa / 'worktrees/site-component-library-20261115'
+site = repo / 'site'
+run = qa / 'site-component-library-20261115-r1'
+target = repo / 'eval/site/results/2026-11-15-components'
+assert not subprocess.check_output(['git', 'status', '--porcelain'], cwd=repo)
+source = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=repo, text=True).strip()
+component = json.loads((run / 'components-r5.json').read_bytes())
+public = json.loads((run / 'site-tests-r8.json').read_bytes())
+for report, count in ((component, 234), (public, 30)):
+    assert report['stats']['expected'] == count
+    assert not any(report['stats'][key] for key in ('unexpected', 'skipped', 'flaky'))
+starts = {name: datetime.fromisoformat(report['stats']['startTime'].replace('Z', '+00:00')).timestamp()
+    for name, report in (('components', component), ('site', public))}
+target.mkdir(parents=True, exist_ok=False)
+for name in ('raw', 'lighthouse', 'scripts'): (target / name).mkdir()
+for path in run.iterdir():
+    if path.is_file() and path.suffix in ('.txt', '.json'):
+        shutil.copyfile(path, target / 'raw' / path.name)
+for path in (site / '.lighthouseci').glob('*.json'):
+    shutil.copyfile(path, target / 'lighthouse' / path.name)
+shutil.copyfile(site / 'storybook-static/index.json', target / 'storybook-index.json')
+paths = subprocess.check_output(['git', 'ls-files', '-z', '--', 'site', 'design/tokens.json', 'tools/generate_tokens.mjs'], cwd=repo).decode().split('\0')
+records = {}
+for name in filter(None, paths):
+    path = repo / name
+    data = path.read_bytes()
+    binary = path.suffix.lower() in ('.png', '.jpg', '.jpeg', '.woff', '.woff2', '.ico', '.gz')
+    component_scope = name.startswith('site/src/') or name.startswith('site/.storybook/') or name.startswith('site/component-tests/') or name in (
+        'site/playwright.components.config.ts', 'site/test-ports.ts', 'site/tools/serve-storybook.mjs', 'site/package.json', 'site/package-lock.json')
+    assert path.stat().st_mtime < starts['site'], name
+    if component_scope: assert path.stat().st_mtime < starts['components'], name
+    records[name] = {'sha256': hashlib.sha256(data if binary else data.replace(b'\r\n', b'\n')).hexdigest(),
+        'binary': binary, 'modified_before_site_run': True, 'component_scope': component_scope,
+        'modified_before_component_run': True if component_scope else None}
+(target / 'source-witness.json').write_text(json.dumps({'source': source, 'test_starts': starts, 'files': records}, indent=2) + '\n')
+outputs = {}
+for label, directory in (('site', site / 'dist'), ('storybook', site / 'storybook-static')):
+    outputs[label] = {p.relative_to(directory).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest()
+        for p in sorted(directory.rglob('*')) if p.is_file()}
+assert outputs['site'] == json.loads((run / 'lighthouse-dist-files.json').read_bytes())
+(target / 'outputs.json').write_text(json.dumps(outputs, indent=2) + '\n')
+snapshots = {name: record['sha256'] for name, record in records.items() if name.startswith('site/component-tests/') and name.endswith('.png')}
+assert len(snapshots) == 213
+receipt = {'source': source, 'base': 'b67bb3c9c966ac3ce50d1cb237a66c8da7652d98', 'components': 23,
+    'stories': 71, 'component_checks': 234, 'site_checks': 30, 'component_snapshots': 213, 'home_snapshots': 3,
+    'node_contracts': 7, 'lighthouse_runs': 15, 'lighthouse_urls': 5, 'pages': 33,
+    'component_exit_observed': 0, 'site_exit_observed': 0, 'lighthouse_exit_observed': 0,
+    'build_exit_observed': 0, 'storybook_exit_observed': 0, 'typecheck_exit_observed': 0,
+    'build_outputs_match_lighthouse': True, 'p9_2_accepted': True, 'full_goal_complete': False,
+    'owner_desktop_audio_input_used': False, 'owner_clipboard_used': False, 'actions_dispatched': False,
+    'pull_request_created': False, 'site_published': False, 'app_runtime_changed': False,
+    'owner_accuracy_accepted': False, 'reserved_bn_ta_te_recordings_uninferred': 60}
+(target / 'receipt.json').write_text(json.dumps(receipt, indent=2) + '\n')
+for name in ('collect_site_components_20261115.py', 'probe_lighthouse_navigation_20261115.mjs'):
+    shutil.copyfile(qa / name, target / 'scripts' / (name + '.txt'))
+shutil.copyfile(qa / 'verify_site_components_20261115.py', target / 'verify.py.txt')
+readme = f'''# Website component library qualification
+
+P9.2 is accepted at source `{source}`: all 23 specified components, including the
+three documentation parts, have 71 built Storybook states. All 213 committed
+component PNGs cover 390/768/1440 widths. Three separate Home baselines are also
+committed in site/tests. The final ordinary component run passes 234 checks;
+the final site run passes 30, including static/no-JavaScript behavior at each
+actual project viewport. There are no skips, retries or flaky results.
+
+The library checks compare every snapshot, refuse page overflow and external
+requests, check flat-surface text contrast, and exercise keyboard tone switching,
+independent groups, memory-only copy success/denial, checksum disclosure,
+keyboard table scrolling, and full/reduced SVG motion. Representative component
+states and all three Home layouts were visually inspected. New Home tone
+controls, shared Footer/credits/keycaps, Download copy/development state and MDX
+contents navigation are connected to actual static pages. Future release and
+package-manager fixtures remain visibly labelled in Storybook and absent from
+the public Download page. No real clipboard API is exercised by these checks.
+
+Astro builds 33 pages with zero errors/warnings/hints; Storybook builds all
+states. Seven Node contracts pass, including negative HTML structure/ARIA/ID
+checks and the existing date/release behavior. Fifteen mobile-simulation
+Lighthouse runs across five pages pass every original budget: minimum
+performance99, accessibility100, SEO100, maximum LCP960ms and zero CLS.
+The final rebuilt site's 57 output files match the Lighthouse-tested bytes
+exactly. Local results do not guarantee every device or connection.
+
+Original failures remain unchanged. Initial browser runs encountered unrelated
+projects on ports4173/6006; those processes were preserved and these checks use
+42731/42732/42733. The first Astro integration passed an Astro JSX object as a
+React visual prop; a named slot corrects that boundary. Early HTML validation
+found the now-fixed KeyCaps ARIA naming plus valid React boolean/void formatting
+that differed from Astro. Two formatting-only rules allow both HTML5 forms;
+negative structure/ARIA/duplicate-ID checks remain enforced. The first new HTML
+fixture used a lowercase doctype; its fixture was corrected. Storybook copy
+tests initially also matched its hidden diagnostic code; scoped locators retain
+the full actual copy/denial assertions. No-JavaScript text helpers omit noscript;
+the final test reads its DOM textContent and independently requires visibility.
+This changed the test locator, not the rendered hint. Initial/new-state snapshot
+captures precede final ordinary comparisons. A final root-directory npm build
+invocation failed before building; the retained site-directory follow-up passes.
+
+The first LHCI run ended at Chrome's error document before a page measurement.
+The explicit server and equivalent owned headless Chrome navigation return200;
+direct Lighthouse scores100/100/100, LCP960ms, CLS0. The readiness pattern now
+matches Astro's actual ready message instead of the hostname echoed by npm.
+The following full15-run LHCI run passes; the earlier failure and diagnostic
+records remain. This evidence does not establish the transient error's cause
+beyond the observed startup/navigation boundary.
+
+Verify source, report, snapshot and metric evidence with the standard library:
+
+```powershell
+python eval/site/results/2026-11-15-components/verify.py.txt --repo .
+```
+
+Add `--site-root` with the explicit D: worktree/site folder to check every actual
+static site and Storybook output file. The verifier does not start a browser,
+server, application or clipboard service. App runtime/package bytes are unchanged
+from the preceding qualified Whisper-mode checkpoint. Owner accuracy and the
+60 reserved BN/TA/TE recordings remain untouched. P9.1/P9.3–P9.7 and the full
+original implementation goal remain open. All workflows remain manual-only;
+this checkpoint creates no PR, Actions run or hosting deployment.
+'''
+(target / 'README.md').write_text(readme, encoding='utf-8')
+manifest = {p.relative_to(target).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest()
+    for p in sorted(target.rglob('*')) if p.is_file()}
+(target / 'files.json').write_text(json.dumps(manifest, indent=2) + '\n')
+print(json.dumps({'source': source, 'records': len(manifest), 'source_files': len(records), 'snapshots': len(snapshots)}))

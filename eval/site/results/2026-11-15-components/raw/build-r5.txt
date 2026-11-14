@@ -1,0 +1,8 @@
+npm error code ENOENT
+npm error syscall open
+npm error path D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\package.json
+npm error errno -4058
+npm error enoent Could not read package.json: Error: ENOENT: no such file or directory, open 'D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-component-library-20261115\package.json'
+npm error enoent This is related to npm not being able to find a file.
+npm error enoent
+npm error A complete log of this run can be found in: C:\Users\tanzir\AppData\Local\npm-cache\_logs\2026-11-14T21_28_12_219Z-debug-0.log

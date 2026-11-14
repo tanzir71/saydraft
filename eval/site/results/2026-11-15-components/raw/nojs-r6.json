@@ -1,0 +1,398 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "--grep",
+      "content and native questions",
+      "--reporter=list,json"
+    ],
+    "configFile": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\playwright.config.ts",
+    "rootDir": "D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-component-library-20261115/site/tests",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 3
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-component-library-20261115/site/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 3
+        },
+        "id": "mobile",
+        "name": "mobile",
+        "testDir": "D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-component-library-20261115/site/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-component-library-20261115/site/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 3
+        },
+        "id": "tablet",
+        "name": "tablet",
+        "testDir": "D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-component-library-20261115/site/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-component-library-20261115/site/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 3
+        },
+        "id": "desktop",
+        "name": "desktop",
+        "testDir": "D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-component-library-20261115/site/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 3
+        },
+        "name": "mobile",
+        "testDir": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\tests",
+        "snapshotDir": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\tests",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 30000,
+        "use": {
+          "baseURL": "http://127.0.0.1:42731/saydraft/",
+          "browserName": "chromium",
+          "channel": "chromium",
+          "reducedMotion": "reduce",
+          "trace": "retain-on-failure",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          }
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "mobile"
+      },
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 3
+        },
+        "name": "tablet",
+        "testDir": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\tests",
+        "snapshotDir": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\tests",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 30000,
+        "use": {
+          "baseURL": "http://127.0.0.1:42731/saydraft/",
+          "browserName": "chromium",
+          "channel": "chromium",
+          "reducedMotion": "reduce",
+          "trace": "retain-on-failure",
+          "viewport": {
+            "width": 768,
+            "height": 1024
+          }
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "tablet"
+      },
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 3
+        },
+        "name": "desktop",
+        "testDir": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\tests",
+        "snapshotDir": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\tests",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 30000,
+        "use": {
+          "baseURL": "http://127.0.0.1:42731/saydraft/",
+          "browserName": "chromium",
+          "channel": "chromium",
+          "reducedMotion": "reduce",
+          "trace": "retain-on-failure",
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          }
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "desktop"
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list"
+      ],
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.65.0",
+    "workers": 3,
+    "webServer": {
+      "command": "npm run preview -- --port 42731",
+      "url": "http://127.0.0.1:42731/saydraft/",
+      "reuseExistingServer": false,
+      "timeout": 30000
+    }
+  },
+  "suites": [
+    {
+      "title": "site.spec.ts",
+      "file": "site.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "content and native questions work with JavaScript disabled",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile",
+              "projectName": "mobile",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 6923,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('figure noscript')\nExpected: \u001b[32m\"Select the command text to copy it.\"\u001b[39m\nReceived: \u001b[31m\"\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveText\" locator('figure noscript') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('figure noscript')\u001b[22m\n\u001b[2m    14 × locator resolved to <noscript>Select the command text to copy it.</noscript>\u001b[22m\n\u001b[2m       - unexpected value \"\"\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('figure noscript')\nExpected: \u001b[32m\"Select the command text to copy it.\"\u001b[39m\nReceived: \u001b[31m\"\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveText\" locator('figure noscript') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('figure noscript')\u001b[22m\n\u001b[2m    14 × locator resolved to <noscript>Select the command text to copy it.</noscript>\u001b[22m\n\u001b[2m       - unexpected value \"\"\u001b[22m\n\n    at D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\tests\\site.spec.ts:216:28",
+                    "location": {
+                      "file": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\tests\\site.spec.ts",
+                      "column": 28,
+                      "line": 216
+                    },
+                    "snippet": " \u001b[90m 214 |\u001b[39m   \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'pre code'\u001b[39m))\u001b[33m.\u001b[39mtoContainText(\u001b[32m'python -m saydraft'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 215 |\u001b[39m   \u001b[36mconst\u001b[39m manualCopy \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m'figure noscript'\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 216 |\u001b[39m   \u001b[36mawait\u001b[39m expect(manualCopy)\u001b[33m.\u001b[39mtoHaveText(\u001b[32m'Select the command text to copy it.'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                            \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 217 |\u001b[39m   \u001b[36mawait\u001b[39m expect(manualCopy)\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m 218 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m`${siteOrigin}/saydraft/offline-dictation-windows/`\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 219 |\u001b[39m   \u001b[36mconst\u001b[39m contents \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'navigation'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[32m'On this page'\u001b[39m })\u001b[33m;\u001b[39m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\tests\\site.spec.ts",
+                        "column": 28,
+                        "line": 216
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('figure noscript')\nExpected: \u001b[32m\"Select the command text to copy it.\"\u001b[39m\nReceived: \u001b[31m\"\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveText\" locator('figure noscript') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('figure noscript')\u001b[22m\n\u001b[2m    14 × locator resolved to <noscript>Select the command text to copy it.</noscript>\u001b[22m\n\u001b[2m       - unexpected value \"\"\u001b[22m\n\n\n  214 |   await expect(page.locator('pre code')).toContainText('python -m saydraft');\n  215 |   const manualCopy = page.locator('figure noscript');\n> 216 |   await expect(manualCopy).toHaveText('Select the command text to copy it.');\n      |                            ^\n  217 |   await expect(manualCopy).toBeVisible();\n  218 |   await page.goto(`${siteOrigin}/saydraft/offline-dictation-windows/`);\n  219 |   const contents = page.getByRole('navigation', { name: 'On this page' });\n    at D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\tests\\site.spec.ts:216:28"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-14T21:34:46.676Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\test-results\\site-content-and-native-qu-f12d5-rk-with-JavaScript-disabled-mobile\\error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\test-results\\site-content-and-native-qu-f12d5-rk-with-JavaScript-disabled-mobile\\trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\tests\\site.spec.ts",
+                    "column": 28,
+                    "line": 216
+                  }
+                }
+              ],
+              "status": "unexpected"
+            },
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "tablet",
+              "projectName": "tablet",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "failed",
+                  "duration": 7128,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('figure noscript')\nExpected: \u001b[32m\"Select the command text to copy it.\"\u001b[39m\nReceived: \u001b[31m\"\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveText\" locator('figure noscript') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('figure noscript')\u001b[22m\n\u001b[2m    14 × locator resolved to <noscript>Select the command text to copy it.</noscript>\u001b[22m\n\u001b[2m       - unexpected value \"\"\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('figure noscript')\nExpected: \u001b[32m\"Select the command text to copy it.\"\u001b[39m\nReceived: \u001b[31m\"\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveText\" locator('figure noscript') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('figure noscript')\u001b[22m\n\u001b[2m    14 × locator resolved to <noscript>Select the command text to copy it.</noscript>\u001b[22m\n\u001b[2m       - unexpected value \"\"\u001b[22m\n\n    at D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\tests\\site.spec.ts:216:28",
+                    "location": {
+                      "file": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\tests\\site.spec.ts",
+                      "column": 28,
+                      "line": 216
+                    },
+                    "snippet": " \u001b[90m 214 |\u001b[39m   \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'pre code'\u001b[39m))\u001b[33m.\u001b[39mtoContainText(\u001b[32m'python -m saydraft'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 215 |\u001b[39m   \u001b[36mconst\u001b[39m manualCopy \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m'figure noscript'\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 216 |\u001b[39m   \u001b[36mawait\u001b[39m expect(manualCopy)\u001b[33m.\u001b[39mtoHaveText(\u001b[32m'Select the command text to copy it.'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                            \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 217 |\u001b[39m   \u001b[36mawait\u001b[39m expect(manualCopy)\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m 218 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m`${siteOrigin}/saydraft/offline-dictation-windows/`\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 219 |\u001b[39m   \u001b[36mconst\u001b[39m contents \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'navigation'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[32m'On this page'\u001b[39m })\u001b[33m;\u001b[39m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\tests\\site.spec.ts",
+                        "column": 28,
+                        "line": 216
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('figure noscript')\nExpected: \u001b[32m\"Select the command text to copy it.\"\u001b[39m\nReceived: \u001b[31m\"\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveText\" locator('figure noscript') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('figure noscript')\u001b[22m\n\u001b[2m    14 × locator resolved to <noscript>Select the command text to copy it.</noscript>\u001b[22m\n\u001b[2m       - unexpected value \"\"\u001b[22m\n\n\n  214 |   await expect(page.locator('pre code')).toContainText('python -m saydraft');\n  215 |   const manualCopy = page.locator('figure noscript');\n> 216 |   await expect(manualCopy).toHaveText('Select the command text to copy it.');\n      |                            ^\n  217 |   await expect(manualCopy).toBeVisible();\n  218 |   await page.goto(`${siteOrigin}/saydraft/offline-dictation-windows/`);\n  219 |   const contents = page.getByRole('navigation', { name: 'On this page' });\n    at D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\tests\\site.spec.ts:216:28"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-14T21:34:46.689Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\test-results\\site-content-and-native-qu-f12d5-rk-with-JavaScript-disabled-tablet\\error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\test-results\\site-content-and-native-qu-f12d5-rk-with-JavaScript-disabled-tablet\\trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\tests\\site.spec.ts",
+                    "column": 28,
+                    "line": 216
+                  }
+                }
+              ],
+              "status": "unexpected"
+            },
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "failed",
+                  "duration": 8514,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('figure noscript')\nExpected: \u001b[32m\"Select the command text to copy it.\"\u001b[39m\nReceived: \u001b[31m\"\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveText\" locator('figure noscript') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('figure noscript')\u001b[22m\n\u001b[2m    14 × locator resolved to <noscript>Select the command text to copy it.</noscript>\u001b[22m\n\u001b[2m       - unexpected value \"\"\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('figure noscript')\nExpected: \u001b[32m\"Select the command text to copy it.\"\u001b[39m\nReceived: \u001b[31m\"\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveText\" locator('figure noscript') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('figure noscript')\u001b[22m\n\u001b[2m    14 × locator resolved to <noscript>Select the command text to copy it.</noscript>\u001b[22m\n\u001b[2m       - unexpected value \"\"\u001b[22m\n\n    at D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\tests\\site.spec.ts:216:28",
+                    "location": {
+                      "file": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\tests\\site.spec.ts",
+                      "column": 28,
+                      "line": 216
+                    },
+                    "snippet": " \u001b[90m 214 |\u001b[39m   \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'pre code'\u001b[39m))\u001b[33m.\u001b[39mtoContainText(\u001b[32m'python -m saydraft'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 215 |\u001b[39m   \u001b[36mconst\u001b[39m manualCopy \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m'figure noscript'\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 216 |\u001b[39m   \u001b[36mawait\u001b[39m expect(manualCopy)\u001b[33m.\u001b[39mtoHaveText(\u001b[32m'Select the command text to copy it.'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                            \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 217 |\u001b[39m   \u001b[36mawait\u001b[39m expect(manualCopy)\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m 218 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m`${siteOrigin}/saydraft/offline-dictation-windows/`\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 219 |\u001b[39m   \u001b[36mconst\u001b[39m contents \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'navigation'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[32m'On this page'\u001b[39m })\u001b[33m;\u001b[39m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\tests\\site.spec.ts",
+                        "column": 28,
+                        "line": 216
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('figure noscript')\nExpected: \u001b[32m\"Select the command text to copy it.\"\u001b[39m\nReceived: \u001b[31m\"\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveText\" locator('figure noscript') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('figure noscript')\u001b[22m\n\u001b[2m    14 × locator resolved to <noscript>Select the command text to copy it.</noscript>\u001b[22m\n\u001b[2m       - unexpected value \"\"\u001b[22m\n\n\n  214 |   await expect(page.locator('pre code')).toContainText('python -m saydraft');\n  215 |   const manualCopy = page.locator('figure noscript');\n> 216 |   await expect(manualCopy).toHaveText('Select the command text to copy it.');\n      |                            ^\n  217 |   await expect(manualCopy).toBeVisible();\n  218 |   await page.goto(`${siteOrigin}/saydraft/offline-dictation-windows/`);\n  219 |   const contents = page.getByRole('navigation', { name: 'On this page' });\n    at D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\tests\\site.spec.ts:216:28"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-14T21:34:46.654Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\test-results\\site-content-and-native-qu-f12d5-rk-with-JavaScript-disabled-desktop\\error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\test-results\\site-content-and-native-qu-f12d5-rk-with-JavaScript-disabled-desktop\\trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-component-library-20261115\\site\\tests\\site.spec.ts",
+                    "column": 28,
+                    "line": 216
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "5c02723ad68c2a0d50c5-1a02aca89147026dd1b7",
+          "file": "site.spec.ts",
+          "line": 201,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-11-14T21:34:43.432Z",
+    "duration": 15260.235,
+    "expected": 0,
+    "skipped": 0,
+    "unexpected": 3,
+    "flaky": 0
+  }
+}
