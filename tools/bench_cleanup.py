@@ -97,7 +97,7 @@ def prepare_policy_case(case, local):
     requested = local.warm_for_context(context)
     preparation = local._preparation
     settled = requested and preparation is not None and preparation.wait(185)
-    hints = PromptHints(style=style_for(context).tone,
+    hints = PromptHints(style=style_for(context).tone, intensity=style_for(context).intensity,
                         post_rules=True, app=case.app_title or "", group=case.app_group)
     if not settled or not preparation.ready(hints):
         raise RuntimeError("Interactive policy preparation unavailable")

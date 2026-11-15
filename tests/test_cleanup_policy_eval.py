@@ -1,4 +1,5 @@
 import pytest
+from types import SimpleNamespace
 
 from saydraft.cleanup.llm.bakeoff import ObservedCleaner, measure_cases, summarize
 from saydraft.eval import EvalCase
@@ -58,6 +59,20 @@ def test_failed_policy_setup_stops_before_counting_unprepared_cases():
 def test_policy_setup_never_constructs_a_model_for_prose_bypass(mode, profile, group):
     case = EvalCase("bypass", "words", "words", mode, profile, app_group=group)
     assert prepare_policy_case(case, None) == {"bypassed": True}
+
+
+@pytest.mark.parametrize("mode,intensity,expected", [
+    ("balanced", None, 3), ("aggressive", None, 4), ("balanced", 2, 2), ("balanced", 4, 4),
+])
+def test_policy_setup_checks_the_same_intensity_it_requested(mode, intensity, expected):
+    contexts = []
+    local = SimpleNamespace(
+        warm_for_context=lambda context: contexts.append(context) or True,
+        _preparation=SimpleNamespace(wait=lambda timeout: True, ready=lambda hints: hints.intensity == expected),
+        _client=SimpleNamespace(decoder=SimpleNamespace(current=SimpleNamespace(metadata=lambda: {"sample_count": 3}))))
+    case = EvalCase("intensity", "words", "words", mode, "general", intensity=intensity)
+    assert prepare_policy_case(case, local)["prepared"]
+    assert contexts[0].mode == mode and contexts[0].intensity == intensity
 
 
 @pytest.mark.parametrize("extra", [["--timeout-ms", "120000"], ["--throughput-repeats", "4"]])
