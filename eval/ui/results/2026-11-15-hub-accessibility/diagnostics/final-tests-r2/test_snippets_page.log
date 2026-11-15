@@ -1,0 +1,8 @@
+.......                                                                  [100%]
+============================= slowest 5 durations =============================
+1.31s setup    tests/test_snippets_page.py::test_structured_crud_multiline_save_restart_and_source_preservation
+1.04s setup    tests/test_snippets_page.py::test_search_duplicate_validation_and_variable_buttons_keep_drafts_off_disk
+1.01s setup    tests/test_snippets_page.py::test_test_panel_includes_pending_form_and_never_reads_clipboard_or_records_history
+0.95s setup    tests/test_snippets_page.py::test_advanced_json_roundtrip_and_invalid_draft_refuse_all_shared_config_writes
+0.78s setup    tests/test_snippets_page.py::test_unchanged_editor_keeps_newer_saved_rows_and_both_styles_and_runtime_see_the_same_values
+7 passed in 8.25s

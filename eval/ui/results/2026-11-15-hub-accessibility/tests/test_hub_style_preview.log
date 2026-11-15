@@ -1,0 +1,8 @@
+.............................                                            [100%]
+============================= slowest 5 durations =============================
+5.77s call     tests/test_hub_style_preview.py::test_real_hub_all_84_styles_match_authored_goldens_and_delivery_engine
+4.87s call     tests/test_hub_style_preview.py::test_hub_preview_replays_all_96_qualified_dictionary_outputs
+2.37s setup    tests/test_hub_style_preview.py::test_requested_language_previews_match_engine_without_speech_or_config_changes[fr-Envoyez 14 fichiers \xe0 Marie.]
+2.28s setup    tests/test_hub_style_preview.py::test_real_hub_all_84_styles_match_authored_goldens_and_delivery_engine
+2.18s setup    tests/test_hub_style_preview.py::test_requested_language_previews_match_engine_without_speech_or_config_changes[pt-Envie 14 arquivos para Maria.]
+29 passed in 62.54s (0:01:02)

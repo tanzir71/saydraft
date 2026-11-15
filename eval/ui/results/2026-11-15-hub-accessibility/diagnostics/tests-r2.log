@@ -1,0 +1,390 @@
+FFFFFF...FF....                                                          [100%]
+================================== FAILURES ===================================
+___ test_all_hub_pages_have_named_forward_and_reverse_tab_cycles[16-light] ____
+
+owned_hub = namespace(app=<PySide6.QtWidgets.QApplication(0x228fbaa93e0) at 0x00000228FFC1F340>, hub=<saydraft.ui.hub.HubWindow(0x..._hub.<locals>.settle at 0x00000228964D96C0>, hints=<test_hub_accessibility.Hints(0x228fea0c210) at 0x00000228FFC8F000>)
+mode = 'light', px = 16
+
+    @pytest.mark.parametrize("mode", ["light", "dark", "high-contrast"])
+    @pytest.mark.parametrize("px", [16, 32])
+    def test_all_hub_pages_have_named_forward_and_reverse_tab_cycles(owned_hub, mode, px):
+        subject, hub = owned_hub, owned_hub.hub
+        subject.theme(mode, px)
+        for name, section in [(name, None) for name in PAGES] + [("Settings", name) for name in SECTIONS]:
+            hub.show_page(name, tab=section)
+            subject.settle()
+            editors = hub.findChildren(QtWidgets.QPlainTextEdit)
+            texts = [editor.toPlainText() for editor in editors]
+            for backwards in [False, True]:
+>               visited = walk_tabs(subject, backwards=backwards)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_hub_accessibility.py:153: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+subject = namespace(app=<PySide6.QtWidgets.QApplication(0x228fbaa93e0) at 0x00000228FFC1F340>, hub=<saydraft.ui.hub.HubWindow(0x..._hub.<locals>.settle at 0x00000228964D96C0>, hints=<test_hub_accessibility.Hints(0x228fea0c210) at 0x00000228FFC8F000>)
+
+    def walk_tabs(subject, *, backwards=False):
+        hub, app = subject.hub, subject.app
+        hub.navigation.setFocus()
+        app.processEvents()
+        visited = []
+        for _ in range(160):
+            focus = app.focusWidget()
+            assert focus is not None and focus.window() is hub
+            assert focus.isVisibleTo(hub) and focus.isEnabled()
+            assert accessible_name(focus).strip(), type(focus).__name__
+            visited.append(focus)
+            QtTest.QTest.keyClick(focus, QtCore.Qt.Key_Tab,
+                QtCore.Qt.ShiftModifier if backwards else QtCore.Qt.NoModifier)
+            app.processEvents()
+            if app.focusWidget() is hub.navigation:
+                return visited
+>       pytest.fail("Tab did not return to Hub navigation: " + str([accessible_name(w) for w in visited[-8:]]))
+E       Failed: Tab did not return to Hub navigation: ['Dictionary entries and sources', 'Dictionary entries and sources', 'Dictionary entries and sources', 'Dictionary entries and sources', 'Dictionary entries and sources', 'Dictionary entries and sources', 'Dictionary entries and sources', 'Dictionary entries and sources']
+
+tests\test_hub_accessibility.py:139: Failed
+____ test_all_hub_pages_have_named_forward_and_reverse_tab_cycles[16-dark] ____
+
+owned_hub = namespace(app=<PySide6.QtWidgets.QApplication(0x228fbaa93e0) at 0x00000228FFC1F340>, hub=<saydraft.ui.hub.HubWindow(0x..._hub.<locals>.settle at 0x00000228FFC88CC0>, hints=<test_hub_accessibility.Hints(0x228fec70220) at 0x000002289646F740>)
+mode = 'dark', px = 16
+
+    @pytest.mark.parametrize("mode", ["light", "dark", "high-contrast"])
+    @pytest.mark.parametrize("px", [16, 32])
+    def test_all_hub_pages_have_named_forward_and_reverse_tab_cycles(owned_hub, mode, px):
+        subject, hub = owned_hub, owned_hub.hub
+        subject.theme(mode, px)
+        for name, section in [(name, None) for name in PAGES] + [("Settings", name) for name in SECTIONS]:
+            hub.show_page(name, tab=section)
+            subject.settle()
+            editors = hub.findChildren(QtWidgets.QPlainTextEdit)
+            texts = [editor.toPlainText() for editor in editors]
+            for backwards in [False, True]:
+>               visited = walk_tabs(subject, backwards=backwards)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_hub_accessibility.py:153: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+subject = namespace(app=<PySide6.QtWidgets.QApplication(0x228fbaa93e0) at 0x00000228FFC1F340>, hub=<saydraft.ui.hub.HubWindow(0x..._hub.<locals>.settle at 0x00000228FFC88CC0>, hints=<test_hub_accessibility.Hints(0x228fec70220) at 0x000002289646F740>)
+
+    def walk_tabs(subject, *, backwards=False):
+        hub, app = subject.hub, subject.app
+        hub.navigation.setFocus()
+        app.processEvents()
+        visited = []
+        for _ in range(160):
+            focus = app.focusWidget()
+            assert focus is not None and focus.window() is hub
+            assert focus.isVisibleTo(hub) and focus.isEnabled()
+            assert accessible_name(focus).strip(), type(focus).__name__
+            visited.append(focus)
+            QtTest.QTest.keyClick(focus, QtCore.Qt.Key_Tab,
+                QtCore.Qt.ShiftModifier if backwards else QtCore.Qt.NoModifier)
+            app.processEvents()
+            if app.focusWidget() is hub.navigation:
+                return visited
+>       pytest.fail("Tab did not return to Hub navigation: " + str([accessible_name(w) for w in visited[-8:]]))
+E       Failed: Tab did not return to Hub navigation: ['Dictionary entries and sources', 'Dictionary entries and sources', 'Dictionary entries and sources', 'Dictionary entries and sources', 'Dictionary entries and sources', 'Dictionary entries and sources', 'Dictionary entries and sources', 'Dictionary entries and sources']
+
+tests\test_hub_accessibility.py:139: Failed
+_ test_all_hub_pages_have_named_forward_and_reverse_tab_cycles[16-high-contrast] _
+
+owned_hub = namespace(app=<PySide6.QtWidgets.QApplication(0x228fbaa93e0) at 0x00000228FFC1F340>, hub=<saydraft.ui.hub.HubWindow(0x..._hub.<locals>.settle at 0x00000228FFC8ACA0>, hints=<test_hub_accessibility.Hints(0x228fea0bea0) at 0x00000228964AAFC0>)
+mode = 'high-contrast', px = 16
+
+    @pytest.mark.parametrize("mode", ["light", "dark", "high-contrast"])
+    @pytest.mark.parametrize("px", [16, 32])
+    def test_all_hub_pages_have_named_forward_and_reverse_tab_cycles(owned_hub, mode, px):
+        subject, hub = owned_hub, owned_hub.hub
+        subject.theme(mode, px)
+        for name, section in [(name, None) for name in PAGES] + [("Settings", name) for name in SECTIONS]:
+            hub.show_page(name, tab=section)
+            subject.settle()
+            editors = hub.findChildren(QtWidgets.QPlainTextEdit)
+            texts = [editor.toPlainText() for editor in editors]
+            for backwards in [False, True]:
+>               visited = walk_tabs(subject, backwards=backwards)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_hub_accessibility.py:153: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+subject = namespace(app=<PySide6.QtWidgets.QApplication(0x228fbaa93e0) at 0x00000228FFC1F340>, hub=<saydraft.ui.hub.HubWindow(0x..._hub.<locals>.settle at 0x00000228FFC8ACA0>, hints=<test_hub_accessibility.Hints(0x228fea0bea0) at 0x00000228964AAFC0>)
+
+    def walk_tabs(subject, *, backwards=False):
+        hub, app = subject.hub, subject.app
+        hub.navigation.setFocus()
+        app.processEvents()
+        visited = []
+        for _ in range(160):
+            focus = app.focusWidget()
+            assert focus is not None and focus.window() is hub
+            assert focus.isVisibleTo(hub) and focus.isEnabled()
+            assert accessible_name(focus).strip(), type(focus).__name__
+            visited.append(focus)
+            QtTest.QTest.keyClick(focus, QtCore.Qt.Key_Tab,
+                QtCore.Qt.ShiftModifier if backwards else QtCore.Qt.NoModifier)
+            app.processEvents()
+            if app.focusWidget() is hub.navigation:
+                return visited
+>       pytest.fail("Tab did not return to Hub navigation: " + str([accessible_name(w) for w in visited[-8:]]))
+E       Failed: Tab did not return to Hub navigation: ['Dictionary entries and sources', 'Dictionary entries and sources', 'Dictionary entries and sources', 'Dictionary entries and sources', 'Dictionary entries and sources', 'Dictionary entries and sources', 'Dictionary entries and sources', 'Dictionary entries and sources']
+
+tests\test_hub_accessibility.py:139: Failed
+___ test_all_hub_pages_have_named_forward_and_reverse_tab_cycles[32-light] ____
+
+owned_hub = namespace(app=<PySide6.QtWidgets.QApplication(0x228fbaa93e0) at 0x00000228FFC1F340>, hub=<saydraft.ui.hub.HubWindow(0x..._hub.<locals>.settle at 0x00000228965D6840>, hints=<test_hub_accessibility.Hints(0x228fe8b97e0) at 0x00000228FFC1DD00>)
+mode = 'light', px = 32
+
+    @pytest.mark.parametrize("mode", ["light", "dark", "high-contrast"])
+    @pytest.mark.parametrize("px", [16, 32])
+    def test_all_hub_pages_have_named_forward_and_reverse_tab_cycles(owned_hub, mode, px):
+        subject, hub = owned_hub, owned_hub.hub
+        subject.theme(mode, px)
+        for name, section in [(name, None) for name in PAGES] + [("Settings", name) for name in SECTIONS]:
+            hub.show_page(name, tab=section)
+            subject.settle()
+            editors = hub.findChildren(QtWidgets.QPlainTextEdit)
+            texts = [editor.toPlainText() for editor in editors]
+            for backwards in [False, True]:
+>               visited = walk_tabs(subject, backwards=backwards)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_hub_accessibility.py:153: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+subject = namespace(app=<PySide6.QtWidgets.QApplication(0x228fbaa93e0) at 0x00000228FFC1F340>, hub=<saydraft.ui.hub.HubWindow(0x..._hub.<locals>.settle at 0x00000228965D6840>, hints=<test_hub_accessibility.Hints(0x228fe8b97e0) at 0x00000228FFC1DD00>)
+
+    def walk_tabs(subject, *, backwards=False):
+        hub, app = subject.hub, subject.app
+        hub.navigation.setFocus()
+        app.processEvents()
+        visited = []
+        for _ in range(160):
+            focus = app.focusWidget()
+            assert focus is not None and focus.window() is hub
+            assert focus.isVisibleTo(hub) and focus.isEnabled()
+            assert accessible_name(focus).strip(), type(focus).__name__
+            visited.append(focus)
+            QtTest.QTest.keyClick(focus, QtCore.Qt.Key_Tab,
+                QtCore.Qt.ShiftModifier if backwards else QtCore.Qt.NoModifier)
+            app.processEvents()
+            if app.focusWidget() is hub.navigation:
+                return visited
+>       pytest.fail("Tab did not return to Hub navigation: " + str([accessible_name(w) for w in visited[-8:]]))
+E       Failed: Tab did not return to Hub navigation: ['Dictionary entries and sources', 'Dictionary entries and sources', 'Dictionary entries and sources', 'Dictionary entries and sources', 'Dictionary entries and sources', 'Dictionary entries and sources', 'Dictionary entries and sources', 'Dictionary entries and sources']
+
+tests\test_hub_accessibility.py:139: Failed
+____ test_all_hub_pages_have_named_forward_and_reverse_tab_cycles[32-dark] ____
+
+owned_hub = namespace(app=<PySide6.QtWidgets.QApplication(0x228fbaa93e0) at 0x00000228FFC1F340>, hub=<saydraft.ui.hub.HubWindow(0x..._hub.<locals>.settle at 0x00000228964231A0>, hints=<test_hub_accessibility.Hints(0x22896da0390) at 0x0000022896475480>)
+mode = 'dark', px = 32
+
+    @pytest.mark.parametrize("mode", ["light", "dark", "high-contrast"])
+    @pytest.mark.parametrize("px", [16, 32])
+    def test_all_hub_pages_have_named_forward_and_reverse_tab_cycles(owned_hub, mode, px):
+        subject, hub = owned_hub, owned_hub.hub
+        subject.theme(mode, px)
+        for name, section in [(name, None) for name in PAGES] + [("Settings", name) for name in SECTIONS]:
+            hub.show_page(name, tab=section)
+            subject.settle()
+            editors = hub.findChildren(QtWidgets.QPlainTextEdit)
+            texts = [editor.toPlainText() for editor in editors]
+            for backwards in [False, True]:
+>               visited = walk_tabs(subject, backwards=backwards)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_hub_accessibility.py:153: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+subject = namespace(app=<PySide6.QtWidgets.QApplication(0x228fbaa93e0) at 0x00000228FFC1F340>, hub=<saydraft.ui.hub.HubWindow(0x..._hub.<locals>.settle at 0x00000228964231A0>, hints=<test_hub_accessibility.Hints(0x22896da0390) at 0x0000022896475480>)
+
+    def walk_tabs(subject, *, backwards=False):
+        hub, app = subject.hub, subject.app
+        hub.navigation.setFocus()
+        app.processEvents()
+        visited = []
+        for _ in range(160):
+            focus = app.focusWidget()
+            assert focus is not None and focus.window() is hub
+            assert focus.isVisibleTo(hub) and focus.isEnabled()
+            assert accessible_name(focus).strip(), type(focus).__name__
+            visited.append(focus)
+            QtTest.QTest.keyClick(focus, QtCore.Qt.Key_Tab,
+                QtCore.Qt.ShiftModifier if backwards else QtCore.Qt.NoModifier)
+            app.processEvents()
+            if app.focusWidget() is hub.navigation:
+                return visited
+>       pytest.fail("Tab did not return to Hub navigation: " + str([accessible_name(w) for w in visited[-8:]]))
+E       Failed: Tab did not return to Hub navigation: ['Dictionary entries and sources', 'Dictionary entries and sources', 'Dictionary entries and sources', 'Dictionary entries and sources', 'Dictionary entries and sources', 'Dictionary entries and sources', 'Dictionary entries and sources', 'Dictionary entries and sources']
+
+tests\test_hub_accessibility.py:139: Failed
+_ test_all_hub_pages_have_named_forward_and_reverse_tab_cycles[32-high-contrast] _
+
+owned_hub = namespace(app=<PySide6.QtWidgets.QApplication(0x228fbaa93e0) at 0x00000228FFC1F340>, hub=<saydraft.ui.hub.HubWindow(0x..._hub.<locals>.settle at 0x00000228978D9B20>, hints=<test_hub_accessibility.Hints(0x22896c2d5c0) at 0x00000228966E3E80>)
+mode = 'high-contrast', px = 32
+
+    @pytest.mark.parametrize("mode", ["light", "dark", "high-contrast"])
+    @pytest.mark.parametrize("px", [16, 32])
+    def test_all_hub_pages_have_named_forward_and_reverse_tab_cycles(owned_hub, mode, px):
+        subject, hub = owned_hub, owned_hub.hub
+        subject.theme(mode, px)
+        for name, section in [(name, None) for name in PAGES] + [("Settings", name) for name in SECTIONS]:
+            hub.show_page(name, tab=section)
+            subject.settle()
+            editors = hub.findChildren(QtWidgets.QPlainTextEdit)
+            texts = [editor.toPlainText() for editor in editors]
+            for backwards in [False, True]:
+>               visited = walk_tabs(subject, backwards=backwards)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_hub_accessibility.py:153: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+subject = namespace(app=<PySide6.QtWidgets.QApplication(0x228fbaa93e0) at 0x00000228FFC1F340>, hub=<saydraft.ui.hub.HubWindow(0x..._hub.<locals>.settle at 0x00000228978D9B20>, hints=<test_hub_accessibility.Hints(0x22896c2d5c0) at 0x00000228966E3E80>)
+
+    def walk_tabs(subject, *, backwards=False):
+        hub, app = subject.hub, subject.app
+        hub.navigation.setFocus()
+        app.processEvents()
+        visited = []
+        for _ in range(160):
+            focus = app.focusWidget()
+            assert focus is not None and focus.window() is hub
+            assert focus.isVisibleTo(hub) and focus.isEnabled()
+            assert accessible_name(focus).strip(), type(focus).__name__
+            visited.append(focus)
+            QtTest.QTest.keyClick(focus, QtCore.Qt.Key_Tab,
+                QtCore.Qt.ShiftModifier if backwards else QtCore.Qt.NoModifier)
+            app.processEvents()
+            if app.focusWidget() is hub.navigation:
+                return visited
+>       pytest.fail("Tab did not return to Hub navigation: " + str([accessible_name(w) for w in visited[-8:]]))
+E       Failed: Tab did not return to Hub navigation: ['Dictionary entries and sources', 'Dictionary entries and sources', 'Dictionary entries and sources', 'Dictionary entries and sources', 'Dictionary entries and sources', 'Dictionary entries and sources', 'Dictionary entries and sources', 'Dictionary entries and sources']
+
+tests\test_hub_accessibility.py:139: Failed
+_ test_multiline_form_editors_leave_with_tab_without_changing_drafts[Dictionary] _
+
+owned_hub = namespace(app=<PySide6.QtWidgets.QApplication(0x228fbaa93e0) at 0x00000228FFC1F340>, hub=<saydraft.ui.hub.HubWindow(0x..._hub.<locals>.settle at 0x00000228965D7240>, hints=<test_hub_accessibility.Hints(0x22896da1e20) at 0x000002289642A500>)
+page = 'Dictionary'
+
+    @pytest.mark.parametrize("page", ["Dictionary", "Snippets", "Style", "Cleanup"])
+    def test_multiline_form_editors_leave_with_tab_without_changing_drafts(owned_hub, page):
+        subject, hub = owned_hub, owned_hub.hub
+        subject.theme("dark", 32)
+        hub.show_page("Settings" if page == "Cleanup" else page, tab=page if page == "Cleanup" else None)
+        if page in ("Dictionary", "Snippets"):
+            child = getattr(hub.settings_page, page.lower() + "_page")
+            child.advanced.setChecked(True)
+            if page == "Snippets":
+                child.test_toggle.setChecked(True)
+        subject.app.processEvents()
+        editors = [w for w in hub.findChildren(QtWidgets.QPlainTextEdit)
+                   if w.isVisibleTo(hub) and not w.isReadOnly()]
+        assert editors
+        for editor in editors:
+            before = editor.toPlainText()
+            editor.setFocus()
+            QtTest.QTest.keyClick(editor, QtCore.Qt.Key_Tab)
+            assert subject.app.focusWidget() is not editor
+            assert editor.toPlainText() == before
+            editor.setFocus()
+            QtTest.QTest.keyClick(editor, QtCore.Qt.Key_Tab, QtCore.Qt.ShiftModifier)
+            assert subject.app.focusWidget() is not editor
+            assert editor.toPlainText() == before
+>       assert hub.save_button in walk_tabs(subject)
+                                  ^^^^^^^^^^^^^^^^^^
+
+tests\test_hub_accessibility.py:203: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+subject = namespace(app=<PySide6.QtWidgets.QApplication(0x228fbaa93e0) at 0x00000228FFC1F340>, hub=<saydraft.ui.hub.HubWindow(0x..._hub.<locals>.settle at 0x00000228965D7240>, hints=<test_hub_accessibility.Hints(0x22896da1e20) at 0x000002289642A500>)
+
+    def walk_tabs(subject, *, backwards=False):
+        hub, app = subject.hub, subject.app
+        hub.navigation.setFocus()
+        app.processEvents()
+        visited = []
+        for _ in range(160):
+            focus = app.focusWidget()
+            assert focus is not None and focus.window() is hub
+            assert focus.isVisibleTo(hub) and focus.isEnabled()
+            assert accessible_name(focus).strip(), type(focus).__name__
+            visited.append(focus)
+            QtTest.QTest.keyClick(focus, QtCore.Qt.Key_Tab,
+                QtCore.Qt.ShiftModifier if backwards else QtCore.Qt.NoModifier)
+            app.processEvents()
+            if app.focusWidget() is hub.navigation:
+                return visited
+>       pytest.fail("Tab did not return to Hub navigation: " + str([accessible_name(w) for w in visited[-8:]]))
+E       Failed: Tab did not return to Hub navigation: ['Dictionary entries and sources', 'Dictionary entries and sources', 'Dictionary entries and sources', 'Dictionary entries and sources', 'Dictionary entries and sources', 'Dictionary entries and sources', 'Dictionary entries and sources', 'Dictionary entries and sources']
+
+tests\test_hub_accessibility.py:139: Failed
+_ test_multiline_form_editors_leave_with_tab_without_changing_drafts[Snippets] _
+
+owned_hub = namespace(app=<PySide6.QtWidgets.QApplication(0x228fbaa93e0) at 0x00000228FFC1F340>, hub=<saydraft.ui.hub.HubWindow(0x..._hub.<locals>.settle at 0x0000022896636840>, hints=<test_hub_accessibility.Hints(0x22896c32cf0) at 0x0000022896606880>)
+page = 'Snippets'
+
+    @pytest.mark.parametrize("page", ["Dictionary", "Snippets", "Style", "Cleanup"])
+    def test_multiline_form_editors_leave_with_tab_without_changing_drafts(owned_hub, page):
+        subject, hub = owned_hub, owned_hub.hub
+        subject.theme("dark", 32)
+        hub.show_page("Settings" if page == "Cleanup" else page, tab=page if page == "Cleanup" else None)
+        if page in ("Dictionary", "Snippets"):
+            child = getattr(hub.settings_page, page.lower() + "_page")
+            child.advanced.setChecked(True)
+            if page == "Snippets":
+                child.test_toggle.setChecked(True)
+        subject.app.processEvents()
+        editors = [w for w in hub.findChildren(QtWidgets.QPlainTextEdit)
+                   if w.isVisibleTo(hub) and not w.isReadOnly()]
+        assert editors
+        for editor in editors:
+            before = editor.toPlainText()
+            editor.setFocus()
+            QtTest.QTest.keyClick(editor, QtCore.Qt.Key_Tab)
+            assert subject.app.focusWidget() is not editor
+            assert editor.toPlainText() == before
+            editor.setFocus()
+            QtTest.QTest.keyClick(editor, QtCore.Qt.Key_Tab, QtCore.Qt.ShiftModifier)
+            assert subject.app.focusWidget() is not editor
+            assert editor.toPlainText() == before
+>       assert hub.save_button in walk_tabs(subject)
+                                  ^^^^^^^^^^^^^^^^^^
+
+tests\test_hub_accessibility.py:203: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+subject = namespace(app=<PySide6.QtWidgets.QApplication(0x228fbaa93e0) at 0x00000228FFC1F340>, hub=<saydraft.ui.hub.HubWindow(0x..._hub.<locals>.settle at 0x0000022896636840>, hints=<test_hub_accessibility.Hints(0x22896c32cf0) at 0x0000022896606880>)
+
+    def walk_tabs(subject, *, backwards=False):
+        hub, app = subject.hub, subject.app
+        hub.navigation.setFocus()
+        app.processEvents()
+        visited = []
+        for _ in range(160):
+            focus = app.focusWidget()
+            assert focus is not None and focus.window() is hub
+            assert focus.isVisibleTo(hub) and focus.isEnabled()
+            assert accessible_name(focus).strip(), type(focus).__name__
+            visited.append(focus)
+            QtTest.QTest.keyClick(focus, QtCore.Qt.Key_Tab,
+                QtCore.Qt.ShiftModifier if backwards else QtCore.Qt.NoModifier)
+            app.processEvents()
+            if app.focusWidget() is hub.navigation:
+                return visited
+>       pytest.fail("Tab did not return to Hub navigation: " + str([accessible_name(w) for w in visited[-8:]]))
+E       Failed: Tab did not return to Hub navigation: ['Snippet triggers and expansions', 'Snippet triggers and expansions', 'Snippet triggers and expansions', 'Snippet triggers and expansions', 'Snippet triggers and expansions', 'Snippet triggers and expansions', 'Snippet triggers and expansions', 'Snippet triggers and expansions']
+
+tests\test_hub_accessibility.py:139: Failed
+=========================== short test summary info ===========================
+FAILED tests/test_hub_accessibility.py::test_all_hub_pages_have_named_forward_and_reverse_tab_cycles[16-light]
+FAILED tests/test_hub_accessibility.py::test_all_hub_pages_have_named_forward_and_reverse_tab_cycles[16-dark]
+FAILED tests/test_hub_accessibility.py::test_all_hub_pages_have_named_forward_and_reverse_tab_cycles[16-high-contrast]
+FAILED tests/test_hub_accessibility.py::test_all_hub_pages_have_named_forward_and_reverse_tab_cycles[32-light]
+FAILED tests/test_hub_accessibility.py::test_all_hub_pages_have_named_forward_and_reverse_tab_cycles[32-dark]
+FAILED tests/test_hub_accessibility.py::test_all_hub_pages_have_named_forward_and_reverse_tab_cycles[32-high-contrast]
+FAILED tests/test_hub_accessibility.py::test_multiline_form_editors_leave_with_tab_without_changing_drafts[Dictionary]
+FAILED tests/test_hub_accessibility.py::test_multiline_form_editors_leave_with_tab_without_changing_drafts[Snippets]
+8 failed, 7 passed in 26.08s

@@ -1,0 +1,8 @@
+...........                                                              [100%]
+============================= slowest 5 durations =============================
+2.42s setup    tests/test_hub.py::test_hub_has_one_window_and_seven_pages_with_real_existing_controls
+2.26s setup    tests/test_hub.py::test_home_refresh_keeps_unchanged_keycaps_and_hides_retired_labels_before_deferred_deletion
+2.20s call     tests/test_hub.py::test_home_uses_current_shortcut_models_and_exactly_last_five_entries
+2.18s setup    tests/test_hub.py::test_hub_close_pauses_all_download_owners_without_discarding_pages
+2.05s setup    tests/test_hub.py::test_home_empty_and_incomplete_measurements_are_honest
+11 passed, 1 deselected in 26.40s

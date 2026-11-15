@@ -1,0 +1,254 @@
+........................................................................ [ 45%]
+................F.................................................FFFF.. [ 91%]
+..............                                                           [100%]
+================================== FAILURES ===================================
+_ test_test_panel_includes_pending_form_and_never_reads_clipboard_or_records_history _
+
+subject = namespace(window=<saydraft.ui.settings_page.SettingsPage(0x17930a77cd0) at 0x000001792A205940>, p=<saydraft.ui.snippet...ide6.QtWidgets' from 'C:\\Users\\tanzir\\AppData\\Roaming\\Python\\Python313\\site-packages\\PySide6\\QtWidgets.pyd'>))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000001792A203310>
+
+    def test_test_panel_includes_pending_form_and_never_reads_clipboard_or_records_history(subject, monkeypatch):
+        p, qt = subject.p, subject.qt
+        monkeypatch.setattr(qt.QtWidgets.QApplication, "clipboard", staticmethod(lambda: pytest.fail("Owner clipboard")))
+>       monkeypatch.setattr("saydraft.insert.clipboard_win.WindowsClipboard.read_text", lambda self: pytest.fail("Owner clipboard"))
+
+tests\test_snippets_page.py:78: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\tanzir\AppData\Roaming\Python\Python313\site-packages\_pytest\monkeypatch.py:102: in derive_importpath
+    target = resolve(module)
+             ^^^^^^^^^^^^^^^
+C:\Users\tanzir\AppData\Roaming\Python\Python313\site-packages\_pytest\monkeypatch.py:77: in resolve
+    __import__(used)
+<frozen importlib._bootstrap>:1369: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1331: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:1265: in _find_spec
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <tools.public_file_guard.install.<locals>.OwnerIOGuard object at 0x000001790C6A3380>
+fullname = 'saydraft.insert.clipboard_win'
+path = ['D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\hub-accessibility-20261115\\saydraft\\insert']
+target = None
+
+    def find_spec(self, fullname, path=None, target=None):
+        if fullname.split(".")[0] in [
+            "sounddevice",
+            "soundcard",
+            "pynput",
+            "pyperclip",
+            "win32clipboard",
+        ] or fullname in [
+            "saydraft.app",
+            "saydraft.logging_config",
+            "saydraft.single_instance",
+            "saydraft.context.foreground",
+            "saydraft.context.uia_native",
+            "saydraft.insert.clipboard_win",
+        ]:
+            attempts.append(fullname)
+>           raise AssertionError("Owner I/O import is barred: " + fullname)
+E           AssertionError: Owner I/O import is barred: saydraft.insert.clipboard_win
+
+tools\public_file_guard.py:54: AssertionError
+________ test_history_window_loads_reverse_chron_and_toggles_raw_clean ________
+
+tmp_path = WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/hub-accessibility-20261115-r1/related-pytest-r1/test_history_window_loads_reve0')
+
+    def test_history_window_loads_reverse_chron_and_toggles_raw_clean(tmp_path):
+        from saydraft.ui.history_page import HistoryPage
+    
+        store = build_history(tmp_path)
+>       window = HistoryPage(qt_modules=qt_modules(), store=store, glossary_path=tmp_path / "glossary.json")
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_history_window.py:91: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+saydraft\ui\history_page.py:53: in __init__
+    from saydraft.insert.clipboard_win import WindowsClipboard
+<frozen importlib._bootstrap>:1369: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1331: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:1265: in _find_spec
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <tools.public_file_guard.install.<locals>.OwnerIOGuard object at 0x000001790C6A3380>
+fullname = 'saydraft.insert.clipboard_win'
+path = ['D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\hub-accessibility-20261115\\saydraft\\insert']
+target = None
+
+    def find_spec(self, fullname, path=None, target=None):
+        if fullname.split(".")[0] in [
+            "sounddevice",
+            "soundcard",
+            "pynput",
+            "pyperclip",
+            "win32clipboard",
+        ] or fullname in [
+            "saydraft.app",
+            "saydraft.logging_config",
+            "saydraft.single_instance",
+            "saydraft.context.foreground",
+            "saydraft.context.uia_native",
+            "saydraft.insert.clipboard_win",
+        ]:
+            attempts.append(fullname)
+>           raise AssertionError("Owner I/O import is barred: " + fullname)
+E           AssertionError: Owner I/O import is barred: saydraft.insert.clipboard_win
+
+tools\public_file_guard.py:54: AssertionError
+___________________ test_history_window_search_filters_rows ___________________
+
+tmp_path = WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/hub-accessibility-20261115-r1/related-pytest-r1/test_history_window_search_fil0')
+
+    def test_history_window_search_filters_rows(tmp_path):
+        from saydraft.ui.history_page import HistoryPage
+    
+        store = build_history(tmp_path)
+>       window = HistoryPage(qt_modules=qt_modules(), store=store, glossary_path=tmp_path / "glossary.json")
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_history_window.py:110: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+saydraft\ui\history_page.py:53: in __init__
+    from saydraft.insert.clipboard_win import WindowsClipboard
+<frozen importlib._bootstrap>:1369: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1331: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:1265: in _find_spec
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <tools.public_file_guard.install.<locals>.OwnerIOGuard object at 0x000001790C6A3380>
+fullname = 'saydraft.insert.clipboard_win'
+path = ['D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\hub-accessibility-20261115\\saydraft\\insert']
+target = None
+
+    def find_spec(self, fullname, path=None, target=None):
+        if fullname.split(".")[0] in [
+            "sounddevice",
+            "soundcard",
+            "pynput",
+            "pyperclip",
+            "win32clipboard",
+        ] or fullname in [
+            "saydraft.app",
+            "saydraft.logging_config",
+            "saydraft.single_instance",
+            "saydraft.context.foreground",
+            "saydraft.context.uia_native",
+            "saydraft.insert.clipboard_win",
+        ]:
+            attempts.append(fullname)
+>           raise AssertionError("Owner I/O import is barred: " + fullname)
+E           AssertionError: Owner I/O import is barred: saydraft.insert.clipboard_win
+
+tools\public_file_guard.py:54: AssertionError
+__ test_history_retry_requires_saved_audio_and_selects_new_result_for_review __
+
+tmp_path = WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/hub-accessibility-20261115-r1/related-pytest-r1/test_history_retry_requires_sa0')
+
+    def test_history_retry_requires_saved_audio_and_selects_new_result_for_review(tmp_path):
+        from saydraft.history import HistoryEntry
+        from saydraft.ui.history_page import HistoryPage
+    
+        store = build_history(tmp_path)
+        calls = []
+>       window = HistoryPage(qt_modules=qt_modules(), store=store,
+                               retry_callback=lambda row: calls.append(row.id) or True)
+
+tests\test_history_window.py:126: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+saydraft\ui\history_page.py:53: in __init__
+    from saydraft.insert.clipboard_win import WindowsClipboard
+<frozen importlib._bootstrap>:1369: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1331: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:1265: in _find_spec
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <tools.public_file_guard.install.<locals>.OwnerIOGuard object at 0x000001790C6A3380>
+fullname = 'saydraft.insert.clipboard_win'
+path = ['D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\hub-accessibility-20261115\\saydraft\\insert']
+target = None
+
+    def find_spec(self, fullname, path=None, target=None):
+        if fullname.split(".")[0] in [
+            "sounddevice",
+            "soundcard",
+            "pynput",
+            "pyperclip",
+            "win32clipboard",
+        ] or fullname in [
+            "saydraft.app",
+            "saydraft.logging_config",
+            "saydraft.single_instance",
+            "saydraft.context.foreground",
+            "saydraft.context.uia_native",
+            "saydraft.insert.clipboard_win",
+        ]:
+            attempts.append(fullname)
+>           raise AssertionError("Owner I/O import is barred: " + fullname)
+E           AssertionError: Owner I/O import is barred: saydraft.insert.clipboard_win
+
+tools\public_file_guard.py:54: AssertionError
+____ test_history_window_rejected_reinsertion_does_not_claim_it_was_queued ____
+
+tmp_path = WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/hub-accessibility-20261115-r1/related-pytest-r1/test_history_window_rejected_r0')
+
+    def test_history_window_rejected_reinsertion_does_not_claim_it_was_queued(tmp_path):
+        from saydraft.ui.history_page import HistoryPage
+        qt_modules()
+>       window = HistoryPage(store=build_history(tmp_path), reinsert_callback=lambda *args: False)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_history_window.py:153: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+saydraft\ui\history_page.py:53: in __init__
+    from saydraft.insert.clipboard_win import WindowsClipboard
+<frozen importlib._bootstrap>:1369: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1331: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:1265: in _find_spec
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <tools.public_file_guard.install.<locals>.OwnerIOGuard object at 0x000001790C6A3380>
+fullname = 'saydraft.insert.clipboard_win'
+path = ['D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\hub-accessibility-20261115\\saydraft\\insert']
+target = None
+
+    def find_spec(self, fullname, path=None, target=None):
+        if fullname.split(".")[0] in [
+            "sounddevice",
+            "soundcard",
+            "pynput",
+            "pyperclip",
+            "win32clipboard",
+        ] or fullname in [
+            "saydraft.app",
+            "saydraft.logging_config",
+            "saydraft.single_instance",
+            "saydraft.context.foreground",
+            "saydraft.context.uia_native",
+            "saydraft.insert.clipboard_win",
+        ]:
+            attempts.append(fullname)
+>           raise AssertionError("Owner I/O import is barred: " + fullname)
+E           AssertionError: Owner I/O import is barred: saydraft.insert.clipboard_win
+
+tools\public_file_guard.py:54: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_snippets_page.py::test_test_panel_includes_pending_form_and_never_reads_clipboard_or_records_history
+FAILED tests/test_history_window.py::test_history_window_loads_reverse_chron_and_toggles_raw_clean
+FAILED tests/test_history_window.py::test_history_window_search_filters_rows
+FAILED tests/test_history_window.py::test_history_retry_requires_saved_audio_and_selects_new_result_for_review
+FAILED tests/test_history_window.py::test_history_window_rejected_reinsertion_does_not_claim_it_was_queued
+5 failed, 153 passed, 3 deselected in 456.15s (0:07:36)

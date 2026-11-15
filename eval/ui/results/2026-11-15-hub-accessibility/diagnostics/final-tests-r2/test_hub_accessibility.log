@@ -1,0 +1,8 @@
+...............                                                          [100%]
+============================= slowest 5 durations =============================
+1.79s setup    tests/test_hub_accessibility.py::test_navigation_refits_live_font_changes_and_native_scrollbars[high-contrast]
+1.75s call     tests/test_hub_accessibility.py::test_all_hub_pages_have_named_forward_and_reverse_tab_cycles[32-dark]
+1.65s setup    tests/test_hub_accessibility.py::test_multiline_form_editors_leave_with_tab_without_changing_drafts[Dictionary]
+1.60s setup    tests/test_hub_accessibility.py::test_all_hub_pages_have_named_forward_and_reverse_tab_cycles[32-dark]
+1.57s setup    tests/test_hub_accessibility.py::test_multiline_form_editors_leave_with_tab_without_changing_drafts[Style]
+15 passed in 32.01s

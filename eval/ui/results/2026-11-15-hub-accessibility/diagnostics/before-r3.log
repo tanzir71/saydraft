@@ -1,0 +1,654 @@
+Traceback (most recent call last):
+  File "D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\hub-accessibility-20261115\saydraft\ui\model_storage.py", line 186, in _inventoried
+    for usage in snapshot.roots:
+                 ^^^^^^^^^^^^^^
+AttributeError: 'tuple' object has no attribute 'roots'
+Traceback (most recent call last):
+  File "D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\hub-accessibility-20261115\saydraft\ui\model_storage.py", line 186, in _inventoried
+    for usage in snapshot.roots:
+                 ^^^^^^^^^^^^^^
+AttributeError: 'tuple' object has no attribute 'roots'
+[
+  {
+    "px": 16,
+    "page": "Home",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 164,
+    "nav_size_hint": 126,
+    "unnamed": [
+      "HomePage:"
+    ],
+    "horizontal": []
+  },
+  {
+    "px": 16,
+    "page": "History",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 164,
+    "nav_size_hint": 126,
+    "unnamed": [
+      "QScrollArea:",
+      "QListWidget:",
+      "PrivatePlainTextEdit:"
+    ],
+    "horizontal": []
+  },
+  {
+    "px": 16,
+    "page": "Dictionary",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 164,
+    "nav_size_hint": 126,
+    "unnamed": [
+      "QScrollArea:"
+    ],
+    "horizontal": []
+  },
+  {
+    "px": 16,
+    "page": "Snippets",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 164,
+    "nav_size_hint": 126,
+    "unnamed": [
+      "QScrollArea:"
+    ],
+    "horizontal": []
+  },
+  {
+    "px": 16,
+    "page": "Style",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 164,
+    "nav_size_hint": 126,
+    "unnamed": [
+      "StylesPage:",
+      "QTableWidget:"
+    ],
+    "horizontal": []
+  },
+  {
+    "px": 16,
+    "page": "Notes",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 164,
+    "nav_size_hint": 126,
+    "unnamed": [],
+    "horizontal": []
+  },
+  {
+    "px": 16,
+    "page": "Settings-General",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 164,
+    "nav_size_hint": 126,
+    "unnamed": [
+      "QTabWidget:",
+      "QScrollArea:",
+      "QLineEdit:3 s"
+    ],
+    "horizontal": []
+  },
+  {
+    "px": 16,
+    "page": "Settings-Shortcuts",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 164,
+    "nav_size_hint": 126,
+    "unnamed": [
+      "QTabWidget:",
+      "QScrollArea:",
+      "QLineEdit:300 ms"
+    ],
+    "horizontal": []
+  },
+  {
+    "px": 16,
+    "page": "Settings-Languages",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 164,
+    "nav_size_hint": 126,
+    "unnamed": [
+      "QTabWidget:",
+      "QScrollArea:"
+    ],
+    "horizontal": []
+  },
+  {
+    "px": 16,
+    "page": "Settings-Cleanup",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 164,
+    "nav_size_hint": 126,
+    "unnamed": [
+      "QTabWidget:",
+      "QScrollArea:",
+      "QLineEdit:1200 s",
+      "QLineEdit:1140 s",
+      "QPlainTextEdit:"
+    ],
+    "horizontal": []
+  },
+  {
+    "px": 16,
+    "page": "Settings-Models",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 164,
+    "nav_size_hint": 126,
+    "unnamed": [
+      "QTabWidget:",
+      "QScrollArea:",
+      "QComboBox:"
+    ],
+    "horizontal": []
+  },
+  {
+    "px": 16,
+    "page": "Settings-Performance",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 164,
+    "nav_size_hint": 126,
+    "unnamed": [
+      "QTabWidget:",
+      "QScrollArea:"
+    ],
+    "horizontal": []
+  },
+  {
+    "px": 16,
+    "page": "Settings-Labs",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 164,
+    "nav_size_hint": 126,
+    "unnamed": [
+      "QTabWidget:",
+      "QScrollArea:"
+    ],
+    "horizontal": []
+  },
+  {
+    "px": 16,
+    "page": "Settings-Microphone",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 164,
+    "nav_size_hint": 126,
+    "unnamed": [
+      "QTabWidget:",
+      "QScrollArea:"
+    ],
+    "horizontal": []
+  },
+  {
+    "px": 16,
+    "page": "Settings-Privacy",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 164,
+    "nav_size_hint": 126,
+    "unnamed": [
+      "QTabWidget:",
+      "QScrollArea:"
+    ],
+    "horizontal": []
+  },
+  {
+    "px": 16,
+    "page": "Settings-About",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 164,
+    "nav_size_hint": 126,
+    "unnamed": [
+      "QTabWidget:",
+      "QScrollArea:"
+    ],
+    "horizontal": []
+  },
+  {
+    "px": 32,
+    "page": "Home",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 164,
+    "nav_size_hint": 195,
+    "unnamed": [
+      "HomePage:"
+    ],
+    "horizontal": [
+      {
+        "name": "Hub pages",
+        "type": "QListWidget",
+        "horizontal": 31,
+        "width": 164
+      }
+    ]
+  },
+  {
+    "px": 32,
+    "page": "History",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 164,
+    "nav_size_hint": 195,
+    "unnamed": [
+      "QScrollArea:",
+      "QListWidget:",
+      "PrivatePlainTextEdit:"
+    ],
+    "horizontal": [
+      {
+        "name": "Hub pages",
+        "type": "QListWidget",
+        "horizontal": 31,
+        "width": 164
+      },
+      {
+        "name": "",
+        "type": "QScrollArea",
+        "horizontal": 192,
+        "width": 656
+      }
+    ]
+  },
+  {
+    "px": 32,
+    "page": "Dictionary",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 164,
+    "nav_size_hint": 195,
+    "unnamed": [
+      "QScrollArea:"
+    ],
+    "horizontal": [
+      {
+        "name": "Hub pages",
+        "type": "QListWidget",
+        "horizontal": 31,
+        "width": 164
+      }
+    ]
+  },
+  {
+    "px": 32,
+    "page": "Snippets",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 164,
+    "nav_size_hint": 195,
+    "unnamed": [
+      "QScrollArea:"
+    ],
+    "horizontal": [
+      {
+        "name": "Hub pages",
+        "type": "QListWidget",
+        "horizontal": 31,
+        "width": 164
+      }
+    ]
+  },
+  {
+    "px": 32,
+    "page": "Style",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 164,
+    "nav_size_hint": 195,
+    "unnamed": [
+      "StylesPage:",
+      "QTableWidget:"
+    ],
+    "horizontal": [
+      {
+        "name": "Hub pages",
+        "type": "QListWidget",
+        "horizontal": 31,
+        "width": 164
+      },
+      {
+        "name": "",
+        "type": "StylesPage",
+        "horizontal": 196,
+        "width": 656
+      }
+    ]
+  },
+  {
+    "px": 32,
+    "page": "Notes",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 164,
+    "nav_size_hint": 195,
+    "unnamed": [],
+    "horizontal": [
+      {
+        "name": "Hub pages",
+        "type": "QListWidget",
+        "horizontal": 31,
+        "width": 164
+      }
+    ]
+  },
+  {
+    "px": 32,
+    "page": "Settings-General",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 164,
+    "nav_size_hint": 195,
+    "unnamed": [
+      "QTabWidget:",
+      "QScrollArea:",
+      "QLineEdit:3 s"
+    ],
+    "horizontal": [
+      {
+        "name": "Hub pages",
+        "type": "QListWidget",
+        "horizontal": 31,
+        "width": 164
+      },
+      {
+        "name": "",
+        "type": "QScrollArea",
+        "horizontal": 188,
+        "width": 638
+      }
+    ]
+  },
+  {
+    "px": 32,
+    "page": "Settings-Shortcuts",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 164,
+    "nav_size_hint": 195,
+    "unnamed": [
+      "QTabWidget:",
+      "QScrollArea:",
+      "QLineEdit:300 ms"
+    ],
+    "horizontal": [
+      {
+        "name": "Hub pages",
+        "type": "QListWidget",
+        "horizontal": 31,
+        "width": 164
+      }
+    ]
+  },
+  {
+    "px": 32,
+    "page": "Settings-Languages",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 164,
+    "nav_size_hint": 195,
+    "unnamed": [
+      "QTabWidget:",
+      "QScrollArea:"
+    ],
+    "horizontal": [
+      {
+        "name": "Hub pages",
+        "type": "QListWidget",
+        "horizontal": 31,
+        "width": 164
+      },
+      {
+        "name": "",
+        "type": "QScrollArea",
+        "horizontal": 311,
+        "width": 638
+      }
+    ]
+  },
+  {
+    "px": 32,
+    "page": "Settings-Cleanup",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 164,
+    "nav_size_hint": 195,
+    "unnamed": [
+      "QTabWidget:",
+      "QScrollArea:",
+      "QLineEdit:1200 s",
+      "QLineEdit:1140 s",
+      "QPlainTextEdit:"
+    ],
+    "horizontal": [
+      {
+        "name": "Hub pages",
+        "type": "QListWidget",
+        "horizontal": 31,
+        "width": 164
+      },
+      {
+        "name": "",
+        "type": "QScrollArea",
+        "horizontal": 461,
+        "width": 638
+      }
+    ]
+  },
+  {
+    "px": 32,
+    "page": "Settings-Models",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 164,
+    "nav_size_hint": 195,
+    "unnamed": [
+      "QTabWidget:",
+      "QScrollArea:",
+      "QComboBox:"
+    ],
+    "horizontal": [
+      {
+        "name": "Hub pages",
+        "type": "QListWidget",
+        "horizontal": 31,
+        "width": 164
+      }
+    ]
+  },
+  {
+    "px": 32,
+    "page": "Settings-Performance",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 164,
+    "nav_size_hint": 195,
+    "unnamed": [
+      "QTabWidget:",
+      "QScrollArea:"
+    ],
+    "horizontal": [
+      {
+        "name": "Hub pages",
+        "type": "QListWidget",
+        "horizontal": 31,
+        "width": 164
+      }
+    ]
+  },
+  {
+    "px": 32,
+    "page": "Settings-Labs",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 164,
+    "nav_size_hint": 195,
+    "unnamed": [
+      "QTabWidget:",
+      "QScrollArea:"
+    ],
+    "horizontal": [
+      {
+        "name": "Hub pages",
+        "type": "QListWidget",
+        "horizontal": 31,
+        "width": 164
+      },
+      {
+        "name": "",
+        "type": "QScrollArea",
+        "horizontal": 104,
+        "width": 638
+      }
+    ]
+  },
+  {
+    "px": 32,
+    "page": "Settings-Microphone",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 164,
+    "nav_size_hint": 195,
+    "unnamed": [
+      "QTabWidget:",
+      "QScrollArea:"
+    ],
+    "horizontal": [
+      {
+        "name": "Hub pages",
+        "type": "QListWidget",
+        "horizontal": 31,
+        "width": 164
+      },
+      {
+        "name": "",
+        "type": "QScrollArea",
+        "horizontal": 106,
+        "width": 638
+      }
+    ]
+  },
+  {
+    "px": 32,
+    "page": "Settings-Privacy",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 164,
+    "nav_size_hint": 195,
+    "unnamed": [
+      "QTabWidget:",
+      "QScrollArea:"
+    ],
+    "horizontal": [
+      {
+        "name": "Hub pages",
+        "type": "QListWidget",
+        "horizontal": 31,
+        "width": 164
+      },
+      {
+        "name": "",
+        "type": "QScrollArea",
+        "horizontal": 21,
+        "width": 638
+      }
+    ]
+  },
+  {
+    "px": 32,
+    "page": "Settings-About",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 164,
+    "nav_size_hint": 195,
+    "unnamed": [
+      "QTabWidget:",
+      "QScrollArea:"
+    ],
+    "horizontal": [
+      {
+        "name": "Hub pages",
+        "type": "QListWidget",
+        "horizontal": 31,
+        "width": 164
+      }
+    ]
+  }
+]

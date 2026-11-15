@@ -1,0 +1,8 @@
+..................                                                       [100%]
+============================= slowest 5 durations =============================
+1.06s setup    tests/test_dictionary_page.py::test_invalid_advanced_json_is_visible_and_refuses_save_without_losing_saved_data[{"user_terms":[1]}]
+1.01s setup    tests/test_dictionary_page.py::test_pending_form_preview_matches_save_without_mutating_staged_or_saved_state[user_terms-Krezel-None]
+0.97s setup    tests/test_dictionary_page.py::test_file_dialog_cancel_is_noop_and_export_uses_exact_confirmed_path
+0.91s setup    tests/test_dictionary_page.py::test_background_learning_refreshes_clean_rows_but_keeps_typed_forms_and_refuses_stale_save
+0.90s setup    tests/test_dictionary_page.py::test_invalid_advanced_json_is_visible_and_refuses_save_without_losing_saved_data[{broken]
+18 passed, 1 deselected in 16.95s

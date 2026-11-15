@@ -1,0 +1,8 @@
+............................                                             [100%]
+============================= slowest 5 durations =============================
+1.48s call     tests/test_settings_window.py::test_settings_window_saves_dictionary_snippets_and_profiles
+1.33s call     tests/test_settings_window.py::test_settings_window_has_required_tabs_and_loads_values
+1.21s call     tests/test_settings_window.py::test_settings_window_blocks_duplicate_hotkeys
+1.20s call     tests/test_settings_window.py::test_settings_window_applies_config_live_and_updates_autostart
+1.18s call     tests/test_settings_window.py::test_unchanged_dictionary_editor_keeps_new_learning_and_hides_receipts
+28 passed in 28.51s

@@ -1,0 +1,473 @@
+Traceback (most recent call last):
+  File "D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\hub-accessibility-20261115\saydraft\ui\model_storage.py", line 186, in _inventoried
+    for usage in snapshot.roots:
+                 ^^^^^^^^^^^^^^
+AttributeError: 'tuple' object has no attribute 'roots'
+Traceback (most recent call last):
+  File "D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\hub-accessibility-20261115\saydraft\ui\model_storage.py", line 186, in _inventoried
+    for usage in snapshot.roots:
+                 ^^^^^^^^^^^^^^
+AttributeError: 'tuple' object has no attribute 'roots'
+[
+  {
+    "px": 16,
+    "page": "Home",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 164,
+    "nav_size_hint": 126,
+    "unnamed": [],
+    "horizontal": []
+  },
+  {
+    "px": 16,
+    "page": "History",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 164,
+    "nav_size_hint": 126,
+    "unnamed": [],
+    "horizontal": []
+  },
+  {
+    "px": 16,
+    "page": "Dictionary",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 164,
+    "nav_size_hint": 126,
+    "unnamed": [],
+    "horizontal": []
+  },
+  {
+    "px": 16,
+    "page": "Snippets",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 164,
+    "nav_size_hint": 126,
+    "unnamed": [],
+    "horizontal": []
+  },
+  {
+    "px": 16,
+    "page": "Style",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 164,
+    "nav_size_hint": 126,
+    "unnamed": [],
+    "horizontal": []
+  },
+  {
+    "px": 16,
+    "page": "Notes",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 164,
+    "nav_size_hint": 126,
+    "unnamed": [],
+    "horizontal": []
+  },
+  {
+    "px": 16,
+    "page": "Settings-General",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 164,
+    "nav_size_hint": 126,
+    "unnamed": [
+      "QLineEdit:3 s"
+    ],
+    "horizontal": []
+  },
+  {
+    "px": 16,
+    "page": "Settings-Shortcuts",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 164,
+    "nav_size_hint": 126,
+    "unnamed": [
+      "QLineEdit:300 ms"
+    ],
+    "horizontal": []
+  },
+  {
+    "px": 16,
+    "page": "Settings-Languages",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 164,
+    "nav_size_hint": 126,
+    "unnamed": [],
+    "horizontal": []
+  },
+  {
+    "px": 16,
+    "page": "Settings-Cleanup",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 164,
+    "nav_size_hint": 126,
+    "unnamed": [
+      "QLineEdit:1200 s",
+      "QLineEdit:1140 s"
+    ],
+    "horizontal": []
+  },
+  {
+    "px": 16,
+    "page": "Settings-Models",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 164,
+    "nav_size_hint": 126,
+    "unnamed": [],
+    "horizontal": []
+  },
+  {
+    "px": 16,
+    "page": "Settings-Performance",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 164,
+    "nav_size_hint": 126,
+    "unnamed": [],
+    "horizontal": []
+  },
+  {
+    "px": 16,
+    "page": "Settings-Labs",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 164,
+    "nav_size_hint": 126,
+    "unnamed": [],
+    "horizontal": []
+  },
+  {
+    "px": 16,
+    "page": "Settings-Microphone",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 164,
+    "nav_size_hint": 126,
+    "unnamed": [],
+    "horizontal": []
+  },
+  {
+    "px": 16,
+    "page": "Settings-Privacy",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 164,
+    "nav_size_hint": 126,
+    "unnamed": [],
+    "horizontal": []
+  },
+  {
+    "px": 16,
+    "page": "Settings-About",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 164,
+    "nav_size_hint": 126,
+    "unnamed": [],
+    "horizontal": []
+  },
+  {
+    "px": 32,
+    "page": "Home",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 209,
+    "nav_size_hint": 195,
+    "unnamed": [],
+    "horizontal": []
+  },
+  {
+    "px": 32,
+    "page": "History",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 209,
+    "nav_size_hint": 195,
+    "unnamed": [],
+    "horizontal": [
+      {
+        "name": "History",
+        "type": "QScrollArea",
+        "horizontal": 237,
+        "width": 611
+      }
+    ]
+  },
+  {
+    "px": 32,
+    "page": "Dictionary",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 209,
+    "nav_size_hint": 195,
+    "unnamed": [],
+    "horizontal": [
+      {
+        "name": "Dictionary settings",
+        "type": "QScrollArea",
+        "horizontal": 21,
+        "width": 611
+      }
+    ]
+  },
+  {
+    "px": 32,
+    "page": "Snippets",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 209,
+    "nav_size_hint": 195,
+    "unnamed": [],
+    "horizontal": [
+      {
+        "name": "Snippets settings",
+        "type": "QScrollArea",
+        "horizontal": 8,
+        "width": 611
+      }
+    ]
+  },
+  {
+    "px": 32,
+    "page": "Style",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 209,
+    "nav_size_hint": 195,
+    "unnamed": [],
+    "horizontal": [
+      {
+        "name": "Style settings",
+        "type": "StylesPage",
+        "horizontal": 241,
+        "width": 611
+      }
+    ]
+  },
+  {
+    "px": 32,
+    "page": "Notes",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 209,
+    "nav_size_hint": 195,
+    "unnamed": [],
+    "horizontal": []
+  },
+  {
+    "px": 32,
+    "page": "Settings-General",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 209,
+    "nav_size_hint": 195,
+    "unnamed": [
+      "QLineEdit:3 s"
+    ],
+    "horizontal": []
+  },
+  {
+    "px": 32,
+    "page": "Settings-Shortcuts",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 209,
+    "nav_size_hint": 195,
+    "unnamed": [
+      "QLineEdit:300 ms"
+    ],
+    "horizontal": []
+  },
+  {
+    "px": 32,
+    "page": "Settings-Languages",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 209,
+    "nav_size_hint": 195,
+    "unnamed": [],
+    "horizontal": [
+      {
+        "name": "Languages settings",
+        "type": "QScrollArea",
+        "horizontal": 268,
+        "width": 593
+      }
+    ]
+  },
+  {
+    "px": 32,
+    "page": "Settings-Cleanup",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 209,
+    "nav_size_hint": 195,
+    "unnamed": [
+      "QLineEdit:1200 s",
+      "QLineEdit:1140 s"
+    ],
+    "horizontal": [
+      {
+        "name": "Cleanup settings",
+        "type": "QScrollArea",
+        "horizontal": 273,
+        "width": 593
+      }
+    ]
+  },
+  {
+    "px": 32,
+    "page": "Settings-Models",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 209,
+    "nav_size_hint": 195,
+    "unnamed": [],
+    "horizontal": []
+  },
+  {
+    "px": 32,
+    "page": "Settings-Performance",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 209,
+    "nav_size_hint": 195,
+    "unnamed": [],
+    "horizontal": []
+  },
+  {
+    "px": 32,
+    "page": "Settings-Labs",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 209,
+    "nav_size_hint": 195,
+    "unnamed": [],
+    "horizontal": [
+      {
+        "name": "Labs settings",
+        "type": "QScrollArea",
+        "horizontal": 149,
+        "width": 593
+      }
+    ]
+  },
+  {
+    "px": 32,
+    "page": "Settings-Microphone",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 209,
+    "nav_size_hint": 195,
+    "unnamed": [],
+    "horizontal": [
+      {
+        "name": "Microphone settings",
+        "type": "QScrollArea",
+        "horizontal": 151,
+        "width": 593
+      }
+    ]
+  },
+  {
+    "px": 32,
+    "page": "Settings-Privacy",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 209,
+    "nav_size_hint": 195,
+    "unnamed": [],
+    "horizontal": [
+      {
+        "name": "Privacy settings",
+        "type": "QScrollArea",
+        "horizontal": 66,
+        "width": 593
+      }
+    ]
+  },
+  {
+    "px": 32,
+    "page": "Settings-About",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 209,
+    "nav_size_hint": 195,
+    "unnamed": [],
+    "horizontal": []
+  }
+]

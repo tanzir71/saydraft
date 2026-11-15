@@ -1,0 +1,22 @@
+Traceback (most recent call last):
+  File "D:\Saydraft-Codex-QA-20261112-01a1cbc7\run_hub_accessibility_20261115.py", line 36, in <module>
+    runpy.run_path(script, run_name='__main__')
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 294, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "D:/Saydraft-Codex-QA-20261112-01a1cbc7/inspect_hub_accessibility_20261115.py", line 34, in <module>
+    hub = HubWindow(settings_options=dict(config_path=profile / 'config.json', snippets_path=profile / 'snippets.txt',
+        autostart_manager=SimpleNamespace(is_enabled=lambda: False, set_enabled=lambda _: None),
+    ...<2 lines>...
+        model_inventory_provider=lambda: ()),
+        history_options=dict(store=DictationHistoryStore(profile / 'history.db'), clipboard=Clipboard()))
+  File "D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\hub-accessibility-20261115\saydraft\ui\hub.py", line 40, in __init__
+    self.history_page = history_page_factory(**history_options)
+                        ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\hub-accessibility-20261115\saydraft\ui\history_page.py", line 108, in __init__
+    self.restore_clipboard_button.setVisible(hasattr(self.clipboard, "recover"))
+                                             ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:/Saydraft-Codex-QA-20261112-01a1cbc7/inspect_hub_accessibility_20261115.py", line 18, in __getattr__
+    raise AssertionError('Clipboard port is barred: ' + name)
+AssertionError: Clipboard port is barred: recover

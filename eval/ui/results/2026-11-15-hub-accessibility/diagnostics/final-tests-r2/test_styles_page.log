@@ -1,0 +1,8 @@
+.........                                                                [100%]
+============================= slowest 5 durations =============================
+0.93s call     tests/test_styles_page.py::test_matrix_roundtrip_keeps_inheritance_and_legacy_mode_changes
+0.90s call     tests/test_styles_page.py::test_translation_targets_stage_per_group_and_save_without_enabling_or_model_transfer
+0.29s call     tests/test_styles_page.py::test_visible_row_edit_updates_its_live_preview_after_debounce
+0.09s call     tests/test_styles_page.py::test_live_rules_preview_matches_every_group_tone_and_level
+0.05s setup    tests/test_styles_page.py::test_translation_targets_stage_per_group_and_save_without_enabling_or_model_transfer
+9 passed, 1 deselected in 2.65s

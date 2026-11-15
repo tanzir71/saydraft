@@ -1,0 +1,41 @@
+Traceback (most recent call last):
+  File "D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\hub-accessibility-20261115\saydraft\ui\model_storage.py", line 186, in _inventoried
+    for usage in snapshot.roots:
+                 ^^^^^^^^^^^^^^
+AttributeError: 'tuple' object has no attribute 'roots'
+Traceback (most recent call last):
+  File "D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\hub-accessibility-20261115\saydraft\ui\model_storage.py", line 186, in _inventoried
+    for usage in snapshot.roots:
+                 ^^^^^^^^^^^^^^
+AttributeError: 'tuple' object has no attribute 'roots'
+Traceback (most recent call last):
+  File "D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\hub-accessibility-20261115\saydraft\ui\model_storage.py", line 186, in _inventoried
+    for usage in snapshot.roots:
+                 ^^^^^^^^^^^^^^
+AttributeError: 'tuple' object has no attribute 'roots'
+Traceback (most recent call last):
+  File "D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\hub-accessibility-20261115\saydraft\ui\model_storage.py", line 186, in _inventoried
+    for usage in snapshot.roots:
+                 ^^^^^^^^^^^^^^
+AttributeError: 'tuple' object has no attribute 'roots'
+Traceback (most recent call last):
+  File "D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\hub-accessibility-20261115\saydraft\ui\model_storage.py", line 186, in _inventoried
+    for usage in snapshot.roots:
+                 ^^^^^^^^^^^^^^
+AttributeError: 'tuple' object has no attribute 'roots'
+Traceback (most recent call last):
+  File "D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\hub-accessibility-20261115\saydraft\ui\model_storage.py", line 186, in _inventoried
+    for usage in snapshot.roots:
+                 ^^^^^^^^^^^^^^
+AttributeError: 'tuple' object has no attribute 'roots'
+{
+  "source": "a6e83c0ec6c5a992274b70d6d0ca6743ca426e16",
+  "python": "3.13.17",
+  "qt": "6.11.1",
+  "pyside": "6.11.1",
+  "platform": "offscreen",
+  "physical_acceptance": false,
+  "owner_io_used": false,
+  "simulated_high_contrast": true,
+  "record_count": 108
+}

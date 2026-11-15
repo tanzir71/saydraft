@@ -1,0 +1,160 @@
+FFFFFF.........                                                          [100%]
+================================== FAILURES ===================================
+___ test_all_hub_pages_have_named_forward_and_reverse_tab_cycles[16-light] ____
+
+owned_hub = namespace(app=<PySide6.QtWidgets.QApplication(0x1a33f3cd7b0) at 0x000001A359600C80>, hub=<saydraft.ui.hub.HubWindow(0x..._hub.<locals>.settle at 0x000001A359B99580>, hints=<test_hub_accessibility.Hints(0x1a3584e5ec0) at 0x000001A3595AC4C0>)
+mode = 'light', px = 16
+
+    @pytest.mark.parametrize("mode", ["light", "dark", "high-contrast"])
+    @pytest.mark.parametrize("px", [16, 32])
+    def test_all_hub_pages_have_named_forward_and_reverse_tab_cycles(owned_hub, mode, px):
+        subject, hub = owned_hub, owned_hub.hub
+        subject.theme(mode, px)
+        for name, section in [(name, None) for name in PAGES] + [("Settings", name) for name in SECTIONS]:
+            hub.show_page(name, tab=section)
+            subject.settle()
+            editors = hub.findChildren(QtWidgets.QPlainTextEdit)
+            texts = [editor.toPlainText() for editor in editors]
+            for backwards in [False, True]:
+                visited = walk_tabs(subject, backwards=backwards)
+                assert hub.save_button in visited if name in ("Dictionary", "Snippets", "Style", "Settings") else True
+>           assert [editor.toPlainText() for editor in editors] == texts
+E           AssertionError: assert ['Check perfo... world.', ...] == ['Check perfo... world.', ...]
+E             
+E             At index 8 diff: '123 Example Road' != ''
+E             Use -v to get more diff
+
+tests\test_hub_accessibility.py:155: AssertionError
+____ test_all_hub_pages_have_named_forward_and_reverse_tab_cycles[16-dark] ____
+
+owned_hub = namespace(app=<PySide6.QtWidgets.QApplication(0x1a33f3cd7b0) at 0x000001A359600C80>, hub=<saydraft.ui.hub.HubWindow(0x..._hub.<locals>.settle at 0x000001A359A84F40>, hints=<test_hub_accessibility.Hints(0x1a358bd7b60) at 0x000001A359A6A640>)
+mode = 'dark', px = 16
+
+    @pytest.mark.parametrize("mode", ["light", "dark", "high-contrast"])
+    @pytest.mark.parametrize("px", [16, 32])
+    def test_all_hub_pages_have_named_forward_and_reverse_tab_cycles(owned_hub, mode, px):
+        subject, hub = owned_hub, owned_hub.hub
+        subject.theme(mode, px)
+        for name, section in [(name, None) for name in PAGES] + [("Settings", name) for name in SECTIONS]:
+            hub.show_page(name, tab=section)
+            subject.settle()
+            editors = hub.findChildren(QtWidgets.QPlainTextEdit)
+            texts = [editor.toPlainText() for editor in editors]
+            for backwards in [False, True]:
+                visited = walk_tabs(subject, backwards=backwards)
+                assert hub.save_button in visited if name in ("Dictionary", "Snippets", "Style", "Settings") else True
+>           assert [editor.toPlainText() for editor in editors] == texts
+E           AssertionError: assert ['Check perfo... world.', ...] == ['Check perfo... world.', ...]
+E             
+E             At index 8 diff: '123 Example Road' != ''
+E             Use -v to get more diff
+
+tests\test_hub_accessibility.py:155: AssertionError
+_ test_all_hub_pages_have_named_forward_and_reverse_tab_cycles[16-high-contrast] _
+
+owned_hub = namespace(app=<PySide6.QtWidgets.QApplication(0x1a33f3cd7b0) at 0x000001A359600C80>, hub=<saydraft.ui.hub.HubWindow(0x..._hub.<locals>.settle at 0x000001A359C92980>, hints=<test_hub_accessibility.Hints(0x1a358789af0) at 0x000001A35AF70DC0>)
+mode = 'high-contrast', px = 16
+
+    @pytest.mark.parametrize("mode", ["light", "dark", "high-contrast"])
+    @pytest.mark.parametrize("px", [16, 32])
+    def test_all_hub_pages_have_named_forward_and_reverse_tab_cycles(owned_hub, mode, px):
+        subject, hub = owned_hub, owned_hub.hub
+        subject.theme(mode, px)
+        for name, section in [(name, None) for name in PAGES] + [("Settings", name) for name in SECTIONS]:
+            hub.show_page(name, tab=section)
+            subject.settle()
+            editors = hub.findChildren(QtWidgets.QPlainTextEdit)
+            texts = [editor.toPlainText() for editor in editors]
+            for backwards in [False, True]:
+                visited = walk_tabs(subject, backwards=backwards)
+                assert hub.save_button in visited if name in ("Dictionary", "Snippets", "Style", "Settings") else True
+>           assert [editor.toPlainText() for editor in editors] == texts
+E           AssertionError: assert ['Check perfo... world.', ...] == ['Check perfo... world.', ...]
+E             
+E             At index 8 diff: '123 Example Road' != ''
+E             Use -v to get more diff
+
+tests\test_hub_accessibility.py:155: AssertionError
+___ test_all_hub_pages_have_named_forward_and_reverse_tab_cycles[32-light] ____
+
+owned_hub = namespace(app=<PySide6.QtWidgets.QApplication(0x1a33f3cd7b0) at 0x000001A359600C80>, hub=<saydraft.ui.hub.HubWindow(0x..._hub.<locals>.settle at 0x000001A3595B2AC0>, hints=<test_hub_accessibility.Hints(0x1a35850dcd0) at 0x000001A35AF32E40>)
+mode = 'light', px = 32
+
+    @pytest.mark.parametrize("mode", ["light", "dark", "high-contrast"])
+    @pytest.mark.parametrize("px", [16, 32])
+    def test_all_hub_pages_have_named_forward_and_reverse_tab_cycles(owned_hub, mode, px):
+        subject, hub = owned_hub, owned_hub.hub
+        subject.theme(mode, px)
+        for name, section in [(name, None) for name in PAGES] + [("Settings", name) for name in SECTIONS]:
+            hub.show_page(name, tab=section)
+            subject.settle()
+            editors = hub.findChildren(QtWidgets.QPlainTextEdit)
+            texts = [editor.toPlainText() for editor in editors]
+            for backwards in [False, True]:
+                visited = walk_tabs(subject, backwards=backwards)
+                assert hub.save_button in visited if name in ("Dictionary", "Snippets", "Style", "Settings") else True
+>           assert [editor.toPlainText() for editor in editors] == texts
+E           AssertionError: assert ['Check perfo... world.', ...] == ['Check perfo... world.', ...]
+E             
+E             At index 8 diff: '123 Example Road' != ''
+E             Use -v to get more diff
+
+tests\test_hub_accessibility.py:155: AssertionError
+____ test_all_hub_pages_have_named_forward_and_reverse_tab_cycles[32-dark] ____
+
+owned_hub = namespace(app=<PySide6.QtWidgets.QApplication(0x1a33f3cd7b0) at 0x000001A359600C80>, hub=<saydraft.ui.hub.HubWindow(0x..._hub.<locals>.settle at 0x000001A359C93BA0>, hints=<test_hub_accessibility.Hints(0x1a3583e6b30) at 0x000001A359A89A80>)
+mode = 'dark', px = 32
+
+    @pytest.mark.parametrize("mode", ["light", "dark", "high-contrast"])
+    @pytest.mark.parametrize("px", [16, 32])
+    def test_all_hub_pages_have_named_forward_and_reverse_tab_cycles(owned_hub, mode, px):
+        subject, hub = owned_hub, owned_hub.hub
+        subject.theme(mode, px)
+        for name, section in [(name, None) for name in PAGES] + [("Settings", name) for name in SECTIONS]:
+            hub.show_page(name, tab=section)
+            subject.settle()
+            editors = hub.findChildren(QtWidgets.QPlainTextEdit)
+            texts = [editor.toPlainText() for editor in editors]
+            for backwards in [False, True]:
+                visited = walk_tabs(subject, backwards=backwards)
+                assert hub.save_button in visited if name in ("Dictionary", "Snippets", "Style", "Settings") else True
+>           assert [editor.toPlainText() for editor in editors] == texts
+E           AssertionError: assert ['Check perfo... world.', ...] == ['Check perfo... world.', ...]
+E             
+E             At index 8 diff: '123 Example Road' != ''
+E             Use -v to get more diff
+
+tests\test_hub_accessibility.py:155: AssertionError
+_ test_all_hub_pages_have_named_forward_and_reverse_tab_cycles[32-high-contrast] _
+
+owned_hub = namespace(app=<PySide6.QtWidgets.QApplication(0x1a33f3cd7b0) at 0x000001A359600C80>, hub=<saydraft.ui.hub.HubWindow(0x..._hub.<locals>.settle at 0x000001A359CFCC20>, hints=<test_hub_accessibility.Hints(0x1a35875f4f0) at 0x000001A359AE3080>)
+mode = 'high-contrast', px = 32
+
+    @pytest.mark.parametrize("mode", ["light", "dark", "high-contrast"])
+    @pytest.mark.parametrize("px", [16, 32])
+    def test_all_hub_pages_have_named_forward_and_reverse_tab_cycles(owned_hub, mode, px):
+        subject, hub = owned_hub, owned_hub.hub
+        subject.theme(mode, px)
+        for name, section in [(name, None) for name in PAGES] + [("Settings", name) for name in SECTIONS]:
+            hub.show_page(name, tab=section)
+            subject.settle()
+            editors = hub.findChildren(QtWidgets.QPlainTextEdit)
+            texts = [editor.toPlainText() for editor in editors]
+            for backwards in [False, True]:
+                visited = walk_tabs(subject, backwards=backwards)
+                assert hub.save_button in visited if name in ("Dictionary", "Snippets", "Style", "Settings") else True
+>           assert [editor.toPlainText() for editor in editors] == texts
+E           AssertionError: assert ['Check perfo... world.', ...] == ['Check perfo... world.', ...]
+E             
+E             At index 8 diff: '123 Example Road' != ''
+E             Use -v to get more diff
+
+tests\test_hub_accessibility.py:155: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_hub_accessibility.py::test_all_hub_pages_have_named_forward_and_reverse_tab_cycles[16-light]
+FAILED tests/test_hub_accessibility.py::test_all_hub_pages_have_named_forward_and_reverse_tab_cycles[16-dark]
+FAILED tests/test_hub_accessibility.py::test_all_hub_pages_have_named_forward_and_reverse_tab_cycles[16-high-contrast]
+FAILED tests/test_hub_accessibility.py::test_all_hub_pages_have_named_forward_and_reverse_tab_cycles[32-light]
+FAILED tests/test_hub_accessibility.py::test_all_hub_pages_have_named_forward_and_reverse_tab_cycles[32-dark]
+FAILED tests/test_hub_accessibility.py::test_all_hub_pages_have_named_forward_and_reverse_tab_cycles[32-high-contrast]
+6 failed, 9 passed in 26.75s

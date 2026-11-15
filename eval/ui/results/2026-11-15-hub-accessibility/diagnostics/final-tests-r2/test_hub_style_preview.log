@@ -1,0 +1,8 @@
+.............................                                            [100%]
+============================= slowest 5 durations =============================
+4.88s call     tests/test_hub_style_preview.py::test_hub_preview_replays_all_96_qualified_dictionary_outputs
+4.53s call     tests/test_hub_style_preview.py::test_real_hub_all_84_styles_match_authored_goldens_and_delivery_engine
+1.87s setup    tests/test_hub_style_preview.py::test_real_hub_all_84_styles_match_authored_goldens_and_delivery_engine
+1.76s setup    tests/test_hub_style_preview.py::test_stale_ai_result_cannot_replace_new_dictionary_or_language_preview
+1.74s setup    tests/test_hub_style_preview.py::test_auto_follows_draft_speech_settings_and_explicit_preview_choice_stays_local
+29 passed in 57.24s

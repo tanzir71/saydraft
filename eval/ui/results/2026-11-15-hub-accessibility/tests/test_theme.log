@@ -1,0 +1,8 @@
+................................                                         [100%]
+============================= slowest 5 durations =============================
+1.33s call     tests/test_theme.py::test_minimum_settings_size_keeps_controls_readable_and_reachable[22-light]
+1.26s call     tests/test_theme.py::test_minimum_settings_size_keeps_controls_readable_and_reachable[22-dark]
+1.18s call     tests/test_theme.py::test_minimum_settings_size_keeps_controls_readable_and_reachable[16-dark]
+1.12s call     tests/test_theme.py::test_minimum_settings_size_keeps_controls_readable_and_reachable[16-light]
+0.17s setup    tests/test_theme.py::test_platform_changes_coalesce_and_high_contrast_wins
+32 passed in 6.63s
