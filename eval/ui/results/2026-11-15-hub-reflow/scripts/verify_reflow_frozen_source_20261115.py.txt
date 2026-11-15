@@ -1,0 +1,60 @@
+"""Read packaged code objects; never launch app services or execute module code."""
+import hashlib
+import json
+from pathlib import Path
+import subprocess
+import sys
+import types
+import importlib.util
+
+qa=Path(__file__).resolve().parent
+repo=qa/'worktrees/hub-reflow-20261115'
+sys.path.insert(0,str(repo))
+from tools.public_file_guard import install
+install(qa/'hub-reflow-20261115-r1/frozen-source-r2-guard.json')
+# Only the pure archive reader is needed. PyInstaller's root initializer also
+# loads credential-management DLL bindings, which the owner-I/O guard bars.
+spec=importlib.util.find_spec('PyInstaller')
+package=types.ModuleType('PyInstaller')
+package.__path__=[str(Path(spec.origin).parent)]
+package.__spec__=spec
+sys.modules['PyInstaller']=package
+from PyInstaller.archive.readers import CArchiveReader
+
+source='f6cd0bf7a23c6587939ae1bc56009581b1452c86'
+build=qa/'hub-reflow-package-20261115-r2'
+archive=CArchiveReader(str(build/'dist/Saydraft/Saydraft.exe'))
+pyz=archive.open_embedded_archive('PYZ.pyz')
+
+def stable(value):
+    if isinstance(value,types.CodeType):
+        fields=['co_argcount','co_posonlyargcount','co_kwonlyargcount','co_nlocals','co_stacksize',
+                'co_flags','co_code','co_consts','co_names','co_varnames','co_freevars','co_cellvars',
+                'co_firstlineno','co_linetable','co_exceptiontable','co_name','co_qualname']
+        return {field:stable(getattr(value,field)) for field in fields}
+    if isinstance(value,bytes):return {'bytes':value.hex()}
+    if isinstance(value,(tuple,list)):return [stable(item) for item in value]
+    if isinstance(value,frozenset):return {'frozenset':sorted([stable(item) for item in value],key=lambda item:repr(item))}
+    if value is Ellipsis:return {'ellipsis':True}
+    return value
+
+rows=[]
+paths=['saydraft/ui/'+name+'.py' for name in ['reflow','hub','history_page','styles_page','settings_page',
+    'languages_page','model_picker','cleanup_picker','labs_page','command_setup','microphone_page',
+    'whisper_mode','privacy_page','dictionary_page','snippets_page']]+['saydraft/ui/theme/controller.py']
+for path in paths:
+    payload=subprocess.check_output(['git','show',source+':'+path],cwd=repo)
+    name=path[:-3].replace('/','.')
+    actual=pyz.extract(name)
+    expected=compile(payload,path,'exec',dont_inherit=True,optimize=0)
+    expected_bytes=json.dumps(stable(expected),sort_keys=True,separators=(',',':')).encode()
+    actual_bytes=json.dumps(stable(actual),sort_keys=True,separators=(',',':')).encode()
+    assert expected_bytes==actual_bytes,name
+    rows.append(dict(module=name,source_path=path,source_sha256=hashlib.sha256(payload).hexdigest(),
+        code_fingerprint_sha256=hashlib.sha256(actual_bytes).hexdigest()))
+report=dict(source=source,bundle=str(build/'dist/Saydraft/Saydraft.exe'),module_count=len(rows),modules=rows,
+    exe_sha256=hashlib.sha256((build/'dist/Saydraft/Saydraft.exe').read_bytes()).hexdigest(),
+    method='Compare structural code objects read from actual EXE embedded PYZ against compile(Git source, optimize=0), excluding only co_filename.',
+    module_code_executed=False,owner_io_used=False)
+(qa/'hub-reflow-20261115-r1/frozen-source.json').write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8')
+print(json.dumps(dict(source=source,module_count=len(rows),module_code_executed=False),indent=2))

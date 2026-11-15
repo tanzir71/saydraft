@@ -1,0 +1,23 @@
+{
+  "source": "f6cd0bf7a23c6587939ae1bc56009581b1452c86",
+  "file": "tests/test_snippets_page.py",
+  "args": [
+    "C:\\Python313\\python.exe",
+    "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\run_hub_reflow_20261115.py",
+    "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\hub-reflow-20261115-r1\\final-tests-r2\\test_snippets_page-guard.json",
+    "tests/test_snippets_page.py",
+    "-q",
+    "-rs",
+    "-k",
+    "not real_app and not app_wires and not real_worker_controller",
+    "--durations=5",
+    "--basetemp=D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\hub-reflow-20261115-r1\\final-tests-r2\\test_snippets_page-temp"
+  ],
+  "started": 1794718430.360543,
+  "timeout": false,
+  "launcher_pid": 404,
+  "returncode": 0,
+  "job_tree_exit_observed": true,
+  "ended": 1794718448.0651047,
+  "actual_pid": 404
+}

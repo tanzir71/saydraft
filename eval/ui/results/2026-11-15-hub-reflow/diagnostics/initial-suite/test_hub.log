@@ -1,0 +1,8 @@
+...........                                                              [100%]
+============================= slowest 5 durations =============================
+3.16s setup    tests/test_hub.py::test_hub_has_one_window_and_seven_pages_with_real_existing_controls
+2.75s setup    tests/test_hub.py::test_home_uses_current_shortcut_models_and_exactly_last_five_entries
+2.73s setup    tests/test_hub.py::test_home_meeting_action_forwards_one_explicit_request_without_recording
+2.67s call     tests/test_hub.py::test_home_uses_current_shortcut_models_and_exactly_last_five_entries
+2.53s setup    tests/test_hub.py::test_hub_keeps_its_minimum_size_with_larger_text_and_all_controls_reachable[light]
+11 passed, 1 deselected in 34.47s

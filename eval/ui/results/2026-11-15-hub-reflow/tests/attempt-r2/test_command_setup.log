@@ -1,0 +1,8 @@
+...........                                                              [100%]
+============================= slowest 5 durations =============================
+1.16s call     tests/test_command_setup.py::test_settings_stages_the_new_opt_in_and_backend_only_on_save_and_validates_reserved_chord
+0.78s call     tests/test_command_setup.py::test_settings_close_pauses_command_transfer_without_joining_download_thread
+0.15s call     tests/test_command_setup.py::test_explicit_pause_resume_keeps_choice_and_pause_is_available_during_transfer
+0.11s call     tests/test_command_setup.py::test_explicit_download_uses_captured_backend_off_gui_and_does_not_enable_or_apply
+0.11s setup    tests/test_command_setup.py::test_ask_is_an_independent_default_off_shared_model_opt_in_without_transfer
+11 passed in 2.89s

@@ -1,0 +1,161 @@
+{
+  "runtime_source": "f6cd0bf7a23c6587939ae1bc56009581b1452c86",
+  "qa_source": "301218a013a5a25e3e3cac6556b0f5eba2a6c0a3",
+  "method": "Select sixteen successful original file runs and one focused Hub rerun. No failed record rewritten; app/build inputs identical.",
+  "files": [
+    {
+      "file": "tests/test_hub.py",
+      "source": "301218a013a5a25e3e3cac6556b0f5eba2a6c0a3",
+      "returncode": 0,
+      "exit_observed": true,
+      "exit_method": "Direct C:/Python313/python.exe tool session 15485 completed with exit code 0; no venv redirector.",
+      "job_tree_exit_observed": false,
+      "log": "tests/hub-final.log",
+      "guard": "tests/hub-final-guard.json"
+    },
+    {
+      "file": "tests/test_hub_style_preview.py",
+      "source": "f6cd0bf7a23c6587939ae1bc56009581b1452c86",
+      "returncode": 0,
+      "exit_observed": true,
+      "job_tree_exit_observed": true,
+      "log": "tests/attempt-r2/test_hub_style_preview.log",
+      "guard": "tests/attempt-r2/test_hub_style_preview-guard.json"
+    },
+    {
+      "file": "tests/test_settings_window.py",
+      "source": "f6cd0bf7a23c6587939ae1bc56009581b1452c86",
+      "returncode": 0,
+      "exit_observed": true,
+      "job_tree_exit_observed": true,
+      "log": "tests/attempt-r2/test_settings_window.log",
+      "guard": "tests/attempt-r2/test_settings_window-guard.json"
+    },
+    {
+      "file": "tests/test_dictionary_page.py",
+      "source": "f6cd0bf7a23c6587939ae1bc56009581b1452c86",
+      "returncode": 0,
+      "exit_observed": true,
+      "job_tree_exit_observed": true,
+      "log": "tests/attempt-r2/test_dictionary_page.log",
+      "guard": "tests/attempt-r2/test_dictionary_page-guard.json"
+    },
+    {
+      "file": "tests/test_snippets_page.py",
+      "source": "f6cd0bf7a23c6587939ae1bc56009581b1452c86",
+      "returncode": 0,
+      "exit_observed": true,
+      "job_tree_exit_observed": true,
+      "log": "tests/attempt-r2/test_snippets_page.log",
+      "guard": "tests/attempt-r2/test_snippets_page-guard.json"
+    },
+    {
+      "file": "tests/test_styles_page.py",
+      "source": "f6cd0bf7a23c6587939ae1bc56009581b1452c86",
+      "returncode": 0,
+      "exit_observed": true,
+      "job_tree_exit_observed": true,
+      "log": "tests/attempt-r2/test_styles_page.log",
+      "guard": "tests/attempt-r2/test_styles_page-guard.json"
+    },
+    {
+      "file": "tests/test_theme.py",
+      "source": "f6cd0bf7a23c6587939ae1bc56009581b1452c86",
+      "returncode": 0,
+      "exit_observed": true,
+      "job_tree_exit_observed": true,
+      "log": "tests/attempt-r2/test_theme.log",
+      "guard": "tests/attempt-r2/test_theme-guard.json"
+    },
+    {
+      "file": "tests/test_model_picker.py",
+      "source": "f6cd0bf7a23c6587939ae1bc56009581b1452c86",
+      "returncode": 0,
+      "exit_observed": true,
+      "job_tree_exit_observed": true,
+      "log": "tests/attempt-r2/test_model_picker.log",
+      "guard": "tests/attempt-r2/test_model_picker-guard.json"
+    },
+    {
+      "file": "tests/test_history_window.py",
+      "source": "f6cd0bf7a23c6587939ae1bc56009581b1452c86",
+      "returncode": 0,
+      "exit_observed": true,
+      "job_tree_exit_observed": true,
+      "log": "tests/attempt-r2/test_history_window.log",
+      "guard": "tests/attempt-r2/test_history_window-guard.json"
+    },
+    {
+      "file": "tests/test_hub_accessibility.py",
+      "source": "f6cd0bf7a23c6587939ae1bc56009581b1452c86",
+      "returncode": 0,
+      "exit_observed": true,
+      "job_tree_exit_observed": true,
+      "log": "tests/attempt-r2/test_hub_accessibility.log",
+      "guard": "tests/attempt-r2/test_hub_accessibility-guard.json"
+    },
+    {
+      "file": "tests/test_reflow.py",
+      "source": "f6cd0bf7a23c6587939ae1bc56009581b1452c86",
+      "returncode": 0,
+      "exit_observed": true,
+      "job_tree_exit_observed": true,
+      "log": "tests/attempt-r2/test_reflow.log",
+      "guard": "tests/attempt-r2/test_reflow-guard.json"
+    },
+    {
+      "file": "tests/test_hub_reflow.py",
+      "source": "f6cd0bf7a23c6587939ae1bc56009581b1452c86",
+      "returncode": 0,
+      "exit_observed": true,
+      "job_tree_exit_observed": true,
+      "log": "tests/attempt-r2/test_hub_reflow.log",
+      "guard": "tests/attempt-r2/test_hub_reflow-guard.json"
+    },
+    {
+      "file": "tests/test_whisper_mode_ui.py",
+      "source": "f6cd0bf7a23c6587939ae1bc56009581b1452c86",
+      "returncode": 0,
+      "exit_observed": true,
+      "job_tree_exit_observed": true,
+      "log": "tests/attempt-r2/test_whisper_mode_ui.log",
+      "guard": "tests/attempt-r2/test_whisper_mode_ui-guard.json"
+    },
+    {
+      "file": "tests/test_cleanup_picker.py",
+      "source": "f6cd0bf7a23c6587939ae1bc56009581b1452c86",
+      "returncode": 0,
+      "exit_observed": true,
+      "job_tree_exit_observed": true,
+      "log": "tests/attempt-r2/test_cleanup_picker.log",
+      "guard": "tests/attempt-r2/test_cleanup_picker-guard.json"
+    },
+    {
+      "file": "tests/test_command_setup.py",
+      "source": "f6cd0bf7a23c6587939ae1bc56009581b1452c86",
+      "returncode": 0,
+      "exit_observed": true,
+      "job_tree_exit_observed": true,
+      "log": "tests/attempt-r2/test_command_setup.log",
+      "guard": "tests/attempt-r2/test_command_setup-guard.json"
+    },
+    {
+      "file": "tests/test_microphone_ui.py",
+      "source": "f6cd0bf7a23c6587939ae1bc56009581b1452c86",
+      "returncode": 0,
+      "exit_observed": true,
+      "job_tree_exit_observed": true,
+      "log": "tests/attempt-r2/test_microphone_ui.log",
+      "guard": "tests/attempt-r2/test_microphone_ui-guard.json"
+    },
+    {
+      "file": "tests/test_onboarding_window.py",
+      "source": "f6cd0bf7a23c6587939ae1bc56009581b1452c86",
+      "returncode": 0,
+      "exit_observed": true,
+      "job_tree_exit_observed": true,
+      "log": "tests/attempt-r2/test_onboarding_window.log",
+      "guard": "tests/attempt-r2/test_onboarding_window-guard.json"
+    }
+  ]
+}

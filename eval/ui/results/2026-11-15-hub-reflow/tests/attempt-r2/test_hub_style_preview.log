@@ -1,0 +1,8 @@
+.............................                                            [100%]
+============================= slowest 5 durations =============================
+8.99s call     tests/test_hub_style_preview.py::test_hub_preview_replays_all_96_qualified_dictionary_outputs
+5.48s call     tests/test_hub_style_preview.py::test_real_hub_all_84_styles_match_authored_goldens_and_delivery_engine
+4.56s setup    tests/test_hub_style_preview.py::test_requested_language_previews_match_engine_without_speech_or_config_changes[tl-Ipadala ang 14 na file kay Maria.]
+3.73s setup    tests/test_hub_style_preview.py::test_requested_language_previews_match_engine_without_speech_or_config_changes[hi-\u092e\u0930\u093f\u092f\u092e \u0915\u094b 14 \u092b\u093c\u093e\u0907\u0932\u0947\u0902 \u092d\u0947\u091c\u0947\u0902\u0964]
+3.68s setup    tests/test_hub_style_preview.py::test_requested_language_previews_match_engine_without_speech_or_config_changes[fr-Envoyez 14 fichiers \xe0 Marie.]
+29 passed in 100.26s (0:01:40)

@@ -1,0 +1,8 @@
+..................                                                       [100%]
+============================= slowest 5 durations =============================
+3.11s setup    tests/test_dictionary_page.py::test_previewing_pending_rename_of_imported_entry_does_not_claim_or_drop_source
+2.38s setup    tests/test_dictionary_page.py::test_pending_form_preview_matches_save_without_mutating_staged_or_saved_state[user_terms-Krezel-None]
+2.03s setup    tests/test_dictionary_page.py::test_duplicate_unicode_terms_and_empty_forms_do_not_replace_existing_entries
+1.88s setup    tests/test_dictionary_page.py::test_pending_form_preview_matches_save_without_mutating_staged_or_saved_state[protected_terms-Krezle-None]
+1.82s setup    tests/test_dictionary_page.py::test_source_chips_and_make_manual_preserve_or_revoke_real_learning_undo
+18 passed, 1 deselected in 35.77s

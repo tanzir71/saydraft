@@ -1,0 +1,41 @@
+F.............                                                           [100%]
+================================== FAILURES ===================================
+___ test_every_hub_view_reflows_and_scrolls_to_keyboard_focus[880-16-light] ___
+
+owned_hub = namespace(app=<PySide6.QtWidgets.QApplication(0x23c3c985f00) at 0x0000023C55169480>, hub=<saydraft.ui.hub.HubWindow(0x...locals>.settle at 0x0000023C570AB2E0>, hints=<tests.test_hub_accessibility.Hints(0x23c55a17940) at 0x0000023C56EAB380>)
+mode = 'light', px = 16, width = 880
+
+    @pytest.mark.parametrize("mode", ["light", "dark", "high-contrast"])
+    @pytest.mark.parametrize("px", [16, 32])
+    @pytest.mark.parametrize("width", [880, 1080])
+    def test_every_hub_view_reflows_and_scrolls_to_keyboard_focus(owned_hub, mode, px, width):
+        subject, hub = owned_hub, owned_hub.hub
+        subject.theme(mode, px)
+        hub.resize(width, 600 if width == 880 else 720)
+        for name, section in [(name, None) for name in PAGES] + [("Settings", section) for section in SECTIONS]:
+            hub.show_page(name, tab=section)
+>           subject.settle()
+
+tests\test_hub_reflow.py:40: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    def settle():
+        # Only owned SQLite readers and queued Qt events; no desktop event source.
+        for _ in range(100):
+            app.processEvents()
+            if not hub.history_page.loading:
+                break
+            QtTest.QTest.qWait(5)
+>       assert not hub.history_page.loading
+E       assert not True
+E        +  where True = <saydraft.ui.history_page.HistoryPage(0x23c559aa040) at 0x0000023C56FEADC0>.loading
+E        +    where <saydraft.ui.history_page.HistoryPage(0x23c559aa040) at 0x0000023C56FEADC0> = <saydraft.ui.hub.HubWindow(0x23c3abba9d0) at 0x0000023C56EAAB00>.history_page
+
+tests\test_hub_accessibility.py:108: AssertionError
+============================= slowest 5 durations =============================
+3.93s setup    tests/test_hub_reflow.py::test_every_hub_view_reflows_and_scrolls_to_keyboard_focus[880-16-dark]
+3.09s setup    tests/test_hub_reflow.py::test_every_hub_view_reflows_and_scrolls_to_keyboard_focus[880-16-light]
+2.62s setup    tests/test_hub_reflow.py::test_every_hub_view_reflows_and_scrolls_to_keyboard_focus[880-16-high-contrast]
+2.05s setup    tests/test_hub_reflow.py::test_every_hub_view_reflows_and_scrolls_to_keyboard_focus[1080-16-dark]
+1.99s setup    tests/test_hub_reflow.py::test_every_hub_view_reflows_and_scrolls_to_keyboard_focus[1080-32-high-contrast]
+1 failed, 13 passed in 50.26s

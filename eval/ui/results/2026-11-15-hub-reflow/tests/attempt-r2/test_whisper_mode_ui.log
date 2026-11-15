@@ -1,0 +1,8 @@
+.........                                                                [100%]
+============================= slowest 5 durations =============================
+1.06s setup    tests/test_whisper_mode_ui.py::test_quiet_mode_keeps_saved_streaming_preference_but_makes_processed_primary_final
+1.05s setup    tests/test_whisper_mode_ui.py::test_default_off_controls_stage_gain_and_agc_without_download_device_or_saved_changes
+0.90s setup    tests/test_whisper_mode_ui.py::test_enhancement_requires_verified_files_before_any_shared_save
+0.89s setup    tests/test_whisper_mode_ui.py::test_verified_download_never_saves_or_enables_mode
+0.82s setup    tests/test_whisper_mode_ui.py::test_pause_settles_the_worker_and_resume_reuses_explicit_setup
+9 passed in 8.71s

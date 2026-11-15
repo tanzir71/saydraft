@@ -1,0 +1,90 @@
+"""Verify scoped reflow/build evidence, original source and successful test selection."""
+import argparse
+import hashlib
+import json
+from pathlib import Path
+import re
+import struct
+import subprocess
+
+p=argparse.ArgumentParser()
+p.add_argument('--repo',type=Path,required=True)
+p.add_argument('--evidence',type=Path)
+p.add_argument('--check-current',action='store_true')
+p.add_argument('--build-root',type=Path)
+a=p.parse_args();repo=a.repo.resolve();root=(a.evidence or Path(__file__).resolve().parents[1]).resolve()
+read=lambda rel:json.loads((root/rel).read_text(encoding='utf-8'))
+sha=lambda b:hashlib.sha256(b).hexdigest()
+m=read('manifest.json')
+assert {f.relative_to(root).as_posix() for f in root.rglob('*') if f.is_file()}=={r['path'] for r in m['records']}|{'manifest.json'}
+for r in m['records']:
+    f=(root/r['path']).resolve();assert f.is_relative_to(root)
+    b=f.read_bytes();assert len(b)==r['bytes'] and sha(b)==r['sha256'],r['path']
+for r in m['source_files']:
+    b=subprocess.check_output(['git','show',r['commit']+':'+r['path']],cwd=repo)
+    assert sha(b)==r['sha256'] and (root/r['witness']).read_bytes()==b
+    if a.check_current:assert (repo/r['path']).read_bytes().replace(b'\r\n',b'\n')==b.replace(b'\r\n',b'\n'),r['path']
+for r in m['app_inputs']:
+    ids=[subprocess.check_output(['git','rev-parse',commit+':'+r['path']],cwd=repo,text=True).strip()
+         for commit in [m['source'],m['qa_source']]+(['HEAD'] if a.check_current else [])]
+    assert all(value==r['object_id'] for value in ids),r['path']
+expected_counts={'test_hub':11,'test_hub_style_preview':29,'test_settings_window':28,'test_dictionary_page':18,
+ 'test_snippets_page':7,'test_styles_page':9,'test_theme':35,'test_model_picker':2,'test_history_window':7,
+ 'test_hub_accessibility':21,'test_reflow':4,'test_hub_reflow':20,'test_whisper_mode_ui':9,'test_cleanup_picker':9,
+ 'test_command_setup':11,'test_microphone_ui':8,'test_onboarding_window':16}
+qualified=read('tests/qualified.json');assert len(qualified['files'])==17
+passed=deselected=0;guards=[]
+for r in qualified['files']:
+    name=Path(r['file']).stem
+    log=(root/r['log']).read_text(encoding='utf-8')
+    match=re.search(r'(\d+) passed(?:, (\d+) deselected)? in ',log)
+    assert match and int(match[1])==expected_counts[name],name
+    assert 'Traceback (most recent call last)' not in log and 'FAILED ' not in log
+    assert r['returncode']==0 and r['exit_observed'] and r['source'] in [m['source'],m['qa_source']]
+    passed+=int(match[1]);deselected+=int(match[2] or 0);guards.append(r['guard'])
+assert (passed,deselected)==(244,4),(passed,deselected)
+report=read('final/report.json')
+assert report['source']==m['source'] and not report['dirty_source']
+assert report['platform']=='offscreen' and not report['physical_acceptance'] and not report['owner_io_used']
+states=['Home','History','Dictionary','Snippets','Style','Notes']+['Settings-'+s for s in
+ ['General','Shortcuts','Languages','Cleanup','Models','Performance','Labs','Microphone','Privacy','About']]
+states+=['Dictionary-expanded','Snippets-expanded','Settings-Microphone-warning']
+expected={f'{mode}-{px}-{state}' for mode in ['light','dark','high-contrast'] for px in [16,32] for state in states}
+assert len(report['records'])==report['record_count']==114
+assert {r['case'] for r in report['records']}==expected
+for r in report['records']:
+    b=(root/'final'/r['image']).read_bytes()
+    assert sha(b)==r['sha256'] and b[:8]==b'\x89PNG\r\n\x1a\n'
+    assert list(struct.unpack('>II',b[16:24]))==r['image_size']==[880,600]
+    assert r['dpr']==1 and r['logical_text_px']==r['actual_navigation_font_px'] and not r['clipped_buttons']
+    for names in r['tab_walks'].values():
+        assert names[0]=='Hub pages' and all(n.strip() for n in names)
+        if any(part in r['case'] for part in ['-Dictionary','-Snippets','-Style','-Settings']):assert 'Save changes' in names
+    assert all(s['horizontal']==0 for s in r['scrolls'] if s['type'] in ['QScrollArea','HomePage','StylesPage'])
+guards+=['final/guard.json','package/frozen-source-guard.json']
+for rel in guards:
+    g=read(rel);assert not g['blocked_attempts'],rel
+    assert not any(g[k] for k in ['real_audio_sdk_imported','owner_profile_used','owner_clipboard_used',
+       'owner_native_input_used','device_enumeration','microphone_used'])
+bundle=read('package/bundle.json');runtime=read('package/runtime.json');fingerprints=read('package/frozen-source.json')
+assert bundle['git_commit']==m['source'] and not bundle['source_dirty']
+assert runtime['complete'] and runtime['frozen'] and all(runtime['checks'].values())
+assert not any(runtime[k] for k in ['microphone_used','audio_devices_enumerated','input_injected','owner_clipboard_accessed','active_application_read','asr_performed'])
+assert not bundle['installer_size_gate'] and not bundle['packaging_gate']
+assert fingerprints['source']==m['source'] and fingerprints['module_count']==len(fingerprints['modules'])==16
+assert fingerprints['exe_sha256']==bundle['file_sha256']['Saydraft.exe'] and not fingerprints['module_code_executed']
+for r in fingerprints['modules']:
+    b=subprocess.check_output(['git','show',m['source']+':'+r['source_path']],cwd=repo)
+    assert sha(b)==r['source_sha256']
+assert read('package/artifact-verification.json')['files_verified']==bundle['files']==1384
+if a.build_root:
+    build=a.build_root.resolve()
+    for rel,digest in bundle['file_sha256'].items():
+        f=(build/'dist/Saydraft'/rel).resolve();assert f.is_relative_to(build)
+        assert sha(f.read_bytes())==digest,rel
+    for name,r in bundle['artifacts'].items():
+        b=(build/'artifacts'/name).read_bytes();assert len(b)==r['bytes'] and sha(b)==r['sha256']
+assert m['new_portable_built'] and not m['full_p6_7_accepted'] and not m['full_goal_complete']
+print(json.dumps(dict(source=m['source'],qa_source=m['qa_source'],tests_passed=passed,app_entries_deselected=deselected,
+ frames=114,named_tab_walks=228,frozen_modules=16,records=len(m['records']),source_witnesses=len(m['source_files']),
+ current_inputs_checked=a.check_current,build_files_checked=bool(a.build_root),release_ready=False),indent=2))

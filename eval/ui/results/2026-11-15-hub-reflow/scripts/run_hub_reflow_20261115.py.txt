@@ -1,0 +1,36 @@
+"""Owned offscreen fixtures with no real owner/device/input/clipboard ports."""
+import sys
+from pathlib import Path
+
+qa = Path(__file__).resolve().parent
+repo = qa / 'worktrees/hub-reflow-20261115'
+sys.path.insert(0, str(repo))
+sys.path.insert(0, str(qa / 'dictionary-correction-20261115-r1/dependencies'))
+from tools.public_file_guard import install
+install(Path(sys.argv.pop(1)).resolve())
+import os
+os.environ['QT_STYLE_OVERRIDE'] = 'Fusion'
+from PySide6 import QtWidgets, QtGui
+
+def forbidden(*args, **kwargs):
+    raise AssertionError('Owner/device/external port is barred')
+
+QtWidgets.QApplication.clipboard = forbidden
+QtGui.QDesktopServices.openUrl = forbidden
+import saydraft.hotkeys.wispr
+saydraft.hotkeys.wispr.wispr_running = lambda **kwargs: False
+import saydraft.models.storage
+saydraft.models.storage.storage_roots = lambda: ()
+import saydraft.ui.onboarding_models
+saydraft.ui.onboarding_models.inspect_speech_package = lambda _: {'state': 'missing', 'missing': []}
+from saydraft.privacy.netguard import NetworkGuard
+NetworkGuard.install()
+if sys.argv[1] == '--script':
+    import runpy
+    sys.argv.pop(1)
+    script = sys.argv.pop(1)
+    sys.argv[0] = script
+    runpy.run_path(script, run_name='__main__')
+else:
+    import pytest
+    raise SystemExit(pytest.main(sys.argv[1:]))

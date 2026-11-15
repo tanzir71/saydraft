@@ -1,0 +1,107 @@
+{
+  "source": "f6cd0bf7a23c6587939ae1bc56009581b1452c86",
+  "bundle": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\hub-reflow-package-20261115-r2\\dist\\Saydraft\\Saydraft.exe",
+  "module_count": 16,
+  "modules": [
+    {
+      "module": "saydraft.ui.reflow",
+      "source_path": "saydraft/ui/reflow.py",
+      "source_sha256": "962c423a7fa4215f8ea2f54d61c86598dccbf62b701b83f8295f81427c5c1001",
+      "code_fingerprint_sha256": "6fb7d8caf89b0d6f7b32dd48b375f6832326968fffb6bd2802ba7e13bd7fff8b"
+    },
+    {
+      "module": "saydraft.ui.hub",
+      "source_path": "saydraft/ui/hub.py",
+      "source_sha256": "7fd00a2bd0ffd99168d316123ed4b6d8c64e65fb80fd8e72344e306d3c0ed2b0",
+      "code_fingerprint_sha256": "6052984900044b8e7ee1fc56e69bfa23d7bb108a096c3971df35e728e0a936ba"
+    },
+    {
+      "module": "saydraft.ui.history_page",
+      "source_path": "saydraft/ui/history_page.py",
+      "source_sha256": "db122889022f53b8fa5b40dbc1c70595c34ad2d89df2c2feb5cf9329a5631694",
+      "code_fingerprint_sha256": "6f6c8bee99d535b004b4933b7f4dfb8bc02db05f9616842550674356bac2af83"
+    },
+    {
+      "module": "saydraft.ui.styles_page",
+      "source_path": "saydraft/ui/styles_page.py",
+      "source_sha256": "ff0ae4b080bd9628786750df19dad13b9fcd86fcae7d55d4b2e6436e106da52a",
+      "code_fingerprint_sha256": "385de3c6b1217bff5ce3420154145f00f076537ab48b296ede7faf7017729396"
+    },
+    {
+      "module": "saydraft.ui.settings_page",
+      "source_path": "saydraft/ui/settings_page.py",
+      "source_sha256": "bfe8b1ade70311eead42ef400eb31dab7b0c3e22a57b2884b32e1cb56e8aff69",
+      "code_fingerprint_sha256": "37136a4caf2aafe446c7a5c695fe6b2b9ef4e9c1ac55719e8df5caaefe419d2c"
+    },
+    {
+      "module": "saydraft.ui.languages_page",
+      "source_path": "saydraft/ui/languages_page.py",
+      "source_sha256": "c6b6682b1b88c150919a2920ca476db29f02789965bc6393e9de99772a1a106a",
+      "code_fingerprint_sha256": "cd881ae86f82248147571fe8d3149fe8eb7b805e66880671a8639334a93cfd90"
+    },
+    {
+      "module": "saydraft.ui.model_picker",
+      "source_path": "saydraft/ui/model_picker.py",
+      "source_sha256": "da47aad9b7e3fbe090d0428318ee3b67f599cc61ab50c218c74a85ce34dd7771",
+      "code_fingerprint_sha256": "907768af6b862d40073ab9e4a6efbafb315b9e429be9ec30c5fe6afb1232848f"
+    },
+    {
+      "module": "saydraft.ui.cleanup_picker",
+      "source_path": "saydraft/ui/cleanup_picker.py",
+      "source_sha256": "4ee6896bd7c0227eee211b348121fb684085228b7e41510ca51bcf7e557c3bda",
+      "code_fingerprint_sha256": "7401987ac0321045bf6c3eb9d50d42fa161c2586bdecd0cad69035787580f321"
+    },
+    {
+      "module": "saydraft.ui.labs_page",
+      "source_path": "saydraft/ui/labs_page.py",
+      "source_sha256": "20e6200cd5fd7d5c5c779e54cf2355fee43e63c6899f43b16785973dd57818dd",
+      "code_fingerprint_sha256": "d450e8b5a1c333293533e7d481e9e290a7a656b665d514e423ffd2ec17f7539a"
+    },
+    {
+      "module": "saydraft.ui.command_setup",
+      "source_path": "saydraft/ui/command_setup.py",
+      "source_sha256": "740c65507fae1aa512cf8a9c2c24d5edaddd35fae9276b5d5e49386e72a2cf73",
+      "code_fingerprint_sha256": "9ef951f0dd2ba31fcaf760e388ac0803c332b336198493fc0130fbca1baec85a"
+    },
+    {
+      "module": "saydraft.ui.microphone_page",
+      "source_path": "saydraft/ui/microphone_page.py",
+      "source_sha256": "e4b237ca9c33f968ff2b68ffd647f1edd6e53aed641142bdf076b003139cd94a",
+      "code_fingerprint_sha256": "6f6b1738ab48a60578b175bf5496004f260571a4588e8985a6f1ac5defda51c0"
+    },
+    {
+      "module": "saydraft.ui.whisper_mode",
+      "source_path": "saydraft/ui/whisper_mode.py",
+      "source_sha256": "298ee5b66068af270f233303d89e11c8e8e1e5f7c88923441c7446ec39a61f32",
+      "code_fingerprint_sha256": "76f08fae53e0fc45b53c41b7b273e0183c3e454b6945ae130b9b4acad9ee54d2"
+    },
+    {
+      "module": "saydraft.ui.privacy_page",
+      "source_path": "saydraft/ui/privacy_page.py",
+      "source_sha256": "70ddc0a7bb6cfeeb93a3b376eb53d614aae76b2969d9249c6d6b4992f2a4a16b",
+      "code_fingerprint_sha256": "c80bdd11754e5177857f6b45a9a957fa5ddefefbb0eb53ae6cb5eb8561d34eb0"
+    },
+    {
+      "module": "saydraft.ui.dictionary_page",
+      "source_path": "saydraft/ui/dictionary_page.py",
+      "source_sha256": "905da1e675fdfd1d01211f8d51be5ad122f49d8c4ee642fa1b4a6d9c095842a1",
+      "code_fingerprint_sha256": "b445446c6b7725584bd4e51b7a191fec0ac2e7a2ee93eceb2cdce60d1f9630e4"
+    },
+    {
+      "module": "saydraft.ui.snippets_page",
+      "source_path": "saydraft/ui/snippets_page.py",
+      "source_sha256": "0bca3fc7f0dedfb8e9396654fc5a1790d784dad362fe28d289752031a62bca38",
+      "code_fingerprint_sha256": "b195145b945c8809a44ad3c95c2a728a4a61282e23aa5dbfe4af7c7680a17512"
+    },
+    {
+      "module": "saydraft.ui.theme.controller",
+      "source_path": "saydraft/ui/theme/controller.py",
+      "source_sha256": "1e666424fe0b3f35601c93157a27f72da8c204bbfc4d928f73efd9e859e47dd5",
+      "code_fingerprint_sha256": "24cda5cc7897989481cb2d7411b5d817f781236eb01e38b2f5d53f3df3638ef5"
+    }
+  ],
+  "exe_sha256": "6ce16d3f5f053fa74bfb2318a29465ef39e39a1365cab6f9ef22ce489b99fbc4",
+  "method": "Compare structural code objects read from actual EXE embedded PYZ against compile(Git source, optimize=0), excluding only co_filename.",
+  "module_code_executed": false,
+  "owner_io_used": false
+}

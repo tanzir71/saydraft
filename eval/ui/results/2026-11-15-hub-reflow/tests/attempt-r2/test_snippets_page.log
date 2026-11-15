@@ -1,0 +1,8 @@
+.......                                                                  [100%]
+============================= slowest 5 durations =============================
+3.00s setup    tests/test_snippets_page.py::test_structured_crud_multiline_save_restart_and_source_preservation
+2.35s setup    tests/test_snippets_page.py::test_search_duplicate_validation_and_variable_buttons_keep_drafts_off_disk
+2.10s call     tests/test_snippets_page.py::test_structured_crud_multiline_save_restart_and_source_preservation
+1.39s setup    tests/test_snippets_page.py::test_preview_limit_is_visible_and_does_not_change_saved_entries
+1.25s setup    tests/test_snippets_page.py::test_unchanged_editor_keeps_newer_saved_rows_and_both_styles_and_runtime_see_the_same_values
+7 passed in 15.00s

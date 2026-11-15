@@ -1,0 +1,8 @@
+.........                                                                [100%]
+============================= slowest 5 durations =============================
+1.60s call     tests/test_cleanup_picker.py::test_custom_model_can_install_only_runtime_without_changing_path_or_downloading_weights
+1.39s call     tests/test_cleanup_picker.py::test_explicit_download_returns_captured_choice_and_stays_separate_from_enable_and_apply
+0.97s call     tests/test_cleanup_picker.py::test_unusable_setup_result_cannot_replace_existing_path[missing.gguf]
+0.89s call     tests/test_cleanup_picker.py::test_closing_settings_pauses_worker_and_preserves_old_config
+0.88s call     tests/test_cleanup_picker.py::test_failure_keeps_existing_path_and_retry_uses_same_explicit_choice
+9 passed in 7.00s

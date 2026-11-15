@@ -1,0 +1,141 @@
+.........FF                                                              [100%]
+================================== FAILURES ===================================
+_ test_hub_keeps_its_minimum_size_with_larger_text_and_all_controls_reachable[light] _
+
+subject = namespace(hub=<saydraft.ui.hub.HubWindow(0x1d0632487b0) at 0x000001D06500CF00>, qt=namespace(QtCore=<module 'PySide6.Q...draft-Codex-QA-20261112-01a1cbc7/hub-reflow-20261115-r1/final-tests-r2/test_hub-temp/test_hub_keeps_its_minimum_siz0'))
+mode = 'light'
+
+    @pytest.mark.parametrize("mode", ["light", "dark"])
+    def test_hub_keeps_its_minimum_size_with_larger_text_and_all_controls_reachable(subject, mode):
+        from saydraft.ui.fonts import install_bundled_fonts
+        from saydraft.ui.theme.controller import ThemeController
+    
+        hub, qt = subject.hub, subject.qt
+        application = qt.QtWidgets.QApplication.instance()
+        original_font, original_sheet = application.font(), application.styleSheet()
+        install_bundled_fonts(application)
+        font = application.font()
+        font.setPixelSize(22)
+        application.setFont(font)
+        theme = ThemeController(application, mode=mode)
+        try:
+            theme.start()
+            hub.resize(880, 600)
+            hub.show()
+            for name in ("Home", "History", "Dictionary", "Snippets", "Style", "Notes", "Settings"):
+                hub.show_page(name)
+                application.processEvents()
+                assert hub.size() == qt.QtCore.QSize(880, 600)
+            hub.show_page("History")
+            settle_history(hub.history_page)
+            application.processEvents()
+            assert hub.history_view.horizontalScrollBar().maximum() == 0
+            hub.show_page("Dictionary")
+            application.processEvents()
+            dictionary_scroll = hub.page_widgets["Dictionary"]
+            assert dictionary_scroll.horizontalScrollBar().maximum() == 0
+            dictionary_scroll.ensureWidgetVisible(hub.settings_page.dictionary_page.reload_button)
+            application.processEvents()
+            control = hub.settings_page.dictionary_page.reload_button
+            point = control.mapTo(dictionary_scroll.viewport(), qt.QtCore.QPoint())
+            assert 0 <= point.y() and point.y() + control.height() <= dictionary_scroll.viewport().height()
+            hub.show_page("Snippets")
+            page = hub.settings_page.snippets_page
+            page.test_toggle.setChecked(True)
+            page.test_input.setPlainText("addr")
+            assert page.test_expansion()
+            application.processEvents()
+            assert hub.size() == qt.QtCore.QSize(880, 600)
+            snippet_scroll = hub.page_widgets["Snippets"]
+            assert snippet_scroll.horizontalScrollBar().maximum() == 0
+            for control in (page.test_button, page.reload_button):
+                snippet_scroll.ensureWidgetVisible(control)
+                application.processEvents()
+                point = control.mapTo(snippet_scroll.viewport(), qt.QtCore.QPoint())
+>               assert 0 <= point.y() and point.y() + control.height() <= snippet_scroll.viewport().height()
+E               assert (0 <= 394 and (394 + 48) <= 338)
+E                +  where 394 = <built-in method y of PySide6.QtCore.QPoint object at 0x000001D0650D8300>()
+E                +    where <built-in method y of PySide6.QtCore.QPoint object at 0x000001D0650D8300> = PySide6.QtCore.QPoint(0, 394).y
+E                +  and   394 = <built-in method y of PySide6.QtCore.QPoint object at 0x000001D0650D8300>()
+E                +    where <built-in method y of PySide6.QtCore.QPoint object at 0x000001D0650D8300> = PySide6.QtCore.QPoint(0, 394).y
+E                +  and   48 = <built-in method height of WrapPushButton object at 0x000001D0651C6240>()
+E                +    where <built-in method height of WrapPushButton object at 0x000001D0651C6240> = <saydraft.ui.reflow.WrapPushButton(0x1d0634dad10) at 0x000001D0651C6240>.height
+E                +  and   338 = <built-in method height of PySide6.QtWidgets.QWidget object at 0x000001D0650D8340>()
+E                +    where <built-in method height of PySide6.QtWidgets.QWidget object at 0x000001D0650D8340> = <PySide6.QtWidgets.QWidget(0x1d063b9e840, name="qt_scrollarea_viewport") at 0x000001D0650D8340>.height
+E                +      where <PySide6.QtWidgets.QWidget(0x1d063b9e840, name="qt_scrollarea_viewport") at 0x000001D0650D8340> = <built-in method viewport of PySide6.QtWidgets.QScrollArea object at 0x000001D064EFCA40>()
+E                +        where <built-in method viewport of PySide6.QtWidgets.QScrollArea object at 0x000001D064EFCA40> = <PySide6.QtWidgets.QScrollArea(0x1d0634db7f0) at 0x000001D064EFCA40>.viewport
+
+tests\test_hub.py:283: AssertionError
+_ test_hub_keeps_its_minimum_size_with_larger_text_and_all_controls_reachable[dark] _
+
+subject = namespace(hub=<saydraft.ui.hub.HubWindow(0x1d063f329d0) at 0x000001D064FD0D40>, qt=namespace(QtCore=<module 'PySide6.Q...draft-Codex-QA-20261112-01a1cbc7/hub-reflow-20261115-r1/final-tests-r2/test_hub-temp/test_hub_keeps_its_minimum_siz1'))
+mode = 'dark'
+
+    @pytest.mark.parametrize("mode", ["light", "dark"])
+    def test_hub_keeps_its_minimum_size_with_larger_text_and_all_controls_reachable(subject, mode):
+        from saydraft.ui.fonts import install_bundled_fonts
+        from saydraft.ui.theme.controller import ThemeController
+    
+        hub, qt = subject.hub, subject.qt
+        application = qt.QtWidgets.QApplication.instance()
+        original_font, original_sheet = application.font(), application.styleSheet()
+        install_bundled_fonts(application)
+        font = application.font()
+        font.setPixelSize(22)
+        application.setFont(font)
+        theme = ThemeController(application, mode=mode)
+        try:
+            theme.start()
+            hub.resize(880, 600)
+            hub.show()
+            for name in ("Home", "History", "Dictionary", "Snippets", "Style", "Notes", "Settings"):
+                hub.show_page(name)
+                application.processEvents()
+                assert hub.size() == qt.QtCore.QSize(880, 600)
+            hub.show_page("History")
+            settle_history(hub.history_page)
+            application.processEvents()
+            assert hub.history_view.horizontalScrollBar().maximum() == 0
+            hub.show_page("Dictionary")
+            application.processEvents()
+            dictionary_scroll = hub.page_widgets["Dictionary"]
+            assert dictionary_scroll.horizontalScrollBar().maximum() == 0
+            dictionary_scroll.ensureWidgetVisible(hub.settings_page.dictionary_page.reload_button)
+            application.processEvents()
+            control = hub.settings_page.dictionary_page.reload_button
+            point = control.mapTo(dictionary_scroll.viewport(), qt.QtCore.QPoint())
+            assert 0 <= point.y() and point.y() + control.height() <= dictionary_scroll.viewport().height()
+            hub.show_page("Snippets")
+            page = hub.settings_page.snippets_page
+            page.test_toggle.setChecked(True)
+            page.test_input.setPlainText("addr")
+            assert page.test_expansion()
+            application.processEvents()
+            assert hub.size() == qt.QtCore.QSize(880, 600)
+            snippet_scroll = hub.page_widgets["Snippets"]
+            assert snippet_scroll.horizontalScrollBar().maximum() == 0
+            for control in (page.test_button, page.reload_button):
+                snippet_scroll.ensureWidgetVisible(control)
+                application.processEvents()
+                point = control.mapTo(snippet_scroll.viewport(), qt.QtCore.QPoint())
+>               assert 0 <= point.y() and point.y() + control.height() <= snippet_scroll.viewport().height()
+E               assert (0 <= 394 and (394 + 48) <= 338)
+E                +  where 394 = <built-in method y of PySide6.QtCore.QPoint object at 0x000001D06505A700>()
+E                +    where <built-in method y of PySide6.QtCore.QPoint object at 0x000001D06505A700> = PySide6.QtCore.QPoint(0, 394).y
+E                +  and   394 = <built-in method y of PySide6.QtCore.QPoint object at 0x000001D06505A700>()
+E                +    where <built-in method y of PySide6.QtCore.QPoint object at 0x000001D06505A700> = PySide6.QtCore.QPoint(0, 394).y
+E                +  and   48 = <built-in method height of WrapPushButton object at 0x000001D064E6D600>()
+E                +    where <built-in method height of WrapPushButton object at 0x000001D064E6D600> = <saydraft.ui.reflow.WrapPushButton(0x1d0634da400) at 0x000001D064E6D600>.height
+E                +  and   338 = <built-in method height of PySide6.QtWidgets.QWidget object at 0x000001D065059000>()
+E                +    where <built-in method height of PySide6.QtWidgets.QWidget object at 0x000001D065059000> = <PySide6.QtWidgets.QWidget(0x1d0639f2160, name="qt_scrollarea_viewport") at 0x000001D065059000>.height
+E                +      where <PySide6.QtWidgets.QWidget(0x1d0639f2160, name="qt_scrollarea_viewport") at 0x000001D065059000> = <built-in method viewport of PySide6.QtWidgets.QScrollArea object at 0x000001D064FC1800>()
+E                +        where <built-in method viewport of PySide6.QtWidgets.QScrollArea object at 0x000001D064FC1800> = <PySide6.QtWidgets.QScrollArea(0x1d0634db0b0) at 0x000001D064FC1800>.viewport
+
+tests\test_hub.py:283: AssertionError
+============================= slowest 5 durations =============================
+4.84s setup    tests/test_hub.py::test_hub_close_pauses_all_download_owners_without_discarding_pages
+3.77s setup    tests/test_hub.py::test_hub_keeps_its_minimum_size_with_larger_text_and_all_controls_reachable[dark]
+3.50s setup    tests/test_hub.py::test_hub_keeps_its_minimum_size_with_larger_text_and_all_controls_reachable[light]
+2.54s setup    tests/test_hub.py::test_home_offline_chip_opens_privacy_and_does_not_claim_an_uninstalled_guard
+2.34s setup    tests/test_hub.py::test_home_empty_and_incomplete_measurements_are_honest
+2 failed, 9 passed, 1 deselected in 37.71s

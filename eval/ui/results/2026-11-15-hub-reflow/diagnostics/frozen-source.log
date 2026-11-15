@@ -1,0 +1,30 @@
+Traceback (most recent call last):
+  File "D:\Saydraft-Codex-QA-20261112-01a1cbc7\verify_reflow_frozen_source_20261115.py", line 14, in <module>
+    from PyInstaller.archive.readers import CArchiveReader
+  File "C:\Users\tanzir\AppData\Roaming\Python\Python313\site-packages\PyInstaller\__init__.py", line 16, in <module>
+    from PyInstaller import compat
+  File "C:\Users\tanzir\AppData\Roaming\Python\Python313\site-packages\PyInstaller\compat.py", line 191, in <module>
+    from win32ctypes.pywin32 import pywintypes  # noqa: F401, E402
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tanzir\AppData\Roaming\Python\Python313\site-packages\win32ctypes\pywin32\__init__.py", line 10, in <module>
+    from win32ctypes.pywin32 import win32cred
+  File "C:\Users\tanzir\AppData\Roaming\Python\Python313\site-packages\win32ctypes\pywin32\win32cred.py", line 9, in <module>
+    from win32ctypes.core import _authentication, _common, _backend
+  File "<frozen importlib._bootstrap>", line 1369, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1340, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 921, in _load_unlocked
+  File "<frozen importlib._bootstrap>", line 813, in module_from_spec
+  File "C:\Users\tanzir\AppData\Roaming\Python\Python313\site-packages\win32ctypes\core\__init__.py", line 30, in create_module
+    return importlib.import_module(self.redirect_module)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python313\Lib\importlib\__init__.py", line 88, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tanzir\AppData\Roaming\Python\Python313\site-packages\win32ctypes\core\ctypes\_authentication.py", line 99, in <module>
+    dlls.advapi32.CredWriteW,
+    ^^^^^^^^^^^^^
+  File "C:\Users\tanzir\AppData\Roaming\Python\Python313\site-packages\win32ctypes\core\ctypes\_util.py", line 73, in __getattr__
+    library = WinDLL(name, use_last_error=True)
+  File "D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\hub-reflow-20261115\tools\public_file_guard.py", line 75, in guarded_dll
+    raise AssertionError("Owner native UI/device APIs are barred")
+AssertionError: Owner native UI/device APIs are barred

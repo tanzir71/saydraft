@@ -1,0 +1,8 @@
+...................................                                      [100%]
+============================= slowest 5 durations =============================
+1.69s call     tests/test_theme.py::test_minimum_settings_size_keeps_controls_readable_and_reachable[22-dark]
+1.68s call     tests/test_theme.py::test_minimum_settings_size_keeps_controls_readable_and_reachable[22-light]
+1.55s call     tests/test_theme.py::test_minimum_settings_size_keeps_controls_readable_and_reachable[16-light]
+1.52s call     tests/test_theme.py::test_minimum_settings_size_keeps_controls_readable_and_reachable[16-dark]
+0.23s setup    tests/test_theme.py::test_live_application_font_reaches_existing_themed_controls
+35 passed in 8.85s

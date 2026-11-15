@@ -19,6 +19,9 @@ or model inference. Collapse this disclosure to hide motion.
 
 The static image is shown first; animation is an explicit choice.
 
+See the [delivery handover](docs/DELIVERY_HANDOVER.md) for the current verified
+preview, build evidence, known issues and remaining critical release gates.
+
 [![Get Saydraft: source preview](assets/media/source-preview.svg)](#run-from-source)
 [![License: MIT](assets/media/license-mit.svg)](LICENSE)
 

@@ -1,0 +1,190 @@
+import hashlib
+import json
+from pathlib import Path
+import re
+import shutil
+import subprocess
+import zipfile
+
+qa=Path(__file__).resolve().parent;repo=qa/'worktrees/hub-reflow-20261115';run=qa/'hub-reflow-20261115-r1'
+build=qa/'hub-reflow-package-20261115-r2';out=repo/'eval/ui/results/2026-11-15-hub-reflow'
+source='f6cd0bf7a23c6587939ae1bc56009581b1452c86'
+qa_source='301218a013a5a25e3e3cac6556b0f5eba2a6c0a3'
+read=lambda p:json.loads(p.read_text(encoding='utf-8'))
+sha=lambda b:hashlib.sha256(b).hexdigest()
+assert subprocess.check_output(['git','rev-parse','HEAD'],cwd=repo,text=True).strip()==qa_source
+assert not subprocess.check_output(['git','status','--porcelain'],cwd=repo,text=True).strip()
+summary=read(run/'final-tests-r2/summary.json');report=read(run/'final-render-r2/report.json')
+bundle=read(build/'audit/bundle.json');runtime=read(build/'audit/runtime.json')
+assert summary['source']==report['source']==bundle['git_commit']==source
+assert runtime['complete'] and report['record_count']==114
+out.mkdir(parents=True,exist_ok=False)
+
+def copy(src,rel):
+    target=out/rel;target.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(src,target)
+
+for f in (run/'final-tests-r2').iterdir():
+    if f.is_file():copy(f,'tests/attempt-r2/'+f.name)
+copy(run/'hub-final.log','tests/hub-final.log');copy(run/'hub-final-guard.json','tests/hub-final-guard.json')
+qualified=[]
+for r in summary['files']:
+    name=Path(r['file']).stem
+    if name=='test_hub':
+        qualified.append(dict(file=r['file'],source=qa_source,returncode=0,exit_observed=True,
+            exit_method='Direct C:/Python313/python.exe tool session 15485 completed with exit code 0; no venv redirector.',
+            job_tree_exit_observed=False,log='tests/hub-final.log',guard='tests/hub-final-guard.json'))
+    else:
+        assert r['returncode']==0 and r['job_tree_exit_observed'] and not r['timeout'],r
+        qualified.append(dict(file=r['file'],source=source,returncode=0,exit_observed=True,
+            job_tree_exit_observed=True,log='tests/attempt-r2/'+name+'.log',guard='tests/attempt-r2/'+name+'-guard.json'))
+(out/'tests/qualified.json').write_text(json.dumps(dict(runtime_source=source,qa_source=qa_source,
+    method='Select sixteen successful original file runs and one focused Hub rerun. No failed record rewritten; app/build inputs identical.',files=qualified),indent=2)+'\n',encoding='utf-8')
+copy(run/'final-render-r2/report.json','final/report.json');copy(run/'final-render-r2-guard.json','final/guard.json')
+copy(run/'final-render-r2.log','final/render.log')
+for r in report['records']:copy(run/'final-render-r2'/r['image'],'final/'+r['image'])
+for name in ['bundle.json','runtime.json','preflight.json','requirements-frozen.txt']:
+    copy(build/'audit'/name,'package/'+name)
+copy(build/'artifacts/SHA256SUMS','package/SHA256SUMS.txt')
+copy(run/'build-r2.log','package/build.log');copy(run/'frozen-source.json','package/frozen-source.json')
+copy(run/'frozen-source-r2-guard.json','package/frozen-source-guard.json')
+copy(run/'frozen-source-r2.log','package/frozen-source.log')
+# Verify every delivered ZIP payload, not only the archive checksum.
+artifact=build/'artifacts/Saydraft-0.1.0-win-x64.zip'
+metadata=bundle['artifacts'][artifact.name]
+assert artifact.stat().st_size==metadata['bytes'] and sha(artifact.read_bytes())==metadata['sha256']
+with zipfile.ZipFile(artifact) as z:
+    infos=[i for i in z.infolist() if not i.is_dir()]
+    exe=next(i.filename for i in infos if i.filename.endswith('Saydraft.exe'))
+    prefix=exe[:-len('Saydraft.exe')]
+    assert {i.filename[len(prefix):] for i in infos}==set(bundle['file_sha256'])
+    for i in infos:
+        h=hashlib.sha256()
+        with z.open(i) as stream:
+            while block:=stream.read(1024*1024):h.update(block)
+        assert h.hexdigest()==bundle['file_sha256'][i.filename[len(prefix):]],i.filename
+(out/'package/artifact-verification.json').write_text(json.dumps(dict(source=source,
+    artifact_name=artifact.name,bytes=metadata['bytes'],sha256=metadata['sha256'],files_verified=len(infos),
+    zip_prefix=prefix,installer_built=False,signed=False,release_ready=False),indent=2)+'\n',encoding='utf-8')
+
+diagnostics=['controls-r1.log','controls-r2.log','hub-reflow-r1.log','hub-reflow-r2.log','repair-r1.log',
+ 'footer-r1.log','footer-r2.log','final-tests-driver.log','final-tests-r2-driver.log','frozen-source.log',
+ 'native-font-without.json','native-font-with.json','font-inspection.log','build-r1.log']
+for name in diagnostics:copy(run/name,'diagnostics/'+name)
+for name in ['test_hub','test_hub_reflow','test_theme','test_whisper_mode_ui']:
+    copy(run/'final-tests'/(name+'.log'),'diagnostics/initial-suite/'+name+'.log')
+copy(run/'final-tests/summary.json','diagnostics/initial-suite/summary.json')
+copy(run/'frozen-source-guard.json','diagnostics/blocked-archive-reader-guard.json')
+for name in ['bundle.json','runtime.json']:
+    copy(qa/'hub-reflow-package-20261115-r1/audit'/name,'diagnostics/superseded-package-'+name)
+copy(run/'inspect-r1/light-32-History.png','diagnostics/history-before-stacking.png')
+copy(run/'inspect-r2/report.json','diagnostics/dirty-source-inspection.json')
+
+paths=[r['file'] for r in qualified]+['saydraft/ui/'+n+'.py' for n in ['hub','home_page','history_page',
+ 'styles_page','settings_page','languages_page','model_picker','cleanup_picker','labs_page','command_setup',
+ 'microphone_page','whisper_mode','privacy_page','dictionary_page','snippets_page','reflow','fonts']]
+paths+=['saydraft/ui/theme/controller.py','saydraft/ui/theme/__init__.py','tools/public_file_guard.py',
+ 'saydraft/cleanup/llm/windows_process.py','saydraft/package_check.py','tools/build.ps1','tools/package_audit.py',
+ 'tools/package_notices.py','Saydraft.spec','requirements.txt','installer/entry.py','installer/bundle-policy.json']
+witnesses=[]
+for rel in sorted(set(paths)):
+    commit=qa_source if rel=='tests/test_hub.py' else source
+    b=subprocess.check_output(['git','show',commit+':'+rel],cwd=repo)
+    dest='source/'+rel+'.txt';target=out/dest;target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes(b)
+    witnesses.append(dict(path=rel,commit=commit,witness=dest,sha256=sha(b)))
+inputs=[]
+for rel in ['saydraft','assets','installer','requirements.txt','Saydraft.spec','LICENSE','THIRD_PARTY_NOTICES.md',
+            'tools/build.ps1','tools/package_audit.py','tools/package_notices.py']:
+    ids=[subprocess.check_output(['git','rev-parse',c+':'+rel],cwd=repo,text=True).strip() for c in [source,qa_source]]
+    assert ids[0]==ids[1],rel
+    inputs.append(dict(path=rel,object_id=ids[0]))
+for name in ['run_hub_reflow_20261115.py','qualify_hub_reflow_final_r2_20261115.py',
+ 'render_hub_reflow_final_r2_20261115.py','verify_reflow_frozen_source_20261115.py','collect_reflow_delivery_20261115.py']:
+    copy(qa/name,'scripts/'+name+'.txt')
+copy(qa/'verify_reflow_delivery_20261115.py','scripts/verify-delivery.py.txt')
+(out/'README.md').write_text(f'''# Hub reflow and portable checkpoint — 15 November 2026
+
+Runtime/build source **{source}** has **114** strict offscreen states, **228**
+named forward/reverse Tab walks and a fresh portable. The successful related
+selection is **244 passed / four app-entry integrations deselected**. The final
+Hub file rerun is at QA-only source **{qa_source}**; every app/build input tree
+is identical. No physical Windows, owner accuracy or public-release acceptance
+follows. [Remaining work and critical blockers](../../../../docs/DELIVERY_HANDOVER.md).
+
+The [qualified selection](tests/qualified.json) points to sixteen successful
+held-Job file runs and one direct-native-interpreter Hub rerun. The original
+[full attempt](tests/attempt-r2/summary.json), including its failed Hub file,
+remains unchanged. The focused rerun has 11 passes/one deselection and retains
+the same reachability assertions, with bounded synchronization for a queued
+footer/viewport resize. Its direct process exit is recorded separately from
+the sixteen whole-Job exits; it is not relabelled as a Job-tree observation.
+
+## UI scope
+
+Native multiline controls preserve source labels, accessible names and input
+behavior. Rows/History reflow, language selectors shrink, the Command heading
+wraps, and Style columns retain full choices with table-only horizontal scroll.
+Live themed fonts propagate to existing controls. Long setup feedback can stack
+above Save. [Current behavior](../../../../docs/HUB_ACCESSIBILITY.md).
+
+The [render report](final/report.json) covers 18 ordinary/expanded views plus
+the long-warning state, in light/dark/injected high contrast at actual 16/32px
+text. It checks actual control fonts, height, zero page horizontal overflow and
+named Tab cycles. The tests additionally cover both 880×600 and 1080×720 and
+keyboard focus scrolling. Display density is 1×; physical/mixed-DPI/Narrator and
+complete gallery acceptance remain open. The Labs dark native-blue license-link
+contrast issue is explicitly recorded in the handover.
+
+![Large-text warning remains readable](final/dark-32-Settings-Microphone-warning.png)
+
+## Portable scope
+
+[Bundle audit](package/bundle.json), [runtime audit](package/runtime.json),
+[frozen-code comparison](package/frozen-source.json) and
+[ZIP verification](package/artifact-verification.json) qualify the local portable:
+{metadata['bytes']:,} bytes, SHA-256 `{metadata['sha256']}`. All 1,384 ZIP payloads
+match the audited bundle. Notices cover 40 components/511 files. Sixteen changed
+runtime modules read from the actual EXE's embedded PYZ structurally match Git
+source bytecode; module code is not executed by that check.
+
+The build used `-SkipInstaller`. Installer/signing/packaging release gates remain
+false. The runtime audit opens no microphone/device/clipboard/foreground/input,
+performs no ASR and makes no native-firewall claim. This is a development preview.
+The earlier successful package at 0d45 predates the footer correction and remains
+classified as superseded, with its own immutable source and receipts.
+
+## Original failures
+
+The first small control test had unregistered fonts. The first reflow-specific
+checks exposed live fonts staying small; the native before/after probes retain
+that failure and Qt propagation result. The 0d45 broad run found missing font
+registration in a test, a 500ms scheduling wait for owned History, and a real
+clipped setup-warning footer. The final footer has six 16/32px/theme cases and
+the earlier 22px regression. Original logs are retained under diagnostics.
+
+The f6cd broad attempt then exposed an existing one-event-turn scroll assertion
+running before a queued footer resize. Only that fixture was changed; all app
+and build inputs stay identical, and its full file rerun passes. Production
+inference deadlines, assertions and acceptance thresholds are unchanged.
+
+The first archive-reader helper was barred from loading unrelated credential
+DLL bindings in PyInstaller's root initializer. The final check uses only the
+pure archive readers while the owner-I/O guard stays intact. No credential or
+app module code was executed. Dirty-source images/reports are diagnostic only.
+No private profile, model or audio payload is retained here.
+
+Verify historical evidence; add `--check-current` to bind current app/QA inputs:
+
+```powershell
+python eval/ui/results/2026-11-15-hub-reflow/scripts/verify-delivery.py.txt --repo . --check-current
+```
+
+Add `--build-root D:/Saydraft-Codex-QA-20261112-01a1cbc7/hub-reflow-package-20261115-r2`
+on the original machine to reread every actual bundle file and ZIP hash.
+''',encoding='utf-8',newline='\n')
+m=dict(source=source,qa_source=qa_source,new_portable_built=True,full_p6_7_accepted=False,
+ full_goal_complete=False,source_files=witnesses,app_inputs=inputs)
+m['records']=[dict(path=f.relative_to(out).as_posix(),bytes=f.stat().st_size,sha256=sha(f.read_bytes()))
+              for f in sorted(out.rglob('*')) if f.is_file()]
+(out/'manifest.json').write_text(json.dumps(m,indent=2)+'\n',encoding='utf-8')
+print(json.dumps(dict(source=source,qa_source=qa_source,records=len(m['records']),source_witnesses=len(witnesses),
+ portable_sha256=metadata['sha256'],zip_payloads_verified=len(infos)),indent=2))

@@ -1,0 +1,58 @@
+...FF.                                                                   [100%]
+================================== FAILURES ===================================
+___ test_long_setup_warning_and_save_fit_without_hiding_settings[32-light] ____
+
+owned_hub = namespace(app=<PySide6.QtWidgets.QApplication(0x2fb34a795f0) at 0x000002FB4EB00880>, hub=<saydraft.ui.hub.HubWindow(0x...locals>.settle at 0x000002FB4F12A5C0>, hints=<tests.test_hub_accessibility.Hints(0x2fb4dde5800) at 0x000002FB4F165040>)
+mode = 'light', px = 32
+
+    @pytest.mark.parametrize("mode", ["light", "dark", "high-contrast"])
+    @pytest.mark.parametrize("px", [16, 32])
+    def test_long_setup_warning_and_save_fit_without_hiding_settings(owned_hub, mode, px):
+        subject, hub = owned_hub, owned_hub.hub
+        subject.theme(mode, px)
+        hub.show_page("Settings", tab="Microphone")
+        hub.settings_page.status_label.setText(
+            "An enhancement file changed. Open Microphone to review setup, then download it again or turn enhancement off before saving.")
+        for _ in range(6):
+            subject.app.processEvents()
+        label = hub.settings_page.status_label
+>       assert label.height() >= label.heightForWidth(label.width())
+E       assert 270 >= 293
+E        +  where 270 = <built-in method height of PySide6.QtWidgets.QLabel object at 0x000002FB4EF78A40>()
+E        +    where <built-in method height of PySide6.QtWidgets.QLabel object at 0x000002FB4EF78A40> = <PySide6.QtWidgets.QLabel(0x2fb4d927f60) at 0x000002FB4EF78A40>.height
+E        +  and   293 = <built-in method heightForWidth of PySide6.QtWidgets.QLabel object at 0x000002FB4EF78A40>(371)
+E        +    where <built-in method heightForWidth of PySide6.QtWidgets.QLabel object at 0x000002FB4EF78A40> = <PySide6.QtWidgets.QLabel(0x2fb4d927f60) at 0x000002FB4EF78A40>.heightForWidth
+E        +    and   371 = <built-in method width of PySide6.QtWidgets.QLabel object at 0x000002FB4EF78A40>()
+E        +      where <built-in method width of PySide6.QtWidgets.QLabel object at 0x000002FB4EF78A40> = <PySide6.QtWidgets.QLabel(0x2fb4d927f60) at 0x000002FB4EF78A40>.width
+
+tests\test_hub_reflow.py:89: AssertionError
+____ test_long_setup_warning_and_save_fit_without_hiding_settings[32-dark] ____
+
+owned_hub = namespace(app=<PySide6.QtWidgets.QApplication(0x2fb34a795f0) at 0x000002FB4EB00880>, hub=<saydraft.ui.hub.HubWindow(0x...locals>.settle at 0x000002FB503E6700>, hints=<tests.test_hub_accessibility.Hints(0x2fb4dde5a30) at 0x000002FB4F215640>)
+mode = 'dark', px = 32
+
+    @pytest.mark.parametrize("mode", ["light", "dark", "high-contrast"])
+    @pytest.mark.parametrize("px", [16, 32])
+    def test_long_setup_warning_and_save_fit_without_hiding_settings(owned_hub, mode, px):
+        subject, hub = owned_hub, owned_hub.hub
+        subject.theme(mode, px)
+        hub.show_page("Settings", tab="Microphone")
+        hub.settings_page.status_label.setText(
+            "An enhancement file changed. Open Microphone to review setup, then download it again or turn enhancement off before saving.")
+        for _ in range(6):
+            subject.app.processEvents()
+        label = hub.settings_page.status_label
+>       assert label.height() >= label.heightForWidth(label.width())
+E       assert 270 >= 293
+E        +  where 270 = <built-in method height of PySide6.QtWidgets.QLabel object at 0x000002FB4F1AA9C0>()
+E        +    where <built-in method height of PySide6.QtWidgets.QLabel object at 0x000002FB4F1AA9C0> = <PySide6.QtWidgets.QLabel(0x2fb4d58b3d0) at 0x000002FB4F1AA9C0>.height
+E        +  and   293 = <built-in method heightForWidth of PySide6.QtWidgets.QLabel object at 0x000002FB4F1AA9C0>(371)
+E        +    where <built-in method heightForWidth of PySide6.QtWidgets.QLabel object at 0x000002FB4F1AA9C0> = <PySide6.QtWidgets.QLabel(0x2fb4d58b3d0) at 0x000002FB4F1AA9C0>.heightForWidth
+E        +    and   371 = <built-in method width of PySide6.QtWidgets.QLabel object at 0x000002FB4F1AA9C0>()
+E        +      where <built-in method width of PySide6.QtWidgets.QLabel object at 0x000002FB4F1AA9C0> = <PySide6.QtWidgets.QLabel(0x2fb4d58b3d0) at 0x000002FB4F1AA9C0>.width
+
+tests\test_hub_reflow.py:89: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_hub_reflow.py::test_long_setup_warning_and_save_fit_without_hiding_settings[32-light]
+FAILED tests/test_hub_reflow.py::test_long_setup_warning_and_save_fit_without_hiding_settings[32-dark]
+2 failed, 4 passed, 14 deselected in 9.91s

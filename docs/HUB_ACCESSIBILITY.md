@@ -77,8 +77,11 @@ font metadata alone was insufficient. Initial owner/system settings are unchange
 Full physical display-scaling and Windows accessibility acceptance remain open.
 Follow the manual checks below on an authorized isolated account before accepting
 P6.7. See the [delivery handover](DELIVERY_HANDOVER.md) for release blockers.
-The earlier `5848e53` portable predates these UI changes; a new portable and
-installer have not been qualified by this accessibility pass.
+The earlier `5848e53` portable predates these UI changes. The
+[reflow delivery](../eval/ui/results/2026-11-15-hub-reflow/README.md) now qualifies
+a fresh portable at `f6cd0bf`, with 244 scoped passes, 114 captures and sixteen
+actual frozen module comparisons. Installer/signing and physical acceptance
+remain open.
 
 ## Manual acceptance
 

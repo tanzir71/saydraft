@@ -1,0 +1,8 @@
+................                                                         [100%]
+============================= slowest 5 durations =============================
+0.28s call     tests/test_onboarding_window.py::test_onboarding_wizard_has_required_steps_and_explicit_microphone_controls
+0.13s call     tests/test_onboarding_window.py::test_unchanged_setup_choices_preserve_newer_saved_model_and_microphone
+0.13s call     tests/test_onboarding_window.py::test_onboarding_finish_sets_onboarded_and_applies_config
+0.11s call     tests/test_onboarding_window.py::test_setup_edits_merge_without_replacing_unrelated_saved_preferences
+0.10s setup    tests/test_onboarding_window.py::test_onboarding_wizard_has_required_steps_and_explicit_microphone_controls
+16 passed in 2.39s

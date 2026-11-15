@@ -1,0 +1,30 @@
+F..................................                                      [100%]
+================================== FAILURES ===================================
+_________ test_live_application_font_reaches_existing_themed_controls _________
+
+setup_theme = (<PySide6.QtWidgets.QApplication(0x122ce95f8c0) at 0x00000122E829B780>, <test_theme.Hints(0x122e7264f60) at 0x00000122E7179B40>, <function setup_theme.<locals>.install at 0x00000122E876D080>)
+
+    def test_live_application_font_reaches_existing_themed_controls(setup_theme):
+        app, _hints, install = setup_theme
+        from saydraft.ui.reflow import WrapCheckBox, WrapPushButton
+        controls = [QtWidgets.QCheckBox("Native"), WrapCheckBox("Wrapped"),
+                    QtWidgets.QPushButton("Native"), WrapPushButton("Wrapped"), QtWidgets.QListWidget()]
+        controller = install(mode="light")
+        try:
+            for px in [16, 32, 16]:
+                font = QtGui.QFont(app.font())
+                font.setPixelSize(px)
+                app.setFont(font)
+                app.processEvents()
+>               assert all(QtGui.QFontInfo(widget.font()).pixelSize() == px for widget in controls)
+E               assert False
+E                +  where False = all(<generator object test_live_application_font_reaches_existing_themed_controls.<locals>.<genexpr> at 0x00000122E89CC200>)
+
+tests\test_theme.py:27: AssertionError
+============================= slowest 5 durations =============================
+2.04s call     tests/test_theme.py::test_minimum_settings_size_keeps_controls_readable_and_reachable[22-light]
+1.90s call     tests/test_theme.py::test_minimum_settings_size_keeps_controls_readable_and_reachable[22-dark]
+1.45s call     tests/test_theme.py::test_minimum_settings_size_keeps_controls_readable_and_reachable[16-light]
+1.10s call     tests/test_theme.py::test_minimum_settings_size_keeps_controls_readable_and_reachable[16-dark]
+0.82s setup    tests/test_theme.py::test_minimum_settings_size_keeps_controls_readable_and_reachable[16-light]
+1 failed, 34 passed in 9.48s

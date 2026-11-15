@@ -47,6 +47,20 @@ checks explicitly; changing an environment flag cannot authorize them.
 - The previous `5848e53` portable is historical and lacks the newer Hub changes.
   [Build instructions and qualification limits](PACKAGING.md).
 
+**Final local delivery:** runtime/build source `f6cd0bf`, with QA-only fixture
+source `301218a`, has 244 related passes/four explicitly excluded app-entry
+integrations, 114 strict UI captures/228 named Tab walks and a fresh portable.
+All app/build input trees are identical between those sources. The one affected
+Hub file was rerun after synchronizing a queued layout change; passing unrelated
+checks were retained with their original source and records.
+
+The [complete receipt](../eval/ui/results/2026-11-15-hub-reflow/README.md)
+includes all 1,384 verified ZIP payloads and sixteen frozen runtime modules
+compared against Git bytecode. Portable filename: `Saydraft-0.1.0-win-x64.zip`.
+SHA-256: `3577ab3daf5af400b441dc0fb32d4c604cd1956d9f2522d763d0b1469ea8e78f`.
+This build uses `-SkipInstaller`; signing, installer and release-ready acceptance
+remain open. The critical items in the following table remain blockers.
+
 ## Remaining acceptance and future work
 
 Most unchecked items have substantial implementations and scoped evidence. The

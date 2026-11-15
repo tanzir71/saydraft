@@ -1,0 +1,8 @@
+.......                                                                  [100%]
+============================= slowest 5 durations =============================
+1.75s call     tests/test_history_window.py::test_history_retry_requires_saved_audio_and_selects_new_result_for_review
+1.08s call     tests/test_history_window.py::test_history_window_copy_reinsert_and_add_dictionary_actions
+0.97s call     tests/test_history_window.py::test_history_window_search_filters_rows
+0.88s call     tests/test_history_window.py::test_history_window_loads_reverse_chron_and_toggles_raw_clean
+0.72s call     tests/test_history_window.py::test_history_window_rejected_reinsertion_does_not_claim_it_was_queued
+7 passed in 5.96s

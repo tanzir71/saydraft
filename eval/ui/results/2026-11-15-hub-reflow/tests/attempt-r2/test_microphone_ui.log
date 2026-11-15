@@ -1,0 +1,8 @@
+........                                                                 [100%]
+============================= slowest 5 durations =============================
+1.26s call     tests/test_microphone_ui.py::test_leaving_the_actual_hub_page_and_closing_the_hub_request_input_stop
+0.78s call     tests/test_microphone_ui.py::test_device_preference_round_trips_through_shared_settings_save
+0.17s setup    tests/test_microphone_ui.py::test_page_never_discovers_or_opens_input_on_construction_and_uses_only_explicit_test
+0.02s call     tests/test_microphone_ui.py::test_hiding_the_page_requests_stop_without_waiting_for_device_closure
+0.01s call     tests/test_microphone_ui.py::test_page_never_discovers_or_opens_input_on_construction_and_uses_only_explicit_test
+8 passed, 1 deselected in 2.49s

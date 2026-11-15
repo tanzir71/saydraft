@@ -1,0 +1,8 @@
+.....................                                                    [100%]
+============================= slowest 5 durations =============================
+1.85s call     tests/test_hub_accessibility.py::test_all_hub_pages_have_named_forward_and_reverse_tab_cycles[32-light]
+1.85s setup    tests/test_hub_accessibility.py::test_dictionary_source_chip_raster_has_readable_native_palette_pair[ColorGroup.Disabled-False]
+1.78s setup    tests/test_hub_accessibility.py::test_dictionary_source_chip_raster_has_readable_native_palette_pair[ColorGroup.Active-True]
+1.75s call     tests/test_hub_accessibility.py::test_all_hub_pages_have_named_forward_and_reverse_tab_cycles[32-dark]
+1.74s call     tests/test_hub_accessibility.py::test_all_hub_pages_have_named_forward_and_reverse_tab_cycles[16-light]
+21 passed in 47.52s

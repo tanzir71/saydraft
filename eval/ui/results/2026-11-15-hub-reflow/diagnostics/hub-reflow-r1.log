@@ -1,0 +1,43 @@
+................FF                                                       [100%]
+================================== FAILURES ===================================
+_________ test_history_stacks_at_large_text_and_returns_to_two_panes __________
+
+owned_hub = namespace(app=<PySide6.QtWidgets.QApplication(0x2a4ba1b1890) at 0x000002A4D413FF40>, hub=<saydraft.ui.hub.HubWindow(0x...locals>.settle at 0x000002A4D4798860>, hints=<tests.test_hub_accessibility.Hints(0x2a4d4db71e0) at 0x000002A4D4728700>)
+
+    def test_history_stacks_at_large_text_and_returns_to_two_panes(owned_hub):
+        subject, hub = owned_hub, owned_hub.hub
+        hub.show_page("History")
+        for px, orientation in [(16, QtCore.Qt.Horizontal), (32, QtCore.Qt.Vertical), (16, QtCore.Qt.Horizontal)]:
+            subject.theme("light", px)
+            subject.app.processEvents()
+>           assert hub.history_page.body.orientation() == orientation
+E           assert <Orientation.Horizontal: 1> == <Orientation.Vertical: 2>
+E             
+E             Use -v to get more diff
+
+tests\test_hub_reflow.py:58: AssertionError
+____ test_style_matrix_keeps_full_choices_and_last_row_above_its_scrollbar ____
+
+owned_hub = namespace(app=<PySide6.QtWidgets.QApplication(0x2a4ba1b1890) at 0x000002A4D413FF40>, hub=<saydraft.ui.hub.HubWindow(0x...locals>.settle at 0x000002A4D479B920>, hints=<tests.test_hub_accessibility.Hints(0x2a4d4db6f60) at 0x000002A4D49F4FC0>)
+
+    def test_style_matrix_keeps_full_choices_and_last_row_above_its_scrollbar(owned_hub):
+        subject, hub = owned_hub, owned_hub.hub
+        subject.theme("dark", 32)
+        hub.show_page("Style")
+        subject.app.processEvents()
+        page = hub.settings_page.styles_page
+        matrix = page.matrix
+        for column, mapping in [(1, page.tones), (2, page.levels)]:
+            assert matrix.columnWidth(column) >= max(combo.sizeHint().width() for combo in mapping.values())
+>       assert matrix.horizontalScrollBar().maximum() > 0
+E       assert 0 > 0
+E        +  where 0 = <built-in method maximum of PySide6.QtWidgets.QScrollBar object at 0x000002A4D5B750C0>()
+E        +    where <built-in method maximum of PySide6.QtWidgets.QScrollBar object at 0x000002A4D5B750C0> = <PySide6.QtWidgets.QScrollBar(0x2a4bd38eab0) at 0x000002A4D5B750C0>.maximum
+E        +      where <PySide6.QtWidgets.QScrollBar(0x2a4bd38eab0) at 0x000002A4D5B750C0> = <built-in method horizontalScrollBar of PySide6.QtWidgets.QTableWidget object at 0x000002A4D5BBB400>()
+E        +        where <built-in method horizontalScrollBar of PySide6.QtWidgets.QTableWidget object at 0x000002A4D5BBB400> = <PySide6.QtWidgets.QTableWidget(0x2a4bcdc3880) at 0x000002A4D5BBB400>.horizontalScrollBar
+
+tests\test_hub_reflow.py:71: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_hub_reflow.py::test_history_stacks_at_large_text_and_returns_to_two_panes
+FAILED tests/test_hub_reflow.py::test_style_matrix_keeps_full_choices_and_last_row_above_its_scrollbar
+2 failed, 16 passed in 32.77s

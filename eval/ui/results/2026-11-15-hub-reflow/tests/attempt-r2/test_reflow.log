@@ -1,0 +1,9 @@
+....                                                                     [100%]
+============================= slowest 5 durations =============================
+0.12s setup    tests/test_reflow.py::test_wrap_preserves_unicode_clusters_and_original_hard_breaks
+0.03s call     tests/test_reflow.py::test_native_wrapped_button_keeps_label_name_keyboard_and_height[WrapCheckBox]
+0.02s call     tests/test_reflow.py::test_native_wrapped_button_keeps_label_name_keyboard_and_height[WrapPushButton]
+0.01s call     tests/test_reflow.py::test_wrap_preserves_unicode_clusters_and_original_hard_breaks
+
+(1 durations < 0.005s hidden.  Use -vv to show these durations.)
+4 passed in 0.26s

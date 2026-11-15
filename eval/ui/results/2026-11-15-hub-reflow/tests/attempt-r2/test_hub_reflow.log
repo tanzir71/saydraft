@@ -1,0 +1,8 @@
+....................                                                     [100%]
+============================= slowest 5 durations =============================
+2.20s setup    tests/test_hub_reflow.py::test_every_hub_view_reflows_and_scrolls_to_keyboard_focus[880-32-light]
+1.87s setup    tests/test_hub_reflow.py::test_long_setup_warning_and_save_fit_without_hiding_settings[16-dark]
+1.83s setup    tests/test_hub_reflow.py::test_every_hub_view_reflows_and_scrolls_to_keyboard_focus[1080-16-dark]
+1.80s setup    tests/test_hub_reflow.py::test_every_hub_view_reflows_and_scrolls_to_keyboard_focus[1080-16-light]
+1.71s setup    tests/test_hub_reflow.py::test_every_hub_view_reflows_and_scrolls_to_keyboard_focus[880-32-dark]
+20 passed in 51.34s

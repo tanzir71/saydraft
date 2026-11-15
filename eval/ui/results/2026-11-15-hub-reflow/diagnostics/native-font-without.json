@@ -1,0 +1,107 @@
+[
+  {
+    "px": 16,
+    "fonts": [
+      {
+        "type": "QCheckBox",
+        "font": "Geist,9,-1,5,400,0,0,0,0,0,0,0,0,0,0,1,,0,0",
+        "actual_px": 12
+      },
+      {
+        "type": "WrapCheckBox",
+        "font": "Geist,9,-1,5,400,0,0,0,0,0,0,0,0,0,0,1,,0,0",
+        "actual_px": 12
+      },
+      {
+        "type": "QPushButton",
+        "font": "Geist,9,-1,5,400,0,0,0,0,0,0,0,0,0,0,1,,0,0",
+        "actual_px": 12
+      },
+      {
+        "type": "WrapPushButton",
+        "font": "Geist,9,-1,5,400,0,0,0,0,0,0,0,0,0,0,1,,0,0",
+        "actual_px": 12
+      },
+      {
+        "type": "QListWidget",
+        "font": "Geist,9,-1,5,400,0,0,0,0,0,0,0,0,0,0,1,,0,0",
+        "actual_px": 12
+      },
+      {
+        "type": "QComboBox",
+        "font": "Geist,9,-1,5,400,0,0,0,0,0,0,0,0,0,0,1,,0,0",
+        "actual_px": 12
+      }
+    ]
+  },
+  {
+    "px": 32,
+    "fonts": [
+      {
+        "type": "QCheckBox",
+        "font": "Geist,9,-1,5,400,0,0,0,0,0,0,0,0,0,0,1,,0,0",
+        "actual_px": 12
+      },
+      {
+        "type": "WrapCheckBox",
+        "font": "Geist,9,-1,5,400,0,0,0,0,0,0,0,0,0,0,1,,0,0",
+        "actual_px": 12
+      },
+      {
+        "type": "QPushButton",
+        "font": "Geist,9,-1,5,400,0,0,0,0,0,0,0,0,0,0,1,,0,0",
+        "actual_px": 12
+      },
+      {
+        "type": "WrapPushButton",
+        "font": "Geist,9,-1,5,400,0,0,0,0,0,0,0,0,0,0,1,,0,0",
+        "actual_px": 12
+      },
+      {
+        "type": "QListWidget",
+        "font": "Geist,9,-1,5,400,0,0,0,0,0,0,0,0,0,0,1,,0,0",
+        "actual_px": 12
+      },
+      {
+        "type": "QComboBox",
+        "font": "Geist,9,-1,5,400,0,0,0,0,0,0,0,0,0,0,1,,0,0",
+        "actual_px": 12
+      }
+    ]
+  },
+  {
+    "px": 16,
+    "fonts": [
+      {
+        "type": "QCheckBox",
+        "font": "Geist,9,-1,5,400,0,0,0,0,0,0,0,0,0,0,1,,0,0",
+        "actual_px": 12
+      },
+      {
+        "type": "WrapCheckBox",
+        "font": "Geist,9,-1,5,400,0,0,0,0,0,0,0,0,0,0,1,,0,0",
+        "actual_px": 12
+      },
+      {
+        "type": "QPushButton",
+        "font": "Geist,9,-1,5,400,0,0,0,0,0,0,0,0,0,0,1,,0,0",
+        "actual_px": 12
+      },
+      {
+        "type": "WrapPushButton",
+        "font": "Geist,9,-1,5,400,0,0,0,0,0,0,0,0,0,0,1,,0,0",
+        "actual_px": 12
+      },
+      {
+        "type": "QListWidget",
+        "font": "Geist,9,-1,5,400,0,0,0,0,0,0,0,0,0,0,1,,0,0",
+        "actual_px": 12
+      },
+      {
+        "type": "QComboBox",
+        "font": "Geist,9,-1,5,400,0,0,0,0,0,0,0,0,0,0,1,,0,0",
+        "actual_px": 12
+      }
+    ]
+  }
+]

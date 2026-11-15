@@ -1,5 +1,12 @@
 # Windows packaging
 
+The current local portable at `f6cd0bf` includes the Hub reflow and live-font
+fixes. Runtime/resource/notices and all 1,384 ZIP payload checks pass; sixteen
+changed modules read from the actual executable match Git bytecode. The
+[retained delivery](../eval/ui/results/2026-11-15-hub-reflow/README.md) records
+the exact source, dependencies, artifact hash and original failures. This
+`-SkipInstaller` build leaves installer, signing and release acceptance open.
+
 Delivery now uses local checks/builds followed by direct Git pushes. The Package
 and draft-release workflows are retained as manual-only tools; pushes and tags
 start neither, and no successful GitHub Actions run is required for delivery.

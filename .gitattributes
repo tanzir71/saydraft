@@ -104,3 +104,5 @@ eval/asr/results/2026-11-15-word-alignment/** -text -whitespace
 eval/ui/results/2026-11-15-hub-accessibility/** -text -whitespace
 # Preserve the approved social-preview upload receipt and browser proof.
 eval/site/results/2026-11-15-social-preview/** -text -whitespace
+# Preserve bounded Hub reflow delivery, failures, source and portable receipts.
+eval/ui/results/2026-11-15-hub-reflow/** -text -whitespace
