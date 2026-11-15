@@ -113,3 +113,6 @@ eval/cleanup/results/2026-11-15-intensity-prefix/** -text -whitespace
 # Preserve the successful combined ASR development comparison as measured.
 eval/asr/results/2026-11-15-full-alignment/** -text -whitespace
 tools/confirm_whisper_alignment.py -text
+tools/public_worker_guard.py -text
+tools/guarded_latency_matrix.py -text
+tools/guarded_latency_trial.py -text

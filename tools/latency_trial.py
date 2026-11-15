@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 import shutil
 import time
 from dataclasses import replace
@@ -98,7 +99,7 @@ def replay_asr(spec, config):
 def run_trial(spec):
     output = Path(spec["output"])
     report = {"schema": 1, **{name: spec[name] for name in ("git_commit", "audio_seconds", "repeat", "tier", "asr_model")},
-        'runtime_environment': runtime_environment(),
+        'runtime_environment': runtime_environment(), "python_pid": os.getpid(),
         "cases": [], "native_exits": [], "complete": False}
     meter, worker, pipeline, local = None, None, None, None
     started = time.monotonic()

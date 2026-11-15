@@ -39,7 +39,8 @@ def write_json(path, value):
 def source_receipt():
     names = sorted([*ROOT.joinpath("saydraft").rglob("*.py"),
         *[ROOT / "tools" / name for name in ("bench.py", "latency_matrix.py", "latency_trial.py", "latency_environment.py",
-            "probe_cleanup_latency.py", "soak_runner.py", "bench_cleanup.py")],
+            "probe_cleanup_latency.py", "soak_runner.py", "bench_cleanup.py", "public_file_guard.py",
+            "public_worker_guard.py", "guarded_latency_matrix.py", "guarded_latency_trial.py")],
         ROOT / "saydraft" / "models" / "manifest.json", ROOT / "eval" / "cleanup" / "candidates.json",
         ROOT / 'requirements.txt'])
     return {"git_commit": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip(),
@@ -114,10 +115,13 @@ def child_environment(output):
 
 def run_pair(spec, output, *, process_factory=None):
     from saydraft.cleanup.llm.windows_process import WindowsJobProcess
+    from tools.public_worker_guard import verify_receipts
 
     write_json(output / "request.json", spec)
+    guard_path = output / "owner-io-guard.json"
     process = (process_factory or WindowsJobProcess)([str(Path(sys.executable).resolve()),
-        "-m", "tools.latency_trial", "--request", str(output / "request.json")],
+        "-m", "tools.guarded_latency_trial", "--guard-output", str(guard_path),
+        "--request", str(output / "request.json")],
         env=child_environment(output), cwd=ROOT, capture_output=True, max_output_bytes=65536)
     try:
         # An observation timeout never launches a second copy. This is a trial
@@ -142,6 +146,10 @@ def run_pair(spec, output, *, process_factory=None):
         pair = json.loads(pair_path.read_text(encoding="utf-8"))
         if code != 0:
             raise RuntimeError("Latency child failed; retained its report and process receipt")
+        guard = verify_receipts(guard_path)
+        if pair.get("python_pid") != guard["actual_python_pid"]:
+            raise ValueError("Guard receipt belongs to a different trial interpreter")
+        pair["_file_only_guard"] = guard
         return pair
     finally:
         process.close()  # Kill-on-close job also owns every nested native child.
@@ -217,7 +225,8 @@ def main(argv=None):
                 report["cases"].extend(pair["cases"])
                 report["pairs"].append({"path": pair_output.name + "/report.json",
                     "sha256": hashlib.sha256((pair_output / "report.json").read_bytes()).hexdigest(),
-                    "native_processes": len(pair["native_exits"]), "native_exits": pair["native_exits"]})
+                    "native_processes": len(pair["native_exits"]), "native_exits": pair["native_exits"],
+                    "file_only_guard": pair.get("_file_only_guard")})
                 write_json(args.output / "report.json", report)
         report["complete"] = len(report["cases"]) == len(args.durations) * args.repeats * 2
     except Exception as exc:
@@ -228,7 +237,11 @@ def main(argv=None):
         report["summary"] = summarize(report["cases"], args.tier)
         report["source_unchanged"] = source_receipt() == source
         report['runtime_environment_unchanged'] = runtime_environment() == environment
-        report["full_matrix"] = (report["complete"] and not args.debug and args.isolated
+        report["file_only_guards_verified"] = bool(report["pairs"]) and all(
+            isinstance(pair.get("file_only_guard"), dict)
+            and pair["file_only_guard"].get("verified") is True for pair in report["pairs"]
+        )
+        report["full_matrix"] = (report["complete"] and report["file_only_guards_verified"] and not args.debug and args.isolated
             and not source["source_dirty"] and report["source_unchanged"]
             and report['runtime_environment_unchanged']
             and tuple(args.durations) == DURATIONS and args.repeats >= 20 and args.vad_dir is not None)

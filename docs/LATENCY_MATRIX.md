@@ -41,6 +41,16 @@ owner clipboard. It does not measure microphone shutdown, Qt frames, physical
 key delivery or a target app rendering text. Public fixture transcripts exist
 only in the separate QA History databases; JSON reports/journals contain metadata.
 
+The guarded entry below installs the public-file refusal policy before worker
+imports. Its parent and every child expose only an immutable selected-context
+value and a foreground class whose constructor always raises. The actual capture,
+focus and insertion services remain the explicit existing fixtures. Each terminal
+child must have matching Python PID/guard/fixture receipts with no refused port
+attempts or imported audio SDK. The matrix records their hashes and refuses full
+qualification without them. These source changes do not retroactively alter the
+older reports or establish new latency results. Physical Windows acceptance and
+native firewall coverage remain separate.
+
 ## Running the matrix
 
 Lite uses the pinned Whisper base engine with rules cleanup. Standard/Pro use
@@ -61,9 +71,9 @@ records expose dependency differences between runs; they do not retroactively
 establish versions for older reports that lack this evidence.
 
 ```powershell
-python -m tools.bench matrix --tier lite --whisper-dir D:\QA\WhisperBase --vad-dir D:\QA\Silero --isolated --output D:\QA\Latency-Lite-New
-python -m tools.bench matrix --tier standard --parakeet-dir D:\QA\Parakeet --lid-dir D:\QA\LanguageID --vad-dir D:\QA\Silero --models-dir D:\QA\Candidates --runtime-dir D:\QA\llama-cpp-b12110-cpu-x64 --isolated --output D:\QA\Latency-Standard-New
-python -m tools.bench matrix --tier pro --parakeet-dir D:\QA\Parakeet --lid-dir D:\QA\LanguageID --vad-dir D:\QA\Silero --models-dir D:\QA\Candidates --runtime-dir D:\QA\llama-cpp-b12110-vulkan-x64 --device Vulkan1 --isolated --output D:\QA\Latency-Pro-New
+python -m tools.guarded_latency_matrix --guard-output D:\QA\Latency-Lite-New-guard.json --tier lite --whisper-dir D:\QA\WhisperBase --vad-dir D:\QA\Silero --isolated --output D:\QA\Latency-Lite-New
+python -m tools.guarded_latency_matrix --guard-output D:\QA\Latency-Standard-New-guard.json --tier standard --parakeet-dir D:\QA\Parakeet --lid-dir D:\QA\LanguageID --vad-dir D:\QA\Silero --models-dir D:\QA\Candidates --runtime-dir D:\QA\llama-cpp-b12110-cpu-x64 --isolated --output D:\QA\Latency-Standard-New
+python -m tools.guarded_latency_matrix --guard-output D:\QA\Latency-Pro-New-guard.json --tier pro --parakeet-dir D:\QA\Parakeet --lid-dir D:\QA\LanguageID --vad-dir D:\QA\Silero --models-dir D:\QA\Candidates --runtime-dir D:\QA\llama-cpp-b12110-vulkan-x64 --device Vulkan1 --isolated --output D:\QA\Latency-Pro-New
 ```
 
 Select the adapter for the actual machine. Run recipes serially from a clean,

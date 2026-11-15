@@ -1,5 +1,13 @@
 # Multilingual speech accuracy work
 
+Current confirmation: clean `6cf5fc0` freezes the admitted full large-v3 /
+temperature-zero / alignment candidate and all sixty previously reserved
+Bengali/Tamil/Telugu recordings. The single test is running; its exclusive
+consumption record was written before the first native case. This set is now
+committed to that confirmation and must not be called untouched for another
+tuned candidate. No complete confirmation pass or production promotion is
+claimed. Earlier uninferred statements below describe their original snapshots.
+
 Status, 15 November 2026: language coverage, cleanup safeguards and controlled
 acquisition/scoring tests pass. The [public read-speech baseline](../eval/asr/results/2026-11-14-public-read/README.md)
 is complete: four hundred unique clips across twenty languages (81.41 minutes),

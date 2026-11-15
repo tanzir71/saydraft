@@ -17,7 +17,7 @@ def cases(*, seconds=.2, decision="accepted", count=20):
 
 
 def pair():
-    return {"complete": True, "git_commit": "source", "audio_seconds": 3, "repeat": 0, "asr_model": "whisper-base",
+    return {"complete": True, "git_commit": "source", "audio_seconds": 3, "repeat": 0, "asr_model": "whisper-base", "python_pid": 1234,
         "native_exits": [True], "cases": [{"phase": phase, "audio_seconds": 3, "repeat": 0,
             "history_before_paste": True, "clipboard_restored": True, "release_deadline_present": True,
             "no_early_delivery": True, "fed_samples": 48000, "asr_model": "whisper-base"} for phase in matrix.PHASES]}
@@ -110,8 +110,10 @@ def test_child_environment_has_private_cache_and_no_credentials(tmp_path, monkey
     assert Path(environment["TEMP"]).is_dir()
 
 
-@pytest.mark.parametrize("code", [0, 1])
-def test_parent_waits_for_one_child_and_closes_job_on_success_or_failure(tmp_path, code):
+@pytest.mark.parametrize("code,report_pid,error", [(0, 1234, None), (1, 1234, RuntimeError), (0, 4321, ValueError)])
+def test_parent_waits_for_one_child_and_closes_job_on_success_or_failure(tmp_path, code, report_pid, error):
+    from tools.public_worker_guard import KIND, OWNER_FLAGS, fixture_receipt_path
+
     processes = []
 
     class Process:
@@ -119,8 +121,14 @@ def test_parent_waits_for_one_child_and_closes_job_on_success_or_failure(tmp_pat
             processes.append(self)
             self.closed = False
             assert kwargs["capture_output"] and kwargs["max_output_bytes"] == 65536
-            assert argv[1:3] == ["-m", "tools.latency_trial"]
-            matrix.write_json(tmp_path / "report.json", pair())
+            assert argv[1:3] == ["-m", "tools.guarded_latency_trial"]
+            guard = Path(argv[argv.index("--guard-output") + 1])
+            matrix.write_json(guard, {"pid": 1234, "blocked_attempts": [], **dict.fromkeys(OWNER_FLAGS, False)})
+            matrix.write_json(fixture_receipt_path(guard), {
+                "pid": 1234, "kind": KIND, "port_attempts": [], "production_context_adapter_loaded": False,
+                "selection_value_fields": ["target", "selection"],
+            })
+            matrix.write_json(tmp_path / "report.json", {**pair(), "python_pid": report_pid})
 
         def poll(self):
             return code
@@ -131,11 +139,13 @@ def test_parent_waits_for_one_child_and_closes_job_on_success_or_failure(tmp_pat
         def close(self):
             self.closed = True
 
-    if code:
-        with pytest.raises(RuntimeError):
+    if error:
+        with pytest.raises(error):
             matrix.run_pair({"audio_seconds": 3}, tmp_path, process_factory=Process)
     else:
-        assert matrix.run_pair({"audio_seconds": 3}, tmp_path, process_factory=Process) == pair()
+        value = matrix.run_pair({"audio_seconds": 3}, tmp_path, process_factory=Process)
+        assert value.pop("_file_only_guard")["actual_python_pid"] == 1234
+        assert value == pair()
     assert len(processes) == 1 and processes[0].closed
     assert "private native output" not in (tmp_path / "process.json").read_text()
 
@@ -178,7 +188,7 @@ def test_debug_completion_keeps_full_matrix_and_target_false(tmp_path, monkeypat
 
 @pytest.mark.parametrize("change,latency_ok,recipe_ok", [
     ("none", True, True), ("source", False, False), ("rules_only", False, False),
-    ("slow_decoder", True, False), ("environment", False, False),
+    ("slow_decoder", True, False), ("environment", False, False), ("unguarded", False, False),
 ])
 def test_full_measurement_separates_latency_model_use_decoder_and_source_integrity(
         tmp_path, monkeypatch, change, latency_ok, recipe_ok):
@@ -215,6 +225,8 @@ def test_full_measurement_separates_latency_model_use_decoder_and_source_integri
             "cleanup_at_release": {"decoder": {"median_tps": 20 if change == "slow_decoder" else 30}}}
             for row in value["cases"]]
         matrix.write_json(output / "report.json", value)
+        if change != "unguarded":
+            value["_file_only_guard"] = {"verified": True, "fixture": "synthetic unit metadata only"}
         return value
 
     monkeypatch.setattr(matrix, "run_pair", run)
