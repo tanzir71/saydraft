@@ -1,0 +1,62 @@
+starting isolated UI tests
+============================= test session starts =============================
+platform win32 -- Python 3.13.17, pytest-8.4.2, pluggy-1.6.0 -- D:\Saydraft-Codex-QA-20261112-01a1cbc7\microphone-repair-package-20261115-r2\venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\tanzir\Desktop\voice_tray
+configfile: pytest.ini
+collecting ... collected 51 items
+
+tests/test_settings_window.py::test_settings_window_has_required_tabs_and_loads_values PASSED [  1%]
+tests/test_settings_window.py::test_bar_visibility_round_trips_and_microphone_fixes_are_explicit_links PASSED [  3%]
+tests/test_settings_window.py::test_settings_window_applies_config_live_and_updates_autostart PASSED [  5%]
+tests/test_settings_window.py::test_settings_window_blocks_duplicate_hotkeys PASSED [  7%]
+tests/test_settings_window.py::test_shortcut_validation_uses_native_aliases_sides_and_prefix_rules_before_saving PASSED [  9%]
+tests/test_settings_window.py::test_all_languages_model_and_arabic_setting_persist PASSED [ 11%]
+tests/test_settings_window.py::test_multilingual_pin_selects_shared_optional_model_without_downloading[bn] PASSED [ 13%]
+tests/test_settings_window.py::test_multilingual_pin_selects_shared_optional_model_without_downloading[th] PASSED [ 15%]
+tests/test_settings_window.py::test_multilingual_pin_selects_shared_optional_model_without_downloading[zh] PASSED [ 17%]
+tests/test_settings_window.py::test_multilingual_pin_selects_shared_optional_model_without_downloading[ko] PASSED [ 19%]
+tests/test_settings_window.py::test_multilingual_pin_selects_shared_optional_model_without_downloading[ja] PASSED [ 21%]
+tests/test_settings_window.py::test_multilingual_pin_selects_shared_optional_model_without_downloading[id] PASSED [ 23%]
+tests/test_settings_window.py::test_multilingual_pin_selects_shared_optional_model_without_downloading[ms] PASSED [ 25%]
+tests/test_settings_window.py::test_multilingual_pin_selects_shared_optional_model_without_downloading[hi] PASSED [ 27%]
+tests/test_settings_window.py::test_multilingual_pin_selects_shared_optional_model_without_downloading[ur] PASSED [ 29%]
+tests/test_settings_window.py::test_multilingual_pin_selects_shared_optional_model_without_downloading[vi] PASSED [ 31%]
+tests/test_settings_window.py::test_multilingual_pin_selects_shared_optional_model_without_downloading[tl] PASSED [ 33%]
+tests/test_settings_window.py::test_multilingual_pin_selects_shared_optional_model_without_downloading[ta] PASSED [ 35%]
+tests/test_settings_window.py::test_multilingual_pin_selects_shared_optional_model_without_downloading[te] PASSED [ 37%]
+tests/test_settings_window.py::test_multilingual_pin_selects_shared_optional_model_without_downloading[fa] PASSED [ 39%]
+tests/test_settings_window.py::test_brazilian_portuguese_keeps_portuguese_code_and_default_model PASSED [ 41%]
+tests/test_settings_window.py::test_settings_window_saves_dictionary_snippets_and_profiles PASSED [ 43%]
+tests/test_settings_window.py::test_unchanged_dictionary_editor_keeps_new_learning_and_hides_receipts PASSED [ 45%]
+tests/test_settings_window.py::test_learning_toggles_persist_and_auto_add_depends_on_suggestions PASSED [ 47%]
+tests/test_settings_window.py::test_stale_dictionary_editor_refuses_save_without_applying_settings PASSED [ 49%]
+tests/test_settings_window.py::test_windows_autostart_manager_uses_hkcu_run_key PASSED [ 50%]
+tests/test_settings_window.py::test_windows_autostart_manager_uses_frozen_exe_command PASSED [ 52%]
+tests/test_settings_window.py::test_speech_detection_download_runs_outside_the_ui_thread PASSED [ 54%]
+tests/test_microphone_ui.py::test_page_never_discovers_or_opens_input_on_construction_and_uses_only_explicit_test PASSED [ 56%]
+tests/test_microphone_ui.py::test_default_virtual_input_is_named_and_explained_only_after_explicit_refresh PASSED [ 58%]
+tests/test_microphone_ui.py::test_level_test_reports_silent_quiet_and_usable_inputs[0.0-No sound] PASSED [ 60%]
+tests/test_microphone_ui.py::test_level_test_reports_silent_quiet_and_usable_inputs[0.0002-very quiet] PASSED [ 62%]
+tests/test_microphone_ui.py::test_level_test_reports_silent_quiet_and_usable_inputs[0.02-Sound detected] PASSED [ 64%]
+tests/test_microphone_ui.py::test_saved_missing_device_is_preserved_and_never_silently_replaced_by_default PASSED [ 66%]
+tests/test_microphone_ui.py::test_input_change_stops_old_test_and_late_levels_cannot_revive_it PASSED [ 68%]
+tests/test_microphone_ui.py::test_hiding_the_page_requests_stop_without_waiting_for_device_closure PASSED [ 70%]
+tests/test_microphone_ui.py::test_slow_discovery_keeps_gui_responsive_and_close_discards_late_result PASSED [ 72%]
+tests/test_microphone_ui.py::test_failed_discovery_and_stop_do_not_expose_provider_details_and_allow_retry PASSED [ 74%]
+tests/test_microphone_ui.py::test_device_preference_round_trips_through_shared_settings_save PASSED [ 76%]
+tests/test_microphone_ui.py::test_real_worker_controller_and_queued_qt_meter_signals_compose_without_capture PASSED [ 78%]
+tests/test_microphone_ui.py::test_leaving_the_actual_hub_page_and_closing_the_hub_request_input_stop PASSED [ 80%]
+tests/test_tray_ui.py::test_default_tray_assets_are_real_ico_files PASSED [ 82%]
+tests/test_tray_ui.py::test_default_asset_dir_uses_exe_sibling_assets_when_frozen PASSED [ 84%]
+tests/test_tray_ui.py::test_default_asset_dir_prefers_actual_frozen_bundle_data PASSED [ 86%]
+tests/test_tray_ui.py::test_tray_menu_queues_actions_and_updates_toggle_state PASSED [ 88%]
+tests/test_model_storage_ui.py::test_inventory_is_background_and_removal_requires_concrete_confirmation PASSED [ 90%]
+tests/test_model_storage_ui.py::test_saved_gguf_path_blocks_removal_until_another_model_is_saved PASSED [ 92%]
+tests/test_model_storage_ui.py::test_confirmation_dialog_names_version_folder_size_and_defaults_to_cancel PASSED [ 94%]
+tests/test_model_storage_ui.py::test_inventory_failure_recovers_without_enabling_remove PASSED [ 96%]
+tests/test_model_storage_ui.py::test_refresh_during_background_scan_is_replayed_after_completion PASSED [ 98%]
+tests/test_model_storage_ui.py::test_confirmed_ui_removal_runs_through_idle_worker_and_real_fixture_storage PASSED [100%]
+
+- generated xml file: D:\Saydraft-Codex-QA-20261112-01a1cbc7\app-ui-v2-20261116-r1\settings-r3.xml -
+======================== 51 passed in 96.11s (0:01:36) ========================

@@ -1,0 +1,32 @@
+starting isolated UI tests
+============================= test session starts =============================
+platform win32 -- Python 3.13.17, pytest-8.4.2, pluggy-1.6.0 -- D:\Saydraft-Codex-QA-20261112-01a1cbc7\microphone-repair-package-20261115-r2\venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\tanzir\Desktop\voice_tray
+configfile: pytest.ini
+collecting ... collected 21 items
+
+tests/test_hub_accessibility.py::test_all_hub_pages_have_named_forward_and_reverse_tab_cycles[16-light] PASSED [  4%]
+tests/test_hub_accessibility.py::test_all_hub_pages_have_named_forward_and_reverse_tab_cycles[16-dark] PASSED [  9%]
+tests/test_hub_accessibility.py::test_all_hub_pages_have_named_forward_and_reverse_tab_cycles[16-high-contrast] PASSED [ 14%]
+tests/test_hub_accessibility.py::test_all_hub_pages_have_named_forward_and_reverse_tab_cycles[32-light] PASSED [ 19%]
+tests/test_hub_accessibility.py::test_all_hub_pages_have_named_forward_and_reverse_tab_cycles[32-dark] PASSED [ 23%]
+tests/test_hub_accessibility.py::test_all_hub_pages_have_named_forward_and_reverse_tab_cycles[32-high-contrast] PASSED [ 28%]
+tests/test_hub_accessibility.py::test_navigation_refits_live_font_changes_and_native_scrollbars[light] PASSED [ 33%]
+tests/test_hub_accessibility.py::test_navigation_refits_live_font_changes_and_native_scrollbars[dark] PASSED [ 38%]
+tests/test_hub_accessibility.py::test_navigation_refits_live_font_changes_and_native_scrollbars[high-contrast] PASSED [ 42%]
+tests/test_hub_accessibility.py::test_multiline_form_editors_leave_with_tab_without_changing_drafts[Dictionary] PASSED [ 47%]
+tests/test_hub_accessibility.py::test_multiline_form_editors_leave_with_tab_without_changing_drafts[Snippets] PASSED [ 52%]
+tests/test_hub_accessibility.py::test_multiline_form_editors_leave_with_tab_without_changing_drafts[Style] PASSED [ 57%]
+tests/test_hub_accessibility.py::test_multiline_form_editors_leave_with_tab_without_changing_drafts[Cleanup] PASSED [ 61%]
+tests/test_hub_accessibility.py::test_home_and_general_settings_reflow_without_horizontal_scrolling PASSED [ 66%]
+tests/test_hub_accessibility.py::test_high_contrast_retires_brand_sheet_and_preserves_large_font PASSED [ 71%]
+tests/test_hub_accessibility.py::test_dictionary_source_chip_raster_has_readable_native_palette_pair[ColorGroup.Active-False] PASSED [ 76%]
+tests/test_hub_accessibility.py::test_dictionary_source_chip_raster_has_readable_native_palette_pair[ColorGroup.Active-True] PASSED [ 80%]
+tests/test_hub_accessibility.py::test_dictionary_source_chip_raster_has_readable_native_palette_pair[ColorGroup.Inactive-False] PASSED [ 85%]
+tests/test_hub_accessibility.py::test_dictionary_source_chip_raster_has_readable_native_palette_pair[ColorGroup.Inactive-True] PASSED [ 90%]
+tests/test_hub_accessibility.py::test_dictionary_source_chip_raster_has_readable_native_palette_pair[ColorGroup.Disabled-False] PASSED [ 95%]
+tests/test_hub_accessibility.py::test_dictionary_source_chip_raster_has_readable_native_palette_pair[ColorGroup.Disabled-True] PASSED [100%]
+
+- generated xml file: D:\Saydraft-Codex-QA-20261112-01a1cbc7\app-ui-v2-20261116-r1\a11y-final-r1.xml -
+======================== 21 passed in 74.80s (0:01:14) ========================

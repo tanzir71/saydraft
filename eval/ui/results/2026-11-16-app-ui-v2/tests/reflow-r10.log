@@ -1,0 +1,40 @@
+starting isolated UI tests
+============================= test session starts =============================
+platform win32 -- Python 3.13.17, pytest-8.4.2, pluggy-1.6.0 -- D:\Saydraft-Codex-QA-20261112-01a1cbc7\microphone-repair-package-20261115-r2\venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\tanzir\Desktop\voice_tray
+configfile: pytest.ini
+collecting ... collected 29 items
+
+tests/test_hub_reflow.py::test_every_hub_view_reflows_and_scrolls_to_keyboard_focus[880-14-light] PASSED [  3%]
+tests/test_hub_reflow.py::test_every_hub_view_reflows_and_scrolls_to_keyboard_focus[880-14-dark] PASSED [  6%]
+tests/test_hub_reflow.py::test_every_hub_view_reflows_and_scrolls_to_keyboard_focus[880-14-high-contrast] PASSED [ 10%]
+tests/test_hub_reflow.py::test_every_hub_view_reflows_and_scrolls_to_keyboard_focus[880-16-light] PASSED [ 13%]
+tests/test_hub_reflow.py::test_every_hub_view_reflows_and_scrolls_to_keyboard_focus[880-16-dark] PASSED [ 17%]
+tests/test_hub_reflow.py::test_every_hub_view_reflows_and_scrolls_to_keyboard_focus[880-16-high-contrast] PASSED [ 20%]
+tests/test_hub_reflow.py::test_every_hub_view_reflows_and_scrolls_to_keyboard_focus[880-32-light] PASSED [ 24%]
+tests/test_hub_reflow.py::test_every_hub_view_reflows_and_scrolls_to_keyboard_focus[880-32-dark] PASSED [ 27%]
+tests/test_hub_reflow.py::test_every_hub_view_reflows_and_scrolls_to_keyboard_focus[880-32-high-contrast] PASSED [ 31%]
+tests/test_hub_reflow.py::test_every_hub_view_reflows_and_scrolls_to_keyboard_focus[1080-14-light] PASSED [ 34%]
+tests/test_hub_reflow.py::test_every_hub_view_reflows_and_scrolls_to_keyboard_focus[1080-14-dark] PASSED [ 37%]
+tests/test_hub_reflow.py::test_every_hub_view_reflows_and_scrolls_to_keyboard_focus[1080-14-high-contrast] PASSED [ 41%]
+tests/test_hub_reflow.py::test_every_hub_view_reflows_and_scrolls_to_keyboard_focus[1080-16-light] PASSED [ 44%]
+tests/test_hub_reflow.py::test_every_hub_view_reflows_and_scrolls_to_keyboard_focus[1080-16-dark] PASSED [ 48%]
+tests/test_hub_reflow.py::test_every_hub_view_reflows_and_scrolls_to_keyboard_focus[1080-16-high-contrast] PASSED [ 51%]
+tests/test_hub_reflow.py::test_every_hub_view_reflows_and_scrolls_to_keyboard_focus[1080-32-light] PASSED [ 55%]
+tests/test_hub_reflow.py::test_every_hub_view_reflows_and_scrolls_to_keyboard_focus[1080-32-dark] PASSED [ 58%]
+tests/test_hub_reflow.py::test_every_hub_view_reflows_and_scrolls_to_keyboard_focus[1080-32-high-contrast] PASSED [ 62%]
+tests/test_hub_reflow.py::test_history_stacks_at_large_text_and_returns_to_two_panes PASSED [ 65%]
+tests/test_hub_reflow.py::test_style_matrix_keeps_full_choices_and_last_row_above_its_scrollbar PASSED [ 68%]
+tests/test_hub_reflow.py::test_long_setup_warning_and_save_fit_without_hiding_settings[14-light] PASSED [ 72%]
+tests/test_hub_reflow.py::test_long_setup_warning_and_save_fit_without_hiding_settings[14-dark] PASSED [ 75%]
+tests/test_hub_reflow.py::test_long_setup_warning_and_save_fit_without_hiding_settings[14-high-contrast] PASSED [ 79%]
+tests/test_hub_reflow.py::test_long_setup_warning_and_save_fit_without_hiding_settings[16-light] PASSED [ 82%]
+tests/test_hub_reflow.py::test_long_setup_warning_and_save_fit_without_hiding_settings[16-dark] PASSED [ 86%]
+tests/test_hub_reflow.py::test_long_setup_warning_and_save_fit_without_hiding_settings[16-high-contrast] PASSED [ 89%]
+tests/test_hub_reflow.py::test_long_setup_warning_and_save_fit_without_hiding_settings[32-light] PASSED [ 93%]
+tests/test_hub_reflow.py::test_long_setup_warning_and_save_fit_without_hiding_settings[32-dark] PASSED [ 96%]
+tests/test_hub_reflow.py::test_long_setup_warning_and_save_fit_without_hiding_settings[32-high-contrast] PASSED [100%]
+
+- generated xml file: D:\Saydraft-Codex-QA-20261112-01a1cbc7\app-ui-v2-20261116-r1\reflow-r10.xml -
+======================= 29 passed in 265.26s (0:04:25) ========================

@@ -1,0 +1,21 @@
+starting isolated UI tests
+============================= test session starts =============================
+platform win32 -- Python 3.13.17, pytest-8.4.2, pluggy-1.6.0 -- D:\Saydraft-Codex-QA-20261112-01a1cbc7\microphone-repair-package-20261115-r2\venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\tanzir\Desktop\voice_tray
+configfile: pytest.ini
+collecting ... collected 86 items
+
+tests/test_onboarding_window.py::test_onboarding_wizard_has_required_steps_and_explicit_microphone_controls FAILED [  1%]
+
+================================== FAILURES ===================================
+_ test_onboarding_wizard_has_required_steps_and_explicit_microphone_controls __
+tests\test_onboarding_window.py:73: in test_onboarding_wizard_has_required_steps_and_explicit_microphone_controls
+    assert not wizard.button(wizard.CustomButton1).isVisible()
+                             ^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'OnboardingWizard' object has no attribute 'CustomButton1'
+- generated xml file: D:\Saydraft-Codex-QA-20261112-01a1cbc7\app-ui-v2-20261116-r1\setup-final-r1.xml -
+=========================== short test summary info ===========================
+FAILED tests/test_onboarding_window.py::test_onboarding_wizard_has_required_steps_and_explicit_microphone_controls
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!
+============================== 1 failed in 3.20s ==============================

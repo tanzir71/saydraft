@@ -1,0 +1,60 @@
+starting isolated UI tests
+============================= test session starts =============================
+platform win32 -- Python 3.13.17, pytest-8.4.2, pluggy-1.6.0 -- D:\Saydraft-Codex-QA-20261112-01a1cbc7\microphone-repair-package-20261115-r2\venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\tanzir\Desktop\voice_tray
+configfile: pytest.ini
+collecting ... collected 49 items
+
+tests/test_hub.py::test_hub_has_one_window_and_seven_pages_with_real_existing_controls PASSED [  2%]
+tests/test_hub.py::test_home_meeting_action_forwards_one_explicit_request_without_recording PASSED [  4%]
+tests/test_hub.py::test_shared_save_preserves_all_fields_and_applies_edits_from_separate_pages PASSED [  6%]
+tests/test_hub.py::test_save_failure_is_visible_and_keeps_staged_data_and_config PASSED [  8%]
+tests/test_hub.py::test_home_uses_current_shortcut_models_and_exactly_last_five_entries PASSED [ 10%]
+tests/test_hub.py::test_home_offline_chip_opens_privacy_and_does_not_claim_an_uninstalled_guard PASSED [ 12%]
+tests/test_hub.py::test_home_empty_and_incomplete_measurements_are_honest PASSED [ 14%]
+tests/test_hub.py::test_home_refresh_keeps_unchanged_keycaps_and_hides_retired_labels_before_deferred_deletion PASSED [ 16%]
+tests/test_hub.py::test_hub_close_pauses_all_download_owners_without_discarding_pages PASSED [ 18%]
+tests/test_hub.py::test_real_app_routes_history_settings_and_home_to_the_same_owned_hub PASSED [ 20%]
+tests/test_hub.py::test_hub_keeps_its_minimum_size_with_larger_text_and_all_controls_reachable[light] PASSED [ 22%]
+tests/test_hub.py::test_hub_keeps_its_minimum_size_with_larger_text_and_all_controls_reachable[dark] PASSED [ 24%]
+tests/test_app_ui_v2.py::test_clean_pages_hide_savebar_and_discard_restores_without_writing PASSED [ 26%]
+tests/test_app_ui_v2.py::test_search_and_row_selection_do_not_stage_preferences PASSED [ 28%]
+tests/test_app_ui_v2.py::test_discard_restores_dirty_documents_and_synchronized_segments PASSED [ 30%]
+tests/test_app_ui_v2.py::test_discard_waits_for_download_owner_instead_of_switching_model PASSED [ 32%]
+tests/test_app_ui_v2.py::test_language_tiles_keep_three_pin_limit_and_do_not_download PASSED [ 34%]
+tests/test_app_ui_v2.py::test_native_toggle_radio_roles_and_level_gain_do_not_claim_clipping PASSED [ 36%]
+tests/test_app_ui_v2.py::test_discard_resynchronizes_radio_model_choice_and_translation_display PASSED [ 38%]
+tests/test_app_ui_v2.py::test_shortcut_change_stages_canonical_binding_and_discard_closes_stale_editor PASSED [ 40%]
+tests/test_hub_style_preview.py::test_real_hub_all_84_styles_match_authored_goldens_and_delivery_engine PASSED [ 42%]
+tests/test_hub_style_preview.py::test_requested_language_previews_match_engine_without_speech_or_config_changes[en-ask Krezle about 14 files.] PASSED [ 44%]
+tests/test_hub_style_preview.py::test_requested_language_previews_match_engine_without_speech_or_config_changes[ar-\u0623\u0631\u0633\u0644 14 \u0645\u0644\u0641\u064b\u0627 \u0625\u0644\u0649 \u0645\u0631\u064a\u0645.] PASSED [ 46%]
+tests/test_hub_style_preview.py::test_requested_language_previews_match_engine_without_speech_or_config_changes[bn-\u09b0\u09b9\u09bf\u09ae\u0995\u09c7 14\u099f\u09bf \u09ab\u09be\u0987\u09b2 \u09aa\u09be\u09a0\u09be\u09a8\u0964] PASSED [ 48%]
+tests/test_hub_style_preview.py::test_requested_language_previews_match_engine_without_speech_or_config_changes[pt-Envie 14 arquivos para Maria.] PASSED [ 51%]
+tests/test_hub_style_preview.py::test_requested_language_previews_match_engine_without_speech_or_config_changes[zh-\u8bf7\u628a14\u4e2a\u6587\u4ef6\u53d1\u7ed9\u5c0f\u660e\u3002] PASSED [ 53%]
+tests/test_hub_style_preview.py::test_requested_language_previews_match_engine_without_speech_or_config_changes[tl-Ipadala ang 14 na file kay Maria.] PASSED [ 55%]
+tests/test_hub_style_preview.py::test_requested_language_previews_match_engine_without_speech_or_config_changes[fr-Envoyez 14 fichiers \xe0 Marie.] PASSED [ 57%]
+tests/test_hub_style_preview.py::test_requested_language_previews_match_engine_without_speech_or_config_changes[de-Senden Sie 14 Dateien an Maria.] PASSED [ 59%]
+tests/test_hub_style_preview.py::test_requested_language_previews_match_engine_without_speech_or_config_changes[hi-\u092e\u0930\u093f\u092f\u092e \u0915\u094b 14 \u092b\u093c\u093e\u0907\u0932\u0947\u0902 \u092d\u0947\u091c\u0947\u0902\u0964] PASSED [ 61%]
+tests/test_hub_style_preview.py::test_requested_language_previews_match_engine_without_speech_or_config_changes[id-Kirim 14 berkas kepada Maria.] PASSED [ 63%]
+tests/test_hub_style_preview.py::test_requested_language_previews_match_engine_without_speech_or_config_changes[ja-\u30de\u30ea\u30a2\u306b14\u500b\u306e\u30d5\u30a1\u30a4\u30eb\u3092\u9001\u3063\u3066\u304f\u3060\u3055\u3044\u3002] PASSED [ 65%]
+tests/test_hub_style_preview.py::test_requested_language_previews_match_engine_without_speech_or_config_changes[ko-\ub9c8\ub9ac\uc544\uc5d0\uac8c \ud30c\uc77c 14\uac1c\ub97c \ubcf4\ub0b4 \uc8fc\uc138\uc694.] PASSED [ 67%]
+tests/test_hub_style_preview.py::test_requested_language_previews_match_engine_without_speech_or_config_changes[ms-Hantar 14 fail kepada Maria.] PASSED [ 69%]
+tests/test_hub_style_preview.py::test_requested_language_previews_match_engine_without_speech_or_config_changes[fa-14 \u067e\u0631\u0648\u0646\u062f\u0647 \u0631\u0627 \u0628\u0631\u0627\u06cc \u0645\u0631\u06cc\u0645 \u0628\u0641\u0631\u0633\u062a\u06cc\u062f.] PASSED [ 71%]
+tests/test_hub_style_preview.py::test_requested_language_previews_match_engine_without_speech_or_config_changes[es-Env\xeda 14 archivos a Mar\xeda.] PASSED [ 73%]
+tests/test_hub_style_preview.py::test_requested_language_previews_match_engine_without_speech_or_config_changes[ta-\u0bae\u0bb0\u0bbf\u0baf\u0bbe\u0bb5\u0bc1\u0b95\u0bcd\u0b95\u0bc1 14 \u0b95\u0bcb\u0baa\u0bcd\u0baa\u0bc1\u0b95\u0bb3\u0bc8 \u0b85\u0ba9\u0bc1\u0baa\u0bcd\u0baa\u0bb5\u0bc1\u0bae\u0bcd.] PASSED [ 75%]
+tests/test_hub_style_preview.py::test_requested_language_previews_match_engine_without_speech_or_config_changes[te-\u0c2e\u0c30\u0c3f\u0c2f\u0c3e\u0c15\u0c41 14 \u0c2b\u0c48\u0c33\u0c4d\u0c32\u0c41 \u0c2a\u0c02\u0c2a\u0c02\u0c21\u0c3f.] PASSED [ 77%]
+tests/test_hub_style_preview.py::test_requested_language_previews_match_engine_without_speech_or_config_changes[th-\u0e2a\u0e48\u0e07\u0e44\u0e1f\u0e25\u0e4c14\u0e44\u0e1f\u0e25\u0e4c\u0e43\u0e2b\u0e49\u0e21\u0e32\u0e40\u0e23\u0e35\u0e22] PASSED [ 79%]
+tests/test_hub_style_preview.py::test_requested_language_previews_match_engine_without_speech_or_config_changes[ur-\u0645\u0631\u06cc\u0645 \u06a9\u0648 14 \u0641\u0627\u0626\u0644\u06cc\u06ba \u0628\u06be\u06cc\u062c\u06cc\u06ba\u06d4] PASSED [ 81%]
+tests/test_hub_style_preview.py::test_requested_language_previews_match_engine_without_speech_or_config_changes[vi-G\u1eedi 14 t\u1ec7p cho Maria.] PASSED [ 83%]
+tests/test_hub_style_preview.py::test_auto_follows_draft_speech_settings_and_explicit_preview_choice_stays_local PASSED [ 85%]
+tests/test_hub_style_preview.py::test_pending_dictionary_form_is_previewed_without_staging_claims_or_writing PASSED [ 87%]
+tests/test_hub_style_preview.py::test_staged_protection_replacements_and_snippets_use_the_same_order_as_delivery PASSED [ 89%]
+tests/test_hub_style_preview.py::test_invalid_dictionary_draft_refuses_rules_and_ai_without_discarding_edits PASSED [ 91%]
+tests/test_hub_style_preview.py::test_clean_dictionary_uses_live_provider_but_staged_edits_take_precedence PASSED [ 93%]
+tests/test_hub_style_preview.py::test_stale_ai_result_cannot_replace_new_dictionary_or_language_preview PASSED [ 95%]
+tests/test_hub_style_preview.py::test_cleanup_preview_does_not_inherit_spoken_translation_target PASSED [ 97%]
+tests/test_hub_style_preview.py::test_hub_preview_replays_all_96_qualified_dictionary_outputs PASSED [100%]
+
+- generated xml file: D:\Saydraft-Codex-QA-20261112-01a1cbc7\app-ui-v2-20261116-r1\hub-r3.xml -
+======================= 49 passed in 224.53s (0:03:44) ========================

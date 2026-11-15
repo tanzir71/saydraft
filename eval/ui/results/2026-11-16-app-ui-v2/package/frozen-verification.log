@@ -1,0 +1,13 @@
+{
+  "source": "c1d0a491bbcbe0a7d5b8c97956dad7e77925d665",
+  "bundle": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\app-ui-v2-package-20261116-r1\\dist\\Saydraft\\Saydraft.exe",
+  "exe_sha256": "a67ff4e628f0ce518cbd0a19b7854cadd05c12f88b313d1ab172f6fd18854f3c",
+  "module_count": 78,
+  "font_files": 21,
+  "font_faces": 8,
+  "svg_icons": 52,
+  "hotkey_help_verified": true,
+  "module_code_executed": false,
+  "owner_io_used": false,
+  "method": "Compare structural code read from the embedded PYZ with compile(Git source, optimize=0), excluding only filenames; hash exact manifest-listed fonts and inspect every bundled SVG/help file."
+}

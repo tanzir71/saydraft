@@ -1,0 +1,82 @@
+starting isolated UI tests
+...............FFFF.......FFF.....................                       [100%]
+================================== FAILURES ===================================
+__ test_every_hub_view_reflows_and_scrolls_to_keyboard_focus[1080-32-light] ___
+tests\test_hub_reflow.py:50: in test_every_hub_view_reflows_and_scrolls_to_keyboard_focus
+    assert widget.height() >= widget.heightForWidth(widget.width()), (widget.text(), widget.size())
+E   AssertionError: ('Copy cleaned', PySide6.QtCore.QSize(332, 53))
+E   assert 53 >= 55
+E    +  where 53 = <built-in method height of WrapPushButton object at 0x00000266758B5B80>()
+E    +    where <built-in method height of WrapPushButton object at 0x00000266758B5B80> = <saydraft.ui.reflow.WrapPushButton(0x2667e8fcf20) at 0x00000266758B5B80>.height
+E    +  and   55 = heightForWidth(332)
+E    +    where heightForWidth = <saydraft.ui.reflow.WrapPushButton(0x2667e8fcf20) at 0x00000266758B5B80>.heightForWidth
+E    +    and   332 = <built-in method width of WrapPushButton object at 0x00000266758B5B80>()
+E    +      where <built-in method width of WrapPushButton object at 0x00000266758B5B80> = <saydraft.ui.reflow.WrapPushButton(0x2667e8fcf20) at 0x00000266758B5B80>.width
+___ test_every_hub_view_reflows_and_scrolls_to_keyboard_focus[1080-32-dark] ___
+tests\test_hub_reflow.py:50: in test_every_hub_view_reflows_and_scrolls_to_keyboard_focus
+    assert widget.height() >= widget.heightForWidth(widget.width()), (widget.text(), widget.size())
+E   AssertionError: ('Copy cleaned', PySide6.QtCore.QSize(332, 53))
+E   assert 53 >= 55
+E    +  where 53 = <built-in method height of WrapPushButton object at 0x000002660E65C3C0>()
+E    +    where <built-in method height of WrapPushButton object at 0x000002660E65C3C0> = <saydraft.ui.reflow.WrapPushButton(0x2667e81ba20) at 0x000002660E65C3C0>.height
+E    +  and   55 = heightForWidth(332)
+E    +    where heightForWidth = <saydraft.ui.reflow.WrapPushButton(0x2667e81ba20) at 0x000002660E65C3C0>.heightForWidth
+E    +    and   332 = <built-in method width of WrapPushButton object at 0x000002660E65C3C0>()
+E    +      where <built-in method width of WrapPushButton object at 0x000002660E65C3C0> = <saydraft.ui.reflow.WrapPushButton(0x2667e81ba20) at 0x000002660E65C3C0>.width
+_ test_every_hub_view_reflows_and_scrolls_to_keyboard_focus[1080-32-high-contrast] _
+tests\test_hub_reflow.py:50: in test_every_hub_view_reflows_and_scrolls_to_keyboard_focus
+    assert widget.height() >= widget.heightForWidth(widget.width()), (widget.text(), widget.size())
+E   AssertionError: ('Copy cleaned', PySide6.QtCore.QSize(289, 27))
+E   assert 27 >= 45
+E    +  where 27 = <built-in method height of WrapPushButton object at 0x0000026610743600>()
+E    +    where <built-in method height of WrapPushButton object at 0x0000026610743600> = <saydraft.ui.reflow.WrapPushButton(0x2660f8972a0) at 0x0000026610743600>.height
+E    +  and   45 = heightForWidth(289)
+E    +    where heightForWidth = <saydraft.ui.reflow.WrapPushButton(0x2660f8972a0) at 0x0000026610743600>.heightForWidth
+E    +    and   289 = <built-in method width of WrapPushButton object at 0x0000026610743600>()
+E    +      where <built-in method width of WrapPushButton object at 0x0000026610743600> = <saydraft.ui.reflow.WrapPushButton(0x2660f8972a0) at 0x0000026610743600>.width
+_________ test_history_stacks_at_large_text_and_returns_to_two_panes __________
+tests\test_hub_reflow.py:60: in test_history_stacks_at_large_text_and_returns_to_two_panes
+    assert hub.history_page.body.orientation() == orientation
+E   assert <Orientation.Vertical: 2> == <Orientation.Horizontal: 1>
+E     
+E     Use -v to get more diff
+___ test_long_setup_warning_and_save_fit_without_hiding_settings[32-light] ____
+tests\test_hub_reflow.py:91: in test_long_setup_warning_and_save_fit_without_hiding_settings
+    assert label.height() >= label.heightForWidth(label.width())
+E   assert 128 >= 456
+E    +  where 128 = <built-in method height of PySide6.QtWidgets.QLabel object at 0x000002660E331DC0>()
+E    +    where <built-in method height of PySide6.QtWidgets.QLabel object at 0x000002660E331DC0> = <PySide6.QtWidgets.QLabel(0x2660eb68270) at 0x000002660E331DC0>.height
+E    +  and   456 = <built-in method heightForWidth of PySide6.QtWidgets.QLabel object at 0x000002660E331DC0>(250)
+E    +    where <built-in method heightForWidth of PySide6.QtWidgets.QLabel object at 0x000002660E331DC0> = <PySide6.QtWidgets.QLabel(0x2660eb68270) at 0x000002660E331DC0>.heightForWidth
+E    +    and   250 = <built-in method width of PySide6.QtWidgets.QLabel object at 0x000002660E331DC0>()
+E    +      where <built-in method width of PySide6.QtWidgets.QLabel object at 0x000002660E331DC0> = <PySide6.QtWidgets.QLabel(0x2660eb68270) at 0x000002660E331DC0>.width
+____ test_long_setup_warning_and_save_fit_without_hiding_settings[32-dark] ____
+tests\test_hub_reflow.py:91: in test_long_setup_warning_and_save_fit_without_hiding_settings
+    assert label.height() >= label.heightForWidth(label.width())
+E   assert 128 >= 456
+E    +  where 128 = <built-in method height of PySide6.QtWidgets.QLabel object at 0x000002660E6DD8C0>()
+E    +    where <built-in method height of PySide6.QtWidgets.QLabel object at 0x000002660E6DD8C0> = <PySide6.QtWidgets.QLabel(0x2667ee8ebd0) at 0x000002660E6DD8C0>.height
+E    +  and   456 = <built-in method heightForWidth of PySide6.QtWidgets.QLabel object at 0x000002660E6DD8C0>(250)
+E    +    where <built-in method heightForWidth of PySide6.QtWidgets.QLabel object at 0x000002660E6DD8C0> = <PySide6.QtWidgets.QLabel(0x2667ee8ebd0) at 0x000002660E6DD8C0>.heightForWidth
+E    +    and   250 = <built-in method width of PySide6.QtWidgets.QLabel object at 0x000002660E6DD8C0>()
+E    +      where <built-in method width of PySide6.QtWidgets.QLabel object at 0x000002660E6DD8C0> = <PySide6.QtWidgets.QLabel(0x2667ee8ebd0) at 0x000002660E6DD8C0>.width
+_ test_long_setup_warning_and_save_fit_without_hiding_settings[32-high-contrast] _
+tests\test_hub_reflow.py:91: in test_long_setup_warning_and_save_fit_without_hiding_settings
+    assert label.height() >= label.heightForWidth(label.width())
+E   assert 128 >= 342
+E    +  where 128 = <built-in method height of PySide6.QtWidgets.QLabel object at 0x000002660E548700>()
+E    +    where <built-in method height of PySide6.QtWidgets.QLabel object at 0x000002660E548700> = <PySide6.QtWidgets.QLabel(0x2660eb60740) at 0x000002660E548700>.height
+E    +  and   342 = <built-in method heightForWidth of PySide6.QtWidgets.QLabel object at 0x000002660E548700>(288)
+E    +    where <built-in method heightForWidth of PySide6.QtWidgets.QLabel object at 0x000002660E548700> = <PySide6.QtWidgets.QLabel(0x2660eb60740) at 0x000002660E548700>.heightForWidth
+E    +    and   288 = <built-in method width of PySide6.QtWidgets.QLabel object at 0x000002660E548700>()
+E    +      where <built-in method width of PySide6.QtWidgets.QLabel object at 0x000002660E548700> = <PySide6.QtWidgets.QLabel(0x2660eb60740) at 0x000002660E548700>.width
+- generated xml file: D:\Saydraft-Codex-QA-20261112-01a1cbc7\app-ui-v2-20261116-r1\reflow-r9.xml -
+=========================== short test summary info ===========================
+FAILED tests/test_hub_reflow.py::test_every_hub_view_reflows_and_scrolls_to_keyboard_focus[1080-32-light]
+FAILED tests/test_hub_reflow.py::test_every_hub_view_reflows_and_scrolls_to_keyboard_focus[1080-32-dark]
+FAILED tests/test_hub_reflow.py::test_every_hub_view_reflows_and_scrolls_to_keyboard_focus[1080-32-high-contrast]
+FAILED tests/test_hub_reflow.py::test_history_stacks_at_large_text_and_returns_to_two_panes
+FAILED tests/test_hub_reflow.py::test_long_setup_warning_and_save_fit_without_hiding_settings[32-light]
+FAILED tests/test_hub_reflow.py::test_long_setup_warning_and_save_fit_without_hiding_settings[32-dark]
+FAILED tests/test_hub_reflow.py::test_long_setup_warning_and_save_fit_without_hiding_settings[32-high-contrast]
+7 failed, 43 passed in 177.70s (0:02:57)

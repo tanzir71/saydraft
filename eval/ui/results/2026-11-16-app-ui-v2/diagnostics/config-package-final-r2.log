@@ -1,0 +1,44 @@
+starting isolated UI tests
+============================= test session starts =============================
+platform win32 -- Python 3.13.17, pytest-8.4.2, pluggy-1.6.0 -- D:\Saydraft-Codex-QA-20261112-01a1cbc7\microphone-repair-package-20261115-r2\venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\tanzir\Desktop\voice_tray
+configfile: pytest.ini
+collecting ... collected 36 items
+
+tests/test_config.py::test_command_clipboard_upgrade_defaults_off_and_only_preserves_explicit_boolean_opt_in PASSED [  2%]
+tests/test_config.py::test_saved_custom_recording_limits_survive_the_twenty_minute_default PASSED [  5%]
+tests/test_config.py::test_shortcut_upgrade_preserves_old_bindings_and_does_not_intercept_mouse PASSED [  8%]
+tests/test_config.py::test_legacy_defaults_do_not_acquire_new_mouse_or_duplicate_f9 PASSED [ 11%]
+tests/test_config.py::test_fresh_profile_defaults_to_parakeet_while_existing_whisper_choice_survives PASSED [ 13%]
+tests/test_config.py::test_language_pins_and_overrides_sanitize_without_enabling_routing_for_old_profiles PASSED [ 16%]
+tests/test_config.py::test_default_config_contains_schema_and_expected_defaults PASSED [ 19%]
+tests/test_config.py::test_load_config_writes_defaults_when_no_files_exist PASSED [ 22%]
+tests/test_config.py::test_load_config_migrates_settings_txt_once_and_keeps_old_file_untouched PASSED [ 25%]
+tests/test_config.py::test_existing_config_ignores_unknown_keys_and_fills_missing_defaults PASSED [ 27%]
+tests/test_config.py::test_main_initializes_logging_and_config_before_qt_shell FAILED [ 30%]
+
+================================== FAILURES ===================================
+__________ test_main_initializes_logging_and_config_before_qt_shell ___________
+tests\test_config.py:269: in test_main_initializes_logging_and_config_before_qt_shell
+    assert main.main() == 0
+           ^^^^^^^^^^^
+saydraft\main.py:30: in main
+    from .single_instance import SingleInstanceLock, default_lock_path
+<frozen importlib._bootstrap>:1369: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1331: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:1265: in _find_spec
+    ???
+D:\Saydraft-Codex-QA-20261112-01a1cbc7\app-ui-v2-20261116-r1\run_ui_bridge_tests.py:16: in <lambda>
+    finder.find_spec = lambda fullname,path=None,target=None,original=original_find: None if fullname == 'saydraft.app' else original(fullname,path,target)
+                                                                                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tools\public_file_guard.py:56: in find_spec
+    raise AssertionError("Owner I/O import is barred: " + fullname)
+E   AssertionError: Owner I/O import is barred: saydraft.single_instance
+- generated xml file: D:\Saydraft-Codex-QA-20261112-01a1cbc7\app-ui-v2-20261116-r1\config-package-final-r2.xml -
+=========================== short test summary info ===========================
+FAILED tests/test_config.py::test_main_initializes_logging_and_config_before_qt_shell
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!
+======================== 1 failed, 10 passed in 2.54s =========================
