@@ -1,5 +1,36 @@
 # Microphone selection and test meter
 
+## Multi-input recording fix · 15 November 2026
+
+A user-reported silent capture was traced to a Windows default virtual-cable
+input producing zero samples of sound. A selected physical USB microphone
+produced callbacks and signal at the app's 16 kHz mono format, without callback
+errors. These owner-approved checks retained levels only: no audio files or
+transcription. The owner's preferred microphone was saved with a settings backup.
+
+Discovery also had a separate failure: a WDM-KS/Bluetooth endpoint name with
+CR/LF could abort the entire list, including resolution of a different named
+microphone. Discovery now flattens whitespace, skips individually malformed
+metadata and preserves the strict saved-name validation. Named selections still
+refuse missing/ambiguous devices rather than silently opening another input.
+
+After explicit Refresh, the default choice shows its actual endpoint name.
+Known virtual/system-audio sources stay selectable and carry a routing warning.
+The level-only test distinguishes silent, very quiet and audible inputs. Empty
+recognition now explains missing/quiet audio or points to language/model settings,
+instead of returning to idle without a useful notification. No speech-detection
+threshold, model default or Windows-wide microphone setting was changed.
+
+All 75 microphone/UI/session checks pass with fake ports and owned offscreen
+widgets, including the real queued Qt meter bridge. The first harness refusals,
+fixture corrections and caught UI action-state regression remain retained in
+`eval/audio/results/2026-11-15-microphone/`. Host clipboard, foreground and native
+input remain barred; normal host speech was not transcribed. Use the refreshed
+unsigned build for this fix; changing the input preference cannot patch an older
+running executable.
+
+## Selection and testing
+
 Settings → Microphone offers Default Windows input, explicit Refresh inputs,
 an input-device selector and Test input / Stop test. Discovery lists input-capable
 devices with their audio API and runs off the GUI thread. Opening the Hub or

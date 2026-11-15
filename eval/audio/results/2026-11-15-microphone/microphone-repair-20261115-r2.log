@@ -1,0 +1,41 @@
+...................FF................................................... [ 97%]
+..                                                                       [100%]
+================================== FAILURES ===================================
+_ test_real_container_routes_dictation_to_the_selected_input_without_opening_a_real_device[False] _
+
+tmp_path = WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/microphone-repair-20261115-r2-tests/test_real_container_routes_dic0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000018D7AD30C50>
+named = False
+
+    @pytest.mark.parametrize("named", [False,True])
+    def test_real_container_routes_dictation_to_the_selected_input_without_opening_a_real_device(tmp_path,monkeypatch,named):
+        import sounddevice
+        import saydraft.core.container as container
+        from saydraft.core.container import create_services
+        from saydraft.insert.inserter import Inserter
+        from tests.test_inserter import FakeClipboard, FakeKeyboard
+        # This is an audio-routing integration, with no foreground/clipboard work.
+>       monkeypatch.setattr(container, "ForegroundContextProvider", lambda **kwargs: SimpleNamespace(focus=lambda: "owned"))
+E       AttributeError: <module 'saydraft.core.container' from 'C:\\Users\\tanzir\\Desktop\\voice_tray\\saydraft\\core\\container.py'> has no attribute 'ForegroundContextProvider'
+
+tests\test_microphone.py:258: AttributeError
+_ test_real_container_routes_dictation_to_the_selected_input_without_opening_a_real_device[True] _
+
+tmp_path = WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/microphone-repair-20261115-r2-tests/test_real_container_routes_dic1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000018D7AD30B50>
+named = True
+
+    @pytest.mark.parametrize("named", [False,True])
+    def test_real_container_routes_dictation_to_the_selected_input_without_opening_a_real_device(tmp_path,monkeypatch,named):
+        import sounddevice
+        import saydraft.core.container as container
+        from saydraft.core.container import create_services
+        from saydraft.insert.inserter import Inserter
+        from tests.test_inserter import FakeClipboard, FakeKeyboard
+        # This is an audio-routing integration, with no foreground/clipboard work.
+>       monkeypatch.setattr(container, "ForegroundContextProvider", lambda **kwargs: SimpleNamespace(focus=lambda: "owned"))
+E       AttributeError: <module 'saydraft.core.container' from 'C:\\Users\\tanzir\\Desktop\\voice_tray\\saydraft\\core\\container.py'> has no attribute 'ForegroundContextProvider'
+
+tests\test_microphone.py:258: AttributeError
+- generated xml file: D:\Saydraft-Codex-QA-20261112-01a1cbc7\microphone-repair-20261115-r2.xml -
+2 failed, 72 passed, 1 deselected in 5.42s

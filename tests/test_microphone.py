@@ -33,6 +33,32 @@ def test_device_selection_filters_outputs_and_resolves_name_and_api_after_indexe
     assert resolve_input(selected,backend=backend)==0
 
 
+def test_bluetooth_newlines_and_bad_endpoint_metadata_do_not_hide_usable_microphones():
+    rows = [
+        {"name":"Headset (Bluetooth\r\n Hands-Free)","max_input_channels":1,"hostapi":0},
+        {"name":"Broken\0endpoint","max_input_channels":1,"hostapi":0},
+        {"name":"Bad API","max_input_channels":1,"hostapi":99},
+        {"name":"Fantech  Leviosa","max_input_channels":1,"hostapi":1},
+    ]
+    backend = device_backend(rows)
+    devices = list_inputs(backend=backend)
+    assert [d.index for d in devices] == [0, 3]
+    assert devices[0].selection.name == "Headset (Bluetooth Hands-Free)"
+    assert resolve_input(InputSelection("Fantech  Leviosa", "Windows WASAPI"), backend=backend) == 3
+
+
+def test_discovery_identifies_default_virtual_input_without_opening_or_switching_it():
+    backend = device_backend([
+        {"name":"CABLE Output (VB-Audio Virtual Cable)","max_input_channels":2,"hostapi":0},
+        {"name":"USB mic","max_input_channels":1,"hostapi":1},
+    ])
+    backend.default = SimpleNamespace(device=[0, 5])
+    devices = list_inputs(backend=backend)
+    assert devices[0].is_default and not devices[1].is_default
+    assert "Virtual / system audio" in devices[0].label
+    assert resolve_input(InputSelection(), backend=backend) is None
+
+
 def test_default_does_not_query_devices_and_missing_or_ambiguous_input_never_falls_back():
     assert resolve_input(InputSelection(),backend=SimpleNamespace()) is None
     with pytest.raises(RuntimeError):
@@ -225,6 +251,12 @@ def test_real_session_worker_reserves_capture_for_the_meter_and_applies_settings
 def test_real_container_routes_dictation_to_the_selected_input_without_opening_a_real_device(tmp_path,monkeypatch,named):
     import sounddevice
     from saydraft.core.container import create_services
+    from saydraft.insert.inserter import Inserter
+    from tests.test_inserter import FakeClipboard, FakeKeyboard
+    # This is an audio-routing integration, with no foreground/clipboard work.
+    monkeypatch.setattr("saydraft.core.context.ForegroundContextProvider", lambda **kwargs: SimpleNamespace(focus=lambda: "owned"))
+    monkeypatch.setattr("saydraft.insert.inserter.Inserter", lambda **kwargs: Inserter(
+        clipboard=FakeClipboard(), keyboard=FakeKeyboard(), focus_provider=lambda: "owned"))
     monkeypatch.setenv("LOCALAPPDATA",str(tmp_path))
     backend,calls=device_backend(),[]
     monkeypatch.setattr(sounddevice,"query_devices",backend.query_devices)

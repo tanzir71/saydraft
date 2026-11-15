@@ -1,0 +1,145 @@
+...................FF.........F.....F................................... [ 96%]
+...                                                                      [100%]
+================================== FAILURES ===================================
+_ test_real_container_routes_dictation_to_the_selected_input_without_opening_a_real_device[False] _
+
+tmp_path = WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/microphone-repair-20261115-r1-tests/test_real_container_routes_dic0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x00000219C1D510D0>
+named = False
+
+    @pytest.mark.parametrize("named", [False,True])
+    def test_real_container_routes_dictation_to_the_selected_input_without_opening_a_real_device(tmp_path,monkeypatch,named):
+        import sounddevice
+        from saydraft.core.container import create_services
+        monkeypatch.setenv("LOCALAPPDATA",str(tmp_path))
+        backend,calls=device_backend(),[]
+        monkeypatch.setattr(sounddevice,"query_devices",backend.query_devices)
+        monkeypatch.setattr(sounddevice,"query_hostapis",backend.query_hostapis)
+        monkeypatch.setattr(sounddevice,"WasapiSettings",lambda **kwargs:kwargs)
+        monkeypatch.setattr(sounddevice,"InputStream",lambda **kwargs:calls.append(Stream(**kwargs)) or calls[-1])
+        config=default_config()
+        if named:
+            config["recording"].update(input_device="USB mic",input_hostapi="Windows WASAPI")
+>       services=create_services(config)
+                 ^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_microphone.py:263: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+saydraft\core\container.py:62: in create_services
+    context = ForegroundContextProvider(profiles=profiles, use_uia=sys.platform == "win32")
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <tools.public_worker_guard.install.<locals>.RefusingForeground object at 0x00000219C1DA92B0>
+args = (), kwargs = {'profiles': [], 'use_uia': True}
+
+    def __init__(self, *args, **kwargs):
+        attempts.append("foreground_adapter_construction")
+>       raise AssertionError("Owner foreground/native context is barred")
+E       AssertionError: Owner foreground/native context is barred
+
+tools\public_worker_guard.py:51: AssertionError
+_ test_real_container_routes_dictation_to_the_selected_input_without_opening_a_real_device[True] _
+
+tmp_path = WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/microphone-repair-20261115-r1-tests/test_real_container_routes_dic1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x00000219C1EA1350>
+named = True
+
+    @pytest.mark.parametrize("named", [False,True])
+    def test_real_container_routes_dictation_to_the_selected_input_without_opening_a_real_device(tmp_path,monkeypatch,named):
+        import sounddevice
+        from saydraft.core.container import create_services
+        monkeypatch.setenv("LOCALAPPDATA",str(tmp_path))
+        backend,calls=device_backend(),[]
+        monkeypatch.setattr(sounddevice,"query_devices",backend.query_devices)
+        monkeypatch.setattr(sounddevice,"query_hostapis",backend.query_hostapis)
+        monkeypatch.setattr(sounddevice,"WasapiSettings",lambda **kwargs:kwargs)
+        monkeypatch.setattr(sounddevice,"InputStream",lambda **kwargs:calls.append(Stream(**kwargs)) or calls[-1])
+        config=default_config()
+        if named:
+            config["recording"].update(input_device="USB mic",input_hostapi="Windows WASAPI")
+>       services=create_services(config)
+                 ^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_microphone.py:263: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+saydraft\core\container.py:62: in create_services
+    context = ForegroundContextProvider(profiles=profiles, use_uia=sys.platform == "win32")
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <tools.public_worker_guard.install.<locals>.RefusingForeground object at 0x00000219C1D9A990>
+args = (), kwargs = {'profiles': [], 'use_uia': True}
+
+    def __init__(self, *args, **kwargs):
+        attempts.append("foreground_adapter_construction")
+>       raise AssertionError("Owner foreground/native context is barred")
+E       AssertionError: Owner foreground/native context is barred
+
+tools\public_worker_guard.py:51: AssertionError
+_ test_saved_missing_device_is_preserved_and_never_silently_replaced_by_default _
+
+subject = (<saydraft.ui.microphone_page.MicrophonePage(0x219c09a5a30) at 0x00000219C2016D80>, namespace(QtCore=<module 'PySide6....alse), InputDevice(index=2, selection=InputSelection(name='Public headset', hostapi='MME'), is_default=False)), [], [])
+
+    def test_saved_missing_device_is_preserved_and_never_silently_replaced_by_default(subject):
+        page,_,_,starts,_=subject
+        missing=InputSelection("Missing owner mic","MME")
+        page.set_selection(missing)
+        page.refresh_devices()
+        settle(page)
+        assert page.selection==missing and "unavailable" in page.device_combo.currentText()
+        assert not page.test_button.isEnabled() and not page.toggle_test() and not starts
+        page.device_combo.setCurrentIndex(0)
+>       assert page.selection==InputSelection() and page.test_button.isEnabled()
+E       AssertionError: assert (InputSelectio...', hostapi='') == InputSelectio...', hostapi='')
+E         
+E         Omitting 2 identical items, use -vv to show and False)
+E        +  where False = <built-in method isEnabled of WrapPushButton object at 0x00000219C2016880>()
+E        +    where <built-in method isEnabled of WrapPushButton object at 0x00000219C2016880> = <saydraft.ui.reflow.WrapPushButton(0x219c0882570) at 0x00000219C2016880>.isEnabled
+E        +      where <saydraft.ui.reflow.WrapPushButton(0x219c0882570) at 0x00000219C2016880> = <saydraft.ui.microphone_page.MicrophonePage(0x219c09a5a30) at 0x00000219C2016D80>.test_button
+
+tests\test_microphone_ui.py:81: AssertionError
+_ test_real_worker_controller_and_queued_qt_meter_signals_compose_without_capture _
+
+subject = (<saydraft.ui.microphone_page.MicrophonePage(0x219c0efed80) at 0x00000219C2430C00>, namespace(QtCore=<module 'PySide6....alse), InputDevice(index=2, selection=InputSelection(name='Public headset', hostapi='MME'), is_default=False)), [], [])
+
+    def test_real_worker_controller_and_queued_qt_meter_signals_compose_without_capture(subject):
+        from tests.test_microphone import Meter
+>       from saydraft.app import WorkerController,create_worker_signals
+
+tests\test_microphone_ui.py:171: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+<frozen importlib._bootstrap>:1369: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1331: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:1265: in _find_spec
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <tools.public_file_guard.install.<locals>.OwnerIOGuard object at 0x000002199DBDE7B0>
+fullname = 'saydraft.app'
+path = ['C:\\Users\\tanzir\\Desktop\\voice_tray\\saydraft'], target = None
+
+    def find_spec(self, fullname, path=None, target=None):
+        if fullname.split(".")[0] in [
+            "sounddevice",
+            "soundcard",
+            "pynput",
+            "pyperclip",
+            "win32clipboard",
+        ] or fullname in [
+            "saydraft.app",
+            "saydraft.logging_config",
+            "saydraft.single_instance",
+            "saydraft.context.foreground",
+            "saydraft.context.uia_native",
+            "saydraft.insert.clipboard_win",
+        ]:
+            attempts.append(fullname)
+>           raise AssertionError("Owner I/O import is barred: " + fullname)
+E           AssertionError: Owner I/O import is barred: saydraft.app
+
+tools\public_file_guard.py:56: AssertionError
+- generated xml file: D:\Saydraft-Codex-QA-20261112-01a1cbc7\microphone-repair-20261115-r1.xml -
+4 failed, 71 passed in 8.93s

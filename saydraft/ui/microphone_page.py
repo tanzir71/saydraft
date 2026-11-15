@@ -7,7 +7,7 @@ import math
 from PySide6 import QtCore, QtGui, QtWidgets
 from .reflow import AdaptiveRow, WrapPushButton
 
-from saydraft.audio.devices import InputSelection, list_inputs
+from saydraft.audio.devices import InputSelection, list_inputs, routed_input
 from saydraft.audio.privacy import check_microphone_privacy
 from .progress import ThemedProgressBar
 
@@ -28,6 +28,7 @@ class MicrophonePage(QtWidgets.QWidget):
         self._selection = InputSelection.from_config(config)
         self._devices, self._pool, self._future = None, None, None
         self._scan_generation, self._test_generation = 0, 0
+        self._test_peak, self._test_samples = 0., 0
         self._closed = self._stopping = False
         layout = QtWidgets.QVBoxLayout(self)
         def paragraph(text, *, display=False):
@@ -91,7 +92,9 @@ class MicrophonePage(QtWidgets.QWidget):
     def set_selection(self, selection):
         self.device_combo.blockSignals(True)
         self.device_combo.clear()
-        self.device_combo.addItem("Default Windows input", InputSelection())
+        default = next((d for d in self._devices or () if getattr(d, 'is_default', False)), None)
+        default_label = "Default Windows input" + (f": {default.selection.name}" if default else "")
+        self.device_combo.addItem(default_label, InputSelection())
         counts = Counter(device.selection.key for device in self._devices or ())
         seen = set()
         for device in self._devices or ():
@@ -117,8 +120,16 @@ class MicrophonePage(QtWidgets.QWidget):
         self._selection = self.device_combo.currentData()
         self.level_bar.setValue(0)
         if not self._test_generation:
-            self.status.setText(f"Input choice changed. {self.apply_label} to use it for future dictation.")
+            self.status.setText(f"Input choice changed. {self.apply_label} to use it for future dictation." + self._routing_hint())
         self._update_actions()
+
+    def _routing_hint(self):
+        selected = self.selection
+        if not selected.name:
+            default = next((d for d in self._devices or () if getattr(d, 'is_default', False)), None)
+            selected = default.selection if default else selected
+        return (" This is a virtual or system-audio input. For your voice, choose your microphone and use Test input."
+                if routed_input(selected) else "")
 
     def _available(self):
         return not self.selection.name or self._devices is None or sum(
@@ -165,7 +176,7 @@ class MicrophonePage(QtWidgets.QWidget):
         else:
             self._devices = devices
             self.set_selection(self.selection)
-            self.status.setText("Inputs refreshed." if self._available() else
+            self.status.setText("Inputs refreshed." + self._routing_hint() if self._available() else
                 "The selected input is unavailable or ambiguous. Choose another input or Default Windows input.")
         self._update_actions()
 
@@ -238,6 +249,7 @@ class MicrophonePage(QtWidgets.QWidget):
             self.status.setText("Finish the current dictation or retry before testing the microphone.")
             return False
         self._test_generation, self._stopping = generation, False
+        self._test_peak, self._test_samples = 0., 0
         self.level_bar.setValue(0)
         self.status.setText("Opening the selected input…")
         self._update_actions()
@@ -262,6 +274,8 @@ class MicrophonePage(QtWidgets.QWidget):
     @QtCore.Slot(int,float)
     def accept_level(self, generation, level):
         if not self._closed and generation==self._test_generation and not self._stopping and math.isfinite(level):
+            self._test_peak = max(self._test_peak, level)
+            self._test_samples += 1
             self.level_bar.setValue(min(100,max(0,round(level*400))))
 
     @QtCore.Slot(int,str)
@@ -271,8 +285,17 @@ class MicrophonePage(QtWidgets.QWidget):
         if state in ("stopped","failed"):
             self._test_generation, self._stopping = 0, False
             self.level_bar.setValue(0)
-            self.status.setText("Input test finished." if state=="stopped" else
-                "Could not use this input. Check the device, other audio apps and microphone privacy settings.")
+            if state == "failed":
+                message = "Could not use this input. Check the device, other audio apps and microphone privacy settings."
+            elif not self._test_samples:
+                message = "Input test stopped before a level was received. Check the selected input and test again."
+            elif self._test_peak <= .000001:
+                message = "No sound detected. Choose your microphone rather than an unused virtual input, then test again."
+            elif self._test_peak < .003:
+                message = "The input is very quiet. Check the microphone volume or Whisper mode in these settings."
+            else:
+                message = "Sound detected. Input test finished; no audio was saved."
+            self.status.setText(message)
         elif state=="listening" and not self._stopping:
             self.status.setText("Listening for input level only…")
         self._update_actions()

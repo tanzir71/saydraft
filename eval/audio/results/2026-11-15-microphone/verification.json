@@ -1,0 +1,26 @@
+{
+  "tests": 75,
+  "failures": 0,
+  "skips": 0,
+  "scope": "Working patch; fake audio/foreground/clipboard, owned offscreen Qt, reviewed app Qt-bridge class import only",
+  "audio_saved": false,
+  "host_speech_transcribed": false,
+  "metadata_diagnosis": {
+    "default_virtual_input_peak": 0,
+    "physical_microphone_16khz_mono": {
+      "callbacks": 996,
+      "peak": 0.057863879948854446,
+      "max_rms": 0.0105021837031119,
+      "status_events": 0
+    }
+  },
+  "source_sha256": {
+    "saydraft/audio/devices.py": "a1fa3bafb9190ac9a8513e4f1ea56d233d542e2ccc93c29b11d3b863dfe775ee",
+    "saydraft/audio/diagnostics.py": "9cd3df79f18d1448de3ccf47cbceb3301e62f4a455d392a435d6c6d689f9fbfe",
+    "saydraft/core/worker.py": "c3f7595fe8d158edf7c69bf769564b056b92bb992c3717d6b5df7b6aca91b5f3",
+    "saydraft/ui/microphone_page.py": "e35a7d7be9d0bac72a5d6bba244157be5effef372e0866f1d520238a6ee740ed",
+    "tests/test_microphone.py": "4c3356ef7f9738c8d927b6c7fdc5c5de7cc815de795751dc664c181373fcb08f",
+    "tests/test_microphone_ui.py": "4b220a2fecc02b96ae958d6d530a58e6987b1e2379f89b4002f1c4198d65fea9",
+    "tests/test_session_worker.py": "02b1640b8ca2cddc4465e2b10569fb9d2dac300fff8a47271beb329f582a4b23"
+  }
+}

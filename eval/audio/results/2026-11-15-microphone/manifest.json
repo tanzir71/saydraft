@@ -1,0 +1,194 @@
+{
+  "records": [
+    {
+      "path": ".gitattributes",
+      "sha256": "ffe82f3c5b968ed009c2577fa38f32c83be167799ee565d40a18e3440c57b342",
+      "bytes": 21
+    },
+    {
+      "path": "microphone-repair-20261115-r1.guard.json",
+      "sha256": "4a344bf1313745c9744ada319e8c89c8b0a5b503d58169d68f19e260673f36ed",
+      "bytes": 690
+    },
+    {
+      "path": "microphone-repair-20261115-r1.guard.worker.json",
+      "sha256": "1aec7e980e1c40c91756553716f1ca76d389f177586756eb32715113e5c9e617",
+      "bytes": 308
+    },
+    {
+      "path": "microphone-repair-20261115-r1.log",
+      "sha256": "61481ad744ba5815c9780b936f6f3a622128f8a119dd4b03956bbf53ac6b91a4",
+      "bytes": 8278
+    },
+    {
+      "path": "microphone-repair-20261115-r1.stub.json",
+      "sha256": "d408030a23ffdf2750807d9a7807bfd22454c253860524ee4e490154fc5df9a6",
+      "bytes": 285
+    },
+    {
+      "path": "microphone-repair-20261115-r1.xml",
+      "sha256": "9b29c9205a4d3d696e754b8e774d30a0e78f8c54f1b2c0a5c14b9a6d4af79bc6",
+      "bytes": 19543
+    },
+    {
+      "path": "microphone-repair-20261115-r2.guard.json",
+      "sha256": "777f0485be9b3f2b4c7a97595b3ec664ac3f671278b5861d02f589937ce5f801",
+      "bytes": 665
+    },
+    {
+      "path": "microphone-repair-20261115-r2.guard.worker.json",
+      "sha256": "03be716bba7c11b72c809b27b41dde9c0617042601697d83d400307b23c18cb0",
+      "bytes": 224
+    },
+    {
+      "path": "microphone-repair-20261115-r2.log",
+      "sha256": "468456ed4d62f1fe4098ba67c0333e84e890dbdbdb780d04c9bdd1498085a61a",
+      "bytes": 2817
+    },
+    {
+      "path": "microphone-repair-20261115-r2.stub.json",
+      "sha256": "d408030a23ffdf2750807d9a7807bfd22454c253860524ee4e490154fc5df9a6",
+      "bytes": 285
+    },
+    {
+      "path": "microphone-repair-20261115-r2.xml",
+      "sha256": "447c114b5154671b51349648a90b142022887da0200ff9bb76f37132680c63ba",
+      "bytes": 13448
+    },
+    {
+      "path": "microphone-repair-20261115-r3.guard.json",
+      "sha256": "771993ce747755132e096d4267e11872c90374b5f6771264ca718879e4bc72a8",
+      "bytes": 417
+    },
+    {
+      "path": "microphone-repair-20261115-r3.guard.worker.json",
+      "sha256": "5eaccfb902dc51f1461643ae3941223d0752d95337ffe1269c53a819f43a19fc",
+      "bytes": 225
+    },
+    {
+      "path": "microphone-repair-20261115-r3.log",
+      "sha256": "1a7fbd3ae6fbcd0970e2bfcc0e61c0848a2c8a315374aef18049a255ae927bc0",
+      "bytes": 213
+    },
+    {
+      "path": "microphone-repair-20261115-r3.stub.json",
+      "sha256": "d408030a23ffdf2750807d9a7807bfd22454c253860524ee4e490154fc5df9a6",
+      "bytes": 285
+    },
+    {
+      "path": "microphone-repair-20261115-r3.xml",
+      "sha256": "c5df800e2495af08672a98c1466c27f84e28d2b7ded7f2961ed879e975e49484",
+      "bytes": 568
+    },
+    {
+      "path": "microphone-repair-20261115-r4.guard.json",
+      "sha256": "10f10d40797c2f5f6147d765024b5ba5ff2db94096ed9cb81b84c1d41604bcac",
+      "bytes": 452
+    },
+    {
+      "path": "microphone-repair-20261115-r4.guard.worker.json",
+      "sha256": "45403855a27e45d5d5be30016df6c0149ef82d7e7b4feb7bcf0043e9dee89811",
+      "bytes": 225
+    },
+    {
+      "path": "microphone-repair-20261115-r4.log",
+      "sha256": "8646abd6f1562db6389b18f3a3fe3a0b17775a5cd1b9df51030b3782a45230a6",
+      "bytes": 2673
+    },
+    {
+      "path": "microphone-repair-20261115-r4.stub.json",
+      "sha256": "705cfb91b5113773afb61395011120bf8685477af234c211ca8797b7e4a9888e",
+      "bytes": 306
+    },
+    {
+      "path": "microphone-repair-20261115-r4.xml",
+      "sha256": "1ef387e24f69dbdb2d727b02ffdd61aeb2d478d1afa971903efd637f6279346d",
+      "bytes": 2853
+    },
+    {
+      "path": "microphone-repair-20261115-r5.guard.json",
+      "sha256": "7f45c6b08abe5c0f6d24f0fce4f3fbd30e57ed10a6d0f8873dcd6b0fcd51dbd7",
+      "bytes": 417
+    },
+    {
+      "path": "microphone-repair-20261115-r5.guard.worker.json",
+      "sha256": "746599b76c017b0450296688256984775fcb80a7a21692fc8e81f5d0f73b5fab",
+      "bytes": 225
+    },
+    {
+      "path": "microphone-repair-20261115-r5.log",
+      "sha256": "bb611c4b096220d5dbcc2b84f8557ac8020e03134233586df08a5513d196503f",
+      "bytes": 213
+    },
+    {
+      "path": "microphone-repair-20261115-r5.stub.json",
+      "sha256": "705cfb91b5113773afb61395011120bf8685477af234c211ca8797b7e4a9888e",
+      "bytes": 306
+    },
+    {
+      "path": "microphone-repair-20261115-r5.xml",
+      "sha256": "0d7c6adf8ff2e43f035546ef954828af7232748ea928db9e4e43ac146b3fe149",
+      "bytes": 394
+    },
+    {
+      "path": "microphone-repair-20261115-r6.guard.json",
+      "sha256": "9c84d48297da7d726bbf5f1191db08f6641dfb2c1b96aa3e9c3a2be02af1219f",
+      "bytes": 666
+    },
+    {
+      "path": "microphone-repair-20261115-r6.guard.worker.json",
+      "sha256": "bf9de01ec0e18d203ce6bf05f657ae955d4bba38b9d940a0943699d9b09674cb",
+      "bytes": 225
+    },
+    {
+      "path": "microphone-repair-20261115-r6.log",
+      "sha256": "32f2151f4950949aa9ae6e346f8a1998dbe2af61d537561328c629ca712e1723",
+      "bytes": 280
+    },
+    {
+      "path": "microphone-repair-20261115-r6.stub.json",
+      "sha256": "705cfb91b5113773afb61395011120bf8685477af234c211ca8797b7e4a9888e",
+      "bytes": 306
+    },
+    {
+      "path": "microphone-repair-20261115-r6.xml",
+      "sha256": "9f9c9e82c248d1d1a5858d6fc921295144188e7f7edb839f07ae083bdca422a4",
+      "bytes": 10912
+    },
+    {
+      "path": "run_microphone_repair_tests_20261115.py.txt",
+      "sha256": "94fc7b9b78159b83b519e225251aa525949892af4e6aff287d41cf70674ad2f7",
+      "bytes": 1966
+    },
+    {
+      "path": "run_microphone_repair_tests_20261115_r2.py.txt",
+      "sha256": "8fd74daad69882b8fed418d1afa62db404e9b333a5867c83c398aae07a6b39a5",
+      "bytes": 2054
+    },
+    {
+      "path": "run_microphone_repair_tests_20261115_r3.py.txt",
+      "sha256": "6144c6f3647563282bbf60e4bac8b146ec554df39dfda0bc3d1a099cc822705d",
+      "bytes": 2059
+    },
+    {
+      "path": "run_microphone_repair_tests_20261115_r4.py.txt",
+      "sha256": "8385534e5fdb232d4939171c202d18654f5fe03618f0cffc5641d3484db88d3a",
+      "bytes": 2536
+    },
+    {
+      "path": "run_microphone_repair_tests_20261115_r5.py.txt",
+      "sha256": "a8a27f0a583e2c581a5634d8908470f1160d5c3a07da6e7d22c8a58b5d95d583",
+      "bytes": 2709
+    },
+    {
+      "path": "run_microphone_repair_tests_20261115_r6.py.txt",
+      "sha256": "7cacae01509c02d94d1a2c68c9dae493ec894bd2e3bbc67425821f027b617c87",
+      "bytes": 2625
+    },
+    {
+      "path": "verification.json",
+      "sha256": "0aee6c12b1a19fa7fcf43e6175be1bda1d3a8af6f91aedda8f4fb2e30f7b9540",
+      "bytes": 1237
+    }
+  ]
+}

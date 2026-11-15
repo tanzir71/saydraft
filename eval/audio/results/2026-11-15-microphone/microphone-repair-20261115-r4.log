@@ -1,0 +1,53 @@
+F                                                                        [100%]
+================================== FAILURES ===================================
+_ test_real_worker_controller_and_queued_qt_meter_signals_compose_without_capture _
+
+subject = (<saydraft.ui.microphone_page.MicrophonePage(0x21f6f3aea40) at 0x0000021F7F659240>, namespace(QtCore=<module 'PySide6....alse), InputDevice(index=2, selection=InputSelection(name='Public headset', hostapi='MME'), is_default=False)), [], [])
+
+    def test_real_worker_controller_and_queued_qt_meter_signals_compose_without_capture(subject):
+        from tests.test_microphone import Meter
+>       from saydraft.app import WorkerController,create_worker_signals
+
+tests\test_microphone_ui.py:171: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+saydraft\app.py:18: in <module>
+    from .ui.tray import TrayCallbacks, TrayState, SaydraftTray
+saydraft\ui\tray.py:12: in <module>
+    from saydraft.logging_config import log_file_path
+<frozen importlib._bootstrap>:1369: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1331: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:1265: in _find_spec
+    ???
+D:\Saydraft-Codex-QA-20261112-01a1cbc7\run_microphone_repair_tests_20261115_r4.py:24: in <lambda>
+    None if fullname == 'saydraft.app' else original(fullname, path, target))
+                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <tools.public_file_guard.install.<locals>.OwnerIOGuard object at 0x0000021F6C95E7B0>
+fullname = 'saydraft.logging_config'
+path = ['C:\\Users\\tanzir\\Desktop\\voice_tray\\saydraft'], target = None
+
+    def find_spec(self, fullname, path=None, target=None):
+        if fullname.split(".")[0] in [
+            "sounddevice",
+            "soundcard",
+            "pynput",
+            "pyperclip",
+            "win32clipboard",
+        ] or fullname in [
+            "saydraft.app",
+            "saydraft.logging_config",
+            "saydraft.single_instance",
+            "saydraft.context.foreground",
+            "saydraft.context.uia_native",
+            "saydraft.insert.clipboard_win",
+        ]:
+            attempts.append(fullname)
+>           raise AssertionError("Owner I/O import is barred: " + fullname)
+E           AssertionError: Owner I/O import is barred: saydraft.logging_config
+
+tools\public_file_guard.py:56: AssertionError
+- generated xml file: D:\Saydraft-Codex-QA-20261112-01a1cbc7\microphone-repair-20261115-r4.xml -
+1 failed, 74 deselected in 1.67s

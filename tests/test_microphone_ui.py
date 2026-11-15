@@ -48,6 +48,27 @@ def test_page_never_discovers_or_opens_input_on_construction_and_uses_only_expli
     assert page.test_button.text()=="Stop test" and not page.refresh_button.isEnabled()
 
 
+def test_default_virtual_input_is_named_and_explained_only_after_explicit_refresh(subject):
+    page, _, _, starts, _ = subject
+    device = InputDevice(4, InputSelection("CABLE Output (VB-Audio)", "Windows WASAPI"), True)
+    page.provider = lambda: (device,)
+    assert page.device_combo.itemText(0) == "Default Windows input"
+    page.refresh_devices()
+    settle(page)
+    assert "CABLE Output" in page.device_combo.itemText(0)
+    assert "virtual" in page.status.text() and not starts
+
+
+@pytest.mark.parametrize("level,expected", [(0., "No sound"), (.0002, "very quiet"), (.02, "Sound detected")])
+def test_level_test_reports_silent_quiet_and_usable_inputs(subject, level, expected):
+    page, _, _, _, _ = subject
+    assert page.toggle_test()
+    page.accept_status(1, "listening")
+    page.accept_level(1, level)
+    page.accept_status(1, "stopped")
+    assert expected in page.status.text()
+
+
 def test_saved_missing_device_is_preserved_and_never_silently_replaced_by_default(subject):
     page,_,_,starts,_=subject
     missing=InputSelection("Missing owner mic","MME")

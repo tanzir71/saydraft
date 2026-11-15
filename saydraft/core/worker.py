@@ -805,10 +805,17 @@ class SessionWorker:
                 raise asr_error
             if not raw:
                 self._save_unrecognized_audio(audio_path, duration, "asr_empty")
-                if not audio_path and getattr(self.services.asr, "retry_recommended", False):
+                from saydraft.audio.diagnostics import input_signal_hint
+                hint = input_signal_hint(audio, quiet_threshold=self.services.config['stt'].get('vad_energy_threshold', .003))
+                if hint:
+                    self.emit("notification_requested", hint)
+                elif not audio_path and getattr(self.services.asr, "retry_recommended", False):
                     self.last_failed_audio = audio
                     self.emit("notification_requested", "Try All languages or pin your language in Settings. "
                               "Enable audio history to keep future recordings for retry.")
+                else:
+                    self.emit("notification_requested", "Sound reached Saydraft, but no words were recognized. "
+                              "Check the speech language/model in Settings and try again.")
                 with self._lock:
                     self.session.dispatch(Input.NO_SPEECH, session_id=generation)
                 return

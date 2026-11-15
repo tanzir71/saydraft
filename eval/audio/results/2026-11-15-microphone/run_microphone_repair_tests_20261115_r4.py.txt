@@ -1,0 +1,55 @@
+"""Owned setup widgets with a refusing in-memory SDK placeholder, never PortAudio."""
+import atexit
+import json
+import os
+from pathlib import Path
+import sys
+import types
+
+qa = Path(__file__).resolve().parent
+repo = Path('C:/Users/tanzir/Desktop/voice_tray')
+sys.path.insert(0, str(repo))
+sys.path.insert(1, str(qa / 'dictionary-correction-20261115-r1/dependencies'))
+os.environ['PYTEST_DISABLE_PLUGIN_AUTOLOAD'] = '1'
+os.environ['PYTHONNOUSERSITE'] = '1'
+receipt = qa / 'microphone-repair-20261115-r4.guard.json'
+from tools.public_worker_guard import install
+install(receipt)
+# Reviewed app.py top-level imports define Qt bridge classes and widgets only.
+# Full SaydraftApp/main are never constructed; other owner adapters stay barred.
+for finder in sys.meta_path:
+    if type(finder).__name__ == 'OwnerIOGuard':
+        original_find = finder.find_spec
+        finder.find_spec = lambda fullname, path=None, target=None, original=original_find: (
+            None if fullname == 'saydraft.app' else original(fullname, path, target))
+stub = types.ModuleType('sounddevice')
+attempts = []
+
+def forbidden(*args, **kwargs):
+    attempts.append('unconfigured fake audio port')
+    raise AssertionError('Only explicit fake audio providers are available')
+
+for name in ['InputStream', 'query_devices', 'query_hostapis', 'WasapiSettings']:
+    setattr(stub, name, forbidden)
+assert 'sounddevice' not in sys.modules
+sys.modules['sounddevice'] = stub
+
+def retire_stub():
+    intact = sys.modules.get('sounddevice') is stub
+    if intact:
+        del sys.modules['sounddevice']
+    (qa / 'microphone-repair-20261115-r4.stub.json').write_text(json.dumps(dict(
+        placeholder_only=True, placeholder_intact=intact, real_sdk_module_executed=False,
+        placeholder_retired_before_base_guard=True, unexpected_port_attempts=attempts,
+        scope='Reviewed Qt bridge class import; fake audio/foreground/input, offscreen widgets; no normal app startup'
+    ), indent=2) + '\n', encoding='utf-8')
+
+atexit.register(retire_stub)
+sys.path.append('C:/Users/tanzir/AppData/Roaming/Python/Python313/site-packages')
+import pytest
+raise SystemExit(pytest.main([
+    'tests/test_microphone.py', 'tests/test_microphone_ui.py', 'tests/test_session_worker.py',
+    '-q', '-rs', '-k', 'real_worker_controller_and_queued_qt_meter_signals_compose_without_capture',
+    '--basetemp=' + str(qa / 'microphone-repair-20261115-r4-tests'),
+    '--junitxml=' + str(qa / 'microphone-repair-20261115-r4.xml'),
+]))

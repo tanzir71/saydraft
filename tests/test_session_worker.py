@@ -470,6 +470,18 @@ def test_empty_asr_result_has_explicit_terminal_state():
     assert worker.session.events[-1].reason == "no_speech"
 
 
+@pytest.mark.parametrize("amplitude,expected", [(0., "No sound reached"), (.0001, "very quiet"), (.1, "no words were recognized")])
+def test_empty_recognition_explains_input_failure_without_inserting(amplitude, expected):
+    worker, clock, _, events, signals, _ = make_worker()
+    worker.services.recorder.stop = lambda: np.full(16000, amplitude, dtype=np.float32)
+    worker.services.asr.transcribe = lambda audio: ""
+    assert worker.start_recording()
+    clock.now = 1
+    worker.stop_recording()
+    assert not events
+    assert any(item[0] == "notification_requested" and expected in item[1] for item in signals)
+
+
 @pytest.mark.parametrize("raw", ["", "available primary words"])
 def test_unsupported_language_recommends_model_choice_when_audio_history_is_off(raw):
     worker, clock, _executor, _events, signals, _keyboard = make_worker()

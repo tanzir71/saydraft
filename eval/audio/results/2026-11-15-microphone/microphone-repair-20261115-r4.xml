@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.968" timestamp="2026-11-15T20:54:17.700556+06:00" hostname="DarkHorse"><testcase classname="tests.test_microphone_ui" name="test_real_worker_controller_and_queued_qt_meter_signals_compose_without_capture" time="0.147"><failure message="AssertionError: Owner I/O import is barred: saydraft.logging_config">subject = (&lt;saydraft.ui.microphone_page.MicrophonePage(0x21f6f3aea40) at 0x0000021F7F659240&gt;, namespace(QtCore=&lt;module 'PySide6....alse), InputDevice(index=2, selection=InputSelection(name='Public headset', hostapi='MME'), is_default=False)), [], [])
+
+    def test_real_worker_controller_and_queued_qt_meter_signals_compose_without_capture(subject):
+        from tests.test_microphone import Meter
+&gt;       from saydraft.app import WorkerController,create_worker_signals
+
+tests\test_microphone_ui.py:171: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+saydraft\app.py:18: in &lt;module&gt;
+    from .ui.tray import TrayCallbacks, TrayState, SaydraftTray
+saydraft\ui\tray.py:12: in &lt;module&gt;
+    from saydraft.logging_config import log_file_path
+&lt;frozen importlib._bootstrap&gt;:1369: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1331: in _find_and_load_unlocked
+    ???
+&lt;frozen importlib._bootstrap&gt;:1265: in _find_spec
+    ???
+D:\Saydraft-Codex-QA-20261112-01a1cbc7\run_microphone_repair_tests_20261115_r4.py:24: in &lt;lambda&gt;
+    None if fullname == 'saydraft.app' else original(fullname, path, target))
+                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;tools.public_file_guard.install.&lt;locals&gt;.OwnerIOGuard object at 0x0000021F6C95E7B0&gt;
+fullname = 'saydraft.logging_config'
+path = ['C:\\Users\\tanzir\\Desktop\\voice_tray\\saydraft'], target = None
+
+    def find_spec(self, fullname, path=None, target=None):
+        if fullname.split(".")[0] in [
+            "sounddevice",
+            "soundcard",
+            "pynput",
+            "pyperclip",
+            "win32clipboard",
+        ] or fullname in [
+            "saydraft.app",
+            "saydraft.logging_config",
+            "saydraft.single_instance",
+            "saydraft.context.foreground",
+            "saydraft.context.uia_native",
+            "saydraft.insert.clipboard_win",
+        ]:
+            attempts.append(fullname)
+&gt;           raise AssertionError("Owner I/O import is barred: " + fullname)
+E           AssertionError: Owner I/O import is barred: saydraft.logging_config
+
+tools\public_file_guard.py:56: AssertionError</failure></testcase></testsuite></testsuites>

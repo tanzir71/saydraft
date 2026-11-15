@@ -1,7 +1,17 @@
 """Stable input-device preferences; discovery never opens an audio stream."""
 
 from dataclasses import dataclass
+import logging
 import unicodedata
+
+logger = logging.getLogger(__name__)
+
+
+def routed_input(selection):
+    """Known routed/system sources remain selectable, with an honest label."""
+    name = selection.name.casefold()
+    return any(value in name for value in ("vb-audio", "cable output", "voicemeeter",
+        "stereo mix", "what u hear", "steam streaming", "loopback"))
 
 
 def _name(value):
@@ -28,29 +38,49 @@ class InputSelection:
 
     @property
     def key(self):
-        return self.name.casefold(), self.hostapi.casefold()
+        return " ".join(self.name.split()).casefold(), " ".join(self.hostapi.split()).casefold()
 
 
 @dataclass(frozen=True)
 class InputDevice:
     index: int
     selection: InputSelection
+    is_default: bool = False
 
     @property
     def label(self):
-        return f"{self.selection.name} · {self.selection.hostapi}"
+        label = f"{self.selection.name} · {self.selection.hostapi}"
+        return label + (" · Virtual / system audio" if routed_input(self.selection) else "")
 
 
 def list_inputs(*, backend=None):
     if backend is None:
         import sounddevice as backend
     devices, apis = backend.query_devices(), backend.query_hostapis()
-    result = []
+    try:
+        default_index = backend.default.device[0]
+    except (AttributeError, IndexError, TypeError):
+        default_index = None
+    result, skipped = [], 0
     for index, device in enumerate(devices):
-        if device["max_input_channels"] > 0:
-            selection = InputSelection(device["name"], apis[device["hostapi"]]["name"])
+        try:
+            if device["max_input_channels"] <= 0:
+                continue
+            api = device["hostapi"]
+            if type(api) is not int or not 0 <= api < len(apis):
+                raise ValueError("Invalid audio API index")
+            name, hostapi = device["name"], apis[api]["name"]
+            if not isinstance(name, str) or not isinstance(hostapi, str):
+                raise ValueError("Invalid input metadata")
+            # Some Windows WDM-KS Bluetooth names contain CR/LF and tabs.
+            # Normalize discovery labels, keeping strict config validation.
+            selection = InputSelection(" ".join(name.split()), " ".join(hostapi.split()))
             if selection.name:
-                result.append(InputDevice(index, selection))
+                result.append(InputDevice(index, selection, index == default_index))
+        except (ValueError, KeyError, TypeError, IndexError):
+            skipped += 1  # One malformed endpoint must not hide every working mic.
+    if skipped:
+        logger.warning("Skipped %d input endpoints with unusable metadata", skipped)
     return tuple(result)
 
 
