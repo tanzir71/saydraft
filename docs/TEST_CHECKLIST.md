@@ -158,6 +158,10 @@ calls or change the OS timer resolution. The same watchdog and runtime limits ap
 
 ## Manual App Matrix
 
+The [Hub accessibility checks](HUB_ACCESSIBILITY.md) distinguish named Qt focus
+targets and 32px logical-text regressions from physical Windows/Narrator, high
+contrast and mixed-DPI acceptance. Run its manual matrix before accepting P6.7.
+
 These are deliberate manual checks, not results established by the automated
 suite. Launch `.venv\Scripts\python -m saydraft` in an isolated test profile,
 complete setup, and open Hub → History for raw/cleaned comparison. A published

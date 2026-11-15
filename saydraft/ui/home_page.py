@@ -35,7 +35,9 @@ class HomePage(QtWidgets.QScrollArea):
         self.keycaps = QtWidgets.QHBoxLayout()
         self.keycaps.setSpacing(6)
         shortcut_row.addLayout(self.keycaps)
-        shortcut_row.addWidget(QtWidgets.QLabel("to dictate. Release to insert."), 1)
+        shortcut_help = QtWidgets.QLabel("to dictate. Release to insert.")
+        shortcut_help.setWordWrap(True)
+        shortcut_row.addWidget(shortcut_help, 1)
         layout.addLayout(shortcut_row)
         metrics = QtWidgets.QHBoxLayout()
         self.values = {}
@@ -80,6 +82,7 @@ class HomePage(QtWidgets.QScrollArea):
         self.recent.itemClicked.connect(self._open_history)
         layout.addWidget(self.recent, 1)
         self.empty = QtWidgets.QLabel("Your first dictation will appear here.")
+        self.empty.setWordWrap(True)
         self.empty.setProperty("role", "muted")
         layout.addWidget(self.empty)
         self.refresh()
@@ -108,7 +111,7 @@ class HomePage(QtWidgets.QScrollArea):
                 label.setTextFormat(QtCore.Qt.PlainText)
                 label.setProperty("role", "eyebrow")
                 label.setProperty("keycap", True)
-                self.keycaps.addWidget(label)
+                self.keycaps.addWidget(label, 0, QtCore.Qt.AlignVCenter)
             self._rendered_keys = keys
         stats = self.store.weekly_stats(today=now.date())
         self.values["words"].setText(f"{stats.words:,}")

@@ -30,6 +30,7 @@ including the optional public-audio recognizer smoke.
 | Guide | Contents |
 |---|---|
 | [Hub](HUB.md) | Home, global History search/export/retry, Dictionary, Snippets, Style, and Settings |
+| [Hub accessibility](HUB_ACCESSIBILITY.md) | Keyboard navigation, control names, logical text enlargement and remaining Windows acceptance |
 | [Shortcuts](HOTKEYS.md) | Native chords, hands-free double-tap, paste-last, and outstanding Windows checks |
 | [Dictation Bar](BAR.md) | Recording/processing states and controls |
 | [Microphone](MICROPHONE.md) | Device selection, read-only Windows privacy check, level-only test, missing-input behavior |

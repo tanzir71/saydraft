@@ -43,6 +43,7 @@ class LanguagesPage(QtWidgets.QWidget):
         self.note = QtWidgets.QLabel()
         self.note.setWordWrap(True)
         form = QtWidgets.QFormLayout(self)
+        form.setRowWrapPolicy(QtWidgets.QFormLayout.WrapLongRows)
         form.addRow(self.routing)
         for index, combo in enumerate(self.combos, 1):
             form.addRow(f"Language {index}", combo)

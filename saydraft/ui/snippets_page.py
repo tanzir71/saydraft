@@ -54,6 +54,7 @@ class SnippetsPage(QtWidgets.QWidget):
         layout.addWidget(self.search)
         self.model = _Entries(self)
         self.table = QtWidgets.QTableView()
+        self.table.setTabKeyNavigation(False)
         self.table.setAccessibleName("Snippet triggers and expansions")
         self.table.setModel(self.model)
         self.table.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
@@ -69,6 +70,7 @@ class SnippetsPage(QtWidgets.QWidget):
         self.trigger_edit.setAccessibleName("Spoken snippet trigger")
         layout.addWidget(self.trigger_edit)
         self.expansion_edit = PrivatePlainTextEdit()
+        self.expansion_edit.setTabChangesFocus(True)
         self.expansion_edit.setPlaceholderText("Text to write, including multiple lines")
         self.expansion_edit.setAccessibleName("Snippet expansion")
         self.expansion_edit.setMinimumHeight(80)
@@ -106,6 +108,8 @@ class SnippetsPage(QtWidgets.QWidget):
         test_layout = QtWidgets.QVBoxLayout(self.test_panel)
         test_layout.setContentsMargins(0, 0, 0, 0)
         self.test_input, self.clipboard_sample, self.test_output = [PrivatePlainTextEdit() for _ in range(3)]
+        self.test_input.setTabChangesFocus(True)
+        self.clipboard_sample.setTabChangesFocus(True)
         for editor, name in ((self.test_input, "Snippet test phrase"), (self.clipboard_sample, "Clipboard sample for snippet test"),
                 (self.test_output, "Snippet test result")):
             editor.setAccessibleName(name)
@@ -124,6 +128,7 @@ class SnippetsPage(QtWidgets.QWidget):
         self.advanced = QtWidgets.QCheckBox("Advanced JSON / legacy text")
         layout.addWidget(self.advanced)
         self.json_editor = PrivatePlainTextEdit()
+        self.json_editor.setTabChangesFocus(True)
         self.json_editor.setObjectName("snippetsEditor")
         self.json_editor.setAccessibleName("Advanced Snippets document")
         self.json_editor.setMinimumHeight(140)

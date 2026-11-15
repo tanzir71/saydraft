@@ -810,6 +810,7 @@ the task's draft PRs are now closed or merged.
 - [ ] **P6.6** `python -m saydraft.ui.gallery`: every widget in every state (Bar states, toasts, Hub pages with fixture data, onboarding steps). Generate PNGs for the site's product shots. **Acceptance:** `pytest -m gallery` snapshot tests.
   - Initial Controls/toast and Style tabs are implemented with public fixtures, both themes, four inspected snapshots and fresh-process tests at 100%/200% density. NetworkGuard stays installed during exports. Full Bar/Hub/onboarding states still follow; keep unchecked.
 - [ ] **P6.7** Accessibility pass (tab order, accessible names, high contrast, 200% scaling). **Acceptance:** checklist in `docs/TEST_CHECKLIST.md` passes.
+  - Hub implementation checkpoint (2026-11-15): font-sized page rail, named History/model/matrix/form controls, native form wrapping and Tab/Shift+Tab escape from populated tables and multiline form editors. Fifteen guarded offscreen cases cover actual 16/32px text, light/dark/injected high contrast, all seven pages/ten Settings sections, expanded editors, live font changes and two window sizes. Full Windows/Narrator/focus/mixed-DPI, Bar/onboarding and universal reflow acceptance remain open; keep unchecked. See docs/HUB_ACCESSIBILITY.md.
 
 ### P7: Power features (tier-gated; Labs toggles)
 - [ ] **P7.1** Command Mode (Ctrl+Win+Alt): read the selection via UIA (fall back to Ctrl+C with a clipboard snapshot), plus the instruction, to the LLM (Pro tier; Standard shows "Needs Pro tier" with an explanation); replace via paste; if replacement fails, show a Scratchpad popup with Copy. Esc cancels. **Acceptance:** 30 instruction cases ("shorter", "more formal", "bullets", "translate to Spanish") pass the validator's edit-mode rules.
@@ -906,6 +907,8 @@ Cloud anything (sync, accounts, team dictionaries, web search in Ask), mobile ap
 ---
 
 ## 14. Changelog
+
+- 2026-11-15 | P6.7 Hub implementation checkpoint | Fixed clipped large-text navigation, unnamed controls and table/multiline Tab traps; added native form wrapping and fifteen public-fixture keyboard/name/font/high-contrast regressions. Physical Windows and full P6.7 acceptance remain open. | saydraft/ui/{hub,home_page,history_page,settings_page,languages_page,model_picker,styles_page,dictionary_page,snippets_page}.py, tests/test_hub_accessibility.py, docs/HUB_ACCESSIBILITY.md
 
 - 2026-11-15 | P3.10 alignment candidate / reproducible QA | Added frozen public-file paired probe with fresh seeded processes, exact control repeat, owner-I/O guards and whole-tree teardown. Corrected nineteen-case result fails Tamil/Telugu gates; preserved earlier seed-confounded data and preflight failures. Independent original-input verification,47focused checks and three native held-handle lifecycle cases pass; no production promotion or reserved-recording inference. | tools/probe_whisper_alignment.py, tools/public_file_guard.py, tests/test_whisper_alignment_probe.py, docs/spikes/whisper-word-alignment.md, docs/ASR_ACCURACY.md, eval/asr/results/2026-11-15-word-alignment/
 

@@ -117,6 +117,7 @@ class SettingsPage(QtWidgets.QWidget):
         self.setAccessibleName("Saydraft Settings")
         self.tabs = QtWidgets.QTabWidget(self)
         self.tabs.tabBar().hide()
+        self.tabs.setFocusPolicy(QtCore.Qt.NoFocus)
         self.section_combo = QtWidgets.QComboBox(self)
         self.section_combo.setAccessibleName("Settings section")
         self.status_label = QtWidgets.QLabel("", self)
@@ -204,6 +205,8 @@ class SettingsPage(QtWidgets.QWidget):
     def _add_tab(self, page, name):
         if not isinstance(page, QtWidgets.QAbstractScrollArea):
             page = self._scroll(page)
+        if not page.accessibleName():
+            page.setAccessibleName(f"{name} settings")
         self.tabs.addTab(page, name)
 
     def sync_sections(self):
@@ -221,6 +224,7 @@ class SettingsPage(QtWidgets.QWidget):
     def _general_tab(self):
         page = QtWidgets.QWidget()
         form = QtWidgets.QFormLayout(page)
+        form.setRowWrapPolicy(QtWidgets.QFormLayout.WrapLongRows)
         self.autostart_checkbox = QtWidgets.QCheckBox()
         self.auto_listen_checkbox = QtWidgets.QCheckBox()
         self.show_bar_checkbox = QtWidgets.QCheckBox("Show the idle Saydraft Bar")
@@ -250,6 +254,7 @@ class SettingsPage(QtWidgets.QWidget):
     def _shortcuts_tab(self):
         page = QtWidgets.QWidget()
         form = QtWidgets.QFormLayout(page)
+        form.setRowWrapPolicy(QtWidgets.QFormLayout.WrapLongRows)
         self.speech_hotkey_edit = QtWidgets.QLineEdit()
         self.alternative_hotkey_edit = QtWidgets.QLineEdit()
         self.mouse_hotkey_edit = QtWidgets.QLineEdit()
@@ -326,6 +331,7 @@ class SettingsPage(QtWidgets.QWidget):
         page = QtWidgets.QWidget()
         layout = QtWidgets.QVBoxLayout(page)
         form = QtWidgets.QFormLayout()
+        form.setRowWrapPolicy(QtWidgets.QFormLayout.WrapLongRows)
         self.mode_combo = QtWidgets.QComboBox()
         self.mode_combo.addItems(MODES)
         self.profile_combo = QtWidgets.QComboBox()
@@ -351,6 +357,8 @@ class SettingsPage(QtWidgets.QWidget):
         form.addRow("Warning time", self.warning_seconds_spin)
         layout.addLayout(form)
         self.app_profiles_editor = QtWidgets.QPlainTextEdit()
+        self.app_profiles_editor.setAccessibleName("App profile overrides JSON")
+        self.app_profiles_editor.setTabChangesFocus(True)
         self.app_profiles_editor.setObjectName("appProfilesEditor")
         self.app_profiles_editor.setToolTip('App group override: {"exe":"notepad.exe","app_group":"docs"}. '
                                            'Optional "site" matches a browser title hint.')

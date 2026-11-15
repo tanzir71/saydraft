@@ -5,6 +5,9 @@ P6.3 remains in progress. The app now uses one persistent 1080×720 Hub with an
 Settings in its left rail. Tray actions and Bar error fixes route into that
 window. Closing/reopening retains the page objects and staged edits.
 
+The [accessibility guide](HUB_ACCESSIBILITY.md) describes keyboard navigation,
+named controls, larger-text behavior, local checks and outstanding manual gates.
+
 ## Shared pages and Home
 
 `ui/settings_page.py` and `ui/history_page.py` contain the migrated QWidget

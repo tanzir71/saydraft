@@ -21,6 +21,28 @@ _ICONS = {
 }
 
 
+class HubNavigation(QtWidgets.QListWidget):
+    """Keep every page label visible when the application font grows."""
+
+    def sizeHint(self):
+        hint = super().sizeHint()
+        # Reserve the native vertical scrollbar even before it becomes visible.
+        # This prevents a smaller window from clipping the longest page name.
+        scrollbar = self.style().pixelMetric(QtWidgets.QStyle.PM_ScrollBarExtent, None, self)
+        hint.setWidth(max(164, self.sizeHintForColumn(0) + 2 * self.frameWidth() + scrollbar))
+        return hint
+
+    def minimumSizeHint(self):
+        hint = super().minimumSizeHint()
+        hint.setWidth(self.sizeHint().width())
+        return hint
+
+    def changeEvent(self, event):
+        super().changeEvent(event)
+        if event.type() in (QtCore.QEvent.FontChange, QtCore.QEvent.StyleChange):
+            self.updateGeometry()
+
+
 class HubWindow(QtWidgets.QWidget):
     meeting_requested = QtCore.Signal()
 
@@ -45,10 +67,14 @@ class HubWindow(QtWidgets.QWidget):
         wordmark = QtWidgets.QLabel("Saydraft")
         wordmark.setProperty("role", "display")
         rail.addWidget(wordmark)
-        self.navigation = QtWidgets.QListWidget()
+        self.navigation = HubNavigation()
         self.navigation.setAccessibleName("Hub pages")
-        self.navigation.setFixedWidth(164)
+        self.navigation.setAccessibleDescription("Use Up and Down to choose a page, then Tab to its controls.")
+        self.navigation.setSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Expanding)
+        self.navigation.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
+        self.navigation.setTextElideMode(QtCore.Qt.ElideNone)
         self.navigation.setIconSize(QtCore.QSize(20, 20))
+        self.setFocusProxy(self.navigation)
         for name in _ICONS:
             self.navigation.addItem(name)
         rail.addWidget(self.navigation, 1)
@@ -76,7 +102,10 @@ class HubWindow(QtWidgets.QWidget):
         self.notes_page = NotesPage(NoteStore(database) if database is not None else None)
         self.page_widgets.update(Notes=self.notes_page, Settings=self.settings_page)
         for name in _ICONS:
-            self.pages.addWidget(self.page_widgets[name])
+            page = self.page_widgets[name]
+            if not page.accessibleName():
+                page.setAccessibleName(name)
+            self.pages.addWidget(page)
         self.footer = QtWidgets.QWidget()
         footer_policy = self.footer.sizePolicy()
         footer_policy.setHeightForWidth(True)

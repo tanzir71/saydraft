@@ -21,6 +21,7 @@ class ModelPicker(QtWidgets.QWidget):
         self.success_message = success_message or "Model ready. Apply Settings or finish setup to use it."
         self.task = None
         self.combo = QtWidgets.QComboBox()
+        self.combo.setAccessibleName("Speech model")
         self.combo.setSizePolicy(QtWidgets.QSizePolicy.Ignored, QtWidgets.QSizePolicy.Fixed)
         self.combo.setMinimumContentsLength(20)
         models = [model for model in load_manifest()["models"] if model.get("role", "asr") == "asr"]
