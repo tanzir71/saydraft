@@ -1,0 +1,24 @@
+"""Run only owned public-file model QA with the pinned native runtime."""
+from pathlib import Path
+import os
+import runpy
+import sys
+
+qa=Path(__file__).resolve().parent
+repo=qa/'worktrees/full-whisper-alignment-20261115'
+site=qa/'latency-runtime-874a9c4-20261114/venv/Lib/site-packages'
+sys.path.insert(0,str(repo))
+os.environ['PYTHONPATH']=os.pathsep.join([str(repo),str(site)])
+if sys.argv[2]=='pytest':
+    # Installed test tooling only; native libraries resolve first from the venv.
+    sys.path.append('C:/Users/tanzir/AppData/Roaming/Python/Python313/site-packages')
+from tools.public_file_guard import install
+install(Path(sys.argv.pop(1)))
+from saydraft.privacy.netguard import NetworkGuard
+NetworkGuard.install()
+os.environ['PYTEST_DISABLE_PLUGIN_AUTOLOAD']='1'
+if sys.argv[1]=='pytest':
+    import pytest
+    raise SystemExit(pytest.main(sys.argv[2:]))
+sys.argv[0]='tools.probe_whisper_alignment'
+runpy.run_module('tools.probe_whisper_alignment',run_name='__main__')

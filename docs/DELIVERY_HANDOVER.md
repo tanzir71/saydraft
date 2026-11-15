@@ -36,6 +36,14 @@ checks explicitly; changing an environment flag cannot authorize them.
 
 ## Current checkpoint
 
+- A combined full large-v3/temperature-zero/word-alignment candidate passes the
+  nine-clip development gate for Bengali, Tamil and Telugu. All 19 native Job
+  trees exit, exact control reproduction and independent original-input/score
+  verification pass, and 53 related tests pass. [Frozen evidence](../eval/asr/results/2026-11-15-full-alignment/README.md).
+  Next is frozen confirmation on the 60 reserved recordings, still uninferred
+  at this checkpoint. Defaults, the current portable and release acceptance
+  remain unchanged; licensing and speed also require qualification.
+
 - Cleanup warmup now retains selected intensity, including Polished's 4.
   Clean `625c987` passes 171 related checks, 556 rules examples and 100 authored
   validator refusals. Its full CPU policy replay has 556 exact outputs, seven
@@ -87,7 +95,7 @@ table identifies what still prevents accepting each original requirement.
 
 | Priority / roadmap items | Remaining work and next action | Evidence / guide |
 |---|---|---|
-| Before a public release — P3.2, P3.8, P3.10 | Complete broader multilingual quality/cold-load acceptance. Keep per-language WER/CER and sample scope; use observed development clips for changes. Owner accuracy acceptance is deferred and all 60 reserved Bengali/Tamil/Telugu clips remain uninferred. The alignment candidate failed Tamil/Telugu gates; keep the existing defaults. | [ASR accuracy](ASR_ACCURACY.md), [models](MODELS.md) |
+| Before a public release — P3.2, P3.8, P3.10 | Complete broader multilingual quality/cold-load acceptance. Keep per-language WER/CER and sample scope; use observed development clips for changes. Owner accuracy acceptance is deferred. The turbo alignment candidate failed Tamil/Telugu gates; the combined full large-v3/temperature-zero/alignment candidate passes development and is eligible for frozen confirmation. The 60 reserved recordings remain uninferred at that snapshot. Keep existing defaults until confirmation, license and speed gates are qualified. | [ASR accuracy](ASR_ACCURACY.md), [models](MODELS.md) |
 | Before quality/performance claims — P4.4, P4.6, P4.7 | Finish model/tier bake-off and full Standard/Pro end-to-end latency and quality gates. The deterministic corpus and adversarial checks do not establish the remaining rules-plus-model accuracy target or zero must-keep regressions. Evaluate frozen candidates against unchanged criteria before promoting defaults. | [Evaluation](EVALUATION.md), [latency matrix](LATENCY_MATRIX.md), [cleanup evidence](CLEANUP_EVIDENCE.md) |
 | Authorized isolated Windows session — P2.2, P5.1–P5.3, P5.5–P5.6 | Exercise real Notepad dictation, Start-menu masking/F9, clipboard image/rich-text restoration and Win+V exclusion, password/elevated/focus-change refusal, hands-free/cancel/paste-last and correction learning. Implementations and synthetic/native-owned fixtures do not replace these manual checks. | [Test checklist](TEST_CHECKLIST.md), [hotkeys](HOTKEYS.md) |
 | UI acceptance — P6.2–P6.5, P6.7 | Complete Bar state/sound/pointer/mixed-DPI checks, fresh-profile onboarding under three minutes, physical Scratchpad/View-diff shortcuts, Narrator/focus/high-contrast/display-scaling checks and full Settings/History acceptance. Current logical-font tests cover owned offscreen fixtures. | [Hub accessibility](HUB_ACCESSIBILITY.md), [onboarding](ONBOARDING.md), [Notes](NOTES.md) |

@@ -85,3 +85,17 @@ unseen clips as development does not admit them. Each child receives an isolated
 profile and bars owner audio SDK/input/clipboard services before app imports.
 Timeouts preserve partial evidence and terminate the owned process tree.
 Completed measurement is distinct from passing the quality gate. P3.10 remains open.
+
+## Full large-v3 combination follow-up
+
+A separate [frozen comparison](../../eval/asr/results/2026-11-15-full-alignment/README.md)
+on clean `5825c03` combines the pinned QA-only full model, temperature zero and
+alignment, retaining the same nine already-observed examples, control, criteria,
+seed-before-construction and fresh process per arm/clip. Bengali word/character
+errors fall 53→42/63 and 134→97/341; Tamil 28→14/37 and 106→25/302;
+Telugu 33→26/47 and 53→48/284. Unlike the turbo-only alignment above,
+all three pass. Nineteen whole owned Job trees exit, exact control reproduction
+and independent original-input/score verification pass; 53 related tests pass.
+This supports a frozen confirmation test, not broad accuracy or a production
+change. The 60 reserved recordings remain uninferred at this snapshot. Full
+model licensing and release performance remain separate gates.

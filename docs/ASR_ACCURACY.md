@@ -23,6 +23,14 @@ It improves Bengali but increases Tamil/Telugu word errors and Telugu character
 errors, failing the frozen gate. The retained earlier shared-worker result has
 a seed-reset confound; the corrected run initializes each arm in a fresh process.
 No production decoder change or confirmation inference follows.
+A separate [full large-v3/temperature-zero/alignment combination](../eval/asr/results/2026-11-15-full-alignment/README.md)
+passes the same development gate on clean `5825c03`: Bengali word/character
+errors fall 53→42/63 and 134→97/341; Tamil 28→14/37 and 106→25/302;
+Telugu 33→26/47 and 53→48/284. All 19 fresh Job trees exit and the control
+repeat matches exactly. Original-input and independent score verification and
+53 guarded related tests pass. This admits untouched confirmation, not a model
+or decoder promotion. The 60 reserved recordings remain uninferred at this
+development checkpoint; licensing and release-latency gates also remain open.
 Owner-recording acceptance remains deferred. The isolated Pro latency run has
 finished and its [failed median gate is retained](LATENCY_MATRIX.md).
 

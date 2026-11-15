@@ -1,0 +1,328 @@
+{
+  "schema": 1,
+  "scope": "Nine already-observed public development clips; full large-v3 temperature0 with word alignment. No holdout inference or default promotion.",
+  "frozen_epoch": 1794725696.5619717,
+  "source": {
+    "commit": "5825c0372de54dd912bc1b3558cf0e700a0d76d9",
+    "dirty": false,
+    "fingerprints": {
+      "tools/asr_accuracy.py": "95e688ba0bdbcdf474d0efa6b8f15b2ea1aef277307fc731ac4e53b997753417",
+      "tools/bench_models.py": "915727fa0ee9cfd69b366c1f742069e8b6df7c02fd30874b98b404b0531cc547",
+      "tools/fetch_asr_corpus.py": "3cf853c5afc4f9687087cc0b6a86a835db34c4916e8bcbc512f5519ca7ece964",
+      "saydraft/asr/languages.py": "fc80248ae2e9787f978cb761f0a1f0d1eba65837d33c1eab64846cf1319d9ad0",
+      "saydraft/asr/router.py": "e3f2cd5bc6dc3b1c173cdaa9dc6cd26d51040b29e3c36d19d9f6b5d04c7e3967",
+      "saydraft/asr/sherpa_parakeet.py": "7ad0d0587af9e0be7927fe25659cdb81c4d0f6684e03ae6a0e90e887363c1edd",
+      "saydraft/stt/whisper_engine.py": "0ec553f303bb116ad5a908a626c7f6a4812b96818464ffa9e30e4adf5fbc4a5b",
+      "saydraft/cleanup/styles.py": "0e486ee417cea0136ac762c7a5e9fe6db54722bb44accf182664e8a4cc541334",
+      "saydraft/cleanup/language.py": "ddd898ef5a3d19bd2bb640914a67b3f6b93c4944174baf17e79f44a8a422d9d3",
+      "saydraft/cleanup/formatter.py": "c002bb7b2372ec5e2595975c2dde55910a3f482879a1fbae49f6a834d0940b05",
+      "saydraft/dictation/pipeline.py": "40c95b9e73c60e1d42dac7817855f134dc03120c03328f3015955cf37133bd59",
+      "saydraft/dictation/rules.py": "873f82203f5ef7808d2ce114ef7411938a2d00b8d90518746067ad8da6804340",
+      "saydraft/asr/whisper_ct2.py": "cb2b075c8ce6d9acd6599746005b67c63a3ef3a09ea869f93cd41509774ff7cd",
+      "saydraft/cleanup/llm/validate.py": "55ba406a1e2bf1b941a7cb3b79105cb21c36a7771d37b782f17761c0d96ba0dd",
+      "saydraft/models/manifest.json": "7c2885ae2fb91b4ca6baa505921d215ebde774bdfe2590e60c274bf6c98b816e",
+      "tools/latency_environment.py": "5bb7649763d41107cfdbe50692025d525e276718e92fa5b082fefcffab963ccd",
+      "requirements.txt": "ef1755cc3aa1c5e5676e06d377370fbd29b85dadf132c99d1e7240b2cf8c9b8a"
+    }
+  },
+  "producer_sha256": "67ef9e13252b5544e3733c77be500a1dfedb5a8236f253752056d0bdbd4cf3b4",
+  "child_guard_sha256": "18335a49d8992175c6a45b41de47d840700901d65a96e61979c8c235798a89b6",
+  "selection_path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\external-whisper-boundaries-1b7e7ea-20261114-r1\\frozen-plan.json",
+  "selection_sha256": "d7ade0877824bedfc1fb9b66133fdf57c9a69cd584551c86b99178ee63dc47fe",
+  "clips": [
+    {
+      "language": "bn",
+      "id": 1916,
+      "corpus": {
+        "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-public-fleurs-20261114\\bn-r1\\corpus.json",
+        "sha256": "a3bfc3d4de2624629e6d90abe699e40c829f0aea83bcc7bd18518a129023b1b3",
+        "language": "bn",
+        "clips": 20,
+        "metadata_sha256": "a7d892390778ce23d0acf15bbba4d9454439c48607cefb923e37f55a480c4c0c"
+      },
+      "audio_sha256": "7cf52bece22aefba405829426c8b83acd67c9515986d51fb19f6a18681e80e0b",
+      "baseline_journal": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\bn\\native-r1\\cases.jsonl",
+      "baseline_journal_sha256": "e9ce3944f48fe2937f5df1414e117437a7601589afa7704133ee61d01bc21e64"
+    },
+    {
+      "language": "bn",
+      "id": 1879,
+      "corpus": {
+        "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-public-fleurs-20261114\\bn-r1\\corpus.json",
+        "sha256": "a3bfc3d4de2624629e6d90abe699e40c829f0aea83bcc7bd18518a129023b1b3",
+        "language": "bn",
+        "clips": 20,
+        "metadata_sha256": "a7d892390778ce23d0acf15bbba4d9454439c48607cefb923e37f55a480c4c0c"
+      },
+      "audio_sha256": "8c40e7d6c18122601972c4a8e11ba027f751ef9bad683f63a73501839cc62b66",
+      "baseline_journal": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\bn\\native-r1\\cases.jsonl",
+      "baseline_journal_sha256": "e9ce3944f48fe2937f5df1414e117437a7601589afa7704133ee61d01bc21e64"
+    },
+    {
+      "language": "bn",
+      "id": 1804,
+      "corpus": {
+        "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-public-fleurs-20261114\\bn-r1\\corpus.json",
+        "sha256": "a3bfc3d4de2624629e6d90abe699e40c829f0aea83bcc7bd18518a129023b1b3",
+        "language": "bn",
+        "clips": 20,
+        "metadata_sha256": "a7d892390778ce23d0acf15bbba4d9454439c48607cefb923e37f55a480c4c0c"
+      },
+      "audio_sha256": "7359665c138d797a9ce5c6827bd653d11cf2beb514fecc60d01d6d0ad5f16f6b",
+      "baseline_journal": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\bn\\native-r1\\cases.jsonl",
+      "baseline_journal_sha256": "e9ce3944f48fe2937f5df1414e117437a7601589afa7704133ee61d01bc21e64"
+    },
+    {
+      "language": "ta",
+      "id": 1792,
+      "corpus": {
+        "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-public-fleurs-20261114\\ta-r1\\corpus.json",
+        "sha256": "b7bec61010b5817316caf4a39af0bd23d85010116b4c36d12e31c23213f38e5d",
+        "language": "ta",
+        "clips": 20,
+        "metadata_sha256": "9ecedf850940ae13b75c1eecee692c581a44b7f560feecd9a53eaf5a3e838be7"
+      },
+      "audio_sha256": "449d0c9516dc1cf0d5082f0ffdb744b858dd0bb67033e2c02a13ea989987b439",
+      "baseline_journal": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\ta\\native-r1\\cases.jsonl",
+      "baseline_journal_sha256": "686c7702924a0c966eee11937e6b5000c996638a6801f0a9c2bff21ca3e3f24c"
+    },
+    {
+      "language": "ta",
+      "id": 1891,
+      "corpus": {
+        "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-public-fleurs-20261114\\ta-r1\\corpus.json",
+        "sha256": "b7bec61010b5817316caf4a39af0bd23d85010116b4c36d12e31c23213f38e5d",
+        "language": "ta",
+        "clips": 20,
+        "metadata_sha256": "9ecedf850940ae13b75c1eecee692c581a44b7f560feecd9a53eaf5a3e838be7"
+      },
+      "audio_sha256": "b2ec2dd1f835acc101cb09ad16458fea1bbd8132ad208c38b7757e2fd1d40a88",
+      "baseline_journal": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\ta\\native-r1\\cases.jsonl",
+      "baseline_journal_sha256": "686c7702924a0c966eee11937e6b5000c996638a6801f0a9c2bff21ca3e3f24c"
+    },
+    {
+      "language": "ta",
+      "id": 1666,
+      "corpus": {
+        "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-public-fleurs-20261114\\ta-r1\\corpus.json",
+        "sha256": "b7bec61010b5817316caf4a39af0bd23d85010116b4c36d12e31c23213f38e5d",
+        "language": "ta",
+        "clips": 20,
+        "metadata_sha256": "9ecedf850940ae13b75c1eecee692c581a44b7f560feecd9a53eaf5a3e838be7"
+      },
+      "audio_sha256": "4aa3a619095b7a609c173e0dbafdd8b328c00c326e5ff942f302036c2389c5cf",
+      "baseline_journal": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\ta\\native-r1\\cases.jsonl",
+      "baseline_journal_sha256": "686c7702924a0c966eee11937e6b5000c996638a6801f0a9c2bff21ca3e3f24c"
+    },
+    {
+      "language": "te",
+      "id": 1912,
+      "corpus": {
+        "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-public-fleurs-20261114\\te-r2\\corpus.json",
+        "sha256": "e1cfba00bb0aaae6893671a668398a20d71368c4c11ee4077d47112b040d0986",
+        "language": "te",
+        "clips": 20,
+        "metadata_sha256": "81313da935e3e1d45b69080ec29e5cb1b1b872a06d52ed05ebfc9d218565417e"
+      },
+      "audio_sha256": "bd35d16f1293f8d8133436d9b387ddad2a8ff31abbb272ab58513af291561f84",
+      "baseline_journal": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\te\\native-r1\\cases.jsonl",
+      "baseline_journal_sha256": "323f4899034a446461298a1fe75b5a9fca4273aef3e82c142c1c62c1c38bf593"
+    },
+    {
+      "language": "te",
+      "id": 1908,
+      "corpus": {
+        "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-public-fleurs-20261114\\te-r2\\corpus.json",
+        "sha256": "e1cfba00bb0aaae6893671a668398a20d71368c4c11ee4077d47112b040d0986",
+        "language": "te",
+        "clips": 20,
+        "metadata_sha256": "81313da935e3e1d45b69080ec29e5cb1b1b872a06d52ed05ebfc9d218565417e"
+      },
+      "audio_sha256": "7dc8baa363ec436333b2c1f4545bb62b4f445f708bcce141fa618134a80332c3",
+      "baseline_journal": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\te\\native-r1\\cases.jsonl",
+      "baseline_journal_sha256": "323f4899034a446461298a1fe75b5a9fca4273aef3e82c142c1c62c1c38bf593"
+    },
+    {
+      "language": "te",
+      "id": 1666,
+      "corpus": {
+        "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-public-fleurs-20261114\\te-r2\\corpus.json",
+        "sha256": "e1cfba00bb0aaae6893671a668398a20d71368c4c11ee4077d47112b040d0986",
+        "language": "te",
+        "clips": 20,
+        "metadata_sha256": "81313da935e3e1d45b69080ec29e5cb1b1b872a06d52ed05ebfc9d218565417e"
+      },
+      "audio_sha256": "7012022d111ae03810895fad4b092784056686370f70bf57ab98dc3e2dcb7464",
+      "baseline_journal": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-accuracy-1b7e7ea-shards-20261114-r2\\te\\native-r1\\cases.jsonl",
+      "baseline_journal_sha256": "323f4899034a446461298a1fe75b5a9fca4273aef3e82c142c1c62c1c38bf593"
+    }
+  ],
+  "corpora": [
+    {
+      "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-public-fleurs-20261114\\bn-r1\\corpus.json",
+      "sha256": "a3bfc3d4de2624629e6d90abe699e40c829f0aea83bcc7bd18518a129023b1b3",
+      "language": "bn",
+      "clips": 20,
+      "metadata_sha256": "a7d892390778ce23d0acf15bbba4d9454439c48607cefb923e37f55a480c4c0c"
+    },
+    {
+      "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-public-fleurs-20261114\\ta-r1\\corpus.json",
+      "sha256": "b7bec61010b5817316caf4a39af0bd23d85010116b4c36d12e31c23213f38e5d",
+      "language": "ta",
+      "clips": 20,
+      "metadata_sha256": "9ecedf850940ae13b75c1eecee692c581a44b7f560feecd9a53eaf5a3e838be7"
+    },
+    {
+      "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-public-fleurs-20261114\\te-r2\\corpus.json",
+      "sha256": "e1cfba00bb0aaae6893671a668398a20d71368c4c11ee4077d47112b040d0986",
+      "language": "te",
+      "clips": 20,
+      "metadata_sha256": "81313da935e3e1d45b69080ec29e5cb1b1b872a06d52ed05ebfc9d218565417e"
+    }
+  ],
+  "runtime_environment": {
+    "python": "3.13.17",
+    "implementation": "cpython",
+    "cache_tag": "cpython-313",
+    "architecture": "AMD64",
+    "interpreter_sha256": "4e67d9e9a3673aa7b6219f1280d5ec3f1b6c0d5bd98ea8688c72d0cb7582d664",
+    "packages": {
+      "numpy": "2.5.4",
+      "soundfile": "0.14.0",
+      "webrtcvad-wheels": "2.0.14",
+      "faster-whisper": "1.2.1",
+      "ctranslate2": "4.9.0",
+      "sherpa-onnx": "1.13.4",
+      "sherpa-onnx-core": "1.13.4",
+      "onnxruntime": "1.32.0"
+    }
+  },
+  "model_id": "whisper-large-v3-turbo",
+  "model_directory": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\turbo-models\\whisper\\large-v3-turbo",
+  "model_descriptor": {
+    "id": "whisper-large-v3-turbo",
+    "engine": "whisper",
+    "role": "asr",
+    "model_size": "large-v3-turbo",
+    "label": "All languages · Whisper turbo",
+    "revision": "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+    "version": "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+    "license": "MIT",
+    "license_url": "https://github.com/openai/whisper/blob/main/LICENSE",
+    "publisher": "OpenAI; CTranslate2 conversion by Mobius Labs / Dropbox",
+    "source": "https://huggingface.co/dropbox-dash/faster-whisper-large-v3-turbo",
+    "upstream": "https://huggingface.co/openai/whisper-large-v3-turbo",
+    "download_hosts": [
+      "huggingface.co",
+      "us.aws.cdn.hf.co"
+    ],
+    "storage_type": "float16",
+    "compute_type": "int8",
+    "files": [
+      {
+        "path": "model.bin",
+        "url": "https://huggingface.co/dropbox-dash/faster-whisper-large-v3-turbo/resolve/0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf/model.bin",
+        "sha256": "e76620f83d5f5b69efd3d87e3dc180c1bd21df9fbebacfd4335e5e1efcc018da",
+        "size": 1617884929
+      },
+      {
+        "path": "config.json",
+        "url": "https://huggingface.co/dropbox-dash/faster-whisper-large-v3-turbo/resolve/0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf/config.json",
+        "sha256": "b0253ea6c0d3bea6b1e19e91a02acfd3b53f4467362efcb5a3e6b16c9b3a9b7e",
+        "size": 2263
+      },
+      {
+        "path": "preprocessor_config.json",
+        "url": "https://huggingface.co/dropbox-dash/faster-whisper-large-v3-turbo/resolve/0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf/preprocessor_config.json",
+        "sha256": "7ccc62c6f2765af1f3b46c00c9b5894426835a05021c8b9c01eecb6dfb542711",
+        "size": 340
+      },
+      {
+        "path": "tokenizer.json",
+        "url": "https://huggingface.co/dropbox-dash/faster-whisper-large-v3-turbo/resolve/0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf/tokenizer.json",
+        "sha256": "297b13372ac43916285644fb9687add3cc62ee2a1adb60da3dc25cc94c1871fd",
+        "size": 2710337
+      },
+      {
+        "path": "vocabulary.json",
+        "url": "https://huggingface.co/dropbox-dash/faster-whisper-large-v3-turbo/resolve/0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf/vocabulary.json",
+        "sha256": "c69260f2ab26d659b7c398f9a2b2b48ed0df16c3b47d7326782fd9cba71690c1",
+        "size": 1068114
+      },
+      {
+        "path": "README.md",
+        "url": "https://huggingface.co/dropbox-dash/faster-whisper-large-v3-turbo/resolve/0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf/README.md",
+        "sha256": "b3068692728faed23580cce5cd569fc47ff76c690c032b2641ffd5554ea64d8f",
+        "size": 1445
+      }
+    ]
+  },
+  "criteria": {
+    "each_language_wer_nonworse": true,
+    "each_language_cer_strictly_better": true,
+    "no_new_empty_or_replacement_per_clip": true,
+    "complete_verified_pairs": 9,
+    "owner_or_broad_accuracy_accepted": false,
+    "fresh_control_reproducibility": true
+  },
+  "seed": 1729,
+  "repeat_control_index": 5,
+  "generation": "Control: pinned production turbo/default temperature. Candidate: pinned full large-v3, temperature0, word_timestamps=True. Fresh process/seed1729 for each arm/clip; unchanged padding/native448limit, language pins, beam5, noVAD/previous conditioning. Original per-language WER/CER and failure gates unchanged.",
+  "candidate_model": {
+    "mode": "full-large-v3-temperature0-word-alignment",
+    "directory": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\whisper-large-v3-quality-cache-20261114-r1\\model",
+    "descriptor": {
+      "id": "whisper-large-v3-quality-spike",
+      "revision": "edaa852ec7e145841d8ffdb056a99866b5f0a478",
+      "scope": "QA candidate only; not registered or offered in app; no default or quality acceptance.",
+      "download_hosts": [
+        "huggingface.co",
+        "us.aws.cdn.hf.co"
+      ],
+      "files": [
+        {
+          "path": "model.bin",
+          "url": "https://huggingface.co/Systran/faster-whisper-large-v3/resolve/edaa852ec7e145841d8ffdb056a99866b5f0a478/model.bin",
+          "size": 3087284237,
+          "sha256": "69f74147e3334731bc3a76048724833325d2ec74642fb52620eda87352e3d4f1"
+        },
+        {
+          "path": "config.json",
+          "url": "https://huggingface.co/Systran/faster-whisper-large-v3/resolve/edaa852ec7e145841d8ffdb056a99866b5f0a478/config.json",
+          "size": 2394,
+          "sha256": "a9306624f5ec14270a014b647e5c316b6e03a662c369758d1b90697a7b0655b9"
+        },
+        {
+          "path": "preprocessor_config.json",
+          "url": "https://huggingface.co/Systran/faster-whisper-large-v3/resolve/edaa852ec7e145841d8ffdb056a99866b5f0a478/preprocessor_config.json",
+          "size": 340,
+          "sha256": "7ccc62c6f2765af1f3b46c00c9b5894426835a05021c8b9c01eecb6dfb542711"
+        },
+        {
+          "path": "tokenizer.json",
+          "url": "https://huggingface.co/Systran/faster-whisper-large-v3/resolve/edaa852ec7e145841d8ffdb056a99866b5f0a478/tokenizer.json",
+          "size": 2480617,
+          "sha256": "6d8cbd7cd0d8d5815e478dac67b85a26bbe77c1f5e0c6d76d1ce2abc0e5f21ca"
+        },
+        {
+          "path": "vocabulary.json",
+          "url": "https://huggingface.co/Systran/faster-whisper-large-v3/resolve/edaa852ec7e145841d8ffdb056a99866b5f0a478/vocabulary.json",
+          "size": 1068114,
+          "sha256": "c69260f2ab26d659b7c398f9a2b2b48ed0df16c3b47d7326782fd9cba71690c1"
+        },
+        {
+          "path": "README.md",
+          "url": "https://huggingface.co/Systran/faster-whisper-large-v3/resolve/edaa852ec7e145841d8ffdb056a99866b5f0a478/README.md",
+          "size": 2052,
+          "sha256": "39e96252229f5a3d0141dc81afb65a36fd205461ac21e5b70f2cd1248ef0082c"
+        }
+      ],
+      "license_metadata": {
+        "converted_repository": "mit",
+        "upstream_model_card": "apache-2.0",
+        "status": "Both pinned cards retained; no distribution/license claim made from conflicting metadata."
+      }
+    },
+    "manifest_sha256": "3e011da22e6ac6281725d49afe536b156ae9bc7aabef46a33d542864a66d024f"
+  }
+}

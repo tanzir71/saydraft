@@ -1,0 +1,63 @@
+{
+  "source": "5825c0372de54dd912bc1b3558cf0e700a0d76d9",
+  "cases": 18,
+  "observed_job_tree_exits": 19,
+  "control_reproduced": true,
+  "independent_scores": true,
+  "original_inputs_checked": true,
+  "languages": {
+    "bn": {
+      "control": {
+        "word_errors": 53,
+        "reference_words": 63,
+        "character_errors": 134,
+        "reference_characters": 341,
+        "samples": 3
+      },
+      "word_alignment": {
+        "word_errors": 42,
+        "reference_words": 63,
+        "character_errors": 97,
+        "reference_characters": 341,
+        "samples": 3
+      },
+      "passes": true
+    },
+    "ta": {
+      "control": {
+        "word_errors": 28,
+        "reference_words": 37,
+        "character_errors": 106,
+        "reference_characters": 302,
+        "samples": 3
+      },
+      "word_alignment": {
+        "word_errors": 14,
+        "reference_words": 37,
+        "character_errors": 25,
+        "reference_characters": 302,
+        "samples": 3
+      },
+      "passes": true
+    },
+    "te": {
+      "control": {
+        "word_errors": 33,
+        "reference_words": 47,
+        "character_errors": 53,
+        "reference_characters": 284,
+        "samples": 3
+      },
+      "word_alignment": {
+        "word_errors": 26,
+        "reference_words": 47,
+        "character_errors": 48,
+        "reference_characters": 284,
+        "samples": 3
+      },
+      "passes": true
+    }
+  },
+  "development_gate_met": true,
+  "owner_or_broad_accuracy_accepted": false
+}

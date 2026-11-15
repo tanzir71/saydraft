@@ -110,3 +110,5 @@ eval/ui/results/2026-11-15-hub-reflow/** -text -whitespace
 eval/ui/results/2026-11-15-gallery/** -text -whitespace
 # Preserve native intensity-prefix control/candidate journals and portable proof.
 eval/cleanup/results/2026-11-15-intensity-prefix/** -text -whitespace
+# Preserve the successful combined ASR development comparison as measured.
+eval/asr/results/2026-11-15-full-alignment/** -text -whitespace
