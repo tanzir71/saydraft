@@ -1,0 +1,12 @@
+{
+  "pid": 48084,
+  "kind": "public-file-worker-with-refusing-foreground-port",
+  "port_attempts": [
+    "foreground_adapter_construction"
+  ],
+  "production_context_adapter_loaded": false,
+  "selection_value_fields": [
+    "target",
+    "selection"
+  ]
+}

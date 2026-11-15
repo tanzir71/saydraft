@@ -116,3 +116,4 @@ tools/confirm_whisper_alignment.py -text
 tools/public_worker_guard.py -text
 tools/guarded_latency_matrix.py -text
 tools/guarded_latency_trial.py -text
+eval/latency/results/2026-11-15-owner-io-guard/** -text -whitespace

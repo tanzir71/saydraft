@@ -1,0 +1,185 @@
+{
+  "source": "dc67cccdcaca97568df2fc3b5a1472e8a14b87a6",
+  "records": [
+    {
+      "path": "child-guards/test_audio_and_input_sdk_body_0/owner-io-guard.json",
+      "size": 308,
+      "sha256": "700ceb9cc38f8a7d25c8b7a39f8f40361150958f739277ca50009759d79f5b18"
+    },
+    {
+      "path": "child-guards/test_audio_and_input_sdk_body_0/owner-io-guard.worker.json",
+      "size": 225,
+      "sha256": "fba045bb8e4563fd9e9ebc01e99d17476533535feed65c8c3dbb05c413ba64e2"
+    },
+    {
+      "path": "child-guards/test_audio_and_input_sdk_body_1/owner-io-guard.json",
+      "size": 305,
+      "sha256": "a9e0607ca6ee1800791a5385b5f78f078fd6627afc64c76bb25de5171a760af3"
+    },
+    {
+      "path": "child-guards/test_audio_and_input_sdk_body_1/owner-io-guard.worker.json",
+      "size": 224,
+      "sha256": "b29d2912c9223d34eae0c05f033e63bb46ed860f4d4bd256d7e7b78f782cc196"
+    },
+    {
+      "path": "child-guards/test_audio_and_input_sdk_body_2/owner-io-guard.json",
+      "size": 303,
+      "sha256": "5fcf4e9924587a2b0ee8731e6d2c13f0fcb652e79b2129b545ea67b5d0a3df18"
+    },
+    {
+      "path": "child-guards/test_audio_and_input_sdk_body_2/owner-io-guard.worker.json",
+      "size": 225,
+      "sha256": "cdef4af4cf435349844245a093de0c4ace84da5d82343c577e682bc6c3d53940"
+    },
+    {
+      "path": "child-guards/test_audio_and_input_sdk_body_3/owner-io-guard.json",
+      "size": 306,
+      "sha256": "94d6719d98a9c2b146e200d4b6e74b276b287239ad5102a7bc9f664f73e195cb"
+    },
+    {
+      "path": "child-guards/test_audio_and_input_sdk_body_3/owner-io-guard.worker.json",
+      "size": 225,
+      "sha256": "097bc1d208ab775d1f7fc15dac2d5dcdd31af04704ac6c3d11f2f91ab8cd492a"
+    },
+    {
+      "path": "child-guards/test_constructing_any_foregrou0/owner-io-guard.json",
+      "size": 285,
+      "sha256": "58f300e9a407e8140e19df6a7df633f63045caf6ac3eb464438f5da54644739f"
+    },
+    {
+      "path": "child-guards/test_constructing_any_foregrou0/owner-io-guard.worker.json",
+      "size": 268,
+      "sha256": "92707182fa414da9ddbc6f3d18c0f2dcde307d3babfe721f75471e203fd1f296"
+    },
+    {
+      "path": "child-guards/test_constructing_any_foregrou1/owner-io-guard.json",
+      "size": 285,
+      "sha256": "5f23af0e6e4f8dc7f79a9715df41474d2f463ac9b1b98bcc3f3c82c99e67045c"
+    },
+    {
+      "path": "child-guards/test_constructing_any_foregrou1/owner-io-guard.worker.json",
+      "size": 268,
+      "sha256": "fc692cc9d273ec1663d8322a608e5ceed405b5cfbcad89cff1eac411d503e5a9"
+    },
+    {
+      "path": "child-guards/test_worker_trial_import_uses_0/owner-io-guard.json",
+      "size": 285,
+      "sha256": "0ea7c680a4a7201f7497ffed492f503e53e004ba191d97b55f93ad7d1e047d51"
+    },
+    {
+      "path": "child-guards/test_worker_trial_import_uses_0/owner-io-guard.worker.json",
+      "size": 225,
+      "sha256": "5329c058a794697d633a963a933b4ac585e6c3d71587d47b06286e3b87fa195a"
+    },
+    {
+      "path": "clean.guard.json",
+      "size": 355,
+      "sha256": "b40af3a46cc55fc738d98f02a270f4e7074b1a6780819d0801c6a53cda1b87d4"
+    },
+    {
+      "path": "clean.guard.worker.json",
+      "size": 225,
+      "sha256": "feed3faf7fbfadd73723828dfc9c404a6d8366eb4f88e88fe9ef29a477624f49"
+    },
+    {
+      "path": "clean.log",
+      "size": 209,
+      "sha256": "975be3a5ea21cc734338d577639598fe75bd756375185547251f763f5f2977b2"
+    },
+    {
+      "path": "clean.xml",
+      "size": 8427,
+      "sha256": "a531f384ed274e753755bc8121048ce2003505e8e89180e9c069804898fcce22"
+    },
+    {
+      "path": "initial.guard.json",
+      "size": 355,
+      "sha256": "a59c48c8e239b8efe206f25b849c768cbf82c2592c7b88c51c5b575c47eaa2c0"
+    },
+    {
+      "path": "initial.guard.worker.json",
+      "size": 225,
+      "sha256": "047916505f08fb43adfac3e70d83a25e2e4d75acec623754bcc65a56924735b2"
+    },
+    {
+      "path": "initial.log",
+      "size": 204,
+      "sha256": "43ca0f2a4dcf41c3658e52bfd51f55e8d292bddbfeedd069e3126ec76545c098"
+    },
+    {
+      "path": "initial.xml",
+      "size": 8428,
+      "sha256": "d262306fd849a6c51cfb9d0cf194e092b87eca9f3ffdc0125d4d2291b7e72ddd"
+    },
+    {
+      "path": "runner.py.txt",
+      "size": 790,
+      "sha256": "1baf4b0a29770c39082359c0703e5175345baf5ee7376a19d83b7cf6280feb25"
+    },
+    {
+      "path": "source/saydraft/context/foreground.py",
+      "size": 14668,
+      "sha256": "cc89a8faa4e0b901db6721384c656c1d2265a0f703c54e5e904ec37a1cb75cd4"
+    },
+    {
+      "path": "source/saydraft/context/selection.py",
+      "size": 14222,
+      "sha256": "5de541cb00fe571b631bca3860699fad4d5af66ddb91dfc45613b5c23b67abe5"
+    },
+    {
+      "path": "source/saydraft/core/interfaces.py",
+      "size": 2817,
+      "sha256": "15baef1f4e2d56d097ff0dd502d067a5778b09526558014009383b0660960ef5"
+    },
+    {
+      "path": "source/tests/test_latency_matrix.py",
+      "size": 14103,
+      "sha256": "c3ddffa54f29a6d6158775e3a0c4eff7ffacbde449c37019205bd91ac08f9b72"
+    },
+    {
+      "path": "source/tests/test_public_worker_guard.py",
+      "size": 4024,
+      "sha256": "7e2185c588791f22a5c087370f3bed44f7620bf47506a6689c8b9af791c22b82"
+    },
+    {
+      "path": "source/tools/guarded_latency_matrix.py",
+      "size": 567,
+      "sha256": "2020adc238ced1896e7e7fa36a9e35469eea9e74594f8e54ec5bd16a103816c9"
+    },
+    {
+      "path": "source/tools/guarded_latency_trial.py",
+      "size": 652,
+      "sha256": "ec4d08a70602e42081e2f3be3517d0cf94f9b5eb3367e446781cd3555c3dd0f7"
+    },
+    {
+      "path": "source/tools/latency_environment.py",
+      "size": 1322,
+      "sha256": "eaf763a8981c681f7b7435d0b21eed161c3486771ca9e106035038b592715464"
+    },
+    {
+      "path": "source/tools/latency_matrix.py",
+      "size": 16402,
+      "sha256": "0723272096dcb5e319ad1c903382be818296bdeeb2ef43a526dd66a78ca0757b"
+    },
+    {
+      "path": "source/tools/latency_trial.py",
+      "size": 14114,
+      "sha256": "bbab6d2e4ff5ed34dedf4dcc059bc969e563d31f7813588973e69784edb5a72e"
+    },
+    {
+      "path": "source/tools/public_file_guard.py",
+      "size": 3815,
+      "sha256": "18335a49d8992175c6a45b41de47d840700901d65a96e61979c8c235798a89b6"
+    },
+    {
+      "path": "source/tools/public_worker_guard.py",
+      "size": 3488,
+      "sha256": "b90bd02653b87cb4d587b0dc81c63543d2fe6dfc5fe4a006b6b1f46efa9e2f63"
+    },
+    {
+      "path": "summary.json",
+      "size": 1212,
+      "sha256": "c7e6d2e90505e2cf48f9618db63476c6dda15b595a6cc68ced487bf3739e59ed"
+    }
+  ]
+}

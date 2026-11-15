@@ -1,0 +1,64 @@
+"""Verify controlled guard checks and source witnesses, without app imports."""
+import argparse
+import hashlib
+import json
+from pathlib import Path
+import subprocess
+import xml.etree.ElementTree as ET
+
+parser=argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--repo',type=Path,required=True)
+args=parser.parse_args()
+root=Path(__file__).resolve().parent
+source='dc67cccdcaca97568df2fc3b5a1472e8a14b87a6'
+def read(path):return json.loads(path.read_bytes())
+manifest=read(root/'manifest.json')
+assert manifest['source']==source and len(manifest['records'])==36
+for record in manifest['records']:
+    path=root/record['path']
+    assert path.stat().st_size==record['size'] and hashlib.sha256(path.read_bytes()).hexdigest()==record['sha256']
+    if record['path'].startswith('source/'):
+        name=record['path'][len('source/'):]
+        committed=subprocess.check_output(['git','show',source+':'+name],cwd=args.repo)
+        assert path.read_bytes()==committed
+suite=ET.parse(root/'clean.xml').getroot().find('testsuite')
+assert suite is not None and suite.attrib['tests']=='58' and len(suite.findall('testcase'))==58
+assert all(suite.attrib[k]=='0' for k in ['failures','errors','skipped'])
+flags=['real_audio_sdk_imported','owner_profile_used','owner_clipboard_used',
+       'owner_native_input_used','device_enumeration','microphone_used']
+guards=list((root/'child-guards').glob('*/owner-io-guard.json'))
+assert len(guards)==7
+clean=sdk=foreground=0
+for path in guards:
+    guard=read(path);fixture=read(path.with_suffix('.worker.json'))
+    assert type(guard['pid']) is int and guard['pid']==fixture['pid']
+    assert all(guard[k] is False for k in flags)
+    assert fixture['production_context_adapter_loaded'] is False
+    assert fixture['kind']=='public-file-worker-with-refusing-foreground-port'
+    assert fixture['selection_value_fields']==['target','selection']
+    name=path.parent.name
+    if name.startswith('test_worker_trial_import'):
+        clean+=1
+        assert not guard['blocked_attempts'] and not fixture['port_attempts']
+    elif name.startswith('test_audio_and_input'):
+        sdk+=1
+        assert len(guard['blocked_attempts'])==1
+        assert guard['blocked_attempts'][0] in ['sounddevice','soundcard','pynput','pyperclip']
+        assert not fixture['port_attempts']
+    else:
+        foreground+=1
+        assert not guard['blocked_attempts']
+        assert fixture['port_attempts']==['foreground_adapter_construction']
+assert (clean,sdk,foreground)==(1,4,2)
+parent=read(root/'clean.guard.json');fixture=read(root/'clean.guard.worker.json')
+assert parent['pid']==fixture['pid'] and not parent['blocked_attempts'] and not fixture['port_attempts']
+assert all(parent[k] is False for k in flags)
+summary=read(root/'summary.json')
+assert summary['source']==source and summary['tests']==58 and summary['skips']==0
+assert summary['extra_worker_dependencies']['Metaphone']=='0.6'
+assert not any(summary[k] for k in ['model_inference_performed','latency_qualified','physical_windows_acceptance','owner_io_used'])
+for revision in ['625c987',source]:
+    tree=subprocess.check_output(['git','rev-parse',revision+':saydraft'],cwd=args.repo,text=True).strip()
+    assert tree==summary['app_tree_unchanged_from_portable_source_625c987']
+print(json.dumps({'source':source,'records_verified':36,'tests':58,'fresh_children':7,
+ 'refused_sdk_imports':4,'refused_foreground_constructors':2,'latency_qualified':False}))

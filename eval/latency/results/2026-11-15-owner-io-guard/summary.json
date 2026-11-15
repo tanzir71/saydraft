@@ -1,0 +1,35 @@
+{
+  "source": "dc67cccdcaca97568df2fc3b5a1472e8a14b87a6",
+  "tests": 58,
+  "skips": 0,
+  "seconds": "7.616",
+  "clean_source_test_run": true,
+  "runtime": {
+    "python": "3.13.17",
+    "implementation": "cpython",
+    "cache_tag": "cpython-313",
+    "architecture": "AMD64",
+    "interpreter_sha256": "4e67d9e9a3673aa7b6219f1280d5ec3f1b6c0d5bd98ea8688c72d0cb7582d664",
+    "packages": {
+      "numpy": "2.5.4",
+      "soundfile": "0.14.0",
+      "webrtcvad-wheels": "2.0.14",
+      "faster-whisper": "1.2.1",
+      "ctranslate2": "4.9.0",
+      "sherpa-onnx": "1.13.4",
+      "sherpa-onnx-core": "1.13.4",
+      "onnxruntime": "1.32.0"
+    }
+  },
+  "extra_worker_dependencies": {
+    "Metaphone": "0.6"
+  },
+  "fresh_child_import_checks": 7,
+  "app_tree_unchanged_from_portable_source_625c987": "72732d2ae7d5bd84f35a305ca61647bb52f47697",
+  "model_inference_performed": false,
+  "latency_qualified": false,
+  "physical_windows_acceptance": false,
+  "owner_io_used": false,
+  "initial_tests_preserved": true,
+  "concurrency": "Short unit checks overlap the separate frozen accuracy-only comparison. Its timings remain diagnostic; no performance benchmarks run concurrently."
+}
