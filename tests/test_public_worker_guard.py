@@ -40,6 +40,36 @@ print(json.dumps({'pid':os.getpid()}))
     assert proof["verified"] and proof["actual_python_pid"] == json.loads(result.stdout)["pid"]
 
 
+def test_owned_native_meter_initializes_without_opening_any_process(tmp_path):
+    receipt, _ = child(tmp_path, """
+import sys
+from tools.public_worker_guard import install
+install(sys.argv[1])
+from tools.bench_cleanup import NativeMeter
+meter=NativeMeter()
+assert meter.handles==meter.pids==[]
+assert meter.peaks()==meter.finish()==[]
+""")
+    assert guard.verify_receipts(receipt)["verified"]
+    record = json.loads(receipt.read_bytes())
+    assert {"caller": "tools.bench_cleanup", "dll": "psapi"} in record["reviewed_dependency_dlls"]
+
+
+@pytest.mark.parametrize("name", ["psapi", "user32"])
+def test_unreviewed_memory_or_owner_ui_dll_is_still_refused(tmp_path, name):
+    receipt, _ = child(tmp_path, f"""
+import ctypes,sys
+from tools.public_worker_guard import install
+install(sys.argv[1])
+try:ctypes.WinDLL({name!r})
+except AssertionError:pass
+else:raise AssertionError('Unreviewed native DLL was permitted')
+""")
+    assert json.loads(receipt.read_bytes())["blocked_attempts"] == ["ctypes.WinDLL:" + name]
+    with pytest.raises(ValueError, match="refused qualification"):
+        guard.verify_receipts(receipt)
+
+
 @pytest.mark.parametrize("module", ["sounddevice", "soundcard", "pynput", "pyperclip"])
 def test_audio_and_input_sdk_body_is_never_initialized(tmp_path, module):
     receipt, _ = child(tmp_path, f"""

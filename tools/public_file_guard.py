@@ -69,6 +69,12 @@ def install(receipt_path):
                     caller == "truststore._windows"
                     and str(name).lower() == "crypt32.dll"
                 )
+                or (
+                    # NativeMeter queries memory only through handles obtained
+                    # from its own WindowsJobProcess children; no enumeration.
+                    caller == "tools.bench_cleanup"
+                    and str(name).lower() in ["psapi", "psapi.dll"]
+                )
             )
             if not allowed:
                 attempts.append("ctypes.WinDLL:" + str(name))
