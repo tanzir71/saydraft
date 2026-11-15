@@ -8,13 +8,14 @@ const index = JSON.parse(readFileSync('storybook-static/index.json', 'utf8'));
 const stories = (Object.values(index.entries) as Entry[]).filter(({ type }) => type === 'story');
 const required = ['NavPill', 'Button', 'Eyebrow', 'SerifHeading', 'Sheet', 'Ribbon', 'BarDemo', 'EditChip',
   'BeforeAfterCard', 'FeatureRow', 'StyleSwitcher', 'KeyCaps', 'StatBlock', 'PrivacyFacts', 'CompareTable',
-  'FAQ', 'DownloadCard', 'CreditsBand', 'Footer', 'AnnouncementBar', 'TableOfContents', 'Callout', 'CodeBlock'];
+  'FAQ', 'DownloadCard', 'CreditsBand', 'Footer', 'AnnouncementBar', 'TableOfContents', 'Callout', 'CodeBlock',
+  'Mark', 'Keycap', 'Landing'];
 const storyUrl = (id: string) => `/iframe.html?id=${id}&viewMode=story&globals=motion:reduced`;
 
 test('built Storybook covers every specified component and all declared states', async () => {
   const components = [...new Set(stories.map(({ title }) => title.split('/').at(-1)))];
   expect(components.sort()).toEqual([...required].sort());
-  expect(stories).toHaveLength(73); // Includes real-count and zero-count repository-credit states.
+  expect(stories).toHaveLength(94); // Existing 73 plus v2 Mark, nine keycaps, nine sections, two buttons.
   expect(new Set(stories.map(({ id }) => id)).size).toBe(stories.length);
 });
 
@@ -30,7 +31,8 @@ for (const { id, title } of stories) {
       return route.continue();
     });
     await page.goto(storyUrl(id));
-    await expect(page.locator('#storybook-root')).not.toBeEmpty();
+    if (title.endsWith('/Mark')) await expect(page.locator('#storybook-root svg')).toBeVisible();
+    else await expect(page.locator('#storybook-root')).not.toBeEmpty();
     await page.evaluate(() => document.fonts.ready);
     await expect(page.locator('.sb-errordisplay')).toBeHidden();
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);

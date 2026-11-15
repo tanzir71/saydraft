@@ -1,0 +1,64 @@
+.keycap {
+  --s: 48px;
+  display: inline-block;
+  flex: 0 0 var(--s);
+  width: var(--s);
+  height: var(--s);
+  position: relative;
+  border-radius: 20%;
+  background: #cfcec7;
+  color: var(--color-ink);
+  box-shadow:
+    0 calc(0.08 * var(--s)) calc(0.16 * var(--s)) #00000038,
+    0 1px 1px #0000002e;
+  font: 500 max(11px, calc(0.15 * var(--s)))/1.2 var(--font-body);
+  text-align: left;
+}
+.keycap[data-size="M"] {
+  --s: 88px;
+}
+.keycap[data-size="L"] {
+  --s: 128px;
+}
+.face {
+  position: absolute;
+  inset: 4.5% 7% auto;
+  height: 80%;
+  border-radius: 15%;
+  padding: 12%;
+  display: flex;
+  flex-direction: column;
+  gap: 4%;
+  background: linear-gradient(#fffffc, #ecebe6);
+  box-shadow: inset 0 1px 0 #ffffffb3;
+  transition: transform var(--motion-fast) var(--motion-ease);
+}
+.face svg {
+  width: calc(0.16 * var(--s));
+  height: calc(0.16 * var(--s));
+  flex-shrink: 0;
+}
+.keycap[data-tone="dark"] {
+  background: #050505;
+  color: var(--color-on-dark);
+}
+.keycap[data-tone="dark"] .face {
+  background: linear-gradient(#34342f, #1b1b1a);
+  box-shadow: inset 0 1px 0 #ffffff1a;
+}
+.keycap[data-tone="signal"] {
+  background: #d9411f;
+}
+.keycap[data-tone="signal"] .face {
+  background: linear-gradient(#ff8466, #ff5b3a);
+}
+.keycap:hover .face,
+.keycap:active .face {
+  transform: translateY(3px);
+}
+@media (forced-colors: active) {
+  .keycap,
+  .face {
+    border: 1px solid ButtonText;
+  }
+}

@@ -28,7 +28,7 @@ def export(output, extra_images=None):
         records.append(dict(path=relative, original=origin, sha256=digest))
 
     paths = subprocess.check_output(['git', 'ls-files', '--', 'saydraft/ui', 'saydraft/app.py',
-        'assets/fonts', 'assets/tray', 'design/tokens.json'], cwd=ROOT, text=True).splitlines()
+        'assets/fonts', 'assets/tray', 'design/app-tokens.json'], cwd=ROOT, text=True).splitlines()
     for name in paths:
         path = ROOT / name
         if path.is_file():
@@ -81,7 +81,7 @@ This is a reference bundle, not another application or the website landing page.
 
 - `source/saydraft/ui/`: current Qt widgets, layouts, components and themes.
 - `source/saydraft/app.py.txt`: the app shell and UI/controller connections.
-- `source/design/tokens.json`: shared colors, typography and spacing tokens.
+- `source/design/app-tokens.json`: desktop colors, typography and spacing tokens.
 - `source/assets/fonts/` and `source/assets/tray/`: actual font/icon assets and their notices.
 - `images/`: retained gallery examples plus any `current-` microphone captures.
 - `guides/`: setup, microphone, accessibility and Notes behavior to preserve.

@@ -1,26 +1,97 @@
-import styles from './Footer.module.css';
-
+import styles from "./Footer.module.css";
+import { Mark } from "../Mark/Mark";
 const comparisons = [
-  ['wispr-flow-alternative/', 'Wispr Flow'], ['typeless-alternative/', 'Typeless'],
-  ['superwhisper-alternative-windows/', 'Superwhisper'], ['windows-voice-typing-alternative/', 'Windows voice typing'],
-  ['dragon-alternative/', 'Dragon'],
-] as const;
-export function Footer({ base = '/saydraft/' }: { base?: string }) {
-  return <footer className={`container site-footer ${styles.footer}`}>
-    <div className={styles.brand}><a className={styles.mark} href={base}>Saydraft<span aria-hidden="true">✳</span></a><p>Your words. Your machine.</p></div>
-    <div className={styles.products}>
-      <a href={`${base}download/`}><h2>Dictation</h2><p>Speak a thought. Make it a draft in your Windows apps.</p><span>Explore dictation ↗</span></a>
-      <a href={`${base}docs/notes/`}><h2>Notes</h2><p>Keep a thought close. Explore Scratchpad and experimental meeting notes.</p><span>Explore notes ↗</span></a>
-    </div>
-    <div className={styles.columns}>
-      <nav aria-label="Product links"><h2>Product</h2><a href={`${base}download/`}>Download and setup</a><a href={`${base}docs/getting-started/`}>Getting started</a><a href={`${base}languages/`}>Languages</a><a href={`${base}offline-dictation-windows/`}>Offline dictation guide</a><a href={`${base}dictation-for-developers/`}>For developers</a></nav>
-      <nav aria-label="Compare dictation tools"><h2>Compare</h2>{comparisons.map(([href, label]) => <a href={`${base}${href}`} key={href}>{label}</a>)}</nav>
-      <nav aria-label="Documentation links"><h2>Docs</h2><a href={`${base}docs/`}>Documentation</a><a href={`${base}docs/shortcuts/`}>Shortcuts</a><a href={`${base}docs/styles/`}>Styles</a><a href={`${base}docs/dictionary/`}>Dictionary</a><a href={`${base}docs/models/`}>Local models</a><a href={`${base}docs/faq/`}>FAQ</a></nav>
-      <nav aria-label="Project links"><h2>Project</h2><a href="https://github.com/tanzir71/saydraft">GitHub ↗</a><a href={`${base}demo/`}>Interactive demo</a><a href="https://github.com/tanzir71/saydraft/blob/main/LICENSE">MIT license ↗</a><a href={`${base}credits/`}>Credits</a><a href={`${base}privacy/`}>Privacy</a><a href={`${base}changelog/`}>Changelog</a></nav>
-    </div>
-    <div className={styles.bottom}><small>Free, open-source dictation for Windows.</small><nav aria-label="Creator links">
-      <a href="https://tanziro.com" target="_blank" rel="noopener">Built by tanziro.com</a>
-      <a href="https://buymeacoffee.com/tanzir" target="_blank" rel="noopener">Support Saydraft ↗</a>
-    </nav></div>
-  </footer>;
+  ["wispr-flow-alternative/", "Wispr Flow"],
+  ["typeless-alternative/", "Typeless"],
+  ["superwhisper-alternative-windows/", "Superwhisper"],
+  ["windows-voice-typing-alternative/", "Windows voice typing"],
+  ["dragon-alternative/", "Dragon"],
+];
+export function Footer({ base = "/saydraft/" }: { base?: string }) {
+  const columns = [
+    {
+      title: "Product",
+      label: "Product links",
+      links: [
+        ["download/", "Download"],
+        ["docs/getting-started/", "Getting started"],
+        ["changelog/", "Changelog"],
+        ["credits/", "Credits"],
+      ],
+    },
+    {
+      title: "Learn",
+      label: "Documentation links",
+      links: [
+        ["offline-dictation-windows/", "Guides"],
+        ["docs/", "Developer docs"],
+        ["privacy/", "Privacy"],
+        ["llms.txt", "llms.txt"],
+      ],
+    },
+    {
+      title: "Languages",
+      label: "Language links",
+      links: [
+        ["languages/bengali/", "Bengali"],
+        ["languages/japanese/", "Japanese"],
+        ["languages/spanish/", "Spanish"],
+        ["languages/", "All languages ↗"],
+      ],
+    },
+    { title: "Compare", label: "Compare dictation tools", links: comparisons },
+  ];
+  return (
+    <footer className={`container site-footer ${styles.footer}`}>
+      <div className={styles.top}>
+        <div className={styles.brand}>
+          <a className={styles.mark} href={base}>
+            saydraft
+            <Mark size={18} />
+          </a>
+          <p>
+            Free, offline dictation for Windows. Speak messy, paste polished.
+          </p>
+        </div>
+        <div className={styles.columns}>
+          {columns.map(({ title, label, links }) => (
+            <nav aria-label={label} key={title}>
+              <h2 className="eyebrow">{title}</h2>
+              {links.map(([path, text]) => (
+                <a href={`${base}${path}`} key={path}>
+                  {text}
+                </a>
+              ))}
+            </nav>
+          ))}
+        </div>
+      </div>
+      <div className={styles.giant} aria-hidden="true">
+        saydraft
+        <Mark size={117} />
+      </div>
+      <div className={styles.bottom}>
+        <p>
+          <a href="https://tanziro.com" target="_blank" rel="noopener">
+            Built by tanziro.com
+          </a>{" "}
+          ·{" "}
+          <a href="https://github.com/tanzir71/saydraft/blob/main/LICENSE">
+            MIT License
+          </a>{" "}
+          · Offline by design
+        </p>
+        <nav aria-label="Creator links">
+          <a
+            href="https://buymeacoffee.com/tanzir"
+            target="_blank"
+            rel="noopener"
+          >
+            Support the project ↗
+          </a>
+          <a href="https://github.com/tanzir71/saydraft">GitHub ↗</a>
+        </nav>
+      </div>
+    </footer>
+  );
 }

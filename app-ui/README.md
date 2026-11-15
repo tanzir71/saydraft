@@ -5,7 +5,7 @@ This is a reference bundle, not another application or the website landing page.
 
 - `source/saydraft/ui/`: current Qt widgets, layouts, components and themes.
 - `source/saydraft/app.py.txt`: the app shell and UI/controller connections.
-- `source/design/tokens.json`: shared colors, typography and spacing tokens.
+- `source/design/tokens.json`: desktop colors, typography and spacing captured with this reference. The editable desktop palette is now `../design/app-tokens.json`; website v2 has its own values in `../design/tokens.json`.
 - `source/assets/fonts/` and `source/assets/tray/`: actual font/icon assets and their notices.
 - `images/`: retained gallery examples plus any `current-` microphone captures.
 - `guides/`: setup, microphone, accessibility and Notes behavior to preserve.

@@ -17,10 +17,11 @@ test('home is local, responsive, and light on JavaScript', async ({ page, reques
   });
   await page.goto('./');
   await page.evaluate(() => document.fonts.ready);
-  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Speak messy.Paste polished.');
-  expect(await page.getByRole('heading', { level: 1 }).evaluate((heading) => parseFloat(getComputedStyle(heading).fontSize))).toBeGreaterThanOrEqual(56);
+  await expect(page.getByRole('heading', { level: 1 })).toContainText('Speak um,');
+  await expect(page.getByRole('heading', { level: 1 })).toContainText('Paste polished.');
+  expect(await page.getByRole('heading', { level: 1 }).evaluate((heading) => parseFloat(getComputedStyle(heading).fontSize))).toBeGreaterThanOrEqual(50);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
-  for (const selector of ['.credits-sheet', '.thought-sheet', '.final-sheet']) {
+  for (const selector of ['.facts-sheet', '.privacy-sheet', '.final-sheet']) {
     const panel = await page.locator(selector).boundingBox();
     const content = await page.locator(`${selector} > .container`).boundingBox();
     expect(panel && content).toBeTruthy();
@@ -29,7 +30,7 @@ test('home is local, responsive, and light on JavaScript', async ({ page, reques
     expect(content!.x).toBeGreaterThan(panel!.x);
   }
   await expect(page.getByRole('contentinfo').getByRole('link', { name: 'Built by tanziro.com' })).toHaveAttribute('href', 'https://tanziro.com');
-  await expect(page.getByRole('contentinfo').getByRole('link', { name: 'Support Saydraft' })).toHaveAttribute('href', 'https://buymeacoffee.com/tanzir');
+  await expect(page.getByRole('contentinfo').getByRole('link', { name: 'Support the project' })).toHaveAttribute('href', 'https://buymeacoffee.com/tanzir');
   const scripts = await page.locator('script[src]').evaluateAll((nodes) => nodes.map((node) => (node as HTMLScriptElement).src));
   const inline = await page.locator('script:not([src]):not([type="application/ld+json"])').allTextContents();
   let bytes = gzipSync(inline.join('\n')).length;
@@ -47,7 +48,7 @@ test('home is local, responsive, and light on JavaScript', async ({ page, reques
   const viewport = testInfo.outputPath('viewport.png');
   await page.screenshot({ path: viewport, animations: 'disabled' });
   await testInfo.attach('Viewport', { path: viewport, contentType: 'image/png' });
-  for (const [name, selector] of [['sheet', '.credits-sheet'], ['footer', '.site-footer']]) {
+  for (const [name, selector] of [['sheet', '.facts-sheet'], ['footer', '.site-footer']]) {
     const path = testInfo.outputPath(`${name}.png`);
     await page.locator(selector).screenshot({ path, animations: 'disabled' });
     await testInfo.attach(name, { path, contentType: 'image/png' });
@@ -58,8 +59,10 @@ test('native navigation, questions, and reduced-motion simulation work', async (
   await page.goto('./');
   await page.getByRole('button', { name: 'Play the example' }).click();
   await expect(page.getByRole('status')).toContainText('Example finished');
-  await expect(page.locator('[data-bar-demo]')).toHaveAttribute('data-state', 'inserted');
+  await expect(page.locator('[data-demo-scene] [data-bar-demo]')).toHaveAttribute('data-state', 'inserted');
   const question = page.locator('summary').filter({ hasText: 'Does my voice leave my PC?' });
+  await question.click();
+  await expect(page.locator('.faq-section details').first()).not.toHaveAttribute('open', '');
   await question.click();
   await expect(page.getByText('Speech recognition and text cleanup run locally.', { exact: false })).toBeVisible();
   const menu = page.getByLabel('Navigation menu');
@@ -163,11 +166,11 @@ test('language guides are linked, indexable and accurately describe shared model
   ];
   await page.goto('./');
   const orderedLabels = guides.map(([, name]) => `${name} voice typing ↗`);
-  await expect(page.locator('.language-links a')).toHaveText(orderedLabels);
-  for (const [slug, name] of guides) {
-    await expect(page.locator('.language-section').getByRole('link', { name: `${name} voice typing` })).toHaveAttribute('href', `/saydraft/languages/${slug}/`);
+  await expect(page.locator('.language-wall .native-name + .eyebrow')).toHaveText(guides.map(([, name]) => name));
+  for (const [slug] of guides) {
+    await expect(page.locator(`.language-wall a[href='/saydraft/languages/${slug}/']`)).toHaveAttribute('href', `/saydraft/languages/${slug}/`);
   }
-  await page.locator('.language-section').getByRole('link', { name: 'Korean voice typing' }).click();
+  await page.locator(".language-wall a[href='/saydraft/languages/korean/']").click();
   await expect(page).toHaveURL(/\/languages\/korean\/$/);
   await page.goto('./languages/');
   await expect(page.locator('.language-grid h2 a')).toHaveText(orderedLabels);
@@ -220,8 +223,8 @@ test('content and native questions work with JavaScript disabled', async ({ brow
   await page.locator('summary').filter({ hasText: 'Is it free?' }).click();
   await expect(page.getByText('Saydraft is free and open source under the MIT license.', { exact: false })).toBeVisible();
   await page.getByRole('radio', { name: 'Casual', exact: true }).check();
-  await expect(page.getByText('Can you send the notes when you get a chance?', { exact: true })).toBeVisible();
-  await page.locator('.language-section').getByRole('link', { name: 'Thai voice typing' }).click();
+  await expect(page.locator('.styles-tile').getByText('Can you send the notes when you get a chance?', { exact: true })).toBeVisible();
+  await page.locator('.language-wall a[href="/saydraft/languages/thai/"]').click();
   await expect(page.getByRole('heading', { level: 1 })).toContainText('Thai');
   await expect(page.locator('.notice')).toContainText('All languages');
   await page.goto(`${siteOrigin}/saydraft/download/`);
@@ -272,7 +275,7 @@ test('built HTML follows the document contract', async () => {
   }
   for (const file of htmlFiles('dist')) {
     const report = await validator.validateFile(file);
-    expect(report.valid, JSON.stringify(report.results, null, 2)).toBe(true);
+    expect(report.valid, JSON.stringify(report.results.map(({ filePath, messages }) => ({ filePath, messages })), null, 2)).toBe(true);
   }
 });
 

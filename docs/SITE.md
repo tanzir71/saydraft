@@ -4,15 +4,18 @@ The Astro site in `site/` now builds forty-four indexable static pages plus a
 custom 404 and a noindex demo, including nineteen language guides, their overview and twenty-three
 dated MDX content pages. [Technical SEO](SITE_SEO.md) describes the generated
 social images, sitemap index, readable exports and remaining external acceptance.
-This is an early P9 foundation, brought forward at the owner's request. The
-approved §9 tokens are shared through `design/tokens.json`; the dependency-free
-generator emits CSS and light/dark Qt QSS. Qt installation and the initial gallery
-are described in `docs/THEME.md`. The full component library is implemented;
-Home now implements the §9.6 composition with actual Qt screenshots, dated comparisons
-and the expanded footer; see [Home implementation](SITE_HOME.md). External SEO
-acceptance, the legacy transition and final P9 acceptance remain open. The
-[four-example demo](SITE_DEMO.md) is now ported into Astro. See [the component library](SITE_COMPONENTS.md) for its 23 components,
-73 Storybook states, three-width baselines and static page integrations.
+The owner-supplied [landing v2 handover](../design/LANDING_V2_HANDOVER.md) now
+sets the homepage and shared website appearance. Its implementation uses Familjen
+Grotesk, tactile keycaps, the local Bar illustration, inset graphite sheets and
+an alphabetic nineteen-language wall. See [the v2 implementation notes](SITE_LANDING_V2.md).
+Website tokens are in `design/tokens.json`; the unchanged desktop palette is
+retained in `design/app-tokens.json`. The dependency-free generator still checks
+all twelve website/Qt outputs. This redesign does not change the desktop build.
+
+The [component library](SITE_COMPONENTS.md) has 26 component groups and 94
+Storybook states, including the nine v2 section examples. The [four-example demo](SITE_DEMO.md)
+and existing documentation, language and comparison routes share the new fonts
+and palette. External SEO acceptance and the legacy-site transition remain open.
 
 The original pages are Home, Download, Getting started, Privacy and Credits. The
 download page discloses development status and provides actual source commands;
@@ -50,7 +53,7 @@ static HTML without shipping a React hydration runtime to readers.
 The owner requested outer gutters around rounded color sheets and explicit
 creator credit. The night/deep stack and final CTA now use the shared page gutter,
 with their own internal content padding. The footer uses the owner's INTRX pattern:
-"Built by tanziro.com" linking to `https://tanziro.com`, plus "Support Saydraft"
+"Built by tanziro.com" linking to `https://tanziro.com`, plus "Support the project"
 linking to `https://buymeacoffee.com/tanzir`. Both are ordinary links; no external
 widget, image, script or tracking request is introduced. Browser checks cover
 the panel gutters/content inset and both footer destinations at all three widths.
@@ -65,9 +68,11 @@ baselines and representative language-page captures are reviewed.
 
 Button variants now retain their own foreground colors inside document pages;
 the prose link rule can no longer produce dark text on a dark CTA. Focus rings
-use a contrasting color for paper and dark surfaces. All 15 browser checks pass,
-and 27 actual normal/hover/focus checks across the three widths confirm at least
-13.27:1 text/arrow contrast and visible keyboard focus.
+use a contrasting color for paper and dark surfaces. The earlier CTA repair
+included 27 normal/hover/focus checks across three widths. The current v2 suite
+also checks rendered text contrast and keyboard outlines on the hero, navigation,
+privacy, cleanup tabs and language card. Reduced motion disables transitions
+entirely so focus styles appear immediately. See [current verification](SITE_LANDING_V2.md).
 
 ## Develop and verify
 
@@ -293,3 +298,15 @@ statements above describe earlier records and are not current availability.
 README/Download text now names that pre-release and its older source. This
 checkpoint changes no release state and does not promote it as current-source
 binary qualification.
+
+## Landing v2 checkpoint, 15 November 2026
+
+The owner-provided v2 exports now define Home and the shared website appearance.
+The final local build, 19 content cases and 81 site cases pass. All 303 component
+cases are covered by the ordinary full run plus the focused repeat after nine
+intentional tone-label baseline updates. All 21 Lighthouse runs over seven URLs
+score 100/100/100; maximum LCP is 960ms and CLS 0.02064. The faded hero word uses
+50% opacity to meet large-text contrast instead of the reference's 24%.
+[Implementation and verification](SITE_LANDING_V2.md) record the final captures,
+source/output hashes, font budget and preserved original failures. Publication
+continues through the separate manual GitHub Pages workflow.

@@ -1,0 +1,51 @@
+{
+  "color": {
+    "paper": "#F5F2E9",
+    "paperRaised": "#ECE7DA",
+    "ink": "#141414",
+    "inkMuted": "#5B5A55",
+    "night": "#111111",
+    "deep": "#1C2740",
+    "onDark": "#F5F2E9",
+    "onDarkMuted": "#B9B6AC",
+    "signal": "#FF5B3A",
+    "mist": "#DDE6F6",
+    "hairline": "rgba(20,20,20,0.08)",
+    "barBg": "#141414",
+    "barFg": "#F5F2E9",
+    "barWarn": "#B45309",
+    "barError": "#B42318"
+  },
+  "font": {
+    "display": "'Instrument Serif', 'Iowan Old Style', Georgia, serif",
+    "body": "'Geist', 'Segoe UI', system-ui, sans-serif",
+    "mono": "'Geist Mono', 'Cascadia Code', ui-monospace, monospace"
+  },
+  "type": {
+    "displayXL": "clamp(56px, 9vw, 128px)/0.95 -0.035em",
+    "displayL": "clamp(44px, 6.5vw, 96px)/0.98 -0.03em",
+    "displayM": "clamp(34px, 4.5vw, 64px)/1.02 -0.025em",
+    "h3": "clamp(26px, 2.6vw, 40px)/1.1 -0.015em",
+    "bodyL": "19px/1.5 0",
+    "body": "16px/1.55 0",
+    "eyebrow": "12px/1.2 0.14em uppercase mono"
+  },
+  "radius": {
+    "sheet": "clamp(28px, 5vw, 64px)",
+    "card": "20px",
+    "pill": "999px",
+    "chip": "999px"
+  },
+  "space": {
+    "section": "clamp(96px, 12vw, 168px)",
+    "gutter": "clamp(20px, 5vw, 64px)",
+    "max": "1200px"
+  },
+  "motion": {
+    "ease": "cubic-bezier(.2,.7,.2,1)",
+    "fast": "160ms",
+    "base": "320ms",
+    "slow": "700ms"
+  },
+  "elevation": "none (flat; no shadows anywhere)"
+}

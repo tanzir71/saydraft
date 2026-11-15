@@ -1,0 +1,221 @@
+<testsuites id="" name="" tests="81" failures="0" skipped="0" errors="0" time="136.780565">
+<testsuite name="demo.spec.ts" timestamp="2026-11-15T17:31:55.619Z" hostname="mobile" tests="4" failures="0" skipped="0" time="12.236" errors="0">
+<testcase name="all prepared examples play locally without devices, uploads, clipboard or insertion" classname="demo.spec.ts" time="2.759">
+</testcase>
+<testcase name="play, reset, changing examples and changing motion preference cancel stale results" classname="demo.spec.ts" time="4.039">
+</testcase>
+<testcase name="native keyboard choices, raw disclosure and focus stay usable at every width" classname="demo.spec.ts" time="2.801">
+</testcase>
+<testcase name="no-JavaScript demo keeps every prepared pair readable and stays outside search exports" classname="demo.spec.ts" time="2.637">
+</testcase>
+</testsuite>
+<testsuite name="docs.spec.ts" timestamp="2026-11-15T17:31:55.619Z" hostname="mobile" tests="4" failures="0" skipped="0" time="23.527" errors="0">
+<testcase name="all documentation and resources are readable, dated and navigable" classname="docs.spec.ts" time="13.87">
+</testcase>
+<testcase name="footer documentation links and contents reach nested offline guidance" classname="docs.spec.ts" time="2.162">
+</testcase>
+<testcase name="model guidance discloses complete default and optional transfers" classname="docs.spec.ts" time="1.879">
+</testcase>
+<testcase name="documentation, model tables and original font notices work without JavaScript" classname="docs.spec.ts" time="5.616">
+</testcase>
+</testsuite>
+<testsuite name="home.spec.ts" timestamp="2026-11-15T17:31:55.619Z" hostname="mobile" tests="5" failures="0" skipped="0" time="14.437" errors="0">
+<testcase name="v2 explains local setup and keeps devices, sources, languages and creator credit intact" classname="home.spec.ts" time="2.859">
+</testcase>
+<testcase name="comparison sources stay dated and its table scrolls by keyboard within the page" classname="home.spec.ts" time="2.288">
+</testcase>
+<testcase name="hero simulation progresses with motion and finishes directly with reduced motion" classname="home.spec.ts" time="5.494">
+</testcase>
+<testcase name="cleanup tabs support keyboard navigation, focus and all five examples" classname="home.spec.ts" time="1.567">
+</testcase>
+<testcase name="v2 fits narrow phones through large desktops and keeps the design column" classname="home.spec.ts" time="2.229">
+</testcase>
+</testsuite>
+<testsuite name="seo.spec.ts" timestamp="2026-11-15T17:31:55.619Z" hostname="mobile" tests="4" failures="0" skipped="0" time="33.594" errors="0">
+<testcase name="every indexable page has a distinct working social image and complete metadata" classname="seo.spec.ts" time="27.815">
+</testcase>
+<testcase name="application and FAQ data agree with current source and visible content" classname="seo.spec.ts" time="3.564">
+</testcase>
+<testcase name="sitemap, readable exports and IndexNow payload cover the exact indexable pages" classname="seo.spec.ts" time="0.935">
+</testcase>
+<testcase name="custom 404 is useful without JavaScript and stays outside indexing" classname="seo.spec.ts" time="1.28">
+</testcase>
+</testsuite>
+<testsuite name="site.spec.ts" timestamp="2026-11-15T17:31:55.619Z" hostname="mobile" tests="10" failures="0" skipped="0" time="56.499" errors="0">
+<testcase name="home is local, responsive, and light on JavaScript" classname="site.spec.ts" time="5.206">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|C:\Users\tanzir\Desktop\voice_tray\site\test-results\site-home-is-local-responsive-and-light-on-JavaScript-mobile\attachments\Viewport-445aba469828ca6a262dccb7aa3a6bbb3e0bc15a.png]]
+
+[[ATTACHMENT|C:\Users\tanzir\Desktop\voice_tray\site\test-results\site-home-is-local-responsive-and-light-on-JavaScript-mobile\attachments\sheet-b92601c61e063991a0870a726966ee024b04bbca.png]]
+
+[[ATTACHMENT|C:\Users\tanzir\Desktop\voice_tray\site\test-results\site-home-is-local-responsive-and-light-on-JavaScript-mobile\attachments\footer-897afd74a13d5b1bde0174b3b369bf75f2cfc372.png]]
+]]>
+</system-out>
+</testcase>
+<testcase name="native navigation, questions, and reduced-motion simulation work" classname="site.spec.ts" time="1.771">
+</testcase>
+<testcase name="all public pages have working local links and unique metadata" classname="site.spec.ts" time="20.647">
+</testcase>
+<testcase name="guide keyboard navigation exposes the skip link and reaches main content" classname="site.spec.ts" time="1.271">
+</testcase>
+<testcase name="dated guides have visible sources, linked schemas and local-only page loads" classname="site.spec.ts" time="8.74">
+</testcase>
+<testcase name="language guides are linked, indexable and accurately describe shared models" classname="site.spec.ts" time="13.068">
+</testcase>
+<testcase name="content and native questions work with JavaScript disabled" classname="site.spec.ts" time="2.182">
+</testcase>
+<testcase name="source command copy and guide contents work in the static site" classname="site.spec.ts" time="0.941">
+</testcase>
+<testcase name="built HTML follows the document contract" classname="site.spec.ts" time="1.549">
+</testcase>
+<testcase name="navigation fits between tablet and desktop widths" classname="site.spec.ts" time="1.124">
+</testcase>
+</testsuite>
+<testsuite name="demo.spec.ts" timestamp="2026-11-15T17:31:55.619Z" hostname="tablet" tests="4" failures="0" skipped="0" time="12.8" errors="0">
+<testcase name="all prepared examples play locally without devices, uploads, clipboard or insertion" classname="demo.spec.ts" time="3.333">
+</testcase>
+<testcase name="play, reset, changing examples and changing motion preference cancel stale results" classname="demo.spec.ts" time="3.309">
+</testcase>
+<testcase name="native keyboard choices, raw disclosure and focus stay usable at every width" classname="demo.spec.ts" time="4.602">
+</testcase>
+<testcase name="no-JavaScript demo keeps every prepared pair readable and stays outside search exports" classname="demo.spec.ts" time="1.556">
+</testcase>
+</testsuite>
+<testsuite name="docs.spec.ts" timestamp="2026-11-15T17:31:55.619Z" hostname="tablet" tests="4" failures="0" skipped="0" time="14.691" errors="0">
+<testcase name="all documentation and resources are readable, dated and navigable" classname="docs.spec.ts" time="8.32">
+</testcase>
+<testcase name="footer documentation links and contents reach nested offline guidance" classname="docs.spec.ts" time="1.672">
+</testcase>
+<testcase name="model guidance discloses complete default and optional transfers" classname="docs.spec.ts" time="1.521">
+</testcase>
+<testcase name="documentation, model tables and original font notices work without JavaScript" classname="docs.spec.ts" time="3.178">
+</testcase>
+</testsuite>
+<testsuite name="home.spec.ts" timestamp="2026-11-15T17:31:55.619Z" hostname="tablet" tests="5" failures="0" skipped="0" time="11.13" errors="0">
+<testcase name="v2 explains local setup and keeps devices, sources, languages and creator credit intact" classname="home.spec.ts" time="1.811">
+</testcase>
+<testcase name="comparison sources stay dated and its table scrolls by keyboard within the page" classname="home.spec.ts" time="1.386">
+</testcase>
+<testcase name="hero simulation progresses with motion and finishes directly with reduced motion" classname="home.spec.ts" time="5.038">
+</testcase>
+<testcase name="cleanup tabs support keyboard navigation, focus and all five examples" classname="home.spec.ts" time="1.199">
+</testcase>
+<testcase name="v2 fits narrow phones through large desktops and keeps the design column" classname="home.spec.ts" time="1.696">
+</testcase>
+</testsuite>
+<testsuite name="seo.spec.ts" timestamp="2026-11-15T17:31:55.619Z" hostname="tablet" tests="4" failures="0" skipped="0" time="19.557" errors="0">
+<testcase name="every indexable page has a distinct working social image and complete metadata" classname="seo.spec.ts" time="15.659">
+</testcase>
+<testcase name="application and FAQ data agree with current source and visible content" classname="seo.spec.ts" time="2.399">
+</testcase>
+<testcase name="sitemap, readable exports and IndexNow payload cover the exact indexable pages" classname="seo.spec.ts" time="0.431">
+</testcase>
+<testcase name="custom 404 is useful without JavaScript and stays outside indexing" classname="seo.spec.ts" time="1.068">
+</testcase>
+</testsuite>
+<testsuite name="site.spec.ts" timestamp="2026-11-15T17:31:55.619Z" hostname="tablet" tests="10" failures="0" skipped="0" time="40.572" errors="0">
+<testcase name="home is local, responsive, and light on JavaScript" classname="site.spec.ts" time="3.841">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|C:\Users\tanzir\Desktop\voice_tray\site\test-results\site-home-is-local-responsive-and-light-on-JavaScript-tablet\attachments\Viewport-1c93c0582465d287093656707391477a15d97d2d.png]]
+
+[[ATTACHMENT|C:\Users\tanzir\Desktop\voice_tray\site\test-results\site-home-is-local-responsive-and-light-on-JavaScript-tablet\attachments\sheet-35541c75c8381102ce0ee83af638e3f21bbe2afd.png]]
+
+[[ATTACHMENT|C:\Users\tanzir\Desktop\voice_tray\site\test-results\site-home-is-local-responsive-and-light-on-JavaScript-tablet\attachments\footer-71d4bde2d5ba721dffae035d049c38f277c9a2b3.png]]
+]]>
+</system-out>
+</testcase>
+<testcase name="native navigation, questions, and reduced-motion simulation work" classname="site.spec.ts" time="1.38">
+</testcase>
+<testcase name="all public pages have working local links and unique metadata" classname="site.spec.ts" time="11.266">
+</testcase>
+<testcase name="guide keyboard navigation exposes the skip link and reaches main content" classname="site.spec.ts" time="0.674">
+</testcase>
+<testcase name="dated guides have visible sources, linked schemas and local-only page loads" classname="site.spec.ts" time="6.064">
+</testcase>
+<testcase name="language guides are linked, indexable and accurately describe shared models" classname="site.spec.ts" time="11.049">
+</testcase>
+<testcase name="content and native questions work with JavaScript disabled" classname="site.spec.ts" time="1.63">
+</testcase>
+<testcase name="source command copy and guide contents work in the static site" classname="site.spec.ts" time="1.346">
+</testcase>
+<testcase name="built HTML follows the document contract" classname="site.spec.ts" time="1.961">
+</testcase>
+<testcase name="navigation fits between tablet and desktop widths" classname="site.spec.ts" time="1.361">
+</testcase>
+</testsuite>
+<testsuite name="demo.spec.ts" timestamp="2026-11-15T17:31:55.619Z" hostname="desktop" tests="4" failures="0" skipped="0" time="12.733" errors="0">
+<testcase name="all prepared examples play locally without devices, uploads, clipboard or insertion" classname="demo.spec.ts" time="3.242">
+</testcase>
+<testcase name="play, reset, changing examples and changing motion preference cancel stale results" classname="demo.spec.ts" time="3.963">
+</testcase>
+<testcase name="native keyboard choices, raw disclosure and focus stay usable at every width" classname="demo.spec.ts" time="1.215">
+</testcase>
+<testcase name="no-JavaScript demo keeps every prepared pair readable and stays outside search exports" classname="demo.spec.ts" time="4.313">
+</testcase>
+</testsuite>
+<testsuite name="docs.spec.ts" timestamp="2026-11-15T17:31:55.619Z" hostname="desktop" tests="4" failures="0" skipped="0" time="11.533" errors="0">
+<testcase name="all documentation and resources are readable, dated and navigable" classname="docs.spec.ts" time="6.727">
+</testcase>
+<testcase name="footer documentation links and contents reach nested offline guidance" classname="docs.spec.ts" time="1.173">
+</testcase>
+<testcase name="model guidance discloses complete default and optional transfers" classname="docs.spec.ts" time="1.016">
+</testcase>
+<testcase name="documentation, model tables and original font notices work without JavaScript" classname="docs.spec.ts" time="2.617">
+</testcase>
+</testsuite>
+<testsuite name="home.spec.ts" timestamp="2026-11-15T17:31:55.619Z" hostname="desktop" tests="5" failures="0" skipped="0" time="11.904" errors="0">
+<testcase name="v2 explains local setup and keeps devices, sources, languages and creator credit intact" classname="home.spec.ts" time="1.514">
+</testcase>
+<testcase name="comparison sources stay dated and its table scrolls by keyboard within the page" classname="home.spec.ts" time="1.325">
+</testcase>
+<testcase name="hero simulation progresses with motion and finishes directly with reduced motion" classname="home.spec.ts" time="5.231">
+</testcase>
+<testcase name="cleanup tabs support keyboard navigation, focus and all five examples" classname="home.spec.ts" time="0.874">
+</testcase>
+<testcase name="v2 fits narrow phones through large desktops and keeps the design column" classname="home.spec.ts" time="2.96">
+</testcase>
+</testsuite>
+<testsuite name="seo.spec.ts" timestamp="2026-11-15T17:31:55.619Z" hostname="desktop" tests="4" failures="0" skipped="0" time="29.759" errors="0">
+<testcase name="every indexable page has a distinct working social image and complete metadata" classname="seo.spec.ts" time="21.467">
+</testcase>
+<testcase name="application and FAQ data agree with current source and visible content" classname="seo.spec.ts" time="5.103">
+</testcase>
+<testcase name="sitemap, readable exports and IndexNow payload cover the exact indexable pages" classname="seo.spec.ts" time="1.614">
+</testcase>
+<testcase name="custom 404 is useful without JavaScript and stays outside indexing" classname="seo.spec.ts" time="1.575">
+</testcase>
+</testsuite>
+<testsuite name="site.spec.ts" timestamp="2026-11-15T17:31:55.619Z" hostname="desktop" tests="10" failures="0" skipped="0" time="45.327" errors="0">
+<testcase name="home is local, responsive, and light on JavaScript" classname="site.spec.ts" time="6.272">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|C:\Users\tanzir\Desktop\voice_tray\site\test-results\site-home-is-local-responsive-and-light-on-JavaScript-desktop\attachments\Viewport-921d0cbb773e63f05c60ad6a7f59d4edffc944b0.png]]
+
+[[ATTACHMENT|C:\Users\tanzir\Desktop\voice_tray\site\test-results\site-home-is-local-responsive-and-light-on-JavaScript-desktop\attachments\sheet-acab5f7595eb176fc35600539175887f01516e0e.png]]
+
+[[ATTACHMENT|C:\Users\tanzir\Desktop\voice_tray\site\test-results\site-home-is-local-responsive-and-light-on-JavaScript-desktop\attachments\footer-13e0dc63661eb1170de2220621a0a6454b1416e8.png]]
+]]>
+</system-out>
+</testcase>
+<testcase name="native navigation, questions, and reduced-motion simulation work" classname="site.spec.ts" time="1.521">
+</testcase>
+<testcase name="all public pages have working local links and unique metadata" classname="site.spec.ts" time="12.544">
+</testcase>
+<testcase name="guide keyboard navigation exposes the skip link and reaches main content" classname="site.spec.ts" time="0.693">
+</testcase>
+<testcase name="dated guides have visible sources, linked schemas and local-only page loads" classname="site.spec.ts" time="7.245">
+</testcase>
+<testcase name="language guides are linked, indexable and accurately describe shared models" classname="site.spec.ts" time="10.721">
+</testcase>
+<testcase name="content and native questions work with JavaScript disabled" classname="site.spec.ts" time="2.146">
+</testcase>
+<testcase name="source command copy and guide contents work in the static site" classname="site.spec.ts" time="1.013">
+</testcase>
+<testcase name="built HTML follows the document contract" classname="site.spec.ts" time="1.851">
+</testcase>
+<testcase name="navigation fits between tablet and desktop widths" classname="site.spec.ts" time="1.321">
+</testcase>
+</testsuite>
+</testsuites>

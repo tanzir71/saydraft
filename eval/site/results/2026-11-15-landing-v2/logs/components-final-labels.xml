@@ -1,0 +1,26 @@
+<testsuites id="" name="" tests="9" failures="0" skipped="0" errors="0" time="20.472975">
+<testsuite name="library.spec.ts" timestamp="2026-11-15T17:26:44.556Z" hostname="mobile" tests="3" failures="0" skipped="0" time="6.159" errors="0">
+<testcase name="Product/FeatureRow · product-featurerow--visual-left renders locally without overflow" classname="library.spec.ts" time="1.964">
+</testcase>
+<testcase name="Product/FeatureRow · product-featurerow--visual-right renders locally without overflow" classname="library.spec.ts" time="2.029">
+</testcase>
+<testcase name="Product/FeatureRow · product-featurerow--reduced-motion renders locally without overflow" classname="library.spec.ts" time="2.166">
+</testcase>
+</testsuite>
+<testsuite name="library.spec.ts" timestamp="2026-11-15T17:26:44.556Z" hostname="tablet" tests="3" failures="0" skipped="0" time="7.012" errors="0">
+<testcase name="Product/FeatureRow · product-featurerow--visual-left renders locally without overflow" classname="library.spec.ts" time="2.391">
+</testcase>
+<testcase name="Product/FeatureRow · product-featurerow--visual-right renders locally without overflow" classname="library.spec.ts" time="2.161">
+</testcase>
+<testcase name="Product/FeatureRow · product-featurerow--reduced-motion renders locally without overflow" classname="library.spec.ts" time="2.46">
+</testcase>
+</testsuite>
+<testsuite name="library.spec.ts" timestamp="2026-11-15T17:26:44.556Z" hostname="desktop" tests="3" failures="0" skipped="0" time="5.859" errors="0">
+<testcase name="Product/FeatureRow · product-featurerow--visual-left renders locally without overflow" classname="library.spec.ts" time="1.933">
+</testcase>
+<testcase name="Product/FeatureRow · product-featurerow--visual-right renders locally without overflow" classname="library.spec.ts" time="2.156">
+</testcase>
+<testcase name="Product/FeatureRow · product-featurerow--reduced-motion renders locally without overflow" classname="library.spec.ts" time="1.77">
+</testcase>
+</testsuite>
+</testsuites>

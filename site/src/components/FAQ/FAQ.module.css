@@ -1,8 +1,60 @@
-.faq { width: 100%; }
-.faq details { border-bottom: 1px solid var(--color-hairline); }
-.faq summary { display: flex; justify-content: space-between; align-items: center; gap: 24px; list-style: none; padding: 25px 0; font-size: 18px; }
-.faq summary::-webkit-details-marker { display: none; }
-.faq summary span { font: 26px/1 var(--font-display); }
-.faq details[open] summary span { transform: rotate(45deg); }
-.faq p { max-width: 65ch; padding: 0 36px 25px 0; font-size: 15px; line-height: 1.7; color: var(--color-ink-muted); }
-:global([data-sheet='night']) .faq p, :global([data-sheet='deep']) .faq p { color: var(--color-on-dark-muted); }
+.faq {
+  border-bottom: 1px solid #0f0f0e24;
+}
+.faq details {
+  border-top: 1px solid #0f0f0e24;
+  padding: 26px 0;
+}
+.faq details[open] {
+  padding-bottom: 30px;
+}
+.faq summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  list-style: none;
+  font: 500 21px/1.25 var(--font-display);
+  letter-spacing: -0.01em;
+}
+.faq summary::-webkit-details-marker {
+  display: none;
+}
+.faq summary span {
+  width: 32px;
+  height: 32px;
+  flex: 0 0 32px;
+  border-radius: 50%;
+  background: var(--color-sunk);
+  display: grid;
+  place-items: center;
+  font: 20px/1 var(--font-body);
+}
+.faq details[open] {
+  padding-bottom: 30px;
+}
+.faq details[open] summary span {
+  background: var(--color-ink);
+  color: var(--color-on-dark);
+  font-size: 0;
+}
+.faq details[open] summary span::after {
+  content: "−";
+  font-size: 20px;
+}
+.faq p {
+  max-width: 640px;
+  margin-top: 14px;
+  color: var(--color-ink-muted);
+  font: 16px/1.65 var(--font-body);
+}
+@media (max-width: 600px) {
+  .faq summary {
+    font-size: 19px;
+    gap: 16px;
+  }
+}
+:global([data-sheet="night"]) .faq p, :global([data-sheet="deep"]) .faq p { color: var(--color-on-dark-muted); }
+:global([data-sheet="night"]) .faq details, :global([data-sheet="deep"]) .faq details, :global([data-sheet="night"]) .faq, :global([data-sheet="deep"]) .faq { border-color: var(--color-hairline-dark); }
+:global([data-sheet="night"]) .faq summary span, :global([data-sheet="deep"]) .faq summary span { background: var(--color-graphite2); color: var(--color-on-dark); }
+:global([data-sheet="night"]) .faq details[open] summary span, :global([data-sheet="deep"]) .faq details[open] summary span { background: var(--color-on-dark); color: var(--color-ink); }

@@ -1,16 +1,128 @@
 .bar {
-  display: inline-flex; align-items: center; gap: 20px; background: var(--color-bar-bg); color: var(--color-bar-fg);
-  min-height: 72px; padding: 19px 25px; border-radius: var(--radius-pill); white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  width: max-content;
+  max-width: 100%;
+  gap: 14px;
+  padding: 8px 20px 8px 8px;
+  border: 1px solid #ffffff1a;
+  border-radius: var(--radius-pill);
+  background: var(--color-bar-bg);
+  color: var(--color-bar-fg);
+  box-shadow:
+    0 18px 40px -8px #00000047,
+    0 2px 4px #0003;
+  white-space: nowrap;
 }
-.wave { height: 36px; display: flex; align-items: center; gap: 3px; }
-.wave i { display: block; width: 3px; border-radius: 3px; background: currentColor; transform-origin: center; }
-.bar[data-state='listening'] .wave i { animation: listen 800ms ease-in-out infinite alternate; }
-.bar[data-state='idle'] .wave i { height: 4px !important; }
-.bar[data-state='inserted'] .wave { color: var(--color-mist); }
-.label { font: 400 12px/1 var(--font-mono); min-width: 128px; }
-.dot { width: 8px; height: 8px; background: var(--color-signal); border-radius: 50%; }
-.bar[data-state='idle'] .dot, .bar[data-state='inserted'] .dot { background: currentColor; }
-@keyframes listen { to { transform: scaleY(.28); } }
-@media (max-width: 520px) { .bar { gap: 13px; padding: 16px 20px; } .label { display: none; } }
-@media (prefers-reduced-motion: reduce) { .wave i { animation: none !important; } }
-:global([data-motion='reduced']) .wave i { animation: none !important; }
+.mic {
+  width: 40px;
+  height: 40px;
+  flex: 0 0 40px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #2a2a27;
+}
+.bar[data-state="listening"] .mic {
+  background: var(--color-signal);
+  color: var(--color-ink);
+}
+.wave {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  height: 30px;
+  flex-shrink: 1;
+  min-width: 24px;
+  overflow: hidden;
+}
+.wave i {
+  width: 3px;
+  min-width: 3px;
+  height: 3px;
+  background: currentColor;
+  border-radius: 3px;
+  opacity: 0.35;
+}
+.bar[data-state="listening"] .wave i {
+  height: var(--height);
+  opacity: 0.92;
+  animation: waveform 0.75s ease-in-out infinite alternate;
+}
+.bar[data-state="cleaning"] .wave i {
+  height: 5px;
+}
+.bar[data-state="cleaning"] .wave i:nth-child(3n) {
+  height: 8px;
+}
+.label {
+  font: 500 15px/1.2 var(--font-body);
+}
+.meta {
+  color: var(--color-on-dark-muted);
+  font: 400 11px/1.4 var(--font-mono);
+  letter-spacing: 0.04em;
+}
+.dot {
+  width: 8px;
+  height: 8px;
+  flex: 0 0 8px;
+  border-radius: 50%;
+  background: #edede859;
+}
+.bar[data-state="listening"] .dot {
+  background: var(--color-signal);
+}
+.bar[data-state="inserted"] .dot {
+  background: #edede8e6;
+}
+@keyframes waveform {
+  to {
+    transform: scaleY(0.45);
+  }
+}
+@media (max-width: 450px) {
+  .bar {
+    gap: 10px;
+    padding-right: 14px;
+  }
+  .label {
+    font-size: 12px;
+  }
+  .mic {
+    width: 32px;
+    height: 32px;
+    flex-basis: 32px;
+  }
+  .wave {
+    max-width: 96px;
+    gap: 1px;
+  }
+  .wave i {
+    width: 2px;
+    min-width: 2px;
+  }
+}
+
+/* Compact illustrations keep their text at the 11px minimum instead of scaling it. */
+.bar[data-compact] {
+  gap: 8px;
+  padding: 6px 12px 6px 6px;
+}
+.bar[data-compact] .label,
+.bar[data-compact] .meta {
+  font-size: 11px;
+}
+.bar[data-compact] .mic {
+  width: 28px;
+  height: 28px;
+  flex-basis: 28px;
+}
+.bar[data-compact] .wave {
+  gap: 1px;
+  height: 24px;
+}
+.bar[data-compact] .wave i {
+  width: 2px;
+  min-width: 2px;
+}

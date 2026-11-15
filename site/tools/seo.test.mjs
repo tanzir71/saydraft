@@ -42,7 +42,7 @@ test('social cards render long page titles with local fonts, intact gutters and 
   for (let y = 0; y < info.height; y++) for (let x = 0; x < info.width; x++) {
     if (x >= 20 && x < info.width - 20 && y >= 20 && y < info.height - 20) continue;
     const index = (y * info.width + x) * info.channels;
-    assert.deepEqual([...data.subarray(index, index + 3)], [245, 242, 233]);
+    assert.deepEqual([...data.subarray(index, index + 3)], [233, 232, 227]);
   }
   await assert.rejects(() => renderSocialCard({ title: '', description: 'Guide' }));
   await assert.rejects(() => renderSocialCard({ title: 'Guide', description: 'Guide', width: 1, height: 1 }));

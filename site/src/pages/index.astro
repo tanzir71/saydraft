@@ -1,38 +1,29 @@
 ---
 import Base from '../layouts/Base.astro';
 import { Button } from '../components/Button/Button';
-import { BarDemo } from '../components/BarDemo/BarDemo';
-import { BeforeAfterCard } from '../components/BeforeAfterCard/BeforeAfterCard';
+import { Mark } from '../components/Mark/Mark';
 import { FAQ } from '../components/FAQ/FAQ';
-import { Ribbon } from '../components/Ribbon/Ribbon';
-import { EditChip } from '../components/EditChip/EditChip';
-import { KeyCaps } from '../components/KeyCaps/KeyCaps';
-import { CreditsBand } from '../components/CreditsBand/CreditsBand';
-import { Eyebrow } from '../components/Eyebrow/Eyebrow';
-import { FeatureRow } from '../components/FeatureRow/FeatureRow';
-import { StyleSwitcher } from '../components/StyleSwitcher/StyleSwitcher';
 import { PrivacyFacts } from '../components/PrivacyFacts/PrivacyFacts';
 import { CompareTable } from '../components/CompareTable/CompareTable';
-import ProductShot from '../components/ProductShot.astro';
+import { SectionHeader, InstrumentPanel, FactsSheet, HowItWorks, ProofSheet, FeatureBento, SignalPath, LanguageWall, FinalCTA } from '../components/Landing/Landing';
 import StructuredData from '../components/StructuredData.astro';
 import { applicationSchema } from '../data/application';
 import { languages } from '../data/languages';
 import comparison from '../data/home-comparison.json';
 import { freshVerification } from '../lib/content-verification';
 import { repositoryStars } from '../lib/github-repo';
-import hubStyle from '../assets/product/saydraft-hub-style-light-2x.png';
-import listeningBar from '../assets/product/saydraft-bar-listening-light-2x.png';
-import previewBar from '../assets/product/saydraft-bar-preview-light-2x.png';
-import commandBar from '../assets/product/saydraft-bar-command-dark-2x.png';
-import cleaningBar from '../assets/product/saydraft-bar-cleaning-dark-2x.png';
 import '../styles/home.css';
-import '../styles/languages.css';
 const base = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/`;
 if (!freshVerification(comparison.verified)) throw new Error('Recheck Home comparison sources: verified must be within 120 UTC days.');
 const rows = comparison.rows.map((row) => ({ ...row, cells: row.cells.map((cell) => ({ ...cell, verified: comparison.verified })) }));
 const stars = await repositoryStars();
 const compareGuides = [['wispr-flow-alternative/', 'Wispr Flow'], ['typeless-alternative/', 'Typeless'], ['superwhisper-alternative-windows/', 'Superwhisper'], ['windows-voice-typing-alternative/', 'Windows voice typing'], ['dragon-alternative/', 'Dragon']];
-const styleSentences = { formal: 'Could you send the notes when you have a moment?', casual: 'Can you send the notes when you get a chance?', 'very-casual': 'send the notes when you get a sec' };
+const privacyFacts = [
+  { title: 'No cloud transcription', detail: 'Your audio is never sent to a server.' },
+  { title: 'No account', detail: 'Nothing to sign up for or sign in to.' },
+  { title: 'No telemetry', detail: 'No tracking or analytics — in the app or on this site.' },
+  { title: 'Opt-in update checks', detail: 'Off by default, and they never include audio or text.' },
+];
 const questions = [
   { question: 'Does my voice leave my PC?', answer: 'Speech recognition and text cleanup run locally. Saydraft has no cloud transcription, telemetry, or account. Model downloads happen only when you start them during setup. Optional update checks are off by default and request public release information from GitHub without your audio or text.' },
   { question: 'Do I need the internet to get started?', answer: 'Yes, once: choose the recommended models, review their sizes and licenses, and start the setup download. You can pause and resume. Later launches reuse the installed models offline.' },
@@ -46,62 +37,28 @@ const questions = [
   { question: 'Can it make meeting notes?', answer: 'Meeting notes are an experimental Pro hardware-profile feature with explicit model setup, device selection and recording consent. Full live/frozen workflows, a 30-minute meeting and broader speech, speaker and summary accuracy remain open acceptance work. Ordinary Scratchpad notes are separate.' },
 ];
 ---
-<Base title="Saydraft: Free Offline AI Dictation for Windows" description="Free offline dictation for Windows. Voice typing in Chinese, Indonesian, Japanese, Korean, Malay, Portuguese, Spanish and Thai. Open source and local." announcement={{ text: 'Saydraft is in development. Run the current source.', href: `${base}download/` }}>
-  <main id="main">
+<Base title="Saydraft: Free Offline AI Dictation for Windows" description={`Free offline dictation for Windows in ${languages.length} highlighted languages, including Arabic, Bengali, Chinese, Hindi, Japanese, Korean, Portuguese, Spanish and Thai. Open source and local.`} announcement={{ text: 'Saydraft is in active development. Run the current source from GitHub', mobileText: 'In active development — run the source', href: 'https://github.com/tanzir71/saydraft' }}>
+  <main id="main" class="landing-v2">
     <section class="hero container" aria-labelledby="hero-title">
-      <div class="hero-top"><Eyebrow className="eyebrow">Offline dictation for Windows</Eyebrow><span class="hero-note"><span aria-hidden="true">✳</span> A little less typing.<br />A little more you.</span></div>
-      <h1 id="hero-title">Speak messy.<br /><em>Paste polished.</em></h1>
-      <div class="hero-bottom"><p>Speak into your Windows apps.<br />Clean up your words on your PC.<br /><span class="muted">Free. Open source. No account.</span></p><div class="hero-actions"><div class="hero-buttons"><Button href={`${base}download/`}>Get Saydraft for Windows</Button><a href="https://github.com/tanzir71/saydraft">View on GitHub ↗</a></div><span>Windows 10 &amp; 11 · Offline with installed models</span></div></div>
-      <div class="voice-scene" data-demo-scene>
-        <Ribbon className="ribbon" text="um, let’s meet at two… actually, make that three. just a quick coffee?" />
-        <div class="scene-bar"><BarDemo state="idle" /></div>
-        <div class="scene-result"><span class="eyebrow">Your words, a little clearer</span><p data-demo-result>Let’s meet at 3.<br />Just a quick coffee?</p><EditChip className="edit-chip">Backtrack: 2 → 3</EditChip></div>
-        <button type="button" class="play-example" data-demo-play>Play the example <span aria-hidden="true">↗</span></button>
-        <span class="simulation-note">Illustrative simulation · no microphone</span>
-        <span class="sr-only" role="status" data-demo-status></span>
-      </div>
+      <div class="hero-top eyebrow"><span><Mark size={12} />Offline dictation for Windows</span><span>Free · Open source · No account</span></div>
+      <h1 id="hero-title">Speak <del class="filler"><span aria-hidden="true">um,</span><span class="sr-only">um,</span><span class="filler-label eyebrow" aria-hidden="true">— filler</span></del><span class="sr-only">(filler removed)</span> messy.<br /><span class="hero-second-line">Paste polished<span class="signal" aria-hidden="true">.</span><span class="sr-only">.</span></span></h1>
+      <div class="hero-bottom"><p>Hold Ctrl + Win and talk the way you think. Saydraft tidies your words on your PC and types them wherever your cursor is.</p><div class="hero-actions"><div class="hero-buttons"><Button href="https://github.com/tanzir71/saydraft" variant="secondary">View source</Button><Button href={`${base}download/`}>Get Saydraft for Windows</Button></div><a class="mobile-source" href="https://github.com/tanzir71/saydraft">View source on GitHub ↗</a><p class="eyebrow muted"><span class="desktop-copy">Windows 10 &amp; 11 · Offline after a one-time model download</span><span class="mobile-copy">Windows 10 &amp; 11 · Offline after setup</span></p></div></div>
+      <InstrumentPanel />
     </section>
-    <CreditsBand href={`${base}credits/`} className="credits-sheet" stars={stars} />
-    <section class="thought-sheet" aria-labelledby="thought-title"><div class="container thought-grid"><div><p class="eyebrow">Less friction. More flow.</p><h2 id="thought-title">Talk at the speed<br />you <em>think.</em></h2><p class="speed-copy">A rough idea. A change of plan. A sentence that needs a little room. Say it, then review the draft.</p><a href={`${base}docs/getting-started/`}>Start with a few words ↗</a></div><figure class="bar-stage duotone"><ProductShot image={listeningBar} alt="Saydraft Bar displaying its listening waveform" compact /><figcaption>Saydraft Bar · public sample, no recording</figcaption></figure></div></section>
-    <section class="section container" id="features" aria-labelledby="edits-title"><div class="section-heading"><p class="eyebrow">A small edit. A clearer thought.</p><h2 id="edits-title">Say it your way.<br /><em>Leave the tidying to us.</em></h2><p class="muted">Illustrative cleanup examples. Your words stay yours.</p></div><div class="edit-grid"><BeforeAfterCard title="Change your mind." before="Let’s meet at two… actually, make that three." after="Let’s meet at 3." chip="Backtrack: 2 → 3" /><BeforeAfterCard title="Find your rhythm." before="Um, I think, uh, this could work." after="I think this could work." chip="Removed hesitation" /><BeforeAfterCard title="Make a little space." before="First item, send the notes. Second item, book the room." after={'• Send the notes\n• Book the room'} chip="Made a list" /></div></section>
-    <section class="section container tools-section" aria-labelledby="tools-title"><div><p class="eyebrow">Built around how you write</p><h2 id="tools-title">Your voice.<br /><em>Your kind of words.</em></h2></div>
-      <figure class="hub-shot"><ProductShot image={hubStyle} alt="Saydraft Hub Style page with seven app groups and tone and cleanup controls" /><figcaption>Actual Saydraft Hub, shown with public sample text. <a href={hubStyle.src}>View the full-size screenshot ↗</a></figcaption></figure>
-      <FeatureRow title="A tone for every place." description="A thoughtful email. A quick reply. Set tone and cleanup intensity for each app group, with a preview before you save." href={`${base}docs/styles/`} linkLabel="Explore styles"><div slot="visual"><StyleSwitcher sentences={styleSentences} /></div></FeatureRow>
-      <FeatureRow title="The names that matter." description="Add names, protected terms and replacements. Optional local correction suggestions let you Add, Dismiss or Undo; automatic learning is off by default." href={`${base}docs/dictionary/`} linkLabel="Make your dictionary" reverse><div slot="visual" class="feature-illustration"><p class="eyebrow">Your dictionary</p><div class="word-chips"><span>Kubernetes</span><span>Dhaka</span><span>Saydraft</span></div><p>Names and terms, chosen by you.</p></div></FeatureRow>
-      <FeatureRow title="Say a little. Write a lot." description="Turn an everyday phrase into a saved snippet. A short cue can become your full sign-off, with your exact wording kept intact." href={`${base}docs/styles/`} linkLabel="See cleanup and snippets"><div slot="visual" class="feature-illustration"><p class="eyebrow">Illustrative snippet</p><p>“my signature”</p><span aria-hidden="true">↓</span><p class="snippet-result">Best,<br />Tanzir</p></div></FeatureRow>
-      <FeatureRow title="A small change, by voice." description="Select a passage and speak an edit with Command Mode. Experimental, default-off, and available with the Pro hardware profile and separate reviewed local model setup." href={`${base}docs/command-mode/`} linkLabel="Explore Command Mode" reverse><div slot="visual" class="feature-illustration feature-night"><p class="eyebrow">Command Mode · Labs</p><ProductShot image={commandBar} alt="Saydraft Bar in Command Mode with a selected-text editing indicator" compact /><p>Hold Ctrl + Win + Alt.</p></div></FeatureRow>
-      <FeatureRow title="More than one language." description="Parakeet v3 covers 25 European languages. Other highlighted choices use one shared All languages model. Install compatible models once, then reuse them offline." href={`${base}languages/`} linkLabel="Find your speech languages"><div slot="visual" class="feature-illustration"><p class="eyebrow">Shared models. Familiar languages.</p><div class="word-chips">{languages.slice(0, 6).map((language) => <span>{language.name}</span>)}</div><p>Coverage and measured accuracy are separate.</p></div></FeatureRow>
-      <FeatureRow title="See a thought take shape." description="The optional English live-preview model can show partial words while you speak. It is an experimental Labs feature with separate explicit setup; final recognition still needs review." href={`${base}docs/models/`} linkLabel="Review preview requirements" reverse><div slot="visual" class="feature-illustration"><p class="eyebrow">English live preview · Labs</p><ProductShot image={previewBar} alt="Saydraft Bar showing an English live-preview sentence" compact /><p>Public sample text. No microphone on this page.</p></div></FeatureRow>
-    </section>
-    <section class="section container language-section" aria-labelledby="languages-title"><p class="eyebrow">A familiar language. A local model.</p><h2 id="languages-title">Your words.<br /><em>Across languages.</em></h2><p class="language-intro">Pick the languages you already use. Compatible choices share installed models, and choosing a language starts no transfer. Review accuracy for your accent, names and recording conditions.</p><ul class="language-links">{languages.map((language) => <li><a href={`${base}languages/${language.slug}/`}>{language.name} voice typing <span aria-hidden="true">↗</span></a></li>)}</ul><a href={`${base}languages/`}>Explore speech languages and model setup <span aria-hidden="true">↗</span></a></section>
-    <section class="container shortcut-card" aria-labelledby="shortcuts-title"><div><p class="eyebrow">Right at your fingertips</p><h2 id="shortcuts-title">A familiar<br /><em>little shortcut.</em></h2><p class="shortcut-origin">Coming from Flow? Review the defaults, then choose your own in Settings. <a href="/saydraft/wispr-flow-alternative/">Compare the workflows ↗</a></p></div><div class="shortcuts"><p><KeyCaps keys={['Ctrl', 'Win']} surface="paper" /><span>Hold to speak</span></p><p><KeyCaps keys={['Ctrl', 'Win', 'Space']} surface="paper" /><span>Go hands-free</span></p><p><KeyCaps keys={['Shift', 'Alt', 'Z']} surface="paper" /><span>Paste your last words</span></p></div></section>
-    <section class="section container privacy-section" aria-labelledby="privacy-title"><div class="privacy-card"><div><p class="eyebrow">A private train of thought</p><h2 id="privacy-title">Your voice.<br /><em>Your machine.</em></h2><p class="privacy-intro">Speech and cleanup stay on your PC. Installed models keep working when Wi-Fi is off.</p><a href={`${base}docs/privacy/verify-offline/`}>Verify it yourself ↗</a></div><PrivacyFacts /></div><p class="privacy-boundary">The Python network guard and native-helper firewall coverage have different limits. Read the <a href={`${base}privacy/`}>privacy details</a> before relying on a policy.</p></section>
-    <section class="section container comparison-section" id="compare" aria-labelledby="compare-title"><p class="eyebrow">Choose what fits your work</p><h2 id="compare-title">A different way<br /><em>to dictate.</em></h2><CompareTable caption="Compare your everyday dictation setup" products={comparison.products} rows={rows} note={`Not affiliated with Wispr Flow, Typeless or Microsoft. Product information checked ${comparison.verified}; features and plans can change.`} /><p class="comparison-note">This compares standard Win+H voice typing. Copilot+ PCs also offer on-device Fluid dictation enhancements; that does not establish fully offline Win+H recognition. <a href="https://support.microsoft.com/en-us/accessibility/windows/voice-access/set-up-voice-access">Windows Voice Access is separate and works offline after language setup.</a></p><nav class="compare-guides" aria-label="Detailed dictation comparisons">{compareGuides.map(([path, name]) => <a href={`${base}${path}`}>{name} comparison ↗</a>)}</nav></section>
-    <section class="section container faq-section" id="questions" aria-labelledby="faq-title"><div><p class="eyebrow">A few good questions</p><h2 id="faq-title">Glad you<br /><em>asked.</em></h2></div><FAQ questions={questions} /></section>
-    <section class="final-sheet duotone" aria-labelledby="final-title"><div class="container"><p class="eyebrow">Make room for your next thought</p><h2 id="final-title">Your words.<br /><em>Your machine.</em></h2><figure class="final-bar"><ProductShot image={cleaningBar} alt="Saydraft Bar displaying its local cleanup state" compact /><figcaption>Actual Bar · public sample</figcaption></figure><Button href={`${base}download/`} variant="on-dark">Get Saydraft for Windows</Button><p>Free. Open source. Yours to make your own.</p></div></section>
+    <FactsSheet base={base} stars={stars} />
+    <section class="home-section container" id="how-it-works" aria-labelledby="how-title"><SectionHeader number="01" label="How it works" id="how-title" title="Hold. Talk. Let go." description="No new app to learn. Saydraft sits in your tray and works in any editable Windows app — mail, docs, chat and your code editor." /><HowItWorks /></section>
+    <section class="home-section container" id="cleanup" aria-labelledby="cleanup-title"><SectionHeader number="02" label="Cleanup" id="cleanup-title" description="After recognition, Saydraft removes hesitations, applies your corrections and formats lists — locally. Raw mode keeps every word."><Fragment slot="title">Say it your way.<br />We’ll tidy up.</Fragment></SectionHeader><ProofSheet /></section>
+    <section class="home-section container tools-section" id="features" aria-labelledby="features-title"><SectionHeader number="03" label="Features" id="features-title" description="Tone per app, your own vocabulary, short spoken cues — the details that make dictation sound like you, kept on your PC."><Fragment slot="title">Built around<br />how you write.</Fragment></SectionHeader><FeatureBento /></section>
+    <section class="privacy-sheet dark-sheet" id="privacy" aria-labelledby="privacy-title"><div class="container"><SectionHeader number="04" label="Privacy" id="privacy-title" description="Speech recognition and cleanup run locally. Installed models keep working with Wi-Fi off — and you can check that yourself."><Fragment slot="title">Your voice never<br />leaves your PC.</Fragment></SectionHeader><SignalPath /><PrivacyFacts facts={privacyFacts} /><div class="privacy-actions"><Button href={`${base}docs/privacy/verify-offline/`} variant="on-dark">Verify it offline yourself</Button><a href={`${base}privacy/`}>Read the privacy details ↗</a></div></div></section>
+    <section class="home-section container comparison-section" id="compare" aria-labelledby="compare-title"><SectionHeader number="05" label="Compare" id="compare-title" description="How Saydraft compares with the dictation tools people most often switch from."><Fragment slot="title">A different kind<br />of deal.</Fragment></SectionHeader><CompareTable caption="Compare your everyday dictation setup" products={comparison.products} rows={rows} note={`Checked ${comparison.verified} against each product’s documentation. Features and plans change. Not affiliated with Wispr Flow, Typeless or Microsoft.`} /><nav class="compare-guides" aria-label="Detailed dictation comparisons">{compareGuides.map(([path, name]) => <a href={`${base}${path}`}>{name} ↗</a>)}</nav></section>
+    <section class="home-section container" id="languages" aria-labelledby="languages-title"><SectionHeader number="06" label="Languages" id="languages-title" description="Parakeet v3 covers 25 European languages. One shared “All languages” model adds the rest. Install once, then dictate offline."><Fragment slot="title">Your words,<br />your language.</Fragment></SectionHeader><LanguageWall base={base} /><p class="language-accuracy muted">Coverage and measured accuracy are separate. Review results for your accent, names and recording conditions.</p></section>
+    <section class="home-section container faq-section" id="questions" aria-labelledby="faq-title"><div class="faq-intro"><p class="eyebrow section-rule">07 — Questions</p><h2 id="faq-title">Glad you<br />asked.</h2><p>Still curious? Read the docs or open an issue on GitHub — the whole project is in the open.</p><div><a href={`${base}docs/`}>Read the docs ↗</a><a href="https://github.com/tanzir71/saydraft/issues">GitHub issues ↗</a></div></div><FAQ questions={questions} openFirst /></section>
+    <FinalCTA base={base} />
   </main>
   <StructuredData data={applicationSchema(Astro.site!, base)} />
   <StructuredData data={{ '@type': 'FAQPage', mainEntity: questions.map(({ question, answer }) => ({ '@type': 'Question', name: question, acceptedAnswer: { '@type': 'Answer', text: answer } })) }} />
-<script>
-  const scene = document.querySelector<HTMLElement>('[data-demo-scene]');
-  const play = scene?.querySelector<HTMLButtonElement>('[data-demo-play]');
-  const bar = scene?.querySelector<HTMLElement>('[data-bar-demo]');
-  const label = scene?.querySelector<HTMLElement>('[data-bar-label]');
-  const status = scene?.querySelector<HTMLElement>('[data-demo-status]');
-  const result = scene?.querySelector<HTMLElement>('[data-demo-result]');
-  play?.addEventListener('click', async () => {
-    if (!bar || !label || !status || !result || play.disabled) return;
-    play.disabled = true;
-    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    for (const [state, text, delay] of [['listening', 'Listening', 1100], ['cleaning', 'Tidying your words', 600], ['inserted', 'Words, delivered', 0]] as const) {
-      bar.dataset.state = state;
-      bar.setAttribute('aria-label', `Saydraft example: ${text}`);
-      label.textContent = text;
-      result.style.opacity = state === 'inserted' ? '1' : '.35';
-      if (delay && !reduced) await new Promise((resolve) => window.setTimeout(resolve, delay));
-    }
-    status.textContent = 'Example finished. Let’s meet at 3. Just a quick coffee?';
-    play.disabled = false;
-  });
-</script>
+  <script>
+    import { installLanding } from '../scripts/landing';
+    installLanding();
+  </script>
 </Base>

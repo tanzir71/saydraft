@@ -4,10 +4,9 @@ import { NavPill } from '../components/NavPill/NavPill';
 import { Footer } from '../components/Footer/Footer';
 import { AnnouncementBar } from '../components/AnnouncementBar/AnnouncementBar';
 import bodyFace from '@fontsource-variable/geist/files/geist-latin-wght-normal.woff2?url';
-import displayFace from '@fontsource/instrument-serif/files/instrument-serif-latin-400-normal.woff2?url';
-import italicFace from '@fontsource/instrument-serif/files/instrument-serif-latin-400-italic.woff2?url';
+import displayFace from '@fontsource/familjen-grotesk/files/familjen-grotesk-latin-500-normal.woff2?url';
 import { socialImagePath, verificationToken } from '../lib/seo';
-interface Props { title: string; description: string; noindex?: boolean; canonicalPath?: string; announcement?: { text: string; href: string }; }
+interface Props { title: string; description: string; noindex?: boolean; canonicalPath?: string; announcement?: { text: string; href: string; mobileText?: string }; }
 const { title, description, noindex = false, canonicalPath = Astro.url.pathname, announcement } = Astro.props;
 const base = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/`;
 const canonical = new URL(canonicalPath, Astro.site);
@@ -21,7 +20,7 @@ const bing = verificationToken(import.meta.env.BING_SITE_VERIFICATION, 'bing');
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#F5F2E9" />
+    <meta name="theme-color" content="#E9E8E3" />
     <meta name="color-scheme" content="light" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
@@ -44,12 +43,12 @@ const bing = verificationToken(import.meta.env.BING_SITE_VERIFICATION, 'bing');
     <link rel="canonical" href={canonical} />
     <link rel="sitemap" type="application/xml" href={`${base}sitemap-index.xml`} />
     <link rel="icon" href={`${base}favicon.svg?v=2`} type="image/svg+xml" />
-    {[bodyFace, displayFace, italicFace].map((href) => <link rel="preload" as="font" type="font/woff2" href={href} crossorigin="anonymous" />)}
+    {[bodyFace, displayFace].map((href) => <link rel="preload" as="font" type="font/woff2" href={href} crossorigin="anonymous" />)}
     <title>{title}</title>
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
-    {announcement && <AnnouncementBar href={announcement.href}>{announcement.text}</AnnouncementBar>}
+    {announcement && <AnnouncementBar href={announcement.href} mobileText={announcement.mobileText}>{announcement.text}</AnnouncementBar>}
     <NavPill base={base} />
     <slot />
     <Footer base={base} />

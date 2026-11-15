@@ -47,7 +47,7 @@ deployment and model promotion are not part of this run.
 ## Execution and evidence
 
 QA root: `D:/Saydraft-Codex-QA-20261112-01a1cbc7`.
-Planned queue directory: `overnight-44ed9c4-20261115-r1`.
+The first queue directory is `overnight-44ed9c4-20261115-r1`.
 Its `status.json` records the actual controller PID, active owned stage PID,
 heartbeat, command/source hashes, completed outcomes and final status. Each
 stage has a separate sibling output directory, guard records, raw report and
@@ -65,3 +65,22 @@ is a pass or an instruction to restart the stage. Keep performance stages free
 of competing local builds/transfers/model jobs. After terminal exit, independently
 verify the original journals/source/model bindings and summarize every failed
 gate before updating the handover. Starting the queue alone is not completion.
+
+## Landing-page interruption and fresh continuation
+
+The owner requested `design/landing-v2` during the first latency stage. That
+queue was deliberately stopped before website builds and browser measurements
+began. Its controller exited with code 1; the owned stage tree's exit was
+observed. The partial 120/160 latency cases remain **unqualified**, and all four
+cleanup stages were unattempted. The independent observer retained
+`complete_with_verification_failures`: its debug cleanup probe passed, the full
+latency verifier refused the partial matrix, and the four missing reports were
+flagged. None of those outcomes is a full-run pass.
+
+After the landing implementation is verified and pushed, resume the same full
+five-stage batch in the fresh directory `overnight-44ed9c4-20261115-r2`, using
+the unchanged clean app snapshot and controller scripts. Keep the interrupted
+attempt and its STOP markers intact. Give the fresh run its own terminal-exit
+observer and independent verification directory. Do not combine the interrupted
+cases with the new matrix or run website builds, tests or transfers during the
+new performance measurements. Results remain pending until terminal verification.

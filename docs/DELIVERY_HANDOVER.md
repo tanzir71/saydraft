@@ -58,6 +58,13 @@ pending until the guest actually executes those cases.
   It targets the missing Pro matrix and fresh forced/policy cleanup evidence on
   the microphone-fixed source. Results stay pending until terminal verification;
   neither starting the queue nor a completed failed gate is a pass.
+- The owner-supplied [landing v2](SITE_LANDING_V2.md) replaces the homepage and
+  shared website appearance. It retains all nineteen language guides, ten FAQs,
+  explicit model setup, sourced comparisons and creator credit. Website tokens
+  are separate from the unchanged desktop tokens. Local acceptance and its
+  retained records are linked from that document; hosted publication remains
+  separate. The first overnight run was deliberately interrupted for this work;
+  its partial results remain unqualified and require the fresh full continuation.
 
 - A combined full large-v3/temperature-zero/word-alignment candidate passes the
   nine-clip development gate for Bengali, Tamil and Telugu. All 19 native Job
@@ -156,8 +163,9 @@ against the original roadmap. Do not resume them automatically during preview de
 | Pending owner decision — P9.1 archive, P9.7 (G9) | The reviewed banner/canonical plus `git mv` archive draft is ready. Keep the old Vercel project/configuration in place until G9 is approved. The last public old-host check returned HTTP 402; resolving hosting/billing is separate. | [Prepared legacy transition](launch/legacy-site/README.md) |
 | Optional later Labs — P10.1 (G7), P10.2 | Custom LoRA spend is unapproved. WebGPU voice demo remains future work; the existing canned demo is explicitly a simulation. These are not required to use the current desktop preview. | [Original Labs scope](../WISPR_OFFLINE_PARITY_PLAN.md) |
 
-The Home design uses the permitted token/gradient fallback while G10 photographs
-remain unsupplied. A custom domain or analytics would require a separate owner
+Home now follows the owner's landing v2 geometric illustrations. The original
+roadmap's G10 photographs remain unsupplied and are not part of that design.
+A custom domain or analytics would require a separate owner
 decision; the current GitHub Pages canonical and no-analytics policy remain.
 
 ## How to resume an unresolved issue

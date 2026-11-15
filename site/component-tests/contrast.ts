@@ -35,7 +35,7 @@ export async function contrastFailures(page: Page, selector = '#storybook-root')
       const ratio = (values[0] + .05) / (values[1] + .05);
       const large = parseFloat(css.fontSize) >= 24 || parseFloat(css.fontSize) >= 18.66 && Number(css.fontWeight) >= 700;
       const required = large ? 3 : 4.5;
-      if (ratio + .01 < required) failures.push({ text: text.slice(0, 100), ratio, required });
+      if (ratio < required) failures.push({ text: text.slice(0, 100), ratio, required });
     }
     return failures;
   });

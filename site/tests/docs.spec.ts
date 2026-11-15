@@ -40,11 +40,9 @@ test('all documentation and resources are readable, dated and navigable', async 
   expect(errors).toEqual([]);
 });
 
-test('main navigation and documentation contents reach nested offline guidance', async ({ page }) => {
+test('footer documentation links and contents reach nested offline guidance', async ({ page }) => {
   await page.goto('./');
-  const menu = page.getByLabel('Navigation menu');
-  if (await menu.isVisible()) await menu.click();
-  await page.getByRole('navigation', { name: 'Main navigation' }).getByRole('link', { name: 'Docs', exact: true }).click();
+  await page.getByRole('navigation', { name: 'Documentation links' }).getByRole('link', { name: 'Developer docs', exact: true }).click();
   await expect(page).toHaveURL(/\/saydraft\/docs\/$/);
   await page.getByRole('navigation', { name: 'Documentation', exact: true }).getByRole('link', { name: 'Local models' }).click();
   await expect(page).toHaveURL(/\/docs\/models\/$/);
@@ -96,7 +94,7 @@ test('documentation, model tables and original font notices work without JavaScr
     await expect(page.locator('figure noscript')).toBeVisible();
     await page.goto(`${siteOrigin}/saydraft/credits/`);
     const notices = page.locator('.guide-copy a[href$="-OFL.txt"]');
-    await expect(notices).toHaveCount(5);
+    await expect(notices).toHaveCount(8);
     for (const href of await notices.evaluateAll((links) => links.map((link) => (link as HTMLAnchorElement).href))) {
       const response = await context.request.get(href);
       expect(response.ok()).toBe(true);

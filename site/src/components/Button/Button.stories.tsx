@@ -6,3 +6,5 @@ type Story = StoryObj<typeof Button>;
 export const Primary: Story = {};
 export const Secondary: Story = { args: { variant: 'secondary' } };
 export const OnDark: Story = { args: { variant: 'on-dark' }, globals: { sheet: 'night' } };
+export const Small: Story = { args: { size: 'S', children: 'Get Saydraft' } };
+export const Signal: Story = { args: { variant: 'signal' } };

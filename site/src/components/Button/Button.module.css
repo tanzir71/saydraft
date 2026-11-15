@@ -1,15 +1,56 @@
 .button {
-  display: inline-flex; align-items: center; justify-content: center; gap: 24px;
-  min-height: 48px; padding: 14px 24px; border-radius: var(--radius-pill);
-  font: 500 15px/1.3 var(--font-body); text-decoration: none;
-  transition: background var(--motion-fast), transform var(--motion-fast);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 17px 24px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+  font: 500 16px/1.2 var(--font-body);
+  text-decoration: none;
+  text-align: center;
+  transition: transform var(--motion-fast) var(--motion-ease);
 }
-.button:hover { transform: translateY(-2px); }
-.button.primary { background: var(--color-ink); color: var(--color-paper); }
-.button.primary:hover { background: var(--color-deep); }
-.button.secondary { background: var(--color-paper-raised); color: var(--color-ink); }
-.button.on-dark { background: var(--color-paper); color: var(--color-ink); }
-.button:focus-visible { outline: 2px solid var(--color-ink); outline-offset: 5px; }
-.button.on-dark:focus-visible { outline-color: var(--color-paper); }
-@media (prefers-reduced-motion: reduce) { .button { transition: none; } .button:hover { transform: none; } }
-:global([data-motion='reduced']) .button { transition: none; transform: none; }
+.button svg {
+  flex-shrink: 0;
+}
+.button:hover {
+  transform: translateY(-2px);
+}
+.button:focus-visible {
+  outline: 2px solid var(--color-ink);
+  outline-offset: 5px;
+}
+.button.on-dark:focus-visible {
+  outline-color: var(--color-on-dark);
+}
+@media (prefers-reduced-motion: reduce) {
+  .button:hover {
+    transform: none;
+  }
+}
+:global([data-motion="reduced"]) .button {
+  transform: none;
+}
+.button[data-size="S"] {
+  padding: 10px 16px;
+  font-size: 14px;
+  gap: 8px;
+}
+.button.primary {
+  background: var(--color-ink);
+  color: var(--color-paper-raised);
+}
+.button.secondary {
+  background: transparent;
+  color: var(--color-ink);
+  border-color: #0f0f0e38;
+}
+.button.on-dark {
+  background: var(--color-paper-raised);
+  color: var(--color-ink);
+}
+.button.signal {
+  background: var(--color-signal);
+  color: var(--color-ink);
+}

@@ -423,8 +423,9 @@ Compatible legacy model installations remain readable in place. See
 For development setup and checks, read [CONTRIBUTING.md](CONTRIBUTING.md).
 [Documentation](docs/README.md) links to implementation notes, evaluation
 methods, Windows acceptance checks, and the website workflow.
-The [website component guide](docs/SITE_COMPONENTS.md) covers the 23 reusable
-components, 73 Storybook states and responsive visual checks.
+The [website component guide](docs/SITE_COMPONENTS.md) covers 26 component groups,
+94 Storybook states and responsive visual checks. The owner-supplied
+[landing v2 design](docs/SITE_LANDING_V2.md) defines the current homepage.
 The [documentation guide](docs/SITE_DOCS.md) covers the dated user-guide routes,
 shared model-size tables and local content verification. Website changes are
 validated locally and pushed; hosted publication is a separate step.

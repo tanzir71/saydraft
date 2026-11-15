@@ -194,7 +194,13 @@ const languageCatalog = [
   },
 ] as const;
 
-export const languages = [...languageCatalog].sort((a, b) => a.name.localeCompare(b.name, 'en'));
+const displayNames: Record<string, string> = {
+  chinese: '中文', indonesian: 'Indonesia', malay: 'Melayu', 'brazilian-portuguese': 'Português',
+  'filipino-tagalog': 'Filipino', hindi: 'हिन्दी',
+};
+export const languages = languageCatalog.map((language) => ({ ...language,
+  displayName: displayNames[language.slug] ?? language.nativeName,
+})).sort((a, b) => a.name.localeCompare(b.name, 'en'));
 
 export const publicPages = [
   '', 'languages/',

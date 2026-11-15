@@ -1,0 +1,54 @@
+{
+  "created_utc": "2026-11-15T17:40:40.989111+00:00",
+  "build": {
+    "exit_code": 0,
+    "errors": 0,
+    "warnings": 0,
+    "hints": 0,
+    "static_pages": 46,
+    "indexable_urls": 44
+  },
+  "storybook": {
+    "exit_code": 0,
+    "groups": 26,
+    "stories": 94
+  },
+  "content_tests": {
+    "passed": 19,
+    "failed": 0
+  },
+  "site_tests": {
+    "passed": 81,
+    "failed": 0,
+    "snapshot_updates": false
+  },
+  "component_tests": {
+    "total": 303,
+    "initial_ordinary_passed": 294,
+    "initial_snapshot_mismatches": 9,
+    "changed_baselines": "Nine FeatureRow snapshots contain the intentional darker StyleSwitcher labels.",
+    "focused_ordinary_passed": 9,
+    "source_changed_between_runs": false,
+    "later_home_only_change": "Hero filler opacity increased to .5; no component story contains that selector.",
+    "unresolved_failures": 0
+  },
+  "lighthouse": {
+    "reports": 21,
+    "urls": 7,
+    "min_performance": 1,
+    "min_accessibility": 1,
+    "min_seo": 1,
+    "max_lcp_ms": 960,
+    "max_cls": 0.02063530899147016
+  },
+  "preview_matches_dist_sha256": "cb0d259b7696b3290589cfebc092e42b420909c3bbc1b17c3d3fff99c93cebb9",
+  "external_requests": 0,
+  "browser_errors": 0,
+  "font_bytes_external": 208936,
+  "font_bytes_inline_doto": 3928,
+  "previous_font_bytes_external": 132988,
+  "desktop_runtime_changed": false,
+  "actions_dispatched": false,
+  "hosted_deployment": false,
+  "release_created": false
+}

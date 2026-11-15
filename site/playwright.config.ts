@@ -13,5 +13,5 @@ export default defineConfig({
     { name: 'tablet', use: { viewport: { width: 768, height: 1024 } } },
     { name: 'desktop', use: { viewport: { width: 1440, height: 900 } } },
   ],
-  webServer: { command: `npm run preview -- --port ${sitePort}`, url: `${siteOrigin}/saydraft/`, reuseExistingServer: false, timeout: 30000 },
+  webServer: { command: `npm run preview -- --port ${sitePort}`, url: `${siteOrigin}/saydraft/`, reuseExistingServer: process.env.SAYDRAFT_TEST_REUSE_SERVER === '1', timeout: 30000 },
 });

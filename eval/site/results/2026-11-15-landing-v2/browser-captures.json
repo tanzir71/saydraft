@@ -1,0 +1,220 @@
+[
+  {
+    "width": 1440,
+    "http_status": 200,
+    "external": [],
+    "errors": [],
+    "fonts": [
+      {
+        "url": "http://127.0.0.1:4285/saydraft/_astro/geist-latin-wght-normal.BgDaEnEv.woff2",
+        "bytes": 29400
+      },
+      {
+        "url": "http://127.0.0.1:4285/saydraft/_astro/familjen-grotesk-latin-500-normal.BASv1Bog.woff2",
+        "bytes": 12056
+      },
+      {
+        "url": "http://127.0.0.1:4285/saydraft/_astro/familjen-grotesk-latin-600-normal.DR8FYmV8.woff2",
+        "bytes": 12108
+      },
+      {
+        "url": "http://127.0.0.1:4285/saydraft/_astro/martian-mono-latin-400-normal.DZsjfPjH.woff2",
+        "bytes": 10352
+      },
+      {
+        "url": "http://127.0.0.1:4285/saydraft/_astro/noto-sans-arabic-symbols-wght-normal.BJ6p-EzA.woff2",
+        "bytes": 14584
+      },
+      {
+        "url": "http://127.0.0.1:4285/saydraft/_astro/noto-sans-bengali-bengali-wght-normal.DeF8kf4m.woff2",
+        "bytes": 107720
+      },
+      {
+        "url": "http://127.0.0.1:4285/saydraft/_astro/noto-sans-arabic-math-wght-normal.pS2d8anF.woff2",
+        "bytes": 22716
+      }
+    ],
+    "font_bytes": 208936,
+    "geometry": {
+      "width": 1440,
+      "scroll_width": 1440,
+      "hero": {
+        "x": 160,
+        "width": 1120
+      },
+      "overflow": []
+    }
+  },
+  {
+    "width": 390,
+    "http_status": 200,
+    "external": [],
+    "errors": [],
+    "fonts": [
+      {
+        "url": "http://127.0.0.1:4285/saydraft/_astro/geist-latin-wght-normal.BgDaEnEv.woff2",
+        "bytes": 29400
+      },
+      {
+        "url": "http://127.0.0.1:4285/saydraft/_astro/familjen-grotesk-latin-500-normal.BASv1Bog.woff2",
+        "bytes": 12056
+      },
+      {
+        "url": "http://127.0.0.1:4285/saydraft/_astro/familjen-grotesk-latin-600-normal.DR8FYmV8.woff2",
+        "bytes": 12108
+      },
+      {
+        "url": "http://127.0.0.1:4285/saydraft/_astro/martian-mono-latin-400-normal.DZsjfPjH.woff2",
+        "bytes": 10352
+      },
+      {
+        "url": "http://127.0.0.1:4285/saydraft/_astro/noto-sans-arabic-symbols-wght-normal.BJ6p-EzA.woff2",
+        "bytes": 14584
+      },
+      {
+        "url": "http://127.0.0.1:4285/saydraft/_astro/noto-sans-bengali-bengali-wght-normal.DeF8kf4m.woff2",
+        "bytes": 107720
+      },
+      {
+        "url": "http://127.0.0.1:4285/saydraft/_astro/noto-sans-arabic-math-wght-normal.pS2d8anF.woff2",
+        "bytes": 22716
+      }
+    ],
+    "font_bytes": 208936,
+    "geometry": {
+      "width": 390,
+      "scroll_width": 390,
+      "hero": {
+        "x": 24,
+        "width": 342
+      },
+      "overflow": [
+        {
+          "tag": "A",
+          "class": "",
+          "text": "How it works"
+        },
+        {
+          "tag": "A",
+          "class": "",
+          "text": "Features"
+        },
+        {
+          "tag": "A",
+          "class": "",
+          "text": "Privacy"
+        },
+        {
+          "tag": "A",
+          "class": "",
+          "text": "Languages"
+        },
+        {
+          "tag": "A",
+          "class": "",
+          "text": "Questions"
+        },
+        {
+          "tag": "A",
+          "class": "",
+          "text": "GitHub ↗"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "",
+          "text": "03Make a list"
+        },
+        {
+          "tag": "SPAN",
+          "class": "",
+          "text": "Make a list"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "",
+          "text": "04Spell the names"
+        },
+        {
+          "tag": "SPAN",
+          "class": "",
+          "text": "Spell the names"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "",
+          "text": "05Match the app"
+        },
+        {
+          "tag": "SPAN",
+          "class": "",
+          "text": "Match the app"
+        },
+        {
+          "tag": "TABLE",
+          "class": "",
+          "text": "Compare your everyday dictation setupFeature Saydr"
+        },
+        {
+          "tag": "THEAD",
+          "class": "",
+          "text": "Feature Saydraft Wispr Flow Typeless Windows voice"
+        },
+        {
+          "tag": "TR",
+          "class": "",
+          "text": "Feature Saydraft Wispr Flow Typeless Windows voice"
+        },
+        {
+          "tag": "TH",
+          "class": "",
+          "text": " Saydraft"
+        },
+        {
+          "tag": "TH",
+          "class": "",
+          "text": " Wispr Flow"
+        },
+        {
+          "tag": "TH",
+          "class": "",
+          "text": " Typeless"
+        },
+        {
+          "tag": "TH",
+          "class": "",
+          "text": " Windows voice typing"
+        },
+        {
+          "tag": "TBODY",
+          "class": "",
+          "text": "Dictation connectionOffline with compatible models"
+        },
+        {
+          "tag": "TR",
+          "class": "",
+          "text": "Dictation connectionOffline with compatible models"
+        },
+        {
+          "tag": "TD",
+          "class": "",
+          "text": "Offline with compatible models installedProject pr"
+        },
+        {
+          "tag": "TD",
+          "class": "",
+          "text": "Internet required for transcriptionFlow documentat"
+        },
+        {
+          "tag": "P",
+          "class": "",
+          "text": "Internet required for transcription"
+        },
+        {
+          "tag": "A",
+          "class": "",
+          "text": "Flow documentation"
+        }
+      ]
+    }
+  }
+]

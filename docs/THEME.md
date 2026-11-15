@@ -1,7 +1,8 @@
 # App theme and component gallery
 
 P6.1 uses the approved paper/ink and night/deep palettes from
-`design/tokens.json`. The shared generator produces site CSS, two Qt stylesheets,
+`design/app-tokens.json`. The generator reads website v2 tokens separately from
+`design/tokens.json` and produces site CSS, two Qt stylesheets,
 body-size metadata and eight original SVG control symbols. All 12 outputs are
 checked by `node tools/generate_tokens.mjs --check`; the app loads local resources
 without requiring Node.

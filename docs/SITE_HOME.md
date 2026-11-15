@@ -1,5 +1,12 @@
 # Home page
 
+The owner-supplied landing v2 design supersedes the composition described below.
+See [Landing v2](SITE_LANDING_V2.md) for the current homepage. The previous
+native product images and their provenance remain available for the demo and
+reference library; v2 uses explicitly illustrative, semantic HTML examples.
+
+## Previous home implementation
+
 Home implements the thirteen-part §9.6 composition using the approved §9 tokens:
 development announcement, navigation, hero, open-model credits, qualitative
 speed section, three cleanup examples, six feature rows, shortcuts, privacy,
