@@ -1,0 +1,91 @@
+"""Verify retained UI bytes, original source, paired focus walks and test exits."""
+import argparse
+import hashlib
+import json
+from pathlib import Path
+import re
+import struct
+import subprocess
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--repo', type=Path, required=True)
+parser.add_argument('--evidence', type=Path)
+parser.add_argument('--check-current', action='store_true')
+args = parser.parse_args()
+root = (args.evidence or Path(__file__).resolve().parents[1]).resolve()
+repo = args.repo.resolve()
+manifest = json.loads((root / 'manifest.json').read_text(encoding='utf-8'))
+sha = lambda b: hashlib.sha256(b).hexdigest()
+paths = {p.relative_to(root).as_posix() for p in root.rglob('*') if p.is_file()}
+assert paths == {r['path'] for r in manifest['records']} | {'manifest.json'}
+for record in manifest['records']:
+    file = (root / record['path']).resolve()
+    assert file.is_relative_to(root)
+    payload = file.read_bytes()
+    assert len(payload) == record['bytes'] and sha(payload) == record['sha256'], record['path']
+for witness in manifest['source_files']:
+    payload = subprocess.check_output(['git', 'show', manifest['source'] + ':' + witness['path']], cwd=repo)
+    assert sha(payload) == witness['sha256'], witness['path']
+    assert (root / witness['witness']).read_bytes() == payload
+    if args.check_current:
+        assert (repo / witness['path']).read_bytes().replace(b'\r\n', b'\n') == payload.replace(b'\r\n', b'\n'), witness['path']
+
+report = json.loads((root / 'final/report.json').read_text(encoding='utf-8'))
+assert report['source'] == manifest['source']
+assert report['record_count'] == len(report['records']) == 108
+assert report['platform'] == 'offscreen' and report['simulated_high_contrast']
+assert report['physical_acceptance'] is False and report['owner_io_used'] is False
+expected = set()
+pages = ['Home', 'History', 'Dictionary', 'Snippets', 'Style', 'Notes']
+sections = ['General', 'Shortcuts', 'Languages', 'Cleanup', 'Models', 'Performance', 'Labs', 'Microphone', 'Privacy', 'About']
+states = pages + ['Settings-' + name for name in sections] + ['Dictionary-expanded', 'Snippets-expanded']
+for mode in ['light', 'dark', 'high-contrast']:
+    for px in [16, 32]:
+        for page in states:
+            expected.add(f'{mode}-{px}-{page}')
+assert {r['case'] for r in report['records']} == expected
+for record in report['records']:
+    payload = (root / 'final' / record['image']).read_bytes()
+    assert sha(payload) == record['sha256']
+    assert payload[:8] == b'\x89PNG\r\n\x1a\n'
+    assert list(struct.unpack('>II', payload[16:24])) == record['image_size'] == [880, 600]
+    assert record['size'] == [880, 600] and record['dpr'] == 1
+    assert record['logical_text_px'] == record['actual_navigation_font_px']
+    assert record['rail_width'] >= record['rail_required']
+    assert set(record['tab_walks']) == {'forward', 'reverse'}
+    for names in record['tab_walks'].values():
+        assert names and names[0] == 'Hub pages' and all(name.strip() for name in names)
+        if any(s in record['case'] for s in ['-Dictionary', '-Snippets', '-Style', '-Settings']):
+            assert 'Save changes' in names
+        if record['case'].endswith('-Settings-Shortcuts'):
+            assert 'Shortcut help' in names
+        if record['case'].endswith('-Settings-Models'):
+            assert 'Speech model' in names and 'Silero speech detection model license: MIT' in names
+
+summary = json.loads((root / 'tests/summary.json').read_text(encoding='utf-8'))
+assert summary['source'] == manifest['source'] and len(summary['files']) == 10
+passed = deselected = 0
+for process in summary['files']:
+    assert process['source'] == manifest['source'] and process['returncode'] == 0
+    assert process['job_tree_exit_observed'] and not process['timeout']
+    name = Path(process['file']).stem
+    log = (root / 'tests' / (name + '.log')).read_text(encoding='utf-8')
+    counts = re.search(r'(\d+) passed(?:, (\d+) deselected)? in ', log)
+    assert counts and 'Traceback (most recent call last)' not in log and 'FAILED ' not in log, name
+    passed += int(counts[1])
+    deselected += int(counts[2] or 0)
+    guard = json.loads((root / 'tests' / (name + '-guard.json')).read_text(encoding='utf-8'))
+    assert process['actual_pid'] == guard['pid']
+assert (passed, deselected) == (164, 3), (passed, deselected)
+for path in list((root / 'tests').glob('*-guard.json')) + [root / 'final/guard.json']:
+    guard = json.loads(path.read_text(encoding='utf-8'))
+    assert not guard['blocked_attempts'], path
+    for field in ['real_audio_sdk_imported', 'owner_profile_used', 'owner_clipboard_used',
+                  'owner_native_input_used', 'device_enumeration', 'microphone_used']:
+        assert guard[field] is False, (path, field)
+assert not manifest['full_p6_7_accepted'] and not manifest['new_portable_built']
+assert not manifest['full_goal_complete']
+print(json.dumps(dict(source=manifest['source'], retained_records=len(manifest['records']),
+    source_witnesses=len(manifest['source_files']), frames=108, paired_tab_walks=216,
+    tests_passed=passed, owner_app_integrations_deselected=deselected,
+    check_current=args.check_current, physical_acceptance=False), indent=2))

@@ -1,0 +1,23 @@
+{
+  "source": "6831b0ec8c8f79d4c09a7bca10ad13dc5a39b6a7",
+  "file": "tests/test_hub_accessibility.py",
+  "args": [
+    "C:\\Python313\\python.exe",
+    "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\run_hub_accessibility_20261115.py",
+    "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\hub-accessibility-20261115-r1\\final-tests-r3\\test_hub_accessibility-guard.json",
+    "tests/test_hub_accessibility.py",
+    "-q",
+    "-rs",
+    "-k",
+    "not real_app and not app_wires",
+    "--durations=5",
+    "--basetemp=D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\hub-accessibility-20261115-r1\\final-tests-r3\\test_hub_accessibility-temp"
+  ],
+  "started": 1794714302.3023949,
+  "timeout": false,
+  "launcher_pid": 7588,
+  "returncode": 0,
+  "job_tree_exit_observed": true,
+  "ended": 1794714339.552282,
+  "actual_pid": 7588
+}

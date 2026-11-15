@@ -1,0 +1,23 @@
+{
+  "source": "6831b0ec8c8f79d4c09a7bca10ad13dc5a39b6a7",
+  "file": "tests/test_dictionary_page.py",
+  "args": [
+    "C:\\Python313\\python.exe",
+    "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\run_hub_accessibility_20261115.py",
+    "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\hub-accessibility-20261115-r1\\final-tests-r3\\test_dictionary_page-guard.json",
+    "tests/test_dictionary_page.py",
+    "-q",
+    "-rs",
+    "-k",
+    "not real_app and not app_wires",
+    "--durations=5",
+    "--basetemp=D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\hub-accessibility-20261115-r1\\final-tests-r3\\test_dictionary_page-temp"
+  ],
+  "started": 1794714276.6930478,
+  "timeout": false,
+  "launcher_pid": 19444,
+  "returncode": 0,
+  "job_tree_exit_observed": true,
+  "ended": 1794714294.5406685,
+  "actual_pid": 19444
+}

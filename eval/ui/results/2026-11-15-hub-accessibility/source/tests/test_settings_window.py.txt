@@ -1,0 +1,398 @@
+import json
+import os
+import types
+import pytest
+
+os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
+
+
+def qt_modules():
+    from PySide6 import QtCore, QtGui, QtWidgets
+
+    app = QtWidgets.QApplication.instance()
+    if app is None:
+        app = QtWidgets.QApplication([])
+    return types.SimpleNamespace(QtCore=QtCore, QtGui=QtGui, QtWidgets=QtWidgets)
+
+
+class FakeAutoStartManager:
+    def __init__(self):
+        self.enabled = False
+        self.calls = []
+
+    def is_enabled(self):
+        return self.enabled
+
+    def set_enabled(self, enabled):
+        self.enabled = bool(enabled)
+        self.calls.append(bool(enabled))
+
+
+def write_config(tmp_path, overrides=None):
+    from saydraft.config import default_config, save_config
+
+    cfg = default_config()
+    cfg["dictation"]["glossary_path"] = str(tmp_path / "glossary.json")
+    cfg["dictation"]["app_profiles_path"] = str(tmp_path / "app_profiles.json")
+    cfg["dictation"]["profile"] = "notes"
+    cfg["stt"]["language"] = "auto"
+    if overrides:
+        for section, values in overrides.items():
+            cfg[section].update(values)
+    path = tmp_path / "config.json"
+    save_config(cfg, path)
+    (tmp_path / "glossary.json").write_text(
+        json.dumps({"user_terms": ["Saydraft"], "protected_terms": [], "replacements": {}}),
+        encoding="utf-8",
+    )
+    (tmp_path / "snippets.txt").write_text("addr=123 Main\n", encoding="utf-8")
+    (tmp_path / "app_profiles.json").write_text("[]\n", encoding="utf-8")
+    return path
+
+
+def make_window(tmp_path, *, overrides=None, on_config_applied=None):
+    from saydraft.ui.settings_page import SettingsPage
+
+    config_path = write_config(tmp_path, overrides)
+    autostart = FakeAutoStartManager()
+    window = SettingsPage(
+        qt_modules=qt_modules(),
+        config_path=config_path,
+        snippets_path=tmp_path / "snippets.txt",
+        autostart_manager=autostart,
+        on_config_applied=on_config_applied,
+    )
+    return window, config_path, autostart
+
+
+def test_settings_window_has_required_tabs_and_loads_values(tmp_path):
+    window, _config_path, _autostart = make_window(tmp_path)
+
+    tabs = [window.tabs.tabText(index) for index in range(window.tabs.count())]
+
+    assert tabs == ["General", "Shortcuts", "Languages", "Cleanup", "Style", "Dictionary", "Snippets", "Models", "Performance", "Labs", "Microphone", "Privacy", "About"]
+    assert window.speech_hotkey_edit.text() == "ctrl+win"
+    assert window.alternative_hotkey_edit.text() == "f9"
+    assert window.mouse_hotkey_edit.text() == "xbutton1"
+    assert window.hands_free_hotkey_edit.text() == "ctrl+win+space"
+    assert window.paste_last_hotkey_edit.text() == "shift+alt+z"
+    assert window.language_combo.currentData() is None
+    assert window.mode_combo.currentText() == "balanced"
+    assert window.profile_combo.currentText() == "notes"
+    assert window.drop_message_period_checkbox.isChecked()
+    assert not window.voice_enter_checkbox.isChecked()
+    assert not window.learn_corrections_checkbox.isChecked()
+    assert not window.auto_add_dictionary_checkbox.isChecked()
+    assert not window.auto_add_dictionary_checkbox.isEnabled()
+    assert window.model_picker.model_id == "parakeet-tdt-0-6b-v3-int8"
+    assert "CC-BY-4.0" in window.model_picker.license_label.text()
+    assert "Saydraft" in window.dictionary_editor.toPlainText()
+    assert window.snippets_page.entries() == {"addr": "123 Main"}
+
+
+def test_bar_visibility_round_trips_and_microphone_fixes_are_explicit_links(tmp_path, monkeypatch):
+    from saydraft.config import load_config
+
+    window, config_path, _ = make_window(tmp_path)
+    qt = qt_modules()
+    opened = []
+    monkeypatch.setattr(qt.QtGui.QDesktopServices, "openUrl", lambda url: opened.append(url.toString()) or True)
+    assert window.show_bar_checkbox.isChecked()
+    assert window.start_sound_checkbox.isChecked() and not window.end_sound_checkbox.isChecked()
+    window.show_bar_checkbox.setChecked(False)
+    window.start_sound_checkbox.setChecked(False)
+    window.end_sound_checkbox.setChecked(True)
+    window.apply_changes()
+    assert load_config(config_path=config_path)["app"]["show_bar"] is False
+    assert load_config(config_path=config_path)["app"]["start_sound"] is False
+    assert load_config(config_path=config_path)["app"]["end_sound"] is True
+    assert not opened
+    for button in (window.microphone_page.sound_button,window.microphone_page.privacy_button):
+        button.click()
+    assert opened == ["ms-settings:sound", "ms-settings:privacy-microphone"]
+    window.close()
+
+
+def test_settings_window_applies_config_live_and_updates_autostart(tmp_path):
+    applied = []
+    window, config_path, autostart = make_window(tmp_path, on_config_applied=applied.append)
+
+    window.speech_hotkey_edit.setText("ctrl+shift+r")
+    window.hands_free_hotkey_edit.setText("ctrl+alt+h")
+    window.paste_last_hotkey_edit.setText("alt+p")
+    window.tap_lock_spin.setValue(0)
+    window.save_hotkey_edit.setText("f8")
+    window.autostart_checkbox.setChecked(True)
+    window.language_combo.setCurrentIndex(window.language_combo.findData("en"))
+    window.mode_combo.setCurrentText("aggressive")
+    window.profile_combo.setCurrentText("email")
+    window.drop_message_period_checkbox.setChecked(False)
+    window.voice_enter_checkbox.setChecked(True)
+    window.model_combo.setCurrentText("small")
+    window.llm_enabled_checkbox.setChecked(True)
+    window.llm_path_edit.setText("models/qwen.gguf")
+
+    assert window.apply_changes() is True
+
+    saved = json.loads(config_path.read_text(encoding="utf-8"))
+    assert saved["hotkeys"]["speech"] == "ctrl+shift+r"
+    assert saved["hotkeys"]["hands_free"] == "ctrl+alt+h"
+    assert saved["hotkeys"]["paste_last"] == "alt+p"
+    assert saved["hotkeys"]["tap_lock_ms"] == 0
+    assert saved["hotkeys"]["save"] == "f8"
+    assert saved["app"]["start_with_windows"] is True
+    assert saved["stt"]["language"] == "en"
+    assert saved["dictation"]["mode"] == "aggressive"
+    assert saved["dictation"]["profile"] == "email"
+    assert saved["dictation"]["drop_message_period"] is False
+    assert saved["dictation"]["voice_enter_enabled"] is True
+    assert saved["stt"]["model_size"] == "small"
+    assert saved["stt"]["engine"] == "whisper"
+    assert saved["llm"]["enabled"] is True
+    assert saved["llm"]["model_path"] == "models/qwen.gguf"
+    assert autostart.calls == [True]
+    assert applied[-1] == saved
+    window.close()
+    from saydraft.ui.settings_page import SettingsPage
+    reopened = SettingsPage(config_path=config_path, snippets_path=tmp_path / "snippets.txt",
+                              autostart_manager=FakeAutoStartManager())
+    assert not reopened.drop_message_period_checkbox.isChecked()
+    assert reopened.voice_enter_checkbox.isChecked()
+    assert reopened.hands_free_hotkey_edit.text() == "ctrl+alt+h"
+    assert reopened.paste_last_hotkey_edit.text() == "alt+p"
+    assert reopened.tap_lock_spin.value() == 0
+    reopened.close()
+
+
+def test_settings_window_blocks_duplicate_hotkeys(tmp_path):
+    window, config_path, _autostart = make_window(tmp_path)
+    before = json.loads(config_path.read_text(encoding="utf-8"))
+
+    window.speech_hotkey_edit.setText("f8")
+    window.save_hotkey_edit.setText("f8")
+
+    assert window.apply_changes() is False
+    assert "conflict" in window.status_label.text().lower()
+    assert json.loads(config_path.read_text(encoding="utf-8")) == before
+
+
+def test_shortcut_validation_uses_native_aliases_sides_and_prefix_rules_before_saving(tmp_path):
+    window, config_path, autostart = make_window(tmp_path)
+    before = config_path.read_bytes()
+    for field, value in ((window.save_hotkey_edit, "control+windows+s"),
+                         (window.alternative_hotkey_edit, "WIN + control"),
+                         (window.alternative_hotkey_edit, "left_ctrl+left_win"),
+                         (window.cancel_hotkey_edit, "Control+Windows"),
+                         (window.mouse_hotkey_edit, "mouse4+f9"),
+                         (window.mouse_hotkey_edit, "not_a_key"),
+                         (window.alternative_hotkey_edit, "mouse4")):
+        original = field.text()
+        field.setText(value)
+        assert not window.apply_changes(), value
+        assert config_path.read_bytes() == before
+        assert not autostart.calls
+        field.setText(original)
+    window.mouse_hotkey_edit.setText("")
+    assert window.apply_changes()
+    assert json.loads(config_path.read_text(encoding="utf-8"))["hotkeys"]["speech_mouse"] == ""
+    window.close()
+
+
+def test_all_languages_model_and_arabic_setting_persist(tmp_path):
+    window, config_path, _autostart = make_window(tmp_path)
+    window.model_combo.setCurrentIndex(window.model_combo.findData("whisper-large-v3-turbo"))
+    assert "All languages" in window.model_combo.currentText()
+    window.language_combo.setCurrentIndex(window.language_combo.findData("ar"))
+    assert window.apply_changes()
+    saved = json.loads(config_path.read_text(encoding="utf-8"))
+    assert saved["stt"]["engine"] == "whisper"
+    assert saved["stt"]["model_size"] == "large-v3-turbo"
+    assert saved["stt"]["compute_type"] == "int8"
+    assert saved["stt"]["language"] == "ar"
+
+
+@pytest.mark.parametrize("language", ["bn", "th", "zh", "ko", "ja", "id", "ms", "hi", "ur", "vi", "tl", "ta", "te", "fa"])
+def test_multilingual_pin_selects_shared_optional_model_without_downloading(tmp_path, language):
+    window, config_path, _autostart = make_window(tmp_path)
+    calls = []
+    window.model_picker.callback = lambda *args, **kwargs: calls.append(True)
+    window.language_combo.setCurrentIndex(window.language_combo.findData(language))
+    assert window.model_picker.model_id == "whisper-large-v3-turbo"
+    assert window.languages_page.routing.isChecked()
+    assert not calls
+    assert window.apply_changes()
+    saved = json.loads(config_path.read_text(encoding="utf-8"))
+    assert saved["stt"]["pinned_languages"] == [language]
+    assert saved["stt"]["language"] == language
+    assert saved["stt"]["routing_enabled"] is True
+    assert not calls
+
+
+def test_brazilian_portuguese_keeps_portuguese_code_and_default_model(tmp_path):
+    window, config_path, _autostart = make_window(tmp_path)
+    calls = []
+    window.model_picker.callback = lambda *args, **kwargs: calls.append(True)
+    index = window.language_combo.findData("pt")
+    assert "Brazilian Portuguese" in window.language_combo.itemText(index)
+    window.language_combo.setCurrentIndex(index)
+    assert window.model_picker.model_id == "parakeet-tdt-0-6b-v3-int8"
+    assert not calls
+    assert window.apply_changes()
+    saved = json.loads(config_path.read_text(encoding="utf-8"))
+    assert saved["stt"]["pinned_languages"] == ["pt"]
+    assert saved["stt"]["language"] == "pt"
+    assert saved["stt"]["routing_enabled"] is True
+    assert not calls
+
+
+def test_settings_window_saves_dictionary_snippets_and_profiles(tmp_path):
+    window, _config_path, _autostart = make_window(tmp_path)
+    dictionary = {
+        "user_terms": ["Qwen Turbo"],
+        "protected_terms": ["ACME-123"],
+        "replacements": {"voice tray": "Saydraft"},
+    }
+    profiles = [{"match": "Code", "profile": "code/comments", "mode": "raw"}]
+
+    window.dictionary_editor.setPlainText(json.dumps(dictionary))
+    window.snippets_editor.setPlainText("sig=Best regards")
+    window.app_profiles_editor.setPlainText(json.dumps(profiles))
+
+    assert window.apply_changes() is True
+    assert json.loads((tmp_path / "glossary.json").read_text(encoding="utf-8")) == dictionary
+    assert window.snippet_store.read().editable == {"sig": "Best regards"}
+    assert (tmp_path / "snippets.txt").read_text(encoding="utf-8") == "addr=123 Main\n"
+    assert json.loads((tmp_path / "app_profiles.json").read_text(encoding="utf-8")) == profiles
+
+
+def test_unchanged_dictionary_editor_keeps_new_learning_and_hides_receipts(tmp_path):
+    from saydraft.dictionary.store import add_term, undo_learning
+    window, _config_path, _autostart = make_window(tmp_path)
+    receipt = add_term(tmp_path / "glossary.json", "Kubernetes", learned=True)
+    assert window.apply_changes()
+    assert "Kubernetes" in window.dictionary_editor.toPlainText()
+    assert "_saydraft_learning" not in window.dictionary_editor.toPlainText()
+    assert receipt.revision not in window.dictionary_editor.toPlainText()
+    assert undo_learning(tmp_path / "glossary.json", receipt)
+
+
+def test_learning_toggles_persist_and_auto_add_depends_on_suggestions(tmp_path):
+    window, config_path, _autostart = make_window(tmp_path)
+    window.learn_corrections_checkbox.setChecked(True)
+    assert window.auto_add_dictionary_checkbox.isEnabled()
+    window.auto_add_dictionary_checkbox.setChecked(True)
+    assert window.apply_changes()
+    saved = json.loads(config_path.read_text(encoding="utf-8"))["dictation"]
+    assert saved["learn_corrections"] and saved["auto_add_dictionary"]
+    window.learn_corrections_checkbox.setChecked(False)
+    assert not window.auto_add_dictionary_checkbox.isEnabled()
+    assert window.apply_changes()
+    saved = json.loads(config_path.read_text(encoding="utf-8"))["dictation"]
+    assert not saved["learn_corrections"] and not saved["auto_add_dictionary"]
+
+
+def test_stale_dictionary_editor_refuses_save_without_applying_settings(tmp_path):
+    from saydraft.dictionary.store import add_term
+    applied = []
+    window, config_path, autostart = make_window(tmp_path, on_config_applied=applied.append)
+    original = config_path.read_bytes()
+    window.dictionary_editor.setPlainText('{"user_terms": ["Edited"]}')
+    window.autostart_checkbox.setChecked(True)
+    add_term(tmp_path / "glossary.json", "Kubernetes", learned=True)
+    assert not window.apply_changes()
+    assert "Dictionary changed" in window.status_label.text()
+    assert "Edited" in window.dictionary_editor.toPlainText()
+    assert config_path.read_bytes() == original
+    assert not applied and not autostart.calls
+    assert "Kubernetes" in (tmp_path / "glossary.json").read_text(encoding="utf-8")
+    window.reload_dictionary_button.click()
+    assert "Kubernetes" in window.dictionary_editor.toPlainText()
+    assert "Edited" not in window.dictionary_editor.toPlainText()
+    assert window.apply_changes()
+    assert len(applied) == 1
+
+
+def test_windows_autostart_manager_uses_hkcu_run_key():
+    from saydraft.ui.settings_page import WindowsAutoStartManager
+
+    class FakeRegistry:
+        HKEY_CURRENT_USER = "HKCU"
+        REG_SZ = "REG_SZ"
+        values = {}
+
+        def CreateKey(self, root, path):
+            self.values.setdefault((root, path), {})
+            return (root, path)
+
+        def OpenKey(self, root, path, *_args):
+            return (root, path)
+
+        def SetValueEx(self, key, name, _reserved, kind, value):
+            self.values.setdefault(key, {})[name] = (kind, value)
+
+        def QueryValueEx(self, key, name):
+            return self.values[key][name]
+
+        def DeleteValue(self, key, name):
+            del self.values[key][name]
+
+        def CloseKey(self, _key):
+            return None
+
+    fake_registry = FakeRegistry()
+    manager = WindowsAutoStartManager(
+        registry=fake_registry,
+        platform="win32",
+        command="pythonw -m saydraft",
+    )
+
+    manager.set_enabled(True)
+    assert manager.is_enabled() is True
+    manager.set_enabled(False)
+    assert manager.is_enabled() is False
+
+
+def test_windows_autostart_manager_uses_frozen_exe_command(monkeypatch, tmp_path):
+    import sys
+
+    from saydraft.ui.settings_page import WindowsAutoStartManager
+
+    exe = tmp_path / "Saydraft.exe"
+    monkeypatch.setattr(sys, "frozen", True, raising=False)
+    monkeypatch.setattr(sys, "executable", str(exe))
+
+    manager = WindowsAutoStartManager(platform="win32")
+
+    assert manager.command == f'"{exe}"'
+
+
+def test_speech_detection_download_runs_outside_the_ui_thread(tmp_path):
+    import threading
+    from PySide6 import QtTest, QtWidgets
+
+    window, _config_path, _autostart = make_window(tmp_path)
+    started = threading.Event()
+    release = threading.Event()
+
+    def download(progress):
+        started.set()
+        assert release.wait(2)
+        progress(100)
+        return tmp_path / "vad"
+
+    window.vad_download_callback = download
+    window.download_vad_model()
+    assert started.wait(1)
+    assert not window.vad_download_button.isEnabled()
+    window.mode_combo.setCurrentText("raw")
+    assert window.mode_combo.currentText() == "raw"
+    release.set()
+    for _ in range(100):
+        QtWidgets.QApplication.processEvents()
+        if window._vad_download_task is None:
+            break
+        QtTest.QTest.qWait(10)
+    assert window._vad_download_task is None
+    assert window.vad_download_button.isEnabled()
+    assert window.model_progress.value() == 100
+    assert "ready" in window.status_label.text().lower()

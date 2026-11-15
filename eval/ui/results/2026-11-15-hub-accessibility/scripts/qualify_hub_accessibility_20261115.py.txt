@@ -1,0 +1,62 @@
+"""Bounded fresh-process UI regression files with owned Windows Job trees."""
+import concurrent.futures
+import json
+import os
+from pathlib import Path
+import subprocess
+import sys
+import time
+
+qa = Path(__file__).resolve().parent
+repo = qa / 'worktrees/hub-accessibility-20261115'
+out = qa / 'hub-accessibility-20261115-r1/final-tests-r3'
+out.mkdir(parents=True, exist_ok=False)
+sys.path.insert(0, str(repo))
+from tools.public_file_guard import install
+install(out / 'parent-guard.json')
+from saydraft.cleanup.llm.windows_process import WindowsJobProcess
+
+source = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=repo, text=True).strip()
+assert not subprocess.check_output(['git', 'status', '--porcelain'], cwd=repo, text=True).strip()
+names = ['test_hub', 'test_hub_style_preview', 'test_settings_window', 'test_dictionary_page',
+         'test_snippets_page', 'test_styles_page', 'test_theme', 'test_model_picker',
+         'test_history_window', 'test_hub_accessibility']
+
+def run(name):
+    command = [sys.executable, str(qa / 'run_hub_accessibility_20261115.py'), str(out / f'{name}-guard.json'),
+        f'tests/{name}.py', '-q', '-rs', '-k', 'not real_app and not app_wires', '--durations=5',
+        f'--basetemp={out / (name + "-temp")}']
+    record = dict(source=source, file=f'tests/{name}.py', args=command, started=time.time(), timeout=False)
+    env = os.environ.copy()
+    env['PYTHONUNBUFFERED'] = '1'
+    # The owned profile intentionally hides the normal user-site directory.
+    # Pass already resolved read-only dependencies explicitly; process no .pth.
+    env['PYTHONNOUSERSITE'] = '1'
+    env['PYTHONPATH'] = os.pathsep.join(str(Path(p).resolve()) for p in sys.path if p)
+    with WindowsJobProcess(command, cwd=repo, env=env, capture_output=True, max_output_bytes=262144) as child:
+        record['launcher_pid'] = child.pid
+        try:
+            record['returncode'] = child.wait_tree(timeout=180)
+        except TimeoutError:
+            record['timeout'] = True
+            child.terminate()
+            record['returncode'] = child.wait_tree(timeout=3)
+        record['job_tree_exit_observed'] = True
+        (out / f'{name}.log').write_bytes(child.read_output(timeout=3))
+    record['ended'] = time.time()
+    guard_file = out / f'{name}-guard.json'
+    if guard_file.exists():
+        guard = json.loads(guard_file.read_text(encoding='utf-8'))
+        record['actual_pid'] = guard['pid']
+        assert not guard['blocked_attempts'] and not guard['real_audio_sdk_imported'], guard
+    else:
+        record['guard_receipt_missing'] = True
+    (out / f'{name}-process.json').write_text(json.dumps(record, indent=2) + '\n', encoding='utf-8')
+    print(json.dumps(record), flush=True)
+    return record
+
+with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
+    results = list(executor.map(run, names))
+assert not subprocess.check_output(['git', 'status', '--porcelain'], cwd=repo, text=True).strip()
+(out / 'summary.json').write_text(json.dumps(dict(source=source, files=results), indent=2) + '\n', encoding='utf-8')
+assert all(r['returncode'] == 0 and not r['timeout'] and not r.get('guard_receipt_missing') for r in results), results

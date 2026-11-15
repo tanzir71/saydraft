@@ -45,6 +45,12 @@ events. Its twenty-one cases cover:
   conflicting Text/AlternateBase colors, in normal/selected rows and all three
   native palette groups. Screenshots exposed the previous white-on-white chip.
 
+The [retained local run](../eval/ui/results/2026-11-15-hub-accessibility/README.md)
+at `6831b0e` passes 164 related tests in ten fresh processes, with three app-entry
+integrations deliberately deselected. Its 108 fixture captures retain paired
+Tab walks, image hashes, source witnesses, guards and observed Job-tree exits.
+Original failures remain classified separately; they are not passing evidence.
+
 The font-size check is actual 200% **logical text**, separate from a 2× image or
 display pixel density. High contrast uses an injected Qt preference; it does
 not change or qualify the owner's Windows settings. Native screen-reader/UIA,
@@ -55,6 +61,8 @@ Some wide History/Style/forms still need horizontal scrolling at 32px in an
 880px window. The native scroll containers keep their controls reachable; this
 pass does not claim universal reflow. Follow the manual checks below on an
 authorized isolated Windows account before accepting P6.7.
+The earlier `5848e53` portable predates these UI changes; a new portable and
+installer have not been qualified by this accessibility pass.
 
 ## Manual acceptance
 

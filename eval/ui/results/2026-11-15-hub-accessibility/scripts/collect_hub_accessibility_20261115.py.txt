@@ -1,0 +1,182 @@
+import hashlib
+import json
+from pathlib import Path
+import re
+import shutil
+import subprocess
+
+qa = Path(__file__).resolve().parent
+repo = qa / 'worktrees/hub-accessibility-20261115'
+run = qa / 'hub-accessibility-20261115-r1'
+out = repo / 'eval/ui/results/2026-11-15-hub-accessibility'
+source = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=repo, text=True).strip()
+summary = json.loads((run / 'final-tests-r3/summary.json').read_text(encoding='utf-8'))
+report = json.loads((run / 'render-r3/report.json').read_text(encoding='utf-8'))
+assert source == summary['source'] == report['source'] == '6831b0ec8c8f79d4c09a7bca10ad13dc5a39b6a7'
+assert len(summary['files']) == 10 and len(report['records']) == 108
+assert all(p['returncode'] == 0 and not p['timeout'] and p['job_tree_exit_observed'] for p in summary['files'])
+assert not subprocess.check_output(['git', 'status', '--porcelain'], cwd=repo, text=True).strip()
+out.mkdir(parents=True, exist_ok=False)
+
+def copy(src, dest):
+    dest = out / dest
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copyfile(src, dest)
+
+for file in (run / 'final-tests-r3').iterdir():
+    if file.is_file():
+        copy(file, 'tests/' + file.name)
+copy(run / 'final-tests-r3-driver.log', 'tests/driver.log')
+copy(run / 'render-r3/report.json', 'final/report.json')
+copy(run / 'render-r3.log', 'final/render.log')
+copy(run / 'render-r3-guard.json', 'final/guard.json')
+for record in report['records']:
+    copy(run / 'render-r3' / record['image'], 'final/' + record['image'])
+copy(run / 'ruff-final.log', 'tests/ruff.log')
+
+# Original failures/diagnostics retain their bytes and their limited scope.
+for name in ['before.log', 'before-r3.log', 'after-r4.log', 'focus-r5.log', 'focus-r6.log',
+             'tests-r1.log', 'tests-r2.log', 'tests-r3.log', 'tests-r4.log', 'tests-r5.log',
+             'related-r1.log', 'render-r1.log', 'render-r2.log', 'final-tests-driver.log',
+             'final-tests-r2-driver.log', 'chips-r1.log']:
+    copy(run / name, 'diagnostics/' + name)
+for file in run.glob('*guard.json'):
+    if file.name != 'render-r3-guard.json':
+        copy(file, 'diagnostics/' + file.name)
+for name in ['before-r3', 'focus-r5', 'focus-r6']:
+    copy(run / name / 'inspection.json', 'diagnostics/' + name + '-inspection.json')
+for name in ['32-Home.png', '32-Settings-General.png']:
+    copy(run / 'before-r3' / name, 'diagnostics/before-' + name)
+copy(run / 'render-r2/high-contrast-32-Dictionary-expanded.png', 'diagnostics/before-chip-fix.png')
+for name in ['render-r1', 'render-r2']:
+    copy(run / name / 'report.json', 'diagnostics/' + name + '-report.json')
+for name in ['final-tests', 'final-tests-r2']:
+    for file in (run / name).iterdir():
+        if file.is_file():
+            copy(file, 'diagnostics/' + name + '/' + file.name)
+
+files = [p['file'] for p in summary['files']]
+files += ['saydraft/ui/' + name + '.py' for name in ['hub', 'home_page', 'history_page', 'settings_page',
+    'languages_page', 'model_picker', 'cleanup_picker', 'labs_page', 'command_setup', 'styles_page',
+    'dictionary_page', 'snippets_page', 'fonts']]
+files += ['saydraft/ui/theme/controller.py', 'saydraft/ui/theme/__init__.py',
+          'tools/public_file_guard.py', 'saydraft/cleanup/llm/windows_process.py']
+witnesses = []
+for rel in sorted(set(files)):
+    payload = subprocess.check_output(['git', 'show', source + ':' + rel], cwd=repo)
+    dest = 'source/' + rel + '.txt'
+    (out / dest).parent.mkdir(parents=True, exist_ok=True)
+    (out / dest).write_bytes(payload)
+    witnesses.append(dict(path=rel, witness=dest, sha256=hashlib.sha256(payload).hexdigest()))
+for name in ['run_hub_accessibility_20261115.py', 'render_hub_accessibility_20261115.py',
+             'qualify_hub_accessibility_20261115.py', 'collect_hub_accessibility_20261115.py']:
+    copy(qa / name, 'scripts/' + name + '.txt')
+copy(qa / 'verify_hub_accessibility_20261115.py', 'scripts/verify-delivery.py.txt')
+passed = deselected = 0
+for record in summary['files']:
+    log = (out / 'tests' / (Path(record['file']).stem + '.log')).read_text(encoding='utf-8')
+    match = re.search(r'(\d+) passed(?:, (\d+) deselected)? in ', log)
+    assert match, record
+    passed += int(match[1])
+    deselected += int(match[2] or 0)
+assert (passed, deselected) == (164, 3), (passed, deselected)
+readme = f'''# Hub accessibility checkpoint — 15 November 2026
+
+Source `{source}` passes **164 tests** across ten fresh guarded processes,
+with three app-entry integrations deliberately deselected. All process trees
+retire normally. The final renderer passes **108 public fixture states**, each
+with named forward/reverse Tab walks (216 walks), at actual 16px/32px text in
+light, dark and injected high contrast. No owner audio/device/input/clipboard
+port is used. This is partial P6.7 progress, not full Windows acceptance.
+
+See the [behavior and remaining checklist](../../../../docs/HUB_ACCESSIBILITY.md).
+The [final report](final/report.json), [test summary](tests/summary.json),
+[render guard](final/guard.json), [parent guard](tests/parent-guard.json), and
+[lint result](tests/ruff.log) retain the actual results. The source witnesses
+are exact Git bytes, separate from the external producer scripts.
+
+## What changed
+
+The rail fits its actual font/icon/scrollbar metrics. Home wraps its shortcut
+explanation; native forms can stack long rows. History/results/model/matrix/JSON
+controls have names. Populated Dictionary, Snippets and Style tables and
+multiline form editors let Tab leave without editing text. Help/model license
+links are keyboard reachable. Dictionary source chips use native paired colors
+for normal/selected and active/inactive/disabled states.
+
+The 21 new regression cases include actual Qt focus events and accessible-name
+queries, expanded fields, live 16→32→16px changes, two window sizes, six chip
+raster checks and queued-callback exception enforcement. The three deselections
+import the app entry point; they were not run around the owner's desktop stop.
+The existing History tests now inject memory clipboards explicitly. The Snippets
+test installs a forbidden fake clipboard module rather than importing the real
+implementation merely to forbid a method.
+
+## Original diagnostics
+
+The diagnostic records are excluded from final qualification:
+
+- Early inspector preflights exposed a wrong font-function name and a fake
+  clipboard that incorrectly raised during `hasattr`. These are harness errors.
+- The original focus walk exposed multiline and populated-table Tab traps.
+  The first new-suite run omitted required History fixture metadata; subsequent
+  runs exposed real table traps, then an overbroad text assertion during normal
+  first-row selection. The final fixture preselects rows and checks editable
+  text. Original logs are retained without rewriting their outcomes.
+- The first broad run has 153 passes/five guard refusals: four History defaults
+  attempted native clipboard construction and one Snippets monkeypatch attempted
+  to import it. The guard stopped them before import. App-entry integrations were
+  also deselected. This long combined run is diagnostic; the final per-file
+  runs use the corrected tests on clean committed source.
+- Initial rendering supplied the wrong inventory fake shape, producing queued
+  callback errors. It is not accepted. The corrected fixture supplies the actual
+  `Inventory` value and treats callback exceptions as failures.
+- The second render at `d711e23` has 108 states but predates the chip correction.
+  Its retained [chip image](diagnostics/before-chip-fix.png) exposed unreadable
+  white-on-white text under the injected palette. Only the final 6831b0e captures
+  establish the corrected result.
+- The first fresh-process driver hid user-site dependencies with its private
+  profile and all ten children stopped at missing PySide6. The next driver
+  passed explicit read-only dependency paths but its end-of-run clean-source
+  check failed as the chip fix was being developed. Neither run qualifies.
+  Final `final-tests-r3` ran from clean source throughout, with explicit dependency
+  paths, no user-site processing and bounded kill-on-close Windows Job trees.
+
+The two earliest large-text images are diagnostic captures from the initial
+8144585 checkout; their external inspector changed during investigation. They
+are not an exact-producer reproducibility claim. The final scripts are retained
+under [scripts](scripts/) with their original D-drive paths. Adapt copies to an
+isolated machine to reproduce; leave these original records unchanged.
+
+## Limits
+
+High contrast is a fake Qt preference plus a fixture palette, not a changed or
+verified Windows preference. These are offscreen Qt widgets, not native Narrator
+or UIA acceptance. Wide pages still need horizontal scrolling at 32px/880px;
+universal reflow, physical focus/keyboard, mixed-DPI, Bar/onboarding and complete
+P6.7 acceptance remain open. The 2× text check does not claim 2× display-density
+acceptance. The earlier portable 5848e53 is historical and lacks these UI changes;
+no new portable/installer, release, deployment, Actions run or signing follows.
+The full original goal and accuracy/manual/release gates remain open. Reserved
+audio is uninferred, and both outstanding owner decisions remain pending.
+
+Verify retained bytes, original Git source, state coverage, focus/name results,
+guards and test exits from the repository root:
+
+```powershell
+python eval/ui/results/2026-11-15-hub-accessibility/scripts/verify-delivery.py.txt --repo .
+```
+
+Add `--check-current` only when verifying delivery of unchanged app/QA source.
+By default the verifier checks the recorded historical source; later intentional
+UI changes do not rewrite or invalidate this historical measurement.
+'''
+(out / 'README.md').write_text(readme, encoding='utf-8', newline='\n')
+manifest = dict(source=source, full_p6_7_accepted=False, full_goal_complete=False,
+    new_portable_built=False, owner_io_used=False, actions_dispatched=False,
+    hosting_deployed=False, release_changed=False, source_files=witnesses)
+manifest['records'] = [dict(path=p.relative_to(out).as_posix(), bytes=p.stat().st_size,
+    sha256=hashlib.sha256(p.read_bytes()).hexdigest()) for p in sorted(out.rglob('*')) if p.is_file()]
+(out / 'manifest.json').write_text(json.dumps(manifest, indent=2) + '\n', encoding='utf-8')
+print(json.dumps(dict(source=source, tests=passed, deselected=deselected, frames=108,
+    retained_records=len(manifest['records']), source_witnesses=len(witnesses)), indent=2))

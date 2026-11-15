@@ -1,0 +1,5018 @@
+[
+  {
+    "px": 16,
+    "page": "Home",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 164,
+    "nav_size_hint": 126,
+    "controls": [
+      {
+        "type": "QListWidget",
+        "name": "Hub pages",
+        "rect": [
+          20,
+          85,
+          164,
+          495
+        ],
+        "text": ""
+      },
+      {
+        "type": "HomePage",
+        "name": "",
+        "rect": [
+          0,
+          0,
+          656,
+          560
+        ],
+        "text": ""
+      },
+      {
+        "type": "QPushButton",
+        "name": "Offline mode active. Open Privacy.",
+        "rect": [
+          540,
+          323,
+          102,
+          41
+        ],
+        "text": "Offline"
+      },
+      {
+        "type": "QPushButton",
+        "name": "Meeting notes \u00b7 Labs",
+        "rect": [
+          0,
+          380,
+          186,
+          41
+        ],
+        "text": "Meeting notes \u00b7 Labs"
+      },
+      {
+        "type": "QListWidget",
+        "name": "Last five dictations; activate an entry to open History",
+        "rect": [
+          0,
+          469,
+          642,
+          192
+        ],
+        "text": ""
+      }
+    ],
+    "scrolls": [
+      {
+        "name": "Hub pages",
+        "type": "QListWidget",
+        "horizontal": 0,
+        "width": 164
+      },
+      {
+        "name": "",
+        "type": "HomePage",
+        "horizontal": 0,
+        "width": 656
+      },
+      {
+        "name": "Last five dictations; activate an entry to open History",
+        "type": "QListWidget",
+        "horizontal": 0,
+        "width": 642
+      }
+    ]
+  },
+  {
+    "px": 16,
+    "page": "History",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 164,
+    "nav_size_hint": 126,
+    "controls": [
+      {
+        "type": "QListWidget",
+        "name": "Hub pages",
+        "rect": [
+          20,
+          85,
+          164,
+          495
+        ],
+        "text": ""
+      },
+      {
+        "type": "QScrollArea",
+        "name": "",
+        "rect": [
+          0,
+          0,
+          656,
+          560
+        ],
+        "text": ""
+      },
+      {
+        "type": "QLineEdit",
+        "name": "Search all History",
+        "rect": [
+          9,
+          10,
+          542,
+          39
+        ],
+        "text": ""
+      },
+      {
+        "type": "QListWidget",
+        "name": "",
+        "rect": [
+          0,
+          0,
+          176,
+          374
+        ],
+        "text": ""
+      },
+      {
+        "type": "QPushButton",
+        "name": "Refresh",
+        "rect": [
+          0,
+          454,
+          176,
+          41
+        ],
+        "text": "Refresh"
+      },
+      {
+        "type": "QCheckBox",
+        "name": "Show raw transcript",
+        "rect": [
+          0,
+          27,
+          185,
+          29
+        ],
+        "text": "Show raw transcript"
+      },
+      {
+        "type": "QCheckBox",
+        "name": "Show changes",
+        "rect": [
+          191,
+          27,
+          141,
+          29
+        ],
+        "text": "Show changes"
+      },
+      {
+        "type": "PrivatePlainTextEdit",
+        "name": "",
+        "rect": [
+          0,
+          62,
+          458,
+          265
+        ],
+        "text": ""
+      },
+      {
+        "type": "QPushButton",
+        "name": "Why this result?",
+        "rect": [
+          0,
+          333,
+          458,
+          41
+        ],
+        "text": "Why this result?"
+      }
+    ],
+    "scrolls": [
+      {
+        "name": "Hub pages",
+        "type": "QListWidget",
+        "horizontal": 0,
+        "width": 164
+      },
+      {
+        "name": "",
+        "type": "QScrollArea",
+        "horizontal": 0,
+        "width": 656
+      },
+      {
+        "name": "",
+        "type": "PrivatePlainTextEdit",
+        "horizontal": 0,
+        "width": 458
+      },
+      {
+        "name": "",
+        "type": "QListWidget",
+        "horizontal": 0,
+        "width": 176
+      }
+    ]
+  },
+  {
+    "px": 16,
+    "page": "Dictionary",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 164,
+    "nav_size_hint": 126,
+    "controls": [
+      {
+        "type": "QListWidget",
+        "name": "Hub pages",
+        "rect": [
+          20,
+          85,
+          164,
+          495
+        ],
+        "text": ""
+      },
+      {
+        "type": "QScrollArea",
+        "name": "",
+        "rect": [
+          0,
+          0,
+          656,
+          499
+        ],
+        "text": ""
+      },
+      {
+        "type": "QCheckBox",
+        "name": "Suggest words from corrections",
+        "rect": [
+          0,
+          51,
+          642,
+          29
+        ],
+        "text": "Suggest words from corrections"
+      },
+      {
+        "type": "QLineEdit",
+        "name": "Search Dictionary",
+        "rect": [
+          0,
+          122,
+          449,
+          39
+        ],
+        "text": ""
+      },
+      {
+        "type": "QPushButton",
+        "name": "Import\u2026",
+        "rect": [
+          455,
+          121,
+          91,
+          41
+        ],
+        "text": "Import\u2026"
+      },
+      {
+        "type": "QPushButton",
+        "name": "Export\u2026",
+        "rect": [
+          552,
+          121,
+          90,
+          41
+        ],
+        "text": "Export\u2026"
+      },
+      {
+        "type": "QComboBox",
+        "name": "Dictionary entry type",
+        "rect": [
+          0,
+          168,
+          642,
+          39
+        ],
+        "text": ""
+      },
+      {
+        "type": "QTableView",
+        "name": "Dictionary entries and sources",
+        "rect": [
+          0,
+          213,
+          642,
+          192
+        ],
+        "text": ""
+      },
+      {
+        "type": "QLineEdit",
+        "name": "Term or spoken phrase",
+        "rect": [
+          0,
+          411,
+          642,
+          39
+        ],
+        "text": ""
+      },
+      {
+        "type": "QPushButton",
+        "name": "Add",
+        "rect": [
+          0,
+          456,
+          61,
+          41
+        ],
+        "text": "Add"
+      },
+      {
+        "type": "QCheckBox",
+        "name": "Advanced JSON",
+        "rect": [
+          0,
+          503,
+          642,
+          29
+        ],
+        "text": "Advanced JSON"
+      },
+      {
+        "type": "QPushButton",
+        "name": "Reload saved Dictionary",
+        "rect": [
+          0,
+          538,
+          642,
+          41
+        ],
+        "text": "Reload saved Dictionary"
+      },
+      {
+        "type": "QPushButton",
+        "name": "Save changes",
+        "rect": [
+          521,
+          0,
+          135,
+          41
+        ],
+        "text": "Save changes"
+      }
+    ],
+    "scrolls": [
+      {
+        "name": "Hub pages",
+        "type": "QListWidget",
+        "horizontal": 0,
+        "width": 164
+      },
+      {
+        "name": "",
+        "type": "QScrollArea",
+        "horizontal": 0,
+        "width": 656
+      },
+      {
+        "name": "Dictionary entries and sources",
+        "type": "QTableView",
+        "horizontal": 0,
+        "width": 642
+      },
+      {
+        "name": "",
+        "type": "QHeaderView",
+        "horizontal": 0,
+        "width": 642
+      }
+    ]
+  },
+  {
+    "px": 16,
+    "page": "Snippets",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 164,
+    "nav_size_hint": 126,
+    "controls": [
+      {
+        "type": "QListWidget",
+        "name": "Hub pages",
+        "rect": [
+          20,
+          85,
+          164,
+          495
+        ],
+        "text": ""
+      },
+      {
+        "type": "QScrollArea",
+        "name": "",
+        "rect": [
+          0,
+          0,
+          656,
+          499
+        ],
+        "text": ""
+      },
+      {
+        "type": "QLineEdit",
+        "name": "Search Snippets",
+        "rect": [
+          0,
+          51,
+          642,
+          39
+        ],
+        "text": ""
+      },
+      {
+        "type": "QTableView",
+        "name": "Snippet triggers and expansions",
+        "rect": [
+          0,
+          96,
+          642,
+          150
+        ],
+        "text": ""
+      },
+      {
+        "type": "QLineEdit",
+        "name": "Spoken snippet trigger",
+        "rect": [
+          0,
+          252,
+          642,
+          39
+        ],
+        "text": ""
+      },
+      {
+        "type": "PrivatePlainTextEdit",
+        "name": "Snippet expansion",
+        "rect": [
+          0,
+          297,
+          642,
+          110
+        ],
+        "text": ""
+      },
+      {
+        "type": "QPushButton",
+        "name": "Insert {date}",
+        "rect": [
+          0,
+          413,
+          124,
+          41
+        ],
+        "text": "Insert {date}"
+      },
+      {
+        "type": "QPushButton",
+        "name": "Insert {clipboard}",
+        "rect": [
+          130,
+          413,
+          163,
+          41
+        ],
+        "text": "Insert {clipboard}"
+      },
+      {
+        "type": "QPushButton",
+        "name": "Add",
+        "rect": [
+          0,
+          508,
+          61,
+          41
+        ],
+        "text": "Add"
+      },
+      {
+        "type": "QPushButton",
+        "name": "New snippet",
+        "rect": [
+          257,
+          508,
+          127,
+          41
+        ],
+        "text": "New snippet"
+      },
+      {
+        "type": "QCheckBox",
+        "name": "Test a trigger",
+        "rect": [
+          0,
+          555,
+          642,
+          29
+        ],
+        "text": "Test a trigger"
+      },
+      {
+        "type": "QCheckBox",
+        "name": "Advanced JSON / legacy text",
+        "rect": [
+          0,
+          590,
+          642,
+          29
+        ],
+        "text": "Advanced JSON / legacy text"
+      },
+      {
+        "type": "QPushButton",
+        "name": "Reload saved Snippets",
+        "rect": [
+          0,
+          625,
+          642,
+          41
+        ],
+        "text": "Reload saved Snippets"
+      },
+      {
+        "type": "QPushButton",
+        "name": "Save changes",
+        "rect": [
+          521,
+          0,
+          135,
+          41
+        ],
+        "text": "Save changes"
+      }
+    ],
+    "scrolls": [
+      {
+        "name": "Hub pages",
+        "type": "QListWidget",
+        "horizontal": 0,
+        "width": 164
+      },
+      {
+        "name": "",
+        "type": "QScrollArea",
+        "horizontal": 0,
+        "width": 656
+      },
+      {
+        "name": "Snippet triggers and expansions",
+        "type": "QTableView",
+        "horizontal": 0,
+        "width": 642
+      },
+      {
+        "name": "",
+        "type": "QHeaderView",
+        "horizontal": 0,
+        "width": 642
+      },
+      {
+        "name": "Snippet expansion",
+        "type": "PrivatePlainTextEdit",
+        "horizontal": 0,
+        "width": 642
+      }
+    ]
+  },
+  {
+    "px": 16,
+    "page": "Style",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 164,
+    "nav_size_hint": 126,
+    "controls": [
+      {
+        "type": "QListWidget",
+        "name": "Hub pages",
+        "rect": [
+          20,
+          85,
+          164,
+          495
+        ],
+        "text": ""
+      },
+      {
+        "type": "StylesPage",
+        "name": "",
+        "rect": [
+          0,
+          0,
+          656,
+          499
+        ],
+        "text": ""
+      },
+      {
+        "type": "QTableWidget",
+        "name": "",
+        "rect": [
+          9,
+          57,
+          624,
+          328
+        ],
+        "text": ""
+      },
+      {
+        "type": "QComboBox",
+        "name": "Messages tone",
+        "rect": [
+          115,
+          0,
+          163,
+          40
+        ],
+        "text": ""
+      },
+      {
+        "type": "QComboBox",
+        "name": "Messages intensity",
+        "rect": [
+          279,
+          0,
+          344,
+          40
+        ],
+        "text": ""
+      },
+      {
+        "type": "QComboBox",
+        "name": "Work chat tone",
+        "rect": [
+          115,
+          41,
+          163,
+          40
+        ],
+        "text": ""
+      },
+      {
+        "type": "QComboBox",
+        "name": "Work chat intensity",
+        "rect": [
+          279,
+          41,
+          344,
+          40
+        ],
+        "text": ""
+      },
+      {
+        "type": "QComboBox",
+        "name": "Email tone",
+        "rect": [
+          115,
+          82,
+          163,
+          40
+        ],
+        "text": ""
+      },
+      {
+        "type": "QComboBox",
+        "name": "Email intensity",
+        "rect": [
+          279,
+          82,
+          344,
+          40
+        ],
+        "text": ""
+      },
+      {
+        "type": "QComboBox",
+        "name": "Docs & notes tone",
+        "rect": [
+          115,
+          123,
+          163,
+          40
+        ],
+        "text": ""
+      },
+      {
+        "type": "QComboBox",
+        "name": "Docs & notes intensity",
+        "rect": [
+          279,
+          123,
+          344,
+          40
+        ],
+        "text": ""
+      },
+      {
+        "type": "QComboBox",
+        "name": "AI chat tone",
+        "rect": [
+          115,
+          205,
+          163,
+          40
+        ],
+        "text": ""
+      },
+      {
+        "type": "QComboBox",
+        "name": "AI chat intensity",
+        "rect": [
+          279,
+          205,
+          344,
+          40
+        ],
+        "text": ""
+      },
+      {
+        "type": "QComboBox",
+        "name": "Other tone",
+        "rect": [
+          115,
+          246,
+          163,
+          40
+        ],
+        "text": ""
+      },
+      {
+        "type": "QComboBox",
+        "name": "Other intensity",
+        "rect": [
+          279,
+          246,
+          344,
+          40
+        ],
+        "text": ""
+      },
+      {
+        "type": "QComboBox",
+        "name": "App group for spoken translation",
+        "rect": [
+          140,
+          45,
+          459,
+          39
+        ],
+        "text": ""
+      },
+      {
+        "type": "QComboBox",
+        "name": "Spoken translation output language",
+        "rect": [
+          140,
+          90,
+          459,
+          39
+        ],
+        "text": ""
+      },
+      {
+        "type": "QComboBox",
+        "name": "Preview app group",
+        "rect": [
+          123,
+          642,
+          299,
+          39
+        ],
+        "text": ""
+      },
+      {
+        "type": "QComboBox",
+        "name": "Preview transcript language",
+        "rect": [
+          148,
+          688,
+          485,
+          39
+        ],
+        "text": ""
+      },
+      {
+        "type": "QLineEdit",
+        "name": "App .exe (optional)",
+        "rect": [
+          9,
+          733,
+          204,
+          39
+        ],
+        "text": ""
+      },
+      {
+        "type": "QLineEdit",
+        "name": "Site hostname (optional)",
+        "rect": [
+          219,
+          733,
+          204,
+          39
+        ],
+        "text": ""
+      },
+      {
+        "type": "QLineEdit",
+        "name": "Window title (legacy overrides)",
+        "rect": [
+          429,
+          733,
+          204,
+          39
+        ],
+        "text": ""
+      },
+      {
+        "type": "PrivatePlainTextEdit",
+        "name": "Before cleanup",
+        "rect": [
+          9,
+          805,
+          309,
+          192
+        ],
+        "text": ""
+      },
+      {
+        "type": "PrivatePlainTextEdit",
+        "name": "Preview",
+        "rect": [
+          324,
+          805,
+          309,
+          192
+        ],
+        "text": ""
+      },
+      {
+        "type": "QPushButton",
+        "name": "Save changes",
+        "rect": [
+          521,
+          0,
+          135,
+          41
+        ],
+        "text": "Save changes"
+      }
+    ],
+    "scrolls": [
+      {
+        "name": "Hub pages",
+        "type": "QListWidget",
+        "horizontal": 0,
+        "width": 164
+      },
+      {
+        "name": "",
+        "type": "StylesPage",
+        "horizontal": 0,
+        "width": 656
+      },
+      {
+        "name": "",
+        "type": "QTableWidget",
+        "horizontal": 0,
+        "width": 624
+      },
+      {
+        "name": "",
+        "type": "QHeaderView",
+        "horizontal": 0,
+        "width": 624
+      },
+      {
+        "name": "Before cleanup",
+        "type": "PrivatePlainTextEdit",
+        "horizontal": 0,
+        "width": 309
+      },
+      {
+        "name": "Preview",
+        "type": "PrivatePlainTextEdit",
+        "horizontal": 0,
+        "width": 309
+      }
+    ]
+  },
+  {
+    "px": 16,
+    "page": "Notes",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 164,
+    "nav_size_hint": 126,
+    "controls": [
+      {
+        "type": "QListWidget",
+        "name": "Hub pages",
+        "rect": [
+          20,
+          85,
+          164,
+          495
+        ],
+        "text": ""
+      },
+      {
+        "type": "QLineEdit",
+        "name": "Search Notes",
+        "rect": [
+          9,
+          88,
+          432,
+          39
+        ],
+        "text": ""
+      },
+      {
+        "type": "QPushButton",
+        "name": "Refresh",
+        "rect": [
+          447,
+          87,
+          90,
+          41
+        ],
+        "text": "Refresh"
+      },
+      {
+        "type": "QPushButton",
+        "name": "New note",
+        "rect": [
+          543,
+          87,
+          104,
+          41
+        ],
+        "text": "New note"
+      },
+      {
+        "type": "QListWidget",
+        "name": "Saved notes",
+        "rect": [
+          0,
+          0,
+          256,
+          343
+        ],
+        "text": ""
+      },
+      {
+        "type": "PrivatePlainTextEdit",
+        "name": "Saved note text",
+        "rect": [
+          260,
+          0,
+          378,
+          343
+        ],
+        "text": ""
+      }
+    ],
+    "scrolls": [
+      {
+        "name": "Hub pages",
+        "type": "QListWidget",
+        "horizontal": 0,
+        "width": 164
+      },
+      {
+        "name": "Saved note text",
+        "type": "PrivatePlainTextEdit",
+        "horizontal": 0,
+        "width": 378
+      },
+      {
+        "name": "Saved notes",
+        "type": "QListWidget",
+        "horizontal": 0,
+        "width": 256
+      }
+    ]
+  },
+  {
+    "px": 16,
+    "page": "Settings-General",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 164,
+    "nav_size_hint": 126,
+    "controls": [
+      {
+        "type": "QListWidget",
+        "name": "Hub pages",
+        "rect": [
+          20,
+          85,
+          164,
+          495
+        ],
+        "text": ""
+      },
+      {
+        "type": "QTabWidget",
+        "name": "",
+        "rect": [
+          9,
+          54,
+          638,
+          436
+        ],
+        "text": ""
+      },
+      {
+        "type": "QComboBox",
+        "name": "Settings section",
+        "rect": [
+          71,
+          9,
+          576,
+          39
+        ],
+        "text": ""
+      },
+      {
+        "type": "QScrollArea",
+        "name": "",
+        "rect": [
+          0,
+          0,
+          638,
+          436
+        ],
+        "text": ""
+      },
+      {
+        "type": "QCheckBox",
+        "name": "Start with Windows",
+        "rect": [
+          164,
+          9,
+          465,
+          28
+        ],
+        "text": ""
+      },
+      {
+        "type": "QCheckBox",
+        "name": "Auto-start listening",
+        "rect": [
+          164,
+          43,
+          465,
+          28
+        ],
+        "text": ""
+      },
+      {
+        "type": "QCheckBox",
+        "name": "Show the idle Saydraft Bar",
+        "rect": [
+          164,
+          77,
+          465,
+          29
+        ],
+        "text": "Show the idle Saydraft Bar"
+      },
+      {
+        "type": "QCheckBox",
+        "name": "Play a tick when recording starts",
+        "rect": [
+          164,
+          112,
+          465,
+          29
+        ],
+        "text": "Play a tick when recording starts"
+      },
+      {
+        "type": "QCheckBox",
+        "name": "Play a soft tick after insertion",
+        "rect": [
+          164,
+          147,
+          465,
+          29
+        ],
+        "text": "Play a soft tick after insertion"
+      },
+      {
+        "type": "QSpinBox",
+        "name": "Notification duration",
+        "rect": [
+          164,
+          182,
+          465,
+          42
+        ],
+        "text": "3 s"
+      },
+      {
+        "type": "QLineEdit",
+        "name": "",
+        "rect": [
+          8,
+          8,
+          425,
+          26
+        ],
+        "text": "3 s"
+      },
+      {
+        "type": "QPushButton",
+        "name": "Save changes",
+        "rect": [
+          521,
+          0,
+          135,
+          41
+        ],
+        "text": "Save changes"
+      }
+    ],
+    "scrolls": [
+      {
+        "name": "Hub pages",
+        "type": "QListWidget",
+        "horizontal": 0,
+        "width": 164
+      },
+      {
+        "name": "",
+        "type": "QScrollArea",
+        "horizontal": 0,
+        "width": 638
+      }
+    ]
+  },
+  {
+    "px": 16,
+    "page": "Settings-Shortcuts",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 164,
+    "nav_size_hint": 126,
+    "controls": [
+      {
+        "type": "QListWidget",
+        "name": "Hub pages",
+        "rect": [
+          20,
+          85,
+          164,
+          495
+        ],
+        "text": ""
+      },
+      {
+        "type": "QTabWidget",
+        "name": "",
+        "rect": [
+          9,
+          54,
+          638,
+          436
+        ],
+        "text": ""
+      },
+      {
+        "type": "QComboBox",
+        "name": "Settings section",
+        "rect": [
+          71,
+          9,
+          576,
+          39
+        ],
+        "text": ""
+      },
+      {
+        "type": "QScrollArea",
+        "name": "",
+        "rect": [
+          0,
+          0,
+          638,
+          436
+        ],
+        "text": ""
+      },
+      {
+        "type": "QLineEdit",
+        "name": "Speech hotkey",
+        "rect": [
+          205,
+          9,
+          410,
+          39
+        ],
+        "text": "ctrl+win"
+      },
+      {
+        "type": "QLineEdit",
+        "name": "Alternate hotkey",
+        "rect": [
+          205,
+          54,
+          410,
+          39
+        ],
+        "text": "f9"
+      },
+      {
+        "type": "QLineEdit",
+        "name": "Mouse recording shortcut",
+        "rect": [
+          205,
+          99,
+          410,
+          39
+        ],
+        "text": "xbutton1"
+      },
+      {
+        "type": "QLineEdit",
+        "name": "Hands-free shortcut",
+        "rect": [
+          205,
+          144,
+          410,
+          39
+        ],
+        "text": "ctrl+win+space"
+      },
+      {
+        "type": "QLineEdit",
+        "name": "Paste last transcript",
+        "rect": [
+          205,
+          189,
+          410,
+          39
+        ],
+        "text": "shift+alt+z"
+      },
+      {
+        "type": "QLineEdit",
+        "name": "Open Scratchpad",
+        "rect": [
+          205,
+          234,
+          410,
+          39
+        ],
+        "text": "win+alt+s"
+      },
+      {
+        "type": "QLineEdit",
+        "name": "View last diff",
+        "rect": [
+          205,
+          279,
+          410,
+          39
+        ],
+        "text": "ctrl+win+d"
+      },
+      {
+        "type": "QLineEdit",
+        "name": "Ask about selected text",
+        "rect": [
+          205,
+          324,
+          410,
+          39
+        ],
+        "text": "ctrl+win+a"
+      },
+      {
+        "type": "QLineEdit",
+        "name": "Save hotkey",
+        "rect": [
+          205,
+          369,
+          410,
+          39
+        ],
+        "text": "f10"
+      },
+      {
+        "type": "QLineEdit",
+        "name": "Cancel hotkey",
+        "rect": [
+          205,
+          414,
+          410,
+          39
+        ],
+        "text": "esc"
+      },
+      {
+        "type": "QSpinBox",
+        "name": "Double-tap interval",
+        "rect": [
+          205,
+          486,
+          410,
+          42
+        ],
+        "text": "300 ms"
+      },
+      {
+        "type": "QLineEdit",
+        "name": "",
+        "rect": [
+          8,
+          8,
+          370,
+          26
+        ],
+        "text": "300 ms"
+      },
+      {
+        "type": "QPushButton",
+        "name": "Save changes",
+        "rect": [
+          521,
+          0,
+          135,
+          41
+        ],
+        "text": "Save changes"
+      }
+    ],
+    "scrolls": [
+      {
+        "name": "Hub pages",
+        "type": "QListWidget",
+        "horizontal": 0,
+        "width": 164
+      },
+      {
+        "name": "",
+        "type": "QScrollArea",
+        "horizontal": 0,
+        "width": 638
+      }
+    ]
+  },
+  {
+    "px": 16,
+    "page": "Settings-Languages",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 164,
+    "nav_size_hint": 126,
+    "controls": [
+      {
+        "type": "QListWidget",
+        "name": "Hub pages",
+        "rect": [
+          20,
+          85,
+          164,
+          495
+        ],
+        "text": ""
+      },
+      {
+        "type": "QTabWidget",
+        "name": "",
+        "rect": [
+          9,
+          54,
+          638,
+          436
+        ],
+        "text": ""
+      },
+      {
+        "type": "QComboBox",
+        "name": "Settings section",
+        "rect": [
+          71,
+          9,
+          576,
+          39
+        ],
+        "text": ""
+      },
+      {
+        "type": "QScrollArea",
+        "name": "",
+        "rect": [
+          0,
+          0,
+          638,
+          436
+        ],
+        "text": ""
+      },
+      {
+        "type": "QCheckBox",
+        "name": "Choose the speech model automatically",
+        "rect": [
+          9,
+          9,
+          620,
+          29
+        ],
+        "text": "Choose the speech model automatically"
+      },
+      {
+        "type": "QComboBox",
+        "name": "Language 1",
+        "rect": [
+          102,
+          44,
+          527,
+          39
+        ],
+        "text": ""
+      },
+      {
+        "type": "QCheckBox",
+        "name": "English max when English is the only pinned language",
+        "rect": [
+          9,
+          179,
+          620,
+          29
+        ],
+        "text": "English max when English is the only pinned language"
+      },
+      {
+        "type": "QPushButton",
+        "name": "Save changes",
+        "rect": [
+          521,
+          0,
+          135,
+          41
+        ],
+        "text": "Save changes"
+      }
+    ],
+    "scrolls": [
+      {
+        "name": "Hub pages",
+        "type": "QListWidget",
+        "horizontal": 0,
+        "width": 164
+      },
+      {
+        "name": "",
+        "type": "QScrollArea",
+        "horizontal": 0,
+        "width": 638
+      }
+    ]
+  },
+  {
+    "px": 16,
+    "page": "Settings-Cleanup",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 164,
+    "nav_size_hint": 126,
+    "controls": [
+      {
+        "type": "QListWidget",
+        "name": "Hub pages",
+        "rect": [
+          20,
+          85,
+          164,
+          495
+        ],
+        "text": ""
+      },
+      {
+        "type": "QTabWidget",
+        "name": "",
+        "rect": [
+          9,
+          54,
+          638,
+          436
+        ],
+        "text": ""
+      },
+      {
+        "type": "QComboBox",
+        "name": "Settings section",
+        "rect": [
+          71,
+          9,
+          576,
+          39
+        ],
+        "text": ""
+      },
+      {
+        "type": "QScrollArea",
+        "name": "",
+        "rect": [
+          0,
+          0,
+          638,
+          436
+        ],
+        "text": ""
+      },
+      {
+        "type": "QComboBox",
+        "name": "Cleanup mode",
+        "rect": [
+          133,
+          9,
+          496,
+          39
+        ],
+        "text": ""
+      },
+      {
+        "type": "QComboBox",
+        "name": "Default profile",
+        "rect": [
+          133,
+          54,
+          496,
+          39
+        ],
+        "text": ""
+      },
+      {
+        "type": "QCheckBox",
+        "name": "Omit the final period in single-sentence messages",
+        "rect": [
+          133,
+          99,
+          496,
+          29
+        ],
+        "text": "Omit the final period in single-sentence messages"
+      },
+      {
+        "type": "QCheckBox",
+        "name": "Allow trailing \u201cpress enter\u201d to send Enter after dictation",
+        "rect": [
+          133,
+          134,
+          496,
+          29
+        ],
+        "text": "Allow trailing \u201cpress enter\u201d to send Enter after dictation"
+      },
+      {
+        "type": "QSpinBox",
+        "name": "Recording cap",
+        "rect": [
+          133,
+          169,
+          496,
+          42
+        ],
+        "text": "1200 s"
+      },
+      {
+        "type": "QLineEdit",
+        "name": "",
+        "rect": [
+          8,
+          8,
+          456,
+          26
+        ],
+        "text": "1200 s"
+      },
+      {
+        "type": "QSpinBox",
+        "name": "Warning time",
+        "rect": [
+          133,
+          217,
+          496,
+          42
+        ],
+        "text": "1140 s"
+      },
+      {
+        "type": "QLineEdit",
+        "name": "",
+        "rect": [
+          8,
+          8,
+          456,
+          26
+        ],
+        "text": "1140 s"
+      },
+      {
+        "type": "QPlainTextEdit",
+        "name": "",
+        "rect": [
+          9,
+          292,
+          620,
+          135
+        ],
+        "text": ""
+      },
+      {
+        "type": "QPushButton",
+        "name": "Save changes",
+        "rect": [
+          521,
+          0,
+          135,
+          41
+        ],
+        "text": "Save changes"
+      }
+    ],
+    "scrolls": [
+      {
+        "name": "Hub pages",
+        "type": "QListWidget",
+        "horizontal": 0,
+        "width": 164
+      },
+      {
+        "name": "",
+        "type": "QScrollArea",
+        "horizontal": 0,
+        "width": 638
+      },
+      {
+        "name": "",
+        "type": "QPlainTextEdit",
+        "horizontal": 0,
+        "width": 620
+      }
+    ]
+  },
+  {
+    "px": 16,
+    "page": "Settings-Models",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 164,
+    "nav_size_hint": 126,
+    "controls": [
+      {
+        "type": "QListWidget",
+        "name": "Hub pages",
+        "rect": [
+          20,
+          85,
+          164,
+          495
+        ],
+        "text": ""
+      },
+      {
+        "type": "QTabWidget",
+        "name": "",
+        "rect": [
+          9,
+          54,
+          638,
+          436
+        ],
+        "text": ""
+      },
+      {
+        "type": "QComboBox",
+        "name": "Settings section",
+        "rect": [
+          71,
+          9,
+          576,
+          39
+        ],
+        "text": ""
+      },
+      {
+        "type": "QScrollArea",
+        "name": "",
+        "rect": [
+          0,
+          0,
+          638,
+          436
+        ],
+        "text": ""
+      },
+      {
+        "type": "QComboBox",
+        "name": "Performance tier",
+        "rect": [
+          0,
+          0,
+          606,
+          39
+        ],
+        "text": ""
+      },
+      {
+        "type": "QComboBox",
+        "name": "",
+        "rect": [
+          0,
+          0,
+          606,
+          39
+        ],
+        "text": ""
+      },
+      {
+        "type": "QLabel",
+        "name": "NVIDIA; ONNX conversion and int8 quantization by the sherpa-onnx project, CC-BY-4.0; OpenAI; ONNX/int8 conversion by sherpa-onnx, MIT; 773.4 megabytes total",
+        "rect": [
+          0,
+          45,
+          606,
+          84
+        ],
+        "text": "NVIDIA; ONNX conversion and int8 quantization by the sherpa-onnx project \u00b7 773.4 MB \u00b7 <a s"
+      },
+      {
+        "type": "QPushButton",
+        "name": "Download / Resume",
+        "rect": [
+          0,
+          135,
+          300,
+          41
+        ],
+        "text": "Download / Resume"
+      },
+      {
+        "type": "QComboBox",
+        "name": "Speech device",
+        "rect": [
+          9,
+          460,
+          606,
+          39
+        ],
+        "text": ""
+      },
+      {
+        "type": "QComboBox",
+        "name": "Compute type",
+        "rect": [
+          9,
+          532,
+          606,
+          39
+        ],
+        "text": ""
+      },
+      {
+        "type": "QCheckBox",
+        "name": "Use local model files only",
+        "rect": [
+          9,
+          577,
+          606,
+          29
+        ],
+        "text": "Use local model files only"
+      },
+      {
+        "type": "QCheckBox",
+        "name": "Enable local AI cleanup",
+        "rect": [
+          9,
+          612,
+          606,
+          29
+        ],
+        "text": "Enable local AI cleanup"
+      },
+      {
+        "type": "QComboBox",
+        "name": "AI cleanup model",
+        "rect": [
+          0,
+          48,
+          606,
+          39
+        ],
+        "text": ""
+      },
+      {
+        "type": "QComboBox",
+        "name": "AI cleanup processor",
+        "rect": [
+          0,
+          93,
+          606,
+          39
+        ],
+        "text": ""
+      },
+      {
+        "type": "QPushButton",
+        "name": "Download or resume processor files for a custom GGUF",
+        "rect": [
+          0,
+          228,
+          300,
+          41
+        ],
+        "text": "Download / Resume"
+      },
+      {
+        "type": "QLineEdit",
+        "name": "GGUF model path",
+        "rect": [
+          9,
+          1038,
+          606,
+          39
+        ],
+        "text": "models/llm/model.gguf"
+      },
+      {
+        "type": "QPushButton",
+        "name": "Download or resume speech detection, 2.3 megabytes",
+        "rect": [
+          9,
+          1110,
+          606,
+          41
+        ],
+        "text": "Download / Resume"
+      },
+      {
+        "type": "QComboBox",
+        "name": "Installed models and retained versions",
+        "rect": [
+          0,
+          48,
+          606,
+          39
+        ],
+        "text": ""
+      },
+      {
+        "type": "QPushButton",
+        "name": "Refresh storage",
+        "rect": [
+          0,
+          141,
+          300,
+          41
+        ],
+        "text": "Refresh storage"
+      },
+      {
+        "type": "QPushButton",
+        "name": "Save changes",
+        "rect": [
+          521,
+          0,
+          135,
+          41
+        ],
+        "text": "Save changes"
+      }
+    ],
+    "scrolls": [
+      {
+        "name": "Hub pages",
+        "type": "QListWidget",
+        "horizontal": 0,
+        "width": 164
+      },
+      {
+        "name": "",
+        "type": "QScrollArea",
+        "horizontal": 0,
+        "width": 638
+      }
+    ]
+  },
+  {
+    "px": 16,
+    "page": "Settings-Performance",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 164,
+    "nav_size_hint": 126,
+    "controls": [
+      {
+        "type": "QListWidget",
+        "name": "Hub pages",
+        "rect": [
+          20,
+          85,
+          164,
+          495
+        ],
+        "text": ""
+      },
+      {
+        "type": "QTabWidget",
+        "name": "",
+        "rect": [
+          9,
+          54,
+          638,
+          436
+        ],
+        "text": ""
+      },
+      {
+        "type": "QComboBox",
+        "name": "Settings section",
+        "rect": [
+          71,
+          9,
+          576,
+          39
+        ],
+        "text": ""
+      },
+      {
+        "type": "QScrollArea",
+        "name": "",
+        "rect": [
+          0,
+          0,
+          638,
+          436
+        ],
+        "text": ""
+      },
+      {
+        "type": "QPlainTextEdit",
+        "name": "Local hardware and performance results",
+        "rect": [
+          9,
+          105,
+          620,
+          248
+        ],
+        "text": ""
+      },
+      {
+        "type": "QPushButton",
+        "name": "Save changes",
+        "rect": [
+          521,
+          0,
+          135,
+          41
+        ],
+        "text": "Save changes"
+      }
+    ],
+    "scrolls": [
+      {
+        "name": "Hub pages",
+        "type": "QListWidget",
+        "horizontal": 0,
+        "width": 164
+      },
+      {
+        "name": "",
+        "type": "QScrollArea",
+        "horizontal": 0,
+        "width": 638
+      },
+      {
+        "name": "Local hardware and performance results",
+        "type": "QPlainTextEdit",
+        "horizontal": 0,
+        "width": 620
+      }
+    ]
+  },
+  {
+    "px": 16,
+    "page": "Settings-Labs",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 164,
+    "nav_size_hint": 126,
+    "controls": [
+      {
+        "type": "QListWidget",
+        "name": "Hub pages",
+        "rect": [
+          20,
+          85,
+          164,
+          495
+        ],
+        "text": ""
+      },
+      {
+        "type": "QTabWidget",
+        "name": "",
+        "rect": [
+          9,
+          54,
+          638,
+          436
+        ],
+        "text": ""
+      },
+      {
+        "type": "QComboBox",
+        "name": "Settings section",
+        "rect": [
+          71,
+          9,
+          576,
+          39
+        ],
+        "text": ""
+      },
+      {
+        "type": "QScrollArea",
+        "name": "",
+        "rect": [
+          0,
+          0,
+          638,
+          436
+        ],
+        "text": ""
+      },
+      {
+        "type": "QComboBox",
+        "name": "Command model processor",
+        "rect": [
+          25,
+          635,
+          556,
+          39
+        ],
+        "text": ""
+      },
+      {
+        "type": "QPushButton",
+        "name": "Save changes",
+        "rect": [
+          521,
+          0,
+          135,
+          41
+        ],
+        "text": "Save changes"
+      }
+    ],
+    "scrolls": [
+      {
+        "name": "Hub pages",
+        "type": "QListWidget",
+        "horizontal": 0,
+        "width": 164
+      },
+      {
+        "name": "",
+        "type": "QScrollArea",
+        "horizontal": 0,
+        "width": 638
+      }
+    ]
+  },
+  {
+    "px": 16,
+    "page": "Settings-Microphone",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 164,
+    "nav_size_hint": 126,
+    "controls": [
+      {
+        "type": "QListWidget",
+        "name": "Hub pages",
+        "rect": [
+          20,
+          85,
+          164,
+          495
+        ],
+        "text": ""
+      },
+      {
+        "type": "QTabWidget",
+        "name": "",
+        "rect": [
+          9,
+          54,
+          638,
+          436
+        ],
+        "text": ""
+      },
+      {
+        "type": "QComboBox",
+        "name": "Settings section",
+        "rect": [
+          71,
+          9,
+          576,
+          39
+        ],
+        "text": ""
+      },
+      {
+        "type": "QScrollArea",
+        "name": "",
+        "rect": [
+          0,
+          0,
+          638,
+          436
+        ],
+        "text": ""
+      },
+      {
+        "type": "QComboBox",
+        "name": "Dictation microphone",
+        "rect": [
+          9,
+          108,
+          606,
+          39
+        ],
+        "text": ""
+      },
+      {
+        "type": "QPushButton",
+        "name": "Refresh inputs",
+        "rect": [
+          9,
+          153,
+          300,
+          41
+        ],
+        "text": "Refresh inputs"
+      },
+      {
+        "type": "QPushButton",
+        "name": "Test input",
+        "rect": [
+          315,
+          153,
+          300,
+          41
+        ],
+        "text": "Test input"
+      },
+      {
+        "type": "QPushButton",
+        "name": "Check microphone privacy",
+        "rect": [
+          9,
+          337,
+          606,
+          41
+        ],
+        "text": "Check microphone privacy"
+      },
+      {
+        "type": "QPushButton",
+        "name": "Open Windows sound settings",
+        "rect": [
+          9,
+          411,
+          606,
+          41
+        ],
+        "text": "Open Windows sound settings"
+      },
+      {
+        "type": "QPushButton",
+        "name": "Open microphone privacy settings",
+        "rect": [
+          9,
+          458,
+          606,
+          41
+        ],
+        "text": "Open microphone privacy settings"
+      },
+      {
+        "type": "QCheckBox",
+        "name": "Enable Whisper mode (experimental)",
+        "rect": [
+          25,
+          45,
+          556,
+          29
+        ],
+        "text": "Enable Whisper mode (experimental)"
+      },
+      {
+        "type": "QLabel",
+        "name": "Rong Xiaobin; ONNX conversion by sherpa-onnx \u00b7 0.54 MB \u00b7 MIT license \u00b7 Model source",
+        "rect": [
+          25,
+          309,
+          556,
+          42
+        ],
+        "text": "Rong Xiaobin; ONNX conversion by sherpa-onnx \u00b7 0.54 MB \u00b7 <a style=\"color:#141414\" href=\"ht"
+      },
+      {
+        "type": "QPushButton",
+        "name": "Download / Resume enhancement",
+        "rect": [
+          25,
+          357,
+          287,
+          41
+        ],
+        "text": "Download / Resume enhancement"
+      },
+      {
+        "type": "QPushButton",
+        "name": "Save changes",
+        "rect": [
+          521,
+          0,
+          135,
+          41
+        ],
+        "text": "Save changes"
+      }
+    ],
+    "scrolls": [
+      {
+        "name": "Hub pages",
+        "type": "QListWidget",
+        "horizontal": 0,
+        "width": 164
+      },
+      {
+        "name": "",
+        "type": "QScrollArea",
+        "horizontal": 0,
+        "width": 638
+      }
+    ]
+  },
+  {
+    "px": 16,
+    "page": "Settings-Privacy",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 164,
+    "nav_size_hint": 126,
+    "controls": [
+      {
+        "type": "QListWidget",
+        "name": "Hub pages",
+        "rect": [
+          20,
+          85,
+          164,
+          495
+        ],
+        "text": ""
+      },
+      {
+        "type": "QTabWidget",
+        "name": "",
+        "rect": [
+          9,
+          54,
+          638,
+          436
+        ],
+        "text": ""
+      },
+      {
+        "type": "QComboBox",
+        "name": "Settings section",
+        "rect": [
+          71,
+          9,
+          576,
+          39
+        ],
+        "text": ""
+      },
+      {
+        "type": "QScrollArea",
+        "name": "",
+        "rect": [
+          0,
+          0,
+          638,
+          436
+        ],
+        "text": ""
+      },
+      {
+        "type": "QPushButton",
+        "name": "Check firewall rules",
+        "rect": [
+          9,
+          210,
+          606,
+          41
+        ],
+        "text": "Check firewall rules"
+      },
+      {
+        "type": "QCheckBox",
+        "name": "Check for app updates",
+        "rect": [
+          0,
+          78,
+          606,
+          29
+        ],
+        "text": "Check for app updates"
+      },
+      {
+        "type": "QCheckBox",
+        "name": "Save recordings locally for History retries",
+        "rect": [
+          9,
+          775,
+          606,
+          29
+        ],
+        "text": "Save recordings locally for History retries"
+      },
+      {
+        "type": "QPushButton",
+        "name": "Save changes",
+        "rect": [
+          521,
+          0,
+          135,
+          41
+        ],
+        "text": "Save changes"
+      }
+    ],
+    "scrolls": [
+      {
+        "name": "Hub pages",
+        "type": "QListWidget",
+        "horizontal": 0,
+        "width": 164
+      },
+      {
+        "name": "",
+        "type": "QScrollArea",
+        "horizontal": 0,
+        "width": 638
+      }
+    ]
+  },
+  {
+    "px": 16,
+    "page": "Settings-About",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 164,
+    "nav_size_hint": 126,
+    "controls": [
+      {
+        "type": "QListWidget",
+        "name": "Hub pages",
+        "rect": [
+          20,
+          85,
+          164,
+          495
+        ],
+        "text": ""
+      },
+      {
+        "type": "QTabWidget",
+        "name": "",
+        "rect": [
+          9,
+          54,
+          638,
+          436
+        ],
+        "text": ""
+      },
+      {
+        "type": "QComboBox",
+        "name": "Settings section",
+        "rect": [
+          71,
+          9,
+          576,
+          39
+        ],
+        "text": ""
+      },
+      {
+        "type": "QScrollArea",
+        "name": "",
+        "rect": [
+          0,
+          0,
+          638,
+          436
+        ],
+        "text": ""
+      },
+      {
+        "type": "QPushButton",
+        "name": "Save changes",
+        "rect": [
+          521,
+          0,
+          135,
+          41
+        ],
+        "text": "Save changes"
+      }
+    ],
+    "scrolls": [
+      {
+        "name": "Hub pages",
+        "type": "QListWidget",
+        "horizontal": 0,
+        "width": 164
+      },
+      {
+        "name": "",
+        "type": "QScrollArea",
+        "horizontal": 0,
+        "width": 638
+      }
+    ]
+  },
+  {
+    "px": 32,
+    "page": "Home",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 164,
+    "nav_size_hint": 195,
+    "controls": [
+      {
+        "type": "QListWidget",
+        "name": "Hub pages",
+        "rect": [
+          20,
+          85,
+          164,
+          495
+        ],
+        "text": ""
+      },
+      {
+        "type": "HomePage",
+        "name": "",
+        "rect": [
+          0,
+          0,
+          656,
+          560
+        ],
+        "text": ""
+      },
+      {
+        "type": "QPushButton",
+        "name": "Offline mode active. Open Privacy.",
+        "rect": [
+          493,
+          479,
+          149,
+          61
+        ],
+        "text": "Offline"
+      },
+      {
+        "type": "QPushButton",
+        "name": "Meeting notes \u00b7 Labs",
+        "rect": [
+          0,
+          556,
+          331,
+          61
+        ],
+        "text": "Meeting notes \u00b7 Labs"
+      },
+      {
+        "type": "QListWidget",
+        "name": "Last five dictations; activate an entry to open History",
+        "rect": [
+          0,
+          665,
+          642,
+          192
+        ],
+        "text": ""
+      }
+    ],
+    "scrolls": [
+      {
+        "name": "Hub pages",
+        "type": "QListWidget",
+        "horizontal": 31,
+        "width": 164
+      },
+      {
+        "name": "",
+        "type": "HomePage",
+        "horizontal": 0,
+        "width": 656
+      },
+      {
+        "name": "Last five dictations; activate an entry to open History",
+        "type": "QListWidget",
+        "horizontal": 0,
+        "width": 642
+      }
+    ]
+  },
+  {
+    "px": 32,
+    "page": "History",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 164,
+    "nav_size_hint": 195,
+    "controls": [
+      {
+        "type": "QListWidget",
+        "name": "Hub pages",
+        "rect": [
+          20,
+          85,
+          164,
+          495
+        ],
+        "text": ""
+      },
+      {
+        "type": "QScrollArea",
+        "name": "",
+        "rect": [
+          0,
+          0,
+          656,
+          560
+        ],
+        "text": ""
+      },
+      {
+        "type": "QLineEdit",
+        "name": "Search all History",
+        "rect": [
+          9,
+          10,
+          678,
+          59
+        ],
+        "text": ""
+      },
+      {
+        "type": "QListWidget",
+        "name": "",
+        "rect": [
+          0,
+          0,
+          244,
+          280
+        ],
+        "text": ""
+      },
+      {
+        "type": "QPushButton",
+        "name": "Refresh",
+        "rect": [
+          0,
+          400,
+          244,
+          61
+        ],
+        "text": "Refresh"
+      },
+      {
+        "type": "QCheckBox",
+        "name": "Show raw transcript",
+        "rect": [
+          0,
+          48,
+          327,
+          49
+        ],
+        "text": "Show raw transcript"
+      },
+      {
+        "type": "QCheckBox",
+        "name": "Show changes",
+        "rect": [
+          333,
+          48,
+          249,
+          49
+        ],
+        "text": "Show changes"
+      },
+      {
+        "type": "PrivatePlainTextEdit",
+        "name": "",
+        "rect": [
+          0,
+          103,
+          582,
+          109
+        ],
+        "text": ""
+      },
+      {
+        "type": "QPushButton",
+        "name": "Why this result?",
+        "rect": [
+          0,
+          218,
+          582,
+          61
+        ],
+        "text": "Why this result?"
+      }
+    ],
+    "scrolls": [
+      {
+        "name": "Hub pages",
+        "type": "QListWidget",
+        "horizontal": 31,
+        "width": 164
+      },
+      {
+        "name": "",
+        "type": "QScrollArea",
+        "horizontal": 192,
+        "width": 656
+      },
+      {
+        "name": "",
+        "type": "PrivatePlainTextEdit",
+        "horizontal": 0,
+        "width": 582
+      },
+      {
+        "name": "",
+        "type": "QListWidget",
+        "horizontal": 0,
+        "width": 244
+      }
+    ]
+  },
+  {
+    "px": 32,
+    "page": "Dictionary",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 164,
+    "nav_size_hint": 195,
+    "controls": [
+      {
+        "type": "QListWidget",
+        "name": "Hub pages",
+        "rect": [
+          20,
+          85,
+          164,
+          495
+        ],
+        "text": ""
+      },
+      {
+        "type": "QScrollArea",
+        "name": "",
+        "rect": [
+          0,
+          0,
+          656,
+          479
+        ],
+        "text": ""
+      },
+      {
+        "type": "QCheckBox",
+        "name": "Suggest words from corrections",
+        "rect": [
+          0,
+          51,
+          642,
+          49
+        ],
+        "text": "Suggest words from corrections"
+      },
+      {
+        "type": "QLineEdit",
+        "name": "Search Dictionary",
+        "rect": [
+          0,
+          162,
+          338,
+          59
+        ],
+        "text": ""
+      },
+      {
+        "type": "QPushButton",
+        "name": "Import\u2026",
+        "rect": [
+          344,
+          161,
+          146,
+          61
+        ],
+        "text": "Import\u2026"
+      },
+      {
+        "type": "QPushButton",
+        "name": "Export\u2026",
+        "rect": [
+          496,
+          161,
+          146,
+          61
+        ],
+        "text": "Export\u2026"
+      },
+      {
+        "type": "QComboBox",
+        "name": "Dictionary entry type",
+        "rect": [
+          0,
+          228,
+          642,
+          59
+        ],
+        "text": ""
+      },
+      {
+        "type": "QTableView",
+        "name": "Dictionary entries and sources",
+        "rect": [
+          0,
+          293,
+          642,
+          192
+        ],
+        "text": ""
+      },
+      {
+        "type": "QLineEdit",
+        "name": "Term or spoken phrase",
+        "rect": [
+          0,
+          491,
+          642,
+          59
+        ],
+        "text": ""
+      },
+      {
+        "type": "QPushButton",
+        "name": "Add",
+        "rect": [
+          0,
+          556,
+          90,
+          61
+        ],
+        "text": "Add"
+      },
+      {
+        "type": "QCheckBox",
+        "name": "Advanced JSON",
+        "rect": [
+          0,
+          623,
+          642,
+          49
+        ],
+        "text": "Advanced JSON"
+      },
+      {
+        "type": "QPushButton",
+        "name": "Reload saved Dictionary",
+        "rect": [
+          0,
+          678,
+          642,
+          61
+        ],
+        "text": "Reload saved Dictionary"
+      },
+      {
+        "type": "QPushButton",
+        "name": "Save changes",
+        "rect": [
+          422,
+          0,
+          234,
+          61
+        ],
+        "text": "Save changes"
+      }
+    ],
+    "scrolls": [
+      {
+        "name": "Hub pages",
+        "type": "QListWidget",
+        "horizontal": 31,
+        "width": 164
+      },
+      {
+        "name": "",
+        "type": "QScrollArea",
+        "horizontal": 0,
+        "width": 656
+      },
+      {
+        "name": "Dictionary entries and sources",
+        "type": "QTableView",
+        "horizontal": 0,
+        "width": 642
+      },
+      {
+        "name": "",
+        "type": "QHeaderView",
+        "horizontal": 0,
+        "width": 642
+      }
+    ]
+  },
+  {
+    "px": 32,
+    "page": "Snippets",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 164,
+    "nav_size_hint": 195,
+    "controls": [
+      {
+        "type": "QListWidget",
+        "name": "Hub pages",
+        "rect": [
+          20,
+          85,
+          164,
+          495
+        ],
+        "text": ""
+      },
+      {
+        "type": "QScrollArea",
+        "name": "",
+        "rect": [
+          0,
+          0,
+          656,
+          479
+        ],
+        "text": ""
+      },
+      {
+        "type": "QLineEdit",
+        "name": "Search Snippets",
+        "rect": [
+          0,
+          51,
+          642,
+          59
+        ],
+        "text": ""
+      },
+      {
+        "type": "QTableView",
+        "name": "Snippet triggers and expansions",
+        "rect": [
+          0,
+          116,
+          642,
+          150
+        ],
+        "text": ""
+      },
+      {
+        "type": "QLineEdit",
+        "name": "Spoken snippet trigger",
+        "rect": [
+          0,
+          272,
+          642,
+          59
+        ],
+        "text": ""
+      },
+      {
+        "type": "PrivatePlainTextEdit",
+        "name": "Snippet expansion",
+        "rect": [
+          0,
+          337,
+          642,
+          110
+        ],
+        "text": ""
+      },
+      {
+        "type": "QPushButton",
+        "name": "Insert {date}",
+        "rect": [
+          0,
+          453,
+          210,
+          61
+        ],
+        "text": "Insert {date}"
+      },
+      {
+        "type": "QPushButton",
+        "name": "Insert {clipboard}",
+        "rect": [
+          216,
+          453,
+          285,
+          61
+        ],
+        "text": "Insert {clipboard}"
+      },
+      {
+        "type": "QPushButton",
+        "name": "Add",
+        "rect": [
+          0,
+          693,
+          90,
+          61
+        ],
+        "text": "Add"
+      },
+      {
+        "type": "QPushButton",
+        "name": "New snippet",
+        "rect": [
+          390,
+          693,
+          215,
+          61
+        ],
+        "text": "New snippet"
+      },
+      {
+        "type": "QCheckBox",
+        "name": "Test a trigger",
+        "rect": [
+          0,
+          760,
+          642,
+          49
+        ],
+        "text": "Test a trigger"
+      },
+      {
+        "type": "QCheckBox",
+        "name": "Advanced JSON / legacy text",
+        "rect": [
+          0,
+          815,
+          642,
+          49
+        ],
+        "text": "Advanced JSON / legacy text"
+      },
+      {
+        "type": "QPushButton",
+        "name": "Reload saved Snippets",
+        "rect": [
+          0,
+          870,
+          642,
+          61
+        ],
+        "text": "Reload saved Snippets"
+      },
+      {
+        "type": "QPushButton",
+        "name": "Save changes",
+        "rect": [
+          422,
+          0,
+          234,
+          61
+        ],
+        "text": "Save changes"
+      }
+    ],
+    "scrolls": [
+      {
+        "name": "Hub pages",
+        "type": "QListWidget",
+        "horizontal": 31,
+        "width": 164
+      },
+      {
+        "name": "",
+        "type": "QScrollArea",
+        "horizontal": 0,
+        "width": 656
+      },
+      {
+        "name": "Snippet triggers and expansions",
+        "type": "QTableView",
+        "horizontal": 0,
+        "width": 642
+      },
+      {
+        "name": "",
+        "type": "QHeaderView",
+        "horizontal": 0,
+        "width": 642
+      },
+      {
+        "name": "Snippet expansion",
+        "type": "PrivatePlainTextEdit",
+        "horizontal": 0,
+        "width": 642
+      }
+    ]
+  },
+  {
+    "px": 32,
+    "page": "Style",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 164,
+    "nav_size_hint": 195,
+    "controls": [
+      {
+        "type": "QListWidget",
+        "name": "Hub pages",
+        "rect": [
+          20,
+          85,
+          164,
+          495
+        ],
+        "text": ""
+      },
+      {
+        "type": "StylesPage",
+        "name": "",
+        "rect": [
+          0,
+          0,
+          656,
+          479
+        ],
+        "text": ""
+      },
+      {
+        "type": "QTableWidget",
+        "name": "",
+        "rect": [
+          9,
+          98,
+          820,
+          488
+        ],
+        "text": ""
+      },
+      {
+        "type": "QComboBox",
+        "name": "Messages tone",
+        "rect": [
+          206,
+          0,
+          268,
+          60
+        ],
+        "text": ""
+      },
+      {
+        "type": "QComboBox",
+        "name": "Messages intensity",
+        "rect": [
+          475,
+          0,
+          344,
+          60
+        ],
+        "text": ""
+      },
+      {
+        "type": "QComboBox",
+        "name": "Work chat tone",
+        "rect": [
+          206,
+          61,
+          268,
+          60
+        ],
+        "text": ""
+      },
+      {
+        "type": "QComboBox",
+        "name": "Work chat intensity",
+        "rect": [
+          475,
+          61,
+          344,
+          60
+        ],
+        "text": ""
+      },
+      {
+        "type": "QComboBox",
+        "name": "Email tone",
+        "rect": [
+          206,
+          122,
+          268,
+          60
+        ],
+        "text": ""
+      },
+      {
+        "type": "QComboBox",
+        "name": "Email intensity",
+        "rect": [
+          475,
+          122,
+          344,
+          60
+        ],
+        "text": ""
+      },
+      {
+        "type": "QComboBox",
+        "name": "Docs & notes tone",
+        "rect": [
+          206,
+          183,
+          268,
+          60
+        ],
+        "text": ""
+      },
+      {
+        "type": "QComboBox",
+        "name": "Docs & notes intensity",
+        "rect": [
+          475,
+          183,
+          344,
+          60
+        ],
+        "text": ""
+      },
+      {
+        "type": "QComboBox",
+        "name": "AI chat tone",
+        "rect": [
+          206,
+          305,
+          268,
+          60
+        ],
+        "text": ""
+      },
+      {
+        "type": "QComboBox",
+        "name": "AI chat intensity",
+        "rect": [
+          475,
+          305,
+          344,
+          60
+        ],
+        "text": ""
+      },
+      {
+        "type": "QComboBox",
+        "name": "Other tone",
+        "rect": [
+          206,
+          366,
+          268,
+          60
+        ],
+        "text": ""
+      },
+      {
+        "type": "QComboBox",
+        "name": "Other intensity",
+        "rect": [
+          475,
+          366,
+          344,
+          60
+        ],
+        "text": ""
+      },
+      {
+        "type": "QComboBox",
+        "name": "App group for spoken translation",
+        "rect": [
+          247,
+          45,
+          548,
+          59
+        ],
+        "text": ""
+      },
+      {
+        "type": "QComboBox",
+        "name": "Spoken translation output language",
+        "rect": [
+          247,
+          110,
+          548,
+          59
+        ],
+        "text": ""
+      },
+      {
+        "type": "QComboBox",
+        "name": "Preview app group",
+        "rect": [
+          224,
+          1008,
+          231,
+          59
+        ],
+        "text": ""
+      },
+      {
+        "type": "QComboBox",
+        "name": "Preview transcript language",
+        "rect": [
+          274,
+          1074,
+          555,
+          59
+        ],
+        "text": ""
+      },
+      {
+        "type": "QLineEdit",
+        "name": "App .exe (optional)",
+        "rect": [
+          9,
+          1139,
+          269,
+          59
+        ],
+        "text": ""
+      },
+      {
+        "type": "QLineEdit",
+        "name": "Site hostname (optional)",
+        "rect": [
+          284,
+          1139,
+          270,
+          59
+        ],
+        "text": ""
+      },
+      {
+        "type": "QLineEdit",
+        "name": "Window title (legacy overrides)",
+        "rect": [
+          560,
+          1139,
+          269,
+          59
+        ],
+        "text": ""
+      },
+      {
+        "type": "PrivatePlainTextEdit",
+        "name": "Before cleanup",
+        "rect": [
+          9,
+          1251,
+          407,
+          192
+        ],
+        "text": ""
+      },
+      {
+        "type": "PrivatePlainTextEdit",
+        "name": "Preview",
+        "rect": [
+          422,
+          1251,
+          407,
+          192
+        ],
+        "text": ""
+      },
+      {
+        "type": "QPushButton",
+        "name": "Save changes",
+        "rect": [
+          422,
+          0,
+          234,
+          61
+        ],
+        "text": "Save changes"
+      }
+    ],
+    "scrolls": [
+      {
+        "name": "Hub pages",
+        "type": "QListWidget",
+        "horizontal": 31,
+        "width": 164
+      },
+      {
+        "name": "",
+        "type": "StylesPage",
+        "horizontal": 196,
+        "width": 656
+      },
+      {
+        "name": "",
+        "type": "QTableWidget",
+        "horizontal": 0,
+        "width": 820
+      },
+      {
+        "name": "",
+        "type": "QHeaderView",
+        "horizontal": 0,
+        "width": 820
+      },
+      {
+        "name": "Before cleanup",
+        "type": "PrivatePlainTextEdit",
+        "horizontal": 0,
+        "width": 407
+      },
+      {
+        "name": "Preview",
+        "type": "PrivatePlainTextEdit",
+        "horizontal": 0,
+        "width": 407
+      }
+    ]
+  },
+  {
+    "px": 32,
+    "page": "Notes",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 164,
+    "nav_size_hint": 195,
+    "controls": [
+      {
+        "type": "QListWidget",
+        "name": "Hub pages",
+        "rect": [
+          20,
+          85,
+          164,
+          495
+        ],
+        "text": ""
+      },
+      {
+        "type": "QLineEdit",
+        "name": "Search Notes",
+        "rect": [
+          9,
+          108,
+          313,
+          59
+        ],
+        "text": ""
+      },
+      {
+        "type": "QPushButton",
+        "name": "Refresh",
+        "rect": [
+          328,
+          107,
+          143,
+          61
+        ],
+        "text": "Refresh"
+      },
+      {
+        "type": "QPushButton",
+        "name": "New note",
+        "rect": [
+          477,
+          107,
+          170,
+          61
+        ],
+        "text": "New note"
+      },
+      {
+        "type": "QListWidget",
+        "name": "Saved notes",
+        "rect": [
+          0,
+          0,
+          256,
+          263
+        ],
+        "text": ""
+      },
+      {
+        "type": "PrivatePlainTextEdit",
+        "name": "Saved note text",
+        "rect": [
+          260,
+          0,
+          378,
+          263
+        ],
+        "text": ""
+      }
+    ],
+    "scrolls": [
+      {
+        "name": "Hub pages",
+        "type": "QListWidget",
+        "horizontal": 31,
+        "width": 164
+      },
+      {
+        "name": "Saved note text",
+        "type": "PrivatePlainTextEdit",
+        "horizontal": 0,
+        "width": 378
+      },
+      {
+        "name": "Saved notes",
+        "type": "QListWidget",
+        "horizontal": 0,
+        "width": 256
+      }
+    ]
+  },
+  {
+    "px": 32,
+    "page": "Settings-General",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 164,
+    "nav_size_hint": 195,
+    "controls": [
+      {
+        "type": "QListWidget",
+        "name": "Hub pages",
+        "rect": [
+          20,
+          85,
+          164,
+          495
+        ],
+        "text": ""
+      },
+      {
+        "type": "QTabWidget",
+        "name": "",
+        "rect": [
+          9,
+          74,
+          638,
+          396
+        ],
+        "text": ""
+      },
+      {
+        "type": "QComboBox",
+        "name": "Settings section",
+        "rect": [
+          71,
+          9,
+          576,
+          59
+        ],
+        "text": ""
+      },
+      {
+        "type": "QScrollArea",
+        "name": "",
+        "rect": [
+          0,
+          0,
+          638,
+          396
+        ],
+        "text": ""
+      },
+      {
+        "type": "QCheckBox",
+        "name": "Start with Windows",
+        "rect": [
+          308,
+          9,
+          509,
+          28
+        ],
+        "text": ""
+      },
+      {
+        "type": "QCheckBox",
+        "name": "Auto-start listening",
+        "rect": [
+          308,
+          56,
+          509,
+          28
+        ],
+        "text": ""
+      },
+      {
+        "type": "QCheckBox",
+        "name": "Show the idle Saydraft Bar",
+        "rect": [
+          308,
+          103,
+          509,
+          49
+        ],
+        "text": "Show the idle Saydraft Bar"
+      },
+      {
+        "type": "QCheckBox",
+        "name": "Play a tick when recording starts",
+        "rect": [
+          308,
+          158,
+          509,
+          49
+        ],
+        "text": "Play a tick when recording starts"
+      },
+      {
+        "type": "QCheckBox",
+        "name": "Play a soft tick after insertion",
+        "rect": [
+          308,
+          213,
+          509,
+          49
+        ],
+        "text": "Play a soft tick after insertion"
+      },
+      {
+        "type": "QSpinBox",
+        "name": "Notification duration",
+        "rect": [
+          308,
+          268,
+          509,
+          62
+        ],
+        "text": "3 s"
+      },
+      {
+        "type": "QLineEdit",
+        "name": "",
+        "rect": [
+          8,
+          8,
+          469,
+          46
+        ],
+        "text": "3 s"
+      },
+      {
+        "type": "QPushButton",
+        "name": "Save changes",
+        "rect": [
+          422,
+          0,
+          234,
+          61
+        ],
+        "text": "Save changes"
+      }
+    ],
+    "scrolls": [
+      {
+        "name": "Hub pages",
+        "type": "QListWidget",
+        "horizontal": 31,
+        "width": 164
+      },
+      {
+        "name": "",
+        "type": "QScrollArea",
+        "horizontal": 188,
+        "width": 638
+      }
+    ]
+  },
+  {
+    "px": 32,
+    "page": "Settings-Shortcuts",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 164,
+    "nav_size_hint": 195,
+    "controls": [
+      {
+        "type": "QListWidget",
+        "name": "Hub pages",
+        "rect": [
+          20,
+          85,
+          164,
+          495
+        ],
+        "text": ""
+      },
+      {
+        "type": "QTabWidget",
+        "name": "",
+        "rect": [
+          9,
+          74,
+          638,
+          396
+        ],
+        "text": ""
+      },
+      {
+        "type": "QComboBox",
+        "name": "Settings section",
+        "rect": [
+          71,
+          9,
+          576,
+          59
+        ],
+        "text": ""
+      },
+      {
+        "type": "QScrollArea",
+        "name": "",
+        "rect": [
+          0,
+          0,
+          638,
+          396
+        ],
+        "text": ""
+      },
+      {
+        "type": "QLineEdit",
+        "name": "Speech hotkey",
+        "rect": [
+          388,
+          9,
+          227,
+          59
+        ],
+        "text": "ctrl+win"
+      },
+      {
+        "type": "QLineEdit",
+        "name": "Alternate hotkey",
+        "rect": [
+          388,
+          74,
+          227,
+          59
+        ],
+        "text": "f9"
+      },
+      {
+        "type": "QLineEdit",
+        "name": "Mouse recording shortcut",
+        "rect": [
+          388,
+          139,
+          227,
+          59
+        ],
+        "text": "xbutton1"
+      },
+      {
+        "type": "QLineEdit",
+        "name": "Hands-free shortcut",
+        "rect": [
+          388,
+          204,
+          227,
+          59
+        ],
+        "text": "ctrl+win+space"
+      },
+      {
+        "type": "QLineEdit",
+        "name": "Paste last transcript",
+        "rect": [
+          388,
+          269,
+          227,
+          59
+        ],
+        "text": "shift+alt+z"
+      },
+      {
+        "type": "QLineEdit",
+        "name": "Open Scratchpad",
+        "rect": [
+          388,
+          334,
+          227,
+          59
+        ],
+        "text": "win+alt+s"
+      },
+      {
+        "type": "QLineEdit",
+        "name": "View last diff",
+        "rect": [
+          388,
+          399,
+          227,
+          59
+        ],
+        "text": "ctrl+win+d"
+      },
+      {
+        "type": "QLineEdit",
+        "name": "Ask about selected text",
+        "rect": [
+          388,
+          464,
+          227,
+          59
+        ],
+        "text": "ctrl+win+a"
+      },
+      {
+        "type": "QLineEdit",
+        "name": "Save hotkey",
+        "rect": [
+          388,
+          529,
+          227,
+          59
+        ],
+        "text": "f10"
+      },
+      {
+        "type": "QLineEdit",
+        "name": "Cancel hotkey",
+        "rect": [
+          388,
+          594,
+          227,
+          59
+        ],
+        "text": "esc"
+      },
+      {
+        "type": "QSpinBox",
+        "name": "Double-tap interval",
+        "rect": [
+          388,
+          749,
+          227,
+          62
+        ],
+        "text": "300 ms"
+      },
+      {
+        "type": "QLineEdit",
+        "name": "",
+        "rect": [
+          8,
+          8,
+          187,
+          46
+        ],
+        "text": "300 ms"
+      },
+      {
+        "type": "QPushButton",
+        "name": "Save changes",
+        "rect": [
+          422,
+          0,
+          234,
+          61
+        ],
+        "text": "Save changes"
+      }
+    ],
+    "scrolls": [
+      {
+        "name": "Hub pages",
+        "type": "QListWidget",
+        "horizontal": 31,
+        "width": 164
+      },
+      {
+        "name": "",
+        "type": "QScrollArea",
+        "horizontal": 0,
+        "width": 638
+      }
+    ]
+  },
+  {
+    "px": 32,
+    "page": "Settings-Languages",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 164,
+    "nav_size_hint": 195,
+    "controls": [
+      {
+        "type": "QListWidget",
+        "name": "Hub pages",
+        "rect": [
+          20,
+          85,
+          164,
+          495
+        ],
+        "text": ""
+      },
+      {
+        "type": "QTabWidget",
+        "name": "",
+        "rect": [
+          9,
+          74,
+          638,
+          396
+        ],
+        "text": ""
+      },
+      {
+        "type": "QComboBox",
+        "name": "Settings section",
+        "rect": [
+          71,
+          9,
+          576,
+          59
+        ],
+        "text": ""
+      },
+      {
+        "type": "QScrollArea",
+        "name": "",
+        "rect": [
+          0,
+          0,
+          638,
+          396
+        ],
+        "text": ""
+      },
+      {
+        "type": "QCheckBox",
+        "name": "Choose the speech model automatically",
+        "rect": [
+          9,
+          9,
+          917,
+          49
+        ],
+        "text": "Choose the speech model automatically"
+      },
+      {
+        "type": "QComboBox",
+        "name": "Language 1",
+        "rect": [
+          189,
+          64,
+          737,
+          59
+        ],
+        "text": ""
+      },
+      {
+        "type": "QCheckBox",
+        "name": "English max when English is the only pinned language",
+        "rect": [
+          9,
+          259,
+          917,
+          49
+        ],
+        "text": "English max when English is the only pinned language"
+      },
+      {
+        "type": "QPushButton",
+        "name": "Save changes",
+        "rect": [
+          422,
+          0,
+          234,
+          61
+        ],
+        "text": "Save changes"
+      }
+    ],
+    "scrolls": [
+      {
+        "name": "Hub pages",
+        "type": "QListWidget",
+        "horizontal": 31,
+        "width": 164
+      },
+      {
+        "name": "",
+        "type": "QScrollArea",
+        "horizontal": 311,
+        "width": 638
+      }
+    ]
+  },
+  {
+    "px": 32,
+    "page": "Settings-Cleanup",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 164,
+    "nav_size_hint": 195,
+    "controls": [
+      {
+        "type": "QListWidget",
+        "name": "Hub pages",
+        "rect": [
+          20,
+          85,
+          164,
+          495
+        ],
+        "text": ""
+      },
+      {
+        "type": "QTabWidget",
+        "name": "",
+        "rect": [
+          9,
+          74,
+          638,
+          396
+        ],
+        "text": ""
+      },
+      {
+        "type": "QComboBox",
+        "name": "Settings section",
+        "rect": [
+          71,
+          9,
+          576,
+          59
+        ],
+        "text": ""
+      },
+      {
+        "type": "QScrollArea",
+        "name": "",
+        "rect": [
+          0,
+          0,
+          638,
+          396
+        ],
+        "text": ""
+      },
+      {
+        "type": "QComboBox",
+        "name": "Cleanup mode",
+        "rect": [
+          248,
+          9,
+          828,
+          59
+        ],
+        "text": ""
+      },
+      {
+        "type": "QComboBox",
+        "name": "Default profile",
+        "rect": [
+          248,
+          74,
+          828,
+          59
+        ],
+        "text": ""
+      },
+      {
+        "type": "QCheckBox",
+        "name": "Omit the final period in single-sentence messages",
+        "rect": [
+          248,
+          139,
+          828,
+          49
+        ],
+        "text": "Omit the final period in single-sentence messages"
+      },
+      {
+        "type": "QCheckBox",
+        "name": "Allow trailing \u201cpress enter\u201d to send Enter after dictation",
+        "rect": [
+          248,
+          194,
+          828,
+          49
+        ],
+        "text": "Allow trailing \u201cpress enter\u201d to send Enter after dictation"
+      },
+      {
+        "type": "QSpinBox",
+        "name": "Recording cap",
+        "rect": [
+          248,
+          249,
+          828,
+          62
+        ],
+        "text": "1200 s"
+      },
+      {
+        "type": "QLineEdit",
+        "name": "",
+        "rect": [
+          8,
+          8,
+          788,
+          46
+        ],
+        "text": "1200 s"
+      },
+      {
+        "type": "QSpinBox",
+        "name": "Warning time",
+        "rect": [
+          248,
+          317,
+          828,
+          62
+        ],
+        "text": "1140 s"
+      },
+      {
+        "type": "QLineEdit",
+        "name": "",
+        "rect": [
+          8,
+          8,
+          788,
+          46
+        ],
+        "text": "1140 s"
+      },
+      {
+        "type": "QPlainTextEdit",
+        "name": "",
+        "rect": [
+          9,
+          432,
+          1067,
+          80
+        ],
+        "text": ""
+      },
+      {
+        "type": "QPushButton",
+        "name": "Save changes",
+        "rect": [
+          422,
+          0,
+          234,
+          61
+        ],
+        "text": "Save changes"
+      }
+    ],
+    "scrolls": [
+      {
+        "name": "Hub pages",
+        "type": "QListWidget",
+        "horizontal": 31,
+        "width": 164
+      },
+      {
+        "name": "",
+        "type": "QScrollArea",
+        "horizontal": 461,
+        "width": 638
+      },
+      {
+        "name": "",
+        "type": "QPlainTextEdit",
+        "horizontal": 0,
+        "width": 1067
+      }
+    ]
+  },
+  {
+    "px": 32,
+    "page": "Settings-Models",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 164,
+    "nav_size_hint": 195,
+    "controls": [
+      {
+        "type": "QListWidget",
+        "name": "Hub pages",
+        "rect": [
+          20,
+          85,
+          164,
+          495
+        ],
+        "text": ""
+      },
+      {
+        "type": "QTabWidget",
+        "name": "",
+        "rect": [
+          9,
+          74,
+          638,
+          396
+        ],
+        "text": ""
+      },
+      {
+        "type": "QComboBox",
+        "name": "Settings section",
+        "rect": [
+          71,
+          9,
+          576,
+          59
+        ],
+        "text": ""
+      },
+      {
+        "type": "QScrollArea",
+        "name": "",
+        "rect": [
+          0,
+          0,
+          638,
+          396
+        ],
+        "text": ""
+      },
+      {
+        "type": "QComboBox",
+        "name": "Performance tier",
+        "rect": [
+          0,
+          0,
+          606,
+          59
+        ],
+        "text": ""
+      },
+      {
+        "type": "QComboBox",
+        "name": "",
+        "rect": [
+          0,
+          0,
+          606,
+          59
+        ],
+        "text": ""
+      },
+      {
+        "type": "QLabel",
+        "name": "NVIDIA; ONNX conversion and int8 quantization by the sherpa-onnx project, CC-BY-4.0; OpenAI; ONNX/int8 conversion by sherpa-onnx, MIT; 773.4 megabytes total",
+        "rect": [
+          0,
+          65,
+          606,
+          252
+        ],
+        "text": "NVIDIA; ONNX conversion and int8 quantization by the sherpa-onnx project \u00b7 773.4 MB \u00b7 <a s"
+      },
+      {
+        "type": "QPushButton",
+        "name": "Download / Resume",
+        "rect": [
+          0,
+          323,
+          327,
+          61
+        ],
+        "text": "Download / Resume"
+      },
+      {
+        "type": "QComboBox",
+        "name": "Speech device",
+        "rect": [
+          9,
+          977,
+          606,
+          59
+        ],
+        "text": ""
+      },
+      {
+        "type": "QComboBox",
+        "name": "Compute type",
+        "rect": [
+          9,
+          1089,
+          606,
+          59
+        ],
+        "text": ""
+      },
+      {
+        "type": "QCheckBox",
+        "name": "Use local model files only",
+        "rect": [
+          9,
+          1154,
+          606,
+          49
+        ],
+        "text": "Use local model files only"
+      },
+      {
+        "type": "QCheckBox",
+        "name": "Enable local AI cleanup",
+        "rect": [
+          9,
+          1209,
+          606,
+          49
+        ],
+        "text": "Enable local AI cleanup"
+      },
+      {
+        "type": "QComboBox",
+        "name": "AI cleanup model",
+        "rect": [
+          0,
+          131,
+          606,
+          59
+        ],
+        "text": ""
+      },
+      {
+        "type": "QComboBox",
+        "name": "AI cleanup processor",
+        "rect": [
+          0,
+          196,
+          606,
+          59
+        ],
+        "text": ""
+      },
+      {
+        "type": "QPushButton",
+        "name": "Download or resume processor files for a custom GGUF",
+        "rect": [
+          0,
+          477,
+          327,
+          61
+        ],
+        "text": "Download / Resume"
+      },
+      {
+        "type": "QLineEdit",
+        "name": "GGUF model path",
+        "rect": [
+          9,
+          2005,
+          606,
+          59
+        ],
+        "text": "models/llm/model.gguf"
+      },
+      {
+        "type": "QPushButton",
+        "name": "Download or resume speech detection, 2.3 megabytes",
+        "rect": [
+          9,
+          2117,
+          606,
+          61
+        ],
+        "text": "Download / Resume"
+      },
+      {
+        "type": "QComboBox",
+        "name": "Installed models and retained versions",
+        "rect": [
+          0,
+          132,
+          606,
+          59
+        ],
+        "text": ""
+      },
+      {
+        "type": "QPushButton",
+        "name": "Refresh storage",
+        "rect": [
+          0,
+          329,
+          300,
+          61
+        ],
+        "text": "Refresh storage"
+      },
+      {
+        "type": "QPushButton",
+        "name": "Save changes",
+        "rect": [
+          422,
+          0,
+          234,
+          61
+        ],
+        "text": "Save changes"
+      }
+    ],
+    "scrolls": [
+      {
+        "name": "Hub pages",
+        "type": "QListWidget",
+        "horizontal": 31,
+        "width": 164
+      },
+      {
+        "name": "",
+        "type": "QScrollArea",
+        "horizontal": 0,
+        "width": 638
+      }
+    ]
+  },
+  {
+    "px": 32,
+    "page": "Settings-Performance",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 164,
+    "nav_size_hint": 195,
+    "controls": [
+      {
+        "type": "QListWidget",
+        "name": "Hub pages",
+        "rect": [
+          20,
+          85,
+          164,
+          495
+        ],
+        "text": ""
+      },
+      {
+        "type": "QTabWidget",
+        "name": "",
+        "rect": [
+          9,
+          74,
+          638,
+          396
+        ],
+        "text": ""
+      },
+      {
+        "type": "QComboBox",
+        "name": "Settings section",
+        "rect": [
+          71,
+          9,
+          576,
+          59
+        ],
+        "text": ""
+      },
+      {
+        "type": "QScrollArea",
+        "name": "",
+        "rect": [
+          0,
+          0,
+          638,
+          396
+        ],
+        "text": ""
+      },
+      {
+        "type": "QPlainTextEdit",
+        "name": "Local hardware and performance results",
+        "rect": [
+          9,
+          313,
+          606,
+          192
+        ],
+        "text": ""
+      },
+      {
+        "type": "QPushButton",
+        "name": "Save changes",
+        "rect": [
+          422,
+          0,
+          234,
+          61
+        ],
+        "text": "Save changes"
+      }
+    ],
+    "scrolls": [
+      {
+        "name": "Hub pages",
+        "type": "QListWidget",
+        "horizontal": 31,
+        "width": 164
+      },
+      {
+        "name": "",
+        "type": "QScrollArea",
+        "horizontal": 0,
+        "width": 638
+      },
+      {
+        "name": "Local hardware and performance results",
+        "type": "QPlainTextEdit",
+        "horizontal": 0,
+        "width": 606
+      }
+    ]
+  },
+  {
+    "px": 32,
+    "page": "Settings-Labs",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 164,
+    "nav_size_hint": 195,
+    "controls": [
+      {
+        "type": "QListWidget",
+        "name": "Hub pages",
+        "rect": [
+          20,
+          85,
+          164,
+          495
+        ],
+        "text": ""
+      },
+      {
+        "type": "QTabWidget",
+        "name": "",
+        "rect": [
+          9,
+          74,
+          638,
+          396
+        ],
+        "text": ""
+      },
+      {
+        "type": "QComboBox",
+        "name": "Settings section",
+        "rect": [
+          71,
+          9,
+          576,
+          59
+        ],
+        "text": ""
+      },
+      {
+        "type": "QScrollArea",
+        "name": "",
+        "rect": [
+          0,
+          0,
+          638,
+          396
+        ],
+        "text": ""
+      },
+      {
+        "type": "QComboBox",
+        "name": "Command model processor",
+        "rect": [
+          25,
+          1634,
+          660,
+          59
+        ],
+        "text": ""
+      },
+      {
+        "type": "QPushButton",
+        "name": "Save changes",
+        "rect": [
+          422,
+          0,
+          234,
+          61
+        ],
+        "text": "Save changes"
+      }
+    ],
+    "scrolls": [
+      {
+        "name": "Hub pages",
+        "type": "QListWidget",
+        "horizontal": 31,
+        "width": 164
+      },
+      {
+        "name": "",
+        "type": "QScrollArea",
+        "horizontal": 104,
+        "width": 638
+      }
+    ]
+  },
+  {
+    "px": 32,
+    "page": "Settings-Microphone",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 164,
+    "nav_size_hint": 195,
+    "controls": [
+      {
+        "type": "QListWidget",
+        "name": "Hub pages",
+        "rect": [
+          20,
+          85,
+          164,
+          495
+        ],
+        "text": ""
+      },
+      {
+        "type": "QTabWidget",
+        "name": "",
+        "rect": [
+          9,
+          74,
+          638,
+          396
+        ],
+        "text": ""
+      },
+      {
+        "type": "QComboBox",
+        "name": "Settings section",
+        "rect": [
+          71,
+          9,
+          576,
+          59
+        ],
+        "text": ""
+      },
+      {
+        "type": "QScrollArea",
+        "name": "",
+        "rect": [
+          0,
+          0,
+          638,
+          396
+        ],
+        "text": ""
+      },
+      {
+        "type": "QComboBox",
+        "name": "Dictation microphone",
+        "rect": [
+          9,
+          191,
+          712,
+          59
+        ],
+        "text": ""
+      },
+      {
+        "type": "QPushButton",
+        "name": "Refresh inputs",
+        "rect": [
+          9,
+          256,
+          353,
+          61
+        ],
+        "text": "Refresh inputs"
+      },
+      {
+        "type": "QPushButton",
+        "name": "Test input",
+        "rect": [
+          368,
+          256,
+          353,
+          61
+        ],
+        "text": "Test input"
+      },
+      {
+        "type": "QPushButton",
+        "name": "Check microphone privacy",
+        "rect": [
+          9,
+          646,
+          712,
+          61
+        ],
+        "text": "Check microphone privacy"
+      },
+      {
+        "type": "QPushButton",
+        "name": "Open Windows sound settings",
+        "rect": [
+          9,
+          802,
+          712,
+          61
+        ],
+        "text": "Open Windows sound settings"
+      },
+      {
+        "type": "QPushButton",
+        "name": "Open microphone privacy settings",
+        "rect": [
+          9,
+          869,
+          712,
+          61
+        ],
+        "text": "Open microphone privacy settings"
+      },
+      {
+        "type": "QCheckBox",
+        "name": "Enable Whisper mode (experimental)",
+        "rect": [
+          25,
+          45,
+          662,
+          49
+        ],
+        "text": "Enable Whisper mode (experimental)"
+      },
+      {
+        "type": "QLabel",
+        "name": "Rong Xiaobin; ONNX conversion by sherpa-onnx \u00b7 0.54 MB \u00b7 MIT license \u00b7 Model source",
+        "rect": [
+          25,
+          619,
+          662,
+          84
+        ],
+        "text": "Rong Xiaobin; ONNX conversion by sherpa-onnx \u00b7 0.54 MB \u00b7 <a style=\"color:#141414\" href=\"ht"
+      },
+      {
+        "type": "QPushButton",
+        "name": "Download / Resume enhancement",
+        "rect": [
+          25,
+          709,
+          535,
+          61
+        ],
+        "text": "Download / Resume enhancement"
+      },
+      {
+        "type": "QPushButton",
+        "name": "Save changes",
+        "rect": [
+          422,
+          0,
+          234,
+          61
+        ],
+        "text": "Save changes"
+      }
+    ],
+    "scrolls": [
+      {
+        "name": "Hub pages",
+        "type": "QListWidget",
+        "horizontal": 31,
+        "width": 164
+      },
+      {
+        "name": "",
+        "type": "QScrollArea",
+        "horizontal": 106,
+        "width": 638
+      }
+    ]
+  },
+  {
+    "px": 32,
+    "page": "Settings-Privacy",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 164,
+    "nav_size_hint": 195,
+    "controls": [
+      {
+        "type": "QListWidget",
+        "name": "Hub pages",
+        "rect": [
+          20,
+          85,
+          164,
+          495
+        ],
+        "text": ""
+      },
+      {
+        "type": "QTabWidget",
+        "name": "",
+        "rect": [
+          9,
+          74,
+          638,
+          396
+        ],
+        "text": ""
+      },
+      {
+        "type": "QComboBox",
+        "name": "Settings section",
+        "rect": [
+          71,
+          9,
+          576,
+          59
+        ],
+        "text": ""
+      },
+      {
+        "type": "QScrollArea",
+        "name": "",
+        "rect": [
+          0,
+          0,
+          638,
+          396
+        ],
+        "text": ""
+      },
+      {
+        "type": "QPushButton",
+        "name": "Check firewall rules",
+        "rect": [
+          9,
+          458,
+          627,
+          61
+        ],
+        "text": "Check firewall rules"
+      },
+      {
+        "type": "QCheckBox",
+        "name": "Check for app updates",
+        "rect": [
+          0,
+          98,
+          627,
+          49
+        ],
+        "text": "Check for app updates"
+      },
+      {
+        "type": "QCheckBox",
+        "name": "Save recordings locally for History retries",
+        "rect": [
+          9,
+          1622,
+          627,
+          49
+        ],
+        "text": "Save recordings locally for History retries"
+      },
+      {
+        "type": "QPushButton",
+        "name": "Save changes",
+        "rect": [
+          422,
+          0,
+          234,
+          61
+        ],
+        "text": "Save changes"
+      }
+    ],
+    "scrolls": [
+      {
+        "name": "Hub pages",
+        "type": "QListWidget",
+        "horizontal": 31,
+        "width": 164
+      },
+      {
+        "name": "",
+        "type": "QScrollArea",
+        "horizontal": 21,
+        "width": 638
+      }
+    ]
+  },
+  {
+    "px": 32,
+    "page": "Settings-About",
+    "size": [
+      880,
+      600
+    ],
+    "nav_width": 164,
+    "nav_size_hint": 195,
+    "controls": [
+      {
+        "type": "QListWidget",
+        "name": "Hub pages",
+        "rect": [
+          20,
+          85,
+          164,
+          495
+        ],
+        "text": ""
+      },
+      {
+        "type": "QTabWidget",
+        "name": "",
+        "rect": [
+          9,
+          74,
+          638,
+          396
+        ],
+        "text": ""
+      },
+      {
+        "type": "QComboBox",
+        "name": "Settings section",
+        "rect": [
+          71,
+          9,
+          576,
+          59
+        ],
+        "text": ""
+      },
+      {
+        "type": "QScrollArea",
+        "name": "",
+        "rect": [
+          0,
+          0,
+          638,
+          396
+        ],
+        "text": ""
+      },
+      {
+        "type": "QPushButton",
+        "name": "Save changes",
+        "rect": [
+          422,
+          0,
+          234,
+          61
+        ],
+        "text": "Save changes"
+      }
+    ],
+    "scrolls": [
+      {
+        "name": "Hub pages",
+        "type": "QListWidget",
+        "horizontal": 31,
+        "width": 164
+      },
+      {
+        "name": "",
+        "type": "QScrollArea",
+        "horizontal": 0,
+        "width": 638
+      }
+    ]
+  }
+]

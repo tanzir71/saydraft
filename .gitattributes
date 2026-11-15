@@ -100,3 +100,5 @@ eval/site/results/2026-11-15-repo-seo/** -text -whitespace
 tools/probe_whisper_alignment.py -text
 tools/public_file_guard.py -text
 eval/asr/results/2026-11-15-word-alignment/** -text -whitespace
+# Preserve Hub accessibility frames, original diagnostics and exact source witnesses.
+eval/ui/results/2026-11-15-hub-accessibility/** -text -whitespace

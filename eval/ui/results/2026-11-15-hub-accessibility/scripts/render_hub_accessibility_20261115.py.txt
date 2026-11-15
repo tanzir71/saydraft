@@ -1,0 +1,146 @@
+"""Public owned Qt fixtures, run only through the retained early-import guard."""
+from datetime import datetime
+import hashlib
+import json
+from pathlib import Path
+import platform
+import subprocess
+import sys
+from types import SimpleNamespace
+
+import PySide6
+from PySide6 import QtCore, QtGui, QtTest, QtWidgets
+from saydraft.config import default_config, save_config
+from saydraft.history import DictationHistoryStore, HistoryEntry
+from saydraft.models.storage import Inventory
+from saydraft.ui.fonts import install_bundled_fonts
+from saydraft.ui.hub import HubWindow
+from saydraft.ui.theme import install_theme
+from tests.test_hub_accessibility import Hints, PAGES, SECTIONS, accessible_name, walk_tabs
+
+repo = Path(__import__('saydraft').__file__).resolve().parent.parent
+out = Path(sys.argv[1]).resolve()
+assert not out.is_relative_to(repo)
+out.mkdir(parents=True, exist_ok=False)
+source = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=repo, text=True).strip()
+assert not subprocess.check_output(['git', 'status', '--porcelain'], cwd=repo, text=True).strip()
+app = QtWidgets.QApplication([])
+install_bundled_fonts(app)
+palette = app.palette()
+
+def forbidden(*args, **kwargs):
+    raise AssertionError('Owner, device, download and external ports are barred')
+
+records = []
+qt_errors = []
+sys.excepthook = lambda kind, error, trace: qt_errors.append((kind.__name__, str(error)))
+for mode in ['light', 'dark', 'high-contrast']:
+    for px in [16, 32]:
+        profile = out / f'private-{mode}-{px}'
+        profile.mkdir()
+        cfg = default_config()
+        cfg['dictation'].update(glossary_path=str(profile / 'glossary.json'), app_profiles_path=str(profile / 'apps.json'))
+        save_config(cfg, profile / 'config.json')
+        (profile / 'glossary.json').write_text('{"user_terms":["Saydraft"]}', encoding='utf-8')
+        (profile / 'apps.json').write_text('[]', encoding='utf-8')
+        (profile / 'snippets.txt').write_text('office address=123 Example Road\n', encoding='utf-8')
+        store = DictationHistoryStore(profile / 'history.db')
+        store.append(HistoryEntry(app_name='Public fixture', raw_text='um hello world', cleaned_text='Hello world.',
+            mode='balanced', profile='notes', duration_seconds=2, model='public-fixture'))
+        app.setPalette(palette)
+        font = app.font()
+        font.setPixelSize(px)
+        app.setFont(font)
+        hints = Hints()
+        if mode == 'high-contrast':
+            hints.contrast = QtCore.Qt.ContrastPreference.HighContrast
+        theme = install_theme(app, mode='light' if mode == 'high-contrast' else mode, style_hints=hints)
+        assert theme.current == mode
+        if mode == 'high-contrast':
+            native = QtGui.QPalette(palette)
+            for role in [QtGui.QPalette.Window, QtGui.QPalette.Base, QtGui.QPalette.Button]:
+                native.setColor(role, QtGui.QColor('black'))
+            for role in [QtGui.QPalette.WindowText, QtGui.QPalette.Text, QtGui.QPalette.ButtonText]:
+                native.setColor(role, QtGui.QColor('white'))
+            native.setColor(QtGui.QPalette.Highlight, QtGui.QColor('yellow'))
+            native.setColor(QtGui.QPalette.HighlightedText, QtGui.QColor('black'))
+            app.setPalette(native)
+            assert not app.styleSheet()
+        hub = HubWindow(settings_options=dict(config_path=profile / 'config.json', snippets_path=profile / 'snippets.txt',
+            autostart_manager=SimpleNamespace(is_enabled=lambda: False, set_enabled=forbidden),
+            microphone_devices_provider=forbidden, microphone_start_callback=forbidden,
+            microphone_stop_callback=lambda: None, firewall_status_provider=forbidden,
+            model_inventory_provider=lambda: Inventory(models=(), roots=()), model_download_callback=forbidden, vad_download_callback=forbidden,
+            cleanup_download_callback=forbidden, cleanup_runtime_download_callback=forbidden,
+            hardware_benchmark_callback=forbidden, preview_download_callback=forbidden,
+            style_preview_callback=forbidden, audio_cleanup_callback=forbidden, model_remove_callback=forbidden),
+            history_options=dict(store=store, clipboard=SimpleNamespace(setText=forbidden)),
+            shortcut=lambda: 'Ctrl+Win', model=lambda: 'Parakeet v3', tier=lambda: 'standard')
+        hub.home_page.now = lambda: datetime(2026, 11, 15, 9)
+        for page in [hub.settings_page.dictionary_page, hub.settings_page.snippets_page]:
+            page.table.selectRow(0)
+        hub.resize(880, 600)
+        hub.show()
+        subject = SimpleNamespace(hub=hub, app=app)
+        cases = [(name, None, False) for name in PAGES] + [('Settings', name, False) for name in SECTIONS]
+        cases += [('Dictionary', None, True), ('Snippets', None, True)]
+        for page, section, expanded in cases:
+            hub.show_page(page, tab=section)
+            for _ in range(200):
+                app.processEvents()
+                if not hub.history_page.loading:
+                    break
+                QtTest.QTest.qWait(5)
+            assert not hub.history_page.loading
+            if expanded:
+                child = getattr(hub.settings_page, page.lower() + '_page')
+                child.advanced.setChecked(True)
+                if page == 'Snippets':
+                    child.test_toggle.setChecked(True)
+            if page == 'Style':
+                hub.settings_page.styles_page.refresh()
+            app.processEvents()
+            assert hub.navigation.viewport().width() >= hub.navigation.sizeHintForColumn(0)
+            assert hub.navigation.horizontalScrollBar().maximum() == 0
+            texts = [(w, w.toPlainText()) for w in hub.findChildren(QtWidgets.QPlainTextEdit) if not w.isReadOnly()]
+            walks = {}
+            for backwards in [False, True]:
+                visited = walk_tabs(subject, backwards=backwards)
+                if hub.save_button.isVisible():
+                    assert hub.save_button in visited
+                for label in hub.findChildren(QtWidgets.QLabel):
+                    if label.isVisibleTo(hub) and label.isEnabled() and label.openExternalLinks() and '<a ' in label.text():
+                        assert label in visited
+                walks['reverse' if backwards else 'forward'] = [accessible_name(w) for w in visited]
+            assert all(w.toPlainText() == text for w, text in texts)
+            scrolls = []
+            for w in hub.findChildren(QtWidgets.QAbstractScrollArea):
+                if w.isVisibleTo(hub):
+                    scrolls.append(dict(name=w.accessibleName(), type=type(w).__name__,
+                        horizontal=w.horizontalScrollBar().maximum(), vertical=w.verticalScrollBar().maximum()))
+                    w.horizontalScrollBar().setValue(0)
+                    w.verticalScrollBar().setValue(0)
+            app.processEvents()
+            tag = f'{mode}-{px}-{page}' + (f'-{section}' if section else '') + ('-expanded' if expanded else '')
+            image_path = out / (tag + '.png')
+            pixmap = hub.grab()
+            assert pixmap.save(str(image_path))
+            records.append(dict(case=tag, theme=mode, logical_text_px=px, size=list(hub.size().toTuple()),
+                actual_navigation_font_px=QtGui.QFontInfo(hub.navigation.font()).pixelSize(),
+                image_size=[pixmap.width(), pixmap.height()], dpr=pixmap.devicePixelRatio(),
+                rail_width=hub.navigation.width(), rail_required=hub.navigation.sizeHintForColumn(0),
+                tab_walks=walks, scrolls=scrolls, image=image_path.name,
+                sha256=hashlib.sha256(image_path.read_bytes()).hexdigest()))
+        hub.close()
+        hub.deleteLater()
+        app.sendPostedEvents(None, QtCore.QEvent.DeferredDelete)
+        app.processEvents()
+        theme.close()
+app.setPalette(palette)
+assert len(records) == 108
+assert not qt_errors, qt_errors
+report = dict(source=source, python=platform.python_version(), qt=QtCore.qVersion(), pyside=PySide6.__version__,
+    platform=app.platformName(), physical_acceptance=False, owner_io_used=False,
+    simulated_high_contrast=True, record_count=len(records), records=records)
+(out / 'report.json').write_text(json.dumps(report, indent=2) + '\n', encoding='utf-8')
+print(json.dumps({k: v for k, v in report.items() if k != 'records'}, indent=2), flush=True)

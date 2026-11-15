@@ -1,0 +1,23 @@
+{
+  "source": "d2c3f3386d96fc6af1ee78d8432d7461c760409a",
+  "file": "tests/test_theme.py",
+  "args": [
+    "C:\\Python313\\python.exe",
+    "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\run_hub_accessibility_20261115.py",
+    "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\hub-accessibility-20261115-r1\\final-tests-r2\\test_theme-guard.json",
+    "tests/test_theme.py",
+    "-q",
+    "-rs",
+    "-k",
+    "not real_app and not app_wires",
+    "--durations=5",
+    "--basetemp=D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\hub-accessibility-20261115-r1\\final-tests-r2\\test_theme-temp"
+  ],
+  "started": 1794714130.5515206,
+  "timeout": false,
+  "launcher_pid": 24368,
+  "returncode": 0,
+  "job_tree_exit_observed": true,
+  "ended": 1794714138.578416,
+  "actual_pid": 24368
+}
