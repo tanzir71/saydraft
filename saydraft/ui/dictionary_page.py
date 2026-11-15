@@ -74,9 +74,16 @@ class _SourceChips(QtWidgets.QStyledItemDelegate):
         painter.save()
         painter.setRenderHint(QtGui.QPainter.Antialiasing)
         painter.setPen(QtCore.Qt.NoPen)
-        painter.setBrush(option.palette.color(QtGui.QPalette.AlternateBase))
+        selected = bool(option.state & QtWidgets.QStyle.State_Selected)
+        group = (QtGui.QPalette.Disabled if not option.state & QtWidgets.QStyle.State_Enabled else
+                 QtGui.QPalette.Active if option.state & QtWidgets.QStyle.State_Active else QtGui.QPalette.Inactive)
+        # Use a native foreground/background pair; Text with AlternateBase can
+        # become white-on-white in a high-contrast palette.
+        background_role = QtGui.QPalette.Highlight if selected else QtGui.QPalette.Button
+        text_role = QtGui.QPalette.HighlightedText if selected else QtGui.QPalette.ButtonText
+        painter.setBrush(option.palette.color(group, background_role))
         painter.drawRoundedRect(rect, height / 2, height / 2)
-        painter.setPen(option.palette.color(QtGui.QPalette.Text))
+        painter.setPen(option.palette.color(group, text_role))
         painter.setFont(font)
         painter.drawText(rect, QtCore.Qt.AlignCenter, text)
         painter.restore()

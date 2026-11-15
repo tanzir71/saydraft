@@ -242,3 +242,46 @@ def test_high_contrast_retires_brand_sheet_and_preserves_large_font(owned_hub):
     hub.setFocus()
     assert subject.app.focusWidget() is hub.navigation
     assert hub.home_page.offline_button in walk_tabs(subject)
+
+
+@pytest.mark.parametrize("selected", [False, True])
+@pytest.mark.parametrize("group", [QtGui.QPalette.Active, QtGui.QPalette.Inactive, QtGui.QPalette.Disabled])
+def test_dictionary_source_chip_raster_has_readable_native_palette_pair(owned_hub, selected, group):
+    from saydraft.ui.dictionary_page import _SourceChips
+
+    subject, hub = owned_hub, owned_hub.hub
+    subject.theme("high-contrast", 32)
+    table = hub.settings_page.dictionary_page.table
+    option = QtWidgets.QStyleOptionViewItem()
+    option.widget, option.rect, option.font = table, QtCore.QRect(0, 0, 240, 64), table.font()
+    option.state = QtWidgets.QStyle.State_Enabled
+    if group == QtGui.QPalette.Disabled:
+        option.state = QtWidgets.QStyle.State_None
+    elif group == QtGui.QPalette.Active:
+        option.state |= QtWidgets.QStyle.State_Active
+    if selected:
+        option.state |= QtWidgets.QStyle.State_Selected
+    palette = QtGui.QPalette()
+    for role, color in [(QtGui.QPalette.Base, "black"), (QtGui.QPalette.AlternateBase, "white"),
+                        (QtGui.QPalette.Text, "white"), (QtGui.QPalette.Button, "black"),
+                        (QtGui.QPalette.ButtonText, "white"), (QtGui.QPalette.Highlight, "yellow"),
+                        (QtGui.QPalette.HighlightedText, "black")]:
+        palette.setColor(group, role, QtGui.QColor(color))
+    option.palette = palette
+    image = QtGui.QImage(240, 64, QtGui.QImage.Format_ARGB32)
+    image.fill(QtGui.QColor("magenta"))
+    painter = QtGui.QPainter(image)
+    try:
+        delegate = table.itemDelegate()
+        index = table.model().index(0, table.model().columnCount() - 1)
+        assert index.data() == "Manual"
+        delegate.paint(painter, option, index)
+    finally:
+        painter.end()
+    metrics = QtGui.QFontMetrics(_SourceChips.font(table.font()))
+    # Inspect inside the capsule, excluding its rounded edge and the cell.
+    text_width = metrics.horizontalAdvance("Manual")
+    colors = {image.pixel(x, y) for x in range(16, 16 + text_width)
+              for y in range(32 - metrics.height() // 2, 32 + metrics.height() // 2)}
+    assert QtGui.QColor("black").rgba() in colors
+    assert QtGui.QColor("yellow" if selected else "white").rgba() in colors

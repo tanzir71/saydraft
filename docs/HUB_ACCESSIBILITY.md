@@ -19,12 +19,14 @@ state while keycaps keep their normal height. The hidden Settings tab bar is
 excluded from Tab order; the visible Settings section selector remains named.
 Shortcut help and speech, cleanup and Labs model license/source links are also
 reachable by keyboard. Merely focusing these links opens no external page.
+Dictionary source chips use paired native colors for normal and selected rows,
+including inactive and disabled palettes, to keep their provenance text readable.
 
 ## Local checks
 
 `tests/test_hub_accessibility.py` uses public authored text, disposable SQLite
 and configuration paths, forbidden owner/external ports, and offscreen Qt
-events. Its fifteen cases cover:
+events. Its twenty-one cases cover:
 
 - Forward/reverse Tab cycles for the seven Hub pages and ten Settings sections
   at 16px and 32px application text in light, dark and simulated high contrast.
@@ -39,6 +41,9 @@ events. Its fifteen cases cover:
 - Home/General/Shortcuts reflow at 32px in the minimum window, and retirement
   of the brand stylesheet on an injected high-contrast preference while keeping
   the larger application font.
+- Raster checks for Dictionary source text against a high-contrast palette with
+  conflicting Text/AlternateBase colors, in normal/selected rows and all three
+  native palette groups. Screenshots exposed the previous white-on-white chip.
 
 The font-size check is actual 200% **logical text**, separate from a 2× image or
 display pixel density. High contrast uses an injected Qt preference; it does
