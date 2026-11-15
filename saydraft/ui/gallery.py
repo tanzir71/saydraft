@@ -5,9 +5,12 @@ import json
 import os
 from pathlib import Path
 import subprocess
+import hashlib
+import sys
+import tempfile
 
 
-def build_gallery(controller):
+def build_gallery(controller, *, fixtures=None):
     from PySide6 import QtCore, QtWidgets
     from saydraft.config import default_config
     from saydraft.dictation.glossary import Glossary
@@ -87,11 +90,17 @@ def build_gallery(controller):
     styles = StylesPage(config, config_provider=lambda: config, glossary_provider=Glossary)
     styles.refresh()
     tabs.addTab(styles, "Style")
+    if fixtures is not None:
+        from .gallery_catalog import CatalogPanel
+        catalog = CatalogPanel(fixtures)
+        tabs.addTab(catalog, "Product states")
+        tabs.currentChanged.connect(lambda index: catalog.refresh() if tabs.widget(index) is catalog else None)
+        theme.currentIndexChanged.connect(lambda _: catalog.refresh() if tabs.currentWidget() is catalog else None)
     window.resize(1000, 740)
     return window, tabs, styles
 
 
-def render(output, scale=1):
+def render(output, scale=1, family="all"):
     os.environ["QT_QPA_PLATFORM"] = "offscreen"
     os.environ["QT_STYLE_OVERRIDE"] = "Fusion"
     os.environ["QT_SCALE_FACTOR"] = str(scale)
@@ -99,6 +108,19 @@ def render(output, scale=1):
     from .fonts import install_bundled_fonts
     from .theme import install_theme
     from saydraft.privacy.netguard import NetworkGuard
+    from .gallery_catalog import Fixtures, SCENES, capture
+
+    processes = []
+    allowed_commands = (["git", "rev-parse", "HEAD"], ["git", "status", "--porcelain"])
+    def file_only_processes(event, args):
+        if event == "subprocess.Popen":
+            command = args[1]
+            # CPython's Windows audit event carries the converted command line;
+            # POSIX carries the argument sequence. Admit only our two exact forms.
+            if command not in allowed_commands and command not in [subprocess.list2cmdline(c) for c in allowed_commands]:
+                raise AssertionError("The gallery may spawn only file-only Git provenance commands")
+            processes.append(command)
+    sys.addaudithook(file_only_processes)
 
     output.mkdir(parents=True, exist_ok=False)
     app = QtWidgets.QApplication([])
@@ -108,14 +130,18 @@ def render(output, scale=1):
     assert controller is not None
     report = {"platform": app.platformName(), "scale": scale,
         "network_guard_enabled": bool(NetworkGuard._originals), "active_application_read": False,
-        "owner_clipboard_accessed": False, "themes": []}
+        "owner_clipboard_accessed": False, "microphone_opened": False,
+        "device_enumeration": False, "model_inference": False, "themes": [], "scenes": []}
+    qt_errors = []
+    original_hook = sys.excepthook
+    sys.excepthook = lambda kind, error, trace: qt_errors.append(f"{kind.__name__}: {error}")
     for mode in ("light", "dark"):
         controller.set_mode(mode)
         window, tabs, styles = build_gallery(controller)
         window.show()
         app.processEvents()
         files = []
-        for index, name in ((0, "controls"), (1, "style")):
+        for index, name in (((0, "controls"), (1, "style")) if family in ("all", "controls") else ()):
             tabs.setCurrentIndex(index)
             app.processEvents()
             path = output / f"{mode}-{name}.png"
@@ -123,16 +149,41 @@ def render(output, scale=1):
             assert shot.save(str(path))
             files.append(path.name)
         report["themes"].append({"name": controller.current, "files": files,
-            "image_width": shot.width(), "image_height": shot.height(),
+            "image_width": window.width() * scale, "image_height": window.height() * scale,
             "body_pixels": QtGui.QFontInfo(window.font()).pixelSize(),
             "style_rows": [{"row": row, "height": styles.matrix.rowHeight(row),
                 "required": styles.tones[group].sizeHint().height()} for row, group in enumerate(styles.tones)]})
         window.close()
         window.deleteLater()
         app.processEvents()
+        fixtures = Fixtures()
+        try:
+            for scene in SCENES:
+                if family not in ("all", scene.family):
+                    continue
+                widget = fixtures.scene(scene)
+                shot = capture(widget, scene)
+                name = f"{mode}-{scene.key}.png"
+                assert shot.save(str(output / name))
+                image = shot.toImage().convertToFormat(QtGui.QImage.Format_RGBA8888)
+                report["scenes"].append({"key": scene.key, "family": scene.family, "theme": mode,
+                    "file": name, "widget": type(widget).__name__, "width": shot.width(), "height": shot.height(),
+                    "dpr": shot.devicePixelRatio(), "native_state": widget.state.value if scene.family == "bar" else None,
+                    "pixel_sha256": hashlib.sha256(bytes(image.constBits())).hexdigest()})
+                fixtures.release(widget, scene)
+        finally:
+            fixtures.close()
     controller.close()
-    report["git_commit"] = subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip()
-    report["source_dirty"] = bool(subprocess.check_output(["git", "status", "--porcelain"], text=True).strip())
+    sys.excepthook = original_hook
+    if qt_errors:
+        raise RuntimeError("Gallery Qt callback failed: " + "; ".join(qt_errors))
+    repo = Path(__file__).resolve().parents[2]
+    report["git_commit"] = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=repo, text=True).strip()
+    report["source_dirty"] = bool(subprocess.check_output(["git", "status", "--porcelain"], cwd=repo, text=True).strip())
+    report["spawned_commands"] = processes
+    report["imported_model_sdks"] = sorted(set(sys.modules) & {
+        "faster_whisper", "ctranslate2", "sherpa_onnx", "onnxruntime", "llama_cpp", "sounddevice", "soundcard"})
+    assert not report["imported_model_sdks"]
     (output / "report.json").write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
     return report
 
@@ -141,23 +192,48 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--render", type=Path, help="Export both themes offscreen to a new directory")
     parser.add_argument("--scale", type=int, choices=(1, 2), default=1, help="Offscreen export density")
+    parser.add_argument("--family", choices=("all", "controls", "bar", "toast", "hub", "setup"), default="all")
+    parser.add_argument("--list", action="store_true", help="List the public production-widget states")
     args = parser.parse_args()
+    if args.list:
+        from .gallery_catalog import SCENES
+        print("\n".join(scene.key for scene in SCENES))
+        return
+    # Keep fixture files and profiles outside the checkout and the owner's data.
+    if args.render:
+        from tools.public_file_guard import install
+        install(args.render.resolve().with_name(args.render.name + ".guard.json"))
+    else:
+        # Live browsing also gets an empty disposable profile. Gallery code must
+        # not discover a user's installed models, saved hardware report or data.
+        private_profile = tempfile.TemporaryDirectory(prefix="saydraft-gallery-profile-")
+        for key in ("LOCALAPPDATA", "APPDATA", "USERPROFILE", "HF_HOME"):
+            path = Path(private_profile.name) / key.lower()
+            path.mkdir()
+            os.environ[key] = str(path)
     from saydraft.privacy.netguard import NetworkGuard
     NetworkGuard.install()
     if args.render:
-        render(args.render, args.scale)
+        render(args.render, args.scale, args.family)
         return
     from PySide6 import QtWidgets
     from .fonts import install_bundled_fonts
     from .theme import install_theme
+    from .gallery_catalog import Fixtures
     app = QtWidgets.QApplication([])
     install_bundled_fonts(app)
     controller = install_theme(app)
     if controller is None:
         raise SystemExit("Theme resources unavailable")
-    window, _tabs, _styles = build_gallery(controller)
-    window.show()
-    raise SystemExit(app.exec())
+    fixtures = Fixtures()
+    try:
+        window, _tabs, _styles = build_gallery(controller, fixtures=fixtures)
+        window.resize(1200, 900)
+        window.show()
+        raise SystemExit(app.exec())
+    finally:
+        fixtures.close()
+        private_profile.cleanup()
 
 
 if __name__ == "__main__":

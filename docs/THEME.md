@@ -38,20 +38,20 @@ python -m saydraft.ui.gallery --render D:\QA\Gallery-2 --scale 2
 python -m pytest -m gallery -q
 ```
 
-The live developer gallery has System/Light/Dark controls. Its initial tabs show
-basic enabled/disabled controls, checked/unchecked/radio states, the dictionary
-suggestion and the actual Style matrix/rules preview with public fixture text.
-Full Bar, Hub and onboarding state coverage still belongs to P6.6.
+The live developer gallery has System/Light/Dark controls, Controls and Style
+examples, and a Product states selector. The [gallery guide](GALLERY.md) describes
+all 82 Bar/toast/Hub/setup scenes, public fixtures and snapshot checks.
 
-Exports require a new directory and create four PNGs plus `report.json`. A fresh
+Exports require a new directory outside the checkout and create 168 PNGs plus `report.json`. A fresh
 offscreen QApplication uses Fusion for reproducible captures, bundled fonts and
 NetworkGuard. At scale 1 images are 1000×740; at scale 2 they are 2000×1480. The
 report records logical font size, row/control heights, source commit/dirty state
 and explicit absence of active-app/owner-clipboard access. It uses memory-only
 rules fixtures and does not start speech recognition or microphone capture.
 
-Four inspected baselines are in `tests/fixtures/gallery/`. Fresh-process tests
-compare their decoded pixels and check both scales for row clipping. Progress
+Four inspected baseline PNGs and the complete two-density pixel catalog are in
+`tests/fixtures/gallery/`. Fresh-process tests compare decoded pixels and check
+both scales for Style row clipping. Progress
 tests compare labelled/unlabelled renders at 10/50/90 percent, in both themes,
 with normal, RTL and inverted fills. Minimum-size Settings checks cover both
 themes and larger text while preserving the fixture config file.

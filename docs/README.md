@@ -13,6 +13,8 @@ milestone acceptance.
 
 The [delivery handover](DELIVERY_HANDOVER.md) gives the bounded completion
 process, current preview checkpoint and prioritized remaining acceptance work.
+The [desktop gallery](GALLERY.md) documents public Bar, toast, Hub and setup
+states, offscreen product-shot exports and visual regression checks.
 
 The latest cleanup change adds a content-word identity/order check to normal
 post-rules AI cleanup (intensities 1–3). See the [validator](VALIDATOR_V2.md) for

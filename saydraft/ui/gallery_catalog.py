@@ -1,0 +1,462 @@
+"""Public production-widget scenes for the developer gallery; never app services.
+
+The gallery renders these widgets on demand. Its selector, rather than the
+previewed buttons, changes scenes, so viewing setup cannot start a real task.
+"""
+
+from contextlib import ExitStack, closing
+from dataclasses import dataclass
+from datetime import datetime
+import json
+from pathlib import Path
+import sqlite3
+import tempfile
+import time
+from types import SimpleNamespace
+from unittest.mock import patch
+
+from PySide6 import QtCore, QtGui, QtWidgets
+
+
+BAR_STATES = (
+    "hidden", "idle", "hover", "preparing", "preparing-hands-free", "listening",
+    "hands-free", "long-recording", "preview", "processing", "cleaning",
+    "not-inserted", "not-saved", "mic-error", "model-error", "command",
+)
+TOASTS = {
+    "suggestion": ('Add “Kubernetes” to your dictionary?', "Add"),
+    "saving": ("Saving dictionary word…", ""),
+    "added": ('Added “Kubernetes” to your dictionary.', "Undo"),
+    "undoing": ("Undoing dictionary change…", ""),
+    "undone": ("Dictionary change undone.", ""),
+    "unchanged": ("No dictionary change was needed.", ""),
+    "stale": ("That dictionary entry changed; nothing was removed.", ""),
+    "save-error": ("Could not save the dictionary change. Try again or check Settings.", ""),
+    "undo-error": ("Could not save the dictionary change. Try again or check Settings.", "Undo"),
+    "undo-busy": ("Finish the current work, then try Undo.", "Undo"),
+}
+HUB_PAGES = ("Home", "History", "Dictionary", "Snippets", "Style", "Notes")
+SETTINGS_SECTIONS = (
+    "General", "Shortcuts", "Languages", "Cleanup", "Models", "Performance",
+    "Labs", "Microphone", "Privacy", "About",
+)
+SETUP_PAGES = ("welcome", "microphone", "models", "shortcut", "practice", "style")
+PRACTICE_STATES = (
+    "ready", "arming", "recording", "processing", "stopping", "too_short",
+    "no_text", "result_too_long", "model_unavailable", "microphone_unavailable",
+    "failed", "cleanup_failed",
+)
+
+
+@dataclass(frozen=True)
+class Scene:
+    family: str
+    state: str
+
+    @property
+    def key(self):
+        return f"{self.family}-{self.state}"
+
+
+SCENES = tuple(
+    [Scene("bar", state) for state in BAR_STATES]
+    + [Scene("toast", state) for state in TOASTS]
+    + [Scene("hub", page.lower()) for page in HUB_PAGES]
+    + [Scene("hub", f"settings-{section.lower()}") for section in SETTINGS_SECTIONS]
+    + [Scene("hub", state) for state in (
+        "history-empty", "history-no-results", "history-raw", "history-diff", "history-reason",
+        "dictionary-expanded", "snippets-expanded", "notes-empty",
+    )]
+    + [Scene("setup", page) for page in SETUP_PAGES]
+    + [Scene("setup", f"practice-{state.replace('_', '-')}") for state in PRACTICE_STATES]
+    + [Scene("setup", state) for state in (
+        "practice-chat-result", "practice-email-result", "practice-chat-diff", "practice-email-diff",
+        "models-missing", "shortcut-conflict",
+        "microphone-empty", "microphone-scan-error", "microphone-listening", "microphone-failed",
+        "models-downloading", "models-paused", "models-complete", "models-error",
+    )]
+)
+
+
+def forbidden(*_args, **_kwargs):
+    raise AssertionError("The public gallery must not access owner/device/download/input ports")
+
+
+def settle(predicate=lambda: True):
+    """Drain only this QApplication and bounded owned SQLite/package readers."""
+    app = QtWidgets.QApplication.instance()
+    deadline = time.monotonic() + 8
+    # Several layouts intentionally coalesce via queued zero-delay timers.
+    for _ in range(5):
+        app.processEvents()
+    while not predicate():
+        if time.monotonic() >= deadline:
+            raise TimeoutError("Public gallery fixture did not settle")
+        app.processEvents()
+        time.sleep(.002)
+    app.processEvents()
+
+
+class Fixtures:
+    def __init__(self):
+        from saydraft.config import default_config, save_config
+
+        self.temp = tempfile.TemporaryDirectory(prefix="saydraft-gallery-")
+        self.root = Path(self.temp.name)
+        self.ports = ExitStack()
+        self.ports.enter_context(patch.object(QtWidgets.QApplication, "clipboard", forbidden))
+        self.ports.enter_context(patch.object(QtGui.QDesktopServices, "openUrl", forbidden))
+        self.widgets = []
+        self.hubs = {}
+        self.wizard = None
+        self.ports.enter_context(patch("saydraft.ui.settings_page.wispr_running", return_value=False))
+        self.ports.enter_context(patch("saydraft.models.storage.storage_roots", return_value=()))
+        self.ports.enter_context(patch("saydraft.ui.onboarding_models.inspect_speech_package",
+                                       return_value={"state": "missing", "missing": []}))
+        from saydraft.data.history_view import timestamp_label
+        self.ports.enter_context(patch("saydraft.ui.history_page.timestamp_label",
+            lambda value: timestamp_label(value, now=datetime(2026, 11, 15, 9))))
+        self.config = default_config()
+        self.config["dictation"].update(glossary_path=str(self.root / "glossary.json"),
+                                         app_profiles_path=str(self.root / "profiles.json"))
+        save_config(self.config, self.root / "config.json")
+        (self.root / "glossary.json").write_text(json.dumps({"user_terms": ["Kubernetes", "Saydraft"]}), "utf-8")
+        (self.root / "profiles.json").write_text("[]", "utf-8")
+        (self.root / "snippets.txt").write_text("office address=123 Example Road\n", "utf-8")
+
+    def close(self):
+        for hub in self.hubs.values():
+            settle(lambda: not hub.history_page.loading)
+            future = hub.notes_page.jobs._future
+            settle(lambda: future is None or future.done())
+        for widget in reversed(self.widgets):
+            widget.close()
+            widget.deleteLater()
+        QtWidgets.QApplication.sendPostedEvents(None, QtCore.QEvent.DeferredDelete)
+        settle()
+        self.ports.close()
+        self.temp.cleanup()
+
+    def hub(self, empty=False):
+        from saydraft.data.notes import NoteStore
+        from saydraft.history import DictationHistoryStore, HistoryEntry
+        from saydraft.models.storage import Inventory
+        from .hub import HubWindow
+
+        if empty in self.hubs:
+            return self.hubs[empty]
+        database = self.root / ("empty.db" if empty else "public.db")
+        store = DictationHistoryStore(database)
+        if not empty:
+            store.append(HistoryEntry(app_name="Public example", raw_text="um let's meet Tuesday no Thursday at three",
+                cleaned_text="Let's meet Thursday at three.", mode="balanced", profile="notes",
+                duration_seconds=4, model="public-fixture", language="en"))
+            # Stable public timestamps: no wall-clock text enters snapshots.
+            with closing(sqlite3.connect(database)) as connection, connection:
+                connection.execute("UPDATE dictations SET created_at='2026-11-15T09:00:00'")
+                connection.execute("UPDATE stats_daily SET day='2026-11-15'")
+            NoteStore(database, clock=lambda: "2026-11-15T09:00:00").save(
+                "1" * 32, "A thought worth keeping\nDraft the next idea here.", activate=False)
+        callbacks = {name: forbidden for name in (
+            "model_download_callback", "vad_download_callback", "hardware_benchmark_callback",
+            "preview_download_callback", "cleanup_download_callback", "cleanup_runtime_download_callback",
+            "style_preview_callback", "microphone_start_callback", "microphone_devices_provider",
+            "audio_cleanup_callback", "firewall_status_provider", "model_remove_callback",
+        )}
+        hub = HubWindow(settings_options=dict(
+            config_path=self.root / "config.json", snippets_path=self.root / "snippets.txt",
+            autostart_manager=SimpleNamespace(is_enabled=lambda: False, set_enabled=forbidden),
+            microphone_stop_callback=lambda: None,
+            model_inventory_provider=lambda: Inventory(models=(), roots=()), **callbacks),
+            history_options=dict(store=store, clipboard=SimpleNamespace(setText=forbidden)),
+            model=lambda: "Parakeet v3", tier=lambda: "standard")
+        hub.home_page.now = lambda: datetime(2026, 11, 15, 9)
+        hub.setAttribute(QtCore.Qt.WA_DontShowOnScreen)
+        # History uses its own formatting clock as well as the Home clock.
+        hub.resize(1080, 720)
+        self.widgets.append(hub)
+        self.hubs[empty] = hub
+        return hub
+
+    def setup(self):
+        from .onboarding import OnboardingWizard
+
+        if self.wizard is None:
+            self.wizard = OnboardingWizard(config_path=self.root / "config.json",
+                model_status_provider=lambda _: {"state": "verified", "missing": []},
+                model_download_callback=forbidden, microphone_devices_provider=forbidden,
+                microphone_start_callback=forbidden, microphone_stop_callback=lambda *_: True,
+                model_hardware_probe=forbidden, model_benchmark_callback=forbidden,
+                shortcut_start_callback=forbidden, shortcut_conflict_detector=lambda: False,
+                practice_open_callback=lambda *_: 1, practice_start_callback=lambda *_: 1,
+                practice_stop_callback=lambda *_args, **_kwargs: True,
+                practice_close_callback=lambda *_: True)
+            self.wizard.setAttribute(QtCore.Qt.WA_DontShowOnScreen)
+            self.wizard.resize(900, 740)
+            self.widgets.append(self.wizard)
+        return self.wizard
+
+    def scene(self, scene):
+        if scene not in SCENES:
+            raise ValueError("Unknown public gallery scene")
+        if scene.family == "bar":
+            return self.bar(scene.state)
+        if scene.family == "toast":
+            return self.toast(scene.state)
+        if scene.family == "hub":
+            return self.hub_scene(scene.state)
+        return self.setup_scene(scene.state)
+
+    def release(self, widget, scene):
+        widget.hide()
+        if scene.family in ("bar", "toast"):
+            self.widgets.remove(widget)
+            widget.close()
+            widget.deleteLater()
+            QtWidgets.QApplication.sendPostedEvents(None, QtCore.QEvent.DeferredDelete)
+
+    def bar(self, state):
+        from .pill import SaydraftPill
+
+        ticks = [100.]
+        bar = SaydraftPill(clock=lambda: ticks[0],
+            screen_geometry_provider=lambda: QtCore.QRect(0, 0, 1200, 900),
+            timer_single_shot=lambda *_: None)
+        bar.setAttribute(QtCore.Qt.WA_DontShowOnScreen)
+        bar.target.setAttribute(QtCore.Qt.WA_DontShowOnScreen)
+        if state in ("hidden", "idle", "hover"):
+            bar.show_idle()
+            bar.set_hovered(state == "hover")
+        elif state.startswith("preparing"):
+            bar.show_preparing(hands_free=state.endswith("hands-free"))
+        else:
+            bar.show_recording(hands_free=state in ("hands-free", "long-recording"), command=state == "command")
+            bar.update_level(.09)
+            ticks[0] += .060
+            bar.advance_frame()
+            if state == "long-recording":
+                ticks[0] += 19 * 60
+                bar.refresh_elapsed()
+            elif state == "preview":
+                bar.update_preview("A public fixture: your words stay on this PC.")
+            elif state in ("processing", "cleaning"):
+                bar.show_processing()
+                ticks[0] += 1.75 if state == "cleaning" else .5
+                bar.advance_frame()
+            elif state in ("not-inserted", "not-saved"):
+                bar.show_not_inserted("focus_changed" if state == "not-inserted" else "history_unavailable",
+                                     saved=state == "not-inserted")
+            elif state.endswith("error"):
+                bar.show_error("No microphone" if state == "mic-error" else "Speech model unavailable")
+        bar.animation_timer.stop()
+        bar.elapsed_timer.stop()
+        bar._hide_timer.stop()
+        if state == "hidden":
+            bar.hide()
+        self.widgets.append(bar)
+        return bar
+
+    def toast(self, state):
+        from .dictionary_toast import DictionaryToast
+
+        toast = DictionaryToast()
+        toast.setAttribute(QtCore.Qt.WA_DontShowOnScreen)
+        toast.present(*TOASTS[state])
+        toast.timer.stop()
+        self.widgets.append(toast)
+        return toast
+
+    def hub_scene(self, state):
+        hub = self.hub(empty=state in ("history-empty", "notes-empty"))
+        hub.history_page.search_edit.clear()
+        hub.history_page.raw_toggle.setChecked(False)
+        hub.history_page.diff_toggle.setChecked(False)
+        hub.history_page.why_button.setChecked(False)
+        hub.settings_page.dictionary_page.advanced.setChecked(False)
+        hub.settings_page.snippets_page.advanced.setChecked(False)
+        hub.settings_page.snippets_page.test_toggle.setChecked(False)
+        section = state.removeprefix("settings-").title() if state.startswith("settings-") else None
+        page = "Settings" if section else state.split("-")[0].title()
+        hub.show_page(page, tab=section)
+        hub.show()
+        settle(lambda: not hub.history_page.loading)
+        if state == "history-no-results":
+            hub.history_page.search_edit.setText("no matching public fixture")
+            # Debounce is part of the real page; wait for its requested query.
+            hub.history_page.search_timer.stop()
+            hub.history_page.refresh()
+            settle(lambda: not hub.history_page.loading)
+        elif state in ("history", "history-raw", "history-diff", "history-reason"):
+            hub.history_page._select_id(1)
+            settle(lambda: not hub.history_page.loading)
+            hub.history_page.raw_toggle.setChecked(state == "history-raw")
+            hub.history_page.diff_toggle.setChecked(state == "history-diff")
+            hub.history_page.why_button.setChecked(state == "history-reason")
+        elif state.endswith("expanded"):
+            child = getattr(hub.settings_page, page.lower() + "_page")
+            child.table.selectRow(0)
+            child.advanced.setChecked(True)
+            if page == "Snippets":
+                child.test_toggle.setChecked(True)
+        elif state in ("notes", "notes-empty"):
+            settle(lambda: hub.notes_page.jobs._future is None or hub.notes_page.jobs._future.done())
+            settle()
+            if state == "notes":
+                hub.notes_page.list_widget.setCurrentRow(0)
+                settle(lambda: hub.notes_page.current_note is not None)
+        settle()
+        return hub
+
+    def setup_scene(self, state):
+        wizard = self.setup()
+        page = wizard.practice_page
+        page._generation = page._capture = page._last_capture = page._cancelled_capture = 0
+        page._closing = page._cleanup_failed = page._ready = False
+        page.results.clear()
+        page._show_result()
+        page._controls()
+        picker = wizard.model_picker
+        picker._finished()
+        picker.status.clear()
+        picker.progress.hide()
+        picker.file_status.hide()
+        microphone = wizard.microphone_page
+        microphone._test_generation = 0
+        microphone._stopping = False
+        microphone.level_bar.setValue(0)
+        microphone.status.setText("Choose an input, then use Test input to check its level.")
+        microphone._update_actions()
+        wizard.shortcuts_page.primary.setText(self.config["hotkeys"]["speech"])
+        base = state.split("-")[0]
+        wizard.setStartId(SETUP_PAGES.index(base))
+        wizard.restart()
+        wizard.show()
+        settle(lambda: not wizard.models_page._pending)
+        if state == "models-missing":
+            wizard.models_page.readiness_state = "missing"
+            wizard.models_page.readiness.setText("Required speech files are missing. Download / Resume to install them.")
+            wizard.models_page._notify_complete()
+        elif state.startswith("models-"):
+            suffix = state.removeprefix("models-")
+            picker.progress.show()
+            picker.progress.setValue(42)
+            if suffix == "downloading":
+                picker.combo.setEnabled(False)
+                picker.download_button.setEnabled(False)
+                picker.pause_button.setEnabled(True)
+                picker.status.setText("Downloading verified model files…")
+            elif suffix == "paused":
+                picker.status.setText("Download paused. Choose Download / Resume to continue.")
+            elif suffix == "complete":
+                picker._succeeded("public-fixture")
+            else:
+                picker._failed("Public fixture: connection interrupted")
+            if suffix != "complete":
+                wizard.models_page.readiness_state = "checking" if suffix == "downloading" else "missing"
+                wizard.models_page.readiness.setText("Required speech files are missing. Download / Resume to install them.")
+                wizard.models_page.readiness.setVisible(suffix != "downloading")
+                wizard.models_page._notify_complete()
+        elif state.startswith("microphone-"):
+            suffix = state.removeprefix("microphone-")
+            if suffix in ("empty", "scan-error"):
+                microphone._accept_devices(microphone._scan_generation, () if suffix == "empty" else None)
+            else:
+                microphone._test_generation = 1
+                microphone.accept_status(1, "failed" if suffix == "failed" else "listening")
+                microphone.accept_level(1, .12)
+        elif state == "shortcut-conflict":
+            wizard.shortcuts_page.primary.setText("f10")
+        elif state.startswith("practice-"):
+            page = wizard.practice_page
+            page._generation = 1
+            page._capture = page._last_capture = 0
+            page._closing = page._cleanup_failed = False
+            page._permit.set()
+            page.accept_status(1, 0, "ready")
+            suffix = state.removeprefix("practice-")
+            if suffix in ("chat-result", "email-result", "chat-diff", "email-diff"):
+                from saydraft.core.practice import PracticeResult
+
+                page.tabs.setCurrentIndex(1 if suffix.startswith("email") else 0)
+                page._generation = page._capture = page._last_capture = 1
+                page._permit.set()
+                raw, cleaned = (("um let's meet Tuesday no Thursday at three", "Let's meet Thursday at three.")
+                    if suffix.startswith("chat") else ("hi Sam please bring the draft and figures thanks",
+                    "Hi Sam,\n\nPlease bring the draft and figures.\n\nThanks."))
+                # The same production result renderer, independent of active-window admission.
+                page.results[page.group] = PracticeResult(1, 1, page.group, raw, cleaned, "public-fixture")
+                page._show_result()
+                page._show_comparison()
+                page.status.setText("Practice complete. Review the words and changes; nothing was sent or saved in History.")
+                page.accept_status(1, 1, "idle")
+            else:
+                if suffix != "ready":
+                    page.accept_status(1, 1, "recording")
+                    page.accept_status(1, 1, suffix.replace("-", "_"))
+                    if suffix.replace("-", "_") not in ("arming", "recording", "processing", "stopping", "cleanup_failed"):
+                        page.accept_status(1, 1, "idle")
+            settle()
+            page.scroll.verticalScrollBar().setValue(0)
+        settle()
+        return wizard
+
+
+def capture(widget, scene):
+    """Capture actual pixels, not interactive clones or hand-drawn mockups."""
+    settle()
+    if scene.family == "bar":
+        image = widget.render_image()
+        if scene.state == "hidden":
+            image.fill(QtCore.Qt.transparent)
+        return QtGui.QPixmap.fromImage(image)
+    for area in widget.findChildren(QtWidgets.QAbstractScrollArea):
+        if area.isVisibleTo(widget):
+            area.horizontalScrollBar().setValue(0)
+            area.verticalScrollBar().setValue(0)
+    for child in [widget, *widget.findChildren(QtWidgets.QWidget)]:
+        child.clearFocus()
+    settle()
+    if scene.family == "setup" and scene.state.endswith("-diff"):
+        widget.practice_page.scroll.ensureWidgetVisible(widget.practice_page.chips, 0, 8)
+        settle()
+    return widget.grab()
+
+
+class CatalogPanel(QtWidgets.QWidget):
+    def __init__(self, fixtures, parent=None):
+        super().__init__(parent)
+        self.fixtures = fixtures
+        layout = QtWidgets.QVBoxLayout(self)
+        self.choice = QtWidgets.QComboBox()
+        self.choice.setAccessibleName("Product widget and state")
+        for scene in SCENES:
+            self.choice.addItem(scene.key.replace("-", " · "), scene)
+        layout.addWidget(self.choice)
+        note = QtWidgets.QLabel("Production widgets with public examples. Use the state selector; preview buttons do not run tasks.")
+        note.setWordWrap(True)
+        layout.addWidget(note)
+        self.preview = QtWidgets.QLabel()
+        self.preview.setAlignment(QtCore.Qt.AlignLeft | QtCore.Qt.AlignTop)
+        self.preview.setAccessibleName("Public product widget preview")
+        scroll = QtWidgets.QScrollArea()
+        scroll.setWidget(self.preview)
+        scroll.setWidgetResizable(False)
+        layout.addWidget(scroll, 1)
+        self.choice.currentIndexChanged.connect(self.refresh)
+        self.refresh_timer = QtCore.QTimer(self)
+        self.refresh_timer.setSingleShot(True)
+        self.refresh_timer.timeout.connect(self.refresh)
+
+    def changeEvent(self, event):
+        super().changeEvent(event)
+        if event.type() in (QtCore.QEvent.PaletteChange, QtCore.QEvent.StyleChange, QtCore.QEvent.FontChange):
+            if hasattr(self, "refresh_timer") and self.isVisible():
+                self.refresh_timer.start(0)
+
+    def refresh(self):
+        scene = self.choice.currentData()
+        widget = self.fixtures.scene(scene)
+        shot = capture(widget, scene)
+        self.preview.setPixmap(shot)
+        self.preview.resize(shot.deviceIndependentSize().toSize())
+        self.fixtures.release(widget, scene)
