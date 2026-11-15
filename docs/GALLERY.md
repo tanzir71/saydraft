@@ -23,16 +23,16 @@ model, microphone, clipboard and Windows actions unavailable while browsing.
 Theme/palette changes refresh the selected preview. Temporary Bar/toast widgets
 are retired after each capture; Hub and setup fixtures are reused until closure.
 
-The finite state catalog contains **82 scenes**, each in light and dark:
+The current v2 catalog contains **83 scenes**, each in light and dark:
 
 | Family | Scenes | Coverage |
 |---|---:|---|
-| Bar | 16 | Every `PillState`, preparing with hands-free, listening, hands-free, long recording, live preview, processing/cleaning, saved/unsaved delivery warnings, microphone/model errors and Command |
+| Bar | 17 | Every `PillState`, preparing with hands-free, listening, hands-free, long recording, live preview, processing/cleaning, saved/unsaved delivery warnings, microphone/model errors, Command and actual Inserted completion |
 | Dictionary toast | 10 | Suggestion, saving, Added/Undo, undoing, undone, unchanged, stale, save/Undo errors and busy Undo |
-| Hub | 24 | All seven navigation pages, all ten Settings sections, populated/empty/no-result History, raw/diff/reason views, expanded Dictionary/Snippets and populated/empty Notes |
+| Hub | 24 | All seven pages, nine Settings sections plus the Performance alias under Models, populated/empty/no-result History, raw/diff/reason views, expanded Dictionary/Snippets and populated/empty Notes |
 | Setup | 32 | All six pages, ready/arming/recording/processing/cancelling and failure practice states, Chat/Email results and diffs, missing/downloading/paused/complete/failed models, conflicting shortcut and microphone states |
 
-Every full export writes **168 PNGs plus `report.json`**: 164 catalog views and
+Every full export writes **170 PNGs plus `report.json`**: 166 catalog views and
 the original four Controls/Style views. PNGs are available for product shots.
 The Bar's hidden scene is transparent by design. Scrollable product pages remain
 scrollable; separate diff scenes expose the lower practice comparison. The

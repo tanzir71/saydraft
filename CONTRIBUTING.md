@@ -133,7 +133,7 @@ Observed retirement of practice, shortcuts and performance work is a separate ga
 For user-facing setup changes, keep the [README](readme.md),
 [first-run guide](docs/ONBOARDING.md), [documentation index](docs/README.md),
 [project context](llms.txt), and public
-[getting-started page](site/src/pages/docs/getting-started/index.astro) consistent.
+[getting-started page](site/src/content/docs/getting-started.mdx) consistent.
 Run `.venv\Scripts\python -m pytest tests/test_readme.py -q` to check the public
 Markdown navigation. Changes under `site/` also need the website checks above;
 successful Site checks trigger the Pages deployment for that exact commit.

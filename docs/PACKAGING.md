@@ -1,5 +1,18 @@
 # Windows packaging
 
+The latest **desktop UI v2 unsigned portable** is built from clean
+`c1d0a491bbcbe0a7d5b8c97956dad7e77925d665`:
+`D:/Saydraft-Codex-QA-20261112-01a1cbc7/app-ui-v2-package-20261116-r1/artifacts/Saydraft-0.1.0-win-x64.zip`.
+Size: **157,252,943 bytes**. SHA-256:
+`3a6a11e792128ad7c17ff3b718fc4f97d363a7f92bba4086a044d23aae6f79e2`.
+All 1,439 actual disk/ZIP files verify; 78 modules read from the EXE match the
+frozen Git source without executing app code. All eight font faces, twenty-one
+font assets/manifest, fifty-two SVGs and packaged shortcut help verify. Frozen
+runtime checks pass without audio capture, device discovery, clipboard or native
+input. [Evidence and limits](../eval/ui/results/2026-11-16-app-ui-v2/README.md).
+This supersedes the microphone-repair build below. Close the older app and use
+the new extracted portable to see v2. No installer or signing is claimed.
+
 The replacement unsigned portable at clean `44ed9c4` fixes multi-input discovery,
 virtual-input guidance and silent/quiet capture diagnostics. Its actual 1,384
 disk/ZIP payloads and 28 embedded modules match the audit and Git source.

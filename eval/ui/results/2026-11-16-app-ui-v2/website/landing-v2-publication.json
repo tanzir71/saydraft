@@ -1,0 +1,56 @@
+{
+  "observed_utc": "2026-11-15T17:55:10.915193+00:00",
+  "url": "https://tanzir71.github.io/saydraft/",
+  "status": 200,
+  "etag": "\"6af9f1d2-fa38\"",
+  "last_modified": "Sun, 15 Nov 2026 17:54:26 GMT",
+  "deployed_source": "8452a45dc7db797edc887213dfeb0b89e782fbd7",
+  "workflow_run": 43743639329,
+  "public_sha256": "0f6f2e8edc3b1934b89719710895dc69ce840afd529be88b036e779c4fdda76a",
+  "local_tested_sha256": "cb0d259b7696b3290589cfebc092e42b420909c3bbc1b17c3d3fff99c93cebb9",
+  "homepage_identical_to_locally_tested_build": false,
+  "v2_instrument": true,
+  "v2_cleanup": true,
+  "v2_language_wall": true,
+  "language_guides": [
+    "arabic",
+    "bengali",
+    "brazilian-portuguese",
+    "chinese",
+    "filipino-tagalog",
+    "french",
+    "german",
+    "hindi",
+    "indonesian",
+    "japanese",
+    "korean",
+    "malay",
+    "persian",
+    "spanish",
+    "tamil",
+    "telugu",
+    "thai",
+    "urdu",
+    "vietnamese"
+  ],
+  "creator_credit": true,
+  "css_assets": [
+    {
+      "url": "https://tanzir71.github.io/saydraft/_astro/Base.CZPyejbz.css",
+      "status": 200,
+      "bytes": 19696,
+      "sha256": "05fc767fc06b16de5fc39fd8d3ac98d285fd998a850e9c62cf47c3596f578b74",
+      "familjen_font": true,
+      "accessible_hero_filler": false
+    },
+    {
+      "url": "https://tanzir71.github.io/saydraft/_astro/index.B7YIZPIC.css",
+      "status": 200,
+      "bytes": 33329,
+      "sha256": "412a5a362916437b6cc5e371ea09c90a237da08f28ed01484951cc7c9ff773ba",
+      "familjen_font": false,
+      "accessible_hero_filler": true
+    }
+  ],
+  "verification": "Direct HTTP and CSS HEAD requests; no browser or local build during benchmark"
+}

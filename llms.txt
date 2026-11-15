@@ -4,6 +4,10 @@
 
 Saydraft is in active development. Source setup is available; no installer release is published yet. Native/manual Windows acceptance, owner ASR accuracy acceptance, and several roadmap features remain open. Do not describe the project as complete parity or infer accuracy from its test counts.
 
+16 November 2026 checkpoint: desktop UI v2 is implemented with the approved 14px base, staged Save/Discard and native checkbox/radio controls. See docs/APP_UI_V2.md and the separate app-ui-v2-build/ reference (194 public-fixture images); app-ui/ stays unchanged. The unsigned clean c1d0a49 portable verifies 1,439 disk/ZIP files and 78 embedded modules. Settings → Labs contains Whisper mode, Models contains performance/hardware, and About contains optional update checks. Native Windows and owner accuracy acceptance remain deferred.
+
+The frozen 44ed9c4 overnight R2 run is complete: the full Pro latency matrix passes, while forced cleanup has comma regressions and CPU throughput misses its gate. Defaults remain unchanged. Exact results and failures are in eval/cleanup/results/2026-11-16-overnight-44ed9c4/. Landing v2 was published at 8452a45; desktop delivery uses local checks and direct pushes without routine Actions dispatch.
+
 ## Project links
 
 - Website: https://tanzir71.github.io/saydraft/
@@ -30,7 +34,7 @@ py -3.13 -m venv .venv
 .venv\Scripts\python -m saydraft
 ```
 
-The legacy tools/build.ps1 awaits the P8 clean-environment rewrite; it is not the supported installation path. Development checks are in CONTRIBUTING.md and .github/workflows/ci.yml.
+tools/build.ps1 builds from a clean checkout in a fresh external Python environment, verifies the frozen runtime and audits every payload. The current unsigned preview uses -SkipInstaller and is documented in docs/PACKAGING.md. Development checks are in CONTRIBUTING.md; GitHub workflows are manual-only.
 
 ## Models and downloads
 

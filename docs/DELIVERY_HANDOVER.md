@@ -48,6 +48,8 @@ pending until the guest actually executes those cases.
   shared components, grouped Settings, staged Save/Discard, shortcut learning,
   setup, bar, toasts and tray. [Implementation and verification scope](APP_UI_V2.md).
   The earlier `app-ui/` stays unchanged; `app-ui-v2-build/` is the current reference.
+  It is pushed with the 194-image reference. The unsigned `c1d0a49` portable
+  verifies 1,439 disk/ZIP files and 78 embedded modules; [artifact and scope](PACKAGING.md).
 - The frozen `44ed9c4` overnight R2 run has completed all five stages and the
   independent verifier/observer exits. Pro latency passes every measured cell.
   Forced CPU/Pro cleanup has actual comma regressions; CPU throughput misses its

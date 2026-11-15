@@ -1,6 +1,6 @@
 # Whisper mode for quiet speech
 
-Settings → Microphone has an experimental, default-off **Whisper mode**. It
+Settings → Labs has an experimental, default-off **Whisper mode**. It
 boosts quiet speech before recognition, offers automatic gain control (AGC),
 uses a more sensitive VAD profile and optionally runs local GTCRN enhancement.
 The name describes quiet speech; it does not change your selected ASR model or

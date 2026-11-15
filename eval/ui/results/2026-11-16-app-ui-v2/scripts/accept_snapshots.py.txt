@@ -1,0 +1,25 @@
+import json,hashlib,shutil
+from pathlib import Path
+qa=Path(__file__).resolve().parent
+repo=Path('C:/Users/tanzir/Desktop/voice_tray')
+catalog={'scope':'UI v2 Fusion/offscreen public production-widget snapshots; physical Windows and owner accuracy remain separate.','scales':{}}
+for scale in (1,2):
+ root=qa/f'gallery-release-{scale+2}'
+ report=json.loads((root/'report.json').read_text(encoding='utf-8'))
+ guard=json.loads(root.with_name(root.name+'.guard.json').read_text(encoding='utf-8'))
+ assert not guard['blocked_attempts']
+ for key in ('real_audio_sdk_imported','owner_profile_used','owner_clipboard_used','owner_native_input_used','device_enumeration','microphone_used'):assert guard[key] is False
+ assert not report['imported_model_sdks']
+ catalog['scales'][str(scale)]={row['file']:row['pixel_sha256'] for row in report['scenes']}
+ if scale==1:
+  for theme in report['themes']:
+   for name in theme['files']:shutil.copyfile(root/name,repo/'tests/fixtures/gallery'/name)
+for theme in ('light','dark'):shutil.copyfile(qa/'bar-final-1'/f'{theme}-bar.png',repo/'tests/fixtures/bar'/f'{theme}-bar.png')
+(repo/'tests/fixtures/gallery/catalog.json').write_text(json.dumps(catalog,indent=2)+'\n',encoding='utf-8')
+readme=qa/'readme-bar-v2-r2'
+report=json.loads((readme/'report.json').read_text(encoding='utf-8'))
+assert not report['blocked_attempts']
+for name,record in report['artifacts'].items():
+ assert hashlib.sha256((readme/name).read_bytes()).hexdigest()==record['sha256']
+ shutil.copyfile(readme/name,repo/'assets/media'/name)
+print({scale:len(cases) for scale,cases in catalog['scales'].items()})

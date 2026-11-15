@@ -1,0 +1,197 @@
+{
+  "screenshots": [
+    {
+      "path": "light-hub-unsaved.png",
+      "sha256": "7a49f12dc323c18a2128e882cf314aada4b3669ff3cb7feced77d87b9e983f25",
+      "width": 1120,
+      "height": 760,
+      "body": 14,
+      "theme": "light"
+    },
+    {
+      "path": "light-scratchpad.png",
+      "sha256": "8dcbdfba901bdebdddd957e024bf777eeb420c558df52ebf7e23ddc57f41a636",
+      "width": 460,
+      "height": 440,
+      "body": 14,
+      "theme": "light"
+    },
+    {
+      "path": "dark-hub-unsaved.png",
+      "sha256": "40cc45a023e832dc4a88f66a4627699fa9224465195a5a143626c36579f58e46",
+      "width": 1120,
+      "height": 760,
+      "body": 14,
+      "theme": "dark"
+    },
+    {
+      "path": "dark-scratchpad.png",
+      "sha256": "fed2f3f0a2c4587794e5575845beb9fcb153980c4c34b51f2c5af1dd151b660d",
+      "width": 460,
+      "height": 440,
+      "body": 14,
+      "theme": "dark"
+    },
+    {
+      "path": "light-16px-hub-home.png",
+      "sha256": "f11a6e2c4aaf6933b5b918d0687bebb195d2774ae70c505cbd2a238bf56050b2",
+      "width": 1120,
+      "height": 760,
+      "body": 16,
+      "theme": "light"
+    },
+    {
+      "path": "light-16px-hub-history.png",
+      "sha256": "bdfd035be9a51947406999ed994586bcc97b924bb5a0d9757f71fa6eeb2edb99",
+      "width": 1120,
+      "height": 760,
+      "body": 16,
+      "theme": "light"
+    },
+    {
+      "path": "light-16px-hub-settings-general.png",
+      "sha256": "c37144e2af37f12da9d53ca6ec469d4cffdfcfadcee893f41e06cd44dbbbfa91",
+      "width": 1120,
+      "height": 760,
+      "body": 16,
+      "theme": "light"
+    },
+    {
+      "path": "light-16px-hub-settings-microphone.png",
+      "sha256": "d03ae6e7ead6727c3f2223e5e517f23c3e68d39d0a203e42113c5f1150724867",
+      "width": 1120,
+      "height": 760,
+      "body": 16,
+      "theme": "light"
+    },
+    {
+      "path": "light-16px-hub-settings-shortcuts.png",
+      "sha256": "620113255670bd4ce57dec949a42d89c47623f21bcb824bb9838e022fe9df0db",
+      "width": 1120,
+      "height": 760,
+      "body": 16,
+      "theme": "light"
+    },
+    {
+      "path": "dark-16px-hub-home.png",
+      "sha256": "941f476193e98d182d5bb6c2a332078ccebad593ea525ec8c5b0cc9fbee1c009",
+      "width": 1120,
+      "height": 760,
+      "body": 16,
+      "theme": "dark"
+    },
+    {
+      "path": "dark-16px-hub-history.png",
+      "sha256": "ab29a2951f9b1ae2436971931f4b804aaf0aa8f33ab48fdf93d7be830ed16bf3",
+      "width": 1120,
+      "height": 760,
+      "body": 16,
+      "theme": "dark"
+    },
+    {
+      "path": "dark-16px-hub-settings-general.png",
+      "sha256": "f030e4048b13b9c36a18ae853762e5d2df92c61a6e4a8ac0a60acc8ca309b9c2",
+      "width": 1120,
+      "height": 760,
+      "body": 16,
+      "theme": "dark"
+    },
+    {
+      "path": "dark-16px-hub-settings-microphone.png",
+      "sha256": "8de001e0d753763011fb08da2b2c1c25702baebd138b6576a30236de65c5c307",
+      "width": 1120,
+      "height": 760,
+      "body": 16,
+      "theme": "dark"
+    },
+    {
+      "path": "dark-16px-hub-settings-shortcuts.png",
+      "sha256": "0e1e1e2bc74623c27019d2ef24934ca7ae41d30811eff8eaf77f6b37ebdcba7c",
+      "width": 1120,
+      "height": 760,
+      "body": 16,
+      "theme": "dark"
+    },
+    {
+      "path": "light-32px-hub-home.png",
+      "sha256": "cb25d837126e2c7c3a213bc9e5caf78137d30a3c93a8a6703dc0c410032a2c7f",
+      "width": 1120,
+      "height": 760,
+      "body": 32,
+      "theme": "light"
+    },
+    {
+      "path": "light-32px-hub-history.png",
+      "sha256": "36d2beb22ca26859bf82a7a20856e6428a2bd563779bf083b1961dacf5d29590",
+      "width": 1120,
+      "height": 760,
+      "body": 32,
+      "theme": "light"
+    },
+    {
+      "path": "light-32px-hub-settings-general.png",
+      "sha256": "1bcb4dbfc73f7edd183d30fe7cce8e151811e6845c7bb757da2977ec27a5d220",
+      "width": 1120,
+      "height": 760,
+      "body": 32,
+      "theme": "light"
+    },
+    {
+      "path": "light-32px-hub-settings-microphone.png",
+      "sha256": "c2488bf4dbb39063149eefe394845109bfb9a547d03d116a4a1c847be848ead5",
+      "width": 1120,
+      "height": 760,
+      "body": 32,
+      "theme": "light"
+    },
+    {
+      "path": "light-32px-hub-settings-shortcuts.png",
+      "sha256": "cd63535e06d925c62cb2ff21251d67942b8d63b8de4a06e47b12fe6bd6e9756b",
+      "width": 1120,
+      "height": 760,
+      "body": 32,
+      "theme": "light"
+    },
+    {
+      "path": "dark-32px-hub-home.png",
+      "sha256": "cb7a3030497c1ff689cb8bf59e28dadeb1108aca41d5f4852cbfc43b94f44223",
+      "width": 1120,
+      "height": 760,
+      "body": 32,
+      "theme": "dark"
+    },
+    {
+      "path": "dark-32px-hub-history.png",
+      "sha256": "e17a46f80f64f76a112cfdfba1aa7f64f135c1a17f119174ad52db68c2a37825",
+      "width": 1120,
+      "height": 760,
+      "body": 32,
+      "theme": "dark"
+    },
+    {
+      "path": "dark-32px-hub-settings-general.png",
+      "sha256": "e7cbbd4673736c80db7427584b4e999c1af5280bc87239c60be529fa8324ca95",
+      "width": 1120,
+      "height": 760,
+      "body": 32,
+      "theme": "dark"
+    },
+    {
+      "path": "dark-32px-hub-settings-microphone.png",
+      "sha256": "89d39da62acc8a80c362d793979017f99425b7cd029b0039044491bda4dba058",
+      "width": 1120,
+      "height": 760,
+      "body": 32,
+      "theme": "dark"
+    },
+    {
+      "path": "dark-32px-hub-settings-shortcuts.png",
+      "sha256": "b900c62d4b16532317e77a48758463315cb41de8b7c3d361b18a668d91cd20d5",
+      "width": 1120,
+      "height": 760,
+      "body": 32,
+      "theme": "dark"
+    }
+  ],
+  "scope": "Owned offscreen production widgets; public fixtures; refusing ports; no owner audio, clipboard or desktop input"
+}

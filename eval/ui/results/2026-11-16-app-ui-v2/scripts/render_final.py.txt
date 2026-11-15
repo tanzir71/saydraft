@@ -1,0 +1,72 @@
+import os,sys,json,hashlib,time
+from pathlib import Path
+sys.path.insert(0,'C:/Users/tanzir/Desktop/voice_tray')
+qa=Path(__file__).resolve().parent
+name=sys.argv[1]
+from tools.public_worker_guard import install
+install(qa/(name+'.guard.json'))
+from PySide6 import QtCore,QtGui,QtWidgets
+from saydraft.ui.fonts import install_bundled_fonts
+from saydraft.ui.theme import install_theme
+from saydraft.ui.gallery_catalog import Fixtures,SCENES,Scene,capture,settle
+app=QtWidgets.QApplication([])
+assert app.platformName()=='offscreen'
+assert len(install_bundled_fonts(app))==8
+font=app.font();font.setPixelSize(14);app.setFont(font)
+theme=install_theme(app,mode='light')
+output=qa/name;output.mkdir()
+records=[]
+fixtures=Fixtures()
+try:
+ for mode in ('light','dark'):
+  font=app.font();font.setPixelSize(14);app.setFont(font);theme.set_mode(mode)
+  for scene in (() if '--extras-only' in sys.argv else SCENES):
+   widget=fixtures.scene(scene)
+   if scene.family=='setup':widget.resize(960,680)
+   image=capture(widget,scene)
+   target=output/(mode+'-'+scene.key+'.png')
+   assert image.save(str(target))
+   records.append(dict(path=target.name,sha256=hashlib.sha256(target.read_bytes()).hexdigest(),width=image.width(),height=image.height(),body=14,theme=mode))
+   fixtures.release(widget,scene)
+  print(mode+' complete',flush=True)
+ for mode in ('light','dark'):
+  theme.set_mode(mode)
+  hub=fixtures.hub(False)
+  hub.show_page('Settings',tab='General')
+  hub.settings_page.show_bar_checkbox.toggle()
+  hub.settings_page.draft_state.refresh()
+  scene=Scene('hub','unsaved')
+  shot=capture(hub,scene)
+  target=output/(mode+'-hub-unsaved.png');assert shot.save(str(target))
+  records.append(dict(path=target.name,sha256=hashlib.sha256(target.read_bytes()).hexdigest(),width=shot.width(),height=shot.height(),body=14,theme=mode))
+  assert hub.settings_page.draft_state.discard()
+  from saydraft.ui.scratchpad import ScratchpadWindow
+  from saydraft.data.notes import NoteStore
+  from types import SimpleNamespace
+  def forbidden(*args,**kwargs):raise AssertionError('Owner clipboard is barred')
+  scratch=ScratchpadWindow(NoteStore(fixtures.root/'scratchpad.db'),clipboard=SimpleNamespace(setText=forbidden))
+  scratch.setAttribute(QtCore.Qt.WA_DontShowOnScreen)
+  scratch.present(new=True)
+  scratch.editor.setPlainText('A thought worth keeping.\n\nDraft the next idea here.')
+  settle()
+  shot=scratch.grab();target=output/(mode+'-scratchpad.png');assert shot.save(str(target))
+  records.append(dict(path=target.name,sha256=hashlib.sha256(target.read_bytes()).hexdigest(),width=shot.width(),height=shot.height(),body=14,theme=mode))
+  scratch.close();scratch.deleteLater();app.sendPostedEvents(None,QtCore.QEvent.DeferredDelete)
+ # Further owned large-text views, including the dirty shared bar.
+ for px in (16,32):
+  font=app.font();font.setPixelSize(px);app.setFont(font)
+  for mode in ('light','dark'):
+   theme.set_mode(mode)
+   for state in ('home','history','settings-general','settings-microphone','settings-shortcuts'):
+    scene=Scene('hub',state)
+    widget=fixtures.scene(scene);widget.resize(1120,760)
+    image=capture(widget,scene)
+    target=output/(mode+'-'+str(px)+'px-'+scene.key+'.png')
+    assert image.save(str(target))
+    records.append(dict(path=target.name,sha256=hashlib.sha256(target.read_bytes()).hexdigest(),width=image.width(),height=image.height(),body=px,theme=mode))
+    fixtures.release(widget,scene)
+   print(mode+' '+str(px)+'px complete',flush=True)
+finally:
+ fixtures.close();theme.close()
+(output/'report.json').write_text(json.dumps(dict(screenshots=records,scope='Owned offscreen production widgets; public fixtures; refusing ports; no owner audio, clipboard or desktop input'),indent=2)+'\n',encoding='utf-8')
+print('saved '+str(len(records))+' images',flush=True)

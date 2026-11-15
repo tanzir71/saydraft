@@ -1,5 +1,12 @@
 # Minimum unsigned preview · 15 November 2026
 
+**16 November update:** [desktop UI v2](APP_UI_V2.md) supersedes the older UI and
+portable below. The [current package](PACKAGING.md) verifies all 1,439 disk/ZIP
+files and 78 embedded modules from clean `c1d0a49`; its scoped UI tests, snapshots,
+fonts, icons and frozen runtime checks pass. The new redesign reference is
+[app-ui-v2-build/](../app-ui-v2-build/README.md). The native Windows/owner accuracy
+limits below still apply; this update does not claim a full-suite or VM pass.
+
 **Superseded artifact:** the `44ed9c4` replacement in [Packaging](PACKAGING.md)
 fixes the subsequently reported silent-input/multi-microphone issue. It has 75
 passing focused checks, actual approved level-only capture and an independently

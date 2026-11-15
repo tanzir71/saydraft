@@ -5,6 +5,8 @@ Start with the [project README](../readme.md),
 [contributor guide](../CONTRIBUTING.md).
 
 The active roadmap is [WISPR_OFFLINE_PARITY_PLAN.md](../WISPR_OFFLINE_PARITY_PLAN.md).
+See [desktop UI v2](APP_UI_V2.md) for the current 14px design, behavior mapping,
+verification and [redesign reference](../app-ui-v2-build/README.md).
 Its Loop State distinguishes implementation, acceptance, remaining decisions,
 and dated evidence. Installer/signing, onboarding permission/manual acceptance,
 Notetaker, several power features, and native/manual acceptance remain open.

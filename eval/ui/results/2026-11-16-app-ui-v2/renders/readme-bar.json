@@ -1,0 +1,463 @@
+{
+  "app_source": "8452a45dc7db797edc887213dfeb0b89e782fbd7",
+  "source_dirty": true,
+  "producer_sha256": "b744fba63f0ad06a946b169d44f7e3461adfc688ceb5ea3f85b70b89124eae4f",
+  "platform": "offscreen",
+  "scale": 2,
+  "network_guard": true,
+  "owner_profile_used": false,
+  "owner_clipboard_used": false,
+  "audio_devices_enumerated": false,
+  "audio_sdk_imported": false,
+  "microphone_used": false,
+  "active_application_read": false,
+  "native_input_used": false,
+  "blocked_attempts": [],
+  "public_sample": "Let us turn this thought into a clear draft.",
+  "optional_english_preview_included": true,
+  "model_inference": false,
+  "frames": [
+    {
+      "file": "frame-000.png",
+      "state": "recording",
+      "clock": 100.0,
+      "sha256": "8a0f0e8ee0f656ee91569dd02e1cda9bf4cc963289a7580d8dfbede3e152e48e"
+    },
+    {
+      "file": "frame-001.png",
+      "state": "recording",
+      "clock": 100.08,
+      "sha256": "2e171dac724e49a3ca00517948af8869f6eab11ae34a87e95b93ffea54e9178a"
+    },
+    {
+      "file": "frame-002.png",
+      "state": "recording",
+      "clock": 100.16,
+      "sha256": "246f1568dc06554b366540d37056664e0c1b8df8ef9ada2f6d2245e54808505d"
+    },
+    {
+      "file": "frame-003.png",
+      "state": "recording",
+      "clock": 100.24,
+      "sha256": "dac770b110a5ff1dd49c89b3431e8ab7544f385f1e890e8dd8877721cd7f09b4"
+    },
+    {
+      "file": "frame-004.png",
+      "state": "recording",
+      "clock": 100.32,
+      "sha256": "8dd5490970d7330ebee6042bf39666d0fd05385ac4cb1ad6c174895f24fd8228"
+    },
+    {
+      "file": "frame-005.png",
+      "state": "recording",
+      "clock": 100.4,
+      "sha256": "9702d404d25bd3246bdbaaca9bec53a5ef99356f453545e25bbdcf06271fe8bc"
+    },
+    {
+      "file": "frame-006.png",
+      "state": "recording",
+      "clock": 100.48,
+      "sha256": "8c8eef9721fec10247880603ce9f05b8e7d2a5de33af8c845808ceb61ac55b12"
+    },
+    {
+      "file": "frame-007.png",
+      "state": "recording",
+      "clock": 100.56,
+      "sha256": "52ce74262c65e249a2ed4f1a4f87b40fd70d00f9a3b12cf8852eff19690cafea"
+    },
+    {
+      "file": "frame-008.png",
+      "state": "recording",
+      "clock": 100.64,
+      "sha256": "a45fb138de63a9a57439c51f6dc28cb0f7575ed01347aade7c002d06803d6c66"
+    },
+    {
+      "file": "frame-009.png",
+      "state": "recording",
+      "clock": 100.72,
+      "sha256": "df2e9f6de164c0e0ae5dea43704f4feebcd3e49d61244ab88919677a9c71fd96"
+    },
+    {
+      "file": "frame-010.png",
+      "state": "recording",
+      "clock": 100.8,
+      "sha256": "63a7f109946e819c271dde3707f4298aca11248fa7fd136a869fae65425657d8"
+    },
+    {
+      "file": "frame-011.png",
+      "state": "recording",
+      "clock": 100.88,
+      "sha256": "e32df902dfd67251bcdd1cd1dea269a3b4c3384d849331ebaef1c7de67b0de4b"
+    },
+    {
+      "file": "frame-012.png",
+      "state": "recording",
+      "clock": 100.96,
+      "sha256": "e15e935ebea4b607103342ed2a228cfd50c0589d13d912c54c50e066f59fe1ff"
+    },
+    {
+      "file": "frame-013.png",
+      "state": "recording",
+      "clock": 101.04,
+      "sha256": "73f6f8729165d306438b3263f3dd0c64d9529e85558d8e38b76667ff52e513e9"
+    },
+    {
+      "file": "frame-014.png",
+      "state": "recording",
+      "clock": 101.12,
+      "sha256": "5be0b0d9a2477d6ef2aa19d02e5b18b84ce1c6661729ba8646753bf72ae4be9e"
+    },
+    {
+      "file": "frame-015.png",
+      "state": "recording",
+      "clock": 101.2,
+      "sha256": "0283f5ea281b9d0a31a2bddafed47aef807cb852b4c33dc8fa49ff2f091dad29"
+    },
+    {
+      "file": "frame-016.png",
+      "state": "recording",
+      "clock": 101.28,
+      "sha256": "46ccd351ccb3b3472a4da2463f118cfbb1190a03015aede5e6c83938296c1bf4"
+    },
+    {
+      "file": "frame-017.png",
+      "state": "recording",
+      "clock": 101.36,
+      "sha256": "f3ce238ce59f019ae9b1bec4fe2480f5d5e2f78b25a53ad6366d23bb778a86fc"
+    },
+    {
+      "file": "frame-018.png",
+      "state": "recording",
+      "clock": 101.44,
+      "sha256": "d49cd61d40417b77ac1ad8b4478a276d415e21e302e51ae885f396b59f011dcc"
+    },
+    {
+      "file": "frame-019.png",
+      "state": "recording",
+      "clock": 101.52,
+      "sha256": "becbd8108e245329eecbb82ca7b0fab9841ea7411d7268d7dab08c873dc318b8"
+    },
+    {
+      "file": "frame-020.png",
+      "state": "recording",
+      "clock": 101.6,
+      "sha256": "53505c476240a122abf762e82ef10f15af1e99951988ba16418d5275b0c2dce1"
+    },
+    {
+      "file": "frame-021.png",
+      "state": "recording",
+      "clock": 101.68,
+      "sha256": "293cff85aadfb6c82f896d608fb20e6171991d261d87991de750d33df6796855"
+    },
+    {
+      "file": "frame-022.png",
+      "state": "recording",
+      "clock": 101.76,
+      "sha256": "688d46d62abe00ee0cecb0093277c71fe84adab5a0a4d0db813585e51bfe3ad7"
+    },
+    {
+      "file": "frame-023.png",
+      "state": "recording",
+      "clock": 101.84,
+      "sha256": "7ed396e8217e19b8eca88f1f7fb2f986605b9d25ad2fc9b55f1f822e8b02c362"
+    },
+    {
+      "file": "frame-024.png",
+      "state": "recording",
+      "clock": 101.92,
+      "sha256": "f1b99fb92500dc309aac330fe188aaa60cc07c35233b2d469e7e6752c17ce075"
+    },
+    {
+      "file": "frame-025.png",
+      "state": "recording",
+      "clock": 102.0,
+      "sha256": "07317a3dfd764cdf6d0883a6e29a71b8893198e499f3667ece1f6a34d988b275"
+    },
+    {
+      "file": "frame-026.png",
+      "state": "recording",
+      "clock": 102.08,
+      "sha256": "00370617a4bc1a0f40e7a347f37b8e6fa4fecfd7c2893e465b4fb84a89a0b81f"
+    },
+    {
+      "file": "frame-027.png",
+      "state": "recording",
+      "clock": 102.16,
+      "sha256": "64b397863c559697775c4232c5ce9f99d33543d0b6083e79fb24283d10541521"
+    },
+    {
+      "file": "frame-028.png",
+      "state": "recording",
+      "clock": 102.24,
+      "sha256": "6895942a9bdb523af6a2692f5426cb049c5e00d2e0db96af02a799440656b9a9"
+    },
+    {
+      "file": "frame-029.png",
+      "state": "recording",
+      "clock": 102.32,
+      "sha256": "0d4a96d6a66a20a00c8049332e2d52b9a9b672d618da43aa15b4d4807a149e7e"
+    },
+    {
+      "file": "frame-030.png",
+      "state": "recording",
+      "clock": 102.4,
+      "sha256": "9ca18788061db04bf7e48d052edc6b41586d4a9299060b8b1cded3da36c45dc8"
+    },
+    {
+      "file": "frame-031.png",
+      "state": "recording",
+      "clock": 102.48,
+      "sha256": "7f362dcd491459701dd6a97939eec39eea0e688ffe39a4edb0ee949936c73d2c"
+    },
+    {
+      "file": "frame-032.png",
+      "state": "recording",
+      "clock": 102.56,
+      "sha256": "48aff7a8cb3bb49280ea8070275da4f390e4364c342652f2d66d601003273c93"
+    },
+    {
+      "file": "frame-033.png",
+      "state": "recording",
+      "clock": 102.64,
+      "sha256": "8faa45ebd46b90b6a47d254b90f5a25c029dbdfe3e509ce02ce42e9abe020d6d"
+    },
+    {
+      "file": "frame-034.png",
+      "state": "recording",
+      "clock": 102.72,
+      "sha256": "97de7cb16780f5a85ede4791ff07295e04f3ca7cd8e9043c2c67302d57d75cf0"
+    },
+    {
+      "file": "frame-035.png",
+      "state": "recording",
+      "clock": 102.8,
+      "sha256": "40fd8df661b7962c9b9d6269bbb983d82987c3c322a5f8572284c3b7e51df7be"
+    },
+    {
+      "file": "frame-036.png",
+      "state": "recording",
+      "clock": 102.88,
+      "sha256": "db2ee774d5d7c50a658d12f0f0f87f6ac2f0d1bffda7e10383f6b30e9306be8a"
+    },
+    {
+      "file": "frame-037.png",
+      "state": "recording",
+      "clock": 102.96,
+      "sha256": "66c555ae7ee4701830c9f5242454871a0857a6100daa59b4739b3401da6d8b8c"
+    },
+    {
+      "file": "frame-038.png",
+      "state": "recording",
+      "clock": 103.04,
+      "sha256": "c91c7038b4d8beb6ebca091ecae97df33bae0f7f6637b1d7501f6e5a4b012b19"
+    },
+    {
+      "file": "frame-039.png",
+      "state": "recording",
+      "clock": 103.12,
+      "sha256": "6ff2bb1f7a6d40d7650b9cd39c06fec1249c4ea359f6fd0e51038da607bf2522"
+    },
+    {
+      "file": "frame-040.png",
+      "state": "processing",
+      "clock": 103.2,
+      "sha256": "95c56b8443927b2ac2c51da8463f8d7c11308821add5d7d0bf4b2b274ca23ce7"
+    },
+    {
+      "file": "frame-041.png",
+      "state": "processing",
+      "clock": 103.28,
+      "sha256": "660b04cfcd263ed989e1756464cceab930f4d6501721dd4db12eddc0263aad04"
+    },
+    {
+      "file": "frame-042.png",
+      "state": "processing",
+      "clock": 103.36,
+      "sha256": "a6fe5f6fe882bd0df8bb2e4004eb47b4f8782b294194f65971b566b37adc3e31"
+    },
+    {
+      "file": "frame-043.png",
+      "state": "processing",
+      "clock": 103.44,
+      "sha256": "39d3122c2e20268ee0797fc663abc4029eca62af27789e0b0e39d2da12c9408a"
+    },
+    {
+      "file": "frame-044.png",
+      "state": "processing",
+      "clock": 103.52,
+      "sha256": "04385a0dc3d0046f8f630ed0694eb280882162e3245f1f7d94815c7fa4f8ef4e"
+    },
+    {
+      "file": "frame-045.png",
+      "state": "processing",
+      "clock": 103.6,
+      "sha256": "7279d51a519c767120c41745bb6d5861c7a4413a4664cfde07eda2573f3264d3"
+    },
+    {
+      "file": "frame-046.png",
+      "state": "processing",
+      "clock": 103.68,
+      "sha256": "fc109368c14b7dde13bdc196d4a658ae7372868ba5cf1451229a7c45d3633c6a"
+    },
+    {
+      "file": "frame-047.png",
+      "state": "processing",
+      "clock": 103.76,
+      "sha256": "81e78a5d042543df3567a6da2ed47de716495b3180bf577719145e5de491e198"
+    },
+    {
+      "file": "frame-048.png",
+      "state": "processing",
+      "clock": 103.84,
+      "sha256": "8feea6e7f9b15060f91125b87a541f64efccfbde272232ae15fc3775d1dd172e"
+    },
+    {
+      "file": "frame-049.png",
+      "state": "processing",
+      "clock": 103.92,
+      "sha256": "6ef94aac3e624a2b926520d44366e4eb0db3997229f323fc3d5d5adcc3b863d8"
+    },
+    {
+      "file": "frame-050.png",
+      "state": "processing",
+      "clock": 104.0,
+      "sha256": "55e629e3cbff9535fc45b4e96d39583099d2a673678d900ff1f95ce95e012856"
+    },
+    {
+      "file": "frame-051.png",
+      "state": "processing",
+      "clock": 104.08,
+      "sha256": "f97b30f19929a27fe7a04c25fa27a7b71a71bf315418b38abcae8d7bcd3cd77a"
+    },
+    {
+      "file": "frame-052.png",
+      "state": "processing",
+      "clock": 104.16,
+      "sha256": "147752689369b0ca5bd9f6c3c5dabe5ee2e508521bfc260373480e70bf73a3c9"
+    },
+    {
+      "file": "frame-053.png",
+      "state": "processing",
+      "clock": 104.24,
+      "sha256": "ec6e8c15aa16b9772555666b27f9ef4260576799987622f9a57afdfb6766752c"
+    },
+    {
+      "file": "frame-054.png",
+      "state": "processing",
+      "clock": 104.32,
+      "sha256": "db53c87393bdcd0f0ffebb8ff42a41b587eb3597558251285f9a5a121c880347"
+    },
+    {
+      "file": "frame-055.png",
+      "state": "processing",
+      "clock": 104.4,
+      "sha256": "3350275ee4abc4ed3d558837f9450a11f36aafb4355bc1b6aa8bc9a767e48b8a"
+    },
+    {
+      "file": "frame-056.png",
+      "state": "processing",
+      "clock": 104.48,
+      "sha256": "5294ae6490ad3cfe507ceb0694830ebf59adea7e87d9ea6fe5a472f3d67cf099"
+    },
+    {
+      "file": "frame-057.png",
+      "state": "processing",
+      "clock": 104.56,
+      "sha256": "261ec3bc3838f097b8c792e7dd4d368c8974207026268ae2b8f38dc9540c972b"
+    },
+    {
+      "file": "frame-058.png",
+      "state": "processing",
+      "clock": 104.64,
+      "sha256": "53e9a15da23635f185ec05f398a95f0c3622016c6415495a4a1eb54b5a4319ff"
+    },
+    {
+      "file": "frame-059.png",
+      "state": "processing",
+      "clock": 104.72,
+      "sha256": "4480fba7657cb6a00318bfde4bd4695d662f9498eac5dd4f4566848625f645d3"
+    },
+    {
+      "file": "frame-060.png",
+      "state": "processing",
+      "clock": 104.8,
+      "sha256": "ca5448d0ce1f75f30011904b3515d90d265000c4b51162f5c4ccf13fa08b1fc7"
+    },
+    {
+      "file": "frame-061.png",
+      "state": "processing",
+      "clock": 104.88,
+      "sha256": "0aa13e9803500bc85bacda51368c4a3b0b2233d7055c2d38d3c55776535297f3"
+    },
+    {
+      "file": "frame-062.png",
+      "state": "processing",
+      "clock": 104.96,
+      "sha256": "4816c11f91c247da755ee41e9505a953a4f934da4e5080db9493ca0a4e908e02"
+    },
+    {
+      "file": "frame-063.png",
+      "state": "processing",
+      "clock": 105.04,
+      "sha256": "bd68b849bfffd354474f42a4bd733ff3918291e6125a756c3f71aa5c726913ce"
+    },
+    {
+      "file": "frame-064.png",
+      "state": "idle",
+      "clock": 105.12,
+      "sha256": "d2a8223ca2f3f110bf8902d21abc25e663e3b4f7039b7f6e0be71babec9e11f2"
+    },
+    {
+      "file": "frame-065.png",
+      "state": "idle",
+      "clock": 105.2,
+      "sha256": "d2a8223ca2f3f110bf8902d21abc25e663e3b4f7039b7f6e0be71babec9e11f2"
+    },
+    {
+      "file": "frame-066.png",
+      "state": "idle",
+      "clock": 105.28,
+      "sha256": "d2a8223ca2f3f110bf8902d21abc25e663e3b4f7039b7f6e0be71babec9e11f2"
+    },
+    {
+      "file": "frame-067.png",
+      "state": "idle",
+      "clock": 105.36,
+      "sha256": "d2a8223ca2f3f110bf8902d21abc25e663e3b4f7039b7f6e0be71babec9e11f2"
+    },
+    {
+      "file": "frame-068.png",
+      "state": "idle",
+      "clock": 105.44,
+      "sha256": "d2a8223ca2f3f110bf8902d21abc25e663e3b4f7039b7f6e0be71babec9e11f2"
+    },
+    {
+      "file": "frame-069.png",
+      "state": "idle",
+      "clock": 105.52,
+      "sha256": "d2a8223ca2f3f110bf8902d21abc25e663e3b4f7039b7f6e0be71babec9e11f2"
+    },
+    {
+      "file": "frame-070.png",
+      "state": "idle",
+      "clock": 105.6,
+      "sha256": "d2a8223ca2f3f110bf8902d21abc25e663e3b4f7039b7f6e0be71babec9e11f2"
+    },
+    {
+      "file": "frame-071.png",
+      "state": "idle",
+      "clock": 105.68,
+      "sha256": "d2a8223ca2f3f110bf8902d21abc25e663e3b4f7039b7f6e0be71babec9e11f2"
+    }
+  ],
+  "artifacts": {
+    "saydraft-bar-demo.gif": {
+      "bytes": 506993,
+      "sha256": "e0aa1e6b2be044658499b3d811110414afcd20195cfdd2741cc9bf854fef9777"
+    },
+    "saydraft-bar-static.png": {
+      "bytes": 14029,
+      "sha256": "34d6031763094bbc887c75dde71d72144f6205a0aa27bbae5fc8dcd83c36d5a4"
+    }
+  }
+}

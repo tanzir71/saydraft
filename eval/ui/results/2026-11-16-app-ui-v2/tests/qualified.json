@@ -1,0 +1,77 @@
+{
+  "runs": [
+    {
+      "run": "setup-final-r2",
+      "passed": 84,
+      "skipped": 2,
+      "returncode": 0,
+      "exit_observed": true
+    },
+    {
+      "run": "bar-r2",
+      "passed": 92,
+      "skipped": 0,
+      "returncode": 0,
+      "exit_observed": true
+    },
+    {
+      "run": "settings-r3",
+      "passed": 51,
+      "skipped": 0,
+      "returncode": 0,
+      "exit_observed": true
+    },
+    {
+      "run": "theme-font-r4",
+      "passed": 54,
+      "skipped": 0,
+      "returncode": 0,
+      "exit_observed": true
+    },
+    {
+      "run": "hub-r3",
+      "passed": 49,
+      "skipped": 0,
+      "returncode": 0,
+      "exit_observed": true
+    },
+    {
+      "run": "reflow-r10",
+      "passed": 29,
+      "skipped": 0,
+      "returncode": 0,
+      "exit_observed": true
+    },
+    {
+      "run": "pages-final-r1",
+      "passed": 77,
+      "skipped": 0,
+      "returncode": 0,
+      "exit_observed": true
+    },
+    {
+      "run": "a11y-final-r1",
+      "passed": 21,
+      "skipped": 0,
+      "returncode": 0,
+      "exit_observed": true
+    },
+    {
+      "run": "reflow-focus-final",
+      "passed": 7,
+      "skipped": 0,
+      "returncode": 0,
+      "exit_observed": true
+    },
+    {
+      "run": "snapshots-final-r2",
+      "passed": 4,
+      "skipped": 0,
+      "returncode": 0,
+      "exit_observed": true
+    }
+  ],
+  "passing_case_executions": 468,
+  "optional_skips": 2,
+  "scope": "Scoped groups across implementation checkpoints; repeated cases are included in execution count. Final focus/reflow and fresh snapshots follow the last presentation changes."
+}

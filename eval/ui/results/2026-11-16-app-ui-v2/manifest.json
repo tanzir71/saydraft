@@ -1,0 +1,3848 @@
+{
+  "source": "c1d0a491bbcbe0a7d5b8c97956dad7e77925d665",
+  "reference_commit": "f5f788d8efc85593a116049d3ade9f8bd4839570",
+  "source_inputs": [
+    {
+      "path": "Saydraft.spec",
+      "object_id": "f4dfd0d9f5cd02bb5a9e0067fc7bd5ce0d7935c3"
+    },
+    {
+      "path": "assets/audio/README.md",
+      "object_id": "64e373f0ad46ce46d555d5787cd2f3c4d00e11ae"
+    },
+    {
+      "path": "assets/audio/benchmark.wav",
+      "object_id": "485976e3149fb840c575caeece01192b4d3ceaaf"
+    },
+    {
+      "path": "assets/dictionary/frequency/CC-BY-SA-4.0.txt",
+      "object_id": "2d58298e6eda10e7204abb52722efbc840db2390"
+    },
+    {
+      "path": "assets/dictionary/frequency/ar.txt.gz",
+      "object_id": "97833023f63dbf21e18d936d2535fe9cd7b78b0a"
+    },
+    {
+      "path": "assets/dictionary/frequency/bg.txt.gz",
+      "object_id": "7436492f77e2716d36071a521d554ed464862472"
+    },
+    {
+      "path": "assets/dictionary/frequency/bn.txt.gz",
+      "object_id": "b0ecf881b4568a51c4d211e4510afc7049be6bd1"
+    },
+    {
+      "path": "assets/dictionary/frequency/ca.txt.gz",
+      "object_id": "e0330a97b833ba64b8c2af9198850a6ef3688328"
+    },
+    {
+      "path": "assets/dictionary/frequency/cs.txt.gz",
+      "object_id": "555fd681e1ccb77dc423186363fda36b0baa2c79"
+    },
+    {
+      "path": "assets/dictionary/frequency/da.txt.gz",
+      "object_id": "f2959aace7e31def983a4ecac96b54e5e29eee1a"
+    },
+    {
+      "path": "assets/dictionary/frequency/de.txt.gz",
+      "object_id": "072cb207a622f6952d0a1d59b368bdb1cfe2057e"
+    },
+    {
+      "path": "assets/dictionary/frequency/el.txt.gz",
+      "object_id": "e76fa2409c2802fee156b6bad0896d1b0ecbb189"
+    },
+    {
+      "path": "assets/dictionary/frequency/en.txt.gz",
+      "object_id": "b8edf6dc0b754ee25246bd540d9169532ed3a445"
+    },
+    {
+      "path": "assets/dictionary/frequency/es.txt.gz",
+      "object_id": "ce29e3f4a00332ae3daabd87b916a78dbfcfa4fa"
+    },
+    {
+      "path": "assets/dictionary/frequency/fa.txt.gz",
+      "object_id": "6dcd0aff3e10bf4bda8ece268abf0215410bad55"
+    },
+    {
+      "path": "assets/dictionary/frequency/fi.txt.gz",
+      "object_id": "bef132b4d499bea26733b149f21a6c0d305f917c"
+    },
+    {
+      "path": "assets/dictionary/frequency/fil.txt.gz",
+      "object_id": "d83ddf42c83238b48e6f059e726e9aa48015530a"
+    },
+    {
+      "path": "assets/dictionary/frequency/fr.txt.gz",
+      "object_id": "0f1e8bc120d2fbc66a7279c2284361b3702f6982"
+    },
+    {
+      "path": "assets/dictionary/frequency/he.txt.gz",
+      "object_id": "3d9986be3efa643aaf8bef8f7b452ce7f578903c"
+    },
+    {
+      "path": "assets/dictionary/frequency/hi.txt.gz",
+      "object_id": "1966da2246e3ce4f6306ac0b8455dd233032435b"
+    },
+    {
+      "path": "assets/dictionary/frequency/hu.txt.gz",
+      "object_id": "4f9ef182a6fcd1deb512cfda5fbefb8cf9da46a7"
+    },
+    {
+      "path": "assets/dictionary/frequency/id.txt.gz",
+      "object_id": "273a220e9b1e390597822543fdec373da5bbdcea"
+    },
+    {
+      "path": "assets/dictionary/frequency/is.txt.gz",
+      "object_id": "2866cd45311f344f7b464518fdf1cf7ec8ac3fa2"
+    },
+    {
+      "path": "assets/dictionary/frequency/it.txt.gz",
+      "object_id": "1922f93d0979fcf4c5e7e938156c0d6ef4acc55c"
+    },
+    {
+      "path": "assets/dictionary/frequency/ja.txt.gz",
+      "object_id": "81cf11fbfb69d8a456294e0a31d0de3f6ab46234"
+    },
+    {
+      "path": "assets/dictionary/frequency/ko.txt.gz",
+      "object_id": "4a497e1b24bffc1ff74e6e046efb5bafb19a11d1"
+    },
+    {
+      "path": "assets/dictionary/frequency/lt.txt.gz",
+      "object_id": "9cac9385c476102f8283bc25c4161d7debdb2d08"
+    },
+    {
+      "path": "assets/dictionary/frequency/lv.txt.gz",
+      "object_id": "f17b4c31286476b8cd03482c4cbd14bb173d0ad9"
+    },
+    {
+      "path": "assets/dictionary/frequency/manifest.json",
+      "object_id": "57aafd06753573710fcbee8c51ff1fdf4f7a04a0"
+    },
+    {
+      "path": "assets/dictionary/frequency/mk.txt.gz",
+      "object_id": "1486ee4a93abf104e66c3201b5d3c4e92bb01b14"
+    },
+    {
+      "path": "assets/dictionary/frequency/ms.txt.gz",
+      "object_id": "17f00cd5318b48fd006d35003f1a41f04f0439d7"
+    },
+    {
+      "path": "assets/dictionary/frequency/nb.txt.gz",
+      "object_id": "c872f05c91c535e6d958ebec77623ce380bacc3a"
+    },
+    {
+      "path": "assets/dictionary/frequency/nl.txt.gz",
+      "object_id": "5b9cf780a309a9dc609fb6d4526a544958b27211"
+    },
+    {
+      "path": "assets/dictionary/frequency/pl.txt.gz",
+      "object_id": "06a173bb273eab4c93952d066808d0cbf9b925a2"
+    },
+    {
+      "path": "assets/dictionary/frequency/pt.txt.gz",
+      "object_id": "28c1e399c8fd7376b01bd2edaaa510f411fec22e"
+    },
+    {
+      "path": "assets/dictionary/frequency/ro.txt.gz",
+      "object_id": "40a57a1de30dca4cfe2b66faa36eb711bf0d1a47"
+    },
+    {
+      "path": "assets/dictionary/frequency/ru.txt.gz",
+      "object_id": "0deb6bf165aaec9b75dc0eeed0b8d36d0008fa52"
+    },
+    {
+      "path": "assets/dictionary/frequency/sh.txt.gz",
+      "object_id": "c9c51d6fe618412bb081805061ce0f791a99bb25"
+    },
+    {
+      "path": "assets/dictionary/frequency/sk.txt.gz",
+      "object_id": "fb8dd63fbcca8529bec1d4c5801b8a1026841941"
+    },
+    {
+      "path": "assets/dictionary/frequency/sl.txt.gz",
+      "object_id": "f5e07d20a08dff257be67f2b6a2d2446202a52bb"
+    },
+    {
+      "path": "assets/dictionary/frequency/sv.txt.gz",
+      "object_id": "2578e12b71f656b46e54b8dc06065dae69921cb7"
+    },
+    {
+      "path": "assets/dictionary/frequency/ta.txt.gz",
+      "object_id": "509bc2f03436f2e89ee7e3bbb0ff0c9c2c7f9728"
+    },
+    {
+      "path": "assets/dictionary/frequency/tr.txt.gz",
+      "object_id": "4c82ba9f7f33999dae750e222f2c8dfef78d4a3d"
+    },
+    {
+      "path": "assets/dictionary/frequency/uk.txt.gz",
+      "object_id": "0a2e0f6497cd95005e001209e1b983fe261da193"
+    },
+    {
+      "path": "assets/dictionary/frequency/ur.txt.gz",
+      "object_id": "4891d2afa6cc527734d186573fdad8bf5ea270cd"
+    },
+    {
+      "path": "assets/dictionary/frequency/vi.txt.gz",
+      "object_id": "eb4a207335f7ed712b298d2e95b8c8a35065bfa2"
+    },
+    {
+      "path": "assets/dictionary/frequency/wordfreq-LICENSE.txt",
+      "object_id": "f40c5b55298df2a1ddec037b559a905ac8936168"
+    },
+    {
+      "path": "assets/dictionary/frequency/wordfreq-NOTICE.md",
+      "object_id": "e9bbd6eb1592f44f9980aea4ad6d4a9f98f7c198"
+    },
+    {
+      "path": "assets/dictionary/frequency/zh.txt.gz",
+      "object_id": "4bfb2861cf6c19042db76a115e6d75dee7a88726"
+    },
+    {
+      "path": "assets/fonts/doto/Doto[ROND,wght].ttf",
+      "object_id": "ed8f0db9fb890c570b558941201d1504483f5ebc"
+    },
+    {
+      "path": "assets/fonts/doto/METADATA.pb",
+      "object_id": "a19b340bf8059ca0ef1cca5a3ec2c6fc4bdc4feb"
+    },
+    {
+      "path": "assets/fonts/doto/OFL.txt",
+      "object_id": "e0b8ec15325ee3a8500cf29df4c19e36372f180b"
+    },
+    {
+      "path": "assets/fonts/familjengrotesk/FamiljenGrotesk-Italic[wght].ttf",
+      "object_id": "7afdf44889e113ef4e246a1f49b2c5c24b472b41"
+    },
+    {
+      "path": "assets/fonts/familjengrotesk/FamiljenGrotesk[wght].ttf",
+      "object_id": "1c03eb598e678759e94946e5bfc21729fbbf3214"
+    },
+    {
+      "path": "assets/fonts/familjengrotesk/METADATA.pb",
+      "object_id": "5748699da2ac025890afa1c1f70397bdf3f5e2fc"
+    },
+    {
+      "path": "assets/fonts/familjengrotesk/OFL.txt",
+      "object_id": "1926b039a9cca04ced22b88180c21a71043ff498"
+    },
+    {
+      "path": "assets/fonts/geist/Geist-Italic[wght].ttf",
+      "object_id": "63c3c6c2154421e6eb445e328fb17734593fad7a"
+    },
+    {
+      "path": "assets/fonts/geist/Geist[wght].ttf",
+      "object_id": "f63f0afc6390323715972b6645115485f37cc9f4"
+    },
+    {
+      "path": "assets/fonts/geist/METADATA.pb",
+      "object_id": "e9ba1c28356f1fc1a1373a98feb9b6fb948a7763"
+    },
+    {
+      "path": "assets/fonts/geist/OFL.txt",
+      "object_id": "61f6f4b7853081236aec6407f2dd3c7170997f84"
+    },
+    {
+      "path": "assets/fonts/geistmono/GeistMono-Italic[wght].ttf",
+      "object_id": "9a0d8997e9686aafcbef468b7b985b310d5a4202"
+    },
+    {
+      "path": "assets/fonts/geistmono/GeistMono[wght].ttf",
+      "object_id": "173867dce0580ea751e4b9c558740d34f20ce549"
+    },
+    {
+      "path": "assets/fonts/geistmono/METADATA.pb",
+      "object_id": "f40ef77deec00cc31f7ed1c44145e44ed8fcaccb"
+    },
+    {
+      "path": "assets/fonts/geistmono/OFL.txt",
+      "object_id": "61f6f4b7853081236aec6407f2dd3c7170997f84"
+    },
+    {
+      "path": "assets/fonts/instrumentserif/InstrumentSerif-Italic.ttf",
+      "object_id": "192c3eda9864241ad280e9bcc84e258c80a4a588"
+    },
+    {
+      "path": "assets/fonts/instrumentserif/InstrumentSerif-Regular.ttf",
+      "object_id": "36fac00ef9b7d523236df6536cb09c712bb2c7e4"
+    },
+    {
+      "path": "assets/fonts/instrumentserif/METADATA.pb",
+      "object_id": "22619007900d69b3d136ca68ecc08ec56c6ac4d5"
+    },
+    {
+      "path": "assets/fonts/instrumentserif/OFL.txt",
+      "object_id": "669ce7917bec662fcf7244d37f49c4277f6fbd73"
+    },
+    {
+      "path": "assets/fonts/manifest.json",
+      "object_id": "978b1f41b25b8a780977596c8ceedd95c302641e"
+    },
+    {
+      "path": "assets/fonts/martianmono/METADATA.pb",
+      "object_id": "f50dcbe95f6de86b96e12253da42f3a04f0bef88"
+    },
+    {
+      "path": "assets/fonts/martianmono/MartianMono[wdth,wght].ttf",
+      "object_id": "1dbec63b6d3a76f0eb2d63f3a6f921efbe66769c"
+    },
+    {
+      "path": "assets/fonts/martianmono/OFL.txt",
+      "object_id": "3d86611f3660e09781ef246830e82374cbd7dfab"
+    },
+    {
+      "path": "assets/fonts/notosansarabic/METADATA.pb",
+      "object_id": "9783ab4a128b7c80f52a2c0a4a6a0c014ff4cd93"
+    },
+    {
+      "path": "assets/fonts/notosansarabic/NotoSansArabic[wdth,wght].ttf",
+      "object_id": "f1d01edce4ebaedcbe9a06fc75fec07b304ec3df"
+    },
+    {
+      "path": "assets/fonts/notosansarabic/OFL.txt",
+      "object_id": "14c589f6384505ede3f8e52627d397513af3662d"
+    },
+    {
+      "path": "assets/fonts/notosansbengali/METADATA.pb",
+      "object_id": "978d20b731b8de5887ef1f0ab12daf8aa57c6f37"
+    },
+    {
+      "path": "assets/fonts/notosansbengali/NotoSansBengali[wdth,wght].ttf",
+      "object_id": "25e13e26dc15c4933f8fe49c9efcda54152349db"
+    },
+    {
+      "path": "assets/fonts/notosansbengali/OFL.txt",
+      "object_id": "d11cac69316ec3d80e5aff86e4a2dba4114cca2b"
+    },
+    {
+      "path": "assets/icons/alert.svg",
+      "object_id": "a6e648b99f0bcc105bba89a95ccb49dc35f4edee"
+    },
+    {
+      "path": "assets/icons/arrow-right.svg",
+      "object_id": "0a8b3a2c7498c5740001760d07b99ef7217cb924"
+    },
+    {
+      "path": "assets/icons/arrow-up-right.svg",
+      "object_id": "ebd54d79173a8fc25fb81c9ed39bd4bf80835f89"
+    },
+    {
+      "path": "assets/icons/bell.svg",
+      "object_id": "9f23a47d5e66972a6df8f6d3a5659f47b99654eb"
+    },
+    {
+      "path": "assets/icons/bot.svg",
+      "object_id": "38239bcbea7082d27bc582f849fe1cfc3f9499d6"
+    },
+    {
+      "path": "assets/icons/chat.svg",
+      "object_id": "a3aae3c9e0e176d19ee36218975067b12efeb2d9"
+    },
+    {
+      "path": "assets/icons/check.svg",
+      "object_id": "990930329d687ed3a834c3d37b24ede92fbae233"
+    },
+    {
+      "path": "assets/icons/chevron-down.svg",
+      "object_id": "4491f1529e86623c05ed78b7a933eb6dd56b99ea"
+    },
+    {
+      "path": "assets/icons/chevron-left.svg",
+      "object_id": "2089f01d39038df2ccce5d7b7afab00103c8b672"
+    },
+    {
+      "path": "assets/icons/chevron-right.svg",
+      "object_id": "80606b7f83a9749c0d5c972bf9430b339df5b841"
+    },
+    {
+      "path": "assets/icons/code.svg",
+      "object_id": "db430e29cc05eabe66a7cd34e21ff643cbc32352"
+    },
+    {
+      "path": "assets/icons/command.svg",
+      "object_id": "8d6b34d31506676d7730080d307014f37c871fe4"
+    },
+    {
+      "path": "assets/icons/copy.svg",
+      "object_id": "ae844583c566cf399670ead3bb35b856b1d7774c"
+    },
+    {
+      "path": "assets/icons/cpu.svg",
+      "object_id": "085285e522074ed0c6c85b4f471083c51d189d36"
+    },
+    {
+      "path": "assets/icons/dictionary.svg",
+      "object_id": "ab34128baab4b4327d9485396da76002637558e0"
+    },
+    {
+      "path": "assets/icons/diff.svg",
+      "object_id": "25e1f00e8445705db125ff19e0df0e4c075e20b3"
+    },
+    {
+      "path": "assets/icons/download.svg",
+      "object_id": "f7e4cebabbbb6efc353fc90fbd99e33e79b87956"
+    },
+    {
+      "path": "assets/icons/external.svg",
+      "object_id": "14ee43421bcbd40045ac93abeb3780a16c6aa888"
+    },
+    {
+      "path": "assets/icons/eye.svg",
+      "object_id": "81a880cb7ae68931e28212541ee9bb5ce84aefe5"
+    },
+    {
+      "path": "assets/icons/folder.svg",
+      "object_id": "86bdc1ee74082d54cd8df45081c1e4b3418eca0a"
+    },
+    {
+      "path": "assets/icons/gauge.svg",
+      "object_id": "f89bd6891d4fb9b80bc89d0764c42dbf84643459"
+    },
+    {
+      "path": "assets/icons/globe.svg",
+      "object_id": "a5efb65b336d68ecc948349fb49cede87a1bc46f"
+    },
+    {
+      "path": "assets/icons/history.svg",
+      "object_id": "30c2dad23a4772e4decefcb31ecf3f8abe1e29df"
+    },
+    {
+      "path": "assets/icons/home.svg",
+      "object_id": "63b45c5c07ff91fe63093f203fc1bceabf6ca8f6"
+    },
+    {
+      "path": "assets/icons/info.svg",
+      "object_id": "f65a2cb545efdda93f16aaf3741463ca24658509"
+    },
+    {
+      "path": "assets/icons/keyboard.svg",
+      "object_id": "974509e3db6e840c898e0c98143adc9cba300c75"
+    },
+    {
+      "path": "assets/icons/labs.svg",
+      "object_id": "6a8a679531606a01e8ba3e4e22fd087a3f8656ab"
+    },
+    {
+      "path": "assets/icons/lock.svg",
+      "object_id": "8b569bdfbc4d11fde5522da324b57a52ce829982"
+    },
+    {
+      "path": "assets/icons/mail.svg",
+      "object_id": "9bd14b00d04dbd8dfb474ee97f6bc5efc757a73e"
+    },
+    {
+      "path": "assets/icons/mark.svg",
+      "object_id": "6ab6b926d9b74d8fe6cec33a8dbb620827c2872f"
+    },
+    {
+      "path": "assets/icons/mic.svg",
+      "object_id": "a9a883e29f18565f538773af1c36f043cf50675d"
+    },
+    {
+      "path": "assets/icons/monitor.svg",
+      "object_id": "9d9516bb8cb1f3634125616d501025129e3b5afe"
+    },
+    {
+      "path": "assets/icons/more.svg",
+      "object_id": "64a16e74239b72b8263de623d05479bf4393ccc8"
+    },
+    {
+      "path": "assets/icons/notes.svg",
+      "object_id": "34a160ed521ea5eeb7a409166cbdca1facba6c1f"
+    },
+    {
+      "path": "assets/icons/paste.svg",
+      "object_id": "3c31a410474c5b5b253582492bb703a4acc9a2a6"
+    },
+    {
+      "path": "assets/icons/pause.svg",
+      "object_id": "3bb30b3426744d5047cca2e99c745b1bc31a5181"
+    },
+    {
+      "path": "assets/icons/play.svg",
+      "object_id": "9319bf9bff5c564d14bf60e812f296ef59258a42"
+    },
+    {
+      "path": "assets/icons/plus.svg",
+      "object_id": "d38cc06ff853b3aef423bb546392f8422fc1dfea"
+    },
+    {
+      "path": "assets/icons/refresh.svg",
+      "object_id": "732b286abf54a1835020bfd0f49fe9d21ffebd97"
+    },
+    {
+      "path": "assets/icons/search.svg",
+      "object_id": "e47ac7c532ed4e0735122cef97ff1c7980a6794b"
+    },
+    {
+      "path": "assets/icons/settings.svg",
+      "object_id": "a0dde78c424a62948dc215272df81b4fe56b2877"
+    },
+    {
+      "path": "assets/icons/shield.svg",
+      "object_id": "019a748036b5474d2ad8a38b5f257a0fc0ad2d16"
+    },
+    {
+      "path": "assets/icons/snippets.svg",
+      "object_id": "fc62429d66556a24176e431d5f6dffe320e83c60"
+    },
+    {
+      "path": "assets/icons/sparkle.svg",
+      "object_id": "7ee6a79d04022a540df5ca736216b103f4aa2719"
+    },
+    {
+      "path": "assets/icons/speaker.svg",
+      "object_id": "c2c1e159809ce51b13b6fc19674a0d11a0cdd7be"
+    },
+    {
+      "path": "assets/icons/stop.svg",
+      "object_id": "d8cffa1585227db0faa266393bc22830685cf92b"
+    },
+    {
+      "path": "assets/icons/style.svg",
+      "object_id": "6fa49f5aeed72f6d63da835936eb19abd805997b"
+    },
+    {
+      "path": "assets/icons/trash.svg",
+      "object_id": "a9f01c8e3f281fe9d84a1b5c6ce13a80b0ae1162"
+    },
+    {
+      "path": "assets/icons/undo.svg",
+      "object_id": "299139579517bee9bd825cda497c70c20a6f7c14"
+    },
+    {
+      "path": "assets/icons/upload.svg",
+      "object_id": "5eb9286c3d8d6f84660208d7adf59e69923b2a38"
+    },
+    {
+      "path": "assets/icons/wifi-off.svg",
+      "object_id": "2561185e80af732a44b04e6a9f925e7f7ad0079f"
+    },
+    {
+      "path": "assets/icons/x.svg",
+      "object_id": "37d0990b74a76d721f78f9814d21fcf8d5776a8d"
+    },
+    {
+      "path": "assets/licenses/3dspeaker-eres2net-base/LICENSE",
+      "object_id": "261eeb9e9f8b2b4b0d119366dda99c6fd7d35c64"
+    },
+    {
+      "path": "assets/licenses/3dspeaker-eres2net-base/MODEL_CARD.md",
+      "object_id": "5d3374ec01096fa1a1bf5ebca7fc0ca33d033193"
+    },
+    {
+      "path": "assets/licenses/3dspeaker-eres2net-base/NOTICE.txt",
+      "object_id": "0974af55e792ea347a410ff4263bae7ae8cd718b"
+    },
+    {
+      "path": "assets/licenses/Apache-2.0.txt",
+      "object_id": "d645695673349e3947e8e5ae42332d0ac3164cd7"
+    },
+    {
+      "path": "assets/licenses/README.md",
+      "object_id": "2191a7005d6e31439305885c15fb95a0fe56f2d8"
+    },
+    {
+      "path": "assets/licenses/comtypes-1.4.16-MIT.txt",
+      "object_id": "51bfc346ac073acf16d0ecc1c75b0c108e522661"
+    },
+    {
+      "path": "assets/licenses/gtcrn/LICENSE",
+      "object_id": "39f9700cbb8e4e8a26de5f7cb6fafd12ac62d246"
+    },
+    {
+      "path": "assets/licenses/gtcrn/MODEL_CARD.md",
+      "object_id": "79b1ae08a0041db51c41bfa0e06e54e8f88856af"
+    },
+    {
+      "path": "assets/licenses/llama-cpp-MIT.txt",
+      "object_id": "e7dca554bcb802f98408383a864404e3aa4eacca"
+    },
+    {
+      "path": "assets/licenses/nemotron-NOTICE.txt",
+      "object_id": "de4d64c5c5f539110f99245db3c8525f583cfc74"
+    },
+    {
+      "path": "assets/licenses/nvidia-open-model-license-2025-10-24.pdf",
+      "object_id": "d803837f7b3281922645340b408fc4b4c3d23cdb"
+    },
+    {
+      "path": "assets/licenses/packaged/README.md",
+      "object_id": "8277bcd6879d3c4ccd00ce5736765a080f739e05"
+    },
+    {
+      "path": "assets/licenses/packaged/ct2-native/cpu_features/LICENSE",
+      "object_id": "a7043c6fdedacc991803384333201058ea1a8865"
+    },
+    {
+      "path": "assets/licenses/packaged/ct2-native/cxxopts/LICENSE",
+      "object_id": "324a203585bf5dd897e28dd999ccf9dfcdcaed3b"
+    },
+    {
+      "path": "assets/licenses/packaged/ct2-native/oneDNN/LICENSE",
+      "object_id": "eb8c6e17e3b462f8496a0379e65fe42a350f71b9"
+    },
+    {
+      "path": "assets/licenses/packaged/ct2-native/oneDNN/src/common/ittnotify/LICENSE.BSD",
+      "object_id": "4fd21cea57740fa536942730c45c10589240a096"
+    },
+    {
+      "path": "assets/licenses/packaged/ct2-native/oneDNN/src/cpu/x64/xbyak/COPYRIGHT",
+      "object_id": "66b6ea55d0006015563e742a7b6e52aa90d6ddce"
+    },
+    {
+      "path": "assets/licenses/packaged/ct2-native/oneDNN/src/gpu/jit/ngen/COPYRIGHT",
+      "object_id": "463c61922d63ab66c21e709d0cbe15d3559922ea"
+    },
+    {
+      "path": "assets/licenses/packaged/ct2-native/oneDNN/tests/gtests/gtest/LICENSE",
+      "object_id": "1941a11f8ce94389160b458927a29ba217542818"
+    },
+    {
+      "path": "assets/licenses/packaged/ct2-native/ruy/LICENSE",
+      "object_id": "d645695673349e3947e8e5ae42332d0ac3164cd7"
+    },
+    {
+      "path": "assets/licenses/packaged/ct2-native/spdlog/LICENSE",
+      "object_id": "12beadb27e7a9aefdd862374aea37ba94a70977e"
+    },
+    {
+      "path": "assets/licenses/packaged/ctranslate2/LICENSE",
+      "object_id": "aaa6a320e1facba1a794fdfe084ded21ee350c9b"
+    },
+    {
+      "path": "assets/licenses/packaged/intel-openmp-2025.3.0/LICENSE.txt",
+      "object_id": "3048224755b0872cc023df11a08cfb28fdc949ab"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/SOURCE_RECIPE.json",
+      "object_id": "3863665f27eba26f1b57ce949b6d072eac498833"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/amf-headers/amf-headers-v1.5.2/AMF/components/AMFXInput.h.license.txt",
+      "object_id": "d13540facd0198d73f969f822051700135bd5a41"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/amf-headers/amf-headers-v1.5.2/AMF/components/Ambisonic2SRenderer.h.license.txt",
+      "object_id": "d623dddfd52fb14ee8e179dfb8eb301aac0d7e06"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/amf-headers/amf-headers-v1.5.2/AMF/components/AudioCapture.h.license.txt",
+      "object_id": "1c2893cb28a00d4e2831049cd0f2297d9581146d"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/amf-headers/amf-headers-v1.5.2/AMF/components/Capture.h.license.txt",
+      "object_id": "d623dddfd52fb14ee8e179dfb8eb301aac0d7e06"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/amf-headers/amf-headers-v1.5.2/AMF/components/ChromaKey.h.license.txt",
+      "object_id": "9989e282c48235fcb2c888d5e833d8f6e868e732"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/amf-headers/amf-headers-v1.5.2/AMF/components/ColorSpace.h.license.txt",
+      "object_id": "d623dddfd52fb14ee8e179dfb8eb301aac0d7e06"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/amf-headers/amf-headers-v1.5.2/AMF/components/Component.h.license.txt",
+      "object_id": "d623dddfd52fb14ee8e179dfb8eb301aac0d7e06"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/amf-headers/amf-headers-v1.5.2/AMF/components/ComponentCaps.h.license.txt",
+      "object_id": "d623dddfd52fb14ee8e179dfb8eb301aac0d7e06"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/amf-headers/amf-headers-v1.5.2/AMF/components/CursorCapture.h.license.txt",
+      "object_id": "1c2893cb28a00d4e2831049cd0f2297d9581146d"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/amf-headers/amf-headers-v1.5.2/AMF/components/DisplayCapture.h.license.txt",
+      "object_id": "5af8bf18ad1ea39b8bededf1a7d09305621e6e79"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/amf-headers/amf-headers-v1.5.2/AMF/components/FFMPEGAudioConverter.h.license.txt",
+      "object_id": "d623dddfd52fb14ee8e179dfb8eb301aac0d7e06"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/amf-headers/amf-headers-v1.5.2/AMF/components/FFMPEGAudioDecoder.h.license.txt",
+      "object_id": "d623dddfd52fb14ee8e179dfb8eb301aac0d7e06"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/amf-headers/amf-headers-v1.5.2/AMF/components/FFMPEGAudioEncoder.h.license.txt",
+      "object_id": "d623dddfd52fb14ee8e179dfb8eb301aac0d7e06"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/amf-headers/amf-headers-v1.5.2/AMF/components/FFMPEGComponents.h.license.txt",
+      "object_id": "d623dddfd52fb14ee8e179dfb8eb301aac0d7e06"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/amf-headers/amf-headers-v1.5.2/AMF/components/FFMPEGEncoderAV1.h.license.txt",
+      "object_id": "fd606298fd225dec9cf8f95169157d0c73fcec85"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/amf-headers/amf-headers-v1.5.2/AMF/components/FFMPEGEncoderH264.h.license.txt",
+      "object_id": "9acdc8e3c403115f87b19c6f947c39956a90e30e"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/amf-headers/amf-headers-v1.5.2/AMF/components/FFMPEGEncoderHEVC.h.license.txt",
+      "object_id": "d623dddfd52fb14ee8e179dfb8eb301aac0d7e06"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/amf-headers/amf-headers-v1.5.2/AMF/components/FFMPEGFileDemuxer.h.license.txt",
+      "object_id": "d623dddfd52fb14ee8e179dfb8eb301aac0d7e06"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/amf-headers/amf-headers-v1.5.2/AMF/components/FFMPEGFileMuxer.h.license.txt",
+      "object_id": "d623dddfd52fb14ee8e179dfb8eb301aac0d7e06"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/amf-headers/amf-headers-v1.5.2/AMF/components/FFMPEGVideoDecoder.h.license.txt",
+      "object_id": "d623dddfd52fb14ee8e179dfb8eb301aac0d7e06"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/amf-headers/amf-headers-v1.5.2/AMF/components/FRC.h.license.txt",
+      "object_id": "0361ac750a29baf0a270b82aee5bc001f92d0063"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/amf-headers/amf-headers-v1.5.2/AMF/components/HQScaler.h.license.txt",
+      "object_id": "08120ff5625ab2934d9b71d827d2ab6cba4b4e00"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/amf-headers/amf-headers-v1.5.2/AMF/components/MediaSource.h.license.txt",
+      "object_id": "d623dddfd52fb14ee8e179dfb8eb301aac0d7e06"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/amf-headers/amf-headers-v1.5.2/AMF/components/PreAnalysis.h.license.txt",
+      "object_id": "e3f7f47bacc130ae1ed6f0a1823c84cf4ab462c8"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/amf-headers/amf-headers-v1.5.2/AMF/components/PreProcessing.h.license.txt",
+      "object_id": "92091ca21c3a6f6fc5ad74c9a035e4a7bb6a5729"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/amf-headers/amf-headers-v1.5.2/AMF/components/SupportedCodecs.h.license.txt",
+      "object_id": "1c2893cb28a00d4e2831049cd0f2297d9581146d"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/amf-headers/amf-headers-v1.5.2/AMF/components/VQEnhancer.h.license.txt",
+      "object_id": "08120ff5625ab2934d9b71d827d2ab6cba4b4e00"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/amf-headers/amf-headers-v1.5.2/AMF/components/VideoCapture.h.license.txt",
+      "object_id": "d623dddfd52fb14ee8e179dfb8eb301aac0d7e06"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/amf-headers/amf-headers-v1.5.2/AMF/components/VideoConverter.h.license.txt",
+      "object_id": "d623dddfd52fb14ee8e179dfb8eb301aac0d7e06"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/amf-headers/amf-headers-v1.5.2/AMF/components/VideoDecoderUVD.h.license.txt",
+      "object_id": "fd606298fd225dec9cf8f95169157d0c73fcec85"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/amf-headers/amf-headers-v1.5.2/AMF/components/VideoEncoderAV1.h.license.txt",
+      "object_id": "75b393b36560e11b5437184966259b15c6e4b4d2"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/amf-headers/amf-headers-v1.5.2/AMF/components/VideoEncoderHEVC.h.license.txt",
+      "object_id": "329f2d644fe79e20a04c230dbef3663e5f56d42d"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/amf-headers/amf-headers-v1.5.2/AMF/components/VideoEncoderVCE.h.license.txt",
+      "object_id": "fd606298fd225dec9cf8f95169157d0c73fcec85"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/amf-headers/amf-headers-v1.5.2/AMF/components/VideoStitch.h.license.txt",
+      "object_id": "3e151b9f34e4de7e2e2608b8d4b27e70e2caccdf"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/amf-headers/amf-headers-v1.5.2/AMF/components/ZCamLiveStream.h.license.txt",
+      "object_id": "d623dddfd52fb14ee8e179dfb8eb301aac0d7e06"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/amf-headers/amf-headers-v1.5.2/AMF/core/AudioBuffer.h.license.txt",
+      "object_id": "d623dddfd52fb14ee8e179dfb8eb301aac0d7e06"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/amf-headers/amf-headers-v1.5.2/AMF/core/Buffer.h.license.txt",
+      "object_id": "fd606298fd225dec9cf8f95169157d0c73fcec85"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/amf-headers/amf-headers-v1.5.2/AMF/core/Compute.h.license.txt",
+      "object_id": "d623dddfd52fb14ee8e179dfb8eb301aac0d7e06"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/amf-headers/amf-headers-v1.5.2/AMF/core/ComputeFactory.h.license.txt",
+      "object_id": "d623dddfd52fb14ee8e179dfb8eb301aac0d7e06"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/amf-headers/amf-headers-v1.5.2/AMF/core/Context.h.license.txt",
+      "object_id": "d623dddfd52fb14ee8e179dfb8eb301aac0d7e06"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/amf-headers/amf-headers-v1.5.2/AMF/core/CurrentTime.h.license.txt",
+      "object_id": "9d4357b56350bdc350d4137bef4f3b98b843674c"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/amf-headers/amf-headers-v1.5.2/AMF/core/D3D12AMF.h.license.txt",
+      "object_id": "fd606298fd225dec9cf8f95169157d0c73fcec85"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/amf-headers/amf-headers-v1.5.2/AMF/core/Data.h.license.txt",
+      "object_id": "fd606298fd225dec9cf8f95169157d0c73fcec85"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/amf-headers/amf-headers-v1.5.2/AMF/core/Debug.h.license.txt",
+      "object_id": "d623dddfd52fb14ee8e179dfb8eb301aac0d7e06"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/amf-headers/amf-headers-v1.5.2/AMF/core/Dump.h.license.txt",
+      "object_id": "d623dddfd52fb14ee8e179dfb8eb301aac0d7e06"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/amf-headers/amf-headers-v1.5.2/AMF/core/Factory.h.license.txt",
+      "object_id": "fd606298fd225dec9cf8f95169157d0c73fcec85"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/amf-headers/amf-headers-v1.5.2/AMF/core/Interface.h.license.txt",
+      "object_id": "d623dddfd52fb14ee8e179dfb8eb301aac0d7e06"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/amf-headers/amf-headers-v1.5.2/AMF/core/Plane.h.license.txt",
+      "object_id": "d623dddfd52fb14ee8e179dfb8eb301aac0d7e06"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/amf-headers/amf-headers-v1.5.2/AMF/core/Platform.h.license.txt",
+      "object_id": "fd606298fd225dec9cf8f95169157d0c73fcec85"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/amf-headers/amf-headers-v1.5.2/AMF/core/PropertyStorage.h.license.txt",
+      "object_id": "d623dddfd52fb14ee8e179dfb8eb301aac0d7e06"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/amf-headers/amf-headers-v1.5.2/AMF/core/PropertyStorageEx.h.license.txt",
+      "object_id": "d623dddfd52fb14ee8e179dfb8eb301aac0d7e06"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/amf-headers/amf-headers-v1.5.2/AMF/core/Result.h.license.txt",
+      "object_id": "d623dddfd52fb14ee8e179dfb8eb301aac0d7e06"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/amf-headers/amf-headers-v1.5.2/AMF/core/Surface.h.license.txt",
+      "object_id": "fd606298fd225dec9cf8f95169157d0c73fcec85"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/amf-headers/amf-headers-v1.5.2/AMF/core/Trace.h.license.txt",
+      "object_id": "d623dddfd52fb14ee8e179dfb8eb301aac0d7e06"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/amf-headers/amf-headers-v1.5.2/AMF/core/Variant.h.license.txt",
+      "object_id": "d623dddfd52fb14ee8e179dfb8eb301aac0d7e06"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/amf-headers/amf-headers-v1.5.2/AMF/core/Version.h.license.txt",
+      "object_id": "1c2893cb28a00d4e2831049cd0f2297d9581146d"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/amf-headers/amf-headers-v1.5.2/AMF/core/VulkanAMF.h.license.txt",
+      "object_id": "fd606298fd225dec9cf8f95169157d0c73fcec85"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/dav1d/COPYING",
+      "object_id": "8d4d6418c1ab4adf0a05bddfc11182216d5238a1"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/ffmpeg/COPYING.GPLv2",
+      "object_id": "d159169d1050894d3ea3b98e1c965c4058208fe1"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/ffmpeg/COPYING.GPLv3",
+      "object_id": "94a9ed024d3859793618152ea559a168bbcbb5e2"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/ffmpeg/COPYING.LGPLv2.1",
+      "object_id": "40924c2a6da76a2b0c639f6fe7ef0b2d095a6adb"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/ffmpeg/COPYING.LGPLv3",
+      "object_id": "65c5ca88a67c30becee01c5a8816d964b03862f9"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/ffmpeg/LICENSE.md",
+      "object_id": "371b0913ce7c199c4092d9344680c80f78ebeb2a"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/ffmpeg/doc/authors.texi",
+      "object_id": "ce088392f882123b8f0530c58f6b52ceb426cf70"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/ffmpeg/tests/checkasm/ext/LICENSE",
+      "object_id": "ce42c58892c1b23f535df78a8dea5b7a876490fd"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/ffmpeg/tests/checkasm/ext/src/html_data/LICENSE",
+      "object_id": "678773239d9be8191bcacaf9f031737742fa1114"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/gcc/COPYING.RUNTIME",
+      "object_id": "e1b3c69c179dfaff5744ea4bf853e6b0d90c9ef9"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/gcc/COPYING3",
+      "object_id": "94a9ed024d3859793618152ea559a168bbcbb5e2"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/lamer/LICENSE",
+      "object_id": "40924c2a6da76a2b0c639f6fe7ef0b2d095a6adb"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/libiconv/COPYING.LIB",
+      "object_id": "f6683e74e0f0130f246dbf7054f4cacc88ca84b0"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/libsvtav1/LICENSE-BSD2.md",
+      "object_id": "4d380cfb5c8b1406cdfbe0388b81d642304ab766"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/libsvtav1/LICENSE.md",
+      "object_id": "aff96d15ed2018f3867a87ff8f1120c2ab93fe41"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/libsvtav1/third_party/fastfeat/LICENSE",
+      "object_id": "f347008d6efb09fb21dd0ce29faa539db6d08a95"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/libsvtav1/third_party/safestringlib/LICENSE",
+      "object_id": "fa365052e4f92b0c1c8d8e8e7587173f94c7ff94"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/libvmaf/LICENSE",
+      "object_id": "5e77c4386ea7186882f3c01772af288c3643069c"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/libvpl/LICENSE",
+      "object_id": "4e66ab4cc8efac2c57f22e1c6fb78ee91321a9e7"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/libvpl/examples/api1x_core/legacy-decode/License.txt",
+      "object_id": "1756b565a1d99fa266cf4ba75839c8f324d22b81"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/libvpl/examples/api1x_core/legacy-encode/License.txt",
+      "object_id": "1756b565a1d99fa266cf4ba75839c8f324d22b81"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/libvpl/examples/api1x_core/legacy-vpp/License.txt",
+      "object_id": "1756b565a1d99fa266cf4ba75839c8f324d22b81"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/libvpl/examples/api2x/hello-decode/License.txt",
+      "object_id": "1756b565a1d99fa266cf4ba75839c8f324d22b81"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/libvpl/examples/api2x/hello-decvpp/License.txt",
+      "object_id": "1756b565a1d99fa266cf4ba75839c8f324d22b81"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/libvpl/examples/api2x/hello-encode-jpeg/License.txt",
+      "object_id": "1756b565a1d99fa266cf4ba75839c8f324d22b81"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/libvpl/examples/api2x/hello-encode/License.txt",
+      "object_id": "1756b565a1d99fa266cf4ba75839c8f324d22b81"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/libvpl/examples/api2x/hello-sharing-dx11/License.txt",
+      "object_id": "1756b565a1d99fa266cf4ba75839c8f324d22b81"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/libvpl/examples/api2x/hello-sharing-ocl/License.txt",
+      "object_id": "1756b565a1d99fa266cf4ba75839c8f324d22b81"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/libvpl/examples/api2x/hello-sharing-vaapi/License.txt",
+      "object_id": "1756b565a1d99fa266cf4ba75839c8f324d22b81"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/libvpl/examples/api2x/hello-transcode/License.txt",
+      "object_id": "1756b565a1d99fa266cf4ba75839c8f324d22b81"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/libvpl/examples/api2x/hello-vpp/License.txt",
+      "object_id": "1756b565a1d99fa266cf4ba75839c8f324d22b81"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/libvpl/examples/interop/vpl-infer/License.txt",
+      "object_id": "1756b565a1d99fa266cf4ba75839c8f324d22b81"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/libvpl/examples/tutorials/01_transition/License.txt",
+      "object_id": "1756b565a1d99fa266cf4ba75839c8f324d22b81"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/libvpl/libvpl/test/ext/googletest/LICENSE",
+      "object_id": "1941a11f8ce94389160b458927a29ba217542818"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/mingw-w64/COPYING",
+      "object_id": "28fa9514c036c2ae6a545fc9fe75c37baecf596d"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/mingw-w64/mingw-w64-libraries/winpthreads/COPYING",
+      "object_id": "3507701238b798b1ddbf4d5ffe16f285f4458963"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/nv-codec-headers/nv-codec-headers-n13.0.19.0/include/ffnvcodec/dynlink_cuda.h.license.txt",
+      "object_id": "151fdbb5a7b81e0c7247018dee61ccc989657bf6"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/nv-codec-headers/nv-codec-headers-n13.0.19.0/include/ffnvcodec/dynlink_cuviddec.h.license.txt",
+      "object_id": "7eeb9998d910f2ac1b08ddcbf4c12418c5fefd7b"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/nv-codec-headers/nv-codec-headers-n13.0.19.0/include/ffnvcodec/dynlink_loader.h.license.txt",
+      "object_id": "151fdbb5a7b81e0c7247018dee61ccc989657bf6"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/nv-codec-headers/nv-codec-headers-n13.0.19.0/include/ffnvcodec/dynlink_nvcuvid.h.license.txt",
+      "object_id": "7eeb9998d910f2ac1b08ddcbf4c12418c5fefd7b"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/nv-codec-headers/nv-codec-headers-n13.0.19.0/include/ffnvcodec/nvEncodeAPI.h.license.txt",
+      "object_id": "7eeb9998d910f2ac1b08ddcbf4c12418c5fefd7b"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/opus/AUTHORS",
+      "object_id": "b3d22a20c908ed21d42ceac81ec2255b0d7f55dc"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/opus/COPYING",
+      "object_id": "75711467a3eb220f35f72afdb55a4734ee5cdb47"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/png/AUTHORS",
+      "object_id": "6726fc6a7ce2294f049e4a39848e2282a6c6a517"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/png/LICENSE",
+      "object_id": "1b765ae9f96abea77d3d9a88c543e3b5f4725813"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/png/ci/LICENSE_MIT.txt",
+      "object_id": "9cf106272ac3b56b0c4c80218e8fc10a664ca5f4"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/png/contrib/gregbook/COPYING",
+      "object_id": "a3e977479693b9733e870e5806b04366bc95bc3f"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/png/contrib/gregbook/LICENSE",
+      "object_id": "d9567178cb69a14d00f2932db407baeb0be8153b"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/png/contrib/pngexif/LICENSE_MIT.txt",
+      "object_id": "9cf106272ac3b56b0c4c80218e8fc10a664ca5f4"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/png/contrib/pngminus/LICENSE.txt",
+      "object_id": "6bdb4f87983084cffaa09ca53d3601a07be8eef9"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/png/scripts/cmake/AUTHORS.md",
+      "object_id": "2731095242e6e1f1f614ebe31a61a99f9925cdff"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/vpx/AUTHORS",
+      "object_id": "f01bca461dab3151394bb3d2e1a668c9b0b8836d"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/vpx/LICENSE",
+      "object_id": "1ce44343c4a325e9e1189fd98bb44a9f2f096da9"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/vpx/third_party/googletest/src/LICENSE",
+      "object_id": "1941a11f8ce94389160b458927a29ba217542818"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/vpx/third_party/libwebm/AUTHORS.TXT",
+      "object_id": "59b648ca68b683dee0cf159f11829c7683e2adc4"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/vpx/third_party/libwebm/LICENSE.TXT",
+      "object_id": "7a6f99547d4d6b4c5e6d5321acfaeba313e08de3"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/vpx/third_party/libyuv/LICENSE",
+      "object_id": "c911747a6b53f063503992c3903d932f54cf6c57"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/vpx/third_party/nalloc/LICENSE",
+      "object_id": "14c2b9e737667aad930a01b1e65cec9178511563"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/vpx/third_party/x86inc/LICENSE",
+      "object_id": "7d07645a17151fb6d220a669c4c56abe1f8a6097"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/webp/AUTHORS",
+      "object_id": "6fe9552cd0e4b0b30e77ebd4d3620ca1ced95e03"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/webp/COPYING",
+      "object_id": "7a6f99547d4d6b4c5e6d5321acfaeba313e08de3"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/x264/AUTHORS",
+      "object_id": "d7fda64a9176514feae1cc1f95473143eb337a19"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/x264/COPYING",
+      "object_id": "d60c31a97a544b53039088d14fe9114583c0efc3"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/x265/COPYING",
+      "object_id": "d5457c93678be27ffeeef24195cfea5d201549e2"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/x265/source/dynamicHDR10/LICENSE.txt",
+      "object_id": "a1be4a2875a9194fa3bf8ffdc1074e0f6cb3fdc6"
+    },
+    {
+      "path": "assets/licenses/packaged/pyav-native/x265/source/dynamicHDR10/json11/LICENSE.txt",
+      "object_id": "691742e9e5f62be2488f33e565dcef6eb2d7cba0"
+    },
+    {
+      "path": "assets/licenses/packaged/pyside-setup/LICENSES/Apache-2.0.txt",
+      "object_id": "136d90045663ab0acaeff2a3ecf0013c968de8c9"
+    },
+    {
+      "path": "assets/licenses/packaged/pyside-setup/LICENSES/BSD-3-Clause.txt",
+      "object_id": "23e8629f0a7706f95550633a6a3e6df57954ba68"
+    },
+    {
+      "path": "assets/licenses/packaged/pyside-setup/LICENSES/GFDL-1.3-no-invariants-only.txt",
+      "object_id": "857214dd84593e0bacaac0211d76de0b69f2fa18"
+    },
+    {
+      "path": "assets/licenses/packaged/pyside-setup/LICENSES/GPL-2.0-only.txt",
+      "object_id": "d159169d1050894d3ea3b98e1c965c4058208fe1"
+    },
+    {
+      "path": "assets/licenses/packaged/pyside-setup/LICENSES/GPL-3.0-only.txt",
+      "object_id": "94a9ed024d3859793618152ea559a168bbcbb5e2"
+    },
+    {
+      "path": "assets/licenses/packaged/pyside-setup/LICENSES/LGPL-3.0-only.txt",
+      "object_id": "65c5ca88a67c30becee01c5a8816d964b03862f9"
+    },
+    {
+      "path": "assets/licenses/packaged/pyside-setup/LICENSES/LicenseRef-Qt-Commercial.txt",
+      "object_id": "825b1f358b1f42d762112defbf0a193c9d968488"
+    },
+    {
+      "path": "assets/licenses/packaged/pyside-setup/LICENSES/Qt-GPL-exception-1.0.txt",
+      "object_id": "d0322bf0e4e1d484d35cc6a1d96fa2b65b9d579b"
+    },
+    {
+      "path": "assets/licenses/packaged/pyside-setup/examples/datavisualization/graphgallery/data/license.txt",
+      "object_id": "749daf31f59b4168a0943051b28161e9c01e5f92"
+    },
+    {
+      "path": "assets/licenses/packaged/pyside-setup/examples/demos/colorpaletteclient/icons/qt_attribution.json",
+      "object_id": "44633c474be15d4b406449503b662db27c046e49"
+    },
+    {
+      "path": "assets/licenses/packaged/pyside-setup/examples/graphs/3d/widgetgraphgallery/data/license.txt",
+      "object_id": "749daf31f59b4168a0943051b28161e9c01e5f92"
+    },
+    {
+      "path": "assets/licenses/packaged/pyside-setup/examples/webenginequick/nanobrowser/icons/3rdparty/COPYING",
+      "object_id": "220881da67d683617ecbc1ceae14f216e8e1bfb4"
+    },
+    {
+      "path": "assets/licenses/packaged/pyside-setup/examples/webenginewidgets/markdowneditor/resources/3rdparty/MARKDOWN-LICENSE.txt",
+      "object_id": "23c52cc4311f1ef26dc3f3e047a7d9b9de69d7bd"
+    },
+    {
+      "path": "assets/licenses/packaged/pyside-setup/examples/webenginewidgets/markdowneditor/resources/3rdparty/MARKED-LICENSE.txt",
+      "object_id": "8e3ba0e0a762e967de16ec67f257dfdb81b2148b"
+    },
+    {
+      "path": "assets/licenses/packaged/pyside-setup/examples/webenginewidgets/markdowneditor/resources/3rdparty/qt_attribution.json",
+      "object_id": "de5458effd2f426b584410ca38a01baabada575f"
+    },
+    {
+      "path": "assets/licenses/packaged/pyside-setup/examples/webenginewidgets/simplebrowser/data/3rdparty/COPYING",
+      "object_id": "220881da67d683617ecbc1ceae14f216e8e1bfb4"
+    },
+    {
+      "path": "assets/licenses/packaged/pyside-setup/examples/webenginewidgets/simplebrowser/data/3rdparty/qt_attribution.json",
+      "object_id": "d81f5bf235127f1236061494419ab805387c22a8"
+    },
+    {
+      "path": "assets/licenses/packaged/pyside-setup/sources/pyside6/COPYING",
+      "object_id": "9315102f74e1999577459b79cb0490b7dc51cb72"
+    },
+    {
+      "path": "assets/licenses/packaged/pyside-setup/sources/shiboken6/COPYING",
+      "object_id": "4ccd714669d4643009f1018d2a756a3b2a89735c"
+    },
+    {
+      "path": "assets/licenses/packaged/pyside-setup/sources/shiboken6/COPYING.libsample",
+      "object_id": "36c9a0ec3d56daca95f908f9e11cde44f6b3282e"
+    },
+    {
+      "path": "assets/licenses/packaged/pyside-setup/sources/shiboken6/COPYING.libshiboken",
+      "object_id": "36c9a0ec3d56daca95f908f9e11cde44f6b3282e"
+    },
+    {
+      "path": "assets/licenses/packaged/pyside-setup/sources/shiboken6/libshiboken/embed/qt_python_license.txt",
+      "object_id": "e5fdfdf4de655a6cc4b75f862a8878159e7c2ede"
+    },
+    {
+      "path": "assets/licenses/packaged/pyside-setup/sources/shiboken6/libshiboken/qt_attribution.json",
+      "object_id": "36e7f686842e0e3ba6403cce9e13c71f1058ca0d"
+    },
+    {
+      "path": "assets/licenses/packaged/pyside-setup/sources/shiboken6/shibokenmodule/files.dir/shibokensupport/signature/qt_attribution.json",
+      "object_id": "0f05aea8bcfd99c4cd14dd682dda506a2b377433"
+    },
+    {
+      "path": "assets/licenses/packaged/pyside-setup/sources/shiboken6_generator/ApiExtractor/COPYING",
+      "object_id": "4ccd714669d4643009f1018d2a756a3b2a89735c"
+    },
+    {
+      "path": "assets/licenses/packaged/pyside-setup/tools/license_check.py",
+      "object_id": "0f9a193848955092377ab25130f90a697dc50bf4"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/LICENSES/AFL-2.1.txt",
+      "object_id": "011d6d489bca75a655649e477efb3cb06e1c8007"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/LICENSES/Apache-2.0.txt",
+      "object_id": "136d90045663ab0acaeff2a3ecf0013c968de8c9"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/LICENSES/BSD-2-Clause.txt",
+      "object_id": "7e7fb71e0fce53ef1661277c5b4503c6e049a615"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/LICENSES/BSD-3-Clause.txt",
+      "object_id": "b91bbd89468099ae5c3028f176783976ca538187"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/LICENSES/BSD-4-Clause.txt",
+      "object_id": "965aab0ef12f482d55d215fbf8d10595cf2a9618"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/LICENSES/BSL-1.0.txt",
+      "object_id": "9cc4741747a0f8d7e107a74cae898a69ad25fd21"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/LICENSES/Bitstream-Vera.txt",
+      "object_id": "df52c1709bea171104d41bf084313ea434858423"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/LICENSES/CC0-1.0.txt",
+      "object_id": "0e259d42c996742e9e3cba14c677129b2c1b6311"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/LICENSES/FTL.txt",
+      "object_id": "c406d150fa57aaf7a5b950b6cf302daeba1d0bb9"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/LICENSES/GFDL-1.3-no-invariants-only.txt",
+      "object_id": "857214dd84593e0bacaac0211d76de0b69f2fa18"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/LICENSES/GPL-2.0-only.txt",
+      "object_id": "d159169d1050894d3ea3b98e1c965c4058208fe1"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/LICENSES/GPL-2.0-or-later.txt",
+      "object_id": "d159169d1050894d3ea3b98e1c965c4058208fe1"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/LICENSES/GPL-3.0-only.txt",
+      "object_id": "94a9ed024d3859793618152ea559a168bbcbb5e2"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/LICENSES/HPND.txt",
+      "object_id": "e54a695e16e145af42c1d514edc2652596427115"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/LICENSES/IJG.txt",
+      "object_id": "eec5341d1c4e9ded532479684d061ffe3f6915b2"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/LICENSES/IPL-1.0.txt",
+      "object_id": "b779b1402a4a7c33310aa3c908f53bff5c004be4"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/LICENSES/Imlib2.txt",
+      "object_id": "b8430d80a3fcf6f8facb955e2fb0b1b769615794"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/LICENSES/LGPL-2.1-or-later.txt",
+      "object_id": "04bb156e77d5714dc2ee29bd0a37f16532ec741c"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/LICENSES/LGPL-3.0-only.txt",
+      "object_id": "65c5ca88a67c30becee01c5a8816d964b03862f9"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/LICENSES/Libpng.txt",
+      "object_id": "81c1c4dd534fdd23ea97bdcfc7dcdc9cd46f3576"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/LICENSES/LicenseRef-BSD-3-Clause-with-PCRE2-Binary-Like-Packages-Exception.txt",
+      "object_id": "9f4ae05fa5c02955713964a0f88a6bb67ad03be5"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/LICENSES/LicenseRef-ICC-License.txt",
+      "object_id": "e25b1d39f1ee489362fe15dae6b01b9522735dc7"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/LICENSES/LicenseRef-Lcs-Telegraphics.txt",
+      "object_id": "6c03ad2aff71b8e39a282376bbd20179f5befbc5"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/LICENSES/LicenseRef-Qt-Commercial.txt",
+      "object_id": "825b1f358b1f42d762112defbf0a193c9d968488"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/LICENSES/LicenseRef-SHA1-Public-Domain.txt",
+      "object_id": "2ebbf9a78ad592c705e5b6e22e20cfb8f1d11abf"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/LICENSES/Linux-syscall-note.txt",
+      "object_id": "82054e66953e0ebf83c4a61bfc1deaaddf755c80"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/LICENSES/MIT-Khronos-old.txt",
+      "object_id": "06d18a567301e6e35d4a7c5fa7b443cb1ac66ea9"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/LICENSES/MIT-open-group.txt",
+      "object_id": "8b6789ae03ca8e0791f422c4ba656faf2b1f0221"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/LICENSES/MIT.txt",
+      "object_id": "bc65af3cbd380a2b5e6b3f37d359d3c51ff0fa71"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/LICENSES/MPL-2.0.txt",
+      "object_id": "d0a1fa1482eea82e19510e7920cbe3a03e41f691"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/LICENSES/Qt-GPL-exception-1.0.txt",
+      "object_id": "d0322bf0e4e1d484d35cc6a1d96fa2b65b9d579b"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/LICENSES/SPL-1.0.txt",
+      "object_id": "55c5da3447a1e689bafe435dda2768f968f41f2e"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/LICENSES/Unicode-3.0.txt",
+      "object_id": "739715c45cf49d00f3b3832cb353f8ffd385eb22"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/LICENSES/X11.txt",
+      "object_id": "e1cd1e01e60d42aa148a95f0fe318cc1a17480f6"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/LICENSES/Xerox.txt",
+      "object_id": "481d3b1493661f7f04e6792c6099c2bada95279b"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/LICENSES/Zlib.txt",
+      "object_id": "9c57e18006ec54be5d52d0bd4ff04cd5432c975f"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/LICENSES/blessing.txt",
+      "object_id": "7a1b711a6b86f81b9b3943340f9f47c5a612f2f0"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/LICENSES/libpng-2.0.txt",
+      "object_id": "25f298f0fcfd8757bbd9a6386d8fcb2d644cfce9"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/cmake/3rdparty/extra-cmake-modules/COPYING-CMAKE-SCRIPTS",
+      "object_id": "4b417765f3a834ce6b0a216f6b6c0fe2d3f0bed5"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/cmake/3rdparty/extra-cmake-modules/qt_attribution.json",
+      "object_id": "687045b07da277e98dd2037ac7df313b5152b406"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/cmake/3rdparty/kwin/COPYING-CMAKE-SCRIPTS",
+      "object_id": "4b417765f3a834ce6b0a216f6b6c0fe2d3f0bed5"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/cmake/3rdparty/kwin/qt_attribution.json",
+      "object_id": "b1554af856712b2cee5b82d92c0241b18305046a"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/coin/instructions/prepare_license_test.yaml",
+      "object_id": "9936646b745f89d4b468a0db5ecc8413f9ae3cad"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/coin/instructions/run_license_check.yaml",
+      "object_id": "514f53c35c844de0eefc880702ec580e03a8a62d"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/D3D12MemoryAllocator/LICENSE.txt",
+      "object_id": "bc2ab4dc052999618a986602ea9e74dca5806226"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/D3D12MemoryAllocator/qt_attribution.json",
+      "object_id": "48cd78e74963c10adb1cc20c0c1561fb693c2334"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/VulkanMemoryAllocator/LICENSE.txt",
+      "object_id": "67b0d01dcc324988001b825f3e89b0d01e8cb6f1"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/VulkanMemoryAllocator/qt_attribution.json",
+      "object_id": "1dadd5845a84a72fa6e9654db66b9d3572bdb547"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/android/LICENSE",
+      "object_id": "c026b6b79a3fec99ed59fc737f8513de3865f145"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/android/qt_attribution.json",
+      "object_id": "9660cb17c79bdb9f80e98674f42b697eaf10a763"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/blake2/COPYING",
+      "object_id": "4133656d1ef98e70b04c05db69e7bc59347f1fa9"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/blake2/qt_attribution.json",
+      "object_id": "8b14922f2e6bd4e9eb51d1f587d17a53332154ad"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/double-conversion/LICENSE",
+      "object_id": "933718a9ef9dae4cb4afa56e490211760d8a949f"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/double-conversion/qt_attribution.json",
+      "object_id": "468a309d6f16c4a3a3de976b0c04812f6670346e"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/easing/LICENSE",
+      "object_id": "5dc85c4712b3b1db970e09ca67f5af461680345e"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/easing/qt_attribution.json",
+      "object_id": "154d7a06038e13d3e1dae7b67240900339763b13"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/emoji-segmenter/qt_attribution.json",
+      "object_id": "91dca1f4620a6258ff82f8695c26bdd053f8fa45"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/forkfd/LICENSE",
+      "object_id": "36ab6129518a7536a4fd5b10c536f30426c0cb02"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/forkfd/qt_attribution.json",
+      "object_id": "6ba54c18cb66c63e66e9a8342f18d616f3e21fc1"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/freetype/BDF-LICENSE.txt",
+      "object_id": "6fb375cf8bafbc336c72126ff692411bc5b1c476"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/freetype/LICENSE.txt",
+      "object_id": "824f5c61290dec89f70df254990cb2a9e40fd6a9"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/freetype/PCF-LICENSE.txt",
+      "object_id": "2668007a5c0223011084b23179d7d3275b5a013c"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/freetype/ZLIB-LICENSE.txt",
+      "object_id": "abbdfcc017787ab9737b2a649fad72cbd4dc5f63"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/freetype/qt_attribution.json",
+      "object_id": "427ecb1f7db74bca1bde87962f5f12348342441d"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/gradle/LICENSE",
+      "object_id": "5ab898e679a59275347dbc57d5e9be3fa3875702"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/gradle/qt_attribution.json",
+      "object_id": "b37af5f829ab03f48450d1ab88b732d80b5a7758"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/harfbuzz-ng/COPYING",
+      "object_id": "1dd917e9f2e72167de69e3b5dadbc4e7db417da1"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/harfbuzz-ng/qt_attribution.json",
+      "object_id": "e2cfc79d8a49b98f56524d018e15ee192b02e79a"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/icc/LICENSE.txt",
+      "object_id": "e25b1d39f1ee489362fe15dae6b01b9522735dc7"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/icc/qt_attribution.json",
+      "object_id": "b99b9ce12272d4a73318ce2a98ed1e80c34e459c"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/libjpeg/COPYRIGHT.txt",
+      "object_id": "c86e0f22fdcb215a36978e19d5323c447989209e"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/libjpeg/LICENSE",
+      "object_id": "2ca7680d46e5d3013ff1f3ed38eabee8b221248a"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/libjpeg/ijg-license.txt",
+      "object_id": "eec5341d1c4e9ded532479684d061ffe3f6915b2"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/libjpeg/qt_attribution.json",
+      "object_id": "67b1db6e45a2384e7a1e2a3a329699fa1a9c5e46"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/libpng/LICENSE",
+      "object_id": "1b765ae9f96abea77d3d9a88c543e3b5f4725813"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/libpng/qt_attribution.json",
+      "object_id": "1c932936219bb83aa841c3d49459a1e28b7289d7"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/libpsl/PSL-LICENSE.txt",
+      "object_id": "d0a1fa1482eea82e19510e7920cbe3a03e41f691"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/libpsl/qt_attribution.json",
+      "object_id": "1a5754a90103ea6652a1719199de97d765902e2a"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/libpsl/src/LICENSE.chromium",
+      "object_id": "e29f4ffbe499f0af97f146a333eaa159ddffbb66"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/md4/qt_attribution.json",
+      "object_id": "757c7996ab700adda4ededf6d2b02f1c3d8bbbf9"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/md4c/LICENSE.md",
+      "object_id": "c80b3a95cedc65986c5afaa6d2b895fcbcc6177a"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/md4c/qt_attribution.json",
+      "object_id": "2142413d09801af8aee2542daad47cb13670b07d"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/md5/qt_attribution.json",
+      "object_id": "0c2f5feda8a32df8e058f7b5b272c8033e0180f2"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/pcre2/LICENCE.md",
+      "object_id": "f6fba35db25ba5a4326fa2f4a86a536a24392b30"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/pcre2/LICENSE-SLJIT",
+      "object_id": "0aaecaaa28677aa1d3d69025ffab957131eca25d"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/pcre2/qt_attribution.json",
+      "object_id": "0468bca1b3e031ea2a462586c7caf1fec211101f"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/pixman/LICENSE",
+      "object_id": "3cb51484f10d1f1377fab8db4e7c1f6211fcdb31"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/pixman/qt_attribution.json",
+      "object_id": "2a273f068115b0350983fcfd4f4fe1fa26f783ac"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/rfc6234/LICENSE",
+      "object_id": "7075960ee2352927c085b342778cad0921e41e59"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/rfc6234/qt_attribution.json",
+      "object_id": "282590da0baca0829fdc75ebb2027a81b8cdb4e4"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/sha1/qt_attribution.json",
+      "object_id": "04933a27005d467e8496a674c75252d1c6b07501"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/sha3/BRG_ENDIAN_LICENSE",
+      "object_id": "175347c263695d49a36af6ff40d4893753ae0867"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/sha3/CC0_LICENSE",
+      "object_id": "cff12c3d88965af8aff06e83420b546ea9b54f02"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/sha3/qt_attribution.json",
+      "object_id": "6c6a44e1b6b4c254cfc30dba6113174ec022d6e4"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/siphash/qt_attribution.json",
+      "object_id": "1687742f03f9a605f3cf0f8c05060d9b4458563d"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/sqlite/qt_attribution.json",
+      "object_id": "1b7faa1236c4002bbc9c463536b82f8d6f4d9457"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/tinycbor/LICENSE",
+      "object_id": "4aad977ceb5eff86d2e86b6e22c6626e27c2e388"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/tinycbor/qt_attribution.json",
+      "object_id": "04e566013f3a89bf8f861f8e8bfe8deb92dd2dc0"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/wasm/DEJAVU-LICENSE",
+      "object_id": "df52c1709bea171104d41bf084313ea434858423"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/wasm/qt_attribution.json",
+      "object_id": "4814d94cdf0b961528cd91c1deb85f0635ba30a6"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/wayland/protocols/MIT_LICENSE.txt",
+      "object_id": "edc2e5fb5e0277fec3b5dd3d6065945f7519c380"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/wayland/protocols/appmenu/qt_attribution.json",
+      "object_id": "53f10b090d19c21d5fe407813d560a7e8d156ab7"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/wayland/protocols/color-management/qt_attribution.json",
+      "object_id": "1001cc9b90d225311f3e978e3271577020caddd3"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/wayland/protocols/fractional-scale/qt_attribution.json",
+      "object_id": "653a8eb0c1514a66709572ec02353a2f0150620d"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/wayland/protocols/fullscreen-shell/qt_attribution.json",
+      "object_id": "07926f1642905771c54dba3eb3116bbf2fc80f62"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/wayland/protocols/linux-dmabuf/qt_attribution.json",
+      "object_id": "e93e2e790b1d32d500acd730f81e994ad7d9f029"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/wayland/protocols/pointer-gestures/qt_attribution.json",
+      "object_id": "9cd44450e740cc32144bd9740016644062fb3368"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/wayland/protocols/pointer-warp/qt_attribution.json",
+      "object_id": "83cd73c357034cd07f74bf20160d8c547de88543"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/wayland/protocols/presentation-time/qt_attribution.json",
+      "object_id": "8d54400d3348e4a8069eb2055b90269dd682029a"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/wayland/protocols/scaler/qt_attribution.json",
+      "object_id": "4b1f7303b8aa240020e3a28de49348279a0bbc71"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/wayland/protocols/session-management/qt_attribution.json",
+      "object_id": "8539749f1124d15ff47c49b203ce4616b351c788"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/wayland/protocols/tablet/qt_attribution.json",
+      "object_id": "150eb2fbc4c3a052c081779d24f99606ff1ea7c1"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/wayland/protocols/text-input/v1/qt_attribution.json",
+      "object_id": "ea0d59237c259a4ae6d41b7ec6c4ea664a9aab6f"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/wayland/protocols/text-input/v2/HPND_LICENSE.txt",
+      "object_id": "e7a4915da0a293b94e28e0ca2067da41a6455625"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/wayland/protocols/text-input/v2/qt_attribution.json",
+      "object_id": "f0be562662a3563b8a2669a55389b9f74b80a2d2"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/wayland/protocols/text-input/v3/qt_attribution.json",
+      "object_id": "2a9226e3ea4ade700767c297e5b1ca29d9cf2c1c"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/wayland/protocols/viewporter/qt_attribution.json",
+      "object_id": "fbdda2c029459afef0b3f04bf66a775db723b9c7"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/wayland/protocols/wayland/qt_attribution.json",
+      "object_id": "000ee0d4b2e6445234afc3620233967f6904aeb5"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/wayland/protocols/wl-eglstream/qt_attribution.json",
+      "object_id": "f11023f26817225ed8bbcfe88da625cd2aee8118"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/wayland/protocols/wlr-data-control/qt_attribution.json",
+      "object_id": "eea2dde6ef6824f607de3c84bcb154adb42ba7be"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/wayland/protocols/wp-primary-selection/qt_attribution.json",
+      "object_id": "ab305bb6924d7238921e803dcaffe3dd63007d11"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/wayland/protocols/xdg-activation/qt_attribution.json",
+      "object_id": "1f55ad27b612a53ced8f53bb25f83b537a66f407"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/wayland/protocols/xdg-decoration/qt_attribution.json",
+      "object_id": "7e551a5d2003b5f7ce6fce9b7ee9aef8e5ec9ef7"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/wayland/protocols/xdg-dialog/qt_attribution.json",
+      "object_id": "4a6d959e4a1757b42abb6818574ed10d9459d11e"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/wayland/protocols/xdg-foreign/qt_attribution.json",
+      "object_id": "00daedd5b953d2acc6b640f368a9bd67bacc8fe4"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/wayland/protocols/xdg-output/qt_attribution.json",
+      "object_id": "04c6bf482f5e88655dcf5421ac9e92f66951c9a1"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/wayland/protocols/xdg-shell/qt_attribution.json",
+      "object_id": "b47679c71487dda753629b9d73a162a67e5e5610"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/wayland/protocols/xdg-system-bell/qt_attribution.json",
+      "object_id": "cf8b0e5bde8bd544da5e8680ea97db4cf9a87b1d"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/wayland/protocols/xdg-toplevel-icon/qt_attribution.json",
+      "object_id": "e0a675b93d330b930bfcd9824b4b501d13e6315c"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/wintab/qt_attribution.json",
+      "object_id": "6c3a0ef6fe687facbc4c1a3fc9d0383fb47e0f8b"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/xcb/LICENSE",
+      "object_id": "8f4e5c3a72e2e08469fbb7b5074ed2735135022d"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/xcb/qt_attribution.json",
+      "object_id": "26dc030a3ee96158fc3f4cc74e8c81439dc17aeb"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/zlib/LICENSE",
+      "object_id": "9c57e18006ec54be5d52d0bd4ff04cd5432c975f"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/3rdparty/zlib/qt_attribution.json",
+      "object_id": "d550c40ac61c2ab7acb92429566750ce1157a9fa"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/corelib/global/qt_attribution.json",
+      "object_id": "22379e261913af86c9ec3fe6837cb5fb7d38b53b"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/corelib/kernel/LICENSE.QEVENTDISPATCHER_CF.txt",
+      "object_id": "8c08f48528fb29cfe2cd83c9517a00ab1965c086"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/corelib/kernel/qt_attribution.json",
+      "object_id": "3fa6f179dfab05eaed00b17382f6e17647e4519c"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/corelib/mimetypes/3rdparty/qt_attribution.json",
+      "object_id": "28154468799d9c7ee469b5f60a97ace8e66f579b"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/corelib/text/qt_attribution.json",
+      "object_id": "ced6cc2555fcba9a51a91b471b8e19544523b841"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/dbus/LICENSE.LIBDBUS-1.txt",
+      "object_id": "ff2c19be4599e53c694dfc2f6570818ec57a4041"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/dbus/qt_attribution.json",
+      "object_id": "faffd45685af14d9de98ca387238d189dbd836f3"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/gui/opengl/LICENSE.KHRONOS.txt",
+      "object_id": "63b1e1f94076b2b8b0cc977a23d8430cc3ee4993"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/gui/opengl/qt_attribution.json",
+      "object_id": "e346e262862650816e54d4c61c75e86af0828f76"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/gui/painting/LICENSE.QIMAGETRANSFORM.txt",
+      "object_id": "67c910826a99b2fe3c3e78c022c0aa56b102db1a"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/gui/painting/LICENSE.XCONSORTIUM.txt",
+      "object_id": "5d98625787e83d0a65b0b2230c7d7e6f682001f7"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/gui/painting/qt_attribution.json",
+      "object_id": "f238cb56733c712fd2d7a47c858c5c96aeabd9cc"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/gui/rhi/LICENSE.MiniEngine.txt",
+      "object_id": "b8b569d7746d98d07183806fb4af673fca6dfb57"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/gui/rhi/qt_attribution.json",
+      "object_id": "e1094396af24ddbfaeee533b2e50791b1aea4c92"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/gui/text/LICENSE.AGLFN.txt",
+      "object_id": "50abffca157c2b31aabcdc880a008ff8c15197c5"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/gui/text/qt_attribution.json",
+      "object_id": "47af803ee90c570258453b69079d3c25506e3dc7"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/gui/vulkan/LICENSE.txt",
+      "object_id": "21dd179fc9ae5cfbce853b4d40803777f42865f3"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/gui/vulkan/qt_attribution.json",
+      "object_id": "acc66a8210efe3591e1c1212d698723fe47d5571"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/plugins/platforms/cocoa/LICENSE.COCOA.txt",
+      "object_id": "8c08f48528fb29cfe2cd83c9517a00ab1965c086"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/plugins/platforms/cocoa/qt_attribution.json",
+      "object_id": "927315c38eef74edc16ef6667b995b809f187561"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/testinternal/3rdparty/cmake/Copyright.txt",
+      "object_id": "2074109b019445458a65e6cd3935aa24a0878c7c"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/testinternal/3rdparty/cmake/qt_attribution.json",
+      "object_id": "e1cdbcdb9f8179997200c703737654cf9f6aa9c3"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/testlib/3rdparty/catch2/LICENSE.txt",
+      "object_id": "36b7cd93cdfbac762f5be4c6ce276df2ea6305c2"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/testlib/3rdparty/catch2/qt_attribution.json",
+      "object_id": "ad231efd4266ac3910f6c9fd72f5097b5baf13a5"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/testlib/3rdparty/cycle/LICENSE.txt",
+      "object_id": "c9b44cb8aaebb163e8524d67558696aa965ad0ec"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/testlib/3rdparty/cycle/qt_attribution.json",
+      "object_id": "0c831463ac9abe0fe8e289152f55d80da731eac8"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/testlib/3rdparty/linux/LICENSE.txt",
+      "object_id": "c0ff68a2b2a68336b73079916836499348bf283b"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/testlib/3rdparty/linux/qt_attribution.json",
+      "object_id": "0f04f56fb81d16a5866b1a64aaa662fcc4259fb6"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/testlib/3rdparty/valgrind/LICENSE.txt",
+      "object_id": "d17836a47df3e24b01253119b63c0f9323e7feaa"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/src/testlib/3rdparty/valgrind/qt_attribution.json",
+      "object_id": "262bc8380b4f34b3fc3fa85388de88ae3ffaa8c2"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/tests/auto/corelib/serialization/qxmlstream/LICENSE.XML-Test-Suite.txt",
+      "object_id": "bd84fae34640109f114b435802adcbad7a0b3969"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/tests/manual/rhi/shared/imgui/fonts/LICENSE.txt",
+      "object_id": "d645695673349e3947e8e5ae42332d0ac3164cd7"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/tests/manual/rhi/shared/imgui/imgui/LICENSE.txt",
+      "object_id": "4023e0caa85dfe9b12621ab403c126ca753893ee"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/util/gradientgen/LICENSE.WEBGRADIENTS.txt",
+      "object_id": "1a4d527a4d23f06c1fd3afe8650a0055ff62b540"
+    },
+    {
+      "path": "assets/licenses/packaged/qtbase/util/gradientgen/qt_attribution.json",
+      "object_id": "c6bd57462490aab12442bd983ee6bbf1e674038c"
+    },
+    {
+      "path": "assets/licenses/packaged/qtimageformats/LICENSES/BSD-3-Clause.txt",
+      "object_id": "b91bbd89468099ae5c3028f176783976ca538187"
+    },
+    {
+      "path": "assets/licenses/packaged/qtimageformats/LICENSES/GFDL-1.3-no-invariants-only.txt",
+      "object_id": "857214dd84593e0bacaac0211d76de0b69f2fa18"
+    },
+    {
+      "path": "assets/licenses/packaged/qtimageformats/LICENSES/GPL-2.0-only.txt",
+      "object_id": "d159169d1050894d3ea3b98e1c965c4058208fe1"
+    },
+    {
+      "path": "assets/licenses/packaged/qtimageformats/LICENSES/GPL-3.0-only.txt",
+      "object_id": "94a9ed024d3859793618152ea559a168bbcbb5e2"
+    },
+    {
+      "path": "assets/licenses/packaged/qtimageformats/LICENSES/LGPL-3.0-only.txt",
+      "object_id": "65c5ca88a67c30becee01c5a8816d964b03862f9"
+    },
+    {
+      "path": "assets/licenses/packaged/qtimageformats/LICENSES/LicenseRef-Qt-Commercial.txt",
+      "object_id": "825b1f358b1f42d762112defbf0a193c9d968488"
+    },
+    {
+      "path": "assets/licenses/packaged/qtimageformats/LICENSES/libtiff.txt",
+      "object_id": "8282186151e224ac83d9990805062ff7b8effa00"
+    },
+    {
+      "path": "assets/licenses/packaged/qtimageformats/src/3rdparty/libtiff/COPYRIGHT",
+      "object_id": "8282186151e224ac83d9990805062ff7b8effa00"
+    },
+    {
+      "path": "assets/licenses/packaged/qtimageformats/src/3rdparty/libtiff/qt_attribution.json",
+      "object_id": "70c571116164292f3333a4463bdcaab6a3ab981d"
+    },
+    {
+      "path": "assets/licenses/packaged/qtimageformats/src/3rdparty/libwebp/COPYING",
+      "object_id": "7a6f99547d4d6b4c5e6d5321acfaeba313e08de3"
+    },
+    {
+      "path": "assets/licenses/packaged/qtimageformats/src/3rdparty/libwebp/qt_attribution.json",
+      "object_id": "dc3e85d5af95c49eba45ab966256df4fb73f3f83"
+    },
+    {
+      "path": "assets/licenses/packaged/qtmultimedia/LICENSES/Apache-2.0.txt",
+      "object_id": "136d90045663ab0acaeff2a3ecf0013c968de8c9"
+    },
+    {
+      "path": "assets/licenses/packaged/qtmultimedia/LICENSES/BSD-3-Clause.txt",
+      "object_id": "b91bbd89468099ae5c3028f176783976ca538187"
+    },
+    {
+      "path": "assets/licenses/packaged/qtmultimedia/LICENSES/GFDL-1.3-no-invariants-only.txt",
+      "object_id": "857214dd84593e0bacaac0211d76de0b69f2fa18"
+    },
+    {
+      "path": "assets/licenses/packaged/qtmultimedia/LICENSES/GPL-2.0-only.txt",
+      "object_id": "d159169d1050894d3ea3b98e1c965c4058208fe1"
+    },
+    {
+      "path": "assets/licenses/packaged/qtmultimedia/LICENSES/GPL-3.0-only.txt",
+      "object_id": "94a9ed024d3859793618152ea559a168bbcbb5e2"
+    },
+    {
+      "path": "assets/licenses/packaged/qtmultimedia/LICENSES/LGPL-3.0-only.txt",
+      "object_id": "65c5ca88a67c30becee01c5a8816d964b03862f9"
+    },
+    {
+      "path": "assets/licenses/packaged/qtmultimedia/LICENSES/LicenseRef-Qt-Commercial.txt",
+      "object_id": "825b1f358b1f42d762112defbf0a193c9d968488"
+    },
+    {
+      "path": "assets/licenses/packaged/qtmultimedia/LICENSES/MIT-0.txt",
+      "object_id": "9c5dd0f38756ff78ab1527d9c42e6d44f1001466"
+    },
+    {
+      "path": "assets/licenses/packaged/qtmultimedia/LICENSES/MIT.txt",
+      "object_id": "bc65af3cbd380a2b5e6b3f37d359d3c51ff0fa71"
+    },
+    {
+      "path": "assets/licenses/packaged/qtmultimedia/LICENSES/MPL-2.0.txt",
+      "object_id": "ee6256cdb62a765749a71aae3abea32884301cd1"
+    },
+    {
+      "path": "assets/licenses/packaged/qtmultimedia/LICENSES/Qt-GPL-exception-1.0.txt",
+      "object_id": "d0322bf0e4e1d484d35cc6a1d96fa2b65b9d579b"
+    },
+    {
+      "path": "assets/licenses/packaged/qtmultimedia/src/3rdparty/dr_libs/LICENSE",
+      "object_id": "16dfbdfda2b761d1ec2ed57266dbdc777349ad25"
+    },
+    {
+      "path": "assets/licenses/packaged/qtmultimedia/src/3rdparty/dr_libs/qt_attribution.json",
+      "object_id": "c5820b813d01a3c23a18f2f3a98d8a449f2110b8"
+    },
+    {
+      "path": "assets/licenses/packaged/qtmultimedia/src/3rdparty/eigen/COPYING.APACHE",
+      "object_id": "61e948d2aaa3f7cd1db246b874d3b8ad1e8204fb"
+    },
+    {
+      "path": "assets/licenses/packaged/qtmultimedia/src/3rdparty/eigen/COPYING.BSD",
+      "object_id": "8964ddfdd0effc65e8dd90ea1d8c411efb30e5fd"
+    },
+    {
+      "path": "assets/licenses/packaged/qtmultimedia/src/3rdparty/eigen/COPYING.MINPACK",
+      "object_id": "132cc3f33fa7fd4169a92b05241db59c8428a7ab"
+    },
+    {
+      "path": "assets/licenses/packaged/qtmultimedia/src/3rdparty/eigen/COPYING.MPL2",
+      "object_id": "ee6256cdb62a765749a71aae3abea32884301cd1"
+    },
+    {
+      "path": "assets/licenses/packaged/qtmultimedia/src/3rdparty/eigen/COPYING.README",
+      "object_id": "11af93ca790a55f1a2acdc71bb36acd80874d378"
+    },
+    {
+      "path": "assets/licenses/packaged/qtmultimedia/src/3rdparty/eigen/LICENSE",
+      "object_id": "a612ad9813b006ce81d1ee438dd784da99a54007"
+    },
+    {
+      "path": "assets/licenses/packaged/qtmultimedia/src/3rdparty/eigen/qt_attribution.json",
+      "object_id": "bad5d34196ffe02ece1cd64eb3705f7e465ad08b"
+    },
+    {
+      "path": "assets/licenses/packaged/qtmultimedia/src/3rdparty/ffmpeg/LICENSE.BSD-2-Clause.txt",
+      "object_id": "5f662b354cd40cd5339d5aa05d74b15405138230"
+    },
+    {
+      "path": "assets/licenses/packaged/qtmultimedia/src/3rdparty/ffmpeg/LICENSE.BSD-Source-Code.txt",
+      "object_id": "c41fc42733115c89850839f7f132bfe0f15beda4"
+    },
+    {
+      "path": "assets/licenses/packaged/qtmultimedia/src/3rdparty/ffmpeg/LICENSE.BSL-1.0.txt",
+      "object_id": "2d87ab1a9fa42781f9eec80c1d29e605ad313b85"
+    },
+    {
+      "path": "assets/licenses/packaged/qtmultimedia/src/3rdparty/ffmpeg/LICENSE.IJG.txt",
+      "object_id": "761071caa4d6d9ba1bd89d541a9d9f3f6db4ca8d"
+    },
+    {
+      "path": "assets/licenses/packaged/qtmultimedia/src/3rdparty/ffmpeg/LICENSE.ISC.txt",
+      "object_id": "b9c199c98f9bec183a195a9c0afc0a2e4fcc7654"
+    },
+    {
+      "path": "assets/licenses/packaged/qtmultimedia/src/3rdparty/ffmpeg/LICENSE.LGPL-2.1-or-later.txt",
+      "object_id": "04bb156e77d5714dc2ee29bd0a37f16532ec741c"
+    },
+    {
+      "path": "assets/licenses/packaged/qtmultimedia/src/3rdparty/ffmpeg/LICENSE.MIT.txt",
+      "object_id": "2071b23b0e08594ea6bc99ac71129ef992abf498"
+    },
+    {
+      "path": "assets/licenses/packaged/qtmultimedia/src/3rdparty/ffmpeg/LICENSE.Zlib.txt",
+      "object_id": "e0e3605ba4269a62d38ef0a510d5e96c0ae009cc"
+    },
+    {
+      "path": "assets/licenses/packaged/qtmultimedia/src/3rdparty/ffmpeg/qt_attribution.json",
+      "object_id": "308f233c3525fdfdc049199c694d8648592931b4"
+    },
+    {
+      "path": "assets/licenses/packaged/qtmultimedia/src/3rdparty/pffft/LICENSE",
+      "object_id": "ea8623f35cbc2853e32a3335b5632cac9a4078ef"
+    },
+    {
+      "path": "assets/licenses/packaged/qtmultimedia/src/3rdparty/pffft/qt_attribution.json",
+      "object_id": "2b0f681add640c4c68dec180f413f2abe5b5ff1c"
+    },
+    {
+      "path": "assets/licenses/packaged/qtmultimedia/src/3rdparty/resonance-audio/LICENSE",
+      "object_id": "d645695673349e3947e8e5ae42332d0ac3164cd7"
+    },
+    {
+      "path": "assets/licenses/packaged/qtmultimedia/src/3rdparty/resonance-audio/qt_attribution.json",
+      "object_id": "620809b984cf2ffe5754db7289e1065276610fe9"
+    },
+    {
+      "path": "assets/licenses/packaged/qtmultimedia/src/3rdparty/resonance-audio/third_party/SADIE_hrtf_database/LICENSE",
+      "object_id": "a59c8797f5b846e9cfebf9acc28379a4525025fd"
+    },
+    {
+      "path": "assets/licenses/packaged/qtmultimedia/src/3rdparty/signalsmith-stretch/LICENSE.txt",
+      "object_id": "889031e63236bb72aa28ff2ec2362db1691723d1"
+    },
+    {
+      "path": "assets/licenses/packaged/qtmultimedia/src/3rdparty/signalsmith-stretch/dsp/LICENSE.txt",
+      "object_id": "4e91ac94dc39cbfb8c83c7db3bb9e73be2ed8b15"
+    },
+    {
+      "path": "assets/licenses/packaged/qtmultimedia/src/3rdparty/signalsmith-stretch/qt_attribution.json",
+      "object_id": "afa574f08e8927783685c25a6e08ef41197eb73f"
+    },
+    {
+      "path": "assets/licenses/packaged/qtmultimedia/src/3rdparty/tlsf/qt_attribution.json",
+      "object_id": "02228ff102c9ea31f421434ba703d34d45655f7a"
+    },
+    {
+      "path": "assets/licenses/packaged/qtsvg/LICENSES/BSD-3-Clause.txt",
+      "object_id": "b91bbd89468099ae5c3028f176783976ca538187"
+    },
+    {
+      "path": "assets/licenses/packaged/qtsvg/LICENSES/GFDL-1.3-no-invariants-only.txt",
+      "object_id": "857214dd84593e0bacaac0211d76de0b69f2fa18"
+    },
+    {
+      "path": "assets/licenses/packaged/qtsvg/LICENSES/GPL-2.0-only.txt",
+      "object_id": "d159169d1050894d3ea3b98e1c965c4058208fe1"
+    },
+    {
+      "path": "assets/licenses/packaged/qtsvg/LICENSES/GPL-3.0-only.txt",
+      "object_id": "94a9ed024d3859793618152ea559a168bbcbb5e2"
+    },
+    {
+      "path": "assets/licenses/packaged/qtsvg/LICENSES/HPND-sell-variant.txt",
+      "object_id": "9ad49316a65be2048c83c45f1f2b50420d198cbf"
+    },
+    {
+      "path": "assets/licenses/packaged/qtsvg/LICENSES/LGPL-3.0-only.txt",
+      "object_id": "65c5ca88a67c30becee01c5a8816d964b03862f9"
+    },
+    {
+      "path": "assets/licenses/packaged/qtsvg/LICENSES/LicenseRef-Qt-Commercial.txt",
+      "object_id": "825b1f358b1f42d762112defbf0a193c9d968488"
+    },
+    {
+      "path": "assets/licenses/packaged/qtsvg/src/svg/LICENSE.XSVG.txt",
+      "object_id": "9ad49316a65be2048c83c45f1f2b50420d198cbf"
+    },
+    {
+      "path": "assets/licenses/packaged/qtsvg/src/svg/qt_attribution.json",
+      "object_id": "6c5ed854d2a712654f37df6ccd72e212b1cba32d"
+    },
+    {
+      "path": "assets/licenses/packaged/qtsvg/tests/baseline/data/svg_12_testsuite/LICENSE.txt",
+      "object_id": "286401454fc17308abb3fbdb3d1141d08ba3063f"
+    },
+    {
+      "path": "assets/licenses/packaged/sherpa-onnx-core/LICENSE",
+      "object_id": "d645695673349e3947e8e5ae42332d0ac3164cd7"
+    },
+    {
+      "path": "assets/licenses/packaged/tokenizers/LICENSE",
+      "object_id": "261eeb9e9f8b2b4b0d119366dda99c6fd7d35c64"
+    },
+    {
+      "path": "assets/licenses/packaged/tokenizers/bindings/node/LICENSE",
+      "object_id": "6c7f56251cd1021ea295023d31221a5677772d55"
+    },
+    {
+      "path": "assets/licenses/packaged/tokenizers/tokenizers/LICENSE",
+      "object_id": "ea5b60640b01f74e295037aa8a6b7d4ea278a739"
+    },
+    {
+      "path": "assets/licenses/qwen35-Apache-2.0.txt",
+      "object_id": "f938136e3adacfd92be087f6e113b5d6d97f678f"
+    },
+    {
+      "path": "assets/media/license-mit.svg",
+      "object_id": "253baf78f94492d2866be14a7dfe5bc1159c8b32"
+    },
+    {
+      "path": "assets/media/readme-assets.json",
+      "object_id": "ef04e71cea83a2cc7cc0dc3a415b0dc941c79a07"
+    },
+    {
+      "path": "assets/media/saydraft-bar-demo.gif",
+      "object_id": "fa72e15eca85e6e461dd45e3e49caf4655b489bd"
+    },
+    {
+      "path": "assets/media/saydraft-bar-static.png",
+      "object_id": "035a995b7a44bc0f32e7b5cb8284c3d852e1a64a"
+    },
+    {
+      "path": "assets/media/source-preview.svg",
+      "object_id": "7e356d5dcc515745c2f9a7d46f6b3ce20bd68801"
+    },
+    {
+      "path": "assets/readme/pill-preview.gif",
+      "object_id": "f4efecb0499d613cf591813ae8a6f8ca98fc29bd"
+    },
+    {
+      "path": "assets/tray/mic_idle.ico",
+      "object_id": "c9329355c4214be83147148bdf2a46b8b2f9fc22"
+    },
+    {
+      "path": "assets/tray/mic_processing.ico",
+      "object_id": "e32e1d658f1cfe63fc32d614b7ae8215acb11b4b"
+    },
+    {
+      "path": "assets/tray/mic_recording.ico",
+      "object_id": "8fd8b0d3bf5b5961e6e3179137d60b2133241303"
+    },
+    {
+      "path": "docs/HOTKEYS.md",
+      "object_id": "63a7e206343619e9b6733f42064d0570dee74df2"
+    },
+    {
+      "path": "installer/Saydraft.iss",
+      "object_id": "5079faaca03badf38c8cae3a614408b2cedc456b"
+    },
+    {
+      "path": "installer/bundle-policy.json",
+      "object_id": "65492fca404fd862af9146f31c5637d518864214"
+    },
+    {
+      "path": "installer/entry.py",
+      "object_id": "452946ec60b00e94561ba7e29ea76535b0a2fb59"
+    },
+    {
+      "path": "installer/hooks/hook-PySide6.QtGui.py",
+      "object_id": "79d70e377e59c8e3ee8971280e032db08851732c"
+    },
+    {
+      "path": "installer/hooks/hook-soundcard.py",
+      "object_id": "65a00c599359ae537b1b5a711097d72e2d1edd36"
+    },
+    {
+      "path": "installer/notice-supplements.json",
+      "object_id": "f5ffa8a70df8bb08327c4e37535f481319e584d0"
+    },
+    {
+      "path": "requirements.txt",
+      "object_id": "e99add6348184882ab33ece3cb165cffbee51813"
+    },
+    {
+      "path": "saydraft/__init__.py",
+      "object_id": "e8649f52c6f906d1f74c545af73271b80471f9fc"
+    },
+    {
+      "path": "saydraft/__main__.py",
+      "object_id": "775c7f4a084965124540ef305c193e399e17b747"
+    },
+    {
+      "path": "saydraft/app.py",
+      "object_id": "ddb655837f68ec9971291705eef7ede5346bd935"
+    },
+    {
+      "path": "saydraft/app_profiles.json",
+      "object_id": "0637a088a01e8ddab3bf3fa98dbe804cbde1a0dc"
+    },
+    {
+      "path": "saydraft/asr/__init__.py",
+      "object_id": "b33d660dc2eaebe887e5751fe6c57f2f02619323"
+    },
+    {
+      "path": "saydraft/asr/biasing.py",
+      "object_id": "f4440cc3ae2e39837d67780e358fc1e784bbe51b"
+    },
+    {
+      "path": "saydraft/asr/language_id.py",
+      "object_id": "4bbedc5b75c219795d1500b7fbeb86894f3b7b36"
+    },
+    {
+      "path": "saydraft/asr/languages.py",
+      "object_id": "d3b3850cc93d188b30abc773a0711f5a1d6c6adb"
+    },
+    {
+      "path": "saydraft/asr/model_ids.py",
+      "object_id": "16af363667bc876bc5ef822d670806d03d68a73d"
+    },
+    {
+      "path": "saydraft/asr/quiet.py",
+      "object_id": "98ddc8dbc4b9b9f2c57e792e0a9d2996b08d31e1"
+    },
+    {
+      "path": "saydraft/asr/retry.py",
+      "object_id": "24b811324ea816d742ce78c1818f1b9f74b157d5"
+    },
+    {
+      "path": "saydraft/asr/router.py",
+      "object_id": "8d685d32fc6fa374217f14e0769ed6aeb0ffe8bf"
+    },
+    {
+      "path": "saydraft/asr/selection.py",
+      "object_id": "6bc2591ebae9305b92197865f454514219e79fb1"
+    },
+    {
+      "path": "saydraft/asr/sherpa_parakeet.py",
+      "object_id": "3dd3243809aebdf9583071e0e864dbb8ced1ea39"
+    },
+    {
+      "path": "saydraft/asr/sherpa_stream.py",
+      "object_id": "52ce7f3c319e4cfcb008349e661d0f781a2ff22c"
+    },
+    {
+      "path": "saydraft/asr/whisper_ct2.py",
+      "object_id": "26448db6c21a70a9780c1957afe3940a7198a9ed"
+    },
+    {
+      "path": "saydraft/audio/__init__.py",
+      "object_id": "0d5597c7bbd59cfb932cd13aa305c4e34ee7dc4c"
+    },
+    {
+      "path": "saydraft/audio/devices.py",
+      "object_id": "14a98ecae02d5b1d9f24b755ea2f340840b0bae3"
+    },
+    {
+      "path": "saydraft/audio/diagnostics.py",
+      "object_id": "27ac3d8b5340a012bae6c1afa5516ceba92e4799"
+    },
+    {
+      "path": "saydraft/audio/gtcrn.py",
+      "object_id": "01ebf2951fb0d04e32b402424ccdfc92ad46e918"
+    },
+    {
+      "path": "saydraft/audio/meter.py",
+      "object_id": "93e68d55a1f9533b3431482570b3a36f26fedb02"
+    },
+    {
+      "path": "saydraft/audio/privacy.py",
+      "object_id": "b9d3512ac4f32d84678897d8bd207a5bdfb3d733"
+    },
+    {
+      "path": "saydraft/audio/quiet.py",
+      "object_id": "3bf2307cbd32a5d47e4e97e59bdf56f6600561fd"
+    },
+    {
+      "path": "saydraft/audio/recorder.py",
+      "object_id": "ae79defa3de9c0cd320d7da7f4a8d9dcf0df5187"
+    },
+    {
+      "path": "saydraft/audio/vad.py",
+      "object_id": "e905f6a83570b802538e7e63efa01389615a5059"
+    },
+    {
+      "path": "saydraft/audio/vad_silero.py",
+      "object_id": "8cda2146f04e93eb7e019da5357ef01dd84f8a33"
+    },
+    {
+      "path": "saydraft/autostart.py",
+      "object_id": "24573c48d57d0b30ac61848acbccee2d68465bb4"
+    },
+    {
+      "path": "saydraft/cleanup/__init__.py",
+      "object_id": "375f023235621a3b58d4bd72820f6ad1e8433812"
+    },
+    {
+      "path": "saydraft/cleanup/backtrack.py",
+      "object_id": "3710d1eb2cc814dffea15e73b8ba043826534e8a"
+    },
+    {
+      "path": "saydraft/cleanup/code_mode.py",
+      "object_id": "2be99dafc2ef5549c8de601b87723c0558e18350"
+    },
+    {
+      "path": "saydraft/cleanup/commands.py",
+      "object_id": "44127f966e10b10db332b1c1dc3f09c23f5f2ed9"
+    },
+    {
+      "path": "saydraft/cleanup/delivery.py",
+      "object_id": "8849f2f12c31810f20331842e44d1333dc29dce1"
+    },
+    {
+      "path": "saydraft/cleanup/formatter.py",
+      "object_id": "38283ef6e980b577bcf89890a7701ff1015f5d15"
+    },
+    {
+      "path": "saydraft/cleanup/itn.py",
+      "object_id": "0c44c60058951a3380d9911579663e35b126525b"
+    },
+    {
+      "path": "saydraft/cleanup/language.py",
+      "object_id": "b0e2e49a5d2b5060f47e6afaf51db6ee61aff7eb"
+    },
+    {
+      "path": "saydraft/cleanup/llm/__init__.py",
+      "object_id": "7990d375c6b95269a02bd2a15c9246eaf3e952c2"
+    },
+    {
+      "path": "saydraft/cleanup/llm/ask.py",
+      "object_id": "5db36b5645487117d11626d606e9673e4f5526cf"
+    },
+    {
+      "path": "saydraft/cleanup/llm/bakeoff.py",
+      "object_id": "1e93cfe0d348a8ecf47bec700518c783c784af25"
+    },
+    {
+      "path": "saydraft/cleanup/llm/calibration.py",
+      "object_id": "e87e8ced4f0b6b22019f17b6c3f98162311791d2"
+    },
+    {
+      "path": "saydraft/cleanup/llm/candidates.py",
+      "object_id": "e97cc5d91c1ca31f56366316668dc4686d2a17b0"
+    },
+    {
+      "path": "saydraft/cleanup/llm/client.py",
+      "object_id": "ef29869a7a418894a4ddf21b96528f2ca189a80d"
+    },
+    {
+      "path": "saydraft/cleanup/llm/edit.py",
+      "object_id": "c5e5ad1c7fd9fb9d66217d2fef48400153fef82e"
+    },
+    {
+      "path": "saydraft/cleanup/llm/edit_eval.py",
+      "object_id": "fad708ca639968ca70a86ba3969a2208051faa6e"
+    },
+    {
+      "path": "saydraft/cleanup/llm/eval_validation.py",
+      "object_id": "d375c8a7d6bab66d8b0df11660e56898bb34f2dd"
+    },
+    {
+      "path": "saydraft/cleanup/llm/gate.py",
+      "object_id": "d618a34f1a3976a55b9e30436e86579603c4639e"
+    },
+    {
+      "path": "saydraft/cleanup/llm/loopback.py",
+      "object_id": "4944eb290ab0e0af5b513a8201505f7349c1f20d"
+    },
+    {
+      "path": "saydraft/cleanup/llm/ownership.py",
+      "object_id": "ee78ba2aae25d9b4f66657648e3c9cc89172d334"
+    },
+    {
+      "path": "saydraft/cleanup/llm/preparation.py",
+      "object_id": "80e91260de869c0ec1213e3a111763ec713119ed"
+    },
+    {
+      "path": "saydraft/cleanup/llm/prompts/__init__.py",
+      "object_id": "a24431c7a01062acb926794d14002e4ecd53f50e"
+    },
+    {
+      "path": "saydraft/cleanup/llm/prompts/examples.json",
+      "object_id": "98eb84a227f80879c18c8dcb94021b93b2eb9b26"
+    },
+    {
+      "path": "saydraft/cleanup/llm/prompts/post_rules_examples.json",
+      "object_id": "d4e52aca17c91a4ba0076a4d20a9f08675f6a35d"
+    },
+    {
+      "path": "saydraft/cleanup/llm/prompts/system.txt",
+      "object_id": "3971a1c14759c9dd4cb7cca3eca56f306b2ff9da"
+    },
+    {
+      "path": "saydraft/cleanup/llm/sidecar.py",
+      "object_id": "6fb4e28120944ea3733408e6fd0bf693f8a9a9e1"
+    },
+    {
+      "path": "saydraft/cleanup/llm/streaming.py",
+      "object_id": "3744225df911bec2f4b4c1fb533c94dff5bab4ff"
+    },
+    {
+      "path": "saydraft/cleanup/llm/structure.py",
+      "object_id": "556c101c9ad858457e8c1efe8f8ff083babdf517"
+    },
+    {
+      "path": "saydraft/cleanup/llm/validate.py",
+      "object_id": "8cb472a6eae24531dd2bea713b3d7140a5c8a869"
+    },
+    {
+      "path": "saydraft/cleanup/llm/windows_process.py",
+      "object_id": "2133ec6dc2178be9d29d8a450a4e4ea21ef3548b"
+    },
+    {
+      "path": "saydraft/cleanup/styles.py",
+      "object_id": "2ec260cd1329cfb81d73a3c2d1aff0f819e7c3a7"
+    },
+    {
+      "path": "saydraft/compat/__init__.py",
+      "object_id": "21bef074fb28a0e9ef9153f82ccfccd6acbe61e3"
+    },
+    {
+      "path": "saydraft/compat/migrate.py",
+      "object_id": "8b7ee4d8ff0fa7b574b94a9a164ee5e83663aaab"
+    },
+    {
+      "path": "saydraft/config.py",
+      "object_id": "0ab69a8ffc8a3d77ba341011655305711fb4356e"
+    },
+    {
+      "path": "saydraft/context/__init__.py",
+      "object_id": "93b62fd434022d2ccc390288690361ea7d2b880e"
+    },
+    {
+      "path": "saydraft/context/app_groups.py",
+      "object_id": "8df633ea1e630c0e411d26090d3f409c63386613"
+    },
+    {
+      "path": "saydraft/context/focused_edit.py",
+      "object_id": "14834b7fb089a425f0853f9df952878b09eb7e33"
+    },
+    {
+      "path": "saydraft/context/foreground.py",
+      "object_id": "8045beead85da6d8e68eeeabd743252402f86b26"
+    },
+    {
+      "path": "saydraft/context/observation_worker.py",
+      "object_id": "1c88b2a8d6d2122d84df0158df3ebf936550e15a"
+    },
+    {
+      "path": "saydraft/context/selection.py",
+      "object_id": "4b24689f7fb70ccea67a11a0a7cd9e968a0d0d13"
+    },
+    {
+      "path": "saydraft/context/tracked_edit.py",
+      "object_id": "42c67b9a56ca6a39565cc47335c35ff8e76f7309"
+    },
+    {
+      "path": "saydraft/context/uia_native.py",
+      "object_id": "3121670a9882d956252ff7b37331e8e5861f5d8c"
+    },
+    {
+      "path": "saydraft/context/uia_worker.py",
+      "object_id": "f3c0e6ad7b3b5ef822b310d5c4849c4a0d407f60"
+    },
+    {
+      "path": "saydraft/core/__init__.py",
+      "object_id": "c9fac7ec9875eac640cd5901834687dab3d363d1"
+    },
+    {
+      "path": "saydraft/core/ask.py",
+      "object_id": "6dfd32201cd95b4e52cd5c7765535caa9b89f50d"
+    },
+    {
+      "path": "saydraft/core/ask_controller.py",
+      "object_id": "442a003d993da20a4d5f94d088d1d72e4a214e99"
+    },
+    {
+      "path": "saydraft/core/audio_retention.py",
+      "object_id": "bba5bec9db860642bbd21e63cf8e1f82eb73206e"
+    },
+    {
+      "path": "saydraft/core/bar_actions.py",
+      "object_id": "ce25fce4cc19e3be092e45563ebb96bbc9040305"
+    },
+    {
+      "path": "saydraft/core/bar_status.py",
+      "object_id": "e58135070ab4c9b97de3a25784810b6d13da151f"
+    },
+    {
+      "path": "saydraft/core/command_copy.py",
+      "object_id": "8acf11171bfa35222f419c8d03601a4f873b46b2"
+    },
+    {
+      "path": "saydraft/core/command_edit.py",
+      "object_id": "4d33efab9a74736e5cca27dc02ba8639d886c67b"
+    },
+    {
+      "path": "saydraft/core/command_recording.py",
+      "object_id": "4b62e5cb0b1b3000e3de684942d6b48934ad4906"
+    },
+    {
+      "path": "saydraft/core/container.py",
+      "object_id": "9d5f7b07bd7035b6982f2f43d5c8b88395f6164d"
+    },
+    {
+      "path": "saydraft/core/context.py",
+      "object_id": "1473130e6a42559552945cf7de40d3e1d65cfad8"
+    },
+    {
+      "path": "saydraft/core/corrections.py",
+      "object_id": "cd781eef3bbcbb893cc3cdc3a908c85de13fff32"
+    },
+    {
+      "path": "saydraft/core/history_retry.py",
+      "object_id": "a2ac4b96c426ceb103c9c66ac82cb60308fa9c44"
+    },
+    {
+      "path": "saydraft/core/hotkey_service.py",
+      "object_id": "8de552834143059f41c6003373b08b02ea491d67"
+    },
+    {
+      "path": "saydraft/core/interfaces.py",
+      "object_id": "12000218dd1a5d42056e668c644142bea1e39421"
+    },
+    {
+      "path": "saydraft/core/meeting_controller.py",
+      "object_id": "895411de6be03300471ca16dd2b6611c8331a05b"
+    },
+    {
+      "path": "saydraft/core/microphone.py",
+      "object_id": "7d39cf84c00166f7604cd42369a79990891c927c"
+    },
+    {
+      "path": "saydraft/core/note_draft.py",
+      "object_id": "5fcc04c984f1d596829393ad6701ec0fb16bb077"
+    },
+    {
+      "path": "saydraft/core/practice.py",
+      "object_id": "d30f8b8c540302536366b1ba7f1c54f55d3d73fb"
+    },
+    {
+      "path": "saydraft/core/preferences.py",
+      "object_id": "73f79ceb4705b8b5866eeb97d9070691d9e4c5c6"
+    },
+    {
+      "path": "saydraft/core/preview.py",
+      "object_id": "a923f89c772568dbb4dc4fbe1a7509c788e71f0e"
+    },
+    {
+      "path": "saydraft/core/processing.py",
+      "object_id": "338d8da2938bfa61e0c2c4fd2b08a1241919f510"
+    },
+    {
+      "path": "saydraft/core/segments.py",
+      "object_id": "c42bf2f620bfcb8f9924baa77726b11b7fe6c1c1"
+    },
+    {
+      "path": "saydraft/core/session.py",
+      "object_id": "0cebf27e6b028e6119dcf98aab77c7bf20f852f4"
+    },
+    {
+      "path": "saydraft/core/shortcut_capture.py",
+      "object_id": "a9c79236a32d3ee595b9fe09dac1c816d8c6e8f5"
+    },
+    {
+      "path": "saydraft/core/style_preview.py",
+      "object_id": "e1eee783618c12f48803504802452c7d76c791d9"
+    },
+    {
+      "path": "saydraft/core/timings.py",
+      "object_id": "d116c00ac774703ec911eeece71ddbd0977d8ea7"
+    },
+    {
+      "path": "saydraft/core/translation_task.py",
+      "object_id": "bfcc06ba4da0e18536ab4a6d7b0dcb782f389c5c"
+    },
+    {
+      "path": "saydraft/core/worker.py",
+      "object_id": "5124d979861ce9c1d9f76534b87655f5f12231b5"
+    },
+    {
+      "path": "saydraft/crash_guard.py",
+      "object_id": "c294ef45ca31bd78ef02c7cb5fdba62184690e18"
+    },
+    {
+      "path": "saydraft/data/__init__.py",
+      "object_id": "bbaca7a40129d8e99b4d65cbfbfcdeb55c670273"
+    },
+    {
+      "path": "saydraft/data/audio.py",
+      "object_id": "1a3f5192ce2957a4e3f61b907ba9f1073b3d6f5a"
+    },
+    {
+      "path": "saydraft/data/db.py",
+      "object_id": "a1b11a6d4a689c23d42276aa5ba84e4b940afe7b"
+    },
+    {
+      "path": "saydraft/data/history_view.py",
+      "object_id": "83b61ba9f10d2f028cc052deba8c5cc1711cb008"
+    },
+    {
+      "path": "saydraft/data/notes.py",
+      "object_id": "1c88454c43f3d4d5c257b002a5884962e8e6d3ec"
+    },
+    {
+      "path": "saydraft/data/retention.py",
+      "object_id": "2e679371f7ec831de61b0d9fc1eb1dc1050e3c86"
+    },
+    {
+      "path": "saydraft/data/snippets.py",
+      "object_id": "0a39a21040c22e97f09a95ecc8472f04bef8e2f0"
+    },
+    {
+      "path": "saydraft/dictation/__init__.py",
+      "object_id": "90eeeb8ef05b35fa33cceb6d7cc4a77916d761a2"
+    },
+    {
+      "path": "saydraft/dictation/command_session.py",
+      "object_id": "c4d94864dee2c3939b6cd4e40a1c31720aad06eb"
+    },
+    {
+      "path": "saydraft/dictation/dictionary_correction.py",
+      "object_id": "d16c23ef41ee6d1a1cdffb408f6f79b30a6c3d67"
+    },
+    {
+      "path": "saydraft/dictation/glossary.py",
+      "object_id": "62288ba5e817c19b7e01827a4f0dbb961c28ca47"
+    },
+    {
+      "path": "saydraft/dictation/llm_local.py",
+      "object_id": "acd06f3100f6e3b4b430bfe05612730d2ca6bff6"
+    },
+    {
+      "path": "saydraft/dictation/pipeline.py",
+      "object_id": "424f216f33d7f9ef236c5a9dc80e2a5b76959aa9"
+    },
+    {
+      "path": "saydraft/dictation/protect.py",
+      "object_id": "3002dd72e69831076ee9dc250a1e97cf72e1050a"
+    },
+    {
+      "path": "saydraft/dictation/rules.py",
+      "object_id": "486dbdc61ae8b0265964b9fd7b5efc19b5a2ea8f"
+    },
+    {
+      "path": "saydraft/dictation/types.py",
+      "object_id": "17ed0abd1e8a8c9e4910d3f88d94b4488e5bc01a"
+    },
+    {
+      "path": "saydraft/dictation/validation.py",
+      "object_id": "bae7dd9940870844b10d971b80e5bc39b0840cc6"
+    },
+    {
+      "path": "saydraft/dictionary/__init__.py",
+      "object_id": "121db062015e3bfce135769ab8f823d5ffaafb2f"
+    },
+    {
+      "path": "saydraft/dictionary/alignment.py",
+      "object_id": "665bc23a23aa3853b65902477cece8a8c07d158e"
+    },
+    {
+      "path": "saydraft/dictionary/frequency.py",
+      "object_id": "cc77d3f2c84560f169711278fbfa9d9e0f0a0643"
+    },
+    {
+      "path": "saydraft/dictionary/portable.py",
+      "object_id": "d4ad90a2f52998b9972a073a5ffd0303068d5d05"
+    },
+    {
+      "path": "saydraft/dictionary/store.py",
+      "object_id": "f85d8c9c04b061e3527db045f943bd3efc0d3e71"
+    },
+    {
+      "path": "saydraft/eval.py",
+      "object_id": "049df5961b967f4b59c1bc07b048dc536fda2382"
+    },
+    {
+      "path": "saydraft/glossary.json",
+      "object_id": "83545adc555324d7fe6b2d1211fd61b730a36e17"
+    },
+    {
+      "path": "saydraft/history.py",
+      "object_id": "6bb9e9549db06a86974dd47a266f24d157d77af5"
+    },
+    {
+      "path": "saydraft/hotkeys/__init__.py",
+      "object_id": "d6890f93d6841d2ec3456c0e28bd8287c3ce17a4"
+    },
+    {
+      "path": "saydraft/hotkeys/_win32_hooks.py",
+      "object_id": "efc1f01e9e01d86bb26a9a41af6862492da2892e"
+    },
+    {
+      "path": "saydraft/hotkeys/capture.py",
+      "object_id": "0037f9a026c1e7be729fa1e552b333ec820502f5"
+    },
+    {
+      "path": "saydraft/hotkeys/chords.py",
+      "object_id": "1a763280fb3730fa60ba46327686ba473bfee4c6"
+    },
+    {
+      "path": "saydraft/hotkeys/controller.py",
+      "object_id": "15416b4ad5bc1dde8460dea0ae413d22b2dfdf14"
+    },
+    {
+      "path": "saydraft/hotkeys/focused.py",
+      "object_id": "25dece4cb426cd8badcc7e305b956f634fb50ee0"
+    },
+    {
+      "path": "saydraft/hotkeys/keys.py",
+      "object_id": "90563d4fe934760466d5b57c01d4c2e752377280"
+    },
+    {
+      "path": "saydraft/hotkeys/llhook.py",
+      "object_id": "8708fd7ecb54f3dd505b83f1fa0d4503d49af0bf"
+    },
+    {
+      "path": "saydraft/hotkeys/recording.py",
+      "object_id": "3cdf96763d75db77b75692992a05fc5bcf7cfec5"
+    },
+    {
+      "path": "saydraft/hotkeys/wispr.py",
+      "object_id": "a9bfa22dd495a3cc770fcc68d69890d06af4d493"
+    },
+    {
+      "path": "saydraft/input_origin.py",
+      "object_id": "a80f805a4a86faa8f621061799fdd3cdb1a6b7cc"
+    },
+    {
+      "path": "saydraft/insert/__init__.py",
+      "object_id": "997c11f8df6c1a4e60d6489b6971eb77283001d6"
+    },
+    {
+      "path": "saydraft/insert/_clipboard_win32.py",
+      "object_id": "11d7c4a9f9b3ceb2fb737dff52083e488af50a33"
+    },
+    {
+      "path": "saydraft/insert/clipboard_handles.py",
+      "object_id": "0b3cee51f1da45e32e629cff518de39805747723"
+    },
+    {
+      "path": "saydraft/insert/clipboard_win.py",
+      "object_id": "78e4351da439255d1097bca17bf0a987caa2107f"
+    },
+    {
+      "path": "saydraft/insert/guards_win.py",
+      "object_id": "0bc60a5a432bb99814264d0709d662df9842deeb"
+    },
+    {
+      "path": "saydraft/insert/inserter.py",
+      "object_id": "de53cc6a53619624cb1164a09e9e973ea3b41594"
+    },
+    {
+      "path": "saydraft/insert/selection_copy.py",
+      "object_id": "9926d743ea314150b1efc2df297e95d8e82fdaa2"
+    },
+    {
+      "path": "saydraft/insert/sendinput.py",
+      "object_id": "6f07018cd7b126dbdb0d8caf87893d2fba2bb67e"
+    },
+    {
+      "path": "saydraft/logging_config.py",
+      "object_id": "0fef12636ec73d4f2acd9ee0a83f2e4a6a2dd79d"
+    },
+    {
+      "path": "saydraft/main.py",
+      "object_id": "c0b8db978f575d125700b8137327a7c1b5da469d"
+    },
+    {
+      "path": "saydraft/meetings/__init__.py",
+      "object_id": "c58cb364150b6bf3454a7015ae5af12617a3dc2c"
+    },
+    {
+      "path": "saydraft/meetings/asr.py",
+      "object_id": "886f31f4d04f519c78bca94fd099f12934e36232"
+    },
+    {
+      "path": "saydraft/meetings/audio.py",
+      "object_id": "7a0f70a843433d135f86728749ec8ae243913152"
+    },
+    {
+      "path": "saydraft/meetings/child.py",
+      "object_id": "cb7902cb791f905955d178c7fc44cc9345033e82"
+    },
+    {
+      "path": "saydraft/meetings/devices.py",
+      "object_id": "fdef639ee828bf9c0e0e790bcdf3db4791b03ca4"
+    },
+    {
+      "path": "saydraft/meetings/diarization.py",
+      "object_id": "2689f8860768ac96689c71dc7dd279a0af28646e"
+    },
+    {
+      "path": "saydraft/meetings/limits.py",
+      "object_id": "810d0840a1f62d00e92e024124d5684a29b72a26"
+    },
+    {
+      "path": "saydraft/meetings/models.py",
+      "object_id": "23645feec271603c5c84609a6997a9583c5735da"
+    },
+    {
+      "path": "saydraft/meetings/notes.py",
+      "object_id": "0c1fbd34e283db71a7a1769701bcd044fcec00b1"
+    },
+    {
+      "path": "saydraft/meetings/process.py",
+      "object_id": "5e9a620dbd225747c10ed92cf8ae35151cabca37"
+    },
+    {
+      "path": "saydraft/meetings/processor.py",
+      "object_id": "85888262597d9b9f896d4afbba736ca825cf9091"
+    },
+    {
+      "path": "saydraft/meetings/protocol.py",
+      "object_id": "e5acad718bc028d0d14010022a16e47523eddf2c"
+    },
+    {
+      "path": "saydraft/meetings/request.py",
+      "object_id": "182f806dcfbbf1e53542723d67415a21ab84e2c5"
+    },
+    {
+      "path": "saydraft/meetings/session.py",
+      "object_id": "dca02fdaa5c48891db9730fefe534af53913976f"
+    },
+    {
+      "path": "saydraft/meetings/setup.py",
+      "object_id": "ae90c3c197214602f0eed7f39a5d3ecf73864408"
+    },
+    {
+      "path": "saydraft/meetings/stop.py",
+      "object_id": "2798cce2ec12839c2542e54d4858bdb6e9e83200"
+    },
+    {
+      "path": "saydraft/meetings/summary.py",
+      "object_id": "a8b9b9c66371b459d88ce7bdae8110027029f6b8"
+    },
+    {
+      "path": "saydraft/meetings/timeline.py",
+      "object_id": "025a6c03ef41b533f59347393a8ad04561e27657"
+    },
+    {
+      "path": "saydraft/meetings/transcription.py",
+      "object_id": "4ffc5736d09f2f34fd035f226c37942bb0b6733a"
+    },
+    {
+      "path": "saydraft/meetings/vad.py",
+      "object_id": "ea34cdc44eb78e0037080bedd9ed3fb6661617e9"
+    },
+    {
+      "path": "saydraft/model_download.py",
+      "object_id": "0a921312c3954788bf7aa695c7b1a89c507461cd"
+    },
+    {
+      "path": "saydraft/models/__init__.py",
+      "object_id": "d868d56d2e5516dcde2711f06194dbc9df73eb2b"
+    },
+    {
+      "path": "saydraft/models/benchmark.py",
+      "object_id": "a3cd846bda927649f34575bd790a68e145aafadf"
+    },
+    {
+      "path": "saydraft/models/cleanup.py",
+      "object_id": "96d62a002be317a1938767e12c1db5d94fa04822"
+    },
+    {
+      "path": "saydraft/models/command.py",
+      "object_id": "4c13934fed491afb047a7c040eeb955267e46ce0"
+    },
+    {
+      "path": "saydraft/models/downloader.py",
+      "object_id": "a872ca685a6b48455704107e8f50a7f92053043e"
+    },
+    {
+      "path": "saydraft/models/errors.py",
+      "object_id": "b3300c2cf0cae787a85b4d1187e72093d49cae50"
+    },
+    {
+      "path": "saydraft/models/hardware.py",
+      "object_id": "5440c25d7c4d5efd2c98791ba59ece2a992b123c"
+    },
+    {
+      "path": "saydraft/models/installation.py",
+      "object_id": "305bc021f1494d353b68e1033026b3f6f2140597"
+    },
+    {
+      "path": "saydraft/models/layout.py",
+      "object_id": "6d1dfe23798cbd2ddcabae56051b68518e09b32b"
+    },
+    {
+      "path": "saydraft/models/manifest.json",
+      "object_id": "ae9be1e86bfa8240445661419fba7628224ebae7"
+    },
+    {
+      "path": "saydraft/models/manifest.py",
+      "object_id": "e9d331e007e51e941cbbc3a1e01497c4644e99a6"
+    },
+    {
+      "path": "saydraft/models/native_devices.py",
+      "object_id": "2c4dbafec306617d403c2052b21a23d47c44846e"
+    },
+    {
+      "path": "saydraft/models/packages.py",
+      "object_id": "a2cd6a095d175764a719c77e9024b95fee4de850"
+    },
+    {
+      "path": "saydraft/models/progress.py",
+      "object_id": "494d4a3ff64d60639f771c416debbadaba8687fd"
+    },
+    {
+      "path": "saydraft/models/runtime_ids.py",
+      "object_id": "8991e800f36be36a1a7901b1269c01fffbc8d99e"
+    },
+    {
+      "path": "saydraft/models/setup.py",
+      "object_id": "eb2262b78816589f31b423fffa744e69dac943e3"
+    },
+    {
+      "path": "saydraft/models/storage.py",
+      "object_id": "92f3b397ac6959d256d19fddc58936424dbce3ec"
+    },
+    {
+      "path": "saydraft/models/storage_lock.py",
+      "object_id": "ca4627c08238286fb4c9d72eb80d008b0d64b4e9"
+    },
+    {
+      "path": "saydraft/models/tiers.py",
+      "object_id": "778982860d1bf93f38a53b8434e0c5551a4c1696"
+    },
+    {
+      "path": "saydraft/models/whisper_local.py",
+      "object_id": "367830460b12d9f5887124577b46aa1366ac7a14"
+    },
+    {
+      "path": "saydraft/models/windows_hardware.py",
+      "object_id": "76e861cb8ef99c8551d51b623afc8d1bb2fd7f6f"
+    },
+    {
+      "path": "saydraft/package_check.py",
+      "object_id": "7ba3a8d86aef4e5fa871921721be07bee3990c2a"
+    },
+    {
+      "path": "saydraft/paths.py",
+      "object_id": "2f6c86e02625dcd1ca08062574ff8816eeee4217"
+    },
+    {
+      "path": "saydraft/privacy/__init__.py",
+      "object_id": "70d0888b5b4f97da60fb0d9bb74f52a56006b893"
+    },
+    {
+      "path": "saydraft/privacy/firewall.py",
+      "object_id": "4a7d19657a9050efe36227fb2e2529b90bc3351f"
+    },
+    {
+      "path": "saydraft/privacy/firewall_control.py",
+      "object_id": "5cb242f5e570ba0e1e13f9cd4ab3ee575bc90ace"
+    },
+    {
+      "path": "saydraft/privacy/firewall_verification.py",
+      "object_id": "e806a7de3338101f922052035730e8d47f91a9a8"
+    },
+    {
+      "path": "saydraft/privacy/netguard.py",
+      "object_id": "dde6869827afdb231ba9a4e6bb451586cd40075f"
+    },
+    {
+      "path": "saydraft/privacy/telemetry.py",
+      "object_id": "d6814f13eb302127da529c7141ef8cb37415ff78"
+    },
+    {
+      "path": "saydraft/single_instance.py",
+      "object_id": "f7180c63dcb148c4001fba141f189956d776a298"
+    },
+    {
+      "path": "saydraft/snippets.py",
+      "object_id": "fbfb5c2d7c5cc7e66e624dd1b793322bfe8f15cf"
+    },
+    {
+      "path": "saydraft/snippets.txt",
+      "object_id": "d6b4f1181fe04a7783dc0029893960013bd30a8f"
+    },
+    {
+      "path": "saydraft/stt/__init__.py",
+      "object_id": "524286c5d1ece6d6123ca7959d8701aafa01648b"
+    },
+    {
+      "path": "saydraft/stt/whisper_engine.py",
+      "object_id": "4b32c5e954363b72264ffab90787c443ef467f70"
+    },
+    {
+      "path": "saydraft/text_boundaries.py",
+      "object_id": "2621ed0235d995a3ae8b1b0fa286860c68246113"
+    },
+    {
+      "path": "saydraft/text_entities.py",
+      "object_id": "7bbaa26196a3d6053e26fb326e6049e0624791c2"
+    },
+    {
+      "path": "saydraft/third_party.py",
+      "object_id": "395b840f8c074526b86ee12b3b98559a607a4d74"
+    },
+    {
+      "path": "saydraft/translation.py",
+      "object_id": "8ab9e4c198ed7699afe834c1ad5cbeacfb84f72d"
+    },
+    {
+      "path": "saydraft/ui/__init__.py",
+      "object_id": "b968c73001865368aed3021b5647d0fd3f2199b1"
+    },
+    {
+      "path": "saydraft/ui/ask_answer.py",
+      "object_id": "8b866b30ce1b062d92588dc2033ecf91d281753e"
+    },
+    {
+      "path": "saydraft/ui/ask_window.py",
+      "object_id": "741783006abb601b042b575dfef756524667dd0e"
+    },
+    {
+      "path": "saydraft/ui/bar_gallery.py",
+      "object_id": "a77a2454b7d8ca8167d0aa0e89231316addc6dc6"
+    },
+    {
+      "path": "saydraft/ui/bar_motion.py",
+      "object_id": "7738e83a56c03a8dd2d1c1e222a4df04a85a5d32"
+    },
+    {
+      "path": "saydraft/ui/bar_placement.py",
+      "object_id": "eb7ef6bd1a903bed20e6857b13cbc0a151eba46c"
+    },
+    {
+      "path": "saydraft/ui/bar_presentation.py",
+      "object_id": "097cdea4fa85463ab62d13a27be4e1bc206f89ae"
+    },
+    {
+      "path": "saydraft/ui/bar_sounds.py",
+      "object_id": "440e82eb71ea79189b065af63eddfec30f85c292"
+    },
+    {
+      "path": "saydraft/ui/bar_widget.py",
+      "object_id": "100b3d508cf2f804f186ac378c0fadbd29a55515"
+    },
+    {
+      "path": "saydraft/ui/cleanup_picker.py",
+      "object_id": "1745c7eaf7f076d992f61ea2081bf06906a5a899"
+    },
+    {
+      "path": "saydraft/ui/command_recovery.py",
+      "object_id": "f81d08cb3d0f9eeec670efd2c67ebf1d8f47092a"
+    },
+    {
+      "path": "saydraft/ui/command_setup.py",
+      "object_id": "60eaf0c00ca4addb72c8de447b3eadfed38a25ab"
+    },
+    {
+      "path": "saydraft/ui/dictionary_page.py",
+      "object_id": "4f1fe4235d635844f082494abd33d34acd1cb6e9"
+    },
+    {
+      "path": "saydraft/ui/dictionary_toast.py",
+      "object_id": "8161d385c05b249f3ac24fcfa099ce112f85fe01"
+    },
+    {
+      "path": "saydraft/ui/download_task.py",
+      "object_id": "24b435d3e6236dae0fef129d6767c114fe9bb5f6"
+    },
+    {
+      "path": "saydraft/ui/firewall_card.py",
+      "object_id": "792f6a7a0d9b1c48427c4d3f808fdd53d6a367f7"
+    },
+    {
+      "path": "saydraft/ui/fonts.py",
+      "object_id": "6fd7ac5f855bfc04aa8965d9d13af3ca613c5cac"
+    },
+    {
+      "path": "saydraft/ui/gallery.py",
+      "object_id": "1c5d1f6262d728974e12be7537d19712332c886f"
+    },
+    {
+      "path": "saydraft/ui/gallery_catalog.py",
+      "object_id": "718f6895b562df2869b667aeddcc987b52f59a52"
+    },
+    {
+      "path": "saydraft/ui/grouped_settings.py",
+      "object_id": "95a5174a4b3d02960aa14b66be0363cfb5ac9164"
+    },
+    {
+      "path": "saydraft/ui/hardware_page.py",
+      "object_id": "401b9827ed4763535f044f47f8715dfcb458ad09"
+    },
+    {
+      "path": "saydraft/ui/history_jobs.py",
+      "object_id": "c397097821d28026ddc6a5a93ed31c43cfd54a25"
+    },
+    {
+      "path": "saydraft/ui/history_page.py",
+      "object_id": "432f5c581e01358330b786ca12bc2562a6ef4fe7"
+    },
+    {
+      "path": "saydraft/ui/history_retry.py",
+      "object_id": "c8f920f21fe17beb3de9c3dca4bff894b89cc9f4"
+    },
+    {
+      "path": "saydraft/ui/home_page.py",
+      "object_id": "97ca66a9bab7fd7901b715d8d854d3d2c14fa0cb"
+    },
+    {
+      "path": "saydraft/ui/hub.py",
+      "object_id": "469e93fe52ce3ea575aaed22242464944cfece48"
+    },
+    {
+      "path": "saydraft/ui/icons.py",
+      "object_id": "742b21b8fa95d0801fd74ac367621a036aeca86a"
+    },
+    {
+      "path": "saydraft/ui/kit.py",
+      "object_id": "413f626108b827ab8bb9dda958c3ed8eb91e123c"
+    },
+    {
+      "path": "saydraft/ui/labs_page.py",
+      "object_id": "2cbcc240e2653b5686054f0d58c13a1f0730a19b"
+    },
+    {
+      "path": "saydraft/ui/language_tiles.py",
+      "object_id": "65a576f23f36791a98c4fbc7b2ca64878ba0aae5"
+    },
+    {
+      "path": "saydraft/ui/languages_page.py",
+      "object_id": "8b7f2c9d485c6b8da543ccc8709781a46b7d233e"
+    },
+    {
+      "path": "saydraft/ui/meeting_capsule.py",
+      "object_id": "b4bacee2ab4b4cd1eae378d3b9bc47265dba776a"
+    },
+    {
+      "path": "saydraft/ui/meeting_setup.py",
+      "object_id": "90579a15fd0fad4ed7c9273d9a1449fc286277a6"
+    },
+    {
+      "path": "saydraft/ui/microphone_page.py",
+      "object_id": "7eb26b343554fa36dd4175682e921b441c4817a6"
+    },
+    {
+      "path": "saydraft/ui/model_choices.py",
+      "object_id": "0d405f4f7d4246f4fef84971d36556a0339be0de"
+    },
+    {
+      "path": "saydraft/ui/model_picker.py",
+      "object_id": "0314d217324e3aa98a04a049b42bd6d204d25581"
+    },
+    {
+      "path": "saydraft/ui/model_storage.py",
+      "object_id": "0c4913692c22f6c465017af0482ceab27e9d164f"
+    },
+    {
+      "path": "saydraft/ui/notes_page.py",
+      "object_id": "357d86217164a5a32f9a4908ebbe05110080d058"
+    },
+    {
+      "path": "saydraft/ui/notes_presentation.py",
+      "object_id": "964e7d9cb1a1df63b2c2e0fddeab8377c83bebac"
+    },
+    {
+      "path": "saydraft/ui/onboarding.py",
+      "object_id": "05dfa0172e0be56a31781139f910866f94625ed4"
+    },
+    {
+      "path": "saydraft/ui/onboarding_models.py",
+      "object_id": "de95d9642b471f856fbacee68c24a83c3d9bb4db"
+    },
+    {
+      "path": "saydraft/ui/onboarding_practice.py",
+      "object_id": "e683cb0772afa65856ae388b7d2cf64ca0ef41f2"
+    },
+    {
+      "path": "saydraft/ui/onboarding_shortcuts.py",
+      "object_id": "58f743c117db38657a7cc80604c611814d446da9"
+    },
+    {
+      "path": "saydraft/ui/onboarding_style.py",
+      "object_id": "7f7b887655ca194b35574579fdc386cdef26687c"
+    },
+    {
+      "path": "saydraft/ui/personalization_presentation.py",
+      "object_id": "5e6c4066bb9354d068c99cee7b921d5058b2e712"
+    },
+    {
+      "path": "saydraft/ui/pill.py",
+      "object_id": "3009962d7a0e0e56957d905cc36ec254a06cc101"
+    },
+    {
+      "path": "saydraft/ui/presentation.py",
+      "object_id": "e30d32de4d2a2aa819fbfddd2233b4e1a8df2b12"
+    },
+    {
+      "path": "saydraft/ui/privacy_page.py",
+      "object_id": "f76526f868423bb06ab173ab05052b1a641e969c"
+    },
+    {
+      "path": "saydraft/ui/private_text.py",
+      "object_id": "fad5ca07c7ca7fb6677edd8c9b57d20d0bb009cc"
+    },
+    {
+      "path": "saydraft/ui/progress.py",
+      "object_id": "3159959796f18b5086b3116d4b90cb6c0c2f0070"
+    },
+    {
+      "path": "saydraft/ui/reflow.py",
+      "object_id": "b4b2e2277b851923c9611981ee2c5b2bee87f48a"
+    },
+    {
+      "path": "saydraft/ui/scratchpad.py",
+      "object_id": "c7472e0539fb2375fcd928c0c7656983471ee778"
+    },
+    {
+      "path": "saydraft/ui/settings_draft.py",
+      "object_id": "8789ce0445513facfb1edee846a2e3a36cfd42e1"
+    },
+    {
+      "path": "saydraft/ui/settings_page.py",
+      "object_id": "d368593e8ebb4cfe8748f0109361b95c223777b9"
+    },
+    {
+      "path": "saydraft/ui/settings_presentation.py",
+      "object_id": "6172b0d63e44b69ce20f3a56b03c9c2df552b740"
+    },
+    {
+      "path": "saydraft/ui/setup_content.py",
+      "object_id": "9482d410331d9948a6d0432b7cbbf2cc6be9560a"
+    },
+    {
+      "path": "saydraft/ui/setup_presentation.py",
+      "object_id": "2eb970e5e1078ff9bc1fb60b4c7542f95cb9f991"
+    },
+    {
+      "path": "saydraft/ui/snippets_page.py",
+      "object_id": "43a9d6e670747cae184b4c32f7068e64e7ba9a5d"
+    },
+    {
+      "path": "saydraft/ui/sound_assets/LICENSE",
+      "object_id": "0e039ca9614eb54b92c5ea0809b9cdca329a56b2"
+    },
+    {
+      "path": "saydraft/ui/sound_assets/__init__.py",
+      "object_id": "0394fadf72272c9615ed4e8003cfbd378e91de52"
+    },
+    {
+      "path": "saydraft/ui/sound_assets/command.wav",
+      "object_id": "9fccb0d2ca13e4a4071085cc898e0c014969f7bb"
+    },
+    {
+      "path": "saydraft/ui/sound_assets/end.wav",
+      "object_id": "ed755cf8832adcc8498dbc89678bec9b4bc4841f"
+    },
+    {
+      "path": "saydraft/ui/sound_assets/manifest.json",
+      "object_id": "685ce4ae3c817c91a738a4b1892fddd2c09a6ad0"
+    },
+    {
+      "path": "saydraft/ui/sound_assets/start.wav",
+      "object_id": "c42c3baf8ea97034fc7b7af526c5f3c696300129"
+    },
+    {
+      "path": "saydraft/ui/styles_page.py",
+      "object_id": "08641a42453129fec541496a6b916821b00fb168"
+    },
+    {
+      "path": "saydraft/ui/theme/__init__.py",
+      "object_id": "37ef2cd739e8be73a917ca08ada6464f0cdb549c"
+    },
+    {
+      "path": "saydraft/ui/theme/check-dark.svg",
+      "object_id": "f0bbe1cb758f74694a21e7ad9ce7f79486aeb535"
+    },
+    {
+      "path": "saydraft/ui/theme/check-light.svg",
+      "object_id": "12e9e9b6c7a258898aa3154f8273633400fca25f"
+    },
+    {
+      "path": "saydraft/ui/theme/controller.py",
+      "object_id": "da11269e1fd92e69d281fafdb15e760d0910db02"
+    },
+    {
+      "path": "saydraft/ui/theme/down-dark.svg",
+      "object_id": "6782e8dc60e665ad21d20dc0d801ca28d4e63921"
+    },
+    {
+      "path": "saydraft/ui/theme/down-light.svg",
+      "object_id": "231eee1941f5750df140638e06db58f749ff1ac2"
+    },
+    {
+      "path": "saydraft/ui/theme/metadata.json",
+      "object_id": "64ef4c8b600b488aadc11b5b137f818d8592b716"
+    },
+    {
+      "path": "saydraft/ui/theme/radio-dark.svg",
+      "object_id": "0e57b66b1012510ddffb858bc164b3cc6a0d8697"
+    },
+    {
+      "path": "saydraft/ui/theme/radio-light.svg",
+      "object_id": "5d29db834403ccaf7664b22452750ddf1b1d4a41"
+    },
+    {
+      "path": "saydraft/ui/theme/style.py",
+      "object_id": "2ee339f18edb65c743691d29771e71e6ec8930e6"
+    },
+    {
+      "path": "saydraft/ui/theme/tokens-dark.qss",
+      "object_id": "0863629791de0cdd4a6d96c8edbaa8fa8b3f5967"
+    },
+    {
+      "path": "saydraft/ui/theme/tokens.qss",
+      "object_id": "59788c7fc888db5fe7b9ab848879ab46af8f5f11"
+    },
+    {
+      "path": "saydraft/ui/theme/up-dark.svg",
+      "object_id": "cf0b283d8c742d774d064b0c54df2f781da52e0f"
+    },
+    {
+      "path": "saydraft/ui/theme/up-light.svg",
+      "object_id": "7b6bf531ca89bc167f7a9d23988e3915b58a2186"
+    },
+    {
+      "path": "saydraft/ui/tier_picker.py",
+      "object_id": "104f7716ded4c05bd0b8b13ae088bb2cd0f21e76"
+    },
+    {
+      "path": "saydraft/ui/tray.py",
+      "object_id": "6546ad060d3815a8e27fc94386344d3a8f3318db"
+    },
+    {
+      "path": "saydraft/ui/updates.py",
+      "object_id": "01d39ced8643ff87d841f6a793dc30603247d100"
+    },
+    {
+      "path": "saydraft/ui/whisper_mode.py",
+      "object_id": "cfcc1d2300313ad05fce9062d333f49c98dfb97d"
+    },
+    {
+      "path": "saydraft/updates.py",
+      "object_id": "7eba82e96cf03324e78c620e8e26fb25ed4c9361"
+    }
+  ],
+  "records": [
+    {
+      "path": "diagnostics/config-package-final-r2.log",
+      "bytes": 3228,
+      "sha256": "74c0f885a510064c48dadee7150c5f200d05c1d57689fe77561cae8a08534232"
+    },
+    {
+      "path": "diagnostics/config-package-final-r3.log",
+      "bytes": 2878,
+      "sha256": "5f032ea58f3202e3900cbd8e5866826f8de2ae8e7768630bc239e8e28aec5b88"
+    },
+    {
+      "path": "diagnostics/config-package-final.log",
+      "bytes": 3245,
+      "sha256": "c992c99c7dad2ffb5aa5eb9252d3122ab77f94764df7a42b06a48075fd8fad19"
+    },
+    {
+      "path": "diagnostics/reflow-r9.log",
+      "bytes": 8048,
+      "sha256": "7817e7f2d34088ee53044ddff2e8a16443b5085221e0e2c51e39aaddb92bcd39"
+    },
+    {
+      "path": "diagnostics/setup-final-r1.log",
+      "bytes": 1467,
+      "sha256": "b2e137ff53f209d4cfe7154e276187378ccba72e58368c7f718b5b93d68d55b5"
+    },
+    {
+      "path": "diagnostics/snapshots-final-r1.log",
+      "bytes": 1675,
+      "sha256": "1cc73f5bb3f272e45373a6798c8f68055f24ebb422fbfca9c472b94755ebbe30"
+    },
+    {
+      "path": "package/artifact-verification.json",
+      "bytes": 702,
+      "sha256": "79fc03af2209e7c4670b0fcf25400dfb923ff511ba104689e072615d7718f2cc"
+    },
+    {
+      "path": "package/artifact-verification.log",
+      "bytes": 702,
+      "sha256": "79fc03af2209e7c4670b0fcf25400dfb923ff511ba104689e072615d7718f2cc"
+    },
+    {
+      "path": "package/build.log",
+      "bytes": 30890,
+      "sha256": "adc7df2a4337e8cde7b56ae1744b6af77523e2bd9bf4ba352693c066036d2880"
+    },
+    {
+      "path": "package/bundle.json",
+      "bytes": 214983,
+      "sha256": "748d5d4e4beb234ccea81229d06d47116aea29f9fe2c19bedb39e9b13f07e485"
+    },
+    {
+      "path": "package/frozen-source.guard.json",
+      "bytes": 347,
+      "sha256": "ee14347a82b2592e78b0c295570e8deb9065c2ba1333838df38bbc56814d9d5e"
+    },
+    {
+      "path": "package/frozen-source.json",
+      "bytes": 24669,
+      "sha256": "bd32a74de376d550da86b5eb23b9c1c6335926f65c881c93145401ca339b84a6"
+    },
+    {
+      "path": "package/frozen-verification.log",
+      "bytes": 647,
+      "sha256": "118724c2550a8a0489d63f19310de12066b47880082b2e96515f2519941591c0"
+    },
+    {
+      "path": "package/preflight.json",
+      "bytes": 214770,
+      "sha256": "35a6d253d3e699c022faa96cbb49e32811cefa24fe3d0ba00d8f87f7ed0c9eb4"
+    },
+    {
+      "path": "package/requirements-frozen.txt",
+      "bytes": 875,
+      "sha256": "ebaedec796ef9d51a9592aa8e1996d33f673b2f1fa3707f9091c614af4431b5d"
+    },
+    {
+      "path": "package/runtime.json",
+      "bytes": 799,
+      "sha256": "6aebabb7fc6c1f3bb7ecb8230030f16c73e2426072b9145f3d7483c8dcb850fd"
+    },
+    {
+      "path": "README.md",
+      "bytes": 4347,
+      "sha256": "0c8cabc1b852f773133340616aeda14dcf404491b202572e1b2a102668d95b66"
+    },
+    {
+      "path": "renders/bar-final-1.guard.json",
+      "bytes": 347,
+      "sha256": "37a53a2ce700143e64462efa57f9ee8833028857c0aa8f2f69edbad7eb290a8c"
+    },
+    {
+      "path": "renders/bar-final-1.guard.worker.json",
+      "bytes": 225,
+      "sha256": "1e6b286eeaa70696212dc40e42de5285bf43927d548b9714799658d875d35ca7"
+    },
+    {
+      "path": "renders/bar-final-1.json",
+      "bytes": 7635,
+      "sha256": "2ccfd572eb10368a03d2086fe39b0bb2c60f37c2a6625944026cbd686afbf80e"
+    },
+    {
+      "path": "renders/extras-final.guard.json",
+      "bytes": 347,
+      "sha256": "63e4e03a68fbc13539277582616c920b869bb794bb046cbf7a8d919d8f21d225"
+    },
+    {
+      "path": "renders/extras-final.guard.worker.json",
+      "bytes": 225,
+      "sha256": "b0a91d0bfdd8813773eacf5292508f124cb7d2cb6a51630f041452cfdc3535a7"
+    },
+    {
+      "path": "renders/extras-final.json",
+      "bytes": 5793,
+      "sha256": "b1138c8eed942166b978b3c6efc65850cfb8ba457087ce1b4a0e111ec2ba066b"
+    },
+    {
+      "path": "renders/gallery-release-3.guard.json",
+      "bytes": 347,
+      "sha256": "9010796b95a591fa16c5df484297f13d640cde53b1192ae43d8dcde064fb2004"
+    },
+    {
+      "path": "renders/gallery-release-3.json",
+      "bytes": 62590,
+      "sha256": "6f7b70509c89e0e2155a539dc3c43df88b686f3bee570423661b80a7b0650cd9"
+    },
+    {
+      "path": "renders/gallery-release-4.guard.json",
+      "bytes": 347,
+      "sha256": "1f0b1d20227dd30c1f2e71c05a9d979f942d5b86b8dba501a1e57bb6e7ed8109"
+    },
+    {
+      "path": "renders/gallery-release-4.json",
+      "bytes": 62800,
+      "sha256": "09a4869f4ebe2d941951732533f042f46f3172ccf80b7ca36cb15d1fa502ec3a"
+    },
+    {
+      "path": "renders/readme-bar.json",
+      "bytes": 14210,
+      "sha256": "c7107887f0243e4a57dca346ff26f1be79a43d66f3936bbe648c9990d5b3f66a"
+    },
+    {
+      "path": "scripts/accept_snapshots.py.txt",
+      "bytes": 1609,
+      "sha256": "d652461c64c3775b430b21846907addc2a7d21973d6d68a7008b967b243990f0"
+    },
+    {
+      "path": "scripts/collect_evidence.py.txt",
+      "bytes": 5424,
+      "sha256": "1a2b34917c08a10b72cff87a967271c232f037d2dd1b246e2d4b1cef40e0cb73"
+    },
+    {
+      "path": "scripts/make_reference_images.py.txt",
+      "bytes": 341,
+      "sha256": "2a6ab117fd9685d61d9a12a5c2f9e04dddffcf25146f2469926a672c3c39ca66"
+    },
+    {
+      "path": "scripts/render_final.py.txt",
+      "bytes": 3874,
+      "sha256": "09a3ebaa32b875d64639721ca8d493e9a6e75b6cb2abdc4b69552526df059f03"
+    },
+    {
+      "path": "scripts/run_config_tests.py.txt",
+      "bytes": 533,
+      "sha256": "3a86228a1bee8196521e269b1471ee4786c5b8c506bb211b42efd029f7616c43"
+    },
+    {
+      "path": "scripts/run_ui_bridge_tests.py.txt",
+      "bytes": 1956,
+      "sha256": "31d7ab78b09f55643a0b8524a5bef327ff7aecc248c20e115469f9835f2a9d75"
+    },
+    {
+      "path": "scripts/verify_artifact.py.txt",
+      "bytes": 2640,
+      "sha256": "0696f9e977ad6f8052edefc4b055bec81cbfbcdfe3bbf1b1d90de609359af8ca"
+    },
+    {
+      "path": "scripts/verify_frozen.py.txt",
+      "bytes": 4937,
+      "sha256": "eb86379d9cd74205762ba6f895290ac145fa6b20da421121e626cec38fc89e3c"
+    },
+    {
+      "path": "tests/a11y-final-r1.guard.json",
+      "bytes": 417,
+      "sha256": "beda6a088707f3a3173160ff8ed5ae672aae4adda0884818bfddc7143df54be6"
+    },
+    {
+      "path": "tests/a11y-final-r1.guard.worker.json",
+      "bytes": 225,
+      "sha256": "c12f237c34bb0f993fc78e1827174fb7ba5e088bb423252887ad2524f59d15c0"
+    },
+    {
+      "path": "tests/a11y-final-r1.log",
+      "bytes": 3258,
+      "sha256": "05b440053fff48a0a2ce7292a76763e7f378637d3f1d353d1a756e08376430da"
+    },
+    {
+      "path": "tests/a11y-final-r1.stub.json",
+      "bytes": 168,
+      "sha256": "0ac917b530b2dab2255d0a608de7886bcae464b7a13179f5b52d617df21a30a5"
+    },
+    {
+      "path": "tests/a11y-final-r1.xml",
+      "bytes": 3437,
+      "sha256": "e5fc7f0088bb6741a9bedbc8177d6a4e5c3f6ea7f51f9dab4184a86e7cc5b61d"
+    },
+    {
+      "path": "tests/bar-r2.guard.json",
+      "bytes": 1413,
+      "sha256": "379aa79e57447deb0ac65f1dafa17189154fa675f401438a393e0f7c8d6f212d"
+    },
+    {
+      "path": "tests/bar-r2.guard.worker.json",
+      "bytes": 225,
+      "sha256": "39442b59857d77618e0327fb86814d6869b78b00b51eb1a4c83505651ec8c09c"
+    },
+    {
+      "path": "tests/bar-r2.log",
+      "bytes": 307,
+      "sha256": "bc73f61062f4e54b8f2544e66d4c72f254a0c7939d7757247b8b520c32fcb3f8"
+    },
+    {
+      "path": "tests/bar-r2.stub.json",
+      "bytes": 168,
+      "sha256": "0ac917b530b2dab2255d0a608de7886bcae464b7a13179f5b52d617df21a30a5"
+    },
+    {
+      "path": "tests/bar-r2.xml",
+      "bytes": 13317,
+      "sha256": "7072a1495b0c08f1363164dc1761dbde73c2af2ee332881dabdce179d6221e17"
+    },
+    {
+      "path": "tests/config-package-final-r4.guard.json",
+      "bytes": 417,
+      "sha256": "1a48734a2af683b98f4d05499822863d89205b94cf92fb2aff1dc4650f7aed28"
+    },
+    {
+      "path": "tests/config-package-final-r4.guard.worker.json",
+      "bytes": 225,
+      "sha256": "ae7e773baa455bccdec0743a42a743bfbd7b4f037ce709e3735bf30c663ed047"
+    },
+    {
+      "path": "tests/config-package-final-r4.log",
+      "bytes": 4466,
+      "sha256": "ba7c5f50af2d2f8a4b8b8b95c6a905514c5c561c71ce27c5f302b65a93aee710"
+    },
+    {
+      "path": "tests/config-package-final-r4.stub.json",
+      "bytes": 168,
+      "sha256": "0ac917b530b2dab2255d0a608de7886bcae464b7a13179f5b52d617df21a30a5"
+    },
+    {
+      "path": "tests/config-package-final-r4.xml",
+      "bytes": 4955,
+      "sha256": "8f9a3f2fc15d8a886b2b8d5f6d6128b8654407b75385e7e2e4bfcb6fbda77045"
+    },
+    {
+      "path": "tests/hub-r3.guard.json",
+      "bytes": 5147,
+      "sha256": "64b88dd82855b2810e4c3b7b273f0fc7cb6b7a2522b8d18d695d79ce771a5796"
+    },
+    {
+      "path": "tests/hub-r3.guard.worker.json",
+      "bytes": 224,
+      "sha256": "b73f3b1bd6f231189755a52086e0c21a58f1dbac16e7e0992ccc501eeb97f61f"
+    },
+    {
+      "path": "tests/hub-r3.log",
+      "bytes": 8016,
+      "sha256": "c6625b3b60c0bd61aad3d1e7fa4b2ed87fb033757e9876e654867f3d2de0196f"
+    },
+    {
+      "path": "tests/hub-r3.stub.json",
+      "bytes": 168,
+      "sha256": "0ac917b530b2dab2255d0a608de7886bcae464b7a13179f5b52d617df21a30a5"
+    },
+    {
+      "path": "tests/hub-r3.xml",
+      "bytes": 8905,
+      "sha256": "217ed8bd061239a2c630d9566410d16ca9271e27f24e2643899b939a5ba66eeb"
+    },
+    {
+      "path": "tests/pages-final-r1.guard.json",
+      "bytes": 7389,
+      "sha256": "ee6eca6746fa8a2629c1691c65e8a297b1cc3ec4d10656abdff2fc5613055a9b"
+    },
+    {
+      "path": "tests/pages-final-r1.guard.worker.json",
+      "bytes": 225,
+      "sha256": "1407b49fcf00374ca44139bded2c4d1b8f843918fd052ac557c7ade8f4e86c96"
+    },
+    {
+      "path": "tests/pages-final-r1.log",
+      "bytes": 10941,
+      "sha256": "8a0c11453becf5e65129ad70705ecf599bc108adf5675054f013b2f9653695e1"
+    },
+    {
+      "path": "tests/pages-final-r1.stub.json",
+      "bytes": 168,
+      "sha256": "0ac917b530b2dab2255d0a608de7886bcae464b7a13179f5b52d617df21a30a5"
+    },
+    {
+      "path": "tests/pages-final-r1.xml",
+      "bytes": 12531,
+      "sha256": "eabc72902de72fd48ff7c82cb2ac61006ba6de05e1ce6931e7e2c45445bc1516"
+    },
+    {
+      "path": "tests/qualified.json",
+      "bytes": 1672,
+      "sha256": "86fcab76d199bab516eaed28dc6f55cbdfcf25cf1fe3c0e258770da6020fb640"
+    },
+    {
+      "path": "tests/reflow-focus-final.guard.json",
+      "bytes": 417,
+      "sha256": "55a3d229d24a79d48fd45f8d44f1a8fa3a156da2fa2df43f57a1f4955c768b95"
+    },
+    {
+      "path": "tests/reflow-focus-final.guard.worker.json",
+      "bytes": 225,
+      "sha256": "54ff1b6b5ce6d1e193ff965d4b7fd686ffb20947fb9f61932db3ab3597feb85b"
+    },
+    {
+      "path": "tests/reflow-focus-final.log",
+      "bytes": 1422,
+      "sha256": "cb2d51d8cb93361cd7fc09533c3c4b8930718def23ee06f0281af3b92482079d"
+    },
+    {
+      "path": "tests/reflow-focus-final.stub.json",
+      "bytes": 168,
+      "sha256": "0ac917b530b2dab2255d0a608de7886bcae464b7a13179f5b52d617df21a30a5"
+    },
+    {
+      "path": "tests/reflow-focus-final.xml",
+      "bytes": 1216,
+      "sha256": "f505a14c707f8e080eecb5650f629dcbfc6bd15e22b45d71591c7e8e863af518"
+    },
+    {
+      "path": "tests/reflow-r10.guard.json",
+      "bytes": 417,
+      "sha256": "a76de14c2c6b039e120cf173a501364656db867db555e8def1ddc2cc9a8f0595"
+    },
+    {
+      "path": "tests/reflow-r10.guard.worker.json",
+      "bytes": 225,
+      "sha256": "f21639fae4a520ea71e3e2b35aa428ffa4f607f8f215d28c778b5be4060f4273"
+    },
+    {
+      "path": "tests/reflow-r10.log",
+      "bytes": 3915,
+      "sha256": "5d3988860776c00c132c296e3c07feee60657677f0650dbcf69578997700cc47"
+    },
+    {
+      "path": "tests/reflow-r10.stub.json",
+      "bytes": 168,
+      "sha256": "0ac917b530b2dab2255d0a608de7886bcae464b7a13179f5b52d617df21a30a5"
+    },
+    {
+      "path": "tests/reflow-r10.xml",
+      "bytes": 4306,
+      "sha256": "7516756b0086bbdfe442ad39289a816b4ee12ddc50293237bf77e37fdcecb869"
+    },
+    {
+      "path": "tests/settings-r3.guard.json",
+      "bytes": 5646,
+      "sha256": "443ef220849d281db9d5290d0687bfb5be86f9dca11effad9c3e47059464bbb8"
+    },
+    {
+      "path": "tests/settings-r3.guard.worker.json",
+      "bytes": 225,
+      "sha256": "68e42aa49d8b162917aca3b5bee88dacadbf43c4e050b4b26c2846f0cf400061"
+    },
+    {
+      "path": "tests/settings-r3.log",
+      "bytes": 6398,
+      "sha256": "d6c71d032cfe10ed181c7142f83335494b7be7c781ba6826e40c437a2ff20ee4"
+    },
+    {
+      "path": "tests/settings-r3.stub.json",
+      "bytes": 168,
+      "sha256": "0ac917b530b2dab2255d0a608de7886bcae464b7a13179f5b52d617df21a30a5"
+    },
+    {
+      "path": "tests/settings-r3.xml",
+      "bytes": 7329,
+      "sha256": "6b94dfcccf363a8a0e6e1f8bedb2a02310ff2e54f23bd6a3a6c223c136cf84d7"
+    },
+    {
+      "path": "tests/setup-final-r2.guard.json",
+      "bytes": 1164,
+      "sha256": "058c831e86f34478e308461bc6452c65c97ae34f792dedb9f7b28a535db5dc40"
+    },
+    {
+      "path": "tests/setup-final-r2.guard.worker.json",
+      "bytes": 225,
+      "sha256": "d0067186bd1989c94a43d38879b66a90d920cb8888e090aa0903ee8782bc0329"
+    },
+    {
+      "path": "tests/setup-final-r2.log",
+      "bytes": 11199,
+      "sha256": "91ff3069ae46b49250b23d2526c5e1b65c7e50aaf7120927a8bb11e1d860c13c"
+    },
+    {
+      "path": "tests/setup-final-r2.stub.json",
+      "bytes": 168,
+      "sha256": "0ac917b530b2dab2255d0a608de7886bcae464b7a13179f5b52d617df21a30a5"
+    },
+    {
+      "path": "tests/setup-final-r2.xml",
+      "bytes": 13473,
+      "sha256": "fd475fac0480fc5e55f7a40b6c8ff29118e42f10eb1eb5109c471f0321278c32"
+    },
+    {
+      "path": "tests/snapshots-final-r2.guard.json",
+      "bytes": 416,
+      "sha256": "2b08ccb8612620ebaf961642966a690667c4af685de4a53918986e66b82ddbfe"
+    },
+    {
+      "path": "tests/snapshots-final-r2.guard.worker.json",
+      "bytes": 224,
+      "sha256": "0ed30e1d88da6b47458bf09e9c2506bcff9f4e9a8e686dd209aa4fe55217f007"
+    },
+    {
+      "path": "tests/snapshots-final-r2.log",
+      "bytes": 1051,
+      "sha256": "c0633aa8c0df49827191bcc5101cd9bd98903673b221088226be221b49550d4d"
+    },
+    {
+      "path": "tests/snapshots-final-r2.stub.json",
+      "bytes": 168,
+      "sha256": "0ac917b530b2dab2255d0a608de7886bcae464b7a13179f5b52d617df21a30a5"
+    },
+    {
+      "path": "tests/snapshots-final-r2.xml",
+      "bytes": 802,
+      "sha256": "892fc50436d9a6c29ad050c634bfbf5cc237957c33b2d3b06bf73253a30361bc"
+    },
+    {
+      "path": "tests/theme-font-r4.guard.json",
+      "bytes": 417,
+      "sha256": "5c7950b2c6d08d59d5b7e3df4fe19aaa586cb487ba0a50ef83bdef37a578bd8f"
+    },
+    {
+      "path": "tests/theme-font-r4.guard.worker.json",
+      "bytes": 225,
+      "sha256": "f3a669e471c9e3da98e14f39bc770427715337509d25fed799beb8027743e3c7"
+    },
+    {
+      "path": "tests/theme-font-r4.log",
+      "bytes": 6427,
+      "sha256": "c1e8941d621e453014ad6e8eb049929efdba73f7fbdf87bc29c47e114fe3aded"
+    },
+    {
+      "path": "tests/theme-font-r4.stub.json",
+      "bytes": 168,
+      "sha256": "0ac917b530b2dab2255d0a608de7886bcae464b7a13179f5b52d617df21a30a5"
+    },
+    {
+      "path": "tests/theme-font-r4.xml",
+      "bytes": 7486,
+      "sha256": "7cc3b027dd004026f4e1eae3faf1da19192c4dd00aaa74bdc9f01b87a85b5904"
+    },
+    {
+      "path": "website/landing-v2-publication.json",
+      "bytes": 1708,
+      "sha256": "2f493a689fdf7196a9d734946e8f94fb32e41f9282ef6152beda6558d0d66840"
+    }
+  ],
+  "reference_records_verified": 361,
+  "reference_screenshots": 194,
+  "full_suite_run": false,
+  "physical_windows_acceptance": false,
+  "owner_audio_or_clipboard_used": false,
+  "unsigned": true,
+  "installer_built": false
+}

@@ -3,7 +3,7 @@
 App update checks are **off by default**, including profiles created before
 this setting existed. Dictation and cleanup work without enabling them.
 
-Open **Settings → Privacy → App updates**, select **Check for app updates** and
+Open **Settings → About → App updates**, select **Check for app updates** and
 save preferences. Saydraft checks at startup, when the setting is first enabled,
 and once every 24 hours while running. **Check now** requests another check.
 Repeatedly saving the same setting does not repeat the startup request.

@@ -1,0 +1,12 @@
+"""Expose only refusing placeholders that the source-entry test explicitly mocks."""
+import sys
+from pathlib import Path
+source=Path(__file__).with_name('run_ui_bridge_tests.py').read_text(encoding='utf-8')
+source=source.replace('import pytest\n', '''import saydraft.compat as compat
+migration=sys.modules['saydraft.compat.migrate']
+compat.migrate=migration
+migration.migrate_autostart=forbidden
+logs.configure_logging=forbidden
+import pytest
+''')
+exec(compile(source,str(Path(__file__).with_name('run_ui_bridge_tests.py')),'exec'))

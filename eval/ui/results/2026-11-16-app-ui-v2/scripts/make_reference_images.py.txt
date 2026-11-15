@@ -1,0 +1,11 @@
+from pathlib import Path
+import shutil
+qa=Path(__file__).resolve().parent
+output=qa/'reference-images'
+output.mkdir()
+for folder in ('gallery-release-3','extras-final'):
+ for source in (qa/folder).glob('*.png'):
+  target=output/source.name
+  assert not target.exists()
+  shutil.copyfile(source,target)
+print(len(list(output.glob('*.png'))))

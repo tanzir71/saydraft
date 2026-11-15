@@ -1,0 +1,294 @@
+{
+  "platform": "offscreen",
+  "scale": 1,
+  "network_guard_enabled": true,
+  "active_application_read": false,
+  "owner_clipboard_accessed": false,
+  "microphone_opened": false,
+  "themes": [
+    {
+      "name": "light",
+      "atlas": "light-bar.png",
+      "states": [
+        {
+          "state": "idle",
+          "file": "light-idle.png",
+          "width": 68,
+          "height": 44,
+          "device_width": 68,
+          "device_height": 44,
+          "target": "expand"
+        },
+        {
+          "state": "hover",
+          "file": "light-hover.png",
+          "width": 244,
+          "height": 72,
+          "device_width": 244,
+          "device_height": 72,
+          "target": "expand"
+        },
+        {
+          "state": "preparing",
+          "file": "light-preparing.png",
+          "width": 268,
+          "height": 76,
+          "device_width": 268,
+          "device_height": 76,
+          "target": null
+        },
+        {
+          "state": "listening",
+          "file": "light-listening.png",
+          "width": 268,
+          "height": 76,
+          "device_width": 268,
+          "device_height": 76,
+          "target": null
+        },
+        {
+          "state": "hands-free",
+          "file": "light-hands-free.png",
+          "width": 288,
+          "height": 76,
+          "device_width": 288,
+          "device_height": 76,
+          "target": "stop"
+        },
+        {
+          "state": "long-recording",
+          "file": "light-long-recording.png",
+          "width": 356,
+          "height": 76,
+          "device_width": 356,
+          "device_height": 76,
+          "target": "stop"
+        },
+        {
+          "state": "preview",
+          "file": "light-preview.png",
+          "width": 384,
+          "height": 128,
+          "device_width": 384,
+          "device_height": 128,
+          "target": null
+        },
+        {
+          "state": "processing",
+          "file": "light-processing.png",
+          "width": 268,
+          "height": 76,
+          "device_width": 268,
+          "device_height": 76,
+          "target": null
+        },
+        {
+          "state": "cleaning",
+          "file": "light-cleaning.png",
+          "width": 268,
+          "height": 76,
+          "device_width": 268,
+          "device_height": 76,
+          "target": null
+        },
+        {
+          "state": "not-inserted",
+          "file": "light-not-inserted.png",
+          "width": 388,
+          "height": 92,
+          "device_width": 388,
+          "device_height": 92,
+          "target": null
+        },
+        {
+          "state": "not-saved",
+          "file": "light-not-saved.png",
+          "width": 388,
+          "height": 92,
+          "device_width": 388,
+          "device_height": 92,
+          "target": null
+        },
+        {
+          "state": "mic-error",
+          "file": "light-mic-error.png",
+          "width": 444,
+          "height": 92,
+          "device_width": 444,
+          "device_height": 92,
+          "target": "fix"
+        },
+        {
+          "state": "model-error",
+          "file": "light-model-error.png",
+          "width": 444,
+          "height": 92,
+          "device_width": 444,
+          "device_height": 92,
+          "target": "fix"
+        },
+        {
+          "state": "command",
+          "file": "light-command.png",
+          "width": 312,
+          "height": 76,
+          "device_width": 312,
+          "device_height": 76,
+          "target": null
+        },
+        {
+          "state": "delivered",
+          "file": "light-delivered.png",
+          "width": 204,
+          "height": 76,
+          "device_width": 204,
+          "device_height": 76,
+          "target": null
+        }
+      ]
+    },
+    {
+      "name": "dark",
+      "atlas": "dark-bar.png",
+      "states": [
+        {
+          "state": "idle",
+          "file": "dark-idle.png",
+          "width": 68,
+          "height": 44,
+          "device_width": 68,
+          "device_height": 44,
+          "target": "expand"
+        },
+        {
+          "state": "hover",
+          "file": "dark-hover.png",
+          "width": 244,
+          "height": 72,
+          "device_width": 244,
+          "device_height": 72,
+          "target": "expand"
+        },
+        {
+          "state": "preparing",
+          "file": "dark-preparing.png",
+          "width": 268,
+          "height": 76,
+          "device_width": 268,
+          "device_height": 76,
+          "target": null
+        },
+        {
+          "state": "listening",
+          "file": "dark-listening.png",
+          "width": 268,
+          "height": 76,
+          "device_width": 268,
+          "device_height": 76,
+          "target": null
+        },
+        {
+          "state": "hands-free",
+          "file": "dark-hands-free.png",
+          "width": 288,
+          "height": 76,
+          "device_width": 288,
+          "device_height": 76,
+          "target": "stop"
+        },
+        {
+          "state": "long-recording",
+          "file": "dark-long-recording.png",
+          "width": 356,
+          "height": 76,
+          "device_width": 356,
+          "device_height": 76,
+          "target": "stop"
+        },
+        {
+          "state": "preview",
+          "file": "dark-preview.png",
+          "width": 384,
+          "height": 128,
+          "device_width": 384,
+          "device_height": 128,
+          "target": null
+        },
+        {
+          "state": "processing",
+          "file": "dark-processing.png",
+          "width": 268,
+          "height": 76,
+          "device_width": 268,
+          "device_height": 76,
+          "target": null
+        },
+        {
+          "state": "cleaning",
+          "file": "dark-cleaning.png",
+          "width": 268,
+          "height": 76,
+          "device_width": 268,
+          "device_height": 76,
+          "target": null
+        },
+        {
+          "state": "not-inserted",
+          "file": "dark-not-inserted.png",
+          "width": 388,
+          "height": 92,
+          "device_width": 388,
+          "device_height": 92,
+          "target": null
+        },
+        {
+          "state": "not-saved",
+          "file": "dark-not-saved.png",
+          "width": 388,
+          "height": 92,
+          "device_width": 388,
+          "device_height": 92,
+          "target": null
+        },
+        {
+          "state": "mic-error",
+          "file": "dark-mic-error.png",
+          "width": 444,
+          "height": 92,
+          "device_width": 444,
+          "device_height": 92,
+          "target": "fix"
+        },
+        {
+          "state": "model-error",
+          "file": "dark-model-error.png",
+          "width": 444,
+          "height": 92,
+          "device_width": 444,
+          "device_height": 92,
+          "target": "fix"
+        },
+        {
+          "state": "command",
+          "file": "dark-command.png",
+          "width": 312,
+          "height": 76,
+          "device_width": 312,
+          "device_height": 76,
+          "target": null
+        },
+        {
+          "state": "delivered",
+          "file": "dark-delivered.png",
+          "width": 204,
+          "height": 76,
+          "device_width": 204,
+          "device_height": 76,
+          "target": null
+        }
+      ]
+    }
+  ],
+  "git_commit": "8452a45dc7db797edc887213dfeb0b89e782fbd7",
+  "source_dirty": true
+}

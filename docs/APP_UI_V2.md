@@ -49,3 +49,11 @@ or all-language accuracy acceptance. Those remain in the
 
 Distribution remains unsigned. See [packaging](PACKAGING.md) for the latest
 portable artifact and source-bound verification receipts.
+
+[Retained verification](../eval/ui/results/2026-11-16-app-ui-v2/README.md) includes
+468 passing scoped case executions (including focused repeats), two explicit
+opt-in setup skips, both-density pixel snapshots and a fresh clean-source
+portable. The complete repository suite was not run under the host I/O stop.
+A source-entry test that reaches the barred single-instance boundary remains
+outside the qualified subset; its diagnostic and the other original failures
+are retained. Physical Windows and owner accuracy acceptance remain pending.

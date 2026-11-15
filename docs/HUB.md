@@ -1,9 +1,14 @@
 # Saydraft Hub
 
-P6.3 remains in progress. The app now uses one persistent 1080×720 Hub with an
+The current [v2 UI](APP_UI_V2.md) uses one persistent 1120×760 Hub with an
 880×600 minimum and Home, History, Dictionary, Snippets, Style, Notes and
 Settings in its left rail. Tray actions and Bar error fixes route into that
 window. Closing/reopening retains the page objects and staged edits.
+
+Settings is pinned below the rail. Its nine-section list groups hardware under
+Models, Whisper under Labs and updates under About. The shared Save/Discard bar
+appears only for staged edits. The rest of this guide records the existing page
+behavior that v2 preserves.
 
 The [accessibility guide](HUB_ACCESSIBILITY.md) describes keyboard navigation,
 named controls, larger-text behavior, local checks and outstanding manual gates.

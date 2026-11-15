@@ -1,0 +1,67 @@
+"""Retain original public-fixture receipts and their exact source/artifact identity."""
+import hashlib,json,shutil,subprocess,xml.etree.ElementTree as ET
+from pathlib import Path
+qa=Path(__file__).resolve().parent
+repo=Path('C:/Users/tanzir/Desktop/voice_tray')
+build=qa.parent/'app-ui-v2-package-20261116-r1'
+out=repo/'eval/ui/results/2026-11-16-app-ui-v2'
+out.mkdir(parents=True,exist_ok=True)
+source='c1d0a491bbcbe0a7d5b8c97956dad7e77925d665'
+def copy(path,target):
+ dest=out/target;dest.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(path,dest)
+def sha(b):return hashlib.sha256(b).hexdigest()
+rows=[]
+for name in ('setup-final-r2','bar-r2','settings-r3','theme-font-r4','hub-r3','reflow-r10','pages-final-r1','a11y-final-r1','reflow-focus-final','snapshots-final-r2'):
+ tree=ET.parse(qa/(name+'.xml'))
+ cases=tree.findall('.//testcase')
+ assert cases and not tree.findall('.//failure') and not tree.findall('.//error'),name
+ skipped=len(tree.findall('.//skipped'))
+ guard=json.loads((qa/(name+'.guard.json')).read_text(encoding='utf-8'))
+ assert not guard['blocked_attempts'],name
+ for flag in ('real_audio_sdk_imported','owner_profile_used','owner_clipboard_used','owner_native_input_used','device_enumeration','microphone_used'):assert guard[flag] is False,(name,flag)
+ worker=json.loads((qa/(name+'.guard.worker.json')).read_text(encoding='utf-8'))
+ stub=json.loads((qa/(name+'.stub.json')).read_text(encoding='utf-8'))
+ assert not worker['port_attempts'] and not stub['unexpected_port_attempts']
+ assert not stub['real_sdk_module_executed'] and stub['placeholder_retired_before_base_guard']
+ for suffix in ('.log','.xml','.guard.json','.guard.worker.json','.stub.json'):copy(qa/(name+suffix),'tests/'+name+suffix)
+ rows.append(dict(run=name,passed=len(cases)-skipped,skipped=skipped,returncode=0,exit_observed=True))
+assert sum(r['passed'] for r in rows)==468
+(out/'tests/qualified.json').write_text(json.dumps(dict(runs=rows,passing_case_executions=468,optional_skips=2,scope='Scoped groups across implementation checkpoints; repeated cases are included in execution count. Final focus/reflow and fresh snapshots follow the last presentation changes.'),indent=2)+'\n',encoding='utf-8')
+for name in ('reflow-r9','snapshots-final-r1','setup-final-r1','config-package-final','config-package-final-r2','config-package-final-r3'):copy(qa/(name+'.log'),'diagnostics/'+name+'.log')
+extra=ET.parse(qa/'config-package-final-r4.xml')
+assert not extra.findall('.//failure') and not extra.findall('.//error') and len(extra.findall('.//testcase'))==35
+g=json.loads((qa/'config-package-final-r4.guard.json').read_text(encoding='utf-8'))
+assert not g['blocked_attempts']
+for suffix in ('.log','.xml','.guard.json','.guard.worker.json','.stub.json'):copy(qa/('config-package-final-r4'+suffix),'tests/config-package-final-r4'+suffix)
+for folder in ('gallery-release-3','gallery-release-4','extras-final','bar-final-1'):
+ copy(qa/folder/'report.json','renders/'+folder+'.json')
+ for suffix in ('.guard.json','.guard.worker.json'):
+  path=qa/(folder+suffix)
+  if path.exists():copy(path,'renders/'+path.name)
+copy(qa/'readme-bar-v2-r2/report.json','renders/readme-bar.json')
+copy(qa.parent/'landing-v2-deployment-8452a45-20261115.json','website/landing-v2-publication.json')
+for name in ('run_ui_bridge_tests.py','run_config_tests.py','render_final.py','verify_frozen.py','verify_artifact.py','accept_snapshots.py','make_reference_images.py','collect_evidence.py'):
+ copy(qa/name,'scripts/'+name+'.txt')
+for name in ('bundle.json','runtime.json','preflight.json','requirements-frozen.txt','frozen-source.json','frozen-source.guard.json','artifact-verification.json'):
+ copy(build/'audit'/name,'package/'+name)
+copy(qa/'package-build.log','package/build.log')
+copy(qa/'frozen-verification.log','package/frozen-verification.log')
+copy(qa/'artifact-verification.log','package/artifact-verification.log')
+def tree(commit):
+ lines=subprocess.check_output(['git','ls-tree','-r',commit,'saydraft','assets','installer','Saydraft.spec','requirements.txt','docs/HOTKEYS.md'],cwd=repo,text=True).splitlines()
+ result={}
+ for line in lines:
+  metadata,path=line.split('\t',1)
+  result[path]=metadata.split()[-1]
+ return result
+frozen,current=tree(source),tree('HEAD')
+assert frozen==current
+inputs=[dict(path=path,object_id=oid) for path,oid in frozen.items()]
+reference=json.loads((repo/'app-ui-v2-build/manifest.json').read_text(encoding='utf-8'))
+assert reference['source_commit']==source and reference['screenshots']==194
+for row in reference['records']:
+ assert sha((repo/'app-ui-v2-build'/row['path']).read_bytes())==row['sha256'],row['path']
+records=[dict(path=p.relative_to(out).as_posix(),bytes=p.stat().st_size,sha256=sha(p.read_bytes())) for p in sorted(out.rglob('*')) if p.is_file() and p.name!='manifest.json']
+manifest=dict(source=source,reference_commit='f5f788d8efc85593a116049d3ade9f8bd4839570',source_inputs=inputs,records=records,reference_records_verified=len(reference['records']),reference_screenshots=194,full_suite_run=False,physical_windows_acceptance=False,owner_audio_or_clipboard_used=False,unsigned=True,installer_built=False)
+(out/'manifest.json').write_text(json.dumps(manifest,indent=2)+'\n',encoding='utf-8')
+print(json.dumps(dict(source=source,records=len(records),source_inputs=len(inputs),reference_records_verified=len(reference['records']),passing_case_executions=468,optional_skips=2),indent=2))

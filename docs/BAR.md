@@ -1,5 +1,15 @@
 # Saydraft Bar
 
+Current [UI v2](APP_UI_V2.md) uses a graphite capsule in both themes: a 44×8 idle
+handle, 220×36 hover hint, 244×40 recording capsule and 56px alerts. Hands-free
+and Command have wider layouts; live preview is a separate 42px bubble above.
+Window bounds include transparent shadow margins. Actual delivery now displays
+“Inserted” briefly using the existing generation-checked event. State circles
+and text carry warning/error colors. The [current gallery](GALLERY.md) covers
+every state at 1x/2x; physical Windows acceptance remains pending.
+
+## Historical P6.2 checkpoint
+
 P6.2 is in progress. `saydraft.ui.pill.SaydraftPill` remains the public entry
 point; its rendering is now in `ui/bar_widget.py`, with clock-driven volume
 motion and public delivery copy in `ui/bar_motion.py`.
