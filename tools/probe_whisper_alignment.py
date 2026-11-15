@@ -23,6 +23,11 @@ CRITERIA = {
     "fresh_control_reproducibility": True,
 }
 
+FULL_MODE = "full-large-v3-temperature0-word-alignment"
+FULL_MANIFEST = Path(__file__).resolve().parents[1] / (
+    "eval/asr/results/2026-11-14-large-v3-development/model/candidate-manifest.json"
+)
+
 
 def read(path):
     path = Path(path)
@@ -38,6 +43,34 @@ def write(path, value):
         encoding="utf-8",
     )
     stage.replace(path)
+
+
+def full_candidate(plan):
+    """One explicit QA-only candidate; no arbitrary model or decoder overrides."""
+    from tools.asr_accuracy import digest
+
+    candidate = plan.get("candidate_model")
+    if candidate is None:
+        return None
+    if (
+        not isinstance(candidate, dict)
+        or set(candidate) != {"mode", "directory", "descriptor", "manifest_sha256"}
+        or candidate["mode"] != FULL_MODE
+        or candidate["descriptor"] != read(FULL_MANIFEST)
+        or candidate["manifest_sha256"] != digest(FULL_MANIFEST)
+        or not isinstance(candidate["directory"], str)
+        or not Path(candidate["directory"]).is_absolute()
+    ):
+        raise ValueError("Frozen full-model candidate changed")
+    return candidate
+
+
+def arm_options(plan, arm):
+    if arm not in ARMS:
+        raise ValueError("Unknown frozen comparison arm")
+    if arm == "control":
+        return {}
+    return {"word_timestamps": True, **({"temperature": 0.0} if full_candidate(plan) else {})}
 
 
 def selected_clips(selection):
@@ -124,7 +157,7 @@ def summarize(rows):
     }
 
 
-def freeze(selection_path, model_directory, output):
+def freeze(selection_path, model_directory, output, *, full_model_directory=None):
     from tools.asr_accuracy import _source, digest, load_corpora
     from saydraft.asr.router import ALL_LANGUAGES
     from saydraft.models.downloader import installation_ready
@@ -141,6 +174,17 @@ def freeze(selection_path, model_directory, output):
     model = get_model(ALL_LANGUAGES)
     if not installation_ready(model, model_directory, check_hashes=True):
         raise ValueError("Supply the explicitly installed pinned turbo model")
+    candidate = None
+    if full_model_directory is not None:
+        descriptor = read(FULL_MANIFEST)
+        if not installation_ready(descriptor, Path(full_model_directory), check_hashes=True):
+            raise ValueError("Supply the explicitly installed pinned full large-v3 QA model")
+        candidate = {
+            "mode": FULL_MODE,
+            "directory": str(Path(full_model_directory).resolve()),
+            "descriptor": descriptor,
+            "manifest_sha256": digest(FULL_MANIFEST),
+        }
     for row in selected:
         if (
             digest(row["corpus"]["path"]) != row["corpus"]["sha256"]
@@ -186,6 +230,11 @@ def freeze(selection_path, model_directory, output):
         ),
         "generation": "Production engine kwargs in both arms; candidate adds word_timestamps=True. Each arm/clip uses a fresh Python/native process with seed1729 set before model construction. Unchanged 30-second padding, 448 max_length, language pin, beam5, noVAD/previous conditioning/default temperature sequence.",
     }
+    if candidate is not None:
+        plan["candidate_model"] = candidate
+        plan["scope"] = "Nine already-observed public development clips; full large-v3 temperature0 with word alignment. No holdout inference or default promotion."
+        plan["generation"] = "Control: pinned production turbo/default temperature. Candidate: pinned full large-v3, temperature0, word_timestamps=True. Fresh process/seed1729 for each arm/clip; unchanged padding/native448limit, language pins, beam5, noVAD/previous conditioning. Original per-language WER/CER and failure gates unchanged."
+        full_candidate(plan)
     write(output / "plan.json", plan)
     return plan
 
@@ -212,8 +261,11 @@ def run_case(plan_path, case_index, case_arm, output):
     ):
         raise ValueError("Frozen comparison inputs changed")
     selected = selected_clips({"scope": plan["scope"], "clips": plan["clips"]})
-    directory = Path(plan["model_directory"])
-    if not installation_ready(plan["model_descriptor"], directory, check_hashes=True):
+    candidate = full_candidate(plan)
+    full_arm = case_arm == "word_alignment" and candidate is not None
+    descriptor = candidate["descriptor"] if full_arm else plan["model_descriptor"]
+    directory = Path(candidate["directory"] if full_arm else plan["model_directory"])
+    if not installation_ready(descriptor, directory, check_hashes=True):
         raise ValueError("Pinned model bytes changed")
     if not 0 <= case_index < 9 or case_arm not in ARMS:
         raise ValueError("Choose an existing frozen case/arm")
@@ -236,6 +288,9 @@ def run_case(plan_path, case_index, case_arm, output):
         "fresh_process_per_case_arm": True,
         "native_pid": os.getpid(),
         "network_boundary": "Python guard/local-only; native firewall not measured",
+        "actual_model_id": descriptor["id"],
+        "actual_model_directory": str(directory),
+        "candidate_mode": candidate["mode"] if full_arm else None,
     }
     write(output / "report.json", report)
     NetworkGuard.install()
@@ -284,8 +339,7 @@ def run_case(plan_path, case_index, case_arm, output):
 
         class EnginePort:
             def transcribe(self, audio, **kwargs):
-                if current["arm"] == "word_alignment":
-                    kwargs["word_timestamps"] = True
+                kwargs.update(arm_options(plan, current["arm"]))
                 segments, info = model.transcribe(audio, **kwargs)
 
                 def capture():
@@ -309,7 +363,7 @@ def run_case(plan_path, case_index, case_arm, output):
 
         model.model = NativeTrace()
         engine = WhisperCT2Engine(
-            WhisperEngineConfig(model_size=TURBO_MODEL, silence_trim=False),
+            WhisperEngineConfig(model_size="large-v3" if full_arm else TURBO_MODEL, silence_trim=False),
             model_factory=lambda *args, **kwargs: EnginePort(),
         )
         engine.prepare()
@@ -353,6 +407,8 @@ def run_case(plan_path, case_index, case_arm, output):
                         "seconds": time.perf_counter() - started,
                         "decode_calls": list(calls),
                         "segments": list(segments_seen),
+                        "actual_model_id": descriptor["id"],
+                        "arm_options": arm_options(plan, arm),
                     }
                     report["cases"].append(row)
                     journal.write(json.dumps(row, ensure_ascii=False) + "\n")
@@ -386,7 +442,7 @@ def run_case(plan_path, case_index, case_arm, output):
             load_corpora([row["path"] for row in plan["corpora"]])[1] == plan["corpora"]
         )
         report["model_verified_after"] = installation_ready(
-            plan["model_descriptor"], directory, check_hashes=True
+            descriptor, directory, check_hashes=True
         )
         report["journal_sha256"] = (
             digest(output / "cases.jsonl")
@@ -430,6 +486,7 @@ def run(plan_path):
 
     plan_path = Path(plan_path).resolve()
     plan = read(plan_path)
+    candidate = full_candidate(plan)
     if (
         _source() != plan["source"]
         or digest(__file__) != plan["producer_sha256"]
@@ -591,6 +648,11 @@ def run(plan_path):
         report["model_verified_after"] = installation_ready(
             plan["model_descriptor"], Path(plan["model_directory"]), check_hashes=True
         )
+        if candidate is not None:
+            report["candidate_model_verified_after"] = installation_ready(
+                candidate["descriptor"], Path(candidate["directory"]), check_hashes=True
+            )
+            report["model_verified_after"] &= report["candidate_model_verified_after"]
         report["journal_sha256"] = (
             digest(output / "cases.jsonl")
             if (output / "cases.jsonl").exists()
@@ -622,6 +684,8 @@ def main(argv=None):
     prepare.add_argument("--selection-plan", type=Path, required=True)
     prepare.add_argument("--model-dir", type=Path, required=True)
     prepare.add_argument("--output", type=Path, required=True)
+    prepare.add_argument("--full-model-dir", type=Path,
+                         help="Explicit pinned full large-v3 QA cache; candidate uses temperature0 plus alignment")
     native = commands.add_parser("run")
     native.add_argument("--plan", type=Path, required=True)
     case = commands.add_parser("case")
@@ -632,7 +696,7 @@ def main(argv=None):
     case.add_argument("--guard-output", type=Path, required=True)
     args = parser.parse_args(argv)
     if args.command == "freeze":
-        freeze(args.selection_plan, args.model_dir, args.output)
+        freeze(args.selection_plan, args.model_dir, args.output, full_model_directory=args.full_model_dir)
         print("Frozen nine development pairs; no inference performed.")
         return 0
     if args.command == "case":

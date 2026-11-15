@@ -38,6 +38,55 @@ def paired_rows():
     return rows
 
 
+def full_candidate_plan(tmp_path):
+    from tools.asr_accuracy import digest
+
+    return {"candidate_model": {
+        "mode": probe.FULL_MODE,
+        "directory": str(tmp_path.resolve()),
+        "descriptor": probe.read(probe.FULL_MANIFEST),
+        "manifest_sha256": digest(probe.FULL_MANIFEST),
+    }}
+
+
+def test_legacy_alignment_options_and_control_are_unchanged():
+    assert probe.full_candidate({}) is None
+    assert probe.arm_options({}, "control") == {}
+    assert probe.arm_options({}, "word_alignment") == {"word_timestamps": True}
+
+
+def test_full_model_mode_changes_only_the_declared_candidate_arm(tmp_path):
+    plan = full_candidate_plan(tmp_path)
+    assert probe.full_candidate(plan)["descriptor"]["revision"] == "edaa852ec7e145841d8ffdb056a99866b5f0a478"
+    assert probe.arm_options(plan, "control") == {}
+    assert probe.arm_options(plan, "word_alignment") == {"word_timestamps": True, "temperature": 0.0}
+    assert probe.CRITERIA["each_language_wer_nonworse"]
+    assert probe.CRITERIA["each_language_cer_strictly_better"]
+
+
+@pytest.mark.parametrize("change", ["mode", "descriptor", "hash", "relative", "unknown_override"])
+def test_full_candidate_identity_or_options_cannot_drift(tmp_path, change):
+    plan = full_candidate_plan(tmp_path)
+    candidate = plan["candidate_model"]
+    if change == "mode":
+        candidate["mode"] = "different-experiment"
+    elif change == "descriptor":
+        candidate["descriptor"]["files"][0]["sha256"] = "0" * 64
+    elif change == "hash":
+        candidate["manifest_sha256"] = "0" * 64
+    elif change == "relative":
+        candidate["directory"] = "relative-model"
+    else:
+        candidate["max_length"] = 896
+    with pytest.raises(ValueError, match="candidate changed"):
+        probe.arm_options(plan, "word_alignment")
+
+
+def test_unknown_arm_is_refused_before_model_work():
+    with pytest.raises(ValueError, match="Unknown"):
+        probe.arm_options({}, "other")
+
+
 def test_complete_unicode_pairs_must_improve_every_language():
     result = probe.summarize(paired_rows())
     assert result["complete_pairs"] and result["development_gate_met"]
