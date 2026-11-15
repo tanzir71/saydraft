@@ -37,7 +37,7 @@ def test_latest_style_is_coalesced_and_preparation_contains_no_user_context():
     assert prep.request(PromptHints(style="formal", post_rules=True))
     assert len(threads.pending) == 1 and prep.status["state"] == "warming"
     threads.run()
-    assert calls == [{"style": "formal", "post_rules": True, "app": "", "group": "general", "timeout": 60}]
+    assert calls == [{"style": "formal", "post_rules": True, "app": "", "group": "general", "intensity": 3, "timeout": 60}]
     assert prep.ready(PromptHints(style="formal", post_rules=True)) and prep.wait(0)
     assert not prep.ready(PromptHints(post_rules=True))
     assert prep.request(PromptHints(style="formal", post_rules=True)) and not threads.pending
@@ -73,6 +73,35 @@ def test_style_changed_during_probe_is_prepared_after_current_work_without_anoth
     threads.run()
     assert [call["style"] for call in calls] == ["neutral", "casual"] and not threads.pending
     assert prep.ready(PromptHints(style="casual", post_rules=True))
+
+
+@pytest.mark.parametrize("intensity", [1, 2, 3, 4])
+def test_prepared_intensity_matches_real_request_header_without_caret_or_transcript(intensity):
+    prep, threads, _manager, calls = fixture()
+    hints = PromptHints(intensity=intensity, post_rules=True, before_caret="private context")
+    assert prep.request(hints)
+    threads.run()
+    assert calls[0]["intensity"] == intensity
+    assert prep.ready(hints)
+    assert not prep.ready(PromptHints(intensity=4 if intensity != 4 else 3, post_rules=True))
+    model = FakeModel([frame("Ready", finish="length"), DONE])
+    assert cleaner(model).prepare_prompt(intensity=intensity).reason == "prepared"
+    message = model.requests[-1][1]["payload"]["messages"][-1]["content"]
+    assert f'intensity: {intensity}' in message
+    assert "private context" not in message and '<transcript>Ready</transcript>' in message
+
+
+def test_intensity_change_retires_ready_receipt_and_prepares_latest_choice():
+    prep, threads, _manager, calls = fixture()
+    balanced, polished = PromptHints(post_rules=True), PromptHints(intensity=4, post_rules=True)
+    assert prep.request(balanced)
+    threads.run()
+    assert prep.ready(balanced)
+    assert prep.request(polished)
+    assert not prep.ready(polished)
+    threads.run()
+    assert [call["intensity"] for call in calls] == [3, 4]
+    assert prep.ready(polished) and not prep.ready(balanced)
 
 
 def test_explicit_edit_invalidation_retires_inflight_preparation_receipt():

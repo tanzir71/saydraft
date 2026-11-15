@@ -148,9 +148,10 @@ class CleanupClient:
             return SidecarReply({"failed": reply.reason, "gate": gate_plan}, "ok")
         return reply
 
-    def prepare_prompt(self, *, style="neutral", post_rules=True, app="", group="general", timeout=60):
+    def prepare_prompt(self, *, style="neutral", post_rules=True, app="", group="general", intensity=3, timeout=60):
         # A fixed one-token probe warms the real chat prefix, never user content.
-        reply = self._request("Ready", hints=PromptHints(style=style, post_rules=post_rules, app=app, group=group),
+        reply = self._request("Ready", hints=PromptHints(style=style, post_rules=post_rules, app=app, group=group,
+                                                       intensity=intensity),
                               timeout=timeout, max_tokens=1, cache_tokens=True)
         value = reply.value or {}
         complete = (value.get("done") and value.get("finish_reason") in ("stop", "length")

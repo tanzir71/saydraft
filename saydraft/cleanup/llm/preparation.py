@@ -8,7 +8,7 @@ from .prompts import PromptHints
 
 def _key(hints):
     return (hints.style, hints.post_rules, hints.app[:120] if isinstance(hints.app, str) else "",
-            hints.group[:40] if isinstance(hints.group, str) else "")
+            hints.group[:40] if isinstance(hints.group, str) else "", hints.intensity)
 
 
 class PromptPreparation:
@@ -44,7 +44,7 @@ class PromptPreparation:
     def request(self, hints):
         # Only bounded app/style metadata; never caret, glossary or dictation.
         key = _key(hints)
-        PromptHints(style=key[0], post_rules=key[1])
+        PromptHints(style=key[0], post_rules=key[1], intensity=key[4])
         if self.ready(hints):
             return True
         generation = self.client.manager.generation
@@ -94,7 +94,7 @@ class PromptPreparation:
                             key, self._reason = self._wanted, "prompt_warming"
                         started = self._clock()
                         reply = self.client.prepare_prompt(style=key[0], post_rules=key[1],
-                                                           app=key[2], group=key[3], timeout=60)
+                                                           app=key[2], group=key[3], intensity=key[4], timeout=60)
                         seconds = self._clock() - started
                         reason = reply.reason
                 current = manager.generation
