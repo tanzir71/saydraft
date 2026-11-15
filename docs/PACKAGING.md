@@ -1,9 +1,9 @@
 # Windows packaging
 
-The current local portable at `625c987` includes the Hub reflow/live-font fixes
-and selected-intensity cleanup warmup. Runtime/resource/notices and all 1,384
+The current local portable at `bd6c22a` includes the Labs license-link contrast
+fix, Hub reflow/live-font fixes and selected-intensity cleanup warmup. Runtime/resource/notices and all 1,384
 disk/ZIP payload checks pass; eighteen modules read from the executable match
-Git bytecode. The [retained delivery](../eval/cleanup/results/2026-11-15-intensity-prefix/README.md)
+Git bytecode. The [retained delivery](../eval/ui/results/2026-11-15-labs-license-portable/README.md)
 records exact source, dependencies, artifact hash, original diagnostics and
 remaining gates. This unsigned `-SkipInstaller` build leaves installer, signing
 and release acceptance open. The previous

@@ -1,0 +1,50 @@
+"""Verify retained portable evidence and original Git source without app imports."""
+import argparse
+import hashlib
+import json
+from pathlib import Path, PurePosixPath
+import subprocess
+
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--repo', type=Path, required=True)
+args = parser.parse_args()
+root = Path(__file__).resolve().parents[1]
+source = 'bd6c22af0580f245980cc5b685483728cdf7e609'
+read = lambda p: json.loads(p.read_text(encoding='utf-8-sig'))
+manifest = read(root/'manifest.json')
+assert manifest['source'] == source
+seen = set()
+for record in manifest['records']:
+    name = record['path']
+    relative = PurePosixPath(name)
+    assert name == relative.as_posix() and not relative.is_absolute() and '..' not in relative.parts
+    assert name not in seen and '\\' not in name and ':' not in name
+    path = root.joinpath(*relative.parts)
+    assert path.resolve().is_relative_to(root) and not path.is_symlink()
+    assert path.stat().st_size == record['size']
+    assert hashlib.sha256(path.read_bytes()).hexdigest() == record['sha256'], name
+    if name.startswith('source/'):
+        original = subprocess.check_output(['git', 'show', source+':'+name.removeprefix('source/')], cwd=args.repo)
+        assert original == path.read_bytes(), name
+    seen.add(name)
+assert {p.relative_to(root).as_posix() for p in root.rglob('*') if p.is_file()} == seen | {'manifest.json'}
+audit = read(root/'audit/bundle.json')
+assert audit['git_commit'] == source and audit['source_dirty'] is False
+assert audit['files'] == len(audit['file_sha256']) == 1384
+artifacts = read(root/'audit/artifact-verification.json')
+assert artifacts['source'] == source and artifacts['files_verified'] == audit['files']
+assert artifacts['release_ready'] is artifacts['signed'] is artifacts['installer_built'] is False
+frozen = read(root/'audit/frozen-source.json')
+assert frozen['source'] == source and frozen['module_count'] == len(frozen['modules']) == 18
+assert frozen['module_code_executed'] is frozen['owner_io_used'] is False
+for row in frozen['modules']:
+    assert hashlib.sha256((root/'source'/row['source_path']).read_bytes()).hexdigest() == row['source_sha256']
+equivalence = read(root/'app-source-equivalence.json')
+for commit in [source, equivalence['tested_source']]:
+    actual = subprocess.check_output(['git','rev-parse',commit+':saydraft'],cwd=args.repo,text=True).strip()
+    assert actual == equivalence['app_tree']
+guard = read(root/'audit/frozen-source.guard.json')
+assert guard['blocked_attempts'] == []
+for name in ['real_audio_sdk_imported','owner_profile_used','owner_clipboard_used','owner_native_input_used','device_enumeration','microphone_used']:
+    assert guard[name] is False
+print(json.dumps(dict(source=source,records_verified=len(seen),payloads=1384,frozen_modules=18,release_ready=False)))

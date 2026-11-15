@@ -1,0 +1,247 @@
+{
+  "source": "bd6c22af0580f245980cc5b685483728cdf7e609",
+  "records": [
+    {
+      "path": "app-source-equivalence.json",
+      "size": 277,
+      "sha256": "6cbf6df459441603bfc73744d2ff1cada1be9de7f079e78549226832441df3c6"
+    },
+    {
+      "path": "audit/artifact-verification.json",
+      "size": 702,
+      "sha256": "2c962e684ddd838cbd08a38c54a9ddd70421417b8d7927f5856a16b97b04e172"
+    },
+    {
+      "path": "audit/bundle.json",
+      "size": 208932,
+      "sha256": "88635dae832ab34c418737515b8b28d5021babc1d750bdaf29e9499ded592f05"
+    },
+    {
+      "path": "audit/frozen-source.guard.json",
+      "size": 285,
+      "sha256": "56c7d5dd593202519b88ae7bd488e4ae247d38195c03f27b36a7e9177f853fce"
+    },
+    {
+      "path": "audit/frozen-source.json",
+      "size": 6049,
+      "sha256": "1c7e0dda0f04f3d2d9ef39c91b441d1a3d64d88b411455483f529cb40a78bc30"
+    },
+    {
+      "path": "audit/observed-build-exit.json",
+      "size": 184,
+      "sha256": "a4c71b3e2891abe4f5c72e5dfa4357099d185cffabf1c83e1f8e152c6a8c1e28"
+    },
+    {
+      "path": "audit/preflight.json",
+      "size": 208719,
+      "sha256": "2c29c8667a5a7562c56063f7c2ad12d896f1094d7764cc87d399abf1e32d798e"
+    },
+    {
+      "path": "audit/requirements-frozen.txt",
+      "size": 875,
+      "sha256": "a2b8dc11c9f4026812ee1f4fc4aeb4e4ec485e6afbba791d2bcac4c00ff10f8e"
+    },
+    {
+      "path": "audit/runtime.json",
+      "size": 799,
+      "sha256": "4d8db8ae4aed706b2f11310dfe3c940985c5f3628b51a7d372c813f4786e0cd9"
+    },
+    {
+      "path": "collection-r1-failure.json",
+      "size": 483,
+      "sha256": "58284247a51ec649e96d5acb531d1ed37cf5225be81e765c024175818b6b8511"
+    },
+    {
+      "path": "logs/labs-license-artifact-verification-20261115.log",
+      "size": 702,
+      "sha256": "2c962e684ddd838cbd08a38c54a9ddd70421417b8d7927f5856a16b97b04e172"
+    },
+    {
+      "path": "logs/labs-license-frozen-verification-20261115.log",
+      "size": 119,
+      "sha256": "fe5084afac4a8340dfec771e264c32343314f7e15fb3950ede25ae8842b62239"
+    },
+    {
+      "path": "logs/labs-license-package-20261115-r1.log",
+      "size": 29210,
+      "sha256": "59664401d1777486760b76bb45cdf7669931d7e63504d4942750a29aaad4dc7e"
+    },
+    {
+      "path": "README.md",
+      "size": 2424,
+      "sha256": "8ba62fb3eeb316d9b459cc556ad56514e2889da02b690e675733f555225602da"
+    },
+    {
+      "path": "scripts/collector-corrected.py.txt",
+      "size": 3218,
+      "sha256": "e703a6729c4823603aed9eb81426db96ee8b139a5a0ada05600fdf8980223b22"
+    },
+    {
+      "path": "scripts/collector-r1.py.txt",
+      "size": 3123,
+      "sha256": "c4eaa28e170e8c65dbf7e1adb518c6c88b102ec8f7c4df5d647f28cf3b581611"
+    },
+    {
+      "path": "scripts/verify-artifacts.py.txt",
+      "size": 2640,
+      "sha256": "0696f9e977ad6f8052edefc4b055bec81cbfbcdfe3bbf1b1d90de609359af8ca"
+    },
+    {
+      "path": "scripts/verify-frozen-source.py.txt",
+      "size": 3817,
+      "sha256": "5b7358d32fc0f3b0c99d7205962509c520949b227da5c3cb13132474a567fbb8"
+    },
+    {
+      "path": "scripts/verify-retained.py.txt",
+      "size": 2833,
+      "sha256": "1ff05ac086357aafd9bb276d9d2f4013233984e531eb12a4299e19757610b8c0"
+    },
+    {
+      "path": "SHA256SUMS",
+      "size": 94,
+      "sha256": "f0dad72344365884d9479004f1be641c33ec083f2f442ce4ca2537e5c9422112"
+    },
+    {
+      "path": "source/installer/entry.py",
+      "size": 340,
+      "sha256": "cd7a212d8907277456f5c53c5d929be45338c34705cf6587fa657a189febb681"
+    },
+    {
+      "path": "source/installer/hooks/hook-soundcard.py",
+      "size": 199,
+      "sha256": "0c642e7751098561d7f956b79e1cb51f86bf5cdd8fedbecfba9b448d84bfd5ca"
+    },
+    {
+      "path": "source/requirements.txt",
+      "size": 268,
+      "sha256": "a8687cb27ff98ee3f8fa2ecf8d36f3664f9125312da7c16b26924600649a4928"
+    },
+    {
+      "path": "source/saydraft/cleanup/llm/client.py",
+      "size": 10017,
+      "sha256": "5a76b7966e1aea0e790d20bf0613c2f456497b9f300e5ef771a1078135e787af"
+    },
+    {
+      "path": "source/saydraft/cleanup/llm/preparation.py",
+      "size": 6366,
+      "sha256": "ae825b112c0012a7615ba715316e45d4eda2d695d11f0fb7d64731c8b9229c3f"
+    },
+    {
+      "path": "source/saydraft/models/manifest.json",
+      "size": 43421,
+      "sha256": "f50eceafecbc60d1b0a5f5e573e141d1f4991add087b0d4c438b8811e3932945"
+    },
+    {
+      "path": "source/saydraft/package_check.py",
+      "size": 7942,
+      "sha256": "cbb192ae8a6e635041699329d7440c6271941d541f5806b6e6453ace387111e8"
+    },
+    {
+      "path": "source/saydraft/ui/cleanup_picker.py",
+      "size": 8695,
+      "sha256": "4ee6896bd7c0227eee211b348121fb684085228b7e41510ca51bcf7e557c3bda"
+    },
+    {
+      "path": "source/saydraft/ui/command_setup.py",
+      "size": 10478,
+      "sha256": "740c65507fae1aa512cf8a9c2c24d5edaddd35fae9276b5d5e49386e72a2cf73"
+    },
+    {
+      "path": "source/saydraft/ui/dictionary_page.py",
+      "size": 21524,
+      "sha256": "905da1e675fdfd1d01211f8d51be5ad122f49d8c4ee642fa1b4a6d9c095842a1"
+    },
+    {
+      "path": "source/saydraft/ui/history_page.py",
+      "size": 31248,
+      "sha256": "db122889022f53b8fa5b40dbc1c70595c34ad2d89df2c2feb5cf9329a5631694"
+    },
+    {
+      "path": "source/saydraft/ui/hub.py",
+      "size": 8318,
+      "sha256": "7fd00a2bd0ffd99168d316123ed4b6d8c64e65fb80fd8e72344e306d3c0ed2b0"
+    },
+    {
+      "path": "source/saydraft/ui/labs_page.py",
+      "size": 8766,
+      "sha256": "ff1b12782d10ca802727f552b62e38b6d96ab9f84461baf22498f3a39323318d"
+    },
+    {
+      "path": "source/saydraft/ui/languages_page.py",
+      "size": 5307,
+      "sha256": "c6b6682b1b88c150919a2920ca476db29f02789965bc6393e9de99772a1a106a"
+    },
+    {
+      "path": "source/saydraft/ui/microphone_page.py",
+      "size": 14470,
+      "sha256": "e4b237ca9c33f968ff2b68ffd647f1edd6e53aed641142bdf076b003139cd94a"
+    },
+    {
+      "path": "source/saydraft/ui/model_picker.py",
+      "size": 8890,
+      "sha256": "da47aad9b7e3fbe090d0428318ee3b67f599cc61ab50c218c74a85ce34dd7771"
+    },
+    {
+      "path": "source/saydraft/ui/privacy_page.py",
+      "size": 9157,
+      "sha256": "70ddc0a7bb6cfeeb93a3b376eb53d614aae76b2969d9249c6d6b4992f2a4a16b"
+    },
+    {
+      "path": "source/saydraft/ui/reflow.py",
+      "size": 6582,
+      "sha256": "962c423a7fa4215f8ea2f54d61c86598dccbf62b701b83f8295f81427c5c1001"
+    },
+    {
+      "path": "source/saydraft/ui/settings_page.py",
+      "size": 44494,
+      "sha256": "bfe8b1ade70311eead42ef400eb31dab7b0c3e22a57b2884b32e1cb56e8aff69"
+    },
+    {
+      "path": "source/saydraft/ui/snippets_page.py",
+      "size": 13254,
+      "sha256": "0bca3fc7f0dedfb8e9396654fc5a1790d784dad362fe28d289752031a62bca38"
+    },
+    {
+      "path": "source/saydraft/ui/styles_page.py",
+      "size": 17434,
+      "sha256": "ff0ae4b080bd9628786750df19dad13b9fcd86fcae7d55d4b2e6436e106da52a"
+    },
+    {
+      "path": "source/saydraft/ui/theme/controller.py",
+      "size": 6262,
+      "sha256": "1e666424fe0b3f35601c93157a27f72da8c204bbfc4d928f73efd9e859e47dd5"
+    },
+    {
+      "path": "source/saydraft/ui/whisper_mode.py",
+      "size": 7353,
+      "sha256": "298ee5b66068af270f233303d89e11c8e8e1e5f7c88923441c7446ec39a61f32"
+    },
+    {
+      "path": "source/Saydraft.spec",
+      "size": 2095,
+      "sha256": "298c98af78a1a3cc07170396ad9d7916606c7ed276aa3269c8dbd63df627afc0"
+    },
+    {
+      "path": "source/tools/build.ps1",
+      "size": 9038,
+      "sha256": "be59b78047e8d82aaa40404164c478c87e8ee3a9126d7fb9d07194887071097f"
+    },
+    {
+      "path": "source/tools/package_audit.py",
+      "size": 7365,
+      "sha256": "41ba24dee669f06b37a00eea3aac0d86b13c2df099d4cda7e617bb1d888c8448"
+    },
+    {
+      "path": "upstream-hooks/hook-sounddevice.py.txt",
+      "size": 2274,
+      "sha256": "146c090c866480521b3224b43ef4fa9eedda5c35f4f2dcd3a8b831ded19b3fe0"
+    }
+  ],
+  "excludes": [
+    "binaries",
+    "models",
+    "audio",
+    "private profiles"
+  ],
+  "release_ready": false
+}

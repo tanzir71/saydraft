@@ -1,0 +1,57 @@
+"""Retain completed portable receipts, never the app binaries or profiles."""
+from pathlib import Path
+import hashlib
+import json
+import shutil
+import subprocess
+
+qa = Path(__file__).resolve().parent
+repo = Path('C:/Users/tanzir/Desktop/voice_tray')
+build = qa/'labs-license-package-20261115-r1'
+source = 'bd6c22af0580f245980cc5b685483728cdf7e609'
+read = lambda p: json.loads(p.read_text(encoding='utf-8-sig'))
+audit = read(build/'audit/bundle.json')
+assert audit['git_commit'] == source and audit['source_dirty'] is False
+assert read(build/'audit/observed-build-exit.json')['exit_code'] == 0
+assert read(build/'audit/frozen-source.json')['module_count'] == 18
+assert read(build/'audit/artifact-verification.json')['files_verified'] == audit['files'] == 1384
+out = repo/'eval/ui/results/2026-11-15-labs-license-portable'
+out.mkdir(exist_ok=False)
+
+def copy(path, target):
+    target.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copyfile(path, target)
+    assert path.read_bytes() == target.read_bytes()
+
+for path in (build/'audit').iterdir():
+    assert path.is_file()
+    copy(path, out/'audit'/path.name)
+copy(build/'artifacts/SHA256SUMS', out/'SHA256SUMS')
+for name in ['labs-license-package-20261115-r1.log', 'labs-license-frozen-verification-20261115.log',
+             'labs-license-artifact-verification-20261115.log']:
+    copy(qa/name, out/'logs'/name)
+for name, target in [('verify_labs_frozen_source_20261115.py', 'verify-frozen-source.py.txt'),
+                     ('verify_labs_artifacts_20261115.py', 'verify-artifacts.py.txt')]:
+    copy(qa/name, out/'scripts'/target)
+paths = {row['source_path'] for row in read(build/'audit/frozen-source.json')['modules']}
+paths.update(['tools/build.ps1', 'tools/package_audit.py', 'Saydraft.spec', 'installer/entry.py',
+              'installer/hooks/hook-soundcard.py', 'installer/hooks/hook-sounddevice.py',
+              'saydraft/package_check.py', 'requirements.txt', 'saydraft/models/manifest.json'])
+for name in sorted(paths):
+    result = subprocess.run(['git','show',source+':'+name],cwd=repo,capture_output=True)
+    if result.returncode:
+        assert name == 'installer/hooks/hook-sounddevice.py'
+        continue  # The version-pinned upstream hook is retained below.
+    target = out/'source'/name
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_bytes(result.stdout)
+copy(build/'venv/Lib/site-packages/_pyinstaller_hooks_contrib/stdhooks/hook-sounddevice.py',
+     out/'upstream-hooks/hook-sounddevice.py.txt')
+tree = lambda commit: subprocess.check_output(['git','rev-parse',commit+':saydraft'],cwd=repo,text=True).strip()
+test_source = '1cd39e36595c4fbcca1afdf25ad3ee052e7ff919'
+assert tree(source) == tree(test_source)
+(out/'app-source-equivalence.json').write_text(json.dumps(dict(build_source=source,
+    tested_source=test_source,app_tree=tree(source),same_app_tree=True,
+    test_evidence='../2026-11-15-labs-license/README.md'),indent=2)+'\n',encoding='utf-8')
+print(json.dumps(dict(source=source,files=len(list(out.rglob('*'))),portable_bytes=157078561,
+    installer_built=False,signed=False,release_ready=False)))

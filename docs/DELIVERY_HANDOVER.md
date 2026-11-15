@@ -48,6 +48,13 @@ checks explicitly; changing an environment flag cannot authorize them.
   are consumed, including for future tuning/confirmation accounting. Licensing,
   speed and broader/owner accuracy remain open.
 
+- Fresh clean `bd6c22a` portable includes the Labs link contrast fix, earlier Hub
+  reflow and cleanup warmup. All 1,384 actual disk/ZIP files and 18 embedded
+  modules verify independently. Its app tree matches the six-test Labs source.
+  [Exact artifact/hash and receipts](../eval/ui/results/2026-11-15-labs-license-portable/README.md).
+  This unsigned `-SkipInstaller` preview leaves installer, signing, physical
+  Windows and full-goal acceptance open.
+
 - Cleanup warmup now retains selected intensity, including Polished's 4.
   Clean `625c987` passes 171 related checks, 556 rules examples and 100 authored
   validator refusals. Its full CPU policy replay has 556 exact outputs, seven

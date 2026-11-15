@@ -1,0 +1,13 @@
+{
+  "kind": "retrospective observation of exact tool result",
+  "exit_code": 1,
+  "error_type": "AssertionError",
+  "stage": "collector line27: assert path.is_file()",
+  "cause": "audit/frozen-source.guard-profile is a directory",
+  "retained_partial_files": [
+    "audit/artifact-verification.json",
+    "audit/bundle.json"
+  ],
+  "binary_checks_already_passed": true,
+  "correction": "skip directories; require existing destination bytes to match before continuing"
+}
