@@ -1,0 +1,6 @@
+[
+  { "id": "email", "label": "Email update", "raw": "um hey team comma just a quick update we shipped the new build today period", "clean": "Hey team, just a quick update: we shipped the new build today." },
+  { "id": "chat", "label": "Quick chat", "raw": "yeah uh sounds good I can take a look tomorrow", "clean": "Sounds good — I can take a look tomorrow." },
+  { "id": "notes", "label": "List notes", "raw": "first item update the onboarding docs new line second item call the vendor", "clean": "• Update the onboarding docs\n• Call the vendor" },
+  { "id": "correction", "label": "Backtrack correction", "raw": "schedule it for Thursday no wait make that Friday at three", "clean": "Schedule it for Friday at 3:00." }
+]

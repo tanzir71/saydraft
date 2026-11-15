@@ -89,3 +89,5 @@ eval/site/results/2026-11-15-seo/** -text -whitespace
 site/tools/render_product.py -text
 # Preserve original Home browser, screenshot, source and Lighthouse evidence.
 eval/site/results/2026-11-15-home/** -text -whitespace
+# Preserve original canned-demo, legacy fixture, browser and Lighthouse evidence.
+eval/site/results/2026-11-15-demo/** -text -whitespace

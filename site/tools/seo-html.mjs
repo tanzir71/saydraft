@@ -23,7 +23,9 @@ export function readPage(html) {
   const extras = article ? descendants(main, (node) => node.tagName === 'section' && /(?:guide-faq|guide-sources)/.test(attr(node, 'class') ?? '')) : [];
   const verified = attr(first((node) => node.tagName === 'time' && attr(node.parentNode ?? {}, 'class')?.split(' ').includes('guide-verified')) ?? {}, 'datetime');
   const schemas = descendants(document, (node) => node.tagName === 'script' && attr(node, 'type') === 'application/ld+json').map((node) => JSON.parse(text(node)));
-  const faqs = descendants(main, (node) => node.tagName === 'details').map((node) => ({
+  const faqDetails = [...new Set(descendants(main, (node) => attr(node, 'data-faq') !== undefined)
+    .flatMap((section) => descendants(section, (node) => node.tagName === 'details')))];
+  const faqs = faqDetails.map((node) => ({
     question: compact(readableText((node.childNodes ?? []).find((child) => child.tagName === 'summary') ?? {})),
     answer: compact((node.childNodes ?? []).filter((child) => child.tagName !== 'summary').map(readableText).join('')),
   }));

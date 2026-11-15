@@ -114,8 +114,10 @@ The base path is `/saydraft/`. Edit `design/tokens.json` and regenerate with
 `node tools/generate_tokens.mjs` from the repository root when changing shared
 tokens. Do not hand-edit generated CSS/QSS. Browser snapshots run on Windows;
 functional checks, Lighthouse setup, and deployment details are in
-[the website guide](docs/SITE.md). The legacy root `index.html` and `demo/`
-remain pending their planned archive/port; they are not the current Pages source.
+[the website guide](docs/SITE.md). The canned `/demo/` is ported into Astro; see [the demo guide](docs/SITE_DEMO.md).
+Legacy root `index.html` and `demo/` await the G9 archive/transition decision and
+are not the current Pages source. The reviewed banner/script live in
+`docs/launch/legacy-site/`; no Actions or hosting deployment is required for local QA.
 
 ## Documentation and reports
 

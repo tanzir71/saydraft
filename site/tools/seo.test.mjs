@@ -47,3 +47,11 @@ test('social cards render long page titles with local fonts, intact gutters and 
   await assert.rejects(() => renderSocialCard({ title: '', description: 'Guide' }));
   await assert.rejects(() => renderSocialCard({ title: 'Guide', description: 'Guide', width: 1, height: 1 }));
 });
+
+test('FAQ metadata includes actual FAQ blocks and leaves unrelated disclosures out', () => {
+  const html = '<html><head><title>Demo</title><meta name="description" content="Prepared examples"><link rel="canonical" href="https://example.com/demo/"></head><body><main><details><summary>Raw words</summary><p>um hello</p></details><section data-faq><details><summary>Is this recording?</summary><p>No, it is a prepared example.</p></details></section></main></body></html>';
+  const page = readPage(html);
+  assert.deepEqual(page.faqs, [{ question: 'Is this recording?', answer: 'No, it is a prepared example.' }]);
+  assert.match(page.markdown, /Raw words/);
+  assert.match(page.markdown, /um hello/);
+});

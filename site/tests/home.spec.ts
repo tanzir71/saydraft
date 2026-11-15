@@ -1,11 +1,12 @@
 import { test, expect } from '@playwright/test';
 import { readFileSync } from 'node:fs';
+import sharp from 'sharp';
 import { contrastFailures } from '../component-tests/contrast';
 const comparison = JSON.parse(readFileSync('src/data/home-comparison.json', 'utf8')) as {
   verified: string; products: string[]; rows: { cells: { source: { href: string } }[] }[];
 };
 
-test('home explains real product states, source-backed choices and setup without using devices', async ({ page }) => {
+test('home explains real product states, source-backed choices and setup without using devices', async ({ page, request }) => {
   await page.addInitScript(() => {
     Object.defineProperty(navigator, 'mediaDevices', { configurable: true, get() { throw new Error('No device access'); } });
     Object.defineProperty(navigator, 'clipboard', { configurable: true, get() { throw new Error('No clipboard access'); } });
@@ -27,6 +28,11 @@ test('home explains real product states, source-backed choices and setup without
   for (const image of await page.locator('main img').all()) {
     await image.scrollIntoViewIfNeeded();
     expect(await image.evaluate(async (node: HTMLImageElement) => { await node.decode(); return node.naturalWidth > 0 && node.loading === 'lazy' && node.width > 0 && node.height > 0; })).toBe(true);
+    const rendered = await image.evaluate((node: HTMLImageElement) => ({ source: node.currentSrc, width: node.getBoundingClientRect().width }));
+    const response = await request.get(rendered.source);
+    expect(response.ok()).toBe(true);
+    const source = await sharp(await response.body()).metadata();
+    expect(source.width, `Source resolution for ${rendered.source}`).toBeGreaterThanOrEqual(Math.ceil(rendered.width));
   }
   await expect(page.locator('main picture')).toHaveCount(5);
   await expect(page.locator('main picture source[type="image/avif"]')).toHaveCount(5);

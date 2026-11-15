@@ -1,7 +1,7 @@
 # Saydraft website
 
 The Astro site in `site/` now builds forty-four indexable static pages plus a
-custom 404, including nineteen language guides, their overview and twenty-three
+custom 404 and a noindex demo, including nineteen language guides, their overview and twenty-three
 dated MDX content pages. [Technical SEO](SITE_SEO.md) describes the generated
 social images, sitemap index, readable exports and remaining external acceptance.
 This is an early P9 foundation, brought forward at the owner's request. The
@@ -10,7 +10,8 @@ generator emits CSS and light/dark Qt QSS. Qt installation and the initial galle
 are described in `docs/THEME.md`. The full component library is implemented;
 Home now implements the §9.6 composition with actual Qt screenshots, dated comparisons
 and the expanded footer; see [Home implementation](SITE_HOME.md). External SEO
-acceptance, demo/launch assets and final P9 acceptance remain open. See [the component library](SITE_COMPONENTS.md) for its 23 components,
+acceptance, the legacy transition and final P9 acceptance remain open. The
+[four-example demo](SITE_DEMO.md) is now ported into Astro. See [the component library](SITE_COMPONENTS.md) for its 23 components,
 73 Storybook states, three-width baselines and static page integrations.
 
 The original pages are Home, Download, Getting started, Privacy and Credits. The
@@ -144,9 +145,9 @@ selected commit with the official Astro action only when separately requested.
 The existing live deployment remains in place. The canonical
 is `https://tanzir71.github.io/saydraft/`; no domain purchase or analytics is added.
 
-The previous root `index.html` and `demo/` stay intact pending the old-site
-transition, so the existing Vercel project is preserved. Their planned archive
-and demo port are still tracked in P9.1/P9.7. No old artifacts or model folders
+The original root `index.html` and `demo/` stay intact pending the G9 old-site
+transition, so the existing Vercel project is preserved. The Astro demo port is implemented; their archive
+and branch-preview gates remain tracked in P9.1/P9.7. No old artifacts or model folders
 were deleted to build the site. On the development PC, npm caches, dependencies,
 browsers, builds and reports live on D because C has limited free space.
 

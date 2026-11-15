@@ -1,6 +1,7 @@
 # Website metadata and discovery
 
-The static build generates 45 HTML pages: 44 indexable routes and a custom 404.
+The static build generates 46 HTML pages: 44 indexable routes, a noindex prepared-example demo
+and a custom 404.
 Every page gets its own 1200×630 PNG social preview, plus a separate 1280×640
 GitHub social-preview image. Titles and descriptions come from the rendered
 page, using the approved paper/ink tokens and pinned local Instrument Serif,

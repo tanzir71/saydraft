@@ -25,9 +25,12 @@ and dated [Wispr Flow comparison](https://tanzir71.github.io/saydraft/wispr-flow
 The website also covers Typeless, Superwhisper, Windows voice typing and Dragon;
 its [changelog](https://tanzir71.github.io/saydraft/changelog/) lists published releases only.
 The Home page includes actual Hub/Bar screenshots, source-linked comparisons and
-alphabetical language guides. [Notes guidance](https://tanzir71.github.io/saydraft/docs/notes/)
+alphabetical language guides. [Notes guidance](site/src/content/docs/notes.mdx)
 separates local Scratchpad notes from experimental meeting features. See the
 [Home implementation and verification](docs/SITE_HOME.md) for capture provenance and limits.
+The [prepared-example demo](site/src/pages/demo.astro) is included in
+the current site source. It uses canned text and no microphone or uploads;
+[demo documentation](docs/SITE_DEMO.md) describes its behavior and publication limits.
 
 [Install from source](#run-from-source) · [First launch](#first-launch) ·
 [Models and languages](#set-up-once-then-go-offline) · [Daily use](#daily-use) ·
