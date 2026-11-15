@@ -10,6 +10,15 @@
 
 ## 0. Codex loop protocol (read first, every iteration)
 
+**Owner follow-up (2026-11-15):** explicitly requested an overnight run from
+remaining work, then reported silent microphone capture and requested a dedicated
+desktop UI reference folder. The owner approved host input listing and brief
+level-only tests (no saved audio/transcription) and selected Fantech Leviosa.
+The source fix/unsigned replacement is `44ed9c4`; `app-ui/` contains the redesign
+reference. The selected overnight batch is in `docs/OVERNIGHT_RUN.md`. Other host
+foreground/input/clipboard access stays barred; no signing or model promotion
+is authorized. This explicit follow-up resumes only that selected deferred work.
+
 **Current delivery override (owner, 2026-11-15):** "I told you we are distributing
 unsigned. I need you to shorten the time commitment, just ensure it meets
 absolute minimum working acceptance criteria and then document for later

@@ -44,6 +44,21 @@ pending until the guest actually executes those cases.
 
 ## Current checkpoint
 
+- The user-reported silent microphone path is fixed at clean `44ed9c4`. Windows
+  was using a silent virtual input; malformed Bluetooth names also aborted named
+  device discovery. The chosen physical microphone now resolves and the actual
+  fixed level-only meter receives callbacks. All 75 focused microphone/UI/session
+  checks pass; original harness failures and the caught UI regression remain
+  retained. A replacement unsigned portable verifies 1,384 payloads and 28 embedded
+  modules. [Microphone details](MICROPHONE.md), [artifact](PACKAGING.md).
+- [app-ui/](../app-ui/README.md) is the dedicated desktop redesign reference:
+  174 screenshots, canonical UI code snapshots, themes/tokens/fonts/icons and
+  a local searchable gallery. It is separate from the landing-page work.
+- The owner explicitly requested the [selected overnight follow-up](OVERNIGHT_RUN.md).
+  It targets the missing Pro matrix and fresh forced/policy cleanup evidence on
+  the microphone-fixed source. Results stay pending until terminal verification;
+  neither starting the queue nor a completed failed gate is a pass.
+
 - A combined full large-v3/temperature-zero/word-alignment candidate passes the
   nine-clip development gate for Bengali, Tamil and Telugu. All 19 native Job
   trees exit, exact control reproduction and independent original-input/score

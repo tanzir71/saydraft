@@ -1,0 +1,54 @@
+"""Render synthetic microphone states offscreen, with no device discovery."""
+import json
+from pathlib import Path
+import sys
+import time
+
+qa = Path(__file__).resolve().parent
+repo = Path('C:/Users/tanzir/Desktop/voice_tray')
+sys.path.insert(0, str(repo))
+from tools.public_file_guard import install
+install(qa / 'microphone-reference-20261115.guard.json')
+from PySide6 import QtWidgets
+from saydraft.audio.devices import InputDevice, InputSelection
+from saydraft.config import default_config
+from saydraft.ui.fonts import install_bundled_fonts
+from saydraft.ui.microphone_page import MicrophonePage
+from saydraft.ui.theme.controller import ThemeController
+
+output = qa / 'microphone-reference-20261115'
+output.mkdir(exist_ok=False)
+app = QtWidgets.QApplication([])
+assert app.platformName() == 'offscreen'
+assert install_bundled_fonts(app)
+paths = []
+devices = (InputDevice(1, InputSelection('CABLE Output (Virtual input)', 'MME'), True),
+    InputDevice(3, InputSelection('USB Microphone', 'Windows WASAPI')))
+for mode in ['light', 'dark']:
+    theme = ThemeController(app, mode=mode)
+    theme.start()
+    page = MicrophonePage(default_config(), devices_provider=lambda: devices,
+        start_callback=lambda selection: 1, stop_callback=lambda generation: True)
+    page.resize(720, 800)
+    page.show()
+    page.refresh_devices()
+    end = time.monotonic() + 5
+    while page._future is not None and time.monotonic() < end:
+        app.processEvents()
+        time.sleep(.002)
+    assert page._future is None
+    for state in ['routing', 'silent', 'sound']:
+        if state != 'routing':
+            page.device_combo.setCurrentIndex(2)
+            assert page.toggle_test()
+            page.accept_status(1, 'listening')
+            page.accept_level(1, 0 if state == 'silent' else .03)
+            page.accept_status(1, 'stopped')
+        app.processEvents()
+        path = output / f'current-{mode}-microphone-{state}.png'
+        assert page.grab().save(str(path))
+        paths.append(path.name)
+    page.close()
+    theme.close()
+    app.processEvents()
+print(json.dumps(dict(output=str(output), captures=paths, input_scope='synthetic public device labels; no SDK imports/capture')))

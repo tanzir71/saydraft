@@ -1,0 +1,50 @@
+"""Guarded, pinned cleanup corpus stage; no host audio/input/profile ports."""
+import argparse
+import hashlib
+import json
+import os
+from pathlib import Path
+import sys
+
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--repo', type=Path, required=True)
+parser.add_argument('--tier', choices=['cpu', 'pro'], required=True)
+parser.add_argument('--mode', choices=['forced', 'policy'], required=True)
+parser.add_argument('--output', type=Path, required=True)
+parser.add_argument('--debug', action='store_true')
+args = parser.parse_args()
+qa = Path(__file__).resolve().parent
+repo, output = args.repo.resolve(), args.output.resolve()
+assert output.parent == qa and not output.exists()
+sys.path.insert(0, str(repo))
+from tools.public_worker_guard import install
+install(output.with_suffix('.guard.json'), allow_gpu_metadata=args.tier == 'pro')
+import tools.bench_cleanup as bench
+from saydraft.models import windows_hardware
+
+# Only CPU features/RAM here. Pro's normal selector separately identifies its
+# explicitly approved Vulkan adapter under the same guard. No DXGI/CUDA sweep.
+original_probe = bench.probe_hardware
+bench.probe_hardware = lambda: original_probe(probes={
+    'cpu_features': windows_hardware.cpu_features,
+    'ram_bytes': windows_hardware.physical_memory,
+})
+runtime = (qa / 'llama-runtime-install-b12110/llama-cpp-b12110-cpu-x64' if args.tier == 'cpu'
+    else qa / 'command-session-app-cache-20261114-01/llama-cpp-b12110-vulkan-x64/github-release-asset-709511274')
+argv = ['--candidate', 'qwen35-08b-q4-k-m' if args.tier == 'cpu' else 'qwen35-2b-q4-k-m',
+    '--backend', 'cpu' if args.tier == 'cpu' else 'vulkan', '--models-dir', str(qa / 'cleanup-candidates'),
+    '--runtime-dir', str(runtime), '--threads', '4', '--isolated', '--include-text', '--output', str(output)]
+if args.tier == 'pro':
+    argv += ['--device', 'Vulkan1']
+if args.mode == 'policy':
+    argv += ['--interactive-policy']
+if args.debug:
+    argv += ['--limit', '1']
+request = dict(pid=os.getpid(), repo=str(repo), tier=args.tier, mode=args.mode,
+    output=str(output), debug=args.debug, argv=argv, gpu_metadata_allowed=args.tier == 'pro',
+    wrapper_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+    hardware_scope='CPU features/RAM; Pro normal approved Vulkan selection only',
+    input_scope='Repository-authored golden/adversarial text; local journal may retain these outputs',
+    owner_ports='refused before app imports')
+output.with_suffix('.request.json').write_text(json.dumps(request, indent=2) + '\n', encoding='utf-8')
+raise SystemExit(bench.main(argv))

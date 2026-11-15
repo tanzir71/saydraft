@@ -5,6 +5,9 @@ Parakeet/Whisper speech-to-text and on-device cleanup keep processing on your PC
 
 **Speak messy. Paste polished.**
 
+Desktop redesign reference: [app-ui/](app-ui/README.md), with a searchable
+[screen gallery](app-ui/index.html), UI source snapshots, themes, fonts and tokens.
+
 <img src="assets/media/saydraft-bar-static.png" width="640" alt="Actual Saydraft Bar with public sample text and optional English live preview">
 
 <details>

@@ -1,0 +1,31 @@
+{
+  "pid": 7524,
+  "repo": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\microphone-repair-20261115",
+  "tier": "cpu",
+  "mode": "forced",
+  "output": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\overnight-cleanup-probe-cpu-44ed9c4-20261115-r1",
+  "debug": true,
+  "argv": [
+    "--candidate",
+    "qwen35-08b-q4-k-m",
+    "--backend",
+    "cpu",
+    "--models-dir",
+    "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\cleanup-candidates",
+    "--runtime-dir",
+    "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\llama-runtime-install-b12110\\llama-cpp-b12110-cpu-x64",
+    "--threads",
+    "4",
+    "--isolated",
+    "--include-text",
+    "--output",
+    "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\overnight-cleanup-probe-cpu-44ed9c4-20261115-r1",
+    "--limit",
+    "1"
+  ],
+  "gpu_metadata_allowed": false,
+  "wrapper_sha256": "99d3b8091ab1ad255002bb2d20bd4a7b72ec7299d908a90109f742ea273d9c91",
+  "hardware_scope": "CPU features/RAM; Pro normal approved Vulkan selection only",
+  "input_scope": "Repository-authored golden/adversarial text; local journal may retain these outputs",
+  "owner_ports": "refused before app imports"
+}

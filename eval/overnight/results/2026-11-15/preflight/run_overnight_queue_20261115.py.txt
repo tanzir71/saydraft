@@ -1,0 +1,183 @@
+"""Serial bounded overnight evidence queue, with owned process-tree shutdown."""
+import argparse
+import ctypes
+import datetime
+import hashlib
+import json
+import os
+from pathlib import Path
+import subprocess
+import sys
+import time
+
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--output', type=Path, required=True)
+parser.add_argument('--probe', action='store_true')
+args = parser.parse_args()
+qa = Path(__file__).resolve().parent
+root = args.output.resolve()
+snapshot = qa / 'worktrees/microphone-repair-20261115'
+source = '44ed9c458a78e84e55751b827ed71b96114632ae'
+assert root.parent == qa and not root.exists()
+root.mkdir()
+sys.path.insert(0, str(snapshot))
+from tools.public_file_guard import install
+install(root.with_suffix('.controller.guard.json'))
+from saydraft.privacy.netguard import NetworkGuard
+NetworkGuard.install()
+from saydraft.cleanup.llm.windows_process import WindowsJobProcess
+
+def now():
+    return datetime.datetime.now(datetime.UTC).isoformat()
+
+def digest(path):
+    with path.open('rb') as stream:
+        return hashlib.file_digest(stream, 'sha256').hexdigest()
+
+def read(path):
+    return json.loads(path.read_text(encoding='utf-8-sig'))
+
+def write(path, value):
+    pending = path.with_suffix(path.suffix + '.pending')
+    pending.write_text(json.dumps(value, indent=2) + '\n', encoding='utf-8')
+    pending.replace(path)
+
+def clean_snapshot():
+    assert subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=snapshot, text=True).strip() == source
+    assert not subprocess.check_output(['git', 'status', '--porcelain'], cwd=snapshot, text=True).strip()
+
+clean_snapshot()
+tag = root.name
+prefix = [sys.executable, '-I']
+if args.probe:
+    stages = [dict(name='probe-zero', kind='probe', expected_exit=0, seconds=15,
+        command=prefix + ['-c', 'import time;time.sleep(1);raise SystemExit(0)']),
+        dict(name='probe-seven', kind='probe', expected_exit=7, seconds=15,
+        command=prefix + ['-c', 'import time;time.sleep(1);raise SystemExit(7)']),
+        dict(name='probe-timeout', kind='probe', expected_exit=1, seconds=1,
+        command=prefix + ['-c', 'import time;time.sleep(30)'])]
+else:
+    pro = qa / (tag + '-pro-latency')
+    stages = [dict(name='pro-latency', kind='latency', seconds=3*3600, output=str(pro),
+        command=prefix + [str(qa / 'supervise_guarded_tier_overnight_20261115.py'), '--repo', str(snapshot),
+            '--tier', 'pro', '--output', str(pro)])]
+    for tier, mode, cap in [('cpu', 'forced', 3*3600), ('pro', 'forced', 90*60),
+                            ('cpu', 'policy', 60*60), ('pro', 'policy', 60*60)]:
+        name = f'{tier}-{mode}'
+        output = qa / (tag + '-' + name)
+        stages.append(dict(name=name, kind='cleanup', seconds=cap, output=str(output), tier=tier, mode=mode,
+            command=prefix + [str(qa / 'overnight_cleanup_stage_20261115.py'), '--repo', str(snapshot),
+                '--tier', tier, '--mode', mode, '--output', str(output)]))
+
+files = [Path(__file__), qa / 'overnight_cleanup_stage_20261115.py',
+    qa / 'supervise_guarded_tier_overnight_20261115.py', qa / 'run_guarded_tier_20261115.py']
+state = dict(schema=1, source=source, snapshot=str(snapshot), controller_pid=os.getpid(),
+    interpreter=str(sys.executable), interpreter_sha256=digest(Path(sys.executable)),
+    source_sha256={p.name:digest(p) for p in files}, started_utc=now(), probe=args.probe,
+    deadline_hours=8, status='starting', stages=stages, outcomes=[],
+    scope='Offline owned processes; public files/authored text and refusing memory owner ports',
+    native_windows_acceptance=False, model_promotion=False, signed=False)
+write(root / 'status.json', state)
+allowed = ['SYSTEMROOT', 'WINDIR', 'COMSPEC', 'PATH', 'PATHEXT', 'PROCESSOR_ARCHITECTURE', 'NUMBER_OF_PROCESSORS']
+env = {k:v for k,v in os.environ.items() if k.upper() in allowed}
+profile = root / 'profile'
+for name in ['home', 'local', 'roaming', 'temp']:
+    (profile / name).mkdir(parents=True)
+env.update(USERPROFILE=str(profile/'home'), LOCALAPPDATA=str(profile/'local'), APPDATA=str(profile/'roaming'),
+    TEMP=str(profile/'temp'), TMP=str(profile/'temp'), HF_HOME=str(profile/'home/hf'),
+    HF_HUB_OFFLINE='1', HF_HUB_DISABLE_TELEMETRY='1', DO_NOT_TRACK='1',
+    PYTHONNOUSERSITE='1', PYTHONDONTWRITEBYTECODE='1', PYTHONUTF8='1', PYTHONIOENCODING='utf-8',
+    QT_QPA_PLATFORM='offscreen')
+kernel = ctypes.WinDLL('kernel32', use_last_error=True)
+kernel.SetThreadExecutionState.argtypes = [ctypes.c_uint32]
+kernel.SetThreadExecutionState.restype = ctypes.c_uint32
+assert kernel.SetThreadExecutionState(0x80000001)  # This thread only; do not change global power settings/display.
+state['process_scoped_keep_awake'] = True
+deadline = time.monotonic() + (60 if args.probe else 8*3600)
+active = None
+try:
+    for stage in stages:
+        if (root / 'STOP_AFTER_CURRENT').exists() or time.monotonic() >= deadline:
+            state['status'] = 'stopped_before_next_stage'
+            break
+        clean_snapshot()
+        assert all(digest(qa / name) == value for name,value in state['source_sha256'].items())
+        active = WindowsJobProcess(stage['command'], env=env, cwd=snapshot, capture_output=True, max_output_bytes=1024**2)
+        state.update(status='running', active_stage=stage['name'], active_launched_pid=active.pid,
+            stage_started_utc=now(), heartbeat_utc=now())
+        write(root / 'status.json', state)
+        end = min(deadline, time.monotonic() + stage['seconds'])
+        beat = time.monotonic()
+        timed_out = False
+        while active.poll_tree() is None:
+            if time.monotonic() >= end or (root / 'STOP_NOW').exists():
+                timed_out = True
+                active.terminate()
+                break
+            if time.monotonic() - beat >= 30:
+                state['heartbeat_utc'] = now()
+                if stage.get('output'):
+                    report = Path(stage['output']) / 'report.json'
+                    if report.exists():
+                        current = read(report)
+                        state['active_completed_cases'] = len(current.get('cases', []))
+                    journal = Path(stage['output']) / 'cases.jsonl'
+                    if journal.exists():
+                        state['active_completed_cases'] = len(journal.read_bytes().splitlines())
+                write(root / 'status.json', state)
+                beat = time.monotonic()
+            time.sleep(.5)
+        code = active.wait_tree(timeout=15)
+        log = active.read_output(timeout=5)
+        (root / (stage['name'] + '.log')).write_bytes(log)
+        outcome = dict(stage=stage['name'], exit_code=code, tree_exit_observed=True,
+            launched_pid=active.pid, observed_utc=now(), timed_out=timed_out, log_sha256=hashlib.sha256(log).hexdigest())
+        active.close()
+        active = None
+        if stage['kind'] == 'probe':
+            outcome['expected_exit'] = stage['expected_exit']
+            outcome['completed'] = code == stage['expected_exit'] and timed_out == (stage['name'] == 'probe-timeout')
+        else:
+            output = Path(stage['output'])
+            report = output / 'report.json'
+            current = read(report) if report.exists() else {}
+            outcome['report_sha256'] = digest(report) if report.exists() else None
+            outcome['error_type'] = current.get('error_type')
+            outcome['completed'] = code == 0 and not timed_out
+            if stage['kind'] == 'latency':
+                terminal = output / 'observed-parent-exit.json'
+                outcome.update(cases=len(current.get('cases', [])), full_matrix=current.get('full_matrix', False),
+                    tier_recipe_target_met=current.get('tier_recipe_target_met', False))
+                outcome['completed'] = outcome['completed'] and current.get('complete', False) and terminal.exists() and read(terminal)['exit_code'] == 0
+            else:
+                field = 'policy_measurement_complete' if stage['mode'] == 'policy' else 'measurement_complete'
+                outcome.update(full_corpus=current.get('full_corpus', False), measurement_field=field,
+                    measurement_complete=current.get(field, False), suites=current.get('suites', {}))
+                outcome['completed'] = outcome['completed'] and current.get(field, False) and current.get('full_corpus', False)
+            write(output.with_suffix('.queue-exit.json'), outcome)
+        clean_snapshot()
+        state['outcomes'].append(outcome)
+        state['active_stage'] = None
+        state['active_launched_pid'] = None
+        write(root / 'status.json', state)
+        if (root / 'STOP_NOW').exists():
+            state['status'] = 'stopped'
+            break
+    else:
+        state['status'] = 'complete' if all(x['completed'] for x in state['outcomes']) else 'complete_with_failures'
+except BaseException as error:
+    state.update(status='controller_error', error_type=type(error).__name__)
+    raise
+finally:
+    if active is not None:
+        active.terminate()
+        try:
+            state['aborted_tree_exit_code'] = active.wait_tree(timeout=15)
+            state['aborted_tree_exit_observed'] = True
+        finally:
+            active.close()
+    kernel.SetThreadExecutionState(0x80000000)
+    state.update(ended_utc=now(), process_scoped_keep_awake=False)
+    write(root / 'status.json', state)
+print(json.dumps(dict(status=state['status'], stages=len(state['outcomes']), output=str(root))))
+raise SystemExit(0 if state['status'] == 'complete' else 1)

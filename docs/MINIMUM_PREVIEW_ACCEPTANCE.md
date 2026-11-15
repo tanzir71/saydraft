@@ -1,5 +1,12 @@
 # Minimum unsigned preview · 15 November 2026
 
+**Superseded artifact:** the `44ed9c4` replacement in [Packaging](PACKAGING.md)
+fixes the subsequently reported silent-input/multi-microphone issue. It has 75
+passing focused checks, actual approved level-only capture and an independently
+verified unsigned build (1,384 files / 28 embedded modules). The record below
+retains the original preview's exact scope; its old artifact does not contain
+the microphone fix. The dedicated redesign reference is [app-ui/](../app-ui/README.md).
+
 The owner narrowed this delivery to the absolute minimum working preview, with
 unfinished work documented for later continuation. **Unsigned distribution is
 the chosen target.** Signing, full competitor parity and exhaustive qualification

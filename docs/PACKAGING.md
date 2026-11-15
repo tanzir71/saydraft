@@ -1,6 +1,15 @@
 # Windows packaging
 
-The current local portable at `e7c60b0` includes delivery-target cleanup admission,
+The replacement unsigned portable at clean `44ed9c4` fixes multi-input discovery,
+virtual-input guidance and silent/quiet capture diagnostics. Its actual 1,384
+disk/ZIP payloads and 28 embedded modules match the audit and Git source.
+Artifact: `D:/Saydraft-Codex-QA-20261112-01a1cbc7/microphone-repair-package-20261115-r2/artifacts/Saydraft-0.1.0-win-x64.zip`.
+Size: 157,082,564 bytes; SHA-256:
+`83456b5a9a50672db1ad74119c956c733c2768a287f301f701711b2e75aceb5c`.
+This supersedes the older `e7c60b0` preview below. A running old executable must
+be closed and replaced; saved microphone preferences alone cannot patch it.
+
+The earlier local portable at `e7c60b0` includes delivery-target cleanup admission,
 the Labs link contrast fix, Hub reflow and selected-intensity cleanup warmup.
 Runtime/resource/notices and all 1,384 disk/ZIP payload checks pass; 22 critical
 modules read from the executable match Git bytecode. The

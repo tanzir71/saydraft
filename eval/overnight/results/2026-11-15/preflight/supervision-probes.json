@@ -1,0 +1,101 @@
+{
+  "schema": 1,
+  "source": "44ed9c458a78e84e55751b827ed71b96114632ae",
+  "snapshot": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\microphone-repair-20261115",
+  "controller_pid": 37640,
+  "interpreter": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\delivery-planning-package-20261115-r1\\venv\\Scripts\\python.exe",
+  "interpreter_sha256": "4e67d9e9a3673aa7b6219f1280d5ec3f1b6c0d5bd98ea8688c72d0cb7582d664",
+  "source_sha256": {
+    "run_overnight_queue_20261115.py": "0128adf9022530dbc8a95e0270c73e074077794a4975c6eec7362efb279b1549",
+    "overnight_cleanup_stage_20261115.py": "99d3b8091ab1ad255002bb2d20bd4a7b72ec7299d908a90109f742ea273d9c91",
+    "supervise_guarded_tier_overnight_20261115.py": "92f8e4aa5d6b23b7299fbd37be61e8e8e0d7ba1553fc8e09a2fbf42a3dad2eab",
+    "run_guarded_tier_20261115.py": "2919ac2ae923564e00106645b3a2f7c318d19052e4dcffcb458cb6033a599d13"
+  },
+  "started_utc": "2026-11-15T15:06:41.342421+00:00",
+  "probe": true,
+  "deadline_hours": 8,
+  "status": "complete",
+  "stages": [
+    {
+      "name": "probe-zero",
+      "kind": "probe",
+      "expected_exit": 0,
+      "seconds": 15,
+      "command": [
+        "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\delivery-planning-package-20261115-r1\\venv\\Scripts\\python.exe",
+        "-I",
+        "-c",
+        "import time;time.sleep(1);raise SystemExit(0)"
+      ]
+    },
+    {
+      "name": "probe-seven",
+      "kind": "probe",
+      "expected_exit": 7,
+      "seconds": 15,
+      "command": [
+        "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\delivery-planning-package-20261115-r1\\venv\\Scripts\\python.exe",
+        "-I",
+        "-c",
+        "import time;time.sleep(1);raise SystemExit(7)"
+      ]
+    },
+    {
+      "name": "probe-timeout",
+      "kind": "probe",
+      "expected_exit": 1,
+      "seconds": 1,
+      "command": [
+        "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\delivery-planning-package-20261115-r1\\venv\\Scripts\\python.exe",
+        "-I",
+        "-c",
+        "import time;time.sleep(30)"
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "stage": "probe-zero",
+      "exit_code": 0,
+      "tree_exit_observed": true,
+      "launched_pid": 2912,
+      "observed_utc": "2026-11-15T15:06:42.975360+00:00",
+      "timed_out": false,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "expected_exit": 0,
+      "completed": true
+    },
+    {
+      "stage": "probe-seven",
+      "exit_code": 7,
+      "tree_exit_observed": true,
+      "launched_pid": 45804,
+      "observed_utc": "2026-11-15T15:06:44.684516+00:00",
+      "timed_out": false,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "expected_exit": 7,
+      "completed": true
+    },
+    {
+      "stage": "probe-timeout",
+      "exit_code": 1,
+      "tree_exit_observed": true,
+      "launched_pid": 38944,
+      "observed_utc": "2026-11-15T15:06:45.933700+00:00",
+      "timed_out": true,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "expected_exit": 1,
+      "completed": true
+    }
+  ],
+  "scope": "Offline owned processes; public files/authored text and refusing memory owner ports",
+  "native_windows_acceptance": false,
+  "model_promotion": false,
+  "signed": false,
+  "process_scoped_keep_awake": false,
+  "active_stage": null,
+  "active_launched_pid": null,
+  "stage_started_utc": "2026-11-15T15:06:44.920441+00:00",
+  "heartbeat_utc": "2026-11-15T15:06:44.920456+00:00",
+  "ended_utc": "2026-11-15T15:06:46.039808+00:00"
+}

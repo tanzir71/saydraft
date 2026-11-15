@@ -1,0 +1,1367 @@
+{
+  "source_commit": "44ed9c458a78e84e55751b827ed71b96114632ae",
+  "canonical_ui": "saydraft/ui",
+  "screenshots": 174,
+  "records": [
+    {
+      "path": "source/assets/fonts/geist/Geist-Italic[wght].ttf",
+      "original": "assets/fonts/geist/Geist-Italic[wght].ttf",
+      "sha256": "a464348abe41a6392f18d04c0ac2ad3c26619357ff5fdd76aff3059116f45e62"
+    },
+    {
+      "path": "source/assets/fonts/geist/Geist[wght].ttf",
+      "original": "assets/fonts/geist/Geist[wght].ttf",
+      "sha256": "73894e0448cae90a92b6c2f8732b7bb9acb7b94c418bff559dad4a18e1de9659"
+    },
+    {
+      "path": "source/assets/fonts/geist/METADATA.pb",
+      "original": "assets/fonts/geist/METADATA.pb",
+      "sha256": "62d302155bfbf778e9c488ef00671a4ad71a8a4cdc808ec66ceb668373afe900"
+    },
+    {
+      "path": "source/assets/fonts/geist/OFL.txt",
+      "original": "assets/fonts/geist/OFL.txt",
+      "sha256": "1781d2806a07d91c4edf4740b88449fab7d0eadad53f7c351b94cd4d4eb8c00f"
+    },
+    {
+      "path": "source/assets/fonts/geistmono/GeistMono-Italic[wght].ttf",
+      "original": "assets/fonts/geistmono/GeistMono-Italic[wght].ttf",
+      "sha256": "70c15be47d55f637197f7e38570dbca16b35777ea647dc3598f61bf3961d2b0d"
+    },
+    {
+      "path": "source/assets/fonts/geistmono/GeistMono[wght].ttf",
+      "original": "assets/fonts/geistmono/GeistMono[wght].ttf",
+      "sha256": "d00e590b8eb3a59acc329b2d044fd143ae935090b7da33199ebee27cc7de8196"
+    },
+    {
+      "path": "source/assets/fonts/geistmono/METADATA.pb",
+      "original": "assets/fonts/geistmono/METADATA.pb",
+      "sha256": "55d2fe9078cf7debb333b4d294e945586e6b1c3b2bc68225f88a2e01d87a69a3"
+    },
+    {
+      "path": "source/assets/fonts/geistmono/OFL.txt",
+      "original": "assets/fonts/geistmono/OFL.txt",
+      "sha256": "1781d2806a07d91c4edf4740b88449fab7d0eadad53f7c351b94cd4d4eb8c00f"
+    },
+    {
+      "path": "source/assets/fonts/instrumentserif/InstrumentSerif-Italic.ttf",
+      "original": "assets/fonts/instrumentserif/InstrumentSerif-Italic.ttf",
+      "sha256": "08939b8bdf534afec24ae0ef5e03f948940cd9a8fe08e7fecbad040e62327385"
+    },
+    {
+      "path": "source/assets/fonts/instrumentserif/InstrumentSerif-Regular.ttf",
+      "original": "assets/fonts/instrumentserif/InstrumentSerif-Regular.ttf",
+      "sha256": "498efd461f6ddfcb7a111bf9a565709d2085d48201d501ead960d93e84ffbb88"
+    },
+    {
+      "path": "source/assets/fonts/instrumentserif/METADATA.pb",
+      "original": "assets/fonts/instrumentserif/METADATA.pb",
+      "sha256": "9a650bee57af3478f9294c8765292dcea36322082b987b857e29a2ea64861f6a"
+    },
+    {
+      "path": "source/assets/fonts/instrumentserif/OFL.txt",
+      "original": "assets/fonts/instrumentserif/OFL.txt",
+      "sha256": "129ed7618959716959f2941fdd5b49e0ad6e6c1d78726761786a00253d865521"
+    },
+    {
+      "path": "source/assets/fonts/manifest.json",
+      "original": "assets/fonts/manifest.json",
+      "sha256": "60e8d14c97f2a2eaf55aa6ce078e105d634d1922266555763db561bd725a5379"
+    },
+    {
+      "path": "source/assets/fonts/notosansarabic/METADATA.pb",
+      "original": "assets/fonts/notosansarabic/METADATA.pb",
+      "sha256": "514bf8961fb28742be1947e6627d6c46f5a5bf3c6d7136548b16e9a8885991b9"
+    },
+    {
+      "path": "source/assets/fonts/notosansarabic/NotoSansArabic[wdth,wght].ttf",
+      "original": "assets/fonts/notosansarabic/NotoSansArabic[wdth,wght].ttf",
+      "sha256": "63111b5b2e074dd48cc67692e0a2726d86ee94c1c37fe8598257b7b4e87e869e"
+    },
+    {
+      "path": "source/assets/fonts/notosansarabic/OFL.txt",
+      "original": "assets/fonts/notosansarabic/OFL.txt",
+      "sha256": "07fc70bfeb985cc1a87a8587d0a0c80bab11c86c9dc3fd95b6f0cb332f983e96"
+    },
+    {
+      "path": "source/assets/fonts/notosansbengali/METADATA.pb",
+      "original": "assets/fonts/notosansbengali/METADATA.pb",
+      "sha256": "4f61246bf1c5a36c89532271bd1283ecf4b26967dcf29ce87815e617b6d5d571"
+    },
+    {
+      "path": "source/assets/fonts/notosansbengali/NotoSansBengali[wdth,wght].ttf",
+      "original": "assets/fonts/notosansbengali/NotoSansBengali[wdth,wght].ttf",
+      "sha256": "dcd42978094e584a849c84a51450eeac40c8826057d566ea6d4b9627a403a05a"
+    },
+    {
+      "path": "source/assets/fonts/notosansbengali/OFL.txt",
+      "original": "assets/fonts/notosansbengali/OFL.txt",
+      "sha256": "754f0e221aa7d5a915489f3bf1f20fe53ddc35ab2834a4d91656d78f9622de70"
+    },
+    {
+      "path": "source/assets/tray/mic_idle.ico",
+      "original": "assets/tray/mic_idle.ico",
+      "sha256": "adc87bcee662ce085fee92f358fac7461e72325b1313f064ffd5724608f23876"
+    },
+    {
+      "path": "source/assets/tray/mic_processing.ico",
+      "original": "assets/tray/mic_processing.ico",
+      "sha256": "bbef8e880136bc8a9597b6c87e2b47524e0d21351821456ee54d7591d85d6cbc"
+    },
+    {
+      "path": "source/assets/tray/mic_recording.ico",
+      "original": "assets/tray/mic_recording.ico",
+      "sha256": "6672b2ebf1c4dda0f7c73188439e6096f6bef132ae7b02f113a66cf34fb2bec9"
+    },
+    {
+      "path": "source/design/tokens.json",
+      "original": "design/tokens.json",
+      "sha256": "90fc44b24d319d3565986e28d909d23233b371dcb5a05b614a054a6ca38e67d4"
+    },
+    {
+      "path": "source/saydraft/app.py.txt",
+      "original": "saydraft/app.py",
+      "sha256": "188232b32263b7202081246c77c35dd5d0bc2f348ee5d7aa9ba707029d417c6a"
+    },
+    {
+      "path": "source/saydraft/ui/__init__.py.txt",
+      "original": "saydraft/ui/__init__.py",
+      "sha256": "850cee902b0b108ae0957865c189f6d6a1416a39614f10bb141610f27794196a"
+    },
+    {
+      "path": "source/saydraft/ui/ask_answer.py.txt",
+      "original": "saydraft/ui/ask_answer.py",
+      "sha256": "0b7e7be205ae6ad8c1cf19432a5b389006c90061c57a2217a05b350c64d084f4"
+    },
+    {
+      "path": "source/saydraft/ui/ask_window.py.txt",
+      "original": "saydraft/ui/ask_window.py",
+      "sha256": "6f74c45eb69ff0d31812b1cfdd3a7c1e51a14fbfba487302e167ec6f4d948120"
+    },
+    {
+      "path": "source/saydraft/ui/bar_gallery.py.txt",
+      "original": "saydraft/ui/bar_gallery.py",
+      "sha256": "15c391ed8d7d1cd5546425dff488af89a3aab6db65357b83ed2e1268a719d6d8"
+    },
+    {
+      "path": "source/saydraft/ui/bar_motion.py.txt",
+      "original": "saydraft/ui/bar_motion.py",
+      "sha256": "e0d48526f426d0d3510d296f30540ff8a3e610f29c0875804acad2f7039bb104"
+    },
+    {
+      "path": "source/saydraft/ui/bar_placement.py.txt",
+      "original": "saydraft/ui/bar_placement.py",
+      "sha256": "11b62cb998f72a72f68d81870540638e6f6ae9ccbf2b3a34fd3149ebd93a8014"
+    },
+    {
+      "path": "source/saydraft/ui/bar_sounds.py.txt",
+      "original": "saydraft/ui/bar_sounds.py",
+      "sha256": "9bea263a390f8ac6fa19f97884b479dee11f4d1d09f12225d8c91da5af538fcb"
+    },
+    {
+      "path": "source/saydraft/ui/bar_widget.py.txt",
+      "original": "saydraft/ui/bar_widget.py",
+      "sha256": "9a281d692244566b7fa7c869bd30e87f144600f113334c63e90c05b53017662e"
+    },
+    {
+      "path": "source/saydraft/ui/cleanup_picker.py.txt",
+      "original": "saydraft/ui/cleanup_picker.py",
+      "sha256": "34a8e5bcb97382c2ddc0caca2934fdcb71be7492920a79721dd7541d8c7b0711"
+    },
+    {
+      "path": "source/saydraft/ui/command_recovery.py.txt",
+      "original": "saydraft/ui/command_recovery.py",
+      "sha256": "2e9329f326c35da19d2c80a98700950bbdd21c1302861fb7f241648052325b1f"
+    },
+    {
+      "path": "source/saydraft/ui/command_setup.py.txt",
+      "original": "saydraft/ui/command_setup.py",
+      "sha256": "36abe290be0862244ff824076bda463ba9f56d07116dc56ca45d08289797e1c1"
+    },
+    {
+      "path": "source/saydraft/ui/dictionary_page.py.txt",
+      "original": "saydraft/ui/dictionary_page.py",
+      "sha256": "9c239f96789664af42a1065bf8559b0ac74fee9a60b7bba95a3bf8f42ed5f677"
+    },
+    {
+      "path": "source/saydraft/ui/dictionary_toast.py.txt",
+      "original": "saydraft/ui/dictionary_toast.py",
+      "sha256": "799c4a4d7dc2c3e2e6fd1d4952ff1f0e20a6c9ffb77b1cc62f229de3f6c44a94"
+    },
+    {
+      "path": "source/saydraft/ui/download_task.py.txt",
+      "original": "saydraft/ui/download_task.py",
+      "sha256": "5e250d9afac0cfb19507d872368324397b758d43ceb2b76fc9ece08327789c56"
+    },
+    {
+      "path": "source/saydraft/ui/firewall_card.py.txt",
+      "original": "saydraft/ui/firewall_card.py",
+      "sha256": "b99fa0ad3f5382de32df1382d48f10becbe95359fbcb9b6fe61017989c37c852"
+    },
+    {
+      "path": "source/saydraft/ui/fonts.py.txt",
+      "original": "saydraft/ui/fonts.py",
+      "sha256": "e6acd205e8809a1325366b85193bbebcf191e204eecbca5a0ebff8cffd23bf3f"
+    },
+    {
+      "path": "source/saydraft/ui/gallery.py.txt",
+      "original": "saydraft/ui/gallery.py",
+      "sha256": "956ec09b1fd1b9d57df2048a008afb848a3198a5b5b3d876a2f4d8cfd8b3616d"
+    },
+    {
+      "path": "source/saydraft/ui/gallery_catalog.py.txt",
+      "original": "saydraft/ui/gallery_catalog.py",
+      "sha256": "49fb95b0edad398b93661c6840dc43faa1c62dbadf8b45cd20254f28682522ad"
+    },
+    {
+      "path": "source/saydraft/ui/hardware_page.py.txt",
+      "original": "saydraft/ui/hardware_page.py",
+      "sha256": "edfd423ce4db452b8485260f66baf92fc0132947f06839a8647a59fa62a4ea11"
+    },
+    {
+      "path": "source/saydraft/ui/history_jobs.py.txt",
+      "original": "saydraft/ui/history_jobs.py",
+      "sha256": "292caa2cf22b86257b56d00ea78b35c397a4e8298b55d482400ff53d1d009adb"
+    },
+    {
+      "path": "source/saydraft/ui/history_page.py.txt",
+      "original": "saydraft/ui/history_page.py",
+      "sha256": "575d79dd1f1cf31b752c169397e5371efe4448ce74e7e24264bb216afe72f062"
+    },
+    {
+      "path": "source/saydraft/ui/history_retry.py.txt",
+      "original": "saydraft/ui/history_retry.py",
+      "sha256": "72aed7fdfe510363501365b748e90f25bfe24c4f283abbfed843023354617aa5"
+    },
+    {
+      "path": "source/saydraft/ui/home_page.py.txt",
+      "original": "saydraft/ui/home_page.py",
+      "sha256": "44d17611487d0c84027a73e99857abf12d9538fc3efa1bde6da4f2a1373fe51f"
+    },
+    {
+      "path": "source/saydraft/ui/hub.py.txt",
+      "original": "saydraft/ui/hub.py",
+      "sha256": "a4a6066a5e3886648731915af8e370d0128b6fe0fffd346acfca9f457ba8ba3d"
+    },
+    {
+      "path": "source/saydraft/ui/icons.py.txt",
+      "original": "saydraft/ui/icons.py",
+      "sha256": "fc8e5cfa1df8e1af4c47241c4e6ae30708fb4ba110fad261a5c077709e8ce75e"
+    },
+    {
+      "path": "source/saydraft/ui/labs_page.py.txt",
+      "original": "saydraft/ui/labs_page.py",
+      "sha256": "51c7860b846834008fd252850542e6e4120c018e29ee7b8d51f86f285400862c"
+    },
+    {
+      "path": "source/saydraft/ui/languages_page.py.txt",
+      "original": "saydraft/ui/languages_page.py",
+      "sha256": "c6a0a19b47c40e9ef5c4341480c65dd5ad11c3169a92dccc0ec53b63012b8c88"
+    },
+    {
+      "path": "source/saydraft/ui/meeting_capsule.py.txt",
+      "original": "saydraft/ui/meeting_capsule.py",
+      "sha256": "3e3f6cd5eb40a0ea7d67fbb11d695b16d25563c3a732610b801f9539530b6df0"
+    },
+    {
+      "path": "source/saydraft/ui/meeting_setup.py.txt",
+      "original": "saydraft/ui/meeting_setup.py",
+      "sha256": "c4b14668cd25c4567e17f66536db34cb11e63bb83066677aabbeb0b5bd5683e9"
+    },
+    {
+      "path": "source/saydraft/ui/microphone_page.py.txt",
+      "original": "saydraft/ui/microphone_page.py",
+      "sha256": "e35a7d7be9d0bac72a5d6bba244157be5effef372e0866f1d520238a6ee740ed"
+    },
+    {
+      "path": "source/saydraft/ui/model_picker.py.txt",
+      "original": "saydraft/ui/model_picker.py",
+      "sha256": "173acc82279458d5a88730eac964a622dc102c4d00747c6499cc666d2a973c37"
+    },
+    {
+      "path": "source/saydraft/ui/model_storage.py.txt",
+      "original": "saydraft/ui/model_storage.py",
+      "sha256": "a33da86afef8aea54b375db4b1f9569ce195e5cbba8211ce209d319b952e8e31"
+    },
+    {
+      "path": "source/saydraft/ui/notes_page.py.txt",
+      "original": "saydraft/ui/notes_page.py",
+      "sha256": "4379bcbab99abfa6bd554739ad4db90773916abf4be985d9c8825d9f9fe5369c"
+    },
+    {
+      "path": "source/saydraft/ui/onboarding.py.txt",
+      "original": "saydraft/ui/onboarding.py",
+      "sha256": "b19b41325e04b5b61cae459f16eb21a8dd7d496c41d899ef3a4cacd3af2bc7a8"
+    },
+    {
+      "path": "source/saydraft/ui/onboarding_models.py.txt",
+      "original": "saydraft/ui/onboarding_models.py",
+      "sha256": "cbcdf9d9f07c10ff84cfdffcb6115446d3b7b9f5d78b900d4a6fbcd6a6d48376"
+    },
+    {
+      "path": "source/saydraft/ui/onboarding_practice.py.txt",
+      "original": "saydraft/ui/onboarding_practice.py",
+      "sha256": "ab84fa6d99b78eb05ef43c2d7f4a117a3d795f9839484502aa0968d9e1e6db49"
+    },
+    {
+      "path": "source/saydraft/ui/onboarding_shortcuts.py.txt",
+      "original": "saydraft/ui/onboarding_shortcuts.py",
+      "sha256": "6102a43c153f562f6c3d1b69c91e9a87fc0c46b9c5dbea0251231c8d85abcb85"
+    },
+    {
+      "path": "source/saydraft/ui/onboarding_style.py.txt",
+      "original": "saydraft/ui/onboarding_style.py",
+      "sha256": "d2d8b1c8ed724b75d545eead1af76e4768eb0fff7576814e5700c990d7ab98d4"
+    },
+    {
+      "path": "source/saydraft/ui/pill.py.txt",
+      "original": "saydraft/ui/pill.py",
+      "sha256": "c09be3cfbdbf528139f92b7756987129b3edea439f2dade4f0333843a93b4498"
+    },
+    {
+      "path": "source/saydraft/ui/privacy_page.py.txt",
+      "original": "saydraft/ui/privacy_page.py",
+      "sha256": "42574b0838133fab9599dc3b3a62936c0bb2ac86ce81ff8924cc2b5da30c22a4"
+    },
+    {
+      "path": "source/saydraft/ui/private_text.py.txt",
+      "original": "saydraft/ui/private_text.py",
+      "sha256": "341548982cc1f52d45a560d1aa0c3406356699fff4ae09ac5ccab51545e95189"
+    },
+    {
+      "path": "source/saydraft/ui/progress.py.txt",
+      "original": "saydraft/ui/progress.py",
+      "sha256": "0e668b006d147bcf1fe4d976af15fd88b38844903b4557137e08784dedb11582"
+    },
+    {
+      "path": "source/saydraft/ui/reflow.py.txt",
+      "original": "saydraft/ui/reflow.py",
+      "sha256": "cb080adb97206b9b3114d9e89ce8a73af63feb1882e5c777660e5027ce9d819a"
+    },
+    {
+      "path": "source/saydraft/ui/scratchpad.py.txt",
+      "original": "saydraft/ui/scratchpad.py",
+      "sha256": "81e18b7ac48207b50d3375c84af622242554f4ea987914178f4cfc7217febb0b"
+    },
+    {
+      "path": "source/saydraft/ui/settings_page.py.txt",
+      "original": "saydraft/ui/settings_page.py",
+      "sha256": "f2f06a6416e2ebb19fe8d48806416172953b10c40d99f87ad14bfd6b0b955cb8"
+    },
+    {
+      "path": "source/saydraft/ui/snippets_page.py.txt",
+      "original": "saydraft/ui/snippets_page.py",
+      "sha256": "5c2ba79d3c5f0e82630b57157c56048cf9510a25d76f2e5c3b82140484597656"
+    },
+    {
+      "path": "source/saydraft/ui/sound_assets/LICENSE",
+      "original": "saydraft/ui/sound_assets/LICENSE",
+      "sha256": "adeb22779ba6343aee84a41d1b33b1e979ba5510b1325ccb287a0b8e64628c24"
+    },
+    {
+      "path": "source/saydraft/ui/sound_assets/__init__.py.txt",
+      "original": "saydraft/ui/sound_assets/__init__.py",
+      "sha256": "3ee7d7d2b59d6c86b671b68c487ada664682916d441d6df3cef0872a849b3e52"
+    },
+    {
+      "path": "source/saydraft/ui/sound_assets/command.wav",
+      "original": "saydraft/ui/sound_assets/command.wav",
+      "sha256": "e44bde219c945cf61e4d7ee9a29e7b0588839aaccf98e99e7b05d5329170c0d6"
+    },
+    {
+      "path": "source/saydraft/ui/sound_assets/end.wav",
+      "original": "saydraft/ui/sound_assets/end.wav",
+      "sha256": "a37c44973bbcf2e29a01958e6c73694ab1f735f79a72e6a912c721660b78b596"
+    },
+    {
+      "path": "source/saydraft/ui/sound_assets/manifest.json",
+      "original": "saydraft/ui/sound_assets/manifest.json",
+      "sha256": "e278d59d498d5850a2975e9c58ec3814e5a449a93b31ede7747ebceb703bae2a"
+    },
+    {
+      "path": "source/saydraft/ui/sound_assets/start.wav",
+      "original": "saydraft/ui/sound_assets/start.wav",
+      "sha256": "dba3a4e53ebcc0ebf1516c9df576475a71858b01f42c151a9319ad7e1a147af9"
+    },
+    {
+      "path": "source/saydraft/ui/styles_page.py.txt",
+      "original": "saydraft/ui/styles_page.py",
+      "sha256": "b54e8292f033d5bc1736d86fbaec2cfd19277b4119425f0f6bdf3a9e9f685fe1"
+    },
+    {
+      "path": "source/saydraft/ui/theme/__init__.py.txt",
+      "original": "saydraft/ui/theme/__init__.py",
+      "sha256": "4d890d243004a4d959bc0f27700295aecc34d4e7972038169eb93dcff3217c32"
+    },
+    {
+      "path": "source/saydraft/ui/theme/check-dark.svg",
+      "original": "saydraft/ui/theme/check-dark.svg",
+      "sha256": "932c701be63ea25a180034e1f55c769cc6019511e10012d2742741617da4cd7a"
+    },
+    {
+      "path": "source/saydraft/ui/theme/check-light.svg",
+      "original": "saydraft/ui/theme/check-light.svg",
+      "sha256": "108a3ab0d0dfbd2a690083a4cee683183452ee8b7f6a58ef12b9b81ca8c243c6"
+    },
+    {
+      "path": "source/saydraft/ui/theme/controller.py.txt",
+      "original": "saydraft/ui/theme/controller.py",
+      "sha256": "3bf43584f956eca556a0f4d4eadbd5233fd46d9af34c300eefff5c7fe1b30f6c"
+    },
+    {
+      "path": "source/saydraft/ui/theme/down-dark.svg",
+      "original": "saydraft/ui/theme/down-dark.svg",
+      "sha256": "833a20226a0d063e7fa4487dd61aafb92b350a8a723878efd32165401eeea647"
+    },
+    {
+      "path": "source/saydraft/ui/theme/down-light.svg",
+      "original": "saydraft/ui/theme/down-light.svg",
+      "sha256": "52a89562dc2b80ca2b13c4fa744506f6b3841553b6c793a47babdefe18b9da7d"
+    },
+    {
+      "path": "source/saydraft/ui/theme/metadata.json",
+      "original": "saydraft/ui/theme/metadata.json",
+      "sha256": "7fc64afcb169d50481a1950fc7c44a21eda21fa587184127184edfc727c267cc"
+    },
+    {
+      "path": "source/saydraft/ui/theme/radio-dark.svg",
+      "original": "saydraft/ui/theme/radio-dark.svg",
+      "sha256": "164bbf2cbd0aef6f9b2057eccdd44b4bb1058303cc2849947322350ae3036e34"
+    },
+    {
+      "path": "source/saydraft/ui/theme/radio-light.svg",
+      "original": "saydraft/ui/theme/radio-light.svg",
+      "sha256": "461a35ab24a88a32ea27529c6209f99012518387d4f88980756784bb4200423e"
+    },
+    {
+      "path": "source/saydraft/ui/theme/tokens-dark.qss",
+      "original": "saydraft/ui/theme/tokens-dark.qss",
+      "sha256": "135f60ab8f70e4c6913d5845f49711d9e1d67c5a5b45e9261b5f37b0fe01d6ee"
+    },
+    {
+      "path": "source/saydraft/ui/theme/tokens.qss",
+      "original": "saydraft/ui/theme/tokens.qss",
+      "sha256": "6e961be8f7efc1c68e3f9ae885e5b2b90c789344fb9785fa01ecdb4d0ba0f4f9"
+    },
+    {
+      "path": "source/saydraft/ui/theme/up-dark.svg",
+      "original": "saydraft/ui/theme/up-dark.svg",
+      "sha256": "862bb4036789bca0ef36a7d9c71133c0882085019e77e64fde04a7289085eb02"
+    },
+    {
+      "path": "source/saydraft/ui/theme/up-light.svg",
+      "original": "saydraft/ui/theme/up-light.svg",
+      "sha256": "b65162a76c30f856cdc1ab78da4efa99d486bd53beaf6996f8f359074592fd2a"
+    },
+    {
+      "path": "source/saydraft/ui/tier_picker.py.txt",
+      "original": "saydraft/ui/tier_picker.py",
+      "sha256": "418dfeefeedb4678a24bc6eb4be573ea5af3cb37f8543d524805b6ecfa6ccb50"
+    },
+    {
+      "path": "source/saydraft/ui/tray.py.txt",
+      "original": "saydraft/ui/tray.py",
+      "sha256": "c25bbfd0c094670427137c10a57b9440c84322310997407200356e7800fbe1f8"
+    },
+    {
+      "path": "source/saydraft/ui/updates.py.txt",
+      "original": "saydraft/ui/updates.py",
+      "sha256": "83f950495930c87123fcb224cb0f66ac3c2ed98be736f81b34e998db09bd9666"
+    },
+    {
+      "path": "source/saydraft/ui/whisper_mode.py.txt",
+      "original": "saydraft/ui/whisper_mode.py",
+      "sha256": "3481063ffef4fe3d146f05743a51fae0b43a094be9344adca814eadfdf2347b8"
+    },
+    {
+      "path": "guides/MICROPHONE.md",
+      "original": "docs/MICROPHONE.md",
+      "sha256": "b59949434d2e93cfcc053ba1a4bafe69a6bad24e4fa4652bcf60aff9e1b06131"
+    },
+    {
+      "path": "guides/ONBOARDING.md",
+      "original": "docs/ONBOARDING.md",
+      "sha256": "3ddfc97f80a3affed483c1993c44c7d1e6f2279a10cf2e3e609ec31af97c2e4b"
+    },
+    {
+      "path": "guides/HUB_ACCESSIBILITY.md",
+      "original": "docs/HUB_ACCESSIBILITY.md",
+      "sha256": "4b7aa8072d18effcdb8a37ac7e9f04ca215501076762adb71e24e3df80bbfcb7"
+    },
+    {
+      "path": "guides/NOTES.md",
+      "original": "docs/NOTES.md",
+      "sha256": "ad4150c97bda7c13b41bb98ffae0f1ad201f6e6444f43fe170badf9574f71f55"
+    },
+    {
+      "path": "images/dark-bar-cleaning.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-bar-cleaning.png",
+      "sha256": "cfe52bc7fe1478e0de4b67b5e1dfd29f83194bd209168d87d5f50f60f078c028"
+    },
+    {
+      "path": "images/dark-bar-command.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-bar-command.png",
+      "sha256": "b4f429b3bb8cc4b1e9fc80317a18f84bac7edf320e5c6a0691163717ef6c2bd6"
+    },
+    {
+      "path": "images/dark-bar-hands-free.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-bar-hands-free.png",
+      "sha256": "d13e9f9c4a08645bd908ddc1fbfc6849c7cadd829f7d38348af348074da2c54e"
+    },
+    {
+      "path": "images/dark-bar-hidden.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-bar-hidden.png",
+      "sha256": "fcab788eea82ec43478b1498a99f70eedc766ee0e1e5e4c2ad47fd7f3e32562c"
+    },
+    {
+      "path": "images/dark-bar-hover.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-bar-hover.png",
+      "sha256": "7ed52ebff568bdf76ecf513ff86336bad0d1888be78573dcf02d83185a888c6a"
+    },
+    {
+      "path": "images/dark-bar-idle.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-bar-idle.png",
+      "sha256": "4289ac1ed610a1623dd3cb24e80ca7135c520fbbf728931ae2e6ed28d6567460"
+    },
+    {
+      "path": "images/dark-bar-listening.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-bar-listening.png",
+      "sha256": "3b460bab3227ad1dfb1d78f85573261dcaffa9dc9e5786177039e8767c36bb22"
+    },
+    {
+      "path": "images/dark-bar-long-recording.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-bar-long-recording.png",
+      "sha256": "d13e9f9c4a08645bd908ddc1fbfc6849c7cadd829f7d38348af348074da2c54e"
+    },
+    {
+      "path": "images/dark-bar-mic-error.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-bar-mic-error.png",
+      "sha256": "4294e93e97e7cd1edf6544b67211012a1d008ecfd420cef8b3d675d2ff6a9fb4"
+    },
+    {
+      "path": "images/dark-bar-model-error.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-bar-model-error.png",
+      "sha256": "b64c5d2cc193e1fe7b6514925aea1dea56669e8162ca2c7a3898eb115651aaf2"
+    },
+    {
+      "path": "images/dark-bar-not-inserted.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-bar-not-inserted.png",
+      "sha256": "03b258c8fe7c8cb57587f3f4cdaf8faf52ec4abc25b45d8fdfb883369fe161ed"
+    },
+    {
+      "path": "images/dark-bar-not-saved.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-bar-not-saved.png",
+      "sha256": "c62d3fc502545c7f97c1f2377f6f3f77cd25a3dec81b45407090e99a6b0afcdb"
+    },
+    {
+      "path": "images/dark-bar-preparing-hands-free.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-bar-preparing-hands-free.png",
+      "sha256": "614ecceb1839ec718802b6e84fede2b153c9c30d0646cf006a86510ede5519c7"
+    },
+    {
+      "path": "images/dark-bar-preparing.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-bar-preparing.png",
+      "sha256": "548fb585d0c5258c4259896e67d8cfc0b39013e4573f18ca514381e28ee6a78a"
+    },
+    {
+      "path": "images/dark-bar-preview.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-bar-preview.png",
+      "sha256": "35c10f13996432de950a492fdaf738e4561a7c40852d4ebec739dd5aac2853fd"
+    },
+    {
+      "path": "images/dark-bar-processing.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-bar-processing.png",
+      "sha256": "44a6b10e7fd032ad3f99e040432fcede8ab65d5ba3ee973382064b9c3344d098"
+    },
+    {
+      "path": "images/dark-controls.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-controls.png",
+      "sha256": "b6ff61926c573df0a4ecfbe39775599a72a8bb14c9febaeff275c0a1df750587"
+    },
+    {
+      "path": "images/dark-hub-dictionary-expanded.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-hub-dictionary-expanded.png",
+      "sha256": "aa666ca6bc2e0e57b152777eaa0d628b17c02260009b20f951a0d741fb7782ed"
+    },
+    {
+      "path": "images/dark-hub-dictionary.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-hub-dictionary.png",
+      "sha256": "38793c89a4a3e85f0f367d2f5d1bceaf9cf0bc2adf331968fdf8fa0d72440448"
+    },
+    {
+      "path": "images/dark-hub-history-diff.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-hub-history-diff.png",
+      "sha256": "5fb58f492518df45691bd3540dae5d254c8f0e13122e74b7e5df7e15ad00147a"
+    },
+    {
+      "path": "images/dark-hub-history-empty.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-hub-history-empty.png",
+      "sha256": "fd185a14b439a40dbed38246d629e20fb467f43bb426a24045ac0f6a050a54bb"
+    },
+    {
+      "path": "images/dark-hub-history-no-results.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-hub-history-no-results.png",
+      "sha256": "d6a76947dce50d98a3413461722177e4e1965a40a6c3ae2824b72b2d797b7b4a"
+    },
+    {
+      "path": "images/dark-hub-history-raw.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-hub-history-raw.png",
+      "sha256": "6add85ed83affe5b6411a051230dc0b3d59a74223d2287cd091d79e8123d3738"
+    },
+    {
+      "path": "images/dark-hub-history-reason.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-hub-history-reason.png",
+      "sha256": "ea558116451f83291920d768a4a135e5c493e3c084a893f42cd7d7f2f1b9051e"
+    },
+    {
+      "path": "images/dark-hub-history.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-hub-history.png",
+      "sha256": "97bf0c9659e821737fba708d135963a9306e332e74725e107aa1af8400b956a1"
+    },
+    {
+      "path": "images/dark-hub-home.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-hub-home.png",
+      "sha256": "38105169ff0bdc28ace81765d6aa620a60b572b4115a73cac90f86d312325719"
+    },
+    {
+      "path": "images/dark-hub-notes-empty.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-hub-notes-empty.png",
+      "sha256": "3f0b1f55dcdc29e7e62f2ffc381ace013625c15ba9c39f8a62ff6eed5b8a1087"
+    },
+    {
+      "path": "images/dark-hub-notes.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-hub-notes.png",
+      "sha256": "a4fe06ef95ce73708a912bc3bd03391334e86e94bec63523a246318f1df6895c"
+    },
+    {
+      "path": "images/dark-hub-settings-about.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-hub-settings-about.png",
+      "sha256": "6c034c6b1631f7a8961fa12d582f50b28dd1f45becdddc10e9f6c6439b8a685d"
+    },
+    {
+      "path": "images/dark-hub-settings-cleanup.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-hub-settings-cleanup.png",
+      "sha256": "5cbd84fec9d980d8f0532cf957adcd9324df992393a2757188ea9d8c0f3424c0"
+    },
+    {
+      "path": "images/dark-hub-settings-general.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-hub-settings-general.png",
+      "sha256": "7d9a8257f7818f82dd82569c7fa713add550e4a175dbef02f0196373c3c74fd2"
+    },
+    {
+      "path": "images/dark-hub-settings-labs.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-hub-settings-labs.png",
+      "sha256": "2784934f408f0c1f5faf9ea86e7bebd4a472d0a4c9d76d7c3c24e9c5eabf843a"
+    },
+    {
+      "path": "images/dark-hub-settings-languages.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-hub-settings-languages.png",
+      "sha256": "3e482e2a8687e6a841a5ffaa81a20616039eaa53615139c94ec573c2d378c4c1"
+    },
+    {
+      "path": "images/dark-hub-settings-microphone.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-hub-settings-microphone.png",
+      "sha256": "de2596fb4d72839d580d680ee03f62f9bfcbabc1ee50dbc0b68766e94857ed60"
+    },
+    {
+      "path": "images/dark-hub-settings-models.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-hub-settings-models.png",
+      "sha256": "07b530b778b61bbac701c794b94e074188e65e5f15c890f9fdcc2de54d386e5f"
+    },
+    {
+      "path": "images/dark-hub-settings-performance.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-hub-settings-performance.png",
+      "sha256": "1d20dde8b29d11a41a66f2bcd88a2bb1bbe865f66833acd1d39ba50c52639ec2"
+    },
+    {
+      "path": "images/dark-hub-settings-privacy.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-hub-settings-privacy.png",
+      "sha256": "013296227d79231f45f0cf7d4686a334ecf9ecf6e3562adecf6c3ea1b7b623cd"
+    },
+    {
+      "path": "images/dark-hub-settings-shortcuts.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-hub-settings-shortcuts.png",
+      "sha256": "01a7e2411218f01a65b0bb02ae86764ed438a1f0da47035b3903dc18d831295e"
+    },
+    {
+      "path": "images/dark-hub-snippets-expanded.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-hub-snippets-expanded.png",
+      "sha256": "217f3d6c0570f1415af20856bfefc4b33df5135e690089f72973fe1c7c69a132"
+    },
+    {
+      "path": "images/dark-hub-snippets.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-hub-snippets.png",
+      "sha256": "a300cb75dc24e8154c475088e24ca23f7c9c8272fecbbee275ad2ea15632ed89"
+    },
+    {
+      "path": "images/dark-hub-style.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-hub-style.png",
+      "sha256": "a9eb7b925aada716e0b3a019b152aa1cd0737cbfce9a4ca0773a13477d5b6fca"
+    },
+    {
+      "path": "images/dark-setup-microphone-empty.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-setup-microphone-empty.png",
+      "sha256": "efa7bf30ff1c303cabae4c577c3ff55a083ea4a75a17d16bbc5c7fbc79d0f93f"
+    },
+    {
+      "path": "images/dark-setup-microphone-failed.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-setup-microphone-failed.png",
+      "sha256": "8ddbc8a3f567b4bfe9405639ab3c483387a7853f137c74e035a079085d4368c9"
+    },
+    {
+      "path": "images/dark-setup-microphone-listening.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-setup-microphone-listening.png",
+      "sha256": "8d713f47c6f63eb016e926f29f75ad0d330a385803c2cca70210ff4c779ba68e"
+    },
+    {
+      "path": "images/dark-setup-microphone-scan-error.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-setup-microphone-scan-error.png",
+      "sha256": "98f34c7325f95e7c117453f31ec963b0ae2b5bd6eaec567f9189d70e37893dc8"
+    },
+    {
+      "path": "images/dark-setup-microphone.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-setup-microphone.png",
+      "sha256": "2a071b72d25ef3beadfa3e9537b3673c48c2d5ed1fb539019afa963bf904cdbf"
+    },
+    {
+      "path": "images/dark-setup-models-complete.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-setup-models-complete.png",
+      "sha256": "78c9f2dec48cfed66f42e985326b6fdc8313218788c97aa5c339b5a8f0b5e878"
+    },
+    {
+      "path": "images/dark-setup-models-downloading.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-setup-models-downloading.png",
+      "sha256": "47a48cccc5d9adc629d903ea9e362ea6fd01c49c232676d4503742bec57a9499"
+    },
+    {
+      "path": "images/dark-setup-models-error.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-setup-models-error.png",
+      "sha256": "941cb55bb7a0188b269e8dc9e407a4aa0ea7e38995213c38706fe251433364b3"
+    },
+    {
+      "path": "images/dark-setup-models-missing.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-setup-models-missing.png",
+      "sha256": "0e230a94bd09f4ba2b9270e7c8526620ba1a3d90818803f6c7ff1e3d8f4544bb"
+    },
+    {
+      "path": "images/dark-setup-models-paused.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-setup-models-paused.png",
+      "sha256": "ec8d2c75761756bd740038de42a1e10b28d4b594c80f8e6d1815802a2215a8a4"
+    },
+    {
+      "path": "images/dark-setup-models.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-setup-models.png",
+      "sha256": "a3a89821a3c0634dcadaa082a2be3df5f19aebb101071848a91c76c4bdef0b39"
+    },
+    {
+      "path": "images/dark-setup-practice-arming.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-setup-practice-arming.png",
+      "sha256": "8f99e7d7bab23e053cfb27f6e7a9946b6667b126d6e37d30b4510bf70aa6ddbc"
+    },
+    {
+      "path": "images/dark-setup-practice-chat-diff.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-setup-practice-chat-diff.png",
+      "sha256": "46ae18f5775f12c0551f198a62db58ddc160bb38fd10b8937d535b3dc25455c4"
+    },
+    {
+      "path": "images/dark-setup-practice-chat-result.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-setup-practice-chat-result.png",
+      "sha256": "cc95d892c089b0b970c0fd4295d0069ec41bbd731a127a8c8ea734d0d08aa909"
+    },
+    {
+      "path": "images/dark-setup-practice-cleanup-failed.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-setup-practice-cleanup-failed.png",
+      "sha256": "344bf7171706671918f720f977ae26d51865cdf4de9c8be29ceee4ccbb9d3a2e"
+    },
+    {
+      "path": "images/dark-setup-practice-email-diff.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-setup-practice-email-diff.png",
+      "sha256": "8541069b6687951e833ecd319584b40b0e2dca415773cdbd170c236449ac2c47"
+    },
+    {
+      "path": "images/dark-setup-practice-email-result.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-setup-practice-email-result.png",
+      "sha256": "5f9555be1b6be65320df905c94b20f9f311fb5f2caa3614b0b49c4152981703b"
+    },
+    {
+      "path": "images/dark-setup-practice-failed.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-setup-practice-failed.png",
+      "sha256": "a1b8e429791b80fa4bba5b066678620a6229a2d85a95d0a2a9e608a183f7ae42"
+    },
+    {
+      "path": "images/dark-setup-practice-microphone-unavailable.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-setup-practice-microphone-unavailable.png",
+      "sha256": "d6444709ee86ad4b3a958dc4cd692e697fccfc054df4762b8214a415857ceecc"
+    },
+    {
+      "path": "images/dark-setup-practice-model-unavailable.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-setup-practice-model-unavailable.png",
+      "sha256": "e10f3e5cf47efab4db8eb7ac87ef3b239ed05ba39b0f804f1bfab62f51450931"
+    },
+    {
+      "path": "images/dark-setup-practice-no-text.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-setup-practice-no-text.png",
+      "sha256": "a48732c99f7af06231051563ba3834d231f2cf96dbd404a5d955622ccad15ee8"
+    },
+    {
+      "path": "images/dark-setup-practice-processing.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-setup-practice-processing.png",
+      "sha256": "3ffb53ab7db0fb62f8a910e3ec803fa74738a1505142d6cdc72bd5d25a7fed4a"
+    },
+    {
+      "path": "images/dark-setup-practice-ready.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-setup-practice-ready.png",
+      "sha256": "171058a68ad12f5c4811518b19a920992b6606a506ae68158697ede433afd099"
+    },
+    {
+      "path": "images/dark-setup-practice-recording.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-setup-practice-recording.png",
+      "sha256": "f84c8ef4eb24b7a1715c49755c1c5e59a72d1dd5874fb538a0531fa3bd988728"
+    },
+    {
+      "path": "images/dark-setup-practice-result-too-long.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-setup-practice-result-too-long.png",
+      "sha256": "a29a1745cad97ca02673d4e6922469663cc7b053ef940cbdfba14401a2f1a663"
+    },
+    {
+      "path": "images/dark-setup-practice-stopping.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-setup-practice-stopping.png",
+      "sha256": "e1b96a373f8f80bc4085b2f00ea8d7d9d3d8d52ff858b8c2d2099e7e25744301"
+    },
+    {
+      "path": "images/dark-setup-practice-too-short.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-setup-practice-too-short.png",
+      "sha256": "3326f76a417c45a65a508edc593880247d51ba98825a128bf357904965d351ab"
+    },
+    {
+      "path": "images/dark-setup-practice.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-setup-practice.png",
+      "sha256": "5a055c219c4a62e52c0e763f4a346eb203a40edfb636d6a93d777f49cd4443ed"
+    },
+    {
+      "path": "images/dark-setup-shortcut-conflict.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-setup-shortcut-conflict.png",
+      "sha256": "6aba981bf8ac9b58f5587a5024094d7399d0b4561914dfbe7138703b283d819d"
+    },
+    {
+      "path": "images/dark-setup-shortcut.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-setup-shortcut.png",
+      "sha256": "0e34dea1561ff25cfd05c9cf629e2e3eff9b0b640300b98d03eb392932da9f34"
+    },
+    {
+      "path": "images/dark-setup-style.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-setup-style.png",
+      "sha256": "92df648ae6cdeb4115db90716eaa1e548171cd358c9deb986ba4b5ad7bf8f554"
+    },
+    {
+      "path": "images/dark-setup-welcome.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-setup-welcome.png",
+      "sha256": "1da4e3739aaf44e8720d0c879edc5091da4cd9eae35484b49113d8c5fba9be8f"
+    },
+    {
+      "path": "images/dark-style.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-style.png",
+      "sha256": "7544cd362abfbe13ca6d233050d92a09ebe39c4c0f4f7157c8b0fa8b49e0096a"
+    },
+    {
+      "path": "images/dark-toast-added.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-toast-added.png",
+      "sha256": "79c6fc54be9d7614695608e2f64f5f9e0374fd6ddd85bd27f6912f5aa02e32ca"
+    },
+    {
+      "path": "images/dark-toast-save-error.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-toast-save-error.png",
+      "sha256": "010afccf698d61ceb756394b5c78caaf71cdc03ec1554eacef667be5bada83e7"
+    },
+    {
+      "path": "images/dark-toast-saving.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-toast-saving.png",
+      "sha256": "8beabe38ba97b762ac9c03b1b4bf138ed0d54c6be4bbd0bed625c8db5deb9984"
+    },
+    {
+      "path": "images/dark-toast-stale.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-toast-stale.png",
+      "sha256": "005254e898c70fbc8192e8fab4bf378e7840616763225b1c9963df8d377f89be"
+    },
+    {
+      "path": "images/dark-toast-suggestion.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-toast-suggestion.png",
+      "sha256": "d49b3e407b2a6821453fe302601ee686b98f3348e14501c9d30e4e376e163c4e"
+    },
+    {
+      "path": "images/dark-toast-unchanged.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-toast-unchanged.png",
+      "sha256": "3475e2b5078f89fc8b1c3ba8a64ff6bcb3219bc18ba3ae6aed5a9f1a3f7d6ab7"
+    },
+    {
+      "path": "images/dark-toast-undo-busy.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-toast-undo-busy.png",
+      "sha256": "59b07e89cecabe348a442facb3eadb8123a903dc3c91eb7d0e28240f8adddd03"
+    },
+    {
+      "path": "images/dark-toast-undo-error.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-toast-undo-error.png",
+      "sha256": "b50bba0d5037d3106a5b01a464bf8b968a24e0ab10f7df3b4a3e6a4a42d31b3a"
+    },
+    {
+      "path": "images/dark-toast-undoing.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-toast-undoing.png",
+      "sha256": "44d87a0cb21a6e2c47f087a50d6f654bcd5cc51e929bd39466d00afb146b4fd0"
+    },
+    {
+      "path": "images/dark-toast-undone.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/dark-toast-undone.png",
+      "sha256": "94e98d52fda77460841f83f4fd7bb6b38b30e96c29a9d50f6eb58c8c5f7a893f"
+    },
+    {
+      "path": "images/light-bar-cleaning.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-bar-cleaning.png",
+      "sha256": "cfe52bc7fe1478e0de4b67b5e1dfd29f83194bd209168d87d5f50f60f078c028"
+    },
+    {
+      "path": "images/light-bar-command.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-bar-command.png",
+      "sha256": "b4f429b3bb8cc4b1e9fc80317a18f84bac7edf320e5c6a0691163717ef6c2bd6"
+    },
+    {
+      "path": "images/light-bar-hands-free.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-bar-hands-free.png",
+      "sha256": "d13e9f9c4a08645bd908ddc1fbfc6849c7cadd829f7d38348af348074da2c54e"
+    },
+    {
+      "path": "images/light-bar-hidden.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-bar-hidden.png",
+      "sha256": "fcab788eea82ec43478b1498a99f70eedc766ee0e1e5e4c2ad47fd7f3e32562c"
+    },
+    {
+      "path": "images/light-bar-hover.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-bar-hover.png",
+      "sha256": "7ed52ebff568bdf76ecf513ff86336bad0d1888be78573dcf02d83185a888c6a"
+    },
+    {
+      "path": "images/light-bar-idle.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-bar-idle.png",
+      "sha256": "4289ac1ed610a1623dd3cb24e80ca7135c520fbbf728931ae2e6ed28d6567460"
+    },
+    {
+      "path": "images/light-bar-listening.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-bar-listening.png",
+      "sha256": "3b460bab3227ad1dfb1d78f85573261dcaffa9dc9e5786177039e8767c36bb22"
+    },
+    {
+      "path": "images/light-bar-long-recording.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-bar-long-recording.png",
+      "sha256": "d13e9f9c4a08645bd908ddc1fbfc6849c7cadd829f7d38348af348074da2c54e"
+    },
+    {
+      "path": "images/light-bar-mic-error.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-bar-mic-error.png",
+      "sha256": "4294e93e97e7cd1edf6544b67211012a1d008ecfd420cef8b3d675d2ff6a9fb4"
+    },
+    {
+      "path": "images/light-bar-model-error.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-bar-model-error.png",
+      "sha256": "b64c5d2cc193e1fe7b6514925aea1dea56669e8162ca2c7a3898eb115651aaf2"
+    },
+    {
+      "path": "images/light-bar-not-inserted.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-bar-not-inserted.png",
+      "sha256": "03b258c8fe7c8cb57587f3f4cdaf8faf52ec4abc25b45d8fdfb883369fe161ed"
+    },
+    {
+      "path": "images/light-bar-not-saved.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-bar-not-saved.png",
+      "sha256": "c62d3fc502545c7f97c1f2377f6f3f77cd25a3dec81b45407090e99a6b0afcdb"
+    },
+    {
+      "path": "images/light-bar-preparing-hands-free.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-bar-preparing-hands-free.png",
+      "sha256": "614ecceb1839ec718802b6e84fede2b153c9c30d0646cf006a86510ede5519c7"
+    },
+    {
+      "path": "images/light-bar-preparing.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-bar-preparing.png",
+      "sha256": "548fb585d0c5258c4259896e67d8cfc0b39013e4573f18ca514381e28ee6a78a"
+    },
+    {
+      "path": "images/light-bar-preview.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-bar-preview.png",
+      "sha256": "35c10f13996432de950a492fdaf738e4561a7c40852d4ebec739dd5aac2853fd"
+    },
+    {
+      "path": "images/light-bar-processing.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-bar-processing.png",
+      "sha256": "44a6b10e7fd032ad3f99e040432fcede8ab65d5ba3ee973382064b9c3344d098"
+    },
+    {
+      "path": "images/light-controls.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-controls.png",
+      "sha256": "665d37ffe63a24463a159dcf3d4c5eb7e423c2a98e44ff5340c80b2d93750dc3"
+    },
+    {
+      "path": "images/light-hub-dictionary-expanded.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-hub-dictionary-expanded.png",
+      "sha256": "4d3e49bb452c4ad959daf0f1d71852b7053a0a9599a2b338fc91b45cee4cef52"
+    },
+    {
+      "path": "images/light-hub-dictionary.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-hub-dictionary.png",
+      "sha256": "65006282ed83124343bc648597cb4bb8fb003492e6c226d734077a9ae4c6e514"
+    },
+    {
+      "path": "images/light-hub-history-diff.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-hub-history-diff.png",
+      "sha256": "114cd8db09cb9d97aec54eefcbf4b38839627ea2d73ee5ce0df9e21c1f124ded"
+    },
+    {
+      "path": "images/light-hub-history-empty.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-hub-history-empty.png",
+      "sha256": "122d61639d0477986cb712afaa42e6cd1e0dec6e7a5224da5cfe147d7278d1ca"
+    },
+    {
+      "path": "images/light-hub-history-no-results.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-hub-history-no-results.png",
+      "sha256": "73bd1758ff65e66aa2122f4674ff2e43e1924ea082213f54035a194269e2b1d6"
+    },
+    {
+      "path": "images/light-hub-history-raw.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-hub-history-raw.png",
+      "sha256": "15de8d11e98e7dd4d136aa6f97ebeebe600e839bdc40e5a670f6c9acb0814472"
+    },
+    {
+      "path": "images/light-hub-history-reason.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-hub-history-reason.png",
+      "sha256": "239d0689d893ab4ce847fe4d1b0de65e488dde14fbc269759edd2fdc660858db"
+    },
+    {
+      "path": "images/light-hub-history.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-hub-history.png",
+      "sha256": "38d2b23bb5700abebe5e84d4b8f258674ed800b27e740e1ab2dd6f80c909779c"
+    },
+    {
+      "path": "images/light-hub-home.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-hub-home.png",
+      "sha256": "4d6e37e592a46b516b4b4631003f70ada8be40a3e83a00052640ead895ebfe18"
+    },
+    {
+      "path": "images/light-hub-notes-empty.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-hub-notes-empty.png",
+      "sha256": "d7d0c3e69b2bb6ef3ff68c0fcbc9733f407656ca052593c8ab6cae6f3641bbf2"
+    },
+    {
+      "path": "images/light-hub-notes.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-hub-notes.png",
+      "sha256": "ec939c9b512bf9d2e5eb7481a3919e7f7548745ba99d732dbdc0651f9e5d5e75"
+    },
+    {
+      "path": "images/light-hub-settings-about.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-hub-settings-about.png",
+      "sha256": "19f3531aa53f6e2c16cccf8e3a2e22609c1b7601e85918f9732d827c6c71b82e"
+    },
+    {
+      "path": "images/light-hub-settings-cleanup.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-hub-settings-cleanup.png",
+      "sha256": "1a4c08bc326b3e0b31fb4d2a51086b6768a4a5d405689fc977ff12ad30251ef2"
+    },
+    {
+      "path": "images/light-hub-settings-general.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-hub-settings-general.png",
+      "sha256": "0095af3a2d8b51499832972fcd2fe69c3583d736efbe7b1c1b8369912d61580a"
+    },
+    {
+      "path": "images/light-hub-settings-labs.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-hub-settings-labs.png",
+      "sha256": "00b92b978a6076a488fa87f0d8c0c6b255e2130509539f22f223a2a56fccf215"
+    },
+    {
+      "path": "images/light-hub-settings-languages.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-hub-settings-languages.png",
+      "sha256": "978a76a743efdf1028c1fa250d85c6f6fc3177cddd94bf1a750d4b528ec62e31"
+    },
+    {
+      "path": "images/light-hub-settings-microphone.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-hub-settings-microphone.png",
+      "sha256": "57f7a429c27dc478a4f9bcce20667c3e0f9245e797c0e541c1bc2bf645a84621"
+    },
+    {
+      "path": "images/light-hub-settings-models.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-hub-settings-models.png",
+      "sha256": "0d8517e3a44abb54c4db3031c5d6f934149b382f7f2a9fc5528ce03b9ef2e150"
+    },
+    {
+      "path": "images/light-hub-settings-performance.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-hub-settings-performance.png",
+      "sha256": "7733abb7904cf5c7ab2de029759823b630fd0eaf85acc61e812da0b1be3975fb"
+    },
+    {
+      "path": "images/light-hub-settings-privacy.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-hub-settings-privacy.png",
+      "sha256": "1ae4766b97b2b237e19792691677bf663e81e71fddea836a9bbccaf012a6cabe"
+    },
+    {
+      "path": "images/light-hub-settings-shortcuts.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-hub-settings-shortcuts.png",
+      "sha256": "5b97234c8da973b7ccc0ce91ce99a6ae810c386244e1470c90488894857b26cf"
+    },
+    {
+      "path": "images/light-hub-snippets-expanded.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-hub-snippets-expanded.png",
+      "sha256": "b613457b4dd9a1a30fbbbc486c41ef791bc14b5917c37427336d64d4cbb426e5"
+    },
+    {
+      "path": "images/light-hub-snippets.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-hub-snippets.png",
+      "sha256": "cda91489f5075070a379929d8bb8767ac19e64b43163a53c6ead14ff6ea418d9"
+    },
+    {
+      "path": "images/light-hub-style.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-hub-style.png",
+      "sha256": "1434fce4fccde6c7cb599cc9acc8f88d6d0179e0874817eff047c95a8335b841"
+    },
+    {
+      "path": "images/light-setup-microphone-empty.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-setup-microphone-empty.png",
+      "sha256": "23d99922e8be25ab7923f373a11c64a60886b2e5863125e5599ee022a8d43a30"
+    },
+    {
+      "path": "images/light-setup-microphone-failed.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-setup-microphone-failed.png",
+      "sha256": "1fb8c222ec5887e761ac41bace0d96f7d4d159c9d5d3e3dd6fea01c7914f97a5"
+    },
+    {
+      "path": "images/light-setup-microphone-listening.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-setup-microphone-listening.png",
+      "sha256": "e6ecc927fa618bc9ef2b01c7ae3c48fea6c97ca2ae22eac3b57b1ff36d17b6f7"
+    },
+    {
+      "path": "images/light-setup-microphone-scan-error.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-setup-microphone-scan-error.png",
+      "sha256": "cf9ac74b386ceb7f0622e92aa3cc4573e9a7388d7ef7981602e216dda5fcf117"
+    },
+    {
+      "path": "images/light-setup-microphone.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-setup-microphone.png",
+      "sha256": "2a2a33271baae56193e7d7d359a1902e5fda8e822fa1810597ae101b21153011"
+    },
+    {
+      "path": "images/light-setup-models-complete.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-setup-models-complete.png",
+      "sha256": "e3e126e0cfd086c653d3cb73a419af3399a55c5ec240552c473c8148ead6dac9"
+    },
+    {
+      "path": "images/light-setup-models-downloading.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-setup-models-downloading.png",
+      "sha256": "434ffe6ae9cb3740b777518d2050fa8af2b54592df9280d580f0902b7f0372ba"
+    },
+    {
+      "path": "images/light-setup-models-error.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-setup-models-error.png",
+      "sha256": "f898a1090e0073e8b0f7432fb99dbe0c3d31488fc5b786202fa70c9bbdb39408"
+    },
+    {
+      "path": "images/light-setup-models-missing.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-setup-models-missing.png",
+      "sha256": "c9071825c866c285890217615ff9347706ec998e0a00d0be28081f977037a0e1"
+    },
+    {
+      "path": "images/light-setup-models-paused.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-setup-models-paused.png",
+      "sha256": "5f7deab3688b0ac6e25375b975aee8b2dc68aa773560bb9f39b0532229378fa4"
+    },
+    {
+      "path": "images/light-setup-models.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-setup-models.png",
+      "sha256": "81c0d746ffbd87a339e2ba337369f503b2f90e85921947831d36878b25c2f7ba"
+    },
+    {
+      "path": "images/light-setup-practice-arming.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-setup-practice-arming.png",
+      "sha256": "df3f6babea383d78cf08527819af024d4b0d1271728123d91160d7603b0db6cf"
+    },
+    {
+      "path": "images/light-setup-practice-chat-diff.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-setup-practice-chat-diff.png",
+      "sha256": "01ae3a3806770f7376110a48ba2afa2290476747eea84ff746e8ac135dd738b5"
+    },
+    {
+      "path": "images/light-setup-practice-chat-result.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-setup-practice-chat-result.png",
+      "sha256": "bdc3e570de5ce6598c17d7931091552e1f9a937b6dda342357758f73521109a2"
+    },
+    {
+      "path": "images/light-setup-practice-cleanup-failed.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-setup-practice-cleanup-failed.png",
+      "sha256": "0e40e49d636e3938da7913c49c15de451f9092e550e45e5d66e948d798f9d9a0"
+    },
+    {
+      "path": "images/light-setup-practice-email-diff.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-setup-practice-email-diff.png",
+      "sha256": "3472ecf29d55a398da4539daf60a2af077862a44e2f6274dcc9db027746e0da3"
+    },
+    {
+      "path": "images/light-setup-practice-email-result.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-setup-practice-email-result.png",
+      "sha256": "54ccd5ed8a7c38bae4e33db07d5ff4699db6221f8ce73160aa4aca1a98a9b39a"
+    },
+    {
+      "path": "images/light-setup-practice-failed.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-setup-practice-failed.png",
+      "sha256": "b9ce83cfc616ffa84bac883cd55f83406d4254b2a52ccfd067b29ffedfe52d63"
+    },
+    {
+      "path": "images/light-setup-practice-microphone-unavailable.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-setup-practice-microphone-unavailable.png",
+      "sha256": "b051b34c5a2ee9b618bbed4c1ca2982ac3706079bebee93b3a6f2f03c857761d"
+    },
+    {
+      "path": "images/light-setup-practice-model-unavailable.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-setup-practice-model-unavailable.png",
+      "sha256": "f89421339f063dfc7d6c3e721ad4408d798024a91476886221209faffe41dc45"
+    },
+    {
+      "path": "images/light-setup-practice-no-text.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-setup-practice-no-text.png",
+      "sha256": "706f071a6086d56579b0dc3281d7e1145b79877e174eafbcdbc9fa28c6b20ed7"
+    },
+    {
+      "path": "images/light-setup-practice-processing.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-setup-practice-processing.png",
+      "sha256": "b245a90ea14166c5fce30acdfffa47967ff8bae5e204b83094d7f0f44113fc11"
+    },
+    {
+      "path": "images/light-setup-practice-ready.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-setup-practice-ready.png",
+      "sha256": "714118d5c5e2a4554a2b5efd838150a7d5aab1b9f0b50329d4e30d1df7e29be4"
+    },
+    {
+      "path": "images/light-setup-practice-recording.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-setup-practice-recording.png",
+      "sha256": "c58355a36020e7c19b96122f4c6ecb3ae749519dc6d9a831a30590274328c4e1"
+    },
+    {
+      "path": "images/light-setup-practice-result-too-long.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-setup-practice-result-too-long.png",
+      "sha256": "0f6264ce514586d22ed3df0ae230111e2a878492f530e1c2ab74d494c90bc259"
+    },
+    {
+      "path": "images/light-setup-practice-stopping.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-setup-practice-stopping.png",
+      "sha256": "dc43234f89d9da2260974009b85a1a95acc534b1a2985fd398bfb63e1b59a83a"
+    },
+    {
+      "path": "images/light-setup-practice-too-short.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-setup-practice-too-short.png",
+      "sha256": "c1fccd51c3802be1ef933caaee754f487453b6b79455acf3b3774c32c08c45c1"
+    },
+    {
+      "path": "images/light-setup-practice.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-setup-practice.png",
+      "sha256": "681febc1211fc67b88284b4765e6e263dad551c6d12e1a4b2737f892fc6a3d8e"
+    },
+    {
+      "path": "images/light-setup-shortcut-conflict.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-setup-shortcut-conflict.png",
+      "sha256": "74551f6aa6dce74ed8b8f79ebe0c1d920ad88574bc3febea2e89bd9384cb3daa"
+    },
+    {
+      "path": "images/light-setup-shortcut.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-setup-shortcut.png",
+      "sha256": "75c7f7af1ec76db82902c30016c2a23af8ce90618581f5e95d938ca9ede97ec8"
+    },
+    {
+      "path": "images/light-setup-style.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-setup-style.png",
+      "sha256": "9d52d4a9e5208392cb18f169b2561440b26d387a403801573e894eaeb92023e3"
+    },
+    {
+      "path": "images/light-setup-welcome.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-setup-welcome.png",
+      "sha256": "5ced2494ad7c67c87f59aba127b9e45f8cf117fd340d4dd97061b0dcf5cae28b"
+    },
+    {
+      "path": "images/light-style.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-style.png",
+      "sha256": "6480d162c7f74b61764b599d63b6f4f1b1927d304d4e9d4efc885fcd4b78048a"
+    },
+    {
+      "path": "images/light-toast-added.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-toast-added.png",
+      "sha256": "ab141354317cffe604184733a44a24fd829881ced36e1fedea7179725fad40c3"
+    },
+    {
+      "path": "images/light-toast-save-error.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-toast-save-error.png",
+      "sha256": "244758dea48b4e8dd6a97a1b791989e50feecc479f1f9c6b540f8f67db360dc6"
+    },
+    {
+      "path": "images/light-toast-saving.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-toast-saving.png",
+      "sha256": "4af28399debb548d55246277d1dcacdf1da23c75fcc8e3ea427b2b35f03a1742"
+    },
+    {
+      "path": "images/light-toast-stale.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-toast-stale.png",
+      "sha256": "2bfafe5dbb92baee564c7d45b30e07a826bd4c18072ac4a0110a71e99f9cac59"
+    },
+    {
+      "path": "images/light-toast-suggestion.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-toast-suggestion.png",
+      "sha256": "5bda55a3b6ba6edbbaa018df5c4022a744c14dd5ca3f9964e5e0ddfe0f79f6a1"
+    },
+    {
+      "path": "images/light-toast-unchanged.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-toast-unchanged.png",
+      "sha256": "0611c810b807182941123eae8db8754a011e941d0d4f9aac79703ff897330768"
+    },
+    {
+      "path": "images/light-toast-undo-busy.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-toast-undo-busy.png",
+      "sha256": "dfb329a0615b64e1c4abfebfbdeac6c71147c841838612eb05a9b79074185aaf"
+    },
+    {
+      "path": "images/light-toast-undo-error.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-toast-undo-error.png",
+      "sha256": "b5395b0173bfe03e24015c58d4ad954040d0cb19ad0d1a236c71241d455043bd"
+    },
+    {
+      "path": "images/light-toast-undoing.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-toast-undoing.png",
+      "sha256": "5653d790b0a57c1935b8cb6c53cf340825cb3ac497a375376fdf823e9098952a"
+    },
+    {
+      "path": "images/light-toast-undone.png",
+      "original": "eval/ui/results/2026-11-15-gallery/scale-1/light-toast-undone.png",
+      "sha256": "28f7c56bc04a9158a245433f5ee4d2545b05c3f3fb0aaff2f9a89c13abe7ffc6"
+    },
+    {
+      "path": "images/current-dark-microphone-routing.png",
+      "original": "current-dark-microphone-routing.png",
+      "sha256": "8330459a0b010410c2b286dd42178bc188afa86b6a3dde6883f1f095173b7f6e"
+    },
+    {
+      "path": "images/current-dark-microphone-silent.png",
+      "original": "current-dark-microphone-silent.png",
+      "sha256": "01da11e900fd4b90f8d2553b257e4578af6536834232c9f03709231b34863f8f"
+    },
+    {
+      "path": "images/current-dark-microphone-sound.png",
+      "original": "current-dark-microphone-sound.png",
+      "sha256": "3223601e9906fdbacd74463035b5f5ef682551f5bc15e273737d3f5fceff82b4"
+    },
+    {
+      "path": "images/current-light-microphone-routing.png",
+      "original": "current-light-microphone-routing.png",
+      "sha256": "241be6e7001590877e9bddcf9f2f204b66cf5a2c5630ead99289ae3fc357090a"
+    },
+    {
+      "path": "images/current-light-microphone-silent.png",
+      "original": "current-light-microphone-silent.png",
+      "sha256": "207b59bbf1acfa88a7a795fca53ce6a51c672c7a9d4cdfd984618ae1146ad5b9"
+    },
+    {
+      "path": "images/current-light-microphone-sound.png",
+      "original": "current-light-microphone-sound.png",
+      "sha256": "9f3aed0da1badbd4fb52c6f9398b911fe646d5ac3fa08a319f109807261fa5a8"
+    }
+  ]
+}

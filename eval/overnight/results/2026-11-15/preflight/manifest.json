@@ -1,0 +1,79 @@
+{
+  "records": [
+    {
+      "path": ".gitattributes",
+      "size": 21,
+      "sha256": "ffe82f3c5b968ed009c2577fa38f32c83be167799ee565d40a18e3440c57b342"
+    },
+    {
+      "path": "cpu-guard.json",
+      "size": 894,
+      "sha256": "13a83540306a8865de1d2791e51167ea944d45d1bdf942018c5089e9eaa04ba3"
+    },
+    {
+      "path": "cpu-guard.worker.json",
+      "size": 224,
+      "sha256": "7d43422e92d3e260660f4abf3f1254741b0168e1607a76eb68087adafe2bb222"
+    },
+    {
+      "path": "cpu-report.json",
+      "size": 33944,
+      "sha256": "1b964082dd1aafad66bf27842a57eddc9ea7789971778d07af68926b2b3debb5"
+    },
+    {
+      "path": "cpu-request.json",
+      "size": 1155,
+      "sha256": "91dc9ac63572d613db664c44aac2936eeb37ff3afafba6853e4c5abe8890c691"
+    },
+    {
+      "path": "overnight_cleanup_stage_20261115.py.txt",
+      "size": 2602,
+      "sha256": "99d3b8091ab1ad255002bb2d20bd4a7b72ec7299d908a90109f742ea273d9c91"
+    },
+    {
+      "path": "pro-guard.json",
+      "size": 1218,
+      "sha256": "5cdb90c2bf3596a1caf1ab63b920338672a11a293e2344a0d813f66eaa22ddd0"
+    },
+    {
+      "path": "pro-guard.worker.json",
+      "size": 225,
+      "sha256": "14ed3d67ae5a9a89fbbdf2f036a3084a20d693b2a7a17bda38a93479c110fa73"
+    },
+    {
+      "path": "pro-report.json",
+      "size": 34055,
+      "sha256": "04252feed6c7664a14c826c8ae2c912425b0aa326de520a7d39ae23cf0c7db64"
+    },
+    {
+      "path": "pro-request.json",
+      "size": 1234,
+      "sha256": "f2249f7220e55fdbe0ab78e5630c942c541a76c43f1fcd4d2a2c9b21bc4a181e"
+    },
+    {
+      "path": "run_guarded_tier_20261115.py.txt",
+      "size": 2139,
+      "sha256": "2919ac2ae923564e00106645b3a2f7c318d19052e4dcffcb458cb6033a599d13"
+    },
+    {
+      "path": "run_overnight_queue_20261115.py.txt",
+      "size": 9706,
+      "sha256": "0128adf9022530dbc8a95e0270c73e074077794a4975c6eec7362efb279b1549"
+    },
+    {
+      "path": "supervise_guarded_tier_overnight_20261115.py.txt",
+      "size": 4149,
+      "sha256": "92f8e4aa5d6b23b7299fbd37be61e8e8e0d7ba1553fc8e09a2fbf42a3dad2eab"
+    },
+    {
+      "path": "supervision-probes.json",
+      "size": 3629,
+      "sha256": "0e77211a8abcc0e1afa4464fcc744e38cbaac49bbd1723599d3aa8e769262513"
+    },
+    {
+      "path": "verification.json",
+      "size": 204,
+      "sha256": "cc6ea7a5b62c545a716740823c5a09cb199a3680673070c51199d110d5708cf1"
+    }
+  ]
+}

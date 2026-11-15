@@ -1,0 +1,67 @@
+"""Supervise one owned latency parent independently of interactive tool handles."""
+import argparse,datetime,hashlib,json,os,subprocess,sys
+from pathlib import Path
+
+parser=argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--repo',type=Path,required=True)
+parser.add_argument('--tier',choices=['standard','pro'],required=True)
+parser.add_argument('--output',type=Path,required=True)
+parser.add_argument('--probe-exit',type=int,choices=[0,7],help='owned three-second stdlib fixture only; never a measurement')
+args=parser.parse_args()
+qa=Path(__file__).resolve().parent
+repo=args.repo.resolve();root=args.output.resolve()
+assert root.parent==qa and not root.exists()
+state_path=root.with_suffix('.supervisor.json')
+assert not state_path.exists()
+profile=root.with_name(root.name+'-supervisor-profile')
+for name in ['home','local','roaming','temp']:(profile/name).mkdir(parents=True,exist_ok=False)
+def now():return datetime.datetime.now(datetime.UTC).isoformat()
+def digest(path):
+ with path.open('rb') as stream:return hashlib.file_digest(stream,'sha256').hexdigest()
+def write(path,value):
+ temporary=path.with_suffix(path.suffix+'.tmp')
+ temporary.write_text(json.dumps(value,indent=2)+'\n',encoding='utf-8')
+ temporary.replace(path)
+environment={key:value for key,value in os.environ.items() if key.upper() in ['SYSTEMROOT','WINDIR','COMSPEC','PATH','PATHEXT','PROCESSOR_ARCHITECTURE','NUMBER_OF_PROCESSORS']}
+environment.update(USERPROFILE=str(profile/'home'),LOCALAPPDATA=str(profile/'local'),APPDATA=str(profile/'roaming'),
+ TEMP=str(profile/'temp'),TMP=str(profile/'temp'),HF_HOME=str(profile/'home/hf'),HF_HUB_OFFLINE='1',
+ HF_HUB_DISABLE_TELEMETRY='1',DO_NOT_TRACK='1',PYTHONNOUSERSITE='1',PYTHONUTF8='1',PYTHONIOENCODING='utf-8',QT_QPA_PLATFORM='offscreen')
+source=subprocess.check_output(['git','rev-parse','HEAD'],cwd=repo,text=True).strip()
+assert source=='44ed9c458a78e84e55751b827ed71b96114632ae'
+assert not subprocess.check_output(['git','status','--porcelain'],cwd=repo,text=True).strip()
+launcher=qa/'run_guarded_tier_20261115.py'
+command=[sys.executable,'-I',str(launcher),'--repo',str(repo),'--tier',args.tier,'--output',str(root)]
+probe=args.probe_exit is not None
+if probe:
+ root.mkdir(exist_ok=False)
+ command=[sys.executable,'-I','-c',f'import time; time.sleep(3); raise SystemExit({args.probe_exit})']
+state=dict(schema=1,status='starting',source=source,tier=args.tier,output=str(root),
+ supervisor_python_pid=os.getpid(),supervisor_source_sha256=digest(Path(__file__)),
+ tier_launcher_sha256=digest(launcher),interpreter_sha256=digest(Path(sys.executable)),
+ started_utc=now(),debug_fixture=probe,measurement_started=not probe,
+ actual_capture='none; owned stdlib probe' if probe else 'bundled public file through guarded memory ports')
+write(state_path,state)
+try:
+ with root.with_suffix('.log').open('xb') as log:
+  process=subprocess.Popen(command,cwd=repo,env=environment,stdin=subprocess.DEVNULL,
+   stdout=log,stderr=subprocess.STDOUT,creationflags=getattr(subprocess,'CREATE_NO_WINDOW',0))
+  state.update(status='running',launched_parent_pid=process.pid)
+  write(state_path,state)
+  code=process.wait()  # Hold the actual launched handle through termination.
+ state.update(status='exited',exit_code=code,ended_utc=now())
+ report=root/'report.json'
+ if report.exists():
+  result=json.loads(report.read_bytes())
+  state.update(report_sha256=digest(report),cases=len(result.get('cases',[])),complete=result.get('complete',False))
+ receipt=dict(schema=1,exit_code=code,parent_exit_observed=True,
+  observer='detached owned supervisor subprocess.Popen/wait held process handle',
+  supervisor_python_pid=os.getpid(),launched_parent_pid=process.pid,
+  observed_utc=now(),source=source,debug_fixture=probe,
+  report_sha256=state.get('report_sha256'))
+ write(root.with_suffix('.exit.json'),receipt)
+ if root.exists():write(root/'observed-parent-exit.json',receipt)
+ write(state_path,state)
+except BaseException as error:
+ state.update(status='supervisor_error',error_type=type(error).__name__,ended_utc=now())
+ write(state_path,state)
+ raise
