@@ -9,6 +9,9 @@ from collections import Counter
 from dataclasses import asdict
 import json
 from pathlib import Path
+import os
+import subprocess
+import sys
 import time
 
 ARMS = ("control", "word_alignment")
@@ -18,6 +21,7 @@ CRITERIA = {
     "no_new_empty_or_replacement_per_clip": True,
     "complete_verified_pairs": 9,
     "owner_or_broad_accuracy_accepted": False,
+    "fresh_control_reproducibility": True,
 }
 
 
@@ -167,6 +171,7 @@ def freeze(selection_path, model_directory, output):
         "frozen_epoch": time.time(),
         "source": source,
         "producer_sha256": digest(__file__),
+        "child_guard_sha256": digest(Path(__file__).with_name("public_file_guard.py")),
         "selection_path": str(Path(selection_path).resolve()),
         "selection_sha256": digest(selection_path),
         "clips": selected,
@@ -177,13 +182,16 @@ def freeze(selection_path, model_directory, output):
         "model_descriptor": model,
         "criteria": CRITERIA,
         "seed": 1729,
-        "generation": "Production engine kwargs in both arms; candidate adds word_timestamps=True. Seed reset before each arm. Unchanged 30-second padding, 448 max_length, language pin, beam5, noVAD/previous conditioning/default temperature sequence.",
+        "repeat_control_index": max(
+            index for index, row in enumerate(selected) if row["language"] == "ta"
+        ),
+        "generation": "Production engine kwargs in both arms; candidate adds word_timestamps=True. Each arm/clip uses a fresh Python/native process with seed1729 set before model construction. Unchanged 30-second padding, 448 max_length, language pin, beam5, noVAD/previous conditioning/default temperature sequence.",
     }
     write(output / "plan.json", plan)
     return plan
 
 
-def run(plan_path):
+def run_case(plan_path, case_index, case_arm, output):
     from tools.asr_accuracy import _source, digest, load_corpora
     from tools.bench_models import score
     from tools.latency_environment import runtime_environment
@@ -195,6 +203,8 @@ def run(plan_path):
     if (
         plan["source"] != _source()
         or plan["producer_sha256"] != digest(__file__)
+        or plan["child_guard_sha256"]
+        != digest(Path(__file__).with_name("public_file_guard.py"))
         or plan["runtime_environment"] != runtime_environment()
         or plan["criteria"] != CRITERIA
         or read(plan["selection_path"])["clips"] != plan["clips"]
@@ -206,7 +216,11 @@ def run(plan_path):
     directory = Path(plan["model_directory"])
     if not installation_ready(plan["model_descriptor"], directory, check_hashes=True):
         raise ValueError("Pinned model bytes changed")
-    output = Path(plan_path).resolve().parent / "native"
+    if not 0 <= case_index < 9 or case_arm not in ARMS:
+        raise ValueError("Choose an existing frozen case/arm")
+    output = Path(output).resolve()
+    if output.is_relative_to(Path(__file__).resolve().parents[1]):
+        raise ValueError("Keep native QA output outside the checkout")
     output.mkdir(exist_ok=False)
     report = {
         "source": plan["source"],
@@ -220,6 +234,8 @@ def run(plan_path):
         "owner_accuracy_accepted": False,
         "broad_language_accuracy_accepted": False,
         "release_latency_qualified": False,
+        "fresh_process_per_case_arm": True,
+        "native_pid": os.getpid(),
         "network_boundary": "Python guard/local-only; native firewall not measured",
     }
     write(output / "report.json", report)
@@ -239,9 +255,11 @@ def run(plan_path):
         if receipts != plan["corpora"]:
             raise ValueError("Public corpus records changed")
         lookup = {(row["language"], row["id"]): row for row in clips}
+        ctranslate2.set_random_seed(plan["seed"])
         model = _import_whisper_model(suppress_ipv6_probe=True)(
             str(directory), device="cpu", compute_type="int8", local_files_only=True
         )
+        report["seed_set_before_model"] = True
         if model.max_length != 448 or model.feature_extractor.chunk_length != 30:
             raise ValueError("Unexpected decoder/feature context")
         calls, segments_seen, current = [], [], {}
@@ -298,6 +316,8 @@ def run(plan_path):
         engine.prepare()
         with (output / "cases.jsonl").open("x", encoding="utf-8") as journal:
             for index, selection in enumerate(selected):
+                if index != case_index:
+                    continue
                 clip = lookup[selection["language"], selection["id"]]
                 audio, rate = sf.read(clip["audio_path"], dtype="float32")
                 if (
@@ -309,6 +329,8 @@ def run(plan_path):
                     raise ValueError("Invalid frozen audio")
                 engine.set_language(clip["language"])
                 for arm in ARMS if index % 2 == 0 else reversed(ARMS):
+                    if arm != case_arm:
+                        continue
                     ctranslate2.set_random_seed(plan["seed"])
                     current["arm"] = arm
                     calls.clear()
@@ -352,7 +374,7 @@ def run(plan_path):
                         ),
                         flush=True,
                     )
-        report["complete"] = len(report["cases"]) == 18
+        report["complete"] = len(report["cases"]) == 1
     finally:
         report["ended_epoch"] = time.time()
         report["source_unchanged"] = _source() == plan["source"]
@@ -394,6 +416,207 @@ def run(plan_path):
     return report
 
 
+def same_recognition(first, second):
+    return all(
+        first[key] == second[key]
+        for key in ["text", "scores", "decode_calls", "segments"]
+    )
+
+
+def run(plan_path):
+    from tools.asr_accuracy import _source, digest
+    from tools.latency_environment import runtime_environment
+    from saydraft.models.downloader import installation_ready
+
+    plan_path = Path(plan_path).resolve()
+    plan = read(plan_path)
+    if (
+        _source() != plan["source"]
+        or digest(__file__) != plan["producer_sha256"]
+        or digest(Path(__file__).with_name("public_file_guard.py"))
+        != plan["child_guard_sha256"]
+        or runtime_environment() != plan["runtime_environment"]
+        or plan["criteria"] != CRITERIA
+    ):
+        raise ValueError("Frozen parent inputs changed")
+    output = plan_path.parent / "native"
+    if output.is_relative_to(Path(__file__).resolve().parents[1]):
+        raise ValueError("Keep native QA output outside the checkout")
+    output.mkdir(exist_ok=False)
+    for directory in ["cases", "guards", "processes"]:
+        (output / directory).mkdir()
+    report = {
+        "source": plan["source"],
+        "plan_sha256": digest(plan_path),
+        "started_epoch": time.time(),
+        "runtime_environment": plan["runtime_environment"],
+        "cases": [],
+        "processes": [],
+        "complete": False,
+        "measurement_integrity": False,
+        "control_reproduced": False,
+        "fresh_process_per_case_arm": True,
+        "owner_accuracy_accepted": False,
+        "broad_language_accuracy_accepted": False,
+        "release_latency_qualified": False,
+    }
+    write(output / "report.json", report)
+    try:
+        with (output / "cases.jsonl").open("x", encoding="utf-8") as journal:
+            selected = selected_clips({"scope": plan["scope"], "clips": plan["clips"]})
+            repeat_index = plan["repeat_control_index"]
+            if repeat_index != max(
+                index for index, row in enumerate(selected) if row["language"] == "ta"
+            ):
+                raise ValueError("Frozen repeat selection changed")
+            for slot, selection in enumerate([*selected, selected[repeat_index]]):
+                index = slot if slot < 9 else repeat_index
+                arms = (
+                    (ARMS if index % 2 == 0 else reversed(ARMS))
+                    if slot < 9
+                    else ("control",)
+                )
+                for arm in arms:
+                    name = f"{selection['language']}-{selection['id']}-{arm}"
+                    if slot == 9:
+                        name += "-repeat"
+                    case_output = output / "cases" / name
+                    guard_path = output / "guards" / f"{name}.json"
+                    command = [
+                        sys.executable,
+                        "-m",
+                        "tools.probe_whisper_alignment",
+                        "case",
+                        "--plan",
+                        str(plan_path),
+                        "--index",
+                        str(index),
+                        "--arm",
+                        arm,
+                        "--output",
+                        str(case_output),
+                        "--guard-output",
+                        str(guard_path),
+                    ]
+                    process = {
+                        "args": command,
+                        "started_epoch": time.time(),
+                        "native_exit_observed": False,
+                        "timeout_reached": False,
+                    }
+                    process_path = output / "processes" / f"{name}.json"
+                    with (
+                        process_path.with_suffix(".stdout.txt").open(
+                            "x", encoding="utf-8"
+                        ) as stdout,
+                        process_path.with_suffix(".stderr.txt").open(
+                            "x", encoding="utf-8"
+                        ) as stderr,
+                    ):
+                        child = subprocess.Popen(
+                            command,
+                            cwd=Path(__file__).resolve().parents[1],
+                            stdout=stdout,
+                            stderr=stderr,
+                            creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0),
+                        )
+                        process["native_pid"] = child.pid
+                        write(process_path, process)
+                        try:
+                            process["returncode"] = child.wait(timeout=180)
+                        except subprocess.TimeoutExpired:
+                            process["timeout_reached"] = True
+                            child.kill()
+                            process["returncode"] = child.wait()
+                        except BaseException:
+                            child.kill()
+                            child.wait()
+                            raise
+                    process.update(native_exit_observed=True, ended_epoch=time.time())
+                    for suffix in [".stdout.txt", ".stderr.txt"]:
+                        process[suffix] = digest(process_path.with_suffix(suffix))
+                    write(process_path, process)
+                    report["processes"].append(process)
+                    case_report = (
+                        read(case_output / "report.json")
+                        if (case_output / "report.json").exists()
+                        else {}
+                    )
+                    if process["returncode"] != 0 or not case_report.get(
+                        "measurement_integrity"
+                    ):
+                        raise RuntimeError(
+                            "A fresh native case failed; retain partial evidence"
+                        )
+                    row = case_report["cases"][0]
+                    if (
+                        row["language"] != selection["language"]
+                        or row["id"] != selection["id"]
+                        or row["arm"] != arm
+                    ):
+                        raise ValueError("Fresh child returned a different case")
+                    if slot < 9:
+                        report["cases"].append(row)
+                        journal.write(json.dumps(row, ensure_ascii=False) + "\n")
+                        journal.flush()
+                    else:
+                        report["reproducibility_case"] = row
+                        first = next(
+                            case
+                            for case in report["cases"]
+                            if case["language"] == row["language"]
+                            and case["id"] == row["id"]
+                            and case["arm"] == "control"
+                        )
+                        report["control_reproduced"] = same_recognition(first, row)
+                    write(output / "report.json", report)
+                    print(
+                        json.dumps(
+                            {
+                                key: row[key]
+                                for key in ["language", "id", "arm", "scores"]
+                            }
+                        ),
+                        flush=True,
+                    )
+        report["complete"] = (
+            len(report["cases"]) == 18 and len(report["processes"]) == 19
+        )
+    finally:
+        report["ended_epoch"] = time.time()
+        report["source_unchanged"] = _source() == plan["source"]
+        report["runtime_unchanged"] = (
+            runtime_environment() == plan["runtime_environment"]
+        )
+        report["producer_unchanged"] = digest(__file__) == plan["producer_sha256"]
+        report["plan_unchanged"] = digest(plan_path) == report["plan_sha256"]
+        report["model_verified_after"] = installation_ready(
+            plan["model_descriptor"], Path(plan["model_directory"]), check_hashes=True
+        )
+        report["journal_sha256"] = (
+            digest(output / "cases.jsonl")
+            if (output / "cases.jsonl").exists()
+            else None
+        )
+        report["measurement_integrity"] = bool(
+            report["complete"]
+            and all(
+                report[key]
+                for key in [
+                    "source_unchanged",
+                    "runtime_unchanged",
+                    "producer_unchanged",
+                    "plan_unchanged",
+                    "model_verified_after",
+                    "control_reproduced",
+                ]
+            )
+        )
+        report["comparison"] = summarize(report["cases"])
+        write(output / "report.json", report)
+    return report
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     commands = parser.add_subparsers(dest="command", required=True)
@@ -403,12 +626,24 @@ def main(argv=None):
     prepare.add_argument("--output", type=Path, required=True)
     native = commands.add_parser("run")
     native.add_argument("--plan", type=Path, required=True)
+    case = commands.add_parser("case")
+    case.add_argument("--plan", type=Path, required=True)
+    case.add_argument("--index", type=int, required=True)
+    case.add_argument("--arm", choices=ARMS, required=True)
+    case.add_argument("--output", type=Path, required=True)
+    case.add_argument("--guard-output", type=Path, required=True)
     args = parser.parse_args(argv)
     if args.command == "freeze":
         freeze(args.selection_plan, args.model_dir, args.output)
         print("Frozen nine development pairs; no inference performed.")
         return 0
-    report = run(args.plan)
+    if args.command == "case":
+        from tools.public_file_guard import install
+
+        install(args.guard_output)
+        report = run_case(args.plan, args.index, args.arm, args.output)
+    else:
+        report = run(args.plan)
     print(json.dumps(report["comparison"], ensure_ascii=False))
     return 0 if report["measurement_integrity"] else 1
 

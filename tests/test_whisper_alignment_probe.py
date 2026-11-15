@@ -1,6 +1,10 @@
 """Frozen comparison gates cannot hide a language regression or missing result."""
 
 from copy import deepcopy
+import json
+from pathlib import Path
+import subprocess
+import sys
 
 import pytest
 
@@ -136,3 +140,48 @@ def test_selection_requires_actual_matching_prior_inference(change):
         journal.append(deepcopy(journal[0]))
     with pytest.raises(ValueError, match="previously observed"):
         probe.require_observed(row, clip, journal, "turbo")
+
+
+def test_repeat_control_requires_identical_native_results_beyond_visible_text():
+    first = {
+        "text": "தமிழ்",
+        "scores": {"word_errors": 0},
+        "decode_calls": [{"sequences": [[1, 2]]}],
+        "segments": [{"text": "தமிழ்", "tokens": [1, 2]}],
+        "seconds": 1.2,
+    }
+    second = deepcopy(first)
+    second["seconds"] = 2.4
+    assert probe.same_recognition(first, second)
+    second["decode_calls"][0]["sequences"][0][-1] = 3
+    assert not probe.same_recognition(first, second)
+
+
+@pytest.mark.parametrize(
+    "module", ["sounddevice", "soundcard", "pynput", "saydraft.insert.clipboard_win"]
+)
+def test_fresh_child_guard_refuses_owner_io_before_module_initialization(
+    tmp_path, module
+):
+    receipt = tmp_path / "guard.json"
+    code = """
+import sys
+from tools.public_file_guard import install
+install(sys.argv[1])
+try:
+    __import__(sys.argv[2])
+except AssertionError:
+    raise SystemExit(0)
+raise SystemExit(1)
+"""
+    child = subprocess.run(
+        [sys.executable, "-c", code, str(receipt), module],
+        cwd=Path(probe.__file__).resolve().parents[1],
+        capture_output=True,
+        creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0),
+        timeout=20,
+    )
+    assert child.returncode == 0, child.stderr.decode("utf-8", errors="replace")
+    record = json.loads(receipt.read_text(encoding="utf-8"))
+    assert record["blocked_attempts"] == [module]
+    assert record["real_audio_sdk_imported"] is False
