@@ -12,6 +12,44 @@ from saydraft.ui.theme.controller import ThemeController
 APP = None
 
 
+def test_live_application_font_reaches_existing_themed_controls(setup_theme):
+    app, _hints, install = setup_theme
+    from saydraft.ui.reflow import WrapCheckBox, WrapPushButton
+    controls = [QtWidgets.QCheckBox("Native"), WrapCheckBox("Wrapped"),
+                QtWidgets.QPushButton("Native"), WrapPushButton("Wrapped"), QtWidgets.QListWidget()]
+    controller = install(mode="light")
+    try:
+        for px in [16, 32, 16]:
+            font = QtGui.QFont(app.font())
+            font.setPixelSize(px)
+            app.setFont(font)
+            app.processEvents()
+            assert all(QtGui.QFontInfo(widget.font()).pixelSize() == px for widget in controls)
+        controller.set_mode("dark")
+        app.processEvents()
+        assert all(QtGui.QFontInfo(widget.font()).pixelSize() == 16 for widget in controls)
+    finally:
+        for widget in controls:
+            widget.close()
+            widget.deleteLater()
+
+
+@pytest.mark.parametrize("initial", [False, True])
+def test_theme_owns_only_its_style_propagation_attribute(setup_theme, initial):
+    _app, _hints, install = setup_theme
+    attribute = QtCore.Qt.AA_UseStyleSheetPropagationInWidgetStyles
+    original = QtCore.QCoreApplication.testAttribute(attribute)
+    QtCore.QCoreApplication.setAttribute(attribute, initial)
+    try:
+        controller = install(mode="light")
+        assert QtCore.QCoreApplication.testAttribute(attribute)
+        assert controller.owns_style_propagation is (not initial)
+        controller.close()
+        assert QtCore.QCoreApplication.testAttribute(attribute) is initial
+    finally:
+        QtCore.QCoreApplication.setAttribute(attribute, original)
+
+
 class Hints(QtCore.QObject):
     colorSchemeChanged = QtCore.Signal(object)
     contrastPreferenceChanged = QtCore.Signal(object)

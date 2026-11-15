@@ -1,6 +1,7 @@
 """Auto or up to three language pins; choosing languages never downloads weights."""
 
 from PySide6 import QtCore, QtWidgets
+from .reflow import WrapCheckBox
 
 from saydraft.asr.languages import LANGUAGE_LABELS, WHISPER_LANGUAGES, normalize_pins
 from saydraft.asr.router import ALL_LANGUAGES, choose_route
@@ -23,11 +24,14 @@ class LanguagesPage(QtWidgets.QWidget):
 
     def __init__(self, config, parent=None):
         super().__init__(parent)
-        self.routing = QtWidgets.QCheckBox("Choose the speech model automatically")
+        self.routing = WrapCheckBox("Choose the speech model automatically")
         self.routing.setChecked(config["stt"].get("routing_enabled", False))
-        self.english_max = QtWidgets.QCheckBox("English max when English is the only pinned language")
+        self.english_max = WrapCheckBox("English max when English is the only pinned language")
         self.english_max.setChecked(config["stt"].get("english_max", False))
         self.combos = [QtWidgets.QComboBox() for _ in range(3)]
+        for combo in self.combos:
+            combo.setSizePolicy(QtWidgets.QSizePolicy.Ignored, QtWidgets.QSizePolicy.Fixed)
+            combo.setMinimumContentsLength(12)
         self.combos[0].addItem("Auto", None)
         for combo in self.combos[1:]:
             combo.addItem("None", None)

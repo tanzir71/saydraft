@@ -3,6 +3,7 @@
 from html import escape
 
 from PySide6 import QtCore, QtWidgets
+from .reflow import AdaptiveRow, WrapCheckBox, WrapPushButton
 
 from saydraft.asr.model_ids import PREVIEW_MODEL
 from saydraft.core.preview import preview_eligibility
@@ -39,21 +40,21 @@ class LabsPage(QtWidgets.QWidget):
         self.license.setAccessibleName("English preview model license and credits")
         self.eligibility = QtWidgets.QLabel()
         self.eligibility.setWordWrap(True)
-        self.live = QtWidgets.QCheckBox("Show English live preview")
-        self.streaming = QtWidgets.QCheckBox("Use streaming result")
+        self.live = WrapCheckBox("Show English live preview")
+        self.streaming = WrapCheckBox("Use streaming result")
         self.streaming.setToolTip("Uses a complete streaming result after release. Default-ASR words remain in History metadata.")
         self.live.setChecked(config.get("labs", {}).get("live_preview", False))
         self.streaming.setChecked(config.get("labs", {}).get("use_streaming_result", False))
         self.live.toggled.connect(self._toggle)
-        self.download = QtWidgets.QPushButton("Download / Resume English preview")
-        self.pause_button = QtWidgets.QPushButton("Pause")
+        self.download = WrapPushButton("Download / Resume English preview")
+        self.pause_button = WrapPushButton("Pause")
         self.download.clicked.connect(self.start_download)
         self.pause_button.clicked.connect(self.pause)
         self.progress = ThemedProgressBar()
         self.progress.setRange(0, 100)
         self.status = QtWidgets.QLabel("Download once, then enable preview and Apply. Installed files are reused.")
         self.status.setWordWrap(True)
-        buttons = QtWidgets.QHBoxLayout()
+        buttons = AdaptiveRow()
         buttons.addWidget(self.download)
         buttons.addWidget(self.pause_button)
         layout = QtWidgets.QVBoxLayout(self)
@@ -66,7 +67,7 @@ class LabsPage(QtWidgets.QWidget):
         layout.addWidget(self.command)
         meeting = QtWidgets.QGroupBox('Meeting notes · Labs')
         meeting_layout = QtWidgets.QVBoxLayout(meeting)
-        self.meeting_enabled = QtWidgets.QCheckBox('Enable meeting notes')
+        self.meeting_enabled = WrapCheckBox('Enable meeting notes')
         self.meeting_enabled.setChecked(config.get('labs', {}).get('notetaker') is True)
         description = QtWidgets.QLabel('Open Meeting notes from Home to review the local models and select the '
             'microphone and computer audio. Recording requires an explicit Start and participant permission. '

@@ -3,6 +3,7 @@
 from concurrent.futures import ThreadPoolExecutor
 
 from PySide6 import QtCore, QtWidgets
+from .reflow import WrapPushButton
 
 from saydraft.data.retention import AudioRetentionPolicy
 from saydraft.privacy.firewall import FirewallStatus,inspect_firewall
@@ -37,7 +38,7 @@ class PrivacyPage(QtWidgets.QWidget):
         paragraph("The Python network policy blocks connections outside loopback, apart from requested model downloads and optional app update checks. OS rules and native helpers need separate verification.")
         paragraph("Telemetry: none. Dictation, cleanup, History and preferences stay local.")
         self.firewall_status = paragraph("Windows Firewall: not checked.")
-        self.firewall_button = QtWidgets.QPushButton("Check firewall rules")
+        self.firewall_button = WrapPushButton("Check firewall rules")
         self.firewall_button.clicked.connect(self.check_firewall)
         layout.addWidget(self.firewall_button)
         from .firewall_card import FirewallCard
@@ -61,7 +62,7 @@ class PrivacyPage(QtWidgets.QWidget):
         layout.addWidget(self.days_spin)
         paragraph("Off by default. Turning this off stops saving new recordings and leaves existing ones untouched. Keep forever preserves the current recordings.")
         paragraph("Saving a time limit enables automatic cleanup of expired recordings linked in History. Raw and cleaned text stay in History. Other files are kept. A recent retry does not restart a recording’s age.")
-        self.cleanup_button = QtWidgets.QPushButton("Clean up expired recordings now")
+        self.cleanup_button = WrapPushButton("Clean up expired recordings now")
         layout.addWidget(self.cleanup_button)
         self.retention_status = paragraph("")
         layout.addStretch()

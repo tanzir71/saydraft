@@ -3,6 +3,7 @@
 from html import escape
 
 from PySide6 import QtCore, QtGui, QtWidgets
+from .reflow import AdaptiveRow, WrapPushButton
 
 from saydraft.asr.selection import configured_model_id
 from saydraft.model_download import download_asr_model
@@ -53,13 +54,13 @@ class ModelPicker(QtWidgets.QWidget):
         policy = self.file_status.sizePolicy()
         policy.setHorizontalPolicy(QtWidgets.QSizePolicy.Ignored)
         self.file_status.setSizePolicy(policy)
-        self.download_button = QtWidgets.QPushButton("Download / Resume")
-        self.pause_button = QtWidgets.QPushButton("Pause")
+        self.download_button = WrapPushButton("Download / Resume")
+        self.pause_button = WrapPushButton("Pause")
         self.pause_button.setEnabled(False)
         self.download_button.clicked.connect(self.start_download)
         self.pause_button.clicked.connect(self.pause)
         self.combo.currentIndexChanged.connect(self.update_license)
-        buttons = QtWidgets.QHBoxLayout()
+        buttons = AdaptiveRow()
         buttons.addWidget(self.download_button)
         buttons.addWidget(self.pause_button)
         layout = QtWidgets.QVBoxLayout(self)

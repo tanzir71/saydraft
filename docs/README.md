@@ -11,6 +11,9 @@ Notetaker, several power features, and native/manual acceptance remain open.
 Use the plan for the complete status; an implemented component is not full
 milestone acceptance.
 
+The [delivery handover](DELIVERY_HANDOVER.md) gives the bounded completion
+process, current preview checkpoint and prioritized remaining acceptance work.
+
 The latest cleanup change adds a content-word identity/order check to normal
 post-rules AI cleanup (intensities 1–3). See the [validator](VALIDATOR_V2.md) for
 allowed grammar edits, Polished/translation scope, and conservative fallback.

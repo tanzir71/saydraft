@@ -4,6 +4,7 @@ import json
 from dataclasses import replace
 
 from PySide6 import QtCore, QtWidgets
+from .reflow import AdaptiveRow, WrapPushButton
 
 from saydraft.cleanup.styles import select_style, style_for
 from saydraft.context.app_groups import app_group
@@ -39,10 +40,11 @@ class StylesPage(QtWidgets.QScrollArea):
         self.matrix = QtWidgets.QTableWidget(len(GROUP_LABELS), 3)
         self.matrix.setAccessibleName("App group tone and cleanup intensity")
         self.matrix.setTabKeyNavigation(False)
+        self.matrix.setSizePolicy(QtWidgets.QSizePolicy.Ignored, QtWidgets.QSizePolicy.Fixed)
         self.matrix.setHorizontalHeaderLabels(["App group", "Tone", "Cleanup"])
         self.matrix.verticalHeader().hide()
         self.matrix.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
-        self.matrix.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.Stretch)
+        self.matrix.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.Fixed)
         self.matrix.horizontalHeader().setSectionResizeMode(0, QtWidgets.QHeaderView.Fixed)
         self.matrix.horizontalHeader().setSectionResizeMode(1, QtWidgets.QHeaderView.Fixed)
         self.tones, self.levels = {}, {}
@@ -65,6 +67,7 @@ class StylesPage(QtWidgets.QScrollArea):
         self.matrix.verticalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeToContents)
         self.matrix.verticalHeader().sectionResized.connect(self._fit_matrix)
         self.matrix.horizontalHeader().geometriesChanged.connect(self._fit_matrix)
+        self.matrix.horizontalScrollBar().rangeChanged.connect(self._fit_matrix)
         self._fit_matrix()
         layout.addWidget(self.matrix)
         from saydraft.translation import LANGUAGES, sanitize_targets
@@ -92,19 +95,19 @@ class StylesPage(QtWidgets.QScrollArea):
         self.translation_language.currentIndexChanged.connect(self._translation_target)
         self._translation_group()
         layout.addWidget(translation)
-        bar = QtWidgets.QHBoxLayout()
+        bar = AdaptiveRow()
         bar.addWidget(QtWidgets.QLabel("Preview group"))
         self.group = QtWidgets.QComboBox()
         self.group.setAccessibleName("Preview app group")
         for group, label in GROUP_LABELS.items():
             self.group.addItem(label, group)
         bar.addWidget(self.group, 1)
-        self.ai_button = QtWidgets.QPushButton("Preview with current AI")
+        self.ai_button = WrapPushButton("Preview with current AI")
         self.ai_button.setEnabled(callback is not None)
         self.ai_button.clicked.connect(self.preview_ai)
         bar.addWidget(self.ai_button)
         layout.addLayout(bar)
-        languages = QtWidgets.QHBoxLayout()
+        languages = AdaptiveRow()
         languages.addWidget(QtWidgets.QLabel("Preview language"))
         self.language = QtWidgets.QComboBox()
         self.language.setMinimumContentsLength(12)
@@ -117,7 +120,7 @@ class StylesPage(QtWidgets.QScrollArea):
         self.language.currentIndexChanged.connect(self.invalidate)
         languages.addWidget(self.language, 1)
         layout.addLayout(languages)
-        details = QtWidgets.QHBoxLayout()
+        details = AdaptiveRow()
         self.exe, self.site, self.title = (QtWidgets.QLineEdit() for _ in range(3))
         for edit, placeholder in ((self.exe, "App .exe (optional)"), (self.site, "Site hostname (optional)"),
                 (self.title, "Window title (legacy overrides)")):
@@ -127,7 +130,7 @@ class StylesPage(QtWidgets.QScrollArea):
             details.addWidget(edit)
         self.site.setToolTip("Test a site override. A Chrome browser is simulated when the app field is blank.")
         layout.addLayout(details)
-        editors = QtWidgets.QHBoxLayout()
+        editors = AdaptiveRow()
         self.before, self.after = PrivatePlainTextEdit(), PrivatePlainTextEdit()
         self.before.setTabChangesFocus(True)
         self.before.setPlainText("um like hello hello world.")
@@ -157,11 +160,16 @@ class StylesPage(QtWidgets.QScrollArea):
         self._fitting_matrix = True
         try:
             widths = (max(self.matrix.fontMetrics().horizontalAdvance(label) for label in GROUP_LABELS.values()) + 18,
-                max(combo.sizeHint().width() for combo in self.tones.values()))
+                max(combo.sizeHint().width() for combo in self.tones.values()),
+                max(combo.sizeHint().width() for combo in self.levels.values()))
+            widths = (*widths[:2], max(widths[2], self.matrix.viewport().width() - sum(widths[:2])))
             for column, width in enumerate(widths):
                 if self.matrix.columnWidth(column) != width:
                     self.matrix.setColumnWidth(column, width)
-            height = self.matrix.horizontalHeader().height() + sum(self.matrix.rowHeight(row) for row in range(self.matrix.rowCount())) + 2 * self.matrix.frameWidth()
+            scrollbar = self.matrix.horizontalScrollBar()
+            height = (self.matrix.horizontalHeader().height()
+                + sum(self.matrix.rowHeight(row) for row in range(self.matrix.rowCount()))
+                + 2 * self.matrix.frameWidth() + (scrollbar.sizeHint().height() if scrollbar.maximum() else 0))
             if height != self.matrix.height():
                 self.matrix.setFixedHeight(height)
         finally:

@@ -4,6 +4,7 @@ from html import escape
 from pathlib import Path
 
 from PySide6 import QtCore, QtWidgets
+from .reflow import AdaptiveRow, WrapPushButton
 
 from saydraft.config import default_config
 from saydraft.model_download import download_cleanup_runtime
@@ -56,10 +57,10 @@ class CleanupPicker(QtWidgets.QWidget):
         self.progress.setRange(0, 100)
         self.progress.setValue(0)
         self.progress.setAccessibleName("Cleanup model and runtime download progress")
-        self.download_button = QtWidgets.QPushButton("Download / Resume AI cleanup")
-        self.pause_button = QtWidgets.QPushButton("Pause")
+        self.download_button = WrapPushButton("Download / Resume AI cleanup")
+        self.pause_button = WrapPushButton("Pause")
         self.pause_button.setEnabled(False)
-        buttons = QtWidgets.QHBoxLayout()
+        buttons = AdaptiveRow()
         buttons.addWidget(self.download_button)
         buttons.addWidget(self.pause_button)
         layout = QtWidgets.QVBoxLayout(self)

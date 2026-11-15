@@ -5,6 +5,7 @@ from concurrent.futures import ThreadPoolExecutor
 import math
 
 from PySide6 import QtCore, QtGui, QtWidgets
+from .reflow import AdaptiveRow, WrapPushButton
 
 from saydraft.audio.devices import InputSelection, list_inputs
 from saydraft.audio.privacy import check_microphone_privacy
@@ -47,9 +48,9 @@ class MicrophonePage(QtWidgets.QWidget):
         self.device_combo.setAccessibleName("Dictation microphone")
         self.device_combo.setSizePolicy(QtWidgets.QSizePolicy.Ignored, QtWidgets.QSizePolicy.Fixed)
         layout.addWidget(self.device_combo)
-        actions = QtWidgets.QHBoxLayout()
-        self.refresh_button = QtWidgets.QPushButton("Refresh inputs")
-        self.test_button = QtWidgets.QPushButton("Test input")
+        actions = AdaptiveRow()
+        self.refresh_button = WrapPushButton("Refresh inputs")
+        self.test_button = WrapPushButton("Test input")
         actions.addWidget(self.refresh_button)
         actions.addWidget(self.test_button)
         layout.addLayout(actions)
@@ -62,13 +63,13 @@ class MicrophonePage(QtWidgets.QWidget):
         paragraph("Say ‘testing one two three’ and watch the meter. The test stops after 10 seconds. Audio is neither saved nor transcribed, and no sound is played.")
         self.status = paragraph("")
         paragraph("If access is blocked, allow desktop apps in Windows microphone privacy settings.")
-        self.privacy_check_button = QtWidgets.QPushButton('Check microphone privacy')
+        self.privacy_check_button = WrapPushButton('Check microphone privacy')
         self.privacy_check_button.clicked.connect(self.check_privacy)
         layout.addWidget(self.privacy_check_button)
         self.privacy_status = paragraph('Check Windows microphone privacy without recording.')
         self.privacy_status.setAccessibleName('Windows microphone privacy status')
-        self.sound_button = QtWidgets.QPushButton("Open Windows sound settings")
-        self.privacy_button = QtWidgets.QPushButton("Open microphone privacy settings")
+        self.sound_button = WrapPushButton("Open Windows sound settings")
+        self.privacy_button = WrapPushButton("Open microphone privacy settings")
         self.sound_button.clicked.connect(lambda: QtGui.QDesktopServices.openUrl(QtCore.QUrl("ms-settings:sound")))
         self.privacy_button.clicked.connect(lambda: QtGui.QDesktopServices.openUrl(QtCore.QUrl("ms-settings:privacy-microphone")))
         layout.addWidget(self.sound_button)

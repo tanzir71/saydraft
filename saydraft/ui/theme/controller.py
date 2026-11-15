@@ -41,6 +41,7 @@ class ThemeController(QtCore.QObject):
         self.timer.timeout.connect(self.refresh)
         self.connections = []
         self.quit_connected = self.started = False
+        self.owns_style_propagation = False
 
     @staticmethod
     def _read(path):
@@ -59,6 +60,12 @@ class ThemeController(QtCore.QObject):
     def start(self):
         if self.started or self.closed:
             return
+        # Qt style sheets otherwise retain earlier fonts on existing widgets
+        # when the application font changes. This affects palette inheritance too.
+        attribute = QtCore.Qt.AA_UseStyleSheetPropagationInWidgetStyles
+        if not QtCore.QCoreApplication.testAttribute(attribute):
+            QtCore.QCoreApplication.setAttribute(attribute, True)
+            self.owns_style_propagation = True
         self.previous_paths = QtCore.QDir.searchPaths("saydraftTheme")
         QtCore.QDir.setSearchPaths("saydraftTheme", [self.icon_root])
         for signal in (self.hints.colorSchemeChanged, self.accessibility.contrastPreferenceChanged):
@@ -129,4 +136,6 @@ class ThemeController(QtCore.QObject):
             self.application.setFont(self.resize_base)
         if self.previous_paths is not None and QtCore.QDir.searchPaths("saydraftTheme") == [self.icon_root]:
             QtCore.QDir.setSearchPaths("saydraftTheme", self.previous_paths)
+        if self.owns_style_propagation and QtCore.QCoreApplication.testAttribute(QtCore.Qt.AA_UseStyleSheetPropagationInWidgetStyles):
+            QtCore.QCoreApplication.setAttribute(QtCore.Qt.AA_UseStyleSheetPropagationInWidgetStyles, False)
         self.deleteLater()

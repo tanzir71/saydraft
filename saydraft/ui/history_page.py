@@ -10,6 +10,7 @@ from pathlib import Path
 from typing import Any
 
 from PySide6 import QtCore, QtGui, QtWidgets
+from .reflow import AdaptiveRow, WrapCheckBox, WrapPushButton
 
 from saydraft.dictation.glossary import learn_word
 from saydraft.history import DictationHistoryStore, HistoryRow, HistorySummary
@@ -83,35 +84,35 @@ class HistoryPage(QtWidgets.QWidget):
         self.detail_editor = PrivatePlainTextEdit(self)
         self.detail_editor.setAccessibleName("Selected dictation text")
         self.detail_editor.setReadOnly(True)
-        self.raw_toggle = QtWidgets.QCheckBox("Show raw transcript", self)
-        self.diff_toggle = QtWidgets.QCheckBox("Show changes", self)
+        self.raw_toggle = WrapCheckBox("Show raw transcript", self)
+        self.diff_toggle = WrapCheckBox("Show changes", self)
         self.diff_toggle.setToolTip("Inserted text is highlighted; removed text is struck through.")
         self.metadata_label = QtWidgets.QLabel("", self)
         self.metadata_label.setTextFormat(QtCore.Qt.PlainText)
         self.metadata_label.setWordWrap(True)
-        self.why_button = QtWidgets.QPushButton("Why this result?", self)
+        self.why_button = WrapPushButton("Why this result?", self)
         self.why_button.setCheckable(True)
         self.why_editor = PrivatePlainTextEdit(self)
         self.why_editor.setAccessibleName("Models, cleanup decision and timings")
         self.why_editor.setReadOnly(True)
         self.why_editor.setMaximumHeight(140)
         self.why_editor.hide()
-        self.export_button = QtWidgets.QPushButton("Export…", self)
+        self.export_button = WrapPushButton("Export…", self)
         self.export_button.setToolTip("Export all results matching this search as Markdown or CSV.")
-        self.cancel_export_button = QtWidgets.QPushButton("Cancel export", self)
+        self.cancel_export_button = WrapPushButton("Cancel export", self)
         self.cancel_export_button.hide()
-        self.newer_button, self.older_button, self.latest_button = [QtWidgets.QPushButton(text, self)
+        self.newer_button, self.older_button, self.latest_button = [WrapPushButton(text, self)
             for text in ("Newer", "Older", "Refresh")]
         self.page_label = QtWidgets.QLabel("", self)
         self.page_label.setWordWrap(True)
         self.page_label.setTextFormat(QtCore.Qt.PlainText)
-        self.copy_button = QtWidgets.QPushButton("Copy", self)
-        self.restore_clipboard_button = QtWidgets.QPushButton("Restore clipboard", self)
+        self.copy_button = WrapPushButton("Copy", self)
+        self.restore_clipboard_button = WrapPushButton("Restore clipboard", self)
         self.restore_clipboard_button.setVisible(hasattr(self.clipboard, "recover"))
-        self.reinsert_button = QtWidgets.QPushButton("Re-insert", self)
-        self.add_dictionary_button = QtWidgets.QPushButton("Add word", self)
+        self.reinsert_button = WrapPushButton("Re-insert", self)
+        self.add_dictionary_button = WrapPushButton("Add word", self)
         self.add_dictionary_button.setAccessibleName("Add selected text to Dictionary")
-        self.retry_button = QtWidgets.QPushButton("Retry audio…", self)
+        self.retry_button = WrapPushButton("Retry audio…", self)
         self.retry_button.setToolTip("Choose an installed speech model and AI cleanup on/off; save a new History entry for review.")
         self.retry_button.setEnabled(False)
         self.status_label = QtWidgets.QLabel("", self)
@@ -132,18 +133,19 @@ class HistoryPage(QtWidgets.QWidget):
 
     def _build_layout(self) -> None:
         root = QtWidgets.QVBoxLayout(self)
-        toolbar = QtWidgets.QHBoxLayout()
+        toolbar = AdaptiveRow()
         toolbar.addWidget(self.search_edit, 1)
         toolbar.addWidget(self.export_button)
         toolbar.addWidget(self.cancel_export_button)
         root.addLayout(toolbar)
 
         body = QtWidgets.QSplitter(QtCore.Qt.Horizontal, self)
+        self.body = body
         left = QtWidgets.QWidget()
         left_layout = QtWidgets.QVBoxLayout(left)
         left_layout.setContentsMargins(0, 0, 0, 0)
         left_layout.addWidget(self.list_widget)
-        paging = QtWidgets.QHBoxLayout()
+        paging = AdaptiveRow()
         paging.addWidget(self.newer_button)
         paging.addWidget(self.older_button)
         left_layout.addLayout(paging)
@@ -154,7 +156,7 @@ class HistoryPage(QtWidgets.QWidget):
         right_layout = QtWidgets.QVBoxLayout(right)
         right_layout.setContentsMargins(0, 0, 0, 0)
         right_layout.addWidget(self.metadata_label)
-        views = QtWidgets.QHBoxLayout()
+        views = AdaptiveRow()
         views.addWidget(self.raw_toggle)
         views.addWidget(self.diff_toggle)
         views.addStretch()
@@ -166,7 +168,7 @@ class HistoryPage(QtWidgets.QWidget):
         for index, button in enumerate((self.copy_button, self.reinsert_button, self.add_dictionary_button, self.retry_button)):
             buttons.addWidget(button, index // 2, index % 2)
         right_layout.addLayout(buttons)
-        recovery = QtWidgets.QHBoxLayout()
+        recovery = AdaptiveRow()
         recovery.addWidget(self.status_label, 1)
         recovery.addWidget(self.restore_clipboard_button)
         right_layout.addLayout(recovery)
@@ -176,6 +178,24 @@ class HistoryPage(QtWidgets.QWidget):
         body.setStretchFactor(0, 1)
         body.setStretchFactor(1, 2)
         root.addWidget(body, 1)
+
+    def _fit_body(self):
+        if not hasattr(self, "body"):
+            return
+        required = self.raw_toggle.sizeHint().width() + self.diff_toggle.sizeHint().width() + 220 + self.body.handleWidth()
+        orientation = QtCore.Qt.Vertical if self.body.width() < required else QtCore.Qt.Horizontal
+        if self.body.orientation() != orientation:
+            self.body.setOrientation(orientation)
+
+    def resizeEvent(self, event):
+        super().resizeEvent(event)
+        self._fit_body()
+
+    def event(self, event):
+        result = super().event(event)
+        if event.type() == QtCore.QEvent.LayoutRequest:
+            self._fit_body()
+        return result
 
     def _connect_signals(self) -> None:
         self.search_edit.textChanged.connect(lambda _text: self.apply_filter())

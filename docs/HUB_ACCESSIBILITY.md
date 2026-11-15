@@ -57,10 +57,24 @@ not change or qualify the owner's Windows settings. Native screen-reader/UIA,
 physical keyboard/focus visibility, mixed-DPI displays, installer behavior,
 Bar/onboarding accessibility and the complete P6.7 acceptance remain open.
 
-Some wide History/Style/forms still need horizontal scrolling at 32px in an
-880px window. The native scroll containers keep their controls reachable; this
-pass does not claim universal reflow. Follow the manual checks below on an
-authorized isolated Windows account before accepting P6.7.
+The current reflow implementation wraps native checkbox/button labels and stacks
+crowded rows and the narrow History view. Language selectors can shrink, and the
+Command group heading wraps. The Style matrix keeps full content-sized columns,
+with horizontal scrolling confined to that data table and height reserved for
+its scrollbar. Page containers are checked for zero horizontal overflow at
+16/32px in both Hub sizes. Keyboard focus must scroll into view without a test
+manually moving the scrollbars.
+
+Live font changes enable Qt's
+[documented stylesheet propagation](https://doc.qt.io/qt-6/stylesheet-syntax.html#inheritance)
+while the theme owns it; closing restores a flag that the theme enabled. Checks
+read the actual native controls' fonts. A 16→32→16px application-font change
+previously left existing themed controls at their initial size, so application
+font metadata alone was insufficient. Initial owner/system settings are unchanged.
+
+Full physical display-scaling and Windows accessibility acceptance remain open.
+Follow the manual checks below on an authorized isolated account before accepting
+P6.7. See the [delivery handover](DELIVERY_HANDOVER.md) for release blockers.
 The earlier `5848e53` portable predates these UI changes; a new portable and
 installer have not been qualified by this accessibility pass.
 

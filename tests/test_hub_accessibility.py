@@ -11,6 +11,7 @@ from saydraft.config import default_config, save_config
 from saydraft.history import DictationHistoryStore, HistoryEntry
 from saydraft.models.storage import Inventory
 from saydraft.ui.hub import HubWindow
+from saydraft.ui.fonts import install_bundled_fonts
 from saydraft.ui.theme import install_theme
 
 
@@ -49,6 +50,7 @@ def owned_hub(tmp_path, monkeypatch):
     app = APP
     app.sendPostedEvents(None, QtCore.QEvent.DeferredDelete)
     original_font, original_sheet = QtGui.QFont(app.font()), app.styleSheet()
+    install_bundled_fonts(app)
     qt_errors = []
     monkeypatch.setattr(sys, "excepthook", lambda kind, error, trace: qt_errors.append((kind.__name__, str(error))))
     monkeypatch.setattr(QtWidgets.QApplication, "clipboard", forbidden)

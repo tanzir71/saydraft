@@ -3,6 +3,7 @@
 from html import escape
 
 from PySide6 import QtCore, QtGui, QtWidgets
+from .reflow import AdaptiveRow, WrapCheckBox, WrapPushButton
 
 from saydraft.audio.gtcrn import MODEL_ID
 from saydraft.audio.quiet import QuietSpeechSettings
@@ -22,7 +23,7 @@ class WhisperModeControls(QtWidgets.QGroupBox):
         self.task = None
         self._download_completed = False
         settings = QuietSpeechSettings.from_config(config)
-        self.enabled = QtWidgets.QCheckBox('Enable Whisper mode (experimental)')
+        self.enabled = WrapCheckBox('Enable Whisper mode (experimental)')
         self.enabled.setChecked(settings.enabled)
         self.gain = QtWidgets.QDoubleSpinBox()
         self.gain.setRange(0, 24)
@@ -30,9 +31,9 @@ class WhisperModeControls(QtWidgets.QGroupBox):
         self.gain.setSuffix(' dB')
         self.gain.setValue(settings.gain_db)
         self.gain.setAccessibleName('Whisper-mode input gain')
-        self.agc = QtWidgets.QCheckBox('Automatic gain control')
+        self.agc = WrapCheckBox('Automatic gain control')
         self.agc.setChecked(settings.agc)
-        self.enhancement = QtWidgets.QCheckBox('Use local speech enhancement')
+        self.enhancement = WrapCheckBox('Use local speech enhancement')
         self.enhancement.setChecked(settings.enhancement)
         layout = QtWidgets.QVBoxLayout(self)
         layout.addWidget(self.enabled)
@@ -58,9 +59,9 @@ class WhisperModeControls(QtWidgets.QGroupBox):
         license_label.installEventFilter(self)
         self._render_license()
         layout.addWidget(license_label)
-        actions = QtWidgets.QHBoxLayout()
-        self.download = QtWidgets.QPushButton('Download / Resume enhancement')
-        self.pause_button = QtWidgets.QPushButton('Pause')
+        actions = AdaptiveRow()
+        self.download = WrapPushButton('Download / Resume enhancement')
+        self.pause_button = WrapPushButton('Pause')
         actions.addWidget(self.download)
         actions.addWidget(self.pause_button)
         layout.addLayout(actions)

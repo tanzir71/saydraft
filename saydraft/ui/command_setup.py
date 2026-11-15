@@ -4,6 +4,7 @@ from html import escape
 from pathlib import Path
 
 from PySide6 import QtCore, QtGui, QtWidgets
+from .reflow import AdaptiveRow, WrapCheckBox, WrapPushButton
 
 from saydraft.models.command import command_bundle, command_choice, download_command_model
 from saydraft.models.cleanup import transfer_bytes
@@ -16,7 +17,8 @@ class CommandSetup(QtWidgets.QGroupBox):
     finished = QtCore.Signal()
 
     def __init__(self, config, *, report=None, callback=None):
-        super().__init__('Command, Translate and Ask · experimental')
+        super().__init__()
+        self.setAccessibleName('Command, Translate and Ask · experimental')
         self.config, self.report = config, report
         self.callback, self.task = callback or download_command_model, None
         self.description = QtWidgets.QLabel('Select text and hold Ctrl+Win+Alt. Wait for the Command label, '
@@ -24,22 +26,22 @@ class CommandSetup(QtWidgets.QGroupBox):
             'Read-only selections produce an edit to copy. This Pro feature uses a separate local editing model. '
             'Dictation cleanup can stay off.')
         self.description.setWordWrap(True)
-        self.enabled_check = QtWidgets.QCheckBox('Enable experimental Command Mode')
+        self.enabled_check = WrapCheckBox('Enable experimental Command Mode')
         self.enabled_check.setChecked(config.get('labs', {}).get('command_mode', False))
-        self.translate_check = QtWidgets.QCheckBox('Enable Translate while speaking')
+        self.translate_check = WrapCheckBox('Enable Translate while speaking')
         self.translate_check.setChecked(config.get('labs', {}).get('translate_mode') is True)
         self.translate_description = QtWidgets.QLabel('Choose the output language per app group in Style, then use your '
             'normal dictation shortcut. Wait for the Translate label before speaking. '
             'Translate shares this local editing model and processor. '
             'On failure, recognized words stay in History and a Copy window; untranslated words are not pasted automatically.')
         self.translate_description.setWordWrap(True)
-        self.ask_check = QtWidgets.QCheckBox('Enable Ask about selected text')
+        self.ask_check = WrapCheckBox('Enable Ask about selected text')
         self.ask_check.setChecked(config.get('labs', {}).get('ask_mode') is True)
         self.ask_description = QtWidgets.QLabel('Select text and use your Ask shortcut (Ctrl+Win+A by default). '
             'Review it, then ask a question or choose Summarize, Explain or Rewrite. '
             'Local answers open in a separate Scratchpad. Ask requires a readable selection and shares this editing model.')
         self.ask_description.setWordWrap(True)
-        self.copy_check = QtWidgets.QCheckBox('Allow clipboard-copy fallback')
+        self.copy_check = WrapCheckBox('Allow clipboard-copy fallback')
         self.copy_check.setChecked(config.get('command', {}).get('clipboard_fallback') is True)
         self.copy_description = QtWidgets.QLabel('For unsupported selections, fallback uses ordinary Ctrl+C after you release the shortcut. '
             'Windows clipboard history and sync settings apply. If the original selection cannot be verified '
@@ -62,17 +64,20 @@ class CommandSetup(QtWidgets.QGroupBox):
         self._palette_timer.setSingleShot(True)
         self._palette_timer.timeout.connect(self._details)
         self.license.installEventFilter(self)
-        self.download_button = QtWidgets.QPushButton('Download / Resume editing model')
-        self.pause_button = QtWidgets.QPushButton('Pause')
+        self.download_button = WrapPushButton('Download / Resume editing model')
+        self.pause_button = WrapPushButton('Pause')
         self.progress = ThemedProgressBar()
         self.progress.setRange(0, 100)
         self.progress.setAccessibleName('Command model and processor download progress')
         self.status.setText('Review the size and licenses before downloading. Existing verified files are reused. '
                             'Enabling Command, Translate or Ask never starts a download.')
-        buttons = QtWidgets.QHBoxLayout()
+        buttons = AdaptiveRow()
         buttons.addWidget(self.download_button)
         buttons.addWidget(self.pause_button)
         layout = QtWidgets.QVBoxLayout(self)
+        heading = QtWidgets.QLabel('Command, Translate and Ask · experimental')
+        heading.setWordWrap(True)
+        layout.addWidget(heading)
         for widget in (self.description, self.eligibility, self.enabled_check, self.copy_check,
                        self.copy_description, self.translate_check, self.translate_description,
                        self.ask_check, self.ask_description, self.backend, self.license):

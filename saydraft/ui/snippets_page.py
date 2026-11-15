@@ -3,6 +3,7 @@
 import re
 
 from PySide6 import QtCore, QtWidgets
+from .reflow import AdaptiveRow, WrapCheckBox, WrapPushButton
 
 from saydraft.core.preferences import protect_snippets, restore_snippets
 from saydraft.snippets import dump_document, parse_document, resolve_mapping, trigger_key, validate_entries
@@ -76,9 +77,9 @@ class SnippetsPage(QtWidgets.QWidget):
         self.expansion_edit.setMinimumHeight(80)
         self.expansion_edit.setMaximumHeight(110)
         layout.addWidget(self.expansion_edit)
-        variables = QtWidgets.QHBoxLayout()
-        self.date_button = QtWidgets.QPushButton("Insert {date}")
-        self.clipboard_button = QtWidgets.QPushButton("Insert {clipboard}")
+        variables = AdaptiveRow()
+        self.date_button = WrapPushButton("Insert {date}")
+        self.clipboard_button = WrapPushButton("Insert {clipboard}")
         for button, text in ((self.date_button, "{date}"), (self.clipboard_button, "{clipboard}")):
             button.clicked.connect(lambda _checked=False, text=text: self._insert_variable(text))
             variables.addWidget(button)
@@ -88,9 +89,9 @@ class SnippetsPage(QtWidgets.QWidget):
         hint.setWordWrap(True)
         hint.setTextFormat(QtCore.Qt.PlainText)
         layout.addWidget(hint)
-        actions = QtWidgets.QHBoxLayout()
+        actions = AdaptiveRow()
         self.add_button, self.update_button, self.remove_button, self.new_button = [
-            QtWidgets.QPushButton(text) for text in ("Add", "Update", "Remove", "New snippet")]
+            WrapPushButton(text) for text in ("Add", "Update", "Remove", "New snippet")]
         self.update_button.setAccessibleName("Update selected snippet")
         self.remove_button.setAccessibleName("Remove selected snippet")
         for button in (self.add_button, self.update_button, self.remove_button, self.new_button):
@@ -102,7 +103,7 @@ class SnippetsPage(QtWidgets.QWidget):
         self.status_label.setTextFormat(QtCore.Qt.PlainText)
         self.status_label.hide()
         layout.addWidget(self.status_label)
-        self.test_toggle = QtWidgets.QCheckBox("Test a trigger")
+        self.test_toggle = WrapCheckBox("Test a trigger")
         layout.addWidget(self.test_toggle)
         self.test_panel = QtWidgets.QWidget()
         test_layout = QtWidgets.QVBoxLayout(self.test_panel)
@@ -117,7 +118,7 @@ class SnippetsPage(QtWidgets.QWidget):
             editor.setFixedHeight(90)
             test_layout.addWidget(editor)
         self.test_output.setReadOnly(True)
-        self.test_button = QtWidgets.QPushButton("Test expansion")
+        self.test_button = WrapPushButton("Test expansion")
         test_layout.addWidget(self.test_button)
         note = QtWidgets.QLabel("Preview uses the sample above. It never reads your clipboard, records History or pastes text.")
         note.setWordWrap(True)
@@ -125,7 +126,7 @@ class SnippetsPage(QtWidgets.QWidget):
         self.test_toggle.toggled.connect(self.test_panel.setVisible)
         self.test_panel.hide()
         layout.addWidget(self.test_panel)
-        self.advanced = QtWidgets.QCheckBox("Advanced JSON / legacy text")
+        self.advanced = WrapCheckBox("Advanced JSON / legacy text")
         layout.addWidget(self.advanced)
         self.json_editor = PrivatePlainTextEdit()
         self.json_editor.setTabChangesFocus(True)
@@ -135,7 +136,7 @@ class SnippetsPage(QtWidgets.QWidget):
         self.json_editor.hide()
         self.advanced.toggled.connect(self.json_editor.setVisible)
         layout.addWidget(self.json_editor)
-        self.reload_button = QtWidgets.QPushButton("Reload saved Snippets")
+        self.reload_button = WrapPushButton("Reload saved Snippets")
         self.reload_button.setToolTip("Discard this draft and reload saved Snippets.")
         layout.addWidget(self.reload_button)
         self.reload_button.clicked.connect(self.reload_requested)

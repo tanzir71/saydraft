@@ -11,6 +11,7 @@ from pathlib import Path
 from typing import Any
 
 from PySide6 import QtCore, QtWidgets
+from .reflow import AdaptiveRow, WrapCheckBox, WrapPushButton
 
 from saydraft.config import load_config, save_config
 from saydraft.dictionary.store import read_dictionary, save_dictionary
@@ -128,8 +129,8 @@ class SettingsPage(QtWidgets.QWidget):
         status_policy.setVerticalPolicy(QtWidgets.QSizePolicy.Preferred)
         status_policy.setHeightForWidth(True)
         self.status_label.setSizePolicy(status_policy)
-        self.apply_button = QtWidgets.QPushButton("Apply", self)
-        self.close_button = QtWidgets.QPushButton("Close", self)
+        self.apply_button = WrapPushButton("Apply", self)
+        self.close_button = WrapPushButton("Close", self)
         self.apply_button.clicked.connect(self.apply_changes)
         self.close_button.clicked.connect(lambda: self.window().close())
 
@@ -161,7 +162,7 @@ class SettingsPage(QtWidgets.QWidget):
 
     def _build(self) -> None:
         layout = QtWidgets.QVBoxLayout(self)
-        navigation = QtWidgets.QHBoxLayout()
+        navigation = AdaptiveRow()
         label = QtWidgets.QLabel("Settings")
         label.setProperty("role", "eyebrow")
         navigation.addWidget(label)
@@ -169,7 +170,7 @@ class SettingsPage(QtWidgets.QWidget):
         layout.addLayout(navigation)
         layout.addWidget(self.tabs)
 
-        footer = QtWidgets.QHBoxLayout()
+        footer = AdaptiveRow()
         footer.addWidget(self.status_label, 1)
         footer.addWidget(self.apply_button)
         footer.addWidget(self.close_button)
@@ -225,15 +226,15 @@ class SettingsPage(QtWidgets.QWidget):
         page = QtWidgets.QWidget()
         form = QtWidgets.QFormLayout(page)
         form.setRowWrapPolicy(QtWidgets.QFormLayout.WrapLongRows)
-        self.autostart_checkbox = QtWidgets.QCheckBox()
-        self.auto_listen_checkbox = QtWidgets.QCheckBox()
-        self.show_bar_checkbox = QtWidgets.QCheckBox("Show the idle Saydraft Bar")
-        self.start_sound_checkbox = QtWidgets.QCheckBox("Play a tick when recording starts")
-        self.end_sound_checkbox = QtWidgets.QCheckBox("Play a soft tick after insertion")
+        self.autostart_checkbox = WrapCheckBox()
+        self.auto_listen_checkbox = WrapCheckBox()
+        self.show_bar_checkbox = WrapCheckBox("Show the idle Saydraft Bar")
+        self.start_sound_checkbox = WrapCheckBox("Play a tick when recording starts")
+        self.end_sound_checkbox = WrapCheckBox("Play a soft tick after insertion")
         self.notification_spin = QtWidgets.QSpinBox()
         self.notification_spin.setRange(1, 30)
         self.notification_spin.setSuffix(" s")
-        self.retain_audio_checkbox = QtWidgets.QCheckBox("Save recordings locally for History retries")
+        self.retain_audio_checkbox = WrapCheckBox("Save recordings locally for History retries")
         self.retain_audio_checkbox.setToolTip("Off by default. Enabling this retains future recording audio on this computer.")
         form.addRow("Start with Windows", self.autostart_checkbox)
         form.addRow("Auto-start listening", self.auto_listen_checkbox)
@@ -338,10 +339,10 @@ class SettingsPage(QtWidgets.QWidget):
         self.mode_combo.addItems(MODES)
         self.profile_combo = QtWidgets.QComboBox()
         self.profile_combo.addItems(PROFILES)
-        self.drop_message_period_checkbox = QtWidgets.QCheckBox("Omit the final period in single-sentence messages")
+        self.drop_message_period_checkbox = WrapCheckBox("Omit the final period in single-sentence messages")
         self.drop_message_period_checkbox.setToolTip(
             "Applies to Messages and Work-chat, or the chat profile. Questions and multi-sentence messages keep punctuation.")
-        self.voice_enter_checkbox = QtWidgets.QCheckBox('Allow trailing “press enter” to send Enter after dictation')
+        self.voice_enter_checkbox = WrapCheckBox('Allow trailing “press enter” to send Enter after dictation')
         self.voice_enter_checkbox.setToolTip(
             "Off by default. End your dictation with the words “press enter”. Never runs in Email or Docs (including Notes). "
             "Raw and Code also use this command when enabled.")
@@ -432,8 +433,8 @@ class SettingsPage(QtWidgets.QWidget):
         self.device_combo.addItems(("cpu", "cuda", "auto"))
         self.compute_combo = QtWidgets.QComboBox()
         self.compute_combo.addItems(("int8", "float16", "float32"))
-        self.local_files_checkbox = QtWidgets.QCheckBox()
-        self.llm_enabled_checkbox = QtWidgets.QCheckBox()
+        self.local_files_checkbox = WrapCheckBox()
+        self.llm_enabled_checkbox = WrapCheckBox()
         self.llm_path_edit = QtWidgets.QLineEdit()
         self.model_progress = self.model_picker.progress
         self.download_button = self.model_picker.download_button
@@ -441,7 +442,7 @@ class SettingsPage(QtWidgets.QWidget):
             runtime_callback=self.cleanup_runtime_download_callback,
             report=report)
         self.cleanup_picker.ready.connect(self._cleanup_model_ready)
-        self.vad_download_button = QtWidgets.QPushButton("Download / Resume")
+        self.vad_download_button = WrapPushButton("Download / Resume")
         self.vad_download_button.setAccessibleName("Download or resume speech detection, 2.3 megabytes")
         self.vad_download_button.clicked.connect(self.download_vad_model)
         self.vad_license = QtWidgets.QLabel('Silero Team · 2.3 MB · <a href="https://github.com/snakers4/silero-vad/blob/v5.0/LICENSE">MIT license</a>')
