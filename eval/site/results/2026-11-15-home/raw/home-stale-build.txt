@@ -1,0 +1,79 @@
+
+> saydraft-site@0.1.0 build
+> npm run tokens:check && npm run content:check && astro check && astro build
+
+
+> saydraft-site@0.1.0 tokens:check
+> node ../tools/generate_tokens.mjs --check
+
+12 shared token outputs verified.
+
+> saydraft-site@0.1.0 content:check
+> node tools/check-content-dates.mjs
+
+Verified dates are current for 23 content pages.
+05:59:56 [content] Syncing content
+05:59:56 [content] Synced content
+05:59:56 [types] Generated 784ms
+05:59:56 [check] Getting diagnostics for Astro files in D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-home-parity-20261115\site...
+Result (95 files): 
+- 0 errors
+- 0 warnings
+- 0 hints
+
+06:00:05 [content] Syncing content
+06:00:05 [content] Synced content
+06:00:05 [types] Generated 790ms
+06:00:05 [build] output: "static"
+06:00:05 [build] mode: "static"
+06:00:05 [build] directory: D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-home-parity-20261115\site\dist\
+06:00:05 [build] Collecting build info...
+06:00:05 [build] ✓ Completed in 823ms.
+06:00:05 [build] Building static entrypoints...
+06:00:07 [vite] ✓ built in 1.90s
+06:00:07 [vite] ✓ built in 114ms
+06:00:07 [build] Rearranging server assets...
+
+ generating static routes 
+06:00:07   ├─ /404.html (+23ms) 
+06:00:07   ├─ /languages/arabic/index.html (+57ms) 
+06:00:07   ├─ /languages/bengali/index.html (+5ms) 
+06:00:08   ├─ /languages/brazilian-portuguese/index.html (+5ms) 
+06:00:08   ├─ /languages/chinese/index.html (+5ms) 
+06:00:08   ├─ /languages/filipino-tagalog/index.html (+5ms) 
+06:00:08   ├─ /languages/french/index.html (+5ms) 
+06:00:08   ├─ /languages/german/index.html (+3ms) 
+06:00:08   ├─ /languages/hindi/index.html (+4ms) 
+06:00:08   ├─ /languages/indonesian/index.html (+5ms) 
+06:00:08   ├─ /languages/japanese/index.html (+2ms) 
+06:00:08   ├─ /languages/korean/index.html (+2ms) 
+06:00:08   ├─ /languages/malay/index.html (+3ms) 
+06:00:08   ├─ /languages/persian/index.html (+3ms) 
+06:00:08   ├─ /languages/spanish/index.html (+3ms) 
+06:00:08   ├─ /languages/tamil/index.html (+2ms) 
+06:00:08   ├─ /languages/telugu/index.html (+3ms) 
+06:00:08   ├─ /languages/thai/index.html (+2ms) 
+06:00:08   ├─ /languages/urdu/index.html (+2ms) 
+06:00:08   ├─ /languages/vietnamese/index.html (+3ms) 
+06:00:08   ├─ /languages/index.html (+4ms) 
+06:00:08   ├─ /robots.txt (+2ms) 
+06:00:08   ├─ /sitemap.xml (+2ms) 
+06:00:08   ├─ /index.html06:00:08 [ERROR] Error: Recheck Home comparison sources: verified must be within 120 UTC days.
+    at file:///D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-home-parity-20261115/site/dist/.prerender/chunks/index_Dmw_dskC.mjs:824:66
+    at index (file:///D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-home-parity-20261115/site/dist/.prerender/chunks/Base_COFWkdJl.mjs:17:10)
+    at callComponentAsTemplateResultOrResponse (file:///D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-home-parity-20261115/site/dist/.prerender/chunks/jsx-runtime_B9eopAzx.mjs:1870:30)
+    at renderToString (file:///D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-home-parity-20261115/site/dist/.prerender/chunks/jsx-runtime_B9eopAzx.mjs:1860:31)
+    at renderPage (file:///D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-home-parity-20261115/site/dist/.prerender/chunks/jsx-runtime_B9eopAzx.mjs:2364:16)
+    at handlePages (file:///D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-home-parity-20261115/site/dist/.prerender/prerender-entry.BVhWxIwG.mjs:3319:22)
+    at async callMiddleware (file:///D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-home-parity-20261115/site/dist/.prerender/prerender-entry.BVhWxIwG.mjs:4198:9)
+    at async handleMiddleware (file:///D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-home-parity-20261115/site/dist/.prerender/prerender-entry.BVhWxIwG.mjs:4324:18)
+    at async render (file:///D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-home-parity-20261115/site/dist/.prerender/prerender-entry.BVhWxIwG.mjs:5823:15)
+    at async BuildApp.render (file:///D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-home-parity-20261115/site/dist/.prerender/prerender-entry.BVhWxIwG.mjs:6148:69)
+06:00:08 [ERROR] [build] Caught error rendering /: Error: Recheck Home comparison sources: verified must be within 120 UTC days.
+Recheck Home comparison sources: verified must be within 120 UTC days.
+  Stack trace:
+    at file:///D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-home-parity-20261115/site/dist/.prerender/chunks/index_Dmw_dskC.mjs:824:66
+    at callComponentAsTemplateResultOrResponse (file:///D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-home-parity-20261115/site/dist/.prerender/chunks/jsx-runtime_B9eopAzx.mjs:1870:30)
+    at renderPage (file:///D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-home-parity-20261115/site/dist/.prerender/chunks/jsx-runtime_B9eopAzx.mjs:2364:16)
+    at async callMiddleware (file:///D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-home-parity-20261115/site/dist/.prerender/prerender-entry.BVhWxIwG.mjs:4198:9)
+    at async render (file:///D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-home-parity-20261115/site/dist/.prerender/prerender-entry.BVhWxIwG.mjs:5823:15)

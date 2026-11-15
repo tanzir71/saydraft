@@ -1,0 +1,9 @@
+
+> saydraft-site@0.1.0 test
+> playwright test --reporter=list,json
+
+[WebServer] (node:40864) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+TypeError: Module "file:///D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-home-parity-20261115/site/src/data/home-comparison.json" needs an import attribute of "type: json"
+    at eval (<anonymous>:1:1)
+

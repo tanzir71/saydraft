@@ -1,0 +1,592 @@
+
+> saydraft-site@0.1.0 test:components
+> playwright test -c playwright.components.config.ts --grep Navigation/NavPill|Layout/Footer|Layout/CreditsBand --reporter=list,json
+
+[WebServer] (node:14516) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 18 tests using 3 workers
+
+(node:13020) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:9192) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:44772) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok  2 [mobile] › component-tests\library.spec.ts:22:3 › Layout/CreditsBand · layout-creditsband--open-models renders locally without overflow (2.1s)
+  x   3 [mobile] › component-tests\library.spec.ts:22:3 › Layout/CreditsBand · layout-creditsband--with-stars renders locally without overflow (3.2s)
+  x   1 [mobile] › component-tests\library.spec.ts:22:3 › Layout/CreditsBand · layout-creditsband--zero-stars renders locally without overflow (4.5s)
+  x   4 [mobile] › component-tests\library.spec.ts:22:3 › Layout/Footer · layout-footer--project-and-creator renders locally without overflow (2.6s)
+(node:23980) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:5928) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:1140) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok  5 [mobile] › component-tests\library.spec.ts:22:3 › Navigation/NavPill · navigation-navpill--default renders locally without overflow (3.1s)
+  ok  7 [tablet] › component-tests\library.spec.ts:22:3 › Layout/CreditsBand · layout-creditsband--open-models renders locally without overflow (3.7s)
+(node:32580) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x   6 [mobile] › component-tests\library.spec.ts:22:3 › Navigation/NavPill · navigation-navpill--mobile-menu-open renders locally without overflow (3.7s)
+(node:39580) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x   9 [tablet] › component-tests\library.spec.ts:22:3 › Layout/CreditsBand · layout-creditsband--with-stars renders locally without overflow (2.2s)
+  x   8 [tablet] › component-tests\library.spec.ts:22:3 › Layout/CreditsBand · layout-creditsband--zero-stars renders locally without overflow (1.2s)
+(node:1784) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:37644) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 11 [tablet] › component-tests\library.spec.ts:22:3 › Navigation/NavPill · navigation-navpill--default renders locally without overflow (3.3s)
+  x  10 [tablet] › component-tests\library.spec.ts:22:3 › Layout/Footer · layout-footer--project-and-creator renders locally without overflow (2.8s)
+(node:40236) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  12 [tablet] › component-tests\library.spec.ts:22:3 › Navigation/NavPill · navigation-navpill--mobile-menu-open renders locally without overflow (2.8s)
+(node:15572) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:34208) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  13 [desktop] › component-tests\library.spec.ts:22:3 › Layout/CreditsBand · layout-creditsband--with-stars renders locally without overflow (2.3s)
+(node:35208) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 15 [desktop] › component-tests\library.spec.ts:22:3 › Layout/CreditsBand · layout-creditsband--open-models renders locally without overflow (2.8s)
+  x  14 [desktop] › component-tests\library.spec.ts:22:3 › Layout/CreditsBand · layout-creditsband--zero-stars renders locally without overflow (2.6s)
+(node:33212) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  16 [desktop] › component-tests\library.spec.ts:22:3 › Layout/Footer · layout-footer--project-and-creator renders locally without overflow (5.9s)
+  x  17 [desktop] › component-tests\library.spec.ts:22:3 › Navigation/NavPill · navigation-navpill--default renders locally without overflow (5.0s)
+  x  18 [desktop] › component-tests\library.spec.ts:22:3 › Navigation/NavPill · navigation-navpill--mobile-menu-open renders locally without overflow (5.5s)
+
+
+  1) [mobile] › component-tests\library.spec.ts:22:3 › Layout/CreditsBand · layout-creditsband--with-stars renders locally without overflow 
+
+    Error: A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-home-parity-20261115\site\component-tests\library.spec.ts-snapshots\layout-creditsband--with-stars-mobile-win32.png, writing actual.
+
+      38 |     expect(errors).toEqual([]);
+      39 |     expect(await contrastFailures(page)).toEqual([]);
+    > 40 |     await expect(page).toHaveScreenshot(`${id}.png`, { fullPage: true, animations: 'disabled' });
+         |     ^
+      41 |   });
+      42 | }
+      43 |
+        at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-home-parity-20261115\site\component-tests\library.spec.ts:40:5
+
+    attachment #1: layout-creditsband--with-stars (image/png) ──────────────────────────────────────
+    Expected: component-tests\library.spec.ts-snapshots\layout-creditsband--with-stars-mobile-win32.png
+    Received: component-results\library-Layout-CreditsBand-c3eec-rs-locally-without-overflow-mobile\layout-creditsband--with-stars-actual.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: component-results\library-Layout-CreditsBand-c3eec-rs-locally-without-overflow-mobile\error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    component-results\library-Layout-CreditsBand-c3eec-rs-locally-without-overflow-mobile\trace.zip
+    Usage:
+
+        npx playwright show-trace component-results\library-Layout-CreditsBand-c3eec-rs-locally-without-overflow-mobile\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [mobile] › component-tests\library.spec.ts:22:3 › Layout/CreditsBand · layout-creditsband--zero-stars renders locally without overflow 
+
+    Error: A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-home-parity-20261115\site\component-tests\library.spec.ts-snapshots\layout-creditsband--zero-stars-mobile-win32.png, writing actual.
+
+      38 |     expect(errors).toEqual([]);
+      39 |     expect(await contrastFailures(page)).toEqual([]);
+    > 40 |     await expect(page).toHaveScreenshot(`${id}.png`, { fullPage: true, animations: 'disabled' });
+         |     ^
+      41 |   });
+      42 | }
+      43 |
+        at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-home-parity-20261115\site\component-tests\library.spec.ts:40:5
+
+    attachment #1: layout-creditsband--zero-stars (image/png) ──────────────────────────────────────
+    Expected: component-tests\library.spec.ts-snapshots\layout-creditsband--zero-stars-mobile-win32.png
+    Received: component-results\library-Layout-CreditsBand-9ee57-rs-locally-without-overflow-mobile\layout-creditsband--zero-stars-actual.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: component-results\library-Layout-CreditsBand-9ee57-rs-locally-without-overflow-mobile\error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    component-results\library-Layout-CreditsBand-9ee57-rs-locally-without-overflow-mobile\trace.zip
+    Usage:
+
+        npx playwright show-trace component-results\library-Layout-CreditsBand-9ee57-rs-locally-without-overflow-mobile\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) [mobile] › component-tests\library.spec.ts:22:3 › Layout/Footer · layout-footer--project-and-creator renders locally without overflow 
+
+    Error: expect(page).toHaveScreenshot(expected) failed
+
+      Expected an image 390px by 844px, received 390px by 1347px. 15211 pixels (ratio 0.03 of all image pixels) are different.
+
+      Snapshot: layout-footer--project-and-creator.png
+
+    Call log:
+      - Expect "toHaveScreenshot(layout-footer--project-and-creator.png)" with timeout 5000ms
+        - verifying given screenshot expectation
+      - taking page screenshot
+        - disabled all CSS animations
+      - waiting for fonts to load...
+      - fonts loaded
+      - Expected an image 390px by 844px, received 390px by 1347px. 15211 pixels (ratio 0.03 of all image pixels) are different.
+      - waiting 100ms before taking screenshot
+      - taking page screenshot
+        - disabled all CSS animations
+      - waiting for fonts to load...
+      - fonts loaded
+      - captured a stable screenshot
+      - Expected an image 390px by 844px, received 390px by 1347px. 15211 pixels (ratio 0.03 of all image pixels) are different.
+
+
+      38 |     expect(errors).toEqual([]);
+      39 |     expect(await contrastFailures(page)).toEqual([]);
+    > 40 |     await expect(page).toHaveScreenshot(`${id}.png`, { fullPage: true, animations: 'disabled' });
+         |                        ^
+      41 |   });
+      42 | }
+      43 |
+        at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-home-parity-20261115\site\component-tests\library.spec.ts:40:24
+
+    attachment #1: layout-footer--project-and-creator (image/png) ──────────────────────────────────
+    Expected: component-tests\library.spec.ts-snapshots\layout-footer--project-and-creator-mobile-win32.png
+    Received: component-results\library-Layout-Footer-·-la-84cbd-rs-locally-without-overflow-mobile\layout-footer--project-and-creator-actual.png
+    Diff:     component-results\library-Layout-Footer-·-la-84cbd-rs-locally-without-overflow-mobile\layout-footer--project-and-creator-diff.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: component-results\library-Layout-Footer-·-la-84cbd-rs-locally-without-overflow-mobile\error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    component-results\library-Layout-Footer-·-la-84cbd-rs-locally-without-overflow-mobile\trace.zip
+    Usage:
+
+        npx playwright show-trace component-results\library-Layout-Footer-·-la-84cbd-rs-locally-without-overflow-mobile\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4) [mobile] › component-tests\library.spec.ts:22:3 › Navigation/NavPill · navigation-navpill--mobile-menu-open renders locally without overflow 
+
+    Error: expect(page).toHaveScreenshot(expected) failed
+
+      544 pixels (ratio 0.01 of all image pixels) are different.
+
+      Snapshot: navigation-navpill--mobile-menu-open.png
+
+    Call log:
+      - Expect "toHaveScreenshot(navigation-navpill--mobile-menu-open.png)" with timeout 5000ms
+        - verifying given screenshot expectation
+      - taking page screenshot
+        - disabled all CSS animations
+      - waiting for fonts to load...
+      - fonts loaded
+      - 544 pixels (ratio 0.01 of all image pixels) are different.
+      - waiting 100ms before taking screenshot
+      - taking page screenshot
+        - disabled all CSS animations
+      - waiting for fonts to load...
+      - fonts loaded
+      - captured a stable screenshot
+      - 544 pixels (ratio 0.01 of all image pixels) are different.
+
+
+      38 |     expect(errors).toEqual([]);
+      39 |     expect(await contrastFailures(page)).toEqual([]);
+    > 40 |     await expect(page).toHaveScreenshot(`${id}.png`, { fullPage: true, animations: 'disabled' });
+         |                        ^
+      41 |   });
+      42 | }
+      43 |
+        at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-home-parity-20261115\site\component-tests\library.spec.ts:40:24
+
+    attachment #1: navigation-navpill--mobile-menu-open (image/png) ────────────────────────────────
+    Expected: component-tests\library.spec.ts-snapshots\navigation-navpill--mobile-menu-open-mobile-win32.png
+    Received: component-results\library-Navigation-NavPill-0c955-rs-locally-without-overflow-mobile\navigation-navpill--mobile-menu-open-actual.png
+    Diff:     component-results\library-Navigation-NavPill-0c955-rs-locally-without-overflow-mobile\navigation-navpill--mobile-menu-open-diff.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: component-results\library-Navigation-NavPill-0c955-rs-locally-without-overflow-mobile\error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    component-results\library-Navigation-NavPill-0c955-rs-locally-without-overflow-mobile\trace.zip
+    Usage:
+
+        npx playwright show-trace component-results\library-Navigation-NavPill-0c955-rs-locally-without-overflow-mobile\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  5) [tablet] › component-tests\library.spec.ts:22:3 › Layout/CreditsBand · layout-creditsband--with-stars renders locally without overflow 
+
+    Error: A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-home-parity-20261115\site\component-tests\library.spec.ts-snapshots\layout-creditsband--with-stars-tablet-win32.png, writing actual.
+
+      38 |     expect(errors).toEqual([]);
+      39 |     expect(await contrastFailures(page)).toEqual([]);
+    > 40 |     await expect(page).toHaveScreenshot(`${id}.png`, { fullPage: true, animations: 'disabled' });
+         |     ^
+      41 |   });
+      42 | }
+      43 |
+        at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-home-parity-20261115\site\component-tests\library.spec.ts:40:5
+
+    attachment #1: layout-creditsband--with-stars (image/png) ──────────────────────────────────────
+    Expected: component-tests\library.spec.ts-snapshots\layout-creditsband--with-stars-tablet-win32.png
+    Received: component-results\library-Layout-CreditsBand-c3eec-rs-locally-without-overflow-tablet\layout-creditsband--with-stars-actual.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: component-results\library-Layout-CreditsBand-c3eec-rs-locally-without-overflow-tablet\error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    component-results\library-Layout-CreditsBand-c3eec-rs-locally-without-overflow-tablet\trace.zip
+    Usage:
+
+        npx playwright show-trace component-results\library-Layout-CreditsBand-c3eec-rs-locally-without-overflow-tablet\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  6) [tablet] › component-tests\library.spec.ts:22:3 › Layout/CreditsBand · layout-creditsband--zero-stars renders locally without overflow 
+
+    Error: A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-home-parity-20261115\site\component-tests\library.spec.ts-snapshots\layout-creditsband--zero-stars-tablet-win32.png, writing actual.
+
+      38 |     expect(errors).toEqual([]);
+      39 |     expect(await contrastFailures(page)).toEqual([]);
+    > 40 |     await expect(page).toHaveScreenshot(`${id}.png`, { fullPage: true, animations: 'disabled' });
+         |     ^
+      41 |   });
+      42 | }
+      43 |
+        at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-home-parity-20261115\site\component-tests\library.spec.ts:40:5
+
+    attachment #1: layout-creditsband--zero-stars (image/png) ──────────────────────────────────────
+    Expected: component-tests\library.spec.ts-snapshots\layout-creditsband--zero-stars-tablet-win32.png
+    Received: component-results\library-Layout-CreditsBand-9ee57-rs-locally-without-overflow-tablet\layout-creditsband--zero-stars-actual.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: component-results\library-Layout-CreditsBand-9ee57-rs-locally-without-overflow-tablet\error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    component-results\library-Layout-CreditsBand-9ee57-rs-locally-without-overflow-tablet\trace.zip
+    Usage:
+
+        npx playwright show-trace component-results\library-Layout-CreditsBand-9ee57-rs-locally-without-overflow-tablet\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  7) [tablet] › component-tests\library.spec.ts:22:3 › Layout/Footer · layout-footer--project-and-creator renders locally without overflow 
+
+    Error: expect(page).toHaveScreenshot(expected) failed
+
+      14865 pixels (ratio 0.02 of all image pixels) are different.
+
+      Snapshot: layout-footer--project-and-creator.png
+
+    Call log:
+      - Expect "toHaveScreenshot(layout-footer--project-and-creator.png)" with timeout 5000ms
+        - verifying given screenshot expectation
+      - taking page screenshot
+        - disabled all CSS animations
+      - waiting for fonts to load...
+      - fonts loaded
+      - 14865 pixels (ratio 0.02 of all image pixels) are different.
+      - waiting 100ms before taking screenshot
+      - taking page screenshot
+        - disabled all CSS animations
+      - waiting for fonts to load...
+      - fonts loaded
+      - captured a stable screenshot
+      - 14865 pixels (ratio 0.02 of all image pixels) are different.
+
+
+      38 |     expect(errors).toEqual([]);
+      39 |     expect(await contrastFailures(page)).toEqual([]);
+    > 40 |     await expect(page).toHaveScreenshot(`${id}.png`, { fullPage: true, animations: 'disabled' });
+         |                        ^
+      41 |   });
+      42 | }
+      43 |
+        at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-home-parity-20261115\site\component-tests\library.spec.ts:40:24
+
+    attachment #1: layout-footer--project-and-creator (image/png) ──────────────────────────────────
+    Expected: component-tests\library.spec.ts-snapshots\layout-footer--project-and-creator-tablet-win32.png
+    Received: component-results\library-Layout-Footer-·-la-84cbd-rs-locally-without-overflow-tablet\layout-footer--project-and-creator-actual.png
+    Diff:     component-results\library-Layout-Footer-·-la-84cbd-rs-locally-without-overflow-tablet\layout-footer--project-and-creator-diff.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: component-results\library-Layout-Footer-·-la-84cbd-rs-locally-without-overflow-tablet\error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    component-results\library-Layout-Footer-·-la-84cbd-rs-locally-without-overflow-tablet\trace.zip
+    Usage:
+
+        npx playwright show-trace component-results\library-Layout-Footer-·-la-84cbd-rs-locally-without-overflow-tablet\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  8) [tablet] › component-tests\library.spec.ts:22:3 › Navigation/NavPill · navigation-navpill--mobile-menu-open renders locally without overflow 
+
+    Error: expect(page).toHaveScreenshot(expected) failed
+
+      524 pixels (ratio 0.01 of all image pixels) are different.
+
+      Snapshot: navigation-navpill--mobile-menu-open.png
+
+    Call log:
+      - Expect "toHaveScreenshot(navigation-navpill--mobile-menu-open.png)" with timeout 5000ms
+        - verifying given screenshot expectation
+      - taking page screenshot
+        - disabled all CSS animations
+      - waiting for fonts to load...
+      - fonts loaded
+      - 524 pixels (ratio 0.01 of all image pixels) are different.
+      - waiting 100ms before taking screenshot
+      - taking page screenshot
+        - disabled all CSS animations
+      - waiting for fonts to load...
+      - fonts loaded
+      - captured a stable screenshot
+      - 524 pixels (ratio 0.01 of all image pixels) are different.
+
+
+      38 |     expect(errors).toEqual([]);
+      39 |     expect(await contrastFailures(page)).toEqual([]);
+    > 40 |     await expect(page).toHaveScreenshot(`${id}.png`, { fullPage: true, animations: 'disabled' });
+         |                        ^
+      41 |   });
+      42 | }
+      43 |
+        at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-home-parity-20261115\site\component-tests\library.spec.ts:40:24
+
+    attachment #1: navigation-navpill--mobile-menu-open (image/png) ────────────────────────────────
+    Expected: component-tests\library.spec.ts-snapshots\navigation-navpill--mobile-menu-open-tablet-win32.png
+    Received: component-results\library-Navigation-NavPill-0c955-rs-locally-without-overflow-tablet\navigation-navpill--mobile-menu-open-actual.png
+    Diff:     component-results\library-Navigation-NavPill-0c955-rs-locally-without-overflow-tablet\navigation-navpill--mobile-menu-open-diff.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: component-results\library-Navigation-NavPill-0c955-rs-locally-without-overflow-tablet\error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    component-results\library-Navigation-NavPill-0c955-rs-locally-without-overflow-tablet\trace.zip
+    Usage:
+
+        npx playwright show-trace component-results\library-Navigation-NavPill-0c955-rs-locally-without-overflow-tablet\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  9) [desktop] › component-tests\library.spec.ts:22:3 › Layout/CreditsBand · layout-creditsband--with-stars renders locally without overflow 
+
+    Error: A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-home-parity-20261115\site\component-tests\library.spec.ts-snapshots\layout-creditsband--with-stars-desktop-win32.png, writing actual.
+
+      38 |     expect(errors).toEqual([]);
+      39 |     expect(await contrastFailures(page)).toEqual([]);
+    > 40 |     await expect(page).toHaveScreenshot(`${id}.png`, { fullPage: true, animations: 'disabled' });
+         |     ^
+      41 |   });
+      42 | }
+      43 |
+        at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-home-parity-20261115\site\component-tests\library.spec.ts:40:5
+
+    attachment #1: layout-creditsband--with-stars (image/png) ──────────────────────────────────────
+    Expected: component-tests\library.spec.ts-snapshots\layout-creditsband--with-stars-desktop-win32.png
+    Received: component-results\library-Layout-CreditsBand-c3eec-rs-locally-without-overflow-desktop\layout-creditsband--with-stars-actual.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: component-results\library-Layout-CreditsBand-c3eec-rs-locally-without-overflow-desktop\error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    component-results\library-Layout-CreditsBand-c3eec-rs-locally-without-overflow-desktop\trace.zip
+    Usage:
+
+        npx playwright show-trace component-results\library-Layout-CreditsBand-c3eec-rs-locally-without-overflow-desktop\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  10) [desktop] › component-tests\library.spec.ts:22:3 › Layout/CreditsBand · layout-creditsband--zero-stars renders locally without overflow 
+
+    Error: A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-home-parity-20261115\site\component-tests\library.spec.ts-snapshots\layout-creditsband--zero-stars-desktop-win32.png, writing actual.
+
+      38 |     expect(errors).toEqual([]);
+      39 |     expect(await contrastFailures(page)).toEqual([]);
+    > 40 |     await expect(page).toHaveScreenshot(`${id}.png`, { fullPage: true, animations: 'disabled' });
+         |     ^
+      41 |   });
+      42 | }
+      43 |
+        at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-home-parity-20261115\site\component-tests\library.spec.ts:40:5
+
+    attachment #1: layout-creditsband--zero-stars (image/png) ──────────────────────────────────────
+    Expected: component-tests\library.spec.ts-snapshots\layout-creditsband--zero-stars-desktop-win32.png
+    Received: component-results\library-Layout-CreditsBand-9ee57-rs-locally-without-overflow-desktop\layout-creditsband--zero-stars-actual.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: component-results\library-Layout-CreditsBand-9ee57-rs-locally-without-overflow-desktop\error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    component-results\library-Layout-CreditsBand-9ee57-rs-locally-without-overflow-desktop\trace.zip
+    Usage:
+
+        npx playwright show-trace component-results\library-Layout-CreditsBand-9ee57-rs-locally-without-overflow-desktop\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  11) [desktop] › component-tests\library.spec.ts:22:3 › Layout/Footer · layout-footer--project-and-creator renders locally without overflow 
+
+    Error: expect(page).toHaveScreenshot(expected) failed
+
+      15020 pixels (ratio 0.02 of all image pixels) are different.
+
+      Snapshot: layout-footer--project-and-creator.png
+
+    Call log:
+      - Expect "toHaveScreenshot(layout-footer--project-and-creator.png)" with timeout 5000ms
+        - verifying given screenshot expectation
+      - taking page screenshot
+        - disabled all CSS animations
+      - waiting for fonts to load...
+      - fonts loaded
+      - 15020 pixels (ratio 0.02 of all image pixels) are different.
+      - waiting 100ms before taking screenshot
+      - taking page screenshot
+        - disabled all CSS animations
+      - waiting for fonts to load...
+      - fonts loaded
+      - captured a stable screenshot
+      - 15020 pixels (ratio 0.02 of all image pixels) are different.
+
+
+      38 |     expect(errors).toEqual([]);
+      39 |     expect(await contrastFailures(page)).toEqual([]);
+    > 40 |     await expect(page).toHaveScreenshot(`${id}.png`, { fullPage: true, animations: 'disabled' });
+         |                        ^
+      41 |   });
+      42 | }
+      43 |
+        at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-home-parity-20261115\site\component-tests\library.spec.ts:40:24
+
+    attachment #1: layout-footer--project-and-creator (image/png) ──────────────────────────────────
+    Expected: component-tests\library.spec.ts-snapshots\layout-footer--project-and-creator-desktop-win32.png
+    Received: component-results\library-Layout-Footer-·-la-84cbd-rs-locally-without-overflow-desktop\layout-footer--project-and-creator-actual.png
+    Diff:     component-results\library-Layout-Footer-·-la-84cbd-rs-locally-without-overflow-desktop\layout-footer--project-and-creator-diff.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: component-results\library-Layout-Footer-·-la-84cbd-rs-locally-without-overflow-desktop\error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    component-results\library-Layout-Footer-·-la-84cbd-rs-locally-without-overflow-desktop\trace.zip
+    Usage:
+
+        npx playwright show-trace component-results\library-Layout-Footer-·-la-84cbd-rs-locally-without-overflow-desktop\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  12) [desktop] › component-tests\library.spec.ts:22:3 › Navigation/NavPill · navigation-navpill--default renders locally without overflow 
+
+    Error: expect(page).toHaveScreenshot(expected) failed
+
+      577 pixels (ratio 0.01 of all image pixels) are different.
+
+      Snapshot: navigation-navpill--default.png
+
+    Call log:
+      - Expect "toHaveScreenshot(navigation-navpill--default.png)" with timeout 5000ms
+        - verifying given screenshot expectation
+      - taking page screenshot
+        - disabled all CSS animations
+      - waiting for fonts to load...
+      - fonts loaded
+      - 577 pixels (ratio 0.01 of all image pixels) are different.
+      - waiting 100ms before taking screenshot
+      - taking page screenshot
+        - disabled all CSS animations
+      - waiting for fonts to load...
+      - fonts loaded
+      - captured a stable screenshot
+      - 577 pixels (ratio 0.01 of all image pixels) are different.
+
+
+      38 |     expect(errors).toEqual([]);
+      39 |     expect(await contrastFailures(page)).toEqual([]);
+    > 40 |     await expect(page).toHaveScreenshot(`${id}.png`, { fullPage: true, animations: 'disabled' });
+         |                        ^
+      41 |   });
+      42 | }
+      43 |
+        at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-home-parity-20261115\site\component-tests\library.spec.ts:40:24
+
+    attachment #1: navigation-navpill--default (image/png) ─────────────────────────────────────────
+    Expected: component-tests\library.spec.ts-snapshots\navigation-navpill--default-desktop-win32.png
+    Received: component-results\library-Navigation-NavPill-d0a41-rs-locally-without-overflow-desktop\navigation-navpill--default-actual.png
+    Diff:     component-results\library-Navigation-NavPill-d0a41-rs-locally-without-overflow-desktop\navigation-navpill--default-diff.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: component-results\library-Navigation-NavPill-d0a41-rs-locally-without-overflow-desktop\error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    component-results\library-Navigation-NavPill-d0a41-rs-locally-without-overflow-desktop\trace.zip
+    Usage:
+
+        npx playwright show-trace component-results\library-Navigation-NavPill-d0a41-rs-locally-without-overflow-desktop\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  13) [desktop] › component-tests\library.spec.ts:22:3 › Navigation/NavPill · navigation-navpill--mobile-menu-open renders locally without overflow 
+
+    Error: expect(page).toHaveScreenshot(expected) failed
+
+      577 pixels (ratio 0.01 of all image pixels) are different.
+
+      Snapshot: navigation-navpill--mobile-menu-open.png
+
+    Call log:
+      - Expect "toHaveScreenshot(navigation-navpill--mobile-menu-open.png)" with timeout 5000ms
+        - verifying given screenshot expectation
+      - taking page screenshot
+        - disabled all CSS animations
+      - waiting for fonts to load...
+      - fonts loaded
+      - 577 pixels (ratio 0.01 of all image pixels) are different.
+      - waiting 100ms before taking screenshot
+      - taking page screenshot
+        - disabled all CSS animations
+      - waiting for fonts to load...
+      - fonts loaded
+      - captured a stable screenshot
+      - 577 pixels (ratio 0.01 of all image pixels) are different.
+
+
+      38 |     expect(errors).toEqual([]);
+      39 |     expect(await contrastFailures(page)).toEqual([]);
+    > 40 |     await expect(page).toHaveScreenshot(`${id}.png`, { fullPage: true, animations: 'disabled' });
+         |                        ^
+      41 |   });
+      42 | }
+      43 |
+        at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-home-parity-20261115\site\component-tests\library.spec.ts:40:24
+
+    attachment #1: navigation-navpill--mobile-menu-open (image/png) ────────────────────────────────
+    Expected: component-tests\library.spec.ts-snapshots\navigation-navpill--mobile-menu-open-desktop-win32.png
+    Received: component-results\library-Navigation-NavPill-0c955-rs-locally-without-overflow-desktop\navigation-navpill--mobile-menu-open-actual.png
+    Diff:     component-results\library-Navigation-NavPill-0c955-rs-locally-without-overflow-desktop\navigation-navpill--mobile-menu-open-diff.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: component-results\library-Navigation-NavPill-0c955-rs-locally-without-overflow-desktop\error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    component-results\library-Navigation-NavPill-0c955-rs-locally-without-overflow-desktop\trace.zip
+    Usage:
+
+        npx playwright show-trace component-results\library-Navigation-NavPill-0c955-rs-locally-without-overflow-desktop\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  13 failed
+    [mobile] › component-tests\library.spec.ts:22:3 › Layout/CreditsBand · layout-creditsband--with-stars renders locally without overflow 
+    [mobile] › component-tests\library.spec.ts:22:3 › Layout/CreditsBand · layout-creditsband--zero-stars renders locally without overflow 
+    [mobile] › component-tests\library.spec.ts:22:3 › Layout/Footer · layout-footer--project-and-creator renders locally without overflow 
+    [mobile] › component-tests\library.spec.ts:22:3 › Navigation/NavPill · navigation-navpill--mobile-menu-open renders locally without overflow 
+    [tablet] › component-tests\library.spec.ts:22:3 › Layout/CreditsBand · layout-creditsband--with-stars renders locally without overflow 
+    [tablet] › component-tests\library.spec.ts:22:3 › Layout/CreditsBand · layout-creditsband--zero-stars renders locally without overflow 
+    [tablet] › component-tests\library.spec.ts:22:3 › Layout/Footer · layout-footer--project-and-creator renders locally without overflow 
+    [tablet] › component-tests\library.spec.ts:22:3 › Navigation/NavPill · navigation-navpill--mobile-menu-open renders locally without overflow 
+    [desktop] › component-tests\library.spec.ts:22:3 › Layout/CreditsBand · layout-creditsband--with-stars renders locally without overflow 
+    [desktop] › component-tests\library.spec.ts:22:3 › Layout/CreditsBand · layout-creditsband--zero-stars renders locally without overflow 
+    [desktop] › component-tests\library.spec.ts:22:3 › Layout/Footer · layout-footer--project-and-creator renders locally without overflow 
+    [desktop] › component-tests\library.spec.ts:22:3 › Navigation/NavPill · navigation-navpill--default renders locally without overflow 
+    [desktop] › component-tests\library.spec.ts:22:3 › Navigation/NavPill · navigation-navpill--mobile-menu-open renders locally without overflow 
+  5 passed (56.8s)

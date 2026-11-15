@@ -1,0 +1,105 @@
+"""Verify the frozen local Home checkpoint using only the Python standard library."""
+import argparse
+from collections import Counter
+import hashlib
+import json
+from pathlib import Path
+import re
+import subprocess
+
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--repo', type=Path, required=True)
+parser.add_argument('--site-dist', type=Path)
+parser.add_argument('--storybook-dist', type=Path)
+args = parser.parse_args()
+repo = args.repo.resolve()
+root = repo / 'eval/site/results/2026-11-15-home'
+load = lambda path: json.loads(path.read_bytes())
+sha = lambda data: hashlib.sha256(data).hexdigest()
+manifest = load(root / 'manifest.json')['files']
+for name, record in manifest.items():
+    path = root / name
+    assert path.is_relative_to(root) and path.is_file(), name
+    assert path.stat().st_size == record['bytes'] and sha(path.read_bytes()) == record['sha256'], name
+actual = {path.relative_to(root).as_posix() for path in root.rglob('*') if path.is_file()}
+assert actual == set(manifest) | {'manifest.json'}
+receipt = load(root / 'receipt.json')
+witness = load(root / 'source-witness.json')
+assert witness['source'] == receipt['source']
+subprocess.run(['git', 'merge-base', '--is-ancestor', receipt['source'], 'HEAD'], cwd=repo, check=True)
+for name, item in witness['files'].items():
+    data = (repo / name).read_bytes()
+    assert sha(data if item['binary'] else data.replace(b'\r\n', b'\n')) == item['sha256'], name
+for key, value in [('site', 63), ('components', 240)]:
+    report = load(root / f'raw/{key}-final.json')
+    assert report['stats']['expected'] == value
+    assert not any(report['stats'][key] for key in ['unexpected', 'skipped', 'flaky'])
+    def check_suite(suite):
+        for spec in suite.get('specs', []):
+            for test in spec['tests']:
+                assert test['status'] == 'expected' and len(test['results']) == 1
+                assert test['results'][0]['status'] == 'passed'
+        for child in suite.get('suites', []): check_suite(child)
+    check_suite(report)
+outputs = load(root / 'outputs.json')
+assert outputs['site'] == load(root / 'raw/lighthouse-dist-files.json')
+for key, folder in [('site', args.site_dist), ('storybook', args.storybook_dist)]:
+    if folder:
+        files = {path.relative_to(folder).as_posix(): sha(path.read_bytes())
+                 for path in folder.rglob('*') if path.is_file()}
+        assert files == outputs[key], f'{key} output differs from qualified bytes'
+summary = load(root / 'lighthouse-summary.json')['runs']
+assert len(summary) == 21 and len(Counter(row['url'] for row in summary)) == 7
+assert set(Counter(row['url'] for row in summary).values()) == {3}
+for item in summary:
+    report = load(root / 'lighthouse' / item['file'])
+    assert not report.get('runtimeError') and report['finalUrl'] == item['url']
+    for key in ['performance', 'accessibility', 'seo']:
+        assert report['categories'][key]['score'] == item[key]
+    assert item['performance'] >= .95 and item['accessibility'] == item['seo'] == 1
+    assert item['lcp_ms'] == report['audits']['largest-contentful-paint']['numericValue'] <= 2000
+    assert item['cls'] == report['audits']['cumulative-layout-shift']['numericValue'] < .05
+render = load(root / 'product/report.json')
+assert render['app_source'] == receipt['product_app_source'] == receipt['base']
+assert render['platform'] == 'offscreen' and render['scale'] == 2 and render['network_guard']
+assert not render['source_dirty'] and not render['blocked_attempts']
+for key in ['owner_profile_used', 'owner_clipboard_used', 'audio_devices_enumerated', 'audio_sdk_imported',
+            'microphone_used', 'active_application_read', 'native_input_used']:
+    assert render[key] is False, key
+assert sha((repo / 'site/tools/render_product.py').read_bytes()) == render['producer_sha256']
+assert len(render['captures']) == 18
+details = load(root / 'screenshots/details/report.json')
+assert details['screenshots'] == 6 and details['headless'] and not details['external'] and not details['errors']
+assert details['owner_audio_input_clipboard_used'] is False
+for capture in render['captures']:
+    data = (root / 'product' / capture['file']).read_bytes()
+    assert sha(data) == capture['sha256']
+    assert data[:8] == b'\x89PNG\r\n\x1a\n'
+    width = int.from_bytes(data[16:20], 'big'); height = int.from_bytes(data[20:24], 'big')
+    assert width == capture['width'] == capture['logical_width'] * 2
+    assert height == capture['height'] == capture['logical_height'] * 2
+source_images = load(repo / 'site/src/assets/product/source.json')
+assert len(source_images['site_files']) == 5
+for name, digest in source_images['site_files'].items():
+    assert sha((repo / 'site/src/assets/product' / name).read_bytes()) == digest
+    assert sha((root / 'product' / name).read_bytes()) == digest
+unchanged = subprocess.check_output(['git', 'diff', '--name-only', receipt['base'], receipt['source'], '--',
+    'saydraft', 'assets/fonts', 'design/tokens.json'], cwd=repo)
+assert not unchanged, 'Native screenshot or app runtime inputs changed'
+assert len(list((repo / 'site/component-tests/library.spec.ts-snapshots').glob('*.png'))) == 219
+stories = load(root / 'storybook-index.json')['entries']
+assert sum(item['type'] == 'story' for item in stories.values()) == 73
+negative = load(root / 'raw/home-stale-build-summary.json')
+assert negative['exit'] != 0 and negative['home_guard_refused'] and negative['original_restored']
+assert 'Recheck Home comparison sources' in (root / 'raw/home-stale-build.txt').read_text(encoding='utf-8')
+assert re.search(r'(?:#|ℹ) pass 17\b', (root / 'raw/node-tests-r1.txt').read_text(encoding='utf-8'))
+assert 'Complete!' in (root / 'raw/build-final.txt').read_text(encoding='utf-8')
+assert all(code == 0 for code in receipt['observed_terminal_exits'].values())
+assert receipt['p9_3_accepted_with_spec_duotone_fallback'] and receipt['reserved_bn_ta_te_recordings_uninferred'] == 60
+for key in ['g10_photos_supplied', 'p9_5_external_acceptance', 'hosting_deployed', 'actions_dispatched',
+            'pull_requests_created', 'release_changed', 'app_runtime_changed', 'owner_desktop_audio_input_used',
+            'owner_clipboard_used', 'owner_accuracy_accepted', 'full_goal_complete']:
+    assert receipt[key] is False, key
+print(json.dumps({'verified': True, 'source': receipt['source'], 'records': len(manifest),
+    'source_files': len(witness['files']), 'site_checks': 63, 'component_checks': 240,
+    'native_product_renders': 18, 'lighthouse_runs': 21, 'full_goal_complete': False}, indent=2))

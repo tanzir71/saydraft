@@ -1,0 +1,162 @@
+{
+  "app_source": "99b65c529fa162ab2433b7e87442f64a7856f10f",
+  "source_dirty": false,
+  "producer_sha256": "0d17ecb7923717c63553f52e7538a7419a96e5df0e7ce17889f339e725eb3e9c",
+  "platform": "offscreen",
+  "scale": 2,
+  "network_guard": true,
+  "owner_profile_used": false,
+  "owner_clipboard_used": false,
+  "audio_devices_enumerated": false,
+  "audio_sdk_imported": false,
+  "microphone_used": false,
+  "active_application_read": false,
+  "native_input_used": false,
+  "blocked_attempts": [],
+  "captures": [
+    {
+      "file": "saydraft-hub-home-light-2x.png",
+      "logical_width": 1080,
+      "logical_height": 760,
+      "width": 2160,
+      "height": 1520,
+      "sha256": "94cba55a2751620f943a2c504104cb34f843f407d5045d1edfd6468ae7bb2a00"
+    },
+    {
+      "file": "saydraft-hub-style-light-2x.png",
+      "logical_width": 1080,
+      "logical_height": 760,
+      "width": 2160,
+      "height": 1520,
+      "sha256": "2a7e2df39c08f6428cb59cbfb54349cb61fdc0475dfadb53711078c37e4cde38"
+    },
+    {
+      "file": "saydraft-hub-dictionary-light-2x.png",
+      "logical_width": 1080,
+      "logical_height": 760,
+      "width": 2160,
+      "height": 1520,
+      "sha256": "9d8a879ce55709938ff11bc3a2ba10e25cc97f4b41556b09c6c070ad600852f7"
+    },
+    {
+      "file": "saydraft-hub-snippets-light-2x.png",
+      "logical_width": 1080,
+      "logical_height": 760,
+      "width": 2160,
+      "height": 1520,
+      "sha256": "9b493c8e71e0e791dbac64d737704f86cbc45e38af4ac457b472718042509154"
+    },
+    {
+      "file": "saydraft-hub-notes-light-2x.png",
+      "logical_width": 1080,
+      "logical_height": 760,
+      "width": 2160,
+      "height": 1520,
+      "sha256": "34e8a849f4fe5d710bd30af2edd110a5dcc99287b430860a14a268308a7545af"
+    },
+    {
+      "file": "saydraft-hub-home-dark-2x.png",
+      "logical_width": 1080,
+      "logical_height": 760,
+      "width": 2160,
+      "height": 1520,
+      "sha256": "1c6f50f80dfbe8382a2e5877a03f9afc3e39dcffadccdb0e27a82b601b4a538e"
+    },
+    {
+      "file": "saydraft-hub-style-dark-2x.png",
+      "logical_width": 1080,
+      "logical_height": 760,
+      "width": 2160,
+      "height": 1520,
+      "sha256": "c515a5635677253e2bacf7d3774beb7d65ba01a8cda95ce6f5c6a7d26c344c4b"
+    },
+    {
+      "file": "saydraft-hub-dictionary-dark-2x.png",
+      "logical_width": 1080,
+      "logical_height": 760,
+      "width": 2160,
+      "height": 1520,
+      "sha256": "d0ec32d1a22b416d33fb98c6f1c7f6c7a0f4043d1d2326e6c442c1069726efbe"
+    },
+    {
+      "file": "saydraft-hub-snippets-dark-2x.png",
+      "logical_width": 1080,
+      "logical_height": 760,
+      "width": 2160,
+      "height": 1520,
+      "sha256": "26fdfe9cb83584f5bcd1cfbb843533ca4617f375cdaa4516e32307baaf600df3"
+    },
+    {
+      "file": "saydraft-hub-notes-dark-2x.png",
+      "logical_width": 1080,
+      "logical_height": 760,
+      "width": 2160,
+      "height": 1520,
+      "sha256": "7a0a106f9372bf38894eee004479f02fab94e50c103964a987d3dfc493c80b1d"
+    },
+    {
+      "file": "saydraft-bar-listening-light-2x.png",
+      "logical_width": 164,
+      "logical_height": 36,
+      "width": 328,
+      "height": 72,
+      "sha256": "016204b10c96cb9534f51c4e5c5eea9cda2f96c16f7dbb60b716e94d05f5ee35"
+    },
+    {
+      "file": "saydraft-bar-preview-light-2x.png",
+      "logical_width": 360,
+      "logical_height": 68,
+      "width": 720,
+      "height": 136,
+      "sha256": "ef57f01095a7c6d14a0866f58ba9bcaa76068e55e4642d6c1b6313b4c43e1985"
+    },
+    {
+      "file": "saydraft-bar-cleaning-light-2x.png",
+      "logical_width": 164,
+      "logical_height": 36,
+      "width": 328,
+      "height": 72,
+      "sha256": "0ea8dbd0fcfd8d06cab01ea9dfa4ebc6c90ba580dab2ad88a2a411988dc4a0ce"
+    },
+    {
+      "file": "saydraft-bar-command-light-2x.png",
+      "logical_width": 268,
+      "logical_height": 36,
+      "width": 536,
+      "height": 72,
+      "sha256": "ba27a4ffec5a822ae6276a4056f5e49e0b29cbe689cf432c8ca40e8109805925"
+    },
+    {
+      "file": "saydraft-bar-listening-dark-2x.png",
+      "logical_width": 164,
+      "logical_height": 36,
+      "width": 328,
+      "height": 72,
+      "sha256": "016204b10c96cb9534f51c4e5c5eea9cda2f96c16f7dbb60b716e94d05f5ee35"
+    },
+    {
+      "file": "saydraft-bar-preview-dark-2x.png",
+      "logical_width": 360,
+      "logical_height": 68,
+      "width": 720,
+      "height": 136,
+      "sha256": "ef57f01095a7c6d14a0866f58ba9bcaa76068e55e4642d6c1b6313b4c43e1985"
+    },
+    {
+      "file": "saydraft-bar-cleaning-dark-2x.png",
+      "logical_width": 164,
+      "logical_height": 36,
+      "width": 328,
+      "height": 72,
+      "sha256": "0ea8dbd0fcfd8d06cab01ea9dfa4ebc6c90ba580dab2ad88a2a411988dc4a0ce"
+    },
+    {
+      "file": "saydraft-bar-command-dark-2x.png",
+      "logical_width": 268,
+      "logical_height": 36,
+      "width": 536,
+      "height": 72,
+      "sha256": "ba27a4ffec5a822ae6276a4056f5e49e0b29cbe689cf432c8ca40e8109805925"
+    }
+  ]
+}

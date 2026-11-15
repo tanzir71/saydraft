@@ -1,0 +1,159 @@
+"""Freeze local Home-page qualification; never infer release or owner acceptance."""
+from collections import Counter
+from datetime import datetime
+import hashlib
+import json
+from pathlib import Path
+import shutil
+import subprocess
+
+qa = Path(__file__).resolve().parent
+repo = qa / 'worktrees/site-home-parity-20261115'
+site = repo / 'site'
+run = qa / 'site-home-parity-20261115-r1'
+target = repo / 'eval/site/results/2026-11-15-home'
+load = lambda path: json.loads(path.read_bytes())
+sha = lambda data: hashlib.sha256(data).hexdigest()
+assert not subprocess.check_output(['git', 'status', '--porcelain'], cwd=repo)
+source = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=repo, text=True).strip()
+target.mkdir(parents=True, exist_ok=False)
+for name in ['raw', 'lighthouse', 'artifacts', 'screenshots', 'product', 'scripts']:
+    (target / name).mkdir()
+for path in run.iterdir():
+    if path.is_file() and path.suffix in ['.json', '.txt']:
+        shutil.copyfile(path, target / 'raw' / path.name)
+for path in (site / '.lighthouseci').glob('*.json'):
+    shutil.copyfile(path, target / 'lighthouse' / path.name)
+for path in (run / 'product-2x-r2').iterdir():
+    if path.is_file() and path.suffix in ['.png', '.json']:
+        shutil.copyfile(path, target / 'product' / path.name)
+shutil.copytree(run / 'details', target / 'screenshots/details')
+detail_report = load(run / 'details/report.json')
+assert detail_report['screenshots'] == 6 and not detail_report['external'] and not detail_report['errors']
+for project in ['mobile', 'tablet', 'desktop']:
+    folder = next((site / 'test-results').glob(f'site-home-is-local-*-{project}'))
+    for name in ['viewport', 'sheet', 'footer']:
+        shutil.copyfile(folder / f'{name}.png', target / f'screenshots/{name}-{project}.png')
+    folder = next((site / 'test-results').glob(f'docs-all-documentation-*-{project}'))
+    notes = list(folder.glob('*notes*.png'))
+    for path in notes:
+        shutil.copyfile(path, target / f'screenshots/notes-{project}-{path.name}')
+for name in ['index.html', 'seo-manifest.json', 'sitemap-index.xml', 'sitemap-0.xml', 'llms.txt']:
+    shutil.copyfile(site / 'dist' / name, target / 'artifacts' / name)
+shutil.copyfile(site / 'dist/docs/notes/index.html', target / 'artifacts/notes.html')
+shutil.copyfile(site / 'dist/content/home.md', target / 'artifacts/home.md')
+shutil.copyfile(site / 'storybook-static/index.json', target / 'storybook-index.json')
+reports = {name: load(run / f'{name}-final.json') for name in ['site', 'components']}
+for name, count in [('site', 63), ('components', 240)]:
+    assert reports[name]['stats']['expected'] == count
+    assert not any(reports[name]['stats'][key] for key in ['unexpected', 'skipped', 'flaky'])
+starts = {name: datetime.fromisoformat(report['stats']['startTime'].replace('Z', '+00:00')).timestamp()
+          for name, report in reports.items()}
+paths = subprocess.check_output(['git', 'ls-files', '-z', '--', 'site', 'design/tokens.json',
+    'tools/generate_tokens.mjs', 'saydraft', 'assets/fonts', '.gitattributes',
+    '.github/workflows', 'readme.md', 'WISPR_OFFLINE_PARITY_PLAN.md', 'docs/SITE.md',
+    'docs/SITE_HOME.md', 'docs/SITE_COMPONENTS.md', 'docs/SITE_SEO.md', 'docs/NOTES.md', 'docs/MEETINGS.md'], cwd=repo).decode().split('\0')
+witness = {}
+for name in filter(None, paths):
+    path = repo / name
+    data = path.read_bytes()
+    binary = path.suffix.lower() in ['.png', '.woff', '.woff2', '.ttf', '.jpg', '.ico', '.gz', '.exe', '.onnx']
+    site_input = name.startswith('site/') or name in ['design/tokens.json', 'tools/generate_tokens.mjs', 'saydraft/__init__.py']
+    component_input = name.startswith(('site/src/components/', 'site/src/styles/', 'site/component-tests/', 'site/.storybook/')) or name in ['site/package.json', 'site/package-lock.json', 'site/test-ports.ts', 'site/playwright.components.config.ts']
+    if site_input: assert path.stat().st_mtime < starts['site'], name
+    if component_input: assert path.stat().st_mtime < starts['components'], name
+    witness[name] = {'binary': binary, 'sha256': sha(data if binary else data.replace(b'\r\n', b'\n')),
+                     'site_input': site_input, 'component_input': component_input}
+(target / 'source-witness.json').write_text(json.dumps({'source': source, 'test_starts': starts, 'files': witness}, indent=2) + '\n')
+outputs = {label: {path.relative_to(folder).as_posix(): sha(path.read_bytes())
+    for path in sorted(folder.rglob('*')) if path.is_file()}
+    for label, folder in [('site', site / 'dist'), ('storybook', site / 'storybook-static')]}
+assert outputs['site'] == load(run / 'lighthouse-dist-files.json')
+(target / 'outputs.json').write_text(json.dumps(outputs, indent=2) + '\n')
+rows = []
+for path in sorted((target / 'lighthouse').glob('lhr-*.json')):
+    report = load(path)
+    scores = {name: report['categories'][name]['score'] for name in ['performance', 'accessibility', 'seo']}
+    lcp = report['audits']['largest-contentful-paint']['numericValue']
+    cls = report['audits']['cumulative-layout-shift']['numericValue']
+    assert not report.get('runtimeError') and scores['performance'] >= .95 and scores['accessibility'] == scores['seo'] == 1 and lcp <= 2000 and cls < .05
+    rows.append({'file': path.name, 'url': report['finalUrl'], **scores, 'lcp_ms': lcp, 'cls': cls})
+urls = Counter(row['url'] for row in rows)
+assert len(urls) == 7 and set(urls.values()) == {3}
+(target / 'lighthouse-summary.json').write_text(json.dumps({'runs': rows}, indent=2) + '\n')
+render = load(target / 'product/report.json')
+assert len(render['captures']) == 18 and not render['blocked_attempts']
+assert len(list((site / 'component-tests/library.spec.ts-snapshots').glob('*.png'))) == 219
+assert len(list((site / 'dist').rglob('*.html'))) == 45
+receipt = {'source': source, 'base': '99b65c529fa162ab2433b7e87442f64a7856f10f',
+    'indexable_pages': 44, 'html_pages': 45, 'dated_mdx': 23, 'documentation_routes': 12,
+    'site_checks': 63, 'component_checks': 240, 'node_contracts': 17,
+    'stories': 73, 'component_snapshots': 219, 'home_snapshots': 3, 'native_product_renders': 18,
+    'selected_product_images': 5, 'product_app_source': render['app_source'],
+    'comparison_products': 4, 'source_linked_cells': 12, 'faq_questions': 10,
+    'lighthouse_runs': 21, 'min_performance': min(row['performance'] for row in rows),
+    'min_accessibility': min(row['accessibility'] for row in rows), 'min_seo': min(row['seo'] for row in rows),
+    'max_lcp_ms': max(row['lcp_ms'] for row in rows), 'max_cls': max(row['cls'] for row in rows),
+    'observed_terminal_exits': {'site': 0, 'components': 0, 'contracts': 0, 'build': 0, 'storybook': 0, 'lighthouse': 0, 'product_render_1': 0, 'product_render_2': 0},
+    'stale_home_comparison_build_refused': True, 'p9_3_accepted_with_spec_duotone_fallback': True,
+    'g10_photos_supplied': False, 'p9_5_external_acceptance': False, 'hosting_deployed': False,
+    'actions_dispatched': False, 'pull_requests_created': False, 'release_changed': False,
+    'app_runtime_changed': False, 'owner_desktop_audio_input_used': False, 'owner_clipboard_used': False,
+    'owner_accuracy_accepted': False, 'reserved_bn_ta_te_recordings_uninferred': 60,
+    'portable_matches_latest_app': True, 'portable_source': '5848e53e2473154813da67bac55c022864cc8323',
+    'full_goal_complete': False}
+(target / 'receipt.json').write_text(json.dumps(receipt, indent=2) + '\n')
+for name in ['collect_site_home_20261115.py']:
+    shutil.copyfile(qa / name, target / 'scripts' / (name + '.txt'))
+shutil.copyfile(qa / 'capture_site_home_details_20261115.cjs', target / 'scripts/capture_site_home_details_20261115.cjs.txt')
+shutil.copyfile(qa / 'verify_site_home_20261115.py', target / 'verify.py.txt')
+(target / 'README.md').write_text(f'''# Home page local qualification
+
+Source `{source}` completes the §9.6 Home composition with actual Qt Hub/Bar
+captures, five responsive local images, qualitative speed copy, six feature rows,
+twelve source-linked comparison cells, ten matching FAQ questions and expanded
+footer with creator credit. All nineteen approved language links remain alphabetic.
+G10 photos remain unsupplied; the documented token duotone fallback is used.
+
+Final ordinary runs: 63 site and 240 component checks pass without flakes, retries
+or skips. Seventeen Node contracts, production build and Storybook pass. All 219
+component and three Home baselines pass. The date/count credit alone is masked in
+the Home visual baseline because it is live build-time metadata; separate checks
+validate its visible count, date, link and genuine-zero behavior. Other snapshots
+are not masked. Changed baselines are limited to Home, navigation, footer and the
+two new repository-count stories; all unchanged states retain their originals.
+
+The initial import-attribute/test-helper failures and invalid HTML diagnostics are
+retained alongside expected old-baseline failures. Lowercase time attributes and a
+native labelled table section fix the document violations without weakening HTML
+validation. Two timing failures are also retained: repeated shared-link requests
+exceeded one audit timeout, and one Storybook assertion ran before its SVG arrived.
+The final checks deduplicate identical link requests across pages and await the
+actual SVG; expectations and default timeouts remain unchanged. The actual build
+rejects an injected stale Home date; original input
+bytes are restored and the final production build passes.
+
+Two isolated Qt runs completed with observed zero exits. The second run retains
+eighteen images and raw provenance. No owner audio/device discovery, microphone,
+clipboard, foreground, native input or personal profile is used. No real audio SDK
+is imported. The source-pinned producer and selected PNGs are checked by the Node
+contracts. This qualifies public UI illustrations, not actual recording or ASR.
+
+Twenty-one Lighthouse runs over seven URLs meet the unchanged original budgets.
+Build output hashes are frozen before Lighthouse and must match afterward. Source
+witnesses record inputs predating each relevant browser run. The verifier checks
+these inputs and retained bytes; pass `--site-dist` and `--storybook-dist` to also
+compare the actual local builds.
+
+No PR, Actions run, hosting deployment, release change or indexing submission was
+made. Full original implementation, desktop/manual accessibility, broader language
+accuracy, Standard/Pro release latency, Command/Meeting acceptance, installer,
+signing and distribution remain open. Owner accuracy is deferred and the 60
+reserved Bengali/Tamil/Telugu recordings remain uninferred. The current portable
+remains source5848; this website checkpoint changes no desktop runtime input.
+''', encoding='utf-8')
+files = {path.relative_to(target).as_posix(): {'bytes': path.stat().st_size, 'sha256': sha(path.read_bytes())}
+         for path in sorted(target.rglob('*')) if path.is_file()}
+(target / 'manifest.json').write_text(json.dumps({'files': files}, indent=2) + '\n')
+print(json.dumps({'source': source, 'records': len(files), 'source_files': len(witness),
+                  'outputs': {name: len(files) for name, files in outputs.items()}, 'receipt': receipt}, indent=2))

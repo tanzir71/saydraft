@@ -1,0 +1,46 @@
+// Public built HTML only, in a headless browser; this process owns and closes its server.
+const { createServer } = require('node:http');
+const fs = require('node:fs');
+const path = require('node:path');
+const { chromium } = require('D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-home-parity-20261115/site/node_modules/@playwright/test');
+const root = 'D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-home-parity-20261115/site/dist';
+const output = 'D:/Saydraft-Codex-QA-20261112-01a1cbc7/site-home-parity-20261115-r1/details';
+const origin = 'http://127.0.0.1:42761';
+const mime = { '.html': 'text/html', '.css': 'text/css', '.js': 'text/javascript', '.woff2': 'font/woff2', '.woff': 'font/woff', '.avif': 'image/avif', '.webp': 'image/webp', '.png': 'image/png', '.svg': 'image/svg+xml' };
+const server = createServer((request, response) => {
+  const url = new URL(request.url, origin);
+  if (!url.pathname.startsWith('/saydraft/')) { response.writeHead(404).end(); return; }
+  let file = path.resolve(root, '.' + decodeURIComponent(url.pathname.slice('/saydraft'.length)));
+  if (!file.startsWith(path.resolve(root) + path.sep) && file !== path.resolve(root)) { response.writeHead(403).end(); return; }
+  try {
+    if (fs.statSync(file).isDirectory()) file = path.join(file, 'index.html');
+    response.setHeader('Content-Type', mime[path.extname(file)] || 'application/octet-stream');
+    response.end(fs.readFileSync(file));
+  } catch { response.writeHead(404).end(); }
+});
+(async () => {
+  fs.mkdirSync(output, { recursive: false });
+  await new Promise((resolve, reject) => { server.once('error', reject); server.listen(42761, '127.0.0.1', resolve); });
+  let browser;
+  const external = [], errors = [];
+  try {
+    browser = await chromium.launch({ headless: true });
+    for (const [name, width, height] of [['mobile', 390, 844], ['desktop', 1440, 900]]) {
+      const page = await browser.newPage({ viewport: { width, height }, reducedMotion: 'reduce' });
+      page.on('pageerror', (error) => errors.push(error.message));
+      await page.route('**/*', (route) => new URL(route.request().url()).origin === origin ? route.continue() : (external.push(route.request().url()), route.abort()));
+      await page.goto(origin + '/saydraft/docs/notes/'); await page.evaluate(() => document.fonts.ready);
+      await page.screenshot({ path: path.join(output, 'notes-' + name + '.png'), fullPage: true });
+      await page.goto(origin + '/saydraft/'); await page.evaluate(() => document.fonts.ready);
+      for (const [label, selector] of [['hub', '.hub-shot'], ['final-cta', '.final-sheet']]) {
+        const section = page.locator(selector); await section.scrollIntoViewIfNeeded();
+        for (const image of await section.locator('img').all()) await image.evaluate((node) => node.decode());
+        await section.screenshot({ path: path.join(output, label + '-' + name + '.png'), animations: 'disabled' });
+      }
+      await page.close();
+    }
+    if (external.length || errors.length) throw new Error(JSON.stringify({ external, errors }));
+    fs.writeFileSync(path.join(output, 'report.json'), JSON.stringify({ screenshots: 6, headless: true, external, errors, owner_audio_input_clipboard_used: false }, null, 2) + '\n');
+    console.log('Six detail captures; no external requests or browser errors.');
+  } finally { if (browser) await browser.close(); await new Promise((resolve) => server.close(resolve)); }
+})().catch((error) => { console.error(error); process.exitCode = 1; });

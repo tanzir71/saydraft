@@ -1,0 +1,29 @@
+
+> saydraft-site@0.1.0 content:test
+> node --test tools/content-verification.test.mjs tools/releases.test.mjs tools/html-validation.test.mjs tools/model-downloads.test.mjs tools/seo.test.mjs tools/home.test.mjs
+
+✔ quarterly date bounds use UTC calendar dates and reject invalid/future dates (40.5547ms)
+✔ the actual recursive prebuild check rejects stale/missing dates without changing content (195.5441ms)
+✔ repository credits preserve a verified zero and refuse unavailable or malformed counts (70.9052ms)
+✔ product assets match native 2x provenance with no owner device access (213.0624ms)
+✔ readable product images retain alt text and only article verification dates apply to a page (10.9032ms)
+✔ HTML5 permits both Astro and React void/boolean serialization (331.7886ms)
+✔ non-void self-closing content remains invalid (25.7274ms)
+✔ ARIA naming misuse and duplicate identifiers remain invalid (71.3118ms)
+✔ documented default includes the disclosed tiny language detector (1.3276ms)
+✔ enhancement transfer excludes the complete notices bundled with the app (0.3266ms)
+✔ a missing catalog entry cannot produce invented download metadata (0.646ms)
+✔ build-time release history excludes private drafts and preserves published previews (46.5214ms)
+✔ an unavailable API cannot masquerade as no published releases (39.9051ms)
+✔ social image paths stay within the configured base and distinguish nested pages (1.5822ms)
+✔ verification tags accept real token formats and reject pasted HTML or malformed values (0.5049ms)
+✔ readable exports preserve code, table links and collapsed FAQ answers without script or navigation (26.4402ms)
+✔ social cards render long page titles with local fonts, intact gutters and no text overlap (690.6944ms)
+ℹ tests 17
+ℹ suites 0
+ℹ pass 17
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1794.9754
