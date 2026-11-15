@@ -2,7 +2,7 @@
 
 from html import escape
 
-from PySide6 import QtCore, QtWidgets
+from PySide6 import QtCore, QtGui, QtWidgets
 from .reflow import AdaptiveRow, WrapCheckBox, WrapPushButton
 
 from saydraft.asr.model_ids import PREVIEW_MODEL
@@ -23,21 +23,21 @@ class LabsPage(QtWidgets.QWidget):
         self.report_loader = report_loader
         self.task = None
         self.config = config
-        model = get_model(PREVIEW_MODEL)
-        size = model["archive"]["size"] / 1_000_000
-        storage = (model["archive"]["size"] + sum(f["size"] for f in model["files"]) + 64 * 1024**2) / 1e9
+        self._preview_model = get_model(PREVIEW_MODEL)
         self.description = QtWidgets.QLabel(
             "English live preview (experimental) shows partial words above the Bar. "
             "Requires the Pro tier. Default recognition still produces the final text.")
         self.description.setWordWrap(True)
-        self.license = QtWidgets.QLabel(
-            f'{escape(model["publisher"])} · {size:.1f} MB download · allow {storage:.2f} GB free space<br>'
-            f'<a href="{escape(model["license_url"])}">{escape(model["license"])} license</a> · '
-            f'<a href="{escape(model["source"])}">Model and conversion credits</a>')
+        self.license = QtWidgets.QLabel()
         self.license.setWordWrap(True)
         self.license.setOpenExternalLinks(True)
         self.license.setTextInteractionFlags(QtCore.Qt.LinksAccessibleByMouse | QtCore.Qt.LinksAccessibleByKeyboard)
         self.license.setAccessibleName("English preview model license and credits")
+        self._license_timer = QtCore.QTimer(self)
+        self._license_timer.setSingleShot(True)
+        self._license_timer.timeout.connect(self._render_license)
+        self.license.installEventFilter(self)
+        self._render_license()
         self.eligibility = QtWidgets.QLabel()
         self.eligibility.setWordWrap(True)
         self.live = WrapCheckBox("Show English live preview")
@@ -78,6 +78,21 @@ class LabsPage(QtWidgets.QWidget):
         layout.addWidget(meeting)
         layout.addStretch()
         self.update_eligibility(config)
+
+    def _render_license(self):
+        model = self._preview_model
+        size = model["archive"]["size"] / 1_000_000
+        storage = (model["archive"]["size"] + sum(f["size"] for f in model["files"]) + 64 * 1024**2) / 1e9
+        color = self.license.palette().color(QtGui.QPalette.WindowText).name()
+        self.license.setText(
+            f'{escape(model["publisher"])} · {size:.1f} MB download · allow {storage:.2f} GB free space<br>'
+            f'<a style="color:{color}" href="{escape(model["license_url"])}">{escape(model["license"])} license</a> · '
+            f'<a style="color:{color}" href="{escape(model["source"])}">Model and conversion credits</a>')
+
+    def eventFilter(self, watched, event):
+        if watched is self.license and event.type() in (QtCore.QEvent.PaletteChange, QtCore.QEvent.StyleChange):
+            self._license_timer.start(0)
+        return super().eventFilter(watched, event)
 
     def update_eligibility(self, config, report=None):
         self.config = config

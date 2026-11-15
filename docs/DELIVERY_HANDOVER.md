@@ -116,12 +116,15 @@ decision; the current GitHub Pages canonical and no-analytics policy remain.
 
 ## How to resume an unresolved issue
 
-Known non-blocking UI follow-up: the experimental English-preview license links
-in Labs still use native blue in the dark theme and need a contrast pass. They
-remain keyboard reachable; the light theme and bundled/source license documents
-are available. Follow the existing palette-aware model-link implementation and
-check light/dark transitions. The retained `dark-32-Settings-Labs.png` capture
-records the issue. P6.7 remains open, and complete accessibility is not claimed.
+The experimental English-preview license links in Labs now follow the active
+text palette, including live light/dark and simulated high-contrast changes.
+The focused checks preserve both URLs, the screen-reader name, keyboard focus
+and explicit-only downloads, with at least 4.5:1 contrast at actual 16/32px font
+sizes. The first render fixture omitted the bundled fonts; its diagnostics and
+the corrected real before-fix contrast failures are retained separately.
+The current unsigned `625c987` portable predates this source fix; refresh the
+portable after the ongoing accuracy-only model job finishes. P6.7's physical
+scaling/Narrator/manual acceptance remains open.
 
 The first broad reflow run exposed a clipped long setup-warning footer. The
 footer now chooses the shorter horizontal/stacked arrangement, and its focused
