@@ -1,0 +1,45 @@
+{
+  "schema": 1,
+  "git_commit": "1761f1b07e189cdb5bd7ea576f0a267c7eead6cf",
+  "audio_seconds": 3,
+  "repeat": 0,
+  "tier": "standard",
+  "asr_model": "parakeet-tdt-0-6b-v3-int8",
+  "runtime_environment": {
+    "python": "3.13.17",
+    "implementation": "cpython",
+    "cache_tag": "cpython-313",
+    "architecture": "AMD64",
+    "interpreter_sha256": "4e67d9e9a3673aa7b6219f1280d5ec3f1b6c0d5bd98ea8688c72d0cb7582d664",
+    "packages": {
+      "numpy": "2.5.4",
+      "soundfile": "0.14.0",
+      "webrtcvad-wheels": "2.0.14",
+      "faster-whisper": "1.2.1",
+      "ctranslate2": "4.9.0",
+      "sherpa-onnx": "1.13.4",
+      "sherpa-onnx-core": "1.13.4",
+      "onnxruntime": "1.32.0"
+    }
+  },
+  "python_pid": 45528,
+  "cases": [],
+  "native_exits": [
+    true
+  ],
+  "complete": false,
+  "vad": "pinned Silero in private QA profile; production fallback remains enabled",
+  "source_fixture_sha256": "cc6d363cc90b6c99427041ba6366e334131b05101a142761ae84b2a8b5e2c5ab",
+  "replay_samples_sha256": "16acc22ae0ae46451b1fb35c86a624b3a89f6e7dc2f74f1c7320adb2fecc3614",
+  "service_setup_seconds": 7.1710660999960965,
+  "error_type": "RuntimeError",
+  "error_location": {
+    "file": "latency_trial.py",
+    "line": 165
+  },
+  "selected_device": null,
+  "native_peak_rss_bytes": [
+    111542272
+  ],
+  "elapsed_seconds": 14.505164799993508
+}

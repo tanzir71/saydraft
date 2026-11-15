@@ -1,0 +1,13 @@
+{
+  "kind": "retrospective observation of tool terminal result",
+  "exit_code": 1,
+  "error": "AssertionError at Git source byte comparison",
+  "source_path": "saydraft/models/native_devices.py",
+  "git_sha256": "5ab943a9c77fd7b99ebf5fab1444d9d20d2ca44b11dfaf08c242c828eadae7e9",
+  "checkout_sha256": "086aa13312e537efc308f027747a14721e630b917edf2855cbb4d207ce37ada2",
+  "git_crlf": 0,
+  "checkout_crlf": 100,
+  "lf_equivalent": true,
+  "core_autocrlf": true,
+  "raw_records_modified": false
+}

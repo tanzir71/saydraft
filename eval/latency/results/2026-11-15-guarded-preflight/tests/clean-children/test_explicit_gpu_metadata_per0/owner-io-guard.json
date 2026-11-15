@@ -1,0 +1,24 @@
+{
+  "pid": 25400,
+  "blocked_attempts": [],
+  "reviewed_dependency_dlls": [
+    {
+      "caller": "saydraft.models.windows_hardware",
+      "dll": "vulkan-1.dll"
+    }
+  ],
+  "real_audio_sdk_imported": false,
+  "owner_profile_used": false,
+  "owner_clipboard_used": false,
+  "owner_native_input_used": false,
+  "device_enumeration": false,
+  "microphone_used": false,
+  "gpu_metadata_allowed": true,
+  "gpu_metadata_dlls": [
+    {
+      "caller": "saydraft.models.windows_hardware",
+      "dll": "vulkan-1.dll",
+      "system32_only": true
+    }
+  ]
+}

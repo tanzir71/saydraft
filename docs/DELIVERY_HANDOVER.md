@@ -55,6 +55,13 @@ checks explicitly; changing an environment flag cannot authorize them.
   This unsigned `-SkipInstaller` preview leaves installer, signing, physical
   Windows and full-goal acceptance open.
 
+- Guarded preflights now complete four cases per Standard/Pro recipe, with all
+  owned native exits and 73 clean-source related checks. Standard falls back
+  throughout; Pro accepts all four replies but its ten-second samples exceed
+  the median target. Setup refusals and explicit owner GPU approval are retained.
+  [Source-bound records](../eval/latency/results/2026-11-15-guarded-preflight/README.md).
+  These debug results do not close full performance, quality or Windows gates.
+
 - Cleanup warmup now retains selected intensity, including Polished's 4.
   Clean `625c987` passes 171 related checks, 556 rules examples and 100 authored
   validator refusals. Its full CPU policy replay has 556 exact outputs, seven

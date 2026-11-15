@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "git_commit": "bd6c22af0580f245980cc5b685483728cdf7e609",
+  "audio_seconds": 3,
+  "repeat": 0,
+  "tier": "standard",
+  "asr_model": "parakeet-tdt-0-6b-v3-int8",
+  "runtime_environment": {
+    "python": "3.13.17",
+    "implementation": "cpython",
+    "cache_tag": "cpython-313",
+    "architecture": "AMD64",
+    "interpreter_sha256": "4e67d9e9a3673aa7b6219f1280d5ec3f1b6c0d5bd98ea8688c72d0cb7582d664",
+    "packages": {
+      "numpy": "2.5.4",
+      "soundfile": "0.14.0",
+      "webrtcvad-wheels": "2.0.14",
+      "faster-whisper": "1.2.1",
+      "ctranslate2": "4.9.0",
+      "sherpa-onnx": "1.13.4",
+      "sherpa-onnx-core": "1.13.4",
+      "onnxruntime": "1.32.0"
+    }
+  },
+  "python_pid": 40364,
+  "cases": [],
+  "native_exits": [],
+  "complete": false,
+  "error_type": "AssertionError",
+  "error_location": {
+    "file": "public_file_guard.py",
+    "line": 75
+  },
+  "selected_device": null,
+  "elapsed_seconds": 0.00038409999979194254
+}

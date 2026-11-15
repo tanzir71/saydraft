@@ -1,0 +1,199 @@
+{
+  "schema": 1,
+  "git_commit": "9bba8f4a4553bcc0a99fa1d835d8b157ef2d3740",
+  "audio_seconds": 3,
+  "repeat": 0,
+  "tier": "pro",
+  "asr_model": "parakeet-tdt-0-6b-v3-int8",
+  "runtime_environment": {
+    "python": "3.13.17",
+    "implementation": "cpython",
+    "cache_tag": "cpython-313",
+    "architecture": "AMD64",
+    "interpreter_sha256": "4e67d9e9a3673aa7b6219f1280d5ec3f1b6c0d5bd98ea8688c72d0cb7582d664",
+    "packages": {
+      "numpy": "2.5.4",
+      "soundfile": "0.14.0",
+      "webrtcvad-wheels": "2.0.14",
+      "faster-whisper": "1.2.1",
+      "ctranslate2": "4.9.0",
+      "sherpa-onnx": "1.13.4",
+      "sherpa-onnx-core": "1.13.4",
+      "onnxruntime": "1.32.0"
+    }
+  },
+  "python_pid": 39704,
+  "cases": [
+    {
+      "phase": "cold",
+      "audio_seconds": 3,
+      "repeat": 0,
+      "fed_samples": 48000,
+      "arming_seconds": 5.000404099992011,
+      "capture_seconds": 3.000343400010024,
+      "asr_load_seconds": 4.1660527999920305,
+      "release_to_paste_seconds": 0.35920759999135043,
+      "release_to_settled_seconds": 0.6319667999923695,
+      "history_before_paste": true,
+      "clipboard_restored": true,
+      "no_early_delivery": true,
+      "release_deadline_present": true,
+      "decision": "prompt_warming",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 3.0025693000061437,
+        "vad": 0.0,
+        "stt": 0.04989439999917522,
+        "lid": 0.0,
+        "background_stt": 0.3467696000006981,
+        "audio": 0.0,
+        "rules": 0.003646099998150021,
+        "llm": 0.008133299998007715,
+        "insert": 0.3017746999976225
+      },
+      "language_identifier_ready": true,
+      "cleanup_at_capture": {
+        "sidecar": {
+          "state": "missing",
+          "reason": "prepare_failed",
+          "failures": 0
+        },
+        "preparation": {
+          "state": "unprepared",
+          "reason": "model_not_ready",
+          "prompt_seconds": null
+        },
+        "decoder": {}
+      },
+      "cleanup_at_release": {
+        "sidecar": {
+          "state": "missing",
+          "reason": "prepare_failed",
+          "failures": 0
+        },
+        "preparation": {
+          "state": "unprepared",
+          "reason": "model_not_ready",
+          "prompt_seconds": null
+        },
+        "decoder": {},
+        "observed_after_release_seconds": 0.0013652999914484099
+      },
+      "cleanup_after_delivery": {
+        "sidecar": {
+          "state": "missing",
+          "reason": "prepare_failed",
+          "failures": 0
+        },
+        "preparation": {
+          "state": "unprepared",
+          "reason": "model_not_ready",
+          "prompt_seconds": null
+        },
+        "decoder": {}
+      },
+      "cleanup_gate": {
+        "reason": "prompt_warming",
+        "need_score": 3,
+        "need_reasons": [
+          "style",
+          "polished"
+        ],
+        "remaining_ms": 750.0,
+        "predicted_ms": null,
+        "source_tokens": 0,
+        "pending_tokens": 0
+      }
+    },
+    {
+      "phase": "warm",
+      "audio_seconds": 3,
+      "repeat": 0,
+      "fed_samples": 48000,
+      "arming_seconds": 0.10297169999103062,
+      "capture_seconds": 3.0002519999979995,
+      "asr_load_seconds": 4.1660527999920305,
+      "release_to_paste_seconds": 0.3709716000012122,
+      "release_to_settled_seconds": 0.6481974000053015,
+      "history_before_paste": true,
+      "clipboard_restored": true,
+      "no_early_delivery": true,
+      "release_deadline_present": true,
+      "decision": "prompt_warming",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 3.001915499989991,
+        "vad": 0.0,
+        "stt": 0.07819080000626855,
+        "lid": 0.0,
+        "background_stt": 0.3751217999961227,
+        "audio": 0.0,
+        "rules": 0.00039180000021588057,
+        "llm": 0.008327600007760338,
+        "insert": 0.3014735000033397
+      },
+      "language_identifier_ready": true,
+      "cleanup_at_capture": {
+        "sidecar": {
+          "state": "missing",
+          "reason": "prepare_failed",
+          "failures": 0
+        },
+        "preparation": {
+          "state": "unprepared",
+          "reason": "model_not_ready",
+          "prompt_seconds": null
+        },
+        "decoder": {}
+      },
+      "cleanup_at_release": {
+        "sidecar": {
+          "state": "missing",
+          "reason": "prepare_failed",
+          "failures": 0
+        },
+        "preparation": {
+          "state": "unprepared",
+          "reason": "model_not_ready",
+          "prompt_seconds": null
+        },
+        "decoder": {},
+        "observed_after_release_seconds": 0.0014970000047469512
+      },
+      "cleanup_after_delivery": {
+        "sidecar": {
+          "state": "missing",
+          "reason": "prepare_failed",
+          "failures": 0
+        },
+        "preparation": {
+          "state": "unprepared",
+          "reason": "model_not_ready",
+          "prompt_seconds": null
+        },
+        "decoder": {}
+      },
+      "cleanup_gate": {
+        "reason": "prompt_warming",
+        "need_score": 3,
+        "need_reasons": [
+          "style",
+          "polished"
+        ],
+        "remaining_ms": 750.0,
+        "predicted_ms": null,
+        "source_tokens": 0,
+        "pending_tokens": 0
+      }
+    }
+  ],
+  "native_exits": [],
+  "complete": false,
+  "vad": "pinned Silero in private QA profile; production fallback remains enabled",
+  "source_fixture_sha256": "cc6d363cc90b6c99427041ba6366e334131b05101a142761ae84b2a8b5e2c5ab",
+  "replay_samples_sha256": "16acc22ae0ae46451b1fb35c86a624b3a89f6e7dc2f74f1c7320adb2fecc3614",
+  "service_setup_seconds": 12.240153600010672,
+  "selected_device": null,
+  "native_peak_rss_bytes": [],
+  "elapsed_seconds": 24.628598800001782
+}

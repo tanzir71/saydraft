@@ -6,6 +6,14 @@ retains all 160 cases and verified source/runtime/model/native-exit receipts at
 so P4.6 remains open. All p95 cells meet 2 s and decoder-rate checks pass; neither
 result overrides the failed median gate. Standard still needs measurement.
 
+The [15 November guarded preflights](../eval/latency/results/2026-11-15-guarded-preflight/README.md)
+retain setup refusals and complete four-case diagnostics for each recipe. Standard
+uses rules fallback throughout; Pro accepts all four model replies but its two
+ten-second samples take 1.439 / 1.376 s. These debug samples cannot qualify a full
+matrix or its median/p95 gates. Final guard source `86168e1` passes 73 related
+checks. The owner explicitly approves GPU metadata/Pro measurement; other owner
+audio/device/input/clipboard restrictions remain in force.
+
 `python -m tools.bench matrix` measures the §11 matrix: 3/10/30/90-second clips,
 twenty independent cold samples and twenty warm samples per duration, separately
 for Lite, Standard and Pro recipes. The bundled public eight-second recording is
@@ -80,6 +88,13 @@ Select the adapter for the actual machine. Run recipes serially from a clean,
 immutable committed checkout, with no competing local tests/builds/model jobs
 or transfers. Full-run output must be outside that checkout and fresh. Real-time
 capture alone takes about 89 minutes per recipe, plus startup, arming and delivery.
+
+When GPU identification is explicitly authorized, add `--allow-gpu-metadata` to
+the Pro command. This opt-in is invalid for other tiers, forwards to every child
+and must match its terminal receipts. It permits only the reviewed Windows
+Vulkan metadata loader with System32-only lookup. Audio-device enumeration and
+owner desktop ports stay barred. The historical generic `device_enumeration`
+receipt field covers those audio/owner ports; GPU permission/calls are separate.
 
 For an implementation check, add `--debug --repeats 1 --durations 3`. Debug allows
 partial/dirty runs and optional WebRTC VAD fallback, but always refuses full

@@ -1,0 +1,91 @@
+"""Verify retained bytes, Git provenance and diagnostic receipts; no app imports."""
+import argparse,hashlib,io,json,math,subprocess
+from collections import Counter
+from pathlib import Path,PurePosixPath
+import xml.etree.ElementTree as ET
+
+parser=argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--repo',type=Path,required=True)
+args=parser.parse_args()
+root=Path(__file__).resolve().parents[1]
+read=lambda p:json.loads(p.read_text(encoding='utf-8-sig'))
+manifest=read(root/'manifest.json')
+source='86168e1213f7b17b80c8d8c21f8ed56da71973fc'
+assert manifest['source']==source
+seen=set(); requests={}
+for row in manifest['records']:
+ name=row['path'];relative=PurePosixPath(name);path=root.joinpath(*relative.parts)
+ assert not relative.is_absolute() and '..' not in relative.parts and '\\' not in name and ':' not in name
+ assert name==relative.as_posix() and name not in seen and not path.is_symlink() and path.resolve().is_relative_to(root)
+ assert path.stat().st_size==row['size'] and hashlib.sha256(path.read_bytes()).hexdigest()==row['sha256'],name
+ if name.startswith('source/'): requests.setdefault(source+':'+name.removeprefix('source/'),set()).add(('git',hashlib.sha256(path.read_bytes()).hexdigest()))
+ seen.add(name)
+assert {p.relative_to(root).as_posix() for p in root.rglob('*') if p.is_file()}==seen|{'manifest.json'}
+flags=['real_audio_sdk_imported','owner_profile_used','owner_clipboard_used','owner_native_input_used','device_enumeration','microphone_used']
+completed={}
+for folder in sorted((root/'runs').iterdir()):
+ report=read(folder/'report.json');commit=report['git_commit']
+ assert report['debug'] and not report['source_dirty'] and not report['full_matrix'] and not report['latency_target_met']
+ assert report['source_unchanged'] and report['runtime_environment_unchanged']
+ for name,digest in report['source_fingerprints'].items():requests.setdefault(commit+':'+name,set()).add(('checkout',digest))
+ terminal=read(folder/'terminal-observation.json')
+ if terminal['exit_code']!=0:
+  assert not report['complete'] and report.get('error_type')
+  continue
+ assert report['complete'] and report['file_only_guards_verified'] and len(report['pairs'])==2 and len(report['cases'])==4
+ rows=[];native=0
+ for pair in report['pairs']:
+  path=folder/pair['path'];assert hashlib.sha256(path.read_bytes()).hexdigest()==pair['sha256']
+  child=read(path);assert child['complete'] and child['git_commit']==commit and child['runtime_environment']==report['runtime_environment']
+  assert child['native_exits'] and all(value is True for value in child['native_exits'])
+  native+=len(child['native_exits'])
+  assert read(path.with_name('process.json'))['exit_code']==0
+  journal=[json.loads(line) for line in path.with_name('cases.jsonl').read_text(encoding='utf-8').splitlines()]
+  assert journal==child['cases'] and [r['phase'] for r in journal]==['cold','warm']
+  guard=read(path.with_name('owner-io-guard.json'));fixture=read(path.with_name('owner-io-guard.worker.json'))
+  assert type(child['python_pid']) is int and child['python_pid']==guard['pid']==fixture['pid']
+  assert guard['blocked_attempts']==fixture['port_attempts']==[] and fixture['production_context_adapter_loaded'] is False
+  assert all(guard[k] is False for k in flags)
+  expected_gpu=report.get('allow_gpu_metadata',False)
+  assert guard.get('gpu_metadata_allowed',False) is expected_gpu
+  for kind,name in [('guard','owner-io-guard.json'),('fixture','owner-io-guard.worker.json')]:
+   assert hashlib.sha256(path.with_name(name).read_bytes()).hexdigest()==pair['file_only_guard'][kind]['sha256']
+  for row in journal:
+   assert row['fed_samples']==row['audio_seconds']*16000 and row['asr_model']==report['asr_model']
+   assert all(row[k] is True for k in ['history_before_paste','clipboard_restored','no_early_delivery','release_deadline_present','language_identifier_ready'])
+   assert type(row['release_to_paste_seconds']) in (float,int) and math.isfinite(row['release_to_paste_seconds']) and row['release_to_paste_seconds']>=0
+  rows.extend(journal)
+ assert rows==report['cases']
+ for phase in ['cold','warm']:
+  for duration in [3,10,30,90]:
+   matching=[r for r in rows if r['phase']==phase and r['audio_seconds']==duration]
+   values=sorted(r['release_to_paste_seconds'] for r in matching)
+   group=report['summary']['groups'][f'{phase}-{duration}']
+   assert group['n']==len(values) and group['decisions']==dict(Counter(r['decision'] for r in matching))
+   for field,q in [('p50_seconds',.5),('p95_seconds',.95)]:
+    assert group[field]==(values[math.ceil(len(values)*q)-1] if values else None)
+ completed[folder.name]={'cases':len(rows),'native_exits':native,'accepted':sum(r['decision']=='accepted' for r in rows)}
+assert completed=={'pro-r2':{'cases':4,'native_exits':4,'accepted':4},'standard-r3':{'cases':4,'native_exits':2,'accepted':0}},completed
+batch=subprocess.check_output(['git','cat-file','--batch'],cwd=args.repo,input=('\n'.join(requests)+'\n').encode())
+stream=io.BytesIO(batch)
+converted=[]
+for spec,expected in requests.items():
+ header=stream.readline().split();assert len(header)==3 and header[1]==b'blob',spec
+ data=stream.read(int(header[2]));assert stream.read(1)==b'\n'
+ for kind,digest in expected:
+  if hashlib.sha256(data).hexdigest()==digest:continue
+  assert kind=='checkout' and b'\r' not in data and b'\x00' not in data,spec
+  commit,name=spec.split(':',1)
+  assert hashlib.sha256(data.replace(b'\n',b'\r\n')).hexdigest()==digest,spec
+  converted.append(spec)
+for commit in sorted({spec.split(':',1)[0] for spec in converted}):
+ names=sorted({spec.split(':',1)[1] for spec in converted if spec.startswith(commit+':')})
+ raw=subprocess.check_output(['git','check-attr','--source='+commit,'-z','--stdin','text','eol'],
+     cwd=args.repo,input=('\0'.join(names)+'\0').encode()).split(b'\0')
+ assert raw[-1]==b'' and (len(raw)-1)%3==0
+ attributes={(raw[i].decode(),raw[i+1]):raw[i+2] for i in range(0,len(raw)-1,3)}
+ for name in names:
+  assert attributes[name,b'text'] in [b'auto',b'set'] and attributes[name,b'eol'] in [b'unspecified',b'crlf'],name
+suite=ET.parse(root/'tests/guarded-gpu-clean-20261115.xml').getroot().find('testsuite')
+assert suite.attrib['tests']=='73' and all(suite.attrib[k]=='0' for k in ['failures','errors','skipped'])
+print(json.dumps(dict(source=source,records_verified=len(seen),git_objects_verified=len(requests),windows_text_checkouts=len(converted),completed=completed,tests=73,full_matrix=False)))
