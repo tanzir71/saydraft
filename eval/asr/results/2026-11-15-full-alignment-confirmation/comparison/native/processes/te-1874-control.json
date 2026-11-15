@@ -1,0 +1,29 @@
+{
+  "args": [
+    "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\latency-runtime-874a9c4-20261114\\venv\\Scripts\\python.exe",
+    "-m",
+    "tools.probe_whisper_alignment",
+    "case",
+    "--plan",
+    "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\full-whisper-confirmation-20261115-r2\\comparison\\plan.json",
+    "--index",
+    "40",
+    "--arm",
+    "control",
+    "--output",
+    "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\full-whisper-confirmation-20261115-r2\\comparison\\native\\cases\\te-1874-control",
+    "--guard-output",
+    "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\full-whisper-confirmation-20261115-r2\\comparison\\native\\guards\\te-1874-control.json"
+  ],
+  "started_epoch": 1794732551.6473315,
+  "native_exit_observed": true,
+  "timeout_reached": false,
+  "launcher_pid": 5728,
+  "returncode": 0,
+  "job_tree_exit_observed": true,
+  "combined_child_output": true,
+  "ended_epoch": 1794732603.3373337,
+  ".stdout.txt": "8d638b40c3b3bf97fcb7f43971a6fe7c50613deb7d81faf6e8441e27f0194ab0",
+  ".stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "native_pid": 36948
+}

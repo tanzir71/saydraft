@@ -1,0 +1,24 @@
+"""Explicit guarded pinned-runtime entry point for one public-file confirmation."""
+from pathlib import Path
+import os
+import runpy
+import sys
+
+qa=Path(__file__).resolve().parent
+repo=qa/'worktrees/full-whisper-alignment-20261115'
+site=qa/'latency-runtime-874a9c4-20261114/venv/Lib/site-packages'
+receipt,mode=Path(sys.argv.pop(1)),sys.argv.pop(1)
+sys.path.insert(0,str(repo))
+os.environ['PYTHONPATH']=os.pathsep.join([str(repo),str(site)])
+from tools.public_file_guard import install
+install(receipt)
+from saydraft.privacy.netguard import NetworkGuard
+NetworkGuard.install()
+os.environ['PYTEST_DISABLE_PLUGIN_AUTOLOAD']='1'
+if mode=='pytest':
+    sys.path.append('C:/Users/tanzir/AppData/Roaming/Python/Python313/site-packages')
+    import pytest
+    raise SystemExit(pytest.main(sys.argv[1:]))
+module='tools.confirm_whisper_alignment' if mode=='freeze' else 'tools.probe_whisper_alignment'
+sys.argv[0]=module
+runpy.run_module(module,run_name='__main__')

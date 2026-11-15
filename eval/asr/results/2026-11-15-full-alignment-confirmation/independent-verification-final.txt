@@ -1,0 +1,63 @@
+{
+  "source": "6cf5fc0ceffa456c595fc1dae966c573d48719a9",
+  "cases": 120,
+  "observed_job_tree_exits": 121,
+  "control_reproduced": true,
+  "independent_scores": true,
+  "original_inputs_checked": false,
+  "languages": {
+    "bn": {
+      "control": {
+        "word_errors": 344,
+        "reference_words": 402,
+        "character_errors": 898,
+        "reference_characters": 2204,
+        "samples": 20
+      },
+      "word_alignment": {
+        "word_errors": 316,
+        "reference_words": 402,
+        "character_errors": 899,
+        "reference_characters": 2204,
+        "samples": 20
+      },
+      "passes": false
+    },
+    "ta": {
+      "control": {
+        "word_errors": 315,
+        "reference_words": 340,
+        "character_errors": 1222,
+        "reference_characters": 2678,
+        "samples": 20
+      },
+      "word_alignment": {
+        "word_errors": 183,
+        "reference_words": 340,
+        "character_errors": 383,
+        "reference_characters": 2678,
+        "samples": 20
+      },
+      "passes": true
+    },
+    "te": {
+      "control": {
+        "word_errors": 285,
+        "reference_words": 338,
+        "character_errors": 854,
+        "reference_characters": 2325,
+        "samples": 20
+      },
+      "word_alignment": {
+        "word_errors": 252,
+        "reference_words": 338,
+        "character_errors": 745,
+        "reference_characters": 2325,
+        "samples": 20
+      },
+      "passes": true
+    }
+  },
+  "confirmation_gate_met": false,
+  "owner_or_broad_accuracy_accepted": false
+}

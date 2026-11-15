@@ -1,0 +1,23 @@
+"""Verify every retained file without inference or app imports."""
+import hashlib
+import json
+from pathlib import Path, PurePosixPath
+
+root = Path(__file__).resolve().parents[1]
+manifest = json.loads((root / 'manifest.json').read_bytes())
+assert manifest['source'] == '6cf5fc0ceffa456c595fc1dae966c573d48719a9'
+seen = set()
+for record in manifest['records']:
+    name = record['path']
+    relative = PurePosixPath(name)
+    assert not relative.is_absolute() and '..' not in relative.parts
+    assert name == relative.as_posix() and name not in seen
+    path = root.joinpath(*relative.parts)
+    assert path.resolve().is_relative_to(root) and not path.is_symlink()
+    with path.open('rb') as stream:
+        digest = hashlib.file_digest(stream, 'sha256').hexdigest()
+    assert path.stat().st_size == record['size'] and digest == record['sha256'], name
+    seen.add(name)
+actual = {path.relative_to(root).as_posix() for path in root.rglob('*') if path.is_file()}
+assert actual == seen | {'manifest.json'}, sorted(actual.symmetric_difference(seen | {'manifest.json'}))
+print(json.dumps({'records_verified': len(seen), 'source': manifest['source']}))

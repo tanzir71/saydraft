@@ -40,12 +40,13 @@ checks explicitly; changing an environment flag cannot authorize them.
   nine-clip development gate for Bengali, Tamil and Telugu. All 19 native Job
   trees exit, exact control reproduction and independent original-input/score
   verification pass, and 53 related tests pass. [Frozen evidence](../eval/asr/results/2026-11-15-full-alignment/README.md).
-  [Frozen confirmation](spikes/full-whisper-confirmation.md) is now running at
-  clean `6cf5fc0`. All 60 previously reserved recordings are exclusively committed
-  to that single test before its first inference. No complete confirmation pass
-  is claimed; do not reuse this set as untouched data for a tuned candidate.
-  Defaults, the current portable and release acceptance
-  remain unchanged; licensing and speed also require qualification.
+  [Confirmation](../eval/asr/results/2026-11-15-full-alignment-confirmation/README.md)
+  now completes at clean `6cf5fc0`: 120 cases, 121 owned Job exits, exact repeat,
+  75 related checks and independent original-input/portable score verification
+  pass. The candidate fails quality: Bengali CER 898→899/2204 and three new
+  replacement-character outputs. Keep defaults unchanged. All 60 public recordings
+  are consumed, including for future tuning/confirmation accounting. Licensing,
+  speed and broader/owner accuracy remain open.
 
 - Cleanup warmup now retains selected intensity, including Polished's 4.
   Clean `625c987` passes 171 related checks, 556 rules examples and 100 authored
@@ -98,7 +99,7 @@ table identifies what still prevents accepting each original requirement.
 
 | Priority / roadmap items | Remaining work and next action | Evidence / guide |
 |---|---|---|
-| Before a public release — P3.2, P3.8, P3.10 | Complete broader multilingual quality/cold-load acceptance. Keep per-language WER/CER and sample scope; use observed development clips for changes. Owner accuracy acceptance is deferred. The turbo alignment candidate failed Tamil/Telugu gates; the combined full large-v3/temperature-zero/alignment candidate passes development. Its frozen confirmation is running, with all 60 previously reserved recordings allocated before inference. No confirmation pass or default promotion yet. Keep existing defaults until confirmation, license and speed gates are qualified. | [ASR accuracy](ASR_ACCURACY.md), [models](MODELS.md) |
+| Before a public release — P3.2, P3.8, P3.10 | Complete broader multilingual quality/cold-load acceptance. Keep per-language WER/CER and sample scope; use observed development clips for changes. Owner accuracy acceptance is deferred. The combined full large-v3/temperature-zero/alignment candidate passes development but fails complete60-clip confirmation (Bengali CER and new replacement characters). Keep existing defaults. All60 public confirmation recordings are consumed; any future tuned candidate needs new untouched confirmation, plus license/speed qualification before promotion. | [ASR accuracy](ASR_ACCURACY.md), [models](MODELS.md) |
 | Before quality/performance claims — P4.4, P4.6, P4.7 | Finish model/tier bake-off and full Standard/Pro end-to-end latency and quality gates. The deterministic corpus and adversarial checks do not establish the remaining rules-plus-model accuracy target or zero must-keep regressions. Evaluate frozen candidates against unchanged criteria before promoting defaults. | [Evaluation](EVALUATION.md), [latency matrix](LATENCY_MATRIX.md), [cleanup evidence](CLEANUP_EVIDENCE.md) |
 | Authorized isolated Windows session — P2.2, P5.1–P5.3, P5.5–P5.6 | Exercise real Notepad dictation, Start-menu masking/F9, clipboard image/rich-text restoration and Win+V exclusion, password/elevated/focus-change refusal, hands-free/cancel/paste-last and correction learning. Implementations and synthetic/native-owned fixtures do not replace these manual checks. | [Test checklist](TEST_CHECKLIST.md), [hotkeys](HOTKEYS.md) |
 | UI acceptance — P6.2–P6.5, P6.7 | Complete Bar state/sound/pointer/mixed-DPI checks, fresh-profile onboarding under three minutes, physical Scratchpad/View-diff shortcuts, Narrator/focus/high-contrast/display-scaling checks and full Settings/History acceptance. Current logical-font tests cover owned offscreen fixtures. | [Hub accessibility](HUB_ACCESSIBILITY.md), [onboarding](ONBOARDING.md), [Notes](NOTES.md) |

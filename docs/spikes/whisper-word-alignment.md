@@ -99,3 +99,11 @@ and independent original-input/score verification pass; 53 related tests pass.
 This supports a frozen confirmation test, not broad accuracy or a production
 change. The 60 reserved recordings remain uninferred at this snapshot. Full
 model licensing and release performance remain separate gates.
+
+The subsequent [complete60-clip confirmation](../../eval/asr/results/2026-11-15-full-alignment-confirmation/README.md)
+rejects that combined candidate. All120 cases/121 Job exits, exact control repeat
+and independent original-input/portable verification pass. Bengali CER increases
+898→899/2204; three clips add replacement characters absent from control.
+Tamil/Telugu aggregate gains cannot override either frozen condition. All60
+recordings are now consumed; earlier uninferred statements are historical.
+Production settings remain unchanged and P3.10 stays open.

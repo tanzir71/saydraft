@@ -1,5 +1,12 @@
 # Full large-v3/alignment confirmation protocol
 
+Completed at clean `6cf5fc0`: all120 cases/121 Job exits and independent
+original-input/portable verification pass, but the candidate fails its frozen
+quality gate. Bengali CER worsens898→899/2204; bn1929, te1867 and te1937 add
+replacement characters absent from their controls. All60 recordings are consumed.
+[Full result and retained records](../../eval/asr/results/2026-11-15-full-alignment-confirmation/README.md).
+The protocol below stays unchanged; no model/default promotion follows.
+
 The [combined candidate](../../eval/asr/results/2026-11-15-full-alignment/README.md)
 passes development; the production model and decoder remain unchanged. This
 protocol admits exactly the previously reserved 20 public FLEURS test clips per

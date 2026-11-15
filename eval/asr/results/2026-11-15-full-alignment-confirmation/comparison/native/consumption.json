@@ -1,0 +1,548 @@
+{
+  "plan_sha256": "068670fc1d6111e463a5d81b1df09ad0874471186df78c17440a885c6b1c0987",
+  "started_epoch": 1794727646.6209517,
+  "status": "All60 committed to this single frozen confirmation; do not retune or call untouched",
+  "clips": [
+    {
+      "language": "bn",
+      "id": 1864,
+      "audio_sha256": "a9f8cec82177c733bd4a386b75b85a1f0186c01bb1d8ff092992fc3c88350186",
+      "corpus": {
+        "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dense-script-confirmation-corpus-20261114-r1\\bn-40-r1\\corpus.json",
+        "sha256": "16807b9c65d772af4773147c17968cf37669441e123310a5f1bd6dde90143977"
+      }
+    },
+    {
+      "language": "bn",
+      "id": 1807,
+      "audio_sha256": "7d5b8927651acc1247bbd4e0af45d957bd90d308da4f9b7e9d663fe7ca8dc959",
+      "corpus": {
+        "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dense-script-confirmation-corpus-20261114-r1\\bn-40-r1\\corpus.json",
+        "sha256": "16807b9c65d772af4773147c17968cf37669441e123310a5f1bd6dde90143977"
+      }
+    },
+    {
+      "language": "bn",
+      "id": 1931,
+      "audio_sha256": "ed8a007b9308aa3d8b76056bc477699fea087df632778f927fe1550125fea24f",
+      "corpus": {
+        "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dense-script-confirmation-corpus-20261114-r1\\bn-40-r1\\corpus.json",
+        "sha256": "16807b9c65d772af4773147c17968cf37669441e123310a5f1bd6dde90143977"
+      }
+    },
+    {
+      "language": "bn",
+      "id": 1887,
+      "audio_sha256": "8a8fe9dda867c420a6632d4f9044609b5187aee96b8a08d730df3991f46ff332",
+      "corpus": {
+        "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dense-script-confirmation-corpus-20261114-r1\\bn-40-r1\\corpus.json",
+        "sha256": "16807b9c65d772af4773147c17968cf37669441e123310a5f1bd6dde90143977"
+      }
+    },
+    {
+      "language": "bn",
+      "id": 1929,
+      "audio_sha256": "2ac33a0e3755f15527ad548ea41d1f0232c73159fc767203f60c14f9afe8b150",
+      "corpus": {
+        "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dense-script-confirmation-corpus-20261114-r1\\bn-40-r1\\corpus.json",
+        "sha256": "16807b9c65d772af4773147c17968cf37669441e123310a5f1bd6dde90143977"
+      }
+    },
+    {
+      "language": "bn",
+      "id": 1937,
+      "audio_sha256": "b0a3f740c67699f2d608314ccd9ff787c421286060ff57c01f58e4753edecf1b",
+      "corpus": {
+        "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dense-script-confirmation-corpus-20261114-r1\\bn-40-r1\\corpus.json",
+        "sha256": "16807b9c65d772af4773147c17968cf37669441e123310a5f1bd6dde90143977"
+      }
+    },
+    {
+      "language": "bn",
+      "id": 1966,
+      "audio_sha256": "42d0e5c5142094251cbf45e2ea2297d664fe33c6a0f4511a95fec63ce6293b44",
+      "corpus": {
+        "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dense-script-confirmation-corpus-20261114-r1\\bn-40-r1\\corpus.json",
+        "sha256": "16807b9c65d772af4773147c17968cf37669441e123310a5f1bd6dde90143977"
+      }
+    },
+    {
+      "language": "bn",
+      "id": 1935,
+      "audio_sha256": "ccbe052294a531ed46507d86df31ccadefcd0c12a3bab493bd1b3502dbb38b1a",
+      "corpus": {
+        "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dense-script-confirmation-corpus-20261114-r1\\bn-40-r1\\corpus.json",
+        "sha256": "16807b9c65d772af4773147c17968cf37669441e123310a5f1bd6dde90143977"
+      }
+    },
+    {
+      "language": "bn",
+      "id": 1914,
+      "audio_sha256": "b9019ff745ed8a08fe4ef261cefa83e5e8417a0b35e9cc4d1c00160bb4520d27",
+      "corpus": {
+        "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dense-script-confirmation-corpus-20261114-r1\\bn-40-r1\\corpus.json",
+        "sha256": "16807b9c65d772af4773147c17968cf37669441e123310a5f1bd6dde90143977"
+      }
+    },
+    {
+      "language": "bn",
+      "id": 1968,
+      "audio_sha256": "b0d5032648131335322c3483fb5cc9bc0bb58124555feeeffcf7cdf4cc49d5da",
+      "corpus": {
+        "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dense-script-confirmation-corpus-20261114-r1\\bn-40-r1\\corpus.json",
+        "sha256": "16807b9c65d772af4773147c17968cf37669441e123310a5f1bd6dde90143977"
+      }
+    },
+    {
+      "language": "bn",
+      "id": 1947,
+      "audio_sha256": "b1a795b4faaa8bc5a841c787a3a8710869f15e623776948f29e9544661511b7d",
+      "corpus": {
+        "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dense-script-confirmation-corpus-20261114-r1\\bn-40-r1\\corpus.json",
+        "sha256": "16807b9c65d772af4773147c17968cf37669441e123310a5f1bd6dde90143977"
+      }
+    },
+    {
+      "language": "bn",
+      "id": 1770,
+      "audio_sha256": "cc727ac884189f28cc069fc49d82a90f88cc001adf2482b9cc151b6e5aec0892",
+      "corpus": {
+        "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dense-script-confirmation-corpus-20261114-r1\\bn-40-r1\\corpus.json",
+        "sha256": "16807b9c65d772af4773147c17968cf37669441e123310a5f1bd6dde90143977"
+      }
+    },
+    {
+      "language": "bn",
+      "id": 1843,
+      "audio_sha256": "63302172fa98366054f8683fae6d9ae97b5cdc69e8f2b2e54e19fc5f068f06d7",
+      "corpus": {
+        "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dense-script-confirmation-corpus-20261114-r1\\bn-40-r1\\corpus.json",
+        "sha256": "16807b9c65d772af4773147c17968cf37669441e123310a5f1bd6dde90143977"
+      }
+    },
+    {
+      "language": "bn",
+      "id": 1771,
+      "audio_sha256": "37ef4f9a533e1a38ab02c121e3e5543b26f9ba81bf8e83f2070611b97dec8a1a",
+      "corpus": {
+        "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dense-script-confirmation-corpus-20261114-r1\\bn-40-r1\\corpus.json",
+        "sha256": "16807b9c65d772af4773147c17968cf37669441e123310a5f1bd6dde90143977"
+      }
+    },
+    {
+      "language": "bn",
+      "id": 1810,
+      "audio_sha256": "961635696cc6ff965f05a1c865b669b64e17960df5e9b5566be20002475afde2",
+      "corpus": {
+        "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dense-script-confirmation-corpus-20261114-r1\\bn-40-r1\\corpus.json",
+        "sha256": "16807b9c65d772af4773147c17968cf37669441e123310a5f1bd6dde90143977"
+      }
+    },
+    {
+      "language": "bn",
+      "id": 1908,
+      "audio_sha256": "3e2579699e46a2a1c389abb3cf2cd34b0e679b1ef476c0ddaa63fafc24a6ceda",
+      "corpus": {
+        "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dense-script-confirmation-corpus-20261114-r1\\bn-40-r1\\corpus.json",
+        "sha256": "16807b9c65d772af4773147c17968cf37669441e123310a5f1bd6dde90143977"
+      }
+    },
+    {
+      "language": "bn",
+      "id": 1997,
+      "audio_sha256": "5e13f3b174b280df06eecbaffeff91b0e8b8f1b9f4654e9cb1b6576ac5b075db",
+      "corpus": {
+        "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dense-script-confirmation-corpus-20261114-r1\\bn-40-r1\\corpus.json",
+        "sha256": "16807b9c65d772af4773147c17968cf37669441e123310a5f1bd6dde90143977"
+      }
+    },
+    {
+      "language": "bn",
+      "id": 1980,
+      "audio_sha256": "c6f2ea985b9d5fa9486de9c525788883121d52f9a1b1f5ae90b445ab4c8455b9",
+      "corpus": {
+        "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dense-script-confirmation-corpus-20261114-r1\\bn-40-r1\\corpus.json",
+        "sha256": "16807b9c65d772af4773147c17968cf37669441e123310a5f1bd6dde90143977"
+      }
+    },
+    {
+      "language": "bn",
+      "id": 1713,
+      "audio_sha256": "394e2c9c8b4f1e5755d46eb186d688a014d04f7a4078ae9c6bc6b122a5186ac0",
+      "corpus": {
+        "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dense-script-confirmation-corpus-20261114-r1\\bn-40-r1\\corpus.json",
+        "sha256": "16807b9c65d772af4773147c17968cf37669441e123310a5f1bd6dde90143977"
+      }
+    },
+    {
+      "language": "bn",
+      "id": 1662,
+      "audio_sha256": "8ee152fd382ce91ff327f4511bf8c0b4ac98ec44914b0c372461584296daf572",
+      "corpus": {
+        "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dense-script-confirmation-corpus-20261114-r1\\bn-40-r1\\corpus.json",
+        "sha256": "16807b9c65d772af4773147c17968cf37669441e123310a5f1bd6dde90143977"
+      }
+    },
+    {
+      "language": "ta",
+      "id": 1883,
+      "audio_sha256": "e9d91505a681e5ff28305d590a323da348d86f536778b6681fa15ed46dc307ba",
+      "corpus": {
+        "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dense-script-confirmation-corpus-20261114-r1\\ta-40-r1\\corpus.json",
+        "sha256": "fe1606b3f3b5c46796c7806b6d5c2df9af1cf3e6f7b1202922d9870fa1ef4af0"
+      }
+    },
+    {
+      "language": "ta",
+      "id": 1878,
+      "audio_sha256": "e4a0853034db35072487bc9ab5f218523c7f4b4efda683f68ec42ecd45a90fa3",
+      "corpus": {
+        "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dense-script-confirmation-corpus-20261114-r1\\ta-40-r1\\corpus.json",
+        "sha256": "fe1606b3f3b5c46796c7806b6d5c2df9af1cf3e6f7b1202922d9870fa1ef4af0"
+      }
+    },
+    {
+      "language": "ta",
+      "id": 1911,
+      "audio_sha256": "902c19faf847deb4f93b98051be400d975a6622bd094db11a3b705dd10392b87",
+      "corpus": {
+        "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dense-script-confirmation-corpus-20261114-r1\\ta-40-r1\\corpus.json",
+        "sha256": "fe1606b3f3b5c46796c7806b6d5c2df9af1cf3e6f7b1202922d9870fa1ef4af0"
+      }
+    },
+    {
+      "language": "ta",
+      "id": 1805,
+      "audio_sha256": "bf76d6b8aaa263d85be7e4f919d90ebaa971b64304eefb41a8139a6b34c38d61",
+      "corpus": {
+        "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dense-script-confirmation-corpus-20261114-r1\\ta-40-r1\\corpus.json",
+        "sha256": "fe1606b3f3b5c46796c7806b6d5c2df9af1cf3e6f7b1202922d9870fa1ef4af0"
+      }
+    },
+    {
+      "language": "ta",
+      "id": 1715,
+      "audio_sha256": "5cdcaf318dcfede473b49cbbb92d294860b76ddf918a8b848473a4502b775985",
+      "corpus": {
+        "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dense-script-confirmation-corpus-20261114-r1\\ta-40-r1\\corpus.json",
+        "sha256": "fe1606b3f3b5c46796c7806b6d5c2df9af1cf3e6f7b1202922d9870fa1ef4af0"
+      }
+    },
+    {
+      "language": "ta",
+      "id": 1761,
+      "audio_sha256": "eb109f51a9305d64bb74873d87f717cdfde3f73ad51b5e9d24a5fa97165d70f1",
+      "corpus": {
+        "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dense-script-confirmation-corpus-20261114-r1\\ta-40-r1\\corpus.json",
+        "sha256": "fe1606b3f3b5c46796c7806b6d5c2df9af1cf3e6f7b1202922d9870fa1ef4af0"
+      }
+    },
+    {
+      "language": "ta",
+      "id": 1868,
+      "audio_sha256": "f79cec18425791143ed757b7fb957d2e1aaccc7366b3d02a76d70551530dc9f7",
+      "corpus": {
+        "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dense-script-confirmation-corpus-20261114-r1\\ta-40-r1\\corpus.json",
+        "sha256": "fe1606b3f3b5c46796c7806b6d5c2df9af1cf3e6f7b1202922d9870fa1ef4af0"
+      }
+    },
+    {
+      "language": "ta",
+      "id": 1876,
+      "audio_sha256": "870810b3b95deff1ab52a3d56a825716c8a9ad5e4d28a83c3521f2e615b9f76d",
+      "corpus": {
+        "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dense-script-confirmation-corpus-20261114-r1\\ta-40-r1\\corpus.json",
+        "sha256": "fe1606b3f3b5c46796c7806b6d5c2df9af1cf3e6f7b1202922d9870fa1ef4af0"
+      }
+    },
+    {
+      "language": "ta",
+      "id": 1675,
+      "audio_sha256": "22e426ce586b835ce3001a7ca1e69a4ccce3901eff47b2a9fc9f6f07f34550fc",
+      "corpus": {
+        "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dense-script-confirmation-corpus-20261114-r1\\ta-40-r1\\corpus.json",
+        "sha256": "fe1606b3f3b5c46796c7806b6d5c2df9af1cf3e6f7b1202922d9870fa1ef4af0"
+      }
+    },
+    {
+      "language": "ta",
+      "id": 1705,
+      "audio_sha256": "7731ff579b5282afcac14fbac4c8bdce9a2d9346c6cf0f3d4ff9b4a08151dcd3",
+      "corpus": {
+        "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dense-script-confirmation-corpus-20261114-r1\\ta-40-r1\\corpus.json",
+        "sha256": "fe1606b3f3b5c46796c7806b6d5c2df9af1cf3e6f7b1202922d9870fa1ef4af0"
+      }
+    },
+    {
+      "language": "ta",
+      "id": 1851,
+      "audio_sha256": "daf1e654a7c275d2294b9a1913073492561f94363dbd535be652534637c560e1",
+      "corpus": {
+        "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dense-script-confirmation-corpus-20261114-r1\\ta-40-r1\\corpus.json",
+        "sha256": "fe1606b3f3b5c46796c7806b6d5c2df9af1cf3e6f7b1202922d9870fa1ef4af0"
+      }
+    },
+    {
+      "language": "ta",
+      "id": 1910,
+      "audio_sha256": "3378da34f8958c209599a283858facbc503e8739fb5afbcd9de247476581b5dc",
+      "corpus": {
+        "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dense-script-confirmation-corpus-20261114-r1\\ta-40-r1\\corpus.json",
+        "sha256": "fe1606b3f3b5c46796c7806b6d5c2df9af1cf3e6f7b1202922d9870fa1ef4af0"
+      }
+    },
+    {
+      "language": "ta",
+      "id": 1810,
+      "audio_sha256": "0198a29394d22b98db5691d506c4e06a443e13fc97d0827c9d80c7de932d51bb",
+      "corpus": {
+        "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dense-script-confirmation-corpus-20261114-r1\\ta-40-r1\\corpus.json",
+        "sha256": "fe1606b3f3b5c46796c7806b6d5c2df9af1cf3e6f7b1202922d9870fa1ef4af0"
+      }
+    },
+    {
+      "language": "ta",
+      "id": 1793,
+      "audio_sha256": "08ab10c08a0f150b4c3d22041b2e3ca609513b415d11dd46894f88717517b95d",
+      "corpus": {
+        "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dense-script-confirmation-corpus-20261114-r1\\ta-40-r1\\corpus.json",
+        "sha256": "fe1606b3f3b5c46796c7806b6d5c2df9af1cf3e6f7b1202922d9870fa1ef4af0"
+      }
+    },
+    {
+      "language": "ta",
+      "id": 1781,
+      "audio_sha256": "59a4cb61fc50d0f9afaa64c86039ccf10cc8da9db874633e4403b0ee8b1dec52",
+      "corpus": {
+        "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dense-script-confirmation-corpus-20261114-r1\\ta-40-r1\\corpus.json",
+        "sha256": "fe1606b3f3b5c46796c7806b6d5c2df9af1cf3e6f7b1202922d9870fa1ef4af0"
+      }
+    },
+    {
+      "language": "ta",
+      "id": 1751,
+      "audio_sha256": "7e4d8b929536cf73c1aeeee6a130d254f343a5e974641bcdc195833dbdae15b4",
+      "corpus": {
+        "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dense-script-confirmation-corpus-20261114-r1\\ta-40-r1\\corpus.json",
+        "sha256": "fe1606b3f3b5c46796c7806b6d5c2df9af1cf3e6f7b1202922d9870fa1ef4af0"
+      }
+    },
+    {
+      "language": "ta",
+      "id": 1702,
+      "audio_sha256": "7870d720acc4c81622e5c9041dc9b2d1d351463cdfc6cf977cd14cf802fb0609",
+      "corpus": {
+        "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dense-script-confirmation-corpus-20261114-r1\\ta-40-r1\\corpus.json",
+        "sha256": "fe1606b3f3b5c46796c7806b6d5c2df9af1cf3e6f7b1202922d9870fa1ef4af0"
+      }
+    },
+    {
+      "language": "ta",
+      "id": 1708,
+      "audio_sha256": "2ada3171888fe770fcabc656d9ebb2c1a2115a9c40cf6f21a3b96d29956ece4a",
+      "corpus": {
+        "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dense-script-confirmation-corpus-20261114-r1\\ta-40-r1\\corpus.json",
+        "sha256": "fe1606b3f3b5c46796c7806b6d5c2df9af1cf3e6f7b1202922d9870fa1ef4af0"
+      }
+    },
+    {
+      "language": "ta",
+      "id": 1951,
+      "audio_sha256": "7a3d5709b94b1be443f99e6dab87a9312ca8bf6b3ef7ae277dc20710dd527bd0",
+      "corpus": {
+        "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dense-script-confirmation-corpus-20261114-r1\\ta-40-r1\\corpus.json",
+        "sha256": "fe1606b3f3b5c46796c7806b6d5c2df9af1cf3e6f7b1202922d9870fa1ef4af0"
+      }
+    },
+    {
+      "language": "ta",
+      "id": 1928,
+      "audio_sha256": "0affeed68ee1d1ef27c1f42470259a2e6fa16b91e93f80688898c0997bdcd9a2",
+      "corpus": {
+        "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dense-script-confirmation-corpus-20261114-r1\\ta-40-r1\\corpus.json",
+        "sha256": "fe1606b3f3b5c46796c7806b6d5c2df9af1cf3e6f7b1202922d9870fa1ef4af0"
+      }
+    },
+    {
+      "language": "te",
+      "id": 1874,
+      "audio_sha256": "a7c43bcb13b71196081cf7bc8607b3005f31981bdd49f5c59dd05ef4eefe4374",
+      "corpus": {
+        "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dense-script-confirmation-corpus-20261114-r1\\te-40-r1\\corpus.json",
+        "sha256": "6aaf468dfcda5ffd725b940a2213bcafa0aa01c11ec150592953181faeb32b19"
+      }
+    },
+    {
+      "language": "te",
+      "id": 1816,
+      "audio_sha256": "e18d1ccafd217fa1da81855700addbbaeeb2f1e3fc7811f9937b3186dca8513b",
+      "corpus": {
+        "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dense-script-confirmation-corpus-20261114-r1\\te-40-r1\\corpus.json",
+        "sha256": "6aaf468dfcda5ffd725b940a2213bcafa0aa01c11ec150592953181faeb32b19"
+      }
+    },
+    {
+      "language": "te",
+      "id": 1709,
+      "audio_sha256": "fb9cbcb74498223a742859d0e1949faa4b5a929abd47dbd2461b3560a3dfddf2",
+      "corpus": {
+        "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dense-script-confirmation-corpus-20261114-r1\\te-40-r1\\corpus.json",
+        "sha256": "6aaf468dfcda5ffd725b940a2213bcafa0aa01c11ec150592953181faeb32b19"
+      }
+    },
+    {
+      "language": "te",
+      "id": 1871,
+      "audio_sha256": "4f1cec94805c46937cb7429328032202796dbe658b306dd64339a9b075067a3e",
+      "corpus": {
+        "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dense-script-confirmation-corpus-20261114-r1\\te-40-r1\\corpus.json",
+        "sha256": "6aaf468dfcda5ffd725b940a2213bcafa0aa01c11ec150592953181faeb32b19"
+      }
+    },
+    {
+      "language": "te",
+      "id": 1770,
+      "audio_sha256": "a27d6d225446558f0927095d4997f5b1c6482813147f7bdc99054c709650a0cc",
+      "corpus": {
+        "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dense-script-confirmation-corpus-20261114-r1\\te-40-r1\\corpus.json",
+        "sha256": "6aaf468dfcda5ffd725b940a2213bcafa0aa01c11ec150592953181faeb32b19"
+      }
+    },
+    {
+      "language": "te",
+      "id": 1783,
+      "audio_sha256": "eea9b7eda04457ee84c7335b96d0a1a88c778e248d8b0b1e99f8b792da74f05b",
+      "corpus": {
+        "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dense-script-confirmation-corpus-20261114-r1\\te-40-r1\\corpus.json",
+        "sha256": "6aaf468dfcda5ffd725b940a2213bcafa0aa01c11ec150592953181faeb32b19"
+      }
+    },
+    {
+      "language": "te",
+      "id": 1786,
+      "audio_sha256": "37807e85df68a7c5b0085e128c76446bf3c0366b67c12c185a2ce755bed6dcfc",
+      "corpus": {
+        "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dense-script-confirmation-corpus-20261114-r1\\te-40-r1\\corpus.json",
+        "sha256": "6aaf468dfcda5ffd725b940a2213bcafa0aa01c11ec150592953181faeb32b19"
+      }
+    },
+    {
+      "language": "te",
+      "id": 1774,
+      "audio_sha256": "06751e37d978dbcb168123ece016518bab4cc52eb0e3accfabd67fbd19ed1943",
+      "corpus": {
+        "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dense-script-confirmation-corpus-20261114-r1\\te-40-r1\\corpus.json",
+        "sha256": "6aaf468dfcda5ffd725b940a2213bcafa0aa01c11ec150592953181faeb32b19"
+      }
+    },
+    {
+      "language": "te",
+      "id": 1702,
+      "audio_sha256": "25d9f3bc17d0cfb38ac9f957548e4687a1c595ce514a28ea6adfc3ef5f8ab02f",
+      "corpus": {
+        "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dense-script-confirmation-corpus-20261114-r1\\te-40-r1\\corpus.json",
+        "sha256": "6aaf468dfcda5ffd725b940a2213bcafa0aa01c11ec150592953181faeb32b19"
+      }
+    },
+    {
+      "language": "te",
+      "id": 1748,
+      "audio_sha256": "fd7ead920c1d68ff8be042391a0930c323439217157e0792b72dd626a01976db",
+      "corpus": {
+        "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dense-script-confirmation-corpus-20261114-r1\\te-40-r1\\corpus.json",
+        "sha256": "6aaf468dfcda5ffd725b940a2213bcafa0aa01c11ec150592953181faeb32b19"
+      }
+    },
+    {
+      "language": "te",
+      "id": 1696,
+      "audio_sha256": "e81d907e31151958fef71a68514b03104bec040c87ac3b6d56c7f58f805d6cf2",
+      "corpus": {
+        "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dense-script-confirmation-corpus-20261114-r1\\te-40-r1\\corpus.json",
+        "sha256": "6aaf468dfcda5ffd725b940a2213bcafa0aa01c11ec150592953181faeb32b19"
+      }
+    },
+    {
+      "language": "te",
+      "id": 1845,
+      "audio_sha256": "2399a6a8ae3a33a93926a75e4e893bb13f80e45d25d40729dd2c46365043153c",
+      "corpus": {
+        "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dense-script-confirmation-corpus-20261114-r1\\te-40-r1\\corpus.json",
+        "sha256": "6aaf468dfcda5ffd725b940a2213bcafa0aa01c11ec150592953181faeb32b19"
+      }
+    },
+    {
+      "language": "te",
+      "id": 1757,
+      "audio_sha256": "7a9ba66b90c7e40fb76681c28196828ed1f066944382197b903b29b5e3552eeb",
+      "corpus": {
+        "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dense-script-confirmation-corpus-20261114-r1\\te-40-r1\\corpus.json",
+        "sha256": "6aaf468dfcda5ffd725b940a2213bcafa0aa01c11ec150592953181faeb32b19"
+      }
+    },
+    {
+      "language": "te",
+      "id": 1710,
+      "audio_sha256": "c1ad3436a74b0f93bc373c818a175ad48025025c8df23af0c649190c766505d6",
+      "corpus": {
+        "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dense-script-confirmation-corpus-20261114-r1\\te-40-r1\\corpus.json",
+        "sha256": "6aaf468dfcda5ffd725b940a2213bcafa0aa01c11ec150592953181faeb32b19"
+      }
+    },
+    {
+      "language": "te",
+      "id": 1867,
+      "audio_sha256": "8cc1e6561511ec5eab2ffc788f460f90c8156a73f2ffec92a9079f1be00f9759",
+      "corpus": {
+        "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dense-script-confirmation-corpus-20261114-r1\\te-40-r1\\corpus.json",
+        "sha256": "6aaf468dfcda5ffd725b940a2213bcafa0aa01c11ec150592953181faeb32b19"
+      }
+    },
+    {
+      "language": "te",
+      "id": 1752,
+      "audio_sha256": "5b0ed7acf14ae851d4b3ae4e728de4177b5d11cad0572a18adba94ecb8431040",
+      "corpus": {
+        "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dense-script-confirmation-corpus-20261114-r1\\te-40-r1\\corpus.json",
+        "sha256": "6aaf468dfcda5ffd725b940a2213bcafa0aa01c11ec150592953181faeb32b19"
+      }
+    },
+    {
+      "language": "te",
+      "id": 1807,
+      "audio_sha256": "f48ec7835d7a289541885abfee730d3836fdabe50d8066880bdc786a11481492",
+      "corpus": {
+        "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dense-script-confirmation-corpus-20261114-r1\\te-40-r1\\corpus.json",
+        "sha256": "6aaf468dfcda5ffd725b940a2213bcafa0aa01c11ec150592953181faeb32b19"
+      }
+    },
+    {
+      "language": "te",
+      "id": 2009,
+      "audio_sha256": "40333ccd0973a59e7c1516b89fd84121dd3e265417d907887041b51ff5581082",
+      "corpus": {
+        "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dense-script-confirmation-corpus-20261114-r1\\te-40-r1\\corpus.json",
+        "sha256": "6aaf468dfcda5ffd725b940a2213bcafa0aa01c11ec150592953181faeb32b19"
+      }
+    },
+    {
+      "language": "te",
+      "id": 1937,
+      "audio_sha256": "e415192b6792243a66f6d1becf59fd08da485acf1a84856ef73db15984c3fac1",
+      "corpus": {
+        "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dense-script-confirmation-corpus-20261114-r1\\te-40-r1\\corpus.json",
+        "sha256": "6aaf468dfcda5ffd725b940a2213bcafa0aa01c11ec150592953181faeb32b19"
+      }
+    },
+    {
+      "language": "te",
+      "id": 1820,
+      "audio_sha256": "59626483a86b7d50829294444a800d6bf63f7919e3bf68ddc8d7c4f5754757e8",
+      "corpus": {
+        "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\dense-script-confirmation-corpus-20261114-r1\\te-40-r1\\corpus.json",
+        "sha256": "6aaf468dfcda5ffd725b940a2213bcafa0aa01c11ec150592953181faeb32b19"
+      }
+    }
+  ],
+  "observed_cases_at_registration": 0
+}

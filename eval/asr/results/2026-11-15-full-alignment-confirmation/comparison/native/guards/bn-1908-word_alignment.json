@@ -1,0 +1,40 @@
+{
+  "pid": 37272,
+  "blocked_attempts": [],
+  "reviewed_dependency_dlls": [
+    {
+      "caller": "ctypes",
+      "dll": "kernel32"
+    },
+    {
+      "caller": "filelock._windows",
+      "dll": "ntdll"
+    },
+    {
+      "caller": "filelock._windows",
+      "dll": "kernel32"
+    },
+    {
+      "caller": "filelock._windows",
+      "dll": "advapi32"
+    },
+    {
+      "caller": "filelock._identity",
+      "dll": "kernel32"
+    },
+    {
+      "caller": "truststore._windows",
+      "dll": "crypt32.dll"
+    },
+    {
+      "caller": "truststore._windows",
+      "dll": "kernel32.dll"
+    }
+  ],
+  "real_audio_sdk_imported": false,
+  "owner_profile_used": false,
+  "owner_clipboard_used": false,
+  "owner_native_input_used": false,
+  "device_enumeration": false,
+  "microphone_used": false
+}

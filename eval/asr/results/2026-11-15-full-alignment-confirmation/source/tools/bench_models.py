@@ -1,0 +1,116 @@
+"""Benchmark verified Parakeet models offline; optionally score a local reference corpus.
+
+Corpus JSON: {"clips": [{"audio": "relative.wav", "text": "Reference", "language": "en"}]}.
+Reports contain transcripts. Keep owner corpora and reports outside version control.
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+import os
+import platform
+import time
+import unicodedata
+from datetime import datetime, timezone
+from pathlib import Path
+
+import soundfile as sf
+
+from saydraft.asr.sherpa_parakeet import DEFAULT_MODEL, ENGLISH_MODEL, ParakeetConfig, ParakeetEngine
+from saydraft.models.manifest import get_model
+from saydraft.privacy.netguard import NetworkGuard
+
+
+def normalized(text):
+    # Retain combining marks (including Bengali/Arabic vowels); strip punctuation
+    # and symbols consistently rather than using ASCII-only word matching.
+    text = unicodedata.normalize("NFKC", text).casefold()
+    return " ".join("".join(" " if unicodedata.category(char)[0] in "PS" else char
+                            for char in text).split())
+
+
+def distance(reference, hypothesis):
+    row = list(range(len(hypothesis) + 1))
+    for i, expected in enumerate(reference, 1):
+        next_row = [i]
+        for j, actual in enumerate(hypothesis, 1):
+            next_row.append(min(next_row[-1] + 1, row[j] + 1, row[j - 1] + (expected != actual)))
+        row = next_row
+    return row[-1]
+
+
+def score(reference, hypothesis):
+    expected, actual = normalized(reference), normalized(hypothesis)
+    words = expected.split()
+    chars = expected.replace(" ", "")
+    return {"word_errors": distance(words, actual.split()), "reference_words": len(words),
+            "character_errors": distance(chars, actual.replace(" ", "")), "reference_characters": len(chars)}
+
+
+def main(argv=None):
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--model", choices=(DEFAULT_MODEL, ENGLISH_MODEL), default=DEFAULT_MODEL)
+    parser.add_argument("--model-dir", type=Path, required=True)
+    parser.add_argument("--corpus", type=Path)
+    parser.add_argument("--iterations", type=int, default=5)
+    parser.add_argument("--threads", type=int, default=min(4, os.cpu_count() or 1))
+    parser.add_argument("--output", type=Path, required=True)
+    args = parser.parse_args(argv)
+    if args.output.exists() or args.iterations < 1 or args.threads < 1:
+        parser.error("choose a new output file and positive iteration/thread counts")
+    if args.corpus:
+        clips = json.loads(args.corpus.read_text(encoding="utf-8"))["clips"]
+        base = args.corpus.resolve().parent
+        if not clips or any(not normalized(clip.get("text", "")) for clip in clips):
+            parser.error("reference corpus must contain nonempty transcripts")
+    else:
+        base = Path(__file__).resolve().parents[1] / "tests" / "fixtures"
+        clips = [{"audio": "hello.wav", "language": "en"}]
+    NetworkGuard.install()
+    try:
+        engine = ParakeetEngine(ParakeetConfig(model_id=args.model, threads=args.threads),
+                                model_dir=args.model_dir)
+        started = time.perf_counter()
+        engine.prepare()
+        prepare_seconds = time.perf_counter() - started
+        rows = []
+        for clip in clips:
+            audio, rate = sf.read(base / clip["audio"], dtype="float32")
+            if rate != 16000:
+                raise ValueError("Evaluation clips must be mono/stereo 16 kHz WAV files")
+            seconds = []
+            texts = []
+            for _ in range(args.iterations):
+                started = time.perf_counter()
+                texts.append(engine.transcribe(audio))
+                seconds.append(time.perf_counter() - started)
+            row = {"audio": clip["audio"], "language": clip.get("language", "unknown"),
+                   "audio_seconds": len(audio) / rate, "text": texts[0],
+                   "stable_output": len(set(texts)) == 1, "transcribe_seconds": seconds}
+            if "text" in clip:
+                row["scores"] = score(clip["text"], texts[0])
+            rows.append(row)
+        totals = {key: sum(row.get("scores", {}).get(key, 0) for row in rows) for key in (
+            "word_errors", "reference_words", "character_errors", "reference_characters")}
+        report = {"measured_at": datetime.now(timezone.utc).isoformat(), "platform": platform.platform(),
+                  "processor": platform.processor(), "logical_cpus": os.cpu_count(), "threads": args.threads,
+                  "model": args.model, "revision": get_model(args.model)["revision"],
+                  "cold_process_prepare_seconds": prepare_seconds, "cold_load_target_seconds": 3,
+                  "cold_load_target_met": prepare_seconds <= 3, "offline": True,
+                  "scope": "reference_corpus" if args.corpus else "smoke_fixture_only",
+                  "clips": rows, "scores": totals if args.corpus else None,
+                  "wer": totals["word_errors"] / max(1, totals["reference_words"]) if args.corpus else None,
+                  "cer": totals["character_errors"] / max(1, totals["reference_characters"]) if args.corpus else None}
+        args.output.parent.mkdir(parents=True, exist_ok=True)
+        with args.output.open("x", encoding="utf-8") as output:
+            json.dump(report, output, ensure_ascii=False, indent=2)
+        print(json.dumps({key: report[key] for key in (
+            "model", "scope", "cold_process_prepare_seconds", "cold_load_target_met", "wer", "cer")}))
+    finally:
+        NetworkGuard.uninstall()
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

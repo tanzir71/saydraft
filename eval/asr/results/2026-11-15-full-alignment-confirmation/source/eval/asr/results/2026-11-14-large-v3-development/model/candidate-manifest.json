@@ -1,0 +1,52 @@
+{
+  "id": "whisper-large-v3-quality-spike",
+  "revision": "edaa852ec7e145841d8ffdb056a99866b5f0a478",
+  "scope": "QA candidate only; not registered or offered in app; no default or quality acceptance.",
+  "download_hosts": [
+    "huggingface.co",
+    "us.aws.cdn.hf.co"
+  ],
+  "files": [
+    {
+      "path": "model.bin",
+      "url": "https://huggingface.co/Systran/faster-whisper-large-v3/resolve/edaa852ec7e145841d8ffdb056a99866b5f0a478/model.bin",
+      "size": 3087284237,
+      "sha256": "69f74147e3334731bc3a76048724833325d2ec74642fb52620eda87352e3d4f1"
+    },
+    {
+      "path": "config.json",
+      "url": "https://huggingface.co/Systran/faster-whisper-large-v3/resolve/edaa852ec7e145841d8ffdb056a99866b5f0a478/config.json",
+      "size": 2394,
+      "sha256": "a9306624f5ec14270a014b647e5c316b6e03a662c369758d1b90697a7b0655b9"
+    },
+    {
+      "path": "preprocessor_config.json",
+      "url": "https://huggingface.co/Systran/faster-whisper-large-v3/resolve/edaa852ec7e145841d8ffdb056a99866b5f0a478/preprocessor_config.json",
+      "size": 340,
+      "sha256": "7ccc62c6f2765af1f3b46c00c9b5894426835a05021c8b9c01eecb6dfb542711"
+    },
+    {
+      "path": "tokenizer.json",
+      "url": "https://huggingface.co/Systran/faster-whisper-large-v3/resolve/edaa852ec7e145841d8ffdb056a99866b5f0a478/tokenizer.json",
+      "size": 2480617,
+      "sha256": "6d8cbd7cd0d8d5815e478dac67b85a26bbe77c1f5e0c6d76d1ce2abc0e5f21ca"
+    },
+    {
+      "path": "vocabulary.json",
+      "url": "https://huggingface.co/Systran/faster-whisper-large-v3/resolve/edaa852ec7e145841d8ffdb056a99866b5f0a478/vocabulary.json",
+      "size": 1068114,
+      "sha256": "c69260f2ab26d659b7c398f9a2b2b48ed0df16c3b47d7326782fd9cba71690c1"
+    },
+    {
+      "path": "README.md",
+      "url": "https://huggingface.co/Systran/faster-whisper-large-v3/resolve/edaa852ec7e145841d8ffdb056a99866b5f0a478/README.md",
+      "size": 2052,
+      "sha256": "39e96252229f5a3d0141dc81afb65a36fd205461ac21e5b70f2cd1248ef0082c"
+    }
+  ],
+  "license_metadata": {
+    "converted_repository": "mit",
+    "upstream_model_card": "apache-2.0",
+    "status": "Both pinned cards retained; no distribution/license claim made from conflicting metadata."
+  }
+}

@@ -1,0 +1,407 @@
+{
+  "source": {
+    "commit": "6cf5fc0ceffa456c595fc1dae966c573d48719a9",
+    "dirty": false,
+    "fingerprints": {
+      "tools/asr_accuracy.py": "95e688ba0bdbcdf474d0efa6b8f15b2ea1aef277307fc731ac4e53b997753417",
+      "tools/bench_models.py": "915727fa0ee9cfd69b366c1f742069e8b6df7c02fd30874b98b404b0531cc547",
+      "tools/fetch_asr_corpus.py": "3cf853c5afc4f9687087cc0b6a86a835db34c4916e8bcbc512f5519ca7ece964",
+      "saydraft/asr/languages.py": "fc80248ae2e9787f978cb761f0a1f0d1eba65837d33c1eab64846cf1319d9ad0",
+      "saydraft/asr/router.py": "e3f2cd5bc6dc3b1c173cdaa9dc6cd26d51040b29e3c36d19d9f6b5d04c7e3967",
+      "saydraft/asr/sherpa_parakeet.py": "7ad0d0587af9e0be7927fe25659cdb81c4d0f6684e03ae6a0e90e887363c1edd",
+      "saydraft/stt/whisper_engine.py": "0ec553f303bb116ad5a908a626c7f6a4812b96818464ffa9e30e4adf5fbc4a5b",
+      "saydraft/cleanup/styles.py": "0e486ee417cea0136ac762c7a5e9fe6db54722bb44accf182664e8a4cc541334",
+      "saydraft/cleanup/language.py": "ddd898ef5a3d19bd2bb640914a67b3f6b93c4944174baf17e79f44a8a422d9d3",
+      "saydraft/cleanup/formatter.py": "c002bb7b2372ec5e2595975c2dde55910a3f482879a1fbae49f6a834d0940b05",
+      "saydraft/dictation/pipeline.py": "40c95b9e73c60e1d42dac7817855f134dc03120c03328f3015955cf37133bd59",
+      "saydraft/dictation/rules.py": "873f82203f5ef7808d2ce114ef7411938a2d00b8d90518746067ad8da6804340",
+      "saydraft/asr/whisper_ct2.py": "cb2b075c8ce6d9acd6599746005b67c63a3ef3a09ea869f93cd41509774ff7cd",
+      "saydraft/cleanup/llm/validate.py": "55ba406a1e2bf1b941a7cb3b79105cb21c36a7771d37b782f17761c0d96ba0dd",
+      "saydraft/models/manifest.json": "7c2885ae2fb91b4ca6baa505921d215ebde774bdfe2590e60c274bf6c98b816e",
+      "tools/latency_environment.py": "5bb7649763d41107cfdbe50692025d525e276718e92fa5b082fefcffab963ccd",
+      "requirements.txt": "ef1755cc3aa1c5e5676e06d377370fbd29b85dadf132c99d1e7240b2cf8c9b8a"
+    }
+  },
+  "plan_sha256": "068670fc1d6111e463a5d81b1df09ad0874471186df78c17440a885c6b1c0987",
+  "started_epoch": 1794731213.0732944,
+  "runtime_environment": {
+    "python": "3.13.17",
+    "implementation": "cpython",
+    "cache_tag": "cpython-313",
+    "architecture": "AMD64",
+    "interpreter_sha256": "4e67d9e9a3673aa7b6219f1280d5ec3f1b6c0d5bd98ea8688c72d0cb7582d664",
+    "packages": {
+      "numpy": "2.5.4",
+      "soundfile": "0.14.0",
+      "webrtcvad-wheels": "2.0.14",
+      "faster-whisper": "1.2.1",
+      "ctranslate2": "4.9.0",
+      "sherpa-onnx": "1.13.4",
+      "sherpa-onnx-core": "1.13.4",
+      "onnxruntime": "1.32.0"
+    }
+  },
+  "model_verified_before": true,
+  "complete": true,
+  "measurement_integrity": true,
+  "cases": [
+    {
+      "language": "ta",
+      "id": 1910,
+      "arm": "word_alignment",
+      "audio_sha256": "3378da34f8958c209599a283858facbc503e8739fb5afbcd9de247476581b5dc",
+      "audio_samples": 195840,
+      "reference": "பாரிஸியர்கள் எகோசென்ட்ரிக்கான, முரட்டுத்தனமான மற்றும் திமிர்பிடித்தவர்கள் என்று பெயர்பெற்றவர்கள்.",
+      "text": "பாரிசியர்கள் எக்கோசென்டரிக்கான, முழடுக்தடமான, மற்றும் திமீர் பிடித்தவர்கள் என்று பெயர் பெற்றவர்கள்",
+      "scores": {
+        "word_errors": 7,
+        "reference_words": 7,
+        "character_errors": 10,
+        "reference_characters": 89
+      },
+      "error_type": null,
+      "seconds": 30.104593500000192,
+      "decode_calls": [
+        {
+          "max_length": 448,
+          "prompt_tokens": 3,
+          "sampling_temperature": null,
+          "sequences": [
+            [
+              50365,
+              12008,
+              5036,
+              6467,
+              4516,
+              16793,
+              4516,
+              8491,
+              6467,
+              2133,
+              15094,
+              2133,
+              50565,
+              50565,
+              12814,
+              4234,
+              2133,
+              4234,
+              18169,
+              16793,
+              16789,
+              5511,
+              2133,
+              6421,
+              6467,
+              4516,
+              4234,
+              2133,
+              4234,
+              5036,
+              5511,
+              11,
+              16504,
+              3923,
+              26853,
+              6421,
+              3923,
+              4234,
+              2133,
+              4742,
+              6421,
+              6980,
+              5036,
+              5511,
+              11,
+              16504,
+              8094,
+              2133,
+              8094,
+              3923,
+              6980,
+              2133,
+              18198,
+              4516,
+              6980,
+              20859,
+              6467,
+              2133,
+              12008,
+              4516,
+              6421,
+              4516,
+              4742,
+              2133,
+              4742,
+              36001,
+              2133,
+              15094,
+              2133,
+              50765,
+              50765,
+              17337,
+              2133,
+              8094,
+              3923,
+              12008,
+              16789,
+              8491,
+              6467,
+              2133,
+              12008,
+              16789,
+              8094,
+              2133,
+              8094,
+              36001,
+              2133,
+              15094,
+              2133,
+              50965
+            ]
+          ]
+        }
+      ],
+      "segments": [
+        {
+          "start": 2.400000000000001,
+          "end": 3.44,
+          "seek": 0,
+          "tokens": [
+            50365,
+            12008,
+            5036,
+            6467,
+            4516,
+            16793,
+            4516,
+            8491,
+            6467,
+            2133,
+            15094,
+            2133,
+            50565
+          ],
+          "text": " பாரிசியர்கள்",
+          "temperature": 0.0,
+          "words": [
+            {
+              "start": 2.400000000000001,
+              "end": 3.44,
+              "word": " பாரிசியர்கள்",
+              "probability": 0.9105456254699014
+            }
+          ]
+        },
+        {
+          "start": 4.0,
+          "end": 8.36,
+          "seek": 0,
+          "tokens": [
+            50565,
+            12814,
+            4234,
+            2133,
+            4234,
+            18169,
+            16793,
+            16789,
+            5511,
+            2133,
+            6421,
+            6467,
+            4516,
+            4234,
+            2133,
+            4234,
+            5036,
+            5511,
+            11,
+            16504,
+            3923,
+            26853,
+            6421,
+            3923,
+            4234,
+            2133,
+            4742,
+            6421,
+            6980,
+            5036,
+            5511,
+            11,
+            16504,
+            8094,
+            2133,
+            8094,
+            3923,
+            6980,
+            2133,
+            18198,
+            4516,
+            6980,
+            20859,
+            6467,
+            2133,
+            12008,
+            4516,
+            6421,
+            4516,
+            4742,
+            2133,
+            4742,
+            36001,
+            2133,
+            15094,
+            2133,
+            50765
+          ],
+          "text": " எக்கோசென்டரிக்கான, முழடுக்தடமான, மற்றும் திமீர் பிடித்தவர்கள்",
+          "temperature": 0.0,
+          "words": [
+            {
+              "start": 4.0,
+              "end": 5.24,
+              "word": " எக்கோசென்டரிக்கான,",
+              "probability": 0.8477658524232752
+            },
+            {
+              "start": 5.38,
+              "end": 6.6,
+              "word": " முழடுக்தடமான,",
+              "probability": 0.8656207546591759
+            },
+            {
+              "start": 6.62,
+              "end": 7.14,
+              "word": " மற்றும்",
+              "probability": 0.9496054393904549
+            },
+            {
+              "start": 7.14,
+              "end": 7.58,
+              "word": " திமீர்",
+              "probability": 0.8092893759409586
+            },
+            {
+              "start": 7.58,
+              "end": 8.36,
+              "word": " பிடித்தவர்கள்",
+              "probability": 0.9593525312163613
+            }
+          ]
+        },
+        {
+          "start": 8.36,
+          "end": 9.74,
+          "seek": 0,
+          "tokens": [
+            50765,
+            17337,
+            2133,
+            8094,
+            3923,
+            12008,
+            16789,
+            8491,
+            6467,
+            2133,
+            12008,
+            16789,
+            8094,
+            2133,
+            8094,
+            36001,
+            2133,
+            15094,
+            2133,
+            50965
+          ],
+          "text": " என்று பெயர் பெற்றவர்கள்",
+          "temperature": 0.0,
+          "words": [
+            {
+              "start": 8.36,
+              "end": 8.7,
+              "word": " என்று",
+              "probability": 0.9825526177883148
+            },
+            {
+              "start": 8.7,
+              "end": 9.08,
+              "word": " பெயர்",
+              "probability": 0.8396682292222977
+            },
+            {
+              "start": 9.08,
+              "end": 9.74,
+              "word": " பெற்றவர்கள்",
+              "probability": 0.8852083153194852
+            }
+          ]
+        }
+      ],
+      "actual_model_id": "whisper-large-v3-quality-spike",
+      "arm_options": {
+        "word_timestamps": true,
+        "temperature": 0.0
+      }
+    }
+  ],
+  "owner_accuracy_accepted": false,
+  "broad_language_accuracy_accepted": false,
+  "release_latency_qualified": false,
+  "fresh_process_per_case_arm": true,
+  "native_pid": 46528,
+  "network_boundary": "Python guard/local-only; native firewall not measured",
+  "actual_model_id": "whisper-large-v3-quality-spike",
+  "actual_model_directory": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\whisper-large-v3-quality-cache-20261114-r1\\model",
+  "candidate_mode": "full-large-v3-temperature0-word-alignment",
+  "seed_set_before_model": true,
+  "ended_epoch": 1794731250.7406576,
+  "source_unchanged": true,
+  "runtime_unchanged": true,
+  "plan_unchanged": true,
+  "producer_unchanged": true,
+  "corpora_verified_after": true,
+  "model_verified_after": true,
+  "journal_sha256": "19beabbde39381d50ce712dfb24080782c80cc34c9bddbdcdf7ab5d520e82b82",
+  "comparison": {
+    "languages": {
+      "bn": {
+        "control": {
+          "samples": 0
+        },
+        "word_alignment": {
+          "samples": 0
+        },
+        "passes": false
+      },
+      "ta": {
+        "control": {
+          "samples": 0
+        },
+        "word_alignment": {
+          "word_errors": 7,
+          "reference_words": 7,
+          "character_errors": 10,
+          "reference_characters": 89,
+          "samples": 1
+        },
+        "passes": false
+      },
+      "te": {
+        "control": {
+          "samples": 0
+        },
+        "word_alignment": {
+          "samples": 0
+        },
+        "passes": false
+      }
+    },
+    "complete_pairs": false,
+    "no_new_empty_or_replacement": false,
+    "confirmation_gate_met": false
+  }
+}

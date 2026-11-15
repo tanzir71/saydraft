@@ -1,0 +1,15 @@
+Traceback (most recent call last):
+  File "D:\Saydraft-Codex-QA-20261112-01a1cbc7\run_full_confirmation_20261115.py", line 24, in <module>
+    runpy.run_module(module,run_name='__main__')
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 234, in run_module
+  File "<frozen runpy>", line 88, in _run_code
+  File "D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\full-whisper-alignment-20261115\tools\confirm_whisper_alignment.py", line 202, in <module>
+    main()
+    ~~~~^^
+  File "D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\full-whisper-alignment-20261115\tools\confirm_whisper_alignment.py", line 197, in main
+    freeze(args.reserved_state, args.output)
+    ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\full-whisper-alignment-20261115\tools\confirm_whisper_alignment.py", line 150, in freeze
+    raise ValueError("Model cache changed")
+ValueError: Model cache changed

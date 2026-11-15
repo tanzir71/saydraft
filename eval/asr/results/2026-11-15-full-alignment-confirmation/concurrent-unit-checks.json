@@ -1,0 +1,61 @@
+{
+  "started_epoch": 1794730065.917734,
+  "action": "Short guarded unit checks in separate C: checkout; no model inference, builds or transfers",
+  "reason": "Frozen confirmation criteria are text/scores/completeness/source/runtime/reproducibility only. No latency/isolation gate; all timings remain diagnostic. Frozen D: source/model/audio/reference/options/seed/criteria unchanged. Native performance benchmarks remain serial.",
+  "affected_accuracy_process_ages_seconds": [
+    95
+  ],
+  "tests": [
+    "tests/test_public_worker_guard.py",
+    "tests/test_latency_matrix.py"
+  ],
+  "results_pending": false,
+  "ended_epoch": 1794730772.1707928,
+  "initial_tests": {
+    "passed": 58,
+    "seconds": 11.47,
+    "skips": 0
+  },
+  "clean_tests": {
+    "source": "dc67cccdcaca97568df2fc3b5a1472e8a14b87a6",
+    "passed": 58,
+    "seconds": 8.49,
+    "skips": 0
+  },
+  "delivery": "a58b7b4e30111f465fd34ace1b6e83465830c23a",
+  "other_light_actions": "Git source commit, 36-record stdlib verification and small authorized direct push; no competing model inference, builds or audio/model transfers. All timings remain diagnostic.",
+  "additional_ui_checks": {
+    "purpose": "Small offscreen Labs license contrast/behavior tests, no model inference/ownerIO",
+    "runs": [
+      {
+        "name": "initial-unregistered-fonts",
+        "failed": 2,
+        "seconds": 5.48
+      },
+      {
+        "name": "font-fixture-failure",
+        "passed": 4,
+        "failed": 2,
+        "seconds": 2.46
+      },
+      {
+        "name": "confirmed-before-a58b7b4",
+        "failed": 2,
+        "seconds": 3.81
+      },
+      {
+        "name": "corrected-working",
+        "passed": 6,
+        "seconds": 6.96
+      },
+      {
+        "name": "clean1cd39e3",
+        "passed": 6,
+        "seconds": 6.1
+      }
+    ],
+    "small_source_push": "666d5e8",
+    "all_timings_diagnostic_only": true,
+    "frozen_D_source_unchanged": true
+  }
+}

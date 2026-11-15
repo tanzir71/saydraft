@@ -1,12 +1,16 @@
 # Multilingual speech accuracy work
 
-Current confirmation: clean `6cf5fc0` freezes the admitted full large-v3 /
-temperature-zero / alignment candidate and all sixty previously reserved
-Bengali/Tamil/Telugu recordings. The single test is running; its exclusive
-consumption record was written before the first native case. This set is now
-committed to that confirmation and must not be called untouched for another
-tuned candidate. No complete confirmation pass or production promotion is
-claimed. Earlier uninferred statements below describe their original snapshots.
+Current confirmation: clean `6cf5fc0` completes all 120 cases on the sixty
+previously reserved public Bengali/Tamil/Telugu recordings, plus an exact control
+repeat. All 121 owned Job trees exit; independent original-input and portable
+score verification pass. **Reject the candidate:** Bengali character errors
+increase 898→899/2204, and three outputs introduce replacement characters absent
+from their controls. Tamil/Telugu improvements do not override the frozen gates.
+[Full denominators, failures and records](../eval/asr/results/2026-11-15-full-alignment-confirmation/README.md).
+All 60 public recordings are consumed; do not reuse them as untouched confirmation
+for a tuned candidate. Owner-recording acceptance remains deferred. Earlier
+uninferred statements below describe their original snapshots. No production
+model, route or decoder promotion follows.
 
 Status, 15 November 2026: language coverage, cleanup safeguards and controlled
 acquisition/scoring tests pass. The [public read-speech baseline](../eval/asr/results/2026-11-14-public-read/README.md)
