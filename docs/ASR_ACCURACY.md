@@ -1,6 +1,6 @@
 # Multilingual speech accuracy work
 
-Status, 14 November 2026: language coverage, cleanup safeguards and controlled
+Status, 15 November 2026: language coverage, cleanup safeguards and controlled
 acquisition/scoring tests pass. The [public read-speech baseline](../eval/asr/results/2026-11-14-public-read/README.md)
 is complete: four hundred unique clips across twenty languages (81.41 minutes),
 500 model cases, twenty observed zero native exits, and independently verified
@@ -17,6 +17,12 @@ and zero native exits. Both fail their frozen admission gate: default full
 large-v3 regresses Tamil/Telugu CER; temperature zero improves Tamil but still
 regresses Telugu CER. No default or decoder change is promoted. These development
 findings are not broad language acceptance.
+A [word-alignment development comparison](spikes/whisper-word-alignment.md) now
+completes eighteen paired cases plus an exact fresh-process control repeat.
+It improves Bengali but increases Tamil/Telugu word errors and Telugu character
+errors, failing the frozen gate. The retained earlier shared-worker result has
+a seed-reset confound; the corrected run initializes each arm in a fresh process.
+No production decoder change or confirmation inference follows.
 Owner-recording acceptance remains deferred. The isolated Pro latency run has
 finished and its [failed median gate is retained](LATENCY_MATRIX.md).
 

@@ -60,6 +60,7 @@ preserved. Decoder defaults and broader/owner accuracy acceptance stay unchanged
 | [Models](MODELS.md) | Pinned speech/cleanup choices, bundle sizes, licenses, and dated measurements |
 | [Speech languages](LANGUAGES.md) | Thai, Chinese, Korean, Brazilian Portuguese and other language choices, model coverage and setup |
 | [Speech accuracy work](ASR_ACCURACY.md) | Public-reference evaluation scope, language-level metrics, cleanup regressions and current evidence gaps |
+| [Whisper word-alignment experiment](spikes/whisper-word-alignment.md) | Rejected dense-script candidate, fresh-process seed control and retained native/score provenance |
 | [ASR routing](ASR_ROUTING.md) | Language pins, shared optional All languages model, retry limits |
 | [Model storage](MODEL_STORAGE.md) | Tiers, staged defaults, inventory, protected models, confirmed removal |
 | [Model packages](MODEL_PACKAGES.md) | Verified archive handling and installation |

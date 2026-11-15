@@ -10,7 +10,6 @@ from dataclasses import asdict
 import json
 from pathlib import Path
 import os
-import subprocess
 import sys
 import time
 
@@ -427,6 +426,7 @@ def run(plan_path):
     from tools.asr_accuracy import _source, digest
     from tools.latency_environment import runtime_environment
     from saydraft.models.downloader import installation_ready
+    from saydraft.cleanup.llm.windows_process import WindowsJobProcess
 
     plan_path = Path(plan_path).resolve()
     plan = read(plan_path)
@@ -505,43 +505,41 @@ def run(plan_path):
                         "timeout_reached": False,
                     }
                     process_path = output / "processes" / f"{name}.json"
-                    with (
-                        process_path.with_suffix(".stdout.txt").open(
-                            "x", encoding="utf-8"
-                        ) as stdout,
-                        process_path.with_suffix(".stderr.txt").open(
-                            "x", encoding="utf-8"
-                        ) as stderr,
-                    ):
-                        child = subprocess.Popen(
-                            command,
-                            cwd=Path(__file__).resolve().parents[1],
-                            stdout=stdout,
-                            stderr=stderr,
-                            creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0),
-                        )
-                        process["native_pid"] = child.pid
+                    with WindowsJobProcess(
+                        command,
+                        env=os.environ.copy(),
+                        cwd=Path(__file__).resolve().parents[1],
+                        capture_output=True,
+                    ) as child:
+                        process["launcher_pid"] = child.pid
                         write(process_path, process)
                         try:
-                            process["returncode"] = child.wait(timeout=180)
-                        except subprocess.TimeoutExpired:
+                            process["returncode"] = child.wait_tree(timeout=180)
+                        except TimeoutError:
                             process["timeout_reached"] = True
-                            child.kill()
-                            process["returncode"] = child.wait()
+                            child.terminate()
+                            process["returncode"] = child.wait_tree(timeout=3)
                         except BaseException:
-                            child.kill()
-                            child.wait()
+                            child.terminate()
+                            child.wait_tree(timeout=3)
                             raise
+                        process["job_tree_exit_observed"] = True
+                        process["combined_child_output"] = True
+                        process_path.with_suffix(".stdout.txt").write_bytes(
+                            child.read_output(timeout=2)
+                        )
+                        process_path.with_suffix(".stderr.txt").write_bytes(b"")
                     process.update(native_exit_observed=True, ended_epoch=time.time())
                     for suffix in [".stdout.txt", ".stderr.txt"]:
                         process[suffix] = digest(process_path.with_suffix(suffix))
-                    write(process_path, process)
-                    report["processes"].append(process)
                     case_report = (
                         read(case_output / "report.json")
                         if (case_output / "report.json").exists()
                         else {}
                     )
+                    process["native_pid"] = case_report.get("native_pid")
+                    write(process_path, process)
+                    report["processes"].append(process)
                     if process["returncode"] != 0 or not case_report.get(
                         "measurement_integrity"
                     ):

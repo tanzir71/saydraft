@@ -2,6 +2,7 @@
 
 from copy import deepcopy
 import json
+import hashlib
 from pathlib import Path
 import subprocess
 import sys
@@ -185,3 +186,141 @@ raise SystemExit(1)
     record = json.loads(receipt.read_text(encoding="utf-8"))
     assert record["blocked_attempts"] == [module]
     assert record["real_audio_sdk_imported"] is False
+
+
+def parent_plan(tmp_path, monkeypatch):
+    source = {"commit": "a" * 40, "dirty": False}
+    environment = {"public_test": True}
+    monkeypatch.setattr("tools.asr_accuracy._source", lambda: source)
+    monkeypatch.setattr(
+        "tools.latency_environment.runtime_environment", lambda: environment
+    )
+    monkeypatch.setattr(
+        "saydraft.models.downloader.installation_ready", lambda *args, **kwargs: True
+    )
+    def sha(path):
+        return hashlib.sha256(path.read_bytes()).hexdigest()
+    plan = {
+        "source": source,
+        "runtime_environment": environment,
+        "criteria": probe.CRITERIA,
+        "producer_sha256": sha(Path(probe.__file__)),
+        "child_guard_sha256": sha(
+            Path(probe.__file__).with_name("public_file_guard.py")
+        ),
+        "scope": "Already-observed development clips",
+        "clips": [
+            {"language": language, "id": identifier}
+            for language in ("bn", "ta", "te")
+            for identifier in range(3)
+        ],
+        "repeat_control_index": 5,
+        "model_descriptor": {},
+        "model_directory": str(tmp_path / "unused-model"),
+    }
+    path = tmp_path / "plan.json"
+    path.write_text(json.dumps(plan), encoding="utf-8")
+    return path, plan
+
+
+def test_parent_counts_repeat_separately_and_records_actual_and_launcher_pids(
+    tmp_path, monkeypatch
+):
+    path, plan = parent_plan(tmp_path, monkeypatch)
+    launched = []
+    fixtures = {(r["language"], r["id"], r["arm"]): r for r in paired_rows()}
+
+    class Job:
+        def __init__(self, command, **kwargs):
+            self.command = command
+            self.pid = 1000 + len(launched)
+            launched.append(self)
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *args):
+            pass
+
+        def wait_tree(self, timeout):
+            index = int(self.command[self.command.index("--index") + 1])
+            arm = self.command[self.command.index("--arm") + 1]
+            selected = plan["clips"][index]
+            row = {
+                **fixtures[selected["language"], selected["id"], arm],
+                "decode_calls": [],
+                "segments": [],
+            }
+            output = Path(self.command[self.command.index("--output") + 1])
+            output.mkdir()
+            (output / "report.json").write_text(
+                json.dumps(
+                    {
+                        "measurement_integrity": True,
+                        "native_pid": self.pid + 100,
+                        "cases": [row],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            return 0
+
+        def read_output(self, timeout):
+            return b"owned child output"
+
+    monkeypatch.setattr("saydraft.cleanup.llm.windows_process.WindowsJobProcess", Job)
+    result = probe.run(path)
+    assert (
+        result["complete"]
+        and result["measurement_integrity"]
+        and result["control_reproduced"]
+    )
+    assert (
+        len(result["cases"]) == 18 and len(result["processes"]) == len(launched) == 19
+    )
+    assert all(
+        p["native_pid"] == p["launcher_pid"] + 100 and p["job_tree_exit_observed"]
+        for p in result["processes"]
+    )
+
+
+def test_parent_timeout_terminates_and_observes_owned_tree_without_qualifying(
+    tmp_path, monkeypatch
+):
+    path, _plan = parent_plan(tmp_path, monkeypatch)
+    events = []
+
+    class Job:
+        pid = 1234
+
+        def __init__(self, *args, **kwargs):
+            pass
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *args):
+            events.append("closed")
+
+        def wait_tree(self, timeout):
+            events.append(timeout)
+            if timeout == 180:
+                raise TimeoutError("Owned case timeout")
+            return 1
+
+        def terminate(self):
+            events.append("terminate")
+
+        def read_output(self, timeout):
+            return b"timed out"
+
+    monkeypatch.setattr("saydraft.cleanup.llm.windows_process.WindowsJobProcess", Job)
+    with pytest.raises(RuntimeError, match="fresh native case failed"):
+        probe.run(path)
+    result = json.loads((tmp_path / "native/report.json").read_text(encoding="utf-8"))
+    assert not result["complete"] and not result["measurement_integrity"]
+    assert events == [180, "terminate", 3, "closed"]
+    assert (
+        result["processes"][0]["timeout_reached"]
+        and result["processes"][0]["job_tree_exit_observed"]
+    )

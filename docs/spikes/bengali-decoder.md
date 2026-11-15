@@ -86,3 +86,14 @@ every observed error or justify bypassing native context limits.
 Preserve all words and report incomplete recognition; do not strip replacement
 characters or missing-tail evidence. Full language accuracy and owner acceptance
 remain open.
+
+## Word-alignment follow-up · 15 November
+
+The [word-alignment probe](whisper-word-alignment.md) tests the supported
+word-timestamp seek path with unchanged native token limits, padding and weights.
+Nineteen fresh-process native cases include eighteen paired results and an exact
+control repeat; all original model/audio/source/score bytes verify. Bengali CER
+improves from 134/341 to 108/341, but Tamil WER worsens 28→30/37 and Telugu
+WER/CER worsens 33→37/47 and 53→56/284. The frozen gate fails; no decoder default
+changes. An earlier shared-worker seed-reset confound and the complete corrected
+result are retained separately. The sixty reserved recordings remain uninferred.
