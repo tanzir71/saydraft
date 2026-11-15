@@ -62,6 +62,7 @@ class LabsPage(QtWidgets.QWidget):
             layout.addWidget(widget)
         layout.addLayout(buttons)
         layout.addWidget(self.progress)
+        layout.addWidget(self.progress.caption)
         layout.addWidget(self.status)
         self.command = CommandSetup(config, report=self.report_loader())
         layout.addWidget(self.command)

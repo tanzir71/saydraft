@@ -29,7 +29,7 @@ def walk_visible_controls(subject):
 
 
 @pytest.mark.parametrize("mode", ["light", "dark", "high-contrast"])
-@pytest.mark.parametrize("px", [16, 32])
+@pytest.mark.parametrize("px", [14, 16, 32])
 @pytest.mark.parametrize("width", [880, 1080])
 def test_every_hub_view_reflows_and_scrolls_to_keyboard_focus(owned_hub, mode, px, width):
     subject, hub = owned_hub, owned_hub.hub
@@ -43,16 +43,17 @@ def test_every_hub_view_reflows_and_scrolls_to_keyboard_focus(owned_hub, mode, p
         assert QtGui.QFontInfo(hub.navigation.font()).pixelSize() == px
         for scroll in hub.findChildren(QtWidgets.QScrollArea):
             if scroll.isVisibleTo(hub):
-                assert scroll.horizontalScrollBar().maximum() == 0, (name, section, scroll.accessibleName())
+                assert scroll.horizontalScrollBar().maximum() == 0, (name, section, scroll.accessibleName(), scroll.viewport().width(), [(type(w).__name__, w.accessibleName(), w.minimumSizeHint().width()) for w in scroll.findChildren(QtWidgets.QWidget) if w.isVisibleTo(scroll) and w.minimumSizeHint().width() > scroll.viewport().width()-80])
         for widget in hub.findChildren(QtWidgets.QAbstractButton):
             if isinstance(widget, (WrapCheckBox, WrapPushButton)) and widget.isVisibleTo(hub):
-                assert QtGui.QFontInfo(widget.font()).pixelSize() == px, widget.text()
+                assert QtGui.QFontInfo(widget.font()).pixelSize() == (round(px * 13 / 14) if isinstance(widget, QtWidgets.QPushButton) and not widget.property("navButton") else px), widget.text()
                 assert widget.height() >= widget.heightForWidth(widget.width()), (widget.text(), widget.size())
         walk_visible_controls(subject)
 
 
 def test_history_stacks_at_large_text_and_returns_to_two_panes(owned_hub):
     subject, hub = owned_hub, owned_hub.hub
+    hub.resize(1120, 760)
     hub.show_page("History")
     for px, orientation in [(16, QtCore.Qt.Horizontal), (32, QtCore.Qt.Vertical), (16, QtCore.Qt.Horizontal)]:
         subject.theme("light", px)
@@ -76,11 +77,13 @@ def test_style_matrix_keeps_full_choices_and_last_row_above_its_scrollbar(owned_
 
 
 @pytest.mark.parametrize("mode", ["light", "dark", "high-contrast"])
-@pytest.mark.parametrize("px", [16, 32])
+@pytest.mark.parametrize("px", [14, 16, 32])
 def test_long_setup_warning_and_save_fit_without_hiding_settings(owned_hub, mode, px):
     subject, hub = owned_hub, owned_hub.hub
     subject.theme(mode, px)
     hub.show_page("Settings", tab="Microphone")
+    hub.settings_page.show_bar_checkbox.toggle()
+    hub.settings_page.draft_state.refresh()
     hub.settings_page.status_label.setText(
         "An enhancement file changed. Open Microphone to review setup, then download it again or turn enhancement off before saving.")
     for _ in range(6):

@@ -1,0 +1,172 @@
+"""UI-only layout helpers; existing page controls and their connections stay owned."""
+from PySide6 import QtCore, QtGui, QtWidgets
+import shiboken6
+from .kit import Label, Card, PageHeader, SettingsGroup, Segmented
+from .reflow import AdaptiveRow
+from .theme.style import color, scaled, role_font
+
+
+def rebuild(page, *, margins=(0, 0, 0, 0), spacing=24):
+    """Empty an old layout without destroying controls or their signal wiring."""
+    def empty(layout):
+        while layout.count():
+            item = layout.takeAt(0)
+            if item.widget():
+                item.widget().hide()
+            elif item.layout():
+                empty(item.layout())
+                shiboken6.delete(item.layout())
+    old = page.layout()
+    if old:
+        empty(old)
+        shiboken6.delete(old)
+    layout = QtWidgets.QVBoxLayout(page)
+    layout.setContentsMargins(*margins)
+    layout.setSpacing(spacing)
+    return layout
+
+
+def show(widget):
+    widget.show()
+    return widget
+
+
+def section(page, title, description=""):
+    layout = rebuild(page)
+    layout.addWidget(PageHeader(title, description))
+    return layout
+
+
+def group(layout, title, rows):
+    panel = SettingsGroup(title)
+    for label, widget, detail in rows:
+        if isinstance(widget, QtWidgets.QCheckBox):
+            # The accessible name remains on the actual checkbox, not its label.
+            widget.setAccessibleName(label)
+            widget.setText("")
+        panel.add_row(label, show(widget), detail)
+    layout.addWidget(panel)
+    return panel
+
+
+class ListItemDelegate(QtWidgets.QStyledItemDelegate):
+    """Two-line rows with native selection and focus, scaled from body type."""
+    def sizeHint(self, option, index):
+        hint = super().sizeHint(option, index)
+        hint.setHeight(max(scaled(68), QtGui.QFontMetrics(option.font).height() * 3 + 20))
+        hint.setWidth(120)
+        return hint
+
+    def paint(self, painter, option, index):
+        opt = QtWidgets.QStyleOptionViewItem(option)
+        self.initStyleOption(opt, index)
+        lines = opt.text.split("\n", 1)
+        opt.text = ""
+        style = opt.widget.style() if opt.widget else QtWidgets.QApplication.style()
+        style.drawControl(QtWidgets.QStyle.CE_ItemViewItem, opt, painter, opt.widget)
+        painter.save()
+        rect = opt.rect.adjusted(16, 10, -16, -10)
+        selected = bool(opt.state & QtWidgets.QStyle.State_Selected)
+        foreground = opt.palette.color(QtGui.QPalette.HighlightedText) if selected else color(opt.widget, "ink")
+        painter.setPen(foreground)
+        painter.setFont(role_font("body", widget=opt.widget))
+        metrics = painter.fontMetrics()
+        painter.drawText(rect, QtCore.Qt.AlignTop | QtCore.Qt.AlignLeft,
+                         metrics.elidedText(lines[0], QtCore.Qt.ElideRight, rect.width()))
+        if len(lines) > 1:
+            painter.setFont(role_font("small", widget=opt.widget))
+            painter.setPen(foreground if selected else color(opt.widget, "inkMuted"))
+            rect.setTop(rect.top() + metrics.height() + 4)
+            painter.drawText(rect, QtCore.Qt.AlignTop | QtCore.Qt.AlignLeft,
+                             painter.fontMetrics().elidedText(lines[1], QtCore.Qt.ElideRight, rect.width()))
+        painter.restore()
+
+
+def style_list(widget):
+    widget.setProperty("listPanel", True)
+    widget.setProperty("results", True)
+    widget.setItemDelegate(ListItemDelegate(widget))
+    widget.setSpacing(3)
+    widget.setTextElideMode(QtCore.Qt.ElideRight)
+    widget.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
+
+
+class SettingsNavigation(QtWidgets.QWidget):
+    """Section list turns into the existing combo at narrow or enlarged sizes."""
+    def __init__(self, settings):
+        super().__init__(settings)
+        self.settings = settings
+        layout = QtWidgets.QVBoxLayout(self)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setSpacing(12)
+        self.label = Label("SETTINGS", "label")
+        layout.addWidget(self.label)
+        self.list = QtWidgets.QListWidget()
+        self.list.setObjectName("settingsSections")
+        self.list.setProperty("sectionNav", True)
+        self.list.setAccessibleName("Settings sections")
+        self.list.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
+        self.list.setSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Expanding)
+        layout.addWidget(self.list, 1)
+        layout.addWidget(settings.section_combo)
+        self.list.currentRowChanged.connect(settings.tabs.setCurrentIndex)
+        settings.tabs.currentChanged.connect(self._select)
+        self.sync()
+
+    def sync(self):
+        blocker = QtCore.QSignalBlocker(self.list)
+        self.list.clear()
+        self.list.addItems([self.settings.tabs.tabText(i) for i in range(self.settings.tabs.count())])
+        self.list.setCurrentRow(self.settings.tabs.currentIndex())
+        del blocker
+        self.list.setFixedWidth(max(168, self.list.sizeHintForColumn(0) + 28))
+
+    def _select(self, index):
+        blocker = QtCore.QSignalBlocker(self.list)
+        self.list.setCurrentRow(index)
+        del blocker
+
+
+def general(settings, page):
+    layout = section(page, "General", "How Saydraft starts, looks and sounds.")
+    group(layout, "Startup", [
+        ("Start with Windows", settings.autostart_checkbox, "Saydraft waits quietly in the tray after you sign in."),
+        ("Listen as soon as Saydraft opens", settings.auto_listen_checkbox, "Your shortcut works right away. Turn off to start from the tray.")])
+    settings.theme_combo = QtWidgets.QComboBox()
+    for caption, value in (("System", "system"), ("Light", "light"), ("Dark", "dark")):
+        settings.theme_combo.addItem(caption, value)
+    settings.theme_segment = Segmented(combo=settings.theme_combo, name="Theme")
+    group(layout, "Appearance", [
+        ("Theme", settings.theme_segment, ""),
+        ("Show the idle bar", settings.show_bar_checkbox, "A small handle at the bottom of the screen. Hover it to see your shortcut.")])
+    group(layout, "Sounds and notices", [
+        ("Start sound", settings.start_sound_checkbox, "A soft tick when recording starts."),
+        ("End sound", settings.end_sound_checkbox, "A tick after your words are typed."),
+        ("Keep notices on screen for", settings.notification_spin, "")])
+    layout.addStretch(1)
+
+
+def cleanup(settings, page):
+    layout = section(page, "Cleanup", "How Saydraft turns speech into text. Everything runs on this PC.")
+    segment = Segmented(combo=settings.mode_combo, name="Cleanup strength", labels=["Raw", "Balanced", "Aggressive"])
+    group(layout, "Strength", [("Cleanup mode", segment, "Raw keeps your transcript. Balanced tidies it. Aggressive rewrites more.")])
+    group(layout, "Rules", [("Default profile", settings.profile_combo, ""),
+        ("Drop the final period in messages", settings.drop_message_period_checkbox, "Questions and longer messages keep their punctuation."),
+        ("Allow spoken ‘press enter’", settings.voice_enter_checkbox, "Off by default. Does not send in Email or Docs.")])
+    group(layout, "Recording limits", [("Recording cap", settings.max_seconds_spin, ""), ("Warning time", settings.warning_seconds_spin, "")])
+    advanced = Card(padding=16)
+    advanced.body.addWidget(Label("Per-app profile JSON", "sub"))
+    advanced.body.addWidget(show(settings.app_profiles_editor))
+    layout.addWidget(advanced)
+    layout.addStretch(1)
+
+
+class Columns(AdaptiveRow):
+    """Use the designed column widths even when a table ignores its width hint."""
+    def __init__(self, parent=None, *, minimum=740):
+        super().__init__(parent)
+        self.design_minimum = minimum
+
+    def _stacked(self, width):
+        left, _, right, _ = self.getContentsMargins()
+        return width - left - right < scaled(self.design_minimum)

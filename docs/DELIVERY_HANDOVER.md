@@ -44,6 +44,19 @@ pending until the guest actually executes those cases.
 
 ## Current checkpoint
 
+- The owner-supplied desktop UI v2 is implemented with the approved 14px base,
+  shared components, grouped Settings, staged Save/Discard, shortcut learning,
+  setup, bar, toasts and tray. [Implementation and verification scope](APP_UI_V2.md).
+  The earlier `app-ui/` stays unchanged; `app-ui-v2-build/` is the current reference.
+- The frozen `44ed9c4` overnight R2 run has completed all five stages and the
+  independent verifier/observer exits. Pro latency passes every measured cell.
+  Forced CPU/Pro cleanup has actual comma regressions; CPU throughput misses its
+  gate, and CPU policy uses rules fallback for every golden case. No default or
+  accuracy promotion follows. [Exact failures, metrics and archived raw evidence](../eval/cleanup/results/2026-11-16-overnight-44ed9c4/README.md).
+- Landing v2 is published at `8452a45` on the public Pages site. Build and deploy
+  run `43743639329` succeeded; direct HTTP/CSS checks confirm the v2 page, nineteen
+  language guides and creator credit. This is independent of desktop UI v2.
+
 - The user-reported silent microphone path is fixed at clean `44ed9c4`. Windows
   was using a silent virtual input; malformed Bluetooth names also aborted named
   device discovery. The chosen physical microphone now resolves and the actual
@@ -55,15 +68,14 @@ pending until the guest actually executes those cases.
   174 screenshots, canonical UI code snapshots, themes/tokens/fonts/icons and
   a local searchable gallery. It is separate from the landing-page work.
 - The owner explicitly requested the [selected overnight follow-up](OVERNIGHT_RUN.md).
-  It targets the missing Pro matrix and fresh forced/policy cleanup evidence on
-  the microphone-fixed source. Results stay pending until terminal verification;
-  neither starting the queue nor a completed failed gate is a pass.
+  Its completed R2 results and failed gates are now archived above. The measured
+  source remains frozen separately from later presentation changes.
 - The owner-supplied [landing v2](SITE_LANDING_V2.md) replaces the homepage and
   shared website appearance. It retains all nineteen language guides, ten FAQs,
   explicit model setup, sourced comparisons and creator credit. Website tokens
-  are separate from the unchanged desktop tokens. Local acceptance and its
-  retained records are linked from that document; hosted publication remains
-  separate. The first overnight run was deliberately interrupted for this work;
+  are separate from desktop tokens. Local acceptance and its
+  retained records are linked from that document; publication succeeded at the
+  checkpoint above. The first overnight run was deliberately interrupted for this work;
   its partial results remain unqualified and require the fresh full continuation.
 
 - A combined full large-v3/temperature-zero/word-alignment candidate passes the

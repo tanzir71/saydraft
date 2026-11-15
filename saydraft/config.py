@@ -32,6 +32,7 @@ CONFIG_SCHEMA: dict[str, Any] = {
         "start_with_windows": bool,
         "auto_start_listening": bool,
         "show_bar": bool,
+        "theme": str,
         "start_sound": bool,
         "end_sound": bool,
         "notification_duration": int,
@@ -118,6 +119,7 @@ _DEFAULT_CONFIG: dict[str, Any] = {
         "start_with_windows": False,
         "auto_start_listening": True,
         "show_bar": True,
+        "theme": "system",
         "start_sound": True,
         "end_sound": False,
         "notification_duration": 3,
@@ -278,6 +280,8 @@ def sanitize_config(config: dict[str, Any] | None) -> dict[str, Any]:
                 cfg['hotkeys'][name] = ''
             else:
                 candidate = proposed
+    if cfg["app"]["theme"] not in ("system", "light", "dark"):
+        cfg["app"]["theme"] = "system"
     if cfg["app"]["tier"] not in ("auto", "lite", "standard", "pro"):
         cfg["app"]["tier"] = "auto"
     from .audio.devices import InputSelection

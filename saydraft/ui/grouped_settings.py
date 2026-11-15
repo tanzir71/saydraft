@@ -1,0 +1,113 @@
+"""Grouped microphone, privacy and shortcut presentations over the existing controls."""
+from PySide6 import QtCore, QtWidgets
+from .kit import Card, Label, PageHeader, KeyCombo, ActionButton, SettingsGroup, control_row
+from .presentation import rebuild, show, group
+
+
+def microphone(page):
+    root = rebuild(page)
+    root.addWidget(PageHeader("Microphone", "Choose an input and check its level. Tests never save or transcribe audio."))
+    card = Card(padding=20)
+    card.body.setSpacing(16)
+    card.body.addWidget(Label("MICROPHONE", "label"))
+    card.body.addWidget(control_row(show(page.device_combo), show(page.refresh_button)))
+    card.body.addWidget(Label("Test your input", "subheading"))
+    card.body.addWidget(Label("Say ‘testing one two three’ and watch the meter. The test stops after 10 seconds.", "muted"))
+    card.body.addWidget(control_row(show(page.level_bar), show(page.test_button)))
+    card.body.addWidget(show(page.status))
+    root.addWidget(card)
+    access = Card(padding=20)
+    access.body.setSpacing(12)
+    access.body.addWidget(Label("Windows microphone access", "subheading"))
+    access.body.addWidget(show(page.privacy_status))
+    access.body.addWidget(control_row(show(page.privacy_check_button), show(page.privacy_button), show(page.sound_button)))
+    root.addWidget(access)
+    root.addStretch(1)
+
+
+def privacy(page):
+    root = rebuild(page)
+    root.addWidget(PageHeader("Privacy", "Your words stay on this PC."))
+    hero = Card(padding=24)
+    hero.setProperty("inverse", True)
+    hero.body.setSpacing(12)
+    hero.body.addWidget(Label("No account. No cloud. No telemetry.", "heading"))
+    hero.body.addWidget(show(page.network_status))
+    hero.body.addWidget(Label("Recognition, cleanup, History and preferences stay local. Model downloads and optional update checks use the network only when requested.", "body"))
+    root.addWidget(hero)
+    network = Card(padding=20)
+    network.body.setSpacing(12)
+    network.body.addWidget(Label("Network protection", "subheading"))
+    network.body.addWidget(Label("The app network policy and Windows Firewall are separate protections. Native helpers and OS rules require their own verification.", "muted"))
+    for widget in (page.firewall_status, page.firewall_button, page.firewall_card):
+        network.body.addWidget(show(widget))
+    root.addWidget(network)
+    recordings = group(root,"Saved recordings",[("Keep audio for History retries",page.checkbox,"Off by default. Turning this off stops saving new audio; existing recordings stay on disk."),
+                      ("Retention",page.retention_combo,"Raw and cleaned text remain in History."),
+                      ("Days to keep audio",page.days_spin,"A recent retry does not restart a recording’s age.")])
+    recordings.card.body.addWidget(show(page.cleanup_button))
+    recordings.card.body.addWidget(show(page.retention_status))
+    root.addStretch(1)
+
+
+def shortcuts(settings, page):
+    from .onboarding_shortcuts import OnboardingShortcutsPage
+    root = rebuild(page)
+    root.addWidget(PageHeader("Shortcuts", "Your keys, your workflow. Changes apply when you save."))
+    bindings = SettingsGroup("Recording and actions")
+    learner = settings.shortcut_learner = OnboardingShortcutsPage(settings.config,
+        start_callback=settings.shortcut_start_callback, cancel_callback=settings.shortcut_cancel_callback)
+    learner.setTitle("")
+    learner_body = rebuild(learner.scroll.widget(), spacing=12)
+    learner_body.addWidget(show(learner.primary))
+    learner_body.addWidget(show(learner.learn_button))
+    learner_body.addWidget(show(learner.learn_status))
+    learner.validation.hide()  # Settings validates the actual edited binding, not setup’s primary-only draft.
+    settings.shortcut_target = None
+    def update(value):
+        if settings.shortcut_target is not None:
+            settings.shortcut_target.setText(value)
+    learner.primary.textChanged.connect(update)
+    def edit(widget):
+        learner.cancel_learning()
+        settings.shortcut_target = None
+        learner.primary.setText(widget.text())
+        settings.shortcut_target = widget
+        learner.show()
+        learner.primary.setFocus()
+    settings.shortcut_buttons = {}
+    for title, widget in (("Hold to dictate",settings.speech_hotkey_edit),("Alternate dictation",settings.alternative_hotkey_edit),
+            ("Mouse dictation",settings.mouse_hotkey_edit),("Hands-free",settings.hands_free_hotkey_edit),
+            ("Paste last transcript",settings.paste_last_hotkey_edit),("Open Scratchpad",settings.scratchpad_hotkey_edit),
+            ("View last diff",settings.view_diff_hotkey_edit),("Ask about selected text",settings.ask_hotkey_edit),
+            ("Save capture",settings.save_hotkey_edit),("Cancel",settings.cancel_hotkey_edit)):
+        keys = KeyCombo(widget.text())
+        widget.textChanged.connect(keys.set_binding)
+        change = ActionButton("Change", small=True)
+        change.setAccessibleName("Change " + title + " shortcut")
+        settings.shortcut_buttons[title] = change
+        change.clicked.connect(lambda _checked=False, widget=widget: edit(widget))
+        bindings.add_row(title,control_row(keys,change))
+        # Original edits remain the config API; the focused editor stages text into them.
+        widget.hide()
+    root.addWidget(bindings)
+    root.addWidget(learner)
+    learner.hide()
+    root.addWidget(show(settings.shortcut_warning_label))
+    group(root,"Gestures",[("Double-tap interval",settings.tap_lock_spin,"Two short taps lock hands-free mode. Zero disables double-tap.")])
+    reset = ActionButton("Reset to defaults", ghost=True)
+    def defaults():
+        from saydraft.config import default_config
+        values = default_config()["hotkeys"]
+        names = ("speech","speech_alternative","speech_mouse","hands_free","paste_last","scratchpad","view_diff","ask","save","cancel")
+        widgets = (settings.speech_hotkey_edit,settings.alternative_hotkey_edit,settings.mouse_hotkey_edit,settings.hands_free_hotkey_edit,settings.paste_last_hotkey_edit,settings.scratchpad_hotkey_edit,settings.view_diff_hotkey_edit,settings.ask_hotkey_edit,settings.save_hotkey_edit,settings.cancel_hotkey_edit)
+        for name, widget in zip(names,widgets):
+            widget.setText(values[name])
+        settings.tap_lock_spin.setValue(values["tap_lock_ms"])
+    reset.clicked.connect(defaults)
+    root.addWidget(reset,alignment=QtCore.Qt.AlignLeft)
+    # Preserve the existing keyboard-accessible help link.
+    for label in page.findChildren(QtWidgets.QLabel):
+        if label.accessibleName() == "Shortcut help":
+            root.addWidget(show(label))
+    root.addStretch(1)

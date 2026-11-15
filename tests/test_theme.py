@@ -26,10 +26,10 @@ def test_live_application_font_reaches_existing_themed_controls(setup_theme):
             font.setPixelSize(px)
             app.setFont(font)
             app.processEvents()
-            assert all(QtGui.QFontInfo(widget.font()).pixelSize() == px for widget in controls)
+            assert all(QtGui.QFontInfo(widget.font()).pixelSize() == (round(px * 13 / 14) if isinstance(widget, QtWidgets.QPushButton) else px) for widget in controls)
         controller.set_mode("dark")
         app.processEvents()
-        assert all(QtGui.QFontInfo(widget.font()).pixelSize() == 16 for widget in controls)
+        assert all(QtGui.QFontInfo(widget.font()).pixelSize() == (15 if isinstance(widget, QtWidgets.QPushButton) else 16) for widget in controls)
     finally:
         for widget in controls:
             widget.close()
@@ -102,7 +102,7 @@ def test_platform_changes_coalesce_and_high_contrast_wins(setup_theme):
     assert controller.current == "light"
     app.processEvents()
     assert changes == ["dark"]
-    assert "#111111" in app.styleSheet()
+    assert "#121211" in app.styleSheet()
     hints.contrast = QtCore.Qt.ContrastPreference.HighContrast
     hints.contrastPreferenceChanged.emit(hints.contrast)
     app.processEvents()
@@ -124,13 +124,13 @@ def test_unknown_platform_and_minimum_font_restore_without_overriding_larger_tex
     app.setFont(font)
     controller = install()
     assert controller.current == controller.fallback
-    assert app.font().pixelSize() == 16 and app.font().weight() == QtGui.QFont.DemiBold
+    assert app.font().pixelSize() == 14 and app.font().weight() == QtGui.QFont.DemiBold
     hints.contrast = QtCore.Qt.ContrastPreference.HighContrast
     controller.refresh()
     assert app.font() == font
     hints.contrast = QtCore.Qt.ContrastPreference.NoPreference
     controller.refresh()
-    assert app.font().pixelSize() == 16
+    assert app.font().pixelSize() == 14
     larger = QtGui.QFont(font)
     larger.setPointSizeF(24)
     app.setFont(larger)
@@ -195,40 +195,45 @@ def test_start_failure_rolls_back_font_and_styles(setup_theme, monkeypatch):
 @pytest.mark.parametrize("mode", ["light", "dark"])
 @pytest.mark.parametrize("value", [10, 50, 90])
 @pytest.mark.parametrize("rtl,inverted", [(False, False), (True, False), (False, True)])
-def test_progress_text_contrasts_with_both_fill_and_track(setup_theme, mode, value, rtl, inverted):
-    from saydraft.ui.fonts import install_bundled_fonts, role_font
+def test_progress_caption_stays_outside_the_track_and_readable(setup_theme, mode, value, rtl, inverted):
+    from saydraft.ui.fonts import install_bundled_fonts
     from saydraft.ui.progress import ThemedProgressBar
+    from saydraft.ui.theme.style import color
     app, _hints, install = setup_theme
     install_bundled_fonts(app)
-    app.setFont(role_font("body", point_size=12))
+    font=app.font()
+    font.setPixelSize(14)
+    app.setFont(font)
     install(mode=mode)
-    bar = ThemedProgressBar()
-    bar.setFixedSize(320, 36)
+    container=QtWidgets.QWidget()
+    layout=QtWidgets.QVBoxLayout(container)
+    bar=ThemedProgressBar()
+    layout.addWidget(bar)
+    layout.addWidget(bar.caption)
     bar.setLayoutDirection(QtCore.Qt.RightToLeft if rtl else QtCore.Qt.LeftToRight)
     bar.setInvertedAppearance(inverted)
     bar.setValue(value)
-    bar.setTextVisible(False)
-    bar.show()
+    container.resize(320,80)
+    container.show()
     app.processEvents()
-    background = bar.grab().toImage()
-    bar.setTextVisible(True)
+    assert not bar.isTextVisible() and bar.height() <= 6
+    assert bar.caption.isVisible() and bar.caption.text() == f"{value}%"
+    assert bar.caption.geometry().top() > bar.geometry().bottom()
+    assert bar.value() == value
+    def luminance(ink):
+        channels=[channel/255 for channel in (ink.red(),ink.green(),ink.blue())]
+        linear=[c/12.92 if c<=.04045 else ((c+.055)/1.055)**2.4 for c in channels]
+        return sum(a*b for a,b in zip(linear,(.2126,.7152,.0722)))
+    foreground=luminance(color(bar.caption,"inkMuted"))
+    background=luminance(color(container,"bg"))
+    assert (max(foreground,background)+.05)/(min(foreground,background)+.05) >= 4.5
+    bar.setRange(0,0)
+    assert bar.caption.text() == "Preparing…"
+    bar.hide()
     app.processEvents()
-    labelled = bar.grab().toImage()
-    text = bar.palette().color(QtGui.QPalette.Text)
-    selected = bar.palette().color(QtGui.QPalette.HighlightedText)
-    changed = {text.rgba(): 0, selected.rgba(): 0}
-    for y in range(bar.height()):
-        for x in range(bar.width()):
-            pixel = labelled.pixel(x, y)
-            if pixel != background.pixel(x, y) and pixel in changed:
-                changed[pixel] += 1
-    if value <= 50:
-        assert changed[text.rgba()] > 0
-    if value >= 50:
-        assert changed[selected.rgba()] > 0
-    assert bar.text() == f"{value}%" and bar.value() == value
-    bar.close()
-    bar.deleteLater()
+    assert not bar.caption.isVisible()
+    container.close()
+    container.deleteLater()
 
 
 @pytest.mark.parametrize("mode", ["light", "dark"])
@@ -262,3 +267,12 @@ def test_minimum_settings_size_keeps_controls_readable_and_reachable(setup_theme
     assert path.read_bytes() == before
     window.close()
     window.deleteLater()
+
+
+def test_large_explicit_pixel_font_survives_an_unavailable_family(setup_theme):
+    app,_hints,install=setup_theme
+    font=QtGui.QFont("Unavailable Saydraft test family")
+    font.setPixelSize(32)
+    app.setFont(font)
+    install(mode="light")
+    assert app.font().pixelSize() == 32

@@ -32,8 +32,8 @@ class ScratchpadWindow(QtWidgets.QWidget):
                  description='A quiet place for your words. Notes save on this PC as you type.'):
         super().__init__(None, QtCore.Qt.Window | QtCore.Qt.WindowStaysOnTopHint)
         self.setWindowTitle(f'{heading} — Saydraft')
-        self.resize(640, 520)
-        self.setMinimumSize(480, 420)
+        self.resize(460, 440)
+        self.setMinimumSize(360, 340)
         self.clipboard = clipboard
         self._presented_generation = None
         self._requested_id = None
@@ -64,6 +64,9 @@ class ScratchpadWindow(QtWidgets.QWidget):
         layout.addWidget(self.description)
         self.editor = PrivatePlainTextEdit()
         self.editor.setAccessibleName('Scratchpad text')
+        self.editor.setProperty('reader', True)
+        self.editor.setProperty('role', 'body')
+        self.editor.setProperty('fontRatio', 15 / 14)
         self.editor.setPlaceholderText('Write or dictate here…')
         self.editor.textChanged.connect(self._edited)
         layout.addWidget(self.editor, 1)
@@ -72,7 +75,8 @@ class ScratchpadWindow(QtWidgets.QWidget):
         self.status.setWordWrap(True)
         self.status.setAccessibleName('Note save status')
         layout.addWidget(self.status)
-        actions = QtWidgets.QHBoxLayout()
+        from .reflow import AdaptiveRow
+        actions = AdaptiveRow()
         self.retry_button = QtWidgets.QPushButton('Save now')
         self.retry_button.clicked.connect(self._retry)
         self.copy_button = QtWidgets.QPushButton('Copy')
@@ -83,7 +87,7 @@ class ScratchpadWindow(QtWidgets.QWidget):
             actions.addWidget(button)
         actions.addStretch()
         layout.addLayout(actions)
-        recovery = QtWidgets.QHBoxLayout()
+        recovery = AdaptiveRow()
         self.save_copy_button = QtWidgets.QPushButton('Save as new')
         self.save_copy_button.clicked.connect(self._save_copy)
         self.discard_button = QtWidgets.QPushButton('Discard changes')

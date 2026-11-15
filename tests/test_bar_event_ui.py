@@ -107,7 +107,7 @@ def test_real_app_signal_wiring_uses_delivery_outcomes_and_rejects_late_events(m
         stop.join(2)
         assert not stop.is_alive()
         application.processEvents()
-        expected = PillState.IDLE if outcome == "inserted" else PillState.WARNING
+        expected = PillState.DELIVERED if outcome == "inserted" else PillState.WARNING
         assert app.pill.state == expected
         if outcome != "inserted":
             assert app.pill.elapsed_label.text().startswith("Not saved" if outcome == "history_failure" else "Saved,")
@@ -148,7 +148,7 @@ def test_preparing_is_honest_static_and_still_allows_hands_free_cancellation():
     bar.show_preparing()
     try:
         assert bar.state == PillState.PREPARING and bar.status_label.text() == "Getting ready"
-        assert bar.size() == qt.QtCore.QSize(164, 36)
+        assert bar.size() == qt.QtCore.QSize(268, 76)
         assert "microphone has not started" in bar.accessibleName()
         heights = bar.level_meter.heights
         bar.update_level(1.)

@@ -7,6 +7,9 @@ from PySide6 import QtCore, QtGui, QtWidgets
 from saydraft.privacy.netguard import NetworkGuard
 from saydraft.data.history_view import timestamp_label
 from .icons import line_icon
+from .kit import Label, Card, StatCard, Badge, PageHeader, ActionButton
+from .presentation import style_list
+from .reflow import AdaptiveRow
 
 
 class HomePage(QtWidgets.QScrollArea):
@@ -24,68 +27,80 @@ class HomePage(QtWidgets.QScrollArea):
         self.store, self.shortcut, self.model, self.tier, self.now = store, shortcut, model, tier, now
         self._rendered_keys = None
         layout = QtWidgets.QVBoxLayout(content)
-        layout.setContentsMargins(0, 0, 0, 0)
-        layout.setSpacing(16)
-        self.greeting = QtWidgets.QLabel()
-        self.greeting.setProperty("role", "display")
-        self.greeting.setWordWrap(True)
-        layout.addWidget(self.greeting)
-        shortcut_row = QtWidgets.QHBoxLayout()
-        shortcut_row.addWidget(QtWidgets.QLabel("Hold"))
+        layout.setContentsMargins(40, 24, 40, 28)
+        layout.setSpacing(24)
+        header = PageHeader("")
+        self.greeting = header.title
+        self.offline_button = ActionButton("Offline", icon="wifi-off", ghost=True, small=True)
+        self.offline_button.clicked.connect(self.privacy_requested)
+        header.action_row.addWidget(self.offline_button)
+        header.actions.show()
+        header.description_row.addWidget(Label("Hold", "muted"))
         self.keycaps = QtWidgets.QHBoxLayout()
         self.keycaps.setSpacing(6)
-        shortcut_row.addLayout(self.keycaps)
-        shortcut_help = QtWidgets.QLabel("to dictate. Release to insert.")
-        shortcut_help.setWordWrap(True)
-        shortcut_row.addWidget(shortcut_help, 1)
-        layout.addLayout(shortcut_row)
-        metrics = QtWidgets.QHBoxLayout()
+        header.description_row.addLayout(self.keycaps)
+        header.description_row.addWidget(Label("in any app to dictate. Release to insert.", "muted"), 1)
+        layout.addWidget(header)
+        metrics = AdaptiveRow()
+        metrics.setSpacing(16)
         self.values = {}
-        for key, caption in (("words", "Words this week"), ("wpm", "Average WPM"), ("saved", "Estimated time saved")):
-            card = QtWidgets.QGroupBox()
-            content = QtWidgets.QVBoxLayout(card)
-            value = QtWidgets.QLabel("—")
-            value.setProperty("role", "display")
-            value.setAccessibleName(caption)
-            label = QtWidgets.QLabel(caption)
-            label.setWordWrap(True)
-            content.addWidget(value)
-            content.addWidget(label)
-            self.values[key] = value
+        for key, caption, unit, note in (("words", "Words this week", "words", "Local History only"),
+                ("wpm", "Speaking pace", "wpm", "Measured on speaking time only"),
+                ("saved", "Time saved", "", "Estimated against typing at 40 wpm")):
+            card = StatCard(caption, unit, note)
+            self.values[key] = card.value
+            self.values[key].setAccessibleName(caption)
             metrics.addWidget(card, 1)
-        self.values["saved"].setToolTip("Estimated against typing at 40 words per minute, minus speaking time.")
         layout.addLayout(metrics)
-        self.measurement_note = QtWidgets.QLabel()
-        self.measurement_note.setProperty("role", "muted")
-        self.measurement_note.setWordWrap(True)
+        self.measurement_note = Label("", "caption")
         layout.addWidget(self.measurement_note)
-        chips = QtWidgets.QHBoxLayout()
-        self.model_label = QtWidgets.QLabel()
-        self.model_label.setTextFormat(QtCore.Qt.PlainText)
-        self.model_label.setWordWrap(True)
-        chips.addWidget(self.model_label, 1)
-        self.offline_button = QtWidgets.QPushButton()
-        self.offline_button.clicked.connect(self.privacy_requested)
-        chips.addWidget(self.offline_button)
-        layout.addLayout(chips)
-        self.meeting_button = QtWidgets.QPushButton('Meeting notes · Labs')
-        self.meeting_button.clicked.connect(self.meeting_requested)
-        layout.addWidget(self.meeting_button, alignment=QtCore.Qt.AlignLeft)
-        heading = QtWidgets.QLabel("Recent dictations")
-        heading.setProperty("role", "eyebrow")
-        layout.addWidget(heading)
+        columns = AdaptiveRow()
+        columns.setSpacing(16)
+        recent_card = Card(padding=20)
+        recent_card.body.setSpacing(16)
+        heading = QtWidgets.QHBoxLayout()
+        heading.addWidget(Label("Recent dictations", "subheading"), 1)
+        self.view_all_button = ActionButton("View all", ghost=True, small=True)
+        self.view_all_button.clicked.connect(self._view_all)
+        heading.addWidget(self.view_all_button)
+        recent_card.body.addLayout(heading)
         self.recent = QtWidgets.QListWidget()
         self.recent.setAccessibleName("Last five dictations; activate an entry to open History")
-        self.recent.setWordWrap(True)
-        self.recent.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
+        style_list(self.recent)
         self.recent.itemActivated.connect(self._open_history)
         self.recent.itemClicked.connect(self._open_history)
-        layout.addWidget(self.recent, 1)
-        self.empty = QtWidgets.QLabel("Your first dictation will appear here.")
-        self.empty.setWordWrap(True)
-        self.empty.setProperty("role", "muted")
-        layout.addWidget(self.empty)
+        recent_card.body.addWidget(self.recent, 1)
+        self.empty = Label("Your first dictation will appear here.", "muted")
+        recent_card.body.addWidget(self.empty)
+        columns.addWidget(recent_card, 5)
+        side = QtWidgets.QWidget()
+        side_layout = QtWidgets.QVBoxLayout(side)
+        side_layout.setContentsMargins(0, 0, 0, 0)
+        side_layout.setSpacing(16)
+        engine = Card(padding=20)
+        engine.body.setSpacing(16)
+        engine.body.addWidget(Label("Engine", "subheading"))
+        self.model_label = Label("", "body")
+        engine.body.addWidget(self.model_label)
+        engine.body.addWidget(Label("Cleanup and recognition run on this PC.", "muted"))
+        side_layout.addWidget(engine)
+        meeting = Card(padding=20)
+        meeting.body.setSpacing(16)
+        meeting.body.addWidget(Label("Meeting notes", "subheading"))
+        meeting.body.addWidget(Badge("Labs", "signal"))
+        meeting.body.addWidget(Label("Capture a call and get local notes afterwards. Review your inputs before starting.", "muted"))
+        meeting.body.addStretch(1)
+        self.meeting_button = ActionButton("Try it", icon="arrow-right")
+        self.meeting_button.clicked.connect(self.meeting_requested)
+        meeting.body.addWidget(self.meeting_button, alignment=QtCore.Qt.AlignLeft)
+        side_layout.addWidget(meeting, 1)
+        columns.addWidget(side, 3)
+        layout.addLayout(columns, 1)
         self.refresh()
+
+    def _view_all(self):
+        rows = self.store.list_recent(limit=1)
+        self.history_requested.emit(rows[0].id if rows else -1)
 
     def _open_history(self, item):
         self.history_requested.emit(item.data(QtCore.Qt.UserRole))
@@ -107,10 +122,11 @@ class HomePage(QtWidgets.QScrollArea):
                 widget.hide()
                 widget.deleteLater()
             for key in keys:
-                label = QtWidgets.QLabel(key)
+                from .kit import Kbd
+                label = Kbd(key)
                 label.setTextFormat(QtCore.Qt.PlainText)
-                label.setProperty("role", "eyebrow")
-                label.setProperty("keycap", True)
+
+
                 self.keycaps.addWidget(label, 0, QtCore.Qt.AlignVCenter)
             self._rendered_keys = keys
         stats = self.store.weekly_stats(today=now.date())
@@ -128,7 +144,7 @@ class HomePage(QtWidgets.QScrollArea):
         for row in rows:
             text = " ".join(row.cleaned_text.split()) or "Recording saved for retry"
             preview = text if len(text) <= 180 else text[:177] + "..."
-            item = QtWidgets.QListWidgetItem(f"{row.app_name or 'Unknown app'} · {timestamp_label(row.created_at, now=now)}\n{preview}")
+            item = QtWidgets.QListWidgetItem(f"{preview}\n{row.app_name or 'Unknown app'} · {timestamp_label(row.created_at, now=now)}")
             item.setData(QtCore.Qt.UserRole, row.id)
             self.recent.addItem(item)
         self.empty.setVisible(not rows)

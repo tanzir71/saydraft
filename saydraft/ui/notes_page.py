@@ -111,9 +111,13 @@ class NotesPage(QtWidgets.QWidget):
         self.open_button.setEnabled(False)
         self.open_button.clicked.connect(self.open_note)
         layout.addWidget(self.open_button, alignment=QtCore.Qt.AlignLeft)
+        from .notes_presentation import arrange_notes
+        arrange_notes(self)
+
 
     def _clear_detail(self):
         self.current_note = None
+        self.note_title.setText("Choose a note")
         self.editor.clear()
         self.open_button.setEnabled(False)
 
@@ -166,6 +170,7 @@ class NotesPage(QtWidgets.QWidget):
                 'No matching notes.' if self.search.text() else 'No notes saved yet. Choose New note to start.')
         else:
             self.current_note = result
+            self.note_title.setText(result.title)
             self.editor.setPlainText(result.body)
             self.open_button.setEnabled(True)
             origin = {'scratchpad': 'Scratchpad', 'command': 'Command', 'ask': 'Ask', 'meeting': 'Meeting'}[result.kind]
@@ -179,3 +184,8 @@ class NotesPage(QtWidgets.QWidget):
         index = self.list_widget.row(item)
         if 0 <= index < len(self.rows):
             self.open_requested.emit(self.rows[index].id)
+
+    def resizeEvent(self, event):
+        super().resizeEvent(event)
+        if hasattr(self, "split"):
+            self.split.setOrientation(QtCore.Qt.Vertical if self.width() < 650 or self.fontMetrics().height() > 26 else QtCore.Qt.Horizontal)

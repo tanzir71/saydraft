@@ -37,8 +37,9 @@ def probe(output):
     sheet = QtWidgets.QWidget()
     sheet.setStyleSheet("QWidget { background: #F5F2E9; color: #141414; }")
     layout = QtWidgets.QVBoxLayout(sheet)
-    for role, text, family in (("display", "Saydraft", "Instrument Serif"),
-            ("body", "Your voice, written clearly.", "Geist"), ("mono", "const text = 'Saydraft';", "Geist Mono"),
+    for role, text, family in (("display", "Saydraft", "Familjen Grotesk"),
+            ("body", "Your voice, written clearly.", "Geist"), ("mono", "const text = 'Saydraft';", "Martian Mono"),
+            ("readout", "1,284", "Doto"),
             ("body", "বাংলা ভাষা", "Noto Sans Bengali"), ("body", "বাংলা যুক্তাক্ষর", "Noto Sans Bengali"),
             ("body", "العربية", "Noto Sans Arabic"), ("body", "العَرَبِيَّة", "Noto Sans Arabic")):
         font = role_font(role, point_size=30 if role == "display" else 18)

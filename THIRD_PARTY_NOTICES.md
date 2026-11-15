@@ -61,8 +61,10 @@ contents are unchanged; fonts are not sold on their own.
 
 | Families | Role | Complete notice |
 |---|---|---|
-| Geist, Geist Mono | Body and code; upright/italic | [Geist](assets/fonts/geist/OFL.txt), [Geist Mono](assets/fonts/geistmono/OFL.txt) |
-| Instrument Serif | Display; regular/italic | [Instrument Serif](assets/fonts/instrumentserif/OFL.txt) |
+| Geist | Body; upright/italic | [Geist](assets/fonts/geist/OFL.txt) |
+| Familjen Grotesk | Display; upright/italic | [Familjen Grotesk](assets/fonts/familjengrotesk/OFL.txt) |
+| Martian Mono | Labels and code | [Martian Mono](assets/fonts/martianmono/OFL.txt) |
+| Doto | Numeric readouts | [Doto](assets/fonts/doto/OFL.txt) |
 | Noto Sans Bengali | Bengali script fallback | [Noto Bengali](assets/fonts/notosansbengali/OFL.txt) |
 | Noto Sans Arabic | Arabic script fallback | [Noto Arabic](assets/fonts/notosansarabic/OFL.txt) |
 

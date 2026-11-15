@@ -11,7 +11,7 @@ import subprocess
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def export(output, extra_images=None):
+def export(output, extra_images=None, *, current_only=False):
     output = output.resolve()
     output.mkdir(parents=True, exist_ok=False)
     (output / '.gitattributes').write_text('* -text -whitespace\n', encoding='utf-8')
@@ -28,15 +28,19 @@ def export(output, extra_images=None):
         records.append(dict(path=relative, original=origin, sha256=digest))
 
     paths = subprocess.check_output(['git', 'ls-files', '--', 'saydraft/ui', 'saydraft/app.py',
-        'assets/fonts', 'assets/tray', 'design/app-tokens.json'], cwd=ROOT, text=True).splitlines()
+        'assets/fonts', 'assets/icons', 'assets/tray', 'design/app-tokens.json'], cwd=ROOT, text=True).splitlines()
+    font_manifest=json.loads((ROOT/'assets/fonts/manifest.json').read_text(encoding='utf-8'))
+    font_paths={'assets/fonts/manifest.json',*('assets/fonts/'+item['path'] for item in font_manifest['files'])}
     for name in paths:
+        if current_only and name.startswith('assets/fonts/') and name not in font_paths:
+            continue
         path = ROOT / name
         if path.is_file():
             # Reference snapshots must never become a second importable app.
             copy(path, 'source/' + name + ('.txt' if path.suffix == '.py' else ''))
-    for name in ['MICROPHONE.md', 'ONBOARDING.md', 'HUB_ACCESSIBILITY.md', 'NOTES.md']:
+    for name in ['MICROPHONE.md', 'ONBOARDING.md', 'HUB_ACCESSIBILITY.md', 'NOTES.md', 'APP_UI_V2.md', 'FONTS.md']:
         copy(ROOT / 'docs' / name, 'guides/' + name)
-    folders = [ROOT / 'eval/ui/results/2026-11-15-gallery/scale-1']
+    folders = [] if current_only else [ROOT / 'eval/ui/results/2026-11-15-gallery/scale-1']
     if extra_images:
         folders.append(extra_images.resolve())
     for folder in folders:
@@ -73,6 +77,9 @@ function filter(){for(const figure of document.querySelectorAll('figure')){const
 figure.hidden=!name.includes(search.value.toLowerCase().trim())||(theme.value&&!name.includes(theme.value));}}
 search.addEventListener('input',filter);theme.addEventListener('change',filter);
 </script></html>'''
+    if current_only:
+        page=page.replace('Saydraft desktop app','Saydraft desktop app UI v2').replace('Most screenshots are retained QA gallery fixtures. Images beginning <code>current-</code> show the latest microphone fix.',
+            'These are current v2 production-widget captures with public fixtures. The native Windows caption is outside offscreen client captures.')
     (output / 'index.html').write_text(page, encoding='utf-8')
     (output / 'README.md').write_text('''# Desktop app UI reference
 
@@ -82,8 +89,8 @@ This is a reference bundle, not another application or the website landing page.
 - `source/saydraft/ui/`: current Qt widgets, layouts, components and themes.
 - `source/saydraft/app.py.txt`: the app shell and UI/controller connections.
 - `source/design/app-tokens.json`: desktop colors, typography and spacing tokens.
-- `source/assets/fonts/` and `source/assets/tray/`: actual font/icon assets and their notices.
-- `images/`: retained gallery examples plus any `current-` microphone captures.
+- `source/assets/fonts/`, `source/assets/icons/` and `source/assets/tray/`: actual assets and notices.
+- `images/`: owned public-fixture captures, named by screen, theme and optional text size.
 - `guides/`: setup, microphone, accessibility and Notes behavior to preserve.
 - `manifest.json`: original paths and exact source hashes for every copied file.
 
@@ -110,8 +117,9 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--extra-images', type=Path)
+    parser.add_argument('--current-only',action='store_true',help='Export only supplied current images and manifest-listed fonts')
     args = parser.parse_args()
-    print(json.dumps(export(args.output, args.extra_images)))
+    print(json.dumps(export(args.output, args.extra_images,current_only=args.current_only)))
 
 
 if __name__ == '__main__':

@@ -21,7 +21,7 @@ from PySide6 import QtCore, QtGui, QtWidgets
 BAR_STATES = (
     "hidden", "idle", "hover", "preparing", "preparing-hands-free", "listening",
     "hands-free", "long-recording", "preview", "processing", "cleaning",
-    "not-inserted", "not-saved", "mic-error", "model-error", "command",
+    "not-inserted", "not-saved", "mic-error", "model-error", "command", "delivered",
 )
 TOASTS = {
     "suggestion": ('Add “Kubernetes” to your dictionary?', "Add"),
@@ -166,14 +166,14 @@ class Fixtures:
         hub = HubWindow(settings_options=dict(
             config_path=self.root / "config.json", snippets_path=self.root / "snippets.txt",
             autostart_manager=SimpleNamespace(is_enabled=lambda: False, set_enabled=forbidden),
-            microphone_stop_callback=lambda: None,
+            microphone_stop_callback=lambda *_: True,
             model_inventory_provider=lambda: Inventory(models=(), roots=()), **callbacks),
             history_options=dict(store=store, clipboard=SimpleNamespace(setText=forbidden)),
             model=lambda: "Parakeet v3", tier=lambda: "standard")
         hub.home_page.now = lambda: datetime(2026, 11, 15, 9)
         hub.setAttribute(QtCore.Qt.WA_DontShowOnScreen)
         # History uses its own formatting clock as well as the Home clock.
-        hub.resize(1080, 720)
+        hub.resize(1120, 760)
         self.widgets.append(hub)
         self.hubs[empty] = hub
         return hub
@@ -192,7 +192,7 @@ class Fixtures:
                 practice_stop_callback=lambda *_args, **_kwargs: True,
                 practice_close_callback=lambda *_: True)
             self.wizard.setAttribute(QtCore.Qt.WA_DontShowOnScreen)
-            self.wizard.resize(900, 740)
+            self.wizard.resize(960, 680)
             self.widgets.append(self.wizard)
         return self.wizard
 
@@ -235,8 +235,11 @@ class Fixtures:
             ticks[0] += .060
             bar.advance_frame()
             if state == "long-recording":
+                bar.set_recording_limits(19 * 60, 20 * 60)
                 ticks[0] += 19 * 60
                 bar.refresh_elapsed()
+            elif state == "delivered":
+                bar.show_delivered()
             elif state == "preview":
                 bar.update_preview("A public fixture: your words stay on this PC.")
             elif state in ("processing", "cleaning"):

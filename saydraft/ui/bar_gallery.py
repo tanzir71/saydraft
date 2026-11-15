@@ -26,8 +26,8 @@ def render(output: Path, scale: int = 1):
     assert len(install_bundled_fonts(app)) == 8
     theme = install_theme(app, mode="light")
     assert theme is not None
-    states = ("idle", "hover", "preparing", "listening", "hands-free", "preview", "processing",
-              "cleaning", "not-inserted", "not-saved", "mic-error", "model-error", "command")
+    states = ("idle", "hover", "preparing", "listening", "hands-free", "long-recording", "preview", "processing",
+              "cleaning", "not-inserted", "not-saved", "mic-error", "model-error", "command", "delivered")
     report = {"platform": app.platformName(), "scale": scale,
         "network_guard_enabled": bool(NetworkGuard._originals), "active_application_read": False,
         "owner_clipboard_accessed": False, "microphone_opened": False, "themes": []}
@@ -53,12 +53,18 @@ def render(output: Path, scale: int = 1):
             elif state == "preparing":
                 bar.show_preparing()
             else:
-                bar.show_recording(hands_free=state == "hands-free", command=state == "command")
+                bar.show_recording(hands_free=state in ("hands-free","long-recording"), command=state == "command")
                 bar.update_level(.09)
                 ticks[0] += .060
                 bar.advance_frame()
                 if state == "preview":
                     bar.update_preview("This is an illustrative public preview, with the most recent sixty characters.")
+                elif state == "long-recording":
+                    bar.set_recording_limits(60,120)
+                    ticks[0] += 65
+                    bar.refresh_elapsed()
+                elif state == "delivered":
+                    bar.show_delivered()
                 elif state in ("processing", "cleaning"):
                     bar.show_processing()
                     ticks[0] += 1.75 if state == "cleaning" else .5

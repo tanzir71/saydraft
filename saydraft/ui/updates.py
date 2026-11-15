@@ -1,4 +1,4 @@
-"""Queued update notices and saved opt-in controls for Settings → Privacy."""
+"""Queued update notices and saved opt-in controls for Settings → About."""
 
 from PySide6 import QtCore, QtGui, QtWidgets
 

@@ -102,36 +102,48 @@ class SaydraftTray:
         self.tray_icon.show()
 
     def _build_menu(self) -> None:
+        self.status_action = self.menu.addAction("Paused")
+        self.status_action.setEnabled(False)
+        self.menu.addSeparator()
         hub_action = self.menu.addAction("Open Saydraft")
         hub_action.triggered.connect(lambda _checked=False: self._defer(self.callbacks.show_hub))
-        self.menu.addSeparator()
-        self.toggle_action = self.menu.addAction("Start Listening")
+        self.toggle_action = self.menu.addAction("Start listening")
         self.toggle_action.setCheckable(True)
         self.toggle_action.triggered.connect(
             lambda _checked=False: self._toggle_listening()
         )
-        self.menu.addSeparator()
 
-        history_action = self.menu.addAction("History...")
+        history_action = self.menu.addAction("History")
         history_action.triggered.connect(
             lambda _checked=False: self._defer(self.callbacks.show_history)
         )
 
-        settings_action = self.menu.addAction("Settings...")
+        settings_action = self.menu.addAction("Settings")
         settings_action.triggered.connect(
             lambda _checked=False: self._defer(self.callbacks.show_settings)
         )
 
-        log_action = self.menu.addAction("Open Log Folder")
+        self.menu.addSeparator()
+        log_action = self.menu.addAction("Open log folder")
         log_action.triggered.connect(
             lambda _checked=False: self._defer(self.open_log_folder)
         )
-        self.menu.addSeparator()
 
-        quit_action = self.menu.addAction("Quit")
+        quit_action = self.menu.addAction("Quit Saydraft")
         quit_action.triggered.connect(
             lambda _checked=False: self._defer(self.callbacks.quit_app)
         )
+        self._action_icons = ((hub_action,"home"),(self.toggle_action,"play"),(history_action,"history"),
+                              (settings_action,"settings"),(log_action,"folder"),(quit_action,"x"))
+        self._refresh_menu_icons()
+        if hasattr(self.menu,"aboutToShow"):
+            self.menu.aboutToShow.connect(self._refresh_menu_icons)
+
+    def _refresh_menu_icons(self):
+        from .icons import svg_icon
+        for action, icon in self._action_icons:
+            if hasattr(action,"setIcon"):
+                action.setIcon(svg_icon("pause" if action is self.toggle_action and self.listening else icon))
 
     def _toggle_listening(self) -> None:
         callback = (
@@ -148,7 +160,8 @@ class SaydraftTray:
         self.listening = bool(value)
         if self.toggle_action is None:
             return
-        self.toggle_action.setText("Stop Listening" if self.listening else "Start Listening")
+        self.toggle_action.setText("Pause listening" if self.listening else "Start listening")
+        self.status_action.setText("Ready for shortcut" if self.listening else "Paused")
         self.toggle_action.setChecked(self.listening)
 
     def set_model_label(self, model_label: str) -> None:

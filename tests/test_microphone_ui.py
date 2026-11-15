@@ -88,7 +88,7 @@ def test_input_change_stops_old_test_and_late_levels_cannot_revive_it(subject):
     assert page.toggle_test()
     page.accept_status(1,"listening")
     page.accept_level(1,.125)
-    assert page.level_bar.value()==50
+    assert page.level_bar.value()==100
     page.device_combo.setCurrentIndex(1)
     assert stops==[1] and not page.test_button.isEnabled()
     page.accept_level(1,.9)
@@ -189,7 +189,7 @@ def test_real_worker_controller_and_queued_qt_meter_signals_compose_without_capt
         emitter.start()
         emitter.join(timeout=1)
         qt.QtWidgets.QApplication.processEvents()
-        assert page.level_bar.value()==80 and "Listening" in page.status.text()
+        assert page.level_bar.value()==100 and "Listening" in page.status.text()
         assert not events and worker.services.recorder.started==0
         assert page.stop_test()
         executor.drain()

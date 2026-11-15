@@ -309,7 +309,7 @@ def test_relocation_preserves_state_deadlines_and_action_target(state):
         Native.instances[-1].notify()
         qt.QtWidgets.QApplication.processEvents()
         assert (bar.state, bar._visibility_generation, bar.status_label.text(), bar.elapsed_label.text(), len(scheduled)) == previous
-        assert bar.geometry().bottom() == area[0].y() + area[0].height() - 25
+        assert bar.mapToGlobal(bar.capsule_rect.bottomLeft()).y() == area[0].y() + area[0].height() - 30
         assert abs(bar.geometry().center().x() - area[0].center().x()) <= 1
         if bar.target.isVisible() and bar.target.kind != "expand":
             assert bar.rect().contains(bar.mapFromGlobal(bar.target.geometry().center()))

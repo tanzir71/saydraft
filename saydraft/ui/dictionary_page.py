@@ -7,6 +7,7 @@ from pathlib import Path
 import re
 
 from PySide6 import QtCore, QtGui, QtWidgets
+from .kit import Toggle
 from .reflow import AdaptiveRow, WrapCheckBox, WrapPushButton
 
 from saydraft.dictionary.portable import export_dictionary, prepare_import
@@ -107,9 +108,9 @@ class DictionaryPage(QtWidgets.QWidget):
         title.setWordWrap(True)
         layout.addWidget(title)
         learning = QtWidgets.QVBoxLayout()
-        self.learn_checkbox = WrapCheckBox("Suggest words from corrections")
+        self.learn_checkbox = Toggle("Suggest words from corrections")
         self.learn_checkbox.setToolTip("Compare the original field after insertion to suggest corrected words. Password and unreadable fields are skipped.")
-        self.auto_add_checkbox = WrapCheckBox("Auto-add to dictionary")
+        self.auto_add_checkbox = Toggle("Auto-add to dictionary")
         self.auto_add_checkbox.setToolTip("Save suggested words automatically and show an Undo action.")
         self.learn_checkbox.toggled.connect(self.auto_add_checkbox.setEnabled)
         learning.addWidget(self.learn_checkbox)
@@ -194,6 +195,8 @@ class DictionaryPage(QtWidgets.QWidget):
         self.import_button.clicked.connect(self.choose_import)
         self.export_button.clicked.connect(self.choose_export)
         self.json_editor.setPlainText("{}")
+        from .personalization_presentation import dictionary
+        dictionary(self)
 
     def set_snapshot(self, snapshot):
         self.snapshot = snapshot

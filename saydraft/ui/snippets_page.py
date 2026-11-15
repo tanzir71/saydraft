@@ -149,6 +149,8 @@ class SnippetsPage(QtWidgets.QWidget):
         self.new_button.clicked.connect(self.clear_form)
         self.test_button.clicked.connect(self.test_expansion)
         self.json_editor.setPlainText("{}")
+        from .personalization_presentation import snippets
+        snippets(self)
 
     def note(self, message):
         self.status_label.setText(message)

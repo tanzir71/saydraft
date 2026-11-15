@@ -4,6 +4,7 @@ import math
 import threading
 
 from PySide6 import QtCore, QtWidgets
+from .reflow import WrapPushButton
 
 from saydraft.core.practice import MAX_TEXT, PracticeResult
 from saydraft.data.history_view import transcript_diff
@@ -64,9 +65,9 @@ class OnboardingPracticePage(QtWidgets.QWizardPage):
             self.tabs.addTab(box, label)
         layout.addWidget(self.tabs)
         self.shortcut_label = paragraph('', 'Practice shortcut')
-        self.prepare_button = QtWidgets.QPushButton('Prepare practice')
-        self.record_button = QtWidgets.QPushButton('Record')
-        self.cancel_button = QtWidgets.QPushButton('Cancel recording')
+        self.prepare_button = WrapPushButton('Prepare practice')
+        self.record_button = WrapPushButton('Record')
+        self.cancel_button = WrapPushButton('Cancel recording')
         for button in (self.prepare_button, self.record_button, self.cancel_button):
             layout.addWidget(button)
         self.meter = QtWidgets.QProgressBar()

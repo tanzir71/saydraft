@@ -7,9 +7,9 @@ import re
 from pathlib import Path, PurePosixPath
 
 ROOT = Path(__file__).resolve().parents[2] / "assets/fonts"
-ROLES = {"body": "Geist", "display": "Instrument Serif", "mono": "Geist Mono",
+ROLES = {"body": "Geist", "display": "Familjen Grotesk", "mono": "Martian Mono", "readout": "Doto",
     "fallbacks": ["Noto Sans Bengali", "Noto Sans Arabic"]}
-FAMILIES = {ROLES[role] for role in ("body", "display", "mono")} | set(ROLES["fallbacks"])
+FAMILIES = {ROLES[role] for role in ("body", "display", "mono", "readout")} | set(ROLES["fallbacks"])
 logger = logging.getLogger(__name__)
 
 
@@ -63,7 +63,7 @@ def verify_font_assets(root=ROOT):
 def role_font(role="body", *, point_size=None, italic=False, QtGui=None):
     if QtGui is None:
         from PySide6 import QtGui
-    if role not in ("body", "display", "mono"):
+    if role not in ("body", "display", "mono", "readout"):
         raise ValueError("Unknown font role")
     font = QtGui.QFont()
     font.setFamilies([ROLES[role], *ROLES["fallbacks"], "Segoe UI"])

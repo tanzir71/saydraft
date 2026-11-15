@@ -9,7 +9,7 @@ from .reflow import AdaptiveRow, WrapPushButton
 
 from saydraft.audio.devices import InputSelection, list_inputs, routed_input
 from saydraft.audio.privacy import check_microphone_privacy
-from .progress import ThemedProgressBar
+from .kit import LevelMeter
 
 
 class MicrophonePage(QtWidgets.QWidget):
@@ -55,7 +55,7 @@ class MicrophonePage(QtWidgets.QWidget):
         actions.addWidget(self.refresh_button)
         actions.addWidget(self.test_button)
         layout.addLayout(actions)
-        self.level_bar = ThemedProgressBar()
+        self.level_bar = LevelMeter()
         self.level_bar.setRange(0,100)
         self.level_bar.setValue(0)
         self.level_bar.setTextVisible(False)
@@ -276,7 +276,7 @@ class MicrophonePage(QtWidgets.QWidget):
         if not self._closed and generation==self._test_generation and not self._stopping and math.isfinite(level):
             self._test_peak = max(self._test_peak, level)
             self._test_samples += 1
-            self.level_bar.setValue(min(100,max(0,round(level*400))))
+            self.level_bar.set_rms(level)
 
     @QtCore.Slot(int,str)
     def accept_status(self, generation, state):
@@ -292,7 +292,7 @@ class MicrophonePage(QtWidgets.QWidget):
             elif self._test_peak <= .000001:
                 message = "No sound detected. Choose your microphone rather than an unused virtual input, then test again."
             elif self._test_peak < .003:
-                message = "The input is very quiet. Check the microphone volume or Whisper mode in these settings."
+                message = "The input is very quiet. Check the microphone volume or review Whisper mode in Labs."
             else:
                 message = "Sound detected. Input test finished; no audio was saved."
             self.status.setText(message)

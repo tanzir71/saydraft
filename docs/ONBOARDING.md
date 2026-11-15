@@ -1,5 +1,11 @@
 # First-run setup
 
+Desktop [UI v2](APP_UI_V2.md) now presents these same gates in a six-step rail,
+grouped cards, model radio choices and private Chat/Email practice. The owner
+approved 14px text with larger-text reflow. More options retains the original
+hardware, local-file, license and benchmark controls. Finish still applies the
+staged setup choices; Skip uses the existing practice readiness route.
+
 P6.4 is in progress. The six-page wizard now connects the shared microphone test,
 explicit model setup, shortcut learning, owned chat/email practice, Style quick
 pick, selected-model performance checks, readiness gates and final Hub Home handoff.

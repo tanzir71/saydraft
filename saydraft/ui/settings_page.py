@@ -12,6 +12,7 @@ from typing import Any
 
 from PySide6 import QtCore, QtWidgets
 from .reflow import AdaptiveRow, WrapCheckBox, WrapPushButton
+from .kit import Toggle
 
 from saydraft.config import load_config, save_config
 from saydraft.dictionary.store import read_dictionary, save_dictionary
@@ -79,6 +80,8 @@ class SettingsPage(QtWidgets.QWidget):
         cleanup_runtime_download_callback=None,
         style_preview_callback=None,
         style_glossary_provider=None,
+        shortcut_start_callback=None,
+        shortcut_cancel_callback=None,
         microphone_start_callback=None,
         microphone_stop_callback=None,
         microphone_devices_provider=None,
@@ -101,6 +104,7 @@ class SettingsPage(QtWidgets.QWidget):
         self.cleanup_runtime_download_callback = cleanup_runtime_download_callback
         self.style_preview_callback = style_preview_callback
         self.style_glossary_provider = style_glossary_provider
+        self.shortcut_start_callback, self.shortcut_cancel_callback = shortcut_start_callback, shortcut_cancel_callback
         self.microphone_start_callback, self.microphone_stop_callback = microphone_start_callback, microphone_stop_callback
         self.microphone_devices_provider = microphone_devices_provider
         self.audio_cleanup_callback,self.firewall_status_provider = audio_cleanup_callback,firewall_status_provider
@@ -121,7 +125,8 @@ class SettingsPage(QtWidgets.QWidget):
         self.tabs.setFocusPolicy(QtCore.Qt.NoFocus)
         self.section_combo = QtWidgets.QComboBox(self)
         self.section_combo.setAccessibleName("Settings section")
-        self.status_label = QtWidgets.QLabel("", self)
+        from .kit import StatusLabel
+        self.status_label = StatusLabel("", self)
         self.status_label.setTextFormat(QtCore.Qt.PlainText)
         self.status_label.setWordWrap(True)
         status_policy = self.status_label.sizePolicy()
@@ -158,7 +163,10 @@ class SettingsPage(QtWidgets.QWidget):
         self.microphone_page.whisper_controls.enabled.toggled.connect(lambda _enabled: self.refresh_labs())
         self._sync_language_model()
         self.tabs.currentChanged.connect(lambda index: self.refresh_labs())
+        self.tabs.currentChanged.connect(lambda index: self.microphone_page.stop_test() if self.tabs.tabText(index) != "Microphone" else None)
         self.tabs.currentChanged.connect(lambda index: self._refresh_shortcut_warning() if self.tabs.tabText(index) == "Shortcuts" else None)
+        from .settings_draft import SettingsDraft
+        self.draft_state = SettingsDraft(self)
 
     def _build(self) -> None:
         layout = QtWidgets.QVBoxLayout(self)
@@ -201,6 +209,8 @@ class SettingsPage(QtWidgets.QWidget):
         self._add_tab(self.microphone_page, "Microphone")
         self._add_tab(self._privacy_tab(), "Privacy")
         self._add_tab(self._about_tab(), "About")
+        from .settings_presentation import arrange_settings
+        arrange_settings(self)
         self.sync_sections()
 
     def _add_tab(self, page, name):
@@ -216,6 +226,8 @@ class SettingsPage(QtWidgets.QWidget):
         self.section_combo.addItems([self.tabs.tabText(index) for index in range(self.tabs.count())])
         self.section_combo.setCurrentIndex(self.tabs.currentIndex())
         self.section_combo.blockSignals(False)
+        if hasattr(self, "section_navigation"):
+            self.section_navigation.sync()
 
     def _sync_section_index(self, index):
         self.section_combo.blockSignals(True)
@@ -226,15 +238,15 @@ class SettingsPage(QtWidgets.QWidget):
         page = QtWidgets.QWidget()
         form = QtWidgets.QFormLayout(page)
         form.setRowWrapPolicy(QtWidgets.QFormLayout.WrapLongRows)
-        self.autostart_checkbox = WrapCheckBox()
-        self.auto_listen_checkbox = WrapCheckBox()
-        self.show_bar_checkbox = WrapCheckBox("Show the idle Saydraft Bar")
-        self.start_sound_checkbox = WrapCheckBox("Play a tick when recording starts")
-        self.end_sound_checkbox = WrapCheckBox("Play a soft tick after insertion")
+        self.autostart_checkbox = Toggle()
+        self.auto_listen_checkbox = Toggle()
+        self.show_bar_checkbox = Toggle("Show the idle Saydraft Bar")
+        self.start_sound_checkbox = Toggle("Play a tick when recording starts")
+        self.end_sound_checkbox = Toggle("Play a soft tick after insertion")
         self.notification_spin = QtWidgets.QSpinBox()
         self.notification_spin.setRange(1, 30)
         self.notification_spin.setSuffix(" s")
-        self.retain_audio_checkbox = WrapCheckBox("Save recordings locally for History retries")
+        self.retain_audio_checkbox = Toggle("Save recordings locally for History retries")
         self.retain_audio_checkbox.setToolTip("Off by default. Enabling this retains future recording audio on this computer.")
         form.addRow("Start with Windows", self.autostart_checkbox)
         form.addRow("Auto-start listening", self.auto_listen_checkbox)
@@ -292,6 +304,7 @@ class SettingsPage(QtWidgets.QWidget):
         form.addRow('Ask about selected text', self.ask_hotkey_edit)
         self.shortcut_warning_label = QtWidgets.QLabel()
         self.shortcut_warning_label.setWordWrap(True)
+        self.shortcut_warning_label.setTextFormat(QtCore.Qt.PlainText)
         form.addRow(self.shortcut_warning_label)
         for edit in (self.speech_hotkey_edit, self.alternative_hotkey_edit, self.mouse_hotkey_edit,
                      self.hands_free_hotkey_edit, self.paste_last_hotkey_edit, self.scratchpad_hotkey_edit,
@@ -339,10 +352,10 @@ class SettingsPage(QtWidgets.QWidget):
         self.mode_combo.addItems(MODES)
         self.profile_combo = QtWidgets.QComboBox()
         self.profile_combo.addItems(PROFILES)
-        self.drop_message_period_checkbox = WrapCheckBox("Omit the final period in single-sentence messages")
+        self.drop_message_period_checkbox = Toggle("Omit the final period in single-sentence messages")
         self.drop_message_period_checkbox.setToolTip(
             "Applies to Messages and Work-chat, or the chat profile. Questions and multi-sentence messages keep punctuation.")
-        self.voice_enter_checkbox = WrapCheckBox('Allow trailing “press enter” to send Enter after dictation')
+        self.voice_enter_checkbox = Toggle('Allow trailing “press enter” to send Enter after dictation')
         self.voice_enter_checkbox.setToolTip(
             "Off by default. End your dictation with the words “press enter”. Never runs in Email or Docs (including Notes). "
             "Raw and Code also use this command when enabled.")
@@ -515,6 +528,7 @@ class SettingsPage(QtWidgets.QWidget):
 
     def _load_values(self) -> None:
         cfg = self.config
+        self.theme_combo.setCurrentIndex(max(0, self.theme_combo.findData(cfg["app"].get("theme", "system"))))
         from saydraft.audio.devices import InputSelection
         self.microphone_page.set_selection(InputSelection.from_config(cfg))
         self.speech_hotkey_edit.setText(cfg["hotkeys"]["speech"])
@@ -572,6 +586,10 @@ class SettingsPage(QtWidgets.QWidget):
         combo.setCurrentText(value)
 
     def apply_changes(self) -> bool:
+        self.shortcut_learner.cancel_learning()
+        if self.shortcut_learner.learning:
+            self.status_label.setText("Wait for shortcut learning to stop before saving changes.")
+            return False
         self.microphone_page.stop_test()
         try:
             cfg = self._collect_config()
@@ -626,7 +644,12 @@ class SettingsPage(QtWidgets.QWidget):
         self.privacy_page.updates_card.apply_policy(updates_enabled(saved))
         if self.on_config_applied is not None:
             self.on_config_applied(saved)
+        theme = getattr(QtWidgets.QApplication.instance(), "_saydraft_theme", None)
+        if theme is not None:
+            theme.set_mode(saved["app"]["theme"])
         self.status_label.setText("Saved")
+        if hasattr(self, "draft_state"):
+            self.draft_state.accept()
         return True
 
     def _refresh_shortcut_warning(self):
@@ -641,13 +664,19 @@ class SettingsPage(QtWidgets.QWidget):
                   'scratchpad': self.scratchpad_hotkey_edit.text(), 'view_diff': self.view_diff_hotkey_edit.text(),
                   'ask': self.ask_hotkey_edit.text(),
                   "cancel": self.cancel_hotkey_edit.text()}
-        warning = shortcut_warning(values, detector=lambda: getattr(self, "_wispr_running", None))
+        advisory = shortcut_warning(values, detector=lambda: getattr(self, "_wispr_running", None))
+        command = getattr(getattr(self, "labs_page", None), "command", None)
+        conflicts = find_hotkey_conflicts(values,
+            command_mode=bool(command and command.enabled_check.isChecked()),
+            ask_mode=bool(command and getattr(command,"ask_check",None) and command.ask_check.isChecked()))
+        warning = "\n".join([*conflicts, *([advisory] if advisory else [])])
         self.shortcut_warning_label.setText(warning)
         self.shortcut_warning_label.setVisible(bool(warning))
 
     def _collect_config(self) -> dict[str, Any]:
         cfg = json.loads(json.dumps(self.config))
         cfg["app"]["tier"] = self.tier_combo.currentData()
+        cfg["app"]["theme"] = self.theme_combo.currentData()
         cfg["recording"].update(input_device=self.microphone_page.selection.name,
             input_hostapi=self.microphone_page.selection.hostapi)
         self.microphone_page.whisper_controls.apply_to(cfg)
@@ -758,6 +787,8 @@ class SettingsPage(QtWidgets.QWidget):
             self.model_picker.start_download()
 
     def pause_downloads(self):
+        if hasattr(self, "shortcut_learner"):
+            self.shortcut_learner.cancel_learning()
         self.microphone_page.whisper_controls.pause()
         self.model_picker.pause()
         self.labs_page.pause()
@@ -774,7 +805,9 @@ class SettingsPage(QtWidgets.QWidget):
         if not tab_name:
             return
         target = str(tab_name).strip().lower()
-        aliases = {"llm": "models", "model": "models", "help": "about"}
+        aliases = {"llm": "models", "model": "models", "help": "about", "performance": "models"}
+        if target == "performance":
+            self.performance_disclosure.expand_button.setChecked(True)
         target = aliases.get(target, target)
         for index in range(self.tabs.count()):
             if self.tabs.tabText(index).lower() == target:
@@ -806,3 +839,17 @@ class SettingsPage(QtWidgets.QWidget):
     def _normalized_plain_text(self, editor: QtWidgets.QPlainTextEdit) -> str:
         text = editor.toPlainText().rstrip()
         return text + "\n" if text else ""
+
+    def resizeEvent(self, event):
+        super().resizeEvent(event)
+        if hasattr(self, "section_navigation"):
+            narrow = self.width() < 760 or self.fontMetrics().height() > 26
+            direction = QtWidgets.QBoxLayout.TopToBottom if narrow else QtWidgets.QBoxLayout.LeftToRight
+            self.section_body.setDirection(direction)
+            self.section_navigation.list.setVisible(not narrow)
+            self.section_navigation.label.setVisible(not narrow)
+            self.section_combo.setVisible(narrow)
+
+    @QtCore.Slot(int, str, str)
+    def accept_shortcut_status(self, generation, state, chord):
+        self.shortcut_learner.accept_status(generation, state, chord)

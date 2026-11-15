@@ -14,7 +14,7 @@ from saydraft.ui import fonts
 
 def test_bundled_source_and_all_original_notices_match_pinned_bytes():
     manifest = fonts.verify_font_assets()
-    assert len(manifest["files"]) == 18
+    assert len(manifest["files"]) == 20
     assert sum(item["kind"] == "font" for item in manifest["files"]) == 8
     for item in manifest["files"]:
         content = (fonts.ROOT / item["path"]).read_bytes()

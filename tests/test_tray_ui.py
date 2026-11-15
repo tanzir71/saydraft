@@ -197,32 +197,33 @@ def test_tray_menu_queues_actions_and_updates_toggle_state(tmp_path):
 
     tray_actions = [item.text for item in tray.menu.items if item != "separator"]
     assert tray_actions == [
+        "Paused",
         "Open Saydraft",
-        "Start Listening",
-        "History...",
-        "Settings...",
-        "Open Log Folder",
-        "Quit",
+        "Start listening",
+        "History",
+        "Settings",
+        "Open log folder",
+        "Quit Saydraft",
     ]
     assert tray.tray_icon.visible is True
     assert tray.tray_icon.tooltip == "Saydraft - Idle - model small"
 
-    action_by_text(tray.menu, "Start Listening").trigger()
+    action_by_text(tray.menu, "Start listening").trigger()
     assert events == []
     FakeTimer.flush()
     assert events == ["start"]
 
     tray.set_listening(True)
-    assert tray.toggle_action.text == "Stop Listening"
+    assert tray.toggle_action.text == "Pause listening"
     assert tray.toggle_action.checked is True
-    action_by_text(tray.menu, "Stop Listening").trigger()
+    action_by_text(tray.menu, "Pause listening").trigger()
     FakeTimer.flush()
     assert events[-1] == "stop"
 
-    action_by_text(tray.menu, "History...").trigger()
-    action_by_text(tray.menu, "Settings...").trigger()
-    action_by_text(tray.menu, "Open Log Folder").trigger()
-    action_by_text(tray.menu, "Quit").trigger()
+    action_by_text(tray.menu, "History").trigger()
+    action_by_text(tray.menu, "Settings").trigger()
+    action_by_text(tray.menu, "Open log folder").trigger()
+    action_by_text(tray.menu, "Quit Saydraft").trigger()
     assert events == ["start", "stop"]
     FakeTimer.flush()
     assert events == ["start", "stop", "history", "settings", "quit"]

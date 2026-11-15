@@ -18,8 +18,7 @@ from saydraft.ui.theme import install_theme
 
 APP = None
 PAGES = ("Home", "History", "Dictionary", "Snippets", "Style", "Notes")
-SECTIONS = ("General", "Shortcuts", "Languages", "Cleanup", "Models", "Performance",
-            "Labs", "Microphone", "Privacy", "About")
+SECTIONS = ("General", "Shortcuts", "Microphone", "Models", "Languages", "Cleanup", "Privacy", "Labs", "About", "Performance")
 
 
 class Hints(QtCore.QObject):
@@ -157,6 +156,8 @@ def walk_tabs(subject, *, backwards=False):
 def test_all_hub_pages_have_named_forward_and_reverse_tab_cycles(owned_hub, mode, px):
     subject, hub = owned_hub, owned_hub.hub
     subject.theme(mode, px)
+    hub.settings_page.show_bar_checkbox.toggle()
+    hub.settings_page.draft_state.refresh()
     for name, section in [(name, None) for name in PAGES] + [("Settings", name) for name in SECTIONS]:
         hub.show_page(name, tab=section)
         subject.settle()
@@ -183,20 +184,23 @@ def test_navigation_refits_live_font_changes_and_native_scrollbars(owned_hub, mo
             nav = hub.navigation
             assert nav.horizontalScrollBar().maximum() == 0
             assert nav.viewport().width() >= nav.sizeHintForColumn(0)
-            assert not any(nav.item(index).icon().isNull() for index in range(nav.count()))
-            for index in range(nav.count()):
+            assert not any(nav.item(index).icon().isNull() for index in range(nav.count()) if nav.item(index).flags() & QtCore.Qt.ItemIsSelectable)
+            indices = [i for i in range(nav.count()) if nav.item(i).flags() & QtCore.Qt.ItemIsSelectable]
+            for position, index in enumerate(indices):
                 nav.setCurrentRow(index)
                 nav.setFocus()
                 QtTest.QTest.keyClick(nav, QtCore.Qt.Key_Down if index == 0 else QtCore.Qt.Key_Up)
-                assert nav.currentRow() == (1 if index == 0 else index - 1)
+                assert nav.currentRow() == (indices[1] if position == 0 else indices[position-1])
                 assert subject.app.focusWidget() is nav
-                assert hub.pages.currentIndex() == nav.currentRow()
+                assert hub.pages.currentWidget() is hub.page_widgets[nav.currentItem().data(QtCore.Qt.UserRole)]
 
 
 @pytest.mark.parametrize("page", ["Dictionary", "Snippets", "Style", "Cleanup"])
 def test_multiline_form_editors_leave_with_tab_without_changing_drafts(owned_hub, page):
     subject, hub = owned_hub, owned_hub.hub
     subject.theme("dark", 32)
+    hub.settings_page.show_bar_checkbox.toggle()
+    hub.settings_page.draft_state.refresh()
     hub.show_page("Settings" if page == "Cleanup" else page, tab=page if page == "Cleanup" else None)
     if page in ("Dictionary", "Snippets"):
         child = getattr(hub.settings_page, page.lower() + "_page")

@@ -22,6 +22,7 @@ class PillState(str, Enum):
     WARNING = "warning"
     ERROR = "error"
     COMMAND = "command"
+    DELIVERED = "delivered"
 
 
 def window_flags(*, output_only=False):
@@ -38,7 +39,7 @@ class LevelMeter(QtWidgets.QWidget):
         self.frozen = False
         self.shimmer_seconds = None
         self.foreground = QtGui.QColor(parent.colors["barFg"])
-        self.setFixedSize(67, 24)  # 14 × 2 px bars + 13 × 3 px gaps.
+        self.setFixedSize(86, 24)  # 14 × 2 px bars + 13 × 3 px gaps.
         self.setAttribute(QtCore.Qt.WA_TransparentForMouseEvents)
 
     @property
@@ -62,12 +63,15 @@ class LevelMeter(QtWidgets.QWidget):
         painter = QtGui.QPainter(self)
         painter.setRenderHint(QtGui.QPainter.Antialiasing)
         painter.setPen(QtCore.Qt.NoPen)
-        for index, height in enumerate(self.heights):
-            color = QtGui.QColor(self.foreground)
+        count = 18 if self.parentWidget().hands_free else 22
+        for index in range(count):
+            height = min(16, self.heights[round(index * (len(self.heights)-1) / (count-1))] * 16 / 22)
+            from .theme.style import bar_color
+            color = bar_color(self, "fg")
             if self.shimmer_seconds is not None:
                 color.setAlphaF(shimmer_opacity(index, self.shimmer_seconds))
             painter.setBrush(color)
-            painter.drawRoundedRect(QtCore.QRectF(index * 5, (24 - height) / 2, 2, height), 1, 1)
+            painter.drawRoundedRect(QtCore.QRectF(index * 4, (24 - height) / 2, 2, height), 1, 1)
 
 
 class PreviewStrip(QtWidgets.QLabel):
@@ -78,17 +82,23 @@ class PreviewStrip(QtWidgets.QLabel):
         layer.fill(QtCore.Qt.transparent)
         text = QtGui.QPainter(layer)
         text.setFont(self.font())
-        text.setPen(QtGui.QColor(self.parentWidget().colors["barFg"]))
-        text.drawText(self.rect().adjusted(8, 0, -8, 0), QtCore.Qt.AlignVCenter | QtCore.Qt.AlignRight, self.text())
-        if self.fontMetrics().horizontalAdvance(self.text()) > self.width() - 16 or self.property("truncated"):
+        from .theme.style import bar_color, role_font
+        text.setPen(bar_color(self, "fg"))
+        text.drawText(self.rect().adjusted(86, 0, -12, 0), QtCore.Qt.AlignVCenter | QtCore.Qt.AlignRight, self.text())
+        if self.fontMetrics().horizontalAdvance(self.text()) > self.width() - 98 or self.property("truncated"):
             text.setCompositionMode(QtGui.QPainter.CompositionMode_DestinationIn)
-            fade = QtGui.QLinearGradient(0, 0, 32, 0)
+            fade = QtGui.QLinearGradient(86, 0, 112, 0)
             fade.setColorAt(0, QtGui.QColor(0, 0, 0, 0))
             fade.setColorAt(1, QtGui.QColor(0, 0, 0, 255))
             text.fillRect(self.rect(), fade)
         text.end()
         painter = QtGui.QPainter(self)
         painter.drawPixmap(0, 0, layer)
+        painter.setPen(bar_color(self, "fgMuted"))
+        painter.setFont(role_font("mono", widget=self))
+        painter.drawText(QtCore.QRect(12,0,70,self.height()),QtCore.Qt.AlignVCenter,"PREVIEW")
+        painter.setPen(QtGui.QPen(bar_color(self,"signal"),1.5))
+        painter.drawLine(self.width()-9,12,self.width()-9,self.height()-12)
 
 
 class BarTarget(QtWidgets.QToolButton):
@@ -111,6 +121,8 @@ class BarTarget(QtWidgets.QToolButton):
             self.bar.stop_requested.emit()
         elif self.kind == "fix":
             self.bar.fix_requested.emit(self.bar.fix_page)
+        elif self.kind == "dismiss":
+            self.bar.finish_success()
 
     def enterEvent(self, event):
         if self.kind == "expand":
@@ -123,32 +135,8 @@ class BarTarget(QtWidgets.QToolButton):
         super().leaveEvent(event)
 
     def paintEvent(self, _event):
-        painter = QtGui.QPainter(self)
-        painter.setRenderHint(QtGui.QPainter.Antialiasing)
-        # Windows layered-window hit testing ignores fully transparent pixels.
-        # Alpha 1 keeps the padded target interactive without painting a panel.
-        painter.fillRect(self.rect(), QtGui.QColor(0, 0, 0, 1))
-        painter.setPen(QtCore.Qt.NoPen)
-        if self.kind == "expand":
-            if self.bar.state == PillState.IDLE:
-                color = QtGui.QColor(self.bar.colors["ink"])
-                color.setAlphaF(.60)
-                painter.setBrush(color)
-                painter.drawRoundedRect(QtCore.QRectF(6, 8, 36, 8), 4, 4)
-            else:
-                painter.setBrush(QtGui.QColor(self.bar.colors["barBg"]))
-                painter.drawRoundedRect(QtCore.QRectF(0, 0, 160, 32), 16, 16)
-                painter.setFont(self.bar.caption_font)
-                painter.setPen(QtGui.QColor(self.bar.colors["barFg"]))
-                hint = self.fontMetrics().elidedText(self.bar.hint, QtCore.Qt.ElideMiddle, 144)
-                painter.drawText(QtCore.QRect(8, 0, 144, 32), QtCore.Qt.AlignCenter, hint)
-        elif self.kind == "stop":
-            painter.setBrush(QtGui.QColor(self.bar.colors["signal"]))
-            painter.drawEllipse(QtCore.QPointF(12, 12), 4, 4)
-        elif self.kind == "fix":
-            painter.setFont(self.bar.caption_font)
-            painter.setPen(QtGui.QColor(self.bar.colors["barFg"]))
-            painter.drawText(self.rect(), QtCore.Qt.AlignCenter, "Fix ↗")
+        from .bar_presentation import paint_target
+        paint_target(self)
 
 
 class SaydraftPill(QtWidgets.QWidget):
@@ -170,12 +158,14 @@ class SaydraftPill(QtWidgets.QWidget):
         self.idle_enabled = True
         self.state = PillState.HIDDEN
         self.hands_free = False
+        self.warning_seconds = self.maximum_seconds = 0
+        self.remaining_seconds = 0
         self.hands_free_provider = None
         self.fix_page = "models"
         self.started_at = self.processing_at = 0.
         self._visibility_generation = 0
         self._anchor = None
-        self._preferred_size = QtCore.QSize(36, 8)
+        self._preferred_size = QtCore.QSize(44, 8)
         self._placement_watcher = None
         self._placement_watcher_factory = placement_watcher_factory
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
@@ -185,9 +175,10 @@ class SaydraftPill(QtWidgets.QWidget):
         self.setFocusPolicy(QtCore.Qt.NoFocus)
         self.setStyleSheet("SaydraftPill, LevelMeter, PreviewStrip { background: transparent; border: none; }")
         self.caption_font = QtGui.QFont(self.font())
-        self.caption_font.setPixelSize(12)
+        from .theme.style import body_pixels
+        self.caption_font.setPixelSize(round(body_pixels() * 12 / 14))
         self.message_font = QtGui.QFont(self.font())
-        self.message_font.setPixelSize(max(16, self.message_font.pixelSize()))
+        self.message_font.setPixelSize(round(body_pixels() * 13 / 14))
         self.level_meter = LevelMeter(self, clock=clock)
         self.preview_label = PreviewStrip(self)
         self.preview_label.setFont(self.caption_font)
@@ -202,7 +193,9 @@ class SaydraftPill(QtWidgets.QWidget):
         for label in (self.status_label, self.elapsed_label, self.hotkey_label, self.spinner_label):
             label.hide()
         self.target = BarTarget(self)
-        self.dismiss_button = self.target
+        self.dismiss_target = BarTarget(self)
+        self.dismiss_button = self.dismiss_target
+        self.dismiss_target.hide()
         self.animation_timer = QtCore.QTimer(self)
         self.animation_timer.setInterval(16)
         self.animation_timer.timeout.connect(self.advance_frame)
@@ -214,7 +207,7 @@ class SaydraftPill(QtWidgets.QWidget):
         self._hide_timer.setSingleShot(True)
         self._hide_timer.timeout.connect(self._timed_collapse)
         self._hide_generation = None
-        self.setFixedSize(36, 8)
+        self.setFixedSize(68, 44)
         self.level_meter.hide()
 
     @staticmethod
@@ -228,9 +221,10 @@ class SaydraftPill(QtWidgets.QWidget):
 
     @property
     def capsule_rect(self):
-        width = 164 if self.state in (PillState.PREPARING, PillState.RECORDING, PillState.PROCESSING) else 268 if self.state == PillState.COMMAND else self.width()
-        height = 36 if self.state in (PillState.PREPARING, PillState.RECORDING, PillState.PROCESSING, PillState.COMMAND) else self.height()
-        return QtCore.QRect((self.width() - width) // 2, self.height() - height, width, height)
+        state = self.state
+        height = 8 if state == PillState.IDLE else 36 if state == PillState.HOVER else 56 if state in (PillState.ERROR, PillState.WARNING) else 40
+        width = 244 if self.preview_label.isVisible() else self.width()-24
+        return QtCore.QRect((self.width()-width)//2, self.height()-height-24, width, height)
 
     def set_hotkey_hint(self, hotkey_hint):
         self.hotkey_hint = self._chord(hotkey_hint)
@@ -250,13 +244,13 @@ class SaydraftPill(QtWidgets.QWidget):
         self._transition(PillState.IDLE)
         self._anchor = None
         self.status_label.setText(self.hint)
-        self._layout(36, 8)
+        self._layout(44, 8)
 
     def set_hovered(self, hovered):
         if self.state not in (PillState.IDLE, PillState.HOVER):
             return
         self.state = PillState.HOVER if hovered else PillState.IDLE
-        self._layout(160, 32) if hovered else self._layout(36, 8)
+        self._layout(max(220, self.caption_font.pixelSize()*len(self.hint)//2 + 50), 36) if hovered else self._layout(44, 8)
 
     def show_preparing(self, *, hands_free=False):
         self._transition(PillState.PREPARING)
@@ -267,21 +261,22 @@ class SaydraftPill(QtWidgets.QWidget):
         self.level_meter.shimmer_seconds = None
         self.status_label.setText("Getting ready")
         self.setAccessibleName("Getting ready · microphone has not started")
-        self.level_meter.setVisible(not self.hands_free)
-        self._layout(164, 36)
+        self.level_meter.hide()
+        self._layout(244, 40)
         self.animation_timer.start()
 
     def show_recording(self, *, hands_free=False, command=False):
         self._transition(PillState.COMMAND if command else PillState.RECORDING)
         self._anchor = None
         self.started_at = self.clock()
+        self.setProperty("longRecording", False)
         self.hands_free = bool(hands_free)
         self.level_meter.envelope.reset(self.clock())
         self.level_meter.frozen = False
         self.level_meter.shimmer_seconds = None
         self.status_label.setText("⌘ Command" if command else "Recording")
         self.level_meter.show()
-        self._layout(268 if command else 164, 36)
+        self._layout(288 if command else 264 if hands_free else 244, 40)
         self.refresh_elapsed()
         self.elapsed_timer.start()
         self.animation_timer.start()
@@ -289,7 +284,7 @@ class SaydraftPill(QtWidgets.QWidget):
     def set_hands_free(self, enabled):
         self.hands_free = bool(enabled)
         if self.state == PillState.PREPARING:
-            self.level_meter.setVisible(not self.hands_free)
+            self.level_meter.hide()
         self._sync_target()
 
     def update_level(self, rms):
@@ -303,16 +298,22 @@ class SaydraftPill(QtWidgets.QWidget):
         self.preview_label.setProperty("truncated", len(text) > 60)
         self.preview_label.setAccessibleDescription(text[-60:])
         self.preview_label.show()
-        self._layout(360, 68)
+        self._layout(360, 92)
 
     def clear_preview(self):
         self.preview_label.clear()
         self.preview_label.hide()
         if self.state in (PillState.RECORDING, PillState.COMMAND):
-            self._layout(268 if self.state == PillState.COMMAND else 164, 36)
+            self._layout(288 if self.state == PillState.COMMAND else 264 if self.hands_free else 244, 40)
 
     def refresh_elapsed(self):
         elapsed = max(0, int(self.clock() - self.started_at))
+        long = 0 < self.warning_seconds < self.maximum_seconds and elapsed >= self.warning_seconds
+        self.remaining_seconds = max(0, self.maximum_seconds-elapsed)
+        if long != bool(self.property("longRecording")):
+            self.setProperty("longRecording", long)
+            if long:
+                self._layout(332, 40)
         minutes, seconds = divmod(elapsed, 60)
         self.elapsed_label.setText(f"{minutes}:{seconds:02d}")
         self.setAccessibleName(f"{self.status_label.text()} · {self.elapsed_label.text()}")
@@ -324,8 +325,8 @@ class SaydraftPill(QtWidgets.QWidget):
         self.level_meter.frozen = True
         self.level_meter.shimmer_seconds = 0.
         self.status_label.setText("Processing")
-        self.level_meter.show()
-        self._layout(164, 36)
+        self.level_meter.hide()
+        self._layout(244, 40)
         self.animation_timer.start()
 
     def advance_frame(self):
@@ -344,6 +345,18 @@ class SaydraftPill(QtWidgets.QWidget):
 
     def advance_spinner(self):
         self.advance_frame()
+
+    def set_recording_limits(self, warning_seconds, maximum_seconds):
+        self.warning_seconds = max(0, int(warning_seconds))
+        self.maximum_seconds = max(0, int(maximum_seconds))
+
+    def show_delivered(self):
+        self._transition(PillState.DELIVERED)
+        self.hands_free = False
+        self.status_label.setText("Inserted")
+        self.elapsed_label.clear()
+        self._layout(180, 40)
+        self.hide_after(1500)
 
     def finish_success(self):
         if self.idle_enabled:
@@ -372,7 +385,7 @@ class SaydraftPill(QtWidgets.QWidget):
         width = max(280, max(metrics.horizontalAdvance(self.status_label.text()), metrics.horizontalAdvance(self.elapsed_label.text())) + 40)
         if self.state == PillState.ERROR:
             width += 56
-        self._layout(width, 64)
+        self._layout(width + 84, 56)
         self.setAccessibleName(f"{self.status_label.text()}. {self.elapsed_label.text()}")
 
     def _transition(self, state):
@@ -384,21 +397,20 @@ class SaydraftPill(QtWidgets.QWidget):
         self.preview_label.clear()
         self.preview_label.hide()
         self.target.hide()
+        self.dismiss_target.hide()
         self.state = state
 
     def _layout(self, width, height):
         self._preferred_size = QtCore.QSize(width, height)
         if self._anchor is None:
             self._anchor = self._screen_geometry()
-        width = min(width, max(36, self._anchor.width() - 32))
-        self.setFixedSize(width, height)
-        self.preview_label.setGeometry(0, 0, width, 24)
+        width = min(width, max(44, self._anchor.width()-56))
+        self.setFixedSize(width+24, height+36)
+        self.preview_label.setGeometry(12,12,width,42)
         capsule = self.capsule_rect
-        self.level_meter.move(capsule.x() + (151 if self.state == PillState.COMMAND else 48), capsule.y() + 6)
-        if self.state == PillState.PREPARING:
-            self.level_meter.move(capsule.x() + 90, capsule.y() + 6)
-        self.move(self._anchor.x() + (self._anchor.width() - width) // 2,
-                  max(self._anchor.y(), self._anchor.y() + self._anchor.height() - height - 24))
+        self.level_meter.move(capsule.x()+(126 if self.state == PillState.COMMAND else 44),capsule.y()+8)
+        self.move(self._anchor.x()+(self._anchor.width()-self.width())//2,
+                  max(self._anchor.y(), self._anchor.bottom()-self.height()-4))
         self.show()
         self._sync_target()
         self.update()
@@ -438,21 +450,28 @@ class SaydraftPill(QtWidgets.QWidget):
     def _sync_target(self):
         if not self.isVisible():
             self.target.hide()
+            self.dismiss_target.hide()
             return
+        self.dismiss_target.hide()
         capsule = self.capsule_rect
         self.target.kind = ""
         if self.state in (PillState.IDLE, PillState.HOVER):
             self.target.kind = "expand"
-            rect = QtCore.QRect(-6, -8, 48, 24) if self.state == PillState.IDLE else QtCore.QRect(0, 0, 160, 40)
+            rect = capsule.adjusted(-6,-8,6,8) if self.state == PillState.IDLE else capsule
             self.target.setAccessibleName("Start hands-free dictation")
             self.target.setAccessibleDescription(self.hint)
         elif self.state in (PillState.PREPARING, PillState.RECORDING, PillState.COMMAND) and self.hands_free:
             self.target.kind = "stop"
-            rect = QtCore.QRect(capsule.right() - 31, capsule.y() + 6, 24, 24)
+            rect = QtCore.QRect(capsule.right()-34,capsule.y()+6,28,28)
             self.target.setAccessibleName("Stop hands-free dictation")
         elif self.state == PillState.ERROR:
             self.target.kind = "fix"
-            rect = QtCore.QRect(self.width() - 64, 8, 56, 48)
+            rect = QtCore.QRect(capsule.right()-94,capsule.y()+14,52,28)
+            self.dismiss_target.kind = "dismiss"
+            self.dismiss_target.setAccessibleName("Dismiss alert")
+            close_rect = QtCore.QRect(capsule.right()-36,capsule.y()+14,28,28)
+            self.dismiss_target.setGeometry(QtCore.QRect(self.mapToGlobal(close_rect.topLeft()),close_rect.size()))
+            self.dismiss_target.show()
             self.target.setAccessibleName(self.elapsed_label.text())
         else:
             self.target.hide()
@@ -481,6 +500,7 @@ class SaydraftPill(QtWidgets.QWidget):
         self.preview_label.clear()
         self.preview_label.hide()
         self.target.hide()
+        self.dismiss_target.hide()
         if self._placement_watcher is not None:
             self._placement_watcher.stop()
         for timer in (self.animation_timer, self.elapsed_timer, self._hide_timer):
@@ -489,64 +509,12 @@ class SaydraftPill(QtWidgets.QWidget):
 
     def closeEvent(self, event):
         self.target.hide()
+        self.dismiss_target.hide()
         super().closeEvent(event)
 
     def paintEvent(self, _event):
-        if self.state in (PillState.HIDDEN, PillState.IDLE, PillState.HOVER):
-            return  # The expand target paints the idle/hover capsule exactly once.
-        painter = QtGui.QPainter(self)
-        painter.setRenderHint(QtGui.QPainter.Antialiasing)
-        color = self.colors["barWarn"] if self.state == PillState.WARNING else self.colors["barError"] if self.state == PillState.ERROR else self.colors["barBg"]
-        painter.setBrush(QtGui.QColor(color))
-        painter.setPen(QtCore.Qt.NoPen)
-        painter.drawRoundedRect(self.capsule_rect, 18, 18)
-        if self.preview_label.isVisible():
-            painter.drawRoundedRect(QtCore.QRectF(0, 0, self.width(), 24), 12, 12)
-        painter.setPen(QtGui.QColor(self.colors["barFg"]))
-        painter.setFont(self.caption_font)
-        if self.state == PillState.COMMAND:
-            # The bundled text fonts do not contain U+2318. Draw an original
-            # vector command mark instead of depending on an OS fallback font.
-            painter.save()
-            painter.translate(self.capsule_rect.x() + 16, self.capsule_rect.y() + 11)
-            painter.scale(.85, .85)
-            painter.setBrush(QtCore.Qt.NoBrush)
-            painter.setPen(QtGui.QPen(QtGui.QColor(self.colors["barFg"]), 1.4))
-            mark = QtGui.QPainterPath()
-            mark.moveTo(4, 4)
-            mark.lineTo(10, 4)
-            mark.lineTo(10, 2)
-            mark.cubicTo(10, -.7, 14, -.7, 14, 2)
-            mark.cubicTo(14, 4.7, 10, 4.7, 10, 4)
-            mark.lineTo(10, 10)
-            mark.lineTo(12, 10)
-            mark.cubicTo(14.7, 10, 14.7, 14, 12, 14)
-            mark.cubicTo(9.3, 14, 9.3, 10, 10, 10)
-            mark.lineTo(4, 10)
-            mark.lineTo(4, 12)
-            mark.cubicTo(4, 14.7, 0, 14.7, 0, 12)
-            mark.cubicTo(0, 9.3, 4, 9.3, 4, 10)
-            mark.lineTo(4, 4)
-            mark.lineTo(2, 4)
-            mark.cubicTo(-.7, 4, -.7, 0, 2, 0)
-            mark.cubicTo(4.7, 0, 4.7, 4, 4, 4)
-            painter.drawPath(mark)
-            painter.restore()
-            painter.drawText(self.capsule_rect.adjusted(36, 0, -100, 0), QtCore.Qt.AlignVCenter, "Command")
-        elif self.state == PillState.PREPARING:
-            painter.setOpacity(.80)
-            painter.drawText(self.rect().adjusted(9, 0, -72, 0), QtCore.Qt.AlignVCenter, "Getting ready")
-        elif self.state == PillState.PROCESSING and self.clock() - self.processing_at > 1.5:
-            painter.setOpacity(.80)
-            painter.drawText(self.rect().adjusted(9, 0, -75, 0), QtCore.Qt.AlignVCenter, "Cleaning up")
-        elif self.state in (PillState.WARNING, PillState.ERROR):
-            painter.setFont(self.message_font)
-            right = 72 if self.state == PillState.ERROR else 16
-            bounds = self.rect().adjusted(16, 5, -right, -5)
-            metrics = painter.fontMetrics()
-            for index, text in enumerate((self.status_label.text(), self.elapsed_label.text())):
-                line = QtCore.QRect(bounds.x(), bounds.y() + 26 * index, bounds.width(), 26)
-                painter.drawText(line, QtCore.Qt.AlignVCenter, metrics.elidedText(text, QtCore.Qt.ElideRight, bounds.width()))
+        from .bar_presentation import paint_bar
+        paint_bar(self)
 
     def render_image(self):
         """Composite only these two owned widgets; never capture the desktop."""
@@ -554,5 +522,9 @@ class SaydraftPill(QtWidgets.QWidget):
         if self.target.isVisible():
             painter = QtGui.QPainter(image)
             painter.drawPixmap(self.mapFromGlobal(self.target.pos()), self.target.grab())
+            painter.end()
+        if self.dismiss_target.isVisible():
+            painter = QtGui.QPainter(image)
+            painter.drawPixmap(self.mapFromGlobal(self.dismiss_target.pos()), self.dismiss_target.grab())
             painter.end()
         return image

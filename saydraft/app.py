@@ -410,6 +410,8 @@ class SaydraftApp:
 
         self.qt_app = application
         self.config = self._load_app_config()
+        if getattr(application, "_saydraft_theme", None) is not None:
+            application._saydraft_theme.set_mode(self.config["app"].get("theme", "system"))
         self.signals = create_worker_signals(qt_modules.QtCore)
         self.controller = self.controller_factory(self.signals)
         self.tray = self.tray_factory(
@@ -555,7 +557,7 @@ class SaydraftApp:
 
     def _update_available(self, result):
         self.signals.notification_requested.emit(
-            f'Saydraft {result.version} is available. View the release in Settings → Privacy → App updates.')
+            f'Saydraft {result.version} is available. View the release in Settings → About → App updates.')
 
     def _apply_bar_update(self, update):
         from .core.bar_status import BarPhase, BarUpdate
@@ -584,8 +586,16 @@ class SaydraftApp:
                 'translation_model_unavailable': 'Translation model unavailable'}.get(update.reason, "Dictation unavailable")
             self.pill.show_error(message, fix_page="microphone" if update.reason == "microphone_unavailable" else
                                  'labs' if update.reason in ('command_model_unavailable', 'translation_model_unavailable') else "models")
-        elif update.phase in (BarPhase.INSERTED, BarPhase.IDLE):
+        elif update.phase == BarPhase.INSERTED:
+            if hasattr(self.pill, "show_delivered"):
+                self.pill.show_delivered()
+            else:
+                self.pill.finish_success()
+        elif update.phase == BarPhase.IDLE:
             self.pill.finish_success()
+        hub = getattr(self, "hub_window", None)
+        if hub is not None and hasattr(hub, "accept_bar_update"):
+            hub.accept_bar_update(update)
         if self.bar_sounds is not None:
             self.bar_sounds.handle(update)
 
@@ -598,6 +608,9 @@ class SaydraftApp:
 
     def _configure_bar(self):
         cfg = self.config if isinstance(self.config, dict) else {}
+        if hasattr(self.pill, "set_recording_limits"):
+            limits = cfg.get("recording", {})
+            self.pill.set_recording_limits(limits.get("warning_seconds", 0), limits.get("max_seconds", 0))
         if hasattr(self.pill, "set_paste_hint"):
             self.pill.set_paste_hint(cfg.get("hotkeys", {}).get("paste_last", "shift+alt+z"))
         if hasattr(self.pill, "set_idle_enabled"):
@@ -942,6 +955,8 @@ class SaydraftApp:
                     hardware_benchmark_callback=self._benchmark_hardware,
                     style_preview_callback=getattr(self.controller, "preview_style", None),
                     style_glossary_provider=getattr(self.controller, "style_glossary", None),
+                    shortcut_start_callback=getattr(self.controller,"start_shortcut_capture",None),
+                    shortcut_cancel_callback=getattr(self.controller,"cancel_shortcut_capture",None),
                     microphone_start_callback=getattr(self.controller,"start_microphone_test",None),
                     microphone_stop_callback=getattr(self.controller,"stop_microphone_test",None),
                     audio_cleanup_callback=getattr(self.controller,"cleanup_audio",None),
@@ -961,6 +976,10 @@ class SaydraftApp:
             if notes is not None:
                 notes.open_requested.connect(self._show_scratchpad)
                 notes.new_requested.connect(self._new_scratchpad)
+            shortcut_signal = getattr(self.signals, "shortcut_capture_status", None)
+            if shortcut_signal is not None and hasattr(self.settings_window, "accept_shortcut_status"):
+                qt = self.qt_modules or _load_qt_modules()
+                shortcut_signal.connect(self.settings_window.accept_shortcut_status, qt.QtCore.Qt.QueuedConnection)
             microphone = getattr(self.settings_window,"microphone_page",None)
             if microphone is not None:
                 for name, slot in (("microphone_test_status",microphone.accept_status),

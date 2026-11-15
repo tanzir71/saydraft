@@ -1,4 +1,5 @@
 """Capture real Qt Hub/Bar controls at 2x with isolated public fixtures and barred owner I/O."""
+# ruff: noqa: E402 - guards must precede Qt/application imports
 import argparse
 from datetime import datetime
 import ctypes
@@ -18,7 +19,8 @@ assert (repo / 'saydraft/__init__.py').is_file(), 'Run from the repository root'
 assert not output.is_relative_to(repo), 'Keep generated profiles and captures outside the source checkout'
 output.mkdir(exist_ok=False)
 profile = output / 'profile'
-for name in ['local', 'roaming', 'home', 'temp']: (profile / name).mkdir(parents=True)
+for name in ['local', 'roaming', 'home', 'temp']:
+    (profile / name).mkdir(parents=True)
 os.environ.update(QT_QPA_PLATFORM='offscreen', QT_STYLE_OVERRIDE='Fusion', QT_SCALE_FACTOR='2',
     LOCALAPPDATA=str(profile / 'local'), APPDATA=str(profile / 'roaming'), USERPROFILE=str(profile / 'home'),
     TEMP=str(profile / 'temp'), TMP=str(profile / 'temp'))
@@ -98,7 +100,8 @@ for mode in ['light', 'dark']:
         bar.update_level(.09)
         ticks[0] += .06
         bar.advance_frame()
-        if state == 'preview': bar.update_preview('Let us turn this thought into a clear draft.')
+        if state == 'preview':
+            bar.update_preview('Let us turn this thought into a clear draft.')
         if state == 'cleaning':
             bar.show_processing()
             ticks[0] += 1.75
@@ -114,7 +117,8 @@ for mode in ['light', 'dark']:
         app.sendPostedEvents(None, QtCore.QEvent.DeferredDelete)
 theme.close()
 assert not blocked, blocked
-for item in captures: item['sha256'] = hashlib.sha256((output / item['file']).read_bytes()).hexdigest()
+for item in captures:
+    item['sha256'] = hashlib.sha256((output / item['file']).read_bytes()).hexdigest()
 report = {'app_source': subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip(),
     'source_dirty': bool(subprocess.check_output(['git', 'status', '--porcelain'])),
     'producer_sha256': hashlib.sha256(Path(__file__).read_bytes()).hexdigest(), 'platform': app.platformName(), 'scale': 2,

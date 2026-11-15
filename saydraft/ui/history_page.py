@@ -127,62 +127,76 @@ class HistoryPage(QtWidgets.QWidget):
         self.jobs.ready.connect(self._accept_read, QtCore.Qt.QueuedConnection)
         self.jobs.exported.connect(self._accept_export, QtCore.Qt.QueuedConnection)
 
+        self.diff_palette_timer = QtCore.QTimer(self)
+        self.diff_palette_timer.setSingleShot(True)
+        self.diff_palette_timer.timeout.connect(self._refresh_diff_palette)
         self._build_layout()
         self._connect_signals()
         self.refresh()
 
     def _build_layout(self) -> None:
+        from .kit import PageHeader, Card, Segmented, control_row
+        from .presentation import style_list
         root = QtWidgets.QVBoxLayout(self)
-        toolbar = AdaptiveRow()
-        toolbar.addWidget(self.search_edit, 1)
-        toolbar.addWidget(self.export_button)
-        toolbar.addWidget(self.cancel_export_button)
-        root.addLayout(toolbar)
-
-        body = QtWidgets.QSplitter(QtCore.Qt.Horizontal, self)
-        self.body = body
-        left = QtWidgets.QWidget()
-        left_layout = QtWidgets.QVBoxLayout(left)
-        left_layout.setContentsMargins(0, 0, 0, 0)
-        left_layout.addWidget(self.list_widget)
+        root.setContentsMargins(40, 24, 40, 28)
+        root.setSpacing(20)
+        self.search_edit.setProperty("search", True)
+        root.addWidget(PageHeader("History", "Every dictation, saved on this PC.",
+            actions=(self.search_edit, self.export_button, self.cancel_export_button)))
+        self.body = QtWidgets.QSplitter(QtCore.Qt.Horizontal, self)
+        self.body.setChildrenCollapsible(False)
+        self.body.setHandleWidth(16)
+        left = Card()
+        style_list(self.list_widget)
+        left.body.addWidget(self.list_widget, 1)
         paging = AdaptiveRow()
+        paging.setContentsMargins(12, 8, 12, 8)
+        self.newer_button.setText("‹")
+        self.newer_button.setAccessibleName("Newer History page")
+        self.older_button.setText("›")
+        self.older_button.setAccessibleName("Older History page")
         paging.addWidget(self.newer_button)
+        paging.addWidget(self.page_label, 1)
         paging.addWidget(self.older_button)
-        left_layout.addLayout(paging)
-        left_layout.addWidget(self.page_label)
-        left_layout.addWidget(self.latest_button)
-
-        right = QtWidgets.QWidget()
-        right_layout = QtWidgets.QVBoxLayout(right)
-        right_layout.setContentsMargins(0, 0, 0, 0)
-        right_layout.addWidget(self.metadata_label)
-        views = AdaptiveRow()
-        views.addWidget(self.raw_toggle)
-        views.addWidget(self.diff_toggle)
-        views.addStretch()
-        right_layout.addLayout(views)
-        right_layout.addWidget(self.detail_editor, 1)
-        right_layout.addWidget(self.why_button)
-        right_layout.addWidget(self.why_editor)
-        buttons = QtWidgets.QGridLayout()
-        for index, button in enumerate((self.copy_button, self.reinsert_button, self.add_dictionary_button, self.retry_button)):
-            buttons.addWidget(button, index // 2, index % 2)
-        right_layout.addLayout(buttons)
-        recovery = AdaptiveRow()
-        recovery.addWidget(self.status_label, 1)
-        recovery.addWidget(self.restore_clipboard_button)
-        right_layout.addLayout(recovery)
-
-        body.addWidget(left)
-        body.addWidget(right)
-        body.setStretchFactor(0, 1)
-        body.setStretchFactor(1, 2)
-        root.addWidget(body, 1)
+        left.body.addLayout(paging)
+        left.body.addWidget(self.latest_button)
+        right = Card(padding=24)
+        right.body.setSpacing(16)
+        right.body.addWidget(self.metadata_label)
+        self.view_segment = Segmented([("Cleaned", "cleaned"), ("Raw", "raw"), ("Changes", "diff")], name="Transcript view")
+        right.body.addWidget(self.view_segment, alignment=QtCore.Qt.AlignLeft)
+        self.raw_toggle.hide()
+        self.diff_toggle.hide()
+        def choose(index):
+            self.raw_toggle.setChecked(index == 1)
+            self.diff_toggle.setChecked(index == 2)
+        self.view_segment.currentIndexChanged.connect(choose)
+        def sync(*_args):
+            blocker = QtCore.QSignalBlocker(self.view_segment)
+            self.view_segment.setCurrentIndex(2 if self.diff_toggle.isChecked() else 1 if self.raw_toggle.isChecked() else 0)
+            del blocker
+        self.raw_toggle.toggled.connect(sync)
+        self.diff_toggle.toggled.connect(sync)
+        self.detail_editor.setProperty("reader", True)
+        self.detail_editor.setProperty("role", "body")
+        self.detail_editor.setProperty("fontRatio", 22 / 14)
+        right.body.addWidget(self.detail_editor, 1)
+        right.body.addWidget(self.why_button, alignment=QtCore.Qt.AlignLeft)
+        right.body.addWidget(self.why_editor)
+        right.body.addWidget(control_row(self.copy_button, self.reinsert_button, self.add_dictionary_button, self.retry_button))
+        right.body.addWidget(control_row(self.status_label, self.restore_clipboard_button))
+        self.body.addWidget(left)
+        self.body.addWidget(right)
+        self.body.setSizes([300, 520])
+        self.body.setStretchFactor(0, 0)
+        self.body.setStretchFactor(1, 1)
+        root.addWidget(self.body, 1)
 
     def _fit_body(self):
         if not hasattr(self, "body"):
             return
-        required = self.raw_toggle.sizeHint().width() + self.diff_toggle.sizeHint().width() + 220 + self.body.handleWidth()
+        from .theme.style import scaled
+        required = scaled(620)
         orientation = QtCore.Qt.Vertical if self.body.width() < required else QtCore.Qt.Horizontal
         if self.body.orientation() != orientation:
             self.body.setOrientation(orientation)
@@ -419,9 +433,13 @@ class HistoryPage(QtWidgets.QWidget):
             style = QtGui.QTextCharFormat()
             if run.kind == "delete":
                 style.setFontStrikeOut(True)
+                from .theme.style import color
+                style.setForeground(color(self.detail_editor,"danger"))
+                style.setBackground(color(self.detail_editor,"dangerTint"))
             elif run.kind == "insert":
-                style.setBackground(QtGui.QColor(self.diff_colors["insertBackground"]))
-                style.setForeground(QtGui.QColor(self.diff_colors["insertText"]))
+                from .theme.style import color
+                style.setBackground(color(self.detail_editor,"signalTint"))
+                style.setForeground(color(self.detail_editor,"onSignalTint"))
                 style.setFontUnderline(True)
             cursor.insertText(run.text, style)
             previous = run
@@ -655,3 +673,22 @@ class HistoryPage(QtWidgets.QWidget):
         self.jobs.close()
         self._snapshot = None
         super().closeEvent(event)
+
+    def changeEvent(self, event):
+        super().changeEvent(event)
+        if event.type() in (QtCore.QEvent.PaletteChange, QtCore.QEvent.StyleChange) and hasattr(self,"diff_palette_timer"):
+            self.diff_palette_timer.start(0)
+
+    def _refresh_diff_palette(self):
+        if self._detail is None or not self.diff_toggle.isChecked():
+            return
+        cursor=self.detail_editor.textCursor()
+        position,anchor=cursor.position(),cursor.anchor()
+        scroll=self.detail_editor.verticalScrollBar().value()
+        self._show_diff(self._detail)
+        cursor=self.detail_editor.textCursor()
+        limit=max(0,self.detail_editor.document().characterCount()-1)
+        cursor.setPosition(min(anchor,limit))
+        cursor.setPosition(min(position,limit),QtGui.QTextCursor.KeepAnchor)
+        self.detail_editor.setTextCursor(cursor)
+        self.detail_editor.verticalScrollBar().setValue(scroll)

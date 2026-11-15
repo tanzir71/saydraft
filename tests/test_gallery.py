@@ -22,7 +22,7 @@ def test_fresh_gallery_renders_offline_without_clipping_and_matches_snapshots(tm
     assert not report["active_application_read"] and not report["owner_clipboard_accessed"]
     assert {theme["name"] for theme in report["themes"]} == {"light", "dark"}
     for theme in report["themes"]:
-        assert theme["body_pixels"] >= 16
+        assert theme["body_pixels"] >= 14
         assert (theme["image_width"], theme["image_height"]) == (1000 * scale, 740 * scale)
         assert all(row["height"] >= row["required"] for row in theme["style_rows"])
         for name in theme["files"]:

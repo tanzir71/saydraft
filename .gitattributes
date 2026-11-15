@@ -1,5 +1,7 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+# Preserve source-bound UI v2 verification receipts and captures.
+eval/ui/results/2026-11-16-app-ui-v2/** -text -whitespace
 *.wav binary
 
 # Preserve byte-for-byte checksums for bundled model notices.

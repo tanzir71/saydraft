@@ -3,6 +3,7 @@
 import threading
 
 from PySide6 import QtCore, QtWidgets
+from .reflow import WrapPushButton
 
 from saydraft.privacy.firewall_control import FirewallChange, change_firewall, packaged_executable
 
@@ -27,8 +28,8 @@ class FirewallCard(QtWidgets.QWidget):
         self.explanation.setWordWrap(True)
         self.explanation.setSizePolicy(QtWidgets.QSizePolicy.Ignored, QtWidgets.QSizePolicy.Preferred)
         layout.addWidget(self.explanation)
-        self.block_button = QtWidgets.QPushButton("Block Saydraft from the internet")
-        self.remove_button = QtWidgets.QPushButton("Remove Saydraft’s block rule")
+        self.block_button = WrapPushButton("Block Saydraft from the internet")
+        self.remove_button = WrapPushButton("Remove Saydraft’s block rule")
         layout.addWidget(self.block_button)
         layout.addWidget(self.remove_button)
         self.status = QtWidgets.QLabel()

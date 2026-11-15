@@ -55,6 +55,7 @@ class ModelPicker(QtWidgets.QWidget):
         policy.setHorizontalPolicy(QtWidgets.QSizePolicy.Ignored)
         self.file_status.setSizePolicy(policy)
         self.download_button = WrapPushButton("Download / Resume")
+        self.download_button.setProperty("primary", True)
         self.pause_button = WrapPushButton("Pause")
         self.pause_button.setEnabled(False)
         self.download_button.clicked.connect(self.start_download)
@@ -69,12 +70,15 @@ class ModelPicker(QtWidgets.QWidget):
         layout.addWidget(self.license_label)
         layout.addLayout(buttons)
         layout.addWidget(self.progress)
+        layout.addWidget(self.progress.caption)
         layout.addWidget(self.file_status)
         layout.addWidget(self.status)
         self.license_timer = QtCore.QTimer(self)
         self.license_timer.setSingleShot(True)
         self.license_timer.timeout.connect(self._render_license)
         self.update_license()
+        from .model_choices import arrange_picker
+        arrange_picker(self)
 
     @property
     def model_id(self):

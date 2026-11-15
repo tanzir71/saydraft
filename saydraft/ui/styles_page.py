@@ -40,6 +40,7 @@ class StylesPage(QtWidgets.QScrollArea):
         self.matrix = QtWidgets.QTableWidget(len(GROUP_LABELS), 3)
         self.matrix.setAccessibleName("App group tone and cleanup intensity")
         self.matrix.setTabKeyNavigation(False)
+        self.matrix.setHorizontalScrollMode(QtWidgets.QAbstractItemView.ScrollPerPixel)
         self.matrix.setSizePolicy(QtWidgets.QSizePolicy.Ignored, QtWidgets.QSizePolicy.Fixed)
         self.matrix.setHorizontalHeaderLabels(["App group", "Tone", "Cleanup"])
         self.matrix.verticalHeader().hide()
@@ -151,6 +152,8 @@ class StylesPage(QtWidgets.QScrollArea):
         self.group.currentIndexChanged.connect(self.invalidate)
         self.matrix.cellClicked.connect(self._select_group)
         self._defaults(config)
+        from .personalization_presentation import styles
+        styles(self, translation)
 
     def _fit_matrix(self, *_args):
         # ResizeToContents can repeatedly repolish embedded combos while the

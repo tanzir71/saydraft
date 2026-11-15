@@ -103,6 +103,8 @@ class OnboardingWizard(QtWidgets.QWizard):
         self.currentIdChanged.connect(lambda _page: self.title_timer.start(0))
         self.currentIdChanged.connect(self._cancel_finish_on_navigation)
         QtWidgets.QApplication.instance().fontChanged.connect(self._schedule_title_font)
+        from .setup_presentation import install_setup
+        install_setup(self)
 
     @QtCore.Slot()
     def _schedule_title_font(self):
@@ -125,9 +127,15 @@ class OnboardingWizard(QtWidgets.QWizard):
             font.setPixelSize(font.pixelSize() + 4)
         else:
             font.setPointSizeF(font.pointSizeF() + 3)
-        font.setBold(True)
+        from .theme.style import role_font
+        font = role_font("setupTitle", widget=page)
         for label in self.findChildren(QtWidgets.QLabel):
-            if label.isVisibleTo(self) and label.text() == page.title() and not page.isAncestorOf(label):
+            if not label.isVisibleTo(self) or page.isAncestorOf(label) or hasattr(self, "rail") and self.rail.isAncestorOf(label):
+                continue
+            text = QtGui.QTextDocumentFragment.fromHtml(label.text()).toPlainText()
+            if text == page.title():
+                label.setObjectName("setupPageTitle")
+                label.setProperty("role", "setupTitle")
                 label.setFont(font)
 
     def _welcome_page(self) -> QtWidgets.QWizardPage:
@@ -329,3 +337,8 @@ class OnboardingWizard(QtWidgets.QWizard):
         self.models_page.cancel_checks()
         self.model_picker.pause()
         super().reject()
+
+    def resizeEvent(self, event):
+        super().resizeEvent(event)
+        if hasattr(self, "rail"):
+            self.rail.setVisible(self.width() >= 840 and self.fontMetrics().height() < 28)

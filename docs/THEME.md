@@ -1,5 +1,24 @@
 # App theme and component gallery
 
+Current desktop UI v2 uses schema 2 in `design/app-tokens.json` and the owner's
+approved **14px** base. Geist body, Familjen Grotesk headings, Martian Mono labels,
+Doto statistics and Noto script fallbacks scale from the live application font.
+System/Light/Dark is staged and saved with other preferences. Native high contrast
+removes the brand sheet and painted controls follow the platform palette.
+
+Progress captions now sit outside six-pixel tracks. The shared kit preserves
+native checkbox/radio roles and reflows rows at larger text. The SVG loader
+accepts bounded bundled assets and caches by palette color and density. The
+controller coalesces live font changes and restores only resources it owns.
+See [UI v2](APP_UI_V2.md), [fonts](FONTS.md) and the current
+[reference gallery](../app-ui-v2-build/README.md). All twelve generated outputs
+remain checked by `node tools/generate_tokens.mjs --check`.
+
+## Historical P6.1 checkpoint
+
+The following describes the earlier implementation and its dated evidence;
+its 16px minimum and painted progress labels are superseded by v2 above.
+
 P6.1 uses the approved paper/ink and night/deep palettes from
 `design/app-tokens.json`. The generator reads website v2 tokens separately from
 `design/tokens.json` and produces site CSS, two Qt stylesheets,

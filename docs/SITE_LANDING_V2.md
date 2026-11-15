@@ -99,3 +99,12 @@ explicit local `tools/qa-landing-v2.mjs` script with an unused output directory.
 No Actions dispatch, PR, release, indexing submission or hosting deployment is
 part of this local implementation. Publishing follows the owner's separate
 GitHub Pages workflow.
+
+## Publication receipt — 15 November 2026
+
+Landing v2 is live at [the public website](https://tanzir71.github.io/saydraft/).
+Pages run [43743639329](https://github.com/tanzir71/saydraft/actions/runs/43743639329)
+succeeded for source `8452a45dc7db797edc887213dfeb0b89e782fbd7`. Direct HTTP and
+served CSS checks confirm the v2 hero, Familjen typography, nineteen language
+guides and Tanzir credit. The earlier publication-pending statements above are
+historical checkpoints. Routine desktop delivery does not dispatch workflows.

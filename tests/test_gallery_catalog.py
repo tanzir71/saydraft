@@ -33,7 +33,7 @@ def test_live_gallery_selector_uses_actual_widgets_and_refreshes_on_theme_change
         panel.choice.setCurrentIndex(index)
         settle()
         light = panel.preview.pixmap().toImage()
-        assert not light.isNull() and light.width() == 1080
+        assert not light.isNull() and light.width() == 1120
         # The same stylesheet/palette event path also handles Follow Windows.
         controller.set_mode("dark")
         settle()

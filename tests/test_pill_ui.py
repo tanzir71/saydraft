@@ -41,9 +41,9 @@ def test_pill_recording_state_shows_smoothed_level_and_compact_geometry():
     assert pill.hotkey_label.text() == "F9"
     assert pill.level_meter.level == pytest.approx(1 - 2.718281828 ** -1)
     assert len(pill.level_meter.heights) == 14
-    assert pill.size() == qt.QtCore.QSize(164, 36)
-    assert pill.geometry().left() == 418
-    assert pill.geometry().top() == 740  # Work area ends at 800; bottom gap is 24.
+    assert pill.size() == qt.QtCore.QSize(268, 76)
+    assert pill.geometry().left() == 366
+    assert pill.mapToGlobal(pill.capsule_rect.bottomLeft()).y() == 770  # Capsule retains its bottom breathing room.
     assert not pill.target.isVisible()  # Push-to-talk has no red stop dot.
     pill.hide()
 
@@ -75,7 +75,7 @@ def test_pill_processing_freezes_bars_and_completion_collapses_immediately():
 
     pill.finish_success()
     assert pill.state == PillState.IDLE
-    assert pill.size() == qt.QtCore.QSize(36, 8)
+    assert pill.size() == qt.QtCore.QSize(68, 44)
     assert not pill.animation_timer.isActive()
     pill.set_idle_enabled(False)
     assert not pill.isVisible()
@@ -96,7 +96,7 @@ def test_pill_error_stays_available_until_fixed_or_next_session():
     assert pill.state == PillState.ERROR
     assert pill.isVisible()
     assert pill.status_label.text() == "No microphone"
-    assert pill.colors["barError"] == "#B42318"
+    assert pill.colors["barError"] == "#F97066"
     assert pill.target.isVisible() and pill.target.kind == "fix"
     assert pill.fix_page == "microphone"
     assert not scheduled
@@ -147,17 +147,17 @@ def test_idle_hover_and_hands_free_have_only_their_small_action_targets():
     pill.start_requested.connect(lambda: calls.append("start"))
     pill.stop_requested.connect(lambda: calls.append("stop"))
     pill.show_idle()
-    assert pill.size() == qt.QtCore.QSize(36, 8)
-    assert pill.target.size() == qt.QtCore.QSize(48, 24)
+    assert pill.size() == qt.QtCore.QSize(68, 44)
+    assert pill.target.size() == qt.QtCore.QSize(56, 24)
     assert pill.geometry().center().x() == -600
     bottom = pill.geometry().bottom()
     pill.set_hovered(True)
-    assert pill.state == PillState.HOVER and pill.size() == qt.QtCore.QSize(160, 32)
+    assert pill.state == PillState.HOVER and pill.size() == qt.QtCore.QSize(244, 72)
     assert pill.geometry().bottom() == bottom
     assert pill.target.accessibleDescription() == "Hold Ctrl+Win to dictate"
     pill.target.click()
     pill.show_recording(hands_free=True)
-    assert pill.target.kind == "stop" and pill.target.size() == qt.QtCore.QSize(24, 24)
+    assert pill.target.kind == "stop" and pill.target.size() == qt.QtCore.QSize(28, 28)
     assert pill.rect().contains(pill.mapFromGlobal(pill.target.geometry().center()))
     pill.target.click()
     assert calls == ["start", "stop"]

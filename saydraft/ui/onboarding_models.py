@@ -5,6 +5,7 @@ import copy
 import math
 
 from PySide6 import QtCore, QtWidgets
+from .reflow import WrapPushButton
 
 from saydraft.models.hardware import probe_hardware
 from saydraft.models.manifest import get_model
@@ -62,8 +63,8 @@ class OnboardingModelsPage(QtWidgets.QWizardPage):
 
         paragraph("Check this PC for a starting model, then review its size and license. "
                   "Download / Resume starts setup.")
-        self.hardware_button = QtWidgets.QPushButton("Check this PC")
-        self.use_button = QtWidgets.QPushButton("Use speech recommendation")
+        self.hardware_button = WrapPushButton("Check this PC")
+        self.use_button = WrapPushButton("Use speech recommendation")
         self.use_button.setEnabled(False)
         actions = QtWidgets.QHBoxLayout()
         actions.addWidget(self.hardware_button)
@@ -95,11 +96,11 @@ class OnboardingModelsPage(QtWidgets.QWizardPage):
         self.picker.combo.setAccessibleName("Setup speech model")
         layout.addWidget(self.picker)
         self.readiness = paragraph("Installed files have not been checked.", "Speech package readiness")
-        self.refresh_button = QtWidgets.QPushButton("Check installed files")
+        self.refresh_button = WrapPushButton("Check installed files")
         layout.addWidget(self.refresh_button)
-        self.benchmark_button = QtWidgets.QPushButton('Check model performance')
+        self.benchmark_button = WrapPushButton('Check model performance')
         self.benchmark_button.setAccessibleName('Check selected model performance')
-        self.stop_benchmark_button = QtWidgets.QPushButton('Stop check')
+        self.stop_benchmark_button = WrapPushButton('Stop check')
         benchmark_actions = QtWidgets.QHBoxLayout()
         benchmark_actions.addWidget(self.benchmark_button)
         benchmark_actions.addWidget(self.stop_benchmark_button)

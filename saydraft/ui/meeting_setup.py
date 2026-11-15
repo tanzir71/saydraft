@@ -102,6 +102,7 @@ class MeetingSetupDialog(QtWidgets.QDialog):
         self.progress.setRange(0, 100)
         self.progress.setAccessibleName('Meeting model setup progress')
         layout.addWidget(self.progress)
+        layout.addWidget(self.progress.caption)
         self.model_status = paragraph('Models are checked locally. Setup downloads happen only when you choose Download.')
         paragraph('Microphone and computer audio').setProperty('role', 'eyebrow')
         self.microphone = QtWidgets.QComboBox()

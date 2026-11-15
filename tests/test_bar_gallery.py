@@ -39,15 +39,15 @@ assert not attempts
     assert not report["microphone_opened"]
     from PySide6.QtGui import QImage
     for theme in report["themes"]:
-        assert len(theme["states"]) == 13
+        assert len(theme["states"]) == 15
         states = {row["state"]: row for row in theme["states"]}
-        assert (states["idle"]["width"], states["idle"]["height"]) == (36, 8)
-        assert (states["hover"]["width"], states["hover"]["height"]) == (160, 32)
-        assert (states["listening"]["width"], states["listening"]["height"]) == (164, 36)
+        assert (states["idle"]["width"], states["idle"]["height"]) == (68, 44)
+        assert (states["hover"]["width"], states["hover"]["height"]) == (244, 72)
+        assert (states["listening"]["width"], states["listening"]["height"]) == (268, 76)
         assert states["hands-free"]["target"] == "stop"
         assert states["mic-error"]["target"] == states["model-error"]["target"] == "fix"
         assert states["listening"]["target"] is None and states["processing"]["target"] is None
-        assert states["preview"]["height"] == 68
+        assert states["preview"]["height"] == 128
         for row in states.values():
             image = QImage(str(output / row["file"]))
             assert not image.isNull()

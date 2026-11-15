@@ -1,0 +1,147 @@
+"""Personalization layouts: staged editor controls, native menus, no extra I/O."""
+from PySide6 import QtCore, QtWidgets
+from .kit import Card, Label, PageHeader, SettingsGroup, Segmented, ActionButton, IconButton, control_row
+from .presentation import rebuild, show, Columns
+
+
+def overflow(page, actions):
+    button = IconButton("more", "More actions")
+    button.setPopupMode(QtWidgets.QToolButton.InstantPopup)
+    menu = QtWidgets.QMenu(button)
+    for source in actions:
+        action = menu.addAction(source.text())
+        if isinstance(source, QtWidgets.QCheckBox):
+            action.setCheckable(True)
+            action.setChecked(source.isChecked())
+            action.toggled.connect(source.setChecked)
+            source.toggled.connect(action.setChecked)
+        else:
+            action.triggered.connect(source.click)
+        menu.aboutToShow.connect(lambda source=source, action=action: action.setEnabled(source.isEnabled()))
+    button.setMenu(menu)
+    return button
+
+
+def dictionary(page):
+    root = rebuild(page, spacing=20)
+    page.search.setProperty("search", True)
+    new = ActionButton("Add term", icon="plus", primary=True)
+    more = overflow(page, (page.advanced, page.reload_button))
+    root.addWidget(PageHeader("Dictionary", "Names, terms and replacements. Written your way.", actions=(new,)))
+    learn = SettingsGroup("Learning")
+    for caption, widget, detail in (("Suggest words from corrections", page.learn_checkbox, "Learn names you fix after dictation. Password fields are skipped."),
+                                  ("Auto-add to Dictionary", page.auto_add_checkbox, "Save suggested words automatically, with Undo.")):
+        widget.setText("")
+        widget.setAccessibleName(caption)
+        learn.add_row(caption, show(widget), detail)
+    root.addWidget(learn)
+    root.addWidget(control_row(Segmented(combo=page.kind, name="Dictionary entry type"), show(page.search),
+                               show(page.import_button), show(page.export_button), more))
+    card = Card()
+    page.table.setShowGrid(False)
+    page.table.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.Stretch)
+    card.body.addWidget(show(page.table), 1)
+    root.addWidget(card, 1)
+    page.form_panel = Card(padding=16)
+    page.form_panel.body.setSpacing(12)
+    page.form_panel.body.addWidget(control_row(show(page.term_edit), show(page.value_edit)))
+    page.form_panel.body.addWidget(control_row(show(page.add_button), show(page.update_button), show(page.remove_button), show(page.manual_button)))
+    root.addWidget(page.form_panel)
+    page.form_panel.hide()
+    def add():
+        page.table.setCurrentIndex(QtCore.QModelIndex())
+        page.term_edit.clear()
+        page.value_edit.clear()
+        page.form_panel.show()
+        page.term_edit.setFocus()
+    new.clicked.connect(add)
+    page.table.doubleClicked.connect(lambda _index: (page.form_panel.show(), page.term_edit.setFocus()))
+    # Selected-row actions are available through a native menu as well as the inline editor.
+    menu_button = overflow(page, (page.update_button, page.manual_button, page.remove_button))
+    card.body.addWidget(menu_button, alignment=QtCore.Qt.AlignRight)
+    # Edit reveals the staged fields; Update/Remove continue to use the original slots.
+    edit_action = QtGuiAction("Edit selected entry…", menu_button)
+    menu_button.menu().insertAction(menu_button.menu().actions()[0], edit_action)
+    edit_action.triggered.connect(lambda: (page.form_panel.show(), page.term_edit.setFocus()))
+    root.addWidget(show(page.status_label))
+    root.addWidget(page.json_editor)
+    page.json_editor.setVisible(page.advanced.isChecked())
+
+
+def QtGuiAction(text, parent):
+    from PySide6.QtGui import QAction
+    return QAction(text, parent)
+
+
+def snippets(page):
+    root = rebuild(page, spacing=20)
+    page.search.setProperty("search", True)
+    page.new_button.setText("New snippet")
+    page.new_button.setProperty("primary", True)
+    root.addWidget(PageHeader("Snippets", "Say a little. Write a lot.", actions=(show(page.new_button),)))
+    root.addWidget(control_row(show(page.search), overflow(page, (page.advanced, page.reload_button))))
+    columns = Columns()
+    columns.setSpacing(16)
+    card = Card()
+    page.table.setMaximumHeight(16777215)
+    page.table.setShowGrid(False)
+    card.body.addWidget(show(page.table), 1)
+    columns.addWidget(card, 3)
+    editor = Card(padding=20)
+    editor.body.setSpacing(12)
+    editor.body.addWidget(Label("Snippet editor", "subheading"))
+    editor.body.addWidget(Label("When you say", "label"))
+    editor.body.addWidget(show(page.trigger_edit))
+    editor.body.addWidget(Label("Write", "label"))
+    page.expansion_edit.setMaximumHeight(16777215)
+    page.expansion_edit.setMinimumHeight(140)
+    editor.body.addWidget(show(page.expansion_edit), 1)
+    editor.body.addWidget(control_row(show(page.date_button), show(page.clipboard_button)))
+    editor.body.addWidget(Label("Variables are inserted as text here. Clipboard contents are read only when you dictate the phrase.", "caption"))
+    editor.body.addWidget(control_row(show(page.add_button), show(page.update_button), show(page.remove_button)))
+    columns.addWidget(editor, 2)
+    root.addLayout(columns, 1)
+    root.addWidget(show(page.test_toggle))
+    root.addWidget(page.test_panel)
+    page.test_panel.setVisible(page.test_toggle.isChecked())
+    root.addWidget(show(page.status_label))
+    root.addWidget(page.json_editor)
+    page.json_editor.setVisible(page.advanced.isChecked())
+
+
+def styles(page, translation):
+    body = page.widget()
+    root = rebuild(body, spacing=20)
+    root.addWidget(PageHeader("Style", "Choose how you sound in each app. Default follows Cleanup."))
+    columns = Columns()
+    columns.setSpacing(16)
+    matrix = Card(padding=12)
+    matrix.body.addWidget(show(page.matrix))
+    matrix.body.addStretch(1)
+    columns.addWidget(matrix, 5)
+    preview = Card(padding=20)
+    preview.body.setSpacing(12)
+    preview.body.addWidget(Label("Preview", "subheading"))
+    preview.body.addWidget(show(page.group))
+    preview.body.addWidget(show(page.language))
+    preview.body.addWidget(Label("Before", "label"))
+    preview.body.addWidget(show(page.before))
+    preview.body.addWidget(Label("After", "label"))
+    preview.body.addWidget(show(page.after))
+    preview.body.addWidget(show(page.ai_button))
+    preview.body.addWidget(show(page.status))
+    columns.addWidget(preview, 3)
+    root.addLayout(columns)
+    translation.setTitle("")
+    translation.layout().setRowWrapPolicy(QtWidgets.QFormLayout.WrapAllRows)
+    translation.layout().setFieldGrowthPolicy(QtWidgets.QFormLayout.AllNonFixedFieldsGrow)
+    translation.layout().insertRow(0,Label("Translate while speaking · Labs", "subheading"))
+    for combo in (page.translation_group,page.translation_language):
+        combo.setSizePolicy(QtWidgets.QSizePolicy.Ignored,QtWidgets.QSizePolicy.Fixed)
+        combo.setMinimumWidth(0)
+    root.addWidget(show(translation))
+    advanced = SettingsGroup("Preview app overrides")
+    for caption, edit in (("App executable", page.exe), ("Site hostname", page.site), ("Window title", page.title)):
+        advanced.add_row(caption, show(edit))
+    root.addWidget(advanced)
+    root.addStretch(1)

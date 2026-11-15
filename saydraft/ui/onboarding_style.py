@@ -91,18 +91,23 @@ class OnboardingStylePage(QtWidgets.QWizardPage):
     def isComplete(self):
         return bool(self.ready_callback())
 
-    def refresh_preview(self):
-        group = self.group.currentData()
-        sample = self.sample_provider(group)
-        self.source_label.setText('Your last practice transcript' if sample else 'Example text (not a recording)')
-        sample = (sample or 'Um, could you send the draft by Friday? Thanks.')[:MAX_PREVIEW]
+    def _preview(self, group):
+        original = self.sample_provider(group)
+        sample = (original or 'Um, could you send the draft by Friday? Thanks.')[:MAX_PREVIEW]
         config = copy.deepcopy(self.config)
         config['dictation']['styles'] = self.merge_changes(config['dictation'].get('styles', {}))
         context = select_context(config, [], 'Saydraft style setup', app_group=group)
-        self.before.setPlainText(sample)
         result = render_style_preview(StylePreviewRequest(1, sample, context,
             drop_message_period=config['dictation'].get('drop_message_period', True)))
+        return original, sample, result
+
+    def refresh_preview(self):
+        original, sample, result = self._preview(self.group.currentData())
+        self.source_label.setText('Your last practice transcript' if original else 'Example text (not a recording)')
+        self.before.setPlainText(sample)
         self.after.setPlainText(result.text)
+        for group, label in getattr(self, 'card_previews', {}).items():
+            label.setText(self._preview(group)[2].text)
 
     def showEvent(self, event):
         if not self.isComplete():

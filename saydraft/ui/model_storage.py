@@ -6,6 +6,7 @@ import math
 from PySide6 import QtCore, QtGui, QtWidgets
 
 from saydraft.models.storage import inventory, protected_paths, removal_reason
+from .reflow import AdaptiveRow, WrapPushButton
 
 
 def bytes_label(value):
@@ -128,8 +129,8 @@ class ModelStorage(QtWidgets.QWidget):
             policy.setHeightForWidth(True)
             label.setSizePolicy(policy)
         self.summary.setText("Refresh to inspect installed models and disk usage. No files are changed by inspection.")
-        self.refresh_button = QtWidgets.QPushButton("Refresh storage")
-        self.remove_button = QtWidgets.QPushButton("Remove…")
+        self.refresh_button = WrapPushButton("Refresh storage")
+        self.remove_button = WrapPushButton("Remove…")
         self.remove_button.setEnabled(False)
         self.refresh_button.clicked.connect(self.refresh)
         self.remove_button.clicked.connect(self.request_remove)
@@ -139,7 +140,7 @@ class ModelStorage(QtWidgets.QWidget):
         layout.setContentsMargins(0, 0, 0, 0)
         for widget in (self.summary, self.combo, self.details):
             layout.addWidget(widget)
-        buttons = QtWidgets.QHBoxLayout()
+        buttons = AdaptiveRow()
         buttons.addWidget(self.refresh_button)
         buttons.addWidget(self.remove_button)
         layout.addLayout(buttons)

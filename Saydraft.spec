@@ -11,9 +11,13 @@ from tools.package_notices import collect_notices
 policy = json.loads((project / 'installer/bundle-policy.json').read_text(encoding='utf-8'))
 datas = collect_data_files('ctranslate2') + collect_data_files('saydraft.cleanup.llm.prompts') + collect_data_files('saydraft.ui.theme') + collect_data_files('saydraft.ui.sound_assets') + [
     (str(project / 'saydraft/models/manifest.json'), 'saydraft/models'),
-    *[(str(project / 'assets' / name), 'assets/' + name) for name in policy['asset_directories']],
+    *[(str(project / 'assets' / name), 'assets/' + name) for name in policy['asset_directories'] if name != 'fonts'],
+    (str(project / 'assets/fonts/manifest.json'), 'assets/fonts'),
+    *[(str(project / 'assets/fonts' / item['path']), 'assets/fonts/' + str(Path(item['path']).parent).replace('\\', '/'))
+      for item in json.loads((project / 'assets/fonts/manifest.json').read_text(encoding='utf-8'))['files']],
     (str(project / 'installer/bundle-policy.json'), '.'),
     (str(project / 'LICENSE'), '.'),
+    (str(project / 'docs/HOTKEYS.md'), 'docs'),
     (str(project / 'THIRD_PARTY_NOTICES.md'), '.'),
 ]
 a = Analysis(

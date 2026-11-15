@@ -84,6 +84,7 @@ class CommandSetup(QtWidgets.QGroupBox):
             layout.addWidget(widget)
         layout.addLayout(buttons)
         layout.addWidget(self.progress)
+        layout.addWidget(self.progress.caption)
         layout.addWidget(self.status)
         self.backend.currentIndexChanged.connect(self._details)
         self.download_button.clicked.connect(self.start_download)

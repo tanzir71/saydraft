@@ -152,8 +152,11 @@ class AdaptiveRow(QtWidgets.QBoxLayout):
     def minimumSize(self):
         left, top, right, bottom = self.getContentsMargins()
         items = self._items()
+        heights = [item.minimumSize().height() for item in items]
+        height = (sum(heights) + self._gap() * max(0, len(items)-1)
+                  if self.direction() == QtWidgets.QBoxLayout.TopToBottom else max(heights, default=0))
         return QtCore.QSize(left + right + max((item.minimumSize().width() for item in items), default=0),
-                            top + bottom + max((item.minimumSize().height() for item in items), default=0))
+                            top + bottom + height)
 
     def setGeometry(self, rect):
         direction = QtWidgets.QBoxLayout.TopToBottom if self._stacked(rect.width()) else QtWidgets.QBoxLayout.LeftToRight

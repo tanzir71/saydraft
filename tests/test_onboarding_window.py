@@ -67,7 +67,10 @@ def test_onboarding_wizard_has_required_steps_and_explicit_microphone_controls(t
 
     titles = [wizard.page(page_id).title() for page_id in wizard.pageIds()]
 
-    assert titles == ["Welcome", "Microphone", "Set up models", "Shortcut", "Try it", "Style quick pick"]
+    assert titles == ["Your voice never leaves this PC.", "Microphone", "Speech model", "Shortcut", "Try it", "Style"]
+    wizard.show()
+    qt_modules().QtWidgets.QApplication.processEvents()
+    assert not wizard.button(qt_modules().QtWidgets.QWizard.CustomButton1).isVisible()
     assert wizard.shortcuts_page.primary.text() == "ctrl+win"  # Saved config owns the binding, not a display hint.
 
     assert wizard.microphone_page._future is None
@@ -190,7 +193,7 @@ def test_setup_input_is_explicit_and_staged_until_finish(input_setup):
     assert subject.starts == [subject.selection]
     subject.page.accept_status(1, "listening")
     subject.page.accept_level(1, .15)
-    assert subject.wizard.level_bar.value() == 60
+    assert subject.wizard.level_bar.value() == 100
     assert finish_setup(subject.wizard)
     assert subject.stops == [1]
     saved = json.loads(subject.path.read_text(encoding="utf-8"))
@@ -199,7 +202,7 @@ def test_setup_input_is_explicit_and_staged_until_finish(input_setup):
     assert not saved["recording"]["retain_audio"]
     assert subject.applied == [saved]
     subject.page.accept_level(1, .9)
-    assert subject.wizard.level_bar.value() == 60  # A stopping test ignores late levels.
+    assert subject.wizard.level_bar.value() == 100  # A stopping test ignores late levels.
     subject.page.accept_status(1, "stopped")
     assert subject.wizard.level_bar.value() == 0
 
@@ -357,8 +360,8 @@ def test_setup_heading_remains_readable_with_pixel_sized_and_changed_app_fonts(i
             assert app.font().pixelSize() == pixels
             assert wizard.font().pixelSize() == pixels
             title = next(label for label in wizard.findChildren(qt.QtWidgets.QLabel)
-                if label.isVisible() and label.text() == "Microphone")
-            assert title.fontMetrics().height() >= wizard.fontMetrics().height()
+                if label.isVisible() and label.objectName() == "setupPageTitle")
+            assert title.fontMetrics().height() >= wizard.fontMetrics().height(), (pixels, title.font().toString(), title.styleSheet(), wizard.font().toString())
             assert not subject.stops
     finally:
         app.setFont(original)

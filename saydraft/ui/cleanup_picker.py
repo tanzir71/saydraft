@@ -69,6 +69,7 @@ class CleanupPicker(QtWidgets.QWidget):
             layout.addWidget(widget)
         layout.addLayout(buttons)
         layout.addWidget(self.progress)
+        layout.addWidget(self.progress.caption)
         layout.addWidget(self.status)
         self.combo.currentIndexChanged.connect(self.update_details)
         self.backend.currentIndexChanged.connect(self.update_details)

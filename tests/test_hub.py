@@ -35,8 +35,8 @@ def subject(tmp_path):
 def test_hub_has_one_window_and_seven_pages_with_real_existing_controls(subject):
     hub, qt = subject.hub, subject.qt
     assert [hub.navigation.item(i).text() for i in range(7)] == [
-        "Home", "History", "Dictionary", "Snippets", "Style", "Notes", "Settings"]
-    assert hub.size() == qt.QtCore.QSize(1080, 720)
+        "Home", "History", "Notes", "PERSONALIZE", "Dictionary", "Snippets", "Style"]
+    assert hub.size() == qt.QtCore.QSize(1120, 760)
     assert hub.minimumSize() == qt.QtCore.QSize(880, 600)
     assert hub.isWindow() and not hub.settings_page.isWindow() and not hub.history_page.isWindow()
     assert hub.settings_page.dictionary_editor.window() is hub
@@ -48,11 +48,13 @@ def test_hub_has_one_window_and_seven_pages_with_real_existing_controls(subject)
     for name in ("Home", "History", "Dictionary", "Snippets", "Style", "Notes", "Settings", "Home"):
         hub.show_page(name)
         assert hub.pages.currentWidget() is hub.page_widgets[name]
-        assert hub.footer.isHidden() == (name not in ("Dictionary", "Snippets", "Style", "Settings"))
-    assert all(not hub.navigation.item(i).icon().isNull() for i in range(7))
+        assert hub.footer.isHidden()  # Fresh staged preferences have no unsaved bar.
+    assert all(not hub.navigation.item(i).icon().isNull() for i in range(7) if i != 3)
+    assert not hub.navigation.item(3).flags() & qt.QtCore.Qt.ItemIsSelectable
+    assert hub.settings_button.text() == "Settings"
     sections = hub.settings_page.section_combo
     assert [sections.itemText(i) for i in range(sections.count())] == [
-        "General", "Shortcuts", "Languages", "Cleanup", "Models", "Performance", "Labs", "Microphone", "Privacy", "About"]
+        "General", "Shortcuts", "Microphone", "Models", "Languages", "Cleanup", "Privacy", "Labs", "About"]
     sections.setCurrentIndex(sections.findText("Models"))
     tabs = hub.settings_page.tabs
     assert tabs.tabText(tabs.currentIndex()) == "Models"

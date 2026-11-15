@@ -69,6 +69,7 @@ class WhisperModeControls(QtWidgets.QGroupBox):
         self.progress.setRange(0, 100)
         self.progress.setValue(0)
         layout.addWidget(self.progress)
+        layout.addWidget(self.progress.caption)
         self.status = QtWidgets.QLabel()
         self.status.setWordWrap(True)
         self.status.setTextFormat(QtCore.Qt.PlainText)
