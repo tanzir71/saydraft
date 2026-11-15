@@ -96,3 +96,6 @@ tools/render_readme_bar.py -text
 assets/media/** -text
 # Preserve original repository presentation and public GitHub verification bytes.
 eval/site/results/2026-11-15-repo-seo/** -text -whitespace
+# Freeze public-file alignment probe and its original measurement records.
+tools/probe_whisper_alignment.py -text
+eval/asr/results/2026-11-15-word-alignment/** -text -whitespace
