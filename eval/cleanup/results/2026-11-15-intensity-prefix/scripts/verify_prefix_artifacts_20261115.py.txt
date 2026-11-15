@@ -1,0 +1,56 @@
+"""Independently read all portable payloads and pinned native input files."""
+import hashlib
+import json
+from pathlib import Path
+import sys
+import zipfile
+
+qa=Path(__file__).resolve().parent
+repo=qa/'worktrees/cleanup-intensity-prefix-20261115'
+out=qa/'cleanup-prefix-20261115-r1'
+sys.path.insert(0,str(repo))
+from tools.public_file_guard import install
+install(out/'artifacts-after.guard.json')
+from saydraft.cleanup.llm.candidates import get_candidate,candidate_directory
+from saydraft.models.manifest import get_model
+
+def digest(path):
+    with path.open('rb') as stream:
+        return hashlib.file_digest(stream,'sha256').hexdigest()
+
+candidate=get_candidate('qwen35-08b-q4-k-m')
+models={candidate['id']:(candidate,candidate_directory(qa/'cleanup-candidates',candidate)),
+    'llama-cpp-b12110-cpu-x64':(get_model('llama-cpp-b12110-cpu-x64'),
+        qa/'llama-runtime-install-b12110/llama-cpp-b12110-cpu-x64')}
+inputs={}
+for key,(model,directory) in models.items():
+    files={}
+    for item in model['files']:
+        path=directory/item['path']
+        actual=digest(path)
+        assert path.stat().st_size==item['size'] and actual==item['sha256'],path.name
+        files[item['path']]=actual
+    inputs[key]={'path':str(directory),'files':files}
+
+build=qa/'cleanup-prefix-package-20261115-r1'
+bundle=json.loads((build/'audit/bundle.json').read_text(encoding='utf-8-sig'))
+assert bundle['git_commit']=='625c987b134dfabf093651a6054de9c06b33e9fc' and bundle['source_dirty'] is False
+archive=build/'artifacts/Saydraft-0.1.0-win-x64.zip'
+record=bundle['artifacts'][archive.name]
+assert digest(archive)==record['sha256'] and archive.stat().st_size==record['bytes']
+disk={name:digest(build/'dist/Saydraft'/name) for name in bundle['file_sha256']}
+assert disk==bundle['file_sha256']
+with zipfile.ZipFile(archive) as source:
+    entries=[info for info in source.infolist() if not info.is_dir()]
+    assert len({info.filename for info in entries})==len(entries)
+    zipped={}
+    for info in entries:
+        assert info.filename.startswith('Saydraft/')
+        with source.open(info) as stream:
+            zipped[info.filename.removeprefix('Saydraft/')]=hashlib.file_digest(stream,'sha256').hexdigest()
+assert zipped==disk and len(zipped)==1384
+report={'source':bundle['git_commit'],'artifact_name':archive.name,**record,'files_verified':len(zipped),
+    'native_inputs':inputs,'installer_built':False,'signed':False,'release_ready':False,
+    'method':'Actual disk and every ZIP payload read/hash compared independently to bundle audit; native inputs rehashed against pinned manifests after all native exits.'}
+(out/'artifact-verification.json').write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8')
+print(json.dumps({'source':report['source'],'zip_sha256':report['sha256'],'files_verified':len(zipped),'native_inputs':len(inputs),'release_ready':False}))

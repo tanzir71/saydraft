@@ -1,11 +1,14 @@
 # Windows packaging
 
-The current local portable at `f6cd0bf` includes the Hub reflow and live-font
-fixes. Runtime/resource/notices and all 1,384 ZIP payload checks pass; sixteen
-changed modules read from the actual executable match Git bytecode. The
-[retained delivery](../eval/ui/results/2026-11-15-hub-reflow/README.md) records
-the exact source, dependencies, artifact hash and original failures. This
-`-SkipInstaller` build leaves installer, signing and release acceptance open.
+The current local portable at `625c987` includes the Hub reflow/live-font fixes
+and selected-intensity cleanup warmup. Runtime/resource/notices and all 1,384
+disk/ZIP payload checks pass; eighteen modules read from the executable match
+Git bytecode. The [retained delivery](../eval/cleanup/results/2026-11-15-intensity-prefix/README.md)
+records exact source, dependencies, artifact hash, original diagnostics and
+remaining gates. This unsigned `-SkipInstaller` build leaves installer, signing
+and release acceptance open. The previous
+[Hub-only portable](../eval/ui/results/2026-11-15-hub-reflow/README.md) at `f6cd0bf`
+retains its historical qualification and lacks the newer cleanup fix.
 
 Delivery now uses local checks/builds followed by direct Git pushes. The Package
 and draft-release workflows are retained as manual-only tools; pushes and tags

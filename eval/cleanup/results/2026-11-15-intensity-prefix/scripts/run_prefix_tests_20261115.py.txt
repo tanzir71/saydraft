@@ -1,0 +1,42 @@
+"""Owned cleanup tests and deterministic evaluation with owner ports barred."""
+from pathlib import Path
+import os
+import sys
+import types
+from dataclasses import dataclass
+qa=Path(__file__).resolve().parent
+repo=qa/'worktrees/cleanup-intensity-prefix-20261115'
+sys.path.insert(0,str(repo))
+sys.path.insert(0,str(qa/'dictionary-correction-20261115-r1/dependencies'))
+from tools.public_file_guard import install
+install(Path(sys.argv.pop(1)))
+os.environ['PYTEST_DISABLE_PLUGIN_AUTOLOAD']='1'
+from saydraft.privacy.netguard import NetworkGuard
+NetworkGuard.install()
+# Worker/Command helper modules import the foreground adapter even though these
+# tests inject their own context ports. Supply only the immutable value contract;
+# constructing any native-facing adapter remains a hard error.
+from saydraft.core.interfaces import TargetContext
+from saydraft.context.selection import SelectionSnapshot
+@dataclass(frozen=True)
+class SelectedContext:
+    target: TargetContext=TargetContext()
+    selection: SelectionSnapshot=SelectionSnapshot()
+def forbidden(*args,**kwargs):
+    raise AssertionError('Owner foreground/native context is barred')
+foreground=types.ModuleType('saydraft.context.foreground')
+foreground.SelectedContext=SelectedContext
+foreground.ForegroundContextProvider=forbidden
+foreground.NativeForegroundApi=forbidden
+sys.modules[foreground.__name__]=foreground
+if sys.argv[1]=='--eval':
+    import runpy
+    sys.argv=['saydraft.eval','--min-pass-rate','100','--min-cases','556']
+    try: runpy.run_module('saydraft.eval',run_name='__main__')
+    except SystemExit as result:
+        if result.code not in (None,0): raise
+    sys.argv=['saydraft.cleanup.llm.eval_validation','--min-catch-rate','100','--min-cases','100']
+    runpy.run_module('saydraft.cleanup.llm.eval_validation',run_name='__main__')
+else:
+    import pytest
+    raise SystemExit(pytest.main(sys.argv[1:]))

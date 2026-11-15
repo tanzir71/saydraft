@@ -108,3 +108,5 @@ eval/site/results/2026-11-15-social-preview/** -text -whitespace
 eval/ui/results/2026-11-15-hub-reflow/** -text -whitespace
 # Preserve gallery pixels, clean-source reports and original diagnostics.
 eval/ui/results/2026-11-15-gallery/** -text -whitespace
+# Preserve native intensity-prefix control/candidate journals and portable proof.
+eval/cleanup/results/2026-11-15-intensity-prefix/** -text -whitespace

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="2" failures="0" skipped="0" tests="2" time="1.666" timestamp="2026-11-15T12:13:05.294753+06:00" hostname="DarkHorse"><testcase classname="" name="tests.test_cleanup_release_budget" time="0.000"><error message="collection failure">tests\test_cleanup_release_budget.py:8: in &lt;module&gt;
+    from tests.test_session_worker import make_worker
+&lt;frozen importlib._bootstrap&gt;:1369: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1340: in _find_and_load_unlocked
+    ???
+&lt;frozen importlib._bootstrap&gt;:935: in _load_unlocked
+    ???
+C:\Users\tanzir\AppData\Roaming\Python\Python313\site-packages\_pytest\assertion\rewrite.py:186: in exec_module
+    exec(co, module.__dict__)
+tests\test_session_worker.py:12: in &lt;module&gt;
+    from saydraft.core.worker import SessionWorker
+saydraft\core\worker.py:22: in &lt;module&gt;
+    from .context import ForegroundContextProvider
+saydraft\core\context.py:3: in &lt;module&gt;
+    from saydraft.context.foreground import ForegroundContextProvider
+&lt;frozen importlib._bootstrap&gt;:1369: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1331: in _find_and_load_unlocked
+    ???
+&lt;frozen importlib._bootstrap&gt;:1265: in _find_spec
+    ???
+tools\public_file_guard.py:54: in find_spec
+    raise AssertionError("Owner I/O import is barred: " + fullname)
+E   AssertionError: Owner I/O import is barred: saydraft.context.foreground</error></testcase><testcase classname="" name="tests.test_command_session" time="0.000"><error message="collection failure">tests\test_command_session.py:11: in &lt;module&gt;
+    from tests.test_command_edit import Model
+&lt;frozen importlib._bootstrap&gt;:1369: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1340: in _find_and_load_unlocked
+    ???
+&lt;frozen importlib._bootstrap&gt;:935: in _load_unlocked
+    ???
+C:\Users\tanzir\AppData\Roaming\Python\Python313\site-packages\_pytest\assertion\rewrite.py:186: in exec_module
+    exec(co, module.__dict__)
+tests\test_command_edit.py:11: in &lt;module&gt;
+    from saydraft.context.foreground import SelectedContext
+&lt;frozen importlib._bootstrap&gt;:1369: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1331: in _find_and_load_unlocked
+    ???
+&lt;frozen importlib._bootstrap&gt;:1265: in _find_spec
+    ???
+tools\public_file_guard.py:54: in find_spec
+    raise AssertionError("Owner I/O import is barred: " + fullname)
+E   AssertionError: Owner I/O import is barred: saydraft.context.foreground</error></testcase></testsuite></testsuites>

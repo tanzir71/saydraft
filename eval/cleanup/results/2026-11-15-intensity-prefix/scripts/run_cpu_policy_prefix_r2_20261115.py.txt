@@ -1,0 +1,27 @@
+"""Current-source production CPU policy; no audio or graphics-device discovery."""
+import ctypes
+from pathlib import Path
+import sys
+
+qa=Path(__file__).resolve().parent
+repo=qa/'worktrees/cleanup-intensity-prefix-20261115'
+sys.path.insert(0,str(repo))
+from tools.public_file_guard import install
+native_dll=ctypes.WinDLL
+install(qa/'cleanup-policy-cpu-prefix-r2-20261115.guard.json')
+guarded_dll=ctypes.WinDLL
+def own_meter_dll(name,*args,**kwargs):
+    if str(name).lower()=='psapi' and sys._getframe(1).f_globals.get('__name__')=='tools.bench_cleanup':
+        return native_dll(name,*args,**kwargs)
+    return guarded_dll(name,*args,**kwargs)
+ctypes.WinDLL=own_meter_dll
+import tools.bench_cleanup as bench
+from saydraft.models import windows_hardware
+hardware_probe=bench.probe_hardware
+bench.probe_hardware=lambda:hardware_probe(probes={
+    'cpu_features':windows_hardware.cpu_features,'ram_bytes':windows_hardware.physical_memory})
+raise SystemExit(bench.main([
+    '--candidate','qwen35-08b-q4-k-m','--backend','cpu','--interactive-policy','--isolated',
+    '--models-dir',str(qa/'cleanup-candidates'),
+    '--runtime-dir',str(qa/'llama-runtime-install-b12110/llama-cpp-b12110-cpu-x64'),
+    '--output',str(qa/'cleanup-policy-cpu-prefix-r2-20261115')]))

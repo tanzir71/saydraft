@@ -1,0 +1,611 @@
+{
+  "source": "01a2683c3644212c964e0f29b3c6563ebf3c31e1",
+  "source_dirty": false,
+  "scope": "CPU-only forced cleanup RPC timing; no tier/release/quality acceptance",
+  "candidate": "qwen35-08b-q4-k-m",
+  "weight_sha256": "fb044e93939a70469c905781334f5de1e6c8b608ced6cbc8c9249bd4127d9526",
+  "runtime_sha256": {
+    ".verified.json": "88d12c800633d14c4fc07c834622bb6d79436151ea3c000f7e467f00b7068e15",
+    "ggml-base.dll": "3a0399fa51102a86824255beda9d021ea7e8cd2bd8ca448a43a9a80aa4829290",
+    "ggml-cpu-alderlake.dll": "1de7a0d14d70bd741f2e4cdfa959176fee26680d6fbc78c717c0bd19e20b6233",
+    "ggml-cpu-cannonlake.dll": "1451909b84c223739247088a0e03db0f89bcd83461f2af43f53d794727afddcd",
+    "ggml-cpu-cascadelake.dll": "74d79278bd20143d3e7deeb2b5c033555f9d621016a7152b5190a2fcbf30265c",
+    "ggml-cpu-cooperlake.dll": "737f0e96f23ca7d66c8dc55eace36ebbfd47770a9a228c804ffff5bf66f933a8",
+    "ggml-cpu-haswell.dll": "85d9ffd6f84fd0ec01586420b935ac4d5a5c9a1ab76b533eb3ddc060c1fe2869",
+    "ggml-cpu-icelake.dll": "41ca727e74b171983ea9afe0250553706c09225c10a8c6ad72a619f9189279a8",
+    "ggml-cpu-ivybridge.dll": "39752b7667cb34b3bbd06178fac83803f6089771d43873a9c81015d2a98c280b",
+    "ggml-cpu-piledriver.dll": "65bef2ae4f69256d9aff053a6fff1abdbd33acdbc51ede863d8bc5bd43c53ee8",
+    "ggml-cpu-sandybridge.dll": "5359624dee5670cb299c08f4a49347f7a6f4d0df35ed4c0a91164e4d771b3e23",
+    "ggml-cpu-sapphirerapids.dll": "a7a395d0e49f182240c9a2ed1d623398911506bdae418baf161354541aa06a89",
+    "ggml-cpu-skylakex.dll": "6bd53dc5731c5b9e4d3fbf98a9dc5b3ce76d357be9a579bc6c8cedac035462e8",
+    "ggml-cpu-sse42.dll": "1e1700e6b6eef26b6abb0bc68669b6ee9fdad2b8d00058e491cb5160eb54afc2",
+    "ggml-cpu-x64.dll": "81877c8787f9d5680b990f4cf5f8b89ba5b02ee5064b36abfd53d9d2ffb50916",
+    "ggml-cpu-zen4.dll": "b5c1eec79e83878303acfa774f1275d9e025493b2c23f2a01af09fe985cdc21a",
+    "ggml.dll": "06dfdff8b7b834c757ec5b5411abfc0f732604fb595eaaffbdc6da563523e8a1",
+    "libomp.dll": "a12116ba72d1d6820407cf30be23da04ce79d6bb8a71a5ee71759c5a1faa6f1c",
+    "LICENSE-llama-cpp.txt": "94f29bbed6a22c35b992c5c6ebf0e7c92f13b836b90f36f461c9cf2f0f1d010d",
+    "LICENSE-LLVM-OpenMP": "fdad1758a9e1f9d5a81e18879b3406772115edc92c24bfa36b70c654f325e8e4",
+    "llama-common.dll": "0898e517843e4478b5178621dc878552b4d40a4d47d7b6f1775e7897f4e2344e",
+    "llama-server-impl.dll": "c5d306bdcad1c4011f18a1c01ae2fcdca48a197af0d421c2931ace2cfb487fc6",
+    "llama-server.exe": "00d50686815af38249d0218c91558fbd0e9093ac8c074bac86196907f4305e31",
+    "llama.dll": "211b91d86e67c49f12eb97992b45ae4c2fc797d6edab48637835a877c808890e",
+    "mtmd.dll": "74a3cace50f6c545cc66e4dc05e2aecf465f146ea1b4000376cd9834598a3e14"
+  },
+  "rows": [
+    {
+      "case": 0,
+      "phase": "first",
+      "reason": "ok",
+      "seconds": 0.6728677000064636,
+      "input_tokens": 11,
+      "finish": "stop",
+      "done": true,
+      "validation": "ok",
+      "calls": [
+        {
+          "path": "/tokenize",
+          "payload_bytes": 95,
+          "chunks": 1,
+          "bytes": 63,
+          "headers_seconds": 0.0015256000042427331,
+          "first_byte_seconds": 0.0016309000056935474,
+          "total_seconds": 0.0016582000098424032
+        },
+        {
+          "path": "/tokenize",
+          "payload_bytes": 268,
+          "chunks": 1,
+          "bytes": 292,
+          "headers_seconds": 0.014036300010047853,
+          "first_byte_seconds": 0.014181200007442385,
+          "total_seconds": 0.014220099998055957
+        },
+        {
+          "path": "/v1/chat/completions",
+          "payload_bytes": 5389,
+          "chunks": 13,
+          "bytes": 3558,
+          "headers_seconds": 0.014684200010378845,
+          "first_byte_seconds": 0.3209427000110736,
+          "total_seconds": 0.6566169000143418
+        }
+      ]
+    },
+    {
+      "case": 0,
+      "phase": "repeat",
+      "reason": "ok",
+      "seconds": 0.40435850000358187,
+      "input_tokens": 11,
+      "finish": "stop",
+      "done": true,
+      "validation": "ok",
+      "calls": [
+        {
+          "path": "/tokenize",
+          "payload_bytes": 95,
+          "chunks": 1,
+          "bytes": 63,
+          "headers_seconds": 0.0015223999944282696,
+          "first_byte_seconds": 0.0016822999896248803,
+          "total_seconds": 0.0017211999947903678
+        },
+        {
+          "path": "/tokenize",
+          "payload_bytes": 268,
+          "chunks": 1,
+          "bytes": 292,
+          "headers_seconds": 0.001389600001857616,
+          "first_byte_seconds": 0.001538500000606291,
+          "total_seconds": 0.0015807000017957762
+        },
+        {
+          "path": "/v1/chat/completions",
+          "payload_bytes": 5389,
+          "chunks": 13,
+          "bytes": 3544,
+          "headers_seconds": 0.016266899998299778,
+          "first_byte_seconds": 0.06473060000280384,
+          "total_seconds": 0.4007502000022214
+        }
+      ]
+    },
+    {
+      "case": 1,
+      "phase": "first",
+      "reason": "ok",
+      "seconds": 1.37138720000803,
+      "input_tokens": 26,
+      "finish": "stop",
+      "done": true,
+      "validation": "ok",
+      "calls": [
+        {
+          "path": "/tokenize",
+          "payload_bytes": 152,
+          "chunks": 1,
+          "bytes": 128,
+          "headers_seconds": 0.023382900006254204,
+          "first_byte_seconds": 0.023568200005684048,
+          "total_seconds": 0.02360620000399649
+        },
+        {
+          "path": "/tokenize",
+          "payload_bytes": 325,
+          "chunks": 1,
+          "bytes": 357,
+          "headers_seconds": 0.01610790000995621,
+          "first_byte_seconds": 0.016296200003125705,
+          "total_seconds": 0.016361700007109903
+        },
+        {
+          "path": "/v1/chat/completions",
+          "payload_bytes": 5446,
+          "chunks": 28,
+          "bytes": 7321,
+          "headers_seconds": 0.015109200001461431,
+          "first_byte_seconds": 0.42588169999362435,
+          "total_seconds": 1.3310168999887537
+        }
+      ]
+    },
+    {
+      "case": 1,
+      "phase": "repeat",
+      "reason": "ok",
+      "seconds": 0.9884640999953263,
+      "input_tokens": 26,
+      "finish": "stop",
+      "done": true,
+      "validation": "ok",
+      "calls": [
+        {
+          "path": "/tokenize",
+          "payload_bytes": 152,
+          "chunks": 1,
+          "bytes": 128,
+          "headers_seconds": 0.0016023000061977655,
+          "first_byte_seconds": 0.001706100010778755,
+          "total_seconds": 0.0017401000077370554
+        },
+        {
+          "path": "/tokenize",
+          "payload_bytes": 325,
+          "chunks": 1,
+          "bytes": 357,
+          "headers_seconds": 0.012778400006936863,
+          "first_byte_seconds": 0.012922100009745918,
+          "total_seconds": 0.01296250001178123
+        },
+        {
+          "path": "/v1/chat/completions",
+          "payload_bytes": 5446,
+          "chunks": 28,
+          "bytes": 7304,
+          "headers_seconds": 0.018012900007306598,
+          "first_byte_seconds": 0.06830709999485407,
+          "total_seconds": 0.9733919999998761
+        }
+      ]
+    },
+    {
+      "case": 2,
+      "phase": "first",
+      "reason": "ok",
+      "seconds": 1.8237836000043899,
+      "input_tokens": 40,
+      "finish": "stop",
+      "done": true,
+      "validation": "ok",
+      "calls": [
+        {
+          "path": "/tokenize",
+          "payload_bytes": 185,
+          "chunks": 1,
+          "bytes": 178,
+          "headers_seconds": 0.001787999994121492,
+          "first_byte_seconds": 0.001958799999556504,
+          "total_seconds": 0.0020069000020157546
+        },
+        {
+          "path": "/tokenize",
+          "payload_bytes": 358,
+          "chunks": 1,
+          "bytes": 408,
+          "headers_seconds": 0.001800300000468269,
+          "first_byte_seconds": 0.0019342000014148653,
+          "total_seconds": 0.0019878000020980835
+        },
+        {
+          "path": "/v1/chat/completions",
+          "payload_bytes": 5479,
+          "chunks": 42,
+          "bytes": 10804,
+          "headers_seconds": 0.016493499992066063,
+          "first_byte_seconds": 0.5218767000042135,
+          "total_seconds": 1.8193819000007352
+        }
+      ]
+    },
+    {
+      "case": 2,
+      "phase": "repeat",
+      "reason": "ok",
+      "seconds": 1.3528851000010036,
+      "input_tokens": 40,
+      "finish": "stop",
+      "done": true,
+      "validation": "ok",
+      "calls": [
+        {
+          "path": "/tokenize",
+          "payload_bytes": 185,
+          "chunks": 1,
+          "bytes": 178,
+          "headers_seconds": 0.0015162999916356057,
+          "first_byte_seconds": 0.0016453999996883795,
+          "total_seconds": 0.0016839000018080696
+        },
+        {
+          "path": "/tokenize",
+          "payload_bytes": 358,
+          "chunks": 1,
+          "bytes": 408,
+          "headers_seconds": 0.001400099994498305,
+          "first_byte_seconds": 0.0014999999984866008,
+          "total_seconds": 0.0015327000000979751
+        },
+        {
+          "path": "/v1/chat/completions",
+          "payload_bytes": 5479,
+          "chunks": 42,
+          "bytes": 10799,
+          "headers_seconds": 0.013051700007054023,
+          "first_byte_seconds": 0.0593667000066489,
+          "total_seconds": 1.3493130999995628
+        }
+      ]
+    }
+  ],
+  "owner_io_used": false,
+  "gpu_inventory_requested": false,
+  "app_policy_changed": false,
+  "prepare_seconds": 1.3986885999911465,
+  "native_exit_observed": [
+    true
+  ],
+  "native_pids": [
+    39312
+  ],
+  "source_unchanged": true,
+  "weight_unchanged": true,
+  "calls": [
+    {
+      "path": "/health",
+      "payload_bytes": 4,
+      "chunks": 0,
+      "bytes": 0,
+      "total_seconds": 0.2608810999954585
+    },
+    {
+      "path": "/health",
+      "payload_bytes": 4,
+      "chunks": 0,
+      "bytes": 0,
+      "total_seconds": 0.0019035000004805624
+    },
+    {
+      "path": "/health",
+      "payload_bytes": 4,
+      "chunks": 0,
+      "bytes": 0,
+      "total_seconds": 0.0017272999975830317
+    },
+    {
+      "path": "/health",
+      "payload_bytes": 4,
+      "chunks": 0,
+      "bytes": 0,
+      "total_seconds": 0.0015727999998489395
+    },
+    {
+      "path": "/health",
+      "payload_bytes": 4,
+      "chunks": 0,
+      "bytes": 0,
+      "total_seconds": 0.0018567999941296875
+    },
+    {
+      "path": "/health",
+      "payload_bytes": 4,
+      "chunks": 0,
+      "bytes": 0,
+      "total_seconds": 0.0016001000039977953
+    },
+    {
+      "path": "/health",
+      "payload_bytes": 4,
+      "chunks": 0,
+      "bytes": 0,
+      "total_seconds": 0.0018973999976878986
+    },
+    {
+      "path": "/health",
+      "payload_bytes": 4,
+      "chunks": 0,
+      "bytes": 0,
+      "total_seconds": 0.0017011999880196527
+    },
+    {
+      "path": "/health",
+      "payload_bytes": 4,
+      "chunks": 0,
+      "bytes": 0,
+      "total_seconds": 0.0014247000071918592
+    },
+    {
+      "path": "/health",
+      "payload_bytes": 4,
+      "chunks": 0,
+      "bytes": 0,
+      "total_seconds": 0.001588900006026961
+    },
+    {
+      "path": "/health",
+      "payload_bytes": 4,
+      "chunks": 0,
+      "bytes": 0,
+      "total_seconds": 0.0016165999986696988
+    },
+    {
+      "path": "/health",
+      "payload_bytes": 4,
+      "chunks": 0,
+      "bytes": 0,
+      "total_seconds": 0.016311400002450682
+    },
+    {
+      "path": "/health",
+      "payload_bytes": 4,
+      "chunks": 0,
+      "bytes": 0,
+      "total_seconds": 0.0018543000041972846
+    },
+    {
+      "path": "/health",
+      "payload_bytes": 4,
+      "chunks": 0,
+      "bytes": 0,
+      "total_seconds": 0.001728300005197525
+    },
+    {
+      "path": "/health",
+      "payload_bytes": 4,
+      "chunks": 0,
+      "bytes": 0,
+      "total_seconds": 0.01639449999493081
+    },
+    {
+      "path": "/health",
+      "payload_bytes": 4,
+      "chunks": 0,
+      "bytes": 0,
+      "total_seconds": 0.0021672000002581626
+    },
+    {
+      "path": "/health",
+      "payload_bytes": 4,
+      "chunks": 0,
+      "bytes": 0,
+      "total_seconds": 0.0024683000083314255
+    },
+    {
+      "path": "/health",
+      "payload_bytes": 4,
+      "chunks": 1,
+      "bytes": 15,
+      "headers_seconds": 0.001400699999067001,
+      "first_byte_seconds": 0.0015429999912157655,
+      "total_seconds": 0.0015827000024728477
+    },
+    {
+      "path": "/tokenize",
+      "payload_bytes": 15,
+      "chunks": 1,
+      "bytes": 13,
+      "headers_seconds": 0.000992700006463565,
+      "first_byte_seconds": 0.0011030000023311004,
+      "total_seconds": 0.0011299000034341589
+    },
+    {
+      "path": "/tokenize",
+      "payload_bytes": 42,
+      "chunks": 1,
+      "bytes": 18,
+      "headers_seconds": 0.02571719999832567,
+      "first_byte_seconds": 0.025983300001826137,
+      "total_seconds": 0.026046300001326017
+    },
+    {
+      "path": "/tokenize",
+      "payload_bytes": 215,
+      "chunks": 1,
+      "bytes": 251,
+      "headers_seconds": 0.015573099997709505,
+      "first_byte_seconds": 0.015737900001113303,
+      "total_seconds": 0.015775000007124618
+    },
+    {
+      "path": "/v1/chat/completions",
+      "payload_bytes": 5335,
+      "chunks": 3,
+      "bytes": 1006,
+      "headers_seconds": 0.024280800003907643,
+      "first_byte_seconds": 4.3690640999993775,
+      "total_seconds": 4.3695822000008775
+    },
+    {
+      "path": "/tokenize",
+      "payload_bytes": 95,
+      "chunks": 1,
+      "bytes": 63,
+      "headers_seconds": 0.0015256000042427331,
+      "first_byte_seconds": 0.0016309000056935474,
+      "total_seconds": 0.0016582000098424032
+    },
+    {
+      "path": "/tokenize",
+      "payload_bytes": 268,
+      "chunks": 1,
+      "bytes": 292,
+      "headers_seconds": 0.014036300010047853,
+      "first_byte_seconds": 0.014181200007442385,
+      "total_seconds": 0.014220099998055957
+    },
+    {
+      "path": "/v1/chat/completions",
+      "payload_bytes": 5389,
+      "chunks": 13,
+      "bytes": 3558,
+      "headers_seconds": 0.014684200010378845,
+      "first_byte_seconds": 0.3209427000110736,
+      "total_seconds": 0.6566169000143418
+    },
+    {
+      "path": "/tokenize",
+      "payload_bytes": 95,
+      "chunks": 1,
+      "bytes": 63,
+      "headers_seconds": 0.0015223999944282696,
+      "first_byte_seconds": 0.0016822999896248803,
+      "total_seconds": 0.0017211999947903678
+    },
+    {
+      "path": "/tokenize",
+      "payload_bytes": 268,
+      "chunks": 1,
+      "bytes": 292,
+      "headers_seconds": 0.001389600001857616,
+      "first_byte_seconds": 0.001538500000606291,
+      "total_seconds": 0.0015807000017957762
+    },
+    {
+      "path": "/v1/chat/completions",
+      "payload_bytes": 5389,
+      "chunks": 13,
+      "bytes": 3544,
+      "headers_seconds": 0.016266899998299778,
+      "first_byte_seconds": 0.06473060000280384,
+      "total_seconds": 0.4007502000022214
+    },
+    {
+      "path": "/tokenize",
+      "payload_bytes": 152,
+      "chunks": 1,
+      "bytes": 128,
+      "headers_seconds": 0.023382900006254204,
+      "first_byte_seconds": 0.023568200005684048,
+      "total_seconds": 0.02360620000399649
+    },
+    {
+      "path": "/tokenize",
+      "payload_bytes": 325,
+      "chunks": 1,
+      "bytes": 357,
+      "headers_seconds": 0.01610790000995621,
+      "first_byte_seconds": 0.016296200003125705,
+      "total_seconds": 0.016361700007109903
+    },
+    {
+      "path": "/v1/chat/completions",
+      "payload_bytes": 5446,
+      "chunks": 28,
+      "bytes": 7321,
+      "headers_seconds": 0.015109200001461431,
+      "first_byte_seconds": 0.42588169999362435,
+      "total_seconds": 1.3310168999887537
+    },
+    {
+      "path": "/tokenize",
+      "payload_bytes": 152,
+      "chunks": 1,
+      "bytes": 128,
+      "headers_seconds": 0.0016023000061977655,
+      "first_byte_seconds": 0.001706100010778755,
+      "total_seconds": 0.0017401000077370554
+    },
+    {
+      "path": "/tokenize",
+      "payload_bytes": 325,
+      "chunks": 1,
+      "bytes": 357,
+      "headers_seconds": 0.012778400006936863,
+      "first_byte_seconds": 0.012922100009745918,
+      "total_seconds": 0.01296250001178123
+    },
+    {
+      "path": "/v1/chat/completions",
+      "payload_bytes": 5446,
+      "chunks": 28,
+      "bytes": 7304,
+      "headers_seconds": 0.018012900007306598,
+      "first_byte_seconds": 0.06830709999485407,
+      "total_seconds": 0.9733919999998761
+    },
+    {
+      "path": "/tokenize",
+      "payload_bytes": 185,
+      "chunks": 1,
+      "bytes": 178,
+      "headers_seconds": 0.001787999994121492,
+      "first_byte_seconds": 0.001958799999556504,
+      "total_seconds": 0.0020069000020157546
+    },
+    {
+      "path": "/tokenize",
+      "payload_bytes": 358,
+      "chunks": 1,
+      "bytes": 408,
+      "headers_seconds": 0.001800300000468269,
+      "first_byte_seconds": 0.0019342000014148653,
+      "total_seconds": 0.0019878000020980835
+    },
+    {
+      "path": "/v1/chat/completions",
+      "payload_bytes": 5479,
+      "chunks": 42,
+      "bytes": 10804,
+      "headers_seconds": 0.016493499992066063,
+      "first_byte_seconds": 0.5218767000042135,
+      "total_seconds": 1.8193819000007352
+    },
+    {
+      "path": "/tokenize",
+      "payload_bytes": 185,
+      "chunks": 1,
+      "bytes": 178,
+      "headers_seconds": 0.0015162999916356057,
+      "first_byte_seconds": 0.0016453999996883795,
+      "total_seconds": 0.0016839000018080696
+    },
+    {
+      "path": "/tokenize",
+      "payload_bytes": 358,
+      "chunks": 1,
+      "bytes": 408,
+      "headers_seconds": 0.001400099994498305,
+      "first_byte_seconds": 0.0014999999984866008,
+      "total_seconds": 0.0015327000000979751
+    },
+    {
+      "path": "/v1/chat/completions",
+      "payload_bytes": 5479,
+      "chunks": 42,
+      "bytes": 10799,
+      "headers_seconds": 0.013051700007054023,
+      "first_byte_seconds": 0.0593667000066489,
+      "total_seconds": 1.3493130999995628
+    }
+  ],
+  "complete": true
+}

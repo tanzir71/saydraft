@@ -16,7 +16,11 @@ process, current preview checkpoint and prioritized remaining acceptance work.
 The [desktop gallery](GALLERY.md) documents public Bar, toast, Hub and setup
 states, offscreen product-shot exports and visual regression checks.
 
-The latest cleanup change adds a content-word identity/order check to normal
+The latest [cleanup warmup fix](CLEANUP_PREPARATION.md) retains selected intensity
+in the prepared prefix and readiness key. The scoped CPU replay and portable
+qualification preserve the open full-quality, tier and latency gates.
+
+The cleanup validator adds a content-word identity/order check to normal
 post-rules AI cleanup (intensities 1–3). See the [validator](VALIDATOR_V2.md) for
 allowed grammar edits, Polished/translation scope, and conservative fallback.
 The [retained native baseline](../eval/cleanup/results/2026-11-13-baseline/README.md)

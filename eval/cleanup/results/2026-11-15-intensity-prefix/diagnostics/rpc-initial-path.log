@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "D:\Saydraft-Codex-QA-20261112-01a1cbc7\profile_cleanup_rpc_20261115.py", line 70, in <module>
+    'runtime_sha256':{p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in runtime.iterdir() if p.is_file()},
+                                                                                 ~~~~~~~~~~~~~~~^^
+  File "C:\Python313\Lib\pathlib\_local.py", line 575, in iterdir
+    with os.scandir(root_dir) as scandir_it:
+         ~~~~~~~~~~^^^^^^^^^^
+FileNotFoundError: [WinError 3] The system cannot find the path specified: 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\llama-runtime-install-b12110\\llama-cpp-b12110-cpu-x64\\github-release-asset-709507579'

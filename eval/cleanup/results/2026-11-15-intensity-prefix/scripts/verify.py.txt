@@ -1,0 +1,80 @@
+"""Read-only source, policy and portable receipt validation; no inference/Qt."""
+import argparse
+import hashlib
+import json
+from pathlib import Path
+import subprocess
+import xml.etree.ElementTree as ET
+
+parser=argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--repo',type=Path,default=Path.cwd())
+parser.add_argument('--check-current',action='store_true')
+args=parser.parse_args()
+repo=args.repo.resolve()
+root=Path(__file__).resolve().parent.parent
+def read(name):return json.loads((root/name).read_text(encoding='utf-8-sig'))
+manifest=read('manifest.json')
+for name,record in manifest['records'].items():
+    path=(root/name).resolve();assert path.is_relative_to(root)
+    data=path.read_bytes();assert len(data)==record['bytes'] and hashlib.sha256(data).hexdigest()==record['sha256'],name
+assert {str(p.relative_to(root)).replace('\\','/') for p in root.rglob('*') if p.is_file()}==set(manifest['records'])|{'manifest.json'}
+source=manifest['source']
+witness=read('source-witnesses.json')
+def trees(ref):
+    raw=subprocess.check_output(['git','ls-tree','-r',ref,'--',*witness['paths']],cwd=repo,text=True)
+    return dict(line.split('\t')[::-1] for line in raw.splitlines())
+assert witness['source']==source and trees(source)==witness['git_objects']
+if args.check_current:
+    assert trees('HEAD')==witness['git_objects'],'Relevant runtime/build/test inputs changed'
+    subprocess.run(['git','diff','--quiet','HEAD','--',*witness['paths']],cwd=repo,check=True)
+
+def check_native_source(report):
+    names=list(report['source_fingerprints'])
+    requests=''.join(report['git_commit']+':'+name+'\n' for name in names).encode()
+    data=subprocess.run(['git','cat-file','--batch'],input=requests,cwd=repo,check=True,capture_output=True).stdout
+    at=0
+    for name in names:
+        end=data.index(b'\n',at);header=data[at:end].split();assert len(header)==3 and header[1]==b'blob',name
+        size=int(header[2]);body=data[end+1:end+1+size];at=end+size+2
+        lf=body.replace(b'\r\n',b'\n')
+        allowed={hashlib.sha256(value).hexdigest() for value in [body,lf,lf.replace(b'\n',b'\r\n')]}
+        assert report['source_fingerprints'][name] in allowed,name
+
+control=read('control/report.json');candidate=read('candidate/report.json')
+for name,report,accepted in [('control',control,4),('candidate',candidate,7)]:
+    assert report['policy_measurement_complete'] and not report['source_dirty']
+    assert report['quality_timeout_ms']==800 and report['interactive_budget_gate'] and report['full_corpus']
+    assert report['isolation_declared'] and report['native_exit_observed']==[True] and not report.get('error_type')
+    golden=report['suites']['golden'];adv=report['suites']['adversarial']
+    assert golden['requested']==golden['completed']==golden['exact_passes']==556
+    assert golden['accepted_replies']==golden['accepted_exact_passes']==accepted
+    assert golden['regressions']==golden['preservation_failures']==[]
+    assert adv['requested']==adv['completed']==100 and adv['decisions']=={'skip_low_need':100}
+    rows=[json.loads(line) for line in (root/name/'cases.jsonl').read_text(encoding='utf-8').splitlines()]
+    assert len(rows)==656 and sum(row['decision']=='accepted' for row in rows)==accepted
+    assert not any(row['suite']=='golden' and not row['exact_pass'] for row in rows)
+    check_native_source(report)
+    guard=read(name+'/guard.json');assert guard['blocked_attempts']==[]
+    assert not any(guard[key] for key in ['real_audio_sdk_imported','owner_profile_used','owner_clipboard_used',
+                                       'owner_native_input_used','device_enumeration','microphone_used'])
+assert candidate['git_commit']==source
+assert control['golden_sha256']==candidate['golden_sha256'] and control['adversarial_sha256']==candidate['adversarial_sha256']
+assert control['candidate']==candidate['candidate']
+suite=ET.parse(root/'tests/tests-final.xml').getroot().find('testsuite')
+assert suite.attrib['tests']=='171' and all(suite.attrib[key]=='0' for key in ['failures','errors','skipped'])
+assert len(suite.findall('testcase'))==171
+log=(root/'tests/eval-final.log').read_text(encoding='utf-8-sig')
+assert '556/556 passed' in log and '"caught": 100' in log and '"missed_ids": []' in log
+runtime=read('package/runtime.json');assert runtime['complete'] and all(runtime['checks'].values())
+assert not any(runtime[key] for key in ['microphone_used','audio_devices_enumerated','input_injected',
+                                     'owner_clipboard_accessed','active_application_read','asr_performed'])
+frozen=read('package/frozen-source.json');assert frozen['source']==source and frozen['module_count']==18 and not frozen['module_code_executed']
+bundle=read('package/bundle.json');artifact=read('package/artifact-verification.json')
+assert bundle['git_commit']==artifact['source']==source and not bundle['source_dirty']
+assert artifact['files_verified']==1384 and artifact['release_ready'] is False
+assert bundle['artifacts'][artifact['artifact_name']]['sha256']==artifact['sha256']
+assert bundle['file_sha256']['Saydraft.exe']==frozen['exe_sha256']
+print(json.dumps({'source':source,'tests_passed':171,'native_golden_exact':556,'native_accepted':7,
+ 'adversarial_policy_skips':100,'payload_files_verified':1384,'frozen_modules':18,
+ 'records':len(manifest['records']),'source_objects':len(witness['git_objects']),
+ 'current_checked':args.check_current,'release_ready':False},indent=2))

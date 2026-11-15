@@ -6,10 +6,21 @@ first cleanup; changed-style prefixes take 3.401 s median. Gemma E2B's initial
 request takes 43.987 s. These exceed the unchanged 800 ms app request deadline.
 
 Enabled installed cleanup now prepares a static `Ready` transcript in a daemon
-worker. It uses the actual chat template, stage/style and bounded captured app
+worker. It uses the actual chat template, stage/style/intensity and bounded captured app
 name/group, with a one-token generation cap. It warms no dictated words, caret
 text or glossary. Generated preparation text is discarded; nothing reaches
 History, insertion, a microphone or an external service. Weights never download.
+
+The preparation key and one-token probe now retain the selected intensity.
+Previously Polished requested intensity 4, but the worker dropped it and warmed
+the default 3. A receipt for another intensity no longer establishes readiness;
+changing intensity schedules the corresponding background prefix. Caret words,
+dictated text and glossary remain excluded. Actual cleanup prompt resources and
+the 800 ms request budget are unchanged. The
+[current qualification](../eval/cleanup/results/2026-11-15-intensity-prefix/README.md)
+records 171 related checks, the full CPU policy replay and a fresh portable.
+Its seven actual model replies remain limited evidence; full quality/tier and
+end-to-end latency acceptance stay open.
 
 Only a complete SSE response with `[DONE]`, no tool calls and a `stop` or `length`
 finish can establish preparation. Actual dictation still requires a complete

@@ -1,0 +1,113 @@
+"""Public CPU-only diagnostic: profile existing RPCs; no app policy changes."""
+import ctypes
+from contextlib import contextmanager
+import hashlib
+import json
+from pathlib import Path
+import subprocess
+import sys
+import threading
+import time
+
+qa=Path(__file__).resolve().parent
+repo=Path('C:/Users/tanzir/Desktop/voice_tray')
+out=qa/'cleanup-profile-20261115-r1'
+out.mkdir(exist_ok=False)
+sys.path.insert(0,str(repo))
+from tools.public_file_guard import install
+native_dll=ctypes.WinDLL
+install(out/'owner-guard.json')
+guarded_dll=ctypes.WinDLL
+def own_meter_dll(name,*args,**kwargs):
+    # Reviewed NativeMeter reads only the handles it opens after its own spawn.
+    if str(name).lower()=='psapi' and sys._getframe(1).f_globals.get('__name__')=='tools.bench_cleanup':
+        return native_dll(name,*args,**kwargs)
+    return guarded_dll(name,*args,**kwargs)
+ctypes.WinDLL=own_meter_dll
+from saydraft.cleanup.llm.candidates import get_candidate,candidate_directory,candidate_weight
+from saydraft.cleanup.llm.client import CleanupClient
+from saydraft.cleanup.llm.loopback import LoopbackClient
+from saydraft.cleanup.llm.prompts import PromptHints
+from saydraft.cleanup.llm.sidecar import SidecarConfig,SidecarManager
+from saydraft.cleanup.llm.validate import validate_llm_output
+from saydraft.models.manifest import get_model
+from saydraft.privacy.netguard import NetworkGuard
+from tools.bench_cleanup import NativeMeter
+
+calls=[]
+class TracedClient(LoopbackClient):
+    @contextmanager
+    def response_bytes(self,path,**kwargs):
+        start=time.perf_counter()
+        row={'path':path,'payload_bytes':len(json.dumps(kwargs.get('payload'),ensure_ascii=False).encode()),'chunks':0,'bytes':0}
+        try:
+            with super().response_bytes(path,**kwargs) as chunks:
+                row['headers_seconds']=time.perf_counter()-start
+                def traced():
+                    for chunk in chunks:
+                        if not row['chunks']:row['first_byte_seconds']=time.perf_counter()-start
+                        row['chunks']+=1
+                        row['bytes']+=len(chunk)
+                        yield chunk
+                yield traced()
+        finally:
+            row['total_seconds']=time.perf_counter()-start
+            calls.append(row)
+
+source=subprocess.check_output(['git','rev-parse','HEAD'],cwd=repo,text=True).strip()
+assert not subprocess.check_output(['git','status','--porcelain'],cwd=repo).strip()
+candidate=get_candidate('qwen35-08b-q4-k-m')
+weight=candidate_weight(candidate,candidate_directory(qa/'cleanup-candidates',candidate))
+runtime_id='llama-cpp-b12110-cpu-x64'
+runtime=qa/'llama-runtime-install-b12110'/runtime_id/get_model(runtime_id)['version']
+meter=NativeMeter()
+manager=SidecarManager(SidecarConfig(weight,backend='cpu',startup_seconds=60,max_restarts=0),
+    resolver=lambda _:runtime,process_factory=meter.spawn,client_factory=TracedClient)
+watchdog=threading.Timer(90,manager.close)
+watchdog.daemon=True
+report={'source':source,'source_dirty':False,'scope':'CPU-only forced cleanup RPC timing; no tier/release/quality acceptance',
+    'candidate':candidate['id'],'weight_sha256':hashlib.sha256(weight.read_bytes()).hexdigest(),
+    'runtime_sha256':{p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in runtime.iterdir() if p.is_file()},
+    'rows':[],'owner_io_used':False,'gpu_inventory_requested':False,'app_policy_changed':False}
+NetworkGuard.install()
+watchdog.start()
+try:
+    started=time.perf_counter()
+    assert manager.prepare(),manager.status
+    report['prepare_seconds']=time.perf_counter()-started
+    client=CleanupClient(manager)
+    preparation=client.prepare_prompt(style='formal',post_rules=True,timeout=30)
+    assert preparation.reason=='prepared',preparation.reason
+    samples=[
+        'Please send the draft to Alex before the meeting tomorrow.',
+        'Please send the draft to Alex before the meeting tomorrow. Keep the budget at 25 dollars and copy Sam on the email.',
+        'The meeting starts at 10:30 AM on Thursday. Please keep the budget at 25 dollars, send the draft to Alex, and copy Sam on the email before we leave.',
+    ]
+    for index,text in enumerate(samples):
+        for phase in ['first','repeat']:
+            start_call=len(calls)
+            started=time.perf_counter()
+            reply=client._request(text,hints=PromptHints(style='formal',post_rules=True),timeout=10,cache_tokens=True)
+            elapsed=time.perf_counter()-started
+            value=reply.value or {}
+            candidate_text=value.get('text','')
+            validation=validate_llm_output(text,candidate_text,post_rules=True,language='en')
+            row={'case':index,'phase':phase,'reason':reply.reason,'seconds':elapsed,
+                 'input_tokens':value.get('input_tokens'),'finish':value.get('finish_reason'),
+                 'done':value.get('done'),'validation':validation.reason,'calls':calls[start_call:]}
+            report['rows'].append(row)
+            print(json.dumps({k:row[k] for k in ['case','phase','reason','seconds','validation']}),flush=True)
+except BaseException as error:
+    report['error']=type(error).__name__+': '+str(error)
+finally:
+    watchdog.cancel()
+    manager.close()
+    report['native_exit_observed']=meter.finish()
+    report['native_pids']=meter.pids
+    report['source_unchanged']=subprocess.check_output(['git','rev-parse','HEAD'],cwd=repo,text=True).strip()==source
+    report['weight_unchanged']=hashlib.sha256(weight.read_bytes()).hexdigest()==report['weight_sha256']
+    report['calls']=calls
+    report['complete']=not report.get('error') and len(report['rows'])==6 and all(report['native_exit_observed'])
+    (out/'report.json').write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8')
+    print(json.dumps({k:report.get(k) for k in ['complete','error','native_exit_observed']}),flush=True)
+raise SystemExit(0 if report['complete'] else 1)

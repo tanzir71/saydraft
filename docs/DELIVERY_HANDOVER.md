@@ -1,9 +1,10 @@
 # Current preview delivery and remaining work
 
 The owner requested a faster completion process with unresolved work documented
-on 15 November 2026. The current delivery pass freezes new features, finishes
-the Hub text/layout fixes, runs related local checks, and builds a fresh portable
-preview. Full parity, accuracy, manual Windows and release acceptance remain open.
+on 15 November 2026. Delivery uses bounded fixes, related local checks and a
+clean-source portable preview. The Hub reflow and subsequent cleanup warmup
+fix are delivered with their own evidence. Full parity, accuracy, manual Windows
+and release acceptance remain open.
 The [original roadmap](../WISPR_OFFLINE_PARITY_PLAN.md) retains the full contract.
 
 The owner explicitly requires that no critical work be skipped. A missing or
@@ -35,6 +36,13 @@ checks explicitly; changing an environment flag cannot authorize them.
 
 ## Current checkpoint
 
+- Cleanup warmup now retains selected intensity, including Polished's 4.
+  Clean `625c987` passes 171 related checks, 556 rules examples and 100 authored
+  validator refusals. Its full CPU policy replay has 556 exact outputs, seven
+  accepted model replies and no regressions. The 100 native adversarial policy
+  inputs skip generation. [Receipt and fresh portable](../eval/cleanup/results/2026-11-15-intensity-prefix/README.md).
+  The limited model use does not close the quality/tier/release-latency gates.
+
 - The approved GitHub social image is uploaded and survives a Settings reload.
   [Receipt and screenshot](../eval/site/results/2026-11-15-social-preview/README.md).
   P9.6 is accepted; its earlier description, twenty topics, homepage and README
@@ -54,7 +62,7 @@ checks explicitly; changing an environment flag cannot authorize them.
   that portable keeps its original qualification. Physical/manual/accuracy
   release gates below remain open.
 
-**Final local delivery:** runtime/build source `f6cd0bf`, with QA-only fixture
+**Hub reflow checkpoint:** runtime/build source `f6cd0bf`, with QA-only fixture
 source `301218a`, has 244 related passes/four explicitly excluded app-entry
 integrations, 114 strict UI captures/228 named Tab walks and a fresh portable.
 All app/build input trees are identical between those sources. The one affected
@@ -65,8 +73,12 @@ The [complete receipt](../eval/ui/results/2026-11-15-hub-reflow/README.md)
 includes all 1,384 verified ZIP payloads and sixteen frozen runtime modules
 compared against Git bytecode. Portable filename: `Saydraft-0.1.0-win-x64.zip`.
 SHA-256: `3577ab3daf5af400b441dc0fb32d4c604cd1956d9f2522d763d0b1469ea8e78f`.
-This build uses `-SkipInstaller`; signing, installer and release-ready acceptance
-remain open. The critical items in the following table remain blockers.
+This historical build uses `-SkipInstaller`. The newer local portable at
+`625c987` contains the cleanup fix and has 1,384 verified payloads/eighteen frozen
+modules checked against Git. Its SHA-256 is
+`2d7abacc1d526cae9a020a4831e49efcde7f8e1fb641e983b016de0013072474`.
+Signing, installer and release-ready acceptance remain open. The critical items
+in the following table remain blockers.
 
 ## Remaining acceptance and future work
 

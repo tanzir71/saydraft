@@ -1,5 +1,13 @@
 # Retained native cleanup evidence
 
+The [15 November intensity-prefix record](../eval/cleanup/results/2026-11-15-intensity-prefix/README.md)
+adds current-source CPU policy evidence at `625c987`: 556 exact goldens, seven
+accepted exact model replies, no regressions, three live decoder samples and
+observed native exit. All 100 adversarial policy cases skip for low need. This
+limited model contribution and CPU-only replay do not replace the remaining
+forced-generation, broad hybrid-quality, tier or full release-latency gates.
+No existing report or checker index is relabeled as this new source.
+
 The [forced-quality matrix](../eval/cleanup/results/2026-11-13-word-guard/README.md)
 retains ten complete jobs at immutable `4a1e69a`: all five candidates on CPU and
 RTX 3060. Each job generated 556 golden and 100 adversarial inputs, including
@@ -8,7 +16,7 @@ independently observed native exits. Original report bytes and private journal
 SHA-256 values remain pinned. Preservation guards and prompts still match these
 reports; their source commit is not relabeled as the current whole-app commit.
 
-## Current policy replay
+## Historical post-deadline policy replay
 
 The [post-deadline replays](../eval/cleanup/results/2026-11-13-deadline-policy/README.md)
 at immutable `1486b09` use the production need/budget gate and 800 ms cap. Each
@@ -49,9 +57,11 @@ physical Windows acceptance remains separate.
 ## Offline checker
 
 Run `python -m tools.check_cleanup_evidence`. Its defaults select the current
-policy pair and the separate forced CPU 0.8B / RTX 2B reports. The expected
-result is refusal, `Rules fallback cannot earn accepted model credit`, because
-CPU accepted no model replies. Measurement completion is not hybrid acceptance.
+policy pair and the separate forced CPU 0.8B / RTX 2B reports. The default bundle
+still refuses qualification: it pins the older reports, whose relevant source
+no longer matches the current implementation. Its historical CPU
+policy also accepted no replies. The newer CPU-only replay above does not replace
+the complete required bundle. Measurement completion is not hybrid acceptance.
 Custom indexes can be selected with `--policy-index` / `--forced-index`.
 The checker performs no downloads or inference.
 

@@ -1,0 +1,60 @@
+"""Retain clean-source policy/build proof and unchanged original diagnostics."""
+from pathlib import Path
+import hashlib
+import json
+import shutil
+import subprocess
+import xml.etree.ElementTree as ET
+
+qa=Path(__file__).resolve().parent
+repo=qa/'worktrees/cleanup-intensity-prefix-20261115'
+out=repo/'eval/cleanup/results/2026-11-15-intensity-prefix'
+out.mkdir(parents=True,exist_ok=False)
+def copy(path,name):
+    target=out/name;target.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(path,target)
+for label,stem in [('control','cleanup-policy-cpu-20261115'),('candidate','cleanup-policy-cpu-prefix-r2-20261115'),
+                   ('failed-candidate','cleanup-policy-cpu-prefix-20261115')]:
+    for name in ['report.json','cases.jsonl']:copy(qa/stem/name,f'{label}/{name}')
+    copy(qa/(stem+'.guard.json'),f'{label}/guard.json')
+    copy(qa/(stem+'.log'),f'{label}/console.log')
+for name in ['report.json','owner-guard.json']:copy(qa/'cleanup-profile-20261115-r2'/name,'rpc/'+name)
+copy(qa/'cleanup-profile-r2-20261115.log','rpc/console.log')
+copy(qa/'cleanup-profile-20261115.log','diagnostics/rpc-initial-path.log')
+for name in ['owner-guard.json','initial-script.py.txt']:copy(qa/'cleanup-profile-20261115-r1'/name,'diagnostics/'+name)
+root=qa/'cleanup-prefix-20261115-r1'
+for name in ['tests-final.log','tests-final.xml','tests-final.guard.json','eval-final.log','eval-final.guard.json']:
+    copy(root/name,'tests/'+name)
+copy(qa/'cleanup-prefix-20261115-r1-tests-diagnostic.log','diagnostics/tests-collection.log')
+for name in ['tests-diagnostic.xml','tests-diagnostic.guard.json']:copy(root/name,'diagnostics/'+name)
+build=qa/'cleanup-prefix-package-20261115-r1'
+for name in ['bundle.json','preflight.json','runtime.json','requirements-frozen.txt']:copy(build/'audit'/name,'package/'+name)
+for name in ['artifact-verification.json','artifacts-after.guard.json','frozen-source.json','frozen-source.guard.json','build-console.log']:
+    copy(root/name,'package/'+name)
+for name in ['profile_cleanup_rpc_20261115.py','run_cpu_policy_20261115.py','run_cpu_policy_prefix_20261115.py',
+             'run_cpu_policy_prefix_r2_20261115.py','run_prefix_tests_20261115.py','verify_prefix_frozen_source_20261115.py',
+             'verify_prefix_artifacts_20261115.py','collect_prefix_delivery_20261115.py']:
+    copy(qa/name,'scripts/'+name+'.txt')
+source='625c987b134dfabf093651a6054de9c06b33e9fc'
+control=json.loads((out/'control/report.json').read_text())
+candidate=json.loads((out/'candidate/report.json').read_text())
+for r,expected in [(control,'01a2683c3644212c964e0f29b3c6563ebf3c31e1'),(candidate,source)]:
+    assert r['git_commit']==expected and not r['source_dirty'] and r['policy_measurement_complete']
+    assert r['suites']['golden']['exact_passes']==556 and not r['suites']['golden']['regressions']
+    assert r['quality_timeout_ms']==800 and r['native_exit_observed']==[True]
+assert control['golden_sha256']==candidate['golden_sha256'] and control['adversarial_sha256']==candidate['adversarial_sha256']
+suite=ET.parse(root/'tests-final.xml').getroot().find('testsuite')
+assert suite.attrib['tests']=='171' and suite.attrib['errors']==suite.attrib['failures']=='0'
+paths=['saydraft','tools/bench_cleanup.py','tools/build.ps1','tools/package_audit.py','tools/public_file_guard.py',
+       'tests/eval_corpus.jsonl','tests/cleanup_adversarial.jsonl','tests/test_cleanup_preparation.py','tests/test_cleanup_policy_eval.py',
+       'requirements.txt','Saydraft.spec','installer','assets','design/tokens.json']
+raw=subprocess.check_output(['git','ls-tree','-r',source,'--',*paths],cwd=repo,text=True)
+(out/'source-witnesses.json').write_text(json.dumps({'source':source,'paths':paths,
+    'git_objects':dict(line.split('\t')[::-1] for line in raw.splitlines())},indent=2)+'\n',encoding='utf-8')
+summary={'source':source,'tests_passed':171,'rules_exact':556,'authored_validator_refusals':100,
+    'native_policy_exact':556,'native_policy_accepted':7,'native_policy_adversarial_skips':100,
+    'forced_adversarial_generation_performed':False,'release_latency_accepted':False,'tier_accepted':False,'release_ready':False}
+(out/'qualification.json').write_text(json.dumps(summary,indent=2)+'\n',encoding='utf-8')
+manifest={'source':source,'records':{str(p.relative_to(out)).replace('\\','/'):{'sha256':hashlib.sha256(p.read_bytes()).hexdigest(),'bytes':p.stat().st_size}
+    for p in out.rglob('*') if p.is_file()}}
+(out/'manifest.json').write_text(json.dumps(manifest,indent=2)+'\n',encoding='utf-8')
+print(json.dumps({'records':len(manifest['records']),'source':source}))

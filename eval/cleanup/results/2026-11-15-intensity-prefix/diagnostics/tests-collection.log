@@ -1,0 +1,56 @@
+
+=================================== ERRORS ====================================
+____________ ERROR collecting tests/test_cleanup_release_budget.py ____________
+tests\test_cleanup_release_budget.py:8: in <module>
+    from tests.test_session_worker import make_worker
+<frozen importlib._bootstrap>:1369: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1340: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:935: in _load_unlocked
+    ???
+C:\Users\tanzir\AppData\Roaming\Python\Python313\site-packages\_pytest\assertion\rewrite.py:186: in exec_module
+    exec(co, module.__dict__)
+tests\test_session_worker.py:12: in <module>
+    from saydraft.core.worker import SessionWorker
+saydraft\core\worker.py:22: in <module>
+    from .context import ForegroundContextProvider
+saydraft\core\context.py:3: in <module>
+    from saydraft.context.foreground import ForegroundContextProvider
+<frozen importlib._bootstrap>:1369: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1331: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:1265: in _find_spec
+    ???
+tools\public_file_guard.py:54: in find_spec
+    raise AssertionError("Owner I/O import is barred: " + fullname)
+E   AssertionError: Owner I/O import is barred: saydraft.context.foreground
+_______________ ERROR collecting tests/test_command_session.py ________________
+tests\test_command_session.py:11: in <module>
+    from tests.test_command_edit import Model
+<frozen importlib._bootstrap>:1369: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1340: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:935: in _load_unlocked
+    ???
+C:\Users\tanzir\AppData\Roaming\Python\Python313\site-packages\_pytest\assertion\rewrite.py:186: in exec_module
+    exec(co, module.__dict__)
+tests\test_command_edit.py:11: in <module>
+    from saydraft.context.foreground import SelectedContext
+<frozen importlib._bootstrap>:1369: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1331: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:1265: in _find_spec
+    ???
+tools\public_file_guard.py:54: in find_spec
+    raise AssertionError("Owner I/O import is barred: " + fullname)
+E   AssertionError: Owner I/O import is barred: saydraft.context.foreground
+- generated xml file: D:\Saydraft-Codex-QA-20261112-01a1cbc7\cleanup-prefix-20261115-r1\tests-diagnostic.xml -
+=========================== short test summary info ===========================
+ERROR tests/test_cleanup_release_budget.py - AssertionError: Owner I/O import...
+ERROR tests/test_command_session.py - AssertionError: Owner I/O import is bar...
+!!!!!!!!!!!!!!!!!!! Interrupted: 2 errors during collection !!!!!!!!!!!!!!!!!!!
+2 errors in 1.74s
