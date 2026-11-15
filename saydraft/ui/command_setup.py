@@ -56,6 +56,8 @@ class CommandSetup(QtWidgets.QGroupBox):
         self.eligibility.setTextFormat(QtCore.Qt.PlainText)
         self.status.setTextFormat(QtCore.Qt.PlainText)
         self.license.setOpenExternalLinks(True)
+        self.license.setTextInteractionFlags(QtCore.Qt.LinksAccessibleByMouse | QtCore.Qt.LinksAccessibleByKeyboard)
+        self.license.setAccessibleName("Command model licenses and source credits")
         self._palette_timer = QtCore.QTimer(self)
         self._palette_timer.setSingleShot(True)
         self._palette_timer.timeout.connect(self._details)

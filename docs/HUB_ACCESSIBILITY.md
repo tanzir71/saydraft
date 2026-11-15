@@ -17,6 +17,8 @@ General, Shortcuts, Cleanup, Languages and spoken-translation forms can put
 long fields below their labels. Home wraps its shortcut explanation and empty
 state while keycaps keep their normal height. The hidden Settings tab bar is
 excluded from Tab order; the visible Settings section selector remains named.
+Shortcut help and speech, cleanup and Labs model license/source links are also
+reachable by keyboard. Merely focusing these links opens no external page.
 
 ## Local checks
 
@@ -27,7 +29,9 @@ events. Its fifteen cases cover:
 - Forward/reverse Tab cycles for the seven Hub pages and ten Settings sections
   at 16px and 32px application text in light, dark and simulated high contrast.
   Each actual focus target must have a Qt accessibility name. Shared Save must
-  be reachable on every page that edits settings.
+  be reachable on every page that edits settings, and every visible, enabled
+  external-link label must appear in both walks. Queued Qt callback exceptions
+  fail the fixture instead of being accepted as stderr-only diagnostics.
 - Populated Dictionary and Snippets tables, plus expanded advanced JSON and
   snippet-test fields. Empty tables alone would miss the cell-navigation trap.
 - Live 16→32→16px font changes at 880×600 and 1080×720, navigation label fit,

@@ -1,6 +1,7 @@
 """Qt-only keyboard/accessibility regressions with public, disposable data."""
 
 import json
+import sys
 from types import SimpleNamespace
 
 import pytest
@@ -8,6 +9,7 @@ from PySide6 import QtCore, QtGui, QtTest, QtWidgets
 
 from saydraft.config import default_config, save_config
 from saydraft.history import DictationHistoryStore, HistoryEntry
+from saydraft.models.storage import Inventory
 from saydraft.ui.hub import HubWindow
 from saydraft.ui.theme import install_theme
 
@@ -47,6 +49,8 @@ def owned_hub(tmp_path, monkeypatch):
     app = APP
     app.sendPostedEvents(None, QtCore.QEvent.DeferredDelete)
     original_font, original_sheet = QtGui.QFont(app.font()), app.styleSheet()
+    qt_errors = []
+    monkeypatch.setattr(sys, "excepthook", lambda kind, error, trace: qt_errors.append((kind.__name__, str(error))))
     monkeypatch.setattr(QtWidgets.QApplication, "clipboard", forbidden)
     monkeypatch.setattr(QtGui.QDesktopServices, "openUrl", forbidden)
     monkeypatch.setattr("saydraft.ui.settings_page.wispr_running", lambda: False)
@@ -73,7 +77,7 @@ def owned_hub(tmp_path, monkeypatch):
         cleanup_download_callback=forbidden, cleanup_runtime_download_callback=forbidden,
         style_preview_callback=forbidden, audio_cleanup_callback=forbidden,
         firewall_status_provider=forbidden, model_remove_callback=forbidden,
-        model_inventory_provider=lambda: ()),
+        model_inventory_provider=lambda: Inventory(models=(), roots=())),
         history_options=dict(store=store, clipboard=SimpleNamespace(setText=forbidden)))
     hints = Hints()
     controllers = []
@@ -115,6 +119,7 @@ def owned_hub(tmp_path, monkeypatch):
         controller.close()
     app.setStyleSheet(original_sheet)
     app.setFont(original_font)
+    assert not qt_errors, qt_errors
 
 
 def accessible_name(widget):
@@ -155,6 +160,9 @@ def test_all_hub_pages_have_named_forward_and_reverse_tab_cycles(owned_hub, mode
             visited = walk_tabs(subject, backwards=backwards)
             if name in ("Dictionary", "Snippets", "Style", "Settings"):
                 assert hub.save_button in visited
+            for label in hub.findChildren(QtWidgets.QLabel):
+                if label.isVisibleTo(hub) and label.isEnabled() and label.openExternalLinks() and '<a ' in label.text():
+                    assert label in visited, label.text()
         assert [editor.toPlainText() for editor in editors] == texts
 
 

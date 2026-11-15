@@ -304,6 +304,8 @@ class SettingsPage(QtWidgets.QWidget):
             'Shortcut help</a>')
         hotkey_help.setWordWrap(True)
         hotkey_help.setOpenExternalLinks(True)
+        hotkey_help.setTextInteractionFlags(QtCore.Qt.LinksAccessibleByMouse | QtCore.Qt.LinksAccessibleByKeyboard)
+        hotkey_help.setAccessibleName("Shortcut help")
         form.addRow(hotkey_help)
         form.addRow("Double-tap interval", self.tap_lock_spin)
         return self._scroll(page)
@@ -445,6 +447,7 @@ class SettingsPage(QtWidgets.QWidget):
         self.vad_license = QtWidgets.QLabel('Silero Team · 2.3 MB · <a href="https://github.com/snakers4/silero-vad/blob/v5.0/LICENSE">MIT license</a>')
         self.vad_license.setWordWrap(True)
         self.vad_license.setOpenExternalLinks(True)
+        self.vad_license.setTextInteractionFlags(QtCore.Qt.LinksAccessibleByMouse | QtCore.Qt.LinksAccessibleByKeyboard)
         self.vad_license.setAccessibleName("Silero speech detection model license: MIT")
 
         self.local_files_checkbox.setText("Use local model files only")

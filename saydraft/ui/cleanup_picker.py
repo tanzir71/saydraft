@@ -48,6 +48,7 @@ class CleanupPicker(QtWidgets.QWidget):
         self.license_label = QtWidgets.QLabel()
         self.license_label.setWordWrap(True)
         self.license_label.setOpenExternalLinks(True)
+        self.license_label.setTextInteractionFlags(QtCore.Qt.LinksAccessibleByMouse | QtCore.Qt.LinksAccessibleByKeyboard)
         self.status = QtWidgets.QLabel()
         self.status.setWordWrap(True)
         self.status.setTextFormat(QtCore.Qt.TextFormat.PlainText)

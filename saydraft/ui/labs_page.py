@@ -35,6 +35,8 @@ class LabsPage(QtWidgets.QWidget):
             f'<a href="{escape(model["source"])}">Model and conversion credits</a>')
         self.license.setWordWrap(True)
         self.license.setOpenExternalLinks(True)
+        self.license.setTextInteractionFlags(QtCore.Qt.LinksAccessibleByMouse | QtCore.Qt.LinksAccessibleByKeyboard)
+        self.license.setAccessibleName("English preview model license and credits")
         self.eligibility = QtWidgets.QLabel()
         self.eligibility.setWordWrap(True)
         self.live = QtWidgets.QCheckBox("Show English live preview")
