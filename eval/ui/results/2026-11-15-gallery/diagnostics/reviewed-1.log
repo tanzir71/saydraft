@@ -1,0 +1,36 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 203, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\gallery-states-20261115\saydraft\ui\gallery.py", line 237, in <module>
+    main()
+    ~~~~^^
+  File "D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\gallery-states-20261115\saydraft\ui\gallery.py", line 214, in main
+    render(args.render, args.scale, args.family)
+    ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\gallery-states-20261115\saydraft\ui\gallery.py", line 178, in render
+    report["git_commit"] = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=repo, text=True).strip()
+                           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python313\Lib\subprocess.py", line 473, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+           ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+               **kwargs).stdout
+               ^^^^^^^^^
+  File "C:\Python313\Lib\subprocess.py", line 555, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python313\Lib\subprocess.py", line 1040, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        pass_fds, cwd, env,
+                        ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+                        gid, gids, uid, umask,
+                        ^^^^^^^^^^^^^^^^^^^^^^
+                        start_new_session, process_group)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python313\Lib\subprocess.py", line 1551, in _execute_child
+    sys.audit("subprocess.Popen", executable, args, cwd, env)
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\gallery-states-20261115\saydraft\ui\gallery.py", line 118, in file_only_processes
+    raise AssertionError("The gallery may spawn only file-only Git provenance commands")
+AssertionError: The gallery may spawn only file-only Git provenance commands

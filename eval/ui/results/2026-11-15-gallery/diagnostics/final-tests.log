@@ -1,0 +1,151 @@
+FFFF.                                                                    [100%]
+================================== FAILURES ===================================
+_ test_fresh_gallery_renders_offline_without_clipping_and_matches_snapshots[1] _
+
+tmp_path = WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/gallery-states-20261115-r1/final-tests-temp/test_fresh_gallery_renders_off0')
+scale = 1
+
+    @pytest.mark.gallery
+    @pytest.mark.offline
+    @pytest.mark.parametrize("scale", [1, 2])
+    def test_fresh_gallery_renders_offline_without_clipping_and_matches_snapshots(tmp_path, scale):
+        output = tmp_path / "gallery"
+        env = {**os.environ, "PYTHONIOENCODING": "utf-8"}
+        result = subprocess.run([sys.executable, "-m", "saydraft.ui.gallery", "--render", str(output), "--scale", str(scale)],
+            env=env, capture_output=True, text=True, encoding="utf-8", timeout=90)
+>       assert result.returncode == 0, result.stdout + result.stderr
+E       AssertionError: Traceback (most recent call last):
+E           File "<frozen runpy>", line 203, in _run_module_as_main
+E           File "<frozen runpy>", line 88, in _run_code
+E           File "D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\gallery-states-20261115\saydraft\ui\gallery.py", line 240, in <module>
+E             main()
+E             ~~~~^^
+E           File "D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\gallery-states-20261115\saydraft\ui\gallery.py", line 217, in main
+E             render(args.render, args.scale, args.family)
+E             ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           File "D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\gallery-states-20261115\saydraft\ui\gallery.py", line 107, in render
+E             from PySide6 import QtGui, QtWidgets
+E         ModuleNotFoundError: No module named 'PySide6'
+E         
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['C:\\Python313\\python.exe', '-m', 'saydraft.ui.gallery', '--render', 'D:\\Saydraft-Codex-QA-20...y", line 107, in render\n    from PySide6 import QtGui, QtWidgets\nModuleNotFoundError: No module named \'PySide6\'\n').returncode
+
+tests\test_gallery.py:19: AssertionError
+_ test_fresh_gallery_renders_offline_without_clipping_and_matches_snapshots[2] _
+
+tmp_path = WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/gallery-states-20261115-r1/final-tests-temp/test_fresh_gallery_renders_off1')
+scale = 2
+
+    @pytest.mark.gallery
+    @pytest.mark.offline
+    @pytest.mark.parametrize("scale", [1, 2])
+    def test_fresh_gallery_renders_offline_without_clipping_and_matches_snapshots(tmp_path, scale):
+        output = tmp_path / "gallery"
+        env = {**os.environ, "PYTHONIOENCODING": "utf-8"}
+        result = subprocess.run([sys.executable, "-m", "saydraft.ui.gallery", "--render", str(output), "--scale", str(scale)],
+            env=env, capture_output=True, text=True, encoding="utf-8", timeout=90)
+>       assert result.returncode == 0, result.stdout + result.stderr
+E       AssertionError: Traceback (most recent call last):
+E           File "<frozen runpy>", line 203, in _run_module_as_main
+E           File "<frozen runpy>", line 88, in _run_code
+E           File "D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\gallery-states-20261115\saydraft\ui\gallery.py", line 240, in <module>
+E             main()
+E             ~~~~^^
+E           File "D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\gallery-states-20261115\saydraft\ui\gallery.py", line 217, in main
+E             render(args.render, args.scale, args.family)
+E             ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           File "D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\gallery-states-20261115\saydraft\ui\gallery.py", line 107, in render
+E             from PySide6 import QtGui, QtWidgets
+E         ModuleNotFoundError: No module named 'PySide6'
+E         
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['C:\\Python313\\python.exe', '-m', 'saydraft.ui.gallery', '--render', 'D:\\Saydraft-Codex-QA-20...y", line 107, in render\n    from PySide6 import QtGui, QtWidgets\nModuleNotFoundError: No module named \'PySide6\'\n').returncode
+
+tests\test_gallery.py:19: AssertionError
+____ test_public_bar_states_render_without_desktop_or_microphone_access[1] ____
+
+tmp_path = WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/gallery-states-20261115-r1/final-tests-temp/test_public_bar_states_render_0')
+scale = 1
+
+    @pytest.mark.gallery
+    @pytest.mark.parametrize("scale", [1, 2])
+    def test_public_bar_states_render_without_desktop_or_microphone_access(tmp_path, scale):
+        root = Path(__file__).resolve().parents[1]
+        output = tmp_path / "bar"
+        env = {**os.environ, "PYTHONIOENCODING": "utf-8", "QT_QPA_PLATFORM": "offscreen"}
+        guarded_render = '''
+    import ctypes, runpy, sys, types
+    from PySide6 import QtWidgets
+    attempts = []
+    def forbidden(*args, **kwargs):
+        attempts.append(True)
+        raise AssertionError("Bar fixture attempted desktop, clipboard or microphone access")
+    class ForbiddenDesktop:
+        def __getattr__(self, name):
+            return forbidden(name)
+    ctypes.windll = types.SimpleNamespace(user32=ForbiddenDesktop())
+    QtWidgets.QApplication.clipboard = staticmethod(forbidden)
+    sys.modules["sounddevice"] = types.SimpleNamespace(InputStream=forbidden, query_devices=forbidden)
+    sys.argv = ["saydraft.ui.bar_gallery", *sys.argv[1:]]
+    runpy.run_module("saydraft.ui.bar_gallery", run_name="__main__")
+    assert not attempts
+    '''
+        result = subprocess.run([sys.executable, "-c", guarded_render, "--render", str(output),
+            "--scale", str(scale)], cwd=root, env=env, capture_output=True, text=True, timeout=40)
+>       assert result.returncode == 0, result.stdout + result.stderr
+E       AssertionError: Traceback (most recent call last):
+E           File "<string>", line 3, in <module>
+E             from PySide6 import QtWidgets
+E         ModuleNotFoundError: No module named 'PySide6'
+E         
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['C:\\Python313\\python.exe', '-c', '\nimport ctypes, runpy, sys, types\nfrom PySide6 import QtW...<string>", line 3, in <module>\n    from PySide6 import QtWidgets\nModuleNotFoundError: No module named \'PySide6\'\n').returncode
+
+tests\test_bar_gallery.py:35: AssertionError
+____ test_public_bar_states_render_without_desktop_or_microphone_access[2] ____
+
+tmp_path = WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/gallery-states-20261115-r1/final-tests-temp/test_public_bar_states_render_1')
+scale = 2
+
+    @pytest.mark.gallery
+    @pytest.mark.parametrize("scale", [1, 2])
+    def test_public_bar_states_render_without_desktop_or_microphone_access(tmp_path, scale):
+        root = Path(__file__).resolve().parents[1]
+        output = tmp_path / "bar"
+        env = {**os.environ, "PYTHONIOENCODING": "utf-8", "QT_QPA_PLATFORM": "offscreen"}
+        guarded_render = '''
+    import ctypes, runpy, sys, types
+    from PySide6 import QtWidgets
+    attempts = []
+    def forbidden(*args, **kwargs):
+        attempts.append(True)
+        raise AssertionError("Bar fixture attempted desktop, clipboard or microphone access")
+    class ForbiddenDesktop:
+        def __getattr__(self, name):
+            return forbidden(name)
+    ctypes.windll = types.SimpleNamespace(user32=ForbiddenDesktop())
+    QtWidgets.QApplication.clipboard = staticmethod(forbidden)
+    sys.modules["sounddevice"] = types.SimpleNamespace(InputStream=forbidden, query_devices=forbidden)
+    sys.argv = ["saydraft.ui.bar_gallery", *sys.argv[1:]]
+    runpy.run_module("saydraft.ui.bar_gallery", run_name="__main__")
+    assert not attempts
+    '''
+        result = subprocess.run([sys.executable, "-c", guarded_render, "--render", str(output),
+            "--scale", str(scale)], cwd=root, env=env, capture_output=True, text=True, timeout=40)
+>       assert result.returncode == 0, result.stdout + result.stderr
+E       AssertionError: Traceback (most recent call last):
+E           File "<string>", line 3, in <module>
+E             from PySide6 import QtWidgets
+E         ModuleNotFoundError: No module named 'PySide6'
+E         
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['C:\\Python313\\python.exe', '-c', '\nimport ctypes, runpy, sys, types\nfrom PySide6 import QtW...<string>", line 3, in <module>\n    from PySide6 import QtWidgets\nModuleNotFoundError: No module named \'PySide6\'\n').returncode
+
+tests\test_bar_gallery.py:35: AssertionError
+- generated xml file: D:\Saydraft-Codex-QA-20261112-01a1cbc7\gallery-states-20261115-r1\final-tests.xml -
+=========================== short test summary info ===========================
+FAILED tests/test_gallery.py::test_fresh_gallery_renders_offline_without_clipping_and_matches_snapshots[1]
+FAILED tests/test_gallery.py::test_fresh_gallery_renders_offline_without_clipping_and_matches_snapshots[2]
+FAILED tests/test_bar_gallery.py::test_public_bar_states_render_without_desktop_or_microphone_access[1]
+FAILED tests/test_bar_gallery.py::test_public_bar_states_render_without_desktop_or_microphone_access[2]
+4 failed, 1 passed in 11.25s

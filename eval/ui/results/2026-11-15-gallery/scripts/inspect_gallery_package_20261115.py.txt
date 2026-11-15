@@ -1,0 +1,33 @@
+"""File-only check that developer gallery modules are absent from shipped code."""
+from pathlib import Path
+import hashlib
+import importlib.util
+import json
+import subprocess
+import sys
+import types
+
+qa=Path(__file__).resolve().parent
+repo=qa/'worktrees/gallery-states-20261115'
+sys.path.insert(0,str(repo))
+from tools.public_file_guard import install
+install(qa/'gallery-states-20261115-r1/package-inspection.guard.json')
+spec=importlib.util.find_spec('PyInstaller')
+package=types.ModuleType('PyInstaller')
+package.__path__=[str(Path(spec.origin).parent)]
+package.__spec__=spec
+sys.modules['PyInstaller']=package
+from PyInstaller.archive.readers import CArchiveReader
+exe=qa/'hub-reflow-package-20261115-r2/dist/Saydraft/Saydraft.exe'
+pyz=CArchiveReader(str(exe)).open_embedded_archive('PYZ.pyz')
+names=sorted(name for name in pyz.toc if name.startswith('saydraft.ui.gallery'))
+assert names == []
+changes=subprocess.check_output(['git','diff','3cbbacd','HEAD','--name-only','--','saydraft'],cwd=repo,text=True).splitlines()
+assert sorted(changes)==['saydraft/ui/gallery.py','saydraft/ui/gallery_catalog.py']
+report={'source':subprocess.check_output(['git','rev-parse','HEAD'],cwd=repo,text=True).strip(),
+    'portable_source':'f6cd0bf7a23c6587939ae1bc56009581b1452c86',
+    'exe_sha256':hashlib.sha256(exe.read_bytes()).hexdigest(),
+    'changed_python_files':changes,'packaged_gallery_modules':names,'module_code_executed':False,
+    'scope':'Existing portable remains its original f6 qualification. Developer-only gallery changes are not imported or included in that executable; no new package/release claimed.'}
+(qa/'gallery-states-20261115-r1/package-inspection.json').write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8')
+print(json.dumps(report))

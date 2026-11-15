@@ -1,0 +1,58 @@
+"""Verify retained gallery qualification without Qt, owner ports or inference."""
+import argparse
+import hashlib
+import json
+from pathlib import Path
+import struct
+import subprocess
+import xml.etree.ElementTree as ET
+
+parser=argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--repo',type=Path,default=Path.cwd())
+parser.add_argument('--check-current',action='store_true')
+args=parser.parse_args()
+repo=args.repo.resolve()
+root=Path(__file__).resolve().parent.parent
+manifest=json.loads((root/'manifest.json').read_text(encoding='utf-8'))
+source=manifest['source']
+for name,record in manifest['records'].items():
+    path=(root/name).resolve()
+    assert path.is_relative_to(root),name
+    data=path.read_bytes()
+    assert len(data)==record['bytes'] and hashlib.sha256(data).hexdigest()==record['sha256'],name
+assert {str(p.relative_to(root)).replace('\\','/') for p in root.rglob('*') if p.is_file()}==set(manifest['records'])|{'manifest.json'}
+witness=json.loads((root/'source-witnesses.json').read_text(encoding='utf-8'))
+def trees(ref):
+    raw=subprocess.check_output(['git','ls-tree','-r',ref,'--',*witness['paths']],cwd=repo,text=True)
+    return dict(line.split('\t')[::-1] for line in raw.splitlines())
+assert witness['source']==source and trees(source)==witness['git_objects']
+if args.check_current:
+    assert trees('HEAD')==witness['git_objects'],'Gallery source/fixtures changed'
+    subprocess.run(['git','diff','--quiet','HEAD','--',*witness['paths']],cwd=repo,check=True)
+baseline=json.loads(subprocess.check_output(['git','show',source+':tests/fixtures/gallery/catalog.json'],cwd=repo))
+for scale in [1,2]:
+    report=json.loads((root/f'scale-{scale}/report.json').read_text(encoding='utf-8'))
+    assert report['git_commit']==source and report['source_dirty'] is False
+    assert report['platform']=='offscreen' and report['network_guard_enabled']
+    assert report['imported_model_sdks']==[]
+    assert {row['file']:row['pixel_sha256'] for row in report['scenes']}==baseline['scales'][str(scale)]
+    assert len(report['scenes'])==164
+    for row in report['scenes']:
+        image=(root/f'scale-{scale}'/row['file']).read_bytes()
+        assert image[:8]==b'\x89PNG\r\n\x1a\n'
+        assert struct.unpack('>II',image[16:24])==(row['width'],row['height'])
+        assert row['dpr']==scale
+    guard=json.loads((root/f'guards/scale-{scale}.json').read_text(encoding='utf-8'))
+    assert guard['blocked_attempts']==[]
+    for key in ['real_audio_sdk_imported','owner_profile_used','owner_clipboard_used',
+                'owner_native_input_used','device_enumeration','microphone_used']:
+        assert guard[key] is False
+suite=ET.parse(root/'tests/final.xml').getroot().find('testsuite')
+assert suite is not None and suite.attrib['tests']=='5'
+assert all(suite.attrib[key]=='0' for key in ['failures','errors','skipped'])
+assert len(suite.findall('testcase'))==5
+qualification=json.loads((root/'qualification.json').read_text(encoding='utf-8'))
+assert qualification['source']==source and qualification['release_ready'] is False
+print(json.dumps({'source':source,'tests_passed':5,'catalog_frames':328,'control_frames':8,
+    'source_witnesses':len(witness['git_objects']),'records':len(manifest['records']),
+    'current_checked':args.check_current,'release_ready':False},indent=2))

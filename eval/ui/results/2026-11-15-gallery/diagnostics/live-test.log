@@ -1,0 +1,107 @@
+F                                                                        [100%]
+================================== FAILURES ===================================
+_ test_live_gallery_selector_uses_actual_widgets_and_refreshes_on_theme_change _
+
+path = 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\gallery-states-20261115-r1\\live-guard-profile\\temp\\saydraft-gallery-rn0jfhtc'
+onexc = <function TemporaryDirectory._rmtree.<locals>.onexc at 0x0000019DFADE2520>
+
+    def _rmtree_unsafe(path, onexc):
+        def onerror(err):
+            if not isinstance(err, FileNotFoundError):
+                onexc(os.scandir, err.filename, err)
+        results = os.walk(path, topdown=False, onerror=onerror, followlinks=os._walk_symlinks_as_files)
+        for dirpath, dirnames, filenames in results:
+            for name in dirnames:
+                fullname = os.path.join(dirpath, name)
+                try:
+                    os.rmdir(fullname)
+                except FileNotFoundError:
+                    continue
+                except OSError as err:
+                    onexc(os.rmdir, fullname, err)
+            for name in filenames:
+                fullname = os.path.join(dirpath, name)
+                try:
+>                   os.unlink(fullname)
+E                   PermissionError: [WinError 32] The process cannot access the file because it is being used by another process: 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\gallery-states-20261115-r1\\live-guard-profile\\temp\\saydraft-gallery-rn0jfhtc\\public.db'
+
+C:\Python313\Lib\shutil.py:625: PermissionError
+
+During handling of the above exception, another exception occurred:
+
+    @pytest.mark.gallery
+    def test_live_gallery_selector_uses_actual_widgets_and_refreshes_on_theme_change():
+        global APP
+        APP = QtWidgets.QApplication.instance() or QtWidgets.QApplication([])
+        install_bundled_fonts(APP)
+        controller = install_theme(APP, mode="light")
+        fixtures = Fixtures()
+        root = fixtures.root
+        window, tabs, _styles = build_gallery(controller, fixtures=fixtures)
+        try:
+            window.show()
+            panel = window.findChild(CatalogPanel)
+            assert panel is not None
+            assert panel.choice.count() == len(SCENES)
+            tabs.setCurrentWidget(panel)
+            index = next(i for i, scene in enumerate(SCENES) if scene.key == "hub-home")
+            panel.choice.setCurrentIndex(index)
+            settle()
+            light = panel.preview.pixmap().toImage()
+            assert not light.isNull() and light.width() == 1080
+            # The same stylesheet/palette event path also handles Follow Windows.
+            controller.set_mode("dark")
+            settle()
+            dark = panel.preview.pixmap().toImage()
+            assert not dark.isNull() and dark != light
+            assert fixtures.hubs[False].windowTitle() == "Saydraft"
+            for scene in ["bar-listening", "toast-added", "setup-style", "hub-notes"]:
+                panel.choice.setCurrentIndex(next(i for i, item in enumerate(SCENES) if item.key == scene))
+                settle()
+                assert not panel.preview.pixmap().isNull(), scene
+            assert all(widget.testAttribute(QtCore.Qt.WA_DontShowOnScreen) for widget in fixtures.widgets)
+        finally:
+            window.close()
+            window.deleteLater()
+>           fixtures.close()
+
+tests\test_gallery_catalog.py:51: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+saydraft\ui\gallery_catalog.py:138: in close
+    self.temp.cleanup()
+C:\Python313\Lib\tempfile.py:956: in cleanup
+    self._rmtree(self.name, ignore_errors=self._ignore_cleanup_errors)
+C:\Python313\Lib\tempfile.py:936: in _rmtree
+    _shutil.rmtree(name, onexc=onexc)
+C:\Python313\Lib\shutil.py:790: in rmtree
+    return _rmtree_unsafe(path, onexc)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\shutil.py:629: in _rmtree_unsafe
+    onexc(os.unlink, fullname, err)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+func = <built-in function unlink>
+path = 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\gallery-states-20261115-r1\\live-guard-profile\\temp\\saydraft-gallery-rn0jfhtc\\public.db'
+exc = PermissionError(13, 'The process cannot access the file because it is being used by another process')
+
+    def onexc(func, path, exc):
+        # On DragonFly BSD, UF_NOUNLINK removal fails with EISDIR, not EPERM.
+        if isinstance(exc, (PermissionError, IsADirectoryError)):
+            if repeated and path == name:
+                if ignore_errors:
+                    return
+                raise
+    
+            try:
+                if path != name:
+                    _resetperms(_os.path.dirname(path))
+                _resetperms(path)
+    
+                try:
+>                   _os.unlink(path)
+E                   PermissionError: [WinError 32] The process cannot access the file because it is being used by another process: 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\gallery-states-20261115-r1\\live-guard-profile\\temp\\saydraft-gallery-rn0jfhtc\\public.db'
+
+C:\Python313\Lib\tempfile.py:911: PermissionError
+=========================== short test summary info ===========================
+FAILED tests/test_gallery_catalog.py::test_live_gallery_selector_uses_actual_widgets_and_refreshes_on_theme_change
+1 failed in 16.06s

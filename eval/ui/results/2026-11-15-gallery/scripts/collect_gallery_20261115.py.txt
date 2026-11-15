@@ -1,0 +1,58 @@
+"""Retain exact clean gallery snapshots and diagnostics, excluding profiles."""
+from pathlib import Path
+import hashlib
+import json
+import shutil
+import subprocess
+import xml.etree.ElementTree as ET
+
+qa=Path(__file__).resolve().parent
+repo=qa/'worktrees/gallery-states-20261115'
+root=qa/'gallery-states-20261115-r1'
+source='c5428286dfac1133f1a6d08b67656f3ddba578a9'
+out=repo/'eval/ui/results/2026-11-15-gallery'
+out.mkdir(parents=True,exist_ok=False)
+def copy(src,dst):
+    target=out/dst
+    target.parent.mkdir(parents=True,exist_ok=True)
+    shutil.copyfile(src,target)
+for scale in [1,2]:
+    fixture=root/'final-r2-tests-temp'/f'test_fresh_gallery_renders_off{scale-1}'
+    report=json.loads((fixture/'gallery/report.json').read_text())
+    assert report['git_commit']==source and report['source_dirty'] is False
+    assert len(report['scenes'])==164 and report['scale']==scale
+    for path in (fixture/'gallery').iterdir():
+        if path.is_file():copy(path,f'scale-{scale}/{path.name}')
+    copy(fixture/'gallery.guard.json',f'guards/scale-{scale}.json')
+for scale in [1,2]:
+    fixture=root/'final-r2-tests-temp'/f'test_public_bar_states_render_{scale-1}'/'bar'
+    copy(fixture/'report.json',f'bar/scale-{scale}-report.json')
+copy(root/'final-r2-tests.log','tests/final.log')
+copy(root/'final-r2-tests.xml','tests/final.xml')
+copy(root/'final-r2-tests-guard.json','guards/tests.json')
+for name in ['live-test.log','live-guard.json','live-r2-test.log','live-r2-guard.json',
+             'final-tests.log','final-tests.xml','final-tests-guard.json',
+             'reviewed-1.log','reviewed-1.guard.json','reviewed-2.log','reviewed-2.guard.json']:
+    copy(root/name,'diagnostics/'+name)
+for name in ['package-inspection.json','package-inspection.guard.json']:
+    copy(root/name,'package/'+name)
+for name in ['run_gallery_tests_20261115.py','inspect_gallery_package_20261115.py','collect_gallery_20261115.py']:
+    copy(qa/name,'scripts/'+name+'.txt')
+suite=ET.parse(root/'final-r2-tests.xml').getroot().find('testsuite')
+assert suite is not None and suite.attrib['tests']=='5' and suite.attrib['failures']=='0' and suite.attrib['errors']=='0'
+paths=['saydraft/ui','saydraft/data','saydraft/config.py','saydraft/history.py','saydraft/dictionary',
+       'tests/test_gallery.py','tests/test_gallery_catalog.py','tests/test_bar_gallery.py',
+       'tests/fixtures/gallery','tests/fixtures/bar','tools/public_file_guard.py','assets/fonts','design/tokens.json']
+def trees(ref):
+    raw=subprocess.check_output(['git','ls-tree','-r',ref,'--',*paths],cwd=repo,text=True)
+    return dict(line.split('\t')[::-1] for line in raw.splitlines())
+witnesses={'source':source,'paths':paths,'git_objects':trees(source)}
+(out/'source-witnesses.json').write_text(json.dumps(witnesses,indent=2)+'\n',encoding='utf-8')
+(out/'qualification.json').write_text(json.dumps({'source':source,'tests_passed':5,'tests_skipped':0,
+ 'scenes_per_theme':82,'catalog_frames':328,'control_frames':8,'scales':[1,2],
+ 'themes':['light','dark'],'release_ready':False,'process_exit_code':0,
+ 'scope':'Three explicit gallery-marked files; fresh subprocess exits observed by subprocess.run. No whole process-tree Job claim or whole-app/manual acceptance.'},indent=2)+'\n',encoding='utf-8')
+records={str(p.relative_to(out)).replace('\\','/'):{'sha256':hashlib.sha256(p.read_bytes()).hexdigest(),'bytes':p.stat().st_size}
+ for p in out.rglob('*') if p.is_file()}
+(out/'manifest.json').write_text(json.dumps({'source':source,'records':records},indent=2)+'\n',encoding='utf-8')
+print(json.dumps({'records':len(records),'bytes':sum(r['bytes'] for r in records.values()),'source_witnesses':len(witnesses['git_objects'])}))

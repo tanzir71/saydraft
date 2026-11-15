@@ -46,6 +46,13 @@ checks explicitly; changing an environment flag cannot authorize them.
   delivery, with their exact source, rather than inferred from earlier builds.
 - The previous `5848e53` portable is historical and lacks the newer Hub changes.
   [Build instructions and qualification limits](PACKAGING.md).
+- P6.6's developer gallery now contains 82 named production-widget scenes in
+  both themes, with 1x/2x product-shot exports. Five gallery checks pass on clean
+  `c542828`; [the receipt](../eval/ui/results/2026-11-15-gallery/README.md)
+  retains 336 PNGs, source bindings, guard records and original diagnostics.
+  Its modules are absent from the existing portable's actual embedded code;
+  that portable keeps its original qualification. Physical/manual/accuracy
+  release gates below remain open.
 
 **Final local delivery:** runtime/build source `f6cd0bf`, with QA-only fixture
 source `301218a`, has 244 related passes/four explicitly excluded app-entry
@@ -72,7 +79,6 @@ table identifies what still prevents accepting each original requirement.
 | Before quality/performance claims — P4.4, P4.6, P4.7 | Finish model/tier bake-off and full Standard/Pro end-to-end latency and quality gates. The deterministic corpus and adversarial checks do not establish the remaining rules-plus-model accuracy target or zero must-keep regressions. Evaluate frozen candidates against unchanged criteria before promoting defaults. | [Evaluation](EVALUATION.md), [latency matrix](LATENCY_MATRIX.md), [cleanup evidence](CLEANUP_EVIDENCE.md) |
 | Authorized isolated Windows session — P2.2, P5.1–P5.3, P5.5–P5.6 | Exercise real Notepad dictation, Start-menu masking/F9, clipboard image/rich-text restoration and Win+V exclusion, password/elevated/focus-change refusal, hands-free/cancel/paste-last and correction learning. Implementations and synthetic/native-owned fixtures do not replace these manual checks. | [Test checklist](TEST_CHECKLIST.md), [hotkeys](HOTKEYS.md) |
 | UI acceptance — P6.2–P6.5, P6.7 | Complete Bar state/sound/pointer/mixed-DPI checks, fresh-profile onboarding under three minutes, physical Scratchpad/View-diff shortcuts, Narrator/focus/high-contrast/display-scaling checks and full Settings/History acceptance. Current logical-font tests cover owned offscreen fixtures. | [Hub accessibility](HUB_ACCESSIBILITY.md), [onboarding](ONBOARDING.md), [Notes](NOTES.md) |
-| Future implementation — P6.6 | Extend the public gallery beyond its initial Controls/Style tabs to the complete Bar, Hub, toast and onboarding state set with deterministic snapshots. Current product captures and page matrices are partial coverage. | [Theme and gallery](THEME.md) |
 | Power-feature acceptance — P7.1 | Complete the plan's Command instruction/validator, actual-model and native review/replace/fallback acceptance. Preserve review, cancellation, privacy and Pro gating. | [Command Mode](COMMAND_MODE.md), [clipboard fallback](COMMAND_CLIPBOARD.md) |
 | Deferred owner accuracy — P7.4 | Measure whispered owner clips with enhancement off/on against the required 20% relative WER improvement. Implementation and public/file smoke checks do not establish that improvement. | [Whisper mode](WHISPER_MODE.md) |
 | Meeting acceptance — P7.5 | Run the required 30-minute offline meeting on a suitable authorized account, including speakers, summary, next steps and capture-time network policy. Broader language/speaker/summary accuracy remains to be accepted. | [Meetings](MEETINGS.md) |

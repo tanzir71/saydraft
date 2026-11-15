@@ -1,0 +1,12 @@
+{
+  "source": "c5428286dfac1133f1a6d08b67656f3ddba578a9",
+  "portable_source": "f6cd0bf7a23c6587939ae1bc56009581b1452c86",
+  "exe_sha256": "6ce16d3f5f053fa74bfb2318a29465ef39e39a1365cab6f9ef22ce489b99fbc4",
+  "changed_python_files": [
+    "saydraft/ui/gallery.py",
+    "saydraft/ui/gallery_catalog.py"
+  ],
+  "packaged_gallery_modules": [],
+  "module_code_executed": false,
+  "scope": "Existing portable remains its original f6 qualification. Developer-only gallery changes are not imported or included in that executable; no new package/release claimed."
+}

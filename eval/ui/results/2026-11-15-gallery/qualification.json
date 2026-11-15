@@ -1,0 +1,19 @@
+{
+  "source": "c5428286dfac1133f1a6d08b67656f3ddba578a9",
+  "tests_passed": 5,
+  "tests_skipped": 0,
+  "scenes_per_theme": 82,
+  "catalog_frames": 328,
+  "control_frames": 8,
+  "scales": [
+    1,
+    2
+  ],
+  "themes": [
+    "light",
+    "dark"
+  ],
+  "release_ready": false,
+  "process_exit_code": 0,
+  "scope": "Three explicit gallery-marked files; fresh subprocess exits observed by subprocess.run. No whole process-tree Job claim or whole-app/manual acceptance."
+}

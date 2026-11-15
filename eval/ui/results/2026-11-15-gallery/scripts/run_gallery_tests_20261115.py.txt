@@ -1,0 +1,26 @@
+"""Guarded gallery QA; public disposable data, no owner ports."""
+import os
+import importlib.util
+from pathlib import Path
+import sys
+
+qa = Path(__file__).resolve().parent
+repo = qa / "worktrees/gallery-states-20261115"
+sys.path.insert(0, str(repo))
+sys.path.insert(0, str(qa / "dictionary-correction-20261115-r1/dependencies"))
+# Preserve the explicitly installed Qt library location for fresh children;
+# isolating APPDATA otherwise removes Python's user-site search path.
+qt_library = Path(importlib.util.find_spec("PySide6").origin).parent.parent
+os.environ['PYTHONPATH'] = os.pathsep.join([str(repo), str(qa / "dictionary-correction-20261115-r1/dependencies"), str(qt_library)])
+from tools.public_file_guard import install
+install(Path(sys.argv.pop(1)))
+os.environ.update(QT_STYLE_OVERRIDE="Fusion", PYTEST_DISABLE_PLUGIN_AUTOLOAD="1")
+from PySide6 import QtGui, QtWidgets
+def forbidden(*args, **kwargs):
+    raise AssertionError("Owner clipboard/desktop/external APIs are barred")
+QtWidgets.QApplication.clipboard = forbidden
+QtGui.QDesktopServices.openUrl = forbidden
+from saydraft.privacy.netguard import NetworkGuard
+NetworkGuard.install()
+import pytest
+raise SystemExit(pytest.main(sys.argv[1:]))

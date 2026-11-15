@@ -44,7 +44,8 @@ all 82 Bar/toast/Hub/setup scenes, public fixtures and snapshot checks.
 
 Exports require a new directory outside the checkout and create 168 PNGs plus `report.json`. A fresh
 offscreen QApplication uses Fusion for reproducible captures, bundled fonts and
-NetworkGuard. At scale 1 images are 1000×740; at scale 2 they are 2000×1480. The
+NetworkGuard. Controls/Style images are 1000×740 at scale 1 and 2000×1480 at
+scale 2; product scenes retain their widget sizes, recorded in the report. The
 report records logical font size, row/control heights, source commit/dirty state
 and explicit absence of active-app/owner-clipboard access. It uses memory-only
 rules fixtures and does not start speech recognition or microphone capture.
