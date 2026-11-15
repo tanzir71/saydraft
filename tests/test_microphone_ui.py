@@ -8,7 +8,6 @@ from saydraft.config import default_config,load_config
 from saydraft.ui.microphone_page import MicrophonePage
 from tests.test_history_window import qt_modules
 from tests.test_settings_window import FakeAutoStartManager,write_config
-from tests.test_microphone import Meter
 
 
 def settle(page,timeout=3):
@@ -147,6 +146,7 @@ def test_device_preference_round_trips_through_shared_settings_save(tmp_path):
 
 
 def test_real_worker_controller_and_queued_qt_meter_signals_compose_without_capture(subject):
+    from tests.test_microphone import Meter
     from saydraft.app import WorkerController,create_worker_signals
     from tests.test_session_worker import make_worker
     page,qt,_,_,_=subject
