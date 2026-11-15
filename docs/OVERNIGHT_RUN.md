@@ -84,3 +84,19 @@ attempt and its STOP markers intact. Give the fresh run its own terminal-exit
 observer and independent verification directory. Do not combine the interrupted
 cases with the new matrix or run website builds, tests or transfers during the
 new performance measurements. Results remain pending until terminal verification.
+
+## Completed R2 results — 16 November
+
+The full replacement run completed all five stages in 2h 00m 10s. The controller,
+all stage trees, observer and six independent verification commands exited 0.
+Pro completed the entire 160-case release-latency matrix and met the measured
+latency and decoder targets. All cleanup corpora completed without a preservation
+failure. Forced CPU had one exact-output regression and Pro had three; CPU
+throughput missed its 25 tokens/s target. CPU production-policy output passed
+only through rules fallback, with zero accepted model replies. Pro policy output
+passed with 269 accepted golden model replies. Neither policy pass generated
+adversarial replies. No model/default promotion or owner/native acceptance is implied.
+
+See [the complete result and hashed raw archive](../eval/cleanup/results/2026-11-16-overnight-44ed9c4/README.md).
+The interrupted 120-case R1 remains separate and unqualified. The D: originals,
+including all 80 QA History databases, are retained for continuation.
