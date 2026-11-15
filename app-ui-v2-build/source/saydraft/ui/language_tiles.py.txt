@@ -1,0 +1,104 @@
+"""Searchable native checkable language tiles bound to the three existing pins."""
+from PySide6 import QtCore, QtWidgets
+from .kit import Label, SearchField, ActionButton
+from .reflow import AdaptiveRow
+from .theme.style import scaled
+
+
+class LanguageTileDelegate(QtWidgets.QStyledItemDelegate):
+    def sizeHint(self, option, index):
+        grid = self.parent().gridSize()
+        return QtCore.QSize(max(100, grid.width()-8), max(56, grid.height()-8))
+
+
+class LanguageTiles(QtWidgets.QWidget):
+    def __init__(self, page):
+        super().__init__(page)
+        self.page, self._syncing = page, False
+        root = QtWidgets.QVBoxLayout(self)
+        root.setContentsMargins(0,0,0,0)
+        root.setSpacing(12)
+        toolbar = AdaptiveRow()
+        self.search = SearchField("Search languages", "Search languages", width=280)
+        toolbar.addWidget(self.search,1)
+        self.count = Label("0 / 3 PINNED", "label")
+        toolbar.addWidget(self.count)
+        clear = ActionButton("Use Auto", small=True)
+        toolbar.addWidget(clear)
+        root.addLayout(toolbar)
+        self.list = QtWidgets.QListWidget()
+        self.list.setProperty("languageTiles", True)
+        self.list.setAccessibleName("Languages; select up to three to pin")
+        self.list.setViewMode(QtWidgets.QListView.ListMode)
+        self.list.setFlow(QtWidgets.QListView.LeftToRight)
+        self.list.setWrapping(True)
+        self.list.setItemDelegate(LanguageTileDelegate(self.list))
+        self.list.setResizeMode(QtWidgets.QListView.Adjust)
+        self.list.setMovement(QtWidgets.QListView.Static)
+        self.list.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
+        self.list.setWordWrap(True)
+        self.list.setTextElideMode(QtCore.Qt.ElideNone)
+        self.list.setSpacing(8)
+        self.list.setMinimumHeight(280)
+        self.list.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
+        combo = page.combos[0]
+        for i in range(1,combo.count()):
+            item = QtWidgets.QListWidgetItem(combo.itemText(i))
+            item.setData(QtCore.Qt.UserRole,combo.itemData(i))
+            item.setFlags(item.flags() | QtCore.Qt.ItemIsUserCheckable)
+            item.setCheckState(QtCore.Qt.Unchecked)
+            self.list.addItem(item)
+        root.addWidget(self.list)
+        self.status = Label("Pinning a language starts no download.", "caption")
+        root.addWidget(self.status)
+        self.list.itemChanged.connect(self._changed)
+        self.list.itemActivated.connect(lambda item: item.setCheckState(QtCore.Qt.Unchecked if item.checkState() == QtCore.Qt.Checked else QtCore.Qt.Checked))
+        self.search.textChanged.connect(self._filter)
+        clear.clicked.connect(lambda: self._set_pins([]))
+        page.changed.connect(self.sync)
+        self.sync()
+
+    def _filter(self, query):
+        for i in range(self.list.count()):
+            item = self.list.item(i)
+            item.setHidden(query.casefold().strip() not in item.text().casefold())
+
+    def _changed(self, item):
+        if self._syncing:
+            return
+        pins = list(self.page.pins())
+        code = item.data(QtCore.Qt.UserRole)
+        if item.checkState() == QtCore.Qt.Checked and code not in pins:
+            if len(pins) >= 3:
+                self.sync()
+                self.status.setText("Three languages are already pinned. Uncheck one before adding another.")
+                return
+            pins.append(code)
+        elif code in pins:
+            pins.remove(code)
+        self._set_pins(pins)
+
+    def _set_pins(self, pins):
+        blockers = [QtCore.QSignalBlocker(combo) for combo in self.page.combos]
+        for i, combo in enumerate(self.page.combos):
+            combo.setCurrentIndex(max(0,combo.findData(pins[i] if i < len(pins) else None)))
+        del blockers
+        self.status.setText("Pinning a language starts no download.")
+        self.page._changed()
+
+    def sync(self):
+        self._syncing = True
+        try:
+            pins = self.page.pins()
+            for i in range(self.list.count()):
+                item = self.list.item(i)
+                item.setCheckState(QtCore.Qt.Checked if item.data(QtCore.Qt.UserRole) in pins else QtCore.Qt.Unchecked)
+            self.count.setText(f"{len(pins)} / 3 PINNED" if pins else "AUTO · 0 / 3 PINNED")
+        finally:
+            self._syncing = False
+
+    def resizeEvent(self, event):
+        super().resizeEvent(event)
+        width = self.list.viewport().width()
+        columns = max(1,width // scaled(240))
+        self.list.setGridSize(QtCore.QSize(max(100,width//columns-20),max(64,self.fontMetrics().height()*3)))

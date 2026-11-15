@@ -1,0 +1,197 @@
+{
+  "schema_version": 1,
+  "repository": "google/fonts",
+  "revision": "2e5fa2e951237b6ae65f705693d12ca76a7f78c8",
+  "roles": {
+    "body": "Geist",
+    "display": "Familjen Grotesk",
+    "mono": "Martian Mono",
+    "readout": "Doto",
+    "fallbacks": [
+      "Noto Sans Bengali",
+      "Noto Sans Arabic"
+    ]
+  },
+  "files": [
+    {
+      "path": "doto/Doto[ROND,wght].ttf",
+      "family": "Doto",
+      "kind": "font",
+      "size": 456924,
+      "sha256": "6f4fe7d37853b91df3698daa84cde2dbe1c9695d88c986e6510134910337d426",
+      "git_blob": "ed8f0db9fb890c570b558941201d1504483f5ebc",
+      "url": "https://raw.githubusercontent.com/google/fonts/2e5fa2e951237b6ae65f705693d12ca76a7f78c8/ofl/doto/Doto%5BROND%2Cwght%5D.ttf"
+    },
+    {
+      "path": "doto/METADATA.pb",
+      "family": "Doto",
+      "kind": "metadata",
+      "size": 896,
+      "sha256": "b9a130386405d295bde49a6ddde5d919060ea41cdb063e7e1d235967a195d946",
+      "git_blob": "a19b340bf8059ca0ef1cca5a3ec2c6fc4bdc4feb",
+      "url": "https://raw.githubusercontent.com/google/fonts/2e5fa2e951237b6ae65f705693d12ca76a7f78c8/ofl/doto/METADATA.pb"
+    },
+    {
+      "path": "doto/OFL.txt",
+      "family": "Doto",
+      "kind": "license",
+      "size": 4382,
+      "sha256": "26a7b58bdba6cda8a78ca6e8b3791d8013b8abc6d5e6519f84193893aee02020",
+      "git_blob": "e0b8ec15325ee3a8500cf29df4c19e36372f180b",
+      "url": "https://raw.githubusercontent.com/google/fonts/2e5fa2e951237b6ae65f705693d12ca76a7f78c8/ofl/doto/OFL.txt"
+    },
+    {
+      "path": "familjengrotesk/FamiljenGrotesk-Italic[wght].ttf",
+      "family": "Familjen Grotesk",
+      "kind": "font",
+      "size": 94272,
+      "sha256": "278047492643756c75533d2acb90e0644abfe5df7bc6b99f21cf72a750580634",
+      "git_blob": "7afdf44889e113ef4e246a1f49b2c5c24b472b41",
+      "url": "https://raw.githubusercontent.com/google/fonts/2e5fa2e951237b6ae65f705693d12ca76a7f78c8/ofl/familjengrotesk/FamiljenGrotesk-Italic%5Bwght%5D.ttf"
+    },
+    {
+      "path": "familjengrotesk/FamiljenGrotesk[wght].ttf",
+      "family": "Familjen Grotesk",
+      "kind": "font",
+      "size": 90048,
+      "sha256": "2d25fc41321a04561fab20a90fc8bc9ed4d1c0743fe8ba76cc51cd3632138b80",
+      "git_blob": "1c03eb598e678759e94946e5bfc21729fbbf3214",
+      "url": "https://raw.githubusercontent.com/google/fonts/2e5fa2e951237b6ae65f705693d12ca76a7f78c8/ofl/familjengrotesk/FamiljenGrotesk%5Bwght%5D.ttf"
+    },
+    {
+      "path": "familjengrotesk/METADATA.pb",
+      "family": "Familjen Grotesk",
+      "kind": "metadata",
+      "size": 1395,
+      "sha256": "599f38a84f5a52510fe91e1a9162b1e42867a543fae6b17356ecceec07589d20",
+      "git_blob": "5748699da2ac025890afa1c1f70397bdf3f5e2fc",
+      "url": "https://raw.githubusercontent.com/google/fonts/2e5fa2e951237b6ae65f705693d12ca76a7f78c8/ofl/familjengrotesk/METADATA.pb"
+    },
+    {
+      "path": "familjengrotesk/OFL.txt",
+      "family": "Familjen Grotesk",
+      "kind": "license",
+      "size": 4408,
+      "sha256": "9708dd560d1f8aa1f006461aa447a31fda7b9aff662d152837654a388e0eb2ee",
+      "git_blob": "1926b039a9cca04ced22b88180c21a71043ff498",
+      "url": "https://raw.githubusercontent.com/google/fonts/2e5fa2e951237b6ae65f705693d12ca76a7f78c8/ofl/familjengrotesk/OFL.txt"
+    },
+    {
+      "path": "geist/Geist-Italic[wght].ttf",
+      "family": "Geist",
+      "kind": "font",
+      "size": 174584,
+      "sha256": "a464348abe41a6392f18d04c0ac2ad3c26619357ff5fdd76aff3059116f45e62",
+      "git_blob": "63c3c6c2154421e6eb445e328fb17734593fad7a",
+      "url": "https://raw.githubusercontent.com/google/fonts/2e5fa2e951237b6ae65f705693d12ca76a7f78c8/ofl/geist/Geist-Italic%5Bwght%5D.ttf"
+    },
+    {
+      "path": "geist/Geist[wght].ttf",
+      "family": "Geist",
+      "kind": "font",
+      "size": 169056,
+      "sha256": "73894e0448cae90a92b6c2f8732b7bb9acb7b94c418bff559dad4a18e1de9659",
+      "git_blob": "f63f0afc6390323715972b6645115485f37cc9f4",
+      "url": "https://raw.githubusercontent.com/google/fonts/2e5fa2e951237b6ae65f705693d12ca76a7f78c8/ofl/geist/Geist%5Bwght%5D.ttf"
+    },
+    {
+      "path": "geist/METADATA.pb",
+      "family": "Geist",
+      "kind": "metadata",
+      "size": 1348,
+      "sha256": "62d302155bfbf778e9c488ef00671a4ad71a8a4cdc808ec66ceb668373afe900",
+      "git_blob": "e9ba1c28356f1fc1a1373a98feb9b6fb948a7763",
+      "url": "https://raw.githubusercontent.com/google/fonts/2e5fa2e951237b6ae65f705693d12ca76a7f78c8/ofl/geist/METADATA.pb"
+    },
+    {
+      "path": "geist/OFL.txt",
+      "family": "Geist",
+      "kind": "license",
+      "size": 4387,
+      "sha256": "1781d2806a07d91c4edf4740b88449fab7d0eadad53f7c351b94cd4d4eb8c00f",
+      "git_blob": "61f6f4b7853081236aec6407f2dd3c7170997f84",
+      "url": "https://raw.githubusercontent.com/google/fonts/2e5fa2e951237b6ae65f705693d12ca76a7f78c8/ofl/geist/OFL.txt"
+    },
+    {
+      "path": "martianmono/METADATA.pb",
+      "family": "Martian Mono",
+      "kind": "metadata",
+      "size": 1036,
+      "sha256": "ebf0b0c504ebe63658bf3814493fe74a795f2e40b156f68fa985edec1370507f",
+      "git_blob": "f50dcbe95f6de86b96e12253da42f3a04f0bef88",
+      "url": "https://raw.githubusercontent.com/google/fonts/2e5fa2e951237b6ae65f705693d12ca76a7f78c8/ofl/martianmono/METADATA.pb"
+    },
+    {
+      "path": "martianmono/MartianMono[wdth,wght].ttf",
+      "family": "Martian Mono",
+      "kind": "font",
+      "size": 148460,
+      "sha256": "c3467843ec1c2574b05fbcfd7147c7bfbcf63ddca8fc2bcb9d117f1bfb1b22e7",
+      "git_blob": "1dbec63b6d3a76f0eb2d63f3a6f921efbe66769c",
+      "url": "https://raw.githubusercontent.com/google/fonts/2e5fa2e951237b6ae65f705693d12ca76a7f78c8/ofl/martianmono/MartianMono%5Bwdth%2Cwght%5D.ttf"
+    },
+    {
+      "path": "martianmono/OFL.txt",
+      "family": "Martian Mono",
+      "kind": "license",
+      "size": 4390,
+      "sha256": "ddafd2c3f37ef1d83ef284ca63e159befd3820850c5e9eded14ca52eee92c256",
+      "git_blob": "3d86611f3660e09781ef246830e82374cbd7dfab",
+      "url": "https://raw.githubusercontent.com/google/fonts/2e5fa2e951237b6ae65f705693d12ca76a7f78c8/ofl/martianmono/OFL.txt"
+    },
+    {
+      "path": "notosansarabic/METADATA.pb",
+      "family": "Noto Sans Arabic",
+      "kind": "metadata",
+      "size": 4424,
+      "sha256": "514bf8961fb28742be1947e6627d6c46f5a5bf3c6d7136548b16e9a8885991b9",
+      "git_blob": "9783ab4a128b7c80f52a2c0a4a6a0c014ff4cd93",
+      "url": "https://raw.githubusercontent.com/google/fonts/2e5fa2e951237b6ae65f705693d12ca76a7f78c8/ofl/notosansarabic/METADATA.pb"
+    },
+    {
+      "path": "notosansarabic/NotoSansArabic[wdth,wght].ttf",
+      "family": "Noto Sans Arabic",
+      "kind": "font",
+      "size": 844676,
+      "sha256": "63111b5b2e074dd48cc67692e0a2726d86ee94c1c37fe8598257b7b4e87e869e",
+      "git_blob": "f1d01edce4ebaedcbe9a06fc75fec07b304ec3df",
+      "url": "https://raw.githubusercontent.com/google/fonts/2e5fa2e951237b6ae65f705693d12ca76a7f78c8/ofl/notosansarabic/NotoSansArabic%5Bwdth%2Cwght%5D.ttf"
+    },
+    {
+      "path": "notosansarabic/OFL.txt",
+      "family": "Noto Sans Arabic",
+      "kind": "license",
+      "size": 4382,
+      "sha256": "07fc70bfeb985cc1a87a8587d0a0c80bab11c86c9dc3fd95b6f0cb332f983e96",
+      "git_blob": "14c589f6384505ede3f8e52627d397513af3662d",
+      "url": "https://raw.githubusercontent.com/google/fonts/2e5fa2e951237b6ae65f705693d12ca76a7f78c8/ofl/notosansarabic/OFL.txt"
+    },
+    {
+      "path": "notosansbengali/METADATA.pb",
+      "family": "Noto Sans Bengali",
+      "kind": "metadata",
+      "size": 1778,
+      "sha256": "4f61246bf1c5a36c89532271bd1283ecf4b26967dcf29ce87815e617b6d5d571",
+      "git_blob": "978d20b731b8de5887ef1f0ab12daf8aa57c6f37",
+      "url": "https://raw.githubusercontent.com/google/fonts/2e5fa2e951237b6ae65f705693d12ca76a7f78c8/ofl/notosansbengali/METADATA.pb"
+    },
+    {
+      "path": "notosansbengali/NotoSansBengali[wdth,wght].ttf",
+      "family": "Noto Sans Bengali",
+      "kind": "font",
+      "size": 463668,
+      "sha256": "dcd42978094e584a849c84a51450eeac40c8826057d566ea6d4b9627a403a05a",
+      "git_blob": "25e13e26dc15c4933f8fe49c9efcda54152349db",
+      "url": "https://raw.githubusercontent.com/google/fonts/2e5fa2e951237b6ae65f705693d12ca76a7f78c8/ofl/notosansbengali/NotoSansBengali%5Bwdth%2Cwght%5D.ttf"
+    },
+    {
+      "path": "notosansbengali/OFL.txt",
+      "family": "Noto Sans Bengali",
+      "kind": "license",
+      "size": 4383,
+      "sha256": "754f0e221aa7d5a915489f3bf1f20fe53ddc35ab2834a4d91656d78f9622de70",
+      "git_blob": "d11cac69316ec3d80e5aff86e4a2dba4114cca2b",
+      "url": "https://raw.githubusercontent.com/google/fonts/2e5fa2e951237b6ae65f705693d12ca76a7f78c8/ofl/notosansbengali/OFL.txt"
+    }
+  ]
+}

@@ -1,0 +1,304 @@
+"""Persistent Hub: native window, page rail and staged shared Save/Discard bar."""
+from PySide6 import QtCore, QtGui, QtWidgets
+from saydraft.data.notes import NoteStore
+from .home_page import HomePage
+from .notes_page import NotesPage
+from .history_page import HistoryPage
+from .settings_page import SettingsPage
+from .icons import svg_icon
+from .kit import Label, Card, KeyCombo, SaveBar, ActionButton
+from .theme.style import role_font, color
+
+_PAGES = {"Home": "home", "History": "history", "Notes": "notes", "Dictionary": "dictionary",
+          "Snippets": "snippets", "Style": "style", "Settings": "settings"}
+
+
+class NavigationDelegate(QtWidgets.QStyledItemDelegate):
+    def paint(self, painter, option, index):
+        opt = QtWidgets.QStyleOptionViewItem(option)
+        focused = bool(opt.state & QtWidgets.QStyle.State_HasFocus)
+        opt.state &= ~QtWidgets.QStyle.State_HasFocus
+        super().paint(painter,opt,index)
+        if focused:
+            painter.save()
+            painter.setRenderHint(QtGui.QPainter.Antialiasing)
+            painter.setPen(QtGui.QPen(color(opt.widget,"ink"),2))
+            painter.setBrush(QtCore.Qt.NoBrush)
+            painter.drawRoundedRect(QtCore.QRectF(opt.rect).adjusted(1,1,-1,-1),9,9)
+            painter.restore()
+
+
+class HubNavigation(QtWidgets.QListWidget):
+    def focusInEvent(self, event):
+        # Settings is a separate pinned button. Focusing this empty selection
+        # must not let QListWidget's default first-row selection navigate Home.
+        if self.currentRow() < 0:
+            blocker = QtCore.QSignalBlocker(self)
+            super().focusInEvent(event)
+            self.setCurrentRow(-1)
+            del blocker
+        else:
+            super().focusInEvent(event)
+
+    def sizeHint(self):
+        hint = super().sizeHint()
+        scrollbar = self.style().pixelMetric(QtWidgets.QStyle.PM_ScrollBarExtent, None, self)
+        hint.setWidth(max(192, self.sizeHintForColumn(0) + scrollbar + 12))
+        return hint
+
+    def minimumSizeHint(self):
+        hint = super().minimumSizeHint()
+        hint.setWidth(self.sizeHint().width())
+        return hint
+
+    def changeEvent(self, event):
+        super().changeEvent(event)
+        if event.type() in (QtCore.QEvent.FontChange, QtCore.QEvent.StyleChange):
+            self.updateGeometry()
+
+
+class HubWindow(QtWidgets.QWidget):
+    meeting_requested = QtCore.Signal()
+
+    def __init__(self, *, settings_options, history_options, shortcut=lambda: "Ctrl+Win", model=lambda: "",
+                 tier=lambda: "pending", settings_page_factory=SettingsPage, history_page_factory=HistoryPage):
+        super().__init__()
+        self.setWindowTitle("Saydraft")
+        self.resize(1120, 760)
+        self.setMinimumSize(880, 600)
+        self.shortcut, self.model = shortcut, model
+        settings_options = dict(settings_options)
+        database = getattr(history_options.get("store"), "db_path", None)
+        if database is not None:
+            settings_options.setdefault("snippets_db_path", database)
+        self.settings_page = settings_page_factory(**settings_options)
+        history_options = dict(history_options)
+        history_options.setdefault("glossary_path", self.settings_page.glossary_path)
+        self.history_page = history_page_factory(**history_options)
+        root = QtWidgets.QHBoxLayout(self)
+        root.setContentsMargins(0, 0, 0, 0)
+        root.setSpacing(0)
+        self.rail = QtWidgets.QWidget()
+        self.rail.setProperty("sidebar", True)
+        self.rail.setMinimumWidth(216)
+        rail = QtWidgets.QVBoxLayout(self.rail)
+        rail.setContentsMargins(12, 12, 12, 12)
+        rail.setSpacing(12)
+        self.navigation = HubNavigation()
+        self.navigation.setObjectName("hubNavigation")
+        self.navigation.setItemDelegate(NavigationDelegate(self.navigation))
+        self.navigation.setProperty("hubNav", True)
+        self.navigation.setAccessibleName("Hub pages")
+        self.navigation.setAccessibleDescription("Use Up and Down to choose a page, then Tab to its controls.")
+        self.navigation.setSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Expanding)
+        self.navigation.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
+        self.navigation.setIconSize(QtCore.QSize(18, 18))
+        self.setFocusProxy(self.navigation)
+        for name in _PAGES:
+            if name == "Settings":
+                continue
+            if name == "Dictionary":
+                item = QtWidgets.QListWidgetItem("PERSONALIZE")
+                item.setFlags(QtCore.Qt.NoItemFlags)
+                item.setData(QtCore.Qt.AccessibleTextRole, "Personalize pages")
+                self.navigation.addItem(item)
+            item = QtWidgets.QListWidgetItem(name)
+            item.setData(QtCore.Qt.UserRole, name)
+            self.navigation.addItem(item)
+        rail.addWidget(self.navigation, 1)
+        self.settings_button = ActionButton("Settings", icon="settings", ghost=True)
+        self.settings_button.setCheckable(True)
+        self.settings_button.setProperty("navButton",True)
+        self.settings_button.setProperty("role","body")
+        self.settings_button.clicked.connect(lambda: self.show_page("Settings"))
+        rail.addWidget(self.settings_button)
+        self.status_card = Card(padding=12)
+        self.status_card.body.setSpacing(8)
+        self.ready_label = Label("Hold to dictate", "sub")
+        self.status_card.body.addWidget(self.ready_label)
+        self.status_keys = KeyCombo(shortcut())
+        self.status_card.body.addWidget(self.status_keys)
+        self.status_engine = Label("", "label")
+        self.status_card.body.addWidget(self.status_engine)
+        rail.addWidget(self.status_card)
+        root.addWidget(self.rail)
+        body_widget = QtWidgets.QWidget()
+        body = QtWidgets.QVBoxLayout(body_widget)
+        body.setContentsMargins(0, 0, 0, 0)
+        body.setSpacing(0)
+        self.pages = QtWidgets.QStackedWidget()
+        body.addWidget(self.pages, 1)
+        self.home_page = HomePage(self.history_page.store, shortcut=shortcut, model=model, tier=tier)
+        self.home_page.history_requested.connect(self._open_history_row)
+        self.home_page.privacy_requested.connect(lambda: self.show_page("Settings", tab="Privacy"))
+        self.home_page.meeting_requested.connect(self.meeting_requested)
+        self.history_view = QtWidgets.QScrollArea()
+        self.history_view.setFrameShape(QtWidgets.QFrame.NoFrame)
+        self.history_view.setWidgetResizable(True)
+        self.history_view.setWidget(self.history_page)
+        self.page_widgets = {"Home": self.home_page, "History": self.history_view}
+        for name in ("Dictionary", "Snippets", "Style"):
+            for index in range(self.settings_page.tabs.count()):
+                if self.settings_page.tabs.tabText(index) == name:
+                    page = self.settings_page.tabs.widget(index)
+                    self.settings_page.tabs.removeTab(index)
+                    self.page_widgets[name] = page
+                    content = page.widget() if isinstance(page, QtWidgets.QScrollArea) else page
+                    content.layout().setContentsMargins(40, 24, 40, 28)
+                    break
+        self.settings_page.sync_sections()
+        self.notes_page = NotesPage(NoteStore(database) if database is not None else None)
+        self.page_widgets.update(Notes=self.notes_page, Settings=self.settings_page)
+        for name in _PAGES:
+            page = self.page_widgets[name]
+            if not page.accessibleName():
+                page.setAccessibleName(name)
+            self.pages.addWidget(page)
+        self.footer = SaveBar(status_label=self.settings_page.status_label)
+        self.save_button = self.footer.save_button
+        self.footer.saved.connect(self._save)
+        self.footer.discarded.connect(self.settings_page.draft_state.discard)
+        self.footer_host = QtWidgets.QWidget()
+        self.footer_host.setProperty("bare",True)
+        footer_row = QtWidgets.QHBoxLayout(self.footer_host)
+        footer_row.setContentsMargins(40,8,40,20)
+        footer_row.addStretch(1)
+        footer_row.addWidget(self.footer)
+        footer_row.addStretch(1)
+        body.addWidget(self.footer_host)
+        self.notice = Label("", "small")
+        self.notice.setContentsMargins(40, 4, 40, 8)
+        self.notice.hide()
+        body.addWidget(self.notice)
+        self.notice_timer = QtCore.QTimer(self)
+        self.notice_timer.setSingleShot(True)
+        self.notice_timer.timeout.connect(self.notice.hide)
+        self.settings_page.draft_state.changed.connect(self._draft_changed)
+        self.settings_page.apply_button.hide()
+        self.settings_page.close_button.hide()
+        root.addWidget(body_widget, 1)
+        self.navigation.currentRowChanged.connect(self._navigate)
+        self.icon_timer = QtCore.QTimer(self)
+        self.icon_timer.setSingleShot(True)
+        self.icon_timer.timeout.connect(self._refresh_icons)
+        self.focus_timer = QtCore.QTimer(self)
+        self.focus_timer.setSingleShot(True)
+        self.focus_timer.timeout.connect(self._reveal_focus)
+        QtWidgets.QApplication.instance().focusChanged.connect(self._focus_changed)
+        self._refresh_icons()
+        self.show_page("Home")
+
+    def _focus_changed(self, _previous, current):
+        if current is not None and self.isAncestorOf(current):
+            self.focus_timer.start(0)
+
+    def _reveal_focus(self):
+        widget = QtWidgets.QApplication.focusWidget()
+        if widget is None or not self.isAncestorOf(widget):
+            return
+        parent = widget.parentWidget()
+        while parent is not None and parent is not self:
+            if isinstance(parent, QtWidgets.QTableWidget):
+                for row in range(parent.rowCount()):
+                    for column in range(parent.columnCount()):
+                        cell = parent.cellWidget(row, column)
+                        if cell is widget or cell is not None and cell.isAncestorOf(widget):
+                            parent.scrollTo(parent.model().index(row, column))
+                rect = QtCore.QRect(widget.mapTo(parent.viewport(), QtCore.QPoint()), widget.size())
+                bar = parent.horizontalScrollBar()
+                if rect.left() < 0:
+                    bar.setValue(bar.value() + rect.left())
+                elif rect.right() >= parent.viewport().width():
+                    bar.setValue(bar.value() + rect.right() - parent.viewport().width() + 1)
+            if isinstance(parent, QtWidgets.QScrollArea):
+                parent.ensureWidgetVisible(widget, 0, 12)
+            parent = parent.parentWidget()
+
+    def _refresh_icons(self):
+        self.setWindowIcon(svg_icon("mark", self.palette(), size=24, tone="signal"))
+        for index in range(self.navigation.count()):
+            item = self.navigation.item(index)
+            name = item.data(QtCore.Qt.UserRole)
+            if not name:
+                item.setFont(role_font("label", widget=self.navigation))
+            if name:
+                item.setIcon(svg_icon(_PAGES[name], self.navigation.palette(), size=18))
+        self.home_page.refresh_status()
+        self.status_keys.set_binding(self.shortcut())
+        self.status_engine.setText(str(self.model()).upper())
+
+    def changeEvent(self, event):
+        super().changeEvent(event)
+        if event.type() in (QtCore.QEvent.PaletteChange, QtCore.QEvent.StyleChange, QtCore.QEvent.FontChange) and hasattr(self, "icon_timer"):
+            self.icon_timer.start(0)
+
+    def _draft_changed(self, count):
+        editable = self.pages.currentWidget() in [self.page_widgets[n] for n in ("Dictionary", "Snippets", "Style", "Settings")]
+        self.footer.set_count(count)
+        self.footer.setVisible(bool(count) and editable)
+        self.footer_host.setVisible(bool(count) and editable)
+
+    def _navigate(self, index):
+        item = self.navigation.item(index)
+        name = item.data(QtCore.Qt.UserRole) if item else None
+        if name:
+            self._activate(name)
+
+    def _activate(self, name):
+        if name != "Settings":
+            self.settings_page.microphone_page.stop_test()
+        self.pages.setCurrentWidget(self.page_widgets[name])
+        self.settings_button.setChecked(name == "Settings")
+        self._draft_changed(self.settings_page.draft_state.refresh())
+        if name == "Home":
+            self.home_page.refresh()
+        elif name == "History":
+            self.history_page.refresh()
+        elif name == "Notes":
+            self.notes_page.refresh()
+        elif name == "Settings":
+            self.settings_page.refresh_privacy()
+
+    def show_page(self, name="Home", *, tab=None):
+        if name not in self.page_widgets:
+            raise ValueError("Unknown Hub page")
+        if name == "Settings":
+            blocker = QtCore.QSignalBlocker(self.navigation)
+            self.navigation.setCurrentRow(-1)
+            del blocker
+        else:
+            for index in range(self.navigation.count()):
+                if self.navigation.item(index).data(QtCore.Qt.UserRole) == name:
+                    self.navigation.setCurrentRow(index)
+                    break
+        self._activate(name)
+        if name == "Settings" and tab:
+            self.settings_page.show_tab(tab)
+
+    def _open_history_row(self, row_id):
+        self.show_page("History")
+        self.history_page.search_edit.clear()
+        self.history_page._select_id(row_id)
+
+    def _save(self):
+        if self.settings_page.apply_changes():
+            self.home_page.refresh()
+            self._refresh_icons()
+            self.notice.setText("Changes saved")
+            self.notice.show()
+            self.notice_timer.start(3000)
+
+    def refresh(self):
+        self.history_page.refresh()
+        self.home_page.refresh()
+        self._refresh_icons()
+
+    def closeEvent(self, event):
+        self.settings_page.microphone_page.stop_test()
+        self.settings_page.pause_downloads()
+        super().closeEvent(event)
+
+    def accept_bar_update(self, update):
+        labels = {"preparing":"Getting ready", "listening":"Microphone open", "processing":"Writing it down",
+                  "inserted":"Hold to dictate", "not_inserted":"Review dictation", "error":"Review setup", "idle":"Hold to dictate"}
+        self.ready_label.setText(labels.get(str(update.phase), "Hold to dictate"))

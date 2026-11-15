@@ -1,0 +1,83 @@
+"""Radio cards over the existing model combo. Selection never starts a transfer."""
+from PySide6 import QtCore, QtWidgets
+from .kit import Card, Label, ActionButton, control_row
+from .presentation import rebuild, show
+from .theme.style import repolish
+from saydraft.asr.model_ids import DEFAULT_MODEL
+from saydraft.asr.router import ALL_LANGUAGES
+
+
+class ModelChoices(QtWidgets.QWidget):
+    def __init__(self, picker):
+        super().__init__(picker)
+        self.source = picker.combo
+        self._syncing = False
+        self.buttons = []
+        self.group = QtWidgets.QButtonGroup(self)
+        root = QtWidgets.QVBoxLayout(self)
+        root.setContentsMargins(0,0,0,0)
+        root.setSpacing(12)
+        for model_id, title, description in ((DEFAULT_MODEL,"Parakeet v3","Fast multilingual voice typing, running on this PC."),
+                (ALL_LANGUAGES,"All languages","A shared model for Arabic, Bengali, Chinese, Hindi, Japanese, Korean, Thai and more.")):
+            index = self.source.findData(model_id)
+            if index < 0:
+                continue
+            card = Card(padding=16)
+            card.setProperty("modelChoice",True)
+            card.body.setSpacing(8)
+            button = QtWidgets.QRadioButton(title)
+            button.setAccessibleName("Use " + title)
+            button.setAccessibleDescription(description + " Selection starts no download.")
+            self.group.addButton(button,index)
+            card.body.addWidget(button)
+            card.body.addWidget(Label(description,"muted"))
+            root.addWidget(card)
+            button.toggled.connect(lambda checked,index=index: self.source.setCurrentIndex(index) if checked and not self._syncing else None)
+            button.clicked.connect(lambda _checked=False,index=index: self.source.activated.emit(index))
+            self.buttons.append((button,index,card))
+        self.source.currentIndexChanged.connect(self.sync)
+        self.source.installEventFilter(self)
+        self.sync()
+
+    def sync(self,*_args):
+        self._syncing = True
+        self.group.setExclusive(False)
+        try:
+            for button,index,card in self.buttons:
+                selected = index == self.source.currentIndex()
+                button.setChecked(selected)
+                button.setEnabled(self.source.isEnabled())
+                card.setProperty("selected",selected)
+                repolish(card)
+        finally:
+            self.group.setExclusive(True)
+            self._syncing = False
+
+    def eventFilter(self, watched, event):
+        if watched is self.source and event.type() == QtCore.QEvent.EnabledChange:
+            self.sync()
+        return False
+
+
+def arrange_picker(picker):
+    root = rebuild(picker, spacing=12)
+    picker.choices = ModelChoices(picker)
+    root.addWidget(picker.choices)
+    picker.other_models = ActionButton("More models",ghost=True,small=True)
+    picker.other_models.setCheckable(True)
+    root.addWidget(picker.other_models,alignment=QtCore.Qt.AlignLeft)
+    root.addWidget(show(picker.combo))
+    picker.other_models.toggled.connect(picker.combo.setVisible)
+    def selected(*_args):
+        additional = picker.combo.currentData() not in (DEFAULT_MODEL,ALL_LANGUAGES)
+        picker.other_models.setChecked(additional)
+        picker.combo.setVisible(additional)
+    picker.refresh_choices = lambda: (picker.choices.sync(), selected())
+    picker.combo.currentIndexChanged.connect(selected)
+    selected()
+    root.addWidget(show(picker.license_label))
+    root.addWidget(control_row(show(picker.download_button),show(picker.pause_button)))
+    root.addWidget(picker.progress)
+    root.addWidget(picker.progress.caption)
+    root.addWidget(picker.file_status)
+    root.addWidget(show(picker.status))

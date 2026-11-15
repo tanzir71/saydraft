@@ -1,0 +1,13 @@
+"""Native progress value with v2 six-pixel track and an external caption."""
+from .kit import Progress
+
+
+class ThemedProgressBar(Progress):
+    def showEvent(self, event):
+        super().showEvent(event)
+        if self.caption.parentWidget() is not None and self.caption.parentWidget() is not self:
+            self.caption.show()
+
+    def hideEvent(self, event):
+        self.caption.hide()
+        super().hideEvent(event)
