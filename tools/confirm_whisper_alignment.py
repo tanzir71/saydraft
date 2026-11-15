@@ -146,7 +146,7 @@ def freeze(reserved_state, output):
         (dev["model_descriptor"], dev["model_directory"]),
         (dev["candidate_model"]["descriptor"], dev["candidate_model"]["directory"]),
     ]:
-        if not installation_ready(descriptor, directory, check_hashes=True):
+        if not installation_ready(descriptor, Path(directory), check_hashes=True):
             raise ValueError("Model cache changed")
     if digest(reserved_state) != digest(RESERVATION / "state.json"):
         raise ValueError("Supply the exact previously reserved acquisition state")

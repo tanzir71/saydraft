@@ -105,6 +105,58 @@ def test_failed_or_tampered_development_cannot_admit_confirmation():
         confirm.require_development(plan, report)
 
 
+def test_confirmation_freeze_checks_path_typed_caches_and_observed_prefix(tmp_path, monkeypatch):
+    import json
+
+    read = probe.read
+    dev = deepcopy(read(confirm.DEVELOPMENT / "comparison/plan.json"))
+    state = read(confirm.RESERVATION / "state.json")
+    corpora = {r["corpus"]: read(confirm.RESERVATION / f"{r['language']}-corpus.json")
+               for r in state["languages"]}
+    pinned = {r["corpus"]: r["corpus_sha256"] for r in state["languages"]}
+    for receipt in state["languages"]:
+        lang = receipt["language"]
+        journal = tmp_path / f"{lang}-observed.jsonl"
+        journal.write_text("\n".join(json.dumps({
+            "language": lang, "id": clip["id"], "model": dev["model_id"],
+            "sha256": clip["sha256"], "reference": clip["reference"],
+        }) for clip in corpora[receipt["corpus"]]["clips"][:20]), encoding="utf-8")
+        for row in dev["clips"]:
+            if row["language"] == lang:
+                row.update(baseline_journal=str(journal), baseline_journal_sha256=digest(journal))
+
+    def virtual_read(path):
+        if Path(path) == confirm.DEVELOPMENT / "comparison/plan.json":
+            return deepcopy(dev)
+        return deepcopy(corpora[str(path)]) if str(path) in corpora else read(path)
+
+    monkeypatch.setattr(probe, "read", virtual_read)
+    monkeypatch.setattr(confirm, "digest", lambda path: pinned[str(path)] if str(path) in pinned else digest(path))
+    monkeypatch.setattr(confirm, "claim_path", lambda: tmp_path / "claimed.json")
+    monkeypatch.setattr("tools.asr_accuracy._source", lambda: dev["source"])
+    monkeypatch.setattr("tools.latency_environment.runtime_environment", lambda: dev["runtime_environment"])
+    receipts = [{"path": r["corpus"], "sha256": r["corpus_sha256"], "language": r["language"],
+                 "clips": 40, "metadata_sha256": r["metadata_sha256"]} for r in state["languages"]]
+    monkeypatch.setattr("tools.asr_accuracy.load_corpora", lambda paths: ([], receipts))
+    checked = []
+
+    def ready(descriptor, directory, *, check_hashes):
+        checked.append((descriptor, directory))
+        return isinstance(directory, Path) and check_hashes
+
+    monkeypatch.setattr("saydraft.models.downloader.installation_ready", ready)
+    original_state = tmp_path / "state.json"
+    original_state.write_bytes((confirm.RESERVATION / "state.json").read_bytes())
+    output = tmp_path / "confirmation"
+    plan = confirm.freeze(original_state, output)
+    assert len(checked) == 2 and len(plan["clips"]) == 60
+    assert (output / "plan.json").exists() and not confirm.claim_path().exists()
+    assert "selection_path" not in plan and plan["criteria"] == confirm.CRITERIA
+    confirm.claim_path().write_text("existing consumption", encoding="utf-8")
+    with pytest.raises(ValueError, match="already committed"):
+        confirm.freeze(original_state, tmp_path / "cannot-reclaim")
+
+
 def test_full_confirmation_requires_sixty_complete_pairs_and_each_language_gate():
     plan, _, _ = frozen_plan()
     rows = []
