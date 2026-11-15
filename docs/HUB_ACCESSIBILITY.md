@@ -64,6 +64,8 @@ with horizontal scrolling confined to that data table and height reserved for
 its scrollbar. Page containers are checked for zero horizontal overflow at
 16/32px in both Hub sizes. Keyboard focus must scroll into view without a test
 manually moving the scrollbars.
+The shared footer also stacks long setup feedback above Save so warnings retain
+their full text and leave the Settings view reachable.
 
 Live font changes enable Qt's
 [documented stylesheet propagation](https://doc.qt.io/qt-6/stylesheet-syntax.html#inheritance)

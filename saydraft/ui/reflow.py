@@ -107,8 +107,9 @@ class WrapPushButton(_NativeWrap, QtWidgets.QPushButton):
 class AdaptiveRow(QtWidgets.QBoxLayout):
     """Keep a normal horizontal row, stacking controls when their labels won't fit."""
 
-    def __init__(self, parent=None):
+    def __init__(self, parent=None, *, compact=False):
         super().__init__(QtWidgets.QBoxLayout.LeftToRight, parent)
+        self.compact = compact
 
     def _items(self):
         return [self.itemAt(index) for index in range(self.count()) if not self.itemAt(index).isEmpty()]
@@ -119,7 +120,24 @@ class AdaptiveRow(QtWidgets.QBoxLayout):
     def _stacked(self, width):
         left, _, right, _ = self.getContentsMargins()
         items = self._items()
-        return sum(item.sizeHint().width() for item in items) + self._gap() * max(0, len(items) - 1) > width - left - right
+        available = max(1, width - left - right)
+        gap = self._gap() * max(0, len(items) - 1)
+        natural = sum(item.sizeHint().width() for item in items) + gap
+        if natural > available:
+            return True
+        if not self.compact or not items:
+            return False
+        # An Ignored, word-wrapped status label has a zero width hint. Account
+        # for its allocated stretch and choose the arrangement with less height.
+        stretches = [self.stretch(index) for index in range(self.count()) if not self.itemAt(index).isEmpty()]
+        total = sum(stretches)
+        horizontal, vertical = [], []
+        for item, stretch in zip(items, stretches):
+            extra = (available - natural) * stretch // total if total else 0
+            horizontal.append(item.heightForWidth(max(1, item.sizeHint().width() + extra))
+                              if item.hasHeightForWidth() else item.sizeHint().height())
+            vertical.append(item.heightForWidth(available) if item.hasHeightForWidth() else item.sizeHint().height())
+        return sum(vertical) + gap < max(horizontal, default=0)
 
     def hasHeightForWidth(self):
         return True

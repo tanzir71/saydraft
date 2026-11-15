@@ -73,6 +73,21 @@ decision; the current GitHub Pages canonical and no-analytics policy remain.
 
 ## How to resume an unresolved issue
 
+Known non-blocking UI follow-up: the experimental English-preview license links
+in Labs still use native blue in the dark theme and need a contrast pass. They
+remain keyboard reachable; the light theme and bundled/source license documents
+are available. Follow the existing palette-aware model-link implementation and
+check light/dark transitions. The retained `dark-32-Settings-Labs.png` capture
+records the issue. P6.7 remains open, and complete accessibility is not claimed.
+
+The first broad reflow run exposed a clipped long setup-warning footer. The
+footer now chooses the shorter horizontal/stacked arrangement, and its focused
+warning checks pass at 16/32px in light, dark and simulated high contrast. Two
+fixture failures were also corrected: missing bundled font registration in the
+live-font test, and a 500ms History scheduling wait that did not match the
+existing eight-second completion helper. Production inference deadlines and
+acceptance thresholds are unchanged. Original failed logs remain retained.
+
 Add one issue record here or link its retained receipt. Use this format:
 
 ```text

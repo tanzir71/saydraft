@@ -8,6 +8,7 @@ from .notes_page import NotesPage
 from .history_page import HistoryPage
 from .settings_page import SettingsPage
 from .icons import line_icon
+from .reflow import AdaptiveRow
 
 
 _ICONS = {
@@ -110,7 +111,7 @@ class HubWindow(QtWidgets.QWidget):
         footer_policy = self.footer.sizePolicy()
         footer_policy.setHeightForWidth(True)
         self.footer.setSizePolicy(footer_policy)
-        footer = QtWidgets.QHBoxLayout(self.footer)
+        footer = AdaptiveRow(self.footer, compact=True)
         footer.setContentsMargins(0, 0, 0, 0)
         footer.addWidget(self.settings_page.status_label, 1)
         self.save_button = QtWidgets.QPushButton("Save changes")

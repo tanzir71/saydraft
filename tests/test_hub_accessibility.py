@@ -2,6 +2,7 @@
 
 import json
 import sys
+import time
 from types import SimpleNamespace
 
 import pytest
@@ -100,7 +101,10 @@ def owned_hub(tmp_path, monkeypatch):
 
     def settle():
         # Only owned SQLite readers and queued Qt events; no desktop event source.
-        for _ in range(100):
+        # Match the existing History fixture's eight-second scheduling bound.
+        # This is completion synchronization, not an application latency claim.
+        deadline = time.monotonic() + 8
+        while time.monotonic() < deadline:
             app.processEvents()
             if not hub.history_page.loading:
                 break

@@ -73,3 +73,19 @@ def test_style_matrix_keeps_full_choices_and_last_row_above_its_scrollbar(owned_
     assert matrix.horizontalScrollBar().maximum() > 0
     assert matrix.viewport().height() >= sum(matrix.rowHeight(row) for row in range(matrix.rowCount()))
     walk_visible_controls(subject)
+
+
+@pytest.mark.parametrize("mode", ["light", "dark", "high-contrast"])
+@pytest.mark.parametrize("px", [16, 32])
+def test_long_setup_warning_and_save_fit_without_hiding_settings(owned_hub, mode, px):
+    subject, hub = owned_hub, owned_hub.hub
+    subject.theme(mode, px)
+    hub.show_page("Settings", tab="Microphone")
+    hub.settings_page.status_label.setText(
+        "An enhancement file changed. Open Microphone to review setup, then download it again or turn enhancement off before saving.")
+    for _ in range(6):
+        subject.app.processEvents()
+    label = hub.settings_page.status_label
+    assert label.height() >= label.heightForWidth(label.width())
+    assert hub.save_button.mapTo(hub, QtCore.QPoint(0, hub.save_button.height())).y() <= hub.height()
+    assert hub.settings_page.tabs.currentWidget().viewport().height() > 0

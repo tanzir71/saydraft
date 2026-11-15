@@ -14,7 +14,9 @@ APP = None
 
 def test_live_application_font_reaches_existing_themed_controls(setup_theme):
     app, _hints, install = setup_theme
+    from saydraft.ui.fonts import install_bundled_fonts
     from saydraft.ui.reflow import WrapCheckBox, WrapPushButton
+    install_bundled_fonts(app)
     controls = [QtWidgets.QCheckBox("Native"), WrapCheckBox("Wrapped"),
                 QtWidgets.QPushButton("Native"), WrapPushButton("Wrapped"), QtWidgets.QListWidget()]
     controller = install(mode="light")
