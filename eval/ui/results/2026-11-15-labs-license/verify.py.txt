@@ -1,0 +1,48 @@
+"""Verify source-bound controlled license-link evidence; no application imports."""
+import argparse
+import hashlib
+import json
+from pathlib import Path
+import struct
+import subprocess
+import xml.etree.ElementTree as ET
+
+parser=argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--repo',type=Path,required=True)
+args=parser.parse_args()
+root=Path(__file__).resolve().parent
+source='1cd39e36595c4fbcca1afdf25ad3ee052e7ff919'
+manifest=json.loads((root/'manifest.json').read_bytes())
+assert manifest['source']==source and len(manifest['records'])==58
+for record in manifest['records']:
+    path=root/record['path']
+    assert path.stat().st_size==record['size'] and hashlib.sha256(path.read_bytes()).hexdigest()==record['sha256']
+    if record['path'].startswith('source/'):
+        original=subprocess.check_output(['git','show',source+':'+record['path'][7:]],cwd=args.repo)
+        assert path.read_bytes()==original
+old=subprocess.check_output(['git','show','a58b7b4:saydraft/ui/labs_page.py'],cwd=args.repo)
+assert (root/'confirmed-before/labs_page.py.txt').read_bytes()==old
+for name,tests,failures in [('clean',6,0),('confirmed-before',2,2),('corrected-working',6,0)]:
+    suite=ET.parse(root/name/'result.xml').getroot().find('testsuite')
+    assert int(suite.attrib['tests'])==tests and len(suite.findall('testcase'))==tests
+    assert int(suite.attrib['failures'])==failures
+    assert suite.attrib['errors']==suite.attrib['skipped']=='0'
+for name in ['initial-unregistered-fonts','font-fixture-failure','confirmed-before','corrected-working','clean']:
+    guard=json.loads((root/name/'result.guard.json').read_bytes())
+    fixture=json.loads((root/name/'result.guard.worker.json').read_bytes())
+    assert guard['pid']==fixture['pid'] and not guard['blocked_attempts'] and not fixture['port_attempts']
+    assert not any(guard[k] for k in ['real_audio_sdk_imported','owner_profile_used','owner_clipboard_used',
+        'owner_native_input_used','device_enumeration','microphone_used'])
+images=list((root/'clean/captures').glob('*/*.png'))
+assert len(images)==10
+for path in images:
+    data=path.read_bytes()
+    assert data[:8]==b'\x89PNG\r\n\x1a\n' and data[12:16]==b'IHDR'
+    width,height=struct.unpack('>II',data[16:24])
+    assert width>100 and height>20
+summary=json.loads((root/'summary.json').read_bytes())
+assert summary['source']==source and summary['tests']==6 and summary['contrast_minimum']==4.5
+assert summary['font_pixels']==[16,32] and summary['qualified_captures']==10
+assert all(summary[k] is False for k in ['owner_io_used','model_inference','physical_scaling_or_Narrator_qualified','portable_includes_fix'])
+print(json.dumps({'source':source,'records_verified':58,'tests':6,'clean_captures':10,
+ 'confirmed_old_contrast_failures':2,'portable_includes_fix':False,'physical_accessibility_accepted':False}))

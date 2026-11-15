@@ -1,0 +1,107 @@
+FF                                                                       [100%]
+================================== FAILURES ===================================
+_ test_existing_labs_license_links_remain_readable_through_live_theme_changes[16] _
+
+tmp_path = WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/labs-license-before-fonts-20261115-temp/test_existing_labs_license_lin0')
+pixels = 16
+
+    @pytest.mark.parametrize("pixels", [16, 32])
+    def test_existing_labs_license_links_remain_readable_through_live_theme_changes(tmp_path, pixels):
+        app = QtWidgets.QApplication.instance() or QtWidgets.QApplication([])
+        assert install_bundled_fonts(app)
+        previous = (app.styleSheet(), QtGui.QPalette(app.palette()), QtGui.QFont(app.font()))
+        app.setStyleSheet("")
+        hints = Hints()
+        theme = install_theme(app, mode="light", style_hints=hints)
+        calls = []
+        page = LabsPage(default_config(), callback=lambda *args: calls.append(True), report_loader=lambda: None)
+        page.resize(880, 800)
+        page.show()
+        model = get_model(PREVIEW_MODEL)
+        expected = [model["license_url"], model["source"]]
+        try:
+            for index, mode in enumerate(("light", "dark", "high-contrast", "light", "dark")):
+                native = QtGui.QPalette(previous[1])
+                if mode == "high-contrast":
+                    for group in (QtGui.QPalette.Active, QtGui.QPalette.Inactive, QtGui.QPalette.Disabled):
+                        for role in (QtGui.QPalette.Window, QtGui.QPalette.Base, QtGui.QPalette.Button):
+                            native.setColor(group, role, QtGui.QColor("black"))
+                        for role in (QtGui.QPalette.WindowText, QtGui.QPalette.Text, QtGui.QPalette.ButtonText):
+                            native.setColor(group, role, QtGui.QColor("yellow"))
+                app.setPalette(native)
+                hints.contrast = (QtCore.Qt.ContrastPreference.HighContrast if mode == "high-contrast"
+                                  else QtCore.Qt.ContrastPreference.NoPreference)
+                theme.set_mode("light" if mode == "high-contrast" else mode)
+                font = QtGui.QFont(app.font())
+                font.setPixelSize(pixels)
+                app.setFont(font)
+                for _ in range(5):
+                    app.processEvents()
+                assert QtGui.QFontInfo(page.license.font()).pixelSize() == pixels
+                image = page.license.grab().toImage()
+                assert image.save(str(tmp_path / f"{index}-{mode}-{pixels}.png"))
+                background = page.grab().toImage().pixelColor(0, 0)
+                links = anchors(page.license)
+                assert [url for url, _ in links] == expected
+>               assert all(contrast(color, background) >= 4.5 for _, color in links), (
+                    mode, [(url, color.name(), background.name()) for url, color in links])
+E                   AssertionError: ('dark', [('https://www.nvidia.com/en-us/agreements/enterprise-software/nvidia-open-model-license/', '#0000ff', '#111111'), ('https://huggingface.co/nvidia/nemotron-speech-streaming-en-0.6b', '#0000ff', '#111111')])
+E                   assert False
+E                    +  where False = all(<generator object test_existing_labs_license_links_remain_readable_through_live_theme_changes.<locals>.<genexpr> at 0x000001EFC57155D0>)
+
+tests\test_labs_license_contrast.py:80: AssertionError
+_ test_existing_labs_license_links_remain_readable_through_live_theme_changes[32] _
+
+tmp_path = WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/labs-license-before-fonts-20261115-temp/test_existing_labs_license_lin1')
+pixels = 32
+
+    @pytest.mark.parametrize("pixels", [16, 32])
+    def test_existing_labs_license_links_remain_readable_through_live_theme_changes(tmp_path, pixels):
+        app = QtWidgets.QApplication.instance() or QtWidgets.QApplication([])
+        assert install_bundled_fonts(app)
+        previous = (app.styleSheet(), QtGui.QPalette(app.palette()), QtGui.QFont(app.font()))
+        app.setStyleSheet("")
+        hints = Hints()
+        theme = install_theme(app, mode="light", style_hints=hints)
+        calls = []
+        page = LabsPage(default_config(), callback=lambda *args: calls.append(True), report_loader=lambda: None)
+        page.resize(880, 800)
+        page.show()
+        model = get_model(PREVIEW_MODEL)
+        expected = [model["license_url"], model["source"]]
+        try:
+            for index, mode in enumerate(("light", "dark", "high-contrast", "light", "dark")):
+                native = QtGui.QPalette(previous[1])
+                if mode == "high-contrast":
+                    for group in (QtGui.QPalette.Active, QtGui.QPalette.Inactive, QtGui.QPalette.Disabled):
+                        for role in (QtGui.QPalette.Window, QtGui.QPalette.Base, QtGui.QPalette.Button):
+                            native.setColor(group, role, QtGui.QColor("black"))
+                        for role in (QtGui.QPalette.WindowText, QtGui.QPalette.Text, QtGui.QPalette.ButtonText):
+                            native.setColor(group, role, QtGui.QColor("yellow"))
+                app.setPalette(native)
+                hints.contrast = (QtCore.Qt.ContrastPreference.HighContrast if mode == "high-contrast"
+                                  else QtCore.Qt.ContrastPreference.NoPreference)
+                theme.set_mode("light" if mode == "high-contrast" else mode)
+                font = QtGui.QFont(app.font())
+                font.setPixelSize(pixels)
+                app.setFont(font)
+                for _ in range(5):
+                    app.processEvents()
+                assert QtGui.QFontInfo(page.license.font()).pixelSize() == pixels
+                image = page.license.grab().toImage()
+                assert image.save(str(tmp_path / f"{index}-{mode}-{pixels}.png"))
+                background = page.grab().toImage().pixelColor(0, 0)
+                links = anchors(page.license)
+                assert [url for url, _ in links] == expected
+>               assert all(contrast(color, background) >= 4.5 for _, color in links), (
+                    mode, [(url, color.name(), background.name()) for url, color in links])
+E                   AssertionError: ('dark', [('https://www.nvidia.com/en-us/agreements/enterprise-software/nvidia-open-model-license/', '#0000ff', '#111111'), ('https://huggingface.co/nvidia/nemotron-speech-streaming-en-0.6b', '#0000ff', '#111111')])
+E                   assert False
+E                    +  where False = all(<generator object test_existing_labs_license_links_remain_readable_through_live_theme_changes.<locals>.<genexpr> at 0x000001EFB1F86D40>)
+
+tests\test_labs_license_contrast.py:80: AssertionError
+- generated xml file: D:\Saydraft-Codex-QA-20261112-01a1cbc7\labs-license-before-fonts-20261115.xml -
+=========================== short test summary info ===========================
+FAILED tests/test_labs_license_contrast.py::test_existing_labs_license_links_remain_readable_through_live_theme_changes[16]
+FAILED tests/test_labs_license_contrast.py::test_existing_labs_license_links_remain_readable_through_live_theme_changes[32]
+2 failed in 3.81s

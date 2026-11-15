@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="6" time="1.707" timestamp="2026-11-15T14:32:39.832006+06:00" hostname="DarkHorse"><testcase classname="tests.test_labs_license_contrast" name="test_existing_labs_license_links_remain_readable_through_live_theme_changes[16]" time="0.227"><failure message="AssertionError: assert -1 == 16&#10; +  where -1 = &lt;built-in method pixelSize of PySide6.QtGui.QFontInfo object at 0x00000192494ADE00&gt;()&#10; +    where &lt;built-in method pixelSize of PySide6.QtGui.QFontInfo object at 0x00000192494ADE00&gt; = &lt;PySide6.QtGui.QFontInfo object at 0x00000192494ADE00&gt;.pixelSize&#10; +      where &lt;PySide6.QtGui.QFontInfo object at 0x00000192494ADE00&gt; = &lt;class 'PySide6.QtGui.QFontInfo'&gt;(&lt;PySide6.QtGui.QFont(Sans Serif,-1,16,5,400,0,0,0,0,0,0,0,0,0,0,1,,0,0) at 0x00000192494AE600&gt;)&#10; +        where &lt;class 'PySide6.QtGui.QFontInfo'&gt; = QtGui.QFontInfo&#10; +        and   &lt;PySide6.QtGui.QFont(Sans Serif,-1,16,5,400,0,0,0,0,0,0,0,0,0,0,1,,0,0) at 0x00000192494AE600&gt; = &lt;built-in method font of PySide6.QtWidgets.QLabel object at 0x00000192493FD1C0&gt;()&#10; +          where &lt;built-in method font of PySide6.QtWidgets.QLabel object at 0x00000192493FD1C0&gt; = &lt;PySide6.QtWidgets.QLabel(0x19224d6ee60) at 0x00000192493FD1C0&gt;.font&#10; +            where &lt;PySide6.QtWidgets.QLabel(0x19224d6ee60) at 0x00000192493FD1C0&gt; = &lt;saydraft.ui.labs_page.LabsPage(0x192279352a0) at 0x00000192493E0F40&gt;.license">tmp_path = WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/labs-license-after-20261115-temp/test_existing_labs_license_lin0')
+pixels = 16
+
+    @pytest.mark.parametrize("pixels", [16, 32])
+    def test_existing_labs_license_links_remain_readable_through_live_theme_changes(tmp_path, pixels):
+        app = QtWidgets.QApplication.instance() or QtWidgets.QApplication([])
+        previous = (app.styleSheet(), QtGui.QPalette(app.palette()), QtGui.QFont(app.font()))
+        app.setStyleSheet("")
+        hints = Hints()
+        theme = install_theme(app, mode="light", style_hints=hints)
+        calls = []
+        page = LabsPage(default_config(), callback=lambda *args: calls.append(True), report_loader=lambda: None)
+        page.resize(880, 800)
+        page.show()
+        model = get_model(PREVIEW_MODEL)
+        expected = [model["license_url"], model["source"]]
+        try:
+            for index, mode in enumerate(("light", "dark", "high-contrast", "light", "dark")):
+                native = QtGui.QPalette(previous[1])
+                if mode == "high-contrast":
+                    for group in (QtGui.QPalette.Active, QtGui.QPalette.Inactive, QtGui.QPalette.Disabled):
+                        for role in (QtGui.QPalette.Window, QtGui.QPalette.Base, QtGui.QPalette.Button):
+                            native.setColor(group, role, QtGui.QColor("black"))
+                        for role in (QtGui.QPalette.WindowText, QtGui.QPalette.Text, QtGui.QPalette.ButtonText):
+                            native.setColor(group, role, QtGui.QColor("yellow"))
+                app.setPalette(native)
+                hints.contrast = (QtCore.Qt.ContrastPreference.HighContrast if mode == "high-contrast"
+                                  else QtCore.Qt.ContrastPreference.NoPreference)
+                theme.set_mode("light" if mode == "high-contrast" else mode)
+                font = QtGui.QFont(app.font())
+                font.setPixelSize(pixels)
+                app.setFont(font)
+                for _ in range(5):
+                    app.processEvents()
+&gt;               assert QtGui.QFontInfo(page.license.font()).pixelSize() == pixels
+E               AssertionError: assert -1 == 16
+E                +  where -1 = &lt;built-in method pixelSize of PySide6.QtGui.QFontInfo object at 0x00000192494ADE00&gt;()
+E                +    where &lt;built-in method pixelSize of PySide6.QtGui.QFontInfo object at 0x00000192494ADE00&gt; = &lt;PySide6.QtGui.QFontInfo object at 0x00000192494ADE00&gt;.pixelSize
+E                +      where &lt;PySide6.QtGui.QFontInfo object at 0x00000192494ADE00&gt; = &lt;class 'PySide6.QtGui.QFontInfo'&gt;(&lt;PySide6.QtGui.QFont(Sans Serif,-1,16,5,400,0,0,0,0,0,0,0,0,0,0,1,,0,0) at 0x00000192494AE600&gt;)
+E                +        where &lt;class 'PySide6.QtGui.QFontInfo'&gt; = QtGui.QFontInfo
+E                +        and   &lt;PySide6.QtGui.QFont(Sans Serif,-1,16,5,400,0,0,0,0,0,0,0,0,0,0,1,,0,0) at 0x00000192494AE600&gt; = &lt;built-in method font of PySide6.QtWidgets.QLabel object at 0x00000192493FD1C0&gt;()
+E                +          where &lt;built-in method font of PySide6.QtWidgets.QLabel object at 0x00000192493FD1C0&gt; = &lt;PySide6.QtWidgets.QLabel(0x19224d6ee60) at 0x00000192493FD1C0&gt;.font
+E                +            where &lt;PySide6.QtWidgets.QLabel(0x19224d6ee60) at 0x00000192493FD1C0&gt; = &lt;saydraft.ui.labs_page.LabsPage(0x192279352a0) at 0x00000192493E0F40&gt;.license
+
+tests\test_labs_license_contrast.py:72: AssertionError</failure></testcase><testcase classname="tests.test_labs_license_contrast" name="test_existing_labs_license_links_remain_readable_through_live_theme_changes[32]" time="0.175"><failure message="AssertionError: assert -1 == 32&#10; +  where -1 = &lt;built-in method pixelSize of PySide6.QtGui.QFontInfo object at 0x00000192497A0100&gt;()&#10; +    where &lt;built-in method pixelSize of PySide6.QtGui.QFontInfo object at 0x00000192497A0100&gt; = &lt;PySide6.QtGui.QFontInfo object at 0x00000192497A0100&gt;.pixelSize&#10; +      where &lt;PySide6.QtGui.QFontInfo object at 0x00000192497A0100&gt; = &lt;class 'PySide6.QtGui.QFontInfo'&gt;(&lt;PySide6.QtGui.QFont(Sans Serif,-1,32,5,400,0,0,0,0,0,0,0,0,0,0,1,,0,0) at 0x00000192493FC4C0&gt;)&#10; +        where &lt;class 'PySide6.QtGui.QFontInfo'&gt; = QtGui.QFontInfo&#10; +        and   &lt;PySide6.QtGui.QFont(Sans Serif,-1,32,5,400,0,0,0,0,0,0,0,0,0,0,1,,0,0) at 0x00000192493FC4C0&gt; = &lt;built-in method font of PySide6.QtWidgets.QLabel object at 0x000001924948D400&gt;()&#10; +          where &lt;built-in method font of PySide6.QtWidgets.QLabel object at 0x000001924948D400&gt; = &lt;PySide6.QtWidgets.QLabel(0x19248196e60) at 0x000001924948D400&gt;.font&#10; +            where &lt;PySide6.QtWidgets.QLabel(0x19248196e60) at 0x000001924948D400&gt; = &lt;saydraft.ui.labs_page.LabsPage(0x192481965f0) at 0x000001924948D200&gt;.license">tmp_path = WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/labs-license-after-20261115-temp/test_existing_labs_license_lin1')
+pixels = 32
+
+    @pytest.mark.parametrize("pixels", [16, 32])
+    def test_existing_labs_license_links_remain_readable_through_live_theme_changes(tmp_path, pixels):
+        app = QtWidgets.QApplication.instance() or QtWidgets.QApplication([])
+        previous = (app.styleSheet(), QtGui.QPalette(app.palette()), QtGui.QFont(app.font()))
+        app.setStyleSheet("")
+        hints = Hints()
+        theme = install_theme(app, mode="light", style_hints=hints)
+        calls = []
+        page = LabsPage(default_config(), callback=lambda *args: calls.append(True), report_loader=lambda: None)
+        page.resize(880, 800)
+        page.show()
+        model = get_model(PREVIEW_MODEL)
+        expected = [model["license_url"], model["source"]]
+        try:
+            for index, mode in enumerate(("light", "dark", "high-contrast", "light", "dark")):
+                native = QtGui.QPalette(previous[1])
+                if mode == "high-contrast":
+                    for group in (QtGui.QPalette.Active, QtGui.QPalette.Inactive, QtGui.QPalette.Disabled):
+                        for role in (QtGui.QPalette.Window, QtGui.QPalette.Base, QtGui.QPalette.Button):
+                            native.setColor(group, role, QtGui.QColor("black"))
+                        for role in (QtGui.QPalette.WindowText, QtGui.QPalette.Text, QtGui.QPalette.ButtonText):
+                            native.setColor(group, role, QtGui.QColor("yellow"))
+                app.setPalette(native)
+                hints.contrast = (QtCore.Qt.ContrastPreference.HighContrast if mode == "high-contrast"
+                                  else QtCore.Qt.ContrastPreference.NoPreference)
+                theme.set_mode("light" if mode == "high-contrast" else mode)
+                font = QtGui.QFont(app.font())
+                font.setPixelSize(pixels)
+                app.setFont(font)
+                for _ in range(5):
+                    app.processEvents()
+&gt;               assert QtGui.QFontInfo(page.license.font()).pixelSize() == pixels
+E               AssertionError: assert -1 == 32
+E                +  where -1 = &lt;built-in method pixelSize of PySide6.QtGui.QFontInfo object at 0x00000192497A0100&gt;()
+E                +    where &lt;built-in method pixelSize of PySide6.QtGui.QFontInfo object at 0x00000192497A0100&gt; = &lt;PySide6.QtGui.QFontInfo object at 0x00000192497A0100&gt;.pixelSize
+E                +      where &lt;PySide6.QtGui.QFontInfo object at 0x00000192497A0100&gt; = &lt;class 'PySide6.QtGui.QFontInfo'&gt;(&lt;PySide6.QtGui.QFont(Sans Serif,-1,32,5,400,0,0,0,0,0,0,0,0,0,0,1,,0,0) at 0x00000192493FC4C0&gt;)
+E                +        where &lt;class 'PySide6.QtGui.QFontInfo'&gt; = QtGui.QFontInfo
+E                +        and   &lt;PySide6.QtGui.QFont(Sans Serif,-1,32,5,400,0,0,0,0,0,0,0,0,0,0,1,,0,0) at 0x00000192493FC4C0&gt; = &lt;built-in method font of PySide6.QtWidgets.QLabel object at 0x000001924948D400&gt;()
+E                +          where &lt;built-in method font of PySide6.QtWidgets.QLabel object at 0x000001924948D400&gt; = &lt;PySide6.QtWidgets.QLabel(0x19248196e60) at 0x000001924948D400&gt;.font
+E                +            where &lt;PySide6.QtWidgets.QLabel(0x19248196e60) at 0x000001924948D400&gt; = &lt;saydraft.ui.labs_page.LabsPage(0x192481965f0) at 0x000001924948D200&gt;.license
+
+tests\test_labs_license_contrast.py:72: AssertionError</failure></testcase><testcase classname="tests.test_preview_ui" name="test_labs_shows_size_and_license_and_toggles_never_download" time="0.147" /><testcase classname="tests.test_preview_ui" name="test_missing_pro_measurement_disables_preview" time="0.072" /><testcase classname="tests.test_preview_ui" name="test_notetaker_opt_in_is_independent_of_english_preview_and_never_downloads" time="0.170" /><testcase classname="tests.test_preview_ui" name="test_explicit_preview_download_runs_outside_gui_and_can_pause_resume" time="0.213" /></testsuite></testsuites>

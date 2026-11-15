@@ -1,0 +1,19 @@
+"""Run the queued worker-guard checks only after the active native job ends."""
+from pathlib import Path
+import os
+import sys
+
+qa=Path(__file__).resolve().parent
+repo=Path('C:/Users/tanzir/Desktop/voice_tray')
+site=qa/'latency-runtime-874a9c4-20261114/venv/Lib/site-packages'
+dependencies=qa/'dictionary-correction-20261115-r1/dependencies'
+sys.path.insert(0,str(repo))
+sys.path.insert(1,str(dependencies))
+os.environ['PYTHONPATH']=os.pathsep.join([str(repo),str(site),str(dependencies)])
+os.environ['PYTHONNOUSERSITE']='1'
+os.environ['PYTEST_DISABLE_PLUGIN_AUTOLOAD']='1'
+from tools.public_worker_guard import install
+install(Path(sys.argv.pop(1)))
+sys.path.append('C:/Users/tanzir/AppData/Roaming/Python/Python313/site-packages')
+import pytest
+raise SystemExit(pytest.main(sys.argv[1:]))

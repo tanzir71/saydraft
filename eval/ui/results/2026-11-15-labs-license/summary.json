@@ -1,0 +1,32 @@
+{
+  "source": "1cd39e36595c4fbcca1afdf25ad3ee052e7ff919",
+  "before_source": "a58b7b4e30111f465fd34ace1b6e83465830c23a",
+  "tests": 6,
+  "seconds": "4.762",
+  "clean_source": true,
+  "skips": 0,
+  "pyside6": "6.11.1",
+  "interpreter_sha256": "4e67d9e9a3673aa7b6219f1280d5ec3f1b6c0d5bd98ea8688c72d0cb7582d664",
+  "qualified_captures": 10,
+  "before_captures": 4,
+  "diagnostic_captures": 14,
+  "font_pixels": [
+    16,
+    32
+  ],
+  "modes": [
+    "light",
+    "dark",
+    "simulated-high-contrast",
+    "light",
+    "dark"
+  ],
+  "contrast_minimum": 4.5,
+  "owner_io_used": false,
+  "model_inference": false,
+  "physical_scaling_or_Narrator_qualified": false,
+  "portable_includes_fix": false,
+  "build_next": "Refresh unsigned portable after active ASR job ends.",
+  "concurrency": "Small offscreen unit checks overlapped accuracy-only inference; its timings remain diagnostic. No competing performance benchmark or model job.",
+  "diagnostics": "Original unregistered-font captures and font-size failures preserved. Corrected fixture registers exact bundled fonts; old a58b7b4 then fails dark-link contrast at both sizes; fixed source passes."
+}

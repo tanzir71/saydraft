@@ -117,3 +117,4 @@ tools/public_worker_guard.py -text
 tools/guarded_latency_matrix.py -text
 tools/guarded_latency_trial.py -text
 eval/latency/results/2026-11-15-owner-io-guard/** -text -whitespace
+eval/ui/results/2026-11-15-labs-license/** -text -whitespace
