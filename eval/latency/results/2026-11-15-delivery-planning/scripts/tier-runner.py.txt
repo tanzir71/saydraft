@@ -1,0 +1,40 @@
+"""Launch only pinned public-file latency recipes under the refusing ports."""
+import argparse
+import os
+from pathlib import Path
+import runpy
+import sys
+
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--repo', type=Path, required=True)
+parser.add_argument('--tier', choices=['standard', 'pro'], required=True)
+parser.add_argument('--output', type=Path, required=True)
+parser.add_argument('--diagnostic', action='store_true')
+args = parser.parse_args()
+qa = Path(__file__).resolve().parent
+repo = args.repo.resolve()
+output = args.output.resolve()
+profile = output.with_name(output.name+'-parent-profile')
+assert not output.exists() and not profile.exists()
+for name in ['home', 'local', 'roaming', 'temp']:
+    (profile/name).mkdir(parents=True, exist_ok=False)
+os.environ.update(TEMP=str(profile/'temp'), TMP=str(profile/'temp'),
+    USERPROFILE=str(profile/'home'), LOCALAPPDATA=str(profile/'local'),
+    APPDATA=str(profile/'roaming'), HF_HOME=str(profile/'home/hf'),
+    HF_HUB_OFFLINE='1', HF_HUB_DISABLE_TELEMETRY='1', DO_NOT_TRACK='1',
+    PYTHONUTF8='1', PYTHONIOENCODING='utf-8', PYTHONNOUSERSITE='1',
+    QT_QPA_PLATFORM='offscreen', PYTHONPATH=str(repo))
+os.chdir(repo)
+sys.path.insert(0, str(repo))
+runtime = (qa/'llama-runtime-install-b12110/llama-cpp-b12110-cpu-x64' if args.tier == 'standard'
+    else qa/'command-session-app-cache-20261114-01/llama-cpp-b12110-vulkan-x64/github-release-asset-709511274')
+sys.argv = ['tools.guarded_latency_matrix', '--guard-output', str(output.with_suffix('.guard.json')),
+    '--tier', args.tier, '--output', str(output), '--isolated',
+    '--parakeet-dir', str(qa/'parakeet-models/asr/parakeet-tdt-0-6b-v3-int8'),
+    '--lid-dir', str(qa/'whisper-lid'), '--vad-dir', str(qa/'latency-model-inputs/silero-vad-v5'),
+    '--models-dir', str(qa/'cleanup-candidates'), '--runtime-dir', str(runtime)]
+if args.tier == 'pro':
+    sys.argv += ['--device', 'Vulkan1', '--allow-gpu-metadata']
+if args.diagnostic:
+    sys.argv += ['--debug', '--repeats', '1', '--durations', '3', '10']
+runpy.run_module('tools.guarded_latency_matrix', run_name='__main__', alter_sys=True)

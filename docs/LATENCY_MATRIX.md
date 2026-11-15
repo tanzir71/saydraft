@@ -14,6 +14,15 @@ matrix or its median/p95 gates. Final guard source `86168e1` passes 73 related
 checks. The owner explicitly approves GPU metadata/Pro measurement; other owner
 audio/device/input/clipboard restrictions remain in force.
 
+The subsequent [delivery-target patch](../eval/latency/results/2026-11-15-delivery-planning/README.md)
+at `e7c60b0` admits optional cleanup against the 1.2 s target minus 0.2 s for
+History/paste, retaining the original hard limits and unchanged matrix criteria.
+All 488 related checks pass. A new Pro diagnostic accepts the three-second
+replies and chooses rules at ten seconds (0.793 / 0.837 s); changed model use,
+live rates and caches prevent a percentage speed claim. Its fresh unsigned
+portable verifies all 1,384 files and 22 embedded modules. Full Standard/Pro
+qualification remains open; the four-case diagnostic does not establish it.
+
 `python -m tools.bench matrix` measures the §11 matrix: 3/10/30/90-second clips,
 twenty independent cold samples and twenty warm samples per duration, separately
 for Lite, Standard and Pro recipes. The bundled public eight-second recording is

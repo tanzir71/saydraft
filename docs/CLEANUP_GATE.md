@@ -1,6 +1,6 @@
 # Interactive cleanup gate
 
-Current native policy replays complete on CPU and RTX with no timeouts after
+Earlier native policy replays complete on CPU and RTX with no timeouts after
 the deadline-path change. CPU keeps rules throughout at a 20.74 tok/s median;
 RTX accepts 269 golden replies. The combined hybrid check remains refused
 because CPU fallback earns no model credit. The original 9.98-second CPU failure
@@ -46,6 +46,19 @@ The outer cap follows the with-LLM p95 ceiling in §1 row 8; it does not guarant
 that ASR, fallback, History or insertion finishes within the target, or establish
 the tighter rules-only or p50 targets. Standalone cleanup without a release event
 retains the configured request cap.
+
+Ordinary dictation also carries a separate ephemeral planning deadline: release
+plus the written 1.2 s delivery target, minus 0.2 s for History/paste. Optional
+generation must fit both this remaining admission window and the original hard
+transport budget. Queueing, shutdown, ASR, prompt assembly and tokenization spend
+the target; a new recording clears it. Invalid or exhausted targets preserve
+rules before constructing a model. This admission policy does not shorten the
+800 ms request cap or two-second outer hard limit, and does not alter standalone
+quality evaluation, Command/translation or preview deadlines. Gate metadata
+separates admission `remaining_ms` from `hard_remaining_ms` when the target is used.
+The [488-check patch and native diagnostic](../eval/latency/results/2026-11-15-delivery-planning/README.md)
+retain actual model use/fallback and a verified portable. Full matrix and quality
+acceptance remain open; the planning heuristic cannot guarantee delivery time.
 
 History stores the existing accepted/fallback/skip reason before insertion. The
 diagnostic log contains score/cue labels, token counts and predicted/remaining

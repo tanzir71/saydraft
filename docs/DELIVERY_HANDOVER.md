@@ -62,6 +62,13 @@ checks explicitly; changing an environment flag cannot authorize them.
   [Source-bound records](../eval/latency/results/2026-11-15-guarded-preflight/README.md).
   These debug results do not close full performance, quality or Windows gates.
 
+- Normal dictation now plans optional cleanup against the delivery target, with
+  a separate History/paste reserve and unchanged hard limits. The patch passes
+  488 related checks. A clean Pro diagnostic uses the model for short speech and
+  rules at ten seconds; full matrices remain pending. Its fresh `e7c60b0` portable
+  verifies 1,384 actual files and 22 embedded modules.
+  [Source, decisions, artifact/hash and limits](../eval/latency/results/2026-11-15-delivery-planning/README.md).
+
 - Cleanup warmup now retains selected intensity, including Polished's 4.
   Clean `625c987` passes 171 related checks, 556 rules examples and 100 authored
   validator refusals. Its full CPU policy replay has 556 exact outputs, seven

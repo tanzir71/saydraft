@@ -1,0 +1,9 @@
+{
+  "source": "e7c60b00ea97866986961ceda3e2c203e2e4ae66",
+  "tests": 488,
+  "seconds": 8.29,
+  "skips": 0,
+  "scope": "16 related test files",
+  "tested_working_tree_then_committed": true,
+  "observation": "No source edits occur between the passing related suite and the seven-file source commit. Native diagnostic and build use the resulting clean immutable commit; test logs retain their original working-tree scope."
+}

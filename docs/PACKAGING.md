@@ -1,9 +1,10 @@
 # Windows packaging
 
-The current local portable at `bd6c22a` includes the Labs license-link contrast
-fix, Hub reflow/live-font fixes and selected-intensity cleanup warmup. Runtime/resource/notices and all 1,384
-disk/ZIP payload checks pass; eighteen modules read from the executable match
-Git bytecode. The [retained delivery](../eval/ui/results/2026-11-15-labs-license-portable/README.md)
+The current local portable at `e7c60b0` includes delivery-target cleanup admission,
+the Labs link contrast fix, Hub reflow and selected-intensity cleanup warmup.
+Runtime/resource/notices and all 1,384 disk/ZIP payload checks pass; 22 critical
+modules read from the executable match Git bytecode. The
+[retained delivery](../eval/latency/results/2026-11-15-delivery-planning/README.md)
 records exact source, dependencies, artifact hash, original diagnostics and
 remaining gates. This unsigned `-SkipInstaller` build leaves installer, signing
 and release acceptance open. The previous
