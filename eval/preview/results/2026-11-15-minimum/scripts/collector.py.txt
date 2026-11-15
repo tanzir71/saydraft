@@ -1,0 +1,145 @@
+"""Retain bounded preview evidence; stdlib, no app/native adapter imports."""
+import hashlib
+import io
+import json
+import shutil
+import sqlite3
+import subprocess
+import xml.etree.ElementTree as ET
+from pathlib import Path
+
+qa = Path(__file__).resolve().parent
+repo = Path('C:/Users/tanzir/Desktop/voice_tray')
+snapshot = qa / 'worktrees/latency-current-20261115'
+source = 'e7c60b00ea97866986961ceda3e2c203e2e4ae66'
+run = qa / 'latency-standard-e7c60b0-guarded-full-20261115-r2'
+out = repo / 'eval/preview/results/2026-11-15-minimum'
+read = lambda p: json.loads(p.read_text(encoding='utf-8-sig'))
+
+def digest(path):
+    with path.open('rb') as stream:
+        return hashlib.file_digest(stream, 'sha256').hexdigest()
+
+def copy(path, relative):
+    target = out / relative
+    target.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copyfile(path, target)
+    assert digest(target) == digest(path)
+
+r = read(run / 'report.json')
+terminal = read(run / 'observed-parent-exit.json')
+assert r['git_commit'] == source and not r['complete']
+assert len(r['cases']) == 150 and len(r['pairs']) == 75
+assert terminal['parent_exit_observed'] and terminal['exit_code'] == 4294967295
+assert terminal['source'] == source and terminal['report_sha256'] == digest(run / 'report.json')
+assert (run / 'owner-scope-stop-request.json').is_file()
+assert subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=snapshot, text=True).strip() == source
+assert not subprocess.check_output(['git', 'status', '--porcelain'], cwd=snapshot, text=True).strip()
+paths = ['saydraft', 'assets', 'design', 'requirements.txt', 'Saydraft.spec', 'tools/build.ps1', 'tests']
+assert not subprocess.check_output(['git', 'diff', '--name-only', source, '--', *paths], cwd=repo, text=True).strip()
+names = list(r['source_fingerprints'])
+batch = io.BytesIO(subprocess.check_output(['git', 'cat-file', '--batch'], cwd=repo,
+    input=('\n'.join(source + ':' + name for name in names) + '\n').encode()))
+converted = []
+for name in names:
+    assert digest(snapshot / name) == r['source_fingerprints'][name]
+    header = batch.readline().split()
+    assert len(header) == 3 and header[1] == b'blob'
+    raw = batch.read(int(header[2]))
+    assert batch.read(1) == b'\n'
+    if hashlib.sha256(raw).hexdigest() != r['source_fingerprints'][name]:
+        assert b'\r' not in raw and b'\0' not in raw
+        assert hashlib.sha256(raw.replace(b'\n', b'\r\n')).hexdigest() == r['source_fingerprints'][name]
+        converted.append(name)
+if converted:
+    fields = subprocess.check_output(['git', 'check-attr', '--source=' + source, '-z', '--stdin', 'text', 'eol'],
+        cwd=repo, input=('\0'.join(converted) + '\0').encode()).split(b'\0')
+    attrs = {(fields[i].decode(), fields[i+1]): fields[i+2] for i in range(0, len(fields)-1, 3)}
+    assert all(attrs[n, b'text'] in [b'auto', b'set'] and attrs[n, b'eol'] in [b'unspecified', b'crlf'] for n in converted)
+combined, native, databases = [], 0, 0
+for entry in r['pairs']:
+    path = run / entry['path']
+    child = read(path)
+    assert entry['path'] == f"{child['audio_seconds']:02d}s-{child['repeat']:03d}/report.json"
+    assert digest(path) == entry['sha256'] and child['complete'] and child['git_commit'] == source
+    assert child['runtime_environment'] == r['runtime_environment']
+    assert read(path.with_name('process.json'))['exit_code'] == 0
+    journal = [json.loads(line) for line in path.with_name('cases.jsonl').read_text().splitlines()]
+    assert journal == child['cases'] and [x['phase'] for x in journal] == ['cold', 'warm']
+    assert child['native_exits'] and all(x is True for x in child['native_exits'])
+    native += len(child['native_exits'])
+    guard = read(path.with_name('owner-io-guard.json'))
+    fixture = read(path.with_name('owner-io-guard.worker.json'))
+    assert guard['pid'] == fixture['pid'] == child['python_pid']
+    assert guard['blocked_attempts'] == fixture['port_attempts'] == []
+    assert all(guard[k] is False for k in ['real_audio_sdk_imported', 'owner_profile_used', 'owner_clipboard_used',
+        'owner_native_input_used', 'device_enumeration', 'microphone_used'])
+    for row in journal:
+        assert all(row[k] is True for k in ['history_before_paste', 'clipboard_restored', 'no_early_delivery',
+            'release_deadline_present', 'language_identifier_ready'])
+        assert row['fed_samples'] == row['audio_seconds'] * 16000
+    with sqlite3.connect(path.with_name('history.db').as_uri() + '?mode=ro', uri=True) as db:
+        rows = db.execute('SELECT raw_text,cleaned_text,llm_decision,timings_json FROM dictations ORDER BY id').fetchall()
+    assert len(rows) == 2
+    for saved, record in zip(rows, journal, strict=True):
+        assert saved[0] and saved[1] and saved[2] == record['decision'] and json.loads(saved[3]) == record['timings']
+    databases += 1
+    combined.extend(journal)
+assert combined == r['cases']
+artifact = qa / 'delivery-planning-package-20261115-r1/artifacts/Saydraft-0.1.0-win-x64.zip'
+assert artifact.stat().st_size == 157079370
+assert digest(artifact) == '54283772ab9685a5123be454f5a9ff26b5e24d7c8908e0740e6b7bca90d21faf'
+passed, test_runs = set(), []
+for name in ['minimum-preview-20261115-r2', 'minimum-onboarding-20261115-r3', 'minimum-preview-safeguards-20261115']:
+    tree = ET.parse(qa / (name + '.xml')).getroot()
+    counts = dict(passed=0, failed=0, errors=0, skipped=0)
+    for case in tree.iter('testcase'):
+        kind = 'failed' if case.find('failure') is not None else 'errors' if case.find('error') is not None else 'skipped' if case.find('skipped') is not None else 'passed'
+        counts[kind] += 1
+        if kind == 'passed':
+            passed.add((case.get('classname'), case.get('name')))
+    test_runs.append(dict(name=name, **counts))
+assert len(passed) == 118
+guard = read(qa / 'minimum-onboarding-20261115-r3.guard.json')
+assert guard['blocked_attempts'] == [] and guard['real_audio_sdk_imported'] is False
+stub = read(qa / 'minimum-onboarding-20261115-r3.stub.json')
+assert stub['placeholder_intact'] and not stub['real_sdk_module_executed'] and not stub['unexpected_port_attempts']
+out.mkdir(parents=True, exist_ok=False)
+copy(run / 'report.json', 'standard-partial/report.json')
+for name in ['observed-parent-exit.json', 'owner-scope-stop-request.json']:
+    copy(run / name, 'standard-partial/' + name)
+copy(run.with_suffix('.supervisor.json'), 'standard-partial/supervisor.json')
+for entry in r['pairs']:
+    folder = Path(entry['path']).parent
+    for name in ['report.json', 'request.json', 'process.json', 'cases.jsonl', 'owner-io-guard.json', 'owner-io-guard.worker.json']:
+        copy(run / folder / name, 'standard-partial/' + folder.as_posix() + '/' + name)
+for name in ['minimum-preview-tests-20261115.log', 'minimum-preview-tests-20261115-r2.log',
+    'minimum-preview-20261115-r2.xml', 'minimum-preview-20261115-r2.guard.json',
+    'minimum-onboarding-20261115-r3.log', 'minimum-onboarding-20261115-r3.xml',
+    'minimum-onboarding-20261115-r3.guard.json', 'minimum-onboarding-20261115-r3.guard.worker.json',
+    'minimum-onboarding-20261115-r3.stub.json', 'minimum-preview-safeguards-20261115.log',
+    'minimum-preview-safeguards-20261115.xml', 'minimum-preview-safeguards-20261115.guard.json']:
+    copy(qa / name, 'tests/' + name)
+copy(qa / 'run_minimum_onboarding_20261115.py', 'scripts/onboarding-runner.py.txt')
+copy(qa / 'run_guarded_latency_tests_20261115.py', 'scripts/basic-runner.py.txt')
+copy(Path(__file__), 'scripts/collector.py.txt')
+summary = dict(source=source, current_app_build_inputs_unchanged=True, source_files_verified=len(names),
+    permitted_windows_text_conversions=len(converted), completed_cases=150, complete_pairs=75,
+    completed_pair_native_exits=native, qa_history_databases_verified=databases,
+    stop_reason='Owner minimum unsigned preview scope; extended qualification deferred',
+    stop_exit_code=terminal['exit_code'], full_matrix_qualified=False, physical_windows_input_measured=False,
+    model_accepted=sum(x['decision'] == 'accepted' for x in combined), unique_passing_checks=len(passed), test_runs=test_runs,
+    native_cases_unqualified=['real_hf_cached_whisper_benchmark_unlocks_next_and_rechecked_finish',
+        'synthetic_native_shortcut_runs_real_practice_cleanup_through_queued_ui[fixture]',
+        'synthetic_native_shortcut_runs_real_practice_cleanup_through_queued_ui[parakeet]',
+        'native_adapter_installs_guard_while_injected_keyboard_keeps_explicit_test_port'],
+    artifact=dict(path=str(artifact), bytes=artifact.stat().st_size, sha256=digest(artifact), signed=False),
+    full_parity_accepted=False, owner_accuracy_accepted=False, native_guest_acceptance=False)
+(out / 'verification.json').write_text(json.dumps(summary, indent=2) + '\n', encoding='utf-8')
+(out / '.gitattributes').write_text('* -text -whitespace\n', encoding='utf-8')
+manifest = dict(source=source, scope='Bounded unsigned preview; no full parity or physical Windows acceptance', records=[])
+for path in sorted(out.rglob('*')):
+    if path.is_file():
+        manifest['records'].append(dict(path=path.relative_to(out).as_posix(), size=path.stat().st_size, sha256=digest(path)))
+(out / 'manifest.json').write_text(json.dumps(manifest, indent=2) + '\n', encoding='utf-8')
+print(json.dumps({k:v for k,v in summary.items() if k not in ['test_runs', 'native_cases_unqualified', 'artifact']}))

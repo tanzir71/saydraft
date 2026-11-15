@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "exit_code": 4294967295,
+  "parent_exit_observed": true,
+  "observer": "detached owned supervisor subprocess.Popen/wait held process handle",
+  "supervisor_python_pid": 18616,
+  "launched_parent_pid": 2168,
+  "observed_utc": "2026-11-15T12:50:18.521086+00:00",
+  "source": "e7c60b00ea97866986961ceda3e2c203e2e4ae66",
+  "debug_fixture": false,
+  "report_sha256": "f8a7f6a06c320c934ed68c94805e283becb69feb0c39513565635979804b1155"
+}

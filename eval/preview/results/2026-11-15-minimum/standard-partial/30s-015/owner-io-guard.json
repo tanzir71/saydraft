@@ -1,0 +1,34 @@
+{
+  "pid": 18008,
+  "blocked_attempts": [],
+  "reviewed_dependency_dlls": [
+    {
+      "caller": "tools.bench_cleanup",
+      "dll": "kernel32"
+    },
+    {
+      "caller": "tools.bench_cleanup",
+      "dll": "psapi"
+    },
+    {
+      "caller": "saydraft.models.windows_hardware",
+      "dll": "kernel32.dll"
+    },
+    {
+      "caller": "saydraft.cleanup.llm.windows_process",
+      "dll": "kernel32"
+    },
+    {
+      "caller": "saydraft.privacy.telemetry",
+      "dll": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\delivery-planning-package-20261115-r1\\venv\\Lib\\site-packages\\sherpa_onnx\\lib\\onnxruntime.dll"
+    }
+  ],
+  "real_audio_sdk_imported": false,
+  "owner_profile_used": false,
+  "owner_clipboard_used": false,
+  "owner_native_input_used": false,
+  "device_enumeration": false,
+  "microphone_used": false,
+  "gpu_metadata_allowed": false,
+  "gpu_metadata_dlls": []
+}

@@ -10,6 +10,16 @@
 
 ## 0. Codex loop protocol (read first, every iteration)
 
+**Current delivery override (owner, 2026-11-15):** "I told you we are distributing
+unsigned. I need you to shorten the time commitment, just ensure it meets
+absolute minimum working acceptance criteria and then document for later
+continuation if needed." The current task is the bounded unsigned preview in
+`docs/MINIMUM_PREVIEW_ACCEPTANCE.md`. The original full-parity checklist below
+is retained as future work, with incomplete items still unchecked. Do not
+automatically restart extended benchmarks, accuracy research, VM provisioning,
+signing or distribution submissions to finish this preview. Signing is not a
+requirement for the owner's chosen unsigned distribution. Host access stays barred.
+
 1. Read `## 12. Loop State`. Pick the **first unchecked task** in the lowest incomplete milestone, unless it is blocked by an **OWNER GATE** (§0.2). If it is, skip to the next task that isn't gated and note the skip.
 2. Work on a branch named `p<milestone>-<slug>` (for example `p3-parakeet-engine`). One task per PR where feasible. The owner reviews with Greptile and test builds, so keep PRs reviewable (under about 600 changed lines excluding generated files and fixtures).
 3. Run verification before you check anything off:
@@ -67,6 +77,13 @@ GitHub run is a delivery gate. Do not dispatch Actions during routine goal work.
 The earlier desktop/audio-input stop and deferred owner accuracy acceptance
 remain in force; use guarded fixtures, owned offscreen windows and public files,
 and leave live-device/physical/frozen qualifications explicitly unaccepted.
+
+**Owner isolated acceptance approval (2026-11-15):** read-only GPU identification
+and the local Pro benchmark are approved. For remaining native Windows checks,
+the owner chose **“Use a disposable Windows VM; keep host access barred”**.
+Host audio/device discovery, clipboard, foreground, hooks and native input stay
+barred. See `docs/WINDOWS_VM_ACCEPTANCE.md`; no guest execution or acceptance
+is implied by this authorization.
 
 **Owner website follow-up (2026-11-12):** rounded color sections must have outer
 gutters and comfortable internal padding. Apply this to the shared night/deep
@@ -916,6 +933,8 @@ Cloud anything (sync, accounts, team dictionaries, web search in Ask), mobile ap
 ---
 
 ## 14. Changelog
+
+- 2026-11-15 | Minimum unsigned preview (owner scope override) | Retained the verified e7c60b0 portable, confirmed unchanged app/build inputs and actual ZIP hash, recorded 118 unique passing focused checks and 150 completed public-file worker cases/77 native exits/75 reread History databases. Stopped extended Standard qualification on owner instruction; no extended Pro run or VM provisioning. Native, accuracy and full-parity work stays unqualified and documented for continuation; signing is optional future work. | docs/MINIMUM_PREVIEW_ACCEPTANCE.md, docs/DELIVERY_HANDOVER.md, eval/preview/results/2026-11-15-minimum
 
 - 2026-11-15 | Bounded delivery checkpoint | Finished Hub native reflow/live-font/long-warning fixes, selected244successful related cases/four exclusions without rewriting failures, verified114frames and a new source-matching portable. Added prioritized remaining-work/critical-blocker handover, ZIP/bytecode verification and scoped evidence. Full parity and release acceptance remain open. | docs/DELIVERY_HANDOVER.md, docs/HUB_ACCESSIBILITY.md, docs/PACKAGING.md, readme.md, eval/ui/results/2026-11-15-hub-reflow/
 

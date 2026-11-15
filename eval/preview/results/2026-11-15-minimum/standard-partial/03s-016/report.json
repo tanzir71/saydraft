@@ -1,0 +1,203 @@
+{
+  "schema": 1,
+  "git_commit": "e7c60b00ea97866986961ceda3e2c203e2e4ae66",
+  "audio_seconds": 3,
+  "repeat": 16,
+  "tier": "standard",
+  "asr_model": "parakeet-tdt-0-6b-v3-int8",
+  "runtime_environment": {
+    "python": "3.13.17",
+    "implementation": "cpython",
+    "cache_tag": "cpython-313",
+    "architecture": "AMD64",
+    "interpreter_sha256": "4e67d9e9a3673aa7b6219f1280d5ec3f1b6c0d5bd98ea8688c72d0cb7582d664",
+    "packages": {
+      "numpy": "2.5.4",
+      "soundfile": "0.14.0",
+      "webrtcvad-wheels": "2.0.14",
+      "faster-whisper": "1.2.1",
+      "ctranslate2": "4.9.0",
+      "sherpa-onnx": "1.13.4",
+      "sherpa-onnx-core": "1.13.4",
+      "onnxruntime": "1.32.0"
+    }
+  },
+  "python_pid": 18632,
+  "cases": [
+    {
+      "phase": "cold",
+      "audio_seconds": 3,
+      "repeat": 16,
+      "fed_samples": 48000,
+      "arming_seconds": 10.414806599990698,
+      "capture_seconds": 3.000667500004056,
+      "asr_load_seconds": 8.516969000003883,
+      "release_to_paste_seconds": 0.6650184999889461,
+      "release_to_settled_seconds": 0.931347799996729,
+      "history_before_paste": true,
+      "clipboard_restored": true,
+      "no_early_delivery": true,
+      "release_deadline_present": true,
+      "decision": "prompt_warming",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 3.0015200000052573,
+        "vad": 0.0,
+        "stt": 0.3081829000002472,
+        "lid": 0.0,
+        "background_stt": 0.6184716999996454,
+        "audio": 0.0,
+        "rules": 0.01162309999926947,
+        "llm": 0.022608899991610087,
+        "insert": 0.30575419998785947
+      },
+      "language_identifier_ready": true,
+      "cleanup_at_capture": {
+        "sidecar": {
+          "state": "ready",
+          "reason": "ready",
+          "failures": 0
+        },
+        "preparation": {
+          "state": "warming",
+          "reason": "decoder_calibrating",
+          "prompt_seconds": null
+        },
+        "decoder": {}
+      },
+      "cleanup_at_release": {
+        "sidecar": {
+          "state": "ready",
+          "reason": "ready",
+          "failures": 0
+        },
+        "preparation": {
+          "state": "warming",
+          "reason": "decoder_calibrating",
+          "prompt_seconds": null
+        },
+        "decoder": {},
+        "observed_after_release_seconds": 0.018826999992597848
+      },
+      "cleanup_after_delivery": {
+        "sidecar": {
+          "state": "ready",
+          "reason": "ready",
+          "failures": 0
+        },
+        "preparation": {
+          "state": "warming",
+          "reason": "decoder_calibrating",
+          "prompt_seconds": null
+        },
+        "decoder": {}
+      },
+      "cleanup_gate": {
+        "reason": "prompt_warming",
+        "need_score": 3,
+        "need_reasons": [
+          "style",
+          "polished"
+        ],
+        "remaining_ms": 627.3382000072161,
+        "predicted_ms": null,
+        "source_tokens": 0,
+        "pending_tokens": 0
+      }
+    },
+    {
+      "phase": "warm",
+      "audio_seconds": 3,
+      "repeat": 16,
+      "fed_samples": 48000,
+      "arming_seconds": 0.2735073000076227,
+      "capture_seconds": 3.0087061999947764,
+      "asr_load_seconds": 8.516969000003883,
+      "release_to_paste_seconds": 0.8724864999967394,
+      "release_to_settled_seconds": 1.1540799000067636,
+      "history_before_paste": true,
+      "clipboard_restored": true,
+      "no_early_delivery": true,
+      "release_deadline_present": true,
+      "decision": "prompt_warming",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 3.0111308000050485,
+        "vad": 0.0,
+        "stt": 0.5545413999934681,
+        "lid": 0.0,
+        "background_stt": 0.8516604000033112,
+        "audio": 0.0,
+        "rules": 0.0005336000031093135,
+        "llm": 0.014397199993254617,
+        "insert": 0.3238383999996586
+      },
+      "language_identifier_ready": true,
+      "cleanup_at_capture": {
+        "sidecar": {
+          "state": "ready",
+          "reason": "ready",
+          "failures": 0
+        },
+        "preparation": {
+          "state": "warming",
+          "reason": "decoder_calibrating",
+          "prompt_seconds": null
+        },
+        "decoder": {}
+      },
+      "cleanup_at_release": {
+        "sidecar": {
+          "state": "ready",
+          "reason": "ready",
+          "failures": 0
+        },
+        "preparation": {
+          "state": "warming",
+          "reason": "decoder_calibrating",
+          "prompt_seconds": null
+        },
+        "decoder": {},
+        "observed_after_release_seconds": 0.0032989000028464943
+      },
+      "cleanup_after_delivery": {
+        "sidecar": {
+          "state": "ready",
+          "reason": "ready",
+          "failures": 0
+        },
+        "preparation": {
+          "state": "warming",
+          "reason": "decoder_calibrating",
+          "prompt_seconds": null
+        },
+        "decoder": {}
+      },
+      "cleanup_gate": {
+        "reason": "prompt_warming",
+        "need_score": 3,
+        "need_reasons": [
+          "style",
+          "polished"
+        ],
+        "remaining_ms": 420.19710000022314,
+        "predicted_ms": null,
+        "source_tokens": 0,
+        "pending_tokens": 0
+      }
+    }
+  ],
+  "native_exits": [
+    true
+  ],
+  "complete": true,
+  "vad": "pinned Silero in private QA profile; production fallback remains enabled",
+  "source_fixture_sha256": "cc6d363cc90b6c99427041ba6366e334131b05101a142761ae84b2a8b5e2c5ab",
+  "replay_samples_sha256": "16acc22ae0ae46451b1fb35c86a624b3a89f6e7dc2f74f1c7320adb2fecc3614",
+  "service_setup_seconds": 1.9470957000012277,
+  "selected_device": null,
+  "native_peak_rss_bytes": [
+    935378944
+  ],
+  "elapsed_seconds": 20.97864309999568
+}

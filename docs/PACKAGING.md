@@ -6,8 +6,11 @@ Runtime/resource/notices and all 1,384 disk/ZIP payload checks pass; 22 critical
 modules read from the executable match Git bytecode. The
 [retained delivery](../eval/latency/results/2026-11-15-delivery-planning/README.md)
 records exact source, dependencies, artifact hash, original diagnostics and
-remaining gates. This unsigned `-SkipInstaller` build leaves installer, signing
-and release acceptance open. The previous
+remaining qualifications. The owner explicitly chose unsigned distribution and
+a bounded working preview on 15 November; signing does not block that delivery.
+This `-SkipInstaller` artifact is a portable ZIP. A current installer, broader
+native Windows qualification and full-parity acceptance remain separate future
+work. See [minimum preview acceptance](MINIMUM_PREVIEW_ACCEPTANCE.md). The previous
 [Hub-only portable](../eval/ui/results/2026-11-15-hub-reflow/README.md) at `f6cd0bf`
 retains its historical qualification and lacks the newer cleanup fix.
 

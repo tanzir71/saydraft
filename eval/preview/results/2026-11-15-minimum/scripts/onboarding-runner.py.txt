@@ -1,0 +1,48 @@
+"""Owned setup widgets with a refusing in-memory SDK placeholder, never PortAudio."""
+import atexit
+import json
+import os
+from pathlib import Path
+import sys
+import types
+
+qa = Path(__file__).resolve().parent
+repo = qa / 'worktrees/latency-current-20261115'
+sys.path.insert(0, str(repo))
+sys.path.insert(1, str(qa / 'dictionary-correction-20261115-r1/dependencies'))
+os.environ['PYTEST_DISABLE_PLUGIN_AUTOLOAD'] = '1'
+os.environ['PYTHONNOUSERSITE'] = '1'
+receipt = qa / 'minimum-onboarding-20261115-r3.guard.json'
+from tools.public_worker_guard import install
+install(receipt)
+stub = types.ModuleType('sounddevice')
+attempts = []
+
+def forbidden(*args, **kwargs):
+    attempts.append('unconfigured fake audio port')
+    raise AssertionError('Only explicit fake audio providers are available')
+
+for name in ['InputStream', 'query_devices', 'query_hostapis']:
+    setattr(stub, name, forbidden)
+assert 'sounddevice' not in sys.modules
+sys.modules['sounddevice'] = stub
+
+def retire_stub():
+    intact = sys.modules.get('sounddevice') is stub
+    if intact:
+        del sys.modules['sounddevice']
+    (qa / 'minimum-onboarding-20261115-r3.stub.json').write_text(json.dumps(dict(
+        placeholder_only=True, placeholder_intact=intact, real_sdk_module_executed=False,
+        placeholder_retired_before_base_guard=True, unexpected_port_attempts=attempts,
+        scope='Only authored fake device ports and offscreen Qt; app-entry native cases excluded'
+    ), indent=2) + '\n', encoding='utf-8')
+
+atexit.register(retire_stub)
+sys.path.append('C:/Users/tanzir/AppData/Roaming/Python/Python313/site-packages')
+import pytest
+raise SystemExit(pytest.main([
+    'tests/test_onboarding_readiness.py', 'tests/test_onboarding_practice.py',
+    '-q', '-rs', '-k', 'not synthetic_native_shortcut_runs_real_practice_cleanup_through_queued_ui and not real_hf_cached_whisper_benchmark_unlocks_next_and_rechecked_finish',
+    '--basetemp=' + str(qa / 'minimum-onboarding-20261115-r3-tests'),
+    '--junitxml=' + str(qa / 'minimum-onboarding-20261115-r3.xml'),
+]))

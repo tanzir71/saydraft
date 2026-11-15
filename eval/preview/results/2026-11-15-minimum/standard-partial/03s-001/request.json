@@ -1,0 +1,36 @@
+{
+  "git_commit": "e7c60b00ea97866986961ceda3e2c203e2e4ae66",
+  "audio_seconds": 3,
+  "repeat": 1,
+  "runtime_environment": {
+    "python": "3.13.17",
+    "implementation": "cpython",
+    "cache_tag": "cpython-313",
+    "architecture": "AMD64",
+    "interpreter_sha256": "4e67d9e9a3673aa7b6219f1280d5ec3f1b6c0d5bd98ea8688c72d0cb7582d664",
+    "packages": {
+      "numpy": "2.5.4",
+      "soundfile": "0.14.0",
+      "webrtcvad-wheels": "2.0.14",
+      "faster-whisper": "1.2.1",
+      "ctranslate2": "4.9.0",
+      "sherpa-onnx": "1.13.4",
+      "sherpa-onnx-core": "1.13.4",
+      "onnxruntime": "1.32.0"
+    }
+  },
+  "tier": "standard",
+  "asr_model": "parakeet-tdt-0-6b-v3-int8",
+  "candidate": "qwen35-08b-q4-k-m",
+  "backend": "cpu",
+  "decode_target_tps": 25,
+  "device": null,
+  "output": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\latency-standard-e7c60b0-guarded-full-20261115-r2\\03s-001",
+  "allow_gpu_metadata": false,
+  "parakeet_dir": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\parakeet-models\\asr\\parakeet-tdt-0-6b-v3-int8",
+  "lid_dir": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\whisper-lid",
+  "whisper_dir": null,
+  "models_dir": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\cleanup-candidates",
+  "runtime_dir": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\llama-runtime-install-b12110\\llama-cpp-b12110-cpu-x64",
+  "vad_dir": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\latency-model-inputs\\silero-vad-v5"
+}

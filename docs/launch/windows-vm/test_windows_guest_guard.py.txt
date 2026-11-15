@@ -1,0 +1,91 @@
+"""Mistarget protection must refuse the host before any native session adapter."""
+
+import json
+
+import pytest
+
+from tools import windows_guest_guard as guard
+
+VM = "6aba949d-5060-47b4-8de8-22db243b7b80"
+OTHER = "faadf641-fd4c-4a34-9874-05dbcc3a154b"
+
+
+def manifest():
+    return dict(schema=1, owner_scope=guard.OWNER_SCOPE, vm_uuid=VM,
+                run_root="C:/Saydraft-QA/" + VM, host_access_barred=True)
+
+
+def identity():
+    return dict(manufacturer="QEMU", product="Standard PC (Q35 + ICH9, 2009)",
+                uuid=VM, hypervisor_present=True)
+
+
+@pytest.mark.parametrize("change", [
+    {"schema": True}, {"host_access_barred": 1}, {"host_access_barred": False},
+    {"owner_scope": "host access allowed"}, {"vm_uuid": OTHER},
+    {"run_root": "C:/Users/Owner"}, {"run_root": "C:/Saydraft-QA/../" + VM},
+    {"run_root": "C:/Saydraft-QA/" + VM + ":stream"}, {"unexpected": True},
+])
+def test_invalid_authorization(change):
+    with pytest.raises(guard.GuestRefused):
+        guard._manifest({**manifest(), **change}, VM)
+
+
+@pytest.mark.parametrize("change", [
+    {"manufacturer": "Owner PC", "product": "Physical workstation"},
+    {"hypervisor_present": False}, {"hypervisor_present": 1},
+    {"uuid": OTHER}, {"uuid": ""}, {"uuid": None},
+])
+def test_hypervisor_presence_or_copied_manifest_cannot_authorize_host(change):
+    with pytest.raises(guard.GuestRefused):
+        guard._identity_matches({**identity(), **change}, VM)
+
+
+def test_configured_guest_metadata_matches():
+    identifier, root = guard._manifest(manifest(), VM)
+    guard._identity_matches(identity(), identifier)
+    assert root.name == VM
+
+
+def test_host_refused_before_native_session_load(tmp_path, monkeypatch):
+    path = tmp_path / "guest.json"
+    path.write_text(json.dumps(manifest()), encoding="utf-8")
+    monkeypatch.setattr(guard, "_IS_WINDOWS", True)
+    monkeypatch.setattr(guard, "_read_identity", lambda: {**identity(), "uuid": OTHER})
+    monkeypatch.setattr(guard, "_interactive_session", lambda: pytest.fail("Loaded native session adapter on host"))
+    with pytest.raises(guard.GuestRefused, match="expected disposable guest"):
+        guard.require_guest(path, expected_uuid=VM)
+
+
+def test_identity_failure_is_closed_and_redacted(tmp_path, monkeypatch):
+    path = tmp_path / "guest.json"
+    path.write_text(json.dumps(manifest()), encoding="utf-8")
+    monkeypatch.setattr(guard, "_IS_WINDOWS", True)
+
+    def unavailable():
+        raise OSError("private host metadata")
+
+    monkeypatch.setattr(guard, "_read_identity", unavailable)
+    monkeypatch.setattr(guard, "_interactive_session", lambda: pytest.fail("Loaded session after identity failure"))
+    with pytest.raises(guard.GuestRefused, match="^Could not verify the expected disposable guest$"):
+        guard.require_guest(path, expected_uuid=VM)
+
+
+def test_invalid_manifest_does_not_query_machine(tmp_path, monkeypatch):
+    path = tmp_path / "guest.json"
+    path.write_text(json.dumps({**manifest(), "host_access_barred": False}), encoding="utf-8")
+    monkeypatch.setattr(guard, "_IS_WINDOWS", True)
+    monkeypatch.setattr(guard, "_read_identity", lambda: pytest.fail("Queried identity without scope"))
+    with pytest.raises(guard.GuestRefused):
+        guard.require_guest(path, expected_uuid=VM)
+
+
+@pytest.mark.parametrize("session,active", [(0, 0), (0, 1), (2, 1), (1, 0xFFFFFFFF),
+                                           (0xFFFFFFFF, 0xFFFFFFFF), (True, 1)])
+def test_service_or_other_session_cannot_qualify_gui_acceptance(session, active):
+    with pytest.raises(guard.GuestRefused):
+        guard._checked_session(session, active)
+
+
+def test_interactive_console_session():
+    assert guard._checked_session(1, 1) == 1

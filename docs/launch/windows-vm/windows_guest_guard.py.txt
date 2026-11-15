@@ -1,0 +1,159 @@
+"""Refuse native acceptance outside the explicitly identified disposable guest.
+
+This prevents accidental targeting; it is not a security boundary against a
+machine administrator. VM configuration/sharing still needs separate inspection.
+Import this stdlib-only module and call require_guest before native adapters.
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+import os
+import subprocess
+from dataclasses import dataclass
+from pathlib import Path, PureWindowsPath
+from uuid import UUID
+
+OWNER_SCOPE = "Use a disposable Windows VM; keep host access barred"
+_IS_WINDOWS = os.name == "nt"
+_FIELDS = {"schema", "owner_scope", "vm_uuid", "run_root", "host_access_barred"}
+_MACHINES = {
+    ("QEMU", "Standard PC (Q35 + ICH9, 2009)"),
+    ("QEMU", "Standard PC (i440FX + PIIX, 1996)"),
+    ("innotek GmbH", "VirtualBox"),
+    ("Oracle Corporation", "VirtualBox"),
+}
+
+
+class GuestRefused(RuntimeError):
+    """No native permission was established; do not continue the probe."""
+
+
+@dataclass(frozen=True)
+class GuestPermit:
+    vm_uuid: str
+    run_root: str
+    interactive_session: int
+
+
+def _uuid(value):
+    try:
+        parsed = UUID(value) if isinstance(value, str) else None
+    except ValueError:
+        parsed = None
+    if parsed is None or parsed.version != 4:
+        raise GuestRefused("Expected a separately generated disposable VM UUID")
+    return str(parsed)
+
+
+def _manifest(value, expected_uuid):
+    if (not isinstance(value, dict) or set(value) != _FIELDS
+            or type(value["schema"]) is not int or value["schema"] != 1
+            or value["owner_scope"] != OWNER_SCOPE or value["host_access_barred"] is not True):
+        raise GuestRefused("Disposable guest authorization is missing or invalid")
+    identifier = _uuid(expected_uuid)
+    if _uuid(value["vm_uuid"]) != identifier:
+        raise GuestRefused("Authorization does not match the independently configured VM")
+    root = value["run_root"]
+    expected = PureWindowsPath("C:/Saydraft-QA") / identifier
+    if (not isinstance(root, str) or PureWindowsPath(root) != expected
+            or ".." in PureWindowsPath(root).parts or ":" in root[2:]):
+        raise GuestRefused("Acceptance requires the unique guest QA directory")
+    return identifier, expected
+
+
+def _identity_matches(value, identifier):
+    if (not isinstance(value, dict) or value.get("hypervisor_present") is not True
+            or (value.get("manufacturer"), value.get("product")) not in _MACHINES):
+        raise GuestRefused("Native acceptance requires the expected disposable guest")
+    try:
+        actual = _uuid(value.get("uuid"))
+    except GuestRefused:
+        raise GuestRefused("Native acceptance requires the expected disposable guest") from None
+    if actual != identifier:
+        raise GuestRefused("Native acceptance requires the expected disposable guest")
+
+
+def _read_identity():
+    # Fixed read-only CIM query. No foreground, clipboard, audio SDK or hooks.
+    shell = Path(os.environ["SystemRoot"]) / "System32/WindowsPowerShell/v1.0/powershell.exe"
+    script = (
+        "$ErrorActionPreference='Stop';"
+        "[Console]::OutputEncoding=[System.Text.UTF8Encoding]::new($false);"
+        "$c=Get-CimInstance Win32_ComputerSystem;"
+        "$p=Get-CimInstance Win32_ComputerSystemProduct;"
+        "[ordered]@{manufacturer=$c.Manufacturer;product=$p.Name;uuid=$p.UUID;"
+        "hypervisor_present=[bool]$c.HypervisorPresent}|ConvertTo-Json -Compress"
+    )
+    completed = subprocess.run([str(shell), "-NoProfile", "-NonInteractive", "-Command", script],
+        stdin=subprocess.DEVNULL, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+        timeout=15, check=True, creationflags=subprocess.CREATE_NO_WINDOW)
+    return json.loads(completed.stdout.decode("utf-8-sig"))
+
+
+def _checked_session(session, active):
+    if (type(session) is not int or type(active) is not int
+            or not 0 < session < 0xFFFFFFFF or session != active):
+        raise GuestRefused("Acceptance requires the guest interactive console, not Session 0")
+    return session
+
+
+def _interactive_session():
+    import ctypes
+    from ctypes import wintypes
+
+    kernel = ctypes.WinDLL("kernel32.dll", use_last_error=True, winmode=0x00000800)
+    kernel.GetCurrentProcessId.argtypes, kernel.GetCurrentProcessId.restype = [], wintypes.DWORD
+    kernel.ProcessIdToSessionId.argtypes = [wintypes.DWORD, ctypes.POINTER(wintypes.DWORD)]
+    kernel.ProcessIdToSessionId.restype = wintypes.BOOL
+    kernel.WTSGetActiveConsoleSessionId.argtypes, kernel.WTSGetActiveConsoleSessionId.restype = [], wintypes.DWORD
+    session = wintypes.DWORD()
+    if not kernel.ProcessIdToSessionId(kernel.GetCurrentProcessId(), ctypes.byref(session)):
+        raise GuestRefused("Could not establish the guest interactive session")
+    return _checked_session(session.value, kernel.WTSGetActiveConsoleSessionId())
+
+
+def require_guest(manifest_path, *, expected_uuid):
+    """Verify identity before returning permission to import native test adapters.
+
+    expected_uuid must come from the controller's VM configuration, not from
+    this machine's identity. Never discover a UUID here and authorize it.
+    """
+    if not _IS_WINDOWS:
+        raise GuestRefused("Native acceptance requires a Windows guest")
+    try:
+        value = json.loads(Path(manifest_path).read_text(encoding="utf-8-sig"))
+        identifier, root = _manifest(value, expected_uuid)
+        _identity_matches(_read_identity(), identifier)
+        # The host must be refused before this session DLL is loaded.
+        session = _interactive_session()
+        path = Path(str(root))
+        if not path.is_dir() or PureWindowsPath(path.resolve()) != root:
+            raise GuestRefused("Guest QA directory is missing or redirected")
+    except GuestRefused:
+        raise
+    except Exception:
+        # Do not expose host identity values, command output or paths on failure.
+        raise GuestRefused("Could not verify the expected disposable guest") from None
+    return GuestPermit(identifier, str(root), session)
+
+
+def main(argv=None):
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--manifest", type=Path, required=True)
+    parser.add_argument("--vm-uuid", required=True)
+    args = parser.parse_args(argv)
+    try:
+        permit = require_guest(args.manifest, expected_uuid=args.vm_uuid)
+    except GuestRefused as error:
+        print(json.dumps({"guest_verified": False, "reason": str(error)}))
+        return 1
+    print(json.dumps({"guest_verified": True, "vm_uuid": permit.vm_uuid,
+                      "interactive_session": permit.interactive_session,
+                      "native_acceptance_performed": False}))
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

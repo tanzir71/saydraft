@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "status": "exited",
+  "source": "e7c60b00ea97866986961ceda3e2c203e2e4ae66",
+  "tier": "standard",
+  "output": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\latency-standard-e7c60b0-guarded-full-20261115-r2",
+  "supervisor_python_pid": 18616,
+  "supervisor_source_sha256": "3c1aea9ee46e198a464ee03771fcc67e6fecde2acc72e970fd99fedd117049fe",
+  "tier_launcher_sha256": "2919ac2ae923564e00106645b3a2f7c318d19052e4dcffcb458cb6033a599d13",
+  "interpreter_sha256": "4e67d9e9a3673aa7b6219f1280d5ec3f1b6c0d5bd98ea8688c72d0cb7582d664",
+  "started_utc": "2026-11-15T11:16:20.839636+00:00",
+  "debug_fixture": false,
+  "measurement_started": true,
+  "actual_capture": "bundled public file through guarded memory ports",
+  "launched_parent_pid": 2168,
+  "exit_code": 4294967295,
+  "ended_utc": "2026-11-15T12:50:18.504924+00:00",
+  "report_sha256": "f8a7f6a06c320c934ed68c94805e283becb69feb0c39513565635979804b1155",
+  "cases": 150,
+  "complete": false
+}

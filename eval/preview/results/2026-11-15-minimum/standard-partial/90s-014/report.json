@@ -1,0 +1,266 @@
+{
+  "schema": 1,
+  "git_commit": "e7c60b00ea97866986961ceda3e2c203e2e4ae66",
+  "audio_seconds": 90,
+  "repeat": 14,
+  "tier": "standard",
+  "asr_model": "parakeet-tdt-0-6b-v3-int8",
+  "runtime_environment": {
+    "python": "3.13.17",
+    "implementation": "cpython",
+    "cache_tag": "cpython-313",
+    "architecture": "AMD64",
+    "interpreter_sha256": "4e67d9e9a3673aa7b6219f1280d5ec3f1b6c0d5bd98ea8688c72d0cb7582d664",
+    "packages": {
+      "numpy": "2.5.4",
+      "soundfile": "0.14.0",
+      "webrtcvad-wheels": "2.0.14",
+      "faster-whisper": "1.2.1",
+      "ctranslate2": "4.9.0",
+      "sherpa-onnx": "1.13.4",
+      "sherpa-onnx-core": "1.13.4",
+      "onnxruntime": "1.32.0"
+    }
+  },
+  "python_pid": 18104,
+  "cases": [
+    {
+      "phase": "cold",
+      "audio_seconds": 90,
+      "repeat": 14,
+      "fed_samples": 1440000,
+      "arming_seconds": 9.367457200001809,
+      "capture_seconds": 90.00048580000293,
+      "asr_load_seconds": 7.720167200008291,
+      "release_to_paste_seconds": 0.8844433000049321,
+      "release_to_settled_seconds": 1.1708673999964958,
+      "history_before_paste": true,
+      "clipboard_restored": true,
+      "no_early_delivery": true,
+      "release_deadline_present": true,
+      "decision": "skip_budget",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 90.00258759999997,
+        "vad": 0.0,
+        "stt": 0.5505463000008604,
+        "lid": 0.0,
+        "background_stt": 12.106823699956294,
+        "audio": 0.0,
+        "rules": 0.008372600001166575,
+        "llm": 0.014488800006802194,
+        "insert": 0.30238480000116397
+      },
+      "language_identifier_ready": true,
+      "cleanup_at_capture": {
+        "sidecar": {
+          "state": "ready",
+          "reason": "ready",
+          "failures": 0
+        },
+        "preparation": {
+          "state": "warming",
+          "reason": "decoder_calibrating",
+          "prompt_seconds": null
+        },
+        "decoder": {}
+      },
+      "cleanup_at_release": {
+        "sidecar": {
+          "state": "ready",
+          "reason": "ready",
+          "failures": 0
+        },
+        "preparation": {
+          "state": "prepared",
+          "reason": "prepared",
+          "prompt_seconds": 7.584863800002495
+        },
+        "decoder": {
+          "generation": 1,
+          "tokens_per_sample": 60,
+          "sample_count": 3,
+          "tokens_per_second": [
+            12.946926816508693,
+            17.261576666561343,
+            15.198026420352166
+          ],
+          "median_tps": 15.198026420352166,
+          "conservative_tps": 12.946926816508693
+        },
+        "observed_after_release_seconds": 0.002387800006545149
+      },
+      "cleanup_after_delivery": {
+        "sidecar": {
+          "state": "ready",
+          "reason": "ready",
+          "failures": 0
+        },
+        "preparation": {
+          "state": "prepared",
+          "reason": "prepared",
+          "prompt_seconds": 7.584863800002495
+        },
+        "decoder": {
+          "generation": 1,
+          "tokens_per_sample": 60,
+          "sample_count": 3,
+          "tokens_per_second": [
+            12.946926816508693,
+            17.261576666561343,
+            15.198026420352166
+          ],
+          "median_tps": 15.198026420352166,
+          "conservative_tps": 12.946926816508693
+        }
+      },
+      "cleanup_gate": {
+        "reason": "skip_budget",
+        "need_score": 5,
+        "need_reasons": [
+          "long",
+          "style",
+          "polished"
+        ],
+        "remaining_ms": 415.55740000330843,
+        "predicted_ms": 41361.16683050847,
+        "source_tokens": 170,
+        "pending_tokens": 211,
+        "delivery_target_used": true,
+        "hard_remaining_ms": 743.9833000098588,
+        "outcome": "skip_budget"
+      }
+    },
+    {
+      "phase": "warm",
+      "audio_seconds": 90,
+      "repeat": 14,
+      "fed_samples": 1440000,
+      "arming_seconds": 0.12782660000084434,
+      "capture_seconds": 90.00045520000276,
+      "asr_load_seconds": 7.720167200008291,
+      "release_to_paste_seconds": 1.1191828000009991,
+      "release_to_settled_seconds": 1.3889436000026762,
+      "history_before_paste": true,
+      "clipboard_restored": true,
+      "no_early_delivery": true,
+      "release_deadline_present": true,
+      "decision": "skip_budget",
+      "asr_model": "parakeet-tdt-0-6b-v3-int8",
+      "timings": {
+        "record": 90.00096689999918,
+        "vad": 0.0,
+        "stt": 0.8018214999901829,
+        "lid": 0.0,
+        "background_stt": 11.123750199956703,
+        "audio": 0.0,
+        "rules": 0.00510270000086166,
+        "llm": 0.016251300010480918,
+        "insert": 0.3020039000111865
+      },
+      "language_identifier_ready": true,
+      "cleanup_at_capture": {
+        "sidecar": {
+          "state": "ready",
+          "reason": "ready",
+          "failures": 0
+        },
+        "preparation": {
+          "state": "prepared",
+          "reason": "prepared",
+          "prompt_seconds": 7.584863800002495
+        },
+        "decoder": {
+          "generation": 1,
+          "tokens_per_sample": 60,
+          "sample_count": 3,
+          "tokens_per_second": [
+            12.946926816508693,
+            17.261576666561343,
+            15.198026420352166
+          ],
+          "median_tps": 15.198026420352166,
+          "conservative_tps": 12.946926816508693
+        }
+      },
+      "cleanup_at_release": {
+        "sidecar": {
+          "state": "ready",
+          "reason": "ready",
+          "failures": 0
+        },
+        "preparation": {
+          "state": "prepared",
+          "reason": "prepared",
+          "prompt_seconds": 7.584863800002495
+        },
+        "decoder": {
+          "generation": 1,
+          "tokens_per_sample": 60,
+          "sample_count": 3,
+          "tokens_per_second": [
+            12.946926816508693,
+            17.261576666561343,
+            15.198026420352166
+          ],
+          "median_tps": 15.198026420352166,
+          "conservative_tps": 12.946926816508693
+        },
+        "observed_after_release_seconds": 0.0016930999991018325
+      },
+      "cleanup_after_delivery": {
+        "sidecar": {
+          "state": "ready",
+          "reason": "ready",
+          "failures": 0
+        },
+        "preparation": {
+          "state": "prepared",
+          "reason": "prepared",
+          "prompt_seconds": 7.584863800002495
+        },
+        "decoder": {
+          "generation": 1,
+          "tokens_per_sample": 60,
+          "sample_count": 3,
+          "tokens_per_second": [
+            12.946926816508693,
+            17.261576666561343,
+            15.198026420352166
+          ],
+          "median_tps": 15.198026420352166,
+          "conservative_tps": 12.946926816508693
+        }
+      },
+      "cleanup_gate": {
+        "reason": "skip_budget",
+        "need_score": 5,
+        "need_reasons": [
+          "long",
+          "style",
+          "polished"
+        ],
+        "remaining_ms": 166.09870000684168,
+        "predicted_ms": 41361.16683050847,
+        "source_tokens": 170,
+        "pending_tokens": 211,
+        "delivery_target_used": true,
+        "hard_remaining_ms": 744.3806999945082,
+        "outcome": "skip_budget"
+      }
+    }
+  ],
+  "native_exits": [
+    true
+  ],
+  "complete": true,
+  "vad": "pinned Silero in private QA profile; production fallback remains enabled",
+  "source_fixture_sha256": "cc6d363cc90b6c99427041ba6366e334131b05101a142761ae84b2a8b5e2c5ab",
+  "replay_samples_sha256": "1e876dbed4e0913ae9015e34d8a290d6159e57387434e9c4efc6c8f246e83087",
+  "service_setup_seconds": 1.1888858000020264,
+  "selected_device": null,
+  "native_peak_rss_bytes": [
+    1031565312
+  ],
+  "elapsed_seconds": 193.61063099998864
+}

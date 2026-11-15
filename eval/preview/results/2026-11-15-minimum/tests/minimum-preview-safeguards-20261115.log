@@ -1,0 +1,50 @@
+.......................................F...........                      [100%]
+================================== FAILURES ===================================
+_ test_native_adapter_installs_guard_while_injected_keyboard_keeps_explicit_test_port _
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000001EC67A64360>
+
+    def test_native_adapter_installs_guard_while_injected_keyboard_keeps_explicit_test_port(monkeypatch):
+        monkeypatch.setattr("saydraft.insert.inserter.sys.platform", "win32")
+>       assert isinstance(Inserter().delivery_guard, WindowsDeliveryGuard)
+                          ^^^^^^^^^^
+
+tests\test_delivery_guard.py:85: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\tanzir\Desktop\voice_tray\saydraft\insert\inserter.py:43: in __init__
+    from .clipboard_win import WindowsClipboard
+<frozen importlib._bootstrap>:1369: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1331: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:1265: in _find_spec
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <tools.public_file_guard.install.<locals>.OwnerIOGuard object at 0x000001EC649FE270>
+fullname = 'saydraft.insert.clipboard_win'
+path = ['C:\\Users\\tanzir\\Desktop\\voice_tray\\saydraft\\insert']
+target = None
+
+    def find_spec(self, fullname, path=None, target=None):
+        if fullname.split(".")[0] in [
+            "sounddevice",
+            "soundcard",
+            "pynput",
+            "pyperclip",
+            "win32clipboard",
+        ] or fullname in [
+            "saydraft.app",
+            "saydraft.logging_config",
+            "saydraft.single_instance",
+            "saydraft.context.foreground",
+            "saydraft.context.uia_native",
+            "saydraft.insert.clipboard_win",
+        ]:
+            attempts.append(fullname)
+>           raise AssertionError("Owner I/O import is barred: " + fullname)
+E           AssertionError: Owner I/O import is barred: saydraft.insert.clipboard_win
+
+C:\Users\tanzir\Desktop\voice_tray\tools\public_file_guard.py:56: AssertionError
+- generated xml file: D:\Saydraft-Codex-QA-20261112-01a1cbc7\minimum-preview-safeguards-20261115.xml -
+1 failed, 50 passed in 2.35s

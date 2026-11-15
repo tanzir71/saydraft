@@ -1,0 +1,1417 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="33" failures="3" skipped="0" tests="71" time="4.280" timestamp="2026-11-15T18:55:09.863818+06:00" hostname="DarkHorse"><testcase classname="tests.test_verified_downloader" name="test_download_verifies_before_publishing_and_skips_verified_file" time="0.283" /><testcase classname="tests.test_verified_downloader" name="test_corrupt_download_never_becomes_loadable_and_preserves_existing_files" time="0.007" /><testcase classname="tests.test_verified_downloader" name="test_unlisted_or_insecure_redirect_is_rejected[http://models.example/file]" time="0.001" /><testcase classname="tests.test_verified_downloader" name="test_unlisted_or_insecure_redirect_is_rejected[https://other.example/file]" time="0.001" /><testcase classname="tests.test_verified_downloader" name="test_bundled_manifest_is_pinned_and_rejects_path_traversal" time="0.016" /><testcase classname="tests.test_verified_downloader" name="test_pause_preserves_partial_and_resume_requests_exact_range" time="0.012" /><testcase classname="tests.test_verified_downloader" name="test_server_ignoring_range_restarts_and_preserves_old_partial" time="0.008" /><testcase classname="tests.test_verified_downloader" name="test_wrong_resume_range_cannot_publish_or_damage_partial" time="0.005" /><testcase classname="tests.test_verified_downloader" name="test_unidentified_partial_is_archived_and_truncated_transfer_can_resume" time="0.010" /><testcase classname="tests.test_verified_downloader" name="test_corrupt_marker_and_same_size_weight_corruption_are_rejected_and_repaired" time="0.015" /><testcase classname="tests.test_verified_downloader" name="test_insufficient_disk_space_stops_before_network_and_retains_partial" time="0.005" /><testcase classname="tests.test_verified_downloader" name="test_ignored_range_checks_space_for_full_restart_before_archiving" time="0.008" /><testcase classname="tests.test_verified_downloader" name="test_catalog_rejects_unknown_cyclic_or_invalid_dependencies[requires0]" time="0.018" /><testcase classname="tests.test_verified_downloader" name="test_catalog_rejects_unknown_cyclic_or_invalid_dependencies[requires1]" time="0.019" /><testcase classname="tests.test_verified_downloader" name="test_catalog_rejects_unknown_cyclic_or_invalid_dependencies[whisper-small]" time="0.020" /><testcase classname="tests.test_verified_downloader" name="test_bundle_checks_combined_remaining_bytes_on_same_volume" time="0.006" /><testcase classname="tests.test_onboarding_readiness" name="test_next_requires_every_dependency_checksum_and_layout_updates_do_not_restart_checks" time="0.002"><error message="failed on setup with &quot;AssertionError: Owner I/O import is barred: sounddevice&quot;">tmp_path = WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/minimum-preview-tests-20261115-r2/test_next_requires_every_depen0')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x00000218A39CCFF0&gt;
+
+    @pytest.fixture
+    def subject(tmp_path, monkeypatch):
+&gt;       import sounddevice
+
+tests\test_onboarding_readiness.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+&lt;frozen importlib._bootstrap&gt;:1369: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1331: in _find_and_load_unlocked
+    ???
+&lt;frozen importlib._bootstrap&gt;:1265: in _find_spec
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;tools.public_file_guard.install.&lt;locals&gt;.OwnerIOGuard object at 0x00000218FF89E270&gt;
+fullname = 'sounddevice', path = None, target = None
+
+    def find_spec(self, fullname, path=None, target=None):
+        if fullname.split(".")[0] in [
+            "sounddevice",
+            "soundcard",
+            "pynput",
+            "pyperclip",
+            "win32clipboard",
+        ] or fullname in [
+            "saydraft.app",
+            "saydraft.logging_config",
+            "saydraft.single_instance",
+            "saydraft.context.foreground",
+            "saydraft.context.uia_native",
+            "saydraft.insert.clipboard_win",
+        ]:
+            attempts.append(fullname)
+&gt;           raise AssertionError("Owner I/O import is barred: " + fullname)
+E           AssertionError: Owner I/O import is barred: sounddevice
+
+tools\public_file_guard.py:56: AssertionError</error></testcase><testcase classname="tests.test_onboarding_readiness" name="test_download_callback_success_cannot_unlock_missing_package" time="0.004"><error message="failed on setup with &quot;AssertionError: Owner I/O import is barred: sounddevice&quot;">tmp_path = WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/minimum-preview-tests-20261115-r2/test_download_callback_success0')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x00000218A39CD9F0&gt;
+
+    @pytest.fixture
+    def subject(tmp_path, monkeypatch):
+&gt;       import sounddevice
+
+tests\test_onboarding_readiness.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+&lt;frozen importlib._bootstrap&gt;:1369: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1331: in _find_and_load_unlocked
+    ???
+&lt;frozen importlib._bootstrap&gt;:1265: in _find_spec
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;tools.public_file_guard.install.&lt;locals&gt;.OwnerIOGuard object at 0x00000218FF89E270&gt;
+fullname = 'sounddevice', path = None, target = None
+
+    def find_spec(self, fullname, path=None, target=None):
+        if fullname.split(".")[0] in [
+            "sounddevice",
+            "soundcard",
+            "pynput",
+            "pyperclip",
+            "win32clipboard",
+        ] or fullname in [
+            "saydraft.app",
+            "saydraft.logging_config",
+            "saydraft.single_instance",
+            "saydraft.context.foreground",
+            "saydraft.context.uia_native",
+            "saydraft.insert.clipboard_win",
+        ]:
+            attempts.append(fullname)
+&gt;           raise AssertionError("Owner I/O import is barred: " + fullname)
+E           AssertionError: Owner I/O import is barred: sounddevice
+
+tools\public_file_guard.py:56: AssertionError</error></testcase><testcase classname="tests.test_onboarding_readiness" name="test_finish_freshly_rechecks_deleted_or_corrupt_files_without_saving" time="0.003"><error message="failed on setup with &quot;AssertionError: Owner I/O import is barred: sounddevice&quot;">tmp_path = WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/minimum-preview-tests-20261115-r2/test_finish_freshly_rechecks_d0')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x00000218A3A0AE70&gt;
+
+    @pytest.fixture
+    def subject(tmp_path, monkeypatch):
+&gt;       import sounddevice
+
+tests\test_onboarding_readiness.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+&lt;frozen importlib._bootstrap&gt;:1369: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1331: in _find_and_load_unlocked
+    ???
+&lt;frozen importlib._bootstrap&gt;:1265: in _find_spec
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;tools.public_file_guard.install.&lt;locals&gt;.OwnerIOGuard object at 0x00000218FF89E270&gt;
+fullname = 'sounddevice', path = None, target = None
+
+    def find_spec(self, fullname, path=None, target=None):
+        if fullname.split(".")[0] in [
+            "sounddevice",
+            "soundcard",
+            "pynput",
+            "pyperclip",
+            "win32clipboard",
+        ] or fullname in [
+            "saydraft.app",
+            "saydraft.logging_config",
+            "saydraft.single_instance",
+            "saydraft.context.foreground",
+            "saydraft.context.uia_native",
+            "saydraft.insert.clipboard_win",
+        ]:
+            attempts.append(fullname)
+&gt;           raise AssertionError("Owner I/O import is barred: " + fullname)
+E           AssertionError: Owner I/O import is barred: sounddevice
+
+tools\public_file_guard.py:56: AssertionError</error></testcase><testcase classname="tests.test_onboarding_readiness" name="test_direct_finish_cannot_bypass_missing_model_step" time="0.002"><error message="failed on setup with &quot;AssertionError: Owner I/O import is barred: sounddevice&quot;">tmp_path = WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/minimum-preview-tests-20261115-r2/test_direct_finish_cannot_bypa0')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x00000218A39D82D0&gt;
+
+    @pytest.fixture
+    def subject(tmp_path, monkeypatch):
+&gt;       import sounddevice
+
+tests\test_onboarding_readiness.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+&lt;frozen importlib._bootstrap&gt;:1369: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1331: in _find_and_load_unlocked
+    ???
+&lt;frozen importlib._bootstrap&gt;:1265: in _find_spec
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;tools.public_file_guard.install.&lt;locals&gt;.OwnerIOGuard object at 0x00000218FF89E270&gt;
+fullname = 'sounddevice', path = None, target = None
+
+    def find_spec(self, fullname, path=None, target=None):
+        if fullname.split(".")[0] in [
+            "sounddevice",
+            "soundcard",
+            "pynput",
+            "pyperclip",
+            "win32clipboard",
+        ] or fullname in [
+            "saydraft.app",
+            "saydraft.logging_config",
+            "saydraft.single_instance",
+            "saydraft.context.foreground",
+            "saydraft.context.uia_native",
+            "saydraft.insert.clipboard_win",
+        ]:
+            attempts.append(fullname)
+&gt;           raise AssertionError("Owner I/O import is barred: " + fullname)
+E           AssertionError: Owner I/O import is barred: sounddevice
+
+tools\public_file_guard.py:56: AssertionError</error></testcase><testcase classname="tests.test_onboarding_readiness" name="test_cancel_hide_or_navigation_revokes_even_an_already_queued_finish[blocked-reject]" time="0.002"><error message="failed on setup with &quot;AssertionError: Owner I/O import is barred: sounddevice&quot;">tmp_path = WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/minimum-preview-tests-20261115-r2/test_cancel_hide_or_navigation0')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x00000218A39D8ED0&gt;
+
+    @pytest.fixture
+    def subject(tmp_path, monkeypatch):
+&gt;       import sounddevice
+
+tests\test_onboarding_readiness.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+&lt;frozen importlib._bootstrap&gt;:1369: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1331: in _find_and_load_unlocked
+    ???
+&lt;frozen importlib._bootstrap&gt;:1265: in _find_spec
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;tools.public_file_guard.install.&lt;locals&gt;.OwnerIOGuard object at 0x00000218FF89E270&gt;
+fullname = 'sounddevice', path = None, target = None
+
+    def find_spec(self, fullname, path=None, target=None):
+        if fullname.split(".")[0] in [
+            "sounddevice",
+            "soundcard",
+            "pynput",
+            "pyperclip",
+            "win32clipboard",
+        ] or fullname in [
+            "saydraft.app",
+            "saydraft.logging_config",
+            "saydraft.single_instance",
+            "saydraft.context.foreground",
+            "saydraft.context.uia_native",
+            "saydraft.insert.clipboard_win",
+        ]:
+            attempts.append(fullname)
+&gt;           raise AssertionError("Owner I/O import is barred: " + fullname)
+E           AssertionError: Owner I/O import is barred: sounddevice
+
+tools\public_file_guard.py:56: AssertionError</error></testcase><testcase classname="tests.test_onboarding_readiness" name="test_cancel_hide_or_navigation_revokes_even_an_already_queued_finish[blocked-close]" time="0.004"><error message="failed on setup with &quot;AssertionError: Owner I/O import is barred: sounddevice&quot;">tmp_path = WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/minimum-preview-tests-20261115-r2/test_cancel_hide_or_navigation1')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x00000218A3A27230&gt;
+
+    @pytest.fixture
+    def subject(tmp_path, monkeypatch):
+&gt;       import sounddevice
+
+tests\test_onboarding_readiness.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+&lt;frozen importlib._bootstrap&gt;:1369: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1331: in _find_and_load_unlocked
+    ???
+&lt;frozen importlib._bootstrap&gt;:1265: in _find_spec
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;tools.public_file_guard.install.&lt;locals&gt;.OwnerIOGuard object at 0x00000218FF89E270&gt;
+fullname = 'sounddevice', path = None, target = None
+
+    def find_spec(self, fullname, path=None, target=None):
+        if fullname.split(".")[0] in [
+            "sounddevice",
+            "soundcard",
+            "pynput",
+            "pyperclip",
+            "win32clipboard",
+        ] or fullname in [
+            "saydraft.app",
+            "saydraft.logging_config",
+            "saydraft.single_instance",
+            "saydraft.context.foreground",
+            "saydraft.context.uia_native",
+            "saydraft.insert.clipboard_win",
+        ]:
+            attempts.append(fullname)
+&gt;           raise AssertionError("Owner I/O import is barred: " + fullname)
+E           AssertionError: Owner I/O import is barred: sounddevice
+
+tools\public_file_guard.py:56: AssertionError</error></testcase><testcase classname="tests.test_onboarding_readiness" name="test_cancel_hide_or_navigation_revokes_even_an_already_queued_finish[blocked-hide]" time="0.004"><error message="failed on setup with &quot;AssertionError: Owner I/O import is barred: sounddevice&quot;">tmp_path = WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/minimum-preview-tests-20261115-r2/test_cancel_hide_or_navigation2')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x00000218A3A274D0&gt;
+
+    @pytest.fixture
+    def subject(tmp_path, monkeypatch):
+&gt;       import sounddevice
+
+tests\test_onboarding_readiness.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+&lt;frozen importlib._bootstrap&gt;:1369: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1331: in _find_and_load_unlocked
+    ???
+&lt;frozen importlib._bootstrap&gt;:1265: in _find_spec
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;tools.public_file_guard.install.&lt;locals&gt;.OwnerIOGuard object at 0x00000218FF89E270&gt;
+fullname = 'sounddevice', path = None, target = None
+
+    def find_spec(self, fullname, path=None, target=None):
+        if fullname.split(".")[0] in [
+            "sounddevice",
+            "soundcard",
+            "pynput",
+            "pyperclip",
+            "win32clipboard",
+        ] or fullname in [
+            "saydraft.app",
+            "saydraft.logging_config",
+            "saydraft.single_instance",
+            "saydraft.context.foreground",
+            "saydraft.context.uia_native",
+            "saydraft.insert.clipboard_win",
+        ]:
+            attempts.append(fullname)
+&gt;           raise AssertionError("Owner I/O import is barred: " + fullname)
+E           AssertionError: Owner I/O import is barred: sounddevice
+
+tools\public_file_guard.py:56: AssertionError</error></testcase><testcase classname="tests.test_onboarding_readiness" name="test_cancel_hide_or_navigation_revokes_even_an_already_queued_finish[blocked-back]" time="0.002"><error message="failed on setup with &quot;AssertionError: Owner I/O import is barred: sounddevice&quot;">tmp_path = WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/minimum-preview-tests-20261115-r2/test_cancel_hide_or_navigation3')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x00000218A3A27A10&gt;
+
+    @pytest.fixture
+    def subject(tmp_path, monkeypatch):
+&gt;       import sounddevice
+
+tests\test_onboarding_readiness.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+&lt;frozen importlib._bootstrap&gt;:1369: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1331: in _find_and_load_unlocked
+    ???
+&lt;frozen importlib._bootstrap&gt;:1265: in _find_spec
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;tools.public_file_guard.install.&lt;locals&gt;.OwnerIOGuard object at 0x00000218FF89E270&gt;
+fullname = 'sounddevice', path = None, target = None
+
+    def find_spec(self, fullname, path=None, target=None):
+        if fullname.split(".")[0] in [
+            "sounddevice",
+            "soundcard",
+            "pynput",
+            "pyperclip",
+            "win32clipboard",
+        ] or fullname in [
+            "saydraft.app",
+            "saydraft.logging_config",
+            "saydraft.single_instance",
+            "saydraft.context.foreground",
+            "saydraft.context.uia_native",
+            "saydraft.insert.clipboard_win",
+        ]:
+            attempts.append(fullname)
+&gt;           raise AssertionError("Owner I/O import is barred: " + fullname)
+E           AssertionError: Owner I/O import is barred: sounddevice
+
+tools\public_file_guard.py:56: AssertionError</error></testcase><testcase classname="tests.test_onboarding_readiness" name="test_cancel_hide_or_navigation_revokes_even_an_already_queued_finish[queued-reject]" time="0.003"><error message="failed on setup with &quot;AssertionError: Owner I/O import is barred: sounddevice&quot;">tmp_path = WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/minimum-preview-tests-20261115-r2/test_cancel_hide_or_navigation4')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x00000218A3A27E70&gt;
+
+    @pytest.fixture
+    def subject(tmp_path, monkeypatch):
+&gt;       import sounddevice
+
+tests\test_onboarding_readiness.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+&lt;frozen importlib._bootstrap&gt;:1369: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1331: in _find_and_load_unlocked
+    ???
+&lt;frozen importlib._bootstrap&gt;:1265: in _find_spec
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;tools.public_file_guard.install.&lt;locals&gt;.OwnerIOGuard object at 0x00000218FF89E270&gt;
+fullname = 'sounddevice', path = None, target = None
+
+    def find_spec(self, fullname, path=None, target=None):
+        if fullname.split(".")[0] in [
+            "sounddevice",
+            "soundcard",
+            "pynput",
+            "pyperclip",
+            "win32clipboard",
+        ] or fullname in [
+            "saydraft.app",
+            "saydraft.logging_config",
+            "saydraft.single_instance",
+            "saydraft.context.foreground",
+            "saydraft.context.uia_native",
+            "saydraft.insert.clipboard_win",
+        ]:
+            attempts.append(fullname)
+&gt;           raise AssertionError("Owner I/O import is barred: " + fullname)
+E           AssertionError: Owner I/O import is barred: sounddevice
+
+tools\public_file_guard.py:56: AssertionError</error></testcase><testcase classname="tests.test_onboarding_readiness" name="test_cancel_hide_or_navigation_revokes_even_an_already_queued_finish[queued-close]" time="0.004"><error message="failed on setup with &quot;AssertionError: Owner I/O import is barred: sounddevice&quot;">tmp_path = WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/minimum-preview-tests-20261115-r2/test_cancel_hide_or_navigation5')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x00000218A3A260B0&gt;
+
+    @pytest.fixture
+    def subject(tmp_path, monkeypatch):
+&gt;       import sounddevice
+
+tests\test_onboarding_readiness.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+&lt;frozen importlib._bootstrap&gt;:1369: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1331: in _find_and_load_unlocked
+    ???
+&lt;frozen importlib._bootstrap&gt;:1265: in _find_spec
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;tools.public_file_guard.install.&lt;locals&gt;.OwnerIOGuard object at 0x00000218FF89E270&gt;
+fullname = 'sounddevice', path = None, target = None
+
+    def find_spec(self, fullname, path=None, target=None):
+        if fullname.split(".")[0] in [
+            "sounddevice",
+            "soundcard",
+            "pynput",
+            "pyperclip",
+            "win32clipboard",
+        ] or fullname in [
+            "saydraft.app",
+            "saydraft.logging_config",
+            "saydraft.single_instance",
+            "saydraft.context.foreground",
+            "saydraft.context.uia_native",
+            "saydraft.insert.clipboard_win",
+        ]:
+            attempts.append(fullname)
+&gt;           raise AssertionError("Owner I/O import is barred: " + fullname)
+E           AssertionError: Owner I/O import is barred: sounddevice
+
+tools\public_file_guard.py:56: AssertionError</error></testcase><testcase classname="tests.test_onboarding_readiness" name="test_cancel_hide_or_navigation_revokes_even_an_already_queued_finish[queued-hide]" time="0.003"><error message="failed on setup with &quot;AssertionError: Owner I/O import is barred: sounddevice&quot;">tmp_path = WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/minimum-preview-tests-20261115-r2/test_cancel_hide_or_navigation6')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x00000218A3A60670&gt;
+
+    @pytest.fixture
+    def subject(tmp_path, monkeypatch):
+&gt;       import sounddevice
+
+tests\test_onboarding_readiness.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+&lt;frozen importlib._bootstrap&gt;:1369: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1331: in _find_and_load_unlocked
+    ???
+&lt;frozen importlib._bootstrap&gt;:1265: in _find_spec
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;tools.public_file_guard.install.&lt;locals&gt;.OwnerIOGuard object at 0x00000218FF89E270&gt;
+fullname = 'sounddevice', path = None, target = None
+
+    def find_spec(self, fullname, path=None, target=None):
+        if fullname.split(".")[0] in [
+            "sounddevice",
+            "soundcard",
+            "pynput",
+            "pyperclip",
+            "win32clipboard",
+        ] or fullname in [
+            "saydraft.app",
+            "saydraft.logging_config",
+            "saydraft.single_instance",
+            "saydraft.context.foreground",
+            "saydraft.context.uia_native",
+            "saydraft.insert.clipboard_win",
+        ]:
+            attempts.append(fullname)
+&gt;           raise AssertionError("Owner I/O import is barred: " + fullname)
+E           AssertionError: Owner I/O import is barred: sounddevice
+
+tools\public_file_guard.py:56: AssertionError</error></testcase><testcase classname="tests.test_onboarding_readiness" name="test_cancel_hide_or_navigation_revokes_even_an_already_queued_finish[queued-back]" time="0.003"><error message="failed on setup with &quot;AssertionError: Owner I/O import is barred: sounddevice&quot;">tmp_path = WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/minimum-preview-tests-20261115-r2/test_cancel_hide_or_navigation7')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x00000218A3A60A60&gt;
+
+    @pytest.fixture
+    def subject(tmp_path, monkeypatch):
+&gt;       import sounddevice
+
+tests\test_onboarding_readiness.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+&lt;frozen importlib._bootstrap&gt;:1369: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1331: in _find_and_load_unlocked
+    ???
+&lt;frozen importlib._bootstrap&gt;:1265: in _find_spec
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;tools.public_file_guard.install.&lt;locals&gt;.OwnerIOGuard object at 0x00000218FF89E270&gt;
+fullname = 'sounddevice', path = None, target = None
+
+    def find_spec(self, fullname, path=None, target=None):
+        if fullname.split(".")[0] in [
+            "sounddevice",
+            "soundcard",
+            "pynput",
+            "pyperclip",
+            "win32clipboard",
+        ] or fullname in [
+            "saydraft.app",
+            "saydraft.logging_config",
+            "saydraft.single_instance",
+            "saydraft.context.foreground",
+            "saydraft.context.uia_native",
+            "saydraft.insert.clipboard_win",
+        ]:
+            attempts.append(fullname)
+&gt;           raise AssertionError("Owner I/O import is barred: " + fullname)
+E           AssertionError: Owner I/O import is barred: sounddevice
+
+tools\public_file_guard.py:56: AssertionError</error></testcase><testcase classname="tests.test_onboarding_readiness" name="test_finish_stays_responsive_and_merges_newer_unrelated_preferences" time="0.004"><error message="failed on setup with &quot;AssertionError: Owner I/O import is barred: sounddevice&quot;">tmp_path = WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/minimum-preview-tests-20261115-r2/test_finish_stays_responsive_a0')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x00000218A3A3F150&gt;
+
+    @pytest.fixture
+    def subject(tmp_path, monkeypatch):
+&gt;       import sounddevice
+
+tests\test_onboarding_readiness.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+&lt;frozen importlib._bootstrap&gt;:1369: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1331: in _find_and_load_unlocked
+    ???
+&lt;frozen importlib._bootstrap&gt;:1265: in _find_spec
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;tools.public_file_guard.install.&lt;locals&gt;.OwnerIOGuard object at 0x00000218FF89E270&gt;
+fullname = 'sounddevice', path = None, target = None
+
+    def find_spec(self, fullname, path=None, target=None):
+        if fullname.split(".")[0] in [
+            "sounddevice",
+            "soundcard",
+            "pynput",
+            "pyperclip",
+            "win32clipboard",
+        ] or fullname in [
+            "saydraft.app",
+            "saydraft.logging_config",
+            "saydraft.single_instance",
+            "saydraft.context.foreground",
+            "saydraft.context.uia_native",
+            "saydraft.insert.clipboard_win",
+        ]:
+            attempts.append(fullname)
+&gt;           raise AssertionError("Owner I/O import is barred: " + fullname)
+E           AssertionError: Owner I/O import is barred: sounddevice
+
+tools\public_file_guard.py:56: AssertionError</error></testcase><testcase classname="tests.test_onboarding_readiness" name="test_changed_model_during_finish_requires_a_new_explicit_check" time="0.002"><error message="failed on setup with &quot;AssertionError: Owner I/O import is barred: sounddevice&quot;">tmp_path = WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/minimum-preview-tests-20261115-r2/test_changed_model_during_fini0')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x00000218A3A3FF50&gt;
+
+    @pytest.fixture
+    def subject(tmp_path, monkeypatch):
+&gt;       import sounddevice
+
+tests\test_onboarding_readiness.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+&lt;frozen importlib._bootstrap&gt;:1369: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1331: in _find_and_load_unlocked
+    ???
+&lt;frozen importlib._bootstrap&gt;:1265: in _find_spec
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;tools.public_file_guard.install.&lt;locals&gt;.OwnerIOGuard object at 0x00000218FF89E270&gt;
+fullname = 'sounddevice', path = None, target = None
+
+    def find_spec(self, fullname, path=None, target=None):
+        if fullname.split(".")[0] in [
+            "sounddevice",
+            "soundcard",
+            "pynput",
+            "pyperclip",
+            "win32clipboard",
+        ] or fullname in [
+            "saydraft.app",
+            "saydraft.logging_config",
+            "saydraft.single_instance",
+            "saydraft.context.foreground",
+            "saydraft.context.uia_native",
+            "saydraft.insert.clipboard_win",
+        ]:
+            attempts.append(fullname)
+&gt;           raise AssertionError("Owner I/O import is barred: " + fullname)
+E           AssertionError: Owner I/O import is barred: sounddevice
+
+tools\public_file_guard.py:56: AssertionError</error></testcase><testcase classname="tests.test_onboarding_readiness" name="test_finish_checks_latest_unchanged_saved_model_instead_of_old_picker" time="0.003"><error message="failed on setup with &quot;AssertionError: Owner I/O import is barred: sounddevice&quot;">tmp_path = WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/minimum-preview-tests-20261115-r2/test_finish_checks_latest_unch0')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x00000218A3A3F620&gt;
+
+    @pytest.fixture
+    def subject(tmp_path, monkeypatch):
+&gt;       import sounddevice
+
+tests\test_onboarding_readiness.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+&lt;frozen importlib._bootstrap&gt;:1369: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1331: in _find_and_load_unlocked
+    ???
+&lt;frozen importlib._bootstrap&gt;:1265: in _find_spec
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;tools.public_file_guard.install.&lt;locals&gt;.OwnerIOGuard object at 0x00000218FF89E270&gt;
+fullname = 'sounddevice', path = None, target = None
+
+    def find_spec(self, fullname, path=None, target=None):
+        if fullname.split(".")[0] in [
+            "sounddevice",
+            "soundcard",
+            "pynput",
+            "pyperclip",
+            "win32clipboard",
+        ] or fullname in [
+            "saydraft.app",
+            "saydraft.logging_config",
+            "saydraft.single_instance",
+            "saydraft.context.foreground",
+            "saydraft.context.uia_native",
+            "saydraft.insert.clipboard_win",
+        ]:
+            attempts.append(fullname)
+&gt;           raise AssertionError("Owner I/O import is barred: " + fullname)
+E           AssertionError: Owner I/O import is barred: sounddevice
+
+tools\public_file_guard.py:56: AssertionError</error></testcase><testcase classname="tests.test_onboarding_readiness" name="test_local_file_receipt_requires_successful_loading_and_unchanged_files" time="0.003"><error message="failed on setup with &quot;AssertionError: Owner I/O import is barred: sounddevice&quot;">tmp_path = WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/minimum-preview-tests-20261115-r2/test_local_file_receipt_requir0')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x00000218A3A3E740&gt;
+
+    @pytest.fixture
+    def subject(tmp_path, monkeypatch):
+&gt;       import sounddevice
+
+tests\test_onboarding_readiness.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+&lt;frozen importlib._bootstrap&gt;:1369: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1331: in _find_and_load_unlocked
+    ???
+&lt;frozen importlib._bootstrap&gt;:1265: in _find_spec
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;tools.public_file_guard.install.&lt;locals&gt;.OwnerIOGuard object at 0x00000218FF89E270&gt;
+fullname = 'sounddevice', path = None, target = None
+
+    def find_spec(self, fullname, path=None, target=None):
+        if fullname.split(".")[0] in [
+            "sounddevice",
+            "soundcard",
+            "pynput",
+            "pyperclip",
+            "win32clipboard",
+        ] or fullname in [
+            "saydraft.app",
+            "saydraft.logging_config",
+            "saydraft.single_instance",
+            "saydraft.context.foreground",
+            "saydraft.context.uia_native",
+            "saydraft.insert.clipboard_win",
+        ]:
+            attempts.append(fullname)
+&gt;           raise AssertionError("Owner I/O import is barred: " + fullname)
+E           AssertionError: Owner I/O import is barred: sounddevice
+
+tools\public_file_guard.py:56: AssertionError</error></testcase><testcase classname="tests.test_onboarding_readiness" name="test_failed_finish_check_exposes_no_provider_details" time="0.002"><error message="failed on setup with &quot;AssertionError: Owner I/O import is barred: sounddevice&quot;">tmp_path = WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/minimum-preview-tests-20261115-r2/test_failed_finish_check_expos0')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x00000218A3A3E270&gt;
+
+    @pytest.fixture
+    def subject(tmp_path, monkeypatch):
+&gt;       import sounddevice
+
+tests\test_onboarding_readiness.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+&lt;frozen importlib._bootstrap&gt;:1369: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1331: in _find_and_load_unlocked
+    ???
+&lt;frozen importlib._bootstrap&gt;:1265: in _find_spec
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;tools.public_file_guard.install.&lt;locals&gt;.OwnerIOGuard object at 0x00000218FF89E270&gt;
+fullname = 'sounddevice', path = None, target = None
+
+    def find_spec(self, fullname, path=None, target=None):
+        if fullname.split(".")[0] in [
+            "sounddevice",
+            "soundcard",
+            "pynput",
+            "pyperclip",
+            "win32clipboard",
+        ] or fullname in [
+            "saydraft.app",
+            "saydraft.logging_config",
+            "saydraft.single_instance",
+            "saydraft.context.foreground",
+            "saydraft.context.uia_native",
+            "saydraft.insert.clipboard_win",
+        ]:
+            attempts.append(fullname)
+&gt;           raise AssertionError("Owner I/O import is barred: " + fullname)
+E           AssertionError: Owner I/O import is barred: sounddevice
+
+tools\public_file_guard.py:56: AssertionError</error></testcase><testcase classname="tests.test_onboarding_readiness" name="test_rejected_queue_is_fail_closed_and_a_fresh_check_can_retry" time="0.002"><error message="failed on setup with &quot;AssertionError: Owner I/O import is barred: sounddevice&quot;">tmp_path = WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/minimum-preview-tests-20261115-r2/test_rejected_queue_is_fail_cl0')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x00000218A3A3C0C0&gt;
+
+    @pytest.fixture
+    def subject(tmp_path, monkeypatch):
+&gt;       import sounddevice
+
+tests\test_onboarding_readiness.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+&lt;frozen importlib._bootstrap&gt;:1369: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1331: in _find_and_load_unlocked
+    ???
+&lt;frozen importlib._bootstrap&gt;:1265: in _find_spec
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;tools.public_file_guard.install.&lt;locals&gt;.OwnerIOGuard object at 0x00000218FF89E270&gt;
+fullname = 'sounddevice', path = None, target = None
+
+    def find_spec(self, fullname, path=None, target=None):
+        if fullname.split(".")[0] in [
+            "sounddevice",
+            "soundcard",
+            "pynput",
+            "pyperclip",
+            "win32clipboard",
+        ] or fullname in [
+            "saydraft.app",
+            "saydraft.logging_config",
+            "saydraft.single_instance",
+            "saydraft.context.foreground",
+            "saydraft.context.uia_native",
+            "saydraft.insert.clipboard_win",
+        ]:
+            attempts.append(fullname)
+&gt;           raise AssertionError("Owner I/O import is barred: " + fullname)
+E           AssertionError: Owner I/O import is barred: sounddevice
+
+tools\public_file_guard.py:56: AssertionError</error></testcase><testcase classname="tests.test_onboarding_readiness" name="test_local_receipts_cannot_substitute_for_missing_parakeet_dependencies" time="0.003"><error message="failed on setup with &quot;AssertionError: Owner I/O import is barred: sounddevice&quot;">tmp_path = WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/minimum-preview-tests-20261115-r2/test_local_receipts_cannot_sub0')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x00000218A3A3FB60&gt;
+
+    @pytest.fixture
+    def subject(tmp_path, monkeypatch):
+&gt;       import sounddevice
+
+tests\test_onboarding_readiness.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+&lt;frozen importlib._bootstrap&gt;:1369: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1331: in _find_and_load_unlocked
+    ???
+&lt;frozen importlib._bootstrap&gt;:1265: in _find_spec
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;tools.public_file_guard.install.&lt;locals&gt;.OwnerIOGuard object at 0x00000218FF89E270&gt;
+fullname = 'sounddevice', path = None, target = None
+
+    def find_spec(self, fullname, path=None, target=None):
+        if fullname.split(".")[0] in [
+            "sounddevice",
+            "soundcard",
+            "pynput",
+            "pyperclip",
+            "win32clipboard",
+        ] or fullname in [
+            "saydraft.app",
+            "saydraft.logging_config",
+            "saydraft.single_instance",
+            "saydraft.context.foreground",
+            "saydraft.context.uia_native",
+            "saydraft.insert.clipboard_win",
+        ]:
+            attempts.append(fullname)
+&gt;           raise AssertionError("Owner I/O import is barred: " + fullname)
+E           AssertionError: Owner I/O import is barred: sounddevice
+
+tools\public_file_guard.py:56: AssertionError</error></testcase><testcase classname="tests.test_onboarding_readiness" name="test_real_hf_cached_whisper_benchmark_unlocks_next_and_rechecked_finish" time="0.002"><failure message="AssertionError: Owner I/O import is barred: sounddevice">tmp_path = WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/minimum-preview-tests-20261115-r2/test_real_hf_cached_whisper_be0')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x00000218A3A3E040&gt;
+
+    @pytest.mark.integration
+    @pytest.mark.offline
+    def test_real_hf_cached_whisper_benchmark_unlocks_next_and_rechecked_finish(tmp_path, monkeypatch):
+        from concurrent.futures import ThreadPoolExecutor
+&gt;       import sounddevice
+
+tests\test_onboarding_readiness.py:312: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+&lt;frozen importlib._bootstrap&gt;:1369: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1331: in _find_and_load_unlocked
+    ???
+&lt;frozen importlib._bootstrap&gt;:1265: in _find_spec
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;tools.public_file_guard.install.&lt;locals&gt;.OwnerIOGuard object at 0x00000218FF89E270&gt;
+fullname = 'sounddevice', path = None, target = None
+
+    def find_spec(self, fullname, path=None, target=None):
+        if fullname.split(".")[0] in [
+            "sounddevice",
+            "soundcard",
+            "pynput",
+            "pyperclip",
+            "win32clipboard",
+        ] or fullname in [
+            "saydraft.app",
+            "saydraft.logging_config",
+            "saydraft.single_instance",
+            "saydraft.context.foreground",
+            "saydraft.context.uia_native",
+            "saydraft.insert.clipboard_win",
+        ]:
+            attempts.append(fullname)
+&gt;           raise AssertionError("Owner I/O import is barred: " + fullname)
+E           AssertionError: Owner I/O import is barred: sounddevice
+
+tools\public_file_guard.py:56: AssertionError</failure></testcase><testcase classname="tests.test_onboarding_practice" name="test_six_step_setup_opens_only_a_private_target_until_record_is_requested" time="0.003"><error message="failed on setup with &quot;AssertionError: Owner I/O import is barred: sounddevice&quot;">tmp_path = WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/minimum-preview-tests-20261115-r2/test_six_step_setup_opens_only0')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x00000218A3A251D0&gt;
+
+    @pytest.fixture
+    def subject(tmp_path, monkeypatch):
+&gt;       import sounddevice
+
+tests\test_onboarding_practice.py:37: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+&lt;frozen importlib._bootstrap&gt;:1369: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1331: in _find_and_load_unlocked
+    ???
+&lt;frozen importlib._bootstrap&gt;:1265: in _find_spec
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;tools.public_file_guard.install.&lt;locals&gt;.OwnerIOGuard object at 0x00000218FF89E270&gt;
+fullname = 'sounddevice', path = None, target = None
+
+    def find_spec(self, fullname, path=None, target=None):
+        if fullname.split(".")[0] in [
+            "sounddevice",
+            "soundcard",
+            "pynput",
+            "pyperclip",
+            "win32clipboard",
+        ] or fullname in [
+            "saydraft.app",
+            "saydraft.logging_config",
+            "saydraft.single_instance",
+            "saydraft.context.foreground",
+            "saydraft.context.uia_native",
+            "saydraft.insert.clipboard_win",
+        ]:
+            attempts.append(fullname)
+&gt;           raise AssertionError("Owner I/O import is barred: " + fullname)
+E           AssertionError: Owner I/O import is barred: sounddevice
+
+tools\public_file_guard.py:56: AssertionError</error></testcase><testcase classname="tests.test_onboarding_practice" name="test_result_uses_only_the_owned_field_and_plain_text_changes" time="0.003"><error message="failed on setup with &quot;AssertionError: Owner I/O import is barred: sounddevice&quot;">tmp_path = WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/minimum-preview-tests-20261115-r2/test_result_uses_only_the_owne0')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x00000218A3A25390&gt;
+
+    @pytest.fixture
+    def subject(tmp_path, monkeypatch):
+&gt;       import sounddevice
+
+tests\test_onboarding_practice.py:37: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+&lt;frozen importlib._bootstrap&gt;:1369: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1331: in _find_and_load_unlocked
+    ???
+&lt;frozen importlib._bootstrap&gt;:1265: in _find_spec
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;tools.public_file_guard.install.&lt;locals&gt;.OwnerIOGuard object at 0x00000218FF89E270&gt;
+fullname = 'sounddevice', path = None, target = None
+
+    def find_spec(self, fullname, path=None, target=None):
+        if fullname.split(".")[0] in [
+            "sounddevice",
+            "soundcard",
+            "pynput",
+            "pyperclip",
+            "win32clipboard",
+        ] or fullname in [
+            "saydraft.app",
+            "saydraft.logging_config",
+            "saydraft.single_instance",
+            "saydraft.context.foreground",
+            "saydraft.context.uia_native",
+            "saydraft.insert.clipboard_win",
+        ]:
+            attempts.append(fullname)
+&gt;           raise AssertionError("Owner I/O import is barred: " + fullname)
+E           AssertionError: Owner I/O import is barred: sounddevice
+
+tools\public_file_guard.py:56: AssertionError</error></testcase><testcase classname="tests.test_onboarding_practice" name="test_cancel_rejects_already_queued_results_and_levels" time="0.002"><error message="failed on setup with &quot;AssertionError: Owner I/O import is barred: sounddevice&quot;">tmp_path = WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/minimum-preview-tests-20261115-r2/test_cancel_rejects_already_qu0')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x00000218A3A256A0&gt;
+
+    @pytest.fixture
+    def subject(tmp_path, monkeypatch):
+&gt;       import sounddevice
+
+tests\test_onboarding_practice.py:37: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+&lt;frozen importlib._bootstrap&gt;:1369: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1331: in _find_and_load_unlocked
+    ???
+&lt;frozen importlib._bootstrap&gt;:1265: in _find_spec
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;tools.public_file_guard.install.&lt;locals&gt;.OwnerIOGuard object at 0x00000218FF89E270&gt;
+fullname = 'sounddevice', path = None, target = None
+
+    def find_spec(self, fullname, path=None, target=None):
+        if fullname.split(".")[0] in [
+            "sounddevice",
+            "soundcard",
+            "pynput",
+            "pyperclip",
+            "win32clipboard",
+        ] or fullname in [
+            "saydraft.app",
+            "saydraft.logging_config",
+            "saydraft.single_instance",
+            "saydraft.context.foreground",
+            "saydraft.context.uia_native",
+            "saydraft.insert.clipboard_win",
+        ]:
+            attempts.append(fullname)
+&gt;           raise AssertionError("Owner I/O import is barred: " + fullname)
+E           AssertionError: Owner I/O import is barred: sounddevice
+
+tools\public_file_guard.py:56: AssertionError</error></testcase><testcase classname="tests.test_onboarding_practice" name="test_switching_chat_email_retires_the_old_target_before_rearming_latest_choice" time="0.003"><error message="failed on setup with &quot;AssertionError: Owner I/O import is barred: sounddevice&quot;">tmp_path = WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/minimum-preview-tests-20261115-r2/test_switching_chat_email_reti0')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x00000218A3A24910&gt;
+
+    @pytest.fixture
+    def subject(tmp_path, monkeypatch):
+&gt;       import sounddevice
+
+tests\test_onboarding_practice.py:37: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+&lt;frozen importlib._bootstrap&gt;:1369: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1331: in _find_and_load_unlocked
+    ???
+&lt;frozen importlib._bootstrap&gt;:1265: in _find_spec
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;tools.public_file_guard.install.&lt;locals&gt;.OwnerIOGuard object at 0x00000218FF89E270&gt;
+fullname = 'sounddevice', path = None, target = None
+
+    def find_spec(self, fullname, path=None, target=None):
+        if fullname.split(".")[0] in [
+            "sounddevice",
+            "soundcard",
+            "pynput",
+            "pyperclip",
+            "win32clipboard",
+        ] or fullname in [
+            "saydraft.app",
+            "saydraft.logging_config",
+            "saydraft.single_instance",
+            "saydraft.context.foreground",
+            "saydraft.context.uia_native",
+            "saydraft.insert.clipboard_win",
+        ]:
+            attempts.append(fullname)
+&gt;           raise AssertionError("Owner I/O import is barred: " + fullname)
+E           AssertionError: Owner I/O import is barred: sounddevice
+
+tools\public_file_guard.py:56: AssertionError</error></testcase><testcase classname="tests.test_onboarding_practice" name="test_leaving_practice_revokes_before_a_late_result_and_preserves_config[hide]" time="0.004"><error message="failed on setup with &quot;AssertionError: Owner I/O import is barred: sounddevice&quot;">tmp_path = WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/minimum-preview-tests-20261115-r2/test_leaving_practice_revokes_0')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x00000218A3A24B40&gt;
+
+    @pytest.fixture
+    def subject(tmp_path, monkeypatch):
+&gt;       import sounddevice
+
+tests\test_onboarding_practice.py:37: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+&lt;frozen importlib._bootstrap&gt;:1369: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1331: in _find_and_load_unlocked
+    ???
+&lt;frozen importlib._bootstrap&gt;:1265: in _find_spec
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;tools.public_file_guard.install.&lt;locals&gt;.OwnerIOGuard object at 0x00000218FF89E270&gt;
+fullname = 'sounddevice', path = None, target = None
+
+    def find_spec(self, fullname, path=None, target=None):
+        if fullname.split(".")[0] in [
+            "sounddevice",
+            "soundcard",
+            "pynput",
+            "pyperclip",
+            "win32clipboard",
+        ] or fullname in [
+            "saydraft.app",
+            "saydraft.logging_config",
+            "saydraft.single_instance",
+            "saydraft.context.foreground",
+            "saydraft.context.uia_native",
+            "saydraft.insert.clipboard_win",
+        ]:
+            attempts.append(fullname)
+&gt;           raise AssertionError("Owner I/O import is barred: " + fullname)
+E           AssertionError: Owner I/O import is barred: sounddevice
+
+tools\public_file_guard.py:56: AssertionError</error></testcase><testcase classname="tests.test_onboarding_practice" name="test_leaving_practice_revokes_before_a_late_result_and_preserves_config[back]" time="0.003"><error message="failed on setup with &quot;AssertionError: Owner I/O import is barred: sounddevice&quot;">tmp_path = WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/minimum-preview-tests-20261115-r2/test_leaving_practice_revokes_1')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x00000218A3A3F380&gt;
+
+    @pytest.fixture
+    def subject(tmp_path, monkeypatch):
+&gt;       import sounddevice
+
+tests\test_onboarding_practice.py:37: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+&lt;frozen importlib._bootstrap&gt;:1369: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1331: in _find_and_load_unlocked
+    ???
+&lt;frozen importlib._bootstrap&gt;:1265: in _find_spec
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;tools.public_file_guard.install.&lt;locals&gt;.OwnerIOGuard object at 0x00000218FF89E270&gt;
+fullname = 'sounddevice', path = None, target = None
+
+    def find_spec(self, fullname, path=None, target=None):
+        if fullname.split(".")[0] in [
+            "sounddevice",
+            "soundcard",
+            "pynput",
+            "pyperclip",
+            "win32clipboard",
+        ] or fullname in [
+            "saydraft.app",
+            "saydraft.logging_config",
+            "saydraft.single_instance",
+            "saydraft.context.foreground",
+            "saydraft.context.uia_native",
+            "saydraft.insert.clipboard_win",
+        ]:
+            attempts.append(fullname)
+&gt;           raise AssertionError("Owner I/O import is barred: " + fullname)
+E           AssertionError: Owner I/O import is barred: sounddevice
+
+tools\public_file_guard.py:56: AssertionError</error></testcase><testcase classname="tests.test_onboarding_practice" name="test_leaving_practice_revokes_before_a_late_result_and_preserves_config[deactivate]" time="0.004"><error message="failed on setup with &quot;AssertionError: Owner I/O import is barred: sounddevice&quot;">tmp_path = WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/minimum-preview-tests-20261115-r2/test_leaving_practice_revokes_2')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x00000218A3A3EEB0&gt;
+
+    @pytest.fixture
+    def subject(tmp_path, monkeypatch):
+&gt;       import sounddevice
+
+tests\test_onboarding_practice.py:37: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+&lt;frozen importlib._bootstrap&gt;:1369: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1331: in _find_and_load_unlocked
+    ???
+&lt;frozen importlib._bootstrap&gt;:1265: in _find_spec
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;tools.public_file_guard.install.&lt;locals&gt;.OwnerIOGuard object at 0x00000218FF89E270&gt;
+fullname = 'sounddevice', path = None, target = None
+
+    def find_spec(self, fullname, path=None, target=None):
+        if fullname.split(".")[0] in [
+            "sounddevice",
+            "soundcard",
+            "pynput",
+            "pyperclip",
+            "win32clipboard",
+        ] or fullname in [
+            "saydraft.app",
+            "saydraft.logging_config",
+            "saydraft.single_instance",
+            "saydraft.context.foreground",
+            "saydraft.context.uia_native",
+            "saydraft.insert.clipboard_win",
+        ]:
+            attempts.append(fullname)
+&gt;           raise AssertionError("Owner I/O import is barred: " + fullname)
+E           AssertionError: Owner I/O import is barred: sounddevice
+
+tools\public_file_guard.py:56: AssertionError</error></testcase><testcase classname="tests.test_onboarding_practice" name="test_leaving_practice_revokes_before_a_late_result_and_preserves_config[cancel]" time="0.004"><error message="failed on setup with &quot;AssertionError: Owner I/O import is barred: sounddevice&quot;">tmp_path = WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/minimum-preview-tests-20261115-r2/test_leaving_practice_revokes_3')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x00000218A3C99160&gt;
+
+    @pytest.fixture
+    def subject(tmp_path, monkeypatch):
+&gt;       import sounddevice
+
+tests\test_onboarding_practice.py:37: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+&lt;frozen importlib._bootstrap&gt;:1369: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1331: in _find_and_load_unlocked
+    ???
+&lt;frozen importlib._bootstrap&gt;:1265: in _find_spec
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;tools.public_file_guard.install.&lt;locals&gt;.OwnerIOGuard object at 0x00000218FF89E270&gt;
+fullname = 'sounddevice', path = None, target = None
+
+    def find_spec(self, fullname, path=None, target=None):
+        if fullname.split(".")[0] in [
+            "sounddevice",
+            "soundcard",
+            "pynput",
+            "pyperclip",
+            "win32clipboard",
+        ] or fullname in [
+            "saydraft.app",
+            "saydraft.logging_config",
+            "saydraft.single_instance",
+            "saydraft.context.foreground",
+            "saydraft.context.uia_native",
+            "saydraft.insert.clipboard_win",
+        ]:
+            attempts.append(fullname)
+&gt;           raise AssertionError("Owner I/O import is barred: " + fullname)
+E           AssertionError: Owner I/O import is barred: sounddevice
+
+tools\public_file_guard.py:56: AssertionError</error></testcase><testcase classname="tests.test_onboarding_practice" name="test_finish_waits_for_observed_practice_retirement_and_style_save_merges_latest" time="0.003"><error message="failed on setup with &quot;AssertionError: Owner I/O import is barred: sounddevice&quot;">tmp_path = WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/minimum-preview-tests-20261115-r2/test_finish_waits_for_observed0')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x00000218A3C99630&gt;
+
+    @pytest.fixture
+    def subject(tmp_path, monkeypatch):
+&gt;       import sounddevice
+
+tests\test_onboarding_practice.py:37: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+&lt;frozen importlib._bootstrap&gt;:1369: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1331: in _find_and_load_unlocked
+    ???
+&lt;frozen importlib._bootstrap&gt;:1265: in _find_spec
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;tools.public_file_guard.install.&lt;locals&gt;.OwnerIOGuard object at 0x00000218FF89E270&gt;
+fullname = 'sounddevice', path = None, target = None
+
+    def find_spec(self, fullname, path=None, target=None):
+        if fullname.split(".")[0] in [
+            "sounddevice",
+            "soundcard",
+            "pynput",
+            "pyperclip",
+            "win32clipboard",
+        ] or fullname in [
+            "saydraft.app",
+            "saydraft.logging_config",
+            "saydraft.single_instance",
+            "saydraft.context.foreground",
+            "saydraft.context.uia_native",
+            "saydraft.insert.clipboard_win",
+        ]:
+            attempts.append(fullname)
+&gt;           raise AssertionError("Owner I/O import is barred: " + fullname)
+E           AssertionError: Owner I/O import is barred: sounddevice
+
+tools\public_file_guard.py:56: AssertionError</error></testcase><testcase classname="tests.test_onboarding_practice" name="test_unknown_cleanup_blocks_finish_and_requests_restart" time="0.004"><error message="failed on setup with &quot;AssertionError: Owner I/O import is barred: sounddevice&quot;">tmp_path = WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/minimum-preview-tests-20261115-r2/test_unknown_cleanup_blocks_fi0')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x00000218A3C99B00&gt;
+
+    @pytest.fixture
+    def subject(tmp_path, monkeypatch):
+&gt;       import sounddevice
+
+tests\test_onboarding_practice.py:37: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+&lt;frozen importlib._bootstrap&gt;:1369: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1331: in _find_and_load_unlocked
+    ???
+&lt;frozen importlib._bootstrap&gt;:1265: in _find_spec
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;tools.public_file_guard.install.&lt;locals&gt;.OwnerIOGuard object at 0x00000218FF89E270&gt;
+fullname = 'sounddevice', path = None, target = None
+
+    def find_spec(self, fullname, path=None, target=None):
+        if fullname.split(".")[0] in [
+            "sounddevice",
+            "soundcard",
+            "pynput",
+            "pyperclip",
+            "win32clipboard",
+        ] or fullname in [
+            "saydraft.app",
+            "saydraft.logging_config",
+            "saydraft.single_instance",
+            "saydraft.context.foreground",
+            "saydraft.context.uia_native",
+            "saydraft.insert.clipboard_win",
+        ]:
+            attempts.append(fullname)
+&gt;           raise AssertionError("Owner I/O import is barred: " + fullname)
+E           AssertionError: Owner I/O import is barred: sounddevice
+
+tools\public_file_guard.py:56: AssertionError</error></testcase><testcase classname="tests.test_onboarding_practice" name="test_failed_preparation_never_enters_an_automatic_retry_loop" time="0.004"><error message="failed on setup with &quot;AssertionError: Owner I/O import is barred: sounddevice&quot;">tmp_path = WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/minimum-preview-tests-20261115-r2/test_failed_preparation_never_0')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x00000218A3C99FD0&gt;
+
+    @pytest.fixture
+    def subject(tmp_path, monkeypatch):
+&gt;       import sounddevice
+
+tests\test_onboarding_practice.py:37: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+&lt;frozen importlib._bootstrap&gt;:1369: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1331: in _find_and_load_unlocked
+    ???
+&lt;frozen importlib._bootstrap&gt;:1265: in _find_spec
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;tools.public_file_guard.install.&lt;locals&gt;.OwnerIOGuard object at 0x00000218FF89E270&gt;
+fullname = 'sounddevice', path = None, target = None
+
+    def find_spec(self, fullname, path=None, target=None):
+        if fullname.split(".")[0] in [
+            "sounddevice",
+            "soundcard",
+            "pynput",
+            "pyperclip",
+            "win32clipboard",
+        ] or fullname in [
+            "saydraft.app",
+            "saydraft.logging_config",
+            "saydraft.single_instance",
+            "saydraft.context.foreground",
+            "saydraft.context.uia_native",
+            "saydraft.insert.clipboard_win",
+        ]:
+            attempts.append(fullname)
+&gt;           raise AssertionError("Owner I/O import is barred: " + fullname)
+E           AssertionError: Owner I/O import is barred: sounddevice
+
+tools\public_file_guard.py:56: AssertionError</error></testcase><testcase classname="tests.test_onboarding_practice" name="test_external_stop_or_settings_replacement_does_not_automatically_restart_practice" time="0.004"><error message="failed on setup with &quot;AssertionError: Owner I/O import is barred: sounddevice&quot;">tmp_path = WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/minimum-preview-tests-20261115-r2/test_external_stop_or_settings0')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x00000218A3C99F60&gt;
+
+    @pytest.fixture
+    def subject(tmp_path, monkeypatch):
+&gt;       import sounddevice
+
+tests\test_onboarding_practice.py:37: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+&lt;frozen importlib._bootstrap&gt;:1369: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1331: in _find_and_load_unlocked
+    ???
+&lt;frozen importlib._bootstrap&gt;:1265: in _find_spec
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;tools.public_file_guard.install.&lt;locals&gt;.OwnerIOGuard object at 0x00000218FF89E270&gt;
+fullname = 'sounddevice', path = None, target = None
+
+    def find_spec(self, fullname, path=None, target=None):
+        if fullname.split(".")[0] in [
+            "sounddevice",
+            "soundcard",
+            "pynput",
+            "pyperclip",
+            "win32clipboard",
+        ] or fullname in [
+            "saydraft.app",
+            "saydraft.logging_config",
+            "saydraft.single_instance",
+            "saydraft.context.foreground",
+            "saydraft.context.uia_native",
+            "saydraft.insert.clipboard_win",
+        ]:
+            attempts.append(fullname)
+&gt;           raise AssertionError("Owner I/O import is barred: " + fullname)
+E           AssertionError: Owner I/O import is barred: sounddevice
+
+tools\public_file_guard.py:56: AssertionError</error></testcase><testcase classname="tests.test_onboarding_practice" name="test_external_stop_wins_a_race_with_window_deactivation_and_requires_explicit_prepare" time="0.003"><error message="failed on setup with &quot;AssertionError: Owner I/O import is barred: sounddevice&quot;">tmp_path = WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/minimum-preview-tests-20261115-r2/test_external_stop_wins_a_race0')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x00000218A3C9A9E0&gt;
+
+    @pytest.fixture
+    def subject(tmp_path, monkeypatch):
+&gt;       import sounddevice
+
+tests\test_onboarding_practice.py:37: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+&lt;frozen importlib._bootstrap&gt;:1369: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1331: in _find_and_load_unlocked
+    ???
+&lt;frozen importlib._bootstrap&gt;:1265: in _find_spec
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;tools.public_file_guard.install.&lt;locals&gt;.OwnerIOGuard object at 0x00000218FF89E270&gt;
+fullname = 'sounddevice', path = None, target = None
+
+    def find_spec(self, fullname, path=None, target=None):
+        if fullname.split(".")[0] in [
+            "sounddevice",
+            "soundcard",
+            "pynput",
+            "pyperclip",
+            "win32clipboard",
+        ] or fullname in [
+            "saydraft.app",
+            "saydraft.logging_config",
+            "saydraft.single_instance",
+            "saydraft.context.foreground",
+            "saydraft.context.uia_native",
+            "saydraft.insert.clipboard_win",
+        ]:
+            attempts.append(fullname)
+&gt;           raise AssertionError("Owner I/O import is barred: " + fullname)
+E           AssertionError: Owner I/O import is barred: sounddevice
+
+tools\public_file_guard.py:56: AssertionError</error></testcase><testcase classname="tests.test_onboarding_practice" name="test_practice_uses_explicit_staged_choices_and_newer_untouched_preferences" time="0.003"><error message="failed on setup with &quot;AssertionError: Owner I/O import is barred: sounddevice&quot;">tmp_path = WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/minimum-preview-tests-20261115-r2/test_practice_uses_explicit_st0')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x00000218A3C9AEB0&gt;
+
+    @pytest.fixture
+    def subject(tmp_path, monkeypatch):
+&gt;       import sounddevice
+
+tests\test_onboarding_practice.py:37: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+&lt;frozen importlib._bootstrap&gt;:1369: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1331: in _find_and_load_unlocked
+    ???
+&lt;frozen importlib._bootstrap&gt;:1265: in _find_spec
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;tools.public_file_guard.install.&lt;locals&gt;.OwnerIOGuard object at 0x00000218FF89E270&gt;
+fullname = 'sounddevice', path = None, target = None
+
+    def find_spec(self, fullname, path=None, target=None):
+        if fullname.split(".")[0] in [
+            "sounddevice",
+            "soundcard",
+            "pynput",
+            "pyperclip",
+            "win32clipboard",
+        ] or fullname in [
+            "saydraft.app",
+            "saydraft.logging_config",
+            "saydraft.single_instance",
+            "saydraft.context.foreground",
+            "saydraft.context.uia_native",
+            "saydraft.insert.clipboard_win",
+        ]:
+            attempts.append(fullname)
+&gt;           raise AssertionError("Owner I/O import is barred: " + fullname)
+E           AssertionError: Owner I/O import is barred: sounddevice
+
+tools\public_file_guard.py:56: AssertionError</error></testcase><testcase classname="tests.test_onboarding_practice" name="test_style_quick_pick_preserves_third_tone_and_uses_real_rules_preview" time="0.376" /><testcase classname="tests.test_onboarding_practice" name="test_synthetic_native_shortcut_runs_real_practice_cleanup_through_queued_ui[fixture]" time="0.003"><failure message="AssertionError: Owner I/O import is barred: saydraft.app">tmp_path = WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/minimum-preview-tests-20261115-r2/test_synthetic_native_shortcut0')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x00000218A3C9B310&gt;
+engine_kind = 'fixture'
+
+    @pytest.mark.parametrize('engine_kind', ['fixture', pytest.param('parakeet', marks=[pytest.mark.integration, pytest.mark.offline])])
+    def test_synthetic_native_shortcut_runs_real_practice_cleanup_through_queued_ui(tmp_path, monkeypatch, engine_kind):
+        from concurrent.futures import ThreadPoolExecutor
+        import threading
+        import numpy as np
+&gt;       from saydraft.app import WorkerController, create_worker_signals
+
+tests\test_onboarding_practice.py:267: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+&lt;frozen importlib._bootstrap&gt;:1369: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1331: in _find_and_load_unlocked
+    ???
+&lt;frozen importlib._bootstrap&gt;:1265: in _find_spec
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;tools.public_file_guard.install.&lt;locals&gt;.OwnerIOGuard object at 0x00000218FF89E270&gt;
+fullname = 'saydraft.app'
+path = ['C:\\Users\\tanzir\\Desktop\\voice_tray\\saydraft'], target = None
+
+    def find_spec(self, fullname, path=None, target=None):
+        if fullname.split(".")[0] in [
+            "sounddevice",
+            "soundcard",
+            "pynput",
+            "pyperclip",
+            "win32clipboard",
+        ] or fullname in [
+            "saydraft.app",
+            "saydraft.logging_config",
+            "saydraft.single_instance",
+            "saydraft.context.foreground",
+            "saydraft.context.uia_native",
+            "saydraft.insert.clipboard_win",
+        ]:
+            attempts.append(fullname)
+&gt;           raise AssertionError("Owner I/O import is barred: " + fullname)
+E           AssertionError: Owner I/O import is barred: saydraft.app
+
+tools\public_file_guard.py:56: AssertionError</failure></testcase><testcase classname="tests.test_onboarding_practice" name="test_synthetic_native_shortcut_runs_real_practice_cleanup_through_queued_ui[parakeet]" time="0.003"><failure message="AssertionError: Owner I/O import is barred: saydraft.app">tmp_path = WindowsPath('D:/Saydraft-Codex-QA-20261112-01a1cbc7/minimum-preview-tests-20261115-r2/test_synthetic_native_shortcut1')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x00000218A3E5F770&gt;
+engine_kind = 'parakeet'
+
+    @pytest.mark.parametrize('engine_kind', ['fixture', pytest.param('parakeet', marks=[pytest.mark.integration, pytest.mark.offline])])
+    def test_synthetic_native_shortcut_runs_real_practice_cleanup_through_queued_ui(tmp_path, monkeypatch, engine_kind):
+        from concurrent.futures import ThreadPoolExecutor
+        import threading
+        import numpy as np
+&gt;       from saydraft.app import WorkerController, create_worker_signals
+
+tests\test_onboarding_practice.py:267: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+&lt;frozen importlib._bootstrap&gt;:1369: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1331: in _find_and_load_unlocked
+    ???
+&lt;frozen importlib._bootstrap&gt;:1265: in _find_spec
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;tools.public_file_guard.install.&lt;locals&gt;.OwnerIOGuard object at 0x00000218FF89E270&gt;
+fullname = 'saydraft.app'
+path = ['C:\\Users\\tanzir\\Desktop\\voice_tray\\saydraft'], target = None
+
+    def find_spec(self, fullname, path=None, target=None):
+        if fullname.split(".")[0] in [
+            "sounddevice",
+            "soundcard",
+            "pynput",
+            "pyperclip",
+            "win32clipboard",
+        ] or fullname in [
+            "saydraft.app",
+            "saydraft.logging_config",
+            "saydraft.single_instance",
+            "saydraft.context.foreground",
+            "saydraft.context.uia_native",
+            "saydraft.insert.clipboard_win",
+        ]:
+            attempts.append(fullname)
+&gt;           raise AssertionError("Owner I/O import is barred: " + fullname)
+E           AssertionError: Owner I/O import is barred: saydraft.app
+
+tools\public_file_guard.py:56: AssertionError</failure></testcase><testcase classname="tests.test_inserter" name="test_clipboard_paste_insertion_saves_and_restores_clipboard" time="0.002" /><testcase classname="tests.test_inserter" name="test_clipboard_is_restored_if_paste_hotkey_fails" time="0.001" /><testcase classname="tests.test_inserter" name="test_focus_change_skips_insertion_without_touching_clipboard_or_keyboard" time="0.001" /><testcase classname="tests.test_inserter" name="test_app_profile_can_force_typing_fallback_for_paste_blocked_apps" time="0.001" /><testcase classname="tests.test_inserter" name="test_paste_blocked_profile_alias_uses_typing_fallback" time="0.001" /><testcase classname="tests.test_inserter" name="test_character_typing_dependency_is_removed_from_runtime_sources" time="0.104" /><testcase classname="tests.test_hotkeys" name="test_hold_hotkey_starts_on_press_and_stops_on_release_after_threshold" time="0.001" /><testcase classname="tests.test_hotkeys" name="test_double_tap_enters_lock_mode_and_later_tap_stops_recording" time="0.061" /><testcase classname="tests.test_hotkeys" name="test_escape_stops_lock_mode_recording" time="0.001" /><testcase classname="tests.test_hotkeys" name="test_controller_registers_configured_hold_hotkeys_and_unregisters_handles" time="0.001" /><testcase classname="tests.test_hotkeys" name="test_duplicate_press_while_recording_does_not_start_twice" time="0.001" /><testcase classname="tests.test_hotkeys" name="test_force_stop_resets_recording_and_invokes_stop_callback" time="0.001" /><testcase classname="tests.test_hotkeys" name="test_hotkey_config_from_app_config_uses_configurable_keys" time="0.001" /><testcase classname="tests.test_hotkeys" name="test_hotkey_controller_restarts_dead_keyboard_listener" time="0.001" /><testcase classname="tests.test_hotkeys" name="test_hotkey_controller_does_not_restart_live_keyboard_listener" time="0.001" /><testcase classname="tests.test_history" name="test_history_store_appends_and_reads_dictations" time="0.281" /><testcase classname="tests.test_history" name="test_default_history_path_uses_local_appdata" time="0.003" /><testcase classname="tests.test_history" name="test_audio_retry_preserves_original_and_does_not_inflate_dictation_totals" time="0.442" /></testsuite></testsuites>

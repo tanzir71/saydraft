@@ -36,6 +36,13 @@ owner-profile operations require a suitable isolated environment or a later
 owner-authorized acceptance step; do not enable them by pretending this machine
 is a hosted CI runner. Record such checks as unqualified rather than passed.
 
+The owner subsequently chose a minimum unsigned preview on 15 November; see
+[the bounded acceptance record](MINIMUM_PREVIEW_ACCEPTANCE.md). Extended tier
+measurements and VM qualification are deferred, with no implied passes. The
+disposable Windows VM approval remains the required environment for later real
+input/audio/clipboard acceptance. Host access stays barred; approval and
+preparation alone are not execution evidence.
+
 Meeting setup checks must inject device/model/download ports when running on the
 stopped owner desktop. Never invoke its default Refresh provider in that setting.
 The focused suites are `tests/test_meeting_setup.py`, `test_meeting_setup_ui.py`,

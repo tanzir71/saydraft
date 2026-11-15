@@ -19,16 +19,17 @@ or model inference. Collapse this disclosure to hide motion.
 
 The static image is shown first; animation is an explicit choice.
 
-See the [delivery handover](docs/DELIVERY_HANDOVER.md) for the current verified
-preview, build evidence, known issues and remaining critical release gates.
+See [minimum preview acceptance](docs/MINIMUM_PREVIEW_ACCEPTANCE.md) for the
+current unsigned portable and verification scope, and the
+[delivery handover](docs/DELIVERY_HANDOVER.md) for known issues and future work.
 
 [![Get Saydraft: source preview](assets/media/source-preview.svg)](#run-from-source)
 [![License: MIT](assets/media/license-mit.svg)](LICENSE)
 
 **Development preview.** Use the source setup below. The older unsigned
 [verification pre-release](https://github.com/tanzir71/saydraft/releases/tag/v0.1.0-dry-run.20261114)
-predates current source; signing, broad quality and physical Windows acceptance
-remain open.
+predates current source. Unsigned distribution is the current choice; broad
+quality and physical Windows acceptance remain unqualified.
 
 Hold a shortcut, speak, then release to transcribe, clean up and attempt delivery
 into the original editable field. History saves the result before delivery.

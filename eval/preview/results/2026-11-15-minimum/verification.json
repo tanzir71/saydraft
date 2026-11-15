@@ -1,0 +1,54 @@
+{
+  "source": "e7c60b00ea97866986961ceda3e2c203e2e4ae66",
+  "current_app_build_inputs_unchanged": true,
+  "source_files_verified": 266,
+  "permitted_windows_text_conversions": 262,
+  "completed_cases": 150,
+  "complete_pairs": 75,
+  "completed_pair_native_exits": 77,
+  "qa_history_databases_verified": 75,
+  "stop_reason": "Owner minimum unsigned preview scope; extended qualification deferred",
+  "stop_exit_code": 4294967295,
+  "full_matrix_qualified": false,
+  "physical_windows_input_measured": false,
+  "model_accepted": 0,
+  "unique_passing_checks": 118,
+  "test_runs": [
+    {
+      "name": "minimum-preview-20261115-r2",
+      "passed": 35,
+      "failed": 3,
+      "errors": 33,
+      "skipped": 0
+    },
+    {
+      "name": "minimum-onboarding-20261115-r3",
+      "passed": 34,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "minimum-preview-safeguards-20261115",
+      "passed": 50,
+      "failed": 1,
+      "errors": 0,
+      "skipped": 0
+    }
+  ],
+  "native_cases_unqualified": [
+    "real_hf_cached_whisper_benchmark_unlocks_next_and_rechecked_finish",
+    "synthetic_native_shortcut_runs_real_practice_cleanup_through_queued_ui[fixture]",
+    "synthetic_native_shortcut_runs_real_practice_cleanup_through_queued_ui[parakeet]",
+    "native_adapter_installs_guard_while_injected_keyboard_keeps_explicit_test_port"
+  ],
+  "artifact": {
+    "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\delivery-planning-package-20261115-r1\\artifacts\\Saydraft-0.1.0-win-x64.zip",
+    "bytes": 157079370,
+    "sha256": "54283772ab9685a5123be454f5a9ff26b5e24d7c8908e0740e6b7bca90d21faf",
+    "signed": false
+  },
+  "full_parity_accepted": false,
+  "owner_accuracy_accepted": false,
+  "native_guest_acceptance": false
+}

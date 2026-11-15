@@ -1,0 +1,61 @@
+"""Replay retained metadata and source bindings without app/native imports."""
+import argparse,hashlib,io,json,subprocess,xml.etree.ElementTree as ET
+from pathlib import Path,PurePosixPath
+p=argparse.ArgumentParser(description=__doc__)
+p.add_argument('--repo',type=Path,required=True)
+a=p.parse_args()
+root=Path(__file__).resolve().parents[1]
+read=lambda p:json.loads(p.read_text(encoding='utf-8-sig'))
+def digest(path):
+ with path.open('rb') as stream:return hashlib.file_digest(stream,'sha256').hexdigest()
+m=read(root/'manifest.json');v=read(root/'verification.json');seen=set()
+for row in m['records']:
+ rel=PurePosixPath(row['path']);assert not rel.is_absolute() and '..' not in rel.parts and chr(92) not in row['path'] and ':' not in row['path']
+ assert rel.as_posix()==row['path'] and row['path'] not in seen;seen.add(row['path'])
+ path=root.joinpath(*rel.parts)
+ assert path.is_file() and not path.is_symlink() and path.resolve().is_relative_to(root)
+ assert path.stat().st_size==row['size'] and digest(path)==row['sha256'],row['path']
+assert seen=={f.relative_to(root).as_posix() for f in root.rglob('*') if f.is_file() and f!=root/'manifest.json'}
+run=root/'standard-partial';r=read(run/'report.json');terminal=read(run/'observed-parent-exit.json')
+assert r['git_commit']==v['source']==m['source'] and not r['complete']
+assert len(r['cases'])==150 and len(r['pairs'])==75
+assert terminal['parent_exit_observed'] and terminal['exit_code']==4294967295
+assert terminal['report_sha256']==digest(run/'report.json')
+state=read(run/'supervisor.json');assert state['status']=='exited' and state['exit_code']==terminal['exit_code']
+assert state['report_sha256']==terminal['report_sha256']
+assert read(run/'owner-scope-stop-request.json')['full_matrix_qualified'] is False
+combined=[];native=0
+for entry in r['pairs']:
+ path=run/entry['path'];child=read(path)
+ assert entry['path']==f"{child['audio_seconds']:02d}s-{child['repeat']:03d}/report.json"
+ assert digest(path)==entry['sha256'] and child['complete'] and child['git_commit']==v['source']
+ assert read(path.with_name('process.json'))['exit_code']==0
+ journal=[json.loads(line) for line in path.with_name('cases.jsonl').read_text().splitlines()]
+ assert journal==child['cases'] and [x['phase'] for x in journal]==['cold','warm']
+ assert child['native_exits'] and all(x is True for x in child['native_exits']);native+=len(child['native_exits'])
+ guard=read(path.with_name('owner-io-guard.json'));fixture=read(path.with_name('owner-io-guard.worker.json'))
+ assert guard['pid']==fixture['pid']==child['python_pid'] and guard['blocked_attempts']==fixture['port_attempts']==[]
+ assert all(guard[k] is False for k in ['real_audio_sdk_imported','owner_profile_used','owner_clipboard_used','owner_native_input_used','device_enumeration','microphone_used'])
+ assert all(all(row[k] is True for k in ['history_before_paste','clipboard_restored','no_early_delivery','release_deadline_present','language_identifier_ready']) for row in journal)
+ combined.extend(journal)
+assert combined==r['cases'] and native==v['completed_pair_native_exits']==77
+names=list(r['source_fingerprints']);source=v['source'];converted=[]
+batch=io.BytesIO(subprocess.check_output(['git','cat-file','--batch'],cwd=a.repo,input=('\n'.join(source+':'+n for n in names)+'\n').encode()))
+for name in names:
+ header=batch.readline().split();assert len(header)==3 and header[1]==b'blob'
+ raw=batch.read(int(header[2]));assert batch.read(1)==b'\n'
+ if hashlib.sha256(raw).hexdigest()!=r['source_fingerprints'][name]:
+  assert b'\r' not in raw and b'\0' not in raw and hashlib.sha256(raw.replace(b'\n',b'\r\n')).hexdigest()==r['source_fingerprints'][name],name
+  converted.append(name)
+if converted:
+ fields=subprocess.check_output(['git','check-attr','--source='+source,'-z','--stdin','text','eol'],cwd=a.repo,input=('\0'.join(converted)+'\0').encode()).split(b'\0')
+ attrs={(fields[i].decode(),fields[i+1]):fields[i+2] for i in range(0,len(fields)-1,3)}
+ assert all(attrs[n,b'text'] in [b'auto',b'set'] and attrs[n,b'eol'] in [b'unspecified',b'crlf'] for n in converted)
+assert len(names)==v['source_files_verified'] and len(converted)==v['permitted_windows_text_conversions']
+passed=set()
+for name in ['minimum-preview-20261115-r2','minimum-onboarding-20261115-r3','minimum-preview-safeguards-20261115']:
+ for case in ET.parse(root/'tests'/(name+'.xml')).getroot().iter('testcase'):
+  if not any(case.find(k) is not None for k in ['failure','error','skipped']):passed.add((case.get('classname'),case.get('name')))
+assert len(passed)==v['unique_passing_checks']==118
+assert not v['full_matrix_qualified'] and not v['physical_windows_input_measured'] and not v['native_guest_acceptance']
+print(json.dumps(dict(verified=True,records=len(seen),source=source,cases=150,pairs=75,unique_passing_checks=118,full_matrix_qualified=False,native_guest_acceptance=False)))

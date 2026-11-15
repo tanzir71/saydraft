@@ -1,0 +1,15 @@
+{
+  "requested_utc": "2026-11-15T12:50:18.4503058Z",
+  "reason": "Owner explicitly narrowed current delivery to absolute minimum working unsigned preview; extended tier qualification deferred",
+  "owner_instruction": "I told you we are distributing unsigned. I need you to shorten the time commitment, just ensure it meets absolute minimum working acceptance criteria and then document for later continuation if needed.",
+  "stopped_parent_python_pid": 30224,
+  "supervisor_left_running": 18616,
+  "completed_parent_cases": 150,
+  "completed_pairs": 75,
+  "active_pair": {
+    "audio_seconds": 90,
+    "repeat": 15
+  },
+  "full_matrix_qualified": false,
+  "method": "Terminate only confirmed owned Python benchmark parent; its non-inheritable kill-on-close Job owns active trial/native descendants. Supervisor retains held-handle exit observation."
+}
