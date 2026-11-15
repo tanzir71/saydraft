@@ -1,0 +1,43 @@
+{
+  "app_source": "d01ff1da25f622d88c0e44ca11137b648975fa77",
+  "producer": "tools/render_readme_bar.py",
+  "producer_sha256": "b6b437350c98f3d8f04dc6cd60e243711ffa1d131c11b4228f321c4396c8a99b",
+  "rendered_frames": 72,
+  "encoded_frames": 65,
+  "duration_ms": 5760,
+  "platform": "offscreen",
+  "scale": 2,
+  "public_sample": "Let us turn this thought into a clear draft.",
+  "optional_english_preview_included": true,
+  "owner_io_used": false,
+  "model_inference": false,
+  "files": {
+    "saydraft-bar-demo.gif": {
+      "bytes": 323371,
+      "sha256": "9780f56657bbfb4dc2334a66a46a32d89e79ce86f3c6337f9ae120cf17d6ffb8"
+    },
+    "saydraft-bar-static.png": {
+      "bytes": 8214,
+      "sha256": "3a0d8d2f3f6c82dd97dc0ede250b053ffd3e215466d0e4ade59fc12af0239123"
+    },
+    "source-preview.svg": {
+      "bytes": 456,
+      "sha256": "8404b17b4327342dae72f5be5fa0d339ddda3c3562f14347c952a5bce1466b0d"
+    },
+    "license-mit.svg": {
+      "bytes": 396,
+      "sha256": "b6f0f3454f441abfca8d1b44abe22cc0c96cf0bdb26a61f06d4e341ce542846e"
+    }
+  },
+  "social_preview": {
+    "path": "docs/launch/assets/saydraft-github-social-preview.png",
+    "width": 1280,
+    "height": 640,
+    "bytes": 49470,
+    "sha256": "8ad6ea81e997d70468052f32c1b7aec11e2880a5214488bb564668bba9b4ba2a",
+    "generator": "site/tools/og.mjs",
+    "source": "fe1739a6a32363a27807dd9dc11bd5272a535342"
+  },
+  "initial_producer_sha256": "20042a0b6de938642df30d79b28d2f7f9d1cea179ed1c6622656289638989336",
+  "render_source_note": "Initial native capture used clean d01ff1d. Formatted maintained producer reproduced all 72 frame hashes and both output files exactly; app/site/build inputs remain unchanged under Git text normalization."
+}

@@ -1,6 +1,6 @@
 # Awesome-list submission drafts
 
-Verified 14 November 2026. See the [shared facts and publication status](README.md).
+Refreshed 15 November 2026. See the [shared facts and publication status](README.md).
 These are reviewable entry drafts; no external issue or pull request has been
 opened. The owner chooses whether and when to submit them.
 
@@ -24,7 +24,7 @@ Suggested submission body:
 Saydraft is an MIT Windows 10/11 x64 dictation app using local Parakeet or Whisper
 recognition and optional local Qwen cleanup. It supports held shortcuts, guarded
 delivery and local History. It currently runs from source with Python 3.13;
-no published installer release is available. I am its developer and am proposing
+an older unsigned verification pre-release predates current source. I am its developer and am proposing
 it for the dictation-app table. The project README documents setup and remaining
 quality/Windows acceptance work: https://github.com/tanzir71/saydraft
 

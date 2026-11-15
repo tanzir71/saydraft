@@ -91,3 +91,8 @@ site/tools/render_product.py -text
 eval/site/results/2026-11-15-home/** -text -whitespace
 # Preserve original canned-demo, legacy fixture, browser and Lighthouse evidence.
 eval/site/results/2026-11-15-demo/** -text -whitespace
+# Preserve the hash-pinned public Bar illustration producer across checkouts.
+tools/render_readme_bar.py -text
+assets/media/** -text
+# Preserve original repository presentation and public GitHub verification bytes.
+eval/site/results/2026-11-15-repo-seo/** -text -whitespace

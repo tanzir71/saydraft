@@ -1,19 +1,43 @@
 # Saydraft: free offline dictation for Windows
 
+Saydraft is a free, open-source offline dictation app for Windows. Local
+Parakeet/Whisper speech-to-text and on-device cleanup keep processing on your PC.
+
 **Speak messy. Paste polished.**
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+<img src="assets/media/saydraft-bar-static.png" width="640" alt="Actual Saydraft Bar with public sample text and optional English live preview">
 
-Saydraft is a free, open-source offline dictation app for Windows. Hold a
-shortcut, speak, and release to transcribe, clean up, and insert text into the
-focused app. Speech recognition, cleanup, and History run on your computer;
-dictation has no cloud fallback or subscription.
+<details>
+<summary>View the Bar animation (5.76-second loop)</summary>
 
-Highlighted speech languages, in alphabetical order: **Arabic, Bengali, Chinese
-(Mandarin), Filipino / Tagalog, French, German, Hindi, Indonesian, Japanese,
-Korean, Malay, Persian, Portuguese (including Brazilian Portuguese), Spanish,
-Tamil, Telugu, Thai, Urdu and Vietnamese**, with compatible local models. See the
-[language guide](docs/LANGUAGES.md) for coverage and setup.
+<img src="assets/media/saydraft-bar-demo.gif" width="640" alt="Actual Saydraft Bar animated with public sample text and optional English live preview">
+
+Public sample animation, including optional English live preview. No recording
+or model inference. Collapse this disclosure to hide motion.
+
+</details>
+
+The static image is shown first; animation is an explicit choice.
+
+[![Get Saydraft: source preview](assets/media/source-preview.svg)](#run-from-source)
+[![License: MIT](assets/media/license-mit.svg)](LICENSE)
+
+**Development preview.** Use the source setup below. The older unsigned
+[verification pre-release](https://github.com/tanzir71/saydraft/releases/tag/v0.1.0-dry-run.20261114)
+predates current source; signing, broad quality and physical Windows acceptance
+remain open.
+
+Hold a shortcut, speak, then release to transcribe, clean up and attempt delivery
+into the original editable field. History saves the result before delivery.
+Installed speech and cleanup models run locally, with no cloud fallback or
+subscription.
+
+Highlighted speech languages, in alphabetical order: **Arabic, Bengali,
+Brazilian Portuguese, Chinese (Mandarin), Filipino / Tagalog, French, German,
+Hindi, Indonesian, Japanese, Korean, Malay, Persian (Farsi), Spanish, Tamil,
+Telugu, Thai, Urdu and Vietnamese**, with compatible local models. English is
+also supported. See the [language guide](docs/LANGUAGES.md) for coverage,
+shared-model setup and measured accuracy limits.
 
 [Website](https://tanzir71.github.io/saydraft/) ·
 [User guides](https://tanzir71.github.io/saydraft/docs/) ·
@@ -36,6 +60,73 @@ the current site source. It uses canned text and no microphone or uploads;
 [Models and languages](#set-up-once-then-go-offline) · [Daily use](#daily-use) ·
 [Troubleshooting](#troubleshooting-and-development)
 
+## Coming from Wispr Flow or Typeless?
+
+Start with **Ctrl + Win** to hold-to-speak, **Ctrl + Win + Space** for hands-free
+capture, and **Shift + Alt + Z** to paste your last words. Review and rebind
+shortcuts in Settings if another app uses them. Install compatible models once,
+choose tone/cleanup per app group, then review a short sample in your own workflow.
+
+See the source-backed [Wispr Flow migration guide](site/src/content/compare/wispr-flow-alternative.mdx)
+and [Typeless comparison](site/src/content/compare/typeless-alternative.mdx).
+These comparisons do not establish equivalent accuracy, speed or complete parity.
+
+### Compare the setup
+
+Product facts checked **2026-11-14**; features and plans can change. Sources are
+linked in every cell. This is a development preview with qualification limits,
+not an accuracy or speed ranking.
+
+| Feature | Saydraft | Wispr Flow | Typeless | Windows voice typing |
+|---|---|---|---|---|
+| Dictation connection | Offline with compatible models installed. [Project privacy guide](https://github.com/tanzir71/saydraft/blob/main/docs/PRIVACY.md) | Internet required for transcription. [Flow documentation](https://docs.wisprflow.ai/articles/2772472373-what-is-flow) | Internet required for transcription. [Typeless FAQ](https://www.typeless.com/blog/typeless-vs-wispr-flow) | Standard Win+H uses online recognition. [Microsoft documentation](https://support.microsoft.com/en-us/accessibility/windows/use-voice-typing-to-talk-instead-of-type-on-your-pc) |
+| Windows availability | Windows 10/11 development source. [Project setup status](https://github.com/tanzir71/saydraft/blob/main/readme.md) | Windows app. [Flow platforms](https://docs.wisprflow.ai/articles/2772472373-what-is-flow) | Windows app. [Typeless platforms](https://www.typeless.com/pricing) | Built into Windows. [Microsoft feature guide](https://www.microsoft.com/en-us/windows/tips/voice) |
+| Free use | Free, open source; no subscription quota. [Project license and limits](https://github.com/tanzir71/saydraft/blob/main/readme.md) | Limited weekly words; paid unlimited plan. [Flow plans](https://wisprflow.ai/pricing) | Limited weekly words; paid unlimited plan. [Typeless plans](https://www.typeless.com/pricing) | Included with Windows. [Microsoft feature guide](https://www.microsoft.com/en-us/windows/tips/voice) |
+
+This compares standard online Win+H voice typing. Copilot+ Fluid enhancements
+and the separate [offline Voice Access feature](https://support.microsoft.com/en-us/accessibility/windows/voice-access/set-up-voice-access)
+have different requirements. No affiliation with Wispr Flow, Typeless or Microsoft
+is implied. Saydraft has a configurable per-dictation recording cap, 20 minutes
+by default, separate from its lack of a subscription word quota.
+
+## Frequently asked questions
+
+**Does setup need internet?** Yes: review model sizes/licenses and start a
+Download/Resume action. Later launches reuse installed compatible models offline.
+Selecting a language starts no transfer.
+
+**Are Bengali, Arabic and the other languages separate downloads?** No. Languages
+outside the default model's coverage share the optional All languages model;
+there are no Bengali-only or Arabic-only packs. See [language setup](docs/LANGUAGES.md).
+
+**Is accuracy the same in every language?** No. Coverage is distinct from measured
+quality. The [public multilingual evaluation](docs/ASR_ACCURACY.md) reports its
+methods and substantial Bengali, Tamil and Telugu errors. Review names, numbers
+and your own speech before relying on results; owner accuracy acceptance is deferred.
+
+**Is it completely offline?** Installed recognition and cleanup run locally.
+Model downloads are explicit; optional GitHub update notices are off by default.
+The [privacy boundary](docs/PRIVACY.md) explains Python guard and native-helper
+firewall limits, as well as Windows clipboard history/sync.
+
+**Does it work in every text field?** Delivery is guarded. Protected/elevated
+fields, unsupported selections or focus changes can refuse insertion. Review the
+saved History result and [delivery recovery](docs/DELIVERY.md).
+
+**Are Command, Translate, Ask and meeting notes ready for production?** They are
+experimental Pro hardware-profile features with explicit setup/opt-in and separate
+qualification limits. Pro is a hardware tier, not a paid subscription. See their
+[implementation guides](docs/README.md).
+
+**What can I install today?** Current source uses Windows 10/11 x64 and 64-bit
+Python 3.13. The public unsigned verification pre-release is older than current
+source. Use [the setup instructions](#run-from-source) and review release/signing
+status before choosing an artifact.
+
+**Does the web demo record me?** No. The current site's prepared-example demo uses
+canned text, no microphone, models, clipboard or text insertion. Hosted publication
+is a separate step from a source push.
+
 ## Current status
 
 Saydraft is in active development. Run from source using the steps below.
@@ -43,8 +134,8 @@ An older unsigned verification pre-release is listed on
 [GitHub Releases](https://github.com/tanzir71/saydraft/releases). It predates the
 current source and does not establish current app or signing acceptance. Signing
 and clean-machine validation remain on the [roadmap](WISPR_OFFLINE_PARITY_PLAN.md).
-The [packaging pipeline](docs/PACKAGING.md) produces an approximately 104 MB unsigned installer
-that passes resource, dependency-notice and install/uninstall checks. Its
+Historical [packaging verification](docs/PACKAGING.md) produced an approximately
+104 MB unsigned installer with resource, notice and install/uninstall checks. Its
 [retained verification](eval/packaging/results/2026-11-14-notices/README.md)
 covers 38 components and 506 notice files.
 The [draft-release verification](eval/packaging/results/2026-11-14-draft/README.md)
@@ -170,8 +261,8 @@ py -3.13 -m venv .venv
 
 Keep the console available while diagnosing startup problems. The current
 [download page](https://tanzir71.github.io/saydraft/download/) also links to
-[GitHub Releases](https://github.com/tanzir71/saydraft/releases), where packaged
-artifacts will appear when available.
+[GitHub Releases](https://github.com/tanzir71/saydraft/releases). Review the older
+verification artifacts' source and signing limits before choosing an installer.
 
 ### First launch
 
@@ -326,7 +417,7 @@ For development setup and checks, read [CONTRIBUTING.md](CONTRIBUTING.md).
 [Documentation](docs/README.md) links to implementation notes, evaluation
 methods, Windows acceptance checks, and the website workflow.
 The [website component guide](docs/SITE_COMPONENTS.md) covers the 23 reusable
-components, 71 Storybook states and responsive visual checks.
+components, 73 Storybook states and responsive visual checks.
 The [documentation guide](docs/SITE_DOCS.md) covers the dated user-guide routes,
 shared model-size tables and local content verification. Website changes are
 validated locally and pushed; hosted publication is a separate step.
@@ -344,6 +435,11 @@ word-substitution regression that is now guarded; it predates that fix and is
 not current qualification. See [cleanup evidence](docs/CLEANUP_EVIDENCE.md) for
 the source and corpus checks required of replacement reports.
 
-Saydraft's code is licensed under [MIT](LICENSE). Built by
+## Credits
+
+Saydraft's code is licensed under [MIT](LICENSE). Models and dependencies keep
+their own licenses, documented in [third-party notices](THIRD_PARTY_NOTICES.md).
+Thanks to NVIDIA Parakeet, Whisper/faster-whisper, sherpa-onnx, Qwen, llama.cpp
+and PySide6. The bundled fonts keep their OFL notices. Built by
 [Tanzir Rahman](https://tanziro.com). You can
 [support Saydraft](https://buymeacoffee.com/tanzir).

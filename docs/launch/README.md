@@ -1,8 +1,9 @@
 # Saydraft launch drafts
 
-Prepared 14 November 2026 against `8b705cc`. These are owner-posted drafts for
+Refreshed 15 November 2026 against `d01ff1d`. These are owner-posted drafts for
 the current source preview. Nothing has been submitted to a listing, community,
-or external repository.
+or external repository. [GitHub presentation settings](github-settings.md) are
+separate from these external submission drafts.
 
 | Destination | Draft |
 |---|---|
@@ -26,17 +27,22 @@ or external repository.
   cloud fallback. Updates, when enabled, link to releases for manual installation.
 - Translate and Command are experimental Pro features. Pro describes a hardware
   tier in this app, not a paid subscription.
-- There is no published installer release. Unsigned packaging checks passed,
-  while signing, release publication and broader physical Windows acceptance
-  remain unfinished. Accuracy and general performance claims remain unqualified.
-- Ask, meeting transcription and speaker diarization are planned features.
+- An older unsigned verification pre-release, `v0.1.0-dry-run.20261114`, is public.
+  It predates current source and does not establish current binary or signing
+  acceptance. Current-source setup is recommended; signed distribution and broader
+  physical Windows acceptance remain unfinished. Accuracy and general performance
+  claims remain unqualified.
+- Ask and meeting notes/speaker labels are implemented as experimental Pro
+  features with explicit setup/opt-in. Broader answer/speaker/summary quality and
+  full live/frozen/physical meeting acceptance remain open.
 
 These facts come from the [README](../../readme.md), [model guide](../MODELS.md),
 [privacy boundary](../PRIVACY.md), [Translate guide](../TRANSLATE.md),
 [packaging guide](../PACKAGING.md) and [parity plan](../../WISPR_OFFLINE_PARITY_PLAN.md).
-The public [release list](https://github.com/tanzir71/saydraft/releases) was empty
-when checked through GitHub's release API on 14 November 2026. Refresh the
-source-preview wording when publication status changes.
+An unauthenticated [release API](https://api.github.com/repos/tanzir71/saydraft/releases)
+check on 15 November lists the older unsigned verification pre-release with four
+assets, published 14 November at 17:05:32 UTC. No release state changed during
+this documentation refresh. The retained earlier launch proof remains historical.
 
 ## Submission context
 

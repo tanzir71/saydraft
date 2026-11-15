@@ -1,6 +1,6 @@
 # Product Hunt draft
 
-Verified 14 November 2026. See the [shared facts and publication status](README.md).
+Refreshed 15 November 2026. See the [shared facts and publication status](README.md).
 
 ## Name
 
@@ -17,7 +17,8 @@ and attempt delivery into your text field. Saydraft runs Parakeet or Whisper
 locally, with rules cleanup and optional local Qwen cleanup. A searchable Hub
 keeps History, vocabulary, Snippets, Style and Notes. Free app under MIT.
 Current availability: source preview for Windows 10/11 x64; Python 3.13 setup
-and explicit model downloads are required. No published installer release yet.
+and explicit model downloads are required. An older unsigned verification
+pre-release is public; it does not qualify current source or signing.
 
 ## Product and source link
 
