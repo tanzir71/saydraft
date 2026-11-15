@@ -5,5 +5,9 @@
   "topics": ["dictation", "speech-to-text", "voice-typing", "voice-to-text", "offline", "windows", "wispr-flow-alternative", "typeless-alternative", "whisper", "parakeet", "local-llm", "llama-cpp", "sherpa-onnx", "privacy", "accessibility", "push-to-talk", "transcription", "asr", "pyside6", "productivity"],
   "social_preview": "docs/launch/assets/saydraft-github-social-preview.png",
   "social_preview_width": 1280,
-  "social_preview_height": 640
+  "social_preview_height": 640,
+  "social_preview_uploaded": true,
+  "social_preview_verified_after_reload": true,
+  "social_preview_approved_on": "2026-11-15",
+  "social_preview_sha256": "8ad6ea81e997d70468052f32c1b7aec11e2880a5214488bb564668bba9b4ba2a"
 }

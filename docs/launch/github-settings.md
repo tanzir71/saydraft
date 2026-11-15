@@ -7,9 +7,14 @@ no domain or hosting change is part of these settings.
 
 **Applied 2026-11-15:** the description and all 20 topics below were saved and
 read back through GitHub, then verified on the repository page in the owner's
-authorized browser. The homepage already matched. The social-preview file is
-prepared; its specific browser upload approval is pending, so GitHub still uses
-the default preview. P9.6 remains open until that decision is resolved.
+authorized browser. The homepage already matched.
+
+**Social preview applied 2026-11-15:** the owner explicitly approved the prepared
+PNG for this repository. It was uploaded through the authorized built-in browser
+and remained displayed after reloading Settings. The uploaded asset's SHA-256 is
+`8ad6ea81e997d70468052f32c1b7aec11e2880a5214488bb564668bba9b4ba2a`.
+The [receipt and saved screenshot](../../eval/site/results/2026-11-15-social-preview/README.md)
+complete this P9.6 setting; G9's separate old-site decision remains pending.
 
 ## About description
 
