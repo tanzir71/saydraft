@@ -40,7 +40,7 @@ checks explicitly; changing an environment flag cannot authorize them.
   nine-clip development gate for Bengali, Tamil and Telugu. All 19 native Job
   trees exit, exact control reproduction and independent original-input/score
   verification pass, and 53 related tests pass. [Frozen evidence](../eval/asr/results/2026-11-15-full-alignment/README.md).
-  Next is frozen confirmation on the 60 reserved recordings, still uninferred
+  Next is [frozen confirmation](spikes/full-whisper-confirmation.md) on the 60 reserved recordings, still uninferred
   at this checkpoint. Defaults, the current portable and release acceptance
   remain unchanged; licensing and speed also require qualification.
 

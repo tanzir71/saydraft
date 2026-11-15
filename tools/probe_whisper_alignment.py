@@ -1,7 +1,8 @@
 """Frozen public-file comparison of Whisper word alignment, without app defaults.
 
-Only the nine previously observed bn/ta/te development clips in the supplied
-selection plan are eligible. No model downloads, capture, clipboard or input.
+Normal freeze admits only nine previously observed development clips. The
+separate confirmation freezer admits the exact pre-reserved sixty clips after
+the combined candidate passes development. No downloads or owner audio/input.
 """
 
 import argparse
@@ -103,7 +104,32 @@ def require_observed(row, clip, journal, model_id):
         raise ValueError("Selected clip has no matching previously observed baseline")
 
 
-def summarize(rows):
+def criteria_for_plan(plan):
+    if "cohort" not in plan:
+        return CRITERIA
+    from tools.confirm_whisper_alignment import COHORT, CRITERIA as confirmation_criteria
+
+    if plan["cohort"] != COHORT:
+        raise ValueError("Unknown frozen cohort")
+    return confirmation_criteria
+
+
+def selection_for_plan(plan):
+    if "cohort" in plan:
+        from tools.confirm_whisper_alignment import selected_clips as confirmation_clips
+
+        return confirmation_clips(plan)
+    return selected_clips({"scope": plan["scope"], "clips": plan["clips"]})
+
+
+def summary_for_plan(plan, rows):
+    result = summarize(rows, per_language=20 if "cohort" in plan else 3)
+    if "cohort" in plan:
+        result["confirmation_gate_met"] = result.pop("development_gate_met")
+    return result
+
+
+def summarize(rows, *, per_language=3):
     pairs = {}
     for row in rows:
         identity = (row["language"], row["id"])
@@ -112,7 +138,7 @@ def summarize(rows):
             raise ValueError("Unexpected or duplicate comparison arm")
         pair[row["arm"]] = row
     summary, no_new_failures = {}, True
-    complete = len(pairs) == 9 and all(
+    complete = len(pairs) == per_language * 3 and all(
         set(pair) == set(ARMS) for pair in pairs.values()
     )
     for language in ("bn", "ta", "te"):
@@ -124,7 +150,7 @@ def summarize(rows):
                 counts.update(row["scores"])
             totals[arm] = {**counts, "samples": len(records)}
         control, candidate = totals["control"], totals["word_alignment"]
-        eligible = control["samples"] == candidate["samples"] == 3
+        eligible = control["samples"] == candidate["samples"] == per_language
         totals["passes"] = bool(
             eligible
             and candidate["word_errors"] <= control["word_errors"]
@@ -254,20 +280,22 @@ def run_case(plan_path, case_index, case_arm, output):
         or plan["child_guard_sha256"]
         != digest(Path(__file__).with_name("public_file_guard.py"))
         or plan["runtime_environment"] != runtime_environment()
-        or plan["criteria"] != CRITERIA
-        or read(plan["selection_path"])["clips"] != plan["clips"]
-        or digest(plan["selection_path"]) != plan["selection_sha256"]
+        or plan["criteria"] != criteria_for_plan(plan)
+        or ("cohort" not in plan and (
+            read(plan["selection_path"])["clips"] != plan["clips"]
+            or digest(plan["selection_path"]) != plan["selection_sha256"]
+        ))
         or get_model(plan["model_id"]) != plan["model_descriptor"]
     ):
         raise ValueError("Frozen comparison inputs changed")
-    selected = selected_clips({"scope": plan["scope"], "clips": plan["clips"]})
+    selected = selection_for_plan(plan)
     candidate = full_candidate(plan)
     full_arm = case_arm == "word_alignment" and candidate is not None
     descriptor = candidate["descriptor"] if full_arm else plan["model_descriptor"]
     directory = Path(candidate["directory"] if full_arm else plan["model_directory"])
     if not installation_ready(descriptor, directory, check_hashes=True):
         raise ValueError("Pinned model bytes changed")
-    if not 0 <= case_index < 9 or case_arm not in ARMS:
+    if not 0 <= case_index < len(selected) or case_arm not in ARMS:
         raise ValueError("Choose an existing frozen case/arm")
     output = Path(output).resolve()
     if output.is_relative_to(Path(__file__).resolve().parents[1]):
@@ -465,7 +493,7 @@ def run_case(plan_path, case_index, case_arm, output):
             )
             and not any(row["error_type"] for row in report["cases"])
         )
-        report["comparison"] = summarize(report["cases"])
+        report["comparison"] = summary_for_plan(plan, report["cases"])
         NetworkGuard.uninstall()
         write(output / "report.json", report)
     return report
@@ -493,9 +521,11 @@ def run(plan_path):
         or digest(Path(__file__).with_name("public_file_guard.py"))
         != plan["child_guard_sha256"]
         or runtime_environment() != plan["runtime_environment"]
-        or plan["criteria"] != CRITERIA
+        or plan["criteria"] != criteria_for_plan(plan)
     ):
         raise ValueError("Frozen parent inputs changed")
+    selected = selection_for_plan(plan)
+    count = len(selected)
     output = plan_path.parent / "native"
     if output.is_relative_to(Path(__file__).resolve().parents[1]):
         raise ValueError("Keep native QA output outside the checkout")
@@ -518,24 +548,36 @@ def run(plan_path):
         "release_latency_qualified": False,
     }
     write(output / "report.json", report)
+    if "cohort" in plan:
+        from tools.confirm_whisper_alignment import register_consumption
+
+        # Claim the whole frozen set before its first inference. A partial or
+        # failed run does not restore "untouched" status or permit retuning.
+        registration = {
+            "plan_sha256": report["plan_sha256"], "started_epoch": report["started_epoch"],
+            "status": "All60 committed to this single frozen confirmation; do not retune or call untouched",
+            "clips": selected, "observed_cases_at_registration": 0,
+        }
+        report["consumption_claim"] = register_consumption(plan, registration)
+        write(output / "consumption.json", registration)
+        write(output / "report.json", report)
     try:
         with (output / "cases.jsonl").open("x", encoding="utf-8") as journal:
-            selected = selected_clips({"scope": plan["scope"], "clips": plan["clips"]})
             repeat_index = plan["repeat_control_index"]
             if repeat_index != max(
                 index for index, row in enumerate(selected) if row["language"] == "ta"
             ):
                 raise ValueError("Frozen repeat selection changed")
             for slot, selection in enumerate([*selected, selected[repeat_index]]):
-                index = slot if slot < 9 else repeat_index
+                index = slot if slot < count else repeat_index
                 arms = (
                     (ARMS if index % 2 == 0 else reversed(ARMS))
-                    if slot < 9
+                    if slot < count
                     else ("control",)
                 )
                 for arm in arms:
                     name = f"{selection['language']}-{selection['id']}-{arm}"
-                    if slot == 9:
+                    if slot == count:
                         name += "-repeat"
                     case_output = output / "cases" / name
                     guard_path = output / "guards" / f"{name}.json"
@@ -571,7 +613,9 @@ def run(plan_path):
                         process["launcher_pid"] = child.pid
                         write(process_path, process)
                         try:
-                            process["returncode"] = child.wait_tree(timeout=180)
+                            process["returncode"] = child.wait_tree(
+                                timeout=plan.get("case_timeout_seconds", 180)
+                            )
                         except TimeoutError:
                             process["timeout_reached"] = True
                             child.terminate()
@@ -610,7 +654,7 @@ def run(plan_path):
                         or row["arm"] != arm
                     ):
                         raise ValueError("Fresh child returned a different case")
-                    if slot < 9:
+                    if slot < count:
                         report["cases"].append(row)
                         journal.write(json.dumps(row, ensure_ascii=False) + "\n")
                         journal.flush()
@@ -635,7 +679,7 @@ def run(plan_path):
                         flush=True,
                     )
         report["complete"] = (
-            len(report["cases"]) == 18 and len(report["processes"]) == 19
+            len(report["cases"]) == count * 2 and len(report["processes"]) == count * 2 + 1
         )
     finally:
         report["ended_epoch"] = time.time()
@@ -672,7 +716,7 @@ def run(plan_path):
                 ]
             )
         )
-        report["comparison"] = summarize(report["cases"])
+        report["comparison"] = summary_for_plan(plan, report["cases"])
         write(output / "report.json", report)
     return report
 
