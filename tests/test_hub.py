@@ -1,6 +1,7 @@
 from dataclasses import replace
 from datetime import datetime
 from types import SimpleNamespace
+import time
 
 import pytest
 
@@ -277,9 +278,16 @@ def test_hub_keeps_its_minimum_size_with_larger_text_and_all_controls_reachable(
         snippet_scroll = hub.page_widgets["Snippets"]
         assert snippet_scroll.horizontalScrollBar().maximum() == 0
         for control in (page.test_button, page.reload_button):
-            snippet_scroll.ensureWidgetVisible(control)
-            application.processEvents()
-            point = control.mapTo(snippet_scroll.viewport(), qt.QtCore.QPoint())
+            # Staged preview feedback can resize the shared footer in a later
+            # layout pass. Synchronize that geometry before judging reachability.
+            deadline = time.monotonic() + 2
+            while time.monotonic() < deadline:
+                application.sendPostedEvents(None, qt.QtCore.QEvent.LayoutRequest)
+                snippet_scroll.ensureWidgetVisible(control)
+                application.processEvents()
+                point = control.mapTo(snippet_scroll.viewport(), qt.QtCore.QPoint())
+                if 0 <= point.y() and point.y() + control.height() <= snippet_scroll.viewport().height():
+                    break
             assert 0 <= point.y() and point.y() + control.height() <= snippet_scroll.viewport().height()
         hub.show_page("Settings", tab="Shortcuts")
         application.processEvents()
