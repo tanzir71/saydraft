@@ -1,0 +1,21 @@
+✅  .lighthouseci/ directory writable
+✅  Configuration file found
+✅  Chrome installation found
+⚠️   GitHub token not set
+Healthcheck passed!
+
+Started a web server with "npm run preview -- --port 42863"...
+Running Lighthouse 3 time(s) on http://127.0.0.1:42863/saydraft/
+Run #1...done.
+Run #2...done.
+Run #3...done.
+Done running Lighthouse!
+
+Checking assertions against 1 URL(s), 3 total run(s)
+
+All results processed!
+
+Dumping 3 reports to disk at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-demo-port-20261115\site\.lighthouseci\home-image-fix-report...
+Done writing reports to disk.
+
+Done running autorun.

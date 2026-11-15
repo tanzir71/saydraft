@@ -1,0 +1,164 @@
+"""Freeze the canned-demo port and the still-unapproved legacy transition draft."""
+from collections import Counter
+from datetime import datetime
+import hashlib
+import json
+from pathlib import Path
+import re
+import shutil
+import subprocess
+
+qa = Path(__file__).resolve().parent
+repo = qa / 'worktrees/site-demo-port-20261115'
+site = repo / 'site'
+run = qa / 'site-demo-port-20261115-r1'
+target = repo / 'eval/site/results/2026-11-15-demo'
+load = lambda path: json.loads(path.read_bytes())
+sha = lambda data: hashlib.sha256(data).hexdigest()
+assert not subprocess.check_output(['git', 'status', '--porcelain'], cwd=repo)
+source = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=repo, text=True).strip()
+base = '5ac13dde62447ee0028dff2fac695d1e44185c51'
+assert not subprocess.check_output(['git', 'diff', '--name-only', base, source, '--', 'saydraft', 'assets/fonts',
+    'index.html', 'demo', 'vercel.json', '.vercelignore'], cwd=repo)
+target.mkdir(parents=True, exist_ok=False)
+for name in ['raw', 'lighthouse', 'artifacts', 'screenshots', 'scripts']:
+    (target / name).mkdir()
+for path in run.iterdir():
+    if path.is_file() and path.suffix in ['.json', '.txt'] and path.name != 'collection.txt':
+        shutil.copyfile(path, target / 'raw' / path.name)
+for path in (site / '.lighthouseci').glob('*.json'):
+    shutil.copyfile(path, target / 'lighthouse' / path.name)
+shutil.copytree(run / 'details-final', target / 'screenshots/legacy-draft')
+shutil.copytree(run / 'home-image-final', target / 'screenshots/corrected-hub')
+shutil.copytree(run / 'home-image-review', target / 'screenshots/before-image-fix-review')
+for project in ['mobile', 'tablet', 'desktop']:
+    shutil.copyfile(site / f'tests/demo.spec.ts-snapshots/demo-{project}-win32.png', target / f'screenshots/demo-{project}.png')
+    folder = next((site / 'test-results').glob(f'demo-native-keyboard-*-{project}'))
+    shutil.copyfile(folder / 'viewport.png', target / f'screenshots/viewport-{project}.png')
+for path, name in [('site/dist/demo/index.html', 'demo.html'), ('site/dist/og/demo.png', 'demo-og.png'),
+    ('site/dist/seo-manifest.json', 'seo-manifest.json'), ('site/dist/sitemap.xml', 'sitemap.xml'),
+    ('site/dist/llms.txt', 'llms.txt'), ('site/dist/indexnow.json', 'indexnow.json'),
+    ('index.html', 'original-index.html'), ('demo/index.html', 'original-demo.html'),
+    ('vercel.json', 'vercel.json'), ('.vercelignore', 'vercelignore.txt'),
+    ('docs/launch/legacy-site/index.html', 'legacy-banner.html')]:
+    shutil.copyfile(repo / path, target / 'artifacts' / name)
+shutil.copyfile(site / 'storybook-static/index.json', target / 'storybook-index.json')
+reports = {name: load(run / f'{name}-final.json') for name in ['site', 'components']}
+for name, count in [('site', 75), ('components', 240)]:
+    assert reports[name]['stats']['expected'] == count
+    assert not any(reports[name]['stats'][key] for key in ['unexpected', 'skipped', 'flaky'])
+starts = {name: datetime.fromisoformat(report['stats']['startTime'].replace('Z', '+00:00')).timestamp() for name, report in reports.items()}
+paths = subprocess.check_output(['git', 'ls-files', '-z', '--', 'site', 'design/tokens.json', 'tools/generate_tokens.mjs',
+    'saydraft/__init__.py', '.gitattributes', '.github/workflows', 'readme.md', 'CONTRIBUTING.md',
+    'WISPR_OFFLINE_PARITY_PLAN.md', 'docs/SITE.md', 'docs/SITE_DEMO.md', 'docs/SITE_SEO.md',
+    'docs/launch/legacy-site', 'index.html', 'demo', 'vercel.json', '.vercelignore'], cwd=repo).decode().split('\0')
+witness = {}
+for name in filter(None, paths):
+    path = repo / name; data = path.read_bytes()
+    binary = path.suffix.lower() in ['.png', '.woff', '.woff2', '.ttf', '.jpg', '.ico', '.gz']
+    site_input = name.startswith('site/') or name in ['design/tokens.json', 'tools/generate_tokens.mjs', 'saydraft/__init__.py']
+    component_input = name.startswith(('site/src/components/', 'site/src/styles/', 'site/component-tests/', 'site/.storybook/')) or name in ['site/package.json', 'site/package-lock.json', 'site/test-ports.ts', 'site/playwright.components.config.ts']
+    if site_input: assert path.stat().st_mtime < starts['site'], name
+    if component_input: assert path.stat().st_mtime < starts['components'], name
+    witness[name] = {'binary': binary, 'sha256': sha(data if binary else data.replace(b'\r\n', b'\n')),
+        'site_input': site_input, 'component_input': component_input}
+(target / 'source-witness.json').write_text(json.dumps({'source': source, 'test_starts': starts, 'files': witness}, indent=2) + '\n')
+outputs = {label: {path.relative_to(folder).as_posix(): sha(path.read_bytes()) for path in sorted(folder.rglob('*')) if path.is_file()}
+    for label, folder in [('site', site / 'dist'), ('storybook', site / 'storybook-static')]}
+assert outputs['site'] == load(run / 'lighthouse-dist-files.json')
+(target / 'outputs.json').write_text(json.dumps(outputs, indent=2) + '\n')
+rows = []
+for path in sorted((target / 'lighthouse').glob('lhr-*.json')):
+    report = load(path); demo = report['finalUrl'].endswith('/demo/')
+    scores = {name: report['categories'][name]['score'] for name in ['performance', 'accessibility', 'seo']}
+    lcp = report['audits']['largest-contentful-paint']['numericValue']; cls = report['audits']['cumulative-layout-shift']['numericValue']
+    assert not report.get('runtimeError') and scores['performance'] >= .95 and scores['accessibility'] == 1 and lcp <= 2000 and cls < .05
+    if not demo: assert scores['seo'] == 1
+    else:
+        failed = [item['id'] for item in report['categories']['seo']['auditRefs'] if item['weight'] > 0 and report['audits'][item['id']]['score'] != 1]
+        assert failed == ['is-crawlable'], failed
+    rows.append({'file': path.name, 'url': report['finalUrl'], 'demo_noindex': demo, **scores, 'lcp_ms': lcp, 'cls': cls})
+urls = Counter(row['url'] for row in rows)
+assert len(rows) == 24 and len(urls) == 8 and set(urls.values()) == {3}
+assert sum(row['demo_noindex'] for row in rows) == 3
+(target / 'lighthouse-summary.json').write_text(json.dumps({'runs': rows}, indent=2) + '\n')
+assert re.search(r'(?:#|ℹ) pass 19\b', (run / 'node-final.txt').read_text(encoding='utf-8'))
+assert load(run / 'faq-mismatch-summary.json')['strict_guard_refused']
+assert load(run / 'legacy-fixture-summary.json')['fixture_only']
+assert load(run / 'legacy-origin-summary.json')['status'] == 402
+receipt = {'source': source, 'base': base, 'indexable_pages': 44, 'html_pages': 46, 'noindex_routes': ['demo/', '404.html'],
+    'site_checks': 75, 'component_checks': 240, 'node_contracts': 19, 'type_files': 99, 'type_errors': 0,
+    'type_warnings': 0, 'type_hints': 0, 'stories': 73, 'component_snapshots': 219, 'home_snapshots': 3, 'demo_snapshots': 3,
+    'original_canned_pairs_preserved': 4, 'lighthouse_runs': 24, 'indexable_lighthouse_runs': 21, 'demo_lighthouse_runs': 3,
+    'fresh_home_lighthouse_runs': 3, 'reused_unchanged_route_runs': 21, 'unchanged_loaded_file_references': 189,
+    'min_performance': min(row['performance'] for row in rows), 'min_accessibility': min(row['accessibility'] for row in rows),
+    'min_indexable_seo': min(row['seo'] for row in rows if not row['demo_noindex']),
+    'demo_seo_scores': [row['seo'] for row in rows if row['demo_noindex']], 'demo_seo_only_expected_noindex_failure': True, 'max_lcp_ms': max(row['lcp_ms'] for row in rows),
+    'max_cls': max(row['cls'] for row in rows), 'site_output_files': len(outputs['site']),
+    'observed_terminal_exits': {'site': 0, 'components': 0, 'contracts': 0, 'build': 0, 'storybook': 0,
+        'initial_indexable_lighthouse': 0, 'initial_demo_lighthouse': 0, 'fresh_home_lighthouse': 0, 'unchanged_report_scope': 0, 'legacy_fixture': 0, 'legacy_draft_html': 0, 'legacy_draft_captures': 0},
+    'strict_faq_mismatch_build_refused': True, 'responsive_source_resolution_fixed': True, 'demo_port_locally_qualified': True,
+    'g9_approval_pending': True, 'legacy_source_changed': False, 'legacy_archive_applied_to_source': False,
+    'legacy_fixture_only': True, 'legacy_public_http_status': 402, 'legacy_live_accepted': False,
+    'p9_1_accepted': False, 'p9_7_accepted': False, 'branch_workflow_preview_run': False,
+    'hosting_deployed': False, 'actions_dispatched': False, 'pull_requests_created': False,
+    'app_runtime_changed': False, 'owner_desktop_audio_input_used': False, 'owner_clipboard_used': False,
+    'owner_accuracy_accepted': False, 'reserved_bn_ta_te_recordings_uninferred': 60, 'full_goal_complete': False}
+(target / 'receipt.json').write_text(json.dumps(receipt, indent=2) + '\n')
+for name in ['collect_site_demo_20261115.py', 'capture_legacy_banner_20261115.cjs', 'lighthouse-demo-20261115.cjs', 'capture_corrected_hub_20261115.cjs', 'review_home_image_20261115.cjs', 'reuse_unchanged_demo_lighthouse_20261115.py', 'lighthouse-home-image-fix-20261115.cjs']:
+    shutil.copyfile(qa / name, target / 'scripts' / (name + '.txt'))
+shutil.copyfile(qa / 'verify_site_demo_20261115.py', target / 'verify.py.txt')
+(target / 'README.md').write_text(f'''# Canned demo port: local qualification
+
+Source `{source}` ports all four original raw/clean pairs into the approved Astro
+design, with native radios/disclosures, deterministic playback, cancellation,
+status announcements, reduced motion and no-JavaScript reading. Its current
+shortcut and simulation labels replace the obsolete F9/insertion claims. Device,
+clipboard, script network and speech APIs are barred by the browser probe. All
+page requests remain local. This is canned illustration, not actual ASR or P10.2.
+
+Final ordinary runs:75site/240component/19Node checks pass without retries,
+flakes or skips.99-file diagnostics have0errors/warnings/hints. Production and
+Storybook builds pass.219component/threeHome/threeDemo baselines pass. Home baselines include the new footer link and the corrected responsive Hub
+image sizing/aspect ratio. Unrelated component baselines remain unchanged. Initial schema-disclosure, keyboard-modality,
+missing/new and changed-snapshot failures are retained. The actual build refuses
+an omitted Home FAQ; exact original bytes are restored before the final build.
+Only marked FAQ blocks count as FAQ schema, and equality remains strict. A
+separate pre-fix resolution probe catches1080sourcepixels displayed at1160pixels
+on desktop. Lazy auto sizes, a1160variant and explicit original aspect ratio
+correct it. The new guard and inspected three-width captures verify actual
+selected source pixels cover displayed width. Pre-fix passes/reports remain
+labelled historical; final browser checks and three fresh Home Lighthouse runs qualify the corrected
+source. The other21Lighthouse reports are reused only after all189loaded local
+file references are verified byte-identical against both output inventories.
+
+The44indexable routes retain21mobile Lighthouse runs at the unchanged public-page
+budgets. Three additional deliberately noindex demo runs enforce performance,
+accessibility, LCP and CLS; SEO100 is intentionally not required for a route that
+must stay outside search. All24raw reports and both assertion stages are retained.
+The206site outputs remain byte-identical through fresh Home performance testing;
+all files used by the21reused unchanged-route runs match both output inventories. Both
+noindex routes get local social cards and are absent from sitemaps, clean-text
+exports and the unsubmitted IndexNow payload.
+
+The G9 banner is a prepared, inspected and HTML-valid candidate only. A separate
+isolated Git fixture performs real git mv operations with R100 detection and
+unchanged archived bytes/Vercel configuration. The source repository's legacy
+index/demo/Vercel files stay unchanged; owner approval remains pending. A public
+unauthenticated request to the old Vercel URL returns HTTP402, so no live banner
+acceptance is claimed. Neither the fixture nor a source push proves publication.
+P9.1 also requires its branch workflow preview; the owner currently requires local
+validation/direct main pushes and no Actions dispatch, so it remains unchecked.
+
+No PR, Actions run, hosting action, owner desktop/audio/device/input/clipboard,
+model inference, release or billing action is made.60reservedBN/TA/TE recordings
+remain uninferred. P9.1/P9.7, external SEO, broad language quality, desktop/Command/
+Meeting acceptance, release latency, installer/signing/distribution and the full
+original implementation goal remain open. Existing evidence stays historical;
+this verifier checks the exact recorded source and retained bytes, with optional
+actual static/Storybook directory comparisons.
+''', encoding='utf-8')
+files = {path.relative_to(target).as_posix(): {'bytes': path.stat().st_size, 'sha256': sha(path.read_bytes())}
+    for path in sorted(target.rglob('*')) if path.is_file()}
+(target / 'manifest.json').write_text(json.dumps({'files': files}, indent=2) + '\n')
+print(json.dumps({'source': source, 'records': len(files), 'source_files': len(witness), 'receipt': receipt}, indent=2))

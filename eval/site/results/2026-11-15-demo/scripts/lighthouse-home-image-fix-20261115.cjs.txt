@@ -1,0 +1,4 @@
+const config = require('D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-demo-port-20261115/site/lighthouserc.cjs');
+config.ci.collect.url = ['http://127.0.0.1:42863/saydraft/'];
+config.ci.upload.outputDir = '.lighthouseci/home-image-fix-report';
+module.exports = config;

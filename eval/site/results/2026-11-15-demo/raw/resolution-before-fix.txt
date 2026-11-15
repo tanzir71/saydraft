@@ -1,0 +1,51 @@
+
+> saydraft-site@0.1.0 test
+> playwright test --grep home explains --reporter=list,json
+
+[WebServer] (node:27676) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 3 tests using 3 workers
+
+(node:27936) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:42180) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:40056) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 [tablet] › tests\home.spec.ts:9:1 › home explains real product states, source-backed choices and setup without using devices (3.7s)
+  ok 3 [mobile] › tests\home.spec.ts:9:1 › home explains real product states, source-backed choices and setup without using devices (5.8s)
+  x  2 [desktop] › tests\home.spec.ts:9:1 › home explains real product states, source-backed choices and setup without using devices (6.5s)
+
+
+  1) [desktop] › tests\home.spec.ts:9:1 › home explains real product states, source-backed choices and setup without using devices 
+
+    Error: Source resolution for http://127.0.0.1:42861/saydraft/_astro/saydraft-hub-style-light-2x.CKXJHomd_16VYcJ.avif
+
+    expect(received).toBeGreaterThanOrEqual(expected)
+
+    Expected: >= 1160
+    Received:    1080
+
+      33 |     expect(response.ok()).toBe(true);
+      34 |     const source = await sharp(await response.body()).metadata();
+    > 35 |     expect(source.width, `Source resolution for ${rendered.source}`).toBeGreaterThanOrEqual(Math.ceil(rendered.width));
+         |                                                                      ^
+      36 |   }
+      37 |   await expect(page.locator('main picture')).toHaveCount(5);
+      38 |   await expect(page.locator('main picture source[type="image/avif"]')).toHaveCount(5);
+        at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-demo-port-20261115\site\tests\home.spec.ts:35:70
+
+    Error Context: test-results\home-home-explains-real-pr-d0a74-setup-without-using-devices-desktop\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\home-home-explains-real-pr-d0a74-setup-without-using-devices-desktop\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\home-home-explains-real-pr-d0a74-setup-without-using-devices-desktop\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [desktop] › tests\home.spec.ts:9:1 › home explains real product states, source-backed choices and setup without using devices 
+  2 passed (15.7s)

@@ -1,0 +1,12 @@
+{
+  "url": "https://voicetray-offline.vercel.app/",
+  "read_only": true,
+  "authenticated": false,
+  "hosting_changed": false,
+  "verified": false,
+  "error_type": "HTTPError",
+  "error": "HTTP Error 402: Payment Required",
+  "status": 402,
+  "checked_date_utc": "2026-11-15",
+  "response_body_verified": false
+}

@@ -1,0 +1,124 @@
+
+> saydraft-site@0.1.0 test
+> playwright test tests/demo.spec.ts --reporter=list,json
+
+[WebServer] (node:36652) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 12 tests using 3 workers
+
+(node:26732) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:34576) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:43204) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok  1 [mobile] › tests\demo.spec.ts:32:1 › play, reset, changing examples and changing motion preference cancel stale results (3.6s)
+  ok  2 [mobile] › tests\demo.spec.ts:7:1 › all prepared examples play locally without devices, uploads, clipboard or insertion (3.4s)
+  x   3 [mobile] › tests\demo.spec.ts:59:1 › native keyboard choices, raw disclosure and focus stay usable at every width (3.2s)
+  ok  4 [mobile] › tests\demo.spec.ts:77:1 › no-JavaScript demo keeps every prepared pair readable and stays outside search exports (3.5s)
+(node:33024) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:26368) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:7424) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok  5 [tablet] › tests\demo.spec.ts:7:1 › all prepared examples play locally without devices, uploads, clipboard or insertion (2.6s)
+  ok  6 [tablet] › tests\demo.spec.ts:32:1 › play, reset, changing examples and changing motion preference cancel stale results (5.5s)
+  ok  8 [tablet] › tests\demo.spec.ts:77:1 › no-JavaScript demo keeps every prepared pair readable and stays outside search exports (5.4s)
+  x   7 [tablet] › tests\demo.spec.ts:59:1 › native keyboard choices, raw disclosure and focus stay usable at every width (3.0s)
+(node:1780) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:44204) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:13256) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 10 [desktop] › tests\demo.spec.ts:32:1 › play, reset, changing examples and changing motion preference cancel stale results (3.2s)
+  ok 11 [desktop] › tests\demo.spec.ts:7:1 › all prepared examples play locally without devices, uploads, clipboard or insertion (4.0s)
+  ok 12 [desktop] › tests\demo.spec.ts:77:1 › no-JavaScript demo keeps every prepared pair readable and stays outside search exports (2.9s)
+  x   9 [desktop] › tests\demo.spec.ts:59:1 › native keyboard choices, raw disclosure and focus stay usable at every width (2.6s)
+
+
+  1) [mobile] › tests\demo.spec.ts:59:1 › native keyboard choices, raw disclosure and focus stay usable at every width 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: "solid"
+    Received: "none"
+
+      68 |   const play = page.getByRole('button', { name: 'Play example' });
+      69 |   await play.focus(); await expect(play).toBeFocused();
+    > 70 |   expect(await play.evaluate((node) => getComputedStyle(node).outlineStyle)).toBe('solid');
+         |                                                                              ^
+      71 |   await page.getByRole('radio', { name: 'Email update', exact: true }).check();
+      72 |   await page.evaluate(async () => { await document.fonts.ready; (document.activeElement as HTMLElement)?.blur(); scrollTo(0, 0); });
+      73 |   await expect(page).toHaveScreenshot('demo.png', { fullPage: true, animations: 'disabled' });
+        at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-demo-port-20261115\site\tests\demo.spec.ts:70:78
+
+    Error Context: test-results\demo-native-keyboard-choic-0c320--stay-usable-at-every-width-mobile\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\demo-native-keyboard-choic-0c320--stay-usable-at-every-width-mobile\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\demo-native-keyboard-choic-0c320--stay-usable-at-every-width-mobile\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [tablet] › tests\demo.spec.ts:59:1 › native keyboard choices, raw disclosure and focus stay usable at every width 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: "solid"
+    Received: "none"
+
+      68 |   const play = page.getByRole('button', { name: 'Play example' });
+      69 |   await play.focus(); await expect(play).toBeFocused();
+    > 70 |   expect(await play.evaluate((node) => getComputedStyle(node).outlineStyle)).toBe('solid');
+         |                                                                              ^
+      71 |   await page.getByRole('radio', { name: 'Email update', exact: true }).check();
+      72 |   await page.evaluate(async () => { await document.fonts.ready; (document.activeElement as HTMLElement)?.blur(); scrollTo(0, 0); });
+      73 |   await expect(page).toHaveScreenshot('demo.png', { fullPage: true, animations: 'disabled' });
+        at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-demo-port-20261115\site\tests\demo.spec.ts:70:78
+
+    Error Context: test-results\demo-native-keyboard-choic-0c320--stay-usable-at-every-width-tablet\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\demo-native-keyboard-choic-0c320--stay-usable-at-every-width-tablet\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\demo-native-keyboard-choic-0c320--stay-usable-at-every-width-tablet\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) [desktop] › tests\demo.spec.ts:59:1 › native keyboard choices, raw disclosure and focus stay usable at every width 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: "solid"
+    Received: "none"
+
+      68 |   const play = page.getByRole('button', { name: 'Play example' });
+      69 |   await play.focus(); await expect(play).toBeFocused();
+    > 70 |   expect(await play.evaluate((node) => getComputedStyle(node).outlineStyle)).toBe('solid');
+         |                                                                              ^
+      71 |   await page.getByRole('radio', { name: 'Email update', exact: true }).check();
+      72 |   await page.evaluate(async () => { await document.fonts.ready; (document.activeElement as HTMLElement)?.blur(); scrollTo(0, 0); });
+      73 |   await expect(page).toHaveScreenshot('demo.png', { fullPage: true, animations: 'disabled' });
+        at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-demo-port-20261115\site\tests\demo.spec.ts:70:78
+
+    Error Context: test-results\demo-native-keyboard-choic-0c320--stay-usable-at-every-width-desktop\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\demo-native-keyboard-choic-0c320--stay-usable-at-every-width-desktop\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\demo-native-keyboard-choic-0c320--stay-usable-at-every-width-desktop\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3 failed
+    [mobile] › tests\demo.spec.ts:59:1 › native keyboard choices, raw disclosure and focus stay usable at every width 
+    [tablet] › tests\demo.spec.ts:59:1 › native keyboard choices, raw disclosure and focus stay usable at every width 
+    [desktop] › tests\demo.spec.ts:59:1 › native keyboard choices, raw disclosure and focus stay usable at every width 
+  9 passed (35.8s)

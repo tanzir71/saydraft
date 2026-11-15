@@ -1,0 +1,637 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-demo-port-20261115\\site\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "tests/demo.spec.ts",
+      "--reporter=list,json"
+    ],
+    "configFile": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-demo-port-20261115\\site\\playwright.config.ts",
+    "rootDir": "D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-demo-port-20261115/site/tests",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 3
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-demo-port-20261115/site/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 3
+        },
+        "id": "mobile",
+        "name": "mobile",
+        "testDir": "D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-demo-port-20261115/site/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-demo-port-20261115/site/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 3
+        },
+        "id": "tablet",
+        "name": "tablet",
+        "testDir": "D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-demo-port-20261115/site/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-demo-port-20261115/site/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 3
+        },
+        "id": "desktop",
+        "name": "desktop",
+        "testDir": "D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-demo-port-20261115/site/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-demo-port-20261115\\site\\test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 3
+        },
+        "name": "mobile",
+        "testDir": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-demo-port-20261115\\site\\tests",
+        "snapshotDir": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-demo-port-20261115\\site\\tests",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 30000,
+        "use": {
+          "baseURL": "http://127.0.0.1:42861/saydraft/",
+          "browserName": "chromium",
+          "channel": "chromium",
+          "reducedMotion": "reduce",
+          "trace": "retain-on-failure",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          }
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "mobile"
+      },
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-demo-port-20261115\\site\\test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 3
+        },
+        "name": "tablet",
+        "testDir": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-demo-port-20261115\\site\\tests",
+        "snapshotDir": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-demo-port-20261115\\site\\tests",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 30000,
+        "use": {
+          "baseURL": "http://127.0.0.1:42861/saydraft/",
+          "browserName": "chromium",
+          "channel": "chromium",
+          "reducedMotion": "reduce",
+          "trace": "retain-on-failure",
+          "viewport": {
+            "width": 768,
+            "height": 1024
+          }
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "tablet"
+      },
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-demo-port-20261115\\site\\test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 3
+        },
+        "name": "desktop",
+        "testDir": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-demo-port-20261115\\site\\tests",
+        "snapshotDir": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-demo-port-20261115\\site\\tests",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 30000,
+        "use": {
+          "baseURL": "http://127.0.0.1:42861/saydraft/",
+          "browserName": "chromium",
+          "channel": "chromium",
+          "reducedMotion": "reduce",
+          "trace": "retain-on-failure",
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          }
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "desktop"
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list"
+      ],
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.65.0",
+    "workers": 3,
+    "webServer": {
+      "command": "npm run preview -- --port 42861",
+      "url": "http://127.0.0.1:42861/saydraft/",
+      "reuseExistingServer": false,
+      "timeout": 30000
+    }
+  },
+  "suites": [
+    {
+      "title": "demo.spec.ts",
+      "file": "demo.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "all prepared examples play locally without devices, uploads, clipboard or insertion",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile",
+              "projectName": "mobile",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3414,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-15T00:29:10.119Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            },
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "tablet",
+              "projectName": "tablet",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2558,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-15T00:29:18.239Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            },
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 8,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 4003,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-15T00:29:30.358Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "05384557491ebd602dd7-4e1847b9f28399187c8e",
+          "file": "demo.spec.ts",
+          "line": 7,
+          "column": 1
+        },
+        {
+          "title": "play, reset, changing examples and changing motion preference cancel stale results",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile",
+              "projectName": "mobile",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 3553,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-15T00:29:09.948Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            },
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "tablet",
+              "projectName": "tablet",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 5536,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-15T00:29:18.393Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            },
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 7,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3154,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-15T00:29:29.857Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "05384557491ebd602dd7-5025d966ffe86a36fce1",
+          "file": "demo.spec.ts",
+          "line": 32,
+          "column": 1
+        },
+        {
+          "title": "native keyboard choices, raw disclosure and focus stay usable at every width",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile",
+              "projectName": "mobile",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "failed",
+                  "duration": 3246,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m\"solid\"\u001b[39m\nReceived: \u001b[31m\"none\"\u001b[39m",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m\"solid\"\u001b[39m\nReceived: \u001b[31m\"none\"\u001b[39m\n    at D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-demo-port-20261115\\site\\tests\\demo.spec.ts:70:78",
+                    "location": {
+                      "file": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-demo-port-20261115\\site\\tests\\demo.spec.ts",
+                      "column": 78,
+                      "line": 70
+                    },
+                    "snippet": " \u001b[90m 68 |\u001b[39m   \u001b[36mconst\u001b[39m play \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'button'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[32m'Play example'\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m 69 |\u001b[39m   \u001b[36mawait\u001b[39m play\u001b[33m.\u001b[39mfocus()\u001b[33m;\u001b[39m \u001b[36mawait\u001b[39m expect(play)\u001b[33m.\u001b[39mtoBeFocused()\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 70 |\u001b[39m   expect(\u001b[36mawait\u001b[39m play\u001b[33m.\u001b[39mevaluate((node) \u001b[33m=>\u001b[39m getComputedStyle(node)\u001b[33m.\u001b[39moutlineStyle))\u001b[33m.\u001b[39mtoBe(\u001b[32m'solid'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                                              \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 71 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'radio'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[32m'Email update'\u001b[39m\u001b[33m,\u001b[39m exact\u001b[33m:\u001b[39m \u001b[36mtrue\u001b[39m })\u001b[33m.\u001b[39mcheck()\u001b[33m;\u001b[39m\n \u001b[90m 72 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mevaluate(\u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m { \u001b[36mawait\u001b[39m document\u001b[33m.\u001b[39mfonts\u001b[33m.\u001b[39mready\u001b[33m;\u001b[39m (document\u001b[33m.\u001b[39mactiveElement \u001b[36mas\u001b[39m \u001b[33mHTMLElement\u001b[39m)\u001b[33m?.\u001b[39mblur()\u001b[33m;\u001b[39m scrollTo(\u001b[35m0\u001b[39m\u001b[33m,\u001b[39m \u001b[35m0\u001b[39m)\u001b[33m;\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m 73 |\u001b[39m   \u001b[36mawait\u001b[39m expect(page)\u001b[33m.\u001b[39mtoHaveScreenshot(\u001b[32m'demo.png'\u001b[39m\u001b[33m,\u001b[39m { fullPage\u001b[33m:\u001b[39m \u001b[36mtrue\u001b[39m\u001b[33m,\u001b[39m animations\u001b[33m:\u001b[39m \u001b[32m'disabled'\u001b[39m })\u001b[33m;\u001b[39m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-demo-port-20261115\\site\\tests\\demo.spec.ts",
+                        "column": 78,
+                        "line": 70
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m\"solid\"\u001b[39m\nReceived: \u001b[31m\"none\"\u001b[39m\n\n  68 |   const play = page.getByRole('button', { name: 'Play example' });\n  69 |   await play.focus(); await expect(play).toBeFocused();\n> 70 |   expect(await play.evaluate((node) => getComputedStyle(node).outlineStyle)).toBe('solid');\n     |                                                                              ^\n  71 |   await page.getByRole('radio', { name: 'Email update', exact: true }).check();\n  72 |   await page.evaluate(async () => { await document.fonts.ready; (document.activeElement as HTMLElement)?.blur(); scrollTo(0, 0); });\n  73 |   await expect(page).toHaveScreenshot('demo.png', { fullPage: true, animations: 'disabled' });\n    at D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-demo-port-20261115\\site\\tests\\demo.spec.ts:70:78"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-15T00:29:10.136Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-demo-port-20261115\\site\\test-results\\demo-native-keyboard-choic-0c320--stay-usable-at-every-width-mobile\\error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-demo-port-20261115\\site\\test-results\\demo-native-keyboard-choic-0c320--stay-usable-at-every-width-mobile\\trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-demo-port-20261115\\site\\tests\\demo.spec.ts",
+                    "column": 78,
+                    "line": 70
+                  }
+                }
+              ],
+              "status": "unexpected"
+            },
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "tablet",
+              "projectName": "tablet",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 1,
+                  "status": "failed",
+                  "duration": 3037,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m\"solid\"\u001b[39m\nReceived: \u001b[31m\"none\"\u001b[39m",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m\"solid\"\u001b[39m\nReceived: \u001b[31m\"none\"\u001b[39m\n    at D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-demo-port-20261115\\site\\tests\\demo.spec.ts:70:78",
+                    "location": {
+                      "file": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-demo-port-20261115\\site\\tests\\demo.spec.ts",
+                      "column": 78,
+                      "line": 70
+                    },
+                    "snippet": " \u001b[90m 68 |\u001b[39m   \u001b[36mconst\u001b[39m play \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'button'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[32m'Play example'\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m 69 |\u001b[39m   \u001b[36mawait\u001b[39m play\u001b[33m.\u001b[39mfocus()\u001b[33m;\u001b[39m \u001b[36mawait\u001b[39m expect(play)\u001b[33m.\u001b[39mtoBeFocused()\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 70 |\u001b[39m   expect(\u001b[36mawait\u001b[39m play\u001b[33m.\u001b[39mevaluate((node) \u001b[33m=>\u001b[39m getComputedStyle(node)\u001b[33m.\u001b[39moutlineStyle))\u001b[33m.\u001b[39mtoBe(\u001b[32m'solid'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                                              \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 71 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'radio'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[32m'Email update'\u001b[39m\u001b[33m,\u001b[39m exact\u001b[33m:\u001b[39m \u001b[36mtrue\u001b[39m })\u001b[33m.\u001b[39mcheck()\u001b[33m;\u001b[39m\n \u001b[90m 72 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mevaluate(\u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m { \u001b[36mawait\u001b[39m document\u001b[33m.\u001b[39mfonts\u001b[33m.\u001b[39mready\u001b[33m;\u001b[39m (document\u001b[33m.\u001b[39mactiveElement \u001b[36mas\u001b[39m \u001b[33mHTMLElement\u001b[39m)\u001b[33m?.\u001b[39mblur()\u001b[33m;\u001b[39m scrollTo(\u001b[35m0\u001b[39m\u001b[33m,\u001b[39m \u001b[35m0\u001b[39m)\u001b[33m;\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m 73 |\u001b[39m   \u001b[36mawait\u001b[39m expect(page)\u001b[33m.\u001b[39mtoHaveScreenshot(\u001b[32m'demo.png'\u001b[39m\u001b[33m,\u001b[39m { fullPage\u001b[33m:\u001b[39m \u001b[36mtrue\u001b[39m\u001b[33m,\u001b[39m animations\u001b[33m:\u001b[39m \u001b[32m'disabled'\u001b[39m })\u001b[33m;\u001b[39m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-demo-port-20261115\\site\\tests\\demo.spec.ts",
+                        "column": 78,
+                        "line": 70
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m\"solid\"\u001b[39m\nReceived: \u001b[31m\"none\"\u001b[39m\n\n  68 |   const play = page.getByRole('button', { name: 'Play example' });\n  69 |   await play.focus(); await expect(play).toBeFocused();\n> 70 |   expect(await play.evaluate((node) => getComputedStyle(node).outlineStyle)).toBe('solid');\n     |                                                                              ^\n  71 |   await page.getByRole('radio', { name: 'Email update', exact: true }).check();\n  72 |   await page.evaluate(async () => { await document.fonts.ready; (document.activeElement as HTMLElement)?.blur(); scrollTo(0, 0); });\n  73 |   await expect(page).toHaveScreenshot('demo.png', { fullPage: true, animations: 'disabled' });\n    at D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-demo-port-20261115\\site\\tests\\demo.spec.ts:70:78"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-15T00:29:21.173Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-demo-port-20261115\\site\\test-results\\demo-native-keyboard-choic-0c320--stay-usable-at-every-width-tablet\\error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-demo-port-20261115\\site\\test-results\\demo-native-keyboard-choic-0c320--stay-usable-at-every-width-tablet\\trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-demo-port-20261115\\site\\tests\\demo.spec.ts",
+                    "column": 78,
+                    "line": 70
+                  }
+                }
+              ],
+              "status": "unexpected"
+            },
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 1,
+                  "status": "failed",
+                  "duration": 2604,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m\"solid\"\u001b[39m\nReceived: \u001b[31m\"none\"\u001b[39m",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m\"solid\"\u001b[39m\nReceived: \u001b[31m\"none\"\u001b[39m\n    at D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-demo-port-20261115\\site\\tests\\demo.spec.ts:70:78",
+                    "location": {
+                      "file": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-demo-port-20261115\\site\\tests\\demo.spec.ts",
+                      "column": 78,
+                      "line": 70
+                    },
+                    "snippet": " \u001b[90m 68 |\u001b[39m   \u001b[36mconst\u001b[39m play \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'button'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[32m'Play example'\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m 69 |\u001b[39m   \u001b[36mawait\u001b[39m play\u001b[33m.\u001b[39mfocus()\u001b[33m;\u001b[39m \u001b[36mawait\u001b[39m expect(play)\u001b[33m.\u001b[39mtoBeFocused()\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 70 |\u001b[39m   expect(\u001b[36mawait\u001b[39m play\u001b[33m.\u001b[39mevaluate((node) \u001b[33m=>\u001b[39m getComputedStyle(node)\u001b[33m.\u001b[39moutlineStyle))\u001b[33m.\u001b[39mtoBe(\u001b[32m'solid'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                                              \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 71 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'radio'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[32m'Email update'\u001b[39m\u001b[33m,\u001b[39m exact\u001b[33m:\u001b[39m \u001b[36mtrue\u001b[39m })\u001b[33m.\u001b[39mcheck()\u001b[33m;\u001b[39m\n \u001b[90m 72 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mevaluate(\u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m { \u001b[36mawait\u001b[39m document\u001b[33m.\u001b[39mfonts\u001b[33m.\u001b[39mready\u001b[33m;\u001b[39m (document\u001b[33m.\u001b[39mactiveElement \u001b[36mas\u001b[39m \u001b[33mHTMLElement\u001b[39m)\u001b[33m?.\u001b[39mblur()\u001b[33m;\u001b[39m scrollTo(\u001b[35m0\u001b[39m\u001b[33m,\u001b[39m \u001b[35m0\u001b[39m)\u001b[33m;\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m 73 |\u001b[39m   \u001b[36mawait\u001b[39m expect(page)\u001b[33m.\u001b[39mtoHaveScreenshot(\u001b[32m'demo.png'\u001b[39m\u001b[33m,\u001b[39m { fullPage\u001b[33m:\u001b[39m \u001b[36mtrue\u001b[39m\u001b[33m,\u001b[39m animations\u001b[33m:\u001b[39m \u001b[32m'disabled'\u001b[39m })\u001b[33m;\u001b[39m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-demo-port-20261115\\site\\tests\\demo.spec.ts",
+                        "column": 78,
+                        "line": 70
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m\"solid\"\u001b[39m\nReceived: \u001b[31m\"none\"\u001b[39m\n\n  68 |   const play = page.getByRole('button', { name: 'Play example' });\n  69 |   await play.focus(); await expect(play).toBeFocused();\n> 70 |   expect(await play.evaluate((node) => getComputedStyle(node).outlineStyle)).toBe('solid');\n     |                                                                              ^\n  71 |   await page.getByRole('radio', { name: 'Email update', exact: true }).check();\n  72 |   await page.evaluate(async () => { await document.fonts.ready; (document.activeElement as HTMLElement)?.blur(); scrollTo(0, 0); });\n  73 |   await expect(page).toHaveScreenshot('demo.png', { fullPage: true, animations: 'disabled' });\n    at D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-demo-port-20261115\\site\\tests\\demo.spec.ts:70:78"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-15T00:29:29.858Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-demo-port-20261115\\site\\test-results\\demo-native-keyboard-choic-0c320--stay-usable-at-every-width-desktop\\error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-demo-port-20261115\\site\\test-results\\demo-native-keyboard-choic-0c320--stay-usable-at-every-width-desktop\\trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-demo-port-20261115\\site\\tests\\demo.spec.ts",
+                    "column": 78,
+                    "line": 70
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "05384557491ebd602dd7-2975ba156c6536a0b350",
+          "file": "demo.spec.ts",
+          "line": 59,
+          "column": 1
+        },
+        {
+          "title": "no-JavaScript demo keeps every prepared pair readable and stays outside search exports",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile",
+              "projectName": "mobile",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 3478,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-15T00:29:14.635Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            },
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "tablet",
+              "projectName": "tablet",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5381,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-15T00:29:21.264Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            },
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 7,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2939,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-15T00:29:33.573Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "05384557491ebd602dd7-10b9eef020a62da7a3f7",
+          "file": "demo.spec.ts",
+          "line": 77,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-11-15T00:29:04.097Z",
+    "duration": 35808.371,
+    "expected": 9,
+    "skipped": 0,
+    "unexpected": 3,
+    "flaky": 0
+  }
+}

@@ -1,0 +1,78 @@
+{
+  "screenshots": 3,
+  "reviews": [
+    {
+      "name": "mobile",
+      "hub": {
+        "x": 30,
+        "y": 3450.046875,
+        "width": 330,
+        "height": 232.03125
+      },
+      "footer": {
+        "x": 20,
+        "y": 13381.34375,
+        "width": 350,
+        "height": 1346.9375
+      },
+      "resource": {
+        "currentSrc": "http://127.0.0.1:42861/saydraft/_astro/saydraft-hub-style-light-2x.CKXJHomd_Z1nYxux.avif",
+        "naturalWidth": 351,
+        "naturalHeight": 246
+      },
+      "hubPixels": 0,
+      "footerPixels": 2384,
+      "outside": 0
+    },
+    {
+      "name": "tablet",
+      "hub": {
+        "x": 58.40625,
+        "y": 2595.515625,
+        "width": 651.1875,
+        "height": 458.234375
+      },
+      "footer": {
+        "x": 38.40625,
+        "y": 10206.015625,
+        "width": 691.1875,
+        "height": 790.921875
+      },
+      "resource": {
+        "currentSrc": "http://127.0.0.1:42861/saydraft/_astro/saydraft-hub-style-light-2x.CKXJHomd_16VYcJ.avif",
+        "naturalWidth": 652,
+        "naturalHeight": 459
+      },
+      "hubPixels": 0,
+      "footerPixels": 2358,
+      "outside": 0
+    },
+    {
+      "name": "desktop",
+      "hub": {
+        "x": 140,
+        "y": 2977.375,
+        "width": 1160,
+        "height": 816.28125
+      },
+      "footer": {
+        "x": 120,
+        "y": 11303.6875,
+        "width": 1200,
+        "height": 790.921875
+      },
+      "resource": {
+        "currentSrc": "http://127.0.0.1:42861/saydraft/_astro/saydraft-hub-style-light-2x.CKXJHomd_16VYcJ.avif",
+        "naturalWidth": 1000,
+        "naturalHeight": 703
+      },
+      "hubPixels": 425611,
+      "footerPixels": 2384,
+      "outside": 0
+    }
+  ],
+  "headless": true,
+  "external": [],
+  "errors": [],
+  "owner_audio_input_clipboard_used": false
+}

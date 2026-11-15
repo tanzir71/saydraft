@@ -1,0 +1,174 @@
+
+> saydraft-site@0.1.0 test:components
+> playwright test -c playwright.components.config.ts --grep Layout/Footer --reporter=list,json
+
+[WebServer] (node:44508) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 3 tests using 3 workers
+
+(node:6824) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:34624) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:42320) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  3 [desktop] › component-tests\library.spec.ts:22:3 › Layout/Footer · layout-footer--project-and-creator renders locally without overflow (4.3s)
+  x  1 [tablet] › component-tests\library.spec.ts:22:3 › Layout/Footer · layout-footer--project-and-creator renders locally without overflow (5.7s)
+  x  2 [mobile] › component-tests\library.spec.ts:22:3 › Layout/Footer · layout-footer--project-and-creator renders locally without overflow (4.3s)
+
+
+  1) [mobile] › component-tests\library.spec.ts:22:3 › Layout/Footer · layout-footer--project-and-creator renders locally without overflow 
+
+    Error: expect(page).toHaveScreenshot(expected) failed
+
+      1062 pixels (ratio 0.01 of all image pixels) are different.
+
+      Snapshot: layout-footer--project-and-creator.png
+
+    Call log:
+      - Expect "toHaveScreenshot(layout-footer--project-and-creator.png)" with timeout 5000ms
+        - verifying given screenshot expectation
+      - taking page screenshot
+        - disabled all CSS animations
+      - waiting for fonts to load...
+      - fonts loaded
+      - 1062 pixels (ratio 0.01 of all image pixels) are different.
+      - waiting 100ms before taking screenshot
+      - taking page screenshot
+        - disabled all CSS animations
+      - waiting for fonts to load...
+      - fonts loaded
+      - captured a stable screenshot
+      - 1062 pixels (ratio 0.01 of all image pixels) are different.
+
+
+      38 |     expect(errors).toEqual([]);
+      39 |     expect(await contrastFailures(page)).toEqual([]);
+    > 40 |     await expect(page).toHaveScreenshot(`${id}.png`, { fullPage: true, animations: 'disabled' });
+         |                        ^
+      41 |   });
+      42 | }
+      43 |
+        at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-demo-port-20261115\site\component-tests\library.spec.ts:40:24
+
+    attachment #1: layout-footer--project-and-creator (image/png) ──────────────────────────────────
+    Expected: component-tests\library.spec.ts-snapshots\layout-footer--project-and-creator-mobile-win32.png
+    Received: component-results\library-Layout-Footer-·-la-84cbd-rs-locally-without-overflow-mobile\layout-footer--project-and-creator-actual.png
+    Diff:     component-results\library-Layout-Footer-·-la-84cbd-rs-locally-without-overflow-mobile\layout-footer--project-and-creator-diff.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: component-results\library-Layout-Footer-·-la-84cbd-rs-locally-without-overflow-mobile\error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    component-results\library-Layout-Footer-·-la-84cbd-rs-locally-without-overflow-mobile\trace.zip
+    Usage:
+
+        npx playwright show-trace component-results\library-Layout-Footer-·-la-84cbd-rs-locally-without-overflow-mobile\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [tablet] › component-tests\library.spec.ts:22:3 › Layout/Footer · layout-footer--project-and-creator renders locally without overflow 
+
+    Error: expect(page).toHaveScreenshot(expected) failed
+
+      1139 pixels (ratio 0.01 of all image pixels) are different.
+
+      Snapshot: layout-footer--project-and-creator.png
+
+    Call log:
+      - Expect "toHaveScreenshot(layout-footer--project-and-creator.png)" with timeout 5000ms
+        - verifying given screenshot expectation
+      - taking page screenshot
+        - disabled all CSS animations
+      - waiting for fonts to load...
+      - fonts loaded
+      - 1139 pixels (ratio 0.01 of all image pixels) are different.
+      - waiting 100ms before taking screenshot
+      - taking page screenshot
+        - disabled all CSS animations
+      - waiting for fonts to load...
+      - fonts loaded
+      - captured a stable screenshot
+      - 1139 pixels (ratio 0.01 of all image pixels) are different.
+
+
+      38 |     expect(errors).toEqual([]);
+      39 |     expect(await contrastFailures(page)).toEqual([]);
+    > 40 |     await expect(page).toHaveScreenshot(`${id}.png`, { fullPage: true, animations: 'disabled' });
+         |                        ^
+      41 |   });
+      42 | }
+      43 |
+        at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-demo-port-20261115\site\component-tests\library.spec.ts:40:24
+
+    attachment #1: layout-footer--project-and-creator (image/png) ──────────────────────────────────
+    Expected: component-tests\library.spec.ts-snapshots\layout-footer--project-and-creator-tablet-win32.png
+    Received: component-results\library-Layout-Footer-·-la-84cbd-rs-locally-without-overflow-tablet\layout-footer--project-and-creator-actual.png
+    Diff:     component-results\library-Layout-Footer-·-la-84cbd-rs-locally-without-overflow-tablet\layout-footer--project-and-creator-diff.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: component-results\library-Layout-Footer-·-la-84cbd-rs-locally-without-overflow-tablet\error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    component-results\library-Layout-Footer-·-la-84cbd-rs-locally-without-overflow-tablet\trace.zip
+    Usage:
+
+        npx playwright show-trace component-results\library-Layout-Footer-·-la-84cbd-rs-locally-without-overflow-tablet\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) [desktop] › component-tests\library.spec.ts:22:3 › Layout/Footer · layout-footer--project-and-creator renders locally without overflow 
+
+    Error: expect(page).toHaveScreenshot(expected) failed
+
+      1062 pixels (ratio 0.01 of all image pixels) are different.
+
+      Snapshot: layout-footer--project-and-creator.png
+
+    Call log:
+      - Expect "toHaveScreenshot(layout-footer--project-and-creator.png)" with timeout 5000ms
+        - verifying given screenshot expectation
+      - taking page screenshot
+        - disabled all CSS animations
+      - waiting for fonts to load...
+      - fonts loaded
+      - 1062 pixels (ratio 0.01 of all image pixels) are different.
+      - waiting 100ms before taking screenshot
+      - taking page screenshot
+        - disabled all CSS animations
+      - waiting for fonts to load...
+      - fonts loaded
+      - captured a stable screenshot
+      - 1062 pixels (ratio 0.01 of all image pixels) are different.
+
+
+      38 |     expect(errors).toEqual([]);
+      39 |     expect(await contrastFailures(page)).toEqual([]);
+    > 40 |     await expect(page).toHaveScreenshot(`${id}.png`, { fullPage: true, animations: 'disabled' });
+         |                        ^
+      41 |   });
+      42 | }
+      43 |
+        at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-demo-port-20261115\site\component-tests\library.spec.ts:40:24
+
+    attachment #1: layout-footer--project-and-creator (image/png) ──────────────────────────────────
+    Expected: component-tests\library.spec.ts-snapshots\layout-footer--project-and-creator-desktop-win32.png
+    Received: component-results\library-Layout-Footer-·-la-84cbd-rs-locally-without-overflow-desktop\layout-footer--project-and-creator-actual.png
+    Diff:     component-results\library-Layout-Footer-·-la-84cbd-rs-locally-without-overflow-desktop\layout-footer--project-and-creator-diff.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: component-results\library-Layout-Footer-·-la-84cbd-rs-locally-without-overflow-desktop\error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    component-results\library-Layout-Footer-·-la-84cbd-rs-locally-without-overflow-desktop\trace.zip
+    Usage:
+
+        npx playwright show-trace component-results\library-Layout-Footer-·-la-84cbd-rs-locally-without-overflow-desktop\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3 failed
+    [mobile] › component-tests\library.spec.ts:22:3 › Layout/Footer · layout-footer--project-and-creator renders locally without overflow 
+    [tablet] › component-tests\library.spec.ts:22:3 › Layout/Footer · layout-footer--project-and-creator renders locally without overflow 
+    [desktop] › component-tests\library.spec.ts:22:3 › Layout/Footer · layout-footer--project-and-creator renders locally without overflow 

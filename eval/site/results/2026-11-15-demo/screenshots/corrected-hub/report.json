@@ -1,0 +1,33 @@
+{
+  "screenshots": 3,
+  "resources": [
+    {
+      "name": "mobile",
+      "currentSrc": "http://127.0.0.1:42861/saydraft/_astro/saydraft-hub-style-light-2x.CKXJHomd_Z1nYxux.avif",
+      "width": 330,
+      "height": 232.21875,
+      "sourceWidth": 640,
+      "sourceHeight": 450
+    },
+    {
+      "name": "tablet",
+      "currentSrc": "http://127.0.0.1:42861/saydraft/_astro/saydraft-hub-style-light-2x.CKXJHomd_16VYcJ.avif",
+      "width": 651.1875,
+      "height": 458.234375,
+      "sourceWidth": 1080,
+      "sourceHeight": 760
+    },
+    {
+      "name": "desktop",
+      "currentSrc": "http://127.0.0.1:42861/saydraft/_astro/saydraft-hub-style-light-2x.CKXJHomd_1c5oTD.avif",
+      "width": 1160,
+      "height": 816.28125,
+      "sourceWidth": 1160,
+      "sourceHeight": 816
+    }
+  ],
+  "headless": true,
+  "external": [],
+  "errors": [],
+  "owner_audio_input_clipboard_used": false
+}

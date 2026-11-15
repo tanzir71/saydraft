@@ -1,0 +1,429 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-demo-port-20261115\\site\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "tests/demo.spec.ts",
+      "--grep",
+      "native keyboard",
+      "--reporter=list,json"
+    ],
+    "configFile": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-demo-port-20261115\\site\\playwright.config.ts",
+    "rootDir": "D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-demo-port-20261115/site/tests",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 3
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-demo-port-20261115/site/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 3
+        },
+        "id": "mobile",
+        "name": "mobile",
+        "testDir": "D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-demo-port-20261115/site/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-demo-port-20261115/site/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 3
+        },
+        "id": "tablet",
+        "name": "tablet",
+        "testDir": "D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-demo-port-20261115/site/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-demo-port-20261115/site/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 3
+        },
+        "id": "desktop",
+        "name": "desktop",
+        "testDir": "D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-demo-port-20261115/site/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-demo-port-20261115\\site\\test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 3
+        },
+        "name": "mobile",
+        "testDir": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-demo-port-20261115\\site\\tests",
+        "snapshotDir": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-demo-port-20261115\\site\\tests",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 30000,
+        "use": {
+          "baseURL": "http://127.0.0.1:42861/saydraft/",
+          "browserName": "chromium",
+          "channel": "chromium",
+          "reducedMotion": "reduce",
+          "trace": "retain-on-failure",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          }
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "mobile"
+      },
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-demo-port-20261115\\site\\test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 3
+        },
+        "name": "tablet",
+        "testDir": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-demo-port-20261115\\site\\tests",
+        "snapshotDir": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-demo-port-20261115\\site\\tests",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 30000,
+        "use": {
+          "baseURL": "http://127.0.0.1:42861/saydraft/",
+          "browserName": "chromium",
+          "channel": "chromium",
+          "reducedMotion": "reduce",
+          "trace": "retain-on-failure",
+          "viewport": {
+            "width": 768,
+            "height": 1024
+          }
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "tablet"
+      },
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-demo-port-20261115\\site\\test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 3
+        },
+        "name": "desktop",
+        "testDir": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-demo-port-20261115\\site\\tests",
+        "snapshotDir": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-demo-port-20261115\\site\\tests",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 30000,
+        "use": {
+          "baseURL": "http://127.0.0.1:42861/saydraft/",
+          "browserName": "chromium",
+          "channel": "chromium",
+          "reducedMotion": "reduce",
+          "trace": "retain-on-failure",
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          }
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "desktop"
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list"
+      ],
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.65.0",
+    "workers": 3,
+    "webServer": {
+      "command": "npm run preview -- --port 42861",
+      "url": "http://127.0.0.1:42861/saydraft/",
+      "reuseExistingServer": false,
+      "timeout": 30000
+    }
+  },
+  "suites": [
+    {
+      "title": "demo.spec.ts",
+      "file": "demo.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "native keyboard choices, raw disclosure and focus stay usable at every width",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile",
+              "projectName": "mobile",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 3783,
+                  "error": {
+                    "message": "Error: A snapshot doesn't exist at D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-demo-port-20261115\\site\\tests\\demo.spec.ts-snapshots\\demo-mobile-win32.png, writing actual.",
+                    "stack": "Error: A snapshot doesn't exist at D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-demo-port-20261115\\site\\tests\\demo.spec.ts-snapshots\\demo-mobile-win32.png, writing actual.\n    at D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-demo-port-20261115\\site\\tests\\demo.spec.ts:74:3",
+                    "location": {
+                      "file": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-demo-port-20261115\\site\\tests\\demo.spec.ts",
+                      "column": 3,
+                      "line": 74
+                    },
+                    "snippet": " \u001b[90m 72 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'radio'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[32m'Email update'\u001b[39m\u001b[33m,\u001b[39m exact\u001b[33m:\u001b[39m \u001b[36mtrue\u001b[39m })\u001b[33m.\u001b[39mcheck()\u001b[33m;\u001b[39m\n \u001b[90m 73 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mevaluate(\u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m { \u001b[36mawait\u001b[39m document\u001b[33m.\u001b[39mfonts\u001b[33m.\u001b[39mready\u001b[33m;\u001b[39m (document\u001b[33m.\u001b[39mactiveElement \u001b[36mas\u001b[39m \u001b[33mHTMLElement\u001b[39m)\u001b[33m?.\u001b[39mblur()\u001b[33m;\u001b[39m scrollTo(\u001b[35m0\u001b[39m\u001b[33m,\u001b[39m \u001b[35m0\u001b[39m)\u001b[33m;\u001b[39m })\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 74 |\u001b[39m   \u001b[36mawait\u001b[39m expect(page)\u001b[33m.\u001b[39mtoHaveScreenshot(\u001b[32m'demo.png'\u001b[39m\u001b[33m,\u001b[39m { fullPage\u001b[33m:\u001b[39m \u001b[36mtrue\u001b[39m\u001b[33m,\u001b[39m animations\u001b[33m:\u001b[39m \u001b[32m'disabled'\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m   \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 75 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mscreenshot({ path\u001b[33m:\u001b[39m test\u001b[33m.\u001b[39minfo()\u001b[33m.\u001b[39moutputPath(\u001b[32m'viewport.png'\u001b[39m)\u001b[33m,\u001b[39m animations\u001b[33m:\u001b[39m \u001b[32m'disabled'\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m 76 |\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m 77 |\u001b[39m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-demo-port-20261115\\site\\tests\\demo.spec.ts",
+                        "column": 3,
+                        "line": 74
+                      },
+                      "message": "Error: A snapshot doesn't exist at D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-demo-port-20261115\\site\\tests\\demo.spec.ts-snapshots\\demo-mobile-win32.png, writing actual.\n\n  72 |   await page.getByRole('radio', { name: 'Email update', exact: true }).check();\n  73 |   await page.evaluate(async () => { await document.fonts.ready; (document.activeElement as HTMLElement)?.blur(); scrollTo(0, 0); });\n> 74 |   await expect(page).toHaveScreenshot('demo.png', { fullPage: true, animations: 'disabled' });\n     |   ^\n  75 |   await page.screenshot({ path: test.info().outputPath('viewport.png'), animations: 'disabled' });\n  76 | });\n  77 |\n    at D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-demo-port-20261115\\site\\tests\\demo.spec.ts:74:3"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-15T00:31:07.210Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "demo-expected.png",
+                      "contentType": "image/png",
+                      "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-demo-port-20261115\\site\\tests\\demo.spec.ts-snapshots\\demo-mobile-win32.png"
+                    },
+                    {
+                      "name": "demo-actual.png",
+                      "contentType": "image/png",
+                      "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-demo-port-20261115\\site\\test-results\\demo-native-keyboard-choic-0c320--stay-usable-at-every-width-mobile\\demo-actual.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-demo-port-20261115\\site\\test-results\\demo-native-keyboard-choic-0c320--stay-usable-at-every-width-mobile\\error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-demo-port-20261115\\site\\test-results\\demo-native-keyboard-choic-0c320--stay-usable-at-every-width-mobile\\trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-demo-port-20261115\\site\\tests\\demo.spec.ts",
+                    "column": 3,
+                    "line": 74
+                  }
+                }
+              ],
+              "status": "unexpected"
+            },
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "tablet",
+              "projectName": "tablet",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "failed",
+                  "duration": 2941,
+                  "error": {
+                    "message": "Error: A snapshot doesn't exist at D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-demo-port-20261115\\site\\tests\\demo.spec.ts-snapshots\\demo-tablet-win32.png, writing actual.",
+                    "stack": "Error: A snapshot doesn't exist at D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-demo-port-20261115\\site\\tests\\demo.spec.ts-snapshots\\demo-tablet-win32.png, writing actual.\n    at D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-demo-port-20261115\\site\\tests\\demo.spec.ts:74:3",
+                    "location": {
+                      "file": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-demo-port-20261115\\site\\tests\\demo.spec.ts",
+                      "column": 3,
+                      "line": 74
+                    },
+                    "snippet": " \u001b[90m 72 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'radio'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[32m'Email update'\u001b[39m\u001b[33m,\u001b[39m exact\u001b[33m:\u001b[39m \u001b[36mtrue\u001b[39m })\u001b[33m.\u001b[39mcheck()\u001b[33m;\u001b[39m\n \u001b[90m 73 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mevaluate(\u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m { \u001b[36mawait\u001b[39m document\u001b[33m.\u001b[39mfonts\u001b[33m.\u001b[39mready\u001b[33m;\u001b[39m (document\u001b[33m.\u001b[39mactiveElement \u001b[36mas\u001b[39m \u001b[33mHTMLElement\u001b[39m)\u001b[33m?.\u001b[39mblur()\u001b[33m;\u001b[39m scrollTo(\u001b[35m0\u001b[39m\u001b[33m,\u001b[39m \u001b[35m0\u001b[39m)\u001b[33m;\u001b[39m })\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 74 |\u001b[39m   \u001b[36mawait\u001b[39m expect(page)\u001b[33m.\u001b[39mtoHaveScreenshot(\u001b[32m'demo.png'\u001b[39m\u001b[33m,\u001b[39m { fullPage\u001b[33m:\u001b[39m \u001b[36mtrue\u001b[39m\u001b[33m,\u001b[39m animations\u001b[33m:\u001b[39m \u001b[32m'disabled'\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m   \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 75 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mscreenshot({ path\u001b[33m:\u001b[39m test\u001b[33m.\u001b[39minfo()\u001b[33m.\u001b[39moutputPath(\u001b[32m'viewport.png'\u001b[39m)\u001b[33m,\u001b[39m animations\u001b[33m:\u001b[39m \u001b[32m'disabled'\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m 76 |\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m 77 |\u001b[39m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-demo-port-20261115\\site\\tests\\demo.spec.ts",
+                        "column": 3,
+                        "line": 74
+                      },
+                      "message": "Error: A snapshot doesn't exist at D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-demo-port-20261115\\site\\tests\\demo.spec.ts-snapshots\\demo-tablet-win32.png, writing actual.\n\n  72 |   await page.getByRole('radio', { name: 'Email update', exact: true }).check();\n  73 |   await page.evaluate(async () => { await document.fonts.ready; (document.activeElement as HTMLElement)?.blur(); scrollTo(0, 0); });\n> 74 |   await expect(page).toHaveScreenshot('demo.png', { fullPage: true, animations: 'disabled' });\n     |   ^\n  75 |   await page.screenshot({ path: test.info().outputPath('viewport.png'), animations: 'disabled' });\n  76 | });\n  77 |\n    at D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-demo-port-20261115\\site\\tests\\demo.spec.ts:74:3"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-15T00:31:07.190Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "demo-expected.png",
+                      "contentType": "image/png",
+                      "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-demo-port-20261115\\site\\tests\\demo.spec.ts-snapshots\\demo-tablet-win32.png"
+                    },
+                    {
+                      "name": "demo-actual.png",
+                      "contentType": "image/png",
+                      "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-demo-port-20261115\\site\\test-results\\demo-native-keyboard-choic-0c320--stay-usable-at-every-width-tablet\\demo-actual.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-demo-port-20261115\\site\\test-results\\demo-native-keyboard-choic-0c320--stay-usable-at-every-width-tablet\\error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-demo-port-20261115\\site\\test-results\\demo-native-keyboard-choic-0c320--stay-usable-at-every-width-tablet\\trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-demo-port-20261115\\site\\tests\\demo.spec.ts",
+                    "column": 3,
+                    "line": 74
+                  }
+                }
+              ],
+              "status": "unexpected"
+            },
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "failed",
+                  "duration": 2896,
+                  "error": {
+                    "message": "Error: A snapshot doesn't exist at D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-demo-port-20261115\\site\\tests\\demo.spec.ts-snapshots\\demo-desktop-win32.png, writing actual.",
+                    "stack": "Error: A snapshot doesn't exist at D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-demo-port-20261115\\site\\tests\\demo.spec.ts-snapshots\\demo-desktop-win32.png, writing actual.\n    at D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-demo-port-20261115\\site\\tests\\demo.spec.ts:74:3",
+                    "location": {
+                      "file": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-demo-port-20261115\\site\\tests\\demo.spec.ts",
+                      "column": 3,
+                      "line": 74
+                    },
+                    "snippet": " \u001b[90m 72 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'radio'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[32m'Email update'\u001b[39m\u001b[33m,\u001b[39m exact\u001b[33m:\u001b[39m \u001b[36mtrue\u001b[39m })\u001b[33m.\u001b[39mcheck()\u001b[33m;\u001b[39m\n \u001b[90m 73 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mevaluate(\u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m { \u001b[36mawait\u001b[39m document\u001b[33m.\u001b[39mfonts\u001b[33m.\u001b[39mready\u001b[33m;\u001b[39m (document\u001b[33m.\u001b[39mactiveElement \u001b[36mas\u001b[39m \u001b[33mHTMLElement\u001b[39m)\u001b[33m?.\u001b[39mblur()\u001b[33m;\u001b[39m scrollTo(\u001b[35m0\u001b[39m\u001b[33m,\u001b[39m \u001b[35m0\u001b[39m)\u001b[33m;\u001b[39m })\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 74 |\u001b[39m   \u001b[36mawait\u001b[39m expect(page)\u001b[33m.\u001b[39mtoHaveScreenshot(\u001b[32m'demo.png'\u001b[39m\u001b[33m,\u001b[39m { fullPage\u001b[33m:\u001b[39m \u001b[36mtrue\u001b[39m\u001b[33m,\u001b[39m animations\u001b[33m:\u001b[39m \u001b[32m'disabled'\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m   \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 75 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mscreenshot({ path\u001b[33m:\u001b[39m test\u001b[33m.\u001b[39minfo()\u001b[33m.\u001b[39moutputPath(\u001b[32m'viewport.png'\u001b[39m)\u001b[33m,\u001b[39m animations\u001b[33m:\u001b[39m \u001b[32m'disabled'\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m 76 |\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m 77 |\u001b[39m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-demo-port-20261115\\site\\tests\\demo.spec.ts",
+                        "column": 3,
+                        "line": 74
+                      },
+                      "message": "Error: A snapshot doesn't exist at D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-demo-port-20261115\\site\\tests\\demo.spec.ts-snapshots\\demo-desktop-win32.png, writing actual.\n\n  72 |   await page.getByRole('radio', { name: 'Email update', exact: true }).check();\n  73 |   await page.evaluate(async () => { await document.fonts.ready; (document.activeElement as HTMLElement)?.blur(); scrollTo(0, 0); });\n> 74 |   await expect(page).toHaveScreenshot('demo.png', { fullPage: true, animations: 'disabled' });\n     |   ^\n  75 |   await page.screenshot({ path: test.info().outputPath('viewport.png'), animations: 'disabled' });\n  76 | });\n  77 |\n    at D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-demo-port-20261115\\site\\tests\\demo.spec.ts:74:3"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-15T00:31:07.162Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "demo-expected.png",
+                      "contentType": "image/png",
+                      "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-demo-port-20261115\\site\\tests\\demo.spec.ts-snapshots\\demo-desktop-win32.png"
+                    },
+                    {
+                      "name": "demo-actual.png",
+                      "contentType": "image/png",
+                      "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-demo-port-20261115\\site\\test-results\\demo-native-keyboard-choic-0c320--stay-usable-at-every-width-desktop\\demo-actual.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-demo-port-20261115\\site\\test-results\\demo-native-keyboard-choic-0c320--stay-usable-at-every-width-desktop\\error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-demo-port-20261115\\site\\test-results\\demo-native-keyboard-choic-0c320--stay-usable-at-every-width-desktop\\trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\worktrees\\site-demo-port-20261115\\site\\tests\\demo.spec.ts",
+                    "column": 3,
+                    "line": 74
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "05384557491ebd602dd7-2975ba156c6536a0b350",
+          "file": "demo.spec.ts",
+          "line": 59,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-11-15T00:31:04.627Z",
+    "duration": 9459.821,
+    "expected": 0,
+    "skipped": 0,
+    "unexpected": 3,
+    "flaky": 0
+  }
+}

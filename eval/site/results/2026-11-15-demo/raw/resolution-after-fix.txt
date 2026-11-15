@@ -1,0 +1,20 @@
+
+> saydraft-site@0.1.0 test
+> playwright test --grep home explains --reporter=list,json
+
+[WebServer] (node:18036) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 3 tests using 3 workers
+
+(node:41692) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:30188) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:30124) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 3 [mobile] › tests\home.spec.ts:9:1 › home explains real product states, source-backed choices and setup without using devices (3.5s)
+  ok 2 [tablet] › tests\home.spec.ts:9:1 › home explains real product states, source-backed choices and setup without using devices (3.7s)
+  ok 1 [desktop] › tests\home.spec.ts:9:1 › home explains real product states, source-backed choices and setup without using devices (4.5s)
+
+  3 passed (10.3s)

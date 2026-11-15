@@ -1,0 +1,108 @@
+
+> saydraft-site@0.1.0 test
+> playwright test tests/demo.spec.ts --grep native keyboard --reporter=list,json
+
+[WebServer] (node:43040) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 3 tests using 3 workers
+
+(node:8908) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:32404) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:41020) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  3 [mobile] › tests\demo.spec.ts:59:1 › native keyboard choices, raw disclosure and focus stay usable at every width (3.8s)
+  x  2 [tablet] › tests\demo.spec.ts:59:1 › native keyboard choices, raw disclosure and focus stay usable at every width (2.9s)
+  x  1 [desktop] › tests\demo.spec.ts:59:1 › native keyboard choices, raw disclosure and focus stay usable at every width (2.9s)
+
+
+  1) [mobile] › tests\demo.spec.ts:59:1 › native keyboard choices, raw disclosure and focus stay usable at every width 
+
+    Error: A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-demo-port-20261115\site\tests\demo.spec.ts-snapshots\demo-mobile-win32.png, writing actual.
+
+      72 |   await page.getByRole('radio', { name: 'Email update', exact: true }).check();
+      73 |   await page.evaluate(async () => { await document.fonts.ready; (document.activeElement as HTMLElement)?.blur(); scrollTo(0, 0); });
+    > 74 |   await expect(page).toHaveScreenshot('demo.png', { fullPage: true, animations: 'disabled' });
+         |   ^
+      75 |   await page.screenshot({ path: test.info().outputPath('viewport.png'), animations: 'disabled' });
+      76 | });
+      77 |
+        at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-demo-port-20261115\site\tests\demo.spec.ts:74:3
+
+    attachment #1: demo (image/png) ────────────────────────────────────────────────────────────────
+    Expected: tests\demo.spec.ts-snapshots\demo-mobile-win32.png
+    Received: test-results\demo-native-keyboard-choic-0c320--stay-usable-at-every-width-mobile\demo-actual.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\demo-native-keyboard-choic-0c320--stay-usable-at-every-width-mobile\error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\demo-native-keyboard-choic-0c320--stay-usable-at-every-width-mobile\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\demo-native-keyboard-choic-0c320--stay-usable-at-every-width-mobile\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [tablet] › tests\demo.spec.ts:59:1 › native keyboard choices, raw disclosure and focus stay usable at every width 
+
+    Error: A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-demo-port-20261115\site\tests\demo.spec.ts-snapshots\demo-tablet-win32.png, writing actual.
+
+      72 |   await page.getByRole('radio', { name: 'Email update', exact: true }).check();
+      73 |   await page.evaluate(async () => { await document.fonts.ready; (document.activeElement as HTMLElement)?.blur(); scrollTo(0, 0); });
+    > 74 |   await expect(page).toHaveScreenshot('demo.png', { fullPage: true, animations: 'disabled' });
+         |   ^
+      75 |   await page.screenshot({ path: test.info().outputPath('viewport.png'), animations: 'disabled' });
+      76 | });
+      77 |
+        at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-demo-port-20261115\site\tests\demo.spec.ts:74:3
+
+    attachment #1: demo (image/png) ────────────────────────────────────────────────────────────────
+    Expected: tests\demo.spec.ts-snapshots\demo-tablet-win32.png
+    Received: test-results\demo-native-keyboard-choic-0c320--stay-usable-at-every-width-tablet\demo-actual.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\demo-native-keyboard-choic-0c320--stay-usable-at-every-width-tablet\error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\demo-native-keyboard-choic-0c320--stay-usable-at-every-width-tablet\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\demo-native-keyboard-choic-0c320--stay-usable-at-every-width-tablet\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) [desktop] › tests\demo.spec.ts:59:1 › native keyboard choices, raw disclosure and focus stay usable at every width 
+
+    Error: A snapshot doesn't exist at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-demo-port-20261115\site\tests\demo.spec.ts-snapshots\demo-desktop-win32.png, writing actual.
+
+      72 |   await page.getByRole('radio', { name: 'Email update', exact: true }).check();
+      73 |   await page.evaluate(async () => { await document.fonts.ready; (document.activeElement as HTMLElement)?.blur(); scrollTo(0, 0); });
+    > 74 |   await expect(page).toHaveScreenshot('demo.png', { fullPage: true, animations: 'disabled' });
+         |   ^
+      75 |   await page.screenshot({ path: test.info().outputPath('viewport.png'), animations: 'disabled' });
+      76 | });
+      77 |
+        at D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-demo-port-20261115\site\tests\demo.spec.ts:74:3
+
+    attachment #1: demo (image/png) ────────────────────────────────────────────────────────────────
+    Expected: tests\demo.spec.ts-snapshots\demo-desktop-win32.png
+    Received: test-results\demo-native-keyboard-choic-0c320--stay-usable-at-every-width-desktop\demo-actual.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\demo-native-keyboard-choic-0c320--stay-usable-at-every-width-desktop\error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\demo-native-keyboard-choic-0c320--stay-usable-at-every-width-desktop\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\demo-native-keyboard-choic-0c320--stay-usable-at-every-width-desktop\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3 failed
+    [mobile] › tests\demo.spec.ts:59:1 › native keyboard choices, raw disclosure and focus stay usable at every width 
+    [tablet] › tests\demo.spec.ts:59:1 › native keyboard choices, raw disclosure and focus stay usable at every width 
+    [desktop] › tests\demo.spec.ts:59:1 › native keyboard choices, raw disclosure and focus stay usable at every width 

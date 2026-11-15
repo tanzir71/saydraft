@@ -1,0 +1,50 @@
+"""Reuse only reports whose every loaded local file is byte-identical after the Home fix."""
+import hashlib
+import json
+from pathlib import Path
+import shutil
+from urllib.parse import unquote, urlparse
+
+qa = Path(__file__).resolve().parent
+run = qa / 'site-demo-port-20261115-r1'
+site = qa / 'worktrees/site-demo-port-20261115/site'
+load = lambda path: json.loads(path.read_bytes())
+sha = lambda data: hashlib.sha256(data).hexdigest()
+before = load(run / 'before-image-fix-lighthouse-dist-files.json')
+after = load(run / 'lighthouse-dist-files.json')
+assert [p for p in before if p in after and before[p] != after[p]] == ['index.html']
+assert not set(before) - set(after)
+assert len(set(after) - set(before)) == 3
+target = site / '.lighthouseci'
+fresh = list(target.glob('lhr-*.json'))
+assert len(fresh) == 3 and all(load(p)['finalUrl'] == 'http://127.0.0.1:42863/saydraft/' for p in fresh)
+records = []
+for path in (run / 'lighthouse-before-image-fix').glob('lhr-*.json'):
+    report = load(path)
+    if report['finalUrl'] == 'http://127.0.0.1:42863/saydraft/': continue
+    files = {}
+    for item in report['audits']['network-requests']['details']['items']:
+        url = urlparse(item['url'])
+        if url.scheme not in ['http', 'https']: continue
+        assert url.netloc == '127.0.0.1:42863', item['url']
+        if url.path.startswith('/saydraft/'):
+            name = unquote(url.path[len('/saydraft/'):])
+            if name.endswith('/') or not name: name += 'index.html'
+            if name not in before:
+                assert item['statusCode'] >= 400, item
+                name = '404.html'
+        else:
+            assert item['statusCode'] >= 400, item
+            name = '404.html'
+        assert before[name] == after[name], name
+        assert sha((site / 'dist' / name).read_bytes()) == after[name], name
+        files[name] = after[name]
+    assert files and 'index.html' not in files
+    shutil.copyfile(path, target / path.name)
+    records.append({'file': path.name, 'report_sha256': sha(path.read_bytes()), 'url': report['finalUrl'], 'unchanged_loaded_files': files})
+assert len(records) == 21
+scope = {'fresh_home_reports': [{'file': p.name, 'sha256': sha(p.read_bytes())} for p in fresh],
+    'reused_reports': records, 'only_changed_existing_output': 'index.html', 'added_image_files': sorted(set(after) - set(before)),
+    'all_reused_local_files_byte_identical': True}
+(run / 'lighthouse-reuse-scope.json').write_text(json.dumps(scope, indent=2) + '\n')
+print(json.dumps({'fresh_home_reports': 3, 'reused_unchanged_reports': 21, 'loaded_files_verified': sum(len(r['unchanged_loaded_files']) for r in records)}, indent=2))

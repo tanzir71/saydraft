@@ -1,0 +1,56 @@
+// Public built HTML only, in a headless browser; this process owns and closes its server.
+const { createServer } = require('node:http');
+const fs = require('node:fs');
+const path = require('node:path');
+const sharp = require('D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-demo-port-20261115/site/node_modules/sharp');
+const { execFileSync } = require('node:child_process');
+const reviews = [];
+const { chromium } = require('D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-demo-port-20261115/site/node_modules/@playwright/test');
+const root = 'D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-demo-port-20261115/site/dist';
+const output = 'D:/Saydraft-Codex-QA-20261112-01a1cbc7/site-demo-port-20261115-r1/home-image-review';
+const origin = 'http://127.0.0.1:42861';
+const mime = { '.html': 'text/html', '.css': 'text/css', '.js': 'text/javascript', '.woff2': 'font/woff2', '.woff': 'font/woff', '.avif': 'image/avif', '.webp': 'image/webp', '.png': 'image/png', '.svg': 'image/svg+xml' };
+const server = createServer((request, response) => {
+  const url = new URL(request.url, origin);
+  if (!url.pathname.startsWith('/saydraft/')) { response.writeHead(404).end(); return; }
+  let file = path.resolve(root, '.' + decodeURIComponent(url.pathname.slice('/saydraft'.length)));
+  if (!file.startsWith(path.resolve(root) + path.sep) && file !== path.resolve(root)) { response.writeHead(403).end(); return; }
+  try {
+    if (fs.statSync(file).isDirectory()) file = path.join(file, 'index.html');
+    response.setHeader('Content-Type', mime[path.extname(file)] || 'application/octet-stream');
+    response.end(fs.readFileSync(file));
+  } catch { response.writeHead(404).end(); }
+});
+(async () => {
+  fs.mkdirSync(output, { recursive: false });
+  await new Promise((resolve, reject) => { server.once('error', reject); server.listen(42861, '127.0.0.1', resolve); });
+  let browser;
+  const external = [], errors = [];
+  try {
+    browser = await chromium.launch({ headless: true });
+    for (const [name, width, height] of [['mobile', 390, 844], ['tablet', 768, 1024], ['desktop', 1440, 900]]) {
+      const page = await browser.newPage({ viewport: { width, height }, reducedMotion: 'reduce' });
+      page.on('pageerror', (error) => errors.push(error.message));
+      await page.route('**/*', (route) => new URL(route.request().url()).origin === origin ? route.continue() : (external.push(route.request().url()), route.abort()));
+      await page.goto(origin + '/saydraft/'); await page.evaluate(() => document.fonts.ready);
+      for (const image of await page.locator('main img').all()) { await image.scrollIntoViewIfNeeded(); await image.evaluate((node) => node.decode()); }
+      await page.evaluate(() => scrollTo(0, 0));
+      const hub = await page.locator('.hub-shot img').boundingBox(), footer = await page.locator('footer').boundingBox();
+      const resource = await page.locator('.hub-shot img').evaluate((node) => ({currentSrc:node.currentSrc,naturalWidth:node.naturalWidth,naturalHeight:node.naturalHeight}));
+      const file = `site/tests/site.spec.ts-snapshots/home-${name}-win32.png`;
+      const old = await sharp(execFileSync('git',['show',`HEAD:${file}`],{cwd:'D:/Saydraft-Codex-QA-20261112-01a1cbc7/worktrees/site-demo-port-20261115',maxBuffer:10000000})).ensureAlpha().raw().toBuffer({resolveWithObject:true});
+      const next = await sharp(fs.readFileSync(path.join(root,'../tests/site.spec.ts-snapshots',`home-${name}-win32.png`))).ensureAlpha().raw().toBuffer({resolveWithObject:true});
+      if(old.info.width!==next.info.width||old.info.height!==next.info.height) throw new Error('Unexpected dimensions');
+      const inside = (x,y,box) => x>=Math.floor(box.x)&&x<Math.ceil(box.x+box.width)&&y>=Math.floor(box.y)&&y<Math.ceil(box.y+box.height);
+      let hubPixels=0,footerPixels=0,outside=0;
+      for(let i=0;i<old.data.length;i+=4)if(!old.data.subarray(i,i+4).equals(next.data.subarray(i,i+4))){let x=i/4%old.info.width,y=Math.floor(i/4/old.info.width);if(inside(x,y,hub))hubPixels++;else if(inside(x,y,footer))footerPixels++;else outside++;}
+      reviews.push({name,hub,footer,resource,hubPixels,footerPixels,outside});
+      if(outside) throw new Error('Unexpected image differences outside Hub/footer: '+outside);
+      await page.locator('.hub-shot').screenshot({path:path.join(output,'hub-'+name+'.png'),animations:'disabled'});
+      await page.close();
+    }
+    if (external.length || errors.length) throw new Error(JSON.stringify({ external, errors }));
+    fs.writeFileSync(path.join(output, 'report.json'), JSON.stringify({ screenshots: 3, reviews, headless: true, external, errors, owner_audio_input_clipboard_used: false }, null, 2) + '\n');
+    console.log('Three Hub reviews; no external requests or browser errors.');
+  } finally { if (browser) await browser.close(); await new Promise((resolve) => server.close(resolve)); }
+})().catch((error) => { console.error(error); process.exitCode = 1; });

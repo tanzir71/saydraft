@@ -1,0 +1,150 @@
+"""Verify exact canned-demo evidence and source using the standard library."""
+import argparse
+from collections import Counter
+import hashlib
+import json
+from pathlib import Path
+import re
+import subprocess
+from urllib.parse import unquote, urlparse
+
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--repo', type=Path, required=True)
+parser.add_argument('--site-dist', type=Path)
+parser.add_argument('--storybook-dist', type=Path)
+args = parser.parse_args(); repo = args.repo.resolve()
+root = repo / 'eval/site/results/2026-11-15-demo'
+load = lambda path: json.loads(path.read_bytes())
+sha = lambda data: hashlib.sha256(data).hexdigest()
+manifest = load(root / 'manifest.json')['files']
+assert {p.relative_to(root).as_posix() for p in root.rglob('*') if p.is_file()} == set(manifest) | {'manifest.json'}
+for name, record in manifest.items():
+    path = root / name
+    assert path.is_relative_to(root) and path.stat().st_size == record['bytes']
+    assert sha(path.read_bytes()) == record['sha256'], name
+receipt = load(root / 'receipt.json'); witness = load(root / 'source-witness.json')
+resolution_before = load(root / 'raw/resolution-before-fix.json')['stats']
+resolution_after = load(root / 'raw/resolution-after-fix.json')['stats']
+assert resolution_before['expected'] == 2 and resolution_before['unexpected'] == 1
+assert resolution_after['expected'] == 3 and resolution_after['unexpected'] == 0
+corrected = load(root / 'screenshots/corrected-hub/report.json')
+assert corrected['screenshots'] == 3 and corrected['headless'] and not corrected['external'] and not corrected['errors']
+assert len(corrected['resources']) == 3
+assert all(item['sourceWidth'] >= item['width'] for item in corrected['resources'])
+assert receipt['responsive_source_resolution_fixed']
+assert receipt['source'] == witness['source']
+subprocess.run(['git', 'merge-base', '--is-ancestor', receipt['source'], 'HEAD'], cwd=repo, check=True)
+for name, item in witness['files'].items():
+    data = (repo / name).read_bytes()
+    assert sha(data if item['binary'] else data.replace(b'\r\n', b'\n')) == item['sha256'], name
+for label, count in [('site', 75), ('components', 240)]:
+    report = load(root / f'raw/{label}-final.json')
+    assert report['stats']['expected'] == count
+    assert not any(report['stats'][key] for key in ['unexpected', 'skipped', 'flaky'])
+    def suite_checks(suite):
+        for spec in suite.get('specs', []):
+            for test in spec['tests']:
+                assert test['status'] == 'expected' and len(test['results']) == 1
+                assert test['results'][0]['status'] == 'passed'
+        for child in suite.get('suites', []): suite_checks(child)
+    suite_checks(report)
+outputs = load(root / 'outputs.json')
+assert len(outputs['site']) == receipt['site_output_files'] == 206
+assert outputs['site'] == load(root / 'raw/lighthouse-dist-files.json')
+reuse = load(root / 'raw/lighthouse-reuse-scope.json')
+before = load(root / 'raw/before-image-fix-lighthouse-dist-files.json')
+assert reuse['all_reused_local_files_byte_identical']
+assert len(reuse['fresh_home_reports']) == 3 and len(reuse['reused_reports']) == 21
+assert [name for name in before if name in outputs['site'] and before[name] != outputs['site'][name]] == ['index.html']
+assert not set(before) - set(outputs['site'])
+assert set(reuse['added_image_files']) == set(outputs['site']) - set(before)
+assert len(reuse['added_image_files']) == 3
+for row in reuse['fresh_home_reports']:
+    path = root / 'lighthouse' / row['file']
+    assert sha(path.read_bytes()) == row['sha256']
+    assert load(path)['finalUrl'] == 'http://127.0.0.1:42863/saydraft/'
+for row in reuse['reused_reports']:
+    path = root / 'lighthouse' / row['file']
+    assert sha(path.read_bytes()) == row['report_sha256']
+    report = load(path)
+    assert report['finalUrl'] == row['url'] != 'http://127.0.0.1:42863/saydraft/'
+    assert row['unchanged_loaded_files'] and 'index.html' not in row['unchanged_loaded_files']
+    loaded = {}
+    for item in report['audits']['network-requests']['details']['items']:
+        url = urlparse(item['url'])
+        if url.scheme not in ['http', 'https']: continue
+        assert url.netloc == '127.0.0.1:42863'
+        if url.path.startswith('/saydraft/'):
+            name = unquote(url.path[len('/saydraft/'):])
+            if name.endswith('/') or not name: name += 'index.html'
+            if name not in before:
+                assert item['statusCode'] >= 400
+                name = '404.html'
+        else:
+            assert item['statusCode'] >= 400
+            name = '404.html'
+        loaded[name] = before[name]
+    assert loaded == row['unchanged_loaded_files']
+    for name, digest in row['unchanged_loaded_files'].items():
+        assert before[name] == outputs['site'][name] == digest
+assert sum(len(row['unchanged_loaded_files']) for row in reuse['reused_reports']) == 189
+for label, folder in [('site', args.site_dist), ('storybook', args.storybook_dist)]:
+    if folder:
+        actual = {p.relative_to(folder).as_posix(): sha(p.read_bytes()) for p in folder.rglob('*') if p.is_file()}
+        assert actual == outputs[label], f'{label} build differs from qualified bytes'
+rows = load(root / 'lighthouse-summary.json')['runs']
+assert len(rows) == 24 and len(Counter(r['url'] for r in rows)) == 8
+assert set(Counter(r['url'] for r in rows).values()) == {3}
+assert sum(r['demo_noindex'] for r in rows) == 3
+for row in rows:
+    report = load(root / 'lighthouse' / row['file'])
+    assert not report.get('runtimeError') and report['finalUrl'] == row['url']
+    assert row['demo_noindex'] == row['url'].endswith('/demo/')
+    for key in ['performance', 'accessibility', 'seo']: assert row[key] == report['categories'][key]['score']
+    assert row['performance'] >= .95 and row['accessibility'] == 1
+    if not row['demo_noindex']: assert row['seo'] == 1
+    else:
+        failed = [item['id'] for item in report['categories']['seo']['auditRefs'] if item['weight'] > 0 and report['audits'][item['id']]['score'] != 1]
+        assert failed == ['is-crawlable'], failed
+    assert row['lcp_ms'] == report['audits']['largest-contentful-paint']['numericValue'] <= 2000
+    assert row['cls'] == report['audits']['cumulative-layout-shift']['numericValue'] < .05
+assert re.search(r'(?:#|ℹ) pass 19\b', (root / 'raw/node-final.txt').read_text(encoding='utf-8'))
+build = (root / 'raw/build-final.txt').read_text(encoding='utf-8')
+assert 'Result (99 files)' in build and '- 0 errors' in build and '- 0 warnings' in build and '- 0 hints' in build and 'Complete!' in build
+negative = load(root / 'raw/faq-mismatch-summary.json')
+assert negative['exit'] != 0 and negative['strict_guard_refused'] and negative['original_restored']
+assert 'FAQ schema must match the actual questions/answers' in (root / 'raw/faq-mismatch-build.txt').read_text(encoding='utf-8')
+fixture = load(root / 'raw/legacy-fixture-summary.json')
+assert fixture['fixture_only'] and fixture['script_exit'] == 0 and fixture['archived_bytes_unchanged'] and fixture['vercel_files_unchanged'] and fixture['source_legacy_files_unchanged']
+assert len(fixture['fixture_moves']) == 2 and all(line.startswith('R100\t') for line in fixture['fixture_moves'])
+assert fixture['candidate_sha256'] == sha((root / 'artifacts/legacy-banner.html').read_bytes())
+assert load(root / 'raw/legacy-origin-summary.json')['status'] == 402
+assert load(root / 'raw/legacy-banner-html-final.txt')['valid']
+draft = load(root / 'screenshots/legacy-draft/report.json')
+assert draft['screenshots'] == 2 and draft['headless'] and not draft['external'] and not draft['errors']
+unchanged = subprocess.check_output(['git', 'diff', '--name-only', receipt['base'], receipt['source'], '--',
+    'saydraft', 'assets/fonts', 'index.html', 'demo', 'vercel.json', '.vercelignore'], cwd=repo)
+assert not unchanged, 'The recorded legacy/app source is not unchanged'
+assert len(list((repo / 'site/component-tests/library.spec.ts-snapshots').glob('*.png'))) == 219
+assert len(list((repo / 'site/tests/demo.spec.ts-snapshots').glob('*.png'))) == 3
+assert sum(item['type'] == 'story' for item in load(root / 'storybook-index.json')['entries'].values()) == 73
+port = load(repo / 'site/src/data/demo.json')
+html = (root / 'artifacts/original-demo.html').read_text(encoding='utf-8')
+body = re.search(r'const examples=(\{.+?\});let current=', html, re.S).group(1)
+pairs = [dict(id=m[0], raw=m[1].replace('\\n', '\n'), clean=m[2].replace('\\n', '\n'))
+         for m in re.findall(r"(\w+):\['([^']*)','([^']*)','([^']*)'\]", body)]
+assert len(pairs) == 4 and pairs == [{k: e[k] for k in ['id', 'raw', 'clean']} for e in port]
+seo = load(root / 'artifacts/seo-manifest.json')['pages']
+assert len(seo) == 46 and sum(not p['noindex'] for p in seo) == 44
+assert next(p for p in seo if p['path'] == 'demo/')['noindex']
+assert 'https://tanzir71.github.io/saydraft/demo/' not in (root / 'artifacts/sitemap.xml').read_text(encoding='utf-8')
+assert receipt['g9_approval_pending'] and receipt['demo_port_locally_qualified']
+assert all(code == 0 for code in receipt['observed_terminal_exits'].values())
+for key in ['legacy_source_changed', 'legacy_archive_applied_to_source', 'legacy_live_accepted', 'p9_1_accepted', 'p9_7_accepted',
+    'branch_workflow_preview_run', 'hosting_deployed', 'actions_dispatched', 'pull_requests_created', 'app_runtime_changed',
+    'owner_desktop_audio_input_used', 'owner_clipboard_used', 'owner_accuracy_accepted', 'full_goal_complete']:
+    assert receipt[key] is False, key
+assert receipt['reserved_bn_ta_te_recordings_uninferred'] == 60
+print(json.dumps({'verified': True, 'source': receipt['source'], 'records': len(manifest), 'source_files': len(witness['files']),
+    'site_checks': 75, 'component_checks': 240, 'node_contracts': 19, 'lighthouse_runs': 24, 'legacy_source_changed': False,
+    'p9_1_accepted': False, 'p9_7_accepted': False, 'full_goal_complete': False}, indent=2))

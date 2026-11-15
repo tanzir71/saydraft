@@ -1,0 +1,1848 @@
+{
+  "pages": [
+    {
+      "path": "404.html",
+      "title": "Page not found · Saydraft",
+      "description": "Find Saydraft's offline Windows dictation guides, model setup and source download instructions.",
+      "canonical": "https://tanzir71.github.io/saydraft/404.html",
+      "noindex": true,
+      "image": "og/404.png",
+      "imageSha256": "1b00c875039ddd785cdd431d8fdcc1a2534bb794acd0ecb3350aa8270e2b73ca",
+      "layout": [
+        {
+          "name": "brand",
+          "left": 72,
+          "top": 64,
+          "width": 1056,
+          "height": 60
+        },
+        {
+          "name": "title",
+          "left": 72,
+          "top": 258,
+          "width": 1056,
+          "height": 82
+        },
+        {
+          "name": "description",
+          "left": 72,
+          "top": 358,
+          "width": 1056,
+          "height": 31
+        },
+        {
+          "name": "footer",
+          "left": 72,
+          "top": 523,
+          "width": 1056,
+          "height": 43
+        }
+      ],
+      "markdown": null
+    },
+    {
+      "path": "changelog/",
+      "title": "Saydraft Changelog and Release Status",
+      "description": "Read Saydraft's published release history and current build status. Release notes are fetched from GitHub during the website build.",
+      "canonical": "https://tanzir71.github.io/saydraft/changelog/",
+      "noindex": false,
+      "image": "og/changelog.png",
+      "imageSha256": "bdc8f05025b77948b379f01d1fb0daef879ca15b02049543802cbc77f710eb93",
+      "layout": [
+        {
+          "name": "brand",
+          "left": 72,
+          "top": 64,
+          "width": 1056,
+          "height": 60
+        },
+        {
+          "name": "title",
+          "left": 72,
+          "top": 243,
+          "width": 1056,
+          "height": 82
+        },
+        {
+          "name": "description",
+          "left": 72,
+          "top": 343,
+          "width": 1056,
+          "height": 62
+        },
+        {
+          "name": "footer",
+          "left": 72,
+          "top": 523,
+          "width": 1056,
+          "height": 43
+        }
+      ],
+      "markdown": "content/changelog.md"
+    },
+    {
+      "path": "credits/",
+      "title": "Saydraft Credits — Models, Libraries and Font Licenses",
+      "description": "Credits for NVIDIA Parakeet, Whisper, Qwen, local runtimes, adapted dictionary data and the complete OFL notices for Saydraft's self-hosted fonts.",
+      "canonical": "https://tanzir71.github.io/saydraft/credits/",
+      "noindex": false,
+      "image": "og/credits.png",
+      "imageSha256": "ba5b76d55822026e58a7d786a5a1654ea5f025013e72eeb1c9533dc7a87edb66",
+      "layout": [
+        {
+          "name": "brand",
+          "left": 72,
+          "top": 64,
+          "width": 1056,
+          "height": 60
+        },
+        {
+          "name": "title",
+          "left": 72,
+          "top": 202,
+          "width": 1056,
+          "height": 164
+        },
+        {
+          "name": "description",
+          "left": 72,
+          "top": 384,
+          "width": 1056,
+          "height": 62
+        },
+        {
+          "name": "footer",
+          "left": 72,
+          "top": 523,
+          "width": 1056,
+          "height": 43
+        }
+      ],
+      "markdown": "content/credits.md"
+    },
+    {
+      "path": "demo/",
+      "title": "Saydraft Demo — Illustrative Dictation and Cleanup",
+      "description": "Explore four prepared raw-to-clean dictation examples. This Saydraft simulation uses no microphone, models, uploads, clipboard or text insertion.",
+      "canonical": "https://tanzir71.github.io/saydraft/demo/",
+      "noindex": true,
+      "image": "og/demo.png",
+      "imageSha256": "52bd3ae5767541607a283a6f4057b39e3f49b94101cee5fc8df9e9da25008ae8",
+      "layout": [
+        {
+          "name": "brand",
+          "left": 72,
+          "top": 64,
+          "width": 1056,
+          "height": 60
+        },
+        {
+          "name": "title",
+          "left": 72,
+          "top": 202,
+          "width": 1056,
+          "height": 164
+        },
+        {
+          "name": "description",
+          "left": 72,
+          "top": 384,
+          "width": 1056,
+          "height": 62
+        },
+        {
+          "name": "footer",
+          "left": 72,
+          "top": 523,
+          "width": 1056,
+          "height": 43
+        }
+      ],
+      "markdown": null
+    },
+    {
+      "path": "dictation-for-developers/",
+      "title": "Voice Coding and Dictation for Developers | Saydraft",
+      "description": "Use local Windows dictation for coding prompts, notes and commit messages. Learn Saydraft's Code mode, dictionary, shortcuts and review limits.",
+      "canonical": "https://tanzir71.github.io/saydraft/dictation-for-developers/",
+      "noindex": false,
+      "image": "og/dictation-for-developers.png",
+      "imageSha256": "5dbfdc55fb1c4e2d00f6baf575a1d10d63dbb5288e303c596b21aa32e157eb33",
+      "layout": [
+        {
+          "name": "brand",
+          "left": 72,
+          "top": 64,
+          "width": 1056,
+          "height": 60
+        },
+        {
+          "name": "title",
+          "left": 72,
+          "top": 202,
+          "width": 1056,
+          "height": 164
+        },
+        {
+          "name": "description",
+          "left": 72,
+          "top": 384,
+          "width": 1056,
+          "height": 62
+        },
+        {
+          "name": "footer",
+          "left": 72,
+          "top": 523,
+          "width": 1056,
+          "height": 43
+        }
+      ],
+      "markdown": "content/dictation-for-developers.md"
+    },
+    {
+      "path": "docs/command-mode/",
+      "title": "Saydraft Command Mode — Edit Selected Text Locally",
+      "description": "Set up experimental Saydraft Command Mode, hold a shortcut to edit selected text, cancel with Escape and recover validated results with Copy.",
+      "canonical": "https://tanzir71.github.io/saydraft/docs/command-mode/",
+      "noindex": false,
+      "image": "og/docs--command-mode.png",
+      "imageSha256": "50dde903dc63ea93562388d00a238715a61c5b05e96797ea3806388e42565705",
+      "layout": [
+        {
+          "name": "brand",
+          "left": 72,
+          "top": 64,
+          "width": 1056,
+          "height": 60
+        },
+        {
+          "name": "title",
+          "left": 72,
+          "top": 202,
+          "width": 1056,
+          "height": 164
+        },
+        {
+          "name": "description",
+          "left": 72,
+          "top": 384,
+          "width": 1056,
+          "height": 62
+        },
+        {
+          "name": "footer",
+          "left": 72,
+          "top": 523,
+          "width": 1056,
+          "height": 43
+        }
+      ],
+      "markdown": "content/docs--command-mode.md"
+    },
+    {
+      "path": "docs/dictionary/",
+      "title": "Saydraft Dictionary — Names, Replacements and Learning",
+      "description": "Add names and protected terms to Saydraft, use explicit replacements, preview edits, and choose optional local correction suggestions and Undo.",
+      "canonical": "https://tanzir71.github.io/saydraft/docs/dictionary/",
+      "noindex": false,
+      "image": "og/docs--dictionary.png",
+      "imageSha256": "5ce78c43ddcf2e1b409642d287c060a8266b22d005c8c34c1fe917f67e2293d7",
+      "layout": [
+        {
+          "name": "brand",
+          "left": 72,
+          "top": 64,
+          "width": 1056,
+          "height": 60
+        },
+        {
+          "name": "title",
+          "left": 72,
+          "top": 202,
+          "width": 1056,
+          "height": 164
+        },
+        {
+          "name": "description",
+          "left": 72,
+          "top": 384,
+          "width": 1056,
+          "height": 62
+        },
+        {
+          "name": "footer",
+          "left": 72,
+          "top": 523,
+          "width": 1056,
+          "height": 43
+        }
+      ],
+      "markdown": "content/docs--dictionary.md"
+    },
+    {
+      "path": "docs/faq/",
+      "title": "Saydraft FAQ — Offline Dictation Questions Answered",
+      "description": "Answers about offline Windows dictation, local models, Spanish and Asian languages, privacy, cleanup, History and Saydraft's experimental tools.",
+      "canonical": "https://tanzir71.github.io/saydraft/docs/faq/",
+      "noindex": false,
+      "image": "og/docs--faq.png",
+      "imageSha256": "85cd25b1adf7e9f1e7f5cc17c3b56b205051b02e27dfc1337fca45dfb7d0e9b7",
+      "layout": [
+        {
+          "name": "brand",
+          "left": 72,
+          "top": 64,
+          "width": 1056,
+          "height": 60
+        },
+        {
+          "name": "title",
+          "left": 72,
+          "top": 202,
+          "width": 1056,
+          "height": 164
+        },
+        {
+          "name": "description",
+          "left": 72,
+          "top": 384,
+          "width": 1056,
+          "height": 62
+        },
+        {
+          "name": "footer",
+          "left": 72,
+          "top": 523,
+          "width": 1056,
+          "height": 43
+        }
+      ],
+      "markdown": "content/docs--faq.md"
+    },
+    {
+      "path": "docs/getting-started/",
+      "title": "Getting Started with Saydraft — Offline Dictation Setup",
+      "description": "Set up local speech models, choose your microphone, try a first dictation and learn Saydraft's Windows shortcuts with a step-by-step walkthrough.",
+      "canonical": "https://tanzir71.github.io/saydraft/docs/getting-started/",
+      "noindex": false,
+      "image": "og/docs--getting-started.png",
+      "imageSha256": "60f1786409b27695e359252ebd116446f9199faa93d6b2a9abe39d719afa1612",
+      "layout": [
+        {
+          "name": "brand",
+          "left": 72,
+          "top": 64,
+          "width": 1056,
+          "height": 60
+        },
+        {
+          "name": "title",
+          "left": 72,
+          "top": 202,
+          "width": 1056,
+          "height": 164
+        },
+        {
+          "name": "description",
+          "left": 72,
+          "top": 384,
+          "width": 1056,
+          "height": 62
+        },
+        {
+          "name": "footer",
+          "left": 72,
+          "top": 523,
+          "width": 1056,
+          "height": 43
+        }
+      ],
+      "markdown": "content/docs--getting-started.md"
+    },
+    {
+      "path": "docs/",
+      "title": "Saydraft Documentation — Offline Voice Typing on Windows",
+      "description": "Set up Saydraft, learn Windows dictation shortcuts, choose local speech models, adjust styles and dictionary, and verify offline behavior.",
+      "canonical": "https://tanzir71.github.io/saydraft/docs/",
+      "noindex": false,
+      "image": "og/docs.png",
+      "imageSha256": "31efa961bc812f7b5688f3a876557a1ac02d41cf0b07379f8c0575b5207da239",
+      "layout": [
+        {
+          "name": "brand",
+          "left": 72,
+          "top": 64,
+          "width": 1056,
+          "height": 60
+        },
+        {
+          "name": "title",
+          "left": 72,
+          "top": 202,
+          "width": 1056,
+          "height": 164
+        },
+        {
+          "name": "description",
+          "left": 72,
+          "top": 384,
+          "width": 1056,
+          "height": 62
+        },
+        {
+          "name": "footer",
+          "left": 72,
+          "top": 523,
+          "width": 1056,
+          "height": 43
+        }
+      ],
+      "markdown": "content/docs.md"
+    },
+    {
+      "path": "docs/languages/",
+      "title": "Saydraft Languages — Offline Speech Models and Pins",
+      "description": "Choose Saydraft speech languages for Arabic, Bengali, Chinese, Hindi, Japanese, Korean, Thai, Spanish, Brazilian Portuguese and more, with shared models.",
+      "canonical": "https://tanzir71.github.io/saydraft/docs/languages/",
+      "noindex": false,
+      "image": "og/docs--languages.png",
+      "imageSha256": "864237a7d8d4d3c955d0237683b248a92a315690be036a179602991a8be0434c",
+      "layout": [
+        {
+          "name": "brand",
+          "left": 72,
+          "top": 64,
+          "width": 1056,
+          "height": 60
+        },
+        {
+          "name": "title",
+          "left": 72,
+          "top": 202,
+          "width": 1056,
+          "height": 164
+        },
+        {
+          "name": "description",
+          "left": 72,
+          "top": 384,
+          "width": 1056,
+          "height": 62
+        },
+        {
+          "name": "footer",
+          "left": 72,
+          "top": 523,
+          "width": 1056,
+          "height": 43
+        }
+      ],
+      "markdown": "content/docs--languages.md"
+    },
+    {
+      "path": "docs/models/",
+      "title": "Saydraft Local Models — Parakeet, Whisper and Cleanup",
+      "description": "Compare Saydraft's local speech and cleanup models, pinned download sizes, licenses, explicit setup, cached reuse and optional quiet-speech enhancement.",
+      "canonical": "https://tanzir71.github.io/saydraft/docs/models/",
+      "noindex": false,
+      "image": "og/docs--models.png",
+      "imageSha256": "2b8b42303c556ed4fee9877b9562880aae57b8f5599b256356fbbde9acf9f8f9",
+      "layout": [
+        {
+          "name": "brand",
+          "left": 72,
+          "top": 64,
+          "width": 1056,
+          "height": 60
+        },
+        {
+          "name": "title",
+          "left": 72,
+          "top": 202,
+          "width": 1056,
+          "height": 164
+        },
+        {
+          "name": "description",
+          "left": 72,
+          "top": 384,
+          "width": 1056,
+          "height": 62
+        },
+        {
+          "name": "footer",
+          "left": 72,
+          "top": 523,
+          "width": 1056,
+          "height": 43
+        }
+      ],
+      "markdown": "content/docs--models.md"
+    },
+    {
+      "path": "docs/notes/",
+      "title": "Saydraft Notes — Local Scratchpad and Meeting Limits",
+      "description": "Keep local plain-text notes in Saydraft Scratchpad. Learn autosave, saved-note review and the separate experimental setup and limits of meeting notes.",
+      "canonical": "https://tanzir71.github.io/saydraft/docs/notes/",
+      "noindex": false,
+      "image": "og/docs--notes.png",
+      "imageSha256": "39b8cc07f7caa31e9124575bdbbcb42824f4c2d8d10d36c68b612f1119e11588",
+      "layout": [
+        {
+          "name": "brand",
+          "left": 72,
+          "top": 64,
+          "width": 1056,
+          "height": 60
+        },
+        {
+          "name": "title",
+          "left": 72,
+          "top": 202,
+          "width": 1056,
+          "height": 164
+        },
+        {
+          "name": "description",
+          "left": 72,
+          "top": 384,
+          "width": 1056,
+          "height": 62
+        },
+        {
+          "name": "footer",
+          "left": 72,
+          "top": 523,
+          "width": 1056,
+          "height": 43
+        }
+      ],
+      "markdown": "content/docs--notes.md"
+    },
+    {
+      "path": "docs/privacy/verify-offline/",
+      "title": "Verify Saydraft Offline — Network and Firewall Checks",
+      "description": "Check local Saydraft dictation without internet, understand its Python network guard, and review optional packaged Windows Firewall controls and limits.",
+      "canonical": "https://tanzir71.github.io/saydraft/docs/privacy/verify-offline/",
+      "noindex": false,
+      "image": "og/docs--privacy--verify-offline.png",
+      "imageSha256": "fd97612f5688b5b9f5069440c2e3f3fc1cefffdcb874bb0e18c267cc1a9cfa4f",
+      "layout": [
+        {
+          "name": "brand",
+          "left": 72,
+          "top": 64,
+          "width": 1056,
+          "height": 60
+        },
+        {
+          "name": "title",
+          "left": 72,
+          "top": 202,
+          "width": 1056,
+          "height": 164
+        },
+        {
+          "name": "description",
+          "left": 72,
+          "top": 384,
+          "width": 1056,
+          "height": 62
+        },
+        {
+          "name": "footer",
+          "left": 72,
+          "top": 523,
+          "width": 1056,
+          "height": 43
+        }
+      ],
+      "markdown": "content/docs--privacy--verify-offline.md"
+    },
+    {
+      "path": "docs/shortcuts/",
+      "title": "Saydraft Windows Shortcuts — Dictation and Hands-Free",
+      "description": "Learn Saydraft's hold-to-talk, hands-free, cancel, paste-last, Scratchpad and History shortcuts, with custom bindings and conflict checks.",
+      "canonical": "https://tanzir71.github.io/saydraft/docs/shortcuts/",
+      "noindex": false,
+      "image": "og/docs--shortcuts.png",
+      "imageSha256": "55ca9a0794f4f804758389186bd2c6ef61b6469d6dcf6fcdcf924279e08d3ad2",
+      "layout": [
+        {
+          "name": "brand",
+          "left": 72,
+          "top": 64,
+          "width": 1056,
+          "height": 60
+        },
+        {
+          "name": "title",
+          "left": 72,
+          "top": 202,
+          "width": 1056,
+          "height": 164
+        },
+        {
+          "name": "description",
+          "left": 72,
+          "top": 384,
+          "width": 1056,
+          "height": 62
+        },
+        {
+          "name": "footer",
+          "left": 72,
+          "top": 523,
+          "width": 1056,
+          "height": 43
+        }
+      ],
+      "markdown": "content/docs--shortcuts.md"
+    },
+    {
+      "path": "docs/styles/",
+      "title": "Saydraft Styles — Tone and Local Dictation Cleanup",
+      "description": "Choose Formal, Casual or Very casual tone per app, adjust cleanup intensity, preview dictionary edits and understand rules versus optional local AI.",
+      "canonical": "https://tanzir71.github.io/saydraft/docs/styles/",
+      "noindex": false,
+      "image": "og/docs--styles.png",
+      "imageSha256": "792444d941acbbd7d6cf22d8811dd3f9806b3287e4c85539f7e83bc8249a3e7f",
+      "layout": [
+        {
+          "name": "brand",
+          "left": 72,
+          "top": 64,
+          "width": 1056,
+          "height": 60
+        },
+        {
+          "name": "title",
+          "left": 72,
+          "top": 202,
+          "width": 1056,
+          "height": 164
+        },
+        {
+          "name": "description",
+          "left": 72,
+          "top": 384,
+          "width": 1056,
+          "height": 62
+        },
+        {
+          "name": "footer",
+          "left": 72,
+          "top": 523,
+          "width": 1056,
+          "height": 43
+        }
+      ],
+      "markdown": "content/docs--styles.md"
+    },
+    {
+      "path": "docs/troubleshooting/",
+      "title": "Saydraft Troubleshooting — Input, Models and Delivery",
+      "description": "Troubleshoot Saydraft microphone input, interrupted model downloads, wrong language, slow cleanup, shortcut conflicts and text delivery on Windows.",
+      "canonical": "https://tanzir71.github.io/saydraft/docs/troubleshooting/",
+      "noindex": false,
+      "image": "og/docs--troubleshooting.png",
+      "imageSha256": "5903b246cd581b0d594b309666c56b90a7a41bd4e3588403db78af06266b1c38",
+      "layout": [
+        {
+          "name": "brand",
+          "left": 72,
+          "top": 64,
+          "width": 1056,
+          "height": 60
+        },
+        {
+          "name": "title",
+          "left": 72,
+          "top": 202,
+          "width": 1056,
+          "height": 164
+        },
+        {
+          "name": "description",
+          "left": 72,
+          "top": 384,
+          "width": 1056,
+          "height": 62
+        },
+        {
+          "name": "footer",
+          "left": 72,
+          "top": 523,
+          "width": 1056,
+          "height": 43
+        }
+      ],
+      "markdown": "content/docs--troubleshooting.md"
+    },
+    {
+      "path": "download/",
+      "title": "Get Saydraft for Windows — Download and Setup",
+      "description": "Run Saydraft offline dictation on Windows 10 or 11. Check development status, source instructions, local model sizes and setup requirements.",
+      "canonical": "https://tanzir71.github.io/saydraft/download/",
+      "noindex": false,
+      "image": "og/download.png",
+      "imageSha256": "572a45eb76fb913542d4983fbd175bf5d2d057313781e5a546baf1c44b28fbef",
+      "layout": [
+        {
+          "name": "brand",
+          "left": 72,
+          "top": 64,
+          "width": 1056,
+          "height": 60
+        },
+        {
+          "name": "title",
+          "left": 72,
+          "top": 202,
+          "width": 1056,
+          "height": 164
+        },
+        {
+          "name": "description",
+          "left": 72,
+          "top": 384,
+          "width": 1056,
+          "height": 62
+        },
+        {
+          "name": "footer",
+          "left": 72,
+          "top": 523,
+          "width": 1056,
+          "height": 43
+        }
+      ],
+      "markdown": "content/download.md"
+    },
+    {
+      "path": "dragon-alternative/",
+      "title": "Free Dragon Alternative for Windows | Saydraft",
+      "description": "Explore Saydraft as a free, open-source Dragon alternative for Windows writing. Compare local recognition, scope, licensing and setup requirements.",
+      "canonical": "https://tanzir71.github.io/saydraft/dragon-alternative/",
+      "noindex": false,
+      "image": "og/dragon-alternative.png",
+      "imageSha256": "343692be5a0c63d2840051571f882d876a98bdea052918eadc42ae96e1dd14c9",
+      "layout": [
+        {
+          "name": "brand",
+          "left": 72,
+          "top": 64,
+          "width": 1056,
+          "height": 60
+        },
+        {
+          "name": "title",
+          "left": 72,
+          "top": 202,
+          "width": 1056,
+          "height": 164
+        },
+        {
+          "name": "description",
+          "left": 72,
+          "top": 384,
+          "width": 1056,
+          "height": 62
+        },
+        {
+          "name": "footer",
+          "left": 72,
+          "top": 523,
+          "width": 1056,
+          "height": 43
+        }
+      ],
+      "markdown": "content/dragon-alternative.md"
+    },
+    {
+      "path": "",
+      "title": "Saydraft: Free Offline AI Dictation for Windows",
+      "description": "Free offline dictation for Windows. Voice typing in Chinese, Indonesian, Japanese, Korean, Malay, Portuguese, Spanish and Thai. Open source and local.",
+      "canonical": "https://tanzir71.github.io/saydraft/",
+      "noindex": false,
+      "image": "og/home.png",
+      "imageSha256": "2d2d2fe10d6e92f5de342124523d4b16a00a00ae462259efbe3144a1eed65814",
+      "layout": [
+        {
+          "name": "brand",
+          "left": 72,
+          "top": 64,
+          "width": 1056,
+          "height": 60
+        },
+        {
+          "name": "title",
+          "left": 72,
+          "top": 202,
+          "width": 1056,
+          "height": 164
+        },
+        {
+          "name": "description",
+          "left": 72,
+          "top": 384,
+          "width": 1056,
+          "height": 62
+        },
+        {
+          "name": "footer",
+          "left": 72,
+          "top": 523,
+          "width": 1056,
+          "height": 43
+        }
+      ],
+      "markdown": "content/home.md"
+    },
+    {
+      "path": "languages/arabic/",
+      "title": "Arabic Voice Typing for Windows, Offline | Saydraft",
+      "description": "Dictate Arabic offline on Windows with Saydraft. Free, open-source Arabic voice typing through a shared local multilingual speech model.",
+      "canonical": "https://tanzir71.github.io/saydraft/languages/arabic/",
+      "noindex": false,
+      "image": "og/languages--arabic.png",
+      "imageSha256": "2da26da8a1279ebdda8a97af3d5736a5d57e852f8e2f68f6d9b258f74598e955",
+      "layout": [
+        {
+          "name": "brand",
+          "left": 72,
+          "top": 64,
+          "width": 1056,
+          "height": 60
+        },
+        {
+          "name": "title",
+          "left": 72,
+          "top": 202,
+          "width": 1056,
+          "height": 164
+        },
+        {
+          "name": "description",
+          "left": 72,
+          "top": 384,
+          "width": 1056,
+          "height": 62
+        },
+        {
+          "name": "footer",
+          "left": 72,
+          "top": 523,
+          "width": 1056,
+          "height": 43
+        }
+      ],
+      "markdown": "content/languages--arabic.md"
+    },
+    {
+      "path": "languages/bengali/",
+      "title": "Bengali Voice Typing for Windows, Offline | Saydraft",
+      "description": "Type Bangla with your voice on Windows. Saydraft offers free, open-source offline Bengali speech recognition through a shared local model.",
+      "canonical": "https://tanzir71.github.io/saydraft/languages/bengali/",
+      "noindex": false,
+      "image": "og/languages--bengali.png",
+      "imageSha256": "42bd8867f7a96ce45758043ad6e280ca95ee61f20767c733076d5de5ec266a44",
+      "layout": [
+        {
+          "name": "brand",
+          "left": 72,
+          "top": 64,
+          "width": 1056,
+          "height": 60
+        },
+        {
+          "name": "title",
+          "left": 72,
+          "top": 202,
+          "width": 1056,
+          "height": 164
+        },
+        {
+          "name": "description",
+          "left": 72,
+          "top": 384,
+          "width": 1056,
+          "height": 62
+        },
+        {
+          "name": "footer",
+          "left": 72,
+          "top": 523,
+          "width": 1056,
+          "height": 43
+        }
+      ],
+      "markdown": "content/languages--bengali.md"
+    },
+    {
+      "path": "languages/brazilian-portuguese/",
+      "title": "Brazilian Portuguese Voice Typing for Windows | Saydraft",
+      "description": "Offline Brazilian Portuguese voice typing on Windows. Saydraft is free and open source, with local Portuguese speech recognition and no account.",
+      "canonical": "https://tanzir71.github.io/saydraft/languages/brazilian-portuguese/",
+      "noindex": false,
+      "image": "og/languages--brazilian-portuguese.png",
+      "imageSha256": "0d61a95fae185e79e57a376da233d66c66f7f0a9311cd4bc906da1b2eb01e814",
+      "layout": [
+        {
+          "name": "brand",
+          "left": 72,
+          "top": 64,
+          "width": 1056,
+          "height": 60
+        },
+        {
+          "name": "title",
+          "left": 72,
+          "top": 202,
+          "width": 1056,
+          "height": 164
+        },
+        {
+          "name": "description",
+          "left": 72,
+          "top": 384,
+          "width": 1056,
+          "height": 62
+        },
+        {
+          "name": "footer",
+          "left": 72,
+          "top": 523,
+          "width": 1056,
+          "height": 43
+        }
+      ],
+      "markdown": "content/languages--brazilian-portuguese.md"
+    },
+    {
+      "path": "languages/chinese/",
+      "title": "Chinese Voice Typing for Windows, Offline | Saydraft",
+      "description": "Dictate Mandarin Chinese on Windows with Saydraft. Free, open-source offline voice typing using a shared multilingual speech model.",
+      "canonical": "https://tanzir71.github.io/saydraft/languages/chinese/",
+      "noindex": false,
+      "image": "og/languages--chinese.png",
+      "imageSha256": "4e6e351de18ecc60119657072fbc70d2286650423a10717591d0cbe95119dc7c",
+      "layout": [
+        {
+          "name": "brand",
+          "left": 72,
+          "top": 64,
+          "width": 1056,
+          "height": 60
+        },
+        {
+          "name": "title",
+          "left": 72,
+          "top": 202,
+          "width": 1056,
+          "height": 164
+        },
+        {
+          "name": "description",
+          "left": 72,
+          "top": 384,
+          "width": 1056,
+          "height": 62
+        },
+        {
+          "name": "footer",
+          "left": 72,
+          "top": 523,
+          "width": 1056,
+          "height": 43
+        }
+      ],
+      "markdown": "content/languages--chinese.md"
+    },
+    {
+      "path": "languages/filipino-tagalog/",
+      "title": "Filipino & Tagalog Voice Typing for Windows | Saydraft",
+      "description": "Offline Filipino and Tagalog voice typing on Windows. Saydraft is free and open source, with recognition through a shared local speech model.",
+      "canonical": "https://tanzir71.github.io/saydraft/languages/filipino-tagalog/",
+      "noindex": false,
+      "image": "og/languages--filipino-tagalog.png",
+      "imageSha256": "43938f270bcc732c60b42ce8b7f1e03f85158565fd118d2af0175f482dd6a433",
+      "layout": [
+        {
+          "name": "brand",
+          "left": 72,
+          "top": 64,
+          "width": 1056,
+          "height": 60
+        },
+        {
+          "name": "title",
+          "left": 72,
+          "top": 202,
+          "width": 1056,
+          "height": 164
+        },
+        {
+          "name": "description",
+          "left": 72,
+          "top": 384,
+          "width": 1056,
+          "height": 62
+        },
+        {
+          "name": "footer",
+          "left": 72,
+          "top": 523,
+          "width": 1056,
+          "height": 43
+        }
+      ],
+      "markdown": "content/languages--filipino-tagalog.md"
+    },
+    {
+      "path": "languages/french/",
+      "title": "French Voice Typing for Windows, Offline | Saydraft",
+      "description": "Free, open-source French voice typing on Windows. Dictate offline with Saydraft using local speech recognition in the default model.",
+      "canonical": "https://tanzir71.github.io/saydraft/languages/french/",
+      "noindex": false,
+      "image": "og/languages--french.png",
+      "imageSha256": "091945ee3bf14e73e23a77b53197f4ab88ac5446e38f6468c4b054b73e0c753d",
+      "layout": [
+        {
+          "name": "brand",
+          "left": 72,
+          "top": 64,
+          "width": 1056,
+          "height": 60
+        },
+        {
+          "name": "title",
+          "left": 72,
+          "top": 202,
+          "width": 1056,
+          "height": 164
+        },
+        {
+          "name": "description",
+          "left": 72,
+          "top": 384,
+          "width": 1056,
+          "height": 62
+        },
+        {
+          "name": "footer",
+          "left": 72,
+          "top": 523,
+          "width": 1056,
+          "height": 43
+        }
+      ],
+      "markdown": "content/languages--french.md"
+    },
+    {
+      "path": "languages/german/",
+      "title": "German Voice Typing for Windows, Offline | Saydraft",
+      "description": "Offline German voice typing for Windows. Saydraft is free and open source, with local speech recognition in its default model.",
+      "canonical": "https://tanzir71.github.io/saydraft/languages/german/",
+      "noindex": false,
+      "image": "og/languages--german.png",
+      "imageSha256": "7a82e33ffd39bfeb4a787835e455ca5c920fb13dc255fa7aaabe9ded875978a5",
+      "layout": [
+        {
+          "name": "brand",
+          "left": 72,
+          "top": 64,
+          "width": 1056,
+          "height": 60
+        },
+        {
+          "name": "title",
+          "left": 72,
+          "top": 202,
+          "width": 1056,
+          "height": 164
+        },
+        {
+          "name": "description",
+          "left": 72,
+          "top": 384,
+          "width": 1056,
+          "height": 62
+        },
+        {
+          "name": "footer",
+          "left": 72,
+          "top": 523,
+          "width": 1056,
+          "height": 43
+        }
+      ],
+      "markdown": "content/languages--german.md"
+    },
+    {
+      "path": "languages/hindi/",
+      "title": "Hindi Voice Typing for Windows, Offline | Saydraft",
+      "description": "Free, open-source Hindi voice typing on Windows. Dictate offline with Saydraft using a shared local multilingual speech model.",
+      "canonical": "https://tanzir71.github.io/saydraft/languages/hindi/",
+      "noindex": false,
+      "image": "og/languages--hindi.png",
+      "imageSha256": "e11b75013d85338e6b1c0df259a1bfa8e49193968116a15581ade8ff4f5fc50f",
+      "layout": [
+        {
+          "name": "brand",
+          "left": 72,
+          "top": 64,
+          "width": 1056,
+          "height": 60
+        },
+        {
+          "name": "title",
+          "left": 72,
+          "top": 202,
+          "width": 1056,
+          "height": 164
+        },
+        {
+          "name": "description",
+          "left": 72,
+          "top": 384,
+          "width": 1056,
+          "height": 62
+        },
+        {
+          "name": "footer",
+          "left": 72,
+          "top": 523,
+          "width": 1056,
+          "height": 43
+        }
+      ],
+      "markdown": "content/languages--hindi.md"
+    },
+    {
+      "path": "languages/",
+      "title": "Offline Voice Typing Languages for Windows | Saydraft",
+      "description": "Explore offline voice typing in Bengali, Arabic, Thai, Chinese, Korean and more on Windows. Review shared models and set up free, open-source Saydraft.",
+      "canonical": "https://tanzir71.github.io/saydraft/languages/",
+      "noindex": false,
+      "image": "og/languages.png",
+      "imageSha256": "b6894ed92aa0aacfb3b74becaa74762a38bd2ed9a0f660d65845bad275bb8e0a",
+      "layout": [
+        {
+          "name": "brand",
+          "left": 72,
+          "top": 64,
+          "width": 1056,
+          "height": 60
+        },
+        {
+          "name": "title",
+          "left": 72,
+          "top": 202,
+          "width": 1056,
+          "height": 164
+        },
+        {
+          "name": "description",
+          "left": 72,
+          "top": 384,
+          "width": 1056,
+          "height": 62
+        },
+        {
+          "name": "footer",
+          "left": 72,
+          "top": 523,
+          "width": 1056,
+          "height": 43
+        }
+      ],
+      "markdown": "content/languages.md"
+    },
+    {
+      "path": "languages/indonesian/",
+      "title": "Indonesian Voice Typing for Windows, Offline | Saydraft",
+      "description": "Write Bahasa Indonesia with your voice on Windows. Saydraft offers free, open-source offline Indonesian dictation with a local multilingual model.",
+      "canonical": "https://tanzir71.github.io/saydraft/languages/indonesian/",
+      "noindex": false,
+      "image": "og/languages--indonesian.png",
+      "imageSha256": "899e211810f06323a3d690ba9de224c62497fc45ff82aeac02717f3f98a4e603",
+      "layout": [
+        {
+          "name": "brand",
+          "left": 72,
+          "top": 64,
+          "width": 1056,
+          "height": 60
+        },
+        {
+          "name": "title",
+          "left": 72,
+          "top": 202,
+          "width": 1056,
+          "height": 164
+        },
+        {
+          "name": "description",
+          "left": 72,
+          "top": 384,
+          "width": 1056,
+          "height": 62
+        },
+        {
+          "name": "footer",
+          "left": 72,
+          "top": 523,
+          "width": 1056,
+          "height": 43
+        }
+      ],
+      "markdown": "content/languages--indonesian.md"
+    },
+    {
+      "path": "languages/japanese/",
+      "title": "Japanese Voice Typing for Windows, Offline | Saydraft",
+      "description": "Dictate Japanese on Windows with local speech recognition. Saydraft is free, open-source offline voice typing through a shared multilingual model.",
+      "canonical": "https://tanzir71.github.io/saydraft/languages/japanese/",
+      "noindex": false,
+      "image": "og/languages--japanese.png",
+      "imageSha256": "f8abab5f1842a1c75a0585f9799d9af4203f999dc040c58cc9ed3b5f11cdde42",
+      "layout": [
+        {
+          "name": "brand",
+          "left": 72,
+          "top": 64,
+          "width": 1056,
+          "height": 60
+        },
+        {
+          "name": "title",
+          "left": 72,
+          "top": 202,
+          "width": 1056,
+          "height": 164
+        },
+        {
+          "name": "description",
+          "left": 72,
+          "top": 384,
+          "width": 1056,
+          "height": 62
+        },
+        {
+          "name": "footer",
+          "left": 72,
+          "top": 523,
+          "width": 1056,
+          "height": 43
+        }
+      ],
+      "markdown": "content/languages--japanese.md"
+    },
+    {
+      "path": "languages/korean/",
+      "title": "Korean Voice Typing for Windows, Offline | Saydraft",
+      "description": "Write Korean with your voice on Windows. Saydraft is free, open-source offline dictation with local multilingual speech recognition.",
+      "canonical": "https://tanzir71.github.io/saydraft/languages/korean/",
+      "noindex": false,
+      "image": "og/languages--korean.png",
+      "imageSha256": "58dd0d169d56874a9315b8c6afa73cf1591814a66d4df1e863afe3fce0542daf",
+      "layout": [
+        {
+          "name": "brand",
+          "left": 72,
+          "top": 64,
+          "width": 1056,
+          "height": 60
+        },
+        {
+          "name": "title",
+          "left": 72,
+          "top": 202,
+          "width": 1056,
+          "height": 164
+        },
+        {
+          "name": "description",
+          "left": 72,
+          "top": 384,
+          "width": 1056,
+          "height": 62
+        },
+        {
+          "name": "footer",
+          "left": 72,
+          "top": 523,
+          "width": 1056,
+          "height": 43
+        }
+      ],
+      "markdown": "content/languages--korean.md"
+    },
+    {
+      "path": "languages/malay/",
+      "title": "Malay Voice Typing for Windows, Offline | Saydraft",
+      "description": "Offline Bahasa Melayu voice typing for Windows. Saydraft is free and open source, with Malay speech recognition through a shared local model.",
+      "canonical": "https://tanzir71.github.io/saydraft/languages/malay/",
+      "noindex": false,
+      "image": "og/languages--malay.png",
+      "imageSha256": "e9428397b0242e85a18a739c5c552357edb9bebc1cf13888a399fc317b924cf7",
+      "layout": [
+        {
+          "name": "brand",
+          "left": 72,
+          "top": 64,
+          "width": 1056,
+          "height": 60
+        },
+        {
+          "name": "title",
+          "left": 72,
+          "top": 202,
+          "width": 1056,
+          "height": 164
+        },
+        {
+          "name": "description",
+          "left": 72,
+          "top": 384,
+          "width": 1056,
+          "height": 62
+        },
+        {
+          "name": "footer",
+          "left": 72,
+          "top": 523,
+          "width": 1056,
+          "height": 43
+        }
+      ],
+      "markdown": "content/languages--malay.md"
+    },
+    {
+      "path": "languages/persian/",
+      "title": "Persian & Farsi Voice Typing for Windows | Saydraft",
+      "description": "Offline Persian and Farsi voice typing on Windows. Saydraft is free and open source, with a shared local multilingual speech model.",
+      "canonical": "https://tanzir71.github.io/saydraft/languages/persian/",
+      "noindex": false,
+      "image": "og/languages--persian.png",
+      "imageSha256": "5412d4ce3ca271ea28c801157279b9933ed3f2640e065f042851f92c6fd89da5",
+      "layout": [
+        {
+          "name": "brand",
+          "left": 72,
+          "top": 64,
+          "width": 1056,
+          "height": 60
+        },
+        {
+          "name": "title",
+          "left": 72,
+          "top": 202,
+          "width": 1056,
+          "height": 164
+        },
+        {
+          "name": "description",
+          "left": 72,
+          "top": 384,
+          "width": 1056,
+          "height": 62
+        },
+        {
+          "name": "footer",
+          "left": 72,
+          "top": 523,
+          "width": 1056,
+          "height": 43
+        }
+      ],
+      "markdown": "content/languages--persian.md"
+    },
+    {
+      "path": "languages/spanish/",
+      "title": "Spanish Voice Typing for Windows, Offline | Saydraft",
+      "description": "Free, open-source Spanish voice typing for Windows. Dictate offline with Saydraft using local speech recognition in the default model.",
+      "canonical": "https://tanzir71.github.io/saydraft/languages/spanish/",
+      "noindex": false,
+      "image": "og/languages--spanish.png",
+      "imageSha256": "ce104729f264d8e15f758da7ec4056c2e7dc439b48aae4fc8ec27bac8477d001",
+      "layout": [
+        {
+          "name": "brand",
+          "left": 72,
+          "top": 64,
+          "width": 1056,
+          "height": 60
+        },
+        {
+          "name": "title",
+          "left": 72,
+          "top": 202,
+          "width": 1056,
+          "height": 164
+        },
+        {
+          "name": "description",
+          "left": 72,
+          "top": 384,
+          "width": 1056,
+          "height": 62
+        },
+        {
+          "name": "footer",
+          "left": 72,
+          "top": 523,
+          "width": 1056,
+          "height": 43
+        }
+      ],
+      "markdown": "content/languages--spanish.md"
+    },
+    {
+      "path": "languages/tamil/",
+      "title": "Tamil Voice Typing for Windows, Offline | Saydraft",
+      "description": "Dictate Tamil offline on Windows with Saydraft. Free, open-source voice typing with a shared local multilingual speech recognition model.",
+      "canonical": "https://tanzir71.github.io/saydraft/languages/tamil/",
+      "noindex": false,
+      "image": "og/languages--tamil.png",
+      "imageSha256": "4f9e25b2cdf282e622aa344f1453e5ebe8efefbd97c76c11cb6025b8120c4eb6",
+      "layout": [
+        {
+          "name": "brand",
+          "left": 72,
+          "top": 64,
+          "width": 1056,
+          "height": 60
+        },
+        {
+          "name": "title",
+          "left": 72,
+          "top": 202,
+          "width": 1056,
+          "height": 164
+        },
+        {
+          "name": "description",
+          "left": 72,
+          "top": 384,
+          "width": 1056,
+          "height": 62
+        },
+        {
+          "name": "footer",
+          "left": 72,
+          "top": 523,
+          "width": 1056,
+          "height": 43
+        }
+      ],
+      "markdown": "content/languages--tamil.md"
+    },
+    {
+      "path": "languages/telugu/",
+      "title": "Telugu Voice Typing for Windows, Offline | Saydraft",
+      "description": "Free, open-source Telugu voice typing for Windows. Saydraft transcribes speech offline using a shared local multilingual model.",
+      "canonical": "https://tanzir71.github.io/saydraft/languages/telugu/",
+      "noindex": false,
+      "image": "og/languages--telugu.png",
+      "imageSha256": "3525c24df15c81fae401792780b0c14fd4d911a804ea6b8851df4d620762caee",
+      "layout": [
+        {
+          "name": "brand",
+          "left": 72,
+          "top": 64,
+          "width": 1056,
+          "height": 60
+        },
+        {
+          "name": "title",
+          "left": 72,
+          "top": 202,
+          "width": 1056,
+          "height": 164
+        },
+        {
+          "name": "description",
+          "left": 72,
+          "top": 384,
+          "width": 1056,
+          "height": 62
+        },
+        {
+          "name": "footer",
+          "left": 72,
+          "top": 523,
+          "width": 1056,
+          "height": 43
+        }
+      ],
+      "markdown": "content/languages--telugu.md"
+    },
+    {
+      "path": "languages/thai/",
+      "title": "Thai Voice Typing for Windows, Offline | Saydraft",
+      "description": "Type Thai with your voice on Windows. Saydraft offers free, open-source offline speech to text through its shared multilingual model.",
+      "canonical": "https://tanzir71.github.io/saydraft/languages/thai/",
+      "noindex": false,
+      "image": "og/languages--thai.png",
+      "imageSha256": "bee08ce7deef3c4c638957b5f9ff80c21a67bcc20d97e4a16c7296fb8a41ec16",
+      "layout": [
+        {
+          "name": "brand",
+          "left": 72,
+          "top": 64,
+          "width": 1056,
+          "height": 60
+        },
+        {
+          "name": "title",
+          "left": 72,
+          "top": 202,
+          "width": 1056,
+          "height": 164
+        },
+        {
+          "name": "description",
+          "left": 72,
+          "top": 384,
+          "width": 1056,
+          "height": 62
+        },
+        {
+          "name": "footer",
+          "left": 72,
+          "top": 523,
+          "width": 1056,
+          "height": 43
+        }
+      ],
+      "markdown": "content/languages--thai.md"
+    },
+    {
+      "path": "languages/urdu/",
+      "title": "Urdu Voice Typing for Windows, Offline | Saydraft",
+      "description": "Dictate Urdu offline on Windows with Saydraft. Free, open-source voice typing through a shared local multilingual speech recognition model.",
+      "canonical": "https://tanzir71.github.io/saydraft/languages/urdu/",
+      "noindex": false,
+      "image": "og/languages--urdu.png",
+      "imageSha256": "a8eb3ad78a4dde565c7278b5e7fa711d5eae2c4419ad9cdcd1b5b6a91b789168",
+      "layout": [
+        {
+          "name": "brand",
+          "left": 72,
+          "top": 64,
+          "width": 1056,
+          "height": 60
+        },
+        {
+          "name": "title",
+          "left": 72,
+          "top": 202,
+          "width": 1056,
+          "height": 164
+        },
+        {
+          "name": "description",
+          "left": 72,
+          "top": 384,
+          "width": 1056,
+          "height": 62
+        },
+        {
+          "name": "footer",
+          "left": 72,
+          "top": 523,
+          "width": 1056,
+          "height": 43
+        }
+      ],
+      "markdown": "content/languages--urdu.md"
+    },
+    {
+      "path": "languages/vietnamese/",
+      "title": "Vietnamese Voice Typing for Windows, Offline | Saydraft",
+      "description": "Free, open-source Vietnamese voice typing on Windows. Dictate offline with Saydraft and its shared local multilingual speech model.",
+      "canonical": "https://tanzir71.github.io/saydraft/languages/vietnamese/",
+      "noindex": false,
+      "image": "og/languages--vietnamese.png",
+      "imageSha256": "dc37bbf6f6094dc89f933796779e65195b844f51c8d5cdb1d2ef14d95460f231",
+      "layout": [
+        {
+          "name": "brand",
+          "left": 72,
+          "top": 64,
+          "width": 1056,
+          "height": 60
+        },
+        {
+          "name": "title",
+          "left": 72,
+          "top": 202,
+          "width": 1056,
+          "height": 164
+        },
+        {
+          "name": "description",
+          "left": 72,
+          "top": 384,
+          "width": 1056,
+          "height": 62
+        },
+        {
+          "name": "footer",
+          "left": 72,
+          "top": 523,
+          "width": 1056,
+          "height": 43
+        }
+      ],
+      "markdown": "content/languages--vietnamese.md"
+    },
+    {
+      "path": "offline-dictation-windows/",
+      "title": "Offline Dictation for Windows: A Practical Guide | Saydraft",
+      "description": "Learn how offline dictation works on Windows: speech models, hardware, languages, local cleanup and privacy. A practical free, open-source setup guide.",
+      "canonical": "https://tanzir71.github.io/saydraft/offline-dictation-windows/",
+      "noindex": false,
+      "image": "og/offline-dictation-windows.png",
+      "imageSha256": "dc385efed785f3c36984e83811ad4ffbeb7cd58081e195897ea85f6986bab13e",
+      "layout": [
+        {
+          "name": "brand",
+          "left": 72,
+          "top": 64,
+          "width": 1056,
+          "height": 60
+        },
+        {
+          "name": "title",
+          "left": 72,
+          "top": 202,
+          "width": 1056,
+          "height": 164
+        },
+        {
+          "name": "description",
+          "left": 72,
+          "top": 384,
+          "width": 1056,
+          "height": 62
+        },
+        {
+          "name": "footer",
+          "left": 72,
+          "top": 523,
+          "width": 1056,
+          "height": 43
+        }
+      ],
+      "markdown": "content/offline-dictation-windows.md"
+    },
+    {
+      "path": "privacy/",
+      "title": "Saydraft Privacy — What Stays on Your PC",
+      "description": "How Saydraft handles local speech, explicit downloads, optional update checks, History, audio retention and a website without tracking analytics.",
+      "canonical": "https://tanzir71.github.io/saydraft/privacy/",
+      "noindex": false,
+      "image": "og/privacy.png",
+      "imageSha256": "bea56fd549b73f399be7fb05afc1b6bce9abc22517a96a6c6fd71170cd52a785",
+      "layout": [
+        {
+          "name": "brand",
+          "left": 72,
+          "top": 64,
+          "width": 1056,
+          "height": 60
+        },
+        {
+          "name": "title",
+          "left": 72,
+          "top": 202,
+          "width": 1056,
+          "height": 164
+        },
+        {
+          "name": "description",
+          "left": 72,
+          "top": 384,
+          "width": 1056,
+          "height": 62
+        },
+        {
+          "name": "footer",
+          "left": 72,
+          "top": 523,
+          "width": 1056,
+          "height": 43
+        }
+      ],
+      "markdown": "content/privacy.md"
+    },
+    {
+      "path": "superwhisper-alternative-windows/",
+      "title": "Superwhisper Alternative for Windows | Saydraft",
+      "description": "Compare Saydraft and Superwhisper for Windows voice typing. Review offline model choices, open-source licensing, paid plans and current setup status.",
+      "canonical": "https://tanzir71.github.io/saydraft/superwhisper-alternative-windows/",
+      "noindex": false,
+      "image": "og/superwhisper-alternative-windows.png",
+      "imageSha256": "7d1b07a5d1536dedbf963d23782970532f7fc36e63b7df1340f6467af4374fd6",
+      "layout": [
+        {
+          "name": "brand",
+          "left": 72,
+          "top": 64,
+          "width": 1056,
+          "height": 60
+        },
+        {
+          "name": "title",
+          "left": 72,
+          "top": 202,
+          "width": 1056,
+          "height": 164
+        },
+        {
+          "name": "description",
+          "left": 72,
+          "top": 384,
+          "width": 1056,
+          "height": 62
+        },
+        {
+          "name": "footer",
+          "left": 72,
+          "top": 523,
+          "width": 1056,
+          "height": 43
+        }
+      ],
+      "markdown": "content/superwhisper-alternative-windows.md"
+    },
+    {
+      "path": "typeless-alternative/",
+      "title": "Typeless Alternative for Windows, Offline | Saydraft",
+      "description": "Explore a free, open-source Typeless alternative for Windows. Compare local dictation, cloud processing, pricing and experimental editing features.",
+      "canonical": "https://tanzir71.github.io/saydraft/typeless-alternative/",
+      "noindex": false,
+      "image": "og/typeless-alternative.png",
+      "imageSha256": "896ae3b2506a87a9b8d8d3920354ee90759c131393e7cde970c48687fc19457c",
+      "layout": [
+        {
+          "name": "brand",
+          "left": 72,
+          "top": 64,
+          "width": 1056,
+          "height": 60
+        },
+        {
+          "name": "title",
+          "left": 72,
+          "top": 202,
+          "width": 1056,
+          "height": 164
+        },
+        {
+          "name": "description",
+          "left": 72,
+          "top": 384,
+          "width": 1056,
+          "height": 62
+        },
+        {
+          "name": "footer",
+          "left": 72,
+          "top": 523,
+          "width": 1056,
+          "height": 43
+        }
+      ],
+      "markdown": "content/typeless-alternative.md"
+    },
+    {
+      "path": "windows-voice-typing-alternative/",
+      "title": "Windows Voice Typing Alternative, Offline | Saydraft",
+      "description": "Compare Win+H voice typing with Saydraft's local Windows dictation. Understand internet requirements, Voice Access and explicit model setup.",
+      "canonical": "https://tanzir71.github.io/saydraft/windows-voice-typing-alternative/",
+      "noindex": false,
+      "image": "og/windows-voice-typing-alternative.png",
+      "imageSha256": "22e5711b6695409b9f27be7763a0bf8a4bbfc2a7fb8a2fd5f51356a4e4fffdeb",
+      "layout": [
+        {
+          "name": "brand",
+          "left": 72,
+          "top": 64,
+          "width": 1056,
+          "height": 60
+        },
+        {
+          "name": "title",
+          "left": 72,
+          "top": 202,
+          "width": 1056,
+          "height": 164
+        },
+        {
+          "name": "description",
+          "left": 72,
+          "top": 384,
+          "width": 1056,
+          "height": 62
+        },
+        {
+          "name": "footer",
+          "left": 72,
+          "top": 523,
+          "width": 1056,
+          "height": 43
+        }
+      ],
+      "markdown": "content/windows-voice-typing-alternative.md"
+    },
+    {
+      "path": "wispr-flow-alternative/",
+      "title": "Wispr Flow Alternative for Windows, Offline | Saydraft",
+      "description": "Compare Saydraft with Wispr Flow for Windows dictation: local models, cloud processing, pricing and setup. Free, open-source voice typing.",
+      "canonical": "https://tanzir71.github.io/saydraft/wispr-flow-alternative/",
+      "noindex": false,
+      "image": "og/wispr-flow-alternative.png",
+      "imageSha256": "219bcbe9a74020a4cbd0179ede2597b9ff4b8456c3d878319842bd05de7957c8",
+      "layout": [
+        {
+          "name": "brand",
+          "left": 72,
+          "top": 64,
+          "width": 1056,
+          "height": 60
+        },
+        {
+          "name": "title",
+          "left": 72,
+          "top": 202,
+          "width": 1056,
+          "height": 164
+        },
+        {
+          "name": "description",
+          "left": 72,
+          "top": 384,
+          "width": 1056,
+          "height": 62
+        },
+        {
+          "name": "footer",
+          "left": 72,
+          "top": 523,
+          "width": 1056,
+          "height": 43
+        }
+      ],
+      "markdown": "content/wispr-flow-alternative.md"
+    }
+  ],
+  "githubSocial": {
+    "image": "og/saydraft-github-social-preview.png",
+    "sha256": "8ad6ea81e997d70468052f32c1b7aec11e2880a5214488bb564668bba9b4ba2a"
+  }
+}

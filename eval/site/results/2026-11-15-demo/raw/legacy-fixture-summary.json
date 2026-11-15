@@ -1,0 +1,14 @@
+{
+  "fixture_only": true,
+  "script_exit": 0,
+  "archived_bytes_unchanged": true,
+  "vercel_files_unchanged": true,
+  "source_legacy_files_unchanged": true,
+  "hosting_deployed": false,
+  "fixture_moves": [
+    "R100\tdemo/index.html\t_archive/site-v1/demo/index.html",
+    "R100\tindex.html\t_archive/site-v1/index.html"
+  ],
+  "candidate_sha256": "3af4f2b0c58c065e26c4e381931acd912579042c7cf1852d86c53a6792e58063",
+  "post_probe_markup_case_fix": "DOCTYPE uppercase only; fixture candidate/root synchronized; original archived bytes and Vercel inputs remain unchanged."
+}

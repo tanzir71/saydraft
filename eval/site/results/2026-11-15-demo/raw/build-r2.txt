@@ -1,0 +1,129 @@
+
+> saydraft-site@0.1.0 build
+> npm run tokens:check && npm run content:check && astro check && astro build
+
+
+> saydraft-site@0.1.0 tokens:check
+> node ../tools/generate_tokens.mjs --check
+
+12 shared token outputs verified.
+
+> saydraft-site@0.1.0 content:check
+> node tools/check-content-dates.mjs
+
+Verified dates are current for 23 content pages.
+06:28:07 [content] Syncing content
+06:28:07 [content] Synced content
+06:28:07 [types] Generated 778ms
+06:28:07 [check] Getting diagnostics for Astro files in D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-demo-port-20261115\site...
+Result (98 files): 
+- 0 errors
+- 0 warnings
+- 0 hints
+
+06:28:16 [content] Syncing content
+06:28:16 [content] Synced content
+06:28:16 [types] Generated 581ms
+06:28:16 [build] output: "static"
+06:28:16 [build] mode: "static"
+06:28:16 [build] directory: D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\site-demo-port-20261115\site\dist\
+06:28:16 [build] Collecting build info...
+06:28:16 [build] ✓ Completed in 618ms.
+06:28:16 [build] Building static entrypoints...
+06:28:16 [vite] ✓ built in 530ms
+06:28:17 [vite] ✓ built in 121ms
+06:28:17 [build] Rearranging server assets...
+
+ generating static routes 
+06:28:17   ├─ /404.html (+20ms) 
+06:28:17   ├─ /demo/index.html (+20ms) 
+06:28:17   ├─ /languages/arabic/index.html (+5ms) 
+06:28:17   ├─ /languages/bengali/index.html (+3ms) 
+06:28:17   ├─ /languages/brazilian-portuguese/index.html (+3ms) 
+06:28:17   ├─ /languages/chinese/index.html (+3ms) 
+06:28:17   ├─ /languages/filipino-tagalog/index.html (+3ms) 
+06:28:17   ├─ /languages/french/index.html (+3ms) 
+06:28:17   ├─ /languages/german/index.html (+4ms) 
+06:28:17   ├─ /languages/hindi/index.html (+4ms) 
+06:28:17   ├─ /languages/indonesian/index.html (+2ms) 
+06:28:17   ├─ /languages/japanese/index.html (+2ms) 
+06:28:17   ├─ /languages/korean/index.html (+3ms) 
+06:28:17   ├─ /languages/malay/index.html (+3ms) 
+06:28:17   ├─ /languages/persian/index.html (+2ms) 
+06:28:17   ├─ /languages/spanish/index.html (+2ms) 
+06:28:17   ├─ /languages/tamil/index.html (+2ms) 
+06:28:17   ├─ /languages/telugu/index.html (+3ms) 
+06:28:17   ├─ /languages/thai/index.html (+3ms) 
+06:28:17   ├─ /languages/urdu/index.html (+2ms) 
+06:28:17   ├─ /languages/vietnamese/index.html (+3ms) 
+06:28:17   ├─ /languages/index.html (+4ms) 
+06:28:17   ├─ /robots.txt (+2ms) 
+06:28:17   ├─ /sitemap.xml (+3ms) 
+06:28:17   ├─ /index.html (+528ms) 
+06:28:17   ├─ /dragon-alternative/index.html (+11ms) 
+06:28:17   ├─ /superwhisper-alternative-windows/index.html (+5ms) 
+06:28:17   ├─ /typeless-alternative/index.html (+5ms) 
+06:28:17   ├─ /windows-voice-typing-alternative/index.html (+5ms) 
+06:28:17   ├─ /wispr-flow-alternative/index.html (+5ms) 
+06:28:17   ├─ /changelog/index.html (+392ms) 
+06:28:18   ├─ /dictation-for-developers/index.html (+11ms) 
+06:28:18   ├─ /offline-dictation-windows/index.html (+8ms) 
+06:28:18   ├─ /docs/command-mode/index.html (+9ms) 
+06:28:18   ├─ /docs/dictionary/index.html (+10ms) 
+06:28:18   ├─ /docs/faq/index.html (+9ms) 
+06:28:18   ├─ /docs/getting-started/index.html (+9ms) 
+06:28:18   ├─ /docs/index.html (+7ms) 
+06:28:18   ├─ /docs/languages/index.html (+11ms) 
+06:28:18   ├─ /docs/models/index.html (+11ms) 
+06:28:18   ├─ /docs/notes/index.html (+9ms) 
+06:28:18   ├─ /docs/privacy/verify-offline/index.html (+8ms) 
+06:28:18   ├─ /docs/shortcuts/index.html (+8ms) 
+06:28:18   ├─ /docs/styles/index.html (+8ms) 
+06:28:18   ├─ /docs/troubleshooting/index.html (+15ms) 
+06:28:18   ├─ /credits/index.html (+8ms) 
+06:28:18   ├─ /download/index.html (+16ms) 
+06:28:18   ├─ /privacy/index.html (+11ms) 
+06:28:18 ✓ Completed in 1.27s.
+
+ generating optimized images 
+06:28:18   ▶ /_astro/saydraft-bar-preview-light-2x.DCZtW2-x_oH3Ss.avif (reused cache entry) (+2ms) (1/33)
+06:28:18   ▶ /_astro/saydraft-hub-style-light-2x.CKXJHomd_Z1nYxux.avif (reused cache entry) (+2ms) (2/33)
+06:28:18   ▶ /_astro/saydraft-bar-listening-light-2x.U_pKsrHI_Z18dLSY.avif (reused cache entry) (+3ms) (3/33)
+06:28:18   ▶ /_astro/saydraft-bar-command-dark-2x.DjOQ9-sk_Z2nJ29x.avif (reused cache entry) (+3ms) (4/33)
+06:28:18   ▶ /_astro/saydraft-bar-cleaning-dark-2x.Csq9sDWn_Z1PwVk3.avif (reused cache entry) (+4ms) (5/33)
+06:28:18   ▶ /_astro/saydraft-bar-preview-light-2x.DCZtW2-x_Z1Ooe50.avif (reused cache entry) (+2ms) (6/33)
+06:28:18   ▶ /_astro/saydraft-bar-command-dark-2x.DjOQ9-sk_NLKsc.avif (reused cache entry) (+2ms) (7/33)
+06:28:18   ▶ /_astro/saydraft-bar-listening-light-2x.U_pKsrHI_1Wgq0W.avif (reused cache entry) (+2ms) (8/33)
+06:28:18   ▶ /_astro/saydraft-hub-style-light-2x.CKXJHomd_16VYcJ.avif (reused cache entry) (+3ms) (9/33)
+06:28:18   ▶ /_astro/saydraft-bar-cleaning-dark-2x.Csq9sDWn_Z69rAc.avif (reused cache entry) (+2ms) (10/33)
+06:28:18   ▶ /_astro/saydraft-bar-preview-light-2x.DCZtW2-x_Z1lB6a3.webp (reused cache entry) (+2ms) (11/33)
+06:28:18   ▶ /_astro/saydraft-bar-listening-light-2x.U_pKsrHI_gdGjx.webp (reused cache entry) (+2ms) (12/33)
+06:28:18   ▶ /_astro/saydraft-bar-command-dark-2x.DjOQ9-sk_Z1tDPGq.webp (reused cache entry) (+2ms) (13/33)
+06:28:18   ▶ /_astro/saydraft-hub-style-light-2x.CKXJHomd_Z1ts7Fk.avif (reused cache entry) (+2ms) (14/33)
+06:28:18   ▶ /_astro/saydraft-bar-cleaning-dark-2x.Csq9sDWn_I69QP.webp (reused cache entry) (+2ms) (15/33)
+06:28:18   ▶ /_astro/saydraft-bar-preview-light-2x.DCZtW2-x_ZpVJQt.webp (reused cache entry) (+2ms) (16/33)
+06:28:18   ▶ /_astro/saydraft-bar-listening-light-2x.U_pKsrHI_Z1Itezs.webp (reused cache entry) (+2ms) (17/33)
+06:28:18   ▶ /_astro/saydraft-bar-command-dark-2x.DjOQ9-sk_1HQVUj.webp (reused cache entry) (+2ms) (18/33)
+06:28:18   ▶ /_astro/saydraft-hub-style-light-2x.CKXJHomd_rUHY.webp (reused cache entry) (+2ms) (19/33)
+06:28:18   ▶ /_astro/saydraft-bar-preview-light-2x.DCZtW2-x_FLzPr.png (reused cache entry) (+3ms) (20/33)
+06:28:18   ▶ /_astro/saydraft-bar-cleaning-dark-2x.Csq9sDWn_2stDAG.webp (reused cache entry) (+3ms) (21/33)
+06:28:18   ▶ /_astro/saydraft-bar-command-dark-2x.DjOQ9-sk_Z2p0Hpy.png (reused cache entry) (+4ms) (22/33)
+06:28:18   ▶ /_astro/saydraft-bar-listening-light-2x.U_pKsrHI_2rRiJz.png (reused cache entry) (+5ms) (23/33)
+06:28:18   ▶ /_astro/saydraft-hub-style-light-2x.CKXJHomd_Z1dRshp.webp (reused cache entry) (+4ms) (24/33)
+06:28:18   ▶ /_astro/saydraft-bar-cleaning-dark-2x.Csq9sDWn_Z2u0Tsy.png (reused cache entry) (+3ms) (25/33)
+06:28:18   ▶ /_astro/saydraft-bar-preview-light-2x.DCZtW2-x_1KGQyy.png (reused cache entry) (+4ms) (26/33)
+06:28:18   ▶ /_astro/saydraft-bar-listening-light-2x.U_pKsrHI_samPz.png (reused cache entry) (+3ms) (27/33)
+06:28:18   ▶ /_astro/saydraft-bar-command-dark-2x.DjOQ9-sk_Mv5cb.png (reused cache entry) (+4ms) (28/33)
+06:28:18   ▶ /_astro/saydraft-hub-style-light-2x.CKXJHomd_2cS4h7.webp (reused cache entry) (+4ms) (29/33)
+06:28:18   ▶ /_astro/saydraft-bar-cleaning-dark-2x.Csq9sDWn_ZJCpIH.png (reused cache entry) (+3ms) (30/33)
+06:28:18   ▶ /_astro/saydraft-hub-style-light-2x.CKXJHomd_2c6x91.png (reused cache entry) (+1ms) (31/33)
+06:28:18   ▶ /_astro/saydraft-hub-style-light-2x.CKXJHomd_zEFis.png (reused cache entry) (+1ms) (32/33)
+06:28:18   ▶ /_astro/saydraft-hub-style-light-2x.CKXJHomd_2rwPuL.png (reused cache entry) (+2ms) (33/33)
+06:28:18 ✓ Completed in 23ms.
+
+06:28:18 [build] ✓ Completed in 2.19s.
+06:28:18 [@astrojs/sitemap] `sitemap-index.xml` created at `dist`
+06:28:21 [build] Waiting for integration "saydraft-seo-artifacts", hook "astro:build:done"...
+06:28:21 [saydraft-seo-artifacts] 44 indexable URLs, 46 page previews, GitHub social preview and readable exports verified. No indexing submissions sent.
+06:28:21 [build] 46 page(s) built in 6.28s
+06:28:21 [build] Complete!
