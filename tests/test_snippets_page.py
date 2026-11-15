@@ -73,9 +73,20 @@ def test_search_duplicate_validation_and_variable_buttons_keep_drafts_off_disk(s
 
 
 def test_test_panel_includes_pending_form_and_never_reads_clipboard_or_records_history(subject, monkeypatch):
+    import sys
+
     p, qt = subject.p, subject.qt
     monkeypatch.setattr(qt.QtWidgets.QApplication, "clipboard", staticmethod(lambda: pytest.fail("Owner clipboard")))
-    monkeypatch.setattr("saydraft.insert.clipboard_win.WindowsClipboard.read_text", lambda self: pytest.fail("Owner clipboard"))
+    class ForbiddenClipboard:
+        def __init__(self, *args, **kwargs):
+            pytest.fail("Owner clipboard")
+
+        def read_text(self):
+            pytest.fail("Owner clipboard")
+
+    # The guard must not import the real native clipboard merely to forbid it.
+    monkeypatch.setitem(sys.modules, "saydraft.insert.clipboard_win",
+                        SimpleNamespace(WindowsClipboard=ForbiddenClipboard))
     p.trigger_edit.setText("sign off")
     p.expansion_edit.setPlainText("Thanks\n{clipboard}\n{{date}} {unknown}")
     p.test_input.setPlainText("sign off sign off")

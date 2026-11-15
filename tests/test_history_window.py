@@ -88,7 +88,8 @@ def test_history_window_loads_reverse_chron_and_toggles_raw_clean(tmp_path):
     from saydraft.ui.history_page import HistoryPage
 
     store = build_history(tmp_path)
-    window = HistoryPage(qt_modules=qt_modules(), store=store, glossary_path=tmp_path / "glossary.json")
+    window = HistoryPage(qt_modules=qt_modules(), store=store, clipboard=FakeClipboard(),
+                         glossary_path=tmp_path / "glossary.json")
     settle_history(window)
 
     assert window.list_widget.count() == 2
@@ -107,7 +108,8 @@ def test_history_window_search_filters_rows(tmp_path):
     from saydraft.ui.history_page import HistoryPage
 
     store = build_history(tmp_path)
-    window = HistoryPage(qt_modules=qt_modules(), store=store, glossary_path=tmp_path / "glossary.json")
+    window = HistoryPage(qt_modules=qt_modules(), store=store, clipboard=FakeClipboard(),
+                         glossary_path=tmp_path / "glossary.json")
 
     window.search_edit.setText("older")
     settle_history(window)
@@ -123,7 +125,7 @@ def test_history_retry_requires_saved_audio_and_selects_new_result_for_review(tm
 
     store = build_history(tmp_path)
     calls = []
-    window = HistoryPage(qt_modules=qt_modules(), store=store,
+    window = HistoryPage(qt_modules=qt_modules(), store=store, clipboard=FakeClipboard(),
                            retry_callback=lambda row: calls.append(row.id) or True)
     settle_history(window)
     assert not window.retry_button.isEnabled()
@@ -150,7 +152,8 @@ def test_history_retry_requires_saved_audio_and_selects_new_result_for_review(tm
 def test_history_window_rejected_reinsertion_does_not_claim_it_was_queued(tmp_path):
     from saydraft.ui.history_page import HistoryPage
     qt_modules()
-    window = HistoryPage(store=build_history(tmp_path), reinsert_callback=lambda *args: False)
+    window = HistoryPage(store=build_history(tmp_path), clipboard=FakeClipboard(),
+                         reinsert_callback=lambda *args: False)
     settle_history(window)
     try:
         assert not window.reinsert_current_text()
