@@ -1,0 +1,72 @@
+{
+  "defaultBranchRef": {
+    "name": "main"
+  },
+  "description": "Free, open-source offline dictation for Windows. Local Parakeet/Whisper speech-to-text and on-device AI cleanup with installed models. A private Wispr Flow / Typeless alternative. Development preview; review setup and accuracy limits.",
+  "homepageUrl": "https://tanzir71.github.io/saydraft/",
+  "isArchived": false,
+  "nameWithOwner": "tanzir71/saydraft",
+  "repositoryTopics": [
+    {
+      "name": "dictation"
+    },
+    {
+      "name": "offline"
+    },
+    {
+      "name": "pyside6"
+    },
+    {
+      "name": "speech-to-text"
+    },
+    {
+      "name": "windows"
+    },
+    {
+      "name": "accessibility"
+    },
+    {
+      "name": "asr"
+    },
+    {
+      "name": "llama-cpp"
+    },
+    {
+      "name": "local-llm"
+    },
+    {
+      "name": "parakeet"
+    },
+    {
+      "name": "privacy"
+    },
+    {
+      "name": "productivity"
+    },
+    {
+      "name": "push-to-talk"
+    },
+    {
+      "name": "sherpa-onnx"
+    },
+    {
+      "name": "transcription"
+    },
+    {
+      "name": "typeless-alternative"
+    },
+    {
+      "name": "voice-to-text"
+    },
+    {
+      "name": "voice-typing"
+    },
+    {
+      "name": "whisper"
+    },
+    {
+      "name": "wispr-flow-alternative"
+    }
+  ],
+  "url": "https://github.com/tanzir71/saydraft"
+}

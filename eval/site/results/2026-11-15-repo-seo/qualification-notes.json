@@ -1,0 +1,16 @@
+{
+  "harness_failures_retained_as_findings": [
+    "Initial byte comparison used git-show LF against Windows CRLF. Corrected to Git text normalization and exact binary checks; no product source changed.",
+    "Clean main and new worktree also differ in installer checkout line endings. Both clean, same Git blobs; all689canonical inputs now verify.",
+    "Dependency preflight compared package scripts; later Home/Demo test entries differ. Actual dependencies/devDependencies/engines and exact lock bytes match the installed node_modules source.",
+    "Markdown mode wrapped the image in a link, breaking picture reduced-motion selection. Outer-anchor attempt also failed. Final README uses static-first/native opt-in animation; all6real local browser layouts pass."
+  ],
+  "upload_approval_pending": true,
+  "g9_approval_separately_pending": true,
+  "profiles_copied": false,
+  "owner_io_used": false,
+  "actions_dispatched": false,
+  "hosting_deployed": false,
+  "release_changed": false,
+  "reserved_recordings_inferred": false
+}

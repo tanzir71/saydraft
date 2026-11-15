@@ -1,0 +1,329 @@
+{
+  "documents": [
+    {
+      "file": "readme.md",
+      "sha256": "c0141e6fb2d09b8400ea11c23c0ef876bd2cc725c34f8d4bfa4127e6c9e6f404",
+      "rendered_html": "markdown-0.html",
+      "headings": [
+        "Saydraft: free offline dictation for Windows",
+        "Coming from Wispr Flow or Typeless?",
+        "Compare the setup",
+        "Frequently asked questions",
+        "Current status",
+        "What works today",
+        "Run from source",
+        "First launch",
+        "Set up once, then go offline",
+        "Daily use",
+        "Privacy and local files",
+        "Troubleshooting and development",
+        "Credits"
+      ],
+      "anchors": [
+        "saydraft-free-offline-dictation-for-windows",
+        "coming-from-wispr-flow-or-typeless",
+        "compare-the-setup",
+        "frequently-asked-questions",
+        "current-status",
+        "what-works-today",
+        "run-from-source",
+        "first-launch",
+        "set-up-once-then-go-offline",
+        "daily-use",
+        "privacy-and-local-files",
+        "troubleshooting-and-development",
+        "credits"
+      ],
+      "local_targets": [
+        "#saydraft-free-offline-dictation-for-windows",
+        "assets/media/saydraft-bar-static.png",
+        "assets/media/saydraft-bar-static.png",
+        "assets/media/saydraft-bar-demo.gif",
+        "assets/media/saydraft-bar-demo.gif",
+        "#run-from-source",
+        "assets/media/source-preview.svg",
+        "LICENSE",
+        "assets/media/license-mit.svg",
+        "docs/LANGUAGES.md",
+        "docs/README.md",
+        "CONTRIBUTING.md",
+        "site/src/content/docs/notes.mdx",
+        "docs/SITE_HOME.md",
+        "site/src/pages/demo.astro",
+        "docs/SITE_DEMO.md",
+        "#run-from-source",
+        "#first-launch",
+        "#set-up-once-then-go-offline",
+        "#daily-use",
+        "#troubleshooting-and-development",
+        "#coming-from-wispr-flow-or-typeless",
+        "site/src/content/compare/wispr-flow-alternative.mdx",
+        "site/src/content/compare/typeless-alternative.mdx",
+        "#compare-the-setup",
+        "#frequently-asked-questions",
+        "docs/LANGUAGES.md",
+        "docs/ASR_ACCURACY.md",
+        "docs/PRIVACY.md",
+        "docs/DELIVERY.md",
+        "docs/README.md",
+        "#run-from-source",
+        "#current-status",
+        "WISPR_OFFLINE_PARITY_PLAN.md",
+        "docs/PACKAGING.md",
+        "eval/packaging/results/2026-11-14-notices/README.md",
+        "eval/packaging/results/2026-11-14-draft/README.md",
+        "docs/TEST_CHECKLIST.md",
+        "docs/UPDATES.md",
+        "docs/VERIFY_OFFLINE.md",
+        "docs/MEETINGS.md",
+        "docs/ASK.md",
+        "eval/commands/results/2026-11-14-held-recording/README.md",
+        "docs/COMMAND_CLIPBOARD.md",
+        "docs/COMMAND_MODE.md",
+        "eval/commands/results/2026-11-14-clipboard-flow/README.md",
+        "docs/TRANSLATE.md",
+        "eval/translation/results/2026-11-14-spoken/README.md",
+        "docs/README.md",
+        "WISPR_OFFLINE_PARITY_PLAN.md",
+        "docs/CLEANUP_EVIDENCE.md",
+        "docs/LATENCY_MATRIX.md",
+        "eval/latency/results/2026-11-14-lite-whisper-base/README.md",
+        "#what-works-today",
+        "docs/VALIDATOR_V2.md",
+        "docs/STYLES.md",
+        "docs/NOTES.md",
+        "docs/DICTIONARY_LEARNING.md",
+        "docs/TRANSLATE.md",
+        "docs/WHISPER_MODE.md",
+        "#run-from-source",
+        "#first-launch",
+        "docs/ONBOARDING.md",
+        "#set-up-once-then-go-offline",
+        "docs/LANGUAGES.md",
+        "docs/ASR_ROUTING.md",
+        "docs/MODELS.md",
+        "docs/CLEANUP_SETUP.md",
+        "docs/MODEL_STORAGE.md",
+        "THIRD_PARTY_NOTICES.md",
+        "#daily-use",
+        "docs/HOTKEYS.md",
+        "docs/RECORDING_LIMITS.md",
+        "#privacy-and-local-files",
+        "docs/PRIVACY.md",
+        "docs/VERIFY_OFFLINE.md",
+        "docs/AUDIO_RETENTION.md",
+        "docs/DATA_MIGRATION.md",
+        "#troubleshooting-and-development",
+        "docs/DELIVERY.md",
+        "docs/CLEANUP_GATE.md",
+        "docs/VALIDATOR_V2.md",
+        "CONTRIBUTING.md",
+        "docs/README.md",
+        "docs/SITE_COMPONENTS.md",
+        "docs/SITE_DOCS.md",
+        "docs/SITE_SEO.md",
+        "eval/cleanup/results/2026-11-13-baseline/README.md",
+        "docs/CLEANUP_EVIDENCE.md",
+        "#credits",
+        "LICENSE",
+        "THIRD_PARTY_NOTICES.md"
+      ]
+    },
+    {
+      "file": "docs/launch/README.md",
+      "sha256": "08f620e13bf6097281be6c0a71239690a963fbc23dc2c8e8e3ec93ee9ec651f5",
+      "rendered_html": "markdown-1.html",
+      "headings": [
+        "Saydraft launch drafts",
+        "Verified product facts",
+        "Submission context"
+      ],
+      "anchors": [
+        "saydraft-launch-drafts",
+        "verified-product-facts",
+        "submission-context"
+      ],
+      "local_targets": [
+        "#saydraft-launch-drafts",
+        "github-settings.md",
+        "alternativeto.md",
+        "product-hunt.md",
+        "show-hn.md",
+        "reddit.md",
+        "awesome-lists.md",
+        "#verified-product-facts",
+        "../../readme.md",
+        "../MODELS.md",
+        "../PRIVACY.md",
+        "../TRANSLATE.md",
+        "../PACKAGING.md",
+        "../../WISPR_OFFLINE_PARITY_PLAN.md",
+        "#submission-context"
+      ]
+    },
+    {
+      "file": "docs/launch/alternativeto.md",
+      "sha256": "ff506f93e796191791be2ee246c8bd93ac3e695732d334cd70fd2894ae0f2bc4",
+      "rendered_html": "markdown-2.html",
+      "headings": [
+        "Directory listing draft",
+        "Listing values",
+        "Description",
+        "Comparison associations for owner review"
+      ],
+      "anchors": [
+        "directory-listing-draft",
+        "listing-values",
+        "description",
+        "comparison-associations-for-owner-review"
+      ],
+      "local_targets": [
+        "#directory-listing-draft",
+        "README.md",
+        "#listing-values",
+        "#description",
+        "#comparison-associations-for-owner-review"
+      ]
+    },
+    {
+      "file": "docs/launch/awesome-lists.md",
+      "sha256": "52df90972d35470a09b585bc14ea27ad1c50d0b919fae7c95c740eb77b418392",
+      "rendered_html": "markdown-3.html",
+      "headings": [
+        "Awesome-list submission drafts",
+        "Awesome Voice Typing",
+        "Awesome Whisper"
+      ],
+      "anchors": [
+        "awesome-list-submission-drafts",
+        "awesome-voice-typing",
+        "awesome-whisper"
+      ],
+      "local_targets": [
+        "#awesome-list-submission-drafts",
+        "README.md",
+        "#awesome-voice-typing",
+        "#awesome-whisper"
+      ]
+    },
+    {
+      "file": "docs/launch/product-hunt.md",
+      "sha256": "7c78f63c6e8406fa78660cf223ee98fa2eece4e1db15b004196d2de2c0c7b274",
+      "rendered_html": "markdown-4.html",
+      "headings": [
+        "Product Hunt draft",
+        "Name",
+        "Tagline",
+        "Description",
+        "Product and source link",
+        "Maker comment",
+        "Owner submission reference"
+      ],
+      "anchors": [
+        "product-hunt-draft",
+        "name",
+        "tagline",
+        "description",
+        "product-and-source-link",
+        "maker-comment",
+        "owner-submission-reference"
+      ],
+      "local_targets": [
+        "#product-hunt-draft",
+        "README.md",
+        "#name",
+        "#tagline",
+        "#description",
+        "#product-and-source-link",
+        "#maker-comment",
+        "#owner-submission-reference"
+      ]
+    },
+    {
+      "file": "docs/launch/reddit.md",
+      "sha256": "d4f84b4a2d8a19a47af0a59a8169d845688d17fabb2517839cd907e93452a118",
+      "rendered_html": "markdown-5.html",
+      "headings": [
+        "Reddit drafts",
+        "r/windowsapps",
+        "r/LocalLLaMA"
+      ],
+      "anchors": [
+        "reddit-drafts",
+        "rwindowsapps",
+        "rlocalllama"
+      ],
+      "local_targets": [
+        "#reddit-drafts",
+        "README.md",
+        "#rwindowsapps",
+        "#rlocalllama"
+      ]
+    },
+    {
+      "file": "docs/launch/show-hn.md",
+      "sha256": "425d7bd99df7bb3debb13ebb4bf85326c3570cefe6fdb6958fc0eead8af7ec22",
+      "rendered_html": "markdown-6.html",
+      "headings": [
+        "Show HN draft",
+        "Title",
+        "Link",
+        "First comment",
+        "Posting reference"
+      ],
+      "anchors": [
+        "show-hn-draft",
+        "title",
+        "link",
+        "first-comment",
+        "posting-reference"
+      ],
+      "local_targets": [
+        "#show-hn-draft",
+        "README.md",
+        "#title",
+        "#link",
+        "#first-comment",
+        "#posting-reference"
+      ]
+    },
+    {
+      "file": "docs/launch/github-settings.md",
+      "sha256": "c0df14404f5b2f94e7b4757a7e8e35227db3084e4c712a8c27c7154942c24f89",
+      "rendered_html": "markdown-7.html",
+      "headings": [
+        "GitHub repository presentation",
+        "About description",
+        "Topics",
+        "Exact CLI commands",
+        "Social preview",
+        "README and media"
+      ],
+      "anchors": [
+        "github-repository-presentation",
+        "about-description",
+        "topics",
+        "exact-cli-commands",
+        "social-preview",
+        "readme-and-media"
+      ],
+      "local_targets": [
+        "#github-repository-presentation",
+        "github-settings.json",
+        "#about-description",
+        "#topics",
+        "#exact-cli-commands",
+        "#social-preview",
+        "assets/saydraft-github-social-preview.png",
+        "../../assets/media/readme-assets.json",
+        "assets/saydraft-github-social-preview.png",
+        "assets/saydraft-github-social-preview.png",
+        "#readme-and-media"
+      ]
+    }
+  ],
+  "documents_checked": 8,
+  "local_targets_checked": 145,
+  "github_sanitizer_preserved_native_disclosure": true,
+  "unchanged_app_site_build_inputs": 689
+}

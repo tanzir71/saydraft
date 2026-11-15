@@ -1,0 +1,550 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Local Saydraft README layout check</title>
+<style>body{margin:0;background:#fff;color:#1f2328;font:16px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}main{max-width:980px;margin:auto;padding:32px;overflow-wrap:break-word}h1,h2{border-bottom:1px solid #d1d9e0;padding-bottom:.3em;line-height:1.25}h2{margin-top:24px}a{color:#0969da}img{max-width:100%;height:auto;vertical-align:middle}table{display:block;max-width:100%;width:max-content;overflow:auto;border-collapse:collapse}th,td{padding:6px 13px;border:1px solid #d1d9e0;min-width:110px}pre{background:#f6f8fa;padding:16px;overflow:auto}code{font-family:ui-monospace,monospace}picture{display:block}p,table,pre,ul{margin:0 0 16px}li+li{margin-top:.25em}@media(max-width:600px){main{padding:16px}h1{font-size:2em}}</style></head><body><main><div class="markdown-heading"><h1 class="heading-element">Saydraft: free offline dictation for Windows</h1><a id="user-content-saydraft-free-offline-dictation-for-windows" class="anchor" aria-label="Permalink: Saydraft: free offline dictation for Windows" href="#saydraft-free-offline-dictation-for-windows"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>Saydraft is a free, open-source offline dictation app for Windows. Local
+Parakeet/Whisper speech-to-text and on-device cleanup keep processing on your PC.</p>
+<p><strong>Speak messy. Paste polished.</strong></p>
+<p><a target="_blank" rel="noopener noreferrer" href="assets/media/saydraft-bar-static.png"><img src="assets/media/saydraft-bar-static.png" width="640" alt="Actual Saydraft Bar with public sample text and optional English live preview" style="max-width: 100%;"></a></p>
+<details>
+<summary>View the Bar animation (5.76-second loop)</summary>
+<a target="_blank" rel="noopener noreferrer" href="assets/media/saydraft-bar-demo.gif"><img src="assets/media/saydraft-bar-demo.gif" width="640" alt="Actual Saydraft Bar animated with public sample text and optional English live preview" style="max-width: 100%;"></a>
+<p>Public sample animation, including optional English live preview. No recording
+or model inference. Collapse this disclosure to hide motion.</p>
+</details>
+<p>The static image is shown first; animation is an explicit choice.</p>
+<p><a href="#run-from-source"><img src="assets/media/source-preview.svg" alt="Get Saydraft: source preview" style="max-width: 100%;"></a>
+<a href="LICENSE"><img src="assets/media/license-mit.svg" alt="License: MIT" style="max-width: 100%;"></a></p>
+<p><strong>Development preview.</strong> Use the source setup below. The older unsigned
+<a href="https://github.com/tanzir71/saydraft/releases/tag/v0.1.0-dry-run.20261114">verification pre-release</a>
+predates current source; signing, broad quality and physical Windows acceptance
+remain open.</p>
+<p>Hold a shortcut, speak, then release to transcribe, clean up and attempt delivery
+into the original editable field. History saves the result before delivery.
+Installed speech and cleanup models run locally, with no cloud fallback or
+subscription.</p>
+<p>Highlighted speech languages, in alphabetical order: <strong>Arabic, Bengali,
+Brazilian Portuguese, Chinese (Mandarin), Filipino / Tagalog, French, German,
+Hindi, Indonesian, Japanese, Korean, Malay, Persian (Farsi), Spanish, Tamil,
+Telugu, Thai, Urdu and Vietnamese</strong>, with compatible local models. English is
+also supported. See the <a href="docs/LANGUAGES.md">language guide</a> for coverage,
+shared-model setup and measured accuracy limits.</p>
+<p><a href="https://tanzir71.github.io/saydraft/" rel="nofollow">Website</a> ·
+<a href="https://tanzir71.github.io/saydraft/docs/" rel="nofollow">User guides</a> ·
+<a href="docs/README.md">Documentation</a> · <a href="CONTRIBUTING.md">Contributing</a></p>
+<p>Explore the <a href="https://tanzir71.github.io/saydraft/offline-dictation-windows/" rel="nofollow">offline dictation guide</a>,
+<a href="https://tanzir71.github.io/saydraft/dictation-for-developers/" rel="nofollow">developer workflows</a>
+and dated <a href="https://tanzir71.github.io/saydraft/wispr-flow-alternative/" rel="nofollow">Wispr Flow comparison</a>.
+The website also covers Typeless, Superwhisper, Windows voice typing and Dragon;
+its <a href="https://tanzir71.github.io/saydraft/changelog/" rel="nofollow">changelog</a> lists published releases only.
+The Home page includes actual Hub/Bar screenshots, source-linked comparisons and
+alphabetical language guides. <a href="site/src/content/docs/notes.mdx">Notes guidance</a>
+separates local Scratchpad notes from experimental meeting features. See the
+<a href="docs/SITE_HOME.md">Home implementation and verification</a> for capture provenance and limits.
+The <a href="site/src/pages/demo.astro">prepared-example demo</a> is included in
+the current site source. It uses canned text and no microphone or uploads;
+<a href="docs/SITE_DEMO.md">demo documentation</a> describes its behavior and publication limits.</p>
+<p><a href="#run-from-source">Install from source</a> · <a href="#first-launch">First launch</a> ·
+<a href="#set-up-once-then-go-offline">Models and languages</a> · <a href="#daily-use">Daily use</a> ·
+<a href="#troubleshooting-and-development">Troubleshooting</a></p>
+<div class="markdown-heading"><h2 class="heading-element">Coming from Wispr Flow or Typeless?</h2><a id="user-content-coming-from-wispr-flow-or-typeless" class="anchor" aria-label="Permalink: Coming from Wispr Flow or Typeless?" href="#coming-from-wispr-flow-or-typeless"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>Start with <strong>Ctrl + Win</strong> to hold-to-speak, <strong>Ctrl + Win + Space</strong> for hands-free
+capture, and <strong>Shift + Alt + Z</strong> to paste your last words. Review and rebind
+shortcuts in Settings if another app uses them. Install compatible models once,
+choose tone/cleanup per app group, then review a short sample in your own workflow.</p>
+<p>See the source-backed <a href="site/src/content/compare/wispr-flow-alternative.mdx">Wispr Flow migration guide</a>
+and <a href="site/src/content/compare/typeless-alternative.mdx">Typeless comparison</a>.
+These comparisons do not establish equivalent accuracy, speed or complete parity.</p>
+<div class="markdown-heading"><h3 class="heading-element">Compare the setup</h3><a id="user-content-compare-the-setup" class="anchor" aria-label="Permalink: Compare the setup" href="#compare-the-setup"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>Product facts checked <strong>2026-11-14</strong>; features and plans can change. Sources are
+linked in every cell. This is a development preview with qualification limits,
+not an accuracy or speed ranking.</p>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Saydraft</th>
+<th>Wispr Flow</th>
+<th>Typeless</th>
+<th>Windows voice typing</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Dictation connection</td>
+<td>Offline with compatible models installed. <a href="https://github.com/tanzir71/saydraft/blob/main/docs/PRIVACY.md">Project privacy guide</a>
+</td>
+<td>Internet required for transcription. <a href="https://docs.wisprflow.ai/articles/2772472373-what-is-flow" rel="nofollow">Flow documentation</a>
+</td>
+<td>Internet required for transcription. <a href="https://www.typeless.com/blog/typeless-vs-wispr-flow" rel="nofollow">Typeless FAQ</a>
+</td>
+<td>Standard Win+H uses online recognition. <a href="https://support.microsoft.com/en-us/accessibility/windows/use-voice-typing-to-talk-instead-of-type-on-your-pc" rel="nofollow">Microsoft documentation</a>
+</td>
+</tr>
+<tr>
+<td>Windows availability</td>
+<td>Windows 10/11 development source. <a href="https://github.com/tanzir71/saydraft/blob/main/readme.md">Project setup status</a>
+</td>
+<td>Windows app. <a href="https://docs.wisprflow.ai/articles/2772472373-what-is-flow" rel="nofollow">Flow platforms</a>
+</td>
+<td>Windows app. <a href="https://www.typeless.com/pricing" rel="nofollow">Typeless platforms</a>
+</td>
+<td>Built into Windows. <a href="https://www.microsoft.com/en-us/windows/tips/voice" rel="nofollow">Microsoft feature guide</a>
+</td>
+</tr>
+<tr>
+<td>Free use</td>
+<td>Free, open source; no subscription quota. <a href="https://github.com/tanzir71/saydraft/blob/main/readme.md">Project license and limits</a>
+</td>
+<td>Limited weekly words; paid unlimited plan. <a href="https://wisprflow.ai/pricing" rel="nofollow">Flow plans</a>
+</td>
+<td>Limited weekly words; paid unlimited plan. <a href="https://www.typeless.com/pricing" rel="nofollow">Typeless plans</a>
+</td>
+<td>Included with Windows. <a href="https://www.microsoft.com/en-us/windows/tips/voice" rel="nofollow">Microsoft feature guide</a>
+</td>
+</tr>
+</tbody>
+</table>
+<p>This compares standard online Win+H voice typing. Copilot+ Fluid enhancements
+and the separate <a href="https://support.microsoft.com/en-us/accessibility/windows/voice-access/set-up-voice-access" rel="nofollow">offline Voice Access feature</a>
+have different requirements. No affiliation with Wispr Flow, Typeless or Microsoft
+is implied. Saydraft has a configurable per-dictation recording cap, 20 minutes
+by default, separate from its lack of a subscription word quota.</p>
+<div class="markdown-heading"><h2 class="heading-element">Frequently asked questions</h2><a id="user-content-frequently-asked-questions" class="anchor" aria-label="Permalink: Frequently asked questions" href="#frequently-asked-questions"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p><strong>Does setup need internet?</strong> Yes: review model sizes/licenses and start a
+Download/Resume action. Later launches reuse installed compatible models offline.
+Selecting a language starts no transfer.</p>
+<p><strong>Are Bengali, Arabic and the other languages separate downloads?</strong> No. Languages
+outside the default model's coverage share the optional All languages model;
+there are no Bengali-only or Arabic-only packs. See <a href="docs/LANGUAGES.md">language setup</a>.</p>
+<p><strong>Is accuracy the same in every language?</strong> No. Coverage is distinct from measured
+quality. The <a href="docs/ASR_ACCURACY.md">public multilingual evaluation</a> reports its
+methods and substantial Bengali, Tamil and Telugu errors. Review names, numbers
+and your own speech before relying on results; owner accuracy acceptance is deferred.</p>
+<p><strong>Is it completely offline?</strong> Installed recognition and cleanup run locally.
+Model downloads are explicit; optional GitHub update notices are off by default.
+The <a href="docs/PRIVACY.md">privacy boundary</a> explains Python guard and native-helper
+firewall limits, as well as Windows clipboard history/sync.</p>
+<p><strong>Does it work in every text field?</strong> Delivery is guarded. Protected/elevated
+fields, unsupported selections or focus changes can refuse insertion. Review the
+saved History result and <a href="docs/DELIVERY.md">delivery recovery</a>.</p>
+<p><strong>Are Command, Translate, Ask and meeting notes ready for production?</strong> They are
+experimental Pro hardware-profile features with explicit setup/opt-in and separate
+qualification limits. Pro is a hardware tier, not a paid subscription. See their
+<a href="docs/README.md">implementation guides</a>.</p>
+<p><strong>What can I install today?</strong> Current source uses Windows 10/11 x64 and 64-bit
+Python 3.13. The public unsigned verification pre-release is older than current
+source. Use <a href="#run-from-source">the setup instructions</a> and review release/signing
+status before choosing an artifact.</p>
+<p><strong>Does the web demo record me?</strong> No. The current site's prepared-example demo uses
+canned text, no microphone, models, clipboard or text insertion. Hosted publication
+is a separate step from a source push.</p>
+<div class="markdown-heading"><h2 class="heading-element">Current status</h2><a id="user-content-current-status" class="anchor" aria-label="Permalink: Current status" href="#current-status"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>Saydraft is in active development. Run from source using the steps below.
+An older unsigned verification pre-release is listed on
+<a href="https://github.com/tanzir71/saydraft/releases">GitHub Releases</a>. It predates the
+current source and does not establish current app or signing acceptance. Signing
+and clean-machine validation remain on the <a href="WISPR_OFFLINE_PARITY_PLAN.md">roadmap</a>.
+Historical <a href="docs/PACKAGING.md">packaging verification</a> produced an approximately
+104 MB unsigned installer with resource, notice and install/uninstall checks. Its
+<a href="eval/packaging/results/2026-11-14-notices/README.md">retained verification</a>
+covers 38 components and 506 notice files.
+The <a href="eval/packaging/results/2026-11-14-draft/README.md">draft-release verification</a>
+retains a historical real dry run; signing and publication remain separate.</p>
+<p>Development checks and builds run locally before direct pushes. GitHub Actions
+workflows are manual-only and are not a delivery gate. See the
+<a href="docs/TEST_CHECKLIST.md">local verification checklist</a>.</p>
+<p><a href="docs/UPDATES.md">App update checks</a> are off by default. Enable and save them in
+Settings → Privacy for startup/daily notices and a release-page link. Install
+updates manually from GitHub.</p>
+<p>Packaged builds also offer an optional <a href="docs/VERIFY_OFFLINE.md">Windows Firewall block</a>
+in Settings → Privacy. Confirm the installation path, then approve Windows UAC.
+Remove the rule before downloading models or checking for updates. The rule
+covers that <code>Saydraft.exe</code>; separate helper executables need their own coverage.
+Source Python is never blocked by these controls.</p>
+<p>Core dictation and the Hub are available from source. Owner accuracy acceptance
+is deferred. Implementation and remaining
+qualification are tracked separately:</p>
+<table>
+<thead>
+<tr>
+<th>Available from source</th>
+<th>Still in progress</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Local dictation, rules cleanup, optional local AI cleanup</td>
+<td>Current-model quality and release latency qualification</td>
+</tr>
+<tr>
+<td>Hub, History, Dictionary, Snippets, Style, Scratchpad and Notes</td>
+<td>Full Command qualification</td>
+</tr>
+<tr>
+<td>Experimental Pro <a href="docs/MEETINGS.md">meeting notes</a>: reviewed setup, consented Start, speaker transcript and local summary</td>
+<td>Live-device, packaged, 30-minute meeting and broader accuracy acceptance</td>
+</tr>
+<tr>
+<td>Experimental Pro Translate with per-group Style targets</td>
+<td>Broader translation quality and physical workflow acceptance</td>
+</tr>
+<tr>
+<td>Experimental Pro <a href="docs/ASK.md">Ask about selected text</a>, with separate answer Notes; native read-only browser workflow verified</td>
+<td>Packaged/physical Ask acceptance; broader answer quality</td>
+</tr>
+<tr>
+<td>Six-page setup, verified downloads, model performance check</td>
+<td>Fresh-profile and physical Windows acceptance</td>
+</tr>
+<tr>
+<td>Public website, setup guide, verified unsigned builds and opt-in update notices</td>
+<td>Signing and release publication</td>
+</tr>
+</tbody>
+</table>
+<p>Command Mode's selection guard, local edit client, replacement checks and separate
+Copy recovery windows are implemented. The experimental model now has separate
+Pro admission and exclusive ownership, preserving cleanup defaults. The
+experimental Labs setup and held instruction route are connected for readable
+selections. Read-only results are offered for Copy. The
+<a href="eval/commands/results/2026-11-14-held-recording/README.md">held-flow verification</a>
+includes full CI/package checks, controlled native worker scenarios and both-theme
+setup/recovery renders. A separate Labs opt-in now connects
+<a href="docs/COMMAND_CLIPBOARD.md">clipboard-copy fallback</a> for unsupported safe fields;
+Windows clipboard history/sync settings apply. It offers Copy when the original
+selection cannot be verified for replacement. Full Command acceptance remains open;
+see the <a href="docs/COMMAND_MODE.md">implementation status</a> and
+<a href="eval/commands/results/2026-11-14-clipboard-flow/README.md">connected-flow verification</a>.</p>
+<p>Experimental <a href="docs/TRANSLATE.md">Translate while speaking</a> uses the normal
+dictation shortcut with an English, Spanish or Arabic target saved per app group
+in Style. Enable it separately in Labs after explicitly installing the shared
+4B editing model. Successful translations are saved before guarded delivery;
+failures preserve recognized speech for Copy without automatically pasting it.
+Raw and Code bypass translation. Native text smoke checks and controlled worker
+tests are distinct from physical Windows and broad quality acceptance.
+See the <a href="eval/translation/results/2026-11-14-spoken/README.md">retained verification</a>
+for native smoke cases, CI/package results and their scope.</p>
+<p>See the <a href="docs/README.md">documentation index</a> for individual features and the
+<a href="WISPR_OFFLINE_PARITY_PLAN.md">parity plan</a> for the complete acceptance status.</p>
+<p>The latest <a href="docs/CLEANUP_EVIDENCE.md">cleanup measurements</a> retain all ten
+CPU/RTX model comparisons, complete policy replays, and the earlier CPU failure.
+The CPU policy replay keeps rules throughout, so combined hybrid qualification
+remains open. Benchmark completion alone does not establish app latency or a
+model default.</p>
+<p>The <a href="docs/LATENCY_MATRIX.md">release-latency matrix</a> now covers the specified
+3/10/30/90-second cold/warm runs through the actual worker, History and checked
+simulated paste, using Whisper base for Lite and Parakeet for Standard/Pro.
+The <a href="eval/latency/results/2026-11-14-lite-whisper-base/README.md">full Lite baseline</a>
+completes all 160 cases, but misses the latency targets: 3-second warm p50/p95
+is 1.270/1.330 seconds. Standard/Pro and performance qualification remain open;
+the earlier warm fixture results retain their original scope.</p>
+<div class="markdown-heading"><h2 class="heading-element">What works today</h2><a id="user-content-what-works-today" class="anchor" aria-label="Permalink: What works today" href="#what-works-today"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ul>
+<li>
+<strong>Local dictation:</strong> Parakeet or Whisper recognition, hold-to-talk and
+hands-free capture, a floating Bar, cancellation, and History before delivery.</li>
+<li>
+<strong>Cleanup and style:</strong> rules for fillers, repetitions, self-corrections,
+punctuation, and lists; per-app styles; optional local AI cleanup with
+validation and rules fallback. Normal AI cleanup also checks content-word
+identity and order after rules; <a href="docs/VALIDATOR_V2.md">validation details</a>
+describe the allowed edits and the broader Polished setting. The Hub's
+<a href="docs/STYLES.md">Style preview</a> includes staged Dictionary edits and lets you
+preview a resolved language without changing speech settings.</li>
+<li>
+<strong>One Hub:</strong> Home statistics and recent dictations; searchable History with
+raw/cleaned changes, Markdown/CSV export, and retry when audio was retained.</li>
+<li>
+<strong>Scratchpad and Notes:</strong> a floating plain-text draft with local autosave,
+searchable notes, and revision conflict recovery. A shortcut also opens the
+last dictation's changes. See the <a href="docs/NOTES.md">Notes guide</a>.</li>
+<li>
+<strong>Personal vocabulary:</strong> searchable Dictionary terms, protected terms, and
+replacement pairs, with conservative spelling correction in resolved-English
+dictation; Snippets with date/clipboard variables and import/export. See
+<a href="docs/DICTIONARY_LEARNING.md">dictionary behavior and limits</a>.</li>
+<li>
+<strong>Translate while speaking · Labs:</strong> optional Pro translation to English,
+Spanish or Arabic with per-group targets, local generation and Copy recovery.
+See the <a href="docs/TRANSLATE.md">setup and limits</a>.</li>
+<li>
+<strong>Guided first launch:</strong> microphone selection and a level-only test, focused
+shortcut learning, chat/email dictation practice with before/after review,
+and a Style quick pick before opening Home.</li>
+<li>
+<strong>Explicit model setup:</strong> provisional PC recommendations, disclosed
+sizes/licenses, resumable downloads with per-file verification progress,
+tier overrides, and model storage controls.</li>
+<li>
+<strong>Whisper mode · experimental:</strong> optional gain, AGC, local speech enhancement
+and more sensitive speech detection for quiet speech. Its whispered-speech
+accuracy target remains unverified. See <a href="docs/WHISPER_MODE.md">setup and scope</a>.</li>
+<li>
+<strong>Local data controls:</strong> no telemetry, audio retention off by default,
+optional retention limits, a read-only firewall-rule check, and explicit
+firewall controls for packaged installations.</li>
+</ul>
+<div class="markdown-heading"><h2 class="heading-element">Run from source</h2><a id="user-content-run-from-source" class="anchor" aria-label="Permalink: Run from source" href="#run-from-source"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>Use Windows 10 or 11, 64-bit Python 3.13, Git, a microphone, and enough free disk
+space for your selected models. In PowerShell:</p>
+<div class="highlight highlight-source-powershell"><pre>git clone https:<span class="pl-k">//</span><span class="pl-c1">github.com</span><span class="pl-k">/</span>tanzir71<span class="pl-k">/</span>saydraft.git
+cd saydraft
+py <span class="pl-c1">-3.13</span> <span class="pl-k">-</span>m venv .venv
+.venv\Scripts\python <span class="pl-k">-</span>m pip install <span class="pl-k">-</span>r requirements.txt
+.venv\Scripts\python <span class="pl-k">-</span>m saydraft</pre></div>
+<p>Keep the console available while diagnosing startup problems. The current
+<a href="https://tanzir71.github.io/saydraft/download/" rel="nofollow">download page</a> also links to
+<a href="https://github.com/tanzir71/saydraft/releases">GitHub Releases</a>. Review the older
+verification artifacts' source and signing limits before choosing an installer.</p>
+<div class="markdown-heading"><h3 class="heading-element">First launch</h3><a id="user-content-first-launch" class="anchor" aria-label="Permalink: First launch" href="#first-launch"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>The setup wizard has six pages: Welcome, Microphone, Set up models, Shortcut,
+Try it, and Style quick pick.</p>
+<ol>
+<li>In <strong>Microphone</strong>, choose Default Windows input or select <strong>Refresh inputs</strong>
+to find a named device. <strong>Test input</strong> runs a ten-second, level-only check;
+it does not transcribe or save a recording.
+<strong>Check microphone privacy</strong> reads Windows permission status without opening
+an input; it provides guidance when access is blocked or unknown.</li>
+<li>In <strong>Set up models</strong>, optionally select <strong>Check this PC</strong>, then <strong>Use speech
+recommendation</strong>. This is a provisional capability recommendation, not a
+measured performance tier. It does not start a download or enable AI cleanup.</li>
+<li>Review the speech model, size, and licenses, then select <strong>Download / Resume</strong>.
+Setup shows package progress and individual file transfer/checksum phases.
+Installed-file checks run in the background, including pinned dependencies.
+After installation, <strong>Check model performance</strong> measures the selected speech
+model using bundled audio. It opens no microphone, downloads nothing, and
+keeps successful measurements separately from saved setup preferences.</li>
+<li>In <strong>Shortcut</strong>, keep the preset, enter a binding, or choose <strong>Learn shortcut</strong>
+and press/release your keys. Review any conflicts before continuing.</li>
+<li>In <strong>Try it</strong>, practice in the window's own chat or email field. Preparation
+opens no microphone. Hold your shortcut or choose <strong>Record</strong>, then release or
+choose <strong>Stop and preview</strong> to review the transcript, cleaned text, and edit
+chips. Each practice recording is limited to one minute. Audio stays in memory;
+practice creates no History entries and uses no external paste or clipboard.
+You can continue without recording.</li>
+<li>In <strong>Style quick pick</strong>, choose Casual or Formal for Messages and Email.
+The rules preview uses your last practice transcript or a labeled example.
+<strong>Finish</strong> rechecks the selected model, saves changed choices, and opens Home
+after setup work has stopped.
+Existing intensity and AI settings stay unchanged. <strong>Cancel</strong> preserves saved
+preferences; completed downloads and resumable partials remain separate.</li>
+</ol>
+<p>In <strong>Set up models</strong>, <strong>Next</strong> requires a ready speech model. Catalog packages
+must pass their file checks; an existing local Whisper model needs a successful offline load check
+through <strong>Check model performance</strong>. <strong>Finish</strong> checks the current model again
+before saving. Cancel, hiding setup, or going Back revokes a pending Finish.
+Capability recommendations and measured speed remain distinct. Fresh-profile
+manual acceptance is still open. See the <a href="docs/ONBOARDING.md">first-run guide</a>.</p>
+<div class="markdown-heading"><h3 class="heading-element">Set up once, then go offline</h3><a id="user-content-set-up-once-then-go-offline" class="anchor" aria-label="Permalink: Set up once, then go offline" href="#set-up-once-then-go-offline"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>At least one compatible speech model is required to dictate. Model weights
+are downloaded during explicit setup rather than bundled with the source.
+Review the recommended speech model, its download size, and its license, then
+select <strong>Download</strong>. Progress and pause/resume are available. Later launches
+reuse installed files. Choosing a language or model never starts a download
+by itself; you need an installed compatible model before dictating.</p>
+<table>
+<thead>
+<tr>
+<th>Speech option</th>
+<th align="right">Approximate download</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Default: Parakeet v3 int8 + language detector</td>
+<td align="right">773.4 MB</td>
+<td>Recognition in 25 European languages</td>
+</tr>
+<tr>
+<td>Parakeet v2 int8, English max</td>
+<td align="right">661.3 MB</td>
+<td>English recognition</td>
+</tr>
+<tr>
+<td>All languages · Whisper large-v3-turbo</td>
+<td align="right">1,621.7 MB</td>
+<td>Thai, Chinese, Korean, Bengali, Arabic and other supported languages</td>
+</tr>
+<tr>
+<td>Whisper base / small / medium</td>
+<td align="right">Shown in setup</td>
+<td>Alternative multilingual models</td>
+</tr>
+</tbody>
+</table>
+<p>Thai, Chinese, Korean, Bengali and Arabic share the optional <strong>All languages</strong>
+model. Download it once; there are no separate language packs or language-specific
+download buttons. Portuguese, including Brazilian Portuguese, is also covered by
+the default Parakeet v3 model. Choose <strong>Portuguese (including Brazilian Portuguese)</strong>
+in Languages; both engines use <code>pt</code>, without a separate Brazil-only decoder setting.
+Installed models can be selected through language pins and automatic routing;
+<a href="docs/LANGUAGES.md">language coverage</a> and <a href="docs/ASR_ROUTING.md">routing details</a>
+explain setup and its limits. Language coverage is not an accent-specific accuracy claim.</p>
+<p>Optional AI cleanup is disabled by default. Explicit setup offers pinned
+Qwen3.5 0.8B or 2B Q4_K_M weights with a local llama.cpp CPU or Vulkan runtime.
+Recommendations depend on the selected tier and available measurements; they
+do not enable or download AI cleanup. Rules-only dictation needs no cleanup
+model. See <a href="docs/MODELS.md">model details</a>,
+<a href="docs/CLEANUP_SETUP.md">cleanup setup</a>, and <a href="docs/MODEL_STORAGE.md">storage controls</a>.
+Model weights and dependencies retain their <a href="THIRD_PARTY_NOTICES.md">own licenses</a>.</p>
+<div class="markdown-heading"><h2 class="heading-element">Daily use</h2><a id="user-content-daily-use" class="anchor" aria-label="Permalink: Daily use" href="#daily-use"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ol>
+<li>Click the field where you want text.</li>
+<li>Hold <strong>Ctrl + Win</strong>, speak, then release.</li>
+<li>Saydraft transcribes and cleans locally, saves History, and attempts delivery
+into the original target. Review History if delivery is skipped or fails.</li>
+</ol>
+<p>Fresh profiles use these shortcuts. Existing custom bindings are preserved;
+change them in <strong>Hub → Settings → Shortcuts</strong>.</p>
+<table>
+<thead>
+<tr>
+<th>Shortcut</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ctrl + Win</td>
+<td>Hold to dictate</td>
+</tr>
+<tr>
+<td>F9</td>
+<td>Alternate hold-to-talk shortcut</td>
+</tr>
+<tr>
+<td>XButton1</td>
+<td>Configurable mouse hold-to-talk shortcut</td>
+</tr>
+<tr>
+<td>Ctrl + Win + Space</td>
+<td>Toggle hands-free dictation</td>
+</tr>
+<tr>
+<td>Shift + Alt + Z</td>
+<td>Paste the last dictation</td>
+</tr>
+<tr>
+<td>Win + Alt + S</td>
+<td>Open Scratchpad</td>
+</tr>
+<tr>
+<td>Ctrl + Win + D</td>
+<td>View the last dictation's changes</td>
+</tr>
+<tr>
+<td>F10</td>
+<td>Capture to History without foreground insertion</td>
+</tr>
+<tr>
+<td>Esc</td>
+<td>Cancel the current recording</td>
+</tr>
+</tbody>
+</table>
+<p>Two short taps of a recording shortcut also lock hands-free mode; a single
+short tap does not. The default recording cap is <strong>20 minutes</strong>, with a warning
+at <strong>19 minutes</strong>. Saved custom limits stay unchanged. See
+<a href="docs/HOTKEYS.md">shortcut behavior</a> and <a href="docs/RECORDING_LIMITS.md">recording limits</a>.</p>
+<div class="markdown-heading"><h2 class="heading-element">Privacy and local files</h2><a id="user-content-privacy-and-local-files" class="anchor" aria-label="Permalink: Privacy and local files" href="#privacy-and-local-files"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>The dictation path is microphone → local recognition → cleanup → History →
+delivery. Models are fetched only through explicit setup actions. Python
+network access is restricted to loopback, requested model downloads and saved
+opt-in GitHub update checks. Packaged firewall controls add an OS rule for that
+executable, including its native libraries. Effective Windows policy and separate
+helper processes have their own verification limits. See
+<a href="docs/PRIVACY.md">the privacy boundary</a> and <a href="docs/VERIFY_OFFLINE.md">Verify offline</a>.</p>
+<table>
+<thead>
+<tr>
+<th>Data</th>
+<th>Default location</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Configuration</td>
+<td><code>%LOCALAPPDATA%\Saydraft\config.json</code></td>
+</tr>
+<tr>
+<td>History and Notes</td>
+<td><code>%LOCALAPPDATA%\Saydraft\history.db</code></td>
+</tr>
+<tr>
+<td>Logs</td>
+<td><code>%LOCALAPPDATA%\Saydraft\logs\saydraft.log</code></td>
+</tr>
+<tr>
+<td>Audio, only when retention is enabled</td>
+<td><code>%LOCALAPPDATA%\Saydraft\audio</code></td>
+</tr>
+<tr>
+<td>New model installations</td>
+<td><code>%LOCALAPPDATA%\Saydraft\models\&lt;id&gt;\&lt;version&gt;</code></td>
+</tr>
+</tbody>
+</table>
+<p>Audio retention is <strong>off by default</strong>. You can enable Keep forever or Keep N
+days; expiry preserves History text and statistics. Retry needs retained audio.
+Compatible legacy model installations remain readable in place. See
+<a href="docs/AUDIO_RETENTION.md">audio retention</a> and <a href="docs/DATA_MIGRATION.md">data migration</a>.</p>
+<div class="markdown-heading"><h2 class="heading-element">Troubleshooting and development</h2><a id="user-content-troubleshooting-and-development" class="anchor" aria-label="Permalink: Troubleshooting and development" href="#troubleshooting-and-development"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ul>
+<li>
+<strong>No input:</strong> check Windows microphone permissions, then open
+Settings → Microphone, refresh inputs, and run Test input. A missing saved
+microphone does not silently switch to another device.</li>
+<li>
+<strong>Next is unavailable in Set up models:</strong> finish installing the selected
+package and its dependencies. For an existing local Whisper model, run
+<strong>Check model performance</strong>. If files change later, return to this step and
+check them again before finishing setup.</li>
+<li>
+<strong>Practice is unavailable:</strong> return to Set up models to install the selected
+speech model, or to Microphone to check the input. After an app stop or Settings
+change, choose <strong>Prepare practice</strong> to start again. If setup cannot confirm
+that practice stopped, cancel setup and restart Saydraft as prompted.</li>
+<li>
+<strong>Shortcut conflict:</strong> review Settings → Shortcuts and rebind conflicting
+combinations. Another dictation app may use Ctrl + Win.</li>
+<li>
+<strong>Text did not insert:</strong> open History to review/copy the saved result.
+Focus changes, protected fields, and elevated targets can prevent delivery;
+see <a href="docs/DELIVERY.md">delivery behavior</a>.</li>
+<li>
+<strong>Slow setup or recognition:</strong> review the model size and installed files in
+Settings → Models, and use the performance check before selecting a tier.</li>
+<li>
+<strong>AI cleanup kept the rules result:</strong> check that AI cleanup is enabled and
+its model/runtime are ready. Low-need text, insufficient time, or a rejected
+model reply can all keep rules output. See the <a href="docs/CLEANUP_GATE.md">cleanup gate</a>
+and <a href="docs/VALIDATOR_V2.md">validator</a> before treating fallback as a failure.</li>
+</ul>
+<p>For development setup and checks, read <a href="CONTRIBUTING.md">CONTRIBUTING.md</a>.
+<a href="docs/README.md">Documentation</a> links to implementation notes, evaluation
+methods, Windows acceptance checks, and the website workflow.
+The <a href="docs/SITE_COMPONENTS.md">website component guide</a> covers the 23 reusable
+components, 73 Storybook states and responsive visual checks.
+The <a href="docs/SITE_DOCS.md">documentation guide</a> covers the dated user-guide routes,
+shared model-size tables and local content verification. Website changes are
+validated locally and pushed; hosted publication is a separate step.
+The <a href="docs/SITE_SEO.md">SEO guide</a> covers per-page social images, sitemap/readable
+exports, owner verification tags and the remaining rich-result eligibility limits.
+Report reproducible problems in <a href="https://github.com/tanzir71/saydraft/issues">GitHub Issues</a>
+with redacted logs and your source version; keep private recordings and transcripts out
+of public reports.</p>
+<p>The automated gates cover the offline test suite, <strong>556 cleanup golden cases</strong>,
+and <strong>100 authored adversarial validator cases</strong>. These are distinct from native
+model measurements and owner accuracy acceptance. The retained
+<a href="eval/cleanup/results/2026-11-13-baseline/README.md">native baseline</a> exposed a
+word-substitution regression that is now guarded; it predates that fix and is
+not current qualification. See <a href="docs/CLEANUP_EVIDENCE.md">cleanup evidence</a> for
+the source and corpus checks required of replacement reports.</p>
+<div class="markdown-heading"><h2 class="heading-element">Credits</h2><a id="user-content-credits" class="anchor" aria-label="Permalink: Credits" href="#credits"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>Saydraft's code is licensed under <a href="LICENSE">MIT</a>. Models and dependencies keep
+their own licenses, documented in <a href="THIRD_PARTY_NOTICES.md">third-party notices</a>.
+Thanks to NVIDIA Parakeet, Whisper/faster-whisper, sherpa-onnx, Qwen, llama.cpp
+and PySide6. The bundled fonts keep their OFL notices. Built by
+<a href="https://tanziro.com" rel="nofollow">Tanzir Rahman</a>. You can
+<a href="https://buymeacoffee.com/tanzir" rel="nofollow">support Saydraft</a>.</p>
+</main></body></html>

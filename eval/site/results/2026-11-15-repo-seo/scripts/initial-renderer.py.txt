@@ -1,0 +1,98 @@
+"""Render the actual Bar as a public-sample GIF with all owner I/O barred."""
+import argparse
+import ctypes
+import hashlib
+import importlib.abc
+import json
+import math
+import os
+from pathlib import Path
+import subprocess
+import sys
+
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--output', type=Path, required=True)
+output = parser.parse_args().output.resolve()
+repo = Path.cwd().resolve()
+assert (repo / 'saydraft/__init__.py').is_file()
+assert not output.is_relative_to(repo)
+output.mkdir(exist_ok=False)
+profile = output / 'profile'
+for part in ['local', 'roaming', 'home', 'temp']: (profile / part).mkdir(parents=True)
+os.environ.update(QT_QPA_PLATFORM='offscreen', QT_STYLE_OVERRIDE='Fusion', QT_SCALE_FACTOR='2',
+    LOCALAPPDATA=str(profile / 'local'), APPDATA=str(profile / 'roaming'), USERPROFILE=str(profile / 'home'),
+    TEMP=str(profile / 'temp'), TMP=str(profile / 'temp'))
+sys.path.insert(0, str(repo))
+blocked = []
+class BarOwnerIO(importlib.abc.MetaPathFinder):
+    def find_spec(self, fullname, path=None, target=None):
+        if fullname.split('.')[0] in ['sounddevice', 'soundcard', 'pynput', 'pyperclip', 'win32clipboard'] or fullname in ['saydraft.app', 'saydraft.insert.clipboard_win']:
+            blocked.append(fullname)
+            raise AssertionError('Owner I/O module is barred: ' + fullname)
+sys.meta_path.insert(0, BarOwnerIO())
+def forbidden(*args, **kwargs):
+    blocked.append('native/clipboard/device/action')
+    raise AssertionError('Owner I/O is barred during public Bar rendering')
+ctypes.WinDLL = forbidden
+from PySide6 import QtCore, QtGui, QtWidgets
+QtWidgets.QApplication.clipboard = staticmethod(forbidden)
+QtGui.QDesktopServices.openUrl = staticmethod(forbidden)
+from saydraft.privacy.netguard import NetworkGuard
+NetworkGuard.install()
+from saydraft.ui.fonts import install_bundled_fonts
+from saydraft.ui.theme import install_theme
+from saydraft.ui.pill import SaydraftPill
+from PIL import Image
+
+app = QtWidgets.QApplication([])
+assert app.platformName() == 'offscreen'
+assert len(install_bundled_fonts(app)) == 8
+theme = install_theme(app, mode='light')
+clock = [100.]
+bar = SaydraftPill(clock=lambda: clock[0], screen_geometry_provider=lambda: QtCore.QRect(0, 0, 1440, 900), focus_point_provider=lambda: None)
+bar.show_recording()
+frames = []; records = []
+caption = 'Public sample animation · no recording or model inference'
+for index in range(72):
+    clock[0] = 100. + index * .08
+    if index < 40:
+        bar.update_level(.08 + .045 * math.sin(index * .7))
+        if index in [16, 24, 32]:
+            bar.update_preview({16: 'Let us turn', 24: 'Let us turn this thought', 32: 'Let us turn this thought into a clear draft.'}[index])
+    elif index == 40:
+        bar.clear_preview(); bar.show_processing()
+    elif index == 64:
+        bar.finish_success()
+    bar.advance_frame()
+    app.processEvents()
+    rendered = bar.render_image()
+    canvas = QtGui.QImage(960, 240, QtGui.QImage.Format_ARGB32)
+    canvas.fill(QtGui.QColor('#F5F2E9'))
+    painter = QtGui.QPainter(canvas)
+    painter.drawImage((960 - rendered.width()) // 2, 70, rendered)
+    painter.setPen(QtGui.QColor('#5B5A55'))
+    font = QtGui.QFont('Geist Mono'); font.setPixelSize(18); painter.setFont(font)
+    painter.drawText(QtCore.QRect(20, 193, 920, 32), QtCore.Qt.AlignCenter, caption)
+    painter.end()
+    path = output / f'frame-{index:03}.png'
+    assert canvas.save(str(path))
+    records.append({'file': path.name, 'state': bar.state.value, 'clock': clock[0], 'sha256': hashlib.sha256(path.read_bytes()).hexdigest()})
+    frames.append(Image.open(path).convert('RGB'))
+bar.hide(); bar.deleteLater(); app.sendPostedEvents(None, QtCore.QEvent.DeferredDelete); theme.close()
+palette = frames[0].quantize(colors=256)
+indexed = [frame.quantize(palette=palette, dither=Image.Dither.NONE) for frame in frames]
+gif = output / 'saydraft-bar-demo.gif'
+indexed[0].save(gif, save_all=True, append_images=indexed[1:], duration=80, loop=0, disposal=2, optimize=False)
+static = output / 'saydraft-bar-static.png'; frames[34].save(static)
+assert not blocked
+report = {'app_source': subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip(),
+    'source_dirty': bool(subprocess.check_output(['git', 'status', '--porcelain'])),
+    'producer_sha256': hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+    'platform': app.platformName(), 'scale': 2, 'network_guard': NetworkGuard.is_installed(),
+    'owner_profile_used': False, 'owner_clipboard_used': False, 'audio_devices_enumerated': False,
+    'audio_sdk_imported': False, 'microphone_used': False, 'active_application_read': False, 'native_input_used': False,
+    'blocked_attempts': blocked, 'public_sample': 'Let us turn this thought into a clear draft.',
+    'optional_english_preview_included': True, 'model_inference': False, 'frames': records,
+    'artifacts': {p.name: {'bytes': p.stat().st_size, 'sha256': hashlib.sha256(p.read_bytes()).hexdigest()} for p in [gif, static]}}
+(output / 'report.json').write_text(json.dumps(report, indent=2) + '\n', encoding='utf-8')
+print(json.dumps({'frames': len(records), 'platform': app.platformName(), 'scale': 2, 'blocked_attempts': blocked, 'artifacts': report['artifacts']}, indent=2))

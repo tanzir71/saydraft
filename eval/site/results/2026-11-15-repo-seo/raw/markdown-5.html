@@ -1,0 +1,40 @@
+<div class="markdown-heading"><h1 class="heading-element">Reddit drafts</h1><a id="user-content-reddit-drafts" class="anchor" aria-label="Permalink: Reddit drafts" href="#reddit-drafts"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>Refreshed 15 November 2026. See the <a href="README.md">shared facts and publication status</a>.
+These are separate drafts for the owner to review against each community's
+current rules; no post has been made.</p>
+<div class="markdown-heading"><h2 class="heading-element">r/windowsapps</h2><a id="user-content-rwindowsapps" class="anchor" aria-label="Permalink: r/windowsapps" href="#rwindowsapps"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>Title: Saydraft: an open-source local dictation app for Windows (source preview)</p>
+<p>I'm the developer of Saydraft, a Windows tray app for local voice dictation.
+Hold Ctrl+Win, speak and release to recognize speech, clean the text and attempt
+delivery into your original text field. History saves the result before delivery.</p>
+<p>It uses installed Parakeet or Whisper models and can run with rules cleanup
+alone. Optional AI cleanup runs locally too. The Hub includes History,
+Dictionary terms, Snippets, per-app Style, Scratchpad and Notes. Model downloads
+are explicit and resumable; audio retention and app update checks default off.</p>
+<p>This is a free MIT source preview for Windows 10/11 x64. The README has Python
+3.13 setup instructions. The older unsigned verification pre-release predates
+current source; current binary/signing and broader Windows acceptance are still
+in progress. Experimental Pro features are hardware-gated,
+not a paid subscription tier.</p>
+<p>Project and setup: <a href="https://github.com/tanzir71/saydraft">https://github.com/tanzir71/saydraft</a></p>
+<p>I'd welcome feedback on installation and dictation recovery workflows.</p>
+<p>Community reference: <a href="https://www.reddit.com/r/windowsapps/about/rules/" rel="nofollow">r/windowsapps rules</a>.</p>
+<div class="markdown-heading"><h2 class="heading-element">r/LocalLLaMA</h2><a id="user-content-rlocalllama" class="anchor" aria-label="Permalink: r/LocalLLaMA" href="#rlocalllama"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>Title: Saydraft: Windows dictation with local Parakeet/Whisper and optional Qwen cleanup</p>
+<p>I'm building Saydraft, an MIT Windows dictation app. Recognition runs locally
+with Parakeet or Whisper. Rules cleanup works without an LLM; the optional local
+cleanup path uses pinned Qwen3.5 0.8B/2B weights with llama.cpp on CPU or Vulkan.
+Experimental Command and Translate share a separate explicitly installed 4B model.</p>
+<p>The pipeline saves History before attempting guarded delivery into the original
+field. Model replies pass mechanical validation, and normal cleanup can keep the
+rules result when the model is unavailable, out of budget or rejected. Speech and
+cleanup have no cloud fallback. Model downloads and optional update notices are
+separate explicit controls.</p>
+<p>Source and setup: <a href="https://github.com/tanzir71/saydraft">https://github.com/tanzir71/saydraft</a></p>
+<p>Current source setup targets Windows 10/11 x64 with Python 3.13. The older public
+unsigned verification pre-release does not qualify current source. The repository
+retains benchmarks and their limits;
+I am not claiming cloud-equivalent accuracy or that general latency targets have
+been met. Model licenses apply separately from the MIT app code.</p>
+<p>I'd be interested in feedback on local cleanup validation and failure recovery.</p>
+<p>Community reference: <a href="https://www.reddit.com/r/LocalLLaMA/about/rules/" rel="nofollow">r/LocalLLaMA rules</a>.</p>

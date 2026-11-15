@@ -1,0 +1,419 @@
+{
+  "proxy_only": true,
+  "qualification": "GitHub Markdown API sanitized HTML in a local responsive reading harness, not proof of GitHub page CSS or hosted website publication.",
+  "readme_sha256": "c0141e6fb2d09b8400ea11c23c0ef876bd2cc725c34f8d4bfa4127e6c9e6f404",
+  "checks": [
+    {
+      "width": 390,
+      "reducedMotion": "no-preference",
+      "scrollWidth": 390,
+      "visibleImages": [
+        "http://127.0.0.1:42961/assets/media/saydraft-bar-static.png",
+        "http://127.0.0.1:42961/assets/media/source-preview.svg",
+        "http://127.0.0.1:42961/assets/media/license-mit.svg"
+      ],
+      "images": [
+        {
+          "src": "http://127.0.0.1:42961/assets/media/saydraft-bar-static.png",
+          "width": 960,
+          "height": 240,
+          "complete": true
+        },
+        {
+          "src": "http://127.0.0.1:42961/assets/media/saydraft-bar-demo.gif",
+          "width": 960,
+          "height": 240,
+          "complete": true
+        },
+        {
+          "src": "http://127.0.0.1:42961/assets/media/source-preview.svg",
+          "width": 232,
+          "height": 32,
+          "complete": true
+        },
+        {
+          "src": "http://127.0.0.1:42961/assets/media/license-mit.svg",
+          "width": 112,
+          "height": 32,
+          "complete": true
+        }
+      ],
+      "tables": [
+        {
+          "width": 358,
+          "content": 686,
+          "overflow": "auto"
+        },
+        {
+          "width": 358,
+          "content": 358,
+          "overflow": "auto"
+        },
+        {
+          "width": 358,
+          "content": 412,
+          "overflow": "auto"
+        },
+        {
+          "width": 358,
+          "content": 358,
+          "overflow": "auto"
+        },
+        {
+          "width": 358,
+          "content": 526,
+          "overflow": "auto"
+        }
+      ],
+      "heading": "Saydraft: free offline dictation for Windows",
+      "external": [],
+      "errors": [],
+      "screenshot": "readme-390-no-preference.png",
+      "keyboard_expand_collapse": true
+    },
+    {
+      "width": 390,
+      "reducedMotion": "reduce",
+      "scrollWidth": 390,
+      "visibleImages": [
+        "http://127.0.0.1:42961/assets/media/saydraft-bar-static.png",
+        "http://127.0.0.1:42961/assets/media/source-preview.svg",
+        "http://127.0.0.1:42961/assets/media/license-mit.svg"
+      ],
+      "images": [
+        {
+          "src": "http://127.0.0.1:42961/assets/media/saydraft-bar-static.png",
+          "width": 960,
+          "height": 240,
+          "complete": true
+        },
+        {
+          "src": "http://127.0.0.1:42961/assets/media/saydraft-bar-demo.gif",
+          "width": 960,
+          "height": 240,
+          "complete": true
+        },
+        {
+          "src": "http://127.0.0.1:42961/assets/media/source-preview.svg",
+          "width": 232,
+          "height": 32,
+          "complete": true
+        },
+        {
+          "src": "http://127.0.0.1:42961/assets/media/license-mit.svg",
+          "width": 112,
+          "height": 32,
+          "complete": true
+        }
+      ],
+      "tables": [
+        {
+          "width": 358,
+          "content": 686,
+          "overflow": "auto"
+        },
+        {
+          "width": 358,
+          "content": 358,
+          "overflow": "auto"
+        },
+        {
+          "width": 358,
+          "content": 412,
+          "overflow": "auto"
+        },
+        {
+          "width": 358,
+          "content": 358,
+          "overflow": "auto"
+        },
+        {
+          "width": 358,
+          "content": 526,
+          "overflow": "auto"
+        }
+      ],
+      "heading": "Saydraft: free offline dictation for Windows",
+      "external": [],
+      "errors": [],
+      "screenshot": "readme-390-reduce.png",
+      "keyboard_expand_collapse": true
+    },
+    {
+      "width": 768,
+      "reducedMotion": "no-preference",
+      "scrollWidth": 768,
+      "visibleImages": [
+        "http://127.0.0.1:42961/assets/media/saydraft-bar-static.png",
+        "http://127.0.0.1:42961/assets/media/source-preview.svg",
+        "http://127.0.0.1:42961/assets/media/license-mit.svg"
+      ],
+      "images": [
+        {
+          "src": "http://127.0.0.1:42961/assets/media/saydraft-bar-static.png",
+          "width": 960,
+          "height": 240,
+          "complete": true
+        },
+        {
+          "src": "http://127.0.0.1:42961/assets/media/saydraft-bar-demo.gif",
+          "width": 960,
+          "height": 240,
+          "complete": true
+        },
+        {
+          "src": "http://127.0.0.1:42961/assets/media/source-preview.svg",
+          "width": 232,
+          "height": 32,
+          "complete": true
+        },
+        {
+          "src": "http://127.0.0.1:42961/assets/media/license-mit.svg",
+          "width": 112,
+          "height": 32,
+          "complete": true
+        }
+      ],
+      "tables": [
+        {
+          "width": 704,
+          "content": 704,
+          "overflow": "auto"
+        },
+        {
+          "width": 704,
+          "content": 704,
+          "overflow": "auto"
+        },
+        {
+          "width": 704,
+          "content": 704,
+          "overflow": "auto"
+        },
+        {
+          "width": 527,
+          "content": 527,
+          "overflow": "auto"
+        },
+        {
+          "width": 704,
+          "content": 704,
+          "overflow": "auto"
+        }
+      ],
+      "heading": "Saydraft: free offline dictation for Windows",
+      "external": [],
+      "errors": [],
+      "screenshot": "readme-768-no-preference.png",
+      "keyboard_expand_collapse": true
+    },
+    {
+      "width": 768,
+      "reducedMotion": "reduce",
+      "scrollWidth": 768,
+      "visibleImages": [
+        "http://127.0.0.1:42961/assets/media/saydraft-bar-static.png",
+        "http://127.0.0.1:42961/assets/media/source-preview.svg",
+        "http://127.0.0.1:42961/assets/media/license-mit.svg"
+      ],
+      "images": [
+        {
+          "src": "http://127.0.0.1:42961/assets/media/saydraft-bar-static.png",
+          "width": 960,
+          "height": 240,
+          "complete": true
+        },
+        {
+          "src": "http://127.0.0.1:42961/assets/media/saydraft-bar-demo.gif",
+          "width": 960,
+          "height": 240,
+          "complete": true
+        },
+        {
+          "src": "http://127.0.0.1:42961/assets/media/source-preview.svg",
+          "width": 232,
+          "height": 32,
+          "complete": true
+        },
+        {
+          "src": "http://127.0.0.1:42961/assets/media/license-mit.svg",
+          "width": 112,
+          "height": 32,
+          "complete": true
+        }
+      ],
+      "tables": [
+        {
+          "width": 704,
+          "content": 704,
+          "overflow": "auto"
+        },
+        {
+          "width": 704,
+          "content": 704,
+          "overflow": "auto"
+        },
+        {
+          "width": 704,
+          "content": 704,
+          "overflow": "auto"
+        },
+        {
+          "width": 527,
+          "content": 527,
+          "overflow": "auto"
+        },
+        {
+          "width": 704,
+          "content": 704,
+          "overflow": "auto"
+        }
+      ],
+      "heading": "Saydraft: free offline dictation for Windows",
+      "external": [],
+      "errors": [],
+      "screenshot": "readme-768-reduce.png",
+      "keyboard_expand_collapse": true
+    },
+    {
+      "width": 1440,
+      "reducedMotion": "no-preference",
+      "scrollWidth": 1440,
+      "visibleImages": [
+        "http://127.0.0.1:42961/assets/media/saydraft-bar-static.png",
+        "http://127.0.0.1:42961/assets/media/source-preview.svg",
+        "http://127.0.0.1:42961/assets/media/license-mit.svg"
+      ],
+      "images": [
+        {
+          "src": "http://127.0.0.1:42961/assets/media/saydraft-bar-static.png",
+          "width": 960,
+          "height": 240,
+          "complete": true
+        },
+        {
+          "src": "http://127.0.0.1:42961/assets/media/saydraft-bar-demo.gif",
+          "width": 960,
+          "height": 240,
+          "complete": true
+        },
+        {
+          "src": "http://127.0.0.1:42961/assets/media/source-preview.svg",
+          "width": 232,
+          "height": 32,
+          "complete": true
+        },
+        {
+          "src": "http://127.0.0.1:42961/assets/media/license-mit.svg",
+          "width": 112,
+          "height": 32,
+          "complete": true
+        }
+      ],
+      "tables": [
+        {
+          "width": 980,
+          "content": 980,
+          "overflow": "auto"
+        },
+        {
+          "width": 980,
+          "content": 980,
+          "overflow": "auto"
+        },
+        {
+          "width": 980,
+          "content": 980,
+          "overflow": "auto"
+        },
+        {
+          "width": 527,
+          "content": 527,
+          "overflow": "auto"
+        },
+        {
+          "width": 718,
+          "content": 718,
+          "overflow": "auto"
+        }
+      ],
+      "heading": "Saydraft: free offline dictation for Windows",
+      "external": [],
+      "errors": [],
+      "screenshot": "readme-1440-no-preference.png",
+      "keyboard_expand_collapse": true
+    },
+    {
+      "width": 1440,
+      "reducedMotion": "reduce",
+      "scrollWidth": 1440,
+      "visibleImages": [
+        "http://127.0.0.1:42961/assets/media/saydraft-bar-static.png",
+        "http://127.0.0.1:42961/assets/media/source-preview.svg",
+        "http://127.0.0.1:42961/assets/media/license-mit.svg"
+      ],
+      "images": [
+        {
+          "src": "http://127.0.0.1:42961/assets/media/saydraft-bar-static.png",
+          "width": 960,
+          "height": 240,
+          "complete": true
+        },
+        {
+          "src": "http://127.0.0.1:42961/assets/media/saydraft-bar-demo.gif",
+          "width": 960,
+          "height": 240,
+          "complete": true
+        },
+        {
+          "src": "http://127.0.0.1:42961/assets/media/source-preview.svg",
+          "width": 232,
+          "height": 32,
+          "complete": true
+        },
+        {
+          "src": "http://127.0.0.1:42961/assets/media/license-mit.svg",
+          "width": 112,
+          "height": 32,
+          "complete": true
+        }
+      ],
+      "tables": [
+        {
+          "width": 980,
+          "content": 980,
+          "overflow": "auto"
+        },
+        {
+          "width": 980,
+          "content": 980,
+          "overflow": "auto"
+        },
+        {
+          "width": 980,
+          "content": 980,
+          "overflow": "auto"
+        },
+        {
+          "width": 527,
+          "content": 527,
+          "overflow": "auto"
+        },
+        {
+          "width": 718,
+          "content": 718,
+          "overflow": "auto"
+        }
+      ],
+      "heading": "Saydraft: free offline dictation for Windows",
+      "external": [],
+      "errors": [],
+      "screenshot": "readme-1440-reduce.png",
+      "keyboard_expand_collapse": true
+    }
+  ],
+  "headless_browser_closed": true,
+  "local_server_closed": true,
+  "owner_browser_profile_used": false,
+  "owner_device_input_clipboard_used": false
+}

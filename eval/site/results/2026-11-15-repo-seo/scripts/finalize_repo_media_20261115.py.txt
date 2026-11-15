@@ -1,0 +1,44 @@
+import hashlib
+import json
+from pathlib import Path
+import subprocess
+from PIL import Image, ImageSequence
+
+root = Path(__file__).resolve().parent
+repo = root / 'worktrees/repo-seo-20261115'
+qa = root / 'repo-seo-20261115-r1'
+manifest_path = repo / 'assets/media/readme-assets.json'
+manifest = json.loads(manifest_path.read_text(encoding='utf-8'))
+initial = json.loads((qa / 'bar-render/report.json').read_text(encoding='utf-8'))
+reproduced = json.loads((qa / 'bar-reproduction/report.json').read_text(encoding='utf-8'))
+assert initial['artifacts'] == reproduced['artifacts']
+assert initial['frames'] == reproduced['frames']
+assert initial['source_dirty'] is False
+for report in [initial, reproduced]:
+    assert report['blocked_attempts'] == [] and report['network_guard']
+    assert report['platform'] == 'offscreen'
+    assert all(report[key] is False for key in ['owner_profile_used', 'owner_clipboard_used',
+        'audio_devices_enumerated', 'audio_sdk_imported', 'microphone_used',
+        'active_application_read', 'native_input_used', 'model_inference'])
+manifest['initial_producer_sha256'] = initial['producer_sha256']
+manifest['producer_sha256'] = reproduced['producer_sha256']
+assert hashlib.sha256((repo / manifest['producer']).read_bytes()).hexdigest() == manifest['producer_sha256']
+manifest['render_source_note'] = 'Initial native capture used clean d01ff1d. Formatted maintained producer reproduced all 72 frame hashes and both output files exactly; app/site/build inputs remain unchanged under Git text normalization.'
+for name in ['saydraft-bar-demo.gif', 'saydraft-bar-static.png', 'source-preview.svg', 'license-mit.svg']:
+    asset = repo / 'assets/media' / name
+    manifest['files'][name] = {'bytes': asset.stat().st_size, 'sha256': hashlib.sha256(asset.read_bytes()).hexdigest()}
+with Image.open(repo / 'assets/media/saydraft-bar-demo.gif') as gif:
+    assert gif.size == (960, 240) and gif.n_frames == 65 and gif.info['loop'] == 0
+    assert sum(frame.info['duration'] for frame in ImageSequence.Iterator(gif)) == 5760
+with Image.open(repo / manifest['social_preview']['path']) as image:
+    assert image.size == (1280, 640)
+manifest_path.write_text(json.dumps(manifest, indent=2) + '\n', encoding='utf-8', newline='\n')
+lint = subprocess.run(['python', '-m', 'ruff', 'check', 'tools/render_readme_bar.py'], cwd=repo, capture_output=True, text=True)
+(qa / 'ruff.txt').write_text(lint.stdout + lint.stderr, encoding='utf-8')
+assert lint.returncode == 0
+(qa / 'media-verification.json').write_text(json.dumps({'initial_render_exit_code': 0,
+    'reproduction_exit_code': 0, 'ruff_exit_code': lint.returncode, 'rendered_frames': 72,
+    'identical_frame_hashes': 72, 'encoded_frames': 65, 'duration_ms': 5760, 'gif_loop': 0,
+    'manifest_sha256': hashlib.sha256(manifest_path.read_bytes()).hexdigest(),
+    'owner_io_used': False, 'model_inference': False}, indent=2) + '\n', encoding='utf-8')
+print('Media, all72reproduced frames, manifests and producer lint pass.')

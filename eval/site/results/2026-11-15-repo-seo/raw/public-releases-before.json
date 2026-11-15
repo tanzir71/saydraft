@@ -1,0 +1,32 @@
+[
+  {
+    "tag_name": "v0.1.0-dry-run.20261114",
+    "draft": false,
+    "prerelease": true,
+    "published_at": "2026-11-14T17:05:32Z",
+    "html_url": "https://github.com/tanzir71/saydraft/releases/tag/v0.1.0-dry-run.20261114",
+    "target_commitish": "main",
+    "assets": [
+      {
+        "name": "release-manifest.json",
+        "size": 673,
+        "browser_download_url": "https://github.com/tanzir71/saydraft/releases/download/v0.1.0-dry-run.20261114/release-manifest.json"
+      },
+      {
+        "name": "Saydraft-0.1.0-Setup.exe",
+        "size": 103976636,
+        "browser_download_url": "https://github.com/tanzir71/saydraft/releases/download/v0.1.0-dry-run.20261114/Saydraft-0.1.0-Setup.exe"
+      },
+      {
+        "name": "Saydraft-0.1.0-win-x64.zip",
+        "size": 160033099,
+        "browser_download_url": "https://github.com/tanzir71/saydraft/releases/download/v0.1.0-dry-run.20261114/Saydraft-0.1.0-win-x64.zip"
+      },
+      {
+        "name": "SHA256SUMS",
+        "size": 186,
+        "browser_download_url": "https://github.com/tanzir71/saydraft/releases/download/v0.1.0-dry-run.20261114/SHA256SUMS"
+      }
+    ]
+  }
+]

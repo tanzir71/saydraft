@@ -1,0 +1,16 @@
+{
+  "frames": 72,
+  "platform": "offscreen",
+  "scale": 2,
+  "blocked_attempts": [],
+  "artifacts": {
+    "saydraft-bar-demo.gif": {
+      "bytes": 323371,
+      "sha256": "9780f56657bbfb4dc2334a66a46a32d89e79ce86f3c6337f9ae120cf17d6ffb8"
+    },
+    "saydraft-bar-static.png": {
+      "bytes": 8214,
+      "sha256": "3a0d8d2f3f6c82dd97dc0ede250b053ffd3e215466d0e4ade59fc12af0239123"
+    }
+  }
+}

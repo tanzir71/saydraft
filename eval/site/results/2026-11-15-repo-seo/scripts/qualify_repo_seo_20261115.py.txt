@@ -1,0 +1,121 @@
+"""Read-only repository-presentation checks; no app, device or model imports."""
+import hashlib
+from html.parser import HTMLParser
+import json
+import os
+from pathlib import Path
+import re
+import subprocess
+from urllib.parse import unquote, urlsplit
+
+ROOT = Path(__file__).resolve().parent
+QA = ROOT / 'repo-seo-20261115-r1'
+REPO = ROOT / 'worktrees/repo-seo-20261115'
+BASE = 'd01ff1da25f622d88c0e44ca11137b648975fa77'
+
+def sha(path):
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+class Links(HTMLParser):
+    def __init__(self):
+        super().__init__()
+        self.links = []
+        self.headings = []
+        self.current = None
+    def handle_starttag(self, tag, attrs):
+        values = dict(attrs)
+        if tag == 'a' and 'href' in values:
+            self.links.append(values['href'])
+        if tag in ('img', 'source'):
+            self.links.extend(values[k] for k in ('src', 'srcset') if k in values)
+        if re.fullmatch('h[1-6]', tag):
+            self.current = ''
+    def handle_data(self, text):
+        if self.current is not None:
+            self.current += text
+    def handle_endtag(self, tag):
+        if re.fullmatch('h[1-6]', tag) and self.current is not None:
+            self.headings.append(self.current)
+            self.current = None
+
+env = os.environ.copy()
+env['GH_TOKEN'] = subprocess.check_output(['gh', 'auth', 'token', '--user', 'tanzir71'], text=True).strip()
+documents = ['readme.md', 'docs/launch/README.md', 'docs/launch/alternativeto.md',
+    'docs/launch/awesome-lists.md', 'docs/launch/product-hunt.md', 'docs/launch/reddit.md',
+    'docs/launch/show-hn.md', 'docs/launch/github-settings.md']
+results = []
+for index, name in enumerate(documents):
+    request = QA / f'markdown-{index}-request.json'
+    request.write_text(json.dumps({'text': (REPO / name).read_text(encoding='utf-8'),
+        'mode': 'markdown', 'context': 'tanzir71/saydraft'}), encoding='utf-8')
+    result = subprocess.run(['gh', 'api', '--method', 'POST', 'markdown', '--input', str(request)],
+        env=env, capture_output=True, check=True)
+    html = result.stdout.decode('utf-8')
+    (QA / f'markdown-{index}.html').write_text(html, encoding='utf-8')
+    parsed = Links()
+    parsed.feed(html)
+    ids = []
+    for heading in parsed.headings:
+        slug = re.sub(r'[^\w\- ]', '', heading.lower()).replace(' ', '-')
+        duplicate = ids.count(slug)
+        ids.append(slug if not duplicate else f'{slug}-{duplicate}')
+    checked = []
+    for href in parsed.links:
+        url = urlsplit(href)
+        if url.scheme or url.netloc:
+            continue
+        if not url.path:
+            assert unquote(url.fragment) in ids, (name, href, ids)
+        else:
+            target = ((REPO / name).parent / unquote(url.path)).resolve()
+            assert target.is_relative_to(REPO) and target.is_file(), (name, href)
+            # Verify spelling against the on-disk filename on case-insensitive Windows.
+            assert target.name in [p.name for p in target.parent.iterdir()], (name, href)
+        checked.append(href)
+    results.append({'file': name, 'sha256': sha(REPO / name), 'rendered_html': f'markdown-{index}.html',
+        'headings': parsed.headings, 'anchors': ids, 'local_targets': checked})
+
+readme_html = (QA / 'markdown-0.html').read_text(encoding='utf-8')
+assert '<details>' in readme_html and 'View the Bar animation' in readme_html
+assert 'saydraft-bar-demo.gif' in readme_html and 'saydraft-bar-static.png' in readme_html
+assert '<table>' in readme_html
+settings = json.loads((REPO / 'docs/launch/github-settings.json').read_text(encoding='utf-8'))
+after = json.loads((QA / 'repo-after.json').read_text(encoding='utf-8'))
+assert after['description'] == settings['description']
+assert after['homepageUrl'] == settings['homepage']
+assert {t['name'] for t in after['repositoryTopics']} == set(settings['topics'])
+assert len(settings['topics']) == 20
+assert all(re.fullmatch('[a-z0-9-]{1,50}', t) for t in settings['topics'])
+
+# All prior app/site/build inputs must be byte-identical, independent of README edits.
+scopes = ['saydraft', 'design', 'site', 'requirements.txt', 'requirements-dev.txt',
+    '.github/workflows', 'Saydraft.spec', 'installer', 'index.html', 'demo', 'vercel.json', '.vercelignore']
+names = subprocess.check_output(['git', 'ls-tree', '-r', '--name-only', BASE, '--', *scopes],
+    cwd=REPO, text=True).splitlines()
+unchanged = []
+main = Path('C:/Users/tanzir/Desktop/voice_tray')
+assert subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=main, text=True).strip() == BASE
+assert not subprocess.check_output(['git', 'status', '--porcelain'], cwd=main, text=True).strip()
+subprocess.run(['git', 'diff', '--exit-code', BASE, '--', *scopes], cwd=REPO, check=True)
+eol = {}
+for line in subprocess.check_output(['git', 'ls-files', '--eol', '--', *scopes], cwd=REPO, text=True).splitlines():
+    flags, name = line.split('\t', 1)
+    eol[name] = flags.split()[0]
+for name in names:
+    original = (main / name).read_bytes()
+    actual = REPO / name
+    content = actual.read_bytes()
+    text = eol[name] in ['i/lf', 'i/crlf', 'i/mixed']
+    canonical = content.replace(b'\r\n', b'\n') if text else content
+    expected = original.replace(b'\r\n', b'\n') if text else original
+    assert canonical == expected, f'Prior input changed: {name}'
+    unchanged.append({'file': name, 'bytes': len(content), 'sha256': sha(actual),
+        'text_lf_normalized': text, 'canonical_sha256': hashlib.sha256(canonical).hexdigest()})
+(QA / 'unchanged-inputs.json').write_text(json.dumps({'source': BASE,
+    'comparison': 'Git index text files normalize CRLF to LF; binary/non-text files compare exactly.',
+    'files': unchanged}, indent=2) + '\n')
+(QA / 'markdown-links.json').write_text(json.dumps({'documents': results,
+    'documents_checked': len(results), 'local_targets_checked': sum(len(r['local_targets']) for r in results),
+    'github_sanitizer_preserved_native_disclosure': True, 'unchanged_app_site_build_inputs': len(unchanged)}, indent=2) + '\n')
+print(json.dumps({'documents': len(results), 'local_targets': sum(len(r['local_targets']) for r in results),
+    'unchanged_app_site_build_inputs': len(unchanged), 'metadata_matches': True}))

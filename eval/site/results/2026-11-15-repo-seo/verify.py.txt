@@ -1,0 +1,85 @@
+"""Verify retained repository-presentation bytes and their actual source inputs."""
+import argparse
+import hashlib
+import json
+from pathlib import Path
+import subprocess
+
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--repo', type=Path, required=True)
+parser.add_argument('--proof', type=Path)
+args = parser.parse_args()
+repo = args.repo.resolve()
+proof = (args.proof or Path(__file__).resolve().parent).resolve()
+load = lambda p: json.loads(p.read_bytes())
+sha = lambda data: hashlib.sha256(data).hexdigest()
+records = load(proof / 'records.json')
+for name, expected in records.items():
+    path = (proof / name).resolve()
+    assert path.is_relative_to(proof) and path.is_file(), name
+    assert path.stat().st_size == expected['bytes'] and sha(path.read_bytes()) == expected['sha256'], name
+witness = load(proof / 'source-witness.json')
+subprocess.run(['git', 'merge-base', '--is-ancestor', witness['source'], 'HEAD'], cwd=repo, check=True)
+for name, expected in witness['files'].items():
+    original = subprocess.check_output(['git', 'show', f"{witness['source']}:{name}"], cwd=repo)
+    assert sha(original) == expected['git_sha256'], name
+    actual = (repo / name).read_bytes()
+    if expected['text_lf_normalized']:
+        actual = actual.replace(b'\r\n', b'\n')
+    assert sha(actual) == expected['git_sha256'], name
+unchanged = load(proof / 'raw/unchanged-inputs.json')
+for item in unchanged['files']:
+    data = (repo / item['file']).read_bytes()
+    if item['text_lf_normalized']:
+        data = data.replace(b'\r\n', b'\n')
+    assert sha(data) == item['canonical_sha256'], item['file']
+before, after = (load(proof / f'raw/repo-{stage}.json') for stage in ['before', 'after'])
+settings = load(repo / 'docs/launch/github-settings.json')
+assert len(before['repositoryTopics']) == 5
+assert after['description'] == settings['description']
+assert after['homepageUrl'] == settings['homepage']
+assert {t['name'] for t in after['repositoryTopics']} == set(settings['topics'])
+assert len(settings['topics']) == 20 and len(settings['description']) <= 350
+for key in ['nameWithOwner', 'homepageUrl', 'defaultBranchRef', 'isArchived', 'url']:
+    assert before[key] == after[key], key
+assert load(proof / 'raw/metadata-edit-result.json')['exit'] == 0
+assert load(proof / 'raw/social-after.json')['data']['repository']['usesCustomOpenGraphImage'] is False
+links = load(proof / 'raw/markdown-links.json')
+assert links['documents_checked'] == 8 and links['local_targets_checked'] == 145
+assert links['github_sanitizer_preserved_native_disclosure']
+assert links['unchanged_app_site_build_inputs'] == len(unchanged['files']) == 689
+layout = load(proof / 'raw/readme-layout.json')
+assert layout['proxy_only'] and layout['headless_browser_closed'] and layout['local_server_closed']
+assert layout['readme_sha256'] == witness['files']['readme.md']['checkout_sha256']
+assert len(layout['checks']) == 6
+for check in layout['checks']:
+    assert not check['external'] and not check['errors']
+    assert check['scrollWidth'] == check['width'] and check['keyboard_expand_collapse']
+    assert any(src.endswith('saydraft-bar-static.png') for src in check['visibleImages'])
+    assert not any(src.endswith('saydraft-bar-demo.gif') for src in check['visibleImages'])
+manifest = load(repo / 'assets/media/readme-assets.json')
+for name, expected in manifest['files'].items():
+    data = (repo / 'assets/media' / name).read_bytes()
+    assert len(data) == expected['bytes'] and sha(data) == expected['sha256'], name
+assert sha((repo / manifest['producer']).read_bytes()) == manifest['producer_sha256']
+social = manifest['social_preview']
+assert sha((repo / social['path']).read_bytes()) == social['sha256']
+assert (social['width'], social['height'], social['bytes']) == (1280, 640, 49470)
+initial, repeat = (load(proof / f'raw/{name}.json') for name in ['bar-initial', 'bar-reproduction'])
+assert initial['artifacts'] == repeat['artifacts'] and initial['frames'] == repeat['frames']
+assert sha((proof / 'scripts/initial-renderer.py.txt').read_bytes()) == initial['producer_sha256'] == manifest['initial_producer_sha256']
+assert initial['source_dirty'] is False
+for report in [initial, repeat]:
+    assert report['blocked_attempts'] == [] and report['network_guard'] and report['platform'] == 'offscreen'
+    assert all(not report[k] for k in ['owner_profile_used', 'owner_clipboard_used', 'audio_devices_enumerated',
+        'audio_sdk_imported', 'microphone_used', 'active_application_read', 'native_input_used', 'model_inference'])
+for frame in initial['frames']:
+    assert sha((proof / 'native-frames' / frame['file']).read_bytes()) == frame['sha256']
+assert len(initial['frames']) == 72
+media = load(proof / 'raw/media-verification.json')
+assert media['identical_frame_hashes'] == 72 and media['encoded_frames'] == 65 and media['duration_ms'] == 5760
+assert media['ruff_exit_code'] == media['initial_render_exit_code'] == media['reproduction_exit_code'] == 0
+print(json.dumps({'verified': True, 'source': witness['source'], 'retained_records': len(records),
+    'source_witness_files': len(witness['files']), 'unchanged_app_site_build_inputs': 689,
+    'markdown_documents': 8, 'local_targets': 145, 'responsive_layouts': 6,
+    'native_frame_hashes': 72, 'custom_social_preview_uploaded': False, 'full_goal_complete': False}))
