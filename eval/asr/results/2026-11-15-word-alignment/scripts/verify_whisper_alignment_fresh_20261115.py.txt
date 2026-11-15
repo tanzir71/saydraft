@@ -1,0 +1,191 @@
+"""Independent scores, seed-repeat, process exits and provenance for fresh native arms."""
+import argparse
+from collections import Counter
+import hashlib
+import json
+from pathlib import Path
+import struct
+import subprocess
+import unicodedata
+
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--run', type=Path, required=True)
+parser.add_argument('--repo', type=Path, required=True)
+parser.add_argument('--original-inputs', action='store_true')
+args = parser.parse_args()
+root, repo = args.run.resolve(), args.repo.resolve()
+load = lambda p: json.loads(p.read_bytes())
+def sha(path):
+    value = hashlib.sha256()
+    with path.open('rb') as stream:
+        for block in iter(lambda: stream.read(1024 * 1024), b''):
+            value.update(block)
+    return value.hexdigest()
+def norm(text):
+    return ''.join(' ' if unicodedata.category(c)[0] in 'PS' else c
+        for c in unicodedata.normalize('NFKC', text).casefold()).split()
+def distance(a, b):
+    previous = list(range(len(a) + 1))
+    for j, actual in enumerate(b, 1):
+        current = [j]
+        for i, expected in enumerate(a, 1):
+            current.append(min(current[-1] + 1, previous[i] + 1, previous[i - 1] + (actual != expected)))
+        previous = current
+    return previous[-1]
+def score(reference, text):
+    expected, actual = norm(reference), norm(text)
+    return {'word_errors': distance(expected, actual), 'reference_words': len(expected),
+        'character_errors': distance(''.join(expected), ''.join(actual)), 'reference_characters': len(''.join(expected))}
+def wave_samples(path):
+    data = path.read_bytes()
+    assert data[:4] == b'RIFF' and data[8:12] == b'WAVE'
+    offset, align, size = 12, None, None
+    while offset + 8 <= len(data):
+        name, count = struct.unpack_from('<4sI', data, offset)
+        start = offset + 8
+        assert start + count <= len(data)
+        if name == b'fmt ':
+            code, channels, rate, _, align, bits = struct.unpack_from('<HHIIHH', data, start)
+            assert channels == 1 and rate == 16000 and (code, bits, align) in [(3, 32, 4), (1, 16, 2)]
+        elif name == b'data':
+            size = count
+        offset = start + count + count % 2
+    assert align and size and size % align == 0
+    return size // align
+
+if (root / 'records.json').exists():
+    for name, expected in load(root / 'records.json').items():
+        path = (root / name).resolve()
+        assert path.is_relative_to(root) and path.stat().st_size == expected['bytes'] and sha(path) == expected['sha256'], name
+plan = load(root / 'comparison-r4/plan.json')
+old_plan = load(root / 'comparison-r3/plan.json')
+report = load(root / 'comparison-r4/native/report.json')
+observer = load(root / 'observer-r4/process.json')
+assert plan['criteria'] == {**old_plan['criteria'], 'fresh_control_reproducibility': True}
+assert plan['clips'] == old_plan['clips'] and plan['corpora'] == old_plan['corpora']
+assert plan['model_descriptor'] == old_plan['model_descriptor'] and plan['seed'] == old_plan['seed'] == 1729
+assert plan['repeat_control_index'] == 5 and plan['clips'][5]['language'] == 'ta' and plan['clips'][5]['id'] == 1666
+assert plan['source']['dirty'] is False and report['source'] == plan['source']
+assert report['runtime_environment'] == plan['runtime_environment']
+assert report['complete'] and report['measurement_integrity'] and report['fresh_process_per_case_arm'] and report['control_reproduced']
+assert all(report[k] for k in ['source_unchanged', 'runtime_unchanged', 'producer_unchanged', 'plan_unchanged', 'model_verified_after'])
+assert observer['native_exit_observed'] and observer['returncode'] == 0 and not observer['timeout_reached']
+assert plan['frozen_epoch'] < observer['started_epoch'] <= report['started_epoch'] < report['ended_epoch'] <= observer['ended_epoch']
+assert sha(root / 'comparison-r4/plan.json') == report['plan_sha256'] == observer['plan_sha256_before'] == observer['plan_sha256_after']
+for name in ['report.json', 'cases.jsonl']:
+    assert sha(root / 'comparison-r4/native' / name) == observer[name + '_sha256']
+for name in ['stdout', 'stderr']:
+    assert sha(root / f'observer-r4/{name}.txt') == observer[name + '_sha256']
+assert sha(root / 'comparison-r4/native/cases.jsonl') == report['journal_sha256']
+assert [json.loads(line) for line in (root / 'comparison-r4/native/cases.jsonl').read_text(encoding='utf-8').splitlines()] == report['cases']
+subprocess.run(['git', 'merge-base', '--is-ancestor', plan['source']['commit'], 'HEAD'], cwd=repo, check=True)
+for path, expected in [('tools/probe_whisper_alignment.py', plan['producer_sha256']), ('tools/public_file_guard.py', plan['child_guard_sha256'])]:
+    data = subprocess.check_output(['git', 'show', f"{plan['source']['commit']}:{path}"], cwd=repo)
+    # Preserve the measured producer; later QA-only process-accounting fixes do not rewrite it.
+    assert hashlib.sha256(data).hexdigest() == expected, path
+for path, expected in plan['source']['fingerprints'].items():
+    data = subprocess.check_output(['git', 'show', f"{plan['source']['commit']}:{path}"], cwd=repo)
+    assert expected in [hashlib.sha256(variant).hexdigest() for variant in [data, data.replace(b'\n', b'\r\n')]], path
+    assert (repo / path).read_bytes().replace(b'\r\n', b'\n') == data.replace(b'\r\n', b'\n'), path
+
+selected = {(row['language'], row['id']): row for row in plan['clips']}
+assert len(selected) == 9 and Counter(lang for lang, _ in selected) == {'bn': 3, 'ta': 3, 'te': 3}
+pairs = {}
+totals = {lang: {arm: Counter() for arm in ['control', 'word_alignment']} for lang in ['bn', 'ta', 'te']}
+assert len(report['cases']) == 18 and len(report['processes']) == 19
+for row in report['cases']:
+    identity = row['language'], row['id']
+    assert identity in selected and row['arm'] in ['control', 'word_alignment'] and not row['error_type']
+    pair = pairs.setdefault(identity, {})
+    assert row['arm'] not in pair
+    pair[row['arm']] = row
+    assert row['audio_sha256'] == selected[identity]['audio_sha256']
+    assert row['scores'] == score(row['reference'], row['text'])
+    totals[row['language']][row['arm']].update(row['scores'])
+no_new = True
+for identity, pair in pairs.items():
+    assert set(pair) == {'control', 'word_alignment'}
+    control, candidate = pair['control'], pair['word_alignment']
+    assert control['reference'] == candidate['reference'] and control['audio_samples'] == candidate['audio_samples']
+    no_new &= not ((not candidate['text'].strip() and bool(control['text'].strip())) or ('\ufffd' in candidate['text'] and '\ufffd' not in control['text']))
+replay = {}
+for language, values in totals.items():
+    control, candidate = values['control'], values['word_alignment']
+    replay[language] = {arm: {**values[arm], 'samples': 3} for arm in ['control', 'word_alignment']}
+    replay[language]['passes'] = candidate['word_errors'] <= control['word_errors'] and candidate['character_errors'] < control['character_errors']
+gate = bool(no_new and all(value['passes'] for value in replay.values()))
+assert report['comparison'] == {'languages': replay, 'complete_pairs': True,
+    'no_new_empty_or_replacement': no_new, 'development_gate_met': gate}
+
+case_paths = sorted((root / 'comparison-r4/native/cases').glob('*/report.json'))
+assert len(case_paths) == 19
+observed_processes = []
+for path in case_paths:
+    child = load(path)
+    name = path.parent.name
+    process_path = root / f'comparison-r4/native/processes/{name}.json'
+    process, guard = load(process_path), load(root / f'comparison-r4/native/guards/{name}.json')
+    assert process in report['processes'] and process['returncode'] == 0 and process['native_exit_observed'] and not process['timeout_reached']
+    assert child['complete'] and child['measurement_integrity'] and child['fresh_process_per_case_arm'] and child['seed_set_before_model']
+    # These original Popen receipts name the venv redirector as native_pid.
+    # The executing interpreter identifies itself independently in both child records.
+    assert child['native_pid'] == guard['pid']
+    assert child['source'] == plan['source'] and child['runtime_environment'] == plan['runtime_environment']
+    assert child['plan_sha256'] == report['plan_sha256'] and len(child['cases']) == 1
+    assert process['started_epoch'] <= child['started_epoch'] < child['ended_epoch'] <= process['ended_epoch']
+    assert not guard['blocked_attempts'] and not guard['real_audio_sdk_imported']
+    assert all(guard[k] is False for k in ['owner_profile_used', 'owner_clipboard_used', 'owner_native_input_used', 'device_enumeration', 'microphone_used'])
+    assert all(child[k] for k in ['model_verified_before', 'source_unchanged', 'runtime_unchanged', 'producer_unchanged', 'corpora_verified_after', 'model_verified_after'])
+    assert sha(path.parent / 'cases.jsonl') == child['journal_sha256']
+    for suffix in ['.stdout.txt', '.stderr.txt']:
+        assert sha(process_path.with_suffix(suffix)) == process[suffix]
+    row = child['cases'][0]
+    assert row['decode_calls'] and all(call['max_length'] == 448 for call in row['decode_calls'])
+    if row['arm'] == 'control':
+        assert all(segment['words'] is None for segment in row['segments'])
+    elif row['segments']:
+        assert any(segment['words'] for segment in row['segments'])
+    if name.endswith('-repeat'):
+        assert row == report['reproducibility_case']
+    else:
+        assert row == pairs[row['language'], row['id']][row['arm']]
+    observed_processes.append((guard['pid'], process['started_epoch']))
+assert len(set(observed_processes)) == 19
+exits = load(root / 'actual-worker-exits.json')
+assert exits['all_actual_workers_absent'] and not exits['live_matches']
+assert set(exits['actual_worker_pids']) == {pid for pid, _ in observed_processes}
+from datetime import datetime
+assert datetime.fromisoformat(exits['checked_at_utc'].replace('Z', '+00:00')).timestamp() > observer['ended_epoch']
+smoke = load(root / 'owned-process-smoke.json')
+assert smoke['passed'] and smoke['runtime_launcher_sha256'] == plan['runtime_environment']['interpreter_sha256']
+assert {row['mode'] for row in smoke['cases']} == {'normal', 'terminate', 'close'}
+assert all(row['actual_handle_opened_while_live'] and row['actual_native_exit_observed'] for row in smoke['cases'])
+normal = next(row for row in smoke['cases'] if row['mode'] == 'normal')
+assert normal['actual_native_exit_code'] == normal['tree_exit_code'] == 7
+repeat, first = report['reproducibility_case'], pairs['ta', 1666]['control']
+assert score(repeat['reference'], repeat['text']) == repeat['scores']
+assert all(repeat[key] == first[key] for key in ['text', 'scores', 'decode_calls', 'segments'])
+
+if args.original_inputs:
+    directory = Path(plan['model_directory'])
+    for item in plan['model_descriptor']['files']:
+        path = directory / item['path']
+        assert path.resolve().is_relative_to(directory.resolve()) and path.stat().st_size == item['size'] and sha(path) == item['sha256']
+    for receipt in plan['corpora']:
+        corpus = Path(receipt['path'])
+        assert sha(corpus) == receipt['sha256'] and sha(corpus.parent / 'test.tsv') == receipt['metadata_sha256']
+    for identity, selection in selected.items():
+        corpus = Path(selection['corpus']['path'])
+        clip = next(row for row in load(corpus)['clips'] if row['id'] == identity[1])
+        assert clip['reference'] == pairs[identity]['control']['reference']
+        reference = [row.split('\t') for row in (corpus.parent / 'test.tsv').read_text(encoding='utf-8').splitlines() if row.split('\t')[1] == clip['source_filename']]
+        assert len(reference) == 1 and reference[0][2] == clip['reference'] and reference[0][3] == clip['normalized_reference']
+        assert sha(corpus.parent / clip['audio']) == selection['audio_sha256'] and wave_samples(corpus.parent / clip['audio']) == pairs[identity]['control']['audio_samples']
+        baseline = Path(selection['baseline_journal'])
+        assert sha(baseline) == selection['baseline_journal_sha256']
+        prior = [json.loads(line) for line in baseline.read_text(encoding='utf-8').splitlines()]
+        matching = [row for row in prior if (row['language'], row['id'], row['model']) == (*identity, plan['model_id'])]
+        assert len(matching) == 1 and matching[0]['sha256'] == selection['audio_sha256'] and matching[0]['reference'] == clip['reference']
+print(json.dumps({'verified': True, 'source': plan['source']['commit'], 'native_exits': 19, 'comparison_cases': 18,
+    'control_exactly_reproduced': True, 'development_gate_met': gate, 'original_model_audio_inputs_verified': args.original_inputs,
+    'full_goal_complete': False, 'languages': replay}, ensure_ascii=False))

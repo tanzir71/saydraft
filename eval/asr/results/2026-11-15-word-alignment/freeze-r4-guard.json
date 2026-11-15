@@ -1,0 +1,21 @@
+{
+  "blocked_attempts": [],
+  "real_audio_sdk_imported": false,
+  "owner_profile_used": false,
+  "owner_clipboard_used": false,
+  "owner_native_input_used": false,
+  "device_enumeration": false,
+  "microphone_used": false,
+  "allowed_child_console_dll": "kernel32",
+  "reviewed_filelock_dlls": [],
+  "reviewed_certificate_import_dlls": [],
+  "inference_mode": [
+    "freeze",
+    "--selection-plan",
+    "D:/Saydraft-Codex-QA-20261112-01a1cbc7/external-whisper-boundaries-1b7e7ea-20261114-r1/frozen-plan.json",
+    "--model-dir",
+    "D:/Saydraft-Codex-QA-20261112-01a1cbc7/turbo-models/whisper/large-v3-turbo",
+    "--output",
+    "D:/Saydraft-Codex-QA-20261112-01a1cbc7/asr-word-alignment-20261115-r1/comparison-r4"
+  ]
+}

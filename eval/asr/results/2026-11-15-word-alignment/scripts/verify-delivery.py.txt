@@ -1,0 +1,25 @@
+"""Verify final QA source witnesses and the independently scored native record."""
+import argparse
+import hashlib
+import json
+from pathlib import Path
+import subprocess
+import sys
+
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--repo', type=Path, required=True)
+args = parser.parse_args()
+repo = args.repo.resolve()
+proof = Path(__file__).resolve().parents[1]
+witness = json.loads((proof / 'qa-source-witness.json').read_bytes())
+subprocess.run(['git', 'merge-base', '--is-ancestor', witness['source'], 'HEAD'], cwd=repo, check=True)
+for name, expected in witness['files'].items():
+    original = subprocess.check_output(['git', 'show', f"{witness['source']}:{name}"], cwd=repo)
+    assert hashlib.sha256(original.replace(b'\r\n', b'\n')).hexdigest() == expected, name
+    assert hashlib.sha256((repo / name).read_bytes().replace(b'\r\n', b'\n')).hexdigest() == expected, name
+subprocess.run([sys.executable, str(proof / 'scripts/verify_whisper_alignment_fresh_20261115.py.txt'),
+    '--run', str(proof), '--repo', str(repo)], cwd=repo, check=True)
+links = json.loads((proof / 'markdown-links.json').read_bytes())
+assert not links['missing']
+print(json.dumps({'qa_source': witness['source'], 'qa_source_witness_files': len(witness['files']),
+    'markdown_local_targets': links['checked'], 'verified': True, 'full_goal_complete': False}))

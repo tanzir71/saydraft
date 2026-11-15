@@ -1,0 +1,66 @@
+"""Check the exact venv redirector and owned Job Object using only disposable children."""
+import ctypes
+from ctypes import wintypes
+import hashlib
+import json
+import os
+from pathlib import Path
+import sys
+import time
+
+root = Path(__file__).resolve().parent
+repo = root / 'worktrees/asr-word-alignment-20261115'
+qa = root / 'asr-word-alignment-20261115-r1'
+sys.path.insert(0, str(repo))
+from tools.public_file_guard import install
+install(qa / 'owned-process-smoke-guard.json')
+from saydraft.cleanup.llm.windows_process import WindowsJobProcess
+
+exe = root / 'latency-runtime-874a9c4-20261114/venv/Scripts/python.exe'
+worker = qa / 'disposable-process-worker.py'
+worker.write_text('import json, os, sys, time\nfrom pathlib import Path\nPath(sys.argv[1]).write_text(json.dumps({"pid": os.getpid()}))\ntime.sleep(float(sys.argv[2]))\nraise SystemExit(7)\n', encoding='utf-8')
+kernel = ctypes.WinDLL('kernel32', use_last_error=True)
+kernel.OpenProcess.argtypes = [wintypes.DWORD, wintypes.BOOL, wintypes.DWORD]
+kernel.OpenProcess.restype = wintypes.HANDLE
+kernel.WaitForSingleObject.argtypes = [wintypes.HANDLE, wintypes.DWORD]
+kernel.WaitForSingleObject.restype = wintypes.DWORD
+kernel.GetExitCodeProcess.argtypes = [wintypes.HANDLE, ctypes.POINTER(wintypes.DWORD)]
+kernel.GetExitCodeProcess.restype = wintypes.BOOL
+kernel.CloseHandle.argtypes = [wintypes.HANDLE]
+rows = []
+for mode in ['normal', 'terminate', 'close']:
+    path = qa / f'disposable-{mode}-pid.json'
+    child = WindowsJobProcess([str(exe), str(worker), str(path), '0.4' if mode == 'normal' else '30'],
+        env=os.environ.copy(), cwd=qa)
+    handle = None
+    try:
+        deadline = time.monotonic() + 5
+        while not path.exists() and time.monotonic() < deadline:
+            time.sleep(.01)
+        pid = json.loads(path.read_text())['pid']
+        handle = kernel.OpenProcess(0x101000, False, pid)
+        assert handle and kernel.WaitForSingleObject(handle, 0) == 258
+        row = {'mode': mode, 'launcher_pid': child.pid, 'actual_native_pid': pid, 'actual_handle_opened_while_live': True}
+        if mode == 'terminate':
+            child.terminate()
+        elif mode == 'close':
+            child.close()
+        if mode != 'close':
+            row['tree_exit_code'] = child.wait_tree(timeout=5)
+        assert kernel.WaitForSingleObject(handle, 5000) == 0
+        code = wintypes.DWORD()
+        assert kernel.GetExitCodeProcess(handle, ctypes.byref(code))
+        row.update(actual_native_exit_code=code.value, actual_native_exit_observed=True)
+        if mode == 'normal':
+            assert row['tree_exit_code'] == code.value == 7
+        else:
+            assert code.value != 259
+        rows.append(row)
+    finally:
+        child.close()
+        if handle:
+            kernel.CloseHandle(handle)
+record = {'passed': True, 'runtime_launcher_sha256': hashlib.sha256(exe.read_bytes()).hexdigest(),
+    'scope': 'Same venv redirector, normal return/termination/Job close, held actual-native handles; no inference/device/input/owner profile.', 'cases': rows}
+(qa / 'owned-process-smoke.json').write_text(json.dumps(record, indent=2) + '\n', encoding='utf-8')
+print(json.dumps(record, indent=2))

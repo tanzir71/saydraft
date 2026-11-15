@@ -1,0 +1,26 @@
+{
+  "args": [
+    "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\latency-runtime-874a9c4-20261114\\venv\\Scripts\\python.exe",
+    "-m",
+    "tools.probe_whisper_alignment",
+    "case",
+    "--plan",
+    "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-word-alignment-20261115-r1\\comparison-r4\\plan.json",
+    "--index",
+    "2",
+    "--arm",
+    "control",
+    "--output",
+    "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-word-alignment-20261115-r1\\comparison-r4\\native\\cases\\bn-1804-control",
+    "--guard-output",
+    "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-word-alignment-20261115-r1\\comparison-r4\\native\\guards\\bn-1804-control.json"
+  ],
+  "started_epoch": 1794710034.315812,
+  "native_exit_observed": true,
+  "timeout_reached": false,
+  "native_pid": 4540,
+  "returncode": 0,
+  "ended_epoch": 1794710056.089477,
+  ".stdout.txt": "98e78e4c38b539eda80368623de80d3ae54023694f5d18f552a67087c3763098",
+  ".stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

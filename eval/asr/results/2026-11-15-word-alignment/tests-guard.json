@@ -1,0 +1,24 @@
+{
+  "blocked_attempts": [
+    "ctypes.WinDLL"
+  ],
+  "real_audio_sdk_imported": false,
+  "owner_profile_used": false,
+  "owner_clipboard_used": false,
+  "owner_native_input_used": false,
+  "device_enumeration": false,
+  "microphone_used": false,
+  "inference_mode": [
+    "pytest",
+    "-q",
+    "tests/test_whisper_alignment_probe.py",
+    "tests/test_asr_accuracy.py",
+    "tests/test_whisper_engine.py",
+    "tests/test_whisper_turbo.py",
+    "-m",
+    "not integration",
+    "-o",
+    "cache_dir=D:/Saydraft-Codex-QA-20261112-01a1cbc7/asr-word-alignment-20261115-r1/pytest-cache",
+    "--basetemp=D:/Saydraft-Codex-QA-20261112-01a1cbc7/asr-word-alignment-20261115-r1/pytest-temp"
+  ]
+}

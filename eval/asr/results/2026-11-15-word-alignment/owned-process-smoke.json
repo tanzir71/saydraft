@@ -1,0 +1,33 @@
+{
+  "passed": true,
+  "runtime_launcher_sha256": "4e67d9e9a3673aa7b6219f1280d5ec3f1b6c0d5bd98ea8688c72d0cb7582d664",
+  "scope": "Same venv redirector, normal return/termination/Job close, held actual-native handles; no inference/device/input/owner profile.",
+  "cases": [
+    {
+      "mode": "normal",
+      "launcher_pid": 27616,
+      "actual_native_pid": 42012,
+      "actual_handle_opened_while_live": true,
+      "tree_exit_code": 7,
+      "actual_native_exit_code": 7,
+      "actual_native_exit_observed": true
+    },
+    {
+      "mode": "terminate",
+      "launcher_pid": 35976,
+      "actual_native_pid": 28560,
+      "actual_handle_opened_while_live": true,
+      "tree_exit_code": 1,
+      "actual_native_exit_code": 1,
+      "actual_native_exit_observed": true
+    },
+    {
+      "mode": "close",
+      "launcher_pid": 45772,
+      "actual_native_pid": 27132,
+      "actual_handle_opened_while_live": true,
+      "actual_native_exit_code": 0,
+      "actual_native_exit_observed": true
+    }
+  ]
+}

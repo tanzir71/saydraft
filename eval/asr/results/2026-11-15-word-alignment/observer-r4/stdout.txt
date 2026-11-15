@@ -1,0 +1,20 @@
+{"language": "bn", "id": 1916, "arm": "control", "scores": {"word_errors": 21, "reference_words": 23, "character_errors": 51, "reference_characters": 127}}
+{"language": "bn", "id": 1916, "arm": "word_alignment", "scores": {"word_errors": 19, "reference_words": 23, "character_errors": 35, "reference_characters": 127}}
+{"language": "bn", "id": 1879, "arm": "word_alignment", "scores": {"word_errors": 13, "reference_words": 17, "character_errors": 15, "reference_characters": 67}}
+{"language": "bn", "id": 1879, "arm": "control", "scores": {"word_errors": 13, "reference_words": 17, "character_errors": 15, "reference_characters": 67}}
+{"language": "bn", "id": 1804, "arm": "control", "scores": {"word_errors": 19, "reference_words": 23, "character_errors": 68, "reference_characters": 147}}
+{"language": "bn", "id": 1804, "arm": "word_alignment", "scores": {"word_errors": 19, "reference_words": 23, "character_errors": 58, "reference_characters": 147}}
+{"language": "ta", "id": 1792, "arm": "word_alignment", "scores": {"word_errors": 9, "reference_words": 13, "character_errors": 19, "reference_characters": 104}}
+{"language": "ta", "id": 1792, "arm": "control", "scores": {"word_errors": 9, "reference_words": 13, "character_errors": 19, "reference_characters": 104}}
+{"language": "ta", "id": 1891, "arm": "control", "scores": {"word_errors": 7, "reference_words": 9, "character_errors": 9, "reference_characters": 67}}
+{"language": "ta", "id": 1891, "arm": "word_alignment", "scores": {"word_errors": 7, "reference_words": 9, "character_errors": 9, "reference_characters": 67}}
+{"language": "ta", "id": 1666, "arm": "word_alignment", "scores": {"word_errors": 14, "reference_words": 15, "character_errors": 60, "reference_characters": 131}}
+{"language": "ta", "id": 1666, "arm": "control", "scores": {"word_errors": 12, "reference_words": 15, "character_errors": 78, "reference_characters": 131}}
+{"language": "te", "id": 1912, "arm": "control", "scores": {"word_errors": 14, "reference_words": 20, "character_errors": 26, "reference_characters": 111}}
+{"language": "te", "id": 1912, "arm": "word_alignment", "scores": {"word_errors": 17, "reference_words": 20, "character_errors": 33, "reference_characters": 111}}
+{"language": "te", "id": 1908, "arm": "word_alignment", "scores": {"word_errors": 6, "reference_words": 10, "character_errors": 8, "reference_characters": 66}}
+{"language": "te", "id": 1908, "arm": "control", "scores": {"word_errors": 6, "reference_words": 10, "character_errors": 8, "reference_characters": 66}}
+{"language": "te", "id": 1666, "arm": "control", "scores": {"word_errors": 13, "reference_words": 17, "character_errors": 19, "reference_characters": 107}}
+{"language": "te", "id": 1666, "arm": "word_alignment", "scores": {"word_errors": 14, "reference_words": 17, "character_errors": 15, "reference_characters": 107}}
+{"language": "ta", "id": 1666, "arm": "control", "scores": {"word_errors": 12, "reference_words": 15, "character_errors": 78, "reference_characters": 131}}
+{"languages": {"bn": {"control": {"word_errors": 53, "reference_words": 63, "character_errors": 134, "reference_characters": 341, "samples": 3}, "word_alignment": {"word_errors": 51, "reference_words": 63, "character_errors": 108, "reference_characters": 341, "samples": 3}, "passes": true}, "ta": {"control": {"word_errors": 28, "reference_words": 37, "character_errors": 106, "reference_characters": 302, "samples": 3}, "word_alignment": {"word_errors": 30, "reference_words": 37, "character_errors": 88, "reference_characters": 302, "samples": 3}, "passes": false}, "te": {"control": {"word_errors": 33, "reference_words": 47, "character_errors": 53, "reference_characters": 284, "samples": 3}, "word_alignment": {"word_errors": 37, "reference_words": 47, "character_errors": 56, "reference_characters": 284, "samples": 3}, "passes": false}}, "complete_pairs": true, "no_new_empty_or_replacement": true, "development_gate_met": false}

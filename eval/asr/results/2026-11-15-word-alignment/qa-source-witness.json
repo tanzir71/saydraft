@@ -1,0 +1,15 @@
+{
+  "source": "119fb492198f0b8595f976b3f1f59eb110d8a592",
+  "comparison": "LF-canonical text; measured producer remains separately pinned at7f3c288.",
+  "files": {
+    ".gitattributes": "007218f9f37d588713fa30bf05e5078a82f293666317be9b1efe4ec46d6e9c6a",
+    "WISPR_OFFLINE_PARITY_PLAN.md": "0ea04c43312c17328d26add5cef5efdbb24e440d83d82bb82a3084c6b61de342",
+    "docs/ASR_ACCURACY.md": "129ddbf729fa5f1d616adae5cbb5411da65300bdbd1b74d2a43d2b4f73a6c0e1",
+    "docs/README.md": "2e3286881f40635580a284b2445de2128f37a1a0543e60c05440f2fdbd402b44",
+    "docs/spikes/bengali-decoder.md": "df2e2b9c855e78d66aaa37bf1bc342b912fd231d9da3d0e602cc0a73fa29efce",
+    "docs/spikes/whisper-word-alignment.md": "795ac7946759c74dd811627560f53c352459ab1e3715ec0bf9b41d2507edd555",
+    "tests/test_whisper_alignment_probe.py": "7f0d234f7d43018436a3cb1385d8e610a4e778f744a8da72f189f804e1d4cbe6",
+    "tools/probe_whisper_alignment.py": "c638c11757c3126dfb71bed4f3f047d060d414ad74d942fccec6f63e67c7c78d",
+    "tools/public_file_guard.py": "18335a49d8992175c6a45b41de47d840700901d65a96e61979c8c235798a89b6"
+  }
+}

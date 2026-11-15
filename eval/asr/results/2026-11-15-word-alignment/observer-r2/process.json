@@ -1,0 +1,26 @@
+{
+  "observer_pid": 19324,
+  "args": [
+    "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\latency-runtime-874a9c4-20261114\\venv\\Scripts\\python.exe",
+    "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\run_alignment_guarded_20261115.py",
+    "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-word-alignment-20261115-r1\\native-r2-guard.json",
+    "run",
+    "--plan",
+    "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-word-alignment-20261115-r1\\comparison-r2\\plan.json"
+  ],
+  "started_epoch": 1794708785.4816046,
+  "plan_sha256_before": "3428de7b7f4baa55525069c70bb66044d8f3d788a65875c6ef699da376eb6da4",
+  "runner_sha256_before": "a6ed92245e73a24607f10ab0529af3509c547621f24a04109ed3f1271c0f1fac",
+  "source": "a2cf1b78eb89cb05ea73439e168aac44cad32fb6",
+  "native_exit_observed": true,
+  "timeout_seconds": 1800,
+  "timeout_reached": false,
+  "native_pid": 34208,
+  "returncode": 1,
+  "ended_epoch": 1794708789.205691,
+  "stdout_sha256": "340d0b4b8c7315191c2dab5da21297cf8b4812da8fee145cc13b65e4eb3d54a2",
+  "stderr_sha256": "0217c94f9b11fb2c61e0b951d3515e3a710a8ae24ecfb8b47b01d419b683c1c2",
+  "plan_sha256_after": "3428de7b7f4baa55525069c70bb66044d8f3d788a65875c6ef699da376eb6da4",
+  "runner_sha256_after": "a6ed92245e73a24607f10ab0529af3509c547621f24a04109ed3f1271c0f1fac",
+  "report.json_sha256": "e19edee8a203f3b5b249dcb6467e13c4cdbaefae175afa6870d9834fa492ee0f"
+}

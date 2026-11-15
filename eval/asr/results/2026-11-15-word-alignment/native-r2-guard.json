@@ -1,0 +1,21 @@
+{
+  "blocked_attempts": [
+    "ctypes.WinDLL:crypt32.dll"
+  ],
+  "real_audio_sdk_imported": false,
+  "owner_profile_used": false,
+  "owner_clipboard_used": false,
+  "owner_native_input_used": false,
+  "device_enumeration": false,
+  "microphone_used": false,
+  "allowed_child_console_dll": "kernel32",
+  "reviewed_filelock_dlls": [
+    "ntdll",
+    "advapi32"
+  ],
+  "inference_mode": [
+    "run",
+    "--plan",
+    "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\asr-word-alignment-20261115-r1\\comparison-r2\\plan.json"
+  ]
+}

@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "D:\Saydraft-Codex-QA-20261112-01a1cbc7\verify_whisper_alignment_fresh_20261115.py", line 129, in <module>
+    assert child['native_pid'] == process['native_pid'] == guard['pid']
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

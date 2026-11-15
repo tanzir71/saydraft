@@ -1,0 +1,21 @@
+{
+  "reviewed_2026_11_15": [
+    {
+      "url": "https://github.com/OpenNMT/CTranslate2/blob/v4.9.0/src/random.cc",
+      "finding": "The global seed is read when each thread first initializes its generator; an existing thread retains generator state."
+    },
+    {
+      "url": "https://github.com/OpenNMT/CTranslate2/blob/v4.9.0/src/models/whisper.cc",
+      "finding": "Native generation applies a half-context token ceiling in the reviewed runtime."
+    },
+    {
+      "url": "https://github.com/SYSTRAN/faster-whisper/blob/v1.2.1/faster_whisper/transcribe.py",
+      "finding": "Word alignment can alter the next audio seek point; this is the candidate intervention."
+    },
+    {
+      "url": "https://github.com/python/cpython/blob/v3.13.17/PC/venvlauncher.c",
+      "finding": "The Windows venv redirector launches the executing interpreter, waits for it and propagates its exit result; launcher and actual PIDs can differ."
+    }
+  ],
+  "source_scope": "Pinned source review plus direct native measurements, not a claim about later versions."
+}

@@ -1,0 +1,59 @@
+Traceback (most recent call last):
+  File "D:\Saydraft-Codex-QA-20261112-01a1cbc7\run_alignment_guarded_20261115.py", line 55, in <module>
+    runpy.run_module('tools.probe_whisper_alignment', run_name='__main__')
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 234, in run_module
+  File "<frozen runpy>", line 88, in _run_code
+  File "D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\asr-word-alignment-20261115\tools\probe_whisper_alignment.py", line 417, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\asr-word-alignment-20261115\tools\probe_whisper_alignment.py", line 411, in main
+    report = run(args.plan)
+  File "D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\asr-word-alignment-20261115\tools\probe_whisper_alignment.py", line 242, in run
+    model = _import_whisper_model(suppress_ipv6_probe=True)(
+            ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\asr-word-alignment-20261115\saydraft\stt\whisper_engine.py", line 211, in _import_whisper_model
+    return _import_whisper_model_locked(suppress_ipv6_probe=suppress_ipv6_probe)
+  File "D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\asr-word-alignment-20261115\saydraft\stt\whisper_engine.py", line 226, in _import_whisper_model_locked
+    restrict_hub_to_cache()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\asr-word-alignment-20261115\saydraft\privacy\telemetry.py", line 41, in restrict_hub_to_cache
+    function = getattr(huggingface_hub, name)
+  File "D:\Saydraft-Codex-QA-20261112-01a1cbc7\latency-runtime-874a9c4-20261114\venv\Lib\site-packages\huggingface_hub\__init__.py", line 1236, in __getattr__
+    submod = importlib.import_module(submod_path)
+  File "C:\Python313\Lib\importlib\__init__.py", line 88, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1404, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1369, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1340, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 1027, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "D:\Saydraft-Codex-QA-20261112-01a1cbc7\latency-runtime-874a9c4-20261114\venv\Lib\site-packages\huggingface_hub\file_download.py", line 20, in <module>
+    from ._local_folder import (
+    ...<5 lines>...
+    )
+  File "D:\Saydraft-Codex-QA-20261112-01a1cbc7\latency-runtime-874a9c4-20261114\venv\Lib\site-packages\huggingface_hub\_local_folder.py", line 59, in <module>
+    from .utils import WeakFileLock
+  File "<frozen importlib._bootstrap>", line 1429, in _handle_fromlist
+  File "D:\Saydraft-Codex-QA-20261112-01a1cbc7\latency-runtime-874a9c4-20261114\venv\Lib\site-packages\huggingface_hub\utils\__init__.py", line 248, in __getattribute__
+    return super().__getattribute__(name)
+           ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "D:\Saydraft-Codex-QA-20261112-01a1cbc7\latency-runtime-874a9c4-20261114\venv\Lib\site-packages\huggingface_hub\utils\__init__.py", line 233, in __getattr__
+    module = importlib.import_module(f"{__name__}.{attr_module_name}")
+  File "C:\Python313\Lib\importlib\__init__.py", line 88, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Saydraft-Codex-QA-20261112-01a1cbc7\latency-runtime-874a9c4-20261114\venv\Lib\site-packages\huggingface_hub\utils\_fixes.py", line 12, in <module>
+    from filelock import BaseFileLock, FileLock, SoftFileLock, Timeout
+  File "D:\Saydraft-Codex-QA-20261112-01a1cbc7\latency-runtime-874a9c4-20261114\venv\Lib\site-packages\filelock\__init__.py", line 23, in <module>
+    from filelock._descriptor import lock_descriptor, unlock_descriptor
+  File "D:\Saydraft-Codex-QA-20261112-01a1cbc7\latency-runtime-874a9c4-20261114\venv\Lib\site-packages\filelock\_descriptor.py", line 15, in <module>
+    from filelock._windows import _lock_fd_nonblocking, _unlock_fd
+  File "D:\Saydraft-Codex-QA-20261112-01a1cbc7\latency-runtime-874a9c4-20261114\venv\Lib\site-packages\filelock\_windows.py", line 93, in <module>
+    _NTDLL: Final[ctypes.WinDLL] = ctypes.WinDLL("ntdll")
+                                   ~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\Saydraft-Codex-QA-20261112-01a1cbc7\run_alignment_guarded_20261115.py", line 36, in guarded_dll
+    raise AssertionError('Owner native UI/device APIs are barred')
+AssertionError: Owner native UI/device APIs are barred

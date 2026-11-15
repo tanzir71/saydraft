@@ -1,0 +1,341 @@
+{
+  "documents": [
+    "docs/README.md",
+    "docs/ASR_ACCURACY.md",
+    "docs/spikes/bengali-decoder.md",
+    "docs/spikes/whisper-word-alignment.md",
+    "eval/asr/results/2026-11-15-word-alignment/README.md"
+  ],
+  "checked": 82,
+  "missing": [],
+  "local_targets": [
+    {
+      "document": "docs/README.md",
+      "target": "../readme.md"
+    },
+    {
+      "document": "docs/README.md",
+      "target": "../CONTRIBUTING.md"
+    },
+    {
+      "document": "docs/README.md",
+      "target": "../WISPR_OFFLINE_PARITY_PLAN.md"
+    },
+    {
+      "document": "docs/README.md",
+      "target": "VALIDATOR_V2.md"
+    },
+    {
+      "document": "docs/README.md",
+      "target": "../eval/cleanup/results/2026-11-13-baseline/README.md"
+    },
+    {
+      "document": "docs/README.md",
+      "target": "ONBOARDING.md#current-setup-walkthrough"
+    },
+    {
+      "document": "docs/README.md",
+      "target": "ONBOARDING.md#readiness-and-saving"
+    },
+    {
+      "document": "docs/README.md",
+      "target": "ONBOARDING.md#practice-recovery"
+    },
+    {
+      "document": "docs/README.md",
+      "target": "../CONTRIBUTING.md#first-run-setup-checks"
+    },
+    {
+      "document": "docs/README.md",
+      "target": "HUB.md"
+    },
+    {
+      "document": "docs/README.md",
+      "target": "HOTKEYS.md"
+    },
+    {
+      "document": "docs/README.md",
+      "target": "BAR.md"
+    },
+    {
+      "document": "docs/README.md",
+      "target": "MICROPHONE.md"
+    },
+    {
+      "document": "docs/README.md",
+      "target": "ONBOARDING.md"
+    },
+    {
+      "document": "docs/README.md",
+      "target": "RECORDING_LIMITS.md"
+    },
+    {
+      "document": "docs/README.md",
+      "target": "STYLES.md"
+    },
+    {
+      "document": "docs/README.md",
+      "target": "WHISPER_MODE.md"
+    },
+    {
+      "document": "docs/README.md",
+      "target": "SNIPPETS.md"
+    },
+    {
+      "document": "docs/README.md",
+      "target": "DICTIONARY_LEARNING.md"
+    },
+    {
+      "document": "docs/README.md",
+      "target": "DELIVERY.md"
+    },
+    {
+      "document": "docs/README.md",
+      "target": "COMMAND_MODE.md"
+    },
+    {
+      "document": "docs/README.md",
+      "target": "COMMAND_CLIPBOARD.md"
+    },
+    {
+      "document": "docs/README.md",
+      "target": "TRANSLATE.md"
+    },
+    {
+      "document": "docs/README.md",
+      "target": "ASK.md"
+    },
+    {
+      "document": "docs/README.md",
+      "target": "NOTES.md"
+    },
+    {
+      "document": "docs/README.md",
+      "target": "MEETINGS.md"
+    },
+    {
+      "document": "docs/README.md",
+      "target": "spikes/biasing.md"
+    },
+    {
+      "document": "docs/README.md",
+      "target": "MODELS.md"
+    },
+    {
+      "document": "docs/README.md",
+      "target": "LANGUAGES.md"
+    },
+    {
+      "document": "docs/README.md",
+      "target": "ASR_ACCURACY.md"
+    },
+    {
+      "document": "docs/README.md",
+      "target": "spikes/whisper-word-alignment.md"
+    },
+    {
+      "document": "docs/README.md",
+      "target": "ASR_ROUTING.md"
+    },
+    {
+      "document": "docs/README.md",
+      "target": "MODEL_STORAGE.md"
+    },
+    {
+      "document": "docs/README.md",
+      "target": "MODEL_PACKAGES.md"
+    },
+    {
+      "document": "docs/README.md",
+      "target": "CLEANUP_SETUP.md"
+    },
+    {
+      "document": "docs/README.md",
+      "target": "CLEANUP_RUNTIME.md"
+    },
+    {
+      "document": "docs/README.md",
+      "target": "CLEANUP_GATE.md"
+    },
+    {
+      "document": "docs/README.md",
+      "target": "VALIDATOR_V2.md"
+    },
+    {
+      "document": "docs/README.md",
+      "target": "CLEANUP_EVIDENCE.md"
+    },
+    {
+      "document": "docs/README.md",
+      "target": "PRIVACY.md"
+    },
+    {
+      "document": "docs/README.md",
+      "target": "VERIFY_OFFLINE.md"
+    },
+    {
+      "document": "docs/README.md",
+      "target": "UPDATES.md"
+    },
+    {
+      "document": "docs/README.md",
+      "target": "AUDIO_RETENTION.md"
+    },
+    {
+      "document": "docs/README.md",
+      "target": "DATA_MIGRATION.md"
+    },
+    {
+      "document": "docs/README.md",
+      "target": "DATABASE.md"
+    },
+    {
+      "document": "docs/README.md",
+      "target": "../THIRD_PARTY_NOTICES.md"
+    },
+    {
+      "document": "docs/README.md",
+      "target": "TEST_CHECKLIST.md"
+    },
+    {
+      "document": "docs/README.md",
+      "target": "spikes/meeting-capture.md"
+    },
+    {
+      "document": "docs/README.md",
+      "target": "MEETINGS.md"
+    },
+    {
+      "document": "docs/README.md",
+      "target": "SOAK.md"
+    },
+    {
+      "document": "docs/README.md",
+      "target": "EVALUATION.md"
+    },
+    {
+      "document": "docs/README.md",
+      "target": "CLEANUP_EVIDENCE.md"
+    },
+    {
+      "document": "docs/README.md",
+      "target": "BASELINE.md"
+    },
+    {
+      "document": "docs/README.md",
+      "target": "LATENCY_MATRIX.md"
+    },
+    {
+      "document": "docs/README.md",
+      "target": "HARDWARE.md"
+    },
+    {
+      "document": "docs/README.md",
+      "target": "PACKAGING.md"
+    },
+    {
+      "document": "docs/README.md",
+      "target": "CORE_REFACTOR.md"
+    },
+    {
+      "document": "docs/README.md",
+      "target": "THEME.md"
+    },
+    {
+      "document": "docs/README.md",
+      "target": "FONTS.md"
+    },
+    {
+      "document": "docs/README.md",
+      "target": "SITE.md"
+    },
+    {
+      "document": "docs/README.md",
+      "target": "SITE_COMPONENTS.md"
+    },
+    {
+      "document": "docs/README.md",
+      "target": "SITE_DOCS.md"
+    },
+    {
+      "document": "docs/README.md",
+      "target": "SITE_SEO.md"
+    },
+    {
+      "document": "docs/README.md",
+      "target": "launch/README.md"
+    },
+    {
+      "document": "docs/README.md",
+      "target": "history/CODEX_HANDOFF_v1.md"
+    },
+    {
+      "document": "docs/ASR_ACCURACY.md",
+      "target": "../eval/asr/results/2026-11-14-public-read/README.md"
+    },
+    {
+      "document": "docs/ASR_ACCURACY.md",
+      "target": "spikes/bengali-decoder.md"
+    },
+    {
+      "document": "docs/ASR_ACCURACY.md",
+      "target": "../eval/asr/results/2026-11-14-external-boundaries/README.md"
+    },
+    {
+      "document": "docs/ASR_ACCURACY.md",
+      "target": "../eval/asr/results/2026-11-14-large-v3-development/README.md"
+    },
+    {
+      "document": "docs/ASR_ACCURACY.md",
+      "target": "spikes/whisper-word-alignment.md"
+    },
+    {
+      "document": "docs/ASR_ACCURACY.md",
+      "target": "LATENCY_MATRIX.md"
+    },
+    {
+      "document": "docs/ASR_ACCURACY.md",
+      "target": "spikes/biasing.md"
+    },
+    {
+      "document": "docs/ASR_ACCURACY.md",
+      "target": "spikes/biasing.md"
+    },
+    {
+      "document": "docs/ASR_ACCURACY.md",
+      "target": "../eval/asr/results/2026-11-14-public-read/README.md"
+    },
+    {
+      "document": "docs/spikes/bengali-decoder.md",
+      "target": "../../eval/asr/results/2026-11-14-public-read/README.md"
+    },
+    {
+      "document": "docs/spikes/bengali-decoder.md",
+      "target": "../../eval/asr/results/2026-11-14-bengali-decoder/index.json"
+    },
+    {
+      "document": "docs/spikes/bengali-decoder.md",
+      "target": "../../eval/asr/results/2026-11-14-external-boundaries/README.md"
+    },
+    {
+      "document": "docs/spikes/bengali-decoder.md",
+      "target": "../../eval/asr/results/2026-11-14-large-v3-development/README.md"
+    },
+    {
+      "document": "docs/spikes/bengali-decoder.md",
+      "target": "whisper-word-alignment.md"
+    },
+    {
+      "document": "docs/spikes/whisper-word-alignment.md",
+      "target": "../../eval/asr/results/2026-11-15-word-alignment/README.md"
+    },
+    {
+      "document": "docs/spikes/whisper-word-alignment.md",
+      "target": "../../eval/asr/results/2026-11-14-public-read/README.md"
+    },
+    {
+      "document": "eval/asr/results/2026-11-15-word-alignment/README.md",
+      "target": "../../../../docs/spikes/whisper-word-alignment.md"
+    }
+  ]
+}

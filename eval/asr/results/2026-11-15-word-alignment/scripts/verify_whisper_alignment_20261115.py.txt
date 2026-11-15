@@ -1,0 +1,165 @@
+"""Independently replay public alignment scores and verify original inputs optionally."""
+import argparse
+from collections import Counter
+import hashlib
+import json
+from pathlib import Path
+import subprocess
+import struct
+import unicodedata
+
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--run', type=Path, required=True)
+parser.add_argument('--repo', type=Path, required=True)
+parser.add_argument('--original-inputs', action='store_true')
+args = parser.parse_args()
+root, repo = args.run.resolve(), args.repo.resolve()
+load = lambda p: json.loads(p.read_bytes())
+def digest(path):
+    value = hashlib.sha256()
+    with path.open('rb') as stream:
+        for block in iter(lambda: stream.read(1024 * 1024), b''):
+            value.update(block)
+    return value.hexdigest()
+def normalized(text):
+    text = unicodedata.normalize('NFKC', text).casefold()
+    return ''.join(' ' if unicodedata.category(c).startswith(('P', 'S')) else c for c in text).split()
+def edit_distance(expected, actual):
+    distances = list(range(len(expected) + 1))
+    for actual_index, token in enumerate(actual, 1):
+        next_distances = [actual_index]
+        for expected_index, expected_token in enumerate(expected, 1):
+            next_distances.append(min(next_distances[-1] + 1, distances[expected_index] + 1,
+                distances[expected_index - 1] + int(token != expected_token)))
+        distances = next_distances
+    return distances[-1]
+def scores(reference, text):
+    expected, actual = normalized(reference), normalized(text)
+    ec, ac = ''.join(expected), ''.join(actual)
+    return {'word_errors': edit_distance(expected, actual), 'reference_words': len(expected),
+        'character_errors': edit_distance(ec, ac), 'reference_characters': len(ec)}
+def wave_frames(path):
+    data = path.read_bytes()
+    assert data[:4] == b'RIFF' and data[8:12] == b'WAVE'
+    offset, fmt, samples = 12, None, None
+    while offset + 8 <= len(data):
+        name, size = struct.unpack_from('<4sI', data, offset)
+        start = offset + 8
+        assert start + size <= len(data)
+        if name == b'fmt ':
+            code, channels, rate, _byte_rate, align, bits = struct.unpack_from('<HHIIHH', data, start)
+            assert channels == 1 and rate == 16000 and ((code, bits, align) in [(3, 32, 4), (1, 16, 2)])
+            fmt = align
+        elif name == b'data':
+            samples = size
+        offset = start + size + (size % 2)
+    assert fmt and samples and samples % fmt == 0
+    return samples // fmt
+
+plan = load(root / 'comparison-r3/plan.json')
+report = load(root / 'comparison-r3/native/report.json')
+process = load(root / 'observer-r3/process.json')
+guard = load(root / 'native-r3-guard.json')
+assert plan['criteria'] == {'each_language_wer_nonworse': True, 'each_language_cer_strictly_better': True,
+    'no_new_empty_or_replacement_per_clip': True, 'complete_verified_pairs': 9, 'owner_or_broad_accuracy_accepted': False}
+assert plan['seed'] == 1729 and not plan['source']['dirty']
+assert report['source'] == plan['source'] and report['runtime_environment'] == plan['runtime_environment']
+assert report['complete'] and report['measurement_integrity']
+assert all(report[k] for k in ['model_verified_before', 'source_unchanged', 'runtime_unchanged', 'plan_unchanged',
+    'producer_unchanged', 'corpora_verified_after', 'model_verified_after'])
+assert report['runtime_environment']['packages']['faster-whisper'] == '1.2.1'
+assert report['runtime_environment']['packages']['ctranslate2'] == '4.9.0'
+assert report['plan_sha256'] == digest(root / 'comparison-r3/plan.json') == process['plan_sha256_before'] == process['plan_sha256_after']
+assert plan['frozen_epoch'] < process['started_epoch'] <= report['started_epoch'] < report['ended_epoch'] <= process['ended_epoch']
+assert process['native_exit_observed'] and process['returncode'] == 0 and not process['timeout_reached']
+for name in ['report.json', 'cases.jsonl']:
+    assert digest(root / 'comparison-r3/native' / name) == process[name + '_sha256']
+for name in ['stdout.txt', 'stderr.txt']:
+    assert digest(root / 'observer-r3' / name) == process[name.replace('.txt', '_sha256')]
+assert report['journal_sha256'] == digest(root / 'comparison-r3/native/cases.jsonl')
+assert [json.loads(line) for line in (root / 'comparison-r3/native/cases.jsonl').read_text(encoding='utf-8').splitlines()] == report['cases']
+assert guard['blocked_attempts'] == []
+assert all(guard[k] is False for k in ['real_audio_sdk_imported', 'owner_profile_used', 'owner_clipboard_used',
+    'owner_native_input_used', 'device_enumeration', 'microphone_used'])
+subprocess.run(['git', 'merge-base', '--is-ancestor', plan['source']['commit'], 'HEAD'], cwd=repo, check=True)
+producer = subprocess.check_output(['git', 'show', f"{plan['source']['commit']}:tools/probe_whisper_alignment.py"], cwd=repo)
+assert hashlib.sha256(producer).hexdigest() == plan['producer_sha256']
+for name, expected in plan['source']['fingerprints'].items():
+    original = subprocess.check_output(['git', 'show', f"{plan['source']['commit']}:{name}"], cwd=repo)
+    variants = [original, original.replace(b'\n', b'\r\n')]
+    assert expected in [hashlib.sha256(data).hexdigest() for data in variants], name
+    assert (repo / name).read_bytes().replace(b'\r\n', b'\n') == original.replace(b'\r\n', b'\n'), name
+
+selected = {(row['language'], row['id']): row for row in plan['clips']}
+assert len(selected) == 9 and Counter(language for language, _ in selected) == {'bn': 3, 'ta': 3, 'te': 3}
+pairs = {}
+totals = {lang: {arm: Counter() for arm in ['control', 'word_alignment']} for lang in ['bn', 'ta', 'te']}
+assert len(report['cases']) == 18
+for row in report['cases']:
+    identity = row['language'], row['id']
+    assert identity in selected and row['arm'] in ['control', 'word_alignment']
+    pair = pairs.setdefault(identity, {})
+    assert row['arm'] not in pair
+    pair[row['arm']] = row
+    assert row['audio_sha256'] == selected[identity]['audio_sha256'] and not row['error_type']
+    assert scores(row['reference'], row['text']) == row['scores']
+    totals[row['language']][row['arm']].update(row['scores'])
+    assert row['decode_calls'] and all(call['max_length'] == 448 for call in row['decode_calls'])
+    if row['arm'] == 'control':
+        assert all(segment['words'] is None for segment in row['segments'])
+    elif row['segments']:
+        assert any(segment['words'] for segment in row['segments'])
+
+no_new_failures = True
+replay = {}
+for identity, pair in pairs.items():
+    assert set(pair) == {'control', 'word_alignment'}
+    control, candidate = pair['control'], pair['word_alignment']
+    assert control['reference'] == candidate['reference'] and control['audio_samples'] == candidate['audio_samples']
+    no_new_failures &= not ((not candidate['text'].strip() and bool(control['text'].strip()))
+        or ('\ufffd' in candidate['text'] and '\ufffd' not in control['text']))
+for language, data in totals.items():
+    control, candidate = data['control'], data['word_alignment']
+    replay[language] = {arm: {**data[arm], 'samples': 3} for arm in ['control', 'word_alignment']}
+    replay[language]['passes'] = candidate['word_errors'] <= control['word_errors'] and candidate['character_errors'] < control['character_errors']
+assert report['comparison']['languages'] == replay
+gate = bool(no_new_failures and all(row['passes'] for row in replay.values()))
+assert report['comparison'] == {'languages': replay, 'complete_pairs': True,
+    'no_new_empty_or_replacement': no_new_failures, 'development_gate_met': gate}
+
+for attempt in ['r1', 'r2']:
+    previous = load(root / f'observer-{attempt}/process.json')
+    partial = load(root / f'comparison-{attempt}/native/report.json')
+    assert previous['native_exit_observed'] and previous['returncode'] == 1 and partial['cases'] == []
+    assert digest(root / f'comparison-{attempt}/plan.json') == report['plan_sha256']
+
+if args.original_inputs:
+    directory = Path(plan['model_directory'])
+    for item in plan['model_descriptor']['files']:
+        path = directory / item['path']
+        assert path.resolve().is_relative_to(directory.resolve())
+        assert path.stat().st_size == item['size'] and digest(path) == item['sha256']
+    for receipt in plan['corpora']:
+        corpus = Path(receipt['path'])
+        assert digest(corpus) == receipt['sha256']
+        assert digest(corpus.parent / 'test.tsv') == receipt['metadata_sha256']
+    for identity, selection in selected.items():
+        corpus_path = Path(selection['corpus']['path'])
+        corpus = load(corpus_path)
+        clip = next(row for row in corpus['clips'] if row['id'] == identity[1])
+        assert clip['reference'] == pairs[identity]['control']['reference']
+        lines = [line.split('\t') for line in (corpus_path.parent / 'test.tsv').read_text(encoding='utf-8').splitlines()]
+        reference = [fields for fields in lines if len(fields) == 7 and fields[1] == clip['source_filename']]
+        assert len(reference) == 1 and int(reference[0][0]) == clip['id'] and reference[0][2] == clip['reference']
+        assert reference[0][3] == clip['normalized_reference'] and int(reference[0][5]) == clip['num_samples']
+        audio = corpus_path.parent / clip['audio']
+        assert digest(audio) == selection['audio_sha256'] == clip['sha256']
+        assert wave_frames(audio) == clip['num_samples'] == pairs[identity]['control']['audio_samples']
+        journal = Path(selection['baseline_journal'])
+        assert digest(journal) == selection['baseline_journal_sha256']
+        baseline = [json.loads(line) for line in journal.read_text(encoding='utf-8').splitlines()]
+        matching = [row for row in baseline if row['language'] == identity[0] and row['id'] == identity[1] and row['model'] == plan['model_id']]
+        assert len(matching) == 1 and matching[0]['sha256'] == clip['sha256'] and matching[0]['reference'] == clip['reference']
+print(json.dumps({'verified': True, 'native_cases': 18, 'development_pairs': 9, 'source': plan['source']['commit'],
+    'development_gate_met': gate, 'original_model_audio_inputs_verified': args.original_inputs,
+    'owner_accuracy_accepted': False, 'full_goal_complete': False, 'languages': replay}, ensure_ascii=False))

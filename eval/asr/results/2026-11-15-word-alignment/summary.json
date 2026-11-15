@@ -1,0 +1,90 @@
+{
+  "source": {
+    "commit": "7f3c288fe8394e378072ce3ad583f96a4b182596",
+    "dirty": false,
+    "fingerprints": {
+      "tools/asr_accuracy.py": "95e688ba0bdbcdf474d0efa6b8f15b2ea1aef277307fc731ac4e53b997753417",
+      "tools/bench_models.py": "915727fa0ee9cfd69b366c1f742069e8b6df7c02fd30874b98b404b0531cc547",
+      "tools/fetch_asr_corpus.py": "3cf853c5afc4f9687087cc0b6a86a835db34c4916e8bcbc512f5519ca7ece964",
+      "saydraft/asr/languages.py": "fc80248ae2e9787f978cb761f0a1f0d1eba65837d33c1eab64846cf1319d9ad0",
+      "saydraft/asr/router.py": "e3f2cd5bc6dc3b1c173cdaa9dc6cd26d51040b29e3c36d19d9f6b5d04c7e3967",
+      "saydraft/asr/sherpa_parakeet.py": "7ad0d0587af9e0be7927fe25659cdb81c4d0f6684e03ae6a0e90e887363c1edd",
+      "saydraft/stt/whisper_engine.py": "0ec553f303bb116ad5a908a626c7f6a4812b96818464ffa9e30e4adf5fbc4a5b",
+      "saydraft/cleanup/styles.py": "0e486ee417cea0136ac762c7a5e9fe6db54722bb44accf182664e8a4cc541334",
+      "saydraft/cleanup/language.py": "ddd898ef5a3d19bd2bb640914a67b3f6b93c4944174baf17e79f44a8a422d9d3",
+      "saydraft/cleanup/formatter.py": "c002bb7b2372ec5e2595975c2dde55910a3f482879a1fbae49f6a834d0940b05",
+      "saydraft/dictation/pipeline.py": "40c95b9e73c60e1d42dac7817855f134dc03120c03328f3015955cf37133bd59",
+      "saydraft/dictation/rules.py": "873f82203f5ef7808d2ce114ef7411938a2d00b8d90518746067ad8da6804340",
+      "saydraft/asr/whisper_ct2.py": "cb2b075c8ce6d9acd6599746005b67c63a3ef3a09ea869f93cd41509774ff7cd",
+      "saydraft/cleanup/llm/validate.py": "55ba406a1e2bf1b941a7cb3b79105cb21c36a7771d37b782f17761c0d96ba0dd",
+      "saydraft/models/manifest.json": "7c2885ae2fb91b4ca6baa505921d215ebde774bdfe2590e60c274bf6c98b816e",
+      "tools/latency_environment.py": "5bb7649763d41107cfdbe50692025d525e276718e92fa5b082fefcffab963ccd",
+      "requirements.txt": "ef1755cc3aa1c5e5676e06d377370fbd29b85dadf132c99d1e7240b2cf8c9b8a"
+    }
+  },
+  "complete": true,
+  "measurement_integrity": true,
+  "fresh_process_per_case_arm": true,
+  "control_reproduced": true,
+  "comparison": {
+    "languages": {
+      "bn": {
+        "control": {
+          "word_errors": 53,
+          "reference_words": 63,
+          "character_errors": 134,
+          "reference_characters": 341,
+          "samples": 3
+        },
+        "word_alignment": {
+          "word_errors": 51,
+          "reference_words": 63,
+          "character_errors": 108,
+          "reference_characters": 341,
+          "samples": 3
+        },
+        "passes": true
+      },
+      "ta": {
+        "control": {
+          "word_errors": 28,
+          "reference_words": 37,
+          "character_errors": 106,
+          "reference_characters": 302,
+          "samples": 3
+        },
+        "word_alignment": {
+          "word_errors": 30,
+          "reference_words": 37,
+          "character_errors": 88,
+          "reference_characters": 302,
+          "samples": 3
+        },
+        "passes": false
+      },
+      "te": {
+        "control": {
+          "word_errors": 33,
+          "reference_words": 47,
+          "character_errors": 53,
+          "reference_characters": 284,
+          "samples": 3
+        },
+        "word_alignment": {
+          "word_errors": 37,
+          "reference_words": 47,
+          "character_errors": 56,
+          "reference_characters": 284,
+          "samples": 3
+        },
+        "passes": false
+      }
+    },
+    "complete_pairs": true,
+    "no_new_empty_or_replacement": true,
+    "development_gate_met": false
+  },
+  "owner_accuracy_accepted": false,
+  "broad_language_accuracy_accepted": false,
+  "release_latency_qualified": false
+}

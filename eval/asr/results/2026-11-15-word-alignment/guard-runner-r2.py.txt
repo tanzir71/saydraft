@@ -1,0 +1,61 @@
+"""Fresh isolated public-file runner; bar owner audio, profile, input and native UI."""
+import atexit
+import ctypes
+import importlib.abc
+import json
+import os
+from pathlib import Path
+import runpy
+import sys
+import types
+
+root = Path(__file__).resolve().parent
+repo = root / 'worktrees/asr-word-alignment-20261115'
+guard_path = Path(sys.argv.pop(1)).resolve()
+profile_root = guard_path.parent / (guard_path.stem + '-profile')
+for part in ['local', 'roaming', 'home', 'temp']:
+    (profile_root / part).mkdir(parents=True, exist_ok=False)
+os.environ.update(LOCALAPPDATA=str(profile_root / 'local'), APPDATA=str(profile_root / 'roaming'),
+    USERPROFILE=str(profile_root / 'home'), TEMP=str(profile_root / 'temp'), TMP=str(profile_root / 'temp'),
+    HF_HOME=str(profile_root / 'home/huggingface'), HF_HUB_OFFLINE='1', HF_HUB_DISABLE_TELEMETRY='1',
+    DO_NOT_TRACK='1', QT_QPA_PLATFORM='offscreen', PYTHONDONTWRITEBYTECODE='1')
+attempts = []
+class Guard(importlib.abc.MetaPathFinder):
+    def find_spec(self, fullname, path=None, target=None):
+        if fullname.split('.')[0] in ['soundcard', 'sounddevice', 'pynput', 'pyperclip', 'win32clipboard'] or fullname in [
+            'saydraft.app', 'saydraft.logging_config', 'saydraft.single_instance',
+            'saydraft.context.foreground', 'saydraft.context.uia_native', 'saydraft.insert.clipboard_win']:
+            attempts.append(fullname)
+            raise AssertionError('Owner I/O module is barred: ' + fullname)
+sys.meta_path.insert(0, Guard())
+original_dll = ctypes.WinDLL
+filelock_dlls = []
+def guarded_dll(name, *args, **kwargs):
+    # Pytest/colorama imports kernel32 for this child process's console handles.
+    allowed_filelock = (sys._getframe(1).f_globals.get('__name__') == 'filelock._windows'
+        and str(name).lower() in ['ntdll', 'advapi32'])
+    if allowed_filelock:
+        filelock_dlls.append(str(name))
+    elif str(name).lower() not in ['kernel32', 'kernel32.dll']:
+        attempts.append('ctypes.WinDLL:' + str(name))
+        raise AssertionError('Owner native UI/device APIs are barred')
+    return original_dll(name, *args, **kwargs)
+ctypes.WinDLL = guarded_dll
+sys.path.insert(0, str(repo))
+profile = types.ModuleType('saydraft.compat.migrate')
+profile.LEGACY_NAME = 'VoiceTray'
+profile.profile_root = lambda: profile_root / 'local'
+sys.modules[profile.__name__] = profile
+def receipt():
+    guard_path.write_text(json.dumps({'blocked_attempts': attempts,
+        'real_audio_sdk_imported': any(name in sys.modules for name in ['soundcard', 'sounddevice']),
+        'owner_profile_used': False, 'owner_clipboard_used': False, 'owner_native_input_used': False,
+        'device_enumeration': False, 'microphone_used': False,
+        'allowed_child_console_dll': 'kernel32', 'reviewed_filelock_dlls': filelock_dlls,
+        'inference_mode': sys.argv[1:]}, indent=2) + '\n', encoding='utf-8')
+atexit.register(receipt)
+if sys.argv[1] == 'pytest':
+    import pytest
+    raise SystemExit(pytest.main(sys.argv[2:]))
+sys.argv[0] = 'tools.probe_whisper_alignment'
+runpy.run_module('tools.probe_whisper_alignment', run_name='__main__')

@@ -1,0 +1,55 @@
+Traceback (most recent call last):
+  File "D:\Saydraft-Codex-QA-20261112-01a1cbc7\run_alignment_guarded_20261115.py", line 61, in <module>
+    runpy.run_module('tools.probe_whisper_alignment', run_name='__main__')
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 234, in run_module
+  File "<frozen runpy>", line 88, in _run_code
+  File "D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\asr-word-alignment-20261115\tools\probe_whisper_alignment.py", line 417, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\asr-word-alignment-20261115\tools\probe_whisper_alignment.py", line 411, in main
+    report = run(args.plan)
+  File "D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\asr-word-alignment-20261115\tools\probe_whisper_alignment.py", line 242, in run
+    model = _import_whisper_model(suppress_ipv6_probe=True)(
+            ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\asr-word-alignment-20261115\saydraft\stt\whisper_engine.py", line 211, in _import_whisper_model
+    return _import_whisper_model_locked(suppress_ipv6_probe=suppress_ipv6_probe)
+  File "D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\asr-word-alignment-20261115\saydraft\stt\whisper_engine.py", line 226, in _import_whisper_model_locked
+    restrict_hub_to_cache()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "D:\Saydraft-Codex-QA-20261112-01a1cbc7\worktrees\asr-word-alignment-20261115\saydraft\privacy\telemetry.py", line 41, in restrict_hub_to_cache
+    function = getattr(huggingface_hub, name)
+  File "D:\Saydraft-Codex-QA-20261112-01a1cbc7\latency-runtime-874a9c4-20261114\venv\Lib\site-packages\huggingface_hub\__init__.py", line 1236, in __getattr__
+    submod = importlib.import_module(submod_path)
+  File "C:\Python313\Lib\importlib\__init__.py", line 88, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1404, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1369, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1340, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 1027, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "D:\Saydraft-Codex-QA-20261112-01a1cbc7\latency-runtime-874a9c4-20261114\venv\Lib\site-packages\huggingface_hub\_snapshot_download.py", line 28, in <module>
+    from .hf_api import HfApi, RepoFile
+  File "D:\Saydraft-Codex-QA-20261112-01a1cbc7\latency-runtime-874a9c4-20261114\venv\Lib\site-packages\huggingface_hub\hf_api.py", line 36, in <module>
+    import httpcore2
+  File "D:\Saydraft-Codex-QA-20261112-01a1cbc7\latency-runtime-874a9c4-20261114\venv\Lib\site-packages\httpcore2\__init__.py", line 3, in <module>
+    from ._api import request, stream
+  File "D:\Saydraft-Codex-QA-20261112-01a1cbc7\latency-runtime-874a9c4-20261114\venv\Lib\site-packages\httpcore2\_api.py", line 8, in <module>
+    from ._sync.connection_pool import ConnectionPool
+  File "D:\Saydraft-Codex-QA-20261112-01a1cbc7\latency-runtime-874a9c4-20261114\venv\Lib\site-packages\httpcore2\_sync\__init__.py", line 1, in <module>
+    from .connection import HTTPConnection
+  File "D:\Saydraft-Codex-QA-20261112-01a1cbc7\latency-runtime-874a9c4-20261114\venv\Lib\site-packages\httpcore2\_sync\connection.py", line 13, in <module>
+    from .._ssl import default_ssl_context
+  File "D:\Saydraft-Codex-QA-20261112-01a1cbc7\latency-runtime-874a9c4-20261114\venv\Lib\site-packages\httpcore2\_ssl.py", line 6, in <module>
+    import truststore
+  File "D:\Saydraft-Codex-QA-20261112-01a1cbc7\latency-runtime-874a9c4-20261114\venv\Lib\site-packages\truststore\__init__.py", line 31, in <module>
+    from ._api import SSLContext, extract_from_ssl, inject_into_ssl
+  File "D:\Saydraft-Codex-QA-20261112-01a1cbc7\latency-runtime-874a9c4-20261114\venv\Lib\site-packages\truststore\_api.py", line 18, in <module>
+    from ._windows import _configure_context, _verify_peercerts_impl
+  File "D:\Saydraft-Codex-QA-20261112-01a1cbc7\latency-runtime-874a9c4-20261114\venv\Lib\site-packages\truststore\_windows.py", line 234, in <module>
+    wincrypt = WinDLL("crypt32.dll")
+  File "D:\Saydraft-Codex-QA-20261112-01a1cbc7\run_alignment_guarded_20261115.py", line 41, in guarded_dll
+    raise AssertionError('Owner native UI/device APIs are barred')
+AssertionError: Owner native UI/device APIs are barred

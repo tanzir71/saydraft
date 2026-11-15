@@ -1,0 +1,50 @@
+"""Own one hidden native comparison process and observe its terminal exit."""
+import hashlib
+import json
+import os
+import argparse
+from pathlib import Path
+import subprocess
+import time
+
+root = Path(__file__).resolve().parent
+parser = argparse.ArgumentParser()
+parser.add_argument('--attempt', choices=['r1', 'r2', 'r3'], default='r1')
+attempt = parser.parse_args().attempt
+qa = root / 'asr-word-alignment-20261115-r1'
+repo = root / 'worktrees/asr-word-alignment-20261115'
+plan = qa / f'comparison-{attempt}/plan.json'
+target = qa / f'observer-{attempt}'
+target.mkdir(exist_ok=False)
+sha = lambda path: hashlib.sha256(path.read_bytes()).hexdigest()
+args = [str(root / 'latency-runtime-874a9c4-20261114/venv/Scripts/python.exe'),
+    str(root / 'run_alignment_guarded_20261115.py'), str(qa / f'native-{attempt}-guard.json'), 'run', '--plan', str(plan)]
+record = {'observer_pid': os.getpid(), 'args': args, 'started_epoch': time.time(),
+    'plan_sha256_before': sha(plan), 'runner_sha256_before': sha(root / 'run_alignment_guarded_20261115.py'),
+    'source': subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=repo, text=True).strip(),
+    'native_exit_observed': False, 'timeout_seconds': 1800, 'timeout_reached': False}
+def save():
+    temporary = target / 'process.tmp'
+    temporary.write_text(json.dumps(record, indent=2) + '\n', encoding='utf-8')
+    temporary.replace(target / 'process.json')
+env = os.environ.copy()
+env.update(PYTHONUTF8='1', PYTHONDONTWRITEBYTECODE='1')
+with (target / 'stdout.txt').open('x', encoding='utf-8') as stdout, (target / 'stderr.txt').open('x', encoding='utf-8') as stderr:
+    child = subprocess.Popen(args, cwd=repo, env=env, stdout=stdout, stderr=stderr, creationflags=subprocess.CREATE_NO_WINDOW)
+    record['native_pid'] = child.pid
+    save()
+    try:
+        record['returncode'] = child.wait(timeout=1800)
+    except subprocess.TimeoutExpired:
+        record['timeout_reached'] = True
+        child.kill()
+        record['returncode'] = child.wait()
+record.update(native_exit_observed=True, ended_epoch=time.time(),
+    stdout_sha256=sha(target / 'stdout.txt'), stderr_sha256=sha(target / 'stderr.txt'),
+    plan_sha256_after=sha(plan), runner_sha256_after=sha(root / 'run_alignment_guarded_20261115.py'))
+for name in ['report.json', 'cases.jsonl']:
+    if (plan.parent / 'native' / name).exists():
+        record[name + '_sha256'] = sha(plan.parent / 'native' / name)
+save()
+print(json.dumps(record, indent=2))
+raise SystemExit(record['returncode'])
