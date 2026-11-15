@@ -37,7 +37,13 @@ test('home is local, responsive, and light on JavaScript', async ({ page, reques
   expect(bytes).toBeLessThan(60 * 1024);
   expect(external).toEqual([]);
   expect(errors).toEqual([]);
-  await expect(page).toHaveScreenshot('home.png', { fullPage: true, animations: 'disabled' });
+  // Decode lazy product shots before recording the complete page, then restore the hero.
+  for (const image of await page.locator('main img').all()) {
+    await image.scrollIntoViewIfNeeded();
+    await image.evaluate((node: HTMLImageElement) => node.decode());
+  }
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await expect(page).toHaveScreenshot('home.png', { fullPage: true, animations: 'disabled', mask: [page.locator('[data-repository-stars]')] });
   const viewport = testInfo.outputPath('viewport.png');
   await page.screenshot({ path: viewport, animations: 'disabled' });
   await testInfo.attach('Viewport', { path: viewport, contentType: 'image/png' });
@@ -68,6 +74,7 @@ test('all public pages have working local links and unique metadata', async ({ p
   const titles = new Set<string>();
   const descriptions = new Set<string>();
   const headings = new Set<string>();
+  const checkedLinks = new Set<string>();
   for (const path of pages) {
     await page.goto(`./${path}`);
     await expect(page.getByRole('heading', { level: 1 })).toHaveCount(1);
@@ -79,7 +86,9 @@ test('all public pages have working local links and unique metadata', async ({ p
     expect(await page.locator('link[rel="canonical"]').getAttribute('href')).toBe(`https://tanzir71.github.io/saydraft/${path}`);
     const links = await page.locator('a[href]').evaluateAll((nodes) => [...new Set(nodes.map((node) => (node as HTMLAnchorElement).href))]);
     for (const href of links.filter((link) => new URL(link).origin === siteOrigin)) {
+      if (checkedLinks.has(href)) continue;
       expect((await request.get(href)).ok(), href).toBe(true);
+      checkedLinks.add(href);
     }
   }
   expect(titles.size).toBe(pages.length);

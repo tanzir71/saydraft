@@ -14,7 +14,7 @@ const storyUrl = (id: string) => `/iframe.html?id=${id}&viewMode=story&globals=m
 test('built Storybook covers every specified component and all declared states', async () => {
   const components = [...new Set(stories.map(({ title }) => title.split('/').at(-1)))];
   expect(components.sort()).toEqual([...required].sort());
-  expect(stories).toHaveLength(71); // Includes the retained multilingual BeforeAfterCard state.
+  expect(stories).toHaveLength(73); // Includes real-count and zero-count repository-credit states.
   expect(new Set(stories.map(({ id }) => id)).size).toBe(stories.length);
 });
 
@@ -103,6 +103,7 @@ test('comparison cells retain their dates and sources with keyboard scrolling', 
 
 test('reduced-motion ribbon exposes a static visual', async ({ page }) => {
   await page.goto(storyUrl('product-ribbon--reduced-motion'));
+  await expect(page.locator('#storybook-root svg')).toBeVisible();
   const visible = await page.locator('svg text').evaluateAll((nodes) => nodes.filter((node) => getComputedStyle(node).display !== 'none').map((node) => ({
     animated: Boolean(node.querySelector('animate')), text: node.textContent,
   })));

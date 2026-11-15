@@ -1,6 +1,6 @@
 # Website component library
 
-The complete §9.4 library has 23 React components and 71 Storybook states. The
+The complete §9.4 library has 23 React components and 73 Storybook states. The
 three documentation parts count separately. Each component uses CSS Modules,
 the shared approved tokens and the bundled fonts. Import components directly
 from their folders under `site/src/components/`.
@@ -33,7 +33,7 @@ from their folders under `site/src/components/`.
 
 The global Storybook toolbar selects paper/night/deep and full/reduced motion.
 The full-bleed layout stories retain the same page gutters as the real site.
-Visual baselines cover every story at 390, 768 and 1440 pixels: 213 PNGs in
+Visual baselines cover every story at 390, 768 and 1440 pixels: 219 PNGs in
 `site/component-tests/library.spec.ts-snapshots/`. Home has three separate
 integration baselines in the existing site test suite.
 
@@ -57,7 +57,10 @@ Late results do not update detached elements. Storybook uses the same handler.
 Without JavaScript, source commands remain visible and selectable; tone controls,
 FAQ, mobile navigation and guide contents links still work.
 
-Home consumes the ribbon, chips, model credits, keycaps and tone feature row.
+Home consumes the ribbon, chips, verified repository/model credits, keycaps,
+six feature rows, privacy facts and a dated comparison table. The real and zero
+repository-count variants are covered separately; all pages use the expanded
+product tiles and four-column footer. See [Home implementation](SITE_HOME.md).
 Every page uses the shared footer. Download consumes CodeBlock and the development
 DownloadCard. Dated guides derive their contents links from the rendered MDX
 heading IDs. Creator credit remains “Built by tanziro.com”, with the existing
@@ -89,7 +92,7 @@ npm run test
 npm run lighthouse
 ```
 
-The component browser checks cover all 71 states at three widths, page overflow,
+The component browser checks cover all 73 states at three widths, page overflow,
 local-only requests, browser errors, text contrast on the flat token surfaces,
 native keyboard tone selection, independent radio groups, copy success/denial,
 download/checksum disclosure, keyboard table scrolling and full/reduced motion.

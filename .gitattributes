@@ -85,3 +85,7 @@ eval/site/results/2026-11-15-components/** -text -whitespace
 eval/site/results/2026-11-15-docs/** -text -whitespace
 # Preserve SEO assets, service-status receipts and original local QA bytes.
 eval/site/results/2026-11-15-seo/** -text -whitespace
+# Product-render provenance pins the producer bytes across operating systems.
+site/tools/render_product.py -text
+# Preserve original Home browser, screenshot, source and Lighthouse evidence.
+eval/site/results/2026-11-15-home/** -text -whitespace

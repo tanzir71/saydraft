@@ -1,0 +1,24 @@
+{
+  "verified": "2026-11-14",
+  "products": ["Saydraft", "Wispr Flow", "Typeless", "Windows voice typing"],
+  "rows": [
+    { "feature": "Dictation connection", "cells": [
+      { "text": "Offline with compatible models installed", "source": { "href": "https://github.com/tanzir71/saydraft/blob/main/docs/PRIVACY.md", "label": "Project privacy guide" } },
+      { "text": "Internet required for transcription", "source": { "href": "https://docs.wisprflow.ai/articles/2772472373-what-is-flow", "label": "Flow documentation" } },
+      { "text": "Internet required for transcription", "source": { "href": "https://www.typeless.com/blog/typeless-vs-wispr-flow", "label": "Typeless FAQ" } },
+      { "text": "Standard Win+H uses online recognition", "source": { "href": "https://support.microsoft.com/en-us/accessibility/windows/use-voice-typing-to-talk-instead-of-type-on-your-pc", "label": "Microsoft documentation" } }
+    ] },
+    { "feature": "Windows availability", "cells": [
+      { "text": "Windows 10/11 development source", "source": { "href": "https://github.com/tanzir71/saydraft/blob/main/readme.md", "label": "Project setup status" } },
+      { "text": "Windows app", "source": { "href": "https://docs.wisprflow.ai/articles/2772472373-what-is-flow", "label": "Flow platforms" } },
+      { "text": "Windows app", "source": { "href": "https://www.typeless.com/pricing", "label": "Typeless platforms" } },
+      { "text": "Built into Windows", "source": { "href": "https://www.microsoft.com/en-us/windows/tips/voice", "label": "Microsoft feature guide" } }
+    ] },
+    { "feature": "Free use", "cells": [
+      { "text": "Free, open source; no subscription quota", "source": { "href": "https://github.com/tanzir71/saydraft/blob/main/readme.md", "label": "Project license and limits" } },
+      { "text": "Limited weekly words; paid unlimited plan", "source": { "href": "https://wisprflow.ai/pricing", "label": "Flow plans" } },
+      { "text": "Limited weekly words; paid unlimited plan", "source": { "href": "https://www.typeless.com/pricing", "label": "Typeless plans" } },
+      { "text": "Included with Windows", "source": { "href": "https://www.microsoft.com/en-us/windows/tips/voice", "label": "Microsoft feature guide" } }
+    ] }
+  ]
+}

@@ -27,7 +27,7 @@ test('all documentation and resources are readable, dated and navigable', async 
     expect(breadcrumb.at(-1).item).toBe(`https://tanzir71.github.io/saydraft/${slug}/`);
     if (slug.startsWith('docs')) {
       const navigation = page.getByRole('navigation', { name: 'Documentation', exact: true });
-      await expect(navigation.locator('a')).toHaveCount(11);
+      await expect(navigation.locator('a')).toHaveCount(documentationRoutes.length);
       await expect(navigation.locator('[aria-current="page"]')).toHaveAttribute('href', `/saydraft/${slug}/`);
       expect(breadcrumb.length).toBe(slug === 'docs' ? 2 : 3);
     }

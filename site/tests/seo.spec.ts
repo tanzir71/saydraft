@@ -35,7 +35,7 @@ test('every indexable page has a distinct working social image and complete meta
     expect(png.readUInt32BE(16)).toBe(1200); expect(png.readUInt32BE(20)).toBe(630);
     images.add(image); hashes.add(createHash('sha256').update(png).digest('hex'));
   }
-  expect(images.size).toBe(43); expect(hashes.size).toBe(43);
+  expect(images.size).toBe(publicPages.length); expect(hashes.size).toBe(publicPages.length);
   expect(external).toEqual([]);
 });
 
@@ -78,7 +78,7 @@ test('sitemap, readable exports and IndexNow payload cover the exact indexable p
   const directory = await (await request.get('./llms.txt')).text();
   expect(directory).toContain('# Saydraft');
   const markdownLinks = [...directory.matchAll(/\]\((https:[^)]+\/content\/[^)]+\.md)\)/g)].map((match) => match[1]);
-  expect(markdownLinks).toHaveLength(43);
+  expect(markdownLinks).toHaveLength(publicPages.length);
   for (const link of markdownLinks) {
     const response = await request.get(new URL(link).pathname);
     expect(response.ok()).toBe(true);

@@ -2,12 +2,13 @@
 import '../styles/global.css';
 import { NavPill } from '../components/NavPill/NavPill';
 import { Footer } from '../components/Footer/Footer';
+import { AnnouncementBar } from '../components/AnnouncementBar/AnnouncementBar';
 import bodyFace from '@fontsource-variable/geist/files/geist-latin-wght-normal.woff2?url';
 import displayFace from '@fontsource/instrument-serif/files/instrument-serif-latin-400-normal.woff2?url';
 import italicFace from '@fontsource/instrument-serif/files/instrument-serif-latin-400-italic.woff2?url';
 import { socialImagePath, verificationToken } from '../lib/seo';
-interface Props { title: string; description: string; noindex?: boolean; canonicalPath?: string; }
-const { title, description, noindex = false, canonicalPath = Astro.url.pathname } = Astro.props;
+interface Props { title: string; description: string; noindex?: boolean; canonicalPath?: string; announcement?: { text: string; href: string }; }
+const { title, description, noindex = false, canonicalPath = Astro.url.pathname, announcement } = Astro.props;
 const base = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/`;
 const canonical = new URL(canonicalPath, Astro.site);
 const image = new URL(socialImagePath(canonical.pathname, base), Astro.site).href;
@@ -48,6 +49,7 @@ const bing = verificationToken(import.meta.env.BING_SITE_VERIFICATION, 'bing');
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
+    {announcement && <AnnouncementBar href={announcement.href}>{announcement.text}</AnnouncementBar>}
     <NavPill base={base} />
     <slot />
     <Footer base={base} />

@@ -7,6 +7,7 @@ export const documentationRoutes = [
   { id: 'models', slug: 'docs/models', name: 'Local models' },
   { id: 'languages', slug: 'docs/languages', name: 'Languages' },
   { id: 'command-mode', slug: 'docs/command-mode', name: 'Command Mode' },
+  { id: 'notes', slug: 'docs/notes', name: 'Notes' },
   { id: 'privacy/verify-offline', slug: 'docs/privacy/verify-offline', name: 'Verify offline' },
   { id: 'troubleshooting', slug: 'docs/troubleshooting', name: 'Troubleshooting' },
   { id: 'faq', slug: 'docs/faq', name: 'FAQ' },

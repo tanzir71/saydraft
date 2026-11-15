@@ -1,8 +1,8 @@
 import type { Page } from '@playwright/test';
 
 /** Flat token surfaces let the rendered foreground/background be checked directly. */
-export async function contrastFailures(page: Page) {
-  return page.locator('#storybook-root').evaluate((root) => {
+export async function contrastFailures(page: Page, selector = '#storybook-root') {
+  return page.locator(selector).evaluate((root) => {
     type Color = [number, number, number, number];
     const color = (value: string): Color => {
       const parts = value.match(/[\d.]+/g)?.map(Number) ?? [0, 0, 0, 0];

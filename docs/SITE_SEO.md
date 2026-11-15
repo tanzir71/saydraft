@@ -1,6 +1,6 @@
 # Website metadata and discovery
 
-The static build generates 44 HTML pages: 43 indexable routes and a custom 404.
+The static build generates 45 HTML pages: 44 indexable routes and a custom 404.
 Every page gets its own 1200×630 PNG social preview, plus a separate 1280×640
 GitHub social-preview image. Titles and descriptions come from the rendered
 page, using the approved paper/ink tokens and pinned local Instrument Serif,
@@ -62,7 +62,7 @@ with any existing rules. No sibling repository or custom domain is modified.
 Sitemap: https://tanzir71.github.io/saydraft/sitemap-index.xml
 ```
 
-`llms.txt` links to clean Markdown exports of all 43 indexable pages.
+`llms.txt` links to clean Markdown exports of all 44 indexable pages.
 `llms-full.txt` contains the complete readable content. The exports preserve
 commands, source links, checked dates, model tables, native-language text and
 collapsed FAQ answers, while omitting navigation, forms and scripts. These are

@@ -5,3 +5,4 @@
 .band a { font: 11px/1.3 var(--font-mono); color: var(--color-on-dark-muted); }
 @media (max-width: 950px) { .models { justify-content: center; gap: 22px 32px; } .models span { font-size: 18px; } }
 @media (max-width: 700px) { .band { padding-block: 38px; } .models { gap: 20px 25px; margin-block: 26px; } .models span { font-size: 17px; } .band p { font-size: 8px; } }
+.stars { margin-top: 18px; font: 11px/1.6 var(--font-mono); color: var(--color-on-dark-muted); }

@@ -1,16 +1,17 @@
 # Saydraft website
 
-The Astro site in `site/` now builds forty-three indexable static pages plus a
-custom 404, including nineteen language guides, their overview and twenty-two
+The Astro site in `site/` now builds forty-four indexable static pages plus a
+custom 404, including nineteen language guides, their overview and twenty-three
 dated MDX content pages. [Technical SEO](SITE_SEO.md) describes the generated
 social images, sitemap index, readable exports and remaining external acceptance.
 This is an early P9 foundation, brought forward at the owner's request. The
 approved §9 tokens are shared through `design/tokens.json`; the dependency-free
 generator emits CSS and light/dark Qt QSS. Qt installation and the initial gallery
 are described in `docs/THEME.md`. The full component library is implemented;
-remaining demo port, schema, launch assets and final P9 acceptance
-remain open. See [the component library](SITE_COMPONENTS.md) for its 23 components,
-71 Storybook states, three-width baselines and static page integrations.
+Home now implements the §9.6 composition with actual Qt screenshots, dated comparisons
+and the expanded footer; see [Home implementation](SITE_HOME.md). External SEO
+acceptance, demo/launch assets and final P9 acceptance remain open. See [the component library](SITE_COMPONENTS.md) for its 23 components,
+73 Storybook states, three-width baselines and static page integrations.
 
 The original pages are Home, Download, Getting started, Privacy and Credits. The
 download page discloses development status and provides actual source commands;
@@ -32,7 +33,7 @@ Translate-mode output targets.
 The twenty language pages render as static HTML with unique titles/descriptions/H1s,
 canonical URLs, breadcrumbs and WebPage structured data on individual guides.
 Home includes SoftwareApplication metadata describing the same model coverage.
-`sitemap.xml` enumerates all forty-three public HTML pages; the shared head links to it.
+`sitemap.xml` enumerates all forty-four public HTML pages; the shared head links to it.
 No search-ranking claim, fabricated release, review rating or alternate-language
 page is added. Additional technical SEO and original P9 acceptance remain open.
 The getting-started page follows the current setup order: microphone, model
@@ -96,7 +97,7 @@ $env:CHROME_PATH = node --input-type=module -e "import {chromium} from '@playwri
 `npm run dev` and `npm run preview` bind to loopback. The Pages base path is
 `/saydraft/`; preview the site under that path. Fontsource WOFF/WOFF2 assets are
 bundled, never fetched from a font service. Full original OFL notices are served
-from `public/licenses/`. All 23 specified components now have 71 Storybook states,
+from `public/licenses/`. All 23 specified components now have 73 Storybook states,
 with paper/night/deep decorators and reduced-motion controls. The separate
 `npm run test:components` command verifies every state against committed visual
 baselines at all three widths and checks contrast and interactive behavior.

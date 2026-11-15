@@ -24,6 +24,10 @@ Explore the [offline dictation guide](https://tanzir71.github.io/saydraft/offlin
 and dated [Wispr Flow comparison](https://tanzir71.github.io/saydraft/wispr-flow-alternative/).
 The website also covers Typeless, Superwhisper, Windows voice typing and Dragon;
 its [changelog](https://tanzir71.github.io/saydraft/changelog/) lists published releases only.
+The Home page includes actual Hub/Bar screenshots, source-linked comparisons and
+alphabetical language guides. [Notes guidance](https://tanzir71.github.io/saydraft/docs/notes/)
+separates local Scratchpad notes from experimental meeting features. See the
+[Home implementation and verification](docs/SITE_HOME.md) for capture provenance and limits.
 
 [Install from source](#run-from-source) · [First launch](#first-launch) ·
 [Models and languages](#set-up-once-then-go-offline) · [Daily use](#daily-use) ·

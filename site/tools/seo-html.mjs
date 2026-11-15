@@ -21,7 +21,7 @@ export function readPage(html) {
   if (!main) throw new Error('Every HTML page needs main content');
   const article = descendants(main, (node) => node.tagName === 'article' && attr(node, 'class')?.split(' ').includes('guide-copy'))[0];
   const extras = article ? descendants(main, (node) => node.tagName === 'section' && /(?:guide-faq|guide-sources)/.test(attr(node, 'class') ?? '')) : [];
-  const verified = attr(first((node) => node.tagName === 'time' && attr(node, 'datetime')) ?? {}, 'datetime');
+  const verified = attr(first((node) => node.tagName === 'time' && attr(node.parentNode ?? {}, 'class')?.split(' ').includes('guide-verified')) ?? {}, 'datetime');
   const schemas = descendants(document, (node) => node.tagName === 'script' && attr(node, 'type') === 'application/ld+json').map((node) => JSON.parse(text(node)));
   const faqs = descendants(main, (node) => node.tagName === 'details').map((node) => ({
     question: compact(readableText((node.childNodes ?? []).find((child) => child.tagName === 'summary') ?? {})),
@@ -38,6 +38,7 @@ export function markdown(node, url) {
   if (['script', 'style', 'svg', 'nav', 'aside', 'button', 'input', 'noscript'].includes(tag) || attr(node, 'aria-hidden') === 'true') return '';
   if (tag === 'pre') return `\n\n\`\`\`\n${text(node).trim()}\n\`\`\`\n\n`;
   if (tag === 'code') return `\`${compact(text(node)).replaceAll('`', '\\`')}\``;
+  if (tag === 'img') return attr(node, 'alt') ? `\n\n![${attr(node, 'alt')}](${url ? new URL(attr(node, 'src'), url).href : attr(node, 'src')})\n\n` : '';
   const children = () => (node.childNodes ?? []).map((child) => markdown(child, url)).join('');
   if (tag === 'a') {
     const label = compact(children());
