@@ -41,6 +41,18 @@ def request_timeout(timeout_ms, *, now, deadline=None):
     return max(0.0, available - .05)
 
 
+def planning_remaining(deadline, *, now, plan_before=None):
+    """Admission time may be shorter than the unchanged transport deadline."""
+    if (type(deadline) not in (int, float) or not math.isfinite(deadline)
+            or not math.isfinite(now)):
+        return 0.0
+    if plan_before is not None:
+        if type(plan_before) not in (int, float) or not math.isfinite(plan_before):
+            return 0.0
+        deadline = min(deadline, plan_before)
+    return max(0.0, deadline - now)
+
+
 def decision(need, reason, *, remaining, predicted=None, source_tokens=0, pending_tokens=0):
     milliseconds = predicted * 1000 if predicted is not None else None
     return {"reason": reason, "need_score": need.score, "need_reasons": list(need.reasons),

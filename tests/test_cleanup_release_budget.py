@@ -33,10 +33,12 @@ def release_worker(*, queue_delay=0, recorder_delay=0, asr_delay=0, language='en
     assert worker.start_recording()
     executor.drain()
     assert worker._context.cleanup_deadline is None  # Listening has no running release budget.
+    assert worker._context.cleanup_planning_deadline is None
     clock.now += 1.5
     released_at = clock.now
     worker.stop_recording()
     assert worker._context.cleanup_deadline == released_at + 2
+    assert worker._context.cleanup_planning_deadline == released_at + 1
     clock.now += queue_delay
     executor.drain()
     return worker, local, model, timeouts, events, signals, clock, executor
@@ -55,8 +57,8 @@ def test_unknown_or_mixed_speech_keeps_words_with_the_same_release_guards(langua
 
 
 @pytest.mark.parametrize("delays,timeout", [
-    ({}, .75), ({"asr_delay": 1.6}, .35),
-    ({"queue_delay": .5, "recorder_delay": .2, "asr_delay": 1}, .25),
+    ({}, .75), ({"asr_delay": .25}, .75),
+    ({"queue_delay": .1, "recorder_delay": .1, "asr_delay": .2}, .75),
 ])
 def test_release_budget_charges_all_stages_before_real_cleanup_client(delays, timeout):
     worker, local, model, timeouts, events, _signals, _clock, _executor = release_worker(**delays)
@@ -64,6 +66,18 @@ def test_release_budget_charges_all_stages_before_real_cleanup_client(delays, ti
     assert len(generation_requests(model)) == 1 and local.last_gate_info["reason"] == "call"
     assert [event[0] for event in events] == ["history", "insert"]
     assert events[0][1].llm_decision == "accepted" and worker.last_result.cleaned_text == "Hello"
+
+
+@pytest.mark.parametrize("delays", [
+    {"asr_delay": 1.05}, {"queue_delay": .6, "recorder_delay": .2, "asr_delay": .3},
+    {"asr_delay": 1.6}, {"queue_delay": .5, "recorder_delay": .2, "asr_delay": 1},
+])
+def test_delivery_target_declines_optional_generation_before_the_hard_limit(delays):
+    worker, local, model, timeouts, events, *_ = release_worker(**delays)
+    assert not model.requests and not timeouts
+    assert local.last_gate_info['reason'] == 'skip_budget'
+    assert [event[0] for event in events] == ['history', 'insert']
+    assert events[0][1].llm_decision == 'skip_budget' and worker.last_result.cleaned_text == 'Hello'
 
 
 @pytest.mark.parametrize("delays", [
@@ -84,6 +98,7 @@ def test_next_recording_gets_its_own_release_budget_after_an_expired_one():
     assert worker.start_recording()
     executor.drain()
     assert worker._context.cleanup_deadline is None
+    assert worker._context.cleanup_planning_deadline is None
     clock.now += 1.5
     worker.stop_recording()
     executor.drain()

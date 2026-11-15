@@ -11,7 +11,7 @@ from saydraft.cleanup.llm.client import CleanupClient
 from saydraft.cleanup.llm.prompts import PromptHints, STYLES, user_message
 from saydraft.cleanup.llm.sidecar import SidecarConfig, SidecarManager
 from saydraft.cleanup.llm.preparation import PromptPreparation
-from saydraft.cleanup.llm.gate import MIN_REQUEST_SECONDS, decision, request_timeout, score_need
+from saydraft.cleanup.llm.gate import MIN_REQUEST_SECONDS, decision, planning_remaining, request_timeout, score_need
 from saydraft.cleanup.styles import style_for
 
 logger = logging.getLogger(__name__)
@@ -231,7 +231,7 @@ class LocalLLMCleaner:
             if preparation is not None and self._normal_current(client):
                 preparation.request(PromptHints(post_rules=True))
 
-    def _clean(self, text, hints, glossary=(), *, need=None, deadline=None):
+    def _clean(self, text, hints, glossary=(), *, need=None, deadline=None, planning_deadline=None):
         try:
             if not self.available():
                 return None, "busy" if self._command is not None else "disabled"
@@ -241,9 +241,10 @@ class LocalLLMCleaner:
                 now = self._clock()
                 timeout = request_timeout(self.cfg.timeout_ms, now=now, deadline=deadline)
                 stop_at = now + timeout
-                if need.score < 2 or timeout <= MIN_REQUEST_SECONDS:
+                admission = planning_remaining(stop_at, now=now, plan_before=planning_deadline)
+                if need.score < 2 or admission <= MIN_REQUEST_SECONDS:
                     reason = "skip_low_need" if need.score < 2 else "skip_budget"
-                    self._gate_log(decision(need, reason, remaining=timeout))
+                    self._gate_log(decision(need, reason, remaining=admission))
                     return None, reason
             client, preparation = self._normal_owner()
             if client is None:
@@ -251,9 +252,11 @@ class LocalLLMCleaner:
             if preparation is not None and not preparation.ready(hints):
                 requested = preparation.request(hints)
                 if need is not None:
-                    self._gate_log(decision(need, "prompt_warming" if requested else "prompt_unprepared", remaining=timeout))
+                    self._gate_log(decision(need, "prompt_warming" if requested else "prompt_unprepared", remaining=admission))
                 return None, "prompt_warming" if requested else "prompt_unprepared"
             options = {"gate": need, "stop_at": stop_at} if need is not None else {}
+            if need is not None and planning_deadline is not None:
+                options["plan_before"] = planning_deadline
             reply = client.clean(text, hints=hints, glossary=glossary, timeout=timeout, **options)
             if need is not None:
                 info = getattr(reply, "gate", None) or decision(need, reply.reason,
@@ -290,7 +293,8 @@ class LocalLLMCleaner:
             language=context.language, before_caret=context.before_caret, post_rules=True)
         need = score_need(raw_text, style=tone, intensity=hints.intensity) if (
             self.cfg.budget_gate and self.cfg.prepare_prompt) else None
-        return self._clean(text, hints, glossary, need=need, deadline=getattr(context, "cleanup_deadline", None))
+        return self._clean(text, hints, glossary, need=need, deadline=getattr(context, "cleanup_deadline", None),
+                           planning_deadline=getattr(context, "cleanup_planning_deadline", None))
 
     def clean(self, text: str, *, tone_hint: str = "neutral") -> Tuple[Optional[str], str]:
         self.last_gate_info = None

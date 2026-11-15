@@ -28,4 +28,5 @@ class DictationContext:
     selection_truncated: bool = False
     tone: Optional[str] = None
     translation_target: str = ''
+    cleanup_planning_deadline: Optional[float] = None  # Ephemeral delivery target; not a transport timeout.
 

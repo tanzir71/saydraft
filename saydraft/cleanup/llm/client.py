@@ -7,7 +7,7 @@ from dataclasses import dataclass
 
 from .loopback import LocalHTTPError
 from .calibration import DecoderCalibration
-from .gate import MIN_REQUEST_SECONDS, decision, predict
+from .gate import MIN_REQUEST_SECONDS, decision, planning_remaining, predict
 from .prompts import PromptHints, bridge_protected, build_messages, output_token_limit
 from .sidecar import SidecarReply
 from .streaming import read_completion
@@ -72,7 +72,7 @@ class CleanupClient:
                 for rate in measurement.rates]
 
     def _request(self, text, *, hints=None, glossary=(), timeout=0.8, max_tokens=None, gate=None,
-                 cache_tokens=False, stop_at=None):
+                 cache_tokens=False, stop_at=None, plan_before=None):
         try:
             messages = build_messages(text, hints=hints, glossary=glossary)
         except (OSError, ValueError):
@@ -88,7 +88,7 @@ class CleanupClient:
         def operation(client, deadline):
             nonlocal gate_plan
             def budget_skip(source_tokens=0):
-                remaining = max(0, deadline - self.clock())
+                remaining = planning_remaining(deadline, now=self.clock(), plan_before=plan_before)
                 if gate is not None and remaining <= MIN_REQUEST_SECONDS:
                     return {"skipped": "skip_budget", "gate": decision(gate, "skip_budget",
                         remaining=remaining, source_tokens=source_tokens)}
@@ -115,7 +115,8 @@ class CleanupClient:
             user_tokens = tokenize(messages[-1]["content"]) if cache_tokens or gate is not None else None
             plan = None
             if gate is not None:
-                remaining = max(0, deadline - self.clock())
+                now = self.clock()
+                remaining = planning_remaining(deadline, now=now, plan_before=plan_before)
                 if remaining <= MIN_REQUEST_SECONDS:
                     plan = decision(gate, "skip_budget", remaining=remaining, source_tokens=len(tokens))
                 elif self._prefix is None or generation is None or self._prefix[:2] != (generation, base):
@@ -130,6 +131,9 @@ class CleanupClient:
                     rate = min(measurement.rates) if measurement is not None else None
                     plan = predict(gate, source_tokens=len(tokens), pending_tokens=len(user_tokens) - common + 12,
                                    output_limit=limit, rate=rate, remaining=remaining)
+                if plan_before is not None:
+                    plan = {**plan, "delivery_target_used": True,
+                            "hard_remaining_ms": max(0, deadline - now) * 1000}
                 gate_plan = plan
                 if plan["reason"] != "call":
                     return {"skipped": plan["reason"], "gate": plan}  # Tokenization earns no generation credit.
@@ -159,11 +163,12 @@ class CleanupClient:
         reason = "prepared" if complete else reply.reason if reply.reason != "ok" else "prompt_incomplete"
         return CleanupReply(None, reason)
 
-    def clean(self, text, *, hints=None, glossary=(), timeout=0.8, gate=None, stop_at=None):
+    def clean(self, text, *, hints=None, glossary=(), timeout=0.8, gate=None, stop_at=None, plan_before=None):
         if not text.strip():
             return CleanupReply(None, "empty")
         protected = bridge_protected(text)
-        reply = self._request(protected.text, hints=hints, glossary=glossary, timeout=timeout, gate=gate, stop_at=stop_at)
+        reply = self._request(protected.text, hints=hints, glossary=glossary, timeout=timeout, gate=gate,
+                              stop_at=stop_at, plan_before=plan_before)
         if reply.value is None:
             return CleanupReply(None, reply.reason)
         value = reply.value

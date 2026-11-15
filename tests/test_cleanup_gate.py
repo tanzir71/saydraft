@@ -160,6 +160,38 @@ def test_outer_deadline_shortens_the_shared_transport_deadline():
     assert timeouts == [pytest.approx(.25)] and len(generation_requests(model)) == 1
 
 
+@pytest.mark.parametrize('rate,expected', [(200, 'accepted'), (20, 'skip_budget')])
+def test_delivery_admission_uses_target_without_changing_the_hard_transport_cap(rate, expected):
+    pipeline, model, local, _client, clock, timeouts, _ = prepared_pipeline(rate=rate)
+    context = DictationContext(cleanup_deadline=clock.now + 2,
+                               cleanup_planning_deadline=clock.now + .2)
+    assert pipeline.process_transcript('um hello', context) == 'Hello'
+    assert pipeline.last_llm_decision == expected
+    assert bool(generation_requests(model)) is (expected == 'accepted')
+    assert timeouts == [.75]
+    assert local.last_gate_info['delivery_target_used'] is True
+    assert local.last_gate_info['hard_remaining_ms'] == 750
+    assert local.last_gate_info['remaining_ms'] == pytest.approx(200)
+
+
+@pytest.mark.parametrize('target', [float('nan'), float('inf'), True, 'future', 100.04])
+def test_invalid_or_exhausted_delivery_target_never_constructs_a_model(target):
+    local = LocalLLMCleaner(LocalLLMConfig(enabled=True, model_path='unused'), clock=lambda: 100,
+        manager_factory=lambda cfg: pytest.fail('expired target must not construct a model'))
+    context = DictationContext(cleanup_deadline=102, cleanup_planning_deadline=target)
+    assert local.clean_after_rules('Hello', raw_text='um hello', context=context) == (None, 'skip_budget')
+
+
+def test_tokenizer_time_spends_delivery_admission_window_without_generation_credit():
+    pipeline, model, _local, _client, clock, timeouts, _ = prepared_pipeline()
+    model.delay = .08
+    context = DictationContext(cleanup_deadline=clock.now + 2,
+                               cleanup_planning_deadline=clock.now + .2)
+    assert pipeline.process_transcript('um hello', context) == 'Hello'
+    assert pipeline.last_llm_decision == 'skip_budget' and not generation_requests(model)
+    assert timeouts == [.75]
+
+
 def test_ungated_request_invalidates_unknown_cache_before_a_later_gated_request():
     _pipeline, model, _local, client, *_ = prepared_pipeline()
     assert client.clean("Hello", hints=PromptHints(post_rules=True)).reason == "ok"

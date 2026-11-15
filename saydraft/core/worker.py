@@ -28,6 +28,10 @@ logger = logging.getLogger(__name__)
 
 # §1 row 8: with-LLM release-to-text p95 target. Cleanup retains its smaller cap.
 RELEASE_TO_TEXT_BUDGET_SECONDS = 2.0
+# Admit optional cleanup against the median target, reserving History/paste time.
+# The existing p95 deadline and 800 ms request cap remain separate hard limits.
+RELEASE_TO_TEXT_TARGET_SECONDS = 1.2
+CLEANUP_DELIVERY_RESERVE_SECONDS = .2
 
 
 class SessionWorker:
@@ -676,7 +680,9 @@ class SessionWorker:
                 released = (min(event.timestamp, released_at) if type(released_at) in (int, float)
                             and math.isfinite(released_at) else event.timestamp)
                 self._context = replace(self._context,
-                    cleanup_deadline=released + RELEASE_TO_TEXT_BUDGET_SECONDS)
+                    cleanup_deadline=released + RELEASE_TO_TEXT_BUDGET_SECONDS,
+                    cleanup_planning_deadline=(released + RELEASE_TO_TEXT_TARGET_SECONDS
+                                               - CLEANUP_DELIVERY_RESERVE_SECONDS))
             self._cancel_timers()
             self.emit("recording_stopped", float(event.recording_seconds or 0))
             if event.previous == State.ARMING:
