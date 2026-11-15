@@ -111,7 +111,8 @@ def test_child_environment_has_private_cache_and_no_credentials(tmp_path, monkey
 
 
 @pytest.mark.parametrize("code,report_pid,error", [(0, 1234, None), (1, 1234, RuntimeError), (0, 4321, ValueError)])
-def test_parent_waits_for_one_child_and_closes_job_on_success_or_failure(tmp_path, code, report_pid, error):
+@pytest.mark.parametrize("allow_gpu_metadata", [False, True])
+def test_parent_waits_for_one_child_and_closes_job_on_success_or_failure(tmp_path, code, report_pid, error, allow_gpu_metadata):
     from tools.public_worker_guard import KIND, OWNER_FLAGS, fixture_receipt_path
 
     processes = []
@@ -122,8 +123,10 @@ def test_parent_waits_for_one_child_and_closes_job_on_success_or_failure(tmp_pat
             self.closed = False
             assert kwargs["capture_output"] and kwargs["max_output_bytes"] == 65536
             assert argv[1:3] == ["-m", "tools.guarded_latency_trial"]
+            assert ("--allow-gpu-metadata" in argv) is allow_gpu_metadata
             guard = Path(argv[argv.index("--guard-output") + 1])
-            matrix.write_json(guard, {"pid": 1234, "blocked_attempts": [], **dict.fromkeys(OWNER_FLAGS, False)})
+            matrix.write_json(guard, {"pid": 1234, "blocked_attempts": [],
+                "gpu_metadata_allowed": allow_gpu_metadata, **dict.fromkeys(OWNER_FLAGS, False)})
             matrix.write_json(fixture_receipt_path(guard), {
                 "pid": 1234, "kind": KIND, "port_attempts": [], "production_context_adapter_loaded": False,
                 "selection_value_fields": ["target", "selection"],
@@ -141,13 +144,20 @@ def test_parent_waits_for_one_child_and_closes_job_on_success_or_failure(tmp_pat
 
     if error:
         with pytest.raises(error):
-            matrix.run_pair({"audio_seconds": 3}, tmp_path, process_factory=Process)
+            matrix.run_pair({"audio_seconds": 3, "allow_gpu_metadata": allow_gpu_metadata}, tmp_path, process_factory=Process)
     else:
-        value = matrix.run_pair({"audio_seconds": 3}, tmp_path, process_factory=Process)
+        value = matrix.run_pair({"audio_seconds": 3, "allow_gpu_metadata": allow_gpu_metadata}, tmp_path, process_factory=Process)
         assert value.pop("_file_only_guard")["actual_python_pid"] == 1234
         assert value == pair()
     assert len(processes) == 1 and processes[0].closed
     assert "private native output" not in (tmp_path / "process.json").read_text()
+
+
+def test_gpu_metadata_opt_in_is_refused_for_non_pro_before_artifacts(tmp_path):
+    output = tmp_path / "unused"
+    with pytest.raises(SystemExit) as caught:
+        matrix.main(["--tier", "standard", "--allow-gpu-metadata", "--output", str(output)])
+    assert caught.value.code == 2 and not output.exists()
 
 
 def test_bench_matrix_dispatch_preserves_legacy_cli(monkeypatch):

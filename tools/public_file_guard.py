@@ -10,7 +10,9 @@ import sys
 import types
 
 
-def install(receipt_path):
+def install(receipt_path, *, allow_gpu_metadata=False):
+    if type(allow_gpu_metadata) is not bool:
+        raise ValueError("GPU metadata permission must be explicit")
     if any(name in sys.modules for name in ["soundcard", "sounddevice"]):
         raise ValueError("Start a fresh process before applying the file-only guard")
     receipt_path = Path(receipt_path).resolve()
@@ -32,7 +34,7 @@ def install(receipt_path):
         QT_QPA_PLATFORM="offscreen",
         PYTHONDONTWRITEBYTECODE="1",
     )
-    attempts, dependency_dlls = [], []
+    attempts, dependency_dlls, gpu_dlls = [], [], []
 
     class OwnerIOGuard(importlib.abc.MetaPathFinder):
         def find_spec(self, fullname, path=None, target=None):
@@ -60,6 +62,8 @@ def install(receipt_path):
         def guarded_dll(name, *args, **kwargs):
             caller = sys._getframe(1).f_globals.get("__name__")
             sherpa_file = getattr(sys.modules.get("sherpa_onnx"), "__file__", None)
+            gpu_metadata = (allow_gpu_metadata and caller == "saydraft.models.windows_hardware"
+                            and str(name).lower() == "vulkan-1.dll" and kwargs.get("winmode") == 0x800)
             allowed = (
                 str(name).lower() in ["kernel32", "kernel32.dll"]
                 or (
@@ -84,11 +88,14 @@ def install(receipt_path):
                     and Path(name).resolve()
                     == (Path(sherpa_file).parent / "lib" / "onnxruntime.dll").resolve()
                 )
+                or gpu_metadata
             )
             if not allowed:
                 attempts.append("ctypes.WinDLL:" + str(name))
                 raise AssertionError("Owner native UI/device APIs are barred")
             dependency_dlls.append({"caller": caller, "dll": str(name)})
+            if gpu_metadata:
+                gpu_dlls.append({"caller": caller, "dll": str(name), "system32_only": True})
             return original(name, *args, **kwargs)
 
         ctypes.WinDLL = guarded_dll
@@ -108,8 +115,10 @@ def install(receipt_path):
             "owner_profile_used": False,
             "owner_clipboard_used": False,
             "owner_native_input_used": False,
-            "device_enumeration": False,
+            "device_enumeration": False,  # Legacy field: owner/audio device ports.
             "microphone_used": False,
+            "gpu_metadata_allowed": allow_gpu_metadata,
+            "gpu_metadata_dlls": gpu_dlls,
         }
         receipt_path.write_text(json.dumps(record, indent=2) + "\n", encoding="utf-8")
 

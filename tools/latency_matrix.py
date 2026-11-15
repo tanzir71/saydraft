@@ -121,7 +121,8 @@ def run_pair(spec, output, *, process_factory=None):
     guard_path = output / "owner-io-guard.json"
     process = (process_factory or WindowsJobProcess)([str(Path(sys.executable).resolve()),
         "-m", "tools.guarded_latency_trial", "--guard-output", str(guard_path),
-        "--request", str(output / "request.json")],
+        "--request", str(output / "request.json"),
+        *(["--allow-gpu-metadata"] if spec.get("allow_gpu_metadata", False) else [])],
         env=child_environment(output), cwd=ROOT, capture_output=True, max_output_bytes=65536)
     try:
         # An observation timeout never launches a second copy. This is a trial
@@ -146,7 +147,7 @@ def run_pair(spec, output, *, process_factory=None):
         pair = json.loads(pair_path.read_text(encoding="utf-8"))
         if code != 0:
             raise RuntimeError("Latency child failed; retained its report and process receipt")
-        guard = verify_receipts(guard_path)
+        guard = verify_receipts(guard_path, allow_gpu_metadata=spec.get("allow_gpu_metadata", False))
         if pair.get("python_pid") != guard["actual_python_pid"]:
             raise ValueError("Guard receipt belongs to a different trial interpreter")
         pair["_file_only_guard"] = guard
@@ -167,7 +168,11 @@ def main(argv=None):
     parser.add_argument("--durations", nargs="+", type=int, default=list(DURATIONS))
     parser.add_argument("--debug", action="store_true", help="allow a partial/dirty diagnostic; cannot qualify")
     parser.add_argument("--isolated", action="store_true", help="declare competing local QA/model workloads stopped")
+    parser.add_argument("--allow-gpu-metadata", action="store_true",
+                        help="explicitly allow read-only Vulkan adapter metadata for Pro only")
     args = parser.parse_args(argv)
+    if args.allow_gpu_metadata and args.tier != "pro":
+        parser.error("GPU metadata permission is only valid for Pro")
     if os.name != "nt" or not 1 <= args.repeats <= 100:
         parser.error("Windows and 1–100 repeats are required")
     if (len(set(args.durations)) != len(args.durations) or not args.durations
@@ -199,6 +204,7 @@ def main(argv=None):
         'runtime_environment': environment,
         **recipe, "device": args.device, "repeats_per_cell": args.repeats, "durations": args.durations,
         "isolation_declared": args.isolated, "debug": args.debug, "cases": [], "pairs": [],
+        "allow_gpu_metadata": args.allow_gpu_metadata,
         "cold_definition": "first utterance in a fresh worker/ASR/native process; OS disk caches may be warm",
         "warm_definition": "second utterance in the same process; no explicit priming or readiness wait",
         "scope": "bundled public audio; real-time synthetic capture, real worker/History/Inserter, memory input",
@@ -215,6 +221,7 @@ def main(argv=None):
                 spec = {"git_commit": source["git_commit"], "audio_seconds": seconds, "repeat": repeat,
                     'runtime_environment': environment,
                     "tier": args.tier, **recipe, "device": args.device, "output": str(pair_output),
+                    "allow_gpu_metadata": args.allow_gpu_metadata,
                     **{name: str(getattr(args, name).resolve()) if getattr(args, name) else None
                        for name in ("parakeet_dir", "lid_dir", "whisper_dir", "models_dir", "runtime_dir", "vad_dir")}}
                 report["active_pair"] = {"audio_seconds": seconds, "repeat": repeat}

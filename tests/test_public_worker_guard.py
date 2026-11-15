@@ -124,6 +124,66 @@ else:raise AssertionError('Telemetry caller loaded an unrelated DLL')
         guard.verify_receipts(receipt)
 
 
+def test_gpu_metadata_is_refused_without_explicit_permission(tmp_path):
+    receipt, _ = child(tmp_path, """
+import sys
+from tools.public_worker_guard import install
+install(sys.argv[1])
+from saydraft.models.windows_hardware import vulkan_devices
+try:vulkan_devices()
+except AssertionError:pass
+else:raise AssertionError('GPU discovery lacked permission')
+""")
+    assert json.loads(receipt.read_bytes())["blocked_attempts"] == ["ctypes.WinDLL:vulkan-1.dll"]
+    with pytest.raises(ValueError):
+        guard.verify_receipts(receipt)
+
+
+def test_explicit_gpu_metadata_permission_keeps_owner_ports_barred(tmp_path):
+    receipt, _ = child(tmp_path, """
+import sys
+from tools.public_worker_guard import install
+install(sys.argv[1],allow_gpu_metadata=True)
+from saydraft.models.windows_hardware import vulkan_devices
+rows=vulkan_devices()
+assert isinstance(rows,list) and all('name' in row and 'device_type' in row for row in rows)
+""")
+    assert guard.verify_receipts(receipt, allow_gpu_metadata=True)["verified"]
+    record = json.loads(receipt.read_bytes())
+    assert record["gpu_metadata_allowed"] is True and record["gpu_metadata_dlls"]
+    assert all(record[name] is False for name in guard.OWNER_FLAGS)
+    with pytest.raises(ValueError):
+        guard.verify_receipts(receipt)
+
+
+@pytest.mark.parametrize("name", ["user32", "vulkan-1.dll"])
+def test_gpu_permission_does_not_allow_unreviewed_callers_or_owner_ui(tmp_path, name):
+    receipt, _ = child(tmp_path, f"""
+import ctypes,sys
+from tools.public_worker_guard import install
+install(sys.argv[1],allow_gpu_metadata=True)
+try:ctypes.WinDLL({name!r},winmode=0x800)
+except AssertionError:pass
+else:raise AssertionError('GPU permission allowed an unrelated native call')
+""")
+    with pytest.raises(ValueError):
+        guard.verify_receipts(receipt, allow_gpu_metadata=True)
+
+
+def test_gpu_permission_requires_system32_only_loading_even_for_reviewed_caller(tmp_path):
+    receipt, _ = child(tmp_path, """
+import ctypes,sys
+from tools.public_worker_guard import install
+install(sys.argv[1],allow_gpu_metadata=True)
+namespace={'__name__':'saydraft.models.windows_hardware','ctypes':ctypes}
+try:exec("ctypes.WinDLL('vulkan-1.dll')",namespace)
+except AssertionError:pass
+else:raise AssertionError('GPU driver lookup was not restricted to System32')
+""")
+    with pytest.raises(ValueError):
+        guard.verify_receipts(receipt, allow_gpu_metadata=True)
+
+
 @pytest.mark.parametrize("name", ["ForegroundContextProvider", "NativeForegroundApi"])
 def test_constructing_any_foreground_port_is_refused_and_recorded(tmp_path, name):
     receipt, _ = child(tmp_path, f"""
