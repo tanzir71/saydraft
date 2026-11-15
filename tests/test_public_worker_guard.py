@@ -86,6 +86,44 @@ assert {module!r} not in sys.modules
         guard.verify_receipts(receipt)
 
 
+def test_inference_runtime_telemetry_disable_uses_only_its_loaded_package_dll(tmp_path):
+    receipt, _ = child(tmp_path, """
+import sys
+from pathlib import Path
+from tools.public_worker_guard import install
+install(sys.argv[1])
+import sherpa_onnx
+from saydraft.privacy.telemetry import disable_sherpa_telemetry,_environments
+disable_sherpa_telemetry(sherpa_onnx)
+expected=str((Path(sherpa_onnx.__file__).parent/'lib/onnxruntime.dll').resolve())
+assert expected in _environments
+""")
+    assert guard.verify_receipts(receipt)["verified"]
+    records = json.loads(receipt.read_bytes())["reviewed_dependency_dlls"]
+    assert any(row["caller"] == "saydraft.privacy.telemetry"
+               and Path(row["dll"]).name == "onnxruntime.dll" for row in records)
+
+
+@pytest.mark.parametrize("outside_package", [False, True])
+def test_telemetry_caller_cannot_load_an_unrelated_native_library(tmp_path, outside_package):
+    receipt, _ = child(tmp_path, f"""
+import ctypes,sys
+from pathlib import Path
+from tools.public_worker_guard import install
+install(sys.argv[1])
+import sherpa_onnx
+candidate=str(Path(sys.argv[1]).parent/'onnxruntime.dll') if {outside_package!r} else 'user32'
+namespace={{'__name__':'saydraft.privacy.telemetry','ctypes':ctypes,'candidate':candidate}}
+try:exec("ctypes.WinDLL(candidate)",namespace)
+except AssertionError:pass
+else:raise AssertionError('Telemetry caller loaded an unrelated DLL')
+""")
+    expected = str(receipt.parent / "onnxruntime.dll") if outside_package else "user32"
+    assert json.loads(receipt.read_bytes())["blocked_attempts"] == ["ctypes.WinDLL:" + expected]
+    with pytest.raises(ValueError, match="refused qualification"):
+        guard.verify_receipts(receipt)
+
+
 @pytest.mark.parametrize("name", ["ForegroundContextProvider", "NativeForegroundApi"])
 def test_constructing_any_foreground_port_is_refused_and_recorded(tmp_path, name):
     receipt, _ = child(tmp_path, f"""

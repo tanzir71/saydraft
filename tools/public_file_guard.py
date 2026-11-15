@@ -59,6 +59,7 @@ def install(receipt_path):
 
         def guarded_dll(name, *args, **kwargs):
             caller = sys._getframe(1).f_globals.get("__name__")
+            sherpa_file = getattr(sys.modules.get("sherpa_onnx"), "__file__", None)
             allowed = (
                 str(name).lower() in ["kernel32", "kernel32.dll"]
                 or (
@@ -74,6 +75,14 @@ def install(receipt_path):
                     # from its own WindowsJobProcess children; no enumeration.
                     caller == "tools.bench_cleanup"
                     and str(name).lower() in ["psapi", "psapi.dll"]
+                )
+                or (
+                    # The production privacy adapter must disable telemetry in
+                    # this already-imported package's own inference runtime.
+                    caller == "saydraft.privacy.telemetry"
+                    and sherpa_file is not None
+                    and Path(name).resolve()
+                    == (Path(sherpa_file).parent / "lib" / "onnxruntime.dll").resolve()
                 )
             )
             if not allowed:
