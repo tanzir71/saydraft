@@ -1,6 +1,18 @@
 # Windows packaging
 
-The latest **keyboard-focus repair unsigned portable** is built from clean
+The latest **frozen field-reader and brand repair unsigned portable** is built
+from clean `12bc27ffdb3ba388ea199e5e51661c968815c2fe`:
+`D:/Saydraft-Codex-QA-20261112-01a1cbc7/delivery-brand-package-20261116-r1/artifacts/Saydraft-0.1.0-win-x64.zip`.
+Size: **157,308,167 bytes**. SHA-256:
+`b24ca638e91035c35029b67577b7d62859e22904618a9fa7e982a330ec40901f`.
+All 1,440 disk/ZIP files verify; 89 embedded modules, focus stylesheets and brand
+assets match source. The actual EXE passes reader initialization and an approved
+metadata-only focused-field check (`ok`, non-password, stable identity/window).
+The app/window/tray use the landing-page star. Actual native pasting remains an
+owner retest or VM acceptance item. [Evidence and limits](../eval/ui/results/2026-11-16-frozen-delivery/README.md).
+Quit the older app from the tray before extracting and running this new portable.
+
+The previous **keyboard-focus repair unsigned portable** is built from clean
 `b6322666fc1cee11c06492ab493d9e4d74b3511b`:
 `D:/Saydraft-Codex-QA-20261112-01a1cbc7/focus-presentation-package-20261116-r1/artifacts/Saydraft-0.1.0-win-x64.zip`.
 Size: **157,355,451 bytes**. SHA-256:

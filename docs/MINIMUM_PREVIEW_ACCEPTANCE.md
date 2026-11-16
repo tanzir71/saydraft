@@ -1,5 +1,11 @@
 # Minimum unsigned preview · 15 November 2026
 
+**Latest frozen-reader update:** clean `12bc27f` fixes the packaging bootstrap
+behind continued field-unavailable refusals. The [new portable](PACKAGING.md)
+passes actual reader initialization and an approved metadata-only field check.
+All 1,440 payloads/89 modules verify; logo artwork matches the landing page.
+Native host paste/clipboard acceptance remains unexecuted.
+
 **Latest focus update:** clean `b632266` removes mouse-triggered control rings
 while preserving keyboard focus cues. The [current portable](PACKAGING.md)
 verifies all 1,439 files, 84 embedded modules and both focus stylesheets. Its 61

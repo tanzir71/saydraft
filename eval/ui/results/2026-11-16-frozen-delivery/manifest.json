@@ -1,0 +1,190 @@
+{
+  "source": "12bc27ffdb3ba388ea199e5e51661c968815c2fe",
+  "files": [
+    {
+      "path": "approved-metadata/archived-uia-initialization-before.json",
+      "bytes": 1008,
+      "sha256": "fcad83b78ea099dea09fad32b6c0fc0757285bd5a87333584b5d4f02da3dff92"
+    },
+    {
+      "path": "approved-metadata/archived-uia-initialization.json",
+      "bytes": 267,
+      "sha256": "5d1cf252b620c396f918008cd152fb6954216b69a8a8deff872323becba5c6c2"
+    },
+    {
+      "path": "approved-metadata/bounded-metadata.json",
+      "bytes": 1086,
+      "sha256": "31c87e71744c4f24b243d564ff11ba45dfb034e618a2d79fe45e1cb8117efe28"
+    },
+    {
+      "path": "approved-metadata/frozen-field-metadata.json",
+      "bytes": 285,
+      "sha256": "9a74995406cfdf76b8b81eb54d09bd3a2ad47892362f8bb3d0ed56b4f2287d69"
+    },
+    {
+      "path": "approved-metadata/probe_archived_uia_init.py",
+      "bytes": 2531,
+      "sha256": "aa7abbda8d5591f4b36ea0dffa3be01be5b70632e54ad225a70ce310b5c3672a"
+    },
+    {
+      "path": "approved-metadata/probe_bounded_metadata.py",
+      "bytes": 3173,
+      "sha256": "8abdbf279237e2a6ac72734f42ce6860e5c020a2e32bed60b57e3b8c6a29e5c5"
+    },
+    {
+      "path": "commands.json",
+      "bytes": 1486,
+      "sha256": "c5d892154ee4a678b7036fa6400b867399378a592fc0b7edcd6256b6c6dc392b"
+    },
+    {
+      "path": "harness/archive_delivery.py",
+      "bytes": 3830,
+      "sha256": "6d5062fba8223d9c4af7be462c13292792122789e073196817e0a5b378dd9355"
+    },
+    {
+      "path": "harness/render_brand.py",
+      "bytes": 1054,
+      "sha256": "0639acf636e31d48e53cc50550bf8713e4d98e8b68ca7a0d5712070cc6176402"
+    },
+    {
+      "path": "harness/run_context_tests.py",
+      "bytes": 939,
+      "sha256": "541d1558d0caca43514faf450df455159041f639d245fbc7d8df1b53f301148b"
+    },
+    {
+      "path": "harness/run_ui_tests.py",
+      "bytes": 1956,
+      "sha256": "31d7ab78b09f55643a0b8524a5bef327ff7aecc248c20e115469f9835f2a9d75"
+    },
+    {
+      "path": "harness/verify_artifact.py",
+      "bytes": 2640,
+      "sha256": "0696f9e977ad6f8052edefc4b055bec81cbfbcdfe3bbf1b1d90de609359af8ca"
+    },
+    {
+      "path": "harness/verify_frozen.py",
+      "bytes": 6436,
+      "sha256": "a147a212d4ee689f59d3e8d95ba64a6bd943fdc8af7f8cac68f5148743a83682"
+    },
+    {
+      "path": "packaging/artifact-verification.json",
+      "bytes": 702,
+      "sha256": "ab78886b479d1692142ee5bfefcbdcdad216e9ed4185b177996b10e1fe567368"
+    },
+    {
+      "path": "packaging/artifact-verification.log",
+      "bytes": 702,
+      "sha256": "ab78886b479d1692142ee5bfefcbdcdad216e9ed4185b177996b10e1fe567368"
+    },
+    {
+      "path": "packaging/build.log",
+      "bytes": 31404,
+      "sha256": "3e4c3bca8b1be39337adb409b57defb12a994b00ed181294f8dc99e863a2ab67"
+    },
+    {
+      "path": "packaging/bundle.json",
+      "bytes": 215099,
+      "sha256": "0db63c4d3c348d00839e8b67ac1a54553e88c1537a6ef87448d98142921cdcf6"
+    },
+    {
+      "path": "packaging/frozen-verification.guard.json",
+      "bytes": 347,
+      "sha256": "dc3ac9496185656621fa71018c557cfe751b20e7545b6ae04a79ff4ab104583d"
+    },
+    {
+      "path": "packaging/frozen-verification.json",
+      "bytes": 28901,
+      "sha256": "e4ce25380f029dffa270d0a8fa91052c39e22f2c691e797eead6fdcaff7c4868"
+    },
+    {
+      "path": "packaging/frozen-verification.log",
+      "bytes": 1523,
+      "sha256": "2a2ec4d57c9801631f7bfcec67e9ccd0af377f8386bd821f937d883e622c66a4"
+    },
+    {
+      "path": "packaging/preflight.json",
+      "bytes": 214886,
+      "sha256": "6a0978b8436464dfae175ebff54a5ef080f84b28dcacb3ae99281bb2e07246db"
+    },
+    {
+      "path": "packaging/requirements-frozen.txt",
+      "bytes": 875,
+      "sha256": "ebaedec796ef9d51a9592aa8e1996d33f673b2f1fa3707f9091c614af4431b5d"
+    },
+    {
+      "path": "packaging/runtime.json",
+      "bytes": 832,
+      "sha256": "2847168b7d4fe72f28c841623cbd83d9174845e18c51517cf5fe1e6972130655"
+    },
+    {
+      "path": "README.md",
+      "bytes": 3212,
+      "sha256": "1ac19cc30a89ee8dacbad689a8cbb2fd24da668e44e206f6b77f30665894fe13"
+    },
+    {
+      "path": "screenshots/brand-icons.png",
+      "bytes": 21806,
+      "sha256": "fa1b7aa519b4b613933f3a007116c554ec751634b4373d0cbfa1d8eb0e1b9193"
+    },
+    {
+      "path": "screenshots/guard.json",
+      "bytes": 347,
+      "sha256": "2ba0148e93cc22dbbffbc727671a79455b31b27d182552e17e8eba43cf355640"
+    },
+    {
+      "path": "tests/bootstrap-final.guard.json",
+      "bytes": 417,
+      "sha256": "16f8aec82dac022ca169898b4629d761cd0d601bcc067be9178a5b4b0c436ed0"
+    },
+    {
+      "path": "tests/bootstrap-final.log",
+      "bytes": 211,
+      "sha256": "b2b59ceb914bbf6d450e74a02c48b09647b8b92e0fd1de5b42563f75b8579452"
+    },
+    {
+      "path": "tests/bootstrap-final.xml",
+      "bytes": 807,
+      "sha256": "693a5b38afdfb32bdf9da10ea5736a66e90dd6d3484681fba09e00f68c5c5bf7"
+    },
+    {
+      "path": "tests/field-final.guard.json",
+      "bytes": 500,
+      "sha256": "27339d7288d91471667562ae3bf03abfe6b047abef58d79e9723c09ef52d5579"
+    },
+    {
+      "path": "tests/field-final.log",
+      "bytes": 290,
+      "sha256": "19883e9e0cea62583705070774c2b5124c8a0eab1b016fd84fa1f70dbbd5f609"
+    },
+    {
+      "path": "tests/field-final.xml",
+      "bytes": 16138,
+      "sha256": "de626dd2f898b200ed8810d9d0678da3269ca4bea301719334abd9b73db8af17"
+    },
+    {
+      "path": "tests/ui-final.guard.json",
+      "bytes": 417,
+      "sha256": "2b479d57fb16711235024ecc1d31c8d5868a34397daa7fded3ad95e92a8d60b4"
+    },
+    {
+      "path": "tests/ui-final.guard.worker.json",
+      "bytes": 225,
+      "sha256": "b96ae6ab39a1e5be0df4a83cbafc4889edfff496ba95e2d8af73d5f010bdc5d7"
+    },
+    {
+      "path": "tests/ui-final.log",
+      "bytes": 247,
+      "sha256": "6fd7055f0f54b961f89c87ab7e51dcb2153a288c4d2524bd954c4ca961e5d1c8"
+    },
+    {
+      "path": "tests/ui-final.stub.json",
+      "bytes": 168,
+      "sha256": "0ac917b530b2dab2255d0a608de7886bcae464b7a13179f5b52d617df21a30a5"
+    },
+    {
+      "path": "tests/ui-final.xml",
+      "bytes": 2871,
+      "sha256": "35bb713f427caab77524dc46006ea8b178ca286ce181a3efd4b017e0f0bd1ce3"
+    }
+  ]
+}

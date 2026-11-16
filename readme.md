@@ -16,6 +16,9 @@ the required insertion checks. First-run Models now includes optional local AI
 cleanup. [Changes and verification limits](docs/STARTUP_DELIVERY_REPAIRS.md).
 Control focus rings appear during keyboard navigation; mouse clicks do not leave
 them behind.
+The current portable also fixes a frozen Windows field-reader initialization
+failure; packaging now checks the real reader. App/tray icons use the landing-page
+star. [Current unsigned build and verification](docs/PACKAGING.md).
 
 <img src="assets/media/saydraft-bar-static.png" width="640" alt="Actual Saydraft Bar with public sample text and optional English live preview">
 

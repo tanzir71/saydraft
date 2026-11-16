@@ -44,6 +44,11 @@ pending until the guest actually executes those cases.
 
 ## Current checkpoint
 
+- The latest `12bc27f` fixes the frozen COM generated-package bootstrap that
+  left all fields unavailable, and aligns app/window/tray artwork with the
+  landing-page star. The actual new EXE passes initialization and approved
+  focused-field metadata checks; no host pasting was performed. It verifies
+  1,440 payloads and 89 embedded modules. [Build and retained proof](PACKAGING.md).
 - The latest `b632266` focus repair removes mouse-triggered button/sidebar rings
   while preserving keyboard navigation and activation. All 61 targeted checks
   and the fresh unsigned portable pass; [artifact and scope](PACKAGING.md).

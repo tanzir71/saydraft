@@ -1,0 +1,57 @@
+{
+  "metadata_only": true,
+  "text_read": false,
+  "clipboard_accessed": false,
+  "audio_opened": false,
+  "input_injected": false,
+  "stages": [
+    {
+      "stage": "focused_element",
+      "ms": 25.63,
+      "type": "POINTER(IUIAutomationElement)"
+    },
+    {
+      "stage": "belongs",
+      "ms": 2.05,
+      "type": "bool",
+      "value": true
+    },
+    {
+      "stage": "password",
+      "ms": 0.02,
+      "type": "bool",
+      "value": false
+    },
+    {
+      "stage": "control_type",
+      "ms": 0.01,
+      "type": "int",
+      "value": 50030
+    },
+    {
+      "stage": "runtime_id",
+      "ms": 0.09,
+      "type": "tuple",
+      "length": 6
+    },
+    {
+      "stage": "fresh_password",
+      "ms": 0.19,
+      "type": "bool",
+      "value": false
+    },
+    {
+      "stage": "same_focus",
+      "ms": 0.73,
+      "type": "bool",
+      "value": true
+    }
+  ],
+  "attempts": [],
+  "initialized": true,
+  "status": "ok",
+  "identity_length": 6,
+  "elapsed_ms": 31.52,
+  "window_unchanged": true,
+  "closed": true
+}

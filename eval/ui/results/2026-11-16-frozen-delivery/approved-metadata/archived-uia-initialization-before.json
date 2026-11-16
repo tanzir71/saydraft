@@ -1,0 +1,50 @@
+{
+  "initialization_only": true,
+  "archived_modules": true,
+  "gen_in_archive": false,
+  "text_read": false,
+  "audio_opened": false,
+  "clipboard_accessed": false,
+  "input_injected": false,
+  "initialized": false,
+  "error_type": "IndexError",
+  "hresult": null,
+  "frames": [
+    {
+      "file": "probe_archived_uia_init.py",
+      "function": "run",
+      "line": 26
+    },
+    {
+      "file": "uia_native.py",
+      "function": "__init__",
+      "line": 27
+    },
+    {
+      "file": "_generate.py",
+      "function": "GetModule",
+      "line": 127
+    },
+    {
+      "file": "_generate.py",
+      "function": "generate",
+      "line": 239
+    },
+    {
+      "file": "_generate.py",
+      "function": "GetModule",
+      "line": 127
+    },
+    {
+      "file": "_generate.py",
+      "function": "generate",
+      "line": 240
+    },
+    {
+      "file": "_generate.py",
+      "function": "_create_module",
+      "line": 201
+    }
+  ],
+  "terminal": true
+}

@@ -22,6 +22,7 @@ The application, Hub window and tray now use the landing-page orange star mark.
 Its canonical path/stroke is copied to `assets/tray/saydraft-mark.svg`; a geometry
 contract checks it against the website's Mark component. Recording/processing
 keep the same star with distinct status treatments. Icons retain seven sizes.
+[Actual frozen checks and replacement portable](../eval/ui/results/2026-11-16-frozen-delivery/README.md).
 
 These repairs follow the owner's reports of silent first use, unavailable fields
 in browser/Codex, inconsistent English filler cleanup, tray rendering/clicks,

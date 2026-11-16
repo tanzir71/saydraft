@@ -1,0 +1,52 @@
+{
+  "source": "12bc27ffdb3ba388ea199e5e51661c968815c2fe",
+  "cwd": "C:\\Users\\tanzir\\Desktop\\voice_tray",
+  "python": "D:/Saydraft-Codex-QA-20261112-01a1cbc7/app-ui-v2-package-20261116-r1/venv/Scripts/python.exe",
+  "tests": [
+    [
+      "run_context_tests.py",
+      "field-final",
+      "tests/test_uia_startup.py",
+      "tests/test_uia_worker.py",
+      "tests/test_uia_context.py",
+      "tests/test_delivery_context_isolation.py",
+      "tests/test_focused_edit.py",
+      "tests/test_uia_delivery.py",
+      "tests/test_processing.py",
+      "tests/test_paste_last.py",
+      "-x"
+    ],
+    [
+      "run_ui_tests.py",
+      "ui-final",
+      "tests/test_tray_ui.py",
+      "tests/test_uia_startup.py",
+      "tests/test_qt_app_shell.py",
+      "tests/test_package_scaffold.py",
+      "-k",
+      "not main_initializes_logging_config_and_qt_shell",
+      "-x"
+    ],
+    [
+      "run_context_tests.py",
+      "bootstrap-final",
+      "tests/test_uia_startup.py",
+      "-x"
+    ]
+  ],
+  "native": [
+    "probe_archived_uia_init.py",
+    "probe_bounded_metadata.py",
+    "Saydraft.exe --verify-field-metadata <fresh QA output.json>"
+  ],
+  "build": [
+    "tools/build.ps1",
+    "-Python",
+    "C:/Python313/python.exe",
+    "-OutputRoot",
+    "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\delivery-brand-package-20261116-r1",
+    "-PipCache",
+    "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\pip-cache",
+    "-SkipInstaller"
+  ]
+}
