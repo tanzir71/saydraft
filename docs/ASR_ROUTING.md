@@ -52,6 +52,12 @@ weights. Eviction removes that model's timing estimate. Session history records
 all engines used, joined with ` + ` when background segments used multiple models.
 The selected model and actual recognized language are tracked separately.
 
+Manual Parakeet selection also prepares the installed audio language identifier
+when its decoder provides no language. Explicit/single pinned language and the
+English-only model remain known-language paths. This fixes English filler cleanup
+being skipped for manually selected v3 results marked unknown, without guessing
+English from Latin text. [Repair and limits](STARTUP_DELIVERY_REPAIRS.md).
+
 The pinned Parakeet runtime provides no explicit language ID. Auto therefore uses
 a separate local Whisper tiny int8 detector when the primary engine reports none.
 Its 102.8 MB of weights are included in the displayed default setup package, under

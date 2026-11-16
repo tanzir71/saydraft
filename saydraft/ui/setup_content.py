@@ -7,8 +7,11 @@ from .theme.style import set_role
 
 
 def arrange_model_step(page):
-    page.setTitle("Speech model")
+    page.setTitle("Models")
     root = rebuild(page.scroll.widget(), spacing=20)
+    root.setSizeConstraint(QtWidgets.QLayout.SetMinimumSize)
+    root.addWidget(show(page.cleanup_setup))
+    root.addWidget(Label('Speech recognition','subheading'))
     root.addWidget(show(page.picker))
     root.addWidget(show(page.readiness))
     root.addWidget(Label("Downloaded model files are verified with SHA-256 before use. Choosing a model starts no transfer.", "caption"))

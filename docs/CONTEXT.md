@@ -1,5 +1,11 @@
 # Local foreground context
 
+The [16 November delivery repair](STARTUP_DELIVERY_REPAIRS.md) gives required
+focus/password/identity metadata its own bounded UIA owner, separate from optional
+caret text. A timed-out text read keeps verified metadata available; final
+insertion still rechecks the exact original field. The older implementation
+milestones below retain their historical scope.
+
 The application captures foreground HWND, title and executable basename at the
 start of dictation. `GetWindowThreadProcessId` identifies the process;
 [QueryFullProcessImageNameW](https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-queryfullprocessimagenamew)

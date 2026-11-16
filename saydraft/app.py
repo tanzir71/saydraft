@@ -54,6 +54,7 @@ def create_worker_signals(QtCore):
         style_preview_finished = QtCore.Signal(object)
         bar_updated = QtCore.Signal(object)
         listening_changed = QtCore.Signal(bool)
+        speech_model_status = QtCore.Signal(str)
         utility_requested = QtCore.Signal(object)
         command_recovery_requested = QtCore.Signal(object)
         ask_review_requested = QtCore.Signal(object)
@@ -99,6 +100,8 @@ class WorkerController:
         )
         self.core = SessionWorker(services, emit=self._emit, bar_emit=self._bar_updated)
         if config["app"]["auto_start_listening"]:
+            if config['app'].get('onboarded', False):
+                self.core.warm_recognition()
             self.start_listening()
 
     def stop(self):
@@ -497,6 +500,12 @@ class SaydraftApp:
             self.signals.listening_changed.connect(self._listening_changed, qt_modules.QtCore.Qt.QueuedConnection)
         else:
             self.signals.listening_changed.connect(self._listening_changed)
+        speech_status = getattr(self.signals, 'speech_model_status', None)
+        if speech_status is not None:
+            if hasattr(qt_modules.QtCore, 'Qt'):
+                speech_status.connect(self._speech_model_status, qt_modules.QtCore.Qt.QueuedConnection)
+            else:
+                speech_status.connect(self._speech_model_status)
         if hasattr(self.pill, "start_requested") and hasattr(self.controller, "request_bar_action"):
             self.pill.start_requested.connect(lambda: self.controller.request_bar_action())
             self.pill.stop_requested.connect(lambda: self.controller.request_bar_action(stop=True))
@@ -1110,6 +1119,11 @@ class SaydraftApp:
 
     def _listening_changed(self, _enabled: bool) -> None:
         self._sync_listening_state()
+
+    def _speech_model_status(self, status):
+        update = getattr(self.tray,'set_speech_model_status',None)
+        if update is not None:
+            update(status)
 
     def _load_app_config(self) -> dict:
         try:

@@ -86,15 +86,22 @@ class SaydraftTray:
         self.model_label = str(model_label or "base")
         self.state = TrayState.IDLE
         self.listening = False
+        self.speech_status = 'ready'
         self.log_dir = Path(log_dir) if log_dir is not None else log_file_path().parent
 
         self.icons = {
             state: self.qt.QtGui.QIcon(str(path))
             for state, path in self.assets.as_dict().items()
         }
-        self.menu = self.qt.QtWidgets.QMenu()
+        if hasattr(self.qt.QtWidgets, "QApplication"):
+            from .tray_menu import TrayMenu
+            self.menu = TrayMenu()
+        else:
+            self.menu = self.qt.QtWidgets.QMenu()
         self.tray_icon = self.qt.QtWidgets.QSystemTrayIcon(self.icons[self.state])
         self.tray_icon.setContextMenu(self.menu)
+        self._open_pending = False
+        self.tray_icon.activated.connect(self._activated)
 
         self.toggle_action = None
         self._build_menu()
@@ -108,7 +115,6 @@ class SaydraftTray:
         hub_action = self.menu.addAction("Open Saydraft")
         hub_action.triggered.connect(lambda _checked=False: self._defer(self.callbacks.show_hub))
         self.toggle_action = self.menu.addAction("Start listening")
-        self.toggle_action.setCheckable(True)
         self.toggle_action.triggered.connect(
             lambda _checked=False: self._toggle_listening()
         )
@@ -143,7 +149,19 @@ class SaydraftTray:
         from .icons import svg_icon
         for action, icon in self._action_icons:
             if hasattr(action,"setIcon"):
-                action.setIcon(svg_icon("pause" if action is self.toggle_action and self.listening else icon))
+                action.setIcon(svg_icon("pause" if action is self.toggle_action and self.listening else icon,
+                                        self.menu.palette() if hasattr(self.menu,"palette") else None,
+                                        size=18,tone="ink"))
+
+    def _activated(self, reason):
+        reasons = self.qt.QtWidgets.QSystemTrayIcon.ActivationReason
+        if reason not in (reasons.Trigger, reasons.DoubleClick) or self._open_pending:
+            return
+        self._open_pending = True
+        def open_hub():
+            self._open_pending = False
+            self.callbacks.show_hub()
+        self._defer(open_hub)
 
     def _toggle_listening(self) -> None:
         callback = (
@@ -161,8 +179,21 @@ class SaydraftTray:
         if self.toggle_action is None:
             return
         self.toggle_action.setText("Pause listening" if self.listening else "Start listening")
-        self.status_action.setText("Ready for shortcut" if self.listening else "Paused")
-        self.toggle_action.setChecked(self.listening)
+        self._refresh_status()
+        self._refresh_menu_icons()
+
+    def set_speech_model_status(self, status):
+        if status in ('warming','ready','unavailable'):
+            self.speech_status = status
+            self._refresh_status()
+
+    def _refresh_status(self):
+        self.status_action.setText('Preparing speech model…' if self.speech_status == 'warming' else
+            'Speech model needs setup' if self.speech_status == 'unavailable' else
+            'Listening…' if self.state == TrayState.RECORDING else
+            'Writing it down…' if self.state == TrayState.PROCESSING else
+            'No microphone' if self.state == TrayState.NO_MICROPHONE else
+            'Ready for shortcut' if self.listening else 'Paused')
 
     def set_model_label(self, model_label: str) -> None:
         self.model_label = str(model_label or "base")
@@ -171,6 +202,7 @@ class SaydraftTray:
     def set_state(self, state: TrayState) -> None:
         self.state = TrayState(state)
         self.tray_icon.setIcon(self.icons[self.state])
+        self._refresh_status()
         self._refresh_tooltip()
 
     def show_notification(self, message: str, *, timeout_ms: int = 4000) -> None:

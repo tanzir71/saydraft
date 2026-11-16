@@ -6,6 +6,13 @@ approved 14px text with larger-text reflow. More options retains the original
 hardware, local-file, license and benchmark controls. Finish still applies the
 staged setup choices; Skip uses the existing practice readiness route.
 
+Models now includes optional local AI cleanup with the same explicit catalog,
+processor, size/license review and resumable downloader as Settings. Enabling it
+requires installed model/runtime files before proceeding. Leaving it off uses
+rules immediately. Finish saves changed AI choices along with the other setup
+preferences; Cancel leaves preferences unchanged and pauses both downloaders.
+See the [repair record and verification limits](STARTUP_DELIVERY_REPAIRS.md).
+
 P6.4 is in progress. The six-page wizard now connects the shared microphone test,
 explicit model setup, shortcut learning, owned chat/email practice, Style quick
 pick, selected-model performance checks, readiness gates and final Hub Home handoff.
@@ -19,7 +26,7 @@ establish complete onboarding acceptance or owner speech accuracy.
 |---|---|
 | Welcome | Introduces local tray dictation |
 | Microphone | Default Windows input or a named device; explicit Refresh inputs and ten-second, level-only Test input |
-| Set up models | Optional Check this PC and Use speech recommendation; size/license review, Download / Resume, Pause, installed-file verification, and explicit Check model performance |
+| Models | Speech and optional local AI cleanup; size/license review, Download / Resume, Pause; speech file verification and performance checks under More options |
 | Shortcut | Preserved custom bindings or Wispr-compatible preset; manual entry, focused Learn shortcut, validation, and explicit other-app advisory |
 | Try it | Installed-model preparation, explicit real dictation into owned chat/email fields, before/after review and edit chips; recording can be skipped |
 | Style quick pick | Casual/Formal for Messages/Email, rules preview, staged saving and Hub Home handoff; existing intensities/AI stay unchanged |

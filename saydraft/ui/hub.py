@@ -16,6 +16,13 @@ _PAGES = {"Home": "home", "History": "history", "Notes": "notes", "Dictionary": 
 class NavigationDelegate(QtWidgets.QStyledItemDelegate):
     def paint(self, painter, option, index):
         opt = QtWidgets.QStyleOptionViewItem(option)
+        if not index.data(QtCore.Qt.UserRole):
+            painter.save()
+            painter.setFont(role_font("label", widget=opt.widget))
+            painter.setPen(color(opt.widget,"inkFaint"))
+            painter.drawText(opt.rect.adjusted(14,10,-10,0),QtCore.Qt.AlignVCenter,index.data())
+            painter.restore()
+            return
         focused = bool(opt.state & QtWidgets.QStyle.State_HasFocus)
         opt.state &= ~QtWidgets.QStyle.State_HasFocus
         super().paint(painter,opt,index)

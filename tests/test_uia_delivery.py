@@ -73,7 +73,7 @@ def test_fresh_field_checks_block_password_changes_inside_the_same_window(change
     assert keyboard.ops == ([("send", "ctrl+v")] if changed_at == "pre_enter" else [])
     assert not result.enter_sent and not result.clipboard_pending and events[0][0] == "history"
     assert api.data() == original and notices and not worker.busy
-    assert uia.calls[0] == (123, True) and all(not text for _, text in uia.calls[1:])
+    assert uia.calls[:2] == [(123, False),(123, True)] and all(not text for _, text in uia.calls[2:])
     worker.shutdown()
     api.assert_retired()
 
@@ -82,7 +82,7 @@ def test_cancel_during_field_verification_is_checked_again_before_publishing_tex
     worker, clock, _, uia, api, keyboard, events, _ = setup()
     original, query = api.data(), uia.query
     def cancel(window, *, include_text):
-        if not include_text:
+        if not include_text and worker.session.active:
             worker.cancel()
         return query(window, include_text=include_text)
     uia.query = cancel

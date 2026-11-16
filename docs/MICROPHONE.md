@@ -1,5 +1,11 @@
 # Microphone selection and test meter
 
+The [16 November startup repair](STARTUP_DELIVERY_REPAIRS.md) prepares installed
+recognition models before the first shortcut without opening audio. The tray
+reports preparation; speech is not recorded until readiness completes. Input
+opening retries the same selected endpoint once on a transient failure. Testing
+the microphone is optional and is not the model-initialization path.
+
 ## Multi-input recording fix · 15 November 2026
 
 A user-reported silent capture was traced to a Windows default virtual-cable

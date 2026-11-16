@@ -22,7 +22,8 @@ class OnboardingModelsPage(QtWidgets.QWizardPage):
 
     def __init__(self, config, *, download_callback=None, hardware_probe=None, status_provider=None,
                  benchmark_callback=None, benchmark_cancel_callback=None, config_provider=None,
-                 benchmark_directory=None):
+                 benchmark_directory=None,cleanup_download_callback=None,cleanup_runtime_callback=None,
+                 cleanup_status_provider=None):
         super().__init__()
         self.setTitle("Set up models")
         self.probe = hardware_probe or probe_hardware
@@ -49,6 +50,11 @@ class OnboardingModelsPage(QtWidgets.QWizardPage):
         self._visit_started = False
         body = QtWidgets.QWidget()
         layout = QtWidgets.QVBoxLayout(body)
+        from .setup_cleanup import SetupCleanup
+        self.cleanup_setup=SetupCleanup(config,callback=cleanup_download_callback,
+            runtime_callback=cleanup_runtime_callback,status_provider=cleanup_status_provider)
+        self.cleanup_setup.changed.connect(self._notify_complete)
+        layout.addWidget(self.cleanup_setup)
 
         def paragraph(text, name="", container=layout):
             label = QtWidgets.QLabel(text)
@@ -135,7 +141,8 @@ class OnboardingModelsPage(QtWidgets.QWizardPage):
         return bool(self._benchmark_generation)
 
     def isComplete(self):
-        return self.readiness_state in ('verified', 'compatible') and self.picker.task is None
+        return (self.readiness_state in ('verified', 'compatible') and self.picker.task is None
+                and self.cleanup_setup.can_finish())
 
     def validatePage(self):
         return self.isComplete()
@@ -452,6 +459,7 @@ class OnboardingModelsPage(QtWidgets.QWizardPage):
             self._request("installed")
 
     def hideEvent(self, event):
+        self.cleanup_setup.pause()
         if not self._notifying_complete:
             self._visit_started = False
             self.cancel_checks()
@@ -467,5 +475,6 @@ class OnboardingModelsPage(QtWidgets.QWizardPage):
             self._closed = True
             self.cancel_checks()
             self.picker.pause()
+            self.cleanup_setup.pause()
             if self._pool is not None:
                 self._pool.shutdown(wait=False, cancel_futures=True)

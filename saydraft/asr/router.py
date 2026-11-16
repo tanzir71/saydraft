@@ -248,4 +248,4 @@ def _engine_for_route(config, route):
     configured["stt"]["language"] = route.language or "auto"
     configured["stt"]["local_files_only"] = True
     select_model(configured, route.model_id)
-    return create_asr(configured, preprocess=False)
+    return create_asr(configured, preprocess=False, identify_language=False)

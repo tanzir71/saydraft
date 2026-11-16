@@ -5,6 +5,11 @@ Implemented from the owner's [handover](../design/APP_UI_V2_HANDOVER.md) and
 14px base text. Larger application text, light/dark appearance and native high
 contrast remain supported. The functional Qt source is `saydraft/ui/`.
 
+The subsequent [startup/delivery repairs](STARTUP_DELIVERY_REPAIRS.md) add AI
+setup to Models, muted PERSONALIZE text, responsive tray clicks and new tray
+artwork. The reference export below remains a frozen checkpoint; updated repair
+screenshots are retained with that repair's evidence.
+
 The Hub uses a 216px rail, pinned Settings, grouped cards, searchable language
 tiles, native checkbox toggles and radio segments. Home uses actual local History
 statistics. History retains raw/cleaned/changes views, paging, recovery and retry;

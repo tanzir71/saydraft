@@ -111,7 +111,7 @@ class SetupRail(QtWidgets.QWidget):
         root.addWidget(Label("SETUP · ABOUT 3 MINUTES", "label"))
         root.addSpacing(16)
         self.steps = []
-        for number, name in enumerate(("Welcome", "Microphone", "Speech model", "Shortcut", "Try it", "Style"), 1):
+        for number, name in enumerate(("Welcome", "Microphone", "Models", "Shortcut", "Try it", "Style"), 1):
             card = QtWidgets.QFrame()
             card.setProperty("bare", True)
             row = QtWidgets.QHBoxLayout(card)

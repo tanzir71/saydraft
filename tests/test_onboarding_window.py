@@ -67,7 +67,7 @@ def test_onboarding_wizard_has_required_steps_and_explicit_microphone_controls(t
 
     titles = [wizard.page(page_id).title() for page_id in wizard.pageIds()]
 
-    assert titles == ["Your voice never leaves this PC.", "Microphone", "Speech model", "Shortcut", "Try it", "Style"]
+    assert titles == ["Your voice never leaves this PC.", "Microphone", "Models", "Shortcut", "Try it", "Style"]
     wizard.show()
     qt_modules().QtWidgets.QApplication.processEvents()
     assert not wizard.button(qt_modules().QtWidgets.QWizard.CustomButton1).isVisible()

@@ -52,6 +52,7 @@ class SessionWorker:
         self._capturing_context = False
         self._closing = False
         self._pending_config = None
+        self._speech_warming = False
         self._background = None
         self._preview = None
         self._preview_language_blocked = False
@@ -137,6 +138,34 @@ class SessionWorker:
                 prepare()
             except Exception:
                 logger.warning("Field context preparation unavailable; unverified delivery will be refused")
+
+    def warm_recognition(self):
+        """Load installed speech files before the first shortcut, without audio."""
+        with self._lock:
+            if self._closing or self._speech_warming or self.busy:
+                return False
+            self._speech_warming = True
+            self.emit('speech_model_status', 'warming')
+            def prepare():
+                status = 'unavailable'
+                try:
+                    callback = getattr(self.services.asr, 'prepare', None)
+                    if callback is not None:
+                        callback()
+                    status = 'ready'
+                except Exception:
+                    logger.warning('Installed speech model could not be prepared; review Models')
+                finally:
+                    with self._lock:
+                        self._speech_warming = False
+                    self.emit('speech_model_status', status)
+            try:
+                self._submit(prepare)
+            except Exception:
+                self._speech_warming = False
+                self.emit('speech_model_status', 'unavailable')
+                return False
+        return True
 
     @staticmethod
     def _close_context(context):
@@ -453,6 +482,9 @@ class SessionWorker:
         if not self._lock.acquire(blocking=False):
             return False
         try:
+            if self._speech_warming:
+                self.emit('notification_requested', 'Preparing your speech model. Wait for Ready for shortcut before speaking; the microphone is not recording.')
+                return False
             if self.busy or self._closing or not self._request_current(request_current):
                 if self._retrying_history:
                     self.emit("notification_requested", "History retry is in progress. Dictation will be ready when it finishes.")
@@ -853,6 +885,9 @@ class SessionWorker:
                     before_insert=self.corrections.hook(generation),
                 )
             reason = result.insertion.reason
+            if result.insertion.status != 'inserted':
+                status = self._target.uia_status if self._target.uia_status in ('ok','unavailable','changed','password','not_requested') else 'unknown'
+                logger.info('Delivery declined: reason=%s field_status=%s',reason,status)
             if translating and result.insertion.status != 'inserted':
                 reason = 'translation_failed' if reason == 'translation_failed' else 'translation_recovery'
             if reason == "history_only":
@@ -1333,6 +1368,8 @@ class SessionWorker:
             self._warm_cleanup()
             self._start_audio_retention()
             self.hotkeys.configure(config)
+            if config['app'].get('onboarded',False) and config['app'].get('auto_start_listening',False):
+                self.executor.submit(self.warm_recognition)
 
     def shutdown(self):
         self._closing = True

@@ -87,16 +87,14 @@ class AudioRecorder:
         try:
             self._stream = self._start_stream_once()
         except Exception as first_error:
-            if self.device is None:
-                logger.warning("Default input stream failed; retrying once", exc_info=True)
-                try:
-                    self._stream = self._start_stream_once()
-                    return
-                except Exception as retry_error:
-                    self._reset_after_failed_start()
-                    raise NoInputDeviceError("No microphone") from retry_error
-            self._reset_after_failed_start()
-            raise NoInputDeviceError("No microphone") from first_error
+            logger.warning("Input stream failed; retrying the same input once")
+            logger.debug("First input-open failure", exc_info=first_error)
+            try:
+                self._stream = self._start_stream_once()
+                return
+            except Exception as retry_error:
+                self._reset_after_failed_start()
+                raise NoInputDeviceError("No microphone") from retry_error
 
     def stop(self) -> np.ndarray:
         """Stop recording and return captured mono 16 kHz float32 audio."""

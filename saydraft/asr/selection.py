@@ -22,7 +22,7 @@ def select_model(config, model_id, *, manual=True):
         stt["model_id"] = model_id
 
 
-def create_asr(config, *, preprocess=True):
+def create_asr(config, *, preprocess=True, identify_language=True):
     if config["stt"].get("routing_enabled", False):
         from .router import AsrRouter
 
@@ -30,7 +30,14 @@ def create_asr(config, *, preprocess=True):
     elif config["stt"].get("engine", "whisper") == "parakeet":
         from .sherpa_parakeet import ParakeetConfig, ParakeetEngine
 
-        engine = ParakeetEngine(ParakeetConfig.from_app_config(config))
+        from .language_id import AudioLanguageIdentifier
+        from .languages import normalize_pins
+        pins = normalize_pins(config['stt'].get('pinned_languages', ()))
+        explicit = config['stt'].get('language', 'auto')
+        known = explicit if explicit not in ('auto','') else pins[0] if len(pins)==1 else None
+        engine = ParakeetEngine(ParakeetConfig.from_app_config(config),
+            language_identifier=AudioLanguageIdentifier() if identify_language else None,
+            language=known)
     else:
         from .whisper_ct2 import WhisperCT2Engine, WhisperEngineConfig
         engine = WhisperCT2Engine(WhisperEngineConfig.from_app_config(config))

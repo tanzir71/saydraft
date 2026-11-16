@@ -72,17 +72,21 @@ class NativeForegroundApi:
 
 
 class ForegroundContextProvider:
-    def __init__(self, *, api=None, profiles=(), uia=None, use_uia=False, observation=None):
+    def __init__(self, *, api=None, profiles=(), uia=None, use_uia=False, observation=None,
+                 text_uia=None):
         self.api, self.profiles = api, profiles
         self._uia, self._use_uia, self._closed = uia, use_uia or uia is not None, False
         self._uia_lock = threading.Lock()
         self._observation = observation
+        # Injected adapters retain their existing combined contract. Production
+        # isolates optional caret reads from the critical password/focus owner.
+        self._text_uia = text_uia if text_uia is not None else uia
 
     def prepare(self):
         with self._uia_lock:
             if self._use_uia and self._uia is None and not self._closed:
                 from .uia_worker import BoundedUIA
-                self._uia = BoundedUIA(capture_timeout=.5)
+                self._uia = BoundedUIA(timeout=.5, capture_timeout=.5)
 
     def set_profiles(self, profiles):
         self.profiles = profiles
@@ -90,7 +94,7 @@ class ForegroundContextProvider:
     def close(self):
         with self._uia_lock:
             self._closed = True
-            owners = self._uia, self._observation
+            owners = {id(owner): owner for owner in (self._uia, self._text_uia, self._observation) if owner is not None}.values()
         closed = True
         for owner in owners:
             if owner is not None:
@@ -135,7 +139,28 @@ class ForegroundContextProvider:
             return FocusedEdit(status="not_requested")
         try:
             self.prepare()
-            return self._uia.query(int(window), include_text=include_text)
+            field = self._uia.query(int(window), include_text=False)
+            if not include_text or field.status != 'ok' or field.is_password:
+                return field
+            with self._uia_lock:
+                if self._closed:
+                    return FocusedEdit()
+                if self._text_uia is None:
+                    from .uia_worker import BoundedUIA
+                    self._text_uia = BoundedUIA(timeout=.15, capture_timeout=.15)
+                text_owner = self._text_uia
+            try:
+                context = text_owner.query(int(window), include_text=True)
+            except Exception:
+                return field
+            if context.is_password or context.status == 'password':
+                return context
+            if (context.status == 'ok' and not context.is_password
+                    and context.runtime_id == field.runtime_id and context.control_type == field.control_type):
+                return context
+            # Optional text can time out on Chromium providers. Keep verified
+            # metadata; final delivery still rechecks the exact field/password.
+            return field
         except Exception:
             return FocusedEdit()
 

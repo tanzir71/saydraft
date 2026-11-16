@@ -58,7 +58,8 @@ def _create_recognizer(directory, threads):
 
 
 class ParakeetEngine:
-    def __init__(self, config=None, *, model_dir=None, model_factory=_create_recognizer):
+    def __init__(self, config=None, *, model_dir=None, model_factory=_create_recognizer,
+                 language_identifier=None, language=None):
         self.config = config or ParakeetConfig()
         if self.config.model_id not in (DEFAULT_MODEL, ENGLISH_MODEL):
             raise ValueError("Unknown Parakeet model")
@@ -71,6 +72,8 @@ class ParakeetEngine:
         self.load_seconds = 0.0
         self.last_timings = {}
         self.last_language = None
+        self._language_identifier = language_identifier
+        self._language = 'en' if self.model_id == ENGLISH_MODEL else language
         self.last_audio_seconds = 0.0
 
     def prepare(self):
@@ -86,6 +89,11 @@ class ParakeetEngine:
             if self.config.silence_trim:
                 self._vad = optional_silero() if self.config.silero_threshold == 0.5 else optional_silero(threshold=self.config.silero_threshold)
             self._recognizer = recognizer
+            if self._language_identifier is not None and not self._language:
+                try:
+                    self._language_identifier.prepare()
+                except Exception:
+                    logger.warning('Language identification unavailable; speech recognition remains available')
             self.load_seconds = time.perf_counter() - started
             logger.info("ASR loaded: model=%s provider=cpu threads=%d seconds=%.3f",
                         self.model_id, self.config.threads, self.load_seconds)
@@ -105,6 +113,7 @@ class ParakeetEngine:
                 return ""
             self.prepare()
             started = time.perf_counter()
+            lid_audio = waveform
             if self.config.silence_trim:
                 waveform = trim_with_fallback(waveform, SilenceTrimConfig(
                     sample_rate=16000, padding_ms=self.config.silence_padding_ms,
@@ -119,7 +128,14 @@ class ParakeetEngine:
                 stream = self._recognizer.create_stream()
                 stream.accept_waveform(16000, waveform)
                 self._recognizer.decode_stream(stream)
-                self.last_language = getattr(stream.result, "lang", None) or None
+                self.last_language = getattr(stream.result, "lang", None) or self._language
+                if not self.last_language and self._language_identifier is not None:
+                    lid_started = time.perf_counter()
+                    try:
+                        self.last_language = self._language_identifier.identify(lid_audio)
+                    except Exception:
+                        logger.warning('Language identification failed; preserving the transcript')
+                    self.last_timings['lid'] = time.perf_counter()-lid_started
                 return " ".join(stream.result.text.split())
             finally:
-                self.last_timings["stt"] = time.perf_counter() - started
+                self.last_timings["stt"] = max(0,time.perf_counter() - started - self.last_timings.get('lid',0))

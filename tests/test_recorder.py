@@ -70,7 +70,9 @@ def test_callback_buffer_reuse_cannot_overwrite_already_recorded_audio():
     from saydraft.audio.recorder import AudioRecorder
 
     chunks = []
-    recorder = AudioRecorder(stream_factory=FakeInputStream, chunk_callback=chunks.append)
+    recorder = AudioRecorder(
+        stream_factory=FakeInputStream, chunk_callback=chunks.append
+    )
     recorder.start()
     source = np.array([[0.25], [0.5]], dtype=np.float32)
     FakeInputStream.instances[-1].emit(source)
@@ -179,3 +181,20 @@ def test_recorder_raises_no_input_device_error_when_default_input_unavailable():
         raise AssertionError("expected NoInputDeviceError")
 
     assert recorder.is_recording is False
+
+
+def test_named_input_retries_transient_first_open_without_switching_devices():
+    from saydraft.audio.recorder import AudioRecorder
+
+    calls = []
+
+    def factory(**kwargs):
+        calls.append(kwargs["device"])
+        if len(calls) == 1:
+            raise RuntimeError("Transient driver startup")
+        return FakeInputStream(**kwargs)
+
+    recorder = AudioRecorder(device="Chosen microphone", stream_factory=factory)
+    recorder.start()
+    recorder.stop()
+    assert calls == ["Chosen microphone", "Chosen microphone"]

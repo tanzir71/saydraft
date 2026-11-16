@@ -50,12 +50,17 @@ class OnboardingWizard(QtWidgets.QWizard):
         practice_start_callback=None,
         practice_stop_callback=None,
         practice_close_callback=None,
+        cleanup_download_callback=None,
+        cleanup_runtime_callback=None,
+        cleanup_status_provider=None,
     ):
         super().__init__()
         self.qt = qt_modules
         self.config_path = Path(config_path) if config_path is not None else None
         self.on_config_applied = on_config_applied
         self.model_download_callback = model_download_callback
+        self.cleanup_callbacks=dict(cleanup_download_callback=cleanup_download_callback,
+            cleanup_runtime_callback=cleanup_runtime_callback,cleanup_status_provider=cleanup_status_provider)
         self.microphone_start_callback = microphone_start_callback
         self.microphone_stop_callback = microphone_stop_callback
         self.microphone_devices_provider = microphone_devices_provider
@@ -178,7 +183,8 @@ class OnboardingWizard(QtWidgets.QWizard):
             hardware_probe=self.model_hardware_probe, status_provider=self.model_status_provider,
             benchmark_callback=self.model_benchmark_callback, benchmark_cancel_callback=self.model_benchmark_cancel_callback,
             config_provider=self.practice_config,
-            benchmark_directory=self.config_path.parent / 'hardware-benchmarks' if self.config_path else None)
+            benchmark_directory=self.config_path.parent / 'hardware-benchmarks' if self.config_path else None,
+            **self.cleanup_callbacks)
         self.models_page = page
         self.model_picker = page.picker
         self.model_combo = self.model_picker.combo
@@ -202,6 +208,7 @@ class OnboardingWizard(QtWidgets.QWizard):
         if selected != InputSelection.from_config(self.config):
             config['recording'].update(input_device=selected.name, input_hostapi=selected.hostapi)
         config['dictation']['styles'] = self.style_page.merge_changes(config['dictation'].get('styles', {}))
+        self.models_page.cleanup_setup.apply_to(config)
         return config
 
     def _finish_guidance(self):
@@ -249,6 +256,9 @@ class OnboardingWizard(QtWidgets.QWizard):
             return False
         try:
             cfg = self.practice_config()
+            if not self.models_page.cleanup_setup.can_finish(cfg):
+                self.finish_status_label.setText('Return to Models to finish AI cleanup setup, or turn it off to continue with rules.')
+                return False
             model_id = setup_model_id(cfg)
             self._finish_generation = self.models_page.verify_for_finish(model_id)
         except ValueError:
@@ -281,6 +291,9 @@ class OnboardingWizard(QtWidgets.QWizard):
             cfg = self.practice_config()
             if setup_model_id(cfg) != model_id:
                 self.finish_status_label.setText('Speech settings changed during the check. Review Set up models, then choose Finish again.')
+                return
+            if not self.models_page.cleanup_setup.can_finish(cfg):
+                self.finish_status_label.setText('AI cleanup files changed. Return to Models to check them or turn AI cleanup off.')
                 return
         except (OSError, ValueError):
             self.finish_status_label.setText('Setup settings changed or could not be read. Review your choices before finishing.')
@@ -336,6 +349,7 @@ class OnboardingWizard(QtWidgets.QWizard):
         self.practice_page.stop_session()
         self.models_page.cancel_checks()
         self.model_picker.pause()
+        self.models_page.cleanup_setup.pause()
         super().reject()
 
     def resizeEvent(self, event):

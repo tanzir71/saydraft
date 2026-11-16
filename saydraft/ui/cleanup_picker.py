@@ -3,7 +3,7 @@
 from html import escape
 from pathlib import Path
 
-from PySide6 import QtCore, QtWidgets
+from PySide6 import QtCore, QtGui, QtWidgets
 from .reflow import AdaptiveRow, WrapPushButton
 
 from saydraft.config import default_config
@@ -19,10 +19,12 @@ class CleanupPicker(QtWidgets.QWidget):
     ready = QtCore.Signal(str, str)
     finished = QtCore.Signal()
 
-    def __init__(self, config, *, callback=None, runtime_callback=None, report=None, parent=None):
+    def __init__(self, config, *, callback=None, runtime_callback=None, report=None, parent=None,
+                 apply_label='Apply Settings'):
         super().__init__(parent)
         self.callback, self.task = callback or download_cleanup_model, None
         self.runtime_callback = runtime_callback or download_cleanup_runtime
+        self.apply_label = apply_label
         self.combo = QtWidgets.QComboBox()
         self.combo.setSizePolicy(QtWidgets.QSizePolicy.Ignored, QtWidgets.QSizePolicy.Fixed)
         self.combo.setMinimumContentsLength(20)
@@ -75,8 +77,16 @@ class CleanupPicker(QtWidgets.QWidget):
         self.backend.currentIndexChanged.connect(self.update_details)
         self.download_button.clicked.connect(self.start_download)
         self.pause_button.clicked.connect(self.pause)
+        self.license_timer = QtCore.QTimer(self)
+        self.license_timer.setSingleShot(True)
+        self.license_timer.timeout.connect(self.update_details)
         self.refresh_recommendation(report, config)
         self.update_details()
+
+    def changeEvent(self, event):
+        super().changeEvent(event)
+        if event.type() in (QtCore.QEvent.PaletteChange, QtCore.QEvent.StyleChange) and hasattr(self, "license_timer"):
+            self.license_timer.start(0)
 
     def refresh_recommendation(self, report, config=None):
         suggestion = recommend_cleanup(report, config)
@@ -84,7 +94,7 @@ class CleanupPicker(QtWidgets.QWidget):
             model = get_model(suggestion["model_id"])
             prefix = "Tier defaults" if (config or {}).get("app", {}).get("tier", "auto") != "auto" else "Performance recommendation"
             self.recommendation.setText(f"{prefix}: {suggestion['tier'].title()} · {model['label']}. "
-                                        "Download or verify the package, then enable AI cleanup and Apply Settings.")
+                                        f"Download or verify the package, then enable AI cleanup and {self.apply_label}.")
         else:
             self.recommendation.setText("Rules-only recommendation." if suggestion["tier"] == "lite" else
                                         "Run Check performance for a recommendation. No model is selected automatically.")
@@ -100,10 +110,11 @@ class CleanupPicker(QtWidgets.QWidget):
         size = sum(transfer_bytes(model) for model in package) / 1e6
         rows = [f"{size:.1f} MB total download · " + ("model and processor support files" if model_id else
                 "processor files only; keep your custom GGUF path below")]
+        color = self.license_label.palette().color(QtGui.QPalette.WindowText).name()
         for model in package:
             rows.append(f'{escape(model["publisher"])} · '
-                f'<a href="{escape(model["license_url"])}">{escape(model["license"])} license</a> · '
-                f'<a href="{escape(model["source"])}">Source and credits</a>')
+                f'<a style="color:{color}" href="{escape(model["license_url"])}">{escape(model["license"])} license</a> · '
+                f'<a style="color:{color}" href="{escape(model["source"])}">Source and credits</a>')
         self.license_label.setText("<br>".join(rows))
         self.license_label.setAccessibleName(f"{size:.1f} megabytes total; " + "; ".join(
             model["publisher"] + ", " + model["license"] for model in package))
@@ -136,14 +147,14 @@ class CleanupPicker(QtWidgets.QWidget):
                 self.status.setText("Processor setup failed. Choose Download / Resume to retry.")
                 return
             self.progress.setValue(100)
-            self.status.setText("Processor files verified. Keep your GGUF path, enable AI cleanup and Apply Settings.")
+            self.status.setText(f"Processor files verified. Keep your GGUF path, enable AI cleanup and {self.apply_label}.")
             return
         if not path or Path(path).suffix.casefold() != ".gguf" or not Path(path).is_file():
             self.status.setText("Setup did not return a usable model. Choose Download / Resume to retry.")
             return
         self.progress.setValue(100)
         self.ready.emit(path, self._download_backend)
-        self.status.setText("Model and processor files verified. Enable AI cleanup and Apply Settings to use them.")
+        self.status.setText(f"Model and processor files verified. Enable AI cleanup and {self.apply_label} to use them.")
 
     @QtCore.Slot(str)
     def _failed(self, error):

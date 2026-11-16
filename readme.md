@@ -10,6 +10,11 @@ Desktop UI v2: [implementation notes](docs/APP_UI_V2.md), with a dedicated
 [screen gallery](app-ui-v2-build/index.html). The earlier [app-ui/](app-ui/README.md)
 snapshot is retained unchanged.
 
+The latest repairs prepare speech recognition before the first shortcut, restore
+tray clicks, improve tray artwork, and separate optional browser text reads from
+the required insertion checks. First-run Models now includes optional local AI
+cleanup. [Changes and verification limits](docs/STARTUP_DELIVERY_REPAIRS.md).
+
 <img src="assets/media/saydraft-bar-static.png" width="640" alt="Actual Saydraft Bar with public sample text and optional English live preview">
 
 <details>
@@ -244,7 +249,7 @@ the earlier warm fixture results retain their original scope.
   See the [setup and limits](docs/TRANSLATE.md).
 - **Guided first launch:** microphone selection and a level-only test, focused
   shortcut learning, chat/email dictation practice with before/after review,
-  and a Style quick pick before opening Home.
+  optional local AI model setup, and a Style quick pick before opening Home.
 - **Explicit model setup:** provisional PC recommendations, disclosed
   sizes/licenses, resumable downloads with per-file verification progress,
   tier overrides, and model storage controls.

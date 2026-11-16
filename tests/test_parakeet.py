@@ -66,6 +66,17 @@ def test_empty_and_nonfinite_audio_do_not_load_weights(tmp_path, monkeypatch):
     assert not created
 
 
+def test_manual_parakeet_uses_installed_language_id_for_english_cleanup(tmp_path,monkeypatch):
+    from saydraft.dictation import DictationConfig,DictationContext,DictationPipeline
+    engine,_created,_calls=make_engine(tmp_path,monkeypatch)
+    calls=[]
+    engine._language_identifier=SimpleNamespace(prepare=lambda:calls.append('prepare'),identify=lambda audio:calls.append('identify') or 'en')
+    engine.transcribe(np.ones(32000,dtype=np.float32)*.1)
+    assert engine.last_language=='en' and calls==['prepare','identify']
+    pipeline=DictationPipeline(DictationConfig())
+    assert pipeline.process_transcript('Hello, uh this is a test.',DictationContext(mode='balanced',profile='general',language=engine.last_language))=='Hello, this is a test.'
+
+
 @pytest.mark.parametrize("version", [3, 2])
 @pytest.mark.integration
 @pytest.mark.offline

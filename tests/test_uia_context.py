@@ -29,7 +29,7 @@ def test_capture_copies_field_data_then_fresh_verification_requests_metadata_onl
     assert target.uia_status == "ok" and target.process_id == 42 and target.control_type == 50004
     assert target.before_caret == "Before " and target.selection == "Selection"
     assert target.selection_truncated and target.field_id == (1, 2, 3)
-    assert provider.verify(target) == "" and uia.calls == [(123, True), (123, False)]
+    assert provider.verify(target) == "" and uia.calls == [(123, False), (123, True), (123, False)]
 
 
 @pytest.mark.parametrize("field,reason", [
@@ -67,8 +67,8 @@ def test_closed_provider_cannot_start_or_verify_another_read():
     provider.set_profiles([{"exe": "chrome.exe", "app_group": "code"}])
     assert provider.capture().app_group == "code"
     assert provider.close()
-    assert provider.verify(target) == "field_unavailable" and len(uia.calls) == 2
-    assert provider.capture() == TargetContext() and provider.focus() is None and len(uia.calls) == 2
+    assert provider.verify(target) == "field_unavailable" and len(uia.calls) == 4
+    assert provider.capture() == TargetContext() and provider.focus() is None and len(uia.calls) == 4
 
 
 def test_provider_failure_cannot_authorize_delivery_or_surface_exception(caplog):
@@ -88,4 +88,4 @@ def test_verification_checks_original_process_and_does_not_trust_unrequested_con
     target = provider.capture()
     assert provider.verify(replace(target, process_id=99)) == "focus_changed"
     assert provider.verify(replace(target, uia_status="not_requested")) == "field_unavailable"
-    assert uia.calls == [(123, True)]
+    assert uia.calls == [(123, False), (123, True)]

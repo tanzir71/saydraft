@@ -9,9 +9,9 @@ class FakeSignal:
     def connect(self, callback):
         self.callbacks.append(callback)
 
-    def emit(self):
+    def emit(self, *args):
         for callback in self.callbacks:
-            callback()
+            callback(*args)
 
 
 class FakeAction:
@@ -59,6 +59,7 @@ class FakeIcon:
 class FakeSystemTrayIcon:
     Information = "information"
     instances = []
+    ActivationReason = types.SimpleNamespace(Trigger=3, DoubleClick=2, Context=1, MiddleClick=4)
 
     def __init__(self, icon):
         self.icon = icon
@@ -66,6 +67,7 @@ class FakeSystemTrayIcon:
         self.tooltip = ""
         self.visible = False
         self.messages = []
+        self.activated = FakeSignal()
         FakeSystemTrayIcon.instances.append(self)
 
     def setContextMenu(self, menu):
@@ -147,7 +149,8 @@ def test_default_tray_assets_are_real_ico_files():
     }
     for path in assets.as_dict().values():
         data = Path(path).read_bytes()
-        assert data[:6] == b"\x00\x00\x01\x00\x01\x00"
+        assert data[:4] == b"\x00\x00\x01\x00"
+        assert int.from_bytes(data[4:6],'little') == 7
         assert len(data) > 100
 
 
@@ -215,7 +218,7 @@ def test_tray_menu_queues_actions_and_updates_toggle_state(tmp_path):
 
     tray.set_listening(True)
     assert tray.toggle_action.text == "Pause listening"
-    assert tray.toggle_action.checked is True
+    assert not tray.toggle_action.checkable  # State is text/icon, with no overlapping native checkmark.
     action_by_text(tray.menu, "Pause listening").trigger()
     FakeTimer.flush()
     assert events[-1] == "stop"
@@ -248,3 +251,31 @@ def test_tray_menu_queues_actions_and_updates_toggle_state(tmp_path):
     assert tray.tray_icon.messages == [
         ("Saydraft", "Copied to history", FakeSystemTrayIcon.Information, 4000)
     ]
+
+
+def test_single_and_double_click_open_hub_once_and_context_keeps_its_menu(tmp_path):
+    from saydraft.ui.tray import SaydraftTray,TrayCallbacks
+    events=[]
+    tray=SaydraftTray(qt_modules=fake_qt_modules(),callbacks=TrayCallbacks(show_hub=lambda:events.append('hub')),log_dir=tmp_path)
+    reasons=FakeSystemTrayIcon.ActivationReason
+    tray.tray_icon.activated.emit(reasons.Trigger)
+    tray.tray_icon.activated.emit(reasons.DoubleClick)
+    tray.tray_icon.activated.emit(reasons.Context)
+    assert not events
+    FakeTimer.flush()
+    assert events==['hub']
+    tray.tray_icon.activated.emit(reasons.Trigger)
+    FakeTimer.flush()
+    assert events==['hub','hub']
+
+
+def test_model_warmup_is_never_described_as_ready(tmp_path):
+    from saydraft.ui.tray import SaydraftTray
+    tray=SaydraftTray(qt_modules=fake_qt_modules(),log_dir=tmp_path)
+    tray.set_listening(True)
+    tray.set_speech_model_status('warming')
+    assert tray.status_action.text=='Preparing speech model…'
+    tray.set_speech_model_status('ready')
+    assert tray.status_action.text=='Ready for shortcut'
+    tray.set_listening(False)
+    assert tray.status_action.text=='Paused'
