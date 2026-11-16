@@ -1,0 +1,24 @@
+starting isolated UI tests
+============================= test session starts =============================
+platform win32 -- Python 3.13.17, pytest-8.4.2, pluggy-1.6.0 -- D:\Saydraft-Codex-QA-20261112-01a1cbc7\app-ui-v2-package-20261116-r1\venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\tanzir\Desktop\voice_tray
+configfile: pytest.ini
+collecting ... collected 21 items / 8 deselected / 13 selected
+
+tests/test_hub_accessibility.py::test_all_hub_pages_have_named_forward_and_reverse_tab_cycles[16-light] PASSED [  7%]
+tests/test_hub_accessibility.py::test_all_hub_pages_have_named_forward_and_reverse_tab_cycles[16-dark] PASSED [ 15%]
+tests/test_hub_accessibility.py::test_all_hub_pages_have_named_forward_and_reverse_tab_cycles[16-high-contrast] PASSED [ 23%]
+tests/test_hub_accessibility.py::test_all_hub_pages_have_named_forward_and_reverse_tab_cycles[32-light] PASSED [ 30%]
+tests/test_hub_accessibility.py::test_all_hub_pages_have_named_forward_and_reverse_tab_cycles[32-dark] PASSED [ 38%]
+tests/test_hub_accessibility.py::test_all_hub_pages_have_named_forward_and_reverse_tab_cycles[32-high-contrast] PASSED [ 46%]
+tests/test_hub_accessibility.py::test_navigation_refits_live_font_changes_and_native_scrollbars[light] PASSED [ 53%]
+tests/test_hub_accessibility.py::test_navigation_refits_live_font_changes_and_native_scrollbars[dark] PASSED [ 61%]
+tests/test_hub_accessibility.py::test_navigation_refits_live_font_changes_and_native_scrollbars[high-contrast] PASSED [ 69%]
+tests/test_hub_accessibility.py::test_multiline_form_editors_leave_with_tab_without_changing_drafts[Dictionary] PASSED [ 76%]
+tests/test_hub_accessibility.py::test_multiline_form_editors_leave_with_tab_without_changing_drafts[Snippets] PASSED [ 84%]
+tests/test_hub_accessibility.py::test_multiline_form_editors_leave_with_tab_without_changing_drafts[Style] PASSED [ 92%]
+tests/test_hub_accessibility.py::test_multiline_form_editors_leave_with_tab_without_changing_drafts[Cleanup] PASSED [100%]
+
+- generated xml file: D:\Saydraft-Codex-QA-20261112-01a1cbc7\focus-presentation-20261116-r1\keyboard-integration.xml -
+====================== 13 passed, 8 deselected in 51.70s ======================

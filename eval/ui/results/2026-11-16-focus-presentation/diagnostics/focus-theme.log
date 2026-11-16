@@ -1,0 +1,25 @@
+starting isolated UI tests
+============================= test session starts =============================
+platform win32 -- Python 3.13.17, pytest-8.4.2, pluggy-1.6.0 -- D:\Saydraft-Codex-QA-20261112-01a1cbc7\app-ui-v2-package-20261116-r1\venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\tanzir\Desktop\voice_tray
+configfile: pytest.ini
+collecting ... collected 46 items
+
+tests/test_theme.py::test_clicks_hide_focus_ring_and_keyboard_navigation_restores_it[button-light] PASSED [  2%]
+tests/test_theme.py::test_clicks_hide_focus_ring_and_keyboard_navigation_restores_it[button-dark] PASSED [  4%]
+tests/test_theme.py::test_clicks_hide_focus_ring_and_keyboard_navigation_restores_it[tool-light] FAILED [  6%]
+
+================================== FAILURES ===================================
+_ test_clicks_hide_focus_ring_and_keyboard_navigation_restores_it[tool-light] _
+tests\test_theme.py:59: in test_clicks_hide_focus_ring_and_keyboard_navigation_restores_it
+    assert control.hasFocus(), "Mouse focus itself remains available to assistive technology"
+E   AssertionError: Mouse focus itself remains available to assistive technology
+E   assert False
+E    +  where False = <built-in method hasFocus of PySide6.QtWidgets.QToolButton object at 0x000002330E1A7140>()
+E    +    where <built-in method hasFocus of PySide6.QtWidgets.QToolButton object at 0x000002330E1A7140> = <PySide6.QtWidgets.QToolButton(0x2337ea9d760) at 0x000002330E1A7140>.hasFocus
+- generated xml file: D:\Saydraft-Codex-QA-20261112-01a1cbc7\focus-presentation-20261116-r1\focus-theme.xml -
+=========================== short test summary info ===========================
+FAILED tests/test_theme.py::test_clicks_hide_focus_ring_and_keyboard_navigation_restores_it[tool-light]
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!
+========================= 1 failed, 2 passed in 2.37s =========================

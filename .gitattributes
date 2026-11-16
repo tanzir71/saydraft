@@ -3,6 +3,7 @@
 # Preserve source-bound UI v2 verification receipts and captures.
 eval/ui/results/2026-11-16-app-ui-v2/** -text -whitespace
 eval/ui/results/2026-11-16-startup-delivery/** -text -whitespace
+eval/ui/results/2026-11-16-focus-presentation/** -text -whitespace
 *.wav binary
 
 # Preserve byte-for-byte checksums for bundled model notices.

@@ -1,0 +1,266 @@
+Collecting PySide6==6.11.1 (from -r D:\Saydraft-Codex-QA-20261112-01a1cbc7\startup-delivery-source-20261116-r1\requirements.txt (line 1))
+  Using cached pyside6-6.11.1-cp310-abi3-win_amd64.whl.metadata (5.5 kB)
+Collecting sounddevice==0.5.2 (from -r D:\Saydraft-Codex-QA-20261112-01a1cbc7\startup-delivery-source-20261116-r1\requirements.txt (line 2))
+  Using cached sounddevice-0.5.2-py3-none-win_amd64.whl.metadata (1.6 kB)
+Collecting SoundCard==0.4.6 (from -r D:\Saydraft-Codex-QA-20261112-01a1cbc7\startup-delivery-source-20261116-r1\requirements.txt (line 3))
+  Using cached soundcard-0.4.6-py3-none-any.whl.metadata (14 kB)
+Collecting numpy>=1.26 (from -r D:\Saydraft-Codex-QA-20261112-01a1cbc7\startup-delivery-source-20261116-r1\requirements.txt (line 4))
+  Using cached numpy-2.5.5-cp313-cp313-win_amd64.whl.metadata (6.6 kB)
+Collecting faster-whisper==1.2.1 (from -r D:\Saydraft-Codex-QA-20261112-01a1cbc7\startup-delivery-source-20261116-r1\requirements.txt (line 5))
+  Using cached faster_whisper-1.2.1-py3-none-any.whl.metadata (16 kB)
+Collecting sherpa-onnx==1.13.4 (from -r D:\Saydraft-Codex-QA-20261112-01a1cbc7\startup-delivery-source-20261116-r1\requirements.txt (line 6))
+  Using cached sherpa_onnx-1.13.4-cp313-cp313-win_amd64.whl.metadata (50 kB)
+Collecting soundfile>=0.12.1 (from -r D:\Saydraft-Codex-QA-20261112-01a1cbc7\startup-delivery-source-20261116-r1\requirements.txt (line 7))
+  Using cached soundfile-0.14.0-py2.py3-none-win_amd64.whl.metadata (18 kB)
+Collecting webrtcvad-wheels==2.0.14 (from -r D:\Saydraft-Codex-QA-20261112-01a1cbc7\startup-delivery-source-20261116-r1\requirements.txt (line 8))
+  Using cached webrtcvad_wheels-2.0.14-cp313-cp313-win_amd64.whl.metadata (5.6 kB)
+Collecting pyperclip==1.9.0 (from -r D:\Saydraft-Codex-QA-20261112-01a1cbc7\startup-delivery-source-20261116-r1\requirements.txt (line 9))
+  Using cached pyperclip-1.9.0-py3-none-any.whl
+Collecting Metaphone==0.6 (from -r D:\Saydraft-Codex-QA-20261112-01a1cbc7\startup-delivery-source-20261116-r1\requirements.txt (line 10))
+  Using cached metaphone-0.6-py3-none-any.whl
+Collecting comtypes==1.4.16 (from -r D:\Saydraft-Codex-QA-20261112-01a1cbc7\startup-delivery-source-20261116-r1\requirements.txt (line 11))
+  Using cached comtypes-1.4.16-py3-none-any.whl.metadata (7.8 kB)
+Collecting pyinstaller==6.22.3 (from -r D:\Saydraft-Codex-QA-20261112-01a1cbc7\startup-delivery-source-20261116-r1\requirements.txt (line 12))
+  Using cached pyinstaller-6.22.3-py3-none-win_amd64.whl.metadata (8.5 kB)
+Collecting shiboken6==6.11.1 (from PySide6==6.11.1->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\startup-delivery-source-20261116-r1\requirements.txt (line 1))
+  Using cached shiboken6-6.11.1-cp310-abi3-win_amd64.whl.metadata (2.5 kB)
+Collecting PySide6_Essentials==6.11.1 (from PySide6==6.11.1->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\startup-delivery-source-20261116-r1\requirements.txt (line 1))
+  Using cached pyside6_essentials-6.11.1-cp310-abi3-win_amd64.whl.metadata (3.8 kB)
+Collecting PySide6_Addons==6.11.1 (from PySide6==6.11.1->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\startup-delivery-source-20261116-r1\requirements.txt (line 1))
+  Using cached pyside6_addons-6.11.1-cp310-abi3-win_amd64.whl.metadata (4.2 kB)
+Collecting CFFI>=1.0 (from sounddevice==0.5.2->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\startup-delivery-source-20261116-r1\requirements.txt (line 2))
+  Using cached cffi-2.1.1-cp313-cp313-win_amd64.whl.metadata (2.6 kB)
+Collecting ctranslate2<5,>=4.0 (from faster-whisper==1.2.1->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\startup-delivery-source-20261116-r1\requirements.txt (line 5))
+  Using cached ctranslate2-4.9.0-cp313-cp313-win_amd64.whl.metadata (11 kB)
+Collecting huggingface-hub>=0.21 (from faster-whisper==1.2.1->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\startup-delivery-source-20261116-r1\requirements.txt (line 5))
+  Using cached huggingface_hub-2.4.0-py3-none-any.whl.metadata (16 kB)
+Collecting tokenizers<1,>=0.13 (from faster-whisper==1.2.1->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\startup-delivery-source-20261116-r1\requirements.txt (line 5))
+  Using cached tokenizers-0.23.3-cp310-abi3-win_amd64.whl.metadata (10 kB)
+Collecting onnxruntime<2,>=1.14 (from faster-whisper==1.2.1->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\startup-delivery-source-20261116-r1\requirements.txt (line 5))
+  Using cached onnxruntime-1.32.0-cp313-cp313-win_amd64.whl.metadata (6.1 kB)
+Collecting av>=11 (from faster-whisper==1.2.1->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\startup-delivery-source-20261116-r1\requirements.txt (line 5))
+  Using cached av-19.0.2-cp312-abi3-win_amd64.whl.metadata (5.1 kB)
+Collecting tqdm (from faster-whisper==1.2.1->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\startup-delivery-source-20261116-r1\requirements.txt (line 5))
+  Using cached tqdm-4.70.1-py3-none-any.whl.metadata (57 kB)
+Collecting sherpa-onnx-core==1.13.4 (from sherpa-onnx==1.13.4->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\startup-delivery-source-20261116-r1\requirements.txt (line 6))
+  Using cached sherpa_onnx_core-1.13.4-py3-none-win_amd64.whl.metadata (532 bytes)
+Collecting altgraph (from pyinstaller==6.22.3->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\startup-delivery-source-20261116-r1\requirements.txt (line 12))
+  Using cached altgraph-0.17.5-py2.py3-none-any.whl.metadata (7.5 kB)
+Collecting packaging>=22.0 (from pyinstaller==6.22.3->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\startup-delivery-source-20261116-r1\requirements.txt (line 12))
+  Using cached packaging-26.3-py3-none-any.whl.metadata (3.5 kB)
+Collecting pefile>=2022.5.30 (from pyinstaller==6.22.3->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\startup-delivery-source-20261116-r1\requirements.txt (line 12))
+  Using cached pefile-2024.8.26-py3-none-any.whl.metadata (1.4 kB)
+Collecting pyinstaller-hooks-contrib>=2026.7 (from pyinstaller==6.22.3->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\startup-delivery-source-20261116-r1\requirements.txt (line 12))
+  Using cached pyinstaller_hooks_contrib-2026.10-py3-none-any.whl.metadata (16 kB)
+Collecting pywin32-ctypes>=0.2.1 (from pyinstaller==6.22.3->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\startup-delivery-source-20261116-r1\requirements.txt (line 12))
+  Using cached pywin32_ctypes-0.2.3-py3-none-any.whl.metadata (3.9 kB)
+Collecting setuptools>=42.0.0 (from pyinstaller==6.22.3->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\startup-delivery-source-20261116-r1\requirements.txt (line 12))
+  Using cached setuptools-84.2.1-py3-none-any.whl.metadata (6.6 kB)
+Collecting pyyaml<7,>=5.3 (from ctranslate2<5,>=4.0->faster-whisper==1.2.1->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\startup-delivery-source-20261116-r1\requirements.txt (line 5))
+  Using cached pyyaml-6.0.3-cp313-cp313-win_amd64.whl.metadata (2.4 kB)
+Collecting flatbuffers (from onnxruntime<2,>=1.14->faster-whisper==1.2.1->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\startup-delivery-source-20261116-r1\requirements.txt (line 5))
+  Using cached flatbuffers-25.12.19-py2.py3-none-any.whl.metadata (1.0 kB)
+Collecting protobuf>=4.25.8 (from onnxruntime<2,>=1.14->faster-whisper==1.2.1->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\startup-delivery-source-20261116-r1\requirements.txt (line 5))
+  Using cached protobuf-7.36.2-cp310-abi3-win_amd64.whl.metadata (595 bytes)
+Collecting click<9.0.0,>=8.4.2 (from huggingface-hub>=0.21->faster-whisper==1.2.1->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\startup-delivery-source-20261116-r1\requirements.txt (line 5))
+  Using cached click-8.5.1-py3-none-any.whl.metadata (2.6 kB)
+Collecting filelock>=3.10.0 (from huggingface-hub>=0.21->faster-whisper==1.2.1->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\startup-delivery-source-20261116-r1\requirements.txt (line 5))
+  Using cached filelock-4.2.10-py3-none-any.whl.metadata (2.3 kB)
+Collecting fsspec>=2023.5.0 (from huggingface-hub>=0.21->faster-whisper==1.2.1->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\startup-delivery-source-20261116-r1\requirements.txt (line 5))
+  Using cached fsspec-2026.9.0-py3-none-any.whl.metadata (10 kB)
+Collecting hf-xet<2.0.0,>=1.6.0 (from huggingface-hub>=0.21->faster-whisper==1.2.1->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\startup-delivery-source-20261116-r1\requirements.txt (line 5))
+  Using cached hf_xet-1.8.0-cp38-abi3-win_amd64.whl.metadata (4.9 kB)
+Collecting httpx2<3,>=2.0.0 (from huggingface-hub>=0.21->faster-whisper==1.2.1->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\startup-delivery-source-20261116-r1\requirements.txt (line 5))
+  Using cached httpx2-2.16.0-py3-none-any.whl.metadata (10 kB)
+Collecting typing-extensions>=4.1.0 (from huggingface-hub>=0.21->faster-whisper==1.2.1->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\startup-delivery-source-20261116-r1\requirements.txt (line 5))
+  Using cached typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+Collecting anyio>=4.10 (from httpx2<3,>=2.0.0->huggingface-hub>=0.21->faster-whisper==1.2.1->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\startup-delivery-source-20261116-r1\requirements.txt (line 5))
+  Using cached anyio-4.16.0-py3-none-any.whl.metadata (4.7 kB)
+Collecting httpcore2==2.16.0 (from httpx2<3,>=2.0.0->huggingface-hub>=0.21->faster-whisper==1.2.1->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\startup-delivery-source-20261116-r1\requirements.txt (line 5))
+  Using cached httpcore2-2.16.0-py3-none-any.whl.metadata (27 kB)
+Collecting idna>=3.18 (from httpx2<3,>=2.0.0->huggingface-hub>=0.21->faster-whisper==1.2.1->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\startup-delivery-source-20261116-r1\requirements.txt (line 5))
+  Using cached idna-3.20-py3-none-any.whl.metadata (7.2 kB)
+Collecting truststore>=0.10 (from httpx2<3,>=2.0.0->huggingface-hub>=0.21->faster-whisper==1.2.1->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\startup-delivery-source-20261116-r1\requirements.txt (line 5))
+  Using cached truststore-0.10.5-py3-none-any.whl.metadata (4.5 kB)
+Collecting h11>=0.16 (from httpcore2==2.16.0->httpx2<3,>=2.0.0->huggingface-hub>=0.21->faster-whisper==1.2.1->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\startup-delivery-source-20261116-r1\requirements.txt (line 5))
+  Using cached h11-0.16.0-py3-none-any.whl.metadata (8.3 kB)
+Collecting pycparser (from CFFI>=1.0->sounddevice==0.5.2->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\startup-delivery-source-20261116-r1\requirements.txt (line 2))
+  Using cached pycparser-3.12-py3-none-any.whl.metadata (9.7 kB)
+Collecting colorama (from tqdm->faster-whisper==1.2.1->-r D:\Saydraft-Codex-QA-20261112-01a1cbc7\startup-delivery-source-20261116-r1\requirements.txt (line 5))
+  Using cached colorama-0.4.6-py2.py3-none-any.whl.metadata (17 kB)
+Using cached pyside6-6.11.1-cp310-abi3-win_amd64.whl (578 kB)
+Using cached sounddevice-0.5.2-py3-none-win_amd64.whl (363 kB)
+Using cached soundcard-0.4.6-py3-none-any.whl (43 kB)
+Using cached faster_whisper-1.2.1-py3-none-any.whl (1.1 MB)
+Using cached sherpa_onnx-1.13.4-cp313-cp313-win_amd64.whl (2.2 MB)
+Using cached webrtcvad_wheels-2.0.14-cp313-cp313-win_amd64.whl (19 kB)
+Using cached comtypes-1.4.16-py3-none-any.whl (296 kB)
+Using cached pyinstaller-6.22.3-py3-none-win_amd64.whl (1.5 MB)
+Using cached pyside6_addons-6.11.1-cp310-abi3-win_amd64.whl (168.8 MB)
+Using cached pyside6_essentials-6.11.1-cp310-abi3-win_amd64.whl (77.5 MB)
+Using cached sherpa_onnx_core-1.13.4-py3-none-win_amd64.whl (16.5 MB)
+Using cached shiboken6-6.11.1-cp310-abi3-win_amd64.whl (1.2 MB)
+Using cached ctranslate2-4.9.0-cp313-cp313-win_amd64.whl (20.4 MB)
+Using cached onnxruntime-1.32.0-cp313-cp313-win_amd64.whl (16.7 MB)
+Using cached pyyaml-6.0.3-cp313-cp313-win_amd64.whl (154 kB)
+Using cached tokenizers-0.23.3-cp310-abi3-win_amd64.whl (2.9 MB)
+Using cached huggingface_hub-2.4.0-py3-none-any.whl (857 kB)
+Using cached click-8.5.1-py3-none-any.whl (126 kB)
+Using cached hf_xet-1.8.0-cp38-abi3-win_amd64.whl (3.9 MB)
+Using cached httpx2-2.16.0-py3-none-any.whl (97 kB)
+Using cached httpcore2-2.16.0-py3-none-any.whl (85 kB)
+Using cached numpy-2.5.5-cp313-cp313-win_amd64.whl (12.6 MB)
+Using cached soundfile-0.14.0-py2.py3-none-win_amd64.whl (1.0 MB)
+Using cached anyio-4.16.0-py3-none-any.whl (134 kB)
+Using cached av-19.0.2-cp312-abi3-win_amd64.whl (28.2 MB)
+Using cached cffi-2.1.1-cp313-cp313-win_amd64.whl (185 kB)
+Using cached filelock-4.2.10-py3-none-any.whl (218 kB)
+Using cached fsspec-2026.9.0-py3-none-any.whl (221 kB)
+Using cached h11-0.16.0-py3-none-any.whl (37 kB)
+Using cached idna-3.20-py3-none-any.whl (69 kB)
+Using cached packaging-26.3-py3-none-any.whl (129 kB)
+Using cached pefile-2024.8.26-py3-none-any.whl (74 kB)
+Using cached protobuf-7.36.2-cp310-abi3-win_amd64.whl (456 kB)
+Using cached pyinstaller_hooks_contrib-2026.10-py3-none-any.whl (463 kB)
+Using cached pywin32_ctypes-0.2.3-py3-none-any.whl (30 kB)
+Using cached setuptools-84.2.1-py3-none-any.whl (876 kB)
+Using cached tqdm-4.70.1-py3-none-any.whl (80 kB)
+Using cached truststore-0.10.5-py3-none-any.whl (19 kB)
+Using cached typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+Using cached altgraph-0.17.5-py2.py3-none-any.whl (21 kB)
+Using cached colorama-0.4.6-py2.py3-none-any.whl (25 kB)
+Using cached flatbuffers-25.12.19-py2.py3-none-any.whl (26 kB)
+Using cached pycparser-3.12-py3-none-any.whl (62 kB)
+Installing collected packages: webrtcvad-wheels, sherpa-onnx-core, pyperclip, Metaphone, flatbuffers, altgraph, typing-extensions, truststore, shiboken6, sherpa-onnx, setuptools, pyyaml, pywin32-ctypes, pycparser, protobuf, pefile, packaging, numpy, idna, hf-xet, h11, fsspec, filelock, comtypes, colorama, click, av, tqdm, PySide6_Essentials, pyinstaller-hooks-contrib, onnxruntime, httpcore2, ctranslate2, CFFI, anyio, soundfile, sounddevice, SoundCard, PySide6_Addons, pyinstaller, httpx2, PySide6, huggingface-hub, tokenizers, faster-whisper
+
+Successfully installed CFFI-2.1.1 Metaphone-0.6 PySide6-6.11.1 PySide6_Addons-6.11.1 PySide6_Essentials-6.11.1 SoundCard-0.4.6 altgraph-0.17.5 anyio-4.16.0 av-19.0.2 click-8.5.1 colorama-0.4.6 comtypes-1.4.16 ctranslate2-4.9.0 faster-whisper-1.2.1 filelock-4.2.10 flatbuffers-25.12.19 fsspec-2026.9.0 h11-0.16.0 hf-xet-1.8.0 httpcore2-2.16.0 httpx2-2.16.0 huggingface-hub-2.4.0 idna-3.20 numpy-2.5.5 onnxruntime-1.32.0 packaging-26.3 pefile-2024.8.26 protobuf-7.36.2 pycparser-3.12 pyinstaller-6.22.3 pyinstaller-hooks-contrib-2026.10 pyperclip-1.9.0 pywin32-ctypes-0.2.3 pyyaml-6.0.3 setuptools-84.2.1 sherpa-onnx-1.13.4 sherpa-onnx-core-1.13.4 shiboken6-6.11.1 sounddevice-0.5.2 soundfile-0.14.0 tokenizers-0.23.3 tqdm-4.70.1 truststore-0.10.5 typing-extensions-4.16.0 webrtcvad-wheels-2.0.14
+146 INFO: PyInstaller: 6.22.3, contrib hooks: 2026.10
+147 INFO: Python: 3.13.17
+183 INFO: Platform: Windows-11-10.0.26200-SP0
+183 INFO: Python environment: D:\Saydraft-Codex-QA-20261112-01a1cbc7\focus-presentation-package-20261116-r1\venv
+184 INFO: Removing temporary files and cleaning cache in D:\Saydraft-Codex-QA-20261112-01a1cbc7\focus-presentation-package-20261116-r1\pyinstaller-cache\pyinstaller
+2595 INFO: Module search paths (PYTHONPATH):
+['D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\startup-delivery-source-20261116-r1',
+ 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\startup-delivery-source-20261116-r1',
+ 'C:\\Python313\\python313.zip',
+ 'C:\\Python313\\DLLs',
+ 'C:\\Python313\\Lib',
+ 'C:\\Python313',
+ 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\focus-presentation-package-20261116-r1\\venv',
+ 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\focus-presentation-package-20261116-r1\\venv\\Lib\\site-packages',
+ 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\startup-delivery-source-20261116-r1\\installer',
+ 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\startup-delivery-source-20261116-r1']
+3085 INFO: Appending 'binaries' from .spec
+3085 INFO: Appending 'datas' from .spec
+3123 INFO: checking Analysis
+3123 INFO: Building Analysis because Analysis-00.toc is non existent
+3123 INFO: Looking for Python shared library...
+3123 INFO: Using Python shared library: C:\Python313\python313.dll
+3123 INFO: Running Analysis Analysis-00.toc
+3123 INFO: Target bytecode optimization level: 0
+3123 INFO: Initializing module dependency graph...
+3124 INFO: Initializing module graph hook caches...
+3145 INFO: Analyzing modules for base_library.zip ...
+4159 INFO: Processing standard module hook 'hook-encodings.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\focus-presentation-package-20261116-r1\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+5176 INFO: Processing standard module hook 'hook-math.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\focus-presentation-package-20261116-r1\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+5523 INFO: Processing standard module hook 'hook-heapq.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\focus-presentation-package-20261116-r1\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+6861 INFO: Processing standard module hook 'hook-pickle.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\focus-presentation-package-20261116-r1\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+8481 INFO: Caching module dependency graph...
+8527 INFO: Analyzing D:\Saydraft-Codex-QA-20261112-01a1cbc7\startup-delivery-source-20261116-r1\installer\entry.py
+8592 INFO: Processing standard module hook 'hook-sysconfig.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\focus-presentation-package-20261116-r1\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+8597 INFO: Processing standard module hook 'hook-_ctypes.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\focus-presentation-package-20261116-r1\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+8936 INFO: Processing standard module hook 'hook-platform.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\focus-presentation-package-20261116-r1\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+9070 INFO: Processing pre-safe-import-module hook 'hook-typing_extensions.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\focus-presentation-package-20261116-r1\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
+9071 INFO: SetuptoolsInfo: initializing cached setuptools info...
+9977 INFO: Processing standard module hook 'hook-multiprocessing.util.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\focus-presentation-package-20261116-r1\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+10159 INFO: Processing standard module hook 'hook-xml.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\focus-presentation-package-20261116-r1\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+10988 INFO: Processing standard module hook 'hook-anyio.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\focus-presentation-package-20261116-r1\\venv\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\stdhooks'
+12751 INFO: Processing pre-safe-import-module hook 'hook-backports.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\focus-presentation-package-20261116-r1\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
+12752 INFO: Setuptools: 'backports' appears to be a full setuptools-vendored copy - creating alias to 'setuptools._vendor.backports'!
+12762 INFO: Processing standard module hook 'hook-setuptools.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\focus-presentation-package-20261116-r1\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+12776 INFO: Processing pre-safe-import-module hook 'hook-distutils.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\focus-presentation-package-20261116-r1\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
+12805 INFO: Processing pre-safe-import-module hook 'hook-jaraco.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\focus-presentation-package-20261116-r1\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
+12805 INFO: Setuptools: 'jaraco' appears to be a full setuptools-vendored copy - creating alias to 'setuptools._vendor.jaraco'!
+12822 INFO: Processing pre-safe-import-module hook 'hook-more_itertools.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\focus-presentation-package-20261116-r1\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
+12823 INFO: Setuptools: 'more_itertools' appears to be a setuptools-vendored copy - creating alias to 'setuptools._vendor.more_itertools'!
+13016 INFO: Processing standard module hook 'hook-_osx_support.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\focus-presentation-package-20261116-r1\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+13035 INFO: Processing pre-safe-import-module hook 'hook-packaging.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\focus-presentation-package-20261116-r1\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
+13337 INFO: Processing standard module hook 'hook-setuptools._vendor.jaraco.text.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\focus-presentation-package-20261116-r1\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+13339 INFO: Processing pre-safe-import-module hook 'hook-importlib_resources.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\focus-presentation-package-20261116-r1\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
+14053 INFO: Processing pre-safe-import-module hook 'hook-tomli.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\focus-presentation-package-20261116-r1\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
+14053 INFO: Setuptools: 'tomli' appears to be a setuptools-vendored copy - creating alias to 'setuptools._vendor.tomli'!
+14848 INFO: Processing pre-safe-import-module hook 'hook-wheel.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\focus-presentation-package-20261116-r1\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
+14848 INFO: Setuptools: 'wheel' appears to be a setuptools-vendored copy - creating alias to 'setuptools._vendor.wheel'!
+15355 INFO: Processing standard module hook 'hook-difflib.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\focus-presentation-package-20261116-r1\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+15501 INFO: Processing standard module hook 'hook-webbrowser.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\focus-presentation-package-20261116-r1\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+16123 INFO: Processing standard module hook 'hook-sqlite3.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\focus-presentation-package-20261116-r1\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+18019 INFO: Processing standard module hook 'hook-numpy.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\focus-presentation-package-20261116-r1\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+21823 INFO: Processing standard module hook 'hook-fsspec.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\focus-presentation-package-20261116-r1\\venv\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\stdhooks'
+22823 INFO: Processing standard module hook 'hook-onnxruntime.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\focus-presentation-package-20261116-r1\\venv\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\stdhooks'
+22934 INFO: Processing pre-safe-import-module hook 'hook-tensorflow.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\focus-presentation-package-20261116-r1\\venv\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\pre_safe_import_module'
+23047 INFO: Processing standard module hook 'hook-sounddevice.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\focus-presentation-package-20261116-r1\\venv\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\stdhooks'
+23058 INFO: Processing standard module hook 'hook-soundcard.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\startup-delivery-source-20261116-r1\\installer\\hooks'
+23244 INFO: Processing standard module hook 'hook-pycparser.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\focus-presentation-package-20261116-r1\\venv\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\stdhooks'
+25070 INFO: Processing standard module hook 'hook-webrtcvad.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\focus-presentation-package-20261116-r1\\venv\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\stdhooks'
+25631 INFO: Processing standard module hook 'hook-PySide6.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\focus-presentation-package-20261116-r1\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+25838 INFO: Processing standard module hook 'hook-shiboken6.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\focus-presentation-package-20261116-r1\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+26082 INFO: Processing standard module hook 'hook-PySide6.QtNetwork.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\focus-presentation-package-20261116-r1\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+31712 INFO: Processing standard module hook 'hook-PySide6.QtCore.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\focus-presentation-package-20261116-r1\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+37609 INFO: Processing standard module hook 'hook-PySide6.QtGui.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\startup-delivery-source-20261116-r1\\installer\\hooks'
+67109 INFO: Processing standard module hook 'hook-PySide6.QtWidgets.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\focus-presentation-package-20261116-r1\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+73238 INFO: Processing standard module hook 'hook-PySide6.QtSvg.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\focus-presentation-package-20261116-r1\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+74568 INFO: Processing standard module hook 'hook-av.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\focus-presentation-package-20261116-r1\\venv\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\stdhooks'
+76445 INFO: Processing standard module hook 'hook-soundfile.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\focus-presentation-package-20261116-r1\\venv\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\stdhooks'
+76669 INFO: Processing standard module hook 'hook-comtypes.client.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\focus-presentation-package-20261116-r1\\venv\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\stdhooks'
+77608 INFO: Processing standard module hook 'hook-PySide6.QtMultimedia.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\focus-presentation-package-20261116-r1\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+82312 INFO: Analyzing hidden import 'faster_whisper.assets'
+82312 INFO: Analyzing hidden import 'sherpa_onnx.__main__'
+82316 INFO: Analyzing hidden import 'sherpa_onnx.cli'
+82320 INFO: Processing module hooks (post-graph stage)...
+83249 WARNING: Hidden import "pycparser.lextab" not found!
+83249 WARNING: Hidden import "pycparser.yacctab" not found!
+83267 INFO: Processing standard module hook 'hook-PySide6.QtMultimediaWidgets.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\focus-presentation-package-20261116-r1\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+84484 INFO: Performing binary vs. data reclassification (751 entries)
+84603 INFO: Looking for ctypes DLLs
+84860 INFO: Analyzing run-time hooks ...
+84867 INFO: Including run-time hook 'pyi_rth_inspect.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\focus-presentation-package-20261116-r1\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks'
+84871 INFO: Including run-time hook 'pyi_rth_pkgutil.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\focus-presentation-package-20261116-r1\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks'
+84873 INFO: Including run-time hook 'pyi_rth_multiprocessing.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\focus-presentation-package-20261116-r1\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks'
+84875 INFO: Including run-time hook 'pyi_rth_setuptools.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\focus-presentation-package-20261116-r1\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks'
+84877 INFO: Including run-time hook 'pyi_rth_pyside6.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\focus-presentation-package-20261116-r1\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks'
+84879 INFO: Processing pre-find-module-path hook 'hook-_pyi_rth_utils.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\focus-presentation-package-20261116-r1\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\pre_find_module_path'
+84880 INFO: Processing standard module hook 'hook-_pyi_rth_utils.py' from 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\focus-presentation-package-20261116-r1\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+84925 INFO: Creating base_library.zip...
+84951 INFO: Looking for dynamic libraries
+86718 INFO: Extra DLL search directories (AddDllDirectory): ['D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\focus-presentation-package-20261116-r1\\venv\\Lib\\site-packages\\shiboken6', 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\focus-presentation-package-20261116-r1\\venv\\Lib\\site-packages\\numpy.libs', 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\focus-presentation-package-20261116-r1\\venv\\Lib\\site-packages\\ctranslate2', 'D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\focus-presentation-package-20261116-r1\\venv\\Lib\\site-packages\\av.libs']
+86719 INFO: Extra DLL search directories (PATH): ['D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\focus-presentation-package-20261116-r1\\venv\\Lib\\site-packages\\PySide6']
+88656 INFO: Warnings written to D:\Saydraft-Codex-QA-20261112-01a1cbc7\focus-presentation-package-20261116-r1\work\Saydraft\warn-Saydraft.txt
+88817 INFO: Graph cross-reference written to D:\Saydraft-Codex-QA-20261112-01a1cbc7\focus-presentation-package-20261116-r1\work\Saydraft\xref-Saydraft.html
+91145 INFO: checking PYZ
+91145 INFO: Building PYZ because PYZ-00.toc is non existent
+91145 INFO: Building PYZ (ZlibArchive) D:\Saydraft-Codex-QA-20261112-01a1cbc7\focus-presentation-package-20261116-r1\work\Saydraft\PYZ-00.pyz
+92271 INFO: Building PYZ (ZlibArchive) D:\Saydraft-Codex-QA-20261112-01a1cbc7\focus-presentation-package-20261116-r1\work\Saydraft\PYZ-00.pyz completed successfully.
+92298 INFO: checking PKG
+92299 INFO: Building PKG because PKG-00.toc is non existent
+92299 INFO: Building PKG (CArchive) Saydraft.pkg
+92323 INFO: Building PKG (CArchive) Saydraft.pkg completed successfully.
+92324 INFO: Bootloader D:\Saydraft-Codex-QA-20261112-01a1cbc7\focus-presentation-package-20261116-r1\venv\Lib\site-packages\PyInstaller\bootloader\Windows-64bit-intel\runw.exe
+92324 INFO: checking EXE
+92324 INFO: Building EXE because EXE-00.toc is non existent
+92324 INFO: Building EXE from EXE-00.toc
+92324 INFO: Copying bootloader EXE to D:\Saydraft-Codex-QA-20261112-01a1cbc7\focus-presentation-package-20261116-r1\work\Saydraft\Saydraft.exe
+92327 INFO: Copying icon to EXE
+92330 INFO: Copying version information to EXE
+92333 INFO: Copying 0 resources to EXE
+92333 INFO: Embedding manifest in EXE
+92335 INFO: Appending PKG archive to EXE
+92344 INFO: Fixing EXE headers
+92444 INFO: Building EXE from EXE-00.toc completed successfully.
+92463 INFO: checking COLLECT
+92463 INFO: Building COLLECT because COLLECT-00.toc is non existent
+92463 INFO: Building COLLECT COLLECT-00.toc
+95465 INFO: Building COLLECT COLLECT-00.toc completed successfully.
+95499 INFO: Build complete! The results are available in: D:\Saydraft-Codex-QA-20261112-01a1cbc7\focus-presentation-package-20261116-r1\dist
+{"preflight_only": true, "files": 1439}
+{"files": 1439, "uncompressed_bytes": 400498852, "installer_size_gate": false, "packaging_gate": false}
+Built Saydraft 0.1.0. Retained bundle, receipts and artifacts at D:\Saydraft-Codex-QA-20261112-01a1cbc7\focus-presentation-package-20261116-r1

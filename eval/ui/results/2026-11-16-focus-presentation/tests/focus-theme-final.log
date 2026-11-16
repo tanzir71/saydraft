@@ -1,0 +1,57 @@
+starting isolated UI tests
+============================= test session starts =============================
+platform win32 -- Python 3.13.17, pytest-8.4.2, pluggy-1.6.0 -- D:\Saydraft-Codex-QA-20261112-01a1cbc7\app-ui-v2-package-20261116-r1\venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\tanzir\Desktop\voice_tray
+configfile: pytest.ini
+collecting ... collected 46 items
+
+tests/test_theme.py::test_clicks_hide_focus_ring_and_keyboard_navigation_restores_it[button-light] PASSED [  2%]
+tests/test_theme.py::test_clicks_hide_focus_ring_and_keyboard_navigation_restores_it[button-dark] PASSED [  4%]
+tests/test_theme.py::test_clicks_hide_focus_ring_and_keyboard_navigation_restores_it[tool-light] PASSED [  6%]
+tests/test_theme.py::test_clicks_hide_focus_ring_and_keyboard_navigation_restores_it[tool-dark] PASSED [  8%]
+tests/test_theme.py::test_clicks_hide_focus_ring_and_keyboard_navigation_restores_it[segment-light] PASSED [ 10%]
+tests/test_theme.py::test_clicks_hide_focus_ring_and_keyboard_navigation_restores_it[segment-dark] PASSED [ 13%]
+tests/test_theme.py::test_clicks_hide_focus_ring_and_keyboard_navigation_restores_it[toggle-light] PASSED [ 15%]
+tests/test_theme.py::test_clicks_hide_focus_ring_and_keyboard_navigation_restores_it[toggle-dark] PASSED [ 17%]
+tests/test_theme.py::test_clicks_hide_focus_ring_and_keyboard_navigation_restores_it[navigation-light] PASSED [ 19%]
+tests/test_theme.py::test_clicks_hide_focus_ring_and_keyboard_navigation_restores_it[navigation-dark] PASSED [ 21%]
+tests/test_theme.py::test_live_application_font_reaches_existing_themed_controls PASSED [ 23%]
+tests/test_theme.py::test_theme_owns_only_its_style_propagation_attribute[False] PASSED [ 26%]
+tests/test_theme.py::test_theme_owns_only_its_style_propagation_attribute[True] PASSED [ 28%]
+tests/test_theme.py::test_platform_changes_coalesce_and_high_contrast_wins PASSED [ 30%]
+tests/test_theme.py::test_unknown_platform_and_minimum_font_restore_without_overriding_larger_text PASSED [ 32%]
+tests/test_theme.py::test_close_cancels_pending_work_and_preserves_newer_app_styles PASSED [ 34%]
+tests/test_theme.py::test_invalid_resources_leave_native_appearance_and_no_controller[missing] PASSED [ 36%]
+tests/test_theme.py::test_invalid_resources_leave_native_appearance_and_no_controller[missing_icon] PASSED [ 39%]
+tests/test_theme.py::test_invalid_resources_leave_native_appearance_and_no_controller[bad_schema] PASSED [ 41%]
+tests/test_theme.py::test_invalid_resources_leave_native_appearance_and_no_controller[bad_size] PASSED [ 43%]
+tests/test_theme.py::test_invalid_resources_leave_native_appearance_and_no_controller[empty] PASSED [ 45%]
+tests/test_theme.py::test_invalid_resources_leave_native_appearance_and_no_controller[oversized] PASSED [ 47%]
+tests/test_theme.py::test_start_failure_rolls_back_font_and_styles PASSED [ 50%]
+tests/test_theme.py::test_progress_caption_stays_outside_the_track_and_readable[False-False-10-light] PASSED [ 52%]
+tests/test_theme.py::test_progress_caption_stays_outside_the_track_and_readable[False-False-10-dark] PASSED [ 54%]
+tests/test_theme.py::test_progress_caption_stays_outside_the_track_and_readable[False-False-50-light] PASSED [ 56%]
+tests/test_theme.py::test_progress_caption_stays_outside_the_track_and_readable[False-False-50-dark] PASSED [ 58%]
+tests/test_theme.py::test_progress_caption_stays_outside_the_track_and_readable[False-False-90-light] PASSED [ 60%]
+tests/test_theme.py::test_progress_caption_stays_outside_the_track_and_readable[False-False-90-dark] PASSED [ 63%]
+tests/test_theme.py::test_progress_caption_stays_outside_the_track_and_readable[True-False-10-light] PASSED [ 65%]
+tests/test_theme.py::test_progress_caption_stays_outside_the_track_and_readable[True-False-10-dark] PASSED [ 67%]
+tests/test_theme.py::test_progress_caption_stays_outside_the_track_and_readable[True-False-50-light] PASSED [ 69%]
+tests/test_theme.py::test_progress_caption_stays_outside_the_track_and_readable[True-False-50-dark] PASSED [ 71%]
+tests/test_theme.py::test_progress_caption_stays_outside_the_track_and_readable[True-False-90-light] PASSED [ 73%]
+tests/test_theme.py::test_progress_caption_stays_outside_the_track_and_readable[True-False-90-dark] PASSED [ 76%]
+tests/test_theme.py::test_progress_caption_stays_outside_the_track_and_readable[False-True-10-light] PASSED [ 78%]
+tests/test_theme.py::test_progress_caption_stays_outside_the_track_and_readable[False-True-10-dark] PASSED [ 80%]
+tests/test_theme.py::test_progress_caption_stays_outside_the_track_and_readable[False-True-50-light] PASSED [ 82%]
+tests/test_theme.py::test_progress_caption_stays_outside_the_track_and_readable[False-True-50-dark] PASSED [ 84%]
+tests/test_theme.py::test_progress_caption_stays_outside_the_track_and_readable[False-True-90-light] PASSED [ 86%]
+tests/test_theme.py::test_progress_caption_stays_outside_the_track_and_readable[False-True-90-dark] PASSED [ 89%]
+tests/test_theme.py::test_minimum_settings_size_keeps_controls_readable_and_reachable[16-light] PASSED [ 91%]
+tests/test_theme.py::test_minimum_settings_size_keeps_controls_readable_and_reachable[16-dark] PASSED [ 93%]
+tests/test_theme.py::test_minimum_settings_size_keeps_controls_readable_and_reachable[22-light] PASSED [ 95%]
+tests/test_theme.py::test_minimum_settings_size_keeps_controls_readable_and_reachable[22-dark] PASSED [ 97%]
+tests/test_theme.py::test_large_explicit_pixel_font_survives_an_unavailable_family PASSED [100%]
+
+- generated xml file: D:\Saydraft-Codex-QA-20261112-01a1cbc7\focus-presentation-20261116-r1\focus-theme-final.xml -
+============================= 46 passed in 13.62s =============================

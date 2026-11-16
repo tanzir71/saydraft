@@ -1,6 +1,18 @@
 # Windows packaging
 
-The latest **startup/delivery repair unsigned portable** is built from clean
+The latest **keyboard-focus repair unsigned portable** is built from clean
+`b6322666fc1cee11c06492ab493d9e4d74b3511b`:
+`D:/Saydraft-Codex-QA-20261112-01a1cbc7/focus-presentation-package-20261116-r1/artifacts/Saydraft-0.1.0-win-x64.zip`.
+Size: **157,355,451 bytes**. SHA-256:
+`0891f00001bf71a26b15fcb527310521846408da52c20dc14f910471ef48e3eb`.
+All 1,439 disk/ZIP files verify; 84 embedded modules and both focus stylesheets
+match source. The 61 targeted checks pass, including keyboard accessibility and
+unchanged 1×/2× snapshots. It includes all prior startup/delivery repairs below.
+[Evidence and scope](../eval/ui/results/2026-11-16-focus-presentation/README.md).
+Close the older app, extract this ZIP and run its Saydraft.exe. Distribution
+remains unsigned and portable-only.
+
+The previous **startup/delivery repair unsigned portable** is built from clean
 `87341231c744ebe3fbd5723917ba97b2945acd25`:
 `D:/Saydraft-Codex-QA-20261112-01a1cbc7/startup-delivery-package-20261116-r1/artifacts/Saydraft-0.1.0-win-x64.zip`.
 Size: **157,354,466 bytes**. SHA-256:

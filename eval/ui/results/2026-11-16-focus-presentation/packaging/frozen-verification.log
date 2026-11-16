@@ -1,0 +1,40 @@
+{
+  "source": "b6322666fc1cee11c06492ab493d9e4d74b3511b",
+  "bundle": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\focus-presentation-package-20261116-r1\\dist\\Saydraft\\Saydraft.exe",
+  "exe_sha256": "ada2e31594b37e2a6504dc4c3dc3a92668931c5d7cde56c0ee5c3a0029c95cdf",
+  "module_count": 84,
+  "font_files": 21,
+  "font_faces": 8,
+  "svg_icons": 52,
+  "hotkey_help_verified": true,
+  "module_code_executed": false,
+  "owner_io_used": false,
+  "method": "Compare structural code read from the embedded PYZ with compile(Git source, optimize=0), excluding only filenames; hash exact manifest-listed fonts and inspect every bundled SVG/help file.",
+  "tray_assets": [
+    {
+      "name": "mic_idle.ico",
+      "sha256": "d7db41e03ffb766baea462c869e8656f0b526a8676aa97cbce25d0f07027c172",
+      "frames": 7
+    },
+    {
+      "name": "mic_recording.ico",
+      "sha256": "443498746df8ddf415e97f70242ef616694c37976511c06693b0c030a2f59461",
+      "frames": 7
+    },
+    {
+      "name": "mic_processing.ico",
+      "sha256": "4414c60dc5dda4ae11eb98e1eee96e52539c062c5995e6ebf5b1d49e6a536928",
+      "frames": 7
+    }
+  ],
+  "focus_theme_assets": [
+    {
+      "name": "tokens.qss",
+      "sha256": "9fdfa5ee38abe76c4d3c74b951e0f57a6945a4f718dacf2f3011b275c7aefa15"
+    },
+    {
+      "name": "tokens-dark.qss",
+      "sha256": "c6a182d71c85825bee071c852898fc1b354108eb0e2f2fd4579ed428158acf8c"
+    }
+  ]
+}

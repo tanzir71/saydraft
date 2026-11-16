@@ -44,6 +44,9 @@ pending until the guest actually executes those cases.
 
 ## Current checkpoint
 
+- The latest `b632266` focus repair removes mouse-triggered button/sidebar rings
+  while preserving keyboard navigation and activation. All 61 targeted checks
+  and the fresh unsigned portable pass; [artifact and scope](PACKAGING.md).
 - The subsequent `8734123` repair prepares installed speech recognition before
   first use, isolates optional caret reads from required insertion checks,
   restores tray clicks/artwork, identifies manual Parakeet language for English

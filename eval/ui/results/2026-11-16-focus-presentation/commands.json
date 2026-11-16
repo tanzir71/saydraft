@@ -1,0 +1,41 @@
+{
+  "python": "D:/Saydraft-Codex-QA-20261112-01a1cbc7/app-ui-v2-package-20261116-r1/venv/Scripts/python.exe",
+  "cwd": "C:\\Users\\tanzir\\Desktop\\voice_tray",
+  "tests": [
+    [
+      "run_ui_tests.py",
+      "focus-theme-final",
+      "tests/test_theme.py",
+      "-x",
+      "-vv"
+    ],
+    [
+      "run_ui_tests.py",
+      "keyboard-integration",
+      "tests/test_hub_accessibility.py",
+      "-k",
+      "keyboard or navigation or tab",
+      "-x",
+      "-vv"
+    ],
+    [
+      "run_gallery_tests.py"
+    ]
+  ],
+  "other": [
+    [
+      "node",
+      "tools/generate_tokens.mjs",
+      "--check"
+    ],
+    [
+      "python",
+      "-m",
+      "ruff",
+      "check",
+      "saydraft",
+      "tests"
+    ]
+  ],
+  "source": "b6322666fc1cee11c06492ab493d9e4d74b3511b"
+}

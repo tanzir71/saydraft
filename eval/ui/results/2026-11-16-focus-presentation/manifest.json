@@ -1,0 +1,290 @@
+{
+  "source": "b6322666fc1cee11c06492ab493d9e4d74b3511b",
+  "files": [
+    {
+      "path": "commands.json",
+      "bytes": 817,
+      "sha256": "d8b3c28b9f1fa3e2ada36b29b7a2e6df9ec3feb991b87d11c0259a7a0d0c4304"
+    },
+    {
+      "path": "diagnostics/focus-theme-r2.log",
+      "bytes": 2555,
+      "sha256": "4c984b004d6f21660117cf0e083aecbd15bacb6d1322a13ef05fd4938502e76f"
+    },
+    {
+      "path": "diagnostics/focus-theme-r2.xml",
+      "bytes": 2427,
+      "sha256": "304b0d61e7dcb43f143b9f818ae867da646bd3d9ff6e3880fd59707fa5ef2ca5"
+    },
+    {
+      "path": "diagnostics/focus-theme-r3.log",
+      "bytes": 3069,
+      "sha256": "2ac8180cf7498c270c9b41871e561192e24d11b0c2c4e5dd7965249d129bdae2"
+    },
+    {
+      "path": "diagnostics/focus-theme-r3.xml",
+      "bytes": 3429,
+      "sha256": "796b6f2834b0b261f6ee20d38a92613b1742d981227575424aa945fe215425ea"
+    },
+    {
+      "path": "diagnostics/focus-theme.log",
+      "bytes": 1947,
+      "sha256": "c30af43152bb63260560a7663f49e53124eda2d8e83a65743cbf5a06adf1eb04"
+    },
+    {
+      "path": "diagnostics/focus-theme.xml",
+      "bytes": 1710,
+      "sha256": "1a6feb68f75616459726cf9541e14c5af391de8a8bb9ddb534648dd700525a63"
+    },
+    {
+      "path": "harness/archive_focus.py",
+      "bytes": 3262,
+      "sha256": "9f533fdd8247737d5d3e3864983a3dbcfa1f878a81de6a47390a6577ab7b90d9"
+    },
+    {
+      "path": "harness/run_gallery_tests.py",
+      "bytes": 510,
+      "sha256": "e3ec529a7c295f461c1e4088e05b85ea7679dcfbd1033da2611ba6556e1e0202"
+    },
+    {
+      "path": "harness/run_ui_tests.py",
+      "bytes": 1956,
+      "sha256": "31d7ab78b09f55643a0b8524a5bef327ff7aecc248c20e115469f9835f2a9d75"
+    },
+    {
+      "path": "harness/verify_artifact.py",
+      "bytes": 2640,
+      "sha256": "0696f9e977ad6f8052edefc4b055bec81cbfbcdfe3bbf1b1d90de609359af8ca"
+    },
+    {
+      "path": "harness/verify_frozen.py",
+      "bytes": 5958,
+      "sha256": "9842b9eaf5b4228a258e954d6bb188ce864c4493e5e4b631716a27cc8842af53"
+    },
+    {
+      "path": "packaging/artifact-verification.json",
+      "bytes": 702,
+      "sha256": "85f656185c0a6e650701e874349a96c497e905de9df086a9e98eed5d450c3bac"
+    },
+    {
+      "path": "packaging/artifact-verification.log",
+      "bytes": 702,
+      "sha256": "85f656185c0a6e650701e874349a96c497e905de9df086a9e98eed5d450c3bac"
+    },
+    {
+      "path": "packaging/build.log",
+      "bytes": 31622,
+      "sha256": "4e43cc3a4f852d84009ad0c329dadc9598a9f43edec6536a5a5d7b31ccddb8b3"
+    },
+    {
+      "path": "packaging/bundle.json",
+      "bytes": 214983,
+      "sha256": "3edd81cd9a56bfdeb5b342c9fdc95062101aeb6586dc0cce77900323612f0140"
+    },
+    {
+      "path": "packaging/frozen-verification.guard.json",
+      "bytes": 347,
+      "sha256": "e0eaa2bb852fdb3b855bcc82828b26a923dc67b3dfa5fda1a85588ad1c44b476"
+    },
+    {
+      "path": "packaging/frozen-verification.json",
+      "bytes": 27289,
+      "sha256": "b7c1ef983adc6fdfd818c2f1bc38a8b0026b0d3f9c309231c1f819eb7cb0b33c"
+    },
+    {
+      "path": "packaging/frozen-verification.log",
+      "bytes": 1435,
+      "sha256": "40e31bdac5acd7666983b8464ad2e586a416f5334ffca3fb0b7f72e99942d161"
+    },
+    {
+      "path": "packaging/preflight.json",
+      "bytes": 214770,
+      "sha256": "f18f8d2bdb3d0beec134ec69132dde0a39bba2fe1f247624a2eee183024e9c92"
+    },
+    {
+      "path": "packaging/requirements-frozen.txt",
+      "bytes": 875,
+      "sha256": "ebaedec796ef9d51a9592aa8e1996d33f673b2f1fa3707f9091c614af4431b5d"
+    },
+    {
+      "path": "packaging/runtime.json",
+      "bytes": 799,
+      "sha256": "6aebabb7fc6c1f3bb7ecb8230030f16c73e2426072b9145f3d7483c8dcb850fd"
+    },
+    {
+      "path": "README.md",
+      "bytes": 2520,
+      "sha256": "5f0ad27238942d8b7ad7f53f6debd2725c25e5ecd0c1aff6ef9b5dbd213f7ae6"
+    },
+    {
+      "path": "screenshots/dark-button-keyboard.png",
+      "bytes": 2766,
+      "sha256": "b7d48c87cddbded9f407bb82f823e98c32784b04f27bb136f52fa800525ea9d0"
+    },
+    {
+      "path": "screenshots/dark-button-mouse.png",
+      "bytes": 1932,
+      "sha256": "39fc95a3e5d7b80ed8a773507f3daef485fdea9ca5a0cf7106c83ad75dce5ec7"
+    },
+    {
+      "path": "screenshots/dark-navigation-keyboard.png",
+      "bytes": 1408,
+      "sha256": "ef9e5f4f67f1e85cb878aa7d41080778f71a2bb9fd3bb95e155c4d6588216e33"
+    },
+    {
+      "path": "screenshots/dark-navigation-mouse.png",
+      "bytes": 1330,
+      "sha256": "40460cd1d7dc0d1c5b0e21c61e9826f87a84cffd0cbe509a7ec42d55eee3d438"
+    },
+    {
+      "path": "screenshots/dark-segment-keyboard.png",
+      "bytes": 926,
+      "sha256": "36276480568d0898a551a8d990d0d8929acb7d77dbbf7c87855a710e75ef28c4"
+    },
+    {
+      "path": "screenshots/dark-segment-mouse.png",
+      "bytes": 816,
+      "sha256": "adcb5006a7c1c7bf57531b8f93fbebecc259c766750afe55c05bba7740ac760e"
+    },
+    {
+      "path": "screenshots/dark-toggle-keyboard.png",
+      "bytes": 1408,
+      "sha256": "72affdec28a4c867329eed9cb61d05ac283f1b5f660b0ef0e808922217926bfa"
+    },
+    {
+      "path": "screenshots/dark-toggle-mouse.png",
+      "bytes": 784,
+      "sha256": "98d50b6f07c1bb1c258724ec448761a234ec0275cef1e2fcc0cb989ac1454944"
+    },
+    {
+      "path": "screenshots/dark-tool-keyboard.png",
+      "bytes": 1180,
+      "sha256": "e8449e177f5b7e9cc621561bff0b5701e5f87c686c78d8c5f0fbb8bbed3e7fd4"
+    },
+    {
+      "path": "screenshots/dark-tool-mouse.png",
+      "bytes": 724,
+      "sha256": "8220ee240225122b1e1f3a4e310179ddcddd318990b3679815617c2a36fa393d"
+    },
+    {
+      "path": "screenshots/light-button-keyboard.png",
+      "bytes": 2712,
+      "sha256": "065e50c5397effdc30650641604e8a2c2bf0cc05e68f5b33aeac0adda6a3be1e"
+    },
+    {
+      "path": "screenshots/light-button-mouse.png",
+      "bytes": 1726,
+      "sha256": "8301152dac30617d7281544779b59c59d9125def4354ea78de57fdbdb4f61316"
+    },
+    {
+      "path": "screenshots/light-navigation-keyboard.png",
+      "bytes": 1411,
+      "sha256": "0371c3ef25e1ee59a6e71394f03fec18e3b7aa7158a051e518b1aa048630a2ad"
+    },
+    {
+      "path": "screenshots/light-navigation-mouse.png",
+      "bytes": 1364,
+      "sha256": "e8dd99fa0500d54fd5086cd9cba3aaba7acc8653fb4d6bbf89eab94bc8ed8c62"
+    },
+    {
+      "path": "screenshots/light-segment-keyboard.png",
+      "bytes": 919,
+      "sha256": "df9a913974ddaac7379ece5a602d46ad2bccfdf617a7734d4cc92c45bdf20731"
+    },
+    {
+      "path": "screenshots/light-segment-mouse.png",
+      "bytes": 793,
+      "sha256": "d715c1a0954a130bbdbcd5b1e52935642bb20d16192c773e2840cbedb01a5572"
+    },
+    {
+      "path": "screenshots/light-toggle-keyboard.png",
+      "bytes": 1406,
+      "sha256": "a6177a927134448c4c9313215a71da445ae8992dd2231738db9328692e84793a"
+    },
+    {
+      "path": "screenshots/light-toggle-mouse.png",
+      "bytes": 825,
+      "sha256": "54e32a656b7dcc7738720bffbb237bdd5dffc77d9dd5da5a6488969723b4622c"
+    },
+    {
+      "path": "screenshots/light-tool-keyboard.png",
+      "bytes": 1121,
+      "sha256": "dcee04a66e41fb5701b47ef694773e646d21161652d76f3c39cfd08c3457d4da"
+    },
+    {
+      "path": "screenshots/light-tool-mouse.png",
+      "bytes": 702,
+      "sha256": "4328dd798006ce6d8ff8b47477aaf532a9a87b3088449699f95f35fcb28789f9"
+    },
+    {
+      "path": "tests/focus-theme-final.guard.json",
+      "bytes": 417,
+      "sha256": "fcd1a15758b6b08bbdd6744ac3eea3887bd1a6e5184af2a1f7ffc09ffc991455"
+    },
+    {
+      "path": "tests/focus-theme-final.guard.worker.json",
+      "bytes": 225,
+      "sha256": "5f962b377e54a7e2e0c5c6114324dde678f90f53e918169ff518384ef5133320"
+    },
+    {
+      "path": "tests/focus-theme-final.log",
+      "bytes": 5705,
+      "sha256": "80db58e161c4aaf939a7c4bc446476a52b321763f506abb12dbf4f8b8fe05901"
+    },
+    {
+      "path": "tests/focus-theme-final.stub.json",
+      "bytes": 168,
+      "sha256": "0ac917b530b2dab2255d0a608de7886bcae464b7a13179f5b52d617df21a30a5"
+    },
+    {
+      "path": "tests/focus-theme-final.xml",
+      "bytes": 6504,
+      "sha256": "be541b42aa6b88e9706f7f3e7b2225a36c82ad5f0f7fc517f7939dc1a3385a87"
+    },
+    {
+      "path": "tests/gallery-1-guard.json",
+      "bytes": 347,
+      "sha256": "b6a42bee290306218df81676ead764636f60f216441271b79abbc11faf56dff3"
+    },
+    {
+      "path": "tests/gallery-2-guard.json",
+      "bytes": 347,
+      "sha256": "5b73b630cf7e561f85d9ace2e23aa78ef14acfbd6a3eacab83bf14ecf85b0949"
+    },
+    {
+      "path": "tests/gallery-tests.log",
+      "bytes": 224,
+      "sha256": "c6cfbfc0e4ed0a0b32c9bd9fdf5da85d507c8596ea8e9a27cf6043a99129b54c"
+    },
+    {
+      "path": "tests/gallery-tests.xml",
+      "bytes": 528,
+      "sha256": "19c7f8f450e4dfdcb2035019fff6178a3e8a6650f0d684dfb6637d2853ab3c90"
+    },
+    {
+      "path": "tests/keyboard-integration.guard.json",
+      "bytes": 417,
+      "sha256": "c3161ef3fe18ed9fcb023b9dbfed407dd3c8280b0d603dfd2572e7dd1b83d586"
+    },
+    {
+      "path": "tests/keyboard-integration.guard.worker.json",
+      "bytes": 225,
+      "sha256": "1489809a7bc9d988c9aab2bf4da8cb000d2dabcaf1eda39a2a70ba56c80bf82a"
+    },
+    {
+      "path": "tests/keyboard-integration.log",
+      "bytes": 2217,
+      "sha256": "47ffbcab070a5150d2d62f8b53f3913a07c78cc9a23c76c4e41efd5960d679fe"
+    },
+    {
+      "path": "tests/keyboard-integration.stub.json",
+      "bytes": 168,
+      "sha256": "0ac917b530b2dab2255d0a608de7886bcae464b7a13179f5b52d617df21a30a5"
+    },
+    {
+      "path": "tests/keyboard-integration.xml",
+      "bytes": 2159,
+      "sha256": "ce34d3601a46a3e3a7b498c0b64b77b09e426f44374539d1c65aa29b597369b1"
+    }
+  ]
+}

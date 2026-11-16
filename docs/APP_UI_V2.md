@@ -15,6 +15,7 @@ and activation. Mouse/touch interaction removes the ring, including when the
 same control already has keyboard focus. Native focus, Tab/Shift+Tab, shortcuts,
 toggle/radio state and text-field focus remain available. High contrast keeps
 the platform stylesheet; custom toggle/sidebar indicators follow input modality.
+[Focus verification and updated portable](../eval/ui/results/2026-11-16-focus-presentation/README.md).
 
 The Hub uses a 216px rail, pinned Settings, grouped cards, searchable language
 tiles, native checkbox toggles and radio segments. Home uses actual local History

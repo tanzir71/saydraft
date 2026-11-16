@@ -1,5 +1,10 @@
 # Minimum unsigned preview · 15 November 2026
 
+**Latest focus update:** clean `b632266` removes mouse-triggered control rings
+while preserving keyboard focus cues. The [current portable](PACKAGING.md)
+verifies all 1,439 files, 84 embedded modules and both focus stylesheets. Its 61
+targeted checks pass. This does not change the native acceptance limits below.
+
 **16 November repair update:** the [current package](PACKAGING.md) is built from
 clean `8734123` with [startup, field-verification and tray repairs](STARTUP_DELIVERY_REPAIRS.md)
 plus optional AI onboarding. All 1,439 disk/ZIP files and 84 embedded modules

@@ -1,0 +1,551 @@
+{
+  "source": "b6322666fc1cee11c06492ab493d9e4d74b3511b",
+  "bundle": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\focus-presentation-package-20261116-r1\\dist\\Saydraft\\Saydraft.exe",
+  "exe_sha256": "ada2e31594b37e2a6504dc4c3dc3a92668931c5d7cde56c0ee5c3a0029c95cdf",
+  "module_count": 84,
+  "modules": [
+    {
+      "module": "saydraft.ui",
+      "source_path": "saydraft/ui/__init__.py",
+      "source_sha256": "5a62eb52b03ee7e914c5594de981dfbc93a5103e12e71442b3fab8e243d58b64",
+      "code_fingerprint_sha256": "819637d4844bc8754a78e72b456392783028cc61c2f85495f7153bcc4b7fb2e6"
+    },
+    {
+      "module": "saydraft.ui.ask_answer",
+      "source_path": "saydraft/ui/ask_answer.py",
+      "source_sha256": "0b7e7be205ae6ad8c1cf19432a5b389006c90061c57a2217a05b350c64d084f4",
+      "code_fingerprint_sha256": "80ec1994dfa8e873d083820abdb2a672dbcfc98b1c4c7812b3443bb32e9987fb"
+    },
+    {
+      "module": "saydraft.ui.ask_window",
+      "source_path": "saydraft/ui/ask_window.py",
+      "source_sha256": "6f74c45eb69ff0d31812b1cfdd3a7c1e51a14fbfba487302e167ec6f4d948120",
+      "code_fingerprint_sha256": "1e47f2517321499f71e15a8e0a811c031f4a5eec0dbb4af52c8ed55f587bda5d"
+    },
+    {
+      "module": "saydraft.ui.bar_motion",
+      "source_path": "saydraft/ui/bar_motion.py",
+      "source_sha256": "e0d48526f426d0d3510d296f30540ff8a3e610f29c0875804acad2f7039bb104",
+      "code_fingerprint_sha256": "917873c6783ddb33ad45dcbac3ca7549d3183dad9311eac92a495f207e2a20a1"
+    },
+    {
+      "module": "saydraft.ui.bar_placement",
+      "source_path": "saydraft/ui/bar_placement.py",
+      "source_sha256": "11b62cb998f72a72f68d81870540638e6f6ae9ccbf2b3a34fd3149ebd93a8014",
+      "code_fingerprint_sha256": "f09a66723b08494b7ce6f1236bc86e8bb2741bedbb5e8225ec35e69dff8fa670"
+    },
+    {
+      "module": "saydraft.ui.bar_presentation",
+      "source_path": "saydraft/ui/bar_presentation.py",
+      "source_sha256": "9dfeeb947ec7982097b3ea4b8fce21959b4c3b1c997cd0dc6b26f3aa1853c622",
+      "code_fingerprint_sha256": "e26287f81ad3817010d8b869e6beebc7b8f449b8f1be0cfae6a90b643f3aac8c"
+    },
+    {
+      "module": "saydraft.ui.bar_sounds",
+      "source_path": "saydraft/ui/bar_sounds.py",
+      "source_sha256": "9bea263a390f8ac6fa19f97884b479dee11f4d1d09f12225d8c91da5af538fcb",
+      "code_fingerprint_sha256": "3c49fc8c2f6ab0551d3e756f509fa89324c00170e6f056db10716652477dab7b"
+    },
+    {
+      "module": "saydraft.ui.bar_widget",
+      "source_path": "saydraft/ui/bar_widget.py",
+      "source_sha256": "c4382d8dc6bfde678f6f3b7639e26947a50bb2d7be3eddc62a4ce5c9bb88f769",
+      "code_fingerprint_sha256": "5e65d4bffcc951b0c94b9cd9304224ed08c9822a5849098f30b15c9cf4159c53"
+    },
+    {
+      "module": "saydraft.ui.cleanup_picker",
+      "source_path": "saydraft/ui/cleanup_picker.py",
+      "source_sha256": "fb8dc158c90da23f4a71b0656dd5e2ddd44e0135cedae875ec416a449cfb102c",
+      "code_fingerprint_sha256": "315a52dd1f978a9da9d23b6cd263e477e9c62954f4c447fe1ae204b1e04ba34a"
+    },
+    {
+      "module": "saydraft.ui.command_recovery",
+      "source_path": "saydraft/ui/command_recovery.py",
+      "source_sha256": "2e9329f326c35da19d2c80a98700950bbdd21c1302861fb7f241648052325b1f",
+      "code_fingerprint_sha256": "a068ee4619daffd7142fdac3a2d295d71b556ba5c542978569d030356d6ce3b1"
+    },
+    {
+      "module": "saydraft.ui.command_setup",
+      "source_path": "saydraft/ui/command_setup.py",
+      "source_sha256": "31e6556b41e199cb818a9801d78975096dece7bd62f5fae81c64210de23374f7",
+      "code_fingerprint_sha256": "8618f2229cf76ce2d79fc908edbf699cd2826fbdb573597844040e2f60ad1141"
+    },
+    {
+      "module": "saydraft.ui.dictionary_page",
+      "source_path": "saydraft/ui/dictionary_page.py",
+      "source_sha256": "2d3f93928c93f94e825b8187969c402250680b1be4254a773a3abc77ad5c6a20",
+      "code_fingerprint_sha256": "dca493f944925dc7222255370f68dd3a029f06e495fb94a935c1ba17ffdacc79"
+    },
+    {
+      "module": "saydraft.ui.dictionary_toast",
+      "source_path": "saydraft/ui/dictionary_toast.py",
+      "source_sha256": "1db53f69da575c109212238b8519a1e493a98dc8c74db28e93af4cdd51ee48da",
+      "code_fingerprint_sha256": "e558a88e17dbaf31287deb781388c61a734cd09d493adfcbe16219613bb8adb7"
+    },
+    {
+      "module": "saydraft.ui.download_task",
+      "source_path": "saydraft/ui/download_task.py",
+      "source_sha256": "0b1f6f9b734acfc3b02af9f4efc5013831b05fcffc4e8c93eba4636bf681f0a9",
+      "code_fingerprint_sha256": "61ddda08be571674873ee395a39ad374856d651c777263738b46068d90f3ac70"
+    },
+    {
+      "module": "saydraft.ui.firewall_card",
+      "source_path": "saydraft/ui/firewall_card.py",
+      "source_sha256": "5b52bf6c7daffd61e985bf8ebf17a281c1845f6ed238f336ff604b51a61cfd4d",
+      "code_fingerprint_sha256": "aae47b9a8b5afc4f07f33c542ce0ded57a9a84f7c95ba64967611547480aec51"
+    },
+    {
+      "module": "saydraft.ui.fonts",
+      "source_path": "saydraft/ui/fonts.py",
+      "source_sha256": "7e6fc8a4f23354505d28d11a09531f3773e4903fc134705d162359cc2777feef",
+      "code_fingerprint_sha256": "d27f6fe4964300a3885099dd4c77f95f1be70f6dfad084d1e26dcad7674f62a2"
+    },
+    {
+      "module": "saydraft.ui.grouped_settings",
+      "source_path": "saydraft/ui/grouped_settings.py",
+      "source_sha256": "c1941d96b821fd610856100725bf6031f0ac5d5b39e5543b8100f647e041b82e",
+      "code_fingerprint_sha256": "e27fbfaf3fbbddebbadb76aaea29b9fef63463c32f2765bde6272e149f7961d4"
+    },
+    {
+      "module": "saydraft.ui.hardware_page",
+      "source_path": "saydraft/ui/hardware_page.py",
+      "source_sha256": "1ed505f5dd18dd095d296851ce7aae82aaca5f18632edcba470fc5116035b43b",
+      "code_fingerprint_sha256": "74c60f5bc41d61e287fc63314d8326eb96485309d73a02a30a9b27875574324e"
+    },
+    {
+      "module": "saydraft.ui.history_jobs",
+      "source_path": "saydraft/ui/history_jobs.py",
+      "source_sha256": "292caa2cf22b86257b56d00ea78b35c397a4e8298b55d482400ff53d1d009adb",
+      "code_fingerprint_sha256": "04f4395247e0558d17adc3597a85355bff8335b9849a7b519293cde5b2e93201"
+    },
+    {
+      "module": "saydraft.ui.history_page",
+      "source_path": "saydraft/ui/history_page.py",
+      "source_sha256": "54e7c814a478c68d76378c023d700b7d7e8e5bb73aa818a8b9a2ddfdd325e51c",
+      "code_fingerprint_sha256": "5d1d4a09bda498e01918475cc3c2b0191087992a1fdcc6c01f91a53d0639568e"
+    },
+    {
+      "module": "saydraft.ui.history_retry",
+      "source_path": "saydraft/ui/history_retry.py",
+      "source_sha256": "72aed7fdfe510363501365b748e90f25bfe24c4f283abbfed843023354617aa5",
+      "code_fingerprint_sha256": "59880292e4a59952ed462346165d5b72356f90039ed275ec8cbbe5ef775c9516"
+    },
+    {
+      "module": "saydraft.ui.home_page",
+      "source_path": "saydraft/ui/home_page.py",
+      "source_sha256": "929d31095e0c5602d09162fda686d0d6359ed2738757316d7847a7abf0965be7",
+      "code_fingerprint_sha256": "d7dceec0ad5736ee627ec8ddedaf92cdd903804b4e284ea56d55e17ce6397fb6"
+    },
+    {
+      "module": "saydraft.ui.hub",
+      "source_path": "saydraft/ui/hub.py",
+      "source_sha256": "3d90965fa5ffda25f883d8deeed73db8bd9aa707718bcd2919ff444d233ce3c9",
+      "code_fingerprint_sha256": "c9c35b939e384cd3938750fa6806ad4f37278fded5386939bc0d4a2d6efd4cb4"
+    },
+    {
+      "module": "saydraft.ui.icons",
+      "source_path": "saydraft/ui/icons.py",
+      "source_sha256": "ec2b5f9db281bb07bde3d8c34ffa9d89ecd8520c0e6e690380835e10c32dff0c",
+      "code_fingerprint_sha256": "7f15bd7086cb3fab8bc7e3267f06ad2d2522859d8ec943cfa553ed5448704c50"
+    },
+    {
+      "module": "saydraft.ui.kit",
+      "source_path": "saydraft/ui/kit.py",
+      "source_sha256": "43de82c1be5cdbfa540f98ad12c6f6dc91e5d1184bd01c315d307022407ecefd",
+      "code_fingerprint_sha256": "8b9308a3796ba7e064ab0f8bd2ae5af277284fd20ebd32f9dc233c2097e3f6b9"
+    },
+    {
+      "module": "saydraft.ui.labs_page",
+      "source_path": "saydraft/ui/labs_page.py",
+      "source_sha256": "54993265404c8953a27c3aa1753df225e86474cb1397de44ec0984afdeeb5b27",
+      "code_fingerprint_sha256": "e60b3e1c2f15a61fc72e521657d962799056ddd017d845b3439eb99d82825c15"
+    },
+    {
+      "module": "saydraft.ui.language_tiles",
+      "source_path": "saydraft/ui/language_tiles.py",
+      "source_sha256": "a93d518b082037574cf6489f10b0ad757cea430b10dc61370f100d6e91dc53fd",
+      "code_fingerprint_sha256": "6b0ebbff69fbb85c4c6206b29529cdd5c3692a0943f09075920730617adb6088"
+    },
+    {
+      "module": "saydraft.ui.languages_page",
+      "source_path": "saydraft/ui/languages_page.py",
+      "source_sha256": "59402d4197872620d005ef39e588990873b3d106cd54d12c098c5e81c8c641b2",
+      "code_fingerprint_sha256": "b827b85202ec4e6f28886a90a9436110589d0efe7a36fefbf782ec63cba5323d"
+    },
+    {
+      "module": "saydraft.ui.meeting_capsule",
+      "source_path": "saydraft/ui/meeting_capsule.py",
+      "source_sha256": "b574e60d41c4452c83bb90a326ccbf5f1b7e63053409cd8f0df13b799c94c452",
+      "code_fingerprint_sha256": "71e2e44d3fb9eb072cdd337580f3a94b372bc7f9874e90205839be94b94b9da6"
+    },
+    {
+      "module": "saydraft.ui.meeting_setup",
+      "source_path": "saydraft/ui/meeting_setup.py",
+      "source_sha256": "c8c54caa10c340198f1e6bf3f070e50d493d43a09a0e7d1fe41c1c6cf4a70b48",
+      "code_fingerprint_sha256": "d61a7313e16c055a04c229ac1280d8c831e54a4e906c51af3ec391b0f4565609"
+    },
+    {
+      "module": "saydraft.ui.microphone_page",
+      "source_path": "saydraft/ui/microphone_page.py",
+      "source_sha256": "63dffa945789ab297932f455bcdbeb2751db788719b4e453f13ae4be7b7c527f",
+      "code_fingerprint_sha256": "2df1c163ed3e39ae610fe04840876c287e98d7fec038af05cc2839edfa3ecf17"
+    },
+    {
+      "module": "saydraft.ui.model_choices",
+      "source_path": "saydraft/ui/model_choices.py",
+      "source_sha256": "6373d44f5a0eb6058a58de658a1f7462c650220d3ef1eeed7fd5ff575eef97a1",
+      "code_fingerprint_sha256": "ff14b42cdbdff58d668fbac915fa9156b236e039021455cd134ec329d39bfe1e"
+    },
+    {
+      "module": "saydraft.ui.model_picker",
+      "source_path": "saydraft/ui/model_picker.py",
+      "source_sha256": "90f99e8d5db5293dd9a058b203a506a13205da1f2cb0da0c354f0f3e094b4676",
+      "code_fingerprint_sha256": "c4522b80eb90c49a1c5cf38fd386bd2bd1867b66ebddd51cda3b82d558883046"
+    },
+    {
+      "module": "saydraft.ui.model_storage",
+      "source_path": "saydraft/ui/model_storage.py",
+      "source_sha256": "0f726083bfd29385515240d90f8e80177f63b6c6056c4af6cf1fb753ca7cbbac",
+      "code_fingerprint_sha256": "35fcad116fb8a40c749dea43d97c96fb49a924da22703e982fbd8b319b05b785"
+    },
+    {
+      "module": "saydraft.ui.notes_page",
+      "source_path": "saydraft/ui/notes_page.py",
+      "source_sha256": "99335abd2a551ed69eab0e5fd8265e3eb463f433d2f315dbeb43f610b7194808",
+      "code_fingerprint_sha256": "e0897971718cb7c98b4cd86b6ee6e404d8286cf0689e712785024b6903b8756f"
+    },
+    {
+      "module": "saydraft.ui.notes_presentation",
+      "source_path": "saydraft/ui/notes_presentation.py",
+      "source_sha256": "3a099fbaeb4491bae6cf551948e7a65f9000f83670bf16248209d86d60a25278",
+      "code_fingerprint_sha256": "7332cccc01bf926101ce15181c64f251e2f9a72ed70dc54eee904568567ab9be"
+    },
+    {
+      "module": "saydraft.ui.onboarding",
+      "source_path": "saydraft/ui/onboarding.py",
+      "source_sha256": "6663098908066c3c9c993d63b9f9fddc2bdcdb4541b1450ff4457495a97fb47a",
+      "code_fingerprint_sha256": "f4b53ec958dc2076a357e7a6c1482037e990ef05a8539d0044cf9325eef487d9"
+    },
+    {
+      "module": "saydraft.ui.onboarding_models",
+      "source_path": "saydraft/ui/onboarding_models.py",
+      "source_sha256": "a3db3e38e31468efb5c84b0b40868a3ae81f3b2c011608c7d47b013ba8620c49",
+      "code_fingerprint_sha256": "a702d31861d529e4ac8d6a1788baf1f984ca5ad4a6a3fb40b5ffdf43747112e8"
+    },
+    {
+      "module": "saydraft.ui.onboarding_practice",
+      "source_path": "saydraft/ui/onboarding_practice.py",
+      "source_sha256": "e2076d1c16f76ea0fb5054310d9491316d49271fafc7e851d70eef29ebe32e21",
+      "code_fingerprint_sha256": "a5a96f54730d24d8a236dbd595be4d352f7a4e120a5d2d2953c678be25dc6f6f"
+    },
+    {
+      "module": "saydraft.ui.onboarding_shortcuts",
+      "source_path": "saydraft/ui/onboarding_shortcuts.py",
+      "source_sha256": "6102a43c153f562f6c3d1b69c91e9a87fc0c46b9c5dbea0251231c8d85abcb85",
+      "code_fingerprint_sha256": "b0edafd14d778cd498bc4dab54f53380b043c6b3689fc6efd90e8e44252644e2"
+    },
+    {
+      "module": "saydraft.ui.onboarding_style",
+      "source_path": "saydraft/ui/onboarding_style.py",
+      "source_sha256": "1f5a29644b48ba1c6316d5fd6c19cd84aae63c439cd708101c9d71891a265230",
+      "code_fingerprint_sha256": "12eabdaef4ad62bb1666a572fa4074889165f823e8e788a6218e85076eeb7513"
+    },
+    {
+      "module": "saydraft.ui.personalization_presentation",
+      "source_path": "saydraft/ui/personalization_presentation.py",
+      "source_sha256": "ee7ac1de3efebf49ec6ad9e17030d139da88ee4c4806c020322e336c65dba0f3",
+      "code_fingerprint_sha256": "9bfe4fa3a9767690c245ea26a1f645bd984c7653967a8fc12e6a424822a8a8ac"
+    },
+    {
+      "module": "saydraft.ui.pill",
+      "source_path": "saydraft/ui/pill.py",
+      "source_sha256": "ce1c880d0af15613c63a0322303bcddb93186698e68692b0e86bb9531dee9cfd",
+      "code_fingerprint_sha256": "19ae1034e6335400d061f9682adc68e84b81a581012098c9d5dfc98bea68205e"
+    },
+    {
+      "module": "saydraft.ui.presentation",
+      "source_path": "saydraft/ui/presentation.py",
+      "source_sha256": "b645d1377d7322be6d65c2bdb84367d30aa26e35c5f881f296c94886dbd4c2c1",
+      "code_fingerprint_sha256": "7c566e64ecfe50f9058f86cf8c64123cc994fbbfaef7353832075a9ffa871274"
+    },
+    {
+      "module": "saydraft.ui.privacy_page",
+      "source_path": "saydraft/ui/privacy_page.py",
+      "source_sha256": "70ddc0a7bb6cfeeb93a3b376eb53d614aae76b2969d9249c6d6b4992f2a4a16b",
+      "code_fingerprint_sha256": "c80bdd11754e5177857f6b45a9a957fa5ddefefbb0eb53ae6cb5eb8561d34eb0"
+    },
+    {
+      "module": "saydraft.ui.private_text",
+      "source_path": "saydraft/ui/private_text.py",
+      "source_sha256": "ac29493bd1655645b28b30018efd90da0c9c3ae7610a9df06f2803297642aa5b",
+      "code_fingerprint_sha256": "6820ac04df6af7c7cda405248f8d0422657dcdbf92ade40118a9de824885a866"
+    },
+    {
+      "module": "saydraft.ui.progress",
+      "source_path": "saydraft/ui/progress.py",
+      "source_sha256": "0573e472a6c6fca083a113b142c1685a637ae945f7f2983a67230ba5909dc7eb",
+      "code_fingerprint_sha256": "b0ad7d4e80325b1db99bf31d0eb6342e3e4da1f2ca3131a4fdfe97d22e8f3ea8"
+    },
+    {
+      "module": "saydraft.ui.reflow",
+      "source_path": "saydraft/ui/reflow.py",
+      "source_sha256": "97a2260e415dc60ae7a0bc711af1422b9e561223ddfe7d9d0486b68f99d65d0a",
+      "code_fingerprint_sha256": "b0590ccfa3eed32442298576d3df3c51f07e7854f20070e969e1305f74413887"
+    },
+    {
+      "module": "saydraft.ui.scratchpad",
+      "source_path": "saydraft/ui/scratchpad.py",
+      "source_sha256": "9d5ee477de630e10f0fcff18468072546c33e4bc275df2c6fb4aa74c9e63d642",
+      "code_fingerprint_sha256": "3e411cfc970844a11a4addf58c3a31c7deaa7629a5686d5ac972c8eca8c587a7"
+    },
+    {
+      "module": "saydraft.ui.settings_draft",
+      "source_path": "saydraft/ui/settings_draft.py",
+      "source_sha256": "b6d3d63e304a7b75e1da9c1b3c181f07b591a156c8bf4862afaac1753135216d",
+      "code_fingerprint_sha256": "476a6ba634d9caba04aa082e46a7c0787ff583c87b0ec8c1d0f57079473b90a0"
+    },
+    {
+      "module": "saydraft.ui.settings_page",
+      "source_path": "saydraft/ui/settings_page.py",
+      "source_sha256": "155bb6ad7c3c998d370ee2a2a27fe12a0dd361d2f73e33ad4115602147c168e0",
+      "code_fingerprint_sha256": "e6b48f720c0d90ab64cf70f5d68e5310229df20e8ebee00a16c1621bb3b45c9e"
+    },
+    {
+      "module": "saydraft.ui.settings_presentation",
+      "source_path": "saydraft/ui/settings_presentation.py",
+      "source_sha256": "2a2e3b4ae8f4e2b698a43f4186c95fffe4ac9a02b065ee4bad66c88cfc1a2ad5",
+      "code_fingerprint_sha256": "98335cebf6ed799e142d5966035b141bf14b08707c6e79f825275b8ce10b30f2"
+    },
+    {
+      "module": "saydraft.ui.setup_cleanup",
+      "source_path": "saydraft/ui/setup_cleanup.py",
+      "source_sha256": "c7e44b0e81f24c4eb63015fb8d48325b651d763d9dda8e4cdcf9068c701b0f6d",
+      "code_fingerprint_sha256": "4437614a6e84564c2a2b38cd44e22758f86809d6d1d1862bf0e0fe2f2da847cb"
+    },
+    {
+      "module": "saydraft.ui.setup_content",
+      "source_path": "saydraft/ui/setup_content.py",
+      "source_sha256": "1797d81b5209ab24717c44ad0fdb182d7626cd1049e7647ee2a404919de58e80",
+      "code_fingerprint_sha256": "a3d603915ef44b00ff1e68318ea56c8f60b12107d6dd2040b4e2ea4332bfd35a"
+    },
+    {
+      "module": "saydraft.ui.setup_presentation",
+      "source_path": "saydraft/ui/setup_presentation.py",
+      "source_sha256": "5c7eec2867ad90028432d63e0bd6c61a24e7015cc25fdeb4d7647495c4c94ac0",
+      "code_fingerprint_sha256": "317c9ee35c2865e23d44635599f98831d6f407783a709175ce2479b5e0f16bb4"
+    },
+    {
+      "module": "saydraft.ui.snippets_page",
+      "source_path": "saydraft/ui/snippets_page.py",
+      "source_sha256": "a393d9a5b142bf5361dae9a8622a87fa5005d5505b627f4dc920c28c33900800",
+      "code_fingerprint_sha256": "aabb4b984810d3e6fdabf222ad53d08a2101905a4855d19dfe5262370183c3a9"
+    },
+    {
+      "module": "saydraft.ui.sound_assets",
+      "source_path": "saydraft/ui/sound_assets/__init__.py",
+      "source_sha256": "3ee7d7d2b59d6c86b671b68c487ada664682916d441d6df3cef0872a849b3e52",
+      "code_fingerprint_sha256": "d6e92905919764fb87721db4522f343252bf7a905979a7103309dfe7d58117bf"
+    },
+    {
+      "module": "saydraft.ui.styles_page",
+      "source_path": "saydraft/ui/styles_page.py",
+      "source_sha256": "d61f923f173a26d166c12b932079b658a0f3d817f983b0358c7d3cdc2bc8ad4f",
+      "code_fingerprint_sha256": "288324404bf8642a6c46612c88b53c79eb6c67618bdc613b88a61d3cf75e9272"
+    },
+    {
+      "module": "saydraft.ui.theme",
+      "source_path": "saydraft/ui/theme/__init__.py",
+      "source_sha256": "4d890d243004a4d959bc0f27700295aecc34d4e7972038169eb93dcff3217c32",
+      "code_fingerprint_sha256": "c3aaebd64f9aa50f556b4d0d6d4e7d82dd8da15d725cc6bcb8f24b2650f6659a"
+    },
+    {
+      "module": "saydraft.ui.theme.controller",
+      "source_path": "saydraft/ui/theme/controller.py",
+      "source_sha256": "427d3bf8683056bcd69a3643533e3405ce8a769831921e2f85d88f3a60ea2697",
+      "code_fingerprint_sha256": "dd0c2efa4b897f3695b90c00da33a1d9b4e64d478100e8d0fa52dd5619e4ce1d"
+    },
+    {
+      "module": "saydraft.ui.theme.style",
+      "source_path": "saydraft/ui/theme/style.py",
+      "source_sha256": "ea8381a4b50b0a161bf6a64720ba5a1e721fc72099ff0e7b4ce5a6eb8d69cd7f",
+      "code_fingerprint_sha256": "d4c62eaf28a45495858a28fda3d7b949cd4c2d041536be8f74cebacc59dc50d8"
+    },
+    {
+      "module": "saydraft.ui.tier_picker",
+      "source_path": "saydraft/ui/tier_picker.py",
+      "source_sha256": "418dfeefeedb4678a24bc6eb4be573ea5af3cb37f8543d524805b6ecfa6ccb50",
+      "code_fingerprint_sha256": "849695710732282d09b731085e2b0460b220fb268d3b9d7266eee4622520c552"
+    },
+    {
+      "module": "saydraft.ui.tray",
+      "source_path": "saydraft/ui/tray.py",
+      "source_sha256": "567523fffac0cdc8e66a4906a32ee32727e1a5f67bc54b0beb8914580b0576dc",
+      "code_fingerprint_sha256": "c6fee980e2c8af7cc376d770c80cddfd090d8b9e9d6f8a380fea9e15e9f7b2d2"
+    },
+    {
+      "module": "saydraft.ui.tray_menu",
+      "source_path": "saydraft/ui/tray_menu.py",
+      "source_sha256": "e9a6bda1abb78246079cb318d548f8e9b717c7e5f9a970f3a5c5ed1e35d05f8d",
+      "code_fingerprint_sha256": "75e4bbb5de66a5996d07a642cb2d7a323002b93fa9120c2af48a6e3f99c8b254"
+    },
+    {
+      "module": "saydraft.ui.updates",
+      "source_path": "saydraft/ui/updates.py",
+      "source_sha256": "af2790530da1dc6ce0afdd26b114067f3ae8548446380c96982e4f115817ad92",
+      "code_fingerprint_sha256": "79700203bbe6ec0623bf710e357a2fdaa351e68633f9c7a680556c67a98089ce"
+    },
+    {
+      "module": "saydraft.ui.whisper_mode",
+      "source_path": "saydraft/ui/whisper_mode.py",
+      "source_sha256": "8a825ebb11b5b47d03eb5c6815bfa0b5088315120a5f494e048ad8fd100584e1",
+      "code_fingerprint_sha256": "a188298a72d3642df317d3281a133f27a93d0ecee7e73b140eba7af05f1f4d07"
+    },
+    {
+      "module": "saydraft.app",
+      "source_path": "saydraft/app.py",
+      "source_sha256": "14577874f9ed143ba852de5adbc3a03ee255c98864159fe6ff881e40714ad96b",
+      "code_fingerprint_sha256": "4ff5b9f61fd06ef1743fe6ca735e39a399a38ad2e10b045272eb7fad10e83b65"
+    },
+    {
+      "module": "saydraft.config",
+      "source_path": "saydraft/config.py",
+      "source_sha256": "c9f7257590ea03aca6d1347800691a1eee8c515bfc7202c4a5e266304c8d7b70",
+      "code_fingerprint_sha256": "3c3f6a0b0e64ca385d161e44b63d9d2be7da7d751b4e83b8be9681b21bf3484a"
+    },
+    {
+      "module": "saydraft.core.worker",
+      "source_path": "saydraft/core/worker.py",
+      "source_sha256": "43b2a08000a6722519e4139aee4fe70b0b935582c3bed6b246d14e997fa83fca",
+      "code_fingerprint_sha256": "caaa506297097ba302181ef1efdb0af67343d20af86d5464ac604bccf0cd81e8"
+    },
+    {
+      "module": "saydraft.core.container",
+      "source_path": "saydraft/core/container.py",
+      "source_sha256": "597938cdfc91b9835a3a18fa695648119acde3ecec3e4e8b9df15dfabdcc6994",
+      "code_fingerprint_sha256": "ac2d467c4664b64aca9b85533cef4b6c025f5dc81709e3e20c153cee16e456e7"
+    },
+    {
+      "module": "saydraft.core.microphone",
+      "source_path": "saydraft/core/microphone.py",
+      "source_sha256": "327a2574815835916733947627fd5d54b4f33521388a5e9071c8d3a7adeed63c",
+      "code_fingerprint_sha256": "efefbf3417c84f9c1605c9f79f2d4aea18348d5b91b92a69f52a2e5d6851f1ad"
+    },
+    {
+      "module": "saydraft.audio.devices",
+      "source_path": "saydraft/audio/devices.py",
+      "source_sha256": "a1fa3bafb9190ac9a8513e4f1ea56d233d542e2ccc93c29b11d3b863dfe775ee",
+      "code_fingerprint_sha256": "06325c6fc1a638639ec0ea66ffe4fb215c4d97dc0f0e0ac9848d94ec2a8b43d6"
+    },
+    {
+      "module": "saydraft.audio.diagnostics",
+      "source_path": "saydraft/audio/diagnostics.py",
+      "source_sha256": "9cd3df79f18d1448de3ccf47cbceb3301e62f4a455d392a435d6c6d689f9fbfe",
+      "code_fingerprint_sha256": "a1e56e2e3ce52cf4843506380a1ae8982ecd474392c3d9a1eb6b894efde5953f"
+    },
+    {
+      "module": "saydraft.audio.recorder",
+      "source_path": "saydraft/audio/recorder.py",
+      "source_sha256": "a891aba22f15c84fdadd0692638c612b53e9a37e12a389b36b2e8eb6088feb02",
+      "code_fingerprint_sha256": "6f5a989ae2fb2b71cdd87b043cc3fa84c6a82bbc317c3eec8e4f87864158df94"
+    },
+    {
+      "module": "saydraft.audio.meter",
+      "source_path": "saydraft/audio/meter.py",
+      "source_sha256": "b1e8059ce871ee82c4a8673680401b68675775f7f686c2cab7d0c0c808a5688a",
+      "code_fingerprint_sha256": "be8927d8378ed7487a167b9159c8dc54d11bd6260cac80b95f009f444c3105f1"
+    },
+    {
+      "module": "saydraft.cleanup.llm.client",
+      "source_path": "saydraft/cleanup/llm/client.py",
+      "source_sha256": "a636bd8b517ce429a1ad54fad2790d7a7b6b52a88c8d2280eb9c77f1ac15a253",
+      "code_fingerprint_sha256": "f03e25638e9e5c0cd0331c0bd0ee1cd82d60132a61f335af47001a108998a731"
+    },
+    {
+      "module": "saydraft.cleanup.llm.preparation",
+      "source_path": "saydraft/cleanup/llm/preparation.py",
+      "source_sha256": "ae825b112c0012a7615ba715316e45d4eda2d695d11f0fb7d64731c8b9229c3f",
+      "code_fingerprint_sha256": "c2c314fcab3f97be5c2034fa9423a3e07b4e67e20671c3d012de1d52e9b4c042"
+    },
+    {
+      "module": "saydraft.cleanup.llm.gate",
+      "source_path": "saydraft/cleanup/llm/gate.py",
+      "source_sha256": "5d8f0a50ceb053845f35f582ea7ec8132cfb7bc3e841b3ddcef56fe6f0ce477d",
+      "code_fingerprint_sha256": "630b552bd66c007fd22e401b1507f3b9a0d23c98248da81a8784ae9191f846b0"
+    },
+    {
+      "module": "saydraft.dictation.types",
+      "source_path": "saydraft/dictation/types.py",
+      "source_sha256": "e69c79e7b8e9769eb6a46974e00ea3c8a4bbb794e9b714c20acd10423259bdfc",
+      "code_fingerprint_sha256": "5b81eef393c1d0a508846cc69bec60366ff864a8c5f5ebd335349332b6c9dfac"
+    },
+    {
+      "module": "saydraft.dictation.llm_local",
+      "source_path": "saydraft/dictation/llm_local.py",
+      "source_sha256": "5032e122622f42c089c36769860cc96b61ed27d1fdb2ee6fa07001458abdf9a7",
+      "code_fingerprint_sha256": "8f6a6d71bd645645cd7995ecb2469f0915421cd7124a558d2cfcf8dea1c75835"
+    },
+    {
+      "module": "saydraft.context.foreground",
+      "source_path": "saydraft/context/foreground.py",
+      "source_sha256": "8d0f6ce021fa32e14658e282d8eaf9fa07d5953121b1952ffa1e8d70ed98cb18",
+      "code_fingerprint_sha256": "13d9fd1ccc9ef3633d591aee650ffd15b09128d684231adca61c0cc9693da6b8"
+    },
+    {
+      "module": "saydraft.asr.selection",
+      "source_path": "saydraft/asr/selection.py",
+      "source_sha256": "389ac3c01b45f7fe0f37fecf835641a96b96e1dcbf80b5715f095f9a7bddd945",
+      "code_fingerprint_sha256": "27c43e7f7e9af8557c69bd8daa9caf86e8f3101c967bda4639900999db56b846"
+    },
+    {
+      "module": "saydraft.asr.router",
+      "source_path": "saydraft/asr/router.py",
+      "source_sha256": "2c5dae5909deac9842e96bb8f9ad86af48980831ab935a067d7cf43757c8b11c",
+      "code_fingerprint_sha256": "66a3e3ac79d280201d918b603e410f00a92a58884d8082bd1e59b444b54bb8f9"
+    },
+    {
+      "module": "saydraft.asr.sherpa_parakeet",
+      "source_path": "saydraft/asr/sherpa_parakeet.py",
+      "source_sha256": "be5ac9a80d70b97731e2e925e2e4cb46f3256393a2986e60bdd093e5d6d7433b",
+      "code_fingerprint_sha256": "ebc60fff8a8bfba767c5f279f23e3bfd244de946aa951ebb217ab0bceb37480a"
+    }
+  ],
+  "non_runtime_ui_modules": [
+    "saydraft.ui.bar_gallery",
+    "saydraft.ui.gallery",
+    "saydraft.ui.gallery_catalog"
+  ],
+  "font_files": 21,
+  "font_faces": 8,
+  "svg_icons": 52,
+  "hotkey_help_verified": true,
+  "module_code_executed": false,
+  "owner_io_used": false,
+  "method": "Compare structural code read from the embedded PYZ with compile(Git source, optimize=0), excluding only filenames; hash exact manifest-listed fonts and inspect every bundled SVG/help file.",
+  "tray_assets": [
+    {
+      "name": "mic_idle.ico",
+      "sha256": "d7db41e03ffb766baea462c869e8656f0b526a8676aa97cbce25d0f07027c172",
+      "frames": 7
+    },
+    {
+      "name": "mic_recording.ico",
+      "sha256": "443498746df8ddf415e97f70242ef616694c37976511c06693b0c030a2f59461",
+      "frames": 7
+    },
+    {
+      "name": "mic_processing.ico",
+      "sha256": "4414c60dc5dda4ae11eb98e1eee96e52539c062c5995e6ebf5b1d49e6a536928",
+      "frames": 7
+    }
+  ],
+  "focus_theme_assets": [
+    {
+      "name": "tokens.qss",
+      "sha256": "9fdfa5ee38abe76c4d3c74b951e0f57a6945a4f718dacf2f3011b275c7aefa15"
+    },
+    {
+      "name": "tokens-dark.qss",
+      "sha256": "c6a182d71c85825bee071c852898fc1b354108eb0e2f2fd4579ed428158acf8c"
+    }
+  ]
+}
