@@ -15,14 +15,15 @@ faqs:
   - q: "Does Wispr Flow work without internet?"
     a: "Wispr documents cloud transcription and an internet requirement. Saydraft processes speech with installed local models, which can be reused offline."
   - q: "Is Saydraft ready to replace my current dictation app?"
-    a: "Saydraft is in development and available from source. Try it with your own vocabulary and apps first; broad accuracy, physical workflow and signed-release acceptance remain in progress."
+    a: "Saydraft has an unsigned Windows portable preview and MIT-licensed source. Try it with your own vocabulary and apps first; broader accuracy and native Windows workflow acceptance remain in progress."
 ---
 import SiteLink from '../../components/SiteLink.astro';
 
 If you want voice typing that continues after you disconnect, Saydraft offers a
 local route on Windows. Speech models and optional text cleanup run on your PC.
-The project is free and MIT licensed, with its current implementation available
-from source.
+The project is free and MIT licensed. An unsigned Windows portable preview is
+available from the <SiteLink path="download/">download page</SiteLink>, alongside
+source setup. Review the preview limits before relying on it for daily work.
 
 Wispr Flow is a commercial dictation service for Windows and macOS. Its
 [documentation](https://docs.wisprflow.ai/articles/2772472373-what-is-flow)
@@ -36,7 +37,7 @@ do not make that transcription an offline service.
 | Speech processing | [Installed local models](https://github.com/tanzir71/saydraft/blob/main/docs/MODELS.md) | [Cloud transcription](https://docs.wisprflow.ai/articles/2772472373-what-is-flow) |
 | Desktop platform | [Windows](https://github.com/tanzir71/saydraft) | [Windows and macOS](https://wisprflow.ai/pricing) |
 | Cost | [Free, MIT licensed source](https://github.com/tanzir71/saydraft/blob/main/LICENSE) | [Free allowance; paid Pro](https://wisprflow.ai/pricing) |
-| Current availability | [Development source; release qualification continues](https://github.com/tanzir71/saydraft) | [Commercial product](https://wisprflow.ai/pricing) |
+| Current availability | <SiteLink path="download/">Unsigned portable preview and source</SiteLink> | [Commercial product](https://wisprflow.ai/pricing) |
 
 Wispr currently lists Pro at US$15 per user monthly, or US$144 per user annually.
 Its free plan has a weekly word allowance; check the pricing page for the

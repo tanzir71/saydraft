@@ -1,6 +1,6 @@
 # Product Hunt draft
 
-Refreshed 15 November 2026. See the [shared facts and publication status](README.md).
+Availability refreshed 16 November 2026. See the [shared facts and publication status](README.md).
 
 ## Name
 
@@ -16,9 +16,8 @@ Hold a shortcut, speak and release to recognize speech, clean the transcript
 and attempt delivery into your text field. Saydraft runs Parakeet or Whisper
 locally, with rules cleanup and optional local Qwen cleanup. A searchable Hub
 keeps History, vocabulary, Snippets, Style and Notes. Free app under MIT.
-Current availability: source preview for Windows 10/11 x64; Python 3.13 setup
-and explicit model downloads are required. An older unsigned verification
-pre-release is public; it does not qualify current source or signing.
+Current availability: unsigned portable preview for Windows 10/11 x64, with
+source setup also available. Explicit model downloads are required.
 
 ## Product and source link
 
@@ -38,13 +37,13 @@ The Hub brings together History, Dictionary, Snippets, per-app Style, Scratchpad
 and Notes. Experimental Pro features include Command editing and spoken
 translation. Pro refers to a hardware tier here, not a paid subscription.
 
-This is a source preview. The README has the installation steps and current
-limitations; signed releases, broader Windows acceptance and quality
+This is an unsigned portable preview. The README has the installation steps and
+current limitations; broader native Windows acceptance and quality
 qualification are still in progress. I'd welcome feedback on setup, editing
 workflows and cases where delivery needs recovery.
 
 ## Owner submission reference
 
 [Product Hunt's launch guide](https://help.producthunt.com/en/collections/19793093-launch-guide).
-The copy above describes the current source preview and does not announce a
-binary release or a scheduled launch date.
+The copy above describes the published unsigned preview and does not announce a
+stable release or a scheduled launch date.

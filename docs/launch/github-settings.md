@@ -76,7 +76,7 @@ and `openGraphImageUrl` provide an additional read-only check.
 
 ## README and media
 
-The README now leads with the primary terms, actual Bar GIF, source-preview
+The README now leads with the primary terms, actual Bar GIF, unsigned-preview
 download badge, migration guidance, dated source-linked comparison, FAQ and
 explicit creator/model credits. Existing setup and qualification detail stays
 available. The 72-frame native Qt fixture produces a 65-frame encoded GIF and

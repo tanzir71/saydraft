@@ -1,6 +1,6 @@
 # Show HN draft
 
-Refreshed 15 November 2026. See the [shared facts and publication status](README.md).
+Availability refreshed 16 November 2026. See the [shared facts and publication status](README.md).
 
 ## Title
 
@@ -28,9 +28,9 @@ Snippets, per-app Style and a Scratchpad. Experimental Pro tools add Command
 editing and spoken translation. The app code is MIT; dependencies and models
 keep their own licenses.
 
-You can try the source on Windows 10/11 x64 with Python 3.13 using the README.
-The public unsigned verification pre-release predates current source. Physical Windows acceptance,
-signing and broader quality/performance qualification remain in progress;
+You can try the unsigned portable preview on Windows 10/11 x64 using the README.
+Source setup with Python 3.13 is also available. Broader native Windows acceptance
+and quality/performance qualification remain in progress;
 the roadmap and retained measurements state what has actually been tested.
 
 I'd appreciate feedback on setup and recovery behavior, particularly the cases

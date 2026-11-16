@@ -1,6 +1,6 @@
 # Directory listing draft
 
-Refreshed 15 November 2026. See the [shared facts and publication status](README.md).
+Availability refreshed 16 November 2026. See the [shared facts and publication status](README.md).
 
 ## Listing values
 
@@ -12,7 +12,7 @@ Refreshed 15 November 2026. See the [shared facts and publication status](README
 | Source and installation | https://github.com/tanzir71/saydraft |
 | Platforms | Windows 10 and Windows 11, x64 |
 | App license | MIT; model licenses apply separately |
-| Availability | Current source preview; an older unsigned verification pre-release is public |
+| Availability | Published unsigned Windows portable preview; source setup also available |
 | Suggested categories | Dictation, speech to text, voice typing, productivity |
 
 ## Description
@@ -33,11 +33,10 @@ Scratchpad and Notes. Experimental Pro features include selected-text Command
 editing and Translate while speaking. Audio retention and app update checks
 default off. Speech recognition and cleanup have no cloud fallback.
 
-This is a source preview for Windows 10/11 x64. Installation currently uses
-Python 3.13 and the repository's setup instructions. The public unsigned
-verification pre-release predates current source. Signing, current-source binary
-publication, broader Windows acceptance and quality qualification remain in
-progress. Model weights retain their own licenses.
+This is an unsigned portable preview for Windows 10/11 x64. The repository has
+the download, SHA-256 checksums and optional Python 3.13 source setup instructions.
+Broader native Windows acceptance and quality qualification remain in progress.
+Model weights retain their own licenses.
 
 ## Comparison associations for owner review
 

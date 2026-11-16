@@ -64,15 +64,16 @@ FAQ, mobile navigation and guide contents links still work.
 Home consumes the Landing sections, chips, verified repository/model credits,
 keycaps, privacy diagram and a dated comparison table. The real and zero
 repository-count variants are covered separately. See [Landing v2](SITE_LANDING_V2.md).
-Every page uses the shared footer. Download consumes CodeBlock and the development
+Every page uses the shared footer. Download consumes CodeBlock and the release
 DownloadCard. Dated guides derive their contents links from the rendered MDX
 heading IDs. Creator credit remains “Built by tanziro.com”, with the existing
 support link; neither link embeds an external widget.
 
 ## Release and factual data
 
-The public Download page passes no release object and advertises no unpublished
-installer or package-manager command. A future `DownloadRelease` must provide
+The public Download page uses the published unsigned portable preview from
+`site/src/data/current-release.ts`. It advertises no unpublished installer or
+package-manager command. A `DownloadRelease` must provide
 its actual version, URL, positive exact byte size, complete SHA-256 and a status
 note. A package command is optional. Invalid byte/hash data refuses rendering.
 The future-release Storybook fixture is visibly labelled as an illustration and

@@ -10,14 +10,19 @@ capture the owner's microphone or operate their desktop.
 ## Automated Verification
 
 The owner requested local validation and direct pushes on 14 November 2026.
-All five GitHub workflows are manual-only: pushing branches, pull requests or
-tags starts no checks, builds, deployment or draft release. GitHub Actions is
+The custom GitHub workflows are manual-only: pushing source branches, pull
+requests or tags starts no app checks, builds or draft release. GitHub Actions is
 not a delivery gate. Run the applicable checks locally and retain exact-source
 results. The manual workflows remain available for an explicitly requested
 disposable-runner diagnostic; no workflow dispatch is part of routine delivery.
 An explicitly dispatched draft-release workflow additionally requires a version
 tag ref and retains its separate release-proof checks. No public release or
 signing acceptance follows from a local development push.
+
+The website is built and checked locally, then its generated output is pushed to
+`gh-pages`. GitHub's managed Pages service publishes that branch. This hosting
+step does not run the removed custom website build/test workflow; see
+[local website publication](SITE_PUBLICATION.md).
 
 The logged-in Actions history checked on 14 November shows completed
 [CI #376](https://github.com/tanzir71/saydraft/actions/runs/43609091704) and
@@ -42,6 +47,10 @@ measurements and VM qualification are deferred, with no implied passes. The
 disposable Windows VM approval remains the required environment for later real
 input/audio/clipboard acceptance. Host access stays barred; approval and
 preparation alone are not execution evidence.
+
+On 16 November the owner resumed broader roadmap work, then stopped all VM work
+because of storage limits. Do not provision or download a VM. Continue only the
+applicable non-native checks; real Windows acceptance stays pending.
 
 Meeting setup checks must inject device/model/download ports when running on the
 stopped owner desktop. Never invoke its default Refresh provider in that setting.

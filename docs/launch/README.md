@@ -1,7 +1,7 @@
 # Saydraft launch drafts
 
-Refreshed 15 November 2026 against `d01ff1d`. These are owner-posted drafts for
-the current source preview. Nothing has been submitted to a listing, community,
+Availability refreshed 16 November 2026 against the published `12bc27f` preview.
+These are owner-posted drafts. Nothing has been submitted to a listing, community,
 or external repository. [GitHub presentation settings](github-settings.md) are
 separate from these external submission drafts.
 
@@ -27,11 +27,11 @@ separate from these external submission drafts.
   cloud fallback. Updates, when enabled, link to releases for manual installation.
 - Translate and Command are experimental Pro features. Pro describes a hardware
   tier in this app, not a paid subscription.
-- An older unsigned verification pre-release, `v0.1.0-dry-run.20261114`, is public.
-  It predates current source and does not establish current binary or signing
-  acceptance. Current-source setup is recommended; signed distribution and broader
-  physical Windows acceptance remain unfinished. Accuracy and general performance
-  claims remain unqualified.
+- The unsigned Windows portable preview, `v0.1.0-preview.20261116`, is public with
+  its ZIP, SHA-256 checksums and build metadata. It uses source `12bc27f`, including
+  the frozen insertion fix and matching app/tray branding. Broader native Windows,
+  accuracy and general performance acceptance remain unqualified. The owner chose
+  unsigned distribution; signing is not a requirement for this preview.
 - Ask and meeting notes/speaker labels are implemented as experimental Pro
   features with explicit setup/opt-in. Broader answer/speaker/summary quality and
   full live/frozen/physical meeting acceptance remain open.
@@ -39,10 +39,9 @@ separate from these external submission drafts.
 These facts come from the [README](../../readme.md), [model guide](../MODELS.md),
 [privacy boundary](../PRIVACY.md), [Translate guide](../TRANSLATE.md),
 [packaging guide](../PACKAGING.md) and [parity plan](../../WISPR_OFFLINE_PARITY_PLAN.md).
-An unauthenticated [release API](https://api.github.com/repos/tanzir71/saydraft/releases)
-check on 15 November lists the older unsigned verification pre-release with four
-assets, published 14 November at 17:05:32 UTC. No release state changed during
-this documentation refresh. The retained earlier launch proof remains historical.
+The [public release and landing-page verification](../../eval/site/results/2026-11-16-release-publication/README.md)
+records the actual current preview, unauthenticated ZIP download and live Pages
+checks. The retained earlier launch proof remains historical.
 
 ## Submission context
 
@@ -56,7 +55,7 @@ not a claim about the platform's current field limits or listing acceptance.
 Reddit's public rules pages did not expose the community-specific rules in this
 read-only check. The Reddit drafts therefore do not claim posting permission.
 Awesome-list targets and entry formats were inspected in their primary
-repositories; their maintainers decide whether to accept a source preview.
+repositories; their maintainers decide whether to accept an unsigned preview.
 
 Competitor names in the directory draft identify comparison categories only.
 The drafts make no comparative accuracy, latency, certification or feature-parity

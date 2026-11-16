@@ -1,12 +1,12 @@
 # Reddit drafts
 
-Refreshed 15 November 2026. See the [shared facts and publication status](README.md).
+Availability refreshed 16 November 2026. See the [shared facts and publication status](README.md).
 These are separate drafts for the owner to review against each community's
 current rules; no post has been made.
 
 ## r/windowsapps
 
-Title: Saydraft: an open-source local dictation app for Windows (source preview)
+Title: Saydraft: an open-source local dictation app for Windows (unsigned preview)
 
 I'm the developer of Saydraft, a Windows tray app for local voice dictation.
 Hold Ctrl+Win, speak and release to recognize speech, clean the text and attempt
@@ -17,10 +17,10 @@ alone. Optional AI cleanup runs locally too. The Hub includes History,
 Dictionary terms, Snippets, per-app Style, Scratchpad and Notes. Model downloads
 are explicit and resumable; audio retention and app update checks default off.
 
-This is a free MIT source preview for Windows 10/11 x64. The README has Python
-3.13 setup instructions. The older unsigned verification pre-release predates
-current source; current binary/signing and broader Windows acceptance are still
-in progress. Experimental Pro features are hardware-gated,
+This is a free MIT app with an unsigned portable preview for Windows 10/11 x64.
+The README has the download and optional Python 3.13 source setup. Broader native
+Windows acceptance and quality qualification remain in progress.
+Experimental Pro features are hardware-gated,
 not a paid subscription tier.
 
 Project and setup: https://github.com/tanzir71/saydraft
@@ -46,8 +46,8 @@ separate explicit controls.
 
 Source and setup: https://github.com/tanzir71/saydraft
 
-Current source setup targets Windows 10/11 x64 with Python 3.13. The older public
-unsigned verification pre-release does not qualify current source. The repository
+An unsigned portable preview is published for Windows 10/11 x64; source setup
+uses Python 3.13. The repository
 retains benchmarks and their limits;
 I am not claiming cloud-equivalent accuracy or that general latency targets have
 been met. Model licenses apply separately from the MIT app code.

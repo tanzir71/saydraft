@@ -8,6 +8,13 @@ for GPU identification and the local Pro benchmark does not expand those rights.
 
 ## Current state and run order
 
+**16 November update:** the owner resumed the broader roadmap, then explicitly
+stopped all VM work because of limited storage. Do not download VM tools/media,
+prepare disks or provision a guest. Native acceptance stays pending; this plan
+is retained for a later owner-authorized continuation. The attempted portable
+QEMU download was stopped before completion; no installer ran, VM was configured
+or guest was booted. Cleanup of its partial download is tracked with past builds.
+
 No guest has been created or started. Read-only preparation found no installed
 VM manager. `WHvGetCapability(HypervisorPresent)` returned success and true;
 actual partition creation, acceleration and guest boot remain untested. The
@@ -27,9 +34,9 @@ Prefer a VM tool that works without changing the host. Establish actual boot
 before preparing a large guest workload. No host driver/feature change, reboot,
 paid license, signing or external publication follows from this checklist.
 
-The current portable preview was built from clean `e7c60b0` and independently
+The published portable preview was built from clean `12bc27f` and independently
 verified against its actual payload and embedded modules. Its artifact and hash
-are in the [delivery-planning receipt](../eval/latency/results/2026-11-15-delivery-planning/README.md).
+are in the [release publication receipt](../eval/site/results/2026-11-16-release-publication/README.md).
 Bind guest results to the exact executable/package tested; later app changes
 need the affected checks repeated.
 
