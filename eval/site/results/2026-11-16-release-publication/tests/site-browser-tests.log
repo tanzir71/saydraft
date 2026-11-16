@@ -1,0 +1,148 @@
+[WebServer] (node:39948) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 15 tests using 3 workers
+
+(node:33304) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:36636) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:10220) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok  1 [mobile] › tests\release.spec.ts:4:1 › landing download actions use the published portable and retain setup details (1.5s)
+  ok  2 [mobile] › tests\release.spec.ts:14:1 › download page exposes the exact release, checksum, portable setup and current changelog (1.5s)
+  ok  3 [mobile] › tests\seo.spec.ts:42:1 › application and FAQ data agree with current source and visible content (3.6s)
+(node:25232) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok  6 [tablet] › tests\release.spec.ts:4:1 › landing download actions use the published portable and retain setup details (899ms)
+  ok  7 [tablet] › tests\release.spec.ts:14:1 › download page exposes the exact release, checksum, portable setup and current changelog (920ms)
+  x   4 [mobile] › tests\site.spec.ts:245:1 › source command copy and guide contents work in the static site (5.9s)
+(node:33616) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok  8 [tablet] › tests\seo.spec.ts:42:1 › application and FAQ data agree with current source and visible content (6.0s)
+  ok  5 [mobile] › tests\site.spec.ts:76:1 › all public pages have working local links and unique metadata (20.8s)
+  x  10 [tablet] › tests\site.spec.ts:245:1 › source command copy and guide contents work in the static site (7.3s)
+(node:2960) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:29100) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 12 [desktop] › tests\release.spec.ts:14:1 › download page exposes the exact release, checksum, portable setup and current changelog (2.2s)
+  ok 11 [desktop] › tests\release.spec.ts:4:1 › landing download actions use the published portable and retain setup details (2.9s)
+  ok  9 [tablet] › tests\site.spec.ts:76:1 › all public pages have working local links and unique metadata (26.5s)
+  ok 13 [desktop] › tests\seo.spec.ts:42:1 › application and FAQ data agree with current source and visible content (4.1s)
+(node:37224) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  15 [desktop] › tests\site.spec.ts:245:1 › source command copy and guide contents work in the static site (5.9s)
+  ok 14 [desktop] › tests\site.spec.ts:76:1 › all public pages have working local links and unique metadata (10.7s)
+
+
+  1) [mobile] › tests\site.spec.ts:245:1 › source command copy and guide contents work in the static site 
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  getByRole('link', { name: 'Download for Windows', exact: true })
+    Expected: 0
+    Received: 1
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveCount" getByRole('link', { name: 'Download for Windows', exact: true }) with timeout 5000ms
+      - waiting for getByRole('link', { name: 'Download for Windows', exact: true })
+        14 × locator resolved to 1 element
+           - unexpected value "1"
+
+
+      257 |   const code = await page.locator('pre code').innerText();
+      258 |   expect(await page.evaluate(() => (window as unknown as { __sourceCommandCopies: string[] }).__sourceCommandCopies)).toEqual([code]);
+    > 259 |   await expect(page.getByRole('link', { name: 'Download for Windows', exact: true })).toHaveCount(0);
+          |                                                                                       ^
+      260 |   await expect(page.getByText('Storybook fixture only.', { exact: false })).toHaveCount(0);
+      261 |   await expect(page.locator('body')).not.toContainText('winget install --id Tanzir.Saydraft');
+      262 |   await page.goto('./offline-dictation-windows/');
+        at C:\Users\tanzir\Desktop\voice_tray\site\tests\site.spec.ts:259:87
+
+    Error Context: test-results\site-source-command-copy-a-bc19a-nts-work-in-the-static-site-mobile\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\site-source-command-copy-a-bc19a-nts-work-in-the-static-site-mobile\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\site-source-command-copy-a-bc19a-nts-work-in-the-static-site-mobile\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [tablet] › tests\site.spec.ts:245:1 › source command copy and guide contents work in the static site 
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  getByRole('link', { name: 'Download for Windows', exact: true })
+    Expected: 0
+    Received: 1
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveCount" getByRole('link', { name: 'Download for Windows', exact: true }) with timeout 5000ms
+      - waiting for getByRole('link', { name: 'Download for Windows', exact: true })
+        13 × locator resolved to 1 element
+           - unexpected value "1"
+
+
+      257 |   const code = await page.locator('pre code').innerText();
+      258 |   expect(await page.evaluate(() => (window as unknown as { __sourceCommandCopies: string[] }).__sourceCommandCopies)).toEqual([code]);
+    > 259 |   await expect(page.getByRole('link', { name: 'Download for Windows', exact: true })).toHaveCount(0);
+          |                                                                                       ^
+      260 |   await expect(page.getByText('Storybook fixture only.', { exact: false })).toHaveCount(0);
+      261 |   await expect(page.locator('body')).not.toContainText('winget install --id Tanzir.Saydraft');
+      262 |   await page.goto('./offline-dictation-windows/');
+        at C:\Users\tanzir\Desktop\voice_tray\site\tests\site.spec.ts:259:87
+
+    Error Context: test-results\site-source-command-copy-a-bc19a-nts-work-in-the-static-site-tablet\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\site-source-command-copy-a-bc19a-nts-work-in-the-static-site-tablet\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\site-source-command-copy-a-bc19a-nts-work-in-the-static-site-tablet\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) [desktop] › tests\site.spec.ts:245:1 › source command copy and guide contents work in the static site 
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  getByRole('link', { name: 'Download for Windows', exact: true })
+    Expected: 0
+    Received: 1
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveCount" getByRole('link', { name: 'Download for Windows', exact: true }) with timeout 5000ms
+      - waiting for getByRole('link', { name: 'Download for Windows', exact: true })
+        14 × locator resolved to 1 element
+           - unexpected value "1"
+
+
+      257 |   const code = await page.locator('pre code').innerText();
+      258 |   expect(await page.evaluate(() => (window as unknown as { __sourceCommandCopies: string[] }).__sourceCommandCopies)).toEqual([code]);
+    > 259 |   await expect(page.getByRole('link', { name: 'Download for Windows', exact: true })).toHaveCount(0);
+          |                                                                                       ^
+      260 |   await expect(page.getByText('Storybook fixture only.', { exact: false })).toHaveCount(0);
+      261 |   await expect(page.locator('body')).not.toContainText('winget install --id Tanzir.Saydraft');
+      262 |   await page.goto('./offline-dictation-windows/');
+        at C:\Users\tanzir\Desktop\voice_tray\site\tests\site.spec.ts:259:87
+
+    Error Context: test-results\site-source-command-copy-a-bc19a-nts-work-in-the-static-site-desktop\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\site-source-command-copy-a-bc19a-nts-work-in-the-static-site-desktop\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\site-source-command-copy-a-bc19a-nts-work-in-the-static-site-desktop\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3 failed
+    [mobile] › tests\site.spec.ts:245:1 › source command copy and guide contents work in the static site 
+    [tablet] › tests\site.spec.ts:245:1 › source command copy and guide contents work in the static site 
+    [desktop] › tests\site.spec.ts:245:1 › source command copy and guide contents work in the static site 
+  12 passed (54.9s)

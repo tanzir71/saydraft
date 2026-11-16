@@ -1,0 +1,127 @@
+{
+  "app_source": "12bc27ffdb3ba388ea199e5e51661c968815c2fe",
+  "site_source": "b41509817a9d402a42cae4c9097fba0617f3069e",
+  "pages_commit": "2ce5c11b8412f00ef1795734368fd31b6a378983",
+  "files": [
+    {
+      "path": "harness/archive_publication.py",
+      "bytes": 2023,
+      "sha256": "c87a00c28eb0a07776f3a46ef6510f3f335950fcac76453f75561cf477737de7"
+    },
+    {
+      "path": "harness/publish_static.ps1",
+      "bytes": 2703,
+      "sha256": "6363146c473acb6e0b2ab976832e7d420b1bd85f9d8c3137c5f5ff892545f0f4"
+    },
+    {
+      "path": "harness/verify_live.mjs",
+      "bytes": 2278,
+      "sha256": "b6d969f929ffccae3d2e9d46249bcee083ae4284c7ef83263facc394eef874b4"
+    },
+    {
+      "path": "publication/live-pages-before.json",
+      "bytes": 1087,
+      "sha256": "12bb4bf5a9a18473938eaff68fc3b57a2415057971f0041f80f025fa4379f83d"
+    },
+    {
+      "path": "publication/live-pages-verification.json",
+      "bytes": 2007,
+      "sha256": "06e87d67be5667687bd63fe20799ae0ef1edeb4e0c8817f823a82d40e1b68834"
+    },
+    {
+      "path": "publication/pages-after.json",
+      "bytes": 134,
+      "sha256": "1ac3d9c8be7d6f6ce11a79c087f244ac6772b01a1575c1aacd74a81680067520"
+    },
+    {
+      "path": "publication/pages-before.json",
+      "bytes": 115,
+      "sha256": "e09dba30a19aeddeb7743d8c3161897828f4c3db894627e5e84b195b9a4da003"
+    },
+    {
+      "path": "publication/pages-build-status.json",
+      "bytes": 133,
+      "sha256": "d4dd325d2bd060b7dc9950da0aecf355592f6d1956ff788d1b9c4ee92e030e7e"
+    },
+    {
+      "path": "publication/pages-config.json",
+      "bytes": 66,
+      "sha256": "73e45c0789404d96accc8b90fcd2c5df19a807db4f1ef1f96324831ed982147d"
+    },
+    {
+      "path": "publication/pages-publication.json",
+      "bytes": 268,
+      "sha256": "375583469d682711b483c3dcdd80f04ab795e2140ab6431572fd71096df5fd4f"
+    },
+    {
+      "path": "publication/pages-publication.log",
+      "bytes": 13595,
+      "sha256": "a530c9a673714eaef9e0c647a89d62b03e85045735af4a895baa063dd3d79574"
+    },
+    {
+      "path": "publication/pages-publish-request.json",
+      "bytes": 96,
+      "sha256": "8fd58b60c21f7614d93c0b1ed19eac01c7bc66f6a929cb0d9f2e5255610f9036"
+    },
+    {
+      "path": "README.md",
+      "bytes": 3125,
+      "sha256": "fc0d22cd884b11ad10af6c2213c34286eedc21ab9949a6551e4a84eabff8e4ac"
+    },
+    {
+      "path": "release/BUILD_INFO.json",
+      "bytes": 772,
+      "sha256": "518cc8430f43da8d4a0b8b117d816dcde4d0f2f0a484b746d08ba3e254215f6e"
+    },
+    {
+      "path": "release/public-download-verification.json",
+      "bytes": 153,
+      "sha256": "875677fb14a3e720e5fdba9bca524faade7e94f98fddbebc4fbbf23a4a1b0707"
+    },
+    {
+      "path": "release/published-release.json",
+      "bytes": 963,
+      "sha256": "d372478aa5201a870a1ab0a9c98f398b58e28d39b9d9eafcfbe91b6e879f9899"
+    },
+    {
+      "path": "release/release-notes.md",
+      "bytes": 1331,
+      "sha256": "cbae2244e866ae4a54062a336121d95458c6a2c4aed364be882fd7be3d96bfe2"
+    },
+    {
+      "path": "release/SHA256SUMS",
+      "bytes": 93,
+      "sha256": "d0b8039f92c678341621ebec7e5de349bbb3506e901790f6add90524aeaa39b1"
+    },
+    {
+      "path": "tests/site-browser-final.log",
+      "bytes": 9447,
+      "sha256": "9724c1307e46d7e9829c4d05a4a625c95344acc6258c7862f322e29648bc088d"
+    },
+    {
+      "path": "tests/site-browser-tests.log",
+      "bytes": 10715,
+      "sha256": "bf6f3b3ae0bc22f707d845dc40a937544159c467a965fd2f263a8a194530d322"
+    },
+    {
+      "path": "tests/site-build-r2.log",
+      "bytes": 4270,
+      "sha256": "d7cfb16abd730e140c1aee3a94c50054ad89fc9479caea340e2038fbd1f42aba"
+    },
+    {
+      "path": "tests/site-content-tests-r2.log",
+      "bytes": 2100,
+      "sha256": "0dc917de3ac8f57878f5bcad554c0b59f9280ff29f04b157ed85e78ad3fd36da"
+    },
+    {
+      "path": "tests/site-content-tests.log",
+      "bytes": 3285,
+      "sha256": "3de1eb619f3e064bae75c07f5639f40884839bc1528130a97a51668c2b36a851"
+    },
+    {
+      "path": "tests/site-home-final.log",
+      "bytes": 1179,
+      "sha256": "2aa0bd7d95bf616a785c909241d34d386c45259f0955ceb0dd06e29c9114e51b"
+    }
+  ]
+}

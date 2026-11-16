@@ -1,0 +1,56 @@
+
+> saydraft-site@0.1.0 content:test
+> node --test tools/content-verification.test.mjs tools/releases.test.mjs tools/html-validation.test.mjs tools/model-downloads.test.mjs tools/seo.test.mjs tools/home.test.mjs tools/demo.test.mjs
+
+✔ quarterly date bounds use UTC calendar dates and reject invalid/future dates (2.6636ms)
+✔ the actual recursive prebuild check rejects stale/missing dates without changing content (26.7599ms)
+✔ the Astro port preserves all four original canned raw/clean pairs (7.4853ms)
+✔ repository credits preserve a verified zero and refuse unavailable or malformed counts (28.8042ms)
+✖ product assets match native 2x provenance with no owner device access (4.5422ms)
+✔ readable product images retain alt text and only article verification dates apply to a page (5.2965ms)
+✔ HTML5 permits both Astro and React void/boolean serialization (172.772ms)
+✔ non-void self-closing content remains invalid (17.2423ms)
+✔ ARIA naming misuse and duplicate identifiers remain invalid (25.936ms)
+✔ documented default includes the disclosed tiny language detector (1.5583ms)
+✔ enhancement transfer excludes the complete notices bundled with the app (0.3312ms)
+✔ a missing catalog entry cannot produce invented download metadata (0.7782ms)
+✔ build-time release history excludes private drafts and preserves published previews (34.3087ms)
+✔ an unavailable API cannot masquerade as no published releases (1.0778ms)
+✔ social image paths stay within the configured base and distinguish nested pages (3.0211ms)
+✔ verification tags accept real token formats and reject pasted HTML or malformed values (0.4171ms)
+✔ readable exports preserve code, table links and collapsed FAQ answers without script or navigation (9.1404ms)
+✔ social cards render long page titles with local fonts, intact gutters and no text overlap (245.2514ms)
+✔ FAQ metadata includes actual FAQ blocks and leaves unrelated disclosures out (1.5418ms)
+ℹ tests 19
+ℹ suites 0
+ℹ pass 18
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 774.5827
+
+✖ failing tests:
+
+test at tools\home.test.mjs:30:1
+✖ product assets match native 2x provenance with no owner device access (4.5422ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + '28d8d46cb20909eae19152f22636942db8194f1b071e181ac2c6750f34b5d6da'
+  - '0d17ecb7923717c63553f52e7538a7419a96e5df0e7ce17889f339e725eb3e9c'
+  
+      at TestContext.<anonymous> (file:///C:/Users/tanzir/Desktop/voice_tray/site/tools/home.test.mjs:38:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '28d8d46cb20909eae19152f22636942db8194f1b071e181ac2c6750f34b5d6da',
+    expected: '0d17ecb7923717c63553f52e7538a7419a96e5df0e7ce17889f339e725eb3e9c',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

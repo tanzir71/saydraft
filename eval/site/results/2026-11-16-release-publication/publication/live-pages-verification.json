@@ -1,0 +1,57 @@
+{
+  "pages": [
+    {
+      "url": "https://tanzir71.github.io/saydraft/",
+      "status": 200,
+      "sha256": "40e0444db7eaa10d4222e1708c56d81de61af36d574869f8bb8fdaa72e114db3",
+      "local_sha256": "40e0444db7eaa10d4222e1708c56d81de61af36d574869f8bb8fdaa72e114db3",
+      "published_sha256": "40e0444db7eaa10d4222e1708c56d81de61af36d574869f8bb8fdaa72e114db3",
+      "exact_published_match": true,
+      "local_lf_match": true,
+      "current_preview": true,
+      "bytes": 64604
+    },
+    {
+      "url": "https://tanzir71.github.io/saydraft/download/",
+      "status": 200,
+      "sha256": "ed2450a72739b5a3b189c49746dd8d0a679ba716725f20dee6f5c813f8fff79b",
+      "local_sha256": "9e16ce2bd2ebbc2643f03347b6a31534a8b4b4018136e7eea83d538fa3b2c780",
+      "published_sha256": "ed2450a72739b5a3b189c49746dd8d0a679ba716725f20dee6f5c813f8fff79b",
+      "exact_published_match": true,
+      "local_lf_match": true,
+      "current_preview": true,
+      "bytes": 26078
+    },
+    {
+      "url": "https://tanzir71.github.io/saydraft/changelog/",
+      "status": 200,
+      "sha256": "de034f69d307ae9c7c56fac805fe561ab4fafcfbfe67f68396875667abb15208",
+      "local_sha256": "f2acacfe5f88106b62ce54ab5f2e0aa71810a6a4ed6f0277e0ffd4b1ee6f9bb1",
+      "published_sha256": "de034f69d307ae9c7c56fac805fe561ab4fafcfbfe67f68396875667abb15208",
+      "exact_published_match": true,
+      "local_lf_match": true,
+      "current_preview": true,
+      "bytes": 19902
+    }
+  ],
+  "assets": [
+    {
+      "path": "/saydraft/_astro/geist-latin-wght-normal.BgDaEnEv.woff2",
+      "status": 200
+    },
+    {
+      "path": "/saydraft/_astro/familjen-grotesk-latin-500-normal.BASv1Bog.woff2",
+      "status": 200
+    },
+    {
+      "path": "/saydraft/_astro/Base.CZPyejbz.css",
+      "status": 200
+    },
+    {
+      "path": "/saydraft/_astro/index.B7YIZPIC.css",
+      "status": 200
+    }
+  ],
+  "all_match": true,
+  "note": "Public HTML matches the committed Pages tree exactly and the local build after Git LF normalization."
+}

@@ -1,0 +1,19 @@
+{
+  "version": "0.1.0",
+  "tag": "v0.1.0-preview.20261116",
+  "channel": "development-preview",
+  "platform": "windows-x64",
+  "source_commit": "12bc27ffdb3ba388ea199e5e51661c968815c2fe",
+  "artifact": "Saydraft-0.1.0-win-x64.zip",
+  "bytes": 157308167,
+  "sha256": "b24ca638e91035c35029b67577b7d62859e22904618a9fa7e982a330ec40901f",
+  "signed": false,
+  "installer_built": false,
+  "models_bundled": false,
+  "files_verified": 1440,
+  "embedded_modules_verified": 89,
+  "frozen_uia_initialization_verified": true,
+  "frozen_focused_field_metadata_verified": true,
+  "owner_reported_insertion_working": "2026-11-16",
+  "verification_record": "https://github.com/tanzir71/saydraft/tree/64cb05bb4869bb296c89d4079c4b2f01beec731c/eval/ui/results/2026-11-16-frozen-delivery"
+}

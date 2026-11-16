@@ -1,0 +1,25 @@
+import { readFileSync, writeFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+import { execFileSync } from 'node:child_process';
+const qa='D:/Saydraft-Codex-QA-20261112-01a1cbc7/release-publication-20261116-r1';
+const root='C:/Users/tanzir/Desktop/voice_tray/site/dist/';
+const hash=(data)=>createHash('sha256').update(data).digest('hex');
+const publication=JSON.parse(readFileSync(qa+'/pages-publication.json','utf8').replace(/^\uFEFF/,''));
+const lf=(data)=>Buffer.from(data.toString().replaceAll('\r\n','\n'));
+const paths=['','download/','changelog/'];
+const rows=await Promise.all(paths.map(async path=>{
+ const url='https://tanzir71.github.io/saydraft/'+path;
+ const response=await fetch(url+'?preview=v0.1.0-preview.20261116',{headers:{'Cache-Control':'no-cache'},signal:AbortSignal.timeout(20000)});
+ const body=Buffer.from(await response.arrayBuffer());
+ const local=readFileSync(root+path+'index.html');
+ const committed=execFileSync('git',['show',publication.pages_commit+':'+path+'index.html'],{cwd:'C:/Users/tanzir/Desktop/voice_tray'});
+ return {url,status:response.status,sha256:hash(body),local_sha256:hash(local),published_sha256:hash(committed),exact_published_match:hash(body)===hash(committed),local_lf_match:hash(lf(body))===hash(lf(local)),current_preview:body.toString().includes('v0.1.0-preview.20261116'),bytes:body.length};
+}));
+const html=readFileSync(root+'index.html','utf8');
+const assets=[...new Set([...html.matchAll(/(?:href|src)="(\/saydraft\/_astro\/[^"?#]+)[^"]*"/g)].map(m=>m[1]))].slice(0,8);
+const assetRows=await Promise.all(assets.map(async path=>{const response=await fetch('https://tanzir71.github.io'+path,{method:'HEAD',signal:AbortSignal.timeout(20000)});return {path,status:response.status};}));
+const allMatch=rows.every(r=>r.status===200&&r.exact_published_match&&r.local_lf_match&&r.current_preview)&&assetRows.length>0&&assetRows.every(r=>r.status===200);
+writeFileSync(qa+'/live-pages-verification.json',JSON.stringify({pages:rows,assets:assetRows,all_match:allMatch,note:'Public HTML matches the committed Pages tree exactly and the local build after Git LF normalization.'},null,2)+'\n');
+console.log(JSON.stringify(rows,null,2));
+console.log(JSON.stringify(assetRows));
+if(!allMatch) process.exitCode=1;

@@ -1,0 +1,135 @@
+[WebServer] (node:40748) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 6 tests using 3 workers
+
+(node:21004) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:38196) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:35692) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 3 [mobile] › tests\site.spec.ts:245:1 › source command copy and guide contents work in the static site (1.7s)
+(node:36448) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 4 [tablet] › tests\site.spec.ts:245:1 › source command copy and guide contents work in the static site (1.1s)
+(node:7572) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  2 [mobile] › tests\home.spec.ts:13:1 › v2 explains local setup and keeps devices, sources, languages and creator credit intact (6.2s)
+  x  1 [tablet] › tests\home.spec.ts:13:1 › v2 explains local setup and keeps devices, sources, languages and creator credit intact (6.6s)
+(node:36748) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 6 [desktop] › tests\site.spec.ts:245:1 › source command copy and guide contents work in the static site (826ms)
+  x  5 [desktop] › tests\home.spec.ts:13:1 › v2 explains local setup and keeps devices, sources, languages and creator credit intact (5.7s)
+
+
+  1) [mobile] › tests\home.spec.ts:13:1 › v2 explains local setup and keeps devices, sources, languages and creator credit intact 
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: getByRole('complementary', { name: 'Project announcement' })
+    Expected substring: "development"
+    Received string:    "The Windows preview is here. Download Saydraft 0.1.0 — unsigned and freeWindows preview available — unsigned and free ↗"
+    Timeout: 5000ms
+
+    Call log:
+      - Expect "toContainText" getByRole('complementary', { name: 'Project announcement' }) with timeout 5000ms
+      - waiting for getByRole('complementary', { name: 'Project announcement' })
+        13 × locator resolved to <aside class="_bar_adfpf_1" aria-label="Project announcement">…</aside>
+           - unexpected value "The Windows preview is here. Download Saydraft 0.1.0 — unsigned and freeWindows preview available — unsigned and free ↗"
+
+
+      38 |   await expect(
+      39 |     page.getByRole("complementary", { name: "Project announcement" }),
+    > 40 |   ).toContainText("development");
+         |     ^
+      41 |   await expect(page.locator(".how-grid article")).toHaveCount(3);
+      42 |   await expect(page.locator(".feature-bento article")).toHaveCount(5);
+      43 |   await expect(page.locator(".command-tile")).toContainText(
+        at C:\Users\tanzir\Desktop\voice_tray\site\tests\home.spec.ts:40:5
+
+    Error Context: test-results\home-v2-explains-local-set-77e3a-s-and-creator-credit-intact-mobile\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\home-v2-explains-local-set-77e3a-s-and-creator-credit-intact-mobile\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\home-v2-explains-local-set-77e3a-s-and-creator-credit-intact-mobile\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [tablet] › tests\home.spec.ts:13:1 › v2 explains local setup and keeps devices, sources, languages and creator credit intact 
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: getByRole('complementary', { name: 'Project announcement' })
+    Expected substring: "development"
+    Received string:    "The Windows preview is here. Download Saydraft 0.1.0 — unsigned and freeWindows preview available — unsigned and free ↗"
+    Timeout: 5000ms
+
+    Call log:
+      - Expect "toContainText" getByRole('complementary', { name: 'Project announcement' }) with timeout 5000ms
+      - waiting for getByRole('complementary', { name: 'Project announcement' })
+        13 × locator resolved to <aside class="_bar_adfpf_1" aria-label="Project announcement">…</aside>
+           - unexpected value "The Windows preview is here. Download Saydraft 0.1.0 — unsigned and freeWindows preview available — unsigned and free ↗"
+
+
+      38 |   await expect(
+      39 |     page.getByRole("complementary", { name: "Project announcement" }),
+    > 40 |   ).toContainText("development");
+         |     ^
+      41 |   await expect(page.locator(".how-grid article")).toHaveCount(3);
+      42 |   await expect(page.locator(".feature-bento article")).toHaveCount(5);
+      43 |   await expect(page.locator(".command-tile")).toContainText(
+        at C:\Users\tanzir\Desktop\voice_tray\site\tests\home.spec.ts:40:5
+
+    Error Context: test-results\home-v2-explains-local-set-77e3a-s-and-creator-credit-intact-tablet\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\home-v2-explains-local-set-77e3a-s-and-creator-credit-intact-tablet\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\home-v2-explains-local-set-77e3a-s-and-creator-credit-intact-tablet\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) [desktop] › tests\home.spec.ts:13:1 › v2 explains local setup and keeps devices, sources, languages and creator credit intact 
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: getByRole('complementary', { name: 'Project announcement' })
+    Expected substring: "development"
+    Received string:    "The Windows preview is here. Download Saydraft 0.1.0 — unsigned and freeWindows preview available — unsigned and free ↗"
+    Timeout: 5000ms
+
+    Call log:
+      - Expect "toContainText" getByRole('complementary', { name: 'Project announcement' }) with timeout 5000ms
+      - waiting for getByRole('complementary', { name: 'Project announcement' })
+        14 × locator resolved to <aside class="_bar_adfpf_1" aria-label="Project announcement">…</aside>
+           - unexpected value "The Windows preview is here. Download Saydraft 0.1.0 — unsigned and freeWindows preview available — unsigned and free ↗"
+
+
+      38 |   await expect(
+      39 |     page.getByRole("complementary", { name: "Project announcement" }),
+    > 40 |   ).toContainText("development");
+         |     ^
+      41 |   await expect(page.locator(".how-grid article")).toHaveCount(3);
+      42 |   await expect(page.locator(".feature-bento article")).toHaveCount(5);
+      43 |   await expect(page.locator(".command-tile")).toContainText(
+        at C:\Users\tanzir\Desktop\voice_tray\site\tests\home.spec.ts:40:5
+
+    Error Context: test-results\home-v2-explains-local-set-77e3a-s-and-creator-credit-intact-desktop\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\home-v2-explains-local-set-77e3a-s-and-creator-credit-intact-desktop\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\home-v2-explains-local-set-77e3a-s-and-creator-credit-intact-desktop\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3 failed
+    [mobile] › tests\home.spec.ts:13:1 › v2 explains local setup and keeps devices, sources, languages and creator credit intact 
+    [tablet] › tests\home.spec.ts:13:1 › v2 explains local setup and keeps devices, sources, languages and creator credit intact 
+    [desktop] › tests\home.spec.ts:13:1 › v2 explains local setup and keeps devices, sources, languages and creator credit intact 
+  3 passed (14.8s)

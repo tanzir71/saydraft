@@ -1,0 +1,32 @@
+{
+  "pages": [
+    {
+      "url": "https://tanzir71.github.io/saydraft/",
+      "status": 200,
+      "sha256": "0f6f2e8edc3b1934b89719710895dc69ce840afd529be88b036e779c4fdda76a",
+      "local_sha256": "40e0444db7eaa10d4222e1708c56d81de61af36d574869f8bb8fdaa72e114db3",
+      "exact_match": false,
+      "current_preview": false,
+      "bytes": 64056
+    },
+    {
+      "url": "https://tanzir71.github.io/saydraft/download/",
+      "status": 200,
+      "sha256": "a8bf434f5e5ef7334773765937b0219534d9ffaf4d0b40b1c6a07f703be5740e",
+      "local_sha256": "9e16ce2bd2ebbc2643f03347b6a31534a8b4b4018136e7eea83d538fa3b2c780",
+      "exact_match": false,
+      "current_preview": false,
+      "bytes": 24700
+    },
+    {
+      "url": "https://tanzir71.github.io/saydraft/changelog/",
+      "status": 200,
+      "sha256": "a229af344b7ad1a13e51478c572874126a502d1615352ed7c8287190df35a519",
+      "local_sha256": "f2acacfe5f88106b62ce54ab5f2e0aa71810a6a4ed6f0277e0ffd4b1ee6f9bb1",
+      "exact_match": false,
+      "current_preview": false,
+      "bytes": 18027
+    }
+  ],
+  "all_match": false
+}
