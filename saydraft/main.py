@@ -7,6 +7,12 @@ def main() -> int:
     """Run Saydraft."""
     import sys
 
+    # Explicit support diagnostic bypasses migration, singleton, audio, hooks,
+    # clipboard and the UI. It only reports non-content field metadata.
+    if sys.argv[1:2] == ["--verify-field-metadata"]:
+        from .context.uia_startup import metadata_main
+        return metadata_main(sys.argv[2:])
+
     # The elevated helper must not migrate profiles, open devices, acquire the
     # application lock or start the tray. Its target is always its own EXE.
     if sys.argv[1:2] == ["--manage-firewall"]:

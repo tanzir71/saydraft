@@ -6,7 +6,7 @@ os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 import json
 from pathlib import Path
 import struct
-from PySide6 import QtCore, QtGui, QtWidgets
+from PySide6 import QtCore, QtGui, QtSvg, QtWidgets
 
 ROOT = Path(__file__).resolve().parents[1]
 SIZES = (16, 20, 24, 32, 48, 64, 256)
@@ -18,27 +18,21 @@ def render(size, state, tokens):
     painter = QtGui.QPainter(image)
     painter.setRenderHint(QtGui.QPainter.Antialiasing)
     painter.scale(size / 32, size / 32)
-    painter.setPen(QtGui.QPen(QtGui.QColor(tokens["fg"]), 1.25))
-    painter.setBrush(
-        QtGui.QColor(tokens["signal"] if state == "recording" else tokens["bg"])
-    )
-    painter.drawEllipse(QtCore.QRectF(1.5, 1.5, 29, 29))
-    painter.setPen(
-        QtGui.QPen(
-            QtGui.QColor(tokens["fg"]), 2.5, QtCore.Qt.SolidLine, QtCore.Qt.RoundCap
-        )
-    )
-    if state == "processing":
-        for x, height in ((10, 8), (16, 15), (22, 11)):
-            painter.drawLine(
-                QtCore.QPointF(x, 16 - height / 2), QtCore.QPointF(x, 16 + height / 2)
-            )
-    else:
-        painter.setBrush(QtGui.QColor(tokens["fg"]))
-        painter.drawRoundedRect(QtCore.QRectF(13, 7, 6, 12), 3, 3)
-        painter.setBrush(QtCore.Qt.NoBrush)
-        painter.drawArc(QtCore.QRectF(9, 10, 14, 14), 180 * 16, 180 * 16)
-        painter.drawLine(QtCore.QPointF(16, 24), QtCore.QPointF(16, 27))
+    painter.setPen(QtCore.Qt.NoPen)
+    inset = 1
+    ink = tokens["signal"]
+    if state == "recording":
+        painter.setBrush(QtGui.QColor(tokens["signal"]))
+        painter.drawEllipse(QtCore.QRectF(1, 1, 30, 30))
+        ink, inset = tokens["fg"], 4
+    elif state == "processing":
+        painter.setBrush(QtGui.QColor(tokens["bg"]))
+        painter.drawRoundedRect(QtCore.QRectF(1, 1, 30, 30), 7, 7)
+        inset = 4
+    source = (ROOT / "assets/tray/saydraft-mark.svg").read_bytes()
+    renderer = QtSvg.QSvgRenderer(source.replace(b"#FF5B3A", ink.encode("ascii")))
+    assert renderer.isValid()
+    renderer.render(painter, QtCore.QRectF(inset, inset, 32 - 2 * inset, 32 - 2 * inset))
     painter.end()
     buffer = QtCore.QBuffer()
     buffer.open(QtCore.QIODevice.WriteOnly)

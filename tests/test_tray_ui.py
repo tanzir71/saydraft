@@ -154,6 +154,19 @@ def test_default_tray_assets_are_real_ico_files():
         assert len(data) > 100
 
 
+def test_tray_brand_geometry_matches_the_landing_page_logo():
+    import re
+    import xml.etree.ElementTree as ET
+    root = Path(__file__).resolve().parents[1]
+    logo = ET.parse(root / "assets/tray/saydraft-mark.svg").getroot()
+    path = next(iter(logo))
+    website = (root / "site/src/components/Mark/Mark.tsx").read_text(encoding="utf-8")
+    assert logo.attrib["viewBox"] == "0 0 24 24"
+    assert path.attrib["d"] == re.search(r'd="([^"]+)"', website).group(1)
+    assert path.attrib["stroke-width"] == re.search(r'strokeWidth="([^"]+)"', website).group(1)
+    assert path.attrib["stroke-linecap"] == "round"
+
+
 def test_default_asset_dir_uses_exe_sibling_assets_when_frozen(monkeypatch, tmp_path):
     import sys
     import saydraft.ui.tray as tray

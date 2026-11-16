@@ -9,6 +9,11 @@ _ROOT = Path(__file__).resolve().parents[2] / "assets/icons"
 _CACHE = {}
 
 
+def brand_icon():
+    """The same multi-resolution landing-page mark used by the EXE and tray."""
+    return QtGui.QIcon(str(_ROOT.parent / "tray" / "mic_idle.ico"))
+
+
 def svg_icon(name, palette=None, *, size=20, tone="inkMuted"):
     """Render only bounded, bundled line art; never resolve SVG external resources."""
     if not isinstance(name, str) or not re.fullmatch(r"[a-z][a-z0-9-]{0,39}", name):

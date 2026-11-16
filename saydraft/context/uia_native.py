@@ -4,6 +4,7 @@ import threading
 from array import array
 import ctypes as ct
 from ctypes import wintypes as wt
+from pathlib import Path
 
 import comtypes
 import comtypes.client
@@ -21,6 +22,14 @@ class NativeUIAReader:
         self._initialized = True
         try:
             with _TYPELIB_LOCK:
+                # A clean frozen build has no on-disk comtypes.gen package.
+                # comtypes creates a memory-only package with an empty path,
+                # but its in-memory generator still indexes __path__[0].
+                # Supply only a virtual filename root; never create a cache or
+                # write generated SDK wrappers to the application/user folders.
+                from comtypes import gen
+                if not gen.__path__:
+                    gen.__path__ = [str(Path(comtypes.__file__).with_name("gen"))]
                 previous = comtypes.client.gen_dir
                 try:
                     comtypes.client.gen_dir = None  # Generate SDK metadata only in RAM, never user text on disk.

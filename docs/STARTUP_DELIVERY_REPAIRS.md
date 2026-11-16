@@ -1,5 +1,28 @@
 # Startup, delivery and tray repairs · 16 November 2026
 
+## Frozen-reader follow-up
+
+The earlier timeout isolation did not resolve the distributed app's refusal.
+A clean frozen bundle lacks an on-disk `comtypes.gen` package. Comtypes creates
+an in-memory package with an empty path, then its memory-only typelib generator
+indexes that path and raises `IndexError`. The UIA worker consequently retires
+and every field remains unavailable. Replaying the actual archived COM modules
+reproduced this failure; supplying a virtual filename root fixes initialization
+without writing generated wrappers or relaxing field/password checks.
+
+The package verifier now constructs and closes the actual reader on its MTA;
+an import-only check is insufficient. An explicit developer diagnostic,
+`Saydraft.exe --verify-field-metadata <new-output.json>`, reports only policy
+status, password flag, control type, identity length and window stability. It
+starts no UI, audio, hooks, clipboard or input services and reads no field text.
+Host use remains limited to the owner's metadata-only approval. Full native
+paste/clipboard acceptance remains separate.
+
+The application, Hub window and tray now use the landing-page orange star mark.
+Its canonical path/stroke is copied to `assets/tray/saydraft-mark.svg`; a geometry
+contract checks it against the website's Mark component. Recording/processing
+keep the same star with distinct status treatments. Icons retain seven sizes.
+
 These repairs follow the owner's reports of silent first use, unavailable fields
 in browser/Codex, inconsistent English filler cleanup, tray rendering/clicks,
 the PERSONALIZE heading, and missing AI cleanup onboarding.

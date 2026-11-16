@@ -5,7 +5,7 @@ from .home_page import HomePage
 from .notes_page import NotesPage
 from .history_page import HistoryPage
 from .settings_page import SettingsPage
-from .icons import svg_icon
+from .icons import svg_icon, brand_icon
 from .kit import Label, Card, KeyCombo, SaveBar, ActionButton
 from .theme.style import role_font, color, focus_visible
 
@@ -222,7 +222,7 @@ class HubWindow(QtWidgets.QWidget):
             parent = parent.parentWidget()
 
     def _refresh_icons(self):
-        self.setWindowIcon(svg_icon("mark", self.palette(), size=24, tone="signal"))
+        self.setWindowIcon(brand_icon())
         for index in range(self.navigation.count()):
             item = self.navigation.item(index)
             name = item.data(QtCore.Qt.UserRole)

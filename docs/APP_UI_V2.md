@@ -17,6 +17,9 @@ toggle/radio state and text-field focus remain available. High contrast keeps
 the platform stylesheet; custom toggle/sidebar indicators follow input modality.
 [Focus verification and updated portable](../eval/ui/results/2026-11-16-focus-presentation/README.md).
 
+The app/window/tray icons now share the landing-page star geometry, replacing the
+microphone artwork. Recording and processing keep that mark with status backgrounds.
+
 The Hub uses a 216px rail, pinned Settings, grouped cards, searchable language
 tiles, native checkbox toggles and radio segments. Home uses actual local History
 statistics. History retains raw/cleaned/changes views, paging, recovery and retry;

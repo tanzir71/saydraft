@@ -69,6 +69,11 @@ def verify_runtime():
         if importlib.util.find_spec('sounddevice') is None or not any(root.rglob('*portaudio*.dll')):
             raise ValueError('Capture runtime missing')
         result['checks']['native_imports'] = True
+        # Imports alone missed a frozen comtypes bootstrap failure. Construct
+        # and close the real UIA reader on its MTA, without acquiring a field.
+        result['stage'] = 'uia_initialization'
+        from .context.uia_startup import verify_initialization
+        result['checks']['uia_initialization'] = verify_initialization()
         # SoundCard's CFFI declarations are read at import. Verify the frozen
         # module and header without initializing COM or querying audio endpoints.
         if (importlib.util.find_spec('soundcard') is None

@@ -404,6 +404,9 @@ class SaydraftApp:
 
         application.setApplicationName("Saydraft")
         application.setQuitOnLastWindowClosed(False)
+        if hasattr(application, "setWindowIcon"):
+            from .ui.icons import brand_icon
+            application.setWindowIcon(brand_icon())
         if hasattr(qt_modules.QtGui, "QFontDatabase"):
             from .ui.fonts import install_bundled_fonts
             install_bundled_fonts(application, QtGui=qt_modules.QtGui)
