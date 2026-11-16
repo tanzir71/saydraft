@@ -1,0 +1,101 @@
+{
+  "pages": [
+    {
+      "url": "https://tanzir71.github.io/saydraft/",
+      "status": 200,
+      "sha256": "40e0444db7eaa10d4222e1708c56d81de61af36d574869f8bb8fdaa72e114db3",
+      "local_sha256": "40e0444db7eaa10d4222e1708c56d81de61af36d574869f8bb8fdaa72e114db3",
+      "published_sha256": "40e0444db7eaa10d4222e1708c56d81de61af36d574869f8bb8fdaa72e114db3",
+      "exact_published_match": true,
+      "local_lf_match": true,
+      "current_preview": true,
+      "bytes": 64604
+    },
+    {
+      "url": "https://tanzir71.github.io/saydraft/download/",
+      "status": 200,
+      "sha256": "ed2450a72739b5a3b189c49746dd8d0a679ba716725f20dee6f5c813f8fff79b",
+      "local_sha256": "9e16ce2bd2ebbc2643f03347b6a31534a8b4b4018136e7eea83d538fa3b2c780",
+      "published_sha256": "ed2450a72739b5a3b189c49746dd8d0a679ba716725f20dee6f5c813f8fff79b",
+      "exact_published_match": true,
+      "local_lf_match": true,
+      "current_preview": true,
+      "bytes": 26078
+    },
+    {
+      "url": "https://tanzir71.github.io/saydraft/changelog/",
+      "status": 200,
+      "sha256": "de034f69d307ae9c7c56fac805fe561ab4fafcfbfe67f68396875667abb15208",
+      "local_sha256": "f2acacfe5f88106b62ce54ab5f2e0aa71810a6a4ed6f0277e0ffd4b1ee6f9bb1",
+      "published_sha256": "de034f69d307ae9c7c56fac805fe561ab4fafcfbfe67f68396875667abb15208",
+      "exact_published_match": true,
+      "local_lf_match": true,
+      "current_preview": true,
+      "bytes": 19902
+    },
+    {
+      "url": "https://tanzir71.github.io/saydraft/wispr-flow-alternative/",
+      "status": 200,
+      "sha256": "5e7fe6b0352e40bb1925399ae603fce6c211f2b87d803e29d60b4b3a870b064a",
+      "local_sha256": "5e7fe6b0352e40bb1925399ae603fce6c211f2b87d803e29d60b4b3a870b064a",
+      "published_sha256": "5e7fe6b0352e40bb1925399ae603fce6c211f2b87d803e29d60b4b3a870b064a",
+      "exact_published_match": true,
+      "local_lf_match": true,
+      "current_preview": true,
+      "bytes": 20822
+    },
+    {
+      "url": "https://tanzir71.github.io/saydraft/typeless-alternative/",
+      "status": 200,
+      "sha256": "515ec91800e132fd5ebb0fe994015b0dae5cb631799d81f2066fa0d71fafea29",
+      "local_sha256": "515ec91800e132fd5ebb0fe994015b0dae5cb631799d81f2066fa0d71fafea29",
+      "published_sha256": "515ec91800e132fd5ebb0fe994015b0dae5cb631799d81f2066fa0d71fafea29",
+      "exact_published_match": true,
+      "local_lf_match": true,
+      "current_preview": true,
+      "bytes": 21041
+    },
+    {
+      "url": "https://tanzir71.github.io/saydraft/offline-dictation-windows/",
+      "status": 200,
+      "sha256": "6c41223e38e2c5e114e31ae8b087eebb1abb987e5e37844c70b102ac845337a1",
+      "local_sha256": "6c41223e38e2c5e114e31ae8b087eebb1abb987e5e37844c70b102ac845337a1",
+      "published_sha256": "6c41223e38e2c5e114e31ae8b087eebb1abb987e5e37844c70b102ac845337a1",
+      "exact_published_match": true,
+      "local_lf_match": true,
+      "current_preview": true,
+      "bytes": 24118
+    },
+    {
+      "url": "https://tanzir71.github.io/saydraft/dictation-for-developers/",
+      "status": 200,
+      "sha256": "94a0fe2315b2b793c2611e939f2bd6934db080eb3b9fc8faa9d0f2aa3ac6e57f",
+      "local_sha256": "94a0fe2315b2b793c2611e939f2bd6934db080eb3b9fc8faa9d0f2aa3ac6e57f",
+      "published_sha256": "94a0fe2315b2b793c2611e939f2bd6934db080eb3b9fc8faa9d0f2aa3ac6e57f",
+      "exact_published_match": true,
+      "local_lf_match": true,
+      "current_preview": true,
+      "bytes": 20690
+    }
+  ],
+  "assets": [
+    {
+      "path": "/saydraft/_astro/geist-latin-wght-normal.BgDaEnEv.woff2",
+      "status": 200
+    },
+    {
+      "path": "/saydraft/_astro/familjen-grotesk-latin-500-normal.BASv1Bog.woff2",
+      "status": 200
+    },
+    {
+      "path": "/saydraft/_astro/Base.CZPyejbz.css",
+      "status": 200
+    },
+    {
+      "path": "/saydraft/_astro/index.B7YIZPIC.css",
+      "status": 200
+    }
+  ],
+  "all_match": true,
+  "note": "Public HTML matches the committed Pages tree exactly and the local build after Git LF normalization."
+}

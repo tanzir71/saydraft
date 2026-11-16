@@ -3,19 +3,24 @@
 The owner stopped all VM work on 16 November 2026 because storage is limited and
 requested cleanup of past builds. Do not download VM tools/media or prepare disks.
 
-The local inventory identified **24,751,600,064 bytes (23.05 GiB)** of obsolete
-package output, including the stopped partial QEMU download. The cleanup script
-passed its preview run; automatic approval review rejected deletion as
-`blocked by policy`, without a more specific reason. No deletion is claimed.
-The owner-run script and full target inventory are retained in
+The owner-run cleanup removed **24,751,600,064 bytes (23.05 GiB)** of obsolete
+package output across 85 exact targets, including the stopped partial QEMU
+download. The script passed preview runs in PowerShell 7 and Windows PowerShell
+5.1. Automatic approval review had rejected direct deletion as `blocked by policy`,
+so the owner ran the validated script. The completion receipt and an independent
+check confirm all 85 targets are absent. The retained release ZIP matches its
+published checksum; all 1,440 extracted payload files match the build audit.
+See the [cleanup verification receipt](../eval/site/results/2026-11-16-preview-docs/cleanup-verification.json).
+The script and full target inventory are retained in
 `D:/Saydraft-Codex-QA-20261112-01a1cbc7/roadmap-resumption-20261116-r1/`:
 
 - `cleanup-past-builds.ps1`: preview by default; `-Apply` removes the exact
   allowlisted paths. It checks absolute paths and rejects reparse points before
   deletion, verifies the retained release ZIP, and writes `cleanup-completed.json`
   only after successful removal.
-- `cleanup-plan.json`, `build-inventory.json` and `cleanup-preview.log`: selected
-  paths, logical sizes and the completed dry run.
+- `cleanup-plan.json`, `build-inventory.json`, `cleanup-preview-ps51.log`,
+  `cleanup-completed.json` and `retained-build-verification.json`: selected paths,
+  logical sizes, the completed dry run, actual removal and preservation checks.
 
 The script preserves all source/worktrees, model weights, profiles and audit/test
 receipts. It retains the published `12bc27f` ZIP and extracted app under

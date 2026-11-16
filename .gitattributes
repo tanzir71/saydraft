@@ -93,6 +93,9 @@ eval/site/results/2026-11-15-seo/** -text -whitespace
 # Product-render provenance pins the producer bytes across operating systems.
 site/tools/render_product.py -text
 site/src/assets/product/render-source.py -text
+eval/site/results/2026-11-16-preview-docs/*.log -text -diff
+eval/site/results/2026-11-16-preview-docs/*.json -text whitespace=cr-at-eol
+eval/site/results/2026-11-16-preview-docs/*.mjs -text whitespace=cr-at-eol
 # Preserve original Home browser, screenshot, source and Lighthouse evidence.
 eval/site/results/2026-11-15-home/** -text -whitespace
 # Preserve original canned-demo, legacy fixture, browser and Lighthouse evidence.

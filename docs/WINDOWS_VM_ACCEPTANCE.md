@@ -13,7 +13,8 @@ stopped all VM work because of limited storage. Do not download VM tools/media,
 prepare disks or provision a guest. Native acceptance stays pending; this plan
 is retained for a later owner-authorized continuation. The attempted portable
 QEMU download was stopped before completion; no installer ran, VM was configured
-or guest was booted. Cleanup of its partial download is tracked with past builds.
+or guest was booted. Its partial download was removed with
+[past build cleanup](BUILD_RETENTION.md).
 
 No guest has been created or started. Read-only preparation found no installed
 VM manager. `WHvGetCapability(HypervisorPresent)` returned success and true;

@@ -7,11 +7,10 @@ provision or download a VM. Continue applicable file-only/offscreen work within
 the existing host-access restrictions. Unsigned distribution, direct pushes and
 local validation remain the delivery policy.
 
-The [build retention record](BUILD_RETENTION.md) identifies 23.05 GiB of obsolete
-outputs with a validated cleanup preview. Deletion was blocked by automatic
-approval review; an owner-run script is ready. Preserve the current published
-build, models and evidence, and verify actual removal before claiming reclaimed
-space.
+The [build retention record](BUILD_RETENTION.md) confirms removal of 23.05 GiB of
+obsolete outputs through the validated owner-run script. All 85 selected targets
+are absent. The current published ZIP checksum and all 1,440 extracted payload
+hashes are unchanged. Source, models, profiles and audit evidence were preserved.
 
 The owner's latest instruction on 15 November is to distribute **unsigned**,
 finish the absolute minimum working preview, and document unfinished work for

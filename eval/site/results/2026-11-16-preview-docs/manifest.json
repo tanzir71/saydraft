@@ -1,0 +1,42 @@
+{
+  "schema": 1,
+  "source_commit": "2b35256a722de32be5b22bb5db6e964f7d593bd7",
+  "pages_commit": "f73dafb0f49a7065f943019643bf25f870a3875c",
+  "files": [
+    {
+      "path": "content-test.log",
+      "bytes": 2100,
+      "sha256": "a07236f79502f88fa8cc057d953469a29c77fd151d91385bc2a1ccdadd8accf8"
+    },
+    {
+      "path": "site-build.log",
+      "bytes": 4272,
+      "sha256": "c20de3dfdfde48515b626546e23dd1d927a30a5f740c9f2221b716c85e79cbe4"
+    },
+    {
+      "path": "site-browser.log",
+      "bytes": 843,
+      "sha256": "ce6392dff07284e2b9ba86dfca1e2dcea2a640e472f411c8c13804f6780be9e3"
+    },
+    {
+      "path": "pages-publication.json",
+      "bytes": 308,
+      "sha256": "df4075be62bef05eb8bc7d4044e04b1e673554b7ce6d95606f76e7bd130ea105"
+    },
+    {
+      "path": "live-pages-verification.json",
+      "bytes": 3998,
+      "sha256": "8439038237c1540e97c2eeed447f466f79445764175c41c90e99e3bd998a94a0"
+    },
+    {
+      "path": "verify_live.mjs",
+      "bytes": 2531,
+      "sha256": "ac266bafbeef580fce46616c9dfe3c3073ad3788952fa344bba8d6e76c7abeaa"
+    },
+    {
+      "path": "cleanup-verification.json",
+      "bytes": 468,
+      "sha256": "4ee75de0f547c523f673cc24f3ed132be42b0b67c6a967d050e59e0d6cb1831e"
+    }
+  ]
+}
