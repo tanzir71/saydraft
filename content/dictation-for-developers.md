@@ -52,7 +52,7 @@ Pro/Labs Command Mode can edit selected text with a separately installed local m
 
  
 
-Saydraft is currently available from source. Physical and packaged workflow qualification, broad language accuracy and release latency remain in progress. The [offline guide](https://tanzir71.github.io/saydraft/offline-dictation-windows/) explains model and privacy trade-offs before you choose a daily workflow.
+Saydraft has an [unsigned Windows portable preview](https://tanzir71.github.io/saydraft/download/) and source setup. Broader native workflow qualification, language accuracy and release latency remain in progress. The [offline guide](https://tanzir71.github.io/saydraft/offline-dictation-windows/) explains model and privacy trade-offs before you choose a daily workflow.
 
 ## A few useful answers.
 

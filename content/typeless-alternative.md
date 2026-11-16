@@ -6,7 +6,7 @@ Explore a free, open-source Typeless alternative for Windows. Compare local dict
 
 Facts checked: 2026-11-14
 
-Saydraft is a free, MIT-licensed Windows project for voice typing with local models. It is worth evaluating when offline use and inspectable application source matter to your workflow. A stable public release is still pending; current users run it from source.
+Saydraft is a free, MIT-licensed Windows project for voice typing with local models. It is worth evaluating when offline use and inspectable application source matter to your workflow. An unsigned Windows portable preview is available from the [download page](https://tanzir71.github.io/saydraft/download/); source setup is also available. A stable release and broader native acceptance remain pending.
 
  
 

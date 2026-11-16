@@ -10,7 +10,7 @@ Offline dictation turns microphone audio into text with a model stored on your c
 
  
 
-Saydraft is a free, open-source Windows project built around this workflow. It is available from source while signed-release and broader acceptance work continue.
+Saydraft is a free, open-source Windows project built around this workflow. An unsigned portable preview is available from the [download page](https://tanzir71.github.io/saydraft/download/), with source setup also available. Broader accuracy and native Windows acceptance remain in progress.
 
  
 
