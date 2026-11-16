@@ -6,7 +6,7 @@ from PySide6 import QtCore, QtGui, QtWidgets
 
 from .icons import svg_icon
 from .reflow import AdaptiveRow, WrapPushButton
-from .theme.style import body_pixels, color, high_contrast, repolish, scaled, set_role
+from .theme.style import body_pixels, color, focus_visible, high_contrast, repolish, scaled, set_role
 
 
 class Label(QtWidgets.QLabel):
@@ -187,7 +187,7 @@ class Toggle(QtWidgets.QCheckBox):
         painter.setPen(QtCore.Qt.NoPen)
         painter.setBrush(color(self, "onInverse" if self.isChecked() else "inkMuted"))
         painter.drawEllipse(QtCore.QPointF(center_x, track.center().y()), diameter / 2, diameter / 2)
-        if self.hasFocus():
+        if focus_visible(self):
             painter.setBrush(QtCore.Qt.NoBrush)
             painter.setPen(QtGui.QPen(color(self, "ink"), max(2, 2 * scale)))
             ring = track.adjusted(-3 * scale, -3 * scale, 3 * scale, 3 * scale)

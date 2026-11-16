@@ -14,6 +14,8 @@ The latest repairs prepare speech recognition before the first shortcut, restore
 tray clicks, improve tray artwork, and separate optional browser text reads from
 the required insertion checks. First-run Models now includes optional local AI
 cleanup. [Changes and verification limits](docs/STARTUP_DELIVERY_REPAIRS.md).
+Control focus rings appear during keyboard navigation; mouse clicks do not leave
+them behind.
 
 <img src="assets/media/saydraft-bar-static.png" width="640" alt="Actual Saydraft Bar with public sample text and optional English live preview">
 

@@ -38,6 +38,16 @@ def high_contrast(widget=None):
     return mode(widget) == "high-contrast"
 
 
+def focus_visible(widget):
+    if widget is None or not widget.hasFocus():
+        return False
+    app = QtWidgets.QApplication.instance()
+    controller = getattr(app, "_saydraft_theme", None)
+    if controller is None or controller.closed:
+        return True
+    return widget.property("keyboardFocus") is True
+
+
 def body_pixels():
     app = QtWidgets.QApplication.instance()
     font = app.font() if app else QtGui.QFont()

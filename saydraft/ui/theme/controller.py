@@ -51,6 +51,7 @@ class ThemeController(QtCore.QObject):
         self.connections = []
         self.quit_connected = self.started = False
         self.owns_style_propagation = False
+        self.keyboard_navigation = False
 
     @staticmethod
     def _read(path):
@@ -136,6 +137,20 @@ class ThemeController(QtCore.QObject):
         if self.closed or self.updating_fonts:
             return False
         kind = event.type()
+        if kind in (QtCore.QEvent.MouseButtonPress, QtCore.QEvent.MouseButtonDblClick, QtCore.QEvent.TouchBegin):
+            self.keyboard_navigation = False
+            self._focus_indicator(self.application.focusWidget(), False)
+        elif kind == QtCore.QEvent.KeyPress:
+            self.keyboard_navigation = True
+            self._focus_indicator(self.application.focusWidget(), True)
+        elif kind == QtCore.QEvent.FocusIn:
+            reason = event.reason()
+            keyboard = reason in (QtCore.Qt.TabFocusReason, QtCore.Qt.BacktabFocusReason, QtCore.Qt.ShortcutFocusReason)
+            if reason == QtCore.Qt.MouseFocusReason:
+                self.keyboard_navigation = False
+            elif keyboard:
+                self.keyboard_navigation = True
+            self._focus_indicator(watched, self.keyboard_navigation)
         if kind == QtCore.QEvent.ApplicationFontChange:
             self.font_timer.start(0)
         if isinstance(watched, QtWidgets.QWidget) and kind in (
@@ -143,6 +158,21 @@ class ThemeController(QtCore.QObject):
                 QtCore.QEvent.DynamicPropertyChange):
             self._role_font(watched)
         return False
+
+    @staticmethod
+    def _focus_indicator(widget, visible):
+        if not isinstance(widget, (QtWidgets.QAbstractButton, QtWidgets.QListWidget)):
+            return
+        if widget.property("keyboardFocus") is visible:
+            return
+        # Qt's :focus includes mouse focus. Keep native focus/activation intact,
+        # and expose input modality separately for the visual indicator.
+        widget.setProperty("keyboardFocus", visible)
+        widget.style().unpolish(widget)
+        widget.style().polish(widget)
+        widget.update()
+        if isinstance(widget, QtWidgets.QListWidget):
+            widget.viewport().update()
 
     def _role_font(self, widget):
         role = widget.property("role")

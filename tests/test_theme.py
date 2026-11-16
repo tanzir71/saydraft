@@ -12,6 +12,88 @@ from saydraft.ui.theme.controller import ThemeController
 APP = None
 
 
+@pytest.mark.parametrize("mode", ["light", "dark"])
+@pytest.mark.parametrize("kind", ["button", "tool", "segment", "toggle", "navigation"])
+def test_clicks_hide_focus_ring_and_keyboard_navigation_restores_it(setup_theme, mode, kind, tmp_path):
+    from PySide6 import QtTest
+    from saydraft.ui.kit import Toggle
+    from saydraft.ui.hub import HubNavigation, NavigationDelegate
+    from saydraft.ui.theme.style import focus_visible
+
+    app, _hints, install = setup_theme
+    from saydraft.ui.fonts import install_bundled_fonts
+    install_bundled_fonts(app)
+    install(mode=mode)
+    window = QtWidgets.QWidget()
+    layout = QtWidgets.QVBoxLayout(window)
+    entry = QtWidgets.QLineEdit("Keyboard entry point")
+    layout.addWidget(entry)
+    if kind == "navigation":
+        control = HubNavigation()
+        control.setObjectName("hubNavigation")
+        control.setItemDelegate(NavigationDelegate(control))
+        item = QtWidgets.QListWidgetItem("Home")
+        item.setData(QtCore.Qt.UserRole, "home")
+        control.addItem(item)
+        control.setCurrentRow(0)
+    elif kind == "toggle":
+        control = Toggle("Enable option")
+    elif kind == "segment":
+        control = QtWidgets.QRadioButton("Cleaned")
+        control.setProperty("segment", True)
+    elif kind == "tool":
+        control = QtWidgets.QToolButton()
+        control.setText("Open")
+        control.setFocusPolicy(QtCore.Qt.StrongFocus)
+    else:
+        control = QtWidgets.QPushButton("Continue")
+    layout.addWidget(control)
+    window.resize(360, 180)
+    window.show()
+    window.activateWindow()
+    for _ in range(5):
+        app.processEvents()
+    try:
+        receiver = control.viewport() if kind == "navigation" else control
+        point = control.visualItemRect(item).center() if kind == "navigation" else control.rect().center()
+        clicks = []
+        if kind != "navigation":
+            control.clicked.connect(lambda *_: clicks.append(True))
+        QtTest.QTest.mouseClick(receiver, QtCore.Qt.LeftButton, pos=point)
+        QtTest.QTest.mouseMove(entry)
+        app.processEvents()
+        assert control.hasFocus(), "Mouse focus itself remains available to assistive technology"
+        assert not focus_visible(control)
+        assert control.property("keyboardFocus") is False
+        if kind == "navigation":
+            assert control.currentItem() is item
+        else:
+            assert clicks == [True]
+        mouse = control.grab().toImage().convertToFormat(QtGui.QImage.Format_RGBA8888)
+        assert mouse.save(str(tmp_path / f"{mode}-{kind}-mouse.png"))
+
+        entry.setFocus(QtCore.Qt.MouseFocusReason)
+        QtTest.QTest.keyClick(entry, QtCore.Qt.Key_Tab)
+        app.processEvents()
+        assert control.hasFocus() and focus_visible(control)
+        keyboard = control.grab().toImage().convertToFormat(QtGui.QImage.Format_RGBA8888)
+        assert keyboard.save(str(tmp_path / f"{mode}-{kind}-keyboard.png"))
+        assert bytes(mouse.constBits()) != bytes(keyboard.constBits()), "Keyboard focus must remain visible"
+
+        # Clicking a control that already has keyboard focus must remove the
+        # ring too; this path does not receive another FocusIn event.
+        QtTest.QTest.mouseClick(receiver, QtCore.Qt.LeftButton, pos=point)
+        app.processEvents()
+        assert control.hasFocus() and not focus_visible(control)
+        if kind not in ("navigation", "segment"):
+            QtTest.QTest.keyClick(control, QtCore.Qt.Key_Space)
+            app.processEvents()
+            assert focus_visible(control) and clicks == [True, True, True]
+    finally:
+        window.close()
+        window.deleteLater()
+
+
 def test_live_application_font_reaches_existing_themed_controls(setup_theme):
     app, _hints, install = setup_theme
     from saydraft.ui.fonts import install_bundled_fonts

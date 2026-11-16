@@ -102,7 +102,7 @@ QPushButton:hover, QToolButton:hover { background: ${c.sunk}; }
 QPushButton[primary="true"]:hover { background: ${c.inkMuted}; border-color: ${c.inkMuted}; }
 QPushButton:disabled, QToolButton:disabled { color: ${c.inkFaint}; }
 QPushButton[primary="true"]:disabled { background: ${c.sunk}; border-color: ${c.sunk}; color: ${c.inkFaint}; }
-QPushButton:focus, QToolButton:focus, QLineEdit:focus, QComboBox:focus, QSpinBox:focus, QDoubleSpinBox:focus, QTextEdit:focus, QPlainTextEdit:focus { border: 2px solid ${c.ink}; }
+QPushButton[keyboardFocus="true"]:focus, QToolButton[keyboardFocus="true"]:focus, QLineEdit:focus, QComboBox:focus, QSpinBox:focus, QDoubleSpinBox:focus, QTextEdit:focus, QPlainTextEdit:focus { border: 2px solid ${c.ink}; }
 QToolButton { border: 1px solid transparent; border-radius: 8px; padding: 6px; }
 QLineEdit, QTextEdit, QPlainTextEdit, QComboBox, QSpinBox, QDoubleSpinBox { background: ${c.field}; color: ${c.ink}; border: 2px solid transparent; border-radius: ${r.control}px; padding: 6px 10px; min-height: 20px; selection-background-color: ${c.inverse}; selection-color: ${c.onInverse}; }
 QLineEdit[search="true"] { background: ${c.surface}; border: 1px solid ${c.hairline}; }
@@ -114,7 +114,7 @@ QFrame[segmented="true"][onBackground="true"] { background: ${c.sunk}; }
 QRadioButton[segment="true"], QPushButton[segment="true"] { background: transparent; border: 1px solid transparent; border-radius: ${r.segment}px; padding: 5px 12px; color: ${c.inkMuted}; }
 QRadioButton[segment="true"]::indicator { width: 0; height: 0; border: none; }
 QRadioButton[segment="true"]:checked, QPushButton[segment="true"]:checked { background: ${c.surface}; color: ${c.ink}; }
-QRadioButton[segment="true"]:focus, QPushButton[segment="true"]:focus { border: 2px solid ${c.ink}; }
+QRadioButton[segment="true"][keyboardFocus="true"]:focus, QPushButton[segment="true"][keyboardFocus="true"]:focus { border: 2px solid ${c.ink}; }
 QGroupBox { background: ${c.surface}; border: 1px solid ${c.hairline}; border-radius: ${r.card}px; margin-top: 20px; padding: 16px; }
 QGroupBox::title { subcontrol-origin: margin; padding-left: 8px; }
 QWidget#dictionaryToast { background: ${c.surface}; border: 1px solid ${c.hairline}; border-radius: ${r.toast}px; }
@@ -123,12 +123,12 @@ QTabBar::tab { background: ${c.bg}; color: ${c.inkMuted}; padding: 8px 12px; }
 QTabBar::tab:selected { background: ${c.surface}; color: ${c.ink}; }
 QListWidget { background: transparent; border: 2px solid transparent; border-radius: 10px; selection-background-color: ${c.field}; selection-color: ${c.ink}; }
 QListWidget:focus { border-color: transparent; }
-QListWidget::item:focus { border-color: ${c.ink}; }
+QListWidget[keyboardFocus="true"]::item:focus { border-color: ${c.ink}; }
 QListWidget::item { padding: 8px 10px; border: 1px solid transparent; border-radius: 10px; color: ${c.inkMuted}; }
 QListWidget::item:selected { background: ${c.selected}; color: ${c.ink}; border-color: ${c.hairline}; }
 QPushButton[navButton="true"] { text-align: left; border-radius: 10px; padding: 8px 10px; }
 QPushButton[navButton="true"]:checked { background: ${c.surface}; color: ${c.ink}; border: 1px solid ${c.hairline}; }
-QPushButton[navButton="true"]:focus { border: 2px solid ${c.ink}; }
+QPushButton[navButton="true"][keyboardFocus="true"]:focus { border: 2px solid ${c.ink}; }
 QListWidget#hubNavigation::item { min-height: 18px; padding: 8px 10px; }
 QListWidget#settingsSections::item { min-height: 16px; padding: 6px 12px; border-radius: 8px; }
 QListWidget#settingsSections::item:selected { background: ${c.surface}; }
@@ -141,7 +141,7 @@ QListWidget[languageTiles="true"]::indicator:checked { background: ${c.inverse};
 QTableView, QTreeView { background: ${c.surface}; alternate-background-color: ${c.surface}; selection-background-color: ${c.field}; selection-color: ${c.ink}; gridline-color: transparent; border: none; }
 QHeaderView::section { background: ${c.surface}; color: ${c.inkMuted}; border: none; border-bottom: 1px solid ${c.hairline}; padding: 10px 16px; }
 QCheckBox, QRadioButton { border: 2px solid transparent; padding: 2px; }
-QCheckBox:focus, QRadioButton:focus { border-color: ${c.ink}; border-radius: 4px; }
+QCheckBox[keyboardFocus="true"]:focus, QRadioButton[keyboardFocus="true"]:focus { border-color: ${c.ink}; border-radius: 4px; }
 QCheckBox::indicator, QRadioButton::indicator { width: 18px; height: 18px; background: ${c.surface}; border: 1px solid ${c.inkMuted}; border-radius: 4px; }
 QRadioButton::indicator { border-radius: 9px; }
 QCheckBox::indicator:checked { background: ${c.inverse}; border-color: ${c.inverse}; image: url(saydraftTheme:check-${dark ? 'dark' : 'light'}.svg); }
@@ -169,7 +169,7 @@ QFrame[saveBar="true"] { background: ${c.inverse}; color: ${c.onInverse}; border
 QFrame[saveBar="true"] QLabel { color: ${c.onInverse}; }
 QFrame[saveBar="true"] QPushButton { color: ${c.onInverse}; border-color: transparent; }
 QFrame[saveBar="true"] QPushButton[primary="true"] { background: ${c.onInverse}; color: ${c.inverse}; border-color: ${c.onInverse}; }
-QFrame[saveBar="true"] QPushButton:focus { border: 2px solid ${c.onInverse}; }
+QFrame[saveBar="true"] QPushButton[keyboardFocus="true"]:focus { border: 2px solid ${c.onInverse}; }
 QFrame[inverse="true"] { background: ${c.inverse}; color: ${c.onInverse}; border-radius: ${r.card}px; }
 QFrame[inverse="true"] QLabel { color: ${c.onInverse}; background: transparent; }
 QFrame[setupStage="true"] { background: ${c.bg}; border-radius: 16px; }

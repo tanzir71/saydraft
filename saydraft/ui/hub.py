@@ -7,7 +7,7 @@ from .history_page import HistoryPage
 from .settings_page import SettingsPage
 from .icons import svg_icon
 from .kit import Label, Card, KeyCombo, SaveBar, ActionButton
-from .theme.style import role_font, color
+from .theme.style import role_font, color, focus_visible
 
 _PAGES = {"Home": "home", "History": "history", "Notes": "notes", "Dictionary": "dictionary",
           "Snippets": "snippets", "Style": "style", "Settings": "settings"}
@@ -23,7 +23,7 @@ class NavigationDelegate(QtWidgets.QStyledItemDelegate):
             painter.drawText(opt.rect.adjusted(14,10,-10,0),QtCore.Qt.AlignVCenter,index.data())
             painter.restore()
             return
-        focused = bool(opt.state & QtWidgets.QStyle.State_HasFocus)
+        focused = bool(opt.state & QtWidgets.QStyle.State_HasFocus) and focus_visible(opt.widget)
         opt.state &= ~QtWidgets.QStyle.State_HasFocus
         super().paint(painter,opt,index)
         if focused:

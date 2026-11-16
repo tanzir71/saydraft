@@ -10,6 +10,12 @@ setup to Models, muted PERSONALIZE text, responsive tray clicks and new tray
 artwork. The reference export below remains a frozen checkpoint; updated repair
 screenshots are retained with that repair's evidence.
 
+Action controls and sidebar rows now show focus rings for keyboard navigation
+and activation. Mouse/touch interaction removes the ring, including when the
+same control already has keyboard focus. Native focus, Tab/Shift+Tab, shortcuts,
+toggle/radio state and text-field focus remain available. High contrast keeps
+the platform stylesheet; custom toggle/sidebar indicators follow input modality.
+
 The Hub uses a 216px rail, pinned Settings, grouped cards, searchable language
 tiles, native checkbox toggles and radio segments. Home uses actual local History
 statistics. History retains raw/cleaned/changes views, paging, recovery and retry;
