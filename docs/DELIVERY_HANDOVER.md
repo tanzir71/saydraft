@@ -44,6 +44,10 @@ pending until the guest actually executes those cases.
 
 ## Current checkpoint
 
+- The owner subsequently confirmed insertion working and authorized publication.
+  The [unsigned portable preview](https://github.com/tanzir71/saydraft/releases/tag/v0.1.0-preview.20261116)
+  publishes the exact `12bc27f` ZIP, checksums and build metadata. This confirms the
+  reported basic insertion flow; broad native/accuracy acceptance remains separate.
 - The latest `12bc27f` fixes the frozen COM generated-package bootstrap that
   left all fields unavailable, and aligns app/window/tray artwork with the
   landing-page star. The actual new EXE passes initialization and approved

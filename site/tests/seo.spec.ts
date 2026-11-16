@@ -50,13 +50,15 @@ test('application and FAQ data agree with current source and visible content', a
     expect(app.applicationCategory).toBe('UtilitiesApplication');
     expect(app.offers.price).toBe(0); expect(app.installUrl).toBe('https://tanzir71.github.io/saydraft/download/');
     expect(app.license).toBe('https://github.com/tanzir71/saydraft/blob/main/LICENSE');
-    expect(app).not.toHaveProperty('aggregateRating'); expect(app).not.toHaveProperty('review'); expect(app).not.toHaveProperty('downloadUrl');
+    expect(app).not.toHaveProperty('aggregateRating'); expect(app).not.toHaveProperty('review');
+    expect(app.downloadUrl).toBe('https://github.com/tanzir71/saydraft/releases/download/v0.1.0-preview.20261116/Saydraft-0.1.0-win-x64.zip');
     const faq = schemas.find((schema) => schema['@type'] === 'FAQPage');
-    const summaries = page.locator('main details summary');
+    const faqItems = page.locator('main .faq-section details, main .guide-faq details');
+    const summaries = faqItems.locator('summary');
     await expect(summaries).toHaveCount(faq.mainEntity.length);
     for (const [index, question] of faq.mainEntity.entries()) {
       await summaries.nth(index).click();
-      await expect(page.locator('main details').nth(index).locator('p')).toHaveText(question.acceptedAnswer.text);
+      await expect(faqItems.nth(index).locator('p')).toHaveText(question.acceptedAnswer.text);
     }
   }
   await page.goto('./credits/');

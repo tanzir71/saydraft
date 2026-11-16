@@ -28,7 +28,7 @@ const breadcrumb = [
 ];
 const next = path === 'download'
   ? { title: 'Ready for your first few words?', path: 'docs/getting-started/', label: 'Read the setup guide', text: 'Choose a compatible model, review its size and license, then try a short draft.' }
-  : { title: 'Try it with your own words.', path: 'download/', label: 'Get Saydraft', text: 'Saydraft is in development and available from source. Review the setup status, model sizes and measured limits before choosing it for your workflow.' };
+  : { title: 'Try it with your own words.', path: 'download/', label: 'Get Saydraft', text: 'Download the unsigned Windows preview. Review setup, model sizes and measured limits before choosing it for your workflow.' };
 const related = documentation ? documentationRoutes.filter((route) => route.slug !== path) : guideRoutes.filter((route) => route.slug !== path);
 ---
 <Base title={title} description={description}>

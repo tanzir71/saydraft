@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import { currentRelease } from '../data/current-release';
 import { Button } from '../components/Button/Button';
 import { Mark } from '../components/Mark/Mark';
 import { FAQ } from '../components/FAQ/FAQ';
@@ -37,12 +38,12 @@ const questions = [
   { question: 'Can it make meeting notes?', answer: 'Meeting notes are an experimental Pro hardware-profile feature with explicit model setup, device selection and recording consent. Full live/frozen workflows, a 30-minute meeting and broader speech, speaker and summary accuracy remain open acceptance work. Ordinary Scratchpad notes are separate.' },
 ];
 ---
-<Base title="Saydraft: Free Offline AI Dictation for Windows" description={`Free offline dictation for Windows in ${languages.length} highlighted languages, including Arabic, Bengali, Chinese, Hindi, Japanese, Korean, Portuguese, Spanish and Thai. Open source and local.`} announcement={{ text: 'Saydraft is in active development. Run the current source from GitHub', mobileText: 'In active development — run the source', href: 'https://github.com/tanzir71/saydraft' }}>
+<Base title="Saydraft: Free Offline AI Dictation for Windows" description={`Free offline dictation for Windows in ${languages.length} highlighted languages, including Arabic, Bengali, Chinese, Hindi, Japanese, Korean, Portuguese, Spanish and Thai. Open source and local.`} announcement={{ text: 'The Windows preview is here. Download Saydraft 0.1.0 — unsigned and free', mobileText: 'Windows preview available — unsigned and free', href: currentRelease.href }}>
   <main id="main" class="landing-v2">
     <section class="hero container" aria-labelledby="hero-title">
       <div class="hero-top eyebrow"><span><Mark size={12} />Offline dictation for Windows</span><span>Free · Open source · No account</span></div>
       <h1 id="hero-title">Speak <del class="filler"><span aria-hidden="true">um,</span><span class="sr-only">um,</span><span class="filler-label eyebrow" aria-hidden="true">— filler</span></del><span class="sr-only">(filler removed)</span> messy.<br /><span class="hero-second-line">Paste polished<span class="signal" aria-hidden="true">.</span><span class="sr-only">.</span></span></h1>
-      <div class="hero-bottom"><p>Hold Ctrl + Win and talk the way you think. Saydraft tidies your words on your PC and types them wherever your cursor is.</p><div class="hero-actions"><div class="hero-buttons"><Button href="https://github.com/tanzir71/saydraft" variant="secondary">View source</Button><Button href={`${base}download/`}>Get Saydraft for Windows</Button></div><a class="mobile-source" href="https://github.com/tanzir71/saydraft">View source on GitHub ↗</a><p class="eyebrow muted"><span class="desktop-copy">Windows 10 &amp; 11 · Offline after a one-time model download</span><span class="mobile-copy">Windows 10 &amp; 11 · Offline after setup</span></p></div></div>
+      <div class="hero-bottom"><p>Hold Ctrl + Win and talk the way you think. Saydraft tidies your words on your PC and types them wherever your cursor is.</p><div class="hero-actions"><div class="hero-buttons"><Button href="https://github.com/tanzir71/saydraft" variant="secondary">View source</Button><Button href={currentRelease.href}>Get Saydraft for Windows</Button></div><a class="mobile-source" href="https://github.com/tanzir71/saydraft">View source on GitHub ↗</a><p class="eyebrow muted"><span class="desktop-copy">Windows 10 &amp; 11 · Unsigned portable · Offline after setup</span><span class="mobile-copy">Unsigned Windows preview · Offline after setup</span></p></div></div>
       <InstrumentPanel />
     </section>
     <FactsSheet base={base} stars={stars} />

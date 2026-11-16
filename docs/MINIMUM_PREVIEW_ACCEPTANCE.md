@@ -1,5 +1,10 @@
 # Minimum unsigned preview · 15 November 2026
 
+**Published preview · 16 November:** the owner reports insertion working with
+`12bc27f` and requested public distribution. The [GitHub preview](https://github.com/tanzir71/saydraft/releases/tag/v0.1.0-preview.20261116)
+contains that exact ZIP, SHA256SUMS and BUILD_INFO.json. The owner report does not
+extend the automated test scope or establish full native/all-language acceptance.
+
 **Latest frozen-reader update:** clean `12bc27f` fixes the packaging bootstrap
 behind continued field-unavailable refusals. The [new portable](PACKAGING.md)
 passes actual reader initialization and an approved metadata-only field check.

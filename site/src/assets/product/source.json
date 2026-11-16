@@ -2,6 +2,7 @@
   "app_source": "99b65c529fa162ab2433b7e87442f64a7856f10f",
   "source_dirty": false,
   "producer_sha256": "0d17ecb7923717c63553f52e7538a7419a96e5df0e7ce17889f339e725eb3e9c",
+  "producer_file": "render-source.py",
   "platform": "offscreen",
   "scale": 2,
   "network_guard": true,

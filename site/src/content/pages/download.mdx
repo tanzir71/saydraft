@@ -1,10 +1,10 @@
 ---
 title: "Get Saydraft for Windows — Download and Setup"
-description: "Run Saydraft offline dictation on Windows 10 or 11. Check development status, source instructions, local model sizes and setup requirements."
-heading: "Make it your own."
-emphasis: "your own."
-eyebrow: "A home for your next thought"
-verified: "2026-11-14"
+description: "Download the free Saydraft Windows x64 portable preview. Review the unsigned ZIP, SHA-256 checksum, setup instructions and local speech model sizes."
+heading: "Download Saydraft."
+emphasis: "Saydraft."
+eyebrow: "Windows development preview"
+verified: "2026-11-16"
 sources:
   - label: "Current setup and release status"
     url: "https://github.com/tanzir71/saydraft/blob/main/readme.md"
@@ -12,7 +12,7 @@ sources:
     url: "https://github.com/tanzir71/saydraft/blob/main/saydraft/models/manifest.json"
 faqs:
   - q: "Is a signed Windows installer available here?"
-    a: "Saydraft is in development. Use the current source instructions and check GitHub Releases for published artifacts. This page does not advertise an unpublished installer or package-manager command."
+    a: "This build is an unsigned Windows x64 portable ZIP. Extract the whole folder and run Saydraft.exe. Windows may show an unknown-publisher or SmartScreen prompt. No signed installer or package-manager command is provided for this preview."
   - q: "Will models download automatically?"
     a: "No. Setup shows the recommendation, size and license before you choose Download / Resume. You can pause; later launches reuse verified installed files."
 ---
@@ -21,15 +21,23 @@ import { CodeBlock } from '../../components/DocLayout/CodeBlock';
 import { DownloadCard } from '../../components/DownloadCard/DownloadCard';
 import { sourceCommands } from '../../data/source-commands';
 import { speechDownloads } from '../../data/model-downloads';
+import { currentRelease } from '../../data/current-release';
 
-<p class="notice">Saydraft is in development. A signed installer and package-manager releases are being prepared. You can run the current code from source today.</p>
+<p class="notice">Saydraft is in development. The current Windows preview is available as an unsigned portable ZIP. Models are installed separately during setup.</p>
 
-## Run from source
+<DownloadCard release={currentRelease} />
 
-You'll need Windows 10 or 11, 64-bit Python 3.13, Git, a microphone and disk space
-for your selected models. In PowerShell:
+<p><a href={currentRelease.releaseUrl}>Release notes, checksums and all assets ↗</a></p>
 
-<CodeBlock code={sourceCommands} />
+## Start the portable app
+
+1. Quit an older Saydraft instance from its system-tray menu.
+2. Download the ZIP and extract the whole folder to a location you can write to.
+3. Run **Saydraft.exe** on Windows 10 or 11 x64. The portable includes its Python runtime.
+4. Choose your microphone, review and install a speech model, then try the private setup practice.
+
+Keep all extracted support files together. The preview has no installer; optional
+AI cleanup is available in the Models setup step and can be left off to use rules.
 
 ## Set up once. Then go offline.
 
@@ -57,12 +65,13 @@ preview and editing features have separate model/runtime requirements. See
 <SiteLink path="docs/models/">local models</SiteLink> for those choices and
 their limits. Selecting a language never starts a transfer.
 
-## Looking for a packaged build?
+## Run from source
 
-<DownloadCard />
+For development, you'll need Windows 10 or 11, 64-bit Python 3.13, Git, a microphone
+and disk space for your selected models. In PowerShell:
 
-Check [GitHub Releases](https://github.com/tanzir71/saydraft/releases) for
-published artifacts. The older unsigned verification pre-release at
-`v0.1.0-dry-run.20261114` predates this source; its package is not current-source
-qualification. Current installer checksums, signing details and winget/Scoop
-commands will appear here when the corresponding releases are available.
+<CodeBlock code={sourceCommands} />
+
+The repository can move ahead of the published preview. Check the release's
+source commit and SHA-256 before comparing builds. There is no winget or Scoop
+command for this portable preview.

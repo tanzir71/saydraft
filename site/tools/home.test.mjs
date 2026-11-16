@@ -35,7 +35,8 @@ test('product assets match native 2x provenance with no owner device access', as
   assert.deepEqual(report.blocked_attempts, []);
   for (const key of ['owner_profile_used', 'owner_clipboard_used', 'audio_devices_enumerated',
     'audio_sdk_imported', 'microphone_used', 'active_application_read', 'native_input_used']) assert.equal(report[key], false, key);
-  assert.equal(createHash('sha256').update(readFileSync(new URL('./render_product.py', import.meta.url))).digest('hex'), report.producer_sha256);
+  assert.equal(report.producer_file, 'render-source.py');
+  assert.equal(createHash('sha256').update(readFileSync(new URL(report.producer_file, root))).digest('hex'), report.producer_sha256);
   assert.equal(Object.keys(report.site_files).length, 5);
   for (const [name, hash] of Object.entries(report.site_files)) {
     const bytes = readFileSync(new URL(name, root));

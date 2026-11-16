@@ -6,6 +6,7 @@ import { Keycap } from "../Keycap/Keycap";
 import { KeyCaps } from "../KeyCaps/KeyCaps";
 import { StyleSwitcher } from "../StyleSwitcher/StyleSwitcher";
 import { languages } from "../../data/languages";
+import { currentRelease } from "../../data/current-release";
 
 export function SectionHeader({
   number,
@@ -605,10 +606,10 @@ export function FinalCTA({ base }: { base: string }) {
           <br />
           More possibility.
         </h2>
-        <Button href={`${base}download/`} variant="on-dark" windows>
+        <Button href={currentRelease.href} variant="on-dark" windows>
           Get Saydraft for Windows
         </Button>
-        <p className="eyebrow">Free · Open source · Windows 10 &amp; 11</p>
+        <p className="eyebrow">Unsigned preview · Windows 10 &amp; 11 · <a href={`${base}download/`}>Setup and checksums ↗</a></p>
       </div>
     </section>
   );

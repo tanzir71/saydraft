@@ -1,5 +1,10 @@
 # Landing v2 implementation
 
+The 16 November publication links the confirmed working unsigned Windows preview
+from the announcement, navigation, hero and final CTA. The download page includes
+the real ZIP, SHA-256, exact size, release notes and portable setup; the changelog
+uses published GitHub releases. [Local build and Pages publication](SITE_PUBLICATION.md).
+
 The owner's `design/landing-v2/` exports and `LANDING_V2_HANDOVER.md` define this
 redesign. Home is implemented in `site/src/pages/index.astro`, using the existing
 Astro/React stack and reusable components. It uses real HTML, CSS and local fonts;

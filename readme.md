@@ -38,13 +38,15 @@ See [minimum preview acceptance](docs/MINIMUM_PREVIEW_ACCEPTANCE.md) for the
 current unsigned portable and verification scope, and the
 [delivery handover](docs/DELIVERY_HANDOVER.md) for known issues and future work.
 
-[![Get Saydraft: source preview](assets/media/source-preview.svg)](#run-from-source)
+[**Download Saydraft for Windows — unsigned preview**](https://github.com/tanzir71/saydraft/releases/download/v0.1.0-preview.20261116/Saydraft-0.1.0-win-x64.zip)
 [![License: MIT](assets/media/license-mit.svg)](LICENSE)
 
-**Development preview.** Use the source setup below. The older unsigned
-[verification pre-release](https://github.com/tanzir71/saydraft/releases/tag/v0.1.0-dry-run.20261114)
-predates current source. Unsigned distribution is the current choice; broad
-quality and physical Windows acceptance remain unqualified.
+**Development preview · 0.1.0.** Download the Windows x64 portable ZIP, extract
+the whole folder and run **Saydraft.exe**. Quit an older instance from the tray
+first. The build is unsigned; Windows may show an unknown-publisher prompt.
+[Release notes and checksums](https://github.com/tanzir71/saydraft/releases/tag/v0.1.0-preview.20261116)
+include the exact source commit and SHA-256. Models are installed explicitly
+during setup. Broad accuracy and physical Windows acceptance remain separately qualified.
 
 Hold a shortcut, speak, then release to transcribe, clean up and attempt delivery
 into the original editable field. History saves the result before delivery.
@@ -137,10 +139,9 @@ experimental Pro hardware-profile features with explicit setup/opt-in and separa
 qualification limits. Pro is a hardware tier, not a paid subscription. See their
 [implementation guides](docs/README.md).
 
-**What can I install today?** Current source uses Windows 10/11 x64 and 64-bit
-Python 3.13. The public unsigned verification pre-release is older than current
-source. Use [the setup instructions](#run-from-source) and review release/signing
-status before choosing an artifact.
+**What can I install today?** Use the [unsigned Windows 10/11 x64 portable preview](https://github.com/tanzir71/saydraft/releases/tag/v0.1.0-preview.20261116).
+Extract the whole ZIP and run Saydraft.exe; its Python runtime is included.
+Developers can use [the source instructions](#run-from-source) with Python 3.13.
 
 **Does the web demo record me?** No. The current site's prepared-example demo uses
 canned text, no microphone, models, clipboard or text insertion. Hosted publication
@@ -148,11 +149,11 @@ is a separate step from a source push.
 
 ## Current status
 
-Saydraft is in active development. Run from source using the steps below.
-An older unsigned verification pre-release is listed on
-[GitHub Releases](https://github.com/tanzir71/saydraft/releases). It predates the
-current source and does not establish current app or signing acceptance. Signing
-and clean-machine validation remain on the [roadmap](WISPR_OFFLINE_PARITY_PLAN.md).
+Saydraft is in active development. The [current unsigned preview](https://github.com/tanzir71/saydraft/releases/tag/v0.1.0-preview.20261116)
+publishes the owner-confirmed working build from `12bc27f`, including the frozen
+field-reader repair and updated app/tray icons. All 1,440 packaged files and 89
+embedded modules verify. The owner reports insertion working; full clean-machine
+and all-language qualification remain separate. [Build and scope](docs/PACKAGING.md).
 Historical [packaging verification](docs/PACKAGING.md) produced an approximately
 104 MB unsigned installer with resource, notice and install/uninstall checks. Its
 [retained verification](eval/packaging/results/2026-11-14-notices/README.md)
@@ -186,7 +187,7 @@ qualification are tracked separately:
 | Experimental Pro Translate with per-group Style targets | Broader translation quality and physical workflow acceptance |
 | Experimental Pro [Ask about selected text](docs/ASK.md), with separate answer Notes; native read-only browser workflow verified | Packaged/physical Ask acceptance; broader answer quality |
 | Six-page setup, verified downloads, model performance check | Fresh-profile and physical Windows acceptance |
-| Public website, setup guide, verified unsigned builds and opt-in update notices | Signing and release publication |
+| Public website, setup guide, published unsigned portable and opt-in update notices | Signed installer and package-manager distribution |
 
 Command Mode's selection guard, local edit client, replacement checks and separate
 Copy recovery windows are implemented. The experimental model now has separate
@@ -280,8 +281,8 @@ py -3.13 -m venv .venv
 
 Keep the console available while diagnosing startup problems. The current
 [download page](https://tanzir71.github.io/saydraft/download/) also links to
-[GitHub Releases](https://github.com/tanzir71/saydraft/releases). Review the older
-verification artifacts' source and signing limits before choosing an installer.
+[GitHub Releases](https://github.com/tanzir71/saydraft/releases/tag/v0.1.0-preview.20261116).
+The current build is a portable ZIP; source instructions above are optional for developers.
 
 ### First launch
 

@@ -67,7 +67,8 @@ test('native navigation, questions, and reduced-motion simulation work', async (
   await expect(page.getByText('Speech recognition and text cleanup run locally.', { exact: false })).toBeVisible();
   const menu = page.getByLabel('Navigation menu');
   if (await menu.isVisible()) { await menu.click(); await expect(page.getByRole('link', { name: 'Features', exact: true })).toBeVisible(); }
-  await page.getByRole('navigation', { name: 'Main navigation' }).getByRole('link', { name: 'Get Saydraft' }).click();
+  await expect(page.getByRole('navigation', { name: 'Main navigation' }).getByRole('link', { name: 'Get Saydraft' })).toHaveAttribute('href', 'https://github.com/tanzir71/saydraft/releases/download/v0.1.0-preview.20261116/Saydraft-0.1.0-win-x64.zip');
+  await page.goto('./download/');
   await expect(page).toHaveURL(/\/saydraft\/download\/$/);
   await expect(page.locator('.notice')).toContainText('Saydraft is in development.');
 });
@@ -255,7 +256,7 @@ test('source command copy and guide contents work in the static site', async ({ 
   await expect(page.getByRole('status')).toHaveText('Copied.');
   const code = await page.locator('pre code').innerText();
   expect(await page.evaluate(() => (window as unknown as { __sourceCommandCopies: string[] }).__sourceCommandCopies)).toEqual([code]);
-  await expect(page.getByRole('link', { name: 'Download for Windows', exact: true })).toHaveCount(0);
+  await expect(page.getByRole('link', { name: 'Download for Windows', exact: true })).toHaveAttribute('href', 'https://github.com/tanzir71/saydraft/releases/download/v0.1.0-preview.20261116/Saydraft-0.1.0-win-x64.zip');
   await expect(page.getByText('Storybook fixture only.', { exact: false })).toHaveCount(0);
   await expect(page.locator('body')).not.toContainText('winget install --id Tanzir.Saydraft');
   await page.goto('./offline-dictation-windows/');

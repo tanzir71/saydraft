@@ -4,7 +4,7 @@ description: "Set up local speech models, choose your microphone, try a first di
 heading: "Your first few words."
 emphasis: "few words."
 eyebrow: "Getting started"
-verified: "2026-11-14"
+verified: "2026-11-16"
 sources:
   - label: "First-run setup, readiness and practice behavior"
     url: "https://github.com/tanzir71/saydraft/blob/main/docs/ONBOARDING.md"
@@ -20,9 +20,10 @@ import SiteLink from '../../components/SiteLink.astro';
 
 ## Step 1. Get the app
 
-Use the current <SiteLink path="download/">source instructions</SiteLink> on
-Windows 10 or 11. A signed installer and package-manager release are still being
-prepared. First-run setup guides you through the choices below.
+Download the <SiteLink path="download/">unsigned Windows x64 portable ZIP</SiteLink>
+for Windows 10 or 11. Quit any older Saydraft instance from its tray, extract the
+whole ZIP and run **Saydraft.exe**. The portable includes its Python runtime.
+First-run setup guides you through the choices below; no installer is required.
 
 ## Step 2. Choose your microphone
 
@@ -33,6 +34,10 @@ status without opening an input. If access is blocked or unknown, follow the
 microphone-privacy link to review desktop-app access in Windows settings.
 
 ## Step 3. Review and install local models
+
+The Models step also offers optional local AI cleanup. Leave it off to use rules
+immediately, or review a cleanup model's size/license and explicitly download it.
+Finish saves the staged choices; enabling AI or choosing a model starts no transfer.
 
 Check this PC gives a provisional capability recommendation. Use speech
 recommendation selects the suggested speech model; it does not benchmark it,

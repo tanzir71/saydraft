@@ -92,6 +92,7 @@ eval/site/results/2026-11-15-docs/** -text -whitespace
 eval/site/results/2026-11-15-seo/** -text -whitespace
 # Product-render provenance pins the producer bytes across operating systems.
 site/tools/render_product.py -text
+site/src/assets/product/render-source.py -text
 # Preserve original Home browser, screenshot, source and Lighthouse evidence.
 eval/site/results/2026-11-15-home/** -text -whitespace
 # Preserve original canned-demo, legacy fixture, browser and Lighthouse evidence.

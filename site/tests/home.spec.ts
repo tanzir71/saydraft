@@ -37,7 +37,7 @@ test("v2 explains local setup and keeps devices, sources, languages and creator 
   await page.evaluate(() => document.fonts.ready);
   await expect(
     page.getByRole("complementary", { name: "Project announcement" }),
-  ).toContainText("development");
+  ).toContainText("Windows preview");
   await expect(page.locator(".how-grid article")).toHaveCount(3);
   await expect(page.locator(".feature-bento article")).toHaveCount(5);
   await expect(page.locator(".command-tile")).toContainText(
