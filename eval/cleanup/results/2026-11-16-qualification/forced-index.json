@@ -1,0 +1,19 @@
+{
+  "schema_version": 2,
+  "source_commit": "44ed9c458a78e84e55751b827ed71b96114632ae",
+  "selection_performed": false,
+  "archive": "eval/cleanup/results/2026-11-16-overnight-44ed9c4/raw-evidence.tar.gz",
+  "archive_sha256": "e6bce8fab2364806570be7966921f750e704b4e7bd1384089e33f9e939a99586",
+  "reports": [
+    {
+      "report": "qwen08-cpu.json",
+      "member": "cpu-forced/report.json",
+      "report_sha256": "e61505503f9945a877f41c6b0c6006e7f9da2214defa651a0b1bc3fb213e1390"
+    },
+    {
+      "report": "qwen2-vulkan1.json",
+      "member": "pro-forced/report.json",
+      "report_sha256": "500da9d18d8a99e29e537610abbb2dc076f8a437108189d4cc437a2af9753b86"
+    }
+  ]
+}

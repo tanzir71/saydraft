@@ -8,20 +8,22 @@ import pytest
 from tools import check_cleanup_evidence as evidence
 
 BASE_POLICY = evidence.ROOT / "eval/cleanup/results/2026-11-12-policy-headroom/index.json"
+BASE_FORCED = evidence.ROOT / "eval/cleanup/results/2026-11-13-word-guard/index.json"
 
 
 def fixture(tmp_path):
     # These generated reports test the checker, never count as native evidence.
     golden = evidence.load_eval_corpus(evidence.ROOT / "tests/eval_corpus.jsonl")
     indexes = []
-    for label, original in (("policy", BASE_POLICY), ("forced", evidence.FORCED_INDEX)):
+    for label, original in (("policy", BASE_POLICY), ("forced", BASE_FORCED)):
         folder = tmp_path / label
         folder.mkdir()
         index = json.loads(original.read_text())
         for entry in index["reports"]:
             report = json.loads((original.parent / entry["report"]).read_text())
             report["golden_sha256"] = evidence.corpus_digest(golden)
-            report["suites"]["golden"].update(requested=len(golden), completed=len(golden), exact_passes=len(golden))
+            report["suites"]["golden"].update(requested=len(golden), completed=len(golden),
+                                             exact_passes=len(golden), regressions=[])
             # Synthetic source/calibration metadata is local to this test fixture.
             report["source_fingerprints"] = {name.replace("\\", "/"): hashlib.sha256((evidence.ROOT / name).read_bytes()).hexdigest()
                 for name in set(report["source_fingerprints"]) | evidence.REQUIRED if (evidence.ROOT / name).exists()}
@@ -41,9 +43,9 @@ def fixture(tmp_path):
     return indexes
 
 
-def mutate(index_path, operation):
+def mutate(index_path, operation, *, name=None):
     index = json.loads(index_path.read_text())
-    entry = index["reports"][0]
+    entry = next(entry for entry in index["reports"] if entry["report"] == name) if name else index["reports"][0]
     path = index_path.parent / entry["report"]
     report = json.loads(path.read_text())
     operation(report)
@@ -127,3 +129,60 @@ def test_quality_pass_does_not_promote_a_below_threshold_hardware_measurement(tm
     result = evidence.check(policy, forced)
     assert result["passed"] and result["reports"][0]["rate_target_met"] is False
     assert result["reports"][0]["decoder_median_tps"] == 24
+
+
+def test_forced_golden_regression_cannot_hide_behind_passing_policy_output(tmp_path):
+    policy, forced = fixture(tmp_path)
+    mutate(forced, lambda report: report["suites"]["golden"].update(
+        exact_passes=555, regressions=["balanced-chat-05"]), name="qwen08-cpu.json")
+    with pytest.raises(ValueError, match="golden regression"):
+        evidence.check(policy, forced)
+    report = evidence.assess(policy, forced)
+    assert not report["passed"] and not report["quality_passed"]
+    failed = next(row for row in report["reports"] if row["mode"] == "forced" and row["backend"] == "cpu")
+    assert failed["evidence_valid"] and failed["golden_regressions"] == ["balanced-chat-05"]
+    assert all(row["quality_passed"] for row in report["reports"] if row["mode"] == "policy")
+
+
+def test_cli_reports_all_stages_and_fails_for_cpu_speed_even_if_quality_passes(tmp_path, capsys):
+    policy, forced = fixture(tmp_path)
+    mutate(policy, lambda report: report["live_decoder_calibration"].update(tokens_per_second=[23, 24, 24]))
+    assert evidence.main(["--policy-index", str(policy), "--forced-index", str(forced)]) == 1
+    report = json.loads(capsys.readouterr().out)
+    assert report["evidence_valid"] and report["quality_passed"] and not report["performance_passed"]
+    assert not report["passed"] and len(report["reports"]) == 4
+
+
+def test_rules_only_output_and_forced_regression_are_both_visible(tmp_path):
+    policy, forced = fixture(tmp_path)
+    mutate(policy, lambda report: report["suites"]["golden"].update(accepted_replies=0))
+    mutate(forced, lambda report: report["suites"]["golden"].update(regressions=["fixture"]))
+    report = evidence.assess(policy, forced)
+    assert report["evidence_valid"] and len(report["reports"]) == 4
+    failures = [row for row in report["reports"] if not row["quality_passed"]]
+    assert {row["mode"] for row in failures} == {"forced", "policy"}
+
+
+def test_invalid_source_cannot_supply_passed_quality_or_speed_metrics(tmp_path):
+    policy, forced = fixture(tmp_path)
+    mutate(policy, lambda report: report["source_fingerprints"].update({"saydraft/cleanup/llm/client.py": "0" * 64}))
+    row = evidence.assess(policy, forced)["reports"][0]
+    assert not row["evidence_valid"] and not row["passed"]
+    assert "Stale cleanup" in row["reason"] and "decoder_median_tps" not in row
+
+
+@pytest.mark.parametrize("change", [
+    {"valid": False}, {"tokens": 59}, {"tokens_per_second": float("nan")},
+    {"tokens_per_second": True}, {"reason": "timeout"},
+])
+def test_forced_decoder_samples_must_be_three_complete_sixty_token_generations(tmp_path, change):
+    policy, forced = fixture(tmp_path)
+    mutate(forced, lambda report: report["throughput_60_tokens"][0].update(change), name="qwen08-cpu.json")
+    # NaN is rejected by the strict JSON loader before stage assessment.
+    if any(isinstance(value, float) and value != value for value in change.values()):
+        with pytest.raises(ValueError, match="Nonfinite"):
+            evidence.assess(policy, forced)
+    else:
+        row = next(row for row in evidence.assess(policy, forced)["reports"]
+                   if row["backend"] == "cpu" and row["mode"] == "forced")
+        assert not row["evidence_valid"] and not row["passed"]

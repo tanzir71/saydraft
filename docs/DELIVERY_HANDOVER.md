@@ -56,6 +56,13 @@ pending until the guest actually executes those cases.
 
 ## Current checkpoint
 
+- The offline cleanup qualifier now reads the latest completed `44ed9c4` reports
+  directly from their pinned archive and reports all four stages. Its relevant
+  source/corpus/prompt checks pass, while quality/speed acceptance remains failed:
+  CPU rules-only model credit and speed, plus forced CPU/Pro comma regressions.
+  The checker now enforces forced golden regressions as well as policy output;
+  47 focused checks pass. [Qualification and next actions](../eval/cleanup/results/2026-11-16-qualification/README.md).
+  This developer-tool change requires no new app build or model download.
 - The owner subsequently confirmed insertion working and authorized publication.
   The [unsigned portable preview](https://github.com/tanzir71/saydraft/releases/tag/v0.1.0-preview.20261116)
   publishes the exact `12bc27f` ZIP, checksums and build metadata. This confirms the
@@ -201,7 +208,7 @@ against the original roadmap. Do not resume them automatically during preview de
 |---|---|---|
 | Before a public release — P3.2, P3.8, P3.10 | Complete broader multilingual quality/cold-load acceptance. Keep per-language WER/CER and sample scope; use observed development clips for changes. Owner accuracy acceptance is deferred. The combined full large-v3/temperature-zero/alignment candidate passes development but fails complete60-clip confirmation (Bengali CER and new replacement characters). Keep existing defaults. All60 public confirmation recordings are consumed; any future tuned candidate needs new untouched confirmation, plus license/speed qualification before promotion. | [ASR accuracy](ASR_ACCURACY.md), [models](MODELS.md) |
 | Before quality/performance claims — P4.4, P4.6, P4.7 | Finish model/tier bake-off and full Standard/Pro end-to-end latency and quality gates. The deterministic corpus and adversarial checks do not establish the remaining rules-plus-model accuracy target or zero must-keep regressions. Evaluate frozen candidates against unchanged criteria before promoting defaults. | [Evaluation](EVALUATION.md), [latency matrix](LATENCY_MATRIX.md), [cleanup evidence](CLEANUP_EVIDENCE.md) |
-| Approved disposable Windows VM — P2.2, P5.1–P5.3, P5.5–P5.6 | Provision the guest with host integration disabled, then exercise real Notepad dictation, Start-menu masking/F9, clipboard image/rich-text restoration and Win+V exclusion, password/elevated/focus-change refusal, hands-free/cancel/paste-last and correction learning. Implementations and synthetic/native-owned fixtures do not replace these native checks. | [Guest acceptance](WINDOWS_VM_ACCEPTANCE.md), [test checklist](TEST_CHECKLIST.md), [hotkeys](HOTKEYS.md) |
+| VM work stopped by owner — P2.2, P5.1–P5.3, P5.5–P5.6 | Keep native acceptance pending while storage limits bar VM work. A later authorized guest must exercise real Notepad dictation, Start-menu masking/F9, clipboard image/rich-text restoration and Win+V exclusion, password/elevated/focus-change refusal, hands-free/cancel/paste-last and correction learning. Implementations and synthetic/native-owned fixtures do not replace these native checks. | [Guest acceptance](WINDOWS_VM_ACCEPTANCE.md), [test checklist](TEST_CHECKLIST.md), [hotkeys](HOTKEYS.md) |
 | UI acceptance — P6.2–P6.5, P6.7 | Complete Bar state/sound/pointer/mixed-DPI checks, fresh-profile onboarding under three minutes, physical Scratchpad/View-diff shortcuts, Narrator/focus/high-contrast/display-scaling checks and full Settings/History acceptance. Current logical-font tests cover owned offscreen fixtures. | [Hub accessibility](HUB_ACCESSIBILITY.md), [onboarding](ONBOARDING.md), [Notes](NOTES.md) |
 | Power-feature acceptance — P7.1 | Complete the plan's Command instruction/validator, actual-model and native review/replace/fallback acceptance. Preserve review, cancellation, privacy and Pro gating. | [Command Mode](COMMAND_MODE.md), [clipboard fallback](COMMAND_CLIPBOARD.md) |
 | Deferred owner accuracy — P7.4 | Measure whispered owner clips with enhancement off/on against the required 20% relative WER improvement. Implementation and public/file smoke checks do not establish that improvement. | [Whisper mode](WHISPER_MODE.md) |

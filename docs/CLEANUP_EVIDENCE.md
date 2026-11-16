@@ -57,26 +57,41 @@ physical Windows acceptance remains separate.
 ## Offline checker
 
 Run `python -m tools.check_cleanup_evidence`. Its defaults select the current
-policy pair and the separate forced CPU 0.8B / RTX 2B reports. The default bundle
-still refuses qualification: it pins the older reports, whose relevant source
-no longer matches the current implementation. Its historical CPU
-policy also accepted no replies. The newer CPU-only replay above does not replace
-the complete required bundle. Measurement completion is not hybrid acceptance.
+policy pair and separate forced CPU 0.8B / RTX 2B reports from the completed
+`44ed9c4` overnight run. The indexes pin the existing archive and each report's
+original bytes. The checker reads bounded members in memory; it does not extract
+or duplicate the archived reports. Relevant cleanup source, prompt and corpus
+fingerprints match the current implementation; this does not qualify the later
+desktop/UI changes.
+
+The [current qualification record](../eval/cleanup/results/2026-11-16-qualification/README.md)
+separates evidence validity, output quality and decoder speed for all four stages.
+Evidence is valid, but the combined gate deliberately exits **1**: CPU policy
+delivers 556/556 through rules fallback with zero accepted model replies and a
+24.36 tok/s median, below 25; forced CPU has one comma regression and forced Pro
+has three. Pro production policy passes its scoped checks: 556/556, 269 accepted
+model replies and 126.16 tok/s against 40. Measurement completion, rules-only
+output and a passing Pro policy row do not close full hybrid acceptance.
+
 Custom indexes can be selected with `--policy-index` / `--forced-index`.
-The checker performs no downloads or inference.
+The checker performs no downloads, inference or host audio/input/clipboard access.
 
 Checks enforce immutable report digests, pinned candidate/runtime identity,
 clean isolated full corpora, observed native exits, unchanged source/corpus/prompt
 hashes, at least 92% strict hybrid exact output with zero golden/must-keep
 regressions, real accepted replies with token evidence, and three finite exact
 60-token decoder samples. Forced evidence pins the pipeline activating post-rules
-validation. Only LF/CRLF source variants are permitted; raw native report bytes
+validation and must also have zero golden regressions; a passing policy cannot
+hide a forced-output failure. Only LF/CRLF source variants are permitted; raw native report bytes
 remain strictly pinned. Affected source/corpus changes require fresh evidence.
 
 Median decode is separately compared with 25/40 tok/s; interactive prediction
-uses the minimum sample. Rates cannot substitute for quality, co-loaded ASR or
-cold/warm release-to-insertion measurements. No requirement was relaxed to
-accept CPU fallback; mandatory native-evidence CI wiring remains pending.
+uses the minimum sample. The CLI exits nonzero if any stage fails evidence,
+quality or decoder speed. Its legacy `check()` Python API remains quality-only
+and returns speed flags separately. Rates cannot substitute for quality,
+co-loaded ASR or cold/warm release-to-insertion measurements. No requirement was
+relaxed to accept CPU fallback. Checks stay local under the owner's delivery
+policy; no CI dispatch or automatic model promotion follows.
 The deadline-path implementation passed 175 focused checks and full CI at
 `1486b09`: 3045 passed, 12 skipped; rules 556/556 and authored validator 100/100.
 Those checks complement the retained native measurements, not owner acceptance.
