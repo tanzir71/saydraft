@@ -44,12 +44,20 @@ pending until the guest actually executes those cases.
 
 ## Current checkpoint
 
+- The subsequent `8734123` repair prepares installed speech recognition before
+  first use, isolates optional caret reads from required insertion checks,
+  restores tray clicks/artwork, identifies manual Parakeet language for English
+  filler cleanup, mutes PERSONALIZE and adds optional AI setup to onboarding.
+  [Repair details and remaining real-field retest](STARTUP_DELIVERY_REPAIRS.md).
+  Approved source/frozen UIA initialization and metadata-only ChatGPT checks pass;
+  host audio, clipboard and input remain barred. No actual host insertion is claimed.
 - The owner-supplied desktop UI v2 is implemented with the approved 14px base,
   shared components, grouped Settings, staged Save/Discard, shortcut learning,
   setup, bar, toasts and tray. [Implementation and verification scope](APP_UI_V2.md).
   The earlier `app-ui/` stays unchanged; `app-ui-v2-build/` is the current reference.
-  It is pushed with the 194-image reference. The unsigned `c1d0a49` portable
-  verifies 1,439 disk/ZIP files and 78 embedded modules; [artifact and scope](PACKAGING.md).
+  It is pushed with the 194-image reference. The later unsigned `8734123` repair
+  portable verifies 1,439 disk/ZIP files and 84 embedded modules;
+  [artifact and scope](PACKAGING.md).
 - The frozen `44ed9c4` overnight R2 run has completed all five stages and the
   independent verifier/observer exits. Pro latency passes every measured cell.
   Forced CPU/Pro cleanup has actual comma regressions; CPU throughput misses its

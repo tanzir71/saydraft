@@ -1,0 +1,96 @@
+============================= test session starts =============================
+platform win32 -- Python 3.13.17, pytest-8.4.2, pluggy-1.6.0 -- D:\Saydraft-Codex-QA-20261112-01a1cbc7\app-ui-v2-package-20261116-r1\venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\tanzir\Desktop\voice_tray
+configfile: pytest.ini
+collecting ... collected 70 items
+
+tests/test_context_capture_reentry.py::test_gui_actions_return_before_context_rendering_and_no_stale_microphone_starts[cancel] PASSED [  1%]
+tests/test_context_capture_reentry.py::test_gui_actions_return_before_context_rendering_and_no_stale_microphone_starts[stop] PASSED [  2%]
+tests/test_context_capture_reentry.py::test_gui_actions_return_before_context_rendering_and_no_stale_microphone_starts[settings] PASSED [  4%]
+tests/test_context_capture_reentry.py::test_gui_actions_return_before_context_rendering_and_no_stale_microphone_starts[shutdown] PASSED [  5%]
+tests/test_context_capture_reentry.py::test_gui_actions_return_before_context_rendering_and_no_stale_microphone_starts[second_start] PASSED [  7%]
+tests/test_context_capture_reentry.py::test_context_failure_releases_start_slot_and_keeps_the_hotkey_route_usable PASSED [  8%]
+tests/test_context_capture_reentry.py::test_release_while_arming_still_cancels_when_capture_start_has_not_returned PASSED [ 10%]
+tests/test_uia_delivery.py::test_password_unknown_or_changed_capture_saves_both_versions_without_clipboard_or_keys[password-True-password_field] PASSED [ 11%]
+tests/test_uia_delivery.py::test_password_unknown_or_changed_capture_saves_both_versions_without_clipboard_or_keys[unavailable-False-field_unavailable] PASSED [ 12%]
+tests/test_uia_delivery.py::test_password_unknown_or_changed_capture_saves_both_versions_without_clipboard_or_keys[changed-False-focus_changed] PASSED [ 14%]
+tests/test_uia_delivery.py::test_fresh_field_checks_block_password_changes_inside_the_same_window[recognition] PASSED [ 15%]
+tests/test_uia_delivery.py::test_fresh_field_checks_block_password_changes_inside_the_same_window[pre_paste] PASSED [ 17%]
+tests/test_uia_delivery.py::test_fresh_field_checks_block_password_changes_inside_the_same_window[pre_enter] PASSED [ 18%]
+tests/test_uia_delivery.py::test_cancel_during_field_verification_is_checked_again_before_publishing_text PASSED [ 20%]
+tests/test_uia_delivery.py::test_history_reinsertion_is_serial_and_uses_the_same_field_checks[ok-False] PASSED [ 21%]
+tests/test_uia_delivery.py::test_history_reinsertion_is_serial_and_uses_the_same_field_checks[password-True] PASSED [ 22%]
+tests/test_uia_delivery.py::test_history_reinsertion_is_serial_and_uses_the_same_field_checks[unavailable-False] PASSED [ 24%]
+tests/test_uia_delivery.py::test_cancelled_queued_reinsertion_performs_no_field_read_or_delivery PASSED [ 25%]
+tests/test_uia_delivery.py::test_history_only_note_does_not_warn_about_insertion_into_an_unverified_field PASSED [ 27%]
+tests/test_uia_delivery.py::test_legacy_pre_paste_guard_restores_the_clipboard_without_sending_keys PASSED [ 28%]
+tests/test_uia_delivery.py::test_typing_and_provider_errors_refuse_before_clipboard_or_input PASSED [ 30%]
+tests/test_uia_delivery.py::test_settings_and_shutdown_keep_one_blocked_uia_owner_instead_of_spawning_replacements PASSED [ 31%]
+tests/test_processing.py::test_persists_both_versions_before_paste_to_captured_target PASSED [ 32%]
+tests/test_processing.py::test_known_empty_caret_context_reaches_cleanup_without_persisting_field_surroundings PASSED [ 34%]
+tests/test_processing.py::test_repeated_dictation_is_never_silently_suppressed PASSED [ 35%]
+tests/test_processing.py::test_history_only_note_never_calls_inserter PASSED [ 37%]
+tests/test_processing.py::test_focus_change_preserves_history_and_notifies PASSED [ 38%]
+tests/test_processing.py::test_cleanup_failure_preserves_raw_words[exception] PASSED [ 40%]
+tests/test_processing.py::test_cleanup_failure_preserves_raw_words[empty] PASSED [ 41%]
+tests/test_processing.py::test_formatting_failure_falls_back_to_cleaned_text PASSED [ 42%]
+tests/test_processing.py::test_failed_history_never_pastes_and_keeps_all_failed_results PASSED [ 44%]
+tests/test_processing.py::test_password_field_refuses_insertion_after_history PASSED [ 45%]
+tests/test_processing.py::test_unknown_target_refuses_insertion PASSED   [ 47%]
+tests/test_processing.py::test_insertion_error_leaves_both_versions_in_history PASSED [ 48%]
+tests/test_processing.py::test_snippet_expansion_preserves_literal_backslashes_and_is_not_recursive PASSED [ 50%]
+tests/test_processing.py::test_cleanup_receives_captured_app_group_language_and_caret_without_mutating_original_context PASSED [ 51%]
+tests/test_processing.py::test_real_pipeline_formats_expanded_snippets_before_history_and_insertion[Thanks.-Thanks] PASSED [ 52%]
+tests/test_processing.py::test_real_pipeline_formats_expanded_snippets_before_history_and_insertion[Thanks. Talk soon.-Thanks. Talk soon.] PASSED [ 54%]
+tests/test_processing.py::test_real_pipeline_formats_expanded_snippets_before_history_and_insertion[Are you ready?-Are you ready?] PASSED [ 55%]
+tests/test_processing.py::test_final_punctuation_failure_preserves_text_and_history_failure_still_refuses_insertion PASSED [ 57%]
+tests/test_paste_last.py::test_last_transcript_survives_restart_skips_blank_rows_and_preserves_exact_text PASSED [ 58%]
+tests/test_paste_last.py::test_exact_saved_text_precedes_private_clipboard_delivery_without_enter_or_new_statistics PASSED [ 60%]
+tests/test_paste_last.py::test_refused_field_reads_no_history_and_changes_no_clipboard[password-True] PASSED [ 61%]
+tests/test_paste_last.py::test_refused_field_reads_no_history_and_changes_no_clipboard[unavailable-False] PASSED [ 62%]
+tests/test_paste_last.py::test_refused_field_reads_no_history_and_changes_no_clipboard[changed-False] PASSED [ 64%]
+tests/test_paste_last.py::test_the_original_target_is_verified_after_the_saved_text_is_read[window] PASSED [ 65%]
+tests/test_paste_last.py::test_the_original_target_is_verified_after_the_saved_text_is_read[field] PASSED [ 67%]
+tests/test_paste_last.py::test_the_original_target_is_verified_after_the_saved_text_is_read[password] PASSED [ 68%]
+tests/test_paste_last.py::test_cancellation_blocks_further_field_reads_and_delivery[queued] PASSED [ 70%]
+tests/test_paste_last.py::test_cancellation_blocks_further_field_reads_and_delivery[history_read] PASSED [ 71%]
+tests/test_paste_last.py::test_empty_or_failed_history_is_explained_without_input_or_private_error_details[empty] PASSED [ 72%]
+tests/test_paste_last.py::test_empty_or_failed_history_is_explained_without_input_or_private_error_details[database] PASSED [ 74%]
+tests/test_paste_last.py::test_capture_is_reserved_cancellable_and_does_not_hold_the_session_mutex[cancel] PASSED [ 75%]
+tests/test_paste_last.py::test_capture_is_reserved_cancellable_and_does_not_hold_the_session_mutex[settings] PASSED [ 77%]
+tests/test_paste_last.py::test_capture_is_reserved_cancellable_and_does_not_hold_the_session_mutex[shutdown] PASSED [ 78%]
+tests/test_paste_last.py::test_shortcut_returns_without_field_reads_while_settings_holds_the_mutex PASSED [ 80%]
+tests/test_paste_last.py::test_rejected_paste_queue_releases_the_capture_slot_without_reading_history PASSED [ 81%]
+tests/test_paste_last.py::test_native_shortcut_runs_once_on_release_and_never_starts_recording PASSED [ 82%]
+tests/test_paste_last.py::test_paste_prefix_conflicts_fail_in_settings_and_before_native_installation[f9] PASSED [ 84%]
+tests/test_paste_last.py::test_paste_prefix_conflicts_fail_in_settings_and_before_native_installation[f10] PASSED [ 85%]
+tests/test_paste_last.py::test_paste_prefix_conflicts_fail_in_settings_and_before_native_installation[ctrl+win+z] PASSED [ 87%]
+tests/test_paste_last.py::test_paste_prefix_conflicts_fail_in_settings_and_before_native_installation[shift+f10] PASSED [ 88%]
+tests/test_paste_last.py::test_paste_prefix_conflicts_fail_in_settings_and_before_native_installation[escape] PASSED [ 90%]
+tests/test_paste_last.py::test_rebound_or_disabled_shortcut_survives_reload[] PASSED [ 91%]
+tests/test_paste_last.py::test_rebound_or_disabled_shortcut_survives_reload[alt+p] PASSED [ 92%]
+tests/test_uia_cache.py::test_cached_identity_does_not_replace_live_password_and_focus_checks FAILED [ 94%]
+
+================================== FAILURES ===================================
+____ test_cached_identity_does_not_replace_live_password_and_focus_checks _____
+tests\test_uia_cache.py:21: in test_cached_identity_does_not_replace_live_password_and_focus_checks
+    reader, calls = native_reader(), []
+                    ^^^^^^^^^^^^^^^
+tests\test_uia_cache.py:13: in native_reader
+    from saydraft.context.uia_native import NativeUIAReader
+saydraft\context\uia_native.py:8: in <module>
+    import comtypes
+D:\Saydraft-Codex-QA-20261112-01a1cbc7\app-ui-v2-package-20261116-r1\venv\Lib\site-packages\comtypes\__init__.py:57: in <module>
+    from comtypes.GUID import GUID
+D:\Saydraft-Codex-QA-20261112-01a1cbc7\app-ui-v2-package-20261116-r1\venv\Lib\site-packages\comtypes\GUID.py:90: in <module>
+    _ole32_nohresult = WinDLL("ole32")
+                       ^^^^^^^^^^^^^^^
+tools\public_file_guard.py:95: in guarded_dll
+    raise AssertionError("Owner native UI/device APIs are barred")
+E   AssertionError: Owner native UI/device APIs are barred
+- generated xml file: D:\Saydraft-Codex-QA-20261112-01a1cbc7\startup-delivery-20261116-r1\insertion-r2.xml -
+=========================== short test summary info ===========================
+FAILED tests/test_uia_cache.py::test_cached_identity_does_not_replace_live_password_and_focus_checks
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!
+======================== 1 failed, 65 passed in 10.03s ========================

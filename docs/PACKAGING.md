@@ -1,6 +1,20 @@
 # Windows packaging
 
-The latest **desktop UI v2 unsigned portable** is built from clean
+The latest **startup/delivery repair unsigned portable** is built from clean
+`87341231c744ebe3fbd5723917ba97b2945acd25`:
+`D:/Saydraft-Codex-QA-20261112-01a1cbc7/startup-delivery-package-20261116-r1/artifacts/Saydraft-0.1.0-win-x64.zip`.
+Size: **157,354,466 bytes**. SHA-256:
+`8bd71d95b6f17bdac400dd2885426805e65df026014e75d97b4863e504556919`.
+All 1,439 disk/ZIP payloads match the actual audit; 84 embedded modules match
+Git source. All eight font faces, twenty-one font assets, fifty-two SVGs and
+three seven-resolution tray icons verify. Frozen runtime/resource/notices checks
+pass without owner recording, clipboard or input. This includes first-use model
+preparation, field-verification isolation, tray fixes and optional AI onboarding.
+[Repair evidence and remaining real-field retest](../eval/ui/results/2026-11-16-startup-delivery/README.md).
+Close the old app and extract this new portable before testing. No installer,
+signing or release publication is claimed.
+
+The previous **desktop UI v2 unsigned portable** is built from clean
 `c1d0a491bbcbe0a7d5b8c97956dad7e77925d665`:
 `D:/Saydraft-Codex-QA-20261112-01a1cbc7/app-ui-v2-package-20261116-r1/artifacts/Saydraft-0.1.0-win-x64.zip`.
 Size: **157,252,943 bytes**. SHA-256:

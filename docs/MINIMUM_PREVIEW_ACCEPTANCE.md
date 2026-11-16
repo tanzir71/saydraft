@@ -1,9 +1,12 @@
 # Minimum unsigned preview · 15 November 2026
 
-**16 November update:** [desktop UI v2](APP_UI_V2.md) supersedes the older UI and
-portable below. The [current package](PACKAGING.md) verifies all 1,439 disk/ZIP
-files and 78 embedded modules from clean `c1d0a49`; its scoped UI tests, snapshots,
-fonts, icons and frozen runtime checks pass. The new redesign reference is
+**16 November repair update:** the [current package](PACKAGING.md) is built from
+clean `8734123` with [startup, field-verification and tray repairs](STARTUP_DELIVERY_REPAIRS.md)
+plus optional AI onboarding. All 1,439 disk/ZIP files and 84 embedded modules
+verify; scoped regression, snapshot and frozen checks pass. Native real-field
+insertion still needs an owner retest or disposable VM. The original desktop
+[UI v2](APP_UI_V2.md) checkpoint remains separately archived at `c1d0a49`.
+The frozen redesign reference is
 [app-ui-v2-build/](../app-ui-v2-build/README.md). The native Windows/owner accuracy
 limits below still apply; this update does not claim a full-suite or VM pass.
 

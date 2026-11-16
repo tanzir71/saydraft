@@ -1,0 +1,16 @@
+starting isolated UI tests
+....F
+================================== FAILURES ===================================
+_ test_expanding_onboarding_ai_setup_keeps_controls_and_speech_section_apart __
+tests\test_startup_and_setup_repair.py:126: in test_expanding_onboarding_ai_setup_keeps_controls_and_speech_section_apart
+    assert setup.picker.download_button.height() >= 32
+E   assert 24 >= 32
+E    +  where 24 = <built-in method height of WrapPushButton object at 0x000001F2A1C21640>()
+E    +    where <built-in method height of WrapPushButton object at 0x000001F2A1C21640> = <saydraft.ui.reflow.WrapPushButton(0x1f29fe88b30) at 0x000001F2A1C21640>.height
+E    +      where <saydraft.ui.reflow.WrapPushButton(0x1f29fe88b30) at 0x000001F2A1C21640> = <saydraft.ui.cleanup_picker.CleanupPicker(0x1f29fceeab0) at 0x000001F2A1C075C0>.download_button
+E    +        where <saydraft.ui.cleanup_picker.CleanupPicker(0x1f29fceeab0) at 0x000001F2A1C075C0> = <saydraft.ui.setup_cleanup.SetupCleanup(0x1f29fcf00a0) at 0x000001F2A1C06FC0>.picker
+- generated xml file: D:\Saydraft-Codex-QA-20261112-01a1cbc7\startup-delivery-20261116-r1\setup-final-r2.xml -
+=========================== short test summary info ===========================
+FAILED tests/test_startup_and_setup_repair.py::test_expanding_onboarding_ai_setup_keeps_controls_and_speech_section_apart
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 4 passed in 3.07s

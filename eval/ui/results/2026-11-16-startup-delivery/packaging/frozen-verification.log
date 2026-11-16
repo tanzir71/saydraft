@@ -1,0 +1,30 @@
+{
+  "source": "87341231c744ebe3fbd5723917ba97b2945acd25",
+  "bundle": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\startup-delivery-package-20261116-r1\\dist\\Saydraft\\Saydraft.exe",
+  "exe_sha256": "be093ab9ab50ef644e7a259344096d6e6eb37e583466342b13a468631e0a84ef",
+  "module_count": 84,
+  "font_files": 21,
+  "font_faces": 8,
+  "svg_icons": 52,
+  "hotkey_help_verified": true,
+  "module_code_executed": false,
+  "owner_io_used": false,
+  "method": "Compare structural code read from the embedded PYZ with compile(Git source, optimize=0), excluding only filenames; hash exact manifest-listed fonts and inspect every bundled SVG/help file.",
+  "tray_assets": [
+    {
+      "name": "mic_idle.ico",
+      "sha256": "d7db41e03ffb766baea462c869e8656f0b526a8676aa97cbce25d0f07027c172",
+      "frames": 7
+    },
+    {
+      "name": "mic_recording.ico",
+      "sha256": "443498746df8ddf415e97f70242ef616694c37976511c06693b0c030a2f59461",
+      "frames": 7
+    },
+    {
+      "name": "mic_processing.ico",
+      "sha256": "4414c60dc5dda4ae11eb98e1eee96e52539c062c5995e6ebf5b1d49e6a536928",
+      "frames": 7
+    }
+  ]
+}

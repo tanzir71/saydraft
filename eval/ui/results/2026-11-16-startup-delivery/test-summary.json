@@ -1,0 +1,44 @@
+{
+  "context-final": {
+    "tests": 85,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "insertion-r3": {
+    "tests": 68,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "worker-r2": {
+    "tests": 128,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 3
+  },
+  "hub-r1": {
+    "tests": 65,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "repair-final": {
+    "tests": 26,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 2
+  },
+  "setup-final-r3": {
+    "tests": 92,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 2
+  },
+  "gallery-tests": {
+    "tests": 2,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  }
+}

@@ -1,0 +1,84 @@
+{
+  "working_directory": "C:\\Users\\tanzir\\Desktop\\voice_tray",
+  "python": "D:/Saydraft-Codex-QA-20261112-01a1cbc7/app-ui-v2-package-20261116-r1/venv/Scripts/python.exe",
+  "arguments": {
+    "context-final": [
+      "run_context_tests.py",
+      "context-final",
+      "tests/test_delivery_context_isolation.py",
+      "tests/test_uia_context.py",
+      "tests/test_uia_worker.py",
+      "tests/test_focused_edit.py",
+      "tests/test_foreground_context.py",
+      "-x"
+    ],
+    "insertion-r3": [
+      "run_context_tests.py",
+      "insertion-r3",
+      "tests/test_context_capture_reentry.py",
+      "tests/test_uia_delivery.py",
+      "tests/test_processing.py",
+      "tests/test_paste_last.py",
+      "tests/test_delivery_context_isolation.py",
+      "-x",
+      "-vv"
+    ],
+    "worker-r2": [
+      "run_ui_tests.py",
+      "worker-r2",
+      "tests/test_session_worker.py",
+      "tests/test_asr_router.py",
+      "tests/test_audio_language_id.py",
+      "tests/test_parakeet.py",
+      "tests/test_recorder.py",
+      "tests/test_qt_app_shell.py",
+      "-k",
+      "not main_initializes_logging_config_and_qt_shell",
+      "-x",
+      "-vv"
+    ],
+    "hub-r1": [
+      "run_ui_tests.py",
+      "hub-r1",
+      "tests/test_hub.py",
+      "tests/test_settings_window.py",
+      "tests/test_hub_accessibility.py",
+      "tests/test_startup_and_setup_repair.py",
+      "-x",
+      "-vv"
+    ],
+    "repair-final": [
+      "run_ui_tests.py",
+      "repair-final",
+      "tests/test_startup_and_setup_repair.py",
+      "tests/test_tray_ui.py",
+      "tests/test_parakeet.py",
+      "tests/test_recorder.py",
+      "-x"
+    ],
+    "setup-final-r3": [
+      "run_ui_tests.py",
+      "setup-final-r3",
+      "tests/test_startup_and_setup_repair.py",
+      "tests/test_onboarding_window.py",
+      "tests/test_onboarding_readiness.py",
+      "tests/test_onboarding_shortcuts.py",
+      "tests/test_onboarding_practice.py",
+      "tests/test_cleanup_picker.py",
+      "-x"
+    ],
+    "gallery-tests": [
+      "run_gallery_tests.py"
+    ],
+    "build": [
+      "tools/build.ps1",
+      "-Python",
+      "C:/Python313/python.exe",
+      "-OutputRoot",
+      "D:/Saydraft-Codex-QA-20261112-01a1cbc7/startup-delivery-package-20261116-r1",
+      "-PipCache",
+      "D:/Saydraft-Codex-QA-20261112-01a1cbc7/pip-cache",
+      "-SkipInstaller"
+    ]
+  }
+}

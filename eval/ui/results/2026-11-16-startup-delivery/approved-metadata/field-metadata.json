@@ -1,0 +1,43 @@
+{
+  "metadata_only": true,
+  "text_read": false,
+  "clipboard_accessed": false,
+  "audio_opened": false,
+  "input_injected": false,
+  "attempts": [],
+  "app": "chatgpt.exe",
+  "focused_query_ms": 22.53,
+  "belongs": {
+    "type": "bool",
+    "value": true,
+    "ms": 1.68
+  },
+  "cached_password": {
+    "type": "bool",
+    "value": false,
+    "ms": 0.03
+  },
+  "live_password": {
+    "type": "bool",
+    "value": false,
+    "ms": 0.2
+  },
+  "keyboard_focus": {
+    "type": "bool",
+    "value": true,
+    "ms": 0.17
+  },
+  "control_type": {
+    "type": "int",
+    "value": 50030,
+    "ms": 0.01
+  },
+  "identity_length": {
+    "type": "int",
+    "value": 6,
+    "ms": 0.08
+  },
+  "policy_status": "ok",
+  "window_unchanged": true,
+  "terminal": true
+}

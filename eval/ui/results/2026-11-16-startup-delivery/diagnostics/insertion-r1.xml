@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="1" failures="0" skipped="0" tests="1" time="1.130" timestamp="2026-11-16T11:36:13.444754+06:00" hostname="DarkHorse"><testcase classname="" name="tests.test_uia_delivery" time="0.000"><error message="collection failure">tests\test_uia_delivery.py:13: in &lt;module&gt;
+    from tests.test_native_clipboard_app import adapter
+&lt;frozen importlib._bootstrap&gt;:1369: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1340: in _find_and_load_unlocked
+    ???
+&lt;frozen importlib._bootstrap&gt;:935: in _load_unlocked
+    ???
+..\..\AppData\Roaming\Python\Python313\site-packages\_pytest\assertion\rewrite.py:186: in exec_module
+    exec(co, module.__dict__)
+tests\test_native_clipboard_app.py:9: in &lt;module&gt;
+    from saydraft.insert.clipboard_win import WindowsClipboard
+&lt;frozen importlib._bootstrap&gt;:1369: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1331: in _find_and_load_unlocked
+    ???
+&lt;frozen importlib._bootstrap&gt;:1265: in _find_spec
+    ???
+D:\Saydraft-Codex-QA-20261112-01a1cbc7\startup-delivery-20261116-r1\run_context_tests.py:11: in &lt;lambda&gt;
+    finder.find_spec=lambda fullname,path=None,target=None,original=original:None if fullname in ('saydraft.context.foreground','saydraft.context.uia_native') else original(fullname,path,target)
+                                                                                                                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tools\public_file_guard.py:56: in find_spec
+    raise AssertionError("Owner I/O import is barred: " + fullname)
+E   AssertionError: Owner I/O import is barred: saydraft.insert.clipboard_win</error></testcase></testsuite></testsuites>
