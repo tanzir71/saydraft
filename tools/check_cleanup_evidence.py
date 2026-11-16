@@ -258,7 +258,10 @@ def check(policy_index=POLICY_INDEX, forced_index=FORCED_INDEX, *, root=ROOT):
     for row in result["reports"]:
         require(row["evidence_valid"], row.get("reason", "Invalid native evidence"))
         require(row["quality_passed"], "; ".join(row["quality_failures"]))
-    return {"passed": True, "reports": [row for row in result["reports"] if row["mode"] == "policy"],
+    fields = ("candidate", "hybrid_exact_passes", "accepted_replies", "decoder_median_tps",
+              "rate_target_tps", "rate_target_met")
+    return {"passed": True, "reports": [{key: row[key] for key in fields}
+            for row in result["reports"] if row["mode"] == "policy"],
             "scope": "retained native quality; no tier/latency/default acceptance"}
 
 

@@ -129,6 +129,7 @@ def test_quality_pass_does_not_promote_a_below_threshold_hardware_measurement(tm
     result = evidence.check(policy, forced)
     assert result["passed"] and result["reports"][0]["rate_target_met"] is False
     assert result["reports"][0]["decoder_median_tps"] == 24
+    assert "passed" not in result["reports"][0]  # The legacy per-row contract exposes speed separately.
 
 
 def test_forced_golden_regression_cannot_hide_behind_passing_policy_output(tmp_path):
