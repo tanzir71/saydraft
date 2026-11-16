@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "checker_source_commit": "568c6575d862ed6a7e5937c333da50cb93e8fc73",
+  "files": [
+    {
+      "path": "attempts/targeted-r1.guard.json",
+      "bytes": 417,
+      "sha256": "aa5b53564e7625621b8eaabb66f4f3db1a9d248d80d505dc813ee2f0d6b85543"
+    },
+    {
+      "path": "attempts/targeted-r1.log",
+      "bytes": 970,
+      "sha256": "1b33ecd3d48845fb03b54eac45ea432aee1b5e5bc34dad47d972e47d552f7766"
+    },
+    {
+      "path": "commands.json",
+      "bytes": 1115,
+      "sha256": "c46cea194ddccd85b4f87fc3b148d587707b4933458891d460d8d89a38d4f6a6"
+    },
+    {
+      "path": "forced-index.json",
+      "bytes": 677,
+      "sha256": "7100c8a62fac28d4dc867f808569d89535d20fdaac58ef7b88d1c0c7452d3fe2"
+    },
+    {
+      "path": "policy-index.json",
+      "bytes": 677,
+      "sha256": "9bc9d951b4dfeb2aad2e04f3284bf3757a2e5077fecd96cb04ca9f965a96f7b5"
+    },
+    {
+      "path": "qualification.guard.json",
+      "bytes": 346,
+      "sha256": "62e6ca05d310a2e61a921872b961683a5a1aaeccc295f9e650e6609905cb2ddc"
+    },
+    {
+      "path": "qualification.json",
+      "bytes": 2090,
+      "sha256": "6d6020ab8e2e5bcf1505586d46be0babfa8ad0707a2525232f55ae756322128b"
+    },
+    {
+      "path": "ruff.log",
+      "bytes": 20,
+      "sha256": "a4443afdcfb6d7363adb285762515ccf7cf50473b1a05c20c1a50f6bed4d26b0"
+    },
+    {
+      "path": "run_qa.py",
+      "bytes": 740,
+      "sha256": "598e57f6671a04518082443fc83cb66d80b8e52829914c3875a1bcef156cfc04"
+    },
+    {
+      "path": "source-receipt.json",
+      "bytes": 1938,
+      "sha256": "e9b94d7f8e16969b0f7858677e3691c04e8246dce59e719706ad56713b7ab9b9"
+    },
+    {
+      "path": "tests.guard.json",
+      "bytes": 417,
+      "sha256": "7c21e02bd56094848e6c373dc49eb26a2b1fa46411bf9b0d3285155aeebf68e8"
+    },
+    {
+      "path": "tests.log",
+      "bytes": 219,
+      "sha256": "4b9fc4097221e9f306ec8fe01612a00361cfebc430f89f8114c7cd9e4ff5a6a1"
+    }
+  ]
+}

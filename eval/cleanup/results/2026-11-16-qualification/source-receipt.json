@@ -1,0 +1,40 @@
+{
+  "checker_source_commit": "568c6575d862ed6a7e5937c333da50cb93e8fc73",
+  "benchmark_source_commit": "44ed9c458a78e84e55751b827ed71b96114632ae",
+  "published_app_source_commit": "12bc27ffdb3ba388ea199e5e51661c968815c2fe",
+  "app_tree": "d8f3bb2ccd5abefec14774d8621a683b272032d8",
+  "published_app_tree": "d8f3bb2ccd5abefec14774d8621a683b272032d8",
+  "app_unchanged": true,
+  "files": [
+    {
+      "path": "tools/check_cleanup_evidence.py",
+      "working_sha256": "149065b142c880e3766956b3406b7a608883561b1a43141d304d30daa86562b0",
+      "git_blob_sha256": "6cef68f6b18d8858addf39867cec4bb5e4bbc4db17bce5b9b52734c94b7caa01",
+      "matches_git_allowing_line_endings": true
+    },
+    {
+      "path": "tests/test_cleanup_evidence.py",
+      "working_sha256": "8b20caded76a4fbcbe546e4cfdba9ae9c1050e527f0f4ee922e73160ffa37fc2",
+      "git_blob_sha256": "8c82cb85f5a4727acc03fead01362d6d17444b9b736536c811773822b5aaf348",
+      "matches_git_allowing_line_endings": true
+    },
+    {
+      "path": "tests/test_cleanup_evidence_archives.py",
+      "working_sha256": "efff5e408b629787cf3045a9b6418a29317110325e52fd25bbb808fe2bd9ad08",
+      "git_blob_sha256": "efff5e408b629787cf3045a9b6418a29317110325e52fd25bbb808fe2bd9ad08",
+      "matches_git_allowing_line_endings": true
+    },
+    {
+      "path": "eval/cleanup/results/2026-11-16-qualification/policy-index.json",
+      "working_sha256": "9bc9d951b4dfeb2aad2e04f3284bf3757a2e5077fecd96cb04ca9f965a96f7b5",
+      "git_blob_sha256": "9bc9d951b4dfeb2aad2e04f3284bf3757a2e5077fecd96cb04ca9f965a96f7b5",
+      "matches_git_allowing_line_endings": true
+    },
+    {
+      "path": "eval/cleanup/results/2026-11-16-qualification/forced-index.json",
+      "working_sha256": "7100c8a62fac28d4dc867f808569d89535d20fdaac58ef7b88d1c0c7452d3fe2",
+      "git_blob_sha256": "7100c8a62fac28d4dc867f808569d89535d20fdaac58ef7b88d1c0c7452d3fe2",
+      "matches_git_allowing_line_endings": true
+    }
+  ]
+}

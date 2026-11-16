@@ -1,5 +1,9 @@
 # Latest cleanup qualification
 
+Checker source: `568c6575d862ed6a7e5937c333da50cb93e8fc73`. The source receipt
+matches its tracked inputs and confirms the app tree is unchanged from published
+`12bc27f`.
+
 The offline checker now uses the completed `44ed9c4` overnight measurements,
 without running models or duplicating their archived reports. `policy-index.json`
 and `forced-index.json` independently pin the unchanged archive SHA-256 and each

@@ -1,0 +1,39 @@
+{
+  "python": "D:/Saydraft-Codex-QA-20261112-01a1cbc7/app-ui-v2-package-20261116-r1/venv/Scripts/python.exe",
+  "runner_original": "D:\\Saydraft-Codex-QA-20261112-01a1cbc7\\cleanup-qualification-20261116-r1\\run_qa.py",
+  "runs": [
+    {
+      "args": [
+        "targeted-r1",
+        "tests/test_cleanup_evidence.py",
+        "tests/test_cleanup_evidence_archives.py",
+        "-x"
+      ],
+      "exit_code": 1,
+      "scope": "initial diagnostic; historical fixture ordering assumption corrected"
+    },
+    {
+      "args": [
+        "targeted-final",
+        "tests/test_cleanup_evidence.py",
+        "tests/test_cleanup_evidence_archives.py"
+      ],
+      "exit_code": 0,
+      "tests_passed": 47
+    },
+    {
+      "args": [
+        "qualification-pinned",
+        "check"
+      ],
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "evidence_valid": true,
+      "qualification_passed": false
+    }
+  ],
+  "lint": {
+    "command": "C:/Python313/python.exe -m ruff check tools/check_cleanup_evidence.py tests/test_cleanup_evidence.py tests/test_cleanup_evidence_archives.py",
+    "exit_code": 0
+  }
+}
