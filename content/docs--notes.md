@@ -2,9 +2,21 @@
 
 Canonical: https://tanzir71.github.io/saydraft/docs/notes/
 
-Keep local plain-text notes in Saydraft Scratchpad. Learn autosave, saved-note review and the separate experimental setup and limits of meeting notes.
+Press F10 to record a local voice note, or write in Saydraft Scratchpad. Learn offline saving, note review and the separate limits of meeting notes.
 
-Facts checked: 2026-11-14
+Facts checked: 2026-11-17
+
+## Record a voice note
+
+ 
+
+Press F10 to start, wait for Recording note, then press F10 again to stop. You can also use Record note in Hub → Notes. Esc cancels; the usual recording time limit applies. Change Record note in Settings → Shortcuts; the global binding works while listening is enabled.
+
+ 
+
+The result saves to Notes and History without reading or inserting into the foreground app. Your open Scratchpad stays unchanged. Speech models must be installed; optional AI cleanup uses your chosen local model. If saving to Notes fails, recover your words from History.
+
+ 
 
 ## Open Scratchpad
 
@@ -53,6 +65,10 @@ The current source provides local recording/analysis controls and transcript rev
 See the linked implementation guide for current setup and recovery details, [model requirements](https://tanzir71.github.io/saydraft/docs/models/) for dependencies, and [shortcuts](https://tanzir71.github.io/saydraft/docs/shortcuts/) for rebinding.
 
 ## A few useful answers.
+
+### What is the shortcut to record a voice note?
+
+Press F10 to start and F10 again to stop while listening is enabled. The note saves locally in Notes and History without inserting into another app. You can change Record note in Settings → Shortcuts.
 
 ### Does opening Scratchpad start a recording?
 

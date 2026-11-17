@@ -2,9 +2,9 @@
 
 Canonical: https://tanzir71.github.io/saydraft/docs/shortcuts/
 
-Learn Saydraft's hold-to-talk, hands-free, cancel, paste-last, Scratchpad and History shortcuts, with custom bindings and conflict checks.
+Learn Saydraft's hold-to-talk, F10 voice-note recording, hands-free, cancel, paste-last, Scratchpad and History shortcuts, with custom bindings.
 
-Facts checked: 2026-11-14
+Facts checked: 2026-11-17
 
 ## Everyday defaults
 
@@ -18,6 +18,7 @@ Facts checked: 2026-11-14
 | Escape | Cancel the current recording or pending action |
 | Shift + Alt + Z | Paste the last saved dictation |
 | Win + Alt + S | Open Scratchpad |
+| F10 | Start or stop a voice note; save to Notes and History |
 | Ctrl + Win + D | Open the latest History diff |
 
  
@@ -42,7 +43,7 @@ The default recording cap is twenty minutes, with a warning at nineteen minutes.
 
  
 
-Use Settings → General, or the Shortcut page during first-run setup. Learn shortcut captures keys only while setup stays focused and times out after ten seconds. Escape cancels learning. You can also enter a supported chord manually and check for conflicts before saving.
+Use Settings → Shortcuts, or the Shortcut page during first-run setup. Learn shortcut captures keys only while setup stays focused and times out after ten seconds. Escape cancels learning. You can also enter a supported chord manually and check for conflicts before saving.
 
  
 

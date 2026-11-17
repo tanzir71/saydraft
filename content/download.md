@@ -4,7 +4,7 @@ Canonical: https://tanzir71.github.io/saydraft/download/
 
 Download the free Saydraft Windows x64 portable preview. Review the unsigned ZIP, SHA-256 checksum, setup instructions and local speech model sizes.
 
-Facts checked: 2026-11-16
+Facts checked: 2026-11-17
 
 Saydraft is in development. The current Windows preview is available as an unsigned portable ZIP. Models are installed separately during setup.
 
@@ -12,21 +12,21 @@ Saydraft is in development. The current Windows preview is available as an unsig
 
 ## Saydraft for Windows
 
-0.1.0 · Windows x64 · 157.3 MB
+0.1.1 · Windows x64 · 157.3 MB
 
 Unsigned development preview · portable ZIP. Extract the whole folder and run Saydraft.exe. Speech models are downloaded explicitly during setup.
 
-[Download for Windows](https://github.com/tanzir71/saydraft/releases/download/v0.1.0-preview.20261116/Saydraft-0.1.0-win-x64.zip)
+[Download for Windows](https://github.com/tanzir71/saydraft/releases/download/v0.1.1-preview.20261117/Saydraft-0.1.1-win-x64.zip)
 
 ### Verify SHA-256
 
-`b24ca638e91035c35029b67577b7d62859e22904618a9fa7e982a330ec40901f`
+`479938ff19281bacbbb9e9da5860cf7e56b174292a68fd5cc4f76ed6fd29a95f`
 
-157,308,167 bytes
+157,322,503 bytes
 
  
 
-[Release notes, checksums and all assets ↗](https://github.com/tanzir71/saydraft/releases/tag/v0.1.0-preview.20261116)
+[Release notes, checksums and all assets ↗](https://github.com/tanzir71/saydraft/releases/tag/v0.1.1-preview.20261117)
 
  
 

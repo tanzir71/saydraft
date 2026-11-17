@@ -483,11 +483,11 @@
     {
       "path": "docs/notes/",
       "title": "Saydraft Notes — Local Scratchpad and Meeting Limits",
-      "description": "Keep local plain-text notes in Saydraft Scratchpad. Learn autosave, saved-note review and the separate experimental setup and limits of meeting notes.",
+      "description": "Press F10 to record a local voice note, or write in Saydraft Scratchpad. Learn offline saving, note review and the separate limits of meeting notes.",
       "canonical": "https://tanzir71.github.io/saydraft/docs/notes/",
       "noindex": false,
       "image": "og/docs--notes.png",
-      "imageSha256": "bf3d160670270e01b8cf15f0312cf617478b179d83f90f182cb497ece7ae08ef",
+      "imageSha256": "bc6677f1a37bb54cea8b31fc0ac03fdaf2bdb575de34102f0292b36d17297544",
       "layout": [
         {
           "name": "brand",
@@ -563,11 +563,11 @@
     {
       "path": "docs/shortcuts/",
       "title": "Saydraft Windows Shortcuts — Dictation and Hands-Free",
-      "description": "Learn Saydraft's hold-to-talk, hands-free, cancel, paste-last, Scratchpad and History shortcuts, with custom bindings and conflict checks.",
+      "description": "Learn Saydraft's hold-to-talk, F10 voice-note recording, hands-free, cancel, paste-last, Scratchpad and History shortcuts, with custom bindings.",
       "canonical": "https://tanzir71.github.io/saydraft/docs/shortcuts/",
       "noindex": false,
       "image": "og/docs--shortcuts.png",
-      "imageSha256": "6e487e94fa085a0ed4c8110788dbcc69a26777c92547d5df75c4ee672efb497d",
+      "imageSha256": "b1b431080b9a67ef86700d61775a4f707bdc65fa93c55eee4eeed7b1225dee49",
       "layout": [
         {
           "name": "brand",

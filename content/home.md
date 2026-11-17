@@ -10,7 +10,7 @@ Offline dictation for WindowsFree · Open source · No account
 
 Hold Ctrl + Win and talk the way you think. Saydraft tidies your words on your PC and types them wherever your cursor is.
 
-[View source](https://github.com/tanzir71/saydraft)[Get Saydraft for Windows](https://github.com/tanzir71/saydraft/releases/download/v0.1.0-preview.20261116/Saydraft-0.1.0-win-x64.zip)
+[View source](https://github.com/tanzir71/saydraft)[Get Saydraft for Windows](https://github.com/tanzir71/saydraft/releases/download/v0.1.1-preview.20261117/Saydraft-0.1.1-win-x64.zip)
 
 [View source on GitHub ↗](https://github.com/tanzir71/saydraft)
 
@@ -60,7 +60,7 @@ NVIDIA ParakeetWhisperQwenllama.cppsherpa-onnx
 
 [Credits ↗](https://tanzir71.github.io/saydraft/credits/)
 
-[2 GitHub stars ↗](https://github.com/tanzir71/saydraft) · Checked 2026-11-16
+[2 GitHub stars ↗](https://github.com/tanzir71/saydraft) · Checked 2026-11-17
 
 01 — How it worksSaydraft for Windows
 
@@ -346,6 +346,6 @@ Make room for your next thought
 
 ## Less keyboard. More possibility.
 
-[Get Saydraft for Windows](https://github.com/tanzir71/saydraft/releases/download/v0.1.0-preview.20261116/Saydraft-0.1.0-win-x64.zip)
+[Get Saydraft for Windows](https://github.com/tanzir71/saydraft/releases/download/v0.1.1-preview.20261117/Saydraft-0.1.1-win-x64.zip)
 
 Unsigned preview · Windows 10 & 11 · [Setup and checksums ↗](https://tanzir71.github.io/saydraft/download/)

@@ -4,11 +4,19 @@ Canonical: https://tanzir71.github.io/saydraft/changelog/
 
 Read Saydraft's published release history and current build status. Release notes are fetched from GitHub during the website build.
 
-Facts checked: 2026-11-16
+Facts checked: 2026-11-17
 
 This page shows the latest public GitHub Releases as checked during the website build. Preview releases are labelled. Draft builds stay private and are excluded from the list; source commits are not presented as published app releases.
 
  
+
+## Saydraft 0.1.1 preview — voice notes and cleanup repairs
+
+2026-11-17 · Preview release
+
+F10 now records a proper voice note: press once to start, wait for **Recording note**, then press again to stop. Find it in **Notes** and **History**. Hub → Notes also has a Record note button, and Settings → Shortcuts exposes the binding. Existing custom bindings are preserved. Your current Scratchpad draft stays unchanged; voice notes do not read or paste into another app's field. Cleanup now rejects added punctuation around the literal word “comma.” CPU startup prepares speech before optional cleanup calibration, and cleanup admission reserves time for RPC/scheduling overhead while keeping its 800 ms cap. All four full native cleanup suites pass their scoped checker: 2,624 cases, zero golden regressions. CPU production policy still uses rules for most text and accepted only one golden model reply; this is not broad accuracy, hardware-tier or end-to-end latency acceptance. This unsigned Windows x64 portable is built from clean source `dcfab880d1896f1fbdb32be7e34387c2b46b0ad5`, with version 0.1.1. Quit the previous Saydraft instance, extract the whole ZIP, and run **Saydraft.exe**. Keep its support files together. Windows may show an unknown-publisher/SmartScreen prompt. Models are installed separately through the existing explicit setup download flow; verified installed models are reused. Focused worker/UI/SQLite, synthetic shortcut and packaging checks pass. The actual frozen package and payload hashes are verified separately before upload. Physical microphone/hotkey/in
+
+[Read the complete release notes on GitHub ↗](https://github.com/tanzir71/saydraft/releases/tag/v0.1.1-preview.20261117)
 
 ## Saydraft 0.1.0 — Windows preview (unsigned)
 
