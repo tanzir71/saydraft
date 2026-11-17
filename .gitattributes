@@ -137,9 +137,4 @@ eval/latency/results/2026-11-15-guarded-preflight/** -text -whitespace
 eval/latency/results/2026-11-15-delivery-planning/** -text -whitespace
 eval/cleanup/results/2026-11-17-cleanup-repair/*.json -text whitespace=cr-at-eol
 eval/ui/results/2026-11-17-voice-notes/*.json -text whitespace=cr-at-eol
-eval/ui/results/2026-11-17-voice-notes-portable/*.json -text whitespace=cr-at-eol
-eval/ui/results/2026-11-17-voice-notes-portable/*.py -text
-eval/ui/results/2026-11-17-voice-notes-portable/*.log -text -diff
-eval/ui/results/2026-11-17-voice-notes-portable/*.xml -text -diff
-eval/ui/results/2026-11-17-voice-notes-portable/*.txt -text
-eval/ui/results/2026-11-17-voice-notes-portable/SHA256SUMS -text
+eval/ui/results/2026-11-17-voice-notes-portable/** -text -whitespace
