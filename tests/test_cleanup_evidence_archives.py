@@ -125,16 +125,16 @@ def test_same_member_cannot_stand_in_for_both_candidates(tmp_path):
         evidence.reports(path, root=tmp_path)
 
 
-def test_real_latest_reports_keep_the_documented_failures_and_current_cleanup_sources():
-    result = evidence.assess()
-    assert result["evidence_valid"] and not result["passed"]
-    rows = {(row["backend"], row["mode"]): row for row in result["reports"]}
-    assert rows["cpu", "forced"]["golden_regressions"] == ["balanced-chat-05"]
-    assert len(rows["vulkan", "forced"]["golden_regressions"]) == 3
-    assert rows["cpu", "policy"]["accepted_replies"] == 0
-    assert not rows["cpu", "policy"]["quality_passed"]
-    assert not rows["cpu", "policy"]["rate_target_met"]
-    assert rows["vulkan", "policy"]["passed"]
+def test_original_archived_failures_remain_pinned_when_the_implementation_changes():
+    # Historical data stays immutable; current source qualification is a separate
+    # check and must become stale when the measured implementation changes.
+    folder = evidence.ROOT / "eval/cleanup/results/2026-11-16-qualification"
+    policy = evidence.reports(folder / "policy-index.json")
+    forced = evidence.reports(folder / "forced-index.json")
+    assert forced["qwen08-cpu.json"]["suites"]["golden"]["regressions"] == ["balanced-chat-05"]
+    assert len(forced["qwen2-vulkan1.json"]["suites"]["golden"]["regressions"]) == 3
+    assert policy["qwen08-cpu.json"]["suites"]["golden"]["accepted_replies"] == 0
+    assert policy["qwen2-vulkan1.json"]["suites"]["golden"]["accepted_replies"] == 269
 
 
 def test_archive_identity_and_reports_are_pinned_independently():

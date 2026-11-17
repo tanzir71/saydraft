@@ -35,6 +35,52 @@ def test_finite_structure_guard_allows_grammar_and_is_not_an_exact_string_oracle
     assert rule_structure_reason(source, candidate) is None
 
 
+@pytest.mark.parametrize("source,candidate", [
+    ("Hello comma world", "Hello, comma, world"),
+    ("Hello comma team.", "Hello, comma team."),
+    ("Thanks comma talk soon", "Thanks, comma talk soon"),
+    ("Type COMMA then continue", "Type COMMA, then continue"),
+    ("Comma starts this line", "Comma, starts this line"),
+    ("Keep this comma", "Keep this, comma"),
+    ("Hello comma world", "Hello، comma world"),
+    ("Hello comma world", "Hello， comma world"),
+    ("Hello comma world", "Hello、 comma world"),
+    ("One comma comma two", "One comma, comma two"),
+    ("Hello, comma world", "Hello comma world"),
+])
+def test_literal_comma_cannot_gain_or_lose_adjacent_punctuation(source, candidate):
+    assert rule_structure_reason(source, candidate) == "rules_literal_comma_changed"
+
+
+@pytest.mark.parametrize("source,candidate", [
+    ("Hello comma world", "Hello comma world"),
+    ("Hello, comma, world", "Hello, comma, world"),
+    ("The comma token is ready", "The comma token is ready"),
+    ("The comma tokens is ready", "The comma tokens are ready"),
+    ("Bring apples oranges and pears", "Bring apples, oranges and pears"),
+    ("I like commas and pauses", "I like commas, and pauses"),
+    ("Run comma_name then continue", "Run comma_name, then continue"),
+])
+def test_literal_comma_guard_keeps_existing_marks_and_other_grammar_edits(source, candidate):
+    assert rule_structure_reason(source, candidate) is None
+
+
+@pytest.mark.parametrize("raw,candidate,expected,profile", [
+    ("hello comma world", "Hello, comma, world", "Hello comma world", "general"),
+    ("hello comma team", "Hello, comma team.", "Hello comma team.", "email"),
+    ("thanks comma talk soon", "Thanks, comma talk soon", "Thanks comma talk soon", "chat"),
+])
+def test_original_comma_regressions_keep_rules_through_the_actual_client(raw, candidate, expected, profile):
+    pipeline, observer = pipeline_for(candidate)
+    try:
+        result = execute_case(EvalCase("literal-comma", raw, expected, "balanced", profile), pipeline)
+        assert result.cleaned_text == expected
+        assert pipeline.last_llm_decision == "rules_literal_comma_changed"
+        assert observer.reply["source_tokens"] > 0
+    finally:
+        pipeline.close()
+
+
 @pytest.mark.parametrize("style", sorted(STYLES))
 def test_post_rules_examples_teach_existing_layout_without_inventing_a_final_period(style):
     messages = build_messages("Ready", hints=PromptHints(style=style, post_rules=True))

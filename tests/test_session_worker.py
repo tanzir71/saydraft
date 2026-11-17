@@ -76,12 +76,12 @@ class Keyboard:
         self.removed.append(handle)
 
 
-def make_worker(*, queued=False, recorder=None, processor=None):
+def make_worker(*, queued=False, recorder=None, processor=None, config=None):
     clock = types.SimpleNamespace(now=0.0)
     processor, events, notifications = processor or make_processor()
     recorder = recorder or Recorder()
     asr = types.SimpleNamespace(transcribe=lambda audio: "raw transcript", last_timings={"stt": 0.1})
-    config = default_config()
+    config = config or default_config()
     target = TargetContext("start-hwnd", "Notepad")
     services = Services(config, recorder, asr, processor.cleaner, IdentityFormatter(), processor.inserter,
                         types.SimpleNamespace(capture=lambda: target), processor.history, processor, [])

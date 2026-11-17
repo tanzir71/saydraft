@@ -53,6 +53,7 @@ class SessionWorker:
         self._closing = False
         self._pending_config = None
         self._speech_warming = False
+        self._cleanup_waits_for_speech = self._cpu_cleanup_enabled()
         self._background = None
         self._preview = None
         self._preview_language_blocked = False
@@ -145,11 +146,12 @@ class SessionWorker:
             if self._closing or self._speech_warming or self.busy:
                 return False
             self._speech_warming = True
+            asr = self.services.asr
             self.emit('speech_model_status', 'warming')
             def prepare():
                 status = 'unavailable'
                 try:
-                    callback = getattr(self.services.asr, 'prepare', None)
+                    callback = getattr(asr, 'prepare', None)
                     if callback is not None:
                         callback()
                     status = 'ready'
@@ -158,6 +160,8 @@ class SessionWorker:
                 finally:
                     with self._lock:
                         self._speech_warming = False
+                    if status == 'ready':
+                        self._cleanup_after_speech(asr)
                     self.emit('speech_model_status', status)
             try:
                 self._submit(prepare)
@@ -280,7 +284,24 @@ class SessionWorker:
             logger.warning("Dictionary refresh unavailable; apply Settings to refresh cleanup")
         self.emit("dictionary_changed", DictionaryChange(status, receipt if status == "added" else None))
 
+    def _cpu_cleanup_enabled(self):
+        llm = self.services.config.get("llm", {})
+        return bool(llm.get("enabled") and llm.get("backend", "cpu") == "cpu")
+
+    def _cleanup_after_speech(self, asr, context=None):
+        with self._lock:
+            if self._closing or self.services.asr is not asr:
+                return
+            pending = self._cleanup_waits_for_speech
+            self._cleanup_waits_for_speech = False
+            if pending:
+                self._warm_cleanup(context)
+
     def _warm_cleanup(self, context=None):
+        # CPU calibration must not compete with our own speech-model loading.
+        # Preparation remains asynchronous; ordinary dictation never waits for it.
+        if self._cleanup_waits_for_speech:
+            return
         try:
             contextual = getattr(self.services.cleaner, "warm_for_context", None)
             if contextual is not None:
@@ -580,6 +601,9 @@ class SessionWorker:
                 preparing_asr = True
                 prepare()
                 preparing_asr = False
+            if not translating:
+                self._cleanup_after_speech(self.services.asr,
+                    replace(self._context, app_group=self._target.app_group))
             with self._lock:
                 if not self._capture_request_current(generation):
                     self._reject_arming(generation)
@@ -1365,6 +1389,7 @@ class SessionWorker:
                 self.services.inserter.clipboard = clipboard  # Retain recovery and the History window's shared port.
             if previous is not self.services.cleaner:
                 self._close_cleanup(previous)
+            self._cleanup_waits_for_speech = self._cpu_cleanup_enabled()
             self._warm_cleanup()
             self._start_audio_retention()
             self.hotkeys.configure(config)
