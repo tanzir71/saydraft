@@ -10,6 +10,7 @@ _BACKTRACK = re.compile(r"\b(?:actually|scratch\s+that|never\s+mind|no\s+wait)\b
 _LIST = re.compile(r"\b(?:new\s+(?:line|paragraph)|(?:bullet|numbered)\s+list|next\s+item)\b", re.I)
 _FILLER = re.compile(r"\b(?:um|uh|erm|you\s+know|i\s+mean)\b", re.I)
 PREDICTION_HEADROOM = 2.0  # Native CPU replies exceeded the raw estimate by up to 1.60x.
+RPC_RESERVE_SECONDS = .05  # Admit transport/scheduling overhead without extending the request deadline.
 MIN_REQUEST_SECONDS = .05  # Decline tiny RPC windows after the separate 50 ms delivery reserve.
 
 
@@ -69,6 +70,6 @@ def predict(need, *, source_tokens, pending_tokens, output_limit, rate, remainin
     # Expected output differs from the larger safety cap. Prefill assumes 4x the
     # decode rate; uniform headroom covers observed underprediction, not a guarantee.
     output = min(output_limit, math.ceil(source_tokens * 1.25) + 2)
-    predicted = PREDICTION_HEADROOM * (pending_tokens / (rate * 4) + output / rate)
+    predicted = RPC_RESERVE_SECONDS + PREDICTION_HEADROOM * (pending_tokens / (rate * 4) + output / rate)
     return decision(need, "call" if predicted <= remaining else "skip_budget", remaining=remaining,
                     predicted=predicted, source_tokens=source_tokens, pending_tokens=pending_tokens)

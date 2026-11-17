@@ -39,8 +39,8 @@ def test_prediction_uses_live_rate_output_length_and_uncached_prefix_cost():
     need = NeedScore(2, ("polished",))
     fast = predict(need, source_tokens=10, pending_tokens=20, output_limit=256, rate=100, remaining=.75)
     slow = predict(need, source_tokens=10, pending_tokens=20, output_limit=256, rate=10, remaining=.75)
-    assert fast["reason"] == "call" and fast["predicted_ms"] == 400
-    assert slow["reason"] == "skip_budget" and slow["predicted_ms"] == 4000
+    assert fast["reason"] == "call" and fast["predicted_ms"] == 450
+    assert slow["reason"] == "skip_budget" and slow["predicted_ms"] == 4050
     assert predict(need, source_tokens=10, pending_tokens=20, output_limit=256,
                    rate=None, remaining=.75)["reason"] == "skip_calibration"
 
@@ -230,6 +230,18 @@ def test_prediction_headroom_declines_short_cpu_work_that_the_raw_estimate_admit
     info = predict(NeedScore(2, ("polished",)), source_tokens=5, pending_tokens=21,
                    output_limit=256, rate=27.8, remaining=.719)
     assert info["reason"] == "skip_budget" and info["predicted_ms"] > 1000
+
+
+def test_observed_cpu_timeout_near_the_deadline_keeps_transport_and_scheduling_room():
+    info = predict(NeedScore(4, ("fillers", "polished")), source_tokens=3, pending_tokens=19,
+                   output_limit=20, rate=29.300347432594304, remaining=.7465441)
+    assert info["reason"] == "skip_budget" and info["predicted_ms"] > 780
+
+
+def test_cpu_admission_still_allows_short_work_with_measured_transport_headroom():
+    info = predict(NeedScore(2, ("polished",)), source_tokens=2, pending_tokens=18,
+                   output_limit=19, rate=29.300347432594304, remaining=.7465441)
+    assert info["reason"] == "call" and info["predicted_ms"] < 700
 
 
 def test_failed_generation_retains_the_plan_without_claiming_complete_token_evidence():
