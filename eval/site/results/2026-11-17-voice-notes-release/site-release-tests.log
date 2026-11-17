@@ -1,0 +1,31 @@
+[WebServer] (node:25488) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+
+Running 6 tests using 2 workers
+
+(node:7136) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:6944) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+[1/6] [mobile] › tests\release.spec.ts:14:1 › download page exposes the exact release, checksum, portable setup and current changelog
+[2/6] [mobile] › tests\release.spec.ts:4:1 › landing download actions use the published portable and retain setup details
+(node:35028) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+[3/6] [tablet] › tests\release.spec.ts:14:1 › download page exposes the exact release, checksum, portable setup and current changelog
+
+(node:35140) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[4/6] [tablet] › tests\release.spec.ts:4:1 › landing download actions use the published portable and retain setup details
+(node:33800) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+
+(Use `node --trace-warnings ...` to show where the warning was created)
+[5/6] [desktop] › tests\release.spec.ts:14:1 › download page exposes the exact release, checksum, portable setup and current changelog
+(node:35292) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+[6/6] [desktop] › tests\release.spec.ts:4:1 › landing download actions use the published portable and retain setup details
+  6 passed (29.5s)

@@ -62,6 +62,9 @@ pending until the guest actually executes those cases.
   has 262 distinct guarded checks plus 23 packaging checks. No host microphone,
   focused-field read, clipboard/native input or VM work was performed for this
   build. [Release and build proof](PACKAGING.md).
+  The live landing/download/changelog and Notes guide match the locally built
+  publication; public ZIP, checksums and metadata hashes also match.
+  [Publication verification](../eval/site/results/2026-11-17-voice-notes-release/README.md).
 - **17 November cleanup repair:** the current pinned qualifier passes all four
   native forced/policy stages, 2,624 cases total. Literal-comma regressions are
   fixed; CPU startup avoids concurrent ASR loading during cleanup calibration.

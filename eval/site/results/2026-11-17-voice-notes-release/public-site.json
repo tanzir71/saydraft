@@ -1,0 +1,49 @@
+{
+  "tag": "v0.1.1-preview.20261117",
+  "base": "https://tanzir71.github.io/saydraft/",
+  "checks": [
+    {
+      "path": "",
+      "status": 200,
+      "html_matches_local": true,
+      "sha256": "0b69ecca9d2521f430d302a31f3c1e58e1522ac9b1f14c4aced4ecc42f6041a6"
+    },
+    {
+      "path": "download/",
+      "status": 200,
+      "html_matches_local": true,
+      "sha256": "211352a6503bbfc8601188cfb09c4ab8ed58b3b7d612ccafb92d33c8be02b2d9"
+    },
+    {
+      "path": "changelog/",
+      "status": 200,
+      "html_matches_local": true,
+      "sha256": "cd90d5a57c5157dd86227e0a423f6fdcea19d40fe34dd076d91a8bf70cf65c6a"
+    },
+    {
+      "path": "docs/notes/",
+      "status": 200,
+      "html_matches_local": true,
+      "sha256": "9f39d1c0aad6e60c6a61b30e2e16609e919efe4349629534fcf207bfab31cdd1"
+    },
+    {
+      "path": "/saydraft/_astro/Base.CZPyejbz.css",
+      "status": 200,
+      "bytes": 19696,
+      "sha256": "05fc767fc06b16de5fc39fd8d3ac98d285fd998a850e9c62cf47c3596f578b74"
+    },
+    {
+      "path": "/saydraft/_astro/familjen-grotesk-latin-500-normal.BASv1Bog.woff2",
+      "status": 200,
+      "bytes": 12056,
+      "sha256": "490e3a95d21896ee66c4d7888b1f8e2e4413c1e910a97f197ad1690491ef5f40"
+    },
+    {
+      "path": "/saydraft/_astro/geist-latin-wght-normal.BgDaEnEv.woff2",
+      "status": 200,
+      "bytes": 29400,
+      "sha256": "19f9c92546aa300c312235e3125af1b81394d8db9a4bc4a425cd5b641d2d54e1"
+    }
+  ],
+  "custom_workflow_dispatched": false
+}

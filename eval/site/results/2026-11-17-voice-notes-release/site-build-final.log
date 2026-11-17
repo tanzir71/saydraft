@@ -1,0 +1,93 @@
+
+> saydraft-site@0.1.0 build
+> npm run tokens:check && npm run content:check && astro check && astro build
+
+
+> saydraft-site@0.1.0 tokens:check
+> node ../tools/generate_tokens.mjs --check
+
+12 shared token outputs verified.
+
+> saydraft-site@0.1.0 content:check
+> node tools/check-content-dates.mjs
+
+Verified dates are current for 23 content pages.
+13:12:24 [content] Syncing content
+13:12:24 [content] Synced content
+13:12:24 [types] Generated 3.49s
+13:12:24 [check] Getting diagnostics for Astro files in C:\Users\tanzir\Desktop\voice_tray\site...
+Result (109 files): 
+- 0 errors
+- 0 warnings
+- 0 hints
+
+13:13:04 [content] Syncing content
+13:13:04 [content] Synced content
+13:13:04 [types] Generated 6.62s
+13:13:04 [build] output: "static"
+13:13:04 [build] mode: "static"
+13:13:04 [build] directory: C:\Users\tanzir\Desktop\voice_tray\site\dist\
+13:13:04 [build] Collecting build info...
+13:13:04 [build] ✓ Completed in 7.18s.
+13:13:04 [build] Building static entrypoints...
+13:13:08 [vite] ✓ built in 3.73s
+13:13:09 [vite] ✓ built in 865ms
+13:13:10 [build] Rearranging server assets...
+
+ generating static routes 
+13:13:10   ├─ /404.html (+50ms) 
+13:13:10   ├─ /demo/index.html (+26ms) 
+13:13:10   ├─ /languages/arabic/index.html (+18ms) 
+13:13:10   ├─ /languages/bengali/index.html (+18ms) 
+13:13:10   ├─ /languages/brazilian-portuguese/index.html (+16ms) 
+13:13:10   ├─ /languages/chinese/index.html (+25ms) 
+13:13:10   ├─ /languages/filipino-tagalog/index.html (+28ms) 
+13:13:10   ├─ /languages/french/index.html (+18ms) 
+13:13:10   ├─ /languages/german/index.html (+11ms) 
+13:13:10   ├─ /languages/hindi/index.html (+18ms) 
+13:13:10   ├─ /languages/indonesian/index.html (+13ms) 
+13:13:10   ├─ /languages/japanese/index.html (+15ms) 
+13:13:10   ├─ /languages/korean/index.html (+6ms) 
+13:13:10   ├─ /languages/malay/index.html (+11ms) 
+13:13:10   ├─ /languages/persian/index.html (+15ms) 
+13:13:10   ├─ /languages/spanish/index.html (+6ms) 
+13:13:10   ├─ /languages/tamil/index.html (+10ms) 
+13:13:10   ├─ /languages/telugu/index.html (+8ms) 
+13:13:11   ├─ /languages/thai/index.html (+10ms) 
+13:13:11   ├─ /languages/urdu/index.html (+9ms) 
+13:13:11   ├─ /languages/vietnamese/index.html (+12ms) 
+13:13:11   ├─ /languages/index.html (+12ms) 
+13:13:11   ├─ /robots.txt (+6ms) 
+13:13:11   ├─ /sitemap.xml (+4ms) 
+13:13:11   ├─ /index.html (+694ms) 
+13:13:11   ├─ /dragon-alternative/index.html (+43ms) 
+13:13:11   ├─ /superwhisper-alternative-windows/index.html (+27ms) 
+13:13:11   ├─ /typeless-alternative/index.html (+34ms) 
+13:13:11   ├─ /windows-voice-typing-alternative/index.html (+19ms) 
+13:13:11   ├─ /wispr-flow-alternative/index.html (+37ms) 
+13:13:11   ├─ /changelog/index.html (+437ms) 
+13:13:12   ├─ /dictation-for-developers/index.html (+35ms) 
+13:13:12   ├─ /offline-dictation-windows/index.html (+17ms) 
+13:13:12   ├─ /docs/command-mode/index.html (+41ms) 
+13:13:12   ├─ /docs/dictionary/index.html (+17ms) 
+13:13:12   ├─ /docs/faq/index.html (+18ms) 
+13:13:12   ├─ /docs/getting-started/index.html (+38ms) 
+13:13:12   ├─ /docs/index.html (+12ms) 
+13:13:12   ├─ /docs/languages/index.html (+20ms) 
+13:13:12   ├─ /docs/models/index.html (+34ms) 
+13:13:12   ├─ /docs/notes/index.html (+31ms) 
+13:13:12   ├─ /docs/privacy/verify-offline/index.html (+52ms) 
+13:13:12   ├─ /docs/shortcuts/index.html (+50ms) 
+13:13:12   ├─ /docs/styles/index.html (+62ms) 
+13:13:12   ├─ /docs/troubleshooting/index.html (+46ms) 
+13:13:12   ├─ /credits/index.html (+17ms) 
+13:13:12   ├─ /download/index.html (+36ms) 
+13:13:12   ├─ /privacy/index.html (+28ms) 
+13:13:12 ✓ Completed in 2.47s.
+
+13:13:12 [build] ✓ Completed in 8.16s.
+13:13:13 [@astrojs/sitemap] `sitemap-index.xml` created at `dist`
+13:13:16 [build] Waiting for integration "saydraft-seo-artifacts", hook "astro:build:done"...
+13:13:22 [saydraft-seo-artifacts] 44 indexable URLs, 46 page previews, GitHub social preview and readable exports verified. No indexing submissions sent.
+13:13:22 [build] 46 page(s) built in 25.11s
+13:13:22 [build] Complete!
