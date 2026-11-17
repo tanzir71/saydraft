@@ -1,5 +1,14 @@
 # Cleanup prompt preparation
 
+On CPU, startup now prepares installed speech recognition before starting
+optional cleanup calibration and prompt warmup. A failed speech load leaves the
+cleanup warmup deferred; a later successful speech preparation releases it.
+GPU cleanup retains its existing startup path. The worker does not make the
+first microphone capture wait for optional AI preparation. The
+[17 November evidence](../eval/cleanup/results/2026-11-17-cleanup-repair/README.md)
+retains before/after fake-port ordering proof and the current native suites;
+co-loaded interactive latency remains unqualified.
+
 Native measurements show that loading weights and passing health checks do not
 prepare the first chat request. The isolated 0.8B CPU run takes 4.305 s for its
 first cleanup; changed-style prefixes take 3.401 s median. Gemma E2B's initial
@@ -17,7 +26,7 @@ the default 3. A receipt for another intensity no longer establishes readiness;
 changing intensity schedules the corresponding background prefix. Caret words,
 dictated text and glossary remain excluded. Actual cleanup prompt resources and
 the 800 ms request budget are unchanged. The
-[current qualification](../eval/cleanup/results/2026-11-15-intensity-prefix/README.md)
+[historical intensity-prefix qualification](../eval/cleanup/results/2026-11-15-intensity-prefix/README.md)
 records 171 related checks, the full CPU policy replay and a fresh portable.
 Its seven actual model replies remain limited evidence; full quality/tier and
 end-to-end latency acceptance stay open.

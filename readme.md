@@ -38,15 +38,20 @@ See [minimum preview acceptance](docs/MINIMUM_PREVIEW_ACCEPTANCE.md) for the
 current unsigned portable and verification scope, and the
 [delivery handover](docs/DELIVERY_HANDOVER.md) for known issues and future work.
 
-[**Download Saydraft for Windows — unsigned preview**](https://github.com/tanzir71/saydraft/releases/download/v0.1.0-preview.20261116/Saydraft-0.1.0-win-x64.zip)
+[**Download Saydraft for Windows — unsigned preview**](https://github.com/tanzir71/saydraft/releases/download/v0.1.1-preview.20261117/Saydraft-0.1.1-win-x64.zip)
 [![License: MIT](assets/media/license-mit.svg)](LICENSE)
 
-**Development preview · 0.1.0.** Download the Windows x64 portable ZIP, extract
+**Development preview · 0.1.1.** Download the Windows x64 portable ZIP, extract
 the whole folder and run **Saydraft.exe**. Quit an older instance from the tray
 first. The build is unsigned; Windows may show an unknown-publisher prompt.
-[Release notes and checksums](https://github.com/tanzir71/saydraft/releases/tag/v0.1.0-preview.20261116)
+[Release notes and checksums](https://github.com/tanzir71/saydraft/releases/tag/v0.1.1-preview.20261117)
 include the exact source commit and SHA-256. Models are installed explicitly
 during setup. Broad accuracy and physical Windows acceptance remain separately qualified.
+
+Press **F10** to start/stop a voice note, or use **Record note** in Hub → Notes.
+Notes save locally with a History recovery copy and preserve your open Scratchpad.
+This preview also repairs literal-comma cleanup regressions and CPU cleanup
+startup/admission. [Verification and limits](eval/cleanup/results/2026-11-17-cleanup-repair/README.md).
 
 Hold a shortcut, speak, then release to transcribe, clean up and attempt delivery
 into the original editable field. History saves the result before delivery.

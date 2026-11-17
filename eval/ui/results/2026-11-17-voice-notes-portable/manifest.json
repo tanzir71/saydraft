@@ -1,0 +1,90 @@
+{
+  "source_commit": "dcfab880d1896f1fbdb32be7e34387c2b46b0ad5",
+  "records": [
+    {
+      "path": "artifact.json",
+      "bytes": 702,
+      "sha256": "70502b2728e5b3418aeecac79be49682e4c63bca63637e30ae8c1ad95e55b66a"
+    },
+    {
+      "path": "build.log",
+      "bytes": 31277,
+      "sha256": "33e12ed53b07e7d1fbf5cd241153229eb5ae3ef1195f1be95e210d28686fe256"
+    },
+    {
+      "path": "BUILD_INFO.json",
+      "bytes": 720,
+      "sha256": "b9ade82cafa8c3a599ea837adc5a68c66472c77b5e16061a34113cfe902aa37d"
+    },
+    {
+      "path": "bundle.json",
+      "bytes": 215099,
+      "sha256": "16602318a3e740e4a102838fa43615cb5b664327835405bfd686c76dedf9d8bf"
+    },
+    {
+      "path": "frozen.guard.json",
+      "bytes": 347,
+      "sha256": "ea0ed314a3a45822bc3d685980de81356582924c154b65f0bb55ae1bea373732"
+    },
+    {
+      "path": "frozen.json",
+      "bytes": 29796,
+      "sha256": "8eb41118fd8982bb07088e37c9d2c13b5d8a99a3e874c0b545290a65e0b9eec9"
+    },
+    {
+      "path": "package-source-r1.guard.json",
+      "bytes": 417,
+      "sha256": "1391b8b890d08cd64adc6b9e881f7d48325b1d30e5416c9fa401dcb4b9c8e08b"
+    },
+    {
+      "path": "package-source-r1.log",
+      "bytes": 214,
+      "sha256": "ed06b9fe978fbc62ff84707e97850365106a539e5492e4c2837e966a66197d6e"
+    },
+    {
+      "path": "package-source-r1.xml",
+      "bytes": 3365,
+      "sha256": "11e14fb05e2a419311e55f3e9be3eee16e4062e9c77c28c1f74937b4defa8ab7"
+    },
+    {
+      "path": "public-release.json",
+      "bytes": 849,
+      "sha256": "f76e932450255833ebe7522eaec14dd0f1cb955c69980810af355eb91912a4e6"
+    },
+    {
+      "path": "release-notes.md",
+      "bytes": 1666,
+      "sha256": "30535cfcbc45e69b352ef7594fcacebb6382b08e6bf9df96244e35009ea46353"
+    },
+    {
+      "path": "requirements-frozen.txt",
+      "bytes": 875,
+      "sha256": "a259beb1ef1599931f51b5632652470604c302c58981aa0f0aad12d75dde4491"
+    },
+    {
+      "path": "runtime.json",
+      "bytes": 832,
+      "sha256": "ac7e57ec4d5529dff09a7c411888a32366a561bfa2474dcb0e0b87e332881690"
+    },
+    {
+      "path": "SHA256SUMS",
+      "bytes": 94,
+      "sha256": "0891b9ee5e557bfe5154fe19c9b32635bb020655cae423b71d62bb95327bbdee"
+    },
+    {
+      "path": "verify_artifact.py",
+      "bytes": 2640,
+      "sha256": "0696f9e977ad6f8052edefc4b055bec81cbfbcdfe3bbf1b1d90de609359af8ca"
+    },
+    {
+      "path": "verify_frozen.py",
+      "bytes": 6592,
+      "sha256": "ffb20faea6adb07c2819f9a77850e97ca2454e78b1b73393d62cfeacddf43e26"
+    },
+    {
+      "path": "verify_public.py",
+      "bytes": 3364,
+      "sha256": "38334a5afd5db8966bd9595d0f738a899cece638ede509f832d944e99e3d59a7"
+    }
+  ]
+}

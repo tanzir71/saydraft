@@ -1,0 +1,18 @@
+{
+  "source": "dcfab880d1896f1fbdb32be7e34387c2b46b0ad5",
+  "artifact_name": "Saydraft-0.1.1-win-x64.zip",
+  "bytes": 157322503,
+  "sha256": "479938ff19281bacbbb9e9da5860cf7e56b174292a68fd5cc4f76ed6fd29a95f",
+  "files_verified": 1440,
+  "uncompressed_bytes": 400465756,
+  "third_party_notices": {
+    "components": 40,
+    "files": 511,
+    "index_sha256": "797706874fe33a32d12c06464a0204bca5b3d834b699daa69f6e5dd026020071"
+  },
+  "installer_built": false,
+  "signed": false,
+  "release_ready": false,
+  "module_code_executed": false,
+  "method": "Read/hash every actual disk and ZIP payload; require complete exact audited sets, unique safe archive paths and artifact bytes/hash."
+}

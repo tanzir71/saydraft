@@ -1,5 +1,23 @@
 # Windows packaging
 
+The current **0.1.1 unsigned portable** is built from clean
+`dcfab880d1896f1fbdb32be7e34387c2b46b0ad5`:
+`D:/Saydraft-Codex-QA-20261112-01a1cbc7/cleanup-note-package-20261117-r1/artifacts/Saydraft-0.1.1-win-x64.zip`.
+Size: **157,322,503 bytes**. SHA-256:
+`479938ff19281bacbbb9e9da5860cf7e56b174292a68fd5cc4f76ed6fd29a95f`.
+The actual EXE passes `--verify-package`, including UI Automation initialization.
+All **1,440** disk/ZIP payloads and **92** critical embedded modules match source;
+40 notice components / 511 notice files remain intact. It adds F10 voice notes
+and the comma/CPU cleanup repairs. No host microphone, focused-field read,
+clipboard or native input test was performed for this build; no VM work was done.
+[Download and checksums](https://github.com/tanzir71/saydraft/releases/tag/v0.1.1-preview.20261117).
+[Original build and verification receipts](../eval/ui/results/2026-11-17-voice-notes-portable/README.md).
+The installer/signing and full size/packaging parity gates remain open under
+the owner's unsigned portable distribution policy. Quit the older instance
+before extracting and running the new folder.
+
+## Previous preview artifacts
+
 The owner confirmed insertion working and authorized public distribution on
 16 November. [Download the published unsigned Windows preview](https://github.com/tanzir71/saydraft/releases/tag/v0.1.0-preview.20261116).
 Its ZIP is the exact artifact below, with SHA256SUMS and BUILD_INFO.json attached.
@@ -7,7 +25,7 @@ The tag points to the actual app source `12bc27f`; later website/docs commits do
 not change the binary. This is a public development pre-release, not a signed
 installer or a claim that every historical acceptance gate has passed.
 
-The latest **frozen field-reader and brand repair unsigned portable** is built
+The previous **frozen field-reader and brand repair unsigned portable** is built
 from clean `12bc27ffdb3ba388ea199e5e51661c968815c2fe`:
 `D:/Saydraft-Codex-QA-20261112-01a1cbc7/delivery-brand-package-20261116-r1/artifacts/Saydraft-0.1.0-win-x64.zip`.
 Size: **157,308,167 bytes**. SHA-256:

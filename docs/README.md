@@ -4,6 +4,12 @@ Start with the [project README](../readme.md),
 [setup guide](https://tanzir71.github.io/saydraft/docs/getting-started/), or
 [contributor guide](../CONTRIBUTING.md).
 
+The 17 November update adds [F10 voice-note recording](NOTES.md) and repairs
+literal-comma cleanup regressions and CPU startup/admission behavior. The
+[current native cleanup record](../eval/cleanup/results/2026-11-17-cleanup-repair/README.md)
+passes its scoped checks; CPU model participation and broader acceptance limits
+remain explicit.
+
 The active roadmap is [WISPR_OFFLINE_PARITY_PLAN.md](../WISPR_OFFLINE_PARITY_PLAN.md).
 See [desktop UI v2](APP_UI_V2.md) for the current 14px design, behavior mapping,
 verification and [redesign reference](../app-ui-v2-build/README.md).

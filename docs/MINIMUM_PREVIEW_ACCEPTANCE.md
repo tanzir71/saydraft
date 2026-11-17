@@ -1,5 +1,15 @@
 # Minimum unsigned preview · 15 November 2026
 
+**Current update · 17 November:** [0.1.1 preview](https://github.com/tanzir71/saydraft/releases/tag/v0.1.1-preview.20261117)
+adds F10 start/stop voice notes and comma/CPU cleanup repairs. Clean source
+`dcfab88` passes actual frozen verification, 1,440 disk/ZIP payload hashes and
+92 embedded module comparisons. The patch has 262 distinct guarded checks plus
+23 packaging checks; full native cleanup qualification covers 2,624 cases.
+CPU policy still uses rules for most text. These scoped passes do not extend
+the earlier owner's insertion report to new physical microphone/hotkey tests,
+broader accuracy, a tier or end-to-end latency. No VM work was performed.
+[Exact current artifact and evidence](PACKAGING.md).
+
 **Published preview · 16 November:** the owner reports insertion working with
 `12bc27f` and requested public distribution. The [GitHub preview](https://github.com/tanzir71/saydraft/releases/tag/v0.1.0-preview.20261116)
 contains that exact ZIP, SHA256SUMS and BUILD_INFO.json. The owner report does not

@@ -56,6 +56,12 @@ pending until the guest actually executes those cases.
 
 ## Current checkpoint
 
+- **0.1.1 portable:** clean `dcfab88`, 157,322,503 bytes, SHA-256
+  `479938ff19281bacbbb9e9da5860cf7e56b174292a68fd5cc4f76ed6fd29a95f`.
+  Frozen verification, 1,440 payloads and 92 embedded modules pass; the patch
+  has 262 distinct guarded checks plus 23 packaging checks. No host microphone,
+  focused-field read, clipboard/native input or VM work was performed for this
+  build. [Release and build proof](PACKAGING.md).
 - **17 November cleanup repair:** the current pinned qualifier passes all four
   native forced/policy stages, 2,624 cases total. Literal-comma regressions are
   fixed; CPU startup avoids concurrent ASR loading during cleanup calibration.
@@ -207,8 +213,8 @@ This historical build uses `-SkipInstaller`. The newer local portable at
 `625c987` contains the cleanup fix and has 1,384 verified payloads/eighteen frozen
 modules checked against Git. Its SHA-256 is
 `2d7abacc1d526cae9a020a4831e49efcde7f8e1fb641e983b016de0013072474`.
-Signing, installer and release-ready acceptance remain open. The critical items
-in the following table remain blockers.
+Signed installer and full-roadmap release acceptance remain future work under
+the chosen unsigned preview policy. The following table records those gates.
 
 ## Remaining acceptance and future work
 

@@ -1,0 +1,28 @@
+{
+  "source": "dcfab880d1896f1fbdb32be7e34387c2b46b0ad5",
+  "tag": "v0.1.1-preview.20261117",
+  "release_url": "https://github.com/tanzir71/saydraft/releases/tag/v0.1.1-preview.20261117",
+  "assets": [
+    {
+      "name": "Saydraft-0.1.1-win-x64.zip",
+      "bytes": 157322503,
+      "sha256": "479938ff19281bacbbb9e9da5860cf7e56b174292a68fd5cc4f76ed6fd29a95f",
+      "unauthenticated": true,
+      "status": 200
+    },
+    {
+      "name": "SHA256SUMS",
+      "bytes": 94,
+      "sha256": "0891b9ee5e557bfe5154fe19c9b32635bb020655cae423b71d62bb95327bbdee",
+      "unauthenticated": true,
+      "status": 200
+    },
+    {
+      "name": "BUILD_INFO.json",
+      "bytes": 720,
+      "sha256": "b9ade82cafa8c3a599ea837adc5a68c66472c77b5e16061a34113cfe902aa37d",
+      "unauthenticated": true,
+      "status": 200
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "version": "0.1.1",
+  "tag": "v0.1.1-preview.20261117",
+  "channel": "development-preview",
+  "platform": "windows-x64",
+  "source_commit": "dcfab880d1896f1fbdb32be7e34387c2b46b0ad5",
+  "artifact": "Saydraft-0.1.1-win-x64.zip",
+  "bytes": 157322503,
+  "sha256": "479938ff19281bacbbb9e9da5860cf7e56b174292a68fd5cc4f76ed6fd29a95f",
+  "signed": false,
+  "installer_built": false,
+  "models_bundled": false,
+  "files_verified": 1440,
+  "embedded_modules_verified": 92,
+  "frozen_uia_initialization_verified": true,
+  "host_microphone_or_native_input_tested": false,
+  "vm_work_performed": false,
+  "verification_record": "https://github.com/tanzir71/saydraft/tree/main/eval/ui/results/2026-11-17-voice-notes-portable"
+}
