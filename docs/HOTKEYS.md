@@ -200,7 +200,7 @@ XButton1 as the mouse alternate. General Settings exposes all three and permits
 disabling the mouse binding with a blank value. Existing JSON and legacy
 `settings.txt` profiles keep their configured strings and old fallback ordering;
 they receive an empty mouse binding, so upgrading never takes over a Back button.
-Saving and reloading preserve that choice. History remains F10 and Cancel Esc.
+Saving and reloading preserve that choice. Record note defaults to F10 and Cancel to Esc.
 
 Settings and the native route use the same binding compiler. It validates key
 grammar, canonical aliases, generic/physical modifier overlaps, cancel conflicts
@@ -330,8 +330,9 @@ new session or its context capture before START.
 If Settings holds the session mutex, release returns to the native dispatcher
 and finishes on the existing serial worker, retaining that session ID and release
 timestamp. This prevents hook retirement from waiting on its own blocked stop.
-The legacy F10 History-only capture's three-second stop also carries its session
-ID, so a callback already in flight after cancellation cannot stop a later dictation.
+F10 now toggles a voice note instead of stopping a History-only capture after
+three seconds. Notes use the same session generation checks and recording cap;
+they never acquire a foreground target or paste. See [Notes](NOTES.md).
 
 Controlled-clock tests cover the interval boundary, late expiry, stale decisions,
 failed scheduling, mixed shortcuts, longer second holds, arming on either side

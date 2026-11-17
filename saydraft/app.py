@@ -36,6 +36,8 @@ def create_worker_signals(QtCore):
         error = QtCore.Signal(str)
         notification_requested = QtCore.Signal(str)
         history_updated = QtCore.Signal(int)
+        notes_updated = QtCore.Signal()
+        note_status_changed = QtCore.Signal(str)
         history_retry_finished = QtCore.Signal(int)
         microphone_test_status = QtCore.Signal(int, str)
         microphone_test_level = QtCore.Signal(int, float)
@@ -179,7 +181,13 @@ class WorkerController:
 
     def is_hands_free(self):
         return bool(self.core and ((self._bar_actions is not None and self._bar_actions.pending)
-            or self.core.hotkeys._controller.is_locked))
+            or self.core.hotkeys._controller.is_locked or self.core.note_recording_status() == 'recording'))
+
+    def record_note(self):
+        return bool(self.core and self.core.record_note())
+
+    def note_recording_status(self):
+        return self.core.note_recording_status() if self.core else 'idle'
 
     def is_current_bar(self, generation):
         return bool(self.core and not self.core._closing and self.core.bar_status.is_current(generation))
@@ -187,6 +195,9 @@ class WorkerController:
     def request_bar_action(self, *, stop=False):
         if self.core is None:
             return False
+        if stop and self.core.note_recording_status() == 'recording':
+            self.core.stop_recording()
+            return True
         if self._bar_actions is not None and self._bar_actions.pending:
             if stop:
                 self._bar_actions.cancel_pending()
@@ -617,6 +628,9 @@ class SaydraftApp:
             self.pill.show_recording(hands_free=provider())
         else:
             self.pill.show_recording()
+        note_status = getattr(self.controller, 'note_recording_status', lambda: 'idle')()
+        if note_status == 'recording':
+            self.pill.status_label.setText('Recording note')
 
     def _configure_bar(self):
         cfg = self.config if isinstance(self.config, dict) else {}
@@ -988,6 +1002,17 @@ class SaydraftApp:
             if notes is not None:
                 notes.open_requested.connect(self._show_scratchpad)
                 notes.new_requested.connect(self._new_scratchpad)
+                record = getattr(notes, 'record_requested', None)
+                if record is not None:
+                    record.connect(getattr(self.controller, 'record_note', lambda: False))
+                    notes.set_recording_shortcut(self.config.get('hotkeys', {}).get('save', 'f10'))
+                    notes.accept_recording_status(getattr(self.controller, 'note_recording_status', lambda: 'idle')())
+                    for name, slot in (('notes_updated', notes.refresh),
+                                       ('note_status_changed', notes.accept_recording_status)):
+                        signal = getattr(self.signals, name, None)
+                        if signal is not None:
+                            qt = self.qt_modules or _load_qt_modules()
+                            signal.connect(slot, qt.QtCore.Qt.QueuedConnection)
             shortcut_signal = getattr(self.signals, "shortcut_capture_status", None)
             if shortcut_signal is not None and hasattr(self.settings_window, "accept_shortcut_status"):
                 qt = self.qt_modules or _load_qt_modules()
@@ -1076,6 +1101,9 @@ class SaydraftApp:
 
     def _on_settings_applied(self, config: dict) -> None:
         self.config = config
+        notes = getattr(getattr(self, 'hub_window', None), 'notes_page', None)
+        if notes is not None and hasattr(notes, 'set_recording_shortcut'):
+            notes.set_recording_shortcut(config.get('hotkeys', {}).get('save', 'f10'))
         if self.meeting_setup is not None:
             self.meeting_setup.set_config(config)
         self._configure_updates(config)

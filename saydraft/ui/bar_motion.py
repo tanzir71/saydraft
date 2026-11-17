@@ -43,6 +43,10 @@ def shimmer_opacity(index: int, seconds: float) -> float:
 
 def insertion_message(reason: str, *, saved: bool, paste_hint: str) -> tuple[str, str]:
     """Public delivery copy. A failed History write must never claim 'Saved'."""
+    if reason == 'note_saved' and saved:
+        return 'Note saved', 'Available in Notes and History'
+    if reason == 'note_save_failed' and saved:
+        return 'Saved to History', 'Could not save to Notes · open History to recover'
     if reason in ('translation_failed', 'translation_recovery'):
         return ('Recognized speech kept' if reason == 'translation_failed' else 'Translation ready to copy',
                 'Saved · use the recovery window' if saved else 'Use the recovery window')

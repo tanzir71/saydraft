@@ -80,7 +80,7 @@ def shortcuts(settings, page):
             ("Mouse dictation",settings.mouse_hotkey_edit),("Hands-free",settings.hands_free_hotkey_edit),
             ("Paste last transcript",settings.paste_last_hotkey_edit),("Open Scratchpad",settings.scratchpad_hotkey_edit),
             ("View last diff",settings.view_diff_hotkey_edit),("Ask about selected text",settings.ask_hotkey_edit),
-            ("Save capture",settings.save_hotkey_edit),("Cancel",settings.cancel_hotkey_edit)):
+            ("Record note",settings.save_hotkey_edit),("Cancel",settings.cancel_hotkey_edit)):
         keys = KeyCombo(widget.text())
         widget.textChanged.connect(keys.set_binding)
         change = ActionButton("Change", small=True)

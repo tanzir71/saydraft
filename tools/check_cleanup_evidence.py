@@ -16,8 +16,8 @@ from saydraft.eval import load_eval_corpus
 from saydraft.models.manifest import safe_member
 from saydraft.models.runtime_ids import runtime_model_id
 
-POLICY_INDEX = ROOT / "eval/cleanup/results/2026-11-16-qualification/policy-index.json"
-FORCED_INDEX = ROOT / "eval/cleanup/results/2026-11-16-qualification/forced-index.json"
+POLICY_INDEX = ROOT / "eval/cleanup/results/2026-11-17-cleanup-repair/policy-index.json"
+FORCED_INDEX = ROOT / "eval/cleanup/results/2026-11-17-cleanup-repair/forced-index.json"
 REQUIRED = {"saydraft/cleanup/llm/client.py", "saydraft/cleanup/llm/gate.py",
     "saydraft/cleanup/llm/validate.py", "saydraft/dictation/pipeline.py",
     "saydraft/dictation/llm_local.py", "saydraft/core/processing.py", "saydraft/core/preferences.py", "saydraft/eval.py",

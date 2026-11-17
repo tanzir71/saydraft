@@ -377,7 +377,7 @@ change them in **Hub → Settings → Shortcuts**.
 | Shift + Alt + Z | Paste the last dictation |
 | Win + Alt + S | Open Scratchpad |
 | Ctrl + Win + D | View the last dictation's changes |
-| F10 | Capture to History without foreground insertion |
+| F10 | Start/stop a voice note; saves to Notes and History |
 | Esc | Cancel the current recording |
 
 Two short taps of a recording shortcut also lock hands-free mode; a single

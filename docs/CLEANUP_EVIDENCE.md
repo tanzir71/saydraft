@@ -1,5 +1,16 @@
 # Retained native cleanup evidence
 
+The [17 November repair record](../eval/cleanup/results/2026-11-17-cleanup-repair/README.md)
+is the current qualification pair. Literal-comma protection fixes the prior forced
+regressions. CPU speech loading precedes optional cleanup warmup, and admission
+reserves 50 ms for RPC/scheduling overhead without raising the 800 ms cap.
+All four full stages pass evidence, output and decoder-speed checks: each has
+556/556 exact goldens and 100 adversarial cases. CPU forced/policy medians are
+25.12/27.50 tok/s; Pro forced/policy medians are 148.03/150.16 tok/s.
+CPU policy accepts only **one** golden model reply; the passing scoped check does
+not qualify broad hybrid semantics, owner accuracy, a tier or interactive latency.
+The first partial timeout and unsuccessful tuning diagnostics are retained.
+
 The [15 November intensity-prefix record](../eval/cleanup/results/2026-11-15-intensity-prefix/README.md)
 adds current-source CPU policy evidence at `625c987`: 556 exact goldens, seven
 accepted exact model replies, no regressions, three live decoder samples and
@@ -57,16 +68,16 @@ physical Windows acceptance remains separate.
 ## Offline checker
 
 Run `python -m tools.check_cleanup_evidence`. Its defaults select the current
-policy pair and separate forced CPU 0.8B / RTX 2B reports from the completed
-`44ed9c4` overnight run. The indexes pin the existing archive and each report's
+policy pair at `aa30ea1` and separate forced CPU 0.8B / RTX 2B reports at
+`7e09bae` from the completed 17 November repair run. The indexes pin the archive and each report's
 original bytes. The checker reads bounded members in memory; it does not extract
 or duplicate the archived reports. Relevant cleanup source, prompt and corpus
 fingerprints match the current implementation; this does not qualify the later
 desktop/UI changes.
 
-The [current qualification record](../eval/cleanup/results/2026-11-16-qualification/README.md)
+The [historical 16 November qualification](../eval/cleanup/results/2026-11-16-qualification/README.md)
 separates evidence validity, output quality and decoder speed for all four stages.
-Evidence is valid, but the combined gate deliberately exits **1**: CPU policy
+At that source, evidence is valid, but the combined gate deliberately exits **1**: CPU policy
 delivers 556/556 through rules fallback with zero accepted model replies and a
 24.36 tok/s median, below 25; forced CPU has one comma regression and forced Pro
 has three. Pro production policy passes its scoped checks: 556/556, 269 accepted

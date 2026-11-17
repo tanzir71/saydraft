@@ -8,6 +8,7 @@ import math
 import threading
 import time
 import copy
+import uuid
 from dataclasses import replace
 from concurrent.futures import CancelledError, ThreadPoolExecutor
 from types import SimpleNamespace
@@ -20,7 +21,7 @@ from .session import DictationSession, SessionInput as Input, SessionState as St
 from .segments import SegmentTranscriber
 from .preview import PreviewSession, choose_preview_result
 from .context import ForegroundContextProvider
-from .interfaces import insertion_block
+from .interfaces import TargetContext, insertion_block
 from .corrections import CorrectionController, DictionaryChange
 from .bar_status import BarPhase, BarStatus
 
@@ -58,6 +59,7 @@ class SessionWorker:
         self._preview = None
         self._preview_language_blocked = False
         self._record_request_current = None
+        self._note_capture = None
         self._command_recovery_ticket = object()
         self.last_failed_audio = None
         self.last_result = None
@@ -442,6 +444,9 @@ class SessionWorker:
     def emit(self, name, *args):
         try:
             self.emit_callback(name, *args)
+            if self._note_capture is not None and name in (
+                    'recording_started', 'recording_stopped', 'processing_finished', 'error'):
+                self.emit_callback('note_status_changed', self.note_recording_status())
         except Exception:
             logger.debug("UI receiver unavailable for %s", name, exc_info=True)
 
@@ -497,7 +502,7 @@ class SessionWorker:
         self.bar_status.session(generation, BarPhase.IDLE)
         self.emit("processing_finished", "")
 
-    def start_recording(self, *, insert_text=True, _return_generation=False, request_current=None):
+    def start_recording(self, *, insert_text=True, _return_generation=False, request_current=None, _note=False):
         # Native action dispatch must not wait behind Settings while Settings
         # retires that same dispatcher. A locked worker is temporarily busy.
         if not self._lock.acquire(blocking=False):
@@ -526,7 +531,8 @@ class SessionWorker:
             # UIA may require GUI message processing. Reserve the start slot,
             # but let Settings/cancel/shutdown return while context is read.
             try:
-                target = services.context.capture()
+                target = (TargetContext(app_title='Voice note', before_caret_known=True,
+                    selection_known=True, after_caret_known=True) if _note else services.context.capture())
             except Exception:
                 logger.warning("Foreground context unavailable; recording did not start")
                 self.emit("notification_requested", "Could not read the target field. Try dictation again.")
@@ -535,8 +541,10 @@ class SessionWorker:
                 if (self._cancel_request.is_set() or self._closing or self._pending_config is not None
                         or not self._request_current(request_current)):
                     return False
-                context = select_context(services.config, services.profiles, target.app_title,
+                context = select_context(services.config, [] if _note else services.profiles, target.app_title,
                     app_group=target.app_group, app_exe=target.app_exe, app_site=target.app_site)
+                if _note:
+                    context = replace(context, profile='notes', translation_target='')
                 translation_choice = self.translation.choice(services.config) if context.translation_target else None
                 if translation_choice is not None and translation_choice.reason != 'ready':
                     self.emit('notification_requested', 'Needs Pro tier: Translate uses a larger local model. '
@@ -544,18 +552,23 @@ class SessionWorker:
                     return False
                 self.session.dispatch(Input.START)
                 generation = self.session.session_id
+                self._note_capture = (generation, uuid.uuid4().hex, services.notes) if _note else None
                 self.bar_status.bind(generation, bar_generation)
                 self._target = target
                 self._context = context
-                self._insert_text = insert_text
+                self._insert_text = insert_text and not _note
                 self._record_request_current = request_current
                 if translation_choice is not None:
                     self.translation.reserve(generation, context.translation_target, translation_choice)
+                if _note:
+                    self.emit('note_status_changed', 'recording')
                 try:
                     self._submit(self._arm, generation)
                 except Exception:
                     self.translation.finish(generation)
                     self.session.dispatch(Input.FAIL, session_id=generation, reason='queue_unavailable')
+                    if _note:
+                        self.emit('note_status_changed', 'idle')
                     self.hotkeys._controller.discard_active_recording()
                     self.emit('notification_requested', 'Could not queue dictation. Try again after the current work finishes.')
                     return False
@@ -650,7 +663,8 @@ class SessionWorker:
             with self._lock:
                 event = self.session.dispatch(Input.ARMED, session_id=generation) if self._capture_request_current(generation) else None
                 if event is not None:
-                    self.bar_status.session(generation, BarPhase.LISTENING, reason='translate' if translating else '')
+                    self.bar_status.session(generation, BarPhase.LISTENING,
+                        reason='translate' if translating else 'note' if self._owns_note(generation) else '')
                     self.emit("recording_started")
                     limits = self.services.config["recording"]
                     maximum = limits["max_seconds"]
@@ -916,6 +930,8 @@ class SessionWorker:
                 reason = 'translation_failed' if reason == 'translation_failed' else 'translation_recovery'
             if reason == "history_only":
                 reason = "review_only" if choice.review_only else "saved_only"
+            if self._owns_note(generation) and result.history_id is not None:
+                reason = self._save_voice_note(generation, result.cleaned_text)
             self.bar_status.session(generation,
                 BarPhase.INSERTED if result.insertion.status == "inserted" else BarPhase.NOT_INSERTED,
                 reason=reason, saved=result.history_id is not None)
@@ -1258,10 +1274,50 @@ class SessionWorker:
             return " + ".join(used)
         return getattr(self.services.asr, "model_id", configured_model_id(self.services.config))
 
+    def _owns_note(self, generation):
+        return self._note_capture is not None and self._note_capture[0] == generation
+
+    def note_recording_status(self):
+        if not self._owns_note(self.session.session_id):
+            return 'idle'
+        if self.session.state in (State.ARMING, State.LISTENING):
+            return 'recording'
+        if self.session.state in (State.FINALIZING, State.CLEANING, State.INSERTING):
+            return 'saving'
+        return 'idle'
+
     def record_note(self):
-        generation = self.start_recording(insert_text=False, _return_generation=True)
-        if generation is not False:
-            self._schedule(3.0, lambda: self.stop_recording(session_id=generation))
+        """Toggle an independent note; never inspect or insert into a field."""
+        if not self._lock.acquire(blocking=False):
+            return False
+        try:
+            if self.note_recording_status() == 'recording':
+                self.stop_recording(session_id=self.session.session_id)
+                return True
+            if self.busy or self._closing:
+                self.emit('notification_requested', 'Finish the current recording or task before recording a note.')
+                return False
+        finally:
+            self._lock.release()
+        return self.start_recording(insert_text=False, _note=True)
+
+    def _save_voice_note(self, generation, text):
+        # History is durable first. A failed Notes write leaves that recovery copy.
+        with self._lock:
+            if (not self._owns_note(generation) or self._closing or self._cancel_request.is_set()
+                    or generation != self.session.session_id):
+                return 'cancelled'
+            _, identifier, store = self._note_capture
+            try:
+                if store is None:
+                    raise RuntimeError('Notes unavailable')
+                store.save(identifier, text, kind='scratchpad', activate=False)
+            except Exception:
+                logger.warning('Voice note could not be saved to Notes; History remains available')
+                self.emit('notification_requested', 'Could not save to Notes. Your words are saved in History.')
+                return 'note_save_failed'
+        self.emit('notes_updated')
+        return 'note_saved'
 
     def paste_last(self):
         if not self._lock.acquire(blocking=False):

@@ -6,8 +6,12 @@ from .presentation import rebuild, style_list, show
 def arrange_notes(page):
     root = rebuild(page, margins=(40, 24, 40, 28), spacing=20)
     page.search.setProperty("search", True)
-    root.addWidget(PageHeader("Notes", "Your Scratchpad notes, saved on this PC.",
+    root.addWidget(PageHeader("Notes", "Your voice notes and Scratchpad notes, saved on this PC.",
         actions=(show(page.search), show(page.refresh_button), show(page.new_button))))
+    recording = QtWidgets.QHBoxLayout()
+    recording.addWidget(show(page.record_button))
+    recording.addWidget(show(page.record_hint), 1)
+    root.addLayout(recording)
     page.split = QtWidgets.QSplitter()
     page.split.setChildrenCollapsible(False)
     page.split.setHandleWidth(16)

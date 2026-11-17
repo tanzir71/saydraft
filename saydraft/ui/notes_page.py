@@ -55,6 +55,7 @@ class NoteReads(QtCore.QObject):
 class NotesPage(QtWidgets.QWidget):
     open_requested = QtCore.Signal(str)
     new_requested = QtCore.Signal()
+    record_requested = QtCore.Signal()
 
     def __init__(self, store):
         super().__init__()
@@ -85,6 +86,12 @@ class NotesPage(QtWidgets.QWidget):
         self.new_button = QtWidgets.QPushButton('New note')
         self.new_button.setProperty('primary', True)
         self.new_button.clicked.connect(lambda: self.new_requested.emit())
+        self.record_button = QtWidgets.QPushButton('Record note')
+        self.record_button.clicked.connect(lambda: self.record_requested.emit())
+        self.record_hint = QtWidgets.QLabel()
+        self.record_hint.setWordWrap(True)
+        self.record_hint.setProperty('role', 'muted')
+        self.set_recording_shortcut('f10')
         toolbar.addWidget(self.new_button)
         layout.addLayout(toolbar)
         split = QtWidgets.QSplitter()
@@ -113,6 +120,15 @@ class NotesPage(QtWidgets.QWidget):
         layout.addWidget(self.open_button, alignment=QtCore.Qt.AlignLeft)
         from .notes_presentation import arrange_notes
         arrange_notes(self)
+
+    def set_recording_shortcut(self, binding):
+        self.record_hint.setText(f'{str(binding).upper()} to start or stop a voice note · Esc to cancel. '
+                                 'Saved in Notes and History; your current Scratchpad stays open.')
+
+    def accept_recording_status(self, status):
+        self.record_button.setText({'recording': 'Stop recording', 'saving': 'Saving note…'}.get(status, 'Record note'))
+        self.record_button.setEnabled(status != 'saving')
+        self.record_button.setAccessibleName(self.record_button.text())
 
 
     def _clear_detail(self):

@@ -1,0 +1,19 @@
+{
+  "schema_version": 2,
+  "source_commit": "7e09baef8f6ed3f4fa7367501dd98fdea8820ab6",
+  "selection_performed": false,
+  "archive": "eval/cleanup/results/2026-11-17-cleanup-repair/raw-evidence.tar.gz",
+  "archive_sha256": "17eb1c2c1d34ddafdf6f3d45f7aeeebff79797c1558f20a1cecd54d913d02f64",
+  "reports": [
+    {
+      "report": "qwen08-cpu.json",
+      "member": "cpu-forced/report.json",
+      "report_sha256": "cf0a4b0fb3308383c7eb3f77ca0db1705c1ed3777e8edee1000772d1760c9206"
+    },
+    {
+      "report": "qwen2-vulkan1.json",
+      "member": "pro-forced/report.json",
+      "report_sha256": "6ef1cfb57953bc207fed4d4b5010cba03de53c5fb66523bdc4b9e26102518387"
+    }
+  ]
+}

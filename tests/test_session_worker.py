@@ -400,11 +400,11 @@ def test_cancel_during_asr_keeps_words_in_history_without_paste():
     assert worker.session.state == State.CANCELLED
 
 
-def test_save_hotkey_uses_same_capture_pipeline_without_insertion():
+def test_save_hotkey_toggles_capture_without_insertion():
     worker, clock, _executor, events, _signals, _keyboard = make_worker()
     worker.record_note()
-    clock.now = 3
-    worker._timers[-1].callback()
+    clock.now = 10
+    worker.record_note()
     assert [event[0] for event in events] == ["history"]
     assert worker.session.state == State.NOT_INSERTED
 

@@ -56,7 +56,19 @@ pending until the guest actually executes those cases.
 
 ## Current checkpoint
 
-- The offline cleanup qualifier now reads the latest completed `44ed9c4` reports
+- **17 November cleanup repair:** the current pinned qualifier passes all four
+  native forced/policy stages, 2,624 cases total. Literal-comma regressions are
+  fixed; CPU startup avoids concurrent ASR loading during cleanup calibration.
+  A preserved partial timeout led to a 50 ms admission overhead reserve, keeping
+  the 800 ms cap. CPU policy measures 27.50 tok/s but accepts only one golden
+  model reply; broad accuracy/tier/latency acceptance stays open. No tuning
+  default, model or prompt changed. [Evidence and limits](../eval/cleanup/results/2026-11-17-cleanup-repair/README.md).
+- **Voice note shortcut:** F10 now starts/stops an independent Note instead of
+  a fixed three-second History capture. Notes has a visible Record note button
+  and binding hint; Settings calls it Record note. History saves first, Notes
+  saving preserves the open Scratchpad, and the note path never captures a
+  foreground field or inserts text. [Usage and recovery](NOTES.md).
+- Historical 16 November checkpoint: the offline qualifier reads `44ed9c4` reports
   directly from their pinned archive and reports all four stages. Its relevant
   source/corpus/prompt checks pass, while quality/speed acceptance remains failed:
   CPU rules-only model credit and speed, plus forced CPU/Pro comma regressions.
@@ -91,7 +103,7 @@ pending until the guest actually executes those cases.
   It is pushed with the 194-image reference. The later unsigned `8734123` repair
   portable verifies 1,439 disk/ZIP files and 84 embedded modules;
   [artifact and scope](PACKAGING.md).
-- The frozen `44ed9c4` overnight R2 run has completed all five stages and the
+- The historical frozen `44ed9c4` overnight R2 run completed all five stages and the
   independent verifier/observer exits. Pro latency passes every measured cell.
   Forced CPU/Pro cleanup has actual comma regressions; CPU throughput misses its
   gate, and CPU policy uses rules fallback for every golden case. No default or

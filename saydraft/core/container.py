@@ -26,6 +26,7 @@ class Services:
     audio_store: object | None = None
     retry_asr: AsrEngine | None = None
     preview: PreviewModel | None = None
+    notes: object | None = None
 
 
 def create_services(config: dict, *, level_callback=None, notify=lambda message: None) -> Services:
@@ -40,6 +41,7 @@ def create_services(config: dict, *, level_callback=None, notify=lambda message:
     from saydraft.asr.selection import create_asr
     from saydraft.asr.retry import AllLanguagesRetry
     from saydraft.data.audio import AudioStore
+    from saydraft.data.notes import NoteStore
     from .context import ForegroundContextProvider
 
     profiles = read_profiles(resolve_data_path(config["dictation"]["app_profiles_path"]))
@@ -82,4 +84,5 @@ def create_services(config: dict, *, level_callback=None, notify=lambda message:
         if preview_eligibility(config, latest_report()) is None:
             preview = NemotronPreviewModel()
     return Services(config, recorder, asr, cleaner, formatter, inserter, context, history, processor, profiles,
-                    AudioStore(history.db_path.parent / "audio"), AllLanguagesRetry(config, asr), preview)
+                    AudioStore(history.db_path.parent / "audio"), AllLanguagesRetry(config, asr), preview,
+                    NoteStore(history.db_path))

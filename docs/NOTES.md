@@ -1,5 +1,23 @@
 # Scratchpad and Notes
 
+## Record a voice note
+
+Press **F10** once to start and again to stop, or use **Record note** / **Stop
+recording** in Hub → Notes. Wait for the Bar's **Recording note** state before
+speaking. The global shortcut requires listening to be enabled; rebind **Record
+note** in Settings → Shortcuts. Existing custom F10/Save capture bindings are
+preserved. Esc cancels an active recording; the configured recording time limit
+still applies. Pressing stop while the microphone is still preparing cancels it.
+
+Recognition and cleanup use your installed speech model and cleanup settings.
+The result saves to an independent Note and History, without reading another
+app's field, pasting text, or replacing your open Scratchpad draft. This replaces
+the former fixed three-second History-only capture. A Notes write failure leaves
+the History copy available for recovery. A History failure never claims a saved
+Note. Cancellation prevents a pending Notes write; a completed save is retained.
+
+## Write in Scratchpad
+
 Open Scratchpad with **Win + Alt + S**, or choose **New note** in Hub → Notes.
 It is a resizable floating plain-text window. Type or dictate into its field;
 the normal dictation shortcut still applies when the field is focused. Opening
@@ -28,7 +46,8 @@ and late results cannot replace a newer query or selection.
 
 Notes share `%LOCALAPPDATA%\Saydraft\history.db` with History in additive schema
 v3 tables. They have their own identifiers and optimistic revisions. Saving a
-note creates no dictation entry and changes no Home dictation statistics.
+Scratchpad note creates no dictation entry and changes no Home dictation statistics.
+Voice notes also retain their recognized and cleaned versions in History.
 Migration preserves existing data and retains a pre-change backup; see
 [database behavior](DATABASE.md). Experimental Command and
 [Translate](TRANSLATE.md) recovery windows save separate ordinary Scratchpad
@@ -41,8 +60,9 @@ remaining meeting workflow and acceptance.
 
 Copy uses Saydraft's existing Windows clipboard privacy handling. Text selection
 and dragging use the same private plain-text MIME policy as History. Note text
-is never interpreted as HTML. The Notes browsing and saving path uses no network
-or microphone and does not inspect another app.
+is never interpreted as HTML. Scratchpad editing and Notes browsing use no
+network or microphone and do not inspect another app. Voice-note recording uses
+the selected microphone only after you request it.
 
 ## View the last dictation's changes
 

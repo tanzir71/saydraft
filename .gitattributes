@@ -135,3 +135,5 @@ eval/asr/results/2026-11-15-full-alignment-confirmation/** -text -whitespace
 eval/ui/results/2026-11-15-labs-license-portable/** -text -whitespace
 eval/latency/results/2026-11-15-guarded-preflight/** -text -whitespace
 eval/latency/results/2026-11-15-delivery-planning/** -text -whitespace
+eval/cleanup/results/2026-11-17-cleanup-repair/*.json -text whitespace=cr-at-eol
+eval/ui/results/2026-11-17-voice-notes/*.json -text whitespace=cr-at-eol
